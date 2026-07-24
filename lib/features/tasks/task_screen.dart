@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../shared/models/user.dart';
+import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
@@ -28,7 +30,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   @override
   void initState() {
     super.initState();
-    controller = TaskController(ref.read(taskSubmissionRepositoryProvider));
+    controller = TaskController(
+      ref.read(taskSubmissionRepositoryProvider),
+      ref.read(currentUserProvider)!,
+    );
   }
 
   @override
@@ -74,7 +79,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     await controller.logTaskSubmission(
       task: task,
       status: result,
-      completedBy: "Mock Staff User",
       numericValue: numberController.text.trim().isEmpty
           ? null
           : numberController.text.trim(),
@@ -98,29 +102,37 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         error = null;
       });
     } else {
-      showDialog(
+      await showDialog(
         context: context,
         builder: (_) => const AlertDialog(title: Text("All tasks complete")),
       );
+
+      if (!mounted) return;
+
+      ref.read(currentUserProvider.notifier).state = null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     Task task = controller.getCurrentTask();
+    final currentUser = ref.watch(currentUserProvider);
+    final isManager = currentUser?.roleTier == RoleTier.manager;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Task"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/manager');
-            },
-            icon: const Icon(Icons.visibility),
-            tooltip: 'Manager View',
-          ),
-        ],
+        actions: isManager
+            ? [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/manager');
+                  },
+                  icon: const Icon(Icons.visibility),
+                  tooltip: 'Manager View',
+                ),
+              ]
+            : null,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

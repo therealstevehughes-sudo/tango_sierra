@@ -1,12 +1,14 @@
 import '../../shared/models/task_submission.dart';
+import '../../shared/models/user.dart';
 import '../../shared/repositories/task_submission_repository.dart';
 import 'task_model.dart';
 import 'task_queue.dart';
 
 class TaskController {
-  TaskController(this._repository);
+  TaskController(this._repository, this._currentUser);
 
   final TaskSubmissionRepository _repository;
+  final User _currentUser;
 
   int currentIndex = 0;
   final List<Task> tasks = TaskQueue.getTasks();
@@ -41,7 +43,6 @@ class TaskController {
   Future<void> logTaskSubmission({
     required Task task,
     required String status,
-    required String completedBy,
     String? numericValue,
     required bool photoAttached,
     String? notes,
@@ -50,7 +51,7 @@ class TaskController {
       TaskSubmission(
         taskTitle: task.title,
         status: status,
-        completedBy: completedBy,
+        completedBy: '${_currentUser.name} (${_currentUser.jobTitle})',
         completedAt: DateTime.now(),
         numericValue: numericValue,
         photoAttached: photoAttached,

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
-import '../tasks/task_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -66,11 +65,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     }
 
     ref.read(currentUserProvider.notifier).state = authenticated;
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const TaskScreen()),
-    );
   }
 
   @override

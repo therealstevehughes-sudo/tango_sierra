@@ -29,5 +29,8 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - No staff-management screen yet — this sprint seeds a fixed demo staff list (reusing the existing mock names) with placeholder PINs. Real staff CRUD is deferred to a later Settings-feature sprint.
 - Sprint 003 builds the auth foundation + real login screen only (schema, model, repository, providers, login UI). Wiring the logged-in session into TaskController (real completedBy) and role-based screen gating is Sprint 004, following the same build-then-wire pattern as Sprints 001/002.
 
+## Session lifetime (Sprint 004)
+- Not a persistent login. The session auto-resets to the login screen once all tasks for that session are complete (device hand-off point for the next staff member), rather than requiring manual logout.
+
 ## Open / Not yet decided
-- Session lifetime: does login persist until manual logout, or reset automatically once a shift's tasks are all submitted (device hand-off point)? To be settled before Sprint 004.
+- (nothing logged yet)
