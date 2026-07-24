@@ -34,13 +34,40 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       ref.read(taskSubmissionRepositoryProvider),
       ref.read(currentUserProvider)!,
     );
+    numberController.addListener(_onFormChanged);
+    notesController.addListener(_onFormChanged);
   }
 
   @override
   void dispose() {
+    numberController.removeListener(_onFormChanged);
+    notesController.removeListener(_onFormChanged);
     numberController.dispose();
     notesController.dispose();
     super.dispose();
+  }
+
+  void _onFormChanged() {
+    setState(() {});
+  }
+
+  bool get canSubmit {
+    final task = controller.getCurrentTask();
+
+    if (task.requiresNumeric && numberController.text.trim().isEmpty) {
+      return false;
+    }
+    if (task.requiresNotes && notesController.text.trim().isEmpty) {
+      return false;
+    }
+    if (task.requiresPhoto && !photoTaken) {
+      return false;
+    }
+    if (task.isCritical && result == "FAIL" && !correctiveDone) {
+      return false;
+    }
+
+    return true;
   }
 
   Future<void> validateAndSubmit() async {
@@ -202,7 +229,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
               ),
             const Spacer(),
             ElevatedButton(
-              onPressed: validateAndSubmit,
+              onPressed: canSubmit ? validateAndSubmit : null,
               child: const Text("SUBMIT"),
             ),
           ],

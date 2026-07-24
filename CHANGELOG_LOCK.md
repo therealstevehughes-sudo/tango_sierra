@@ -96,3 +96,19 @@ Risks: `TaskController`'s dead `_mockStaff`/`getNextMockStaffMember()` code (alr
 Deferred items: Everything already deferred in Sprint 003 remains deferred (staff-management screen, director role tier, sync fields, TaskTemplate/TaskInstance split, real photo capture), plus a way for managers to access the task carousel, plus removing the now-fully-dead `_mockStaff` code in TaskController.
 Save point name: SPRINT_004_LOCK
 Notes: Commit 22615b8f3268df3490cb111d4cc42942d14c1493, message "Sprint 004: wire auth session into routing, task attribution, and gating".
+
+---
+
+## Sprint 005
+Date: 2026-07-24
+Objective: Fix two bugs found in manual testing of Sprint 004 — (1) a photo-required task appearing submittable without a photo, and (2) no way to log out of the manager screen.
+Files changed:
+- lib/features/tasks/task_screen.dart — added a `canSubmit` getter that re-checks all of a task's requirements (numeric, notes, photo, corrective action), and wired it to the SUBMIT button's `onPressed` (`canSubmit ? validateAndSubmit : null`) so it's visibly disabled until every requirement is met, instead of only erroring after being tapped. `numberController`/`notesController` now have listeners (added in `initState`, removed in `dispose`) that call `setState` so `canSubmit` re-evaluates as the user types — previously text field changes didn't trigger a rebuild at all. `validateAndSubmit`'s existing checks (already correct — see below) are left in place as a defensive second layer
+- lib/features/manager/manager_screen.dart — added a logout `IconButton` (`Icons.logout`) in the `AppBar`'s actions, which sets `currentUserProvider` to `null`; app.dart's existing reactive routing (from Sprint 004) then returns to the login screen automatically, so no navigation code was needed here
+Files unchanged: lib/app/app.dart, lib/features/tasks/task_controller.dart, lib/features/auth/login_screen.dart, lib/shared/*, lib/core/*
+Architecture impact: None — reuses the existing `currentUserProvider` reset pattern already established in Sprint 004 (the same mechanism the "all tasks complete" flow uses). No new providers, repositories, or entities.
+UI impact: SUBMIT button is now greyed out/disabled instead of enabled-but-erroring when a requirement isn't met. Manager screen has a new logout icon in its app bar. No other visual changes.
+Risks / investigation notes: Bug #1 (photo requirement) did **not** reproduce in the code as written — I verified with a temporary widget test (using the real `TaskScreen`/`TaskController` production code with a fake in-memory repository, no database needed) before changing anything, and it confirmed `validateAndSubmit`'s existing `task.requiresPhoto && !photoTaken` check has correctly blocked submission since the original prototype (checked against the Sprint 000 commit too — unchanged). Rather than apply a no-op "fix", I asked and the user chose to add the belt-and-braces UX (disable SUBMIT proactively) as defense-in-depth, in case what was actually observed was the red error text being missed rather than a true bypass. Both this fix and the logout fix were verified with temporary widget tests (written, run, and deleted — not part of this commit) before committing, plus a Windows desktop run to confirm no runtime regressions.
+Deferred items: Everything already deferred in Sprint 004 remains deferred. Root cause of the original bug report (if it wasn't a false positive from hot-reload state or a missed error message) is still unconfirmed — worth asking for exact repro steps (device/build) if it recurs.
+Save point name: SPRINT_005_LOCK
+Notes: Commit hash to be recorded after this entry is committed.

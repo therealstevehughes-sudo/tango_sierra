@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../shared/models/task_submission.dart';
+import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 
 class ManagerScreen extends ConsumerWidget {
@@ -58,7 +59,18 @@ class ManagerScreen extends ConsumerWidget {
     final entriesAsync = ref.watch(taskSubmissionsStreamProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Manager View')),
+      appBar: AppBar(
+        title: const Text('Manager View'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              ref.read(currentUserProvider.notifier).state = null;
+            },
+            icon: const Icon(Icons.logout),
+            tooltip: 'Log out',
+          ),
+        ],
+      ),
       body: entriesAsync.when(
         data: (entries) {
           if (entries.isEmpty) {
