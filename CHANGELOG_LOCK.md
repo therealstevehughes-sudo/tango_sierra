@@ -56,3 +56,25 @@ Risks: Task submissions and manager log entries now persist to a local sqlite fi
 Deferred items: Everything already deferred in Sprint 001 remains deferred (TaskTemplate/TaskInstance split, sync-state fields, site/area/user linkage, real photo capture, real auth/roles).
 Save point name: SPRINT_002_LOCK
 Notes: Commit 894adc03e44698d9c75ff4845ec35481d3ed0ace, message "Sprint 002: wire drift/Riverpod persistence into the app, remove TaskLogStore". Smoke-tested via `flutter analyze` (clean) and a Windows desktop debug run (`flutter run -d windows`) — app launched, database opened, no runtime errors.
+
+---
+
+## Sprint 003
+Date: 2026-07-24
+Objective: Build the real local auth and role-model foundation (drift-backed Users table, User/RoleTier model, repository, Riverpod providers, and a real login screen with staff-tile + PIN entry), replacing the mock "LOGIN (MOCK)" button — per the Auth and roles (Sprint 003) decisions logged in DECISIONS_LOG.md. Wiring this session into TaskController/screen gating is deliberately deferred to Sprint 004, matching the build-then-wire pattern used for Sprints 001/002.
+Files changed:
+- pubspec.yaml / pubspec.lock — added `crypto` (PIN hashing)
+- lib/core/storage/app_database.dart — added `Users` table (id, name, jobTitle, roleTier, pinHash, pinSalt); bumped schemaVersion 1 → 2; added a `MigrationStrategy` (`onUpgrade` creates the new table for existing installs; `beforeOpen` seeds demo staff if the table is empty, safe on both fresh installs and upgrades)
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/core/utils/pin_hasher.dart (new) — `generateSalt()` and `hashPin(pin, salt)` (SHA-256, salted)
+- lib/shared/models/user.dart (new) — `RoleTier` enum (`staff`, `manager`) and `User` model (id, name, jobTitle, roleTier — no credential fields, kept out of the domain model)
+- lib/shared/repositories/user_repository.dart (new) — abstract `UserRepository` (`getAll`, `authenticate({userId, pin})`) and `DriftUserRepository` implementation
+- lib/shared/providers/auth_providers.dart (new) — `userRepositoryProvider`, `staffDirectoryProvider` (FutureProvider listing staff), `currentUserProvider` (session state, reuses the existing `appDatabaseProvider` from Sprint 001 rather than opening a second database connection)
+- lib/features/auth/login_screen.dart — rewritten: staff pick their name/job-title tile, then enter a 4-digit PIN checked against the repository; on success, sets `currentUserProvider` and navigates to `TaskScreen` exactly as the old mock button did (routing-by-role is Sprint 004's job, not this one)
+Files unchanged: lib/app/app.dart, lib/features/tasks/task_controller.dart, lib/features/tasks/task_screen.dart, lib/features/manager/manager_screen.dart, lib/shared/models/task_submission.dart, lib/shared/repositories/task_submission_repository.dart, lib/shared/providers/task_submission_providers.dart — task submissions still record the old hardcoded "Mock Staff User" string; nothing about task flow, manager view, or screen gating changed
+Architecture impact: Adds the `Users` entity and a second repository, both in the locations ARCHITECTURE_LOCK.md specifies (core/storage, shared/models, shared/repositories, shared/providers). Credential material (pinHash/pinSalt) is confined to the drift row type and never exposed through the `User` domain model or repository interface, keeping the Repository Rule's storage/UI separation intact.
+UI impact: The login screen is now a real two-step flow (name tile → PIN) instead of a single mock button — an explicit, approved UX change (agreed in DECISIONS_LOG.md), not incidental drift. No other screen's layout or wording changed.
+Risks: Discovered during this sprint that `task_screen.dart`'s manager-view icon is currently visible to every user regardless of role — flagged for Sprint 004, not fixed here (out of scope: "only the data source"/foundation, no screen gating yet). The seeded demo PINs (1111–6666, 9999) are placeholders for development only and are not a real credential-provisioning process; a staff-management screen is still needed before this could go to real users. `StateProvider` required an extra import from `package:flutter_riverpod/legacy.dart` — Riverpod 3.x moved it out of the main library; noted here in case it trips up a future sprint reaching for the same API.
+Deferred items: Wiring `currentUserProvider` into `TaskController` (real `completedBy`), gating the manager-view icon and any future routes by `RoleTier`, resolving the open "session lifetime" question before Sprint 004, a real staff-management screen, director role tier, sync fields, TaskTemplate/TaskInstance split, real photo capture.
+Save point name: SPRINT_003_LOCK
+Notes: Commit hash to be recorded after this entry is committed. Smoke-tested via `flutter analyze` (clean) and a Windows desktop debug run, which also exercises the schemaVersion 1 → 2 upgrade path against the existing on-disk database from the Sprint 002 test run (rather than only a fresh install).
