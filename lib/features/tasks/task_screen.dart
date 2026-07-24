@@ -157,7 +157,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () => setState(() => result = "FAIL"),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red,
+                    foregroundColor: Colors.white,
+                  ),
                   child: const Text("FAIL"),
                 ),
               ],
