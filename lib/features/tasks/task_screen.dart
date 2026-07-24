@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../shared/providers/task_submission_providers.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
 
-class TaskScreen extends StatefulWidget {
+class TaskScreen extends ConsumerStatefulWidget {
   const TaskScreen({super.key});
 
   @override
-  State<TaskScreen> createState() => _TaskScreenState();
+  ConsumerState<TaskScreen> createState() => _TaskScreenState();
 }
 
-class _TaskScreenState extends State<TaskScreen> {
-  final TaskController controller = TaskController();
+class _TaskScreenState extends ConsumerState<TaskScreen> {
+  late final TaskController controller;
 
   final TextEditingController numberController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
@@ -23,13 +26,19 @@ class _TaskScreenState extends State<TaskScreen> {
   String? error;
 
   @override
+  void initState() {
+    super.initState();
+    controller = TaskController(ref.read(taskSubmissionRepositoryProvider));
+  }
+
+  @override
   void dispose() {
     numberController.dispose();
     notesController.dispose();
     super.dispose();
   }
 
-  void validateAndSubmit() {
+  Future<void> validateAndSubmit() async {
     Task task = controller.getCurrentTask();
 
     setState(() {
@@ -56,13 +65,13 @@ class _TaskScreenState extends State<TaskScreen> {
       return;
     }
 
-    submitTask();
+    await submitTask();
   }
 
-  void submitTask() {
+  Future<void> submitTask() async {
     final task = controller.getCurrentTask();
 
-    controller.logTaskSubmission(
+    await controller.logTaskSubmission(
       task: task,
       status: result,
       completedBy: "Mock Staff User",
@@ -74,6 +83,8 @@ class _TaskScreenState extends State<TaskScreen> {
           ? null
           : notesController.text.trim(),
     );
+
+    if (!mounted) return;
 
     final hasNext = controller.nextTask();
 

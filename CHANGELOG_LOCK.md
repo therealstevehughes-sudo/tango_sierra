@@ -37,3 +37,22 @@ Risks: This layer is currently dead code from the running app's perspective (not
 Deferred items: Wiring TaskController and ManagerScreen to the new repository/providers; adding ProviderScope in main.dart; migrating away from lib/features/manager/task_log_model.dart; template/instance entity split; sync fields; site/area/user linkage; real photo capture (photoPath currently unpopulated by any caller).
 Save point name: SPRINT_001_LOCK
 Notes: Decisions for this sprint were provided directly in the task instructions; the project's DECISIONS_LOG.md did not yet contain the referenced "Data storage (Sprint 001)" section, so it was added in this sprint to match (see DECISIONS_LOG.md). The user's separate personal copy of DECISIONS_LOG.md (outside this repo) was not touched and should be updated to match if it's used as the master copy.
+
+---
+
+## Sprint 002
+Date: 2026-07-24
+Objective: Wire the drift/Riverpod persistence layer built in Sprint 001 into the running app, replacing the in-memory TaskLogStore everywhere it was used, without changing task logic, screen behaviour, or auth.
+Files changed:
+- lib/main.dart — wrapped `MyApp` in `ProviderScope`
+- lib/features/tasks/task_controller.dart — constructor now takes a `TaskSubmissionRepository`; `logTaskSubmission` builds a `TaskSubmission` and calls `repository.submit(...)` instead of `TaskLogStore.addEntry(...)`; now returns `Future<void>`
+- lib/features/tasks/task_screen.dart — converted `TaskScreen`/`_TaskScreenState` from `StatefulWidget`/`State` to `ConsumerStatefulWidget`/`ConsumerState` so it can read `taskSubmissionRepositoryProvider` once in `initState` and construct `TaskController` with it; `validateAndSubmit`/`submitTask` made `async` and now `await` the submission; added a `mounted` guard after the `await` before touching `context`/`setState` (required once the data source became asynchronous — flagged by the analyzer, not a behaviour change)
+- lib/features/manager/manager_screen.dart — converted from `StatefulWidget` (loading entries once in `initState` via `getEntries()`) to `ConsumerWidget` watching `taskSubmissionsStreamProvider` live; added minimal loading/error branches on the `AsyncValue`, which don't occur in normal operation but are required to exhaustively handle the stream's states
+- lib/features/manager/task_log_model.dart — deleted (TaskLogEntry/TaskLogStore had no remaining references after the above changes; confirmed via repo-wide search, and there are no tests referencing it)
+Files unchanged: lib/app/app.dart, lib/features/auth/login_screen.dart, lib/features/tasks/task_model.dart, lib/features/tasks/task_queue.dart, lib/core/storage/*, lib/shared/* — no task flow rules, validation logic, screen layout/wording, or auth behaviour changed; only the data source
+Architecture impact: Completes the reconciliation started in Sprint 001 — the app now runs entirely on the repository/Riverpod persistence layer ARCHITECTURE_LOCK.md specifies, with no remaining in-memory store. UI still reads/writes only through the repository, never raw storage, per the Repository Rule.
+UI impact: None to layout, wording, or interaction flow. The manager view now updates live as submissions are written (previously required leaving/reopening the screen to see new entries via a fresh `initState`), which is a direct, expected consequence of watching a stream rather than a one-time read — not a scope addition.
+Risks: Task submissions and manager log entries now persist to a local sqlite file across app restarts (previously lost on restart) — this is the intended effect of this sprint, but is a behavioural change worth flagging since prior manual testing assumed a clean slate on every run. Verified via `flutter analyze` (no issues) and a Windows desktop debug run to confirm the app launches, opens the database, and both screens render without runtime errors.
+Deferred items: Everything already deferred in Sprint 001 remains deferred (TaskTemplate/TaskInstance split, sync-state fields, site/area/user linkage, real photo capture, real auth/roles).
+Save point name: SPRINT_002_LOCK
+Notes: Commit hash to be recorded after this entry is committed.

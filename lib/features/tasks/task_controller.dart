@@ -1,8 +1,13 @@
-import '../manager/task_log_model.dart';
+import '../../shared/models/task_submission.dart';
+import '../../shared/repositories/task_submission_repository.dart';
 import 'task_model.dart';
 import 'task_queue.dart';
 
 class TaskController {
+  TaskController(this._repository);
+
+  final TaskSubmissionRepository _repository;
+
   int currentIndex = 0;
   final List<Task> tasks = TaskQueue.getTasks();
 
@@ -33,7 +38,7 @@ class TaskController {
     return staffMember;
   }
 
-  void logTaskSubmission({
+  Future<void> logTaskSubmission({
     required Task task,
     required String status,
     required String completedBy,
@@ -41,8 +46,8 @@ class TaskController {
     required bool photoAttached,
     String? notes,
   }) {
-    TaskLogStore.addEntry(
-      TaskLogEntry(
+    return _repository.submit(
+      TaskSubmission(
         taskTitle: task.title,
         status: status,
         completedBy: completedBy,
