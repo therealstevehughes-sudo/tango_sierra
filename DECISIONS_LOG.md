@@ -13,5 +13,13 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - Claude keeps answers short and simple for the user
 - Claude pushes back on ideas that don't fit the ICP or app, and suggests improvements
 
+## Data storage (Sprint 001)
+- Use drift for local persistence (relational, matches ARCHITECTURE_LOCK's entity list, type-safe, works with Riverpod streams)
+- Keep the flat TaskLogEntry shape for now, renamed/moved to shared/models/ as TaskSubmission — no TaskTemplate/TaskInstance split yet
+- Add a nullable photoPath column now to avoid a later migration
+- No sync-state fields yet, no site/area/user linkage yet (Phase 2 auth/roles isn't real yet)
+- Repository is append-only: submit / getAll / getByStaff / getByDateRange / watchAll — no update or delete
+- Repository interface and implementation both live in shared/repositories/
+
 ## Open / Not yet decided
 - (nothing logged yet)
