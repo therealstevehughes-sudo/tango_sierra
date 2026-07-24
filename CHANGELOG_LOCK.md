@@ -55,4 +55,4 @@ UI impact: None to layout, wording, or interaction flow. The manager view now up
 Risks: Task submissions and manager log entries now persist to a local sqlite file across app restarts (previously lost on restart) — this is the intended effect of this sprint, but is a behavioural change worth flagging since prior manual testing assumed a clean slate on every run. Verified via `flutter analyze` (no issues) and a Windows desktop debug run to confirm the app launches, opens the database, and both screens render without runtime errors.
 Deferred items: Everything already deferred in Sprint 001 remains deferred (TaskTemplate/TaskInstance split, sync-state fields, site/area/user linkage, real photo capture, real auth/roles).
 Save point name: SPRINT_002_LOCK
-Notes: Commit hash to be recorded after this entry is committed.
+Notes: Commit 894adc03e44698d9c75ff4845ec35481d3ed0ace, message "Sprint 002: wire drift/Riverpod persistence into the app, remove TaskLogStore". Smoke-tested via `flutter analyze` (clean) and a Windows desktop debug run (`flutter run -d windows`) — app launched, database opened, no runtime errors.
