@@ -3,974 +3,6 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $TaskSubmissionsTable extends TaskSubmissions
-    with TableInfo<$TaskSubmissionsTable, TaskSubmissionEntity> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $TaskSubmissionsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _taskTitleMeta = const VerificationMeta(
-    'taskTitle',
-  );
-  @override
-  late final GeneratedColumn<String> taskTitle = GeneratedColumn<String>(
-    'task_title',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _statusMeta = const VerificationMeta('status');
-  @override
-  late final GeneratedColumn<String> status = GeneratedColumn<String>(
-    'status',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _completedByMeta = const VerificationMeta(
-    'completedBy',
-  );
-  @override
-  late final GeneratedColumn<String> completedBy = GeneratedColumn<String>(
-    'completed_by',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _completedAtMeta = const VerificationMeta(
-    'completedAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
-    'completed_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _numericValueMeta = const VerificationMeta(
-    'numericValue',
-  );
-  @override
-  late final GeneratedColumn<String> numericValue = GeneratedColumn<String>(
-    'numeric_value',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _photoAttachedMeta = const VerificationMeta(
-    'photoAttached',
-  );
-  @override
-  late final GeneratedColumn<bool> photoAttached = GeneratedColumn<bool>(
-    'photo_attached',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("photo_attached" IN (0, 1))',
-    ),
-    defaultValue: const Constant(false),
-  );
-  static const VerificationMeta _photoPathMeta = const VerificationMeta(
-    'photoPath',
-  );
-  @override
-  late final GeneratedColumn<String> photoPath = GeneratedColumn<String>(
-    'photo_path',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
-  @override
-  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
-    'notes',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    taskTitle,
-    status,
-    completedBy,
-    completedAt,
-    numericValue,
-    photoAttached,
-    photoPath,
-    notes,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'task_submissions';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<TaskSubmissionEntity> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('task_title')) {
-      context.handle(
-        _taskTitleMeta,
-        taskTitle.isAcceptableOrUnknown(data['task_title']!, _taskTitleMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_taskTitleMeta);
-    }
-    if (data.containsKey('status')) {
-      context.handle(
-        _statusMeta,
-        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_statusMeta);
-    }
-    if (data.containsKey('completed_by')) {
-      context.handle(
-        _completedByMeta,
-        completedBy.isAcceptableOrUnknown(
-          data['completed_by']!,
-          _completedByMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_completedByMeta);
-    }
-    if (data.containsKey('completed_at')) {
-      context.handle(
-        _completedAtMeta,
-        completedAt.isAcceptableOrUnknown(
-          data['completed_at']!,
-          _completedAtMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_completedAtMeta);
-    }
-    if (data.containsKey('numeric_value')) {
-      context.handle(
-        _numericValueMeta,
-        numericValue.isAcceptableOrUnknown(
-          data['numeric_value']!,
-          _numericValueMeta,
-        ),
-      );
-    }
-    if (data.containsKey('photo_attached')) {
-      context.handle(
-        _photoAttachedMeta,
-        photoAttached.isAcceptableOrUnknown(
-          data['photo_attached']!,
-          _photoAttachedMeta,
-        ),
-      );
-    }
-    if (data.containsKey('photo_path')) {
-      context.handle(
-        _photoPathMeta,
-        photoPath.isAcceptableOrUnknown(data['photo_path']!, _photoPathMeta),
-      );
-    }
-    if (data.containsKey('notes')) {
-      context.handle(
-        _notesMeta,
-        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  TaskSubmissionEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return TaskSubmissionEntity(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      taskTitle: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}task_title'],
-      )!,
-      status: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}status'],
-      )!,
-      completedBy: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}completed_by'],
-      )!,
-      completedAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}completed_at'],
-      )!,
-      numericValue: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}numeric_value'],
-      ),
-      photoAttached: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}photo_attached'],
-      )!,
-      photoPath: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}photo_path'],
-      ),
-      notes: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}notes'],
-      ),
-    );
-  }
-
-  @override
-  $TaskSubmissionsTable createAlias(String alias) {
-    return $TaskSubmissionsTable(attachedDatabase, alias);
-  }
-}
-
-class TaskSubmissionEntity extends DataClass
-    implements Insertable<TaskSubmissionEntity> {
-  final int id;
-  final String taskTitle;
-  final String status;
-  final String completedBy;
-  final DateTime completedAt;
-  final String? numericValue;
-  final bool photoAttached;
-  final String? photoPath;
-  final String? notes;
-  const TaskSubmissionEntity({
-    required this.id,
-    required this.taskTitle,
-    required this.status,
-    required this.completedBy,
-    required this.completedAt,
-    this.numericValue,
-    required this.photoAttached,
-    this.photoPath,
-    this.notes,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['task_title'] = Variable<String>(taskTitle);
-    map['status'] = Variable<String>(status);
-    map['completed_by'] = Variable<String>(completedBy);
-    map['completed_at'] = Variable<DateTime>(completedAt);
-    if (!nullToAbsent || numericValue != null) {
-      map['numeric_value'] = Variable<String>(numericValue);
-    }
-    map['photo_attached'] = Variable<bool>(photoAttached);
-    if (!nullToAbsent || photoPath != null) {
-      map['photo_path'] = Variable<String>(photoPath);
-    }
-    if (!nullToAbsent || notes != null) {
-      map['notes'] = Variable<String>(notes);
-    }
-    return map;
-  }
-
-  TaskSubmissionsCompanion toCompanion(bool nullToAbsent) {
-    return TaskSubmissionsCompanion(
-      id: Value(id),
-      taskTitle: Value(taskTitle),
-      status: Value(status),
-      completedBy: Value(completedBy),
-      completedAt: Value(completedAt),
-      numericValue: numericValue == null && nullToAbsent
-          ? const Value.absent()
-          : Value(numericValue),
-      photoAttached: Value(photoAttached),
-      photoPath: photoPath == null && nullToAbsent
-          ? const Value.absent()
-          : Value(photoPath),
-      notes: notes == null && nullToAbsent
-          ? const Value.absent()
-          : Value(notes),
-    );
-  }
-
-  factory TaskSubmissionEntity.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return TaskSubmissionEntity(
-      id: serializer.fromJson<int>(json['id']),
-      taskTitle: serializer.fromJson<String>(json['taskTitle']),
-      status: serializer.fromJson<String>(json['status']),
-      completedBy: serializer.fromJson<String>(json['completedBy']),
-      completedAt: serializer.fromJson<DateTime>(json['completedAt']),
-      numericValue: serializer.fromJson<String?>(json['numericValue']),
-      photoAttached: serializer.fromJson<bool>(json['photoAttached']),
-      photoPath: serializer.fromJson<String?>(json['photoPath']),
-      notes: serializer.fromJson<String?>(json['notes']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'taskTitle': serializer.toJson<String>(taskTitle),
-      'status': serializer.toJson<String>(status),
-      'completedBy': serializer.toJson<String>(completedBy),
-      'completedAt': serializer.toJson<DateTime>(completedAt),
-      'numericValue': serializer.toJson<String?>(numericValue),
-      'photoAttached': serializer.toJson<bool>(photoAttached),
-      'photoPath': serializer.toJson<String?>(photoPath),
-      'notes': serializer.toJson<String?>(notes),
-    };
-  }
-
-  TaskSubmissionEntity copyWith({
-    int? id,
-    String? taskTitle,
-    String? status,
-    String? completedBy,
-    DateTime? completedAt,
-    Value<String?> numericValue = const Value.absent(),
-    bool? photoAttached,
-    Value<String?> photoPath = const Value.absent(),
-    Value<String?> notes = const Value.absent(),
-  }) => TaskSubmissionEntity(
-    id: id ?? this.id,
-    taskTitle: taskTitle ?? this.taskTitle,
-    status: status ?? this.status,
-    completedBy: completedBy ?? this.completedBy,
-    completedAt: completedAt ?? this.completedAt,
-    numericValue: numericValue.present ? numericValue.value : this.numericValue,
-    photoAttached: photoAttached ?? this.photoAttached,
-    photoPath: photoPath.present ? photoPath.value : this.photoPath,
-    notes: notes.present ? notes.value : this.notes,
-  );
-  TaskSubmissionEntity copyWithCompanion(TaskSubmissionsCompanion data) {
-    return TaskSubmissionEntity(
-      id: data.id.present ? data.id.value : this.id,
-      taskTitle: data.taskTitle.present ? data.taskTitle.value : this.taskTitle,
-      status: data.status.present ? data.status.value : this.status,
-      completedBy: data.completedBy.present
-          ? data.completedBy.value
-          : this.completedBy,
-      completedAt: data.completedAt.present
-          ? data.completedAt.value
-          : this.completedAt,
-      numericValue: data.numericValue.present
-          ? data.numericValue.value
-          : this.numericValue,
-      photoAttached: data.photoAttached.present
-          ? data.photoAttached.value
-          : this.photoAttached,
-      photoPath: data.photoPath.present ? data.photoPath.value : this.photoPath,
-      notes: data.notes.present ? data.notes.value : this.notes,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TaskSubmissionEntity(')
-          ..write('id: $id, ')
-          ..write('taskTitle: $taskTitle, ')
-          ..write('status: $status, ')
-          ..write('completedBy: $completedBy, ')
-          ..write('completedAt: $completedAt, ')
-          ..write('numericValue: $numericValue, ')
-          ..write('photoAttached: $photoAttached, ')
-          ..write('photoPath: $photoPath, ')
-          ..write('notes: $notes')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    taskTitle,
-    status,
-    completedBy,
-    completedAt,
-    numericValue,
-    photoAttached,
-    photoPath,
-    notes,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is TaskSubmissionEntity &&
-          other.id == this.id &&
-          other.taskTitle == this.taskTitle &&
-          other.status == this.status &&
-          other.completedBy == this.completedBy &&
-          other.completedAt == this.completedAt &&
-          other.numericValue == this.numericValue &&
-          other.photoAttached == this.photoAttached &&
-          other.photoPath == this.photoPath &&
-          other.notes == this.notes);
-}
-
-class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
-  final Value<int> id;
-  final Value<String> taskTitle;
-  final Value<String> status;
-  final Value<String> completedBy;
-  final Value<DateTime> completedAt;
-  final Value<String?> numericValue;
-  final Value<bool> photoAttached;
-  final Value<String?> photoPath;
-  final Value<String?> notes;
-  const TaskSubmissionsCompanion({
-    this.id = const Value.absent(),
-    this.taskTitle = const Value.absent(),
-    this.status = const Value.absent(),
-    this.completedBy = const Value.absent(),
-    this.completedAt = const Value.absent(),
-    this.numericValue = const Value.absent(),
-    this.photoAttached = const Value.absent(),
-    this.photoPath = const Value.absent(),
-    this.notes = const Value.absent(),
-  });
-  TaskSubmissionsCompanion.insert({
-    this.id = const Value.absent(),
-    required String taskTitle,
-    required String status,
-    required String completedBy,
-    required DateTime completedAt,
-    this.numericValue = const Value.absent(),
-    this.photoAttached = const Value.absent(),
-    this.photoPath = const Value.absent(),
-    this.notes = const Value.absent(),
-  }) : taskTitle = Value(taskTitle),
-       status = Value(status),
-       completedBy = Value(completedBy),
-       completedAt = Value(completedAt);
-  static Insertable<TaskSubmissionEntity> custom({
-    Expression<int>? id,
-    Expression<String>? taskTitle,
-    Expression<String>? status,
-    Expression<String>? completedBy,
-    Expression<DateTime>? completedAt,
-    Expression<String>? numericValue,
-    Expression<bool>? photoAttached,
-    Expression<String>? photoPath,
-    Expression<String>? notes,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (taskTitle != null) 'task_title': taskTitle,
-      if (status != null) 'status': status,
-      if (completedBy != null) 'completed_by': completedBy,
-      if (completedAt != null) 'completed_at': completedAt,
-      if (numericValue != null) 'numeric_value': numericValue,
-      if (photoAttached != null) 'photo_attached': photoAttached,
-      if (photoPath != null) 'photo_path': photoPath,
-      if (notes != null) 'notes': notes,
-    });
-  }
-
-  TaskSubmissionsCompanion copyWith({
-    Value<int>? id,
-    Value<String>? taskTitle,
-    Value<String>? status,
-    Value<String>? completedBy,
-    Value<DateTime>? completedAt,
-    Value<String?>? numericValue,
-    Value<bool>? photoAttached,
-    Value<String?>? photoPath,
-    Value<String?>? notes,
-  }) {
-    return TaskSubmissionsCompanion(
-      id: id ?? this.id,
-      taskTitle: taskTitle ?? this.taskTitle,
-      status: status ?? this.status,
-      completedBy: completedBy ?? this.completedBy,
-      completedAt: completedAt ?? this.completedAt,
-      numericValue: numericValue ?? this.numericValue,
-      photoAttached: photoAttached ?? this.photoAttached,
-      photoPath: photoPath ?? this.photoPath,
-      notes: notes ?? this.notes,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (taskTitle.present) {
-      map['task_title'] = Variable<String>(taskTitle.value);
-    }
-    if (status.present) {
-      map['status'] = Variable<String>(status.value);
-    }
-    if (completedBy.present) {
-      map['completed_by'] = Variable<String>(completedBy.value);
-    }
-    if (completedAt.present) {
-      map['completed_at'] = Variable<DateTime>(completedAt.value);
-    }
-    if (numericValue.present) {
-      map['numeric_value'] = Variable<String>(numericValue.value);
-    }
-    if (photoAttached.present) {
-      map['photo_attached'] = Variable<bool>(photoAttached.value);
-    }
-    if (photoPath.present) {
-      map['photo_path'] = Variable<String>(photoPath.value);
-    }
-    if (notes.present) {
-      map['notes'] = Variable<String>(notes.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TaskSubmissionsCompanion(')
-          ..write('id: $id, ')
-          ..write('taskTitle: $taskTitle, ')
-          ..write('status: $status, ')
-          ..write('completedBy: $completedBy, ')
-          ..write('completedAt: $completedAt, ')
-          ..write('numericValue: $numericValue, ')
-          ..write('photoAttached: $photoAttached, ')
-          ..write('photoPath: $photoPath, ')
-          ..write('notes: $notes')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $UsersTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _jobTitleMeta = const VerificationMeta(
-    'jobTitle',
-  );
-  @override
-  late final GeneratedColumn<String> jobTitle = GeneratedColumn<String>(
-    'job_title',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _roleTierMeta = const VerificationMeta(
-    'roleTier',
-  );
-  @override
-  late final GeneratedColumn<String> roleTier = GeneratedColumn<String>(
-    'role_tier',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _pinHashMeta = const VerificationMeta(
-    'pinHash',
-  );
-  @override
-  late final GeneratedColumn<String> pinHash = GeneratedColumn<String>(
-    'pin_hash',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _pinSaltMeta = const VerificationMeta(
-    'pinSalt',
-  );
-  @override
-  late final GeneratedColumn<String> pinSalt = GeneratedColumn<String>(
-    'pin_salt',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    name,
-    jobTitle,
-    roleTier,
-    pinHash,
-    pinSalt,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'users';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<UserEntity> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('job_title')) {
-      context.handle(
-        _jobTitleMeta,
-        jobTitle.isAcceptableOrUnknown(data['job_title']!, _jobTitleMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_jobTitleMeta);
-    }
-    if (data.containsKey('role_tier')) {
-      context.handle(
-        _roleTierMeta,
-        roleTier.isAcceptableOrUnknown(data['role_tier']!, _roleTierMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_roleTierMeta);
-    }
-    if (data.containsKey('pin_hash')) {
-      context.handle(
-        _pinHashMeta,
-        pinHash.isAcceptableOrUnknown(data['pin_hash']!, _pinHashMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_pinHashMeta);
-    }
-    if (data.containsKey('pin_salt')) {
-      context.handle(
-        _pinSaltMeta,
-        pinSalt.isAcceptableOrUnknown(data['pin_salt']!, _pinSaltMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_pinSaltMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  UserEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return UserEntity(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-      jobTitle: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}job_title'],
-      )!,
-      roleTier: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}role_tier'],
-      )!,
-      pinHash: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}pin_hash'],
-      )!,
-      pinSalt: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}pin_salt'],
-      )!,
-    );
-  }
-
-  @override
-  $UsersTable createAlias(String alias) {
-    return $UsersTable(attachedDatabase, alias);
-  }
-}
-
-class UserEntity extends DataClass implements Insertable<UserEntity> {
-  final int id;
-  final String name;
-  final String jobTitle;
-  final String roleTier;
-  final String pinHash;
-  final String pinSalt;
-  const UserEntity({
-    required this.id,
-    required this.name,
-    required this.jobTitle,
-    required this.roleTier,
-    required this.pinHash,
-    required this.pinSalt,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
-    map['job_title'] = Variable<String>(jobTitle);
-    map['role_tier'] = Variable<String>(roleTier);
-    map['pin_hash'] = Variable<String>(pinHash);
-    map['pin_salt'] = Variable<String>(pinSalt);
-    return map;
-  }
-
-  UsersCompanion toCompanion(bool nullToAbsent) {
-    return UsersCompanion(
-      id: Value(id),
-      name: Value(name),
-      jobTitle: Value(jobTitle),
-      roleTier: Value(roleTier),
-      pinHash: Value(pinHash),
-      pinSalt: Value(pinSalt),
-    );
-  }
-
-  factory UserEntity.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return UserEntity(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
-      jobTitle: serializer.fromJson<String>(json['jobTitle']),
-      roleTier: serializer.fromJson<String>(json['roleTier']),
-      pinHash: serializer.fromJson<String>(json['pinHash']),
-      pinSalt: serializer.fromJson<String>(json['pinSalt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
-      'jobTitle': serializer.toJson<String>(jobTitle),
-      'roleTier': serializer.toJson<String>(roleTier),
-      'pinHash': serializer.toJson<String>(pinHash),
-      'pinSalt': serializer.toJson<String>(pinSalt),
-    };
-  }
-
-  UserEntity copyWith({
-    int? id,
-    String? name,
-    String? jobTitle,
-    String? roleTier,
-    String? pinHash,
-    String? pinSalt,
-  }) => UserEntity(
-    id: id ?? this.id,
-    name: name ?? this.name,
-    jobTitle: jobTitle ?? this.jobTitle,
-    roleTier: roleTier ?? this.roleTier,
-    pinHash: pinHash ?? this.pinHash,
-    pinSalt: pinSalt ?? this.pinSalt,
-  );
-  UserEntity copyWithCompanion(UsersCompanion data) {
-    return UserEntity(
-      id: data.id.present ? data.id.value : this.id,
-      name: data.name.present ? data.name.value : this.name,
-      jobTitle: data.jobTitle.present ? data.jobTitle.value : this.jobTitle,
-      roleTier: data.roleTier.present ? data.roleTier.value : this.roleTier,
-      pinHash: data.pinHash.present ? data.pinHash.value : this.pinHash,
-      pinSalt: data.pinSalt.present ? data.pinSalt.value : this.pinSalt,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('UserEntity(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('jobTitle: $jobTitle, ')
-          ..write('roleTier: $roleTier, ')
-          ..write('pinHash: $pinHash, ')
-          ..write('pinSalt: $pinSalt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(id, name, jobTitle, roleTier, pinHash, pinSalt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is UserEntity &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.jobTitle == this.jobTitle &&
-          other.roleTier == this.roleTier &&
-          other.pinHash == this.pinHash &&
-          other.pinSalt == this.pinSalt);
-}
-
-class UsersCompanion extends UpdateCompanion<UserEntity> {
-  final Value<int> id;
-  final Value<String> name;
-  final Value<String> jobTitle;
-  final Value<String> roleTier;
-  final Value<String> pinHash;
-  final Value<String> pinSalt;
-  const UsersCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
-    this.jobTitle = const Value.absent(),
-    this.roleTier = const Value.absent(),
-    this.pinHash = const Value.absent(),
-    this.pinSalt = const Value.absent(),
-  });
-  UsersCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-    required String jobTitle,
-    required String roleTier,
-    required String pinHash,
-    required String pinSalt,
-  }) : name = Value(name),
-       jobTitle = Value(jobTitle),
-       roleTier = Value(roleTier),
-       pinHash = Value(pinHash),
-       pinSalt = Value(pinSalt);
-  static Insertable<UserEntity> custom({
-    Expression<int>? id,
-    Expression<String>? name,
-    Expression<String>? jobTitle,
-    Expression<String>? roleTier,
-    Expression<String>? pinHash,
-    Expression<String>? pinSalt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (jobTitle != null) 'job_title': jobTitle,
-      if (roleTier != null) 'role_tier': roleTier,
-      if (pinHash != null) 'pin_hash': pinHash,
-      if (pinSalt != null) 'pin_salt': pinSalt,
-    });
-  }
-
-  UsersCompanion copyWith({
-    Value<int>? id,
-    Value<String>? name,
-    Value<String>? jobTitle,
-    Value<String>? roleTier,
-    Value<String>? pinHash,
-    Value<String>? pinSalt,
-  }) {
-    return UsersCompanion(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      jobTitle: jobTitle ?? this.jobTitle,
-      roleTier: roleTier ?? this.roleTier,
-      pinHash: pinHash ?? this.pinHash,
-      pinSalt: pinSalt ?? this.pinSalt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (jobTitle.present) {
-      map['job_title'] = Variable<String>(jobTitle.value);
-    }
-    if (roleTier.present) {
-      map['role_tier'] = Variable<String>(roleTier.value);
-    }
-    if (pinHash.present) {
-      map['pin_hash'] = Variable<String>(pinHash.value);
-    }
-    if (pinSalt.present) {
-      map['pin_salt'] = Variable<String>(pinSalt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('UsersCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('jobTitle: $jobTitle, ')
-          ..write('roleTier: $roleTier, ')
-          ..write('pinHash: $pinHash, ')
-          ..write('pinSalt: $pinSalt')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $EquipmentTypesTable extends EquipmentTypes
     with TableInfo<$EquipmentTypesTable, EquipmentTypeEntity> {
   @override
@@ -1156,6 +188,1778 @@ class EquipmentTypesCompanion extends UpdateCompanion<EquipmentTypeEntity> {
     return (StringBuffer('EquipmentTypesCompanion(')
           ..write('id: $id, ')
           ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AreasTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'areas';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<AreaEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AreaEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AreaEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+    );
+  }
+
+  @override
+  $AreasTable createAlias(String alias) {
+    return $AreasTable(attachedDatabase, alias);
+  }
+}
+
+class AreaEntity extends DataClass implements Insertable<AreaEntity> {
+  final int id;
+  final String name;
+  const AreaEntity({required this.id, required this.name});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    return map;
+  }
+
+  AreasCompanion toCompanion(bool nullToAbsent) {
+    return AreasCompanion(id: Value(id), name: Value(name));
+  }
+
+  factory AreaEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AreaEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+    };
+  }
+
+  AreaEntity copyWith({int? id, String? name}) =>
+      AreaEntity(id: id ?? this.id, name: name ?? this.name);
+  AreaEntity copyWithCompanion(AreasCompanion data) {
+    return AreaEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AreaEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AreaEntity && other.id == this.id && other.name == this.name);
+}
+
+class AreasCompanion extends UpdateCompanion<AreaEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  const AreasCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+  });
+  AreasCompanion.insert({this.id = const Value.absent(), required String name})
+    : name = Value(name);
+  static Insertable<AreaEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    });
+  }
+
+  AreasCompanion copyWith({Value<int>? id, Value<String>? name}) {
+    return AreasCompanion(id: id ?? this.id, name: name ?? this.name);
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AreasCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $EquipmentInstancesTable extends EquipmentInstances
+    with TableInfo<$EquipmentInstancesTable, EquipmentInstanceEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EquipmentInstancesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _equipmentTypeIdMeta = const VerificationMeta(
+    'equipmentTypeId',
+  );
+  @override
+  late final GeneratedColumn<int> equipmentTypeId = GeneratedColumn<int>(
+    'equipment_type_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES equipment_types (id)',
+    ),
+  );
+  static const VerificationMeta _areaIdMeta = const VerificationMeta('areaId');
+  @override
+  late final GeneratedColumn<int> areaId = GeneratedColumn<int>(
+    'area_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES areas (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, equipmentTypeId, areaId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'equipment_instances';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<EquipmentInstanceEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('equipment_type_id')) {
+      context.handle(
+        _equipmentTypeIdMeta,
+        equipmentTypeId.isAcceptableOrUnknown(
+          data['equipment_type_id']!,
+          _equipmentTypeIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_equipmentTypeIdMeta);
+    }
+    if (data.containsKey('area_id')) {
+      context.handle(
+        _areaIdMeta,
+        areaId.isAcceptableOrUnknown(data['area_id']!, _areaIdMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  EquipmentInstanceEntity map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EquipmentInstanceEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      equipmentTypeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}equipment_type_id'],
+      )!,
+      areaId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}area_id'],
+      ),
+    );
+  }
+
+  @override
+  $EquipmentInstancesTable createAlias(String alias) {
+    return $EquipmentInstancesTable(attachedDatabase, alias);
+  }
+}
+
+class EquipmentInstanceEntity extends DataClass
+    implements Insertable<EquipmentInstanceEntity> {
+  final int id;
+  final String name;
+  final int equipmentTypeId;
+  final int? areaId;
+  const EquipmentInstanceEntity({
+    required this.id,
+    required this.name,
+    required this.equipmentTypeId,
+    this.areaId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['equipment_type_id'] = Variable<int>(equipmentTypeId);
+    if (!nullToAbsent || areaId != null) {
+      map['area_id'] = Variable<int>(areaId);
+    }
+    return map;
+  }
+
+  EquipmentInstancesCompanion toCompanion(bool nullToAbsent) {
+    return EquipmentInstancesCompanion(
+      id: Value(id),
+      name: Value(name),
+      equipmentTypeId: Value(equipmentTypeId),
+      areaId: areaId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(areaId),
+    );
+  }
+
+  factory EquipmentInstanceEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return EquipmentInstanceEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      equipmentTypeId: serializer.fromJson<int>(json['equipmentTypeId']),
+      areaId: serializer.fromJson<int?>(json['areaId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'equipmentTypeId': serializer.toJson<int>(equipmentTypeId),
+      'areaId': serializer.toJson<int?>(areaId),
+    };
+  }
+
+  EquipmentInstanceEntity copyWith({
+    int? id,
+    String? name,
+    int? equipmentTypeId,
+    Value<int?> areaId = const Value.absent(),
+  }) => EquipmentInstanceEntity(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
+    areaId: areaId.present ? areaId.value : this.areaId,
+  );
+  EquipmentInstanceEntity copyWithCompanion(EquipmentInstancesCompanion data) {
+    return EquipmentInstanceEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      equipmentTypeId: data.equipmentTypeId.present
+          ? data.equipmentTypeId.value
+          : this.equipmentTypeId,
+      areaId: data.areaId.present ? data.areaId.value : this.areaId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EquipmentInstanceEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('equipmentTypeId: $equipmentTypeId, ')
+          ..write('areaId: $areaId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, equipmentTypeId, areaId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is EquipmentInstanceEntity &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.equipmentTypeId == this.equipmentTypeId &&
+          other.areaId == this.areaId);
+}
+
+class EquipmentInstancesCompanion
+    extends UpdateCompanion<EquipmentInstanceEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<int> equipmentTypeId;
+  final Value<int?> areaId;
+  const EquipmentInstancesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.equipmentTypeId = const Value.absent(),
+    this.areaId = const Value.absent(),
+  });
+  EquipmentInstancesCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required int equipmentTypeId,
+    this.areaId = const Value.absent(),
+  }) : name = Value(name),
+       equipmentTypeId = Value(equipmentTypeId);
+  static Insertable<EquipmentInstanceEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<int>? equipmentTypeId,
+    Expression<int>? areaId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (equipmentTypeId != null) 'equipment_type_id': equipmentTypeId,
+      if (areaId != null) 'area_id': areaId,
+    });
+  }
+
+  EquipmentInstancesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<int>? equipmentTypeId,
+    Value<int?>? areaId,
+  }) {
+    return EquipmentInstancesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
+      areaId: areaId ?? this.areaId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (equipmentTypeId.present) {
+      map['equipment_type_id'] = Variable<int>(equipmentTypeId.value);
+    }
+    if (areaId.present) {
+      map['area_id'] = Variable<int>(areaId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EquipmentInstancesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('equipmentTypeId: $equipmentTypeId, ')
+          ..write('areaId: $areaId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TaskSubmissionsTable extends TaskSubmissions
+    with TableInfo<$TaskSubmissionsTable, TaskSubmissionEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskSubmissionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _taskTitleMeta = const VerificationMeta(
+    'taskTitle',
+  );
+  @override
+  late final GeneratedColumn<String> taskTitle = GeneratedColumn<String>(
+    'task_title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _completedByMeta = const VerificationMeta(
+    'completedBy',
+  );
+  @override
+  late final GeneratedColumn<String> completedBy = GeneratedColumn<String>(
+    'completed_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _completedAtMeta = const VerificationMeta(
+    'completedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
+    'completed_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _numericValueMeta = const VerificationMeta(
+    'numericValue',
+  );
+  @override
+  late final GeneratedColumn<String> numericValue = GeneratedColumn<String>(
+    'numeric_value',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _photoAttachedMeta = const VerificationMeta(
+    'photoAttached',
+  );
+  @override
+  late final GeneratedColumn<bool> photoAttached = GeneratedColumn<bool>(
+    'photo_attached',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("photo_attached" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _photoPathMeta = const VerificationMeta(
+    'photoPath',
+  );
+  @override
+  late final GeneratedColumn<String> photoPath = GeneratedColumn<String>(
+    'photo_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _taskScheduleIdMeta = const VerificationMeta(
+    'taskScheduleId',
+  );
+  @override
+  late final GeneratedColumn<int> taskScheduleId = GeneratedColumn<int>(
+    'task_schedule_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _taskTemplateGroupIdMeta =
+      const VerificationMeta('taskTemplateGroupId');
+  @override
+  late final GeneratedColumn<int> taskTemplateGroupId = GeneratedColumn<int>(
+    'task_template_group_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _equipmentInstanceIdMeta =
+      const VerificationMeta('equipmentInstanceId');
+  @override
+  late final GeneratedColumn<int> equipmentInstanceId = GeneratedColumn<int>(
+    'equipment_instance_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES equipment_instances (id)',
+    ),
+  );
+  static const VerificationMeta _customFieldValuesJsonMeta =
+      const VerificationMeta('customFieldValuesJson');
+  @override
+  late final GeneratedColumn<String> customFieldValuesJson =
+      GeneratedColumn<String>(
+        'custom_field_values_json',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    taskTitle,
+    status,
+    completedBy,
+    completedAt,
+    numericValue,
+    photoAttached,
+    photoPath,
+    notes,
+    taskScheduleId,
+    taskTemplateGroupId,
+    equipmentInstanceId,
+    customFieldValuesJson,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task_submissions';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaskSubmissionEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('task_title')) {
+      context.handle(
+        _taskTitleMeta,
+        taskTitle.isAcceptableOrUnknown(data['task_title']!, _taskTitleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_taskTitleMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('completed_by')) {
+      context.handle(
+        _completedByMeta,
+        completedBy.isAcceptableOrUnknown(
+          data['completed_by']!,
+          _completedByMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_completedByMeta);
+    }
+    if (data.containsKey('completed_at')) {
+      context.handle(
+        _completedAtMeta,
+        completedAt.isAcceptableOrUnknown(
+          data['completed_at']!,
+          _completedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_completedAtMeta);
+    }
+    if (data.containsKey('numeric_value')) {
+      context.handle(
+        _numericValueMeta,
+        numericValue.isAcceptableOrUnknown(
+          data['numeric_value']!,
+          _numericValueMeta,
+        ),
+      );
+    }
+    if (data.containsKey('photo_attached')) {
+      context.handle(
+        _photoAttachedMeta,
+        photoAttached.isAcceptableOrUnknown(
+          data['photo_attached']!,
+          _photoAttachedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('photo_path')) {
+      context.handle(
+        _photoPathMeta,
+        photoPath.isAcceptableOrUnknown(data['photo_path']!, _photoPathMeta),
+      );
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    if (data.containsKey('task_schedule_id')) {
+      context.handle(
+        _taskScheduleIdMeta,
+        taskScheduleId.isAcceptableOrUnknown(
+          data['task_schedule_id']!,
+          _taskScheduleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('task_template_group_id')) {
+      context.handle(
+        _taskTemplateGroupIdMeta,
+        taskTemplateGroupId.isAcceptableOrUnknown(
+          data['task_template_group_id']!,
+          _taskTemplateGroupIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('equipment_instance_id')) {
+      context.handle(
+        _equipmentInstanceIdMeta,
+        equipmentInstanceId.isAcceptableOrUnknown(
+          data['equipment_instance_id']!,
+          _equipmentInstanceIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('custom_field_values_json')) {
+      context.handle(
+        _customFieldValuesJsonMeta,
+        customFieldValuesJson.isAcceptableOrUnknown(
+          data['custom_field_values_json']!,
+          _customFieldValuesJsonMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TaskSubmissionEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaskSubmissionEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      taskTitle: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}task_title'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      completedBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}completed_by'],
+      )!,
+      completedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}completed_at'],
+      )!,
+      numericValue: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}numeric_value'],
+      ),
+      photoAttached: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}photo_attached'],
+      )!,
+      photoPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_path'],
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      taskScheduleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}task_schedule_id'],
+      ),
+      taskTemplateGroupId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}task_template_group_id'],
+      ),
+      equipmentInstanceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}equipment_instance_id'],
+      ),
+      customFieldValuesJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}custom_field_values_json'],
+      ),
+    );
+  }
+
+  @override
+  $TaskSubmissionsTable createAlias(String alias) {
+    return $TaskSubmissionsTable(attachedDatabase, alias);
+  }
+}
+
+class TaskSubmissionEntity extends DataClass
+    implements Insertable<TaskSubmissionEntity> {
+  final int id;
+  final String taskTitle;
+  final String status;
+  final String completedBy;
+  final DateTime completedAt;
+  final String? numericValue;
+  final bool photoAttached;
+  final String? photoPath;
+  final String? notes;
+  final int? taskScheduleId;
+  final int? taskTemplateGroupId;
+  final int? equipmentInstanceId;
+  final String? customFieldValuesJson;
+  const TaskSubmissionEntity({
+    required this.id,
+    required this.taskTitle,
+    required this.status,
+    required this.completedBy,
+    required this.completedAt,
+    this.numericValue,
+    required this.photoAttached,
+    this.photoPath,
+    this.notes,
+    this.taskScheduleId,
+    this.taskTemplateGroupId,
+    this.equipmentInstanceId,
+    this.customFieldValuesJson,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['task_title'] = Variable<String>(taskTitle);
+    map['status'] = Variable<String>(status);
+    map['completed_by'] = Variable<String>(completedBy);
+    map['completed_at'] = Variable<DateTime>(completedAt);
+    if (!nullToAbsent || numericValue != null) {
+      map['numeric_value'] = Variable<String>(numericValue);
+    }
+    map['photo_attached'] = Variable<bool>(photoAttached);
+    if (!nullToAbsent || photoPath != null) {
+      map['photo_path'] = Variable<String>(photoPath);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    if (!nullToAbsent || taskScheduleId != null) {
+      map['task_schedule_id'] = Variable<int>(taskScheduleId);
+    }
+    if (!nullToAbsent || taskTemplateGroupId != null) {
+      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId);
+    }
+    if (!nullToAbsent || equipmentInstanceId != null) {
+      map['equipment_instance_id'] = Variable<int>(equipmentInstanceId);
+    }
+    if (!nullToAbsent || customFieldValuesJson != null) {
+      map['custom_field_values_json'] = Variable<String>(customFieldValuesJson);
+    }
+    return map;
+  }
+
+  TaskSubmissionsCompanion toCompanion(bool nullToAbsent) {
+    return TaskSubmissionsCompanion(
+      id: Value(id),
+      taskTitle: Value(taskTitle),
+      status: Value(status),
+      completedBy: Value(completedBy),
+      completedAt: Value(completedAt),
+      numericValue: numericValue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(numericValue),
+      photoAttached: Value(photoAttached),
+      photoPath: photoPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoPath),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      taskScheduleId: taskScheduleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taskScheduleId),
+      taskTemplateGroupId: taskTemplateGroupId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taskTemplateGroupId),
+      equipmentInstanceId: equipmentInstanceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(equipmentInstanceId),
+      customFieldValuesJson: customFieldValuesJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customFieldValuesJson),
+    );
+  }
+
+  factory TaskSubmissionEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaskSubmissionEntity(
+      id: serializer.fromJson<int>(json['id']),
+      taskTitle: serializer.fromJson<String>(json['taskTitle']),
+      status: serializer.fromJson<String>(json['status']),
+      completedBy: serializer.fromJson<String>(json['completedBy']),
+      completedAt: serializer.fromJson<DateTime>(json['completedAt']),
+      numericValue: serializer.fromJson<String?>(json['numericValue']),
+      photoAttached: serializer.fromJson<bool>(json['photoAttached']),
+      photoPath: serializer.fromJson<String?>(json['photoPath']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      taskScheduleId: serializer.fromJson<int?>(json['taskScheduleId']),
+      taskTemplateGroupId: serializer.fromJson<int?>(
+        json['taskTemplateGroupId'],
+      ),
+      equipmentInstanceId: serializer.fromJson<int?>(
+        json['equipmentInstanceId'],
+      ),
+      customFieldValuesJson: serializer.fromJson<String?>(
+        json['customFieldValuesJson'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'taskTitle': serializer.toJson<String>(taskTitle),
+      'status': serializer.toJson<String>(status),
+      'completedBy': serializer.toJson<String>(completedBy),
+      'completedAt': serializer.toJson<DateTime>(completedAt),
+      'numericValue': serializer.toJson<String?>(numericValue),
+      'photoAttached': serializer.toJson<bool>(photoAttached),
+      'photoPath': serializer.toJson<String?>(photoPath),
+      'notes': serializer.toJson<String?>(notes),
+      'taskScheduleId': serializer.toJson<int?>(taskScheduleId),
+      'taskTemplateGroupId': serializer.toJson<int?>(taskTemplateGroupId),
+      'equipmentInstanceId': serializer.toJson<int?>(equipmentInstanceId),
+      'customFieldValuesJson': serializer.toJson<String?>(
+        customFieldValuesJson,
+      ),
+    };
+  }
+
+  TaskSubmissionEntity copyWith({
+    int? id,
+    String? taskTitle,
+    String? status,
+    String? completedBy,
+    DateTime? completedAt,
+    Value<String?> numericValue = const Value.absent(),
+    bool? photoAttached,
+    Value<String?> photoPath = const Value.absent(),
+    Value<String?> notes = const Value.absent(),
+    Value<int?> taskScheduleId = const Value.absent(),
+    Value<int?> taskTemplateGroupId = const Value.absent(),
+    Value<int?> equipmentInstanceId = const Value.absent(),
+    Value<String?> customFieldValuesJson = const Value.absent(),
+  }) => TaskSubmissionEntity(
+    id: id ?? this.id,
+    taskTitle: taskTitle ?? this.taskTitle,
+    status: status ?? this.status,
+    completedBy: completedBy ?? this.completedBy,
+    completedAt: completedAt ?? this.completedAt,
+    numericValue: numericValue.present ? numericValue.value : this.numericValue,
+    photoAttached: photoAttached ?? this.photoAttached,
+    photoPath: photoPath.present ? photoPath.value : this.photoPath,
+    notes: notes.present ? notes.value : this.notes,
+    taskScheduleId: taskScheduleId.present
+        ? taskScheduleId.value
+        : this.taskScheduleId,
+    taskTemplateGroupId: taskTemplateGroupId.present
+        ? taskTemplateGroupId.value
+        : this.taskTemplateGroupId,
+    equipmentInstanceId: equipmentInstanceId.present
+        ? equipmentInstanceId.value
+        : this.equipmentInstanceId,
+    customFieldValuesJson: customFieldValuesJson.present
+        ? customFieldValuesJson.value
+        : this.customFieldValuesJson,
+  );
+  TaskSubmissionEntity copyWithCompanion(TaskSubmissionsCompanion data) {
+    return TaskSubmissionEntity(
+      id: data.id.present ? data.id.value : this.id,
+      taskTitle: data.taskTitle.present ? data.taskTitle.value : this.taskTitle,
+      status: data.status.present ? data.status.value : this.status,
+      completedBy: data.completedBy.present
+          ? data.completedBy.value
+          : this.completedBy,
+      completedAt: data.completedAt.present
+          ? data.completedAt.value
+          : this.completedAt,
+      numericValue: data.numericValue.present
+          ? data.numericValue.value
+          : this.numericValue,
+      photoAttached: data.photoAttached.present
+          ? data.photoAttached.value
+          : this.photoAttached,
+      photoPath: data.photoPath.present ? data.photoPath.value : this.photoPath,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      taskScheduleId: data.taskScheduleId.present
+          ? data.taskScheduleId.value
+          : this.taskScheduleId,
+      taskTemplateGroupId: data.taskTemplateGroupId.present
+          ? data.taskTemplateGroupId.value
+          : this.taskTemplateGroupId,
+      equipmentInstanceId: data.equipmentInstanceId.present
+          ? data.equipmentInstanceId.value
+          : this.equipmentInstanceId,
+      customFieldValuesJson: data.customFieldValuesJson.present
+          ? data.customFieldValuesJson.value
+          : this.customFieldValuesJson,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskSubmissionEntity(')
+          ..write('id: $id, ')
+          ..write('taskTitle: $taskTitle, ')
+          ..write('status: $status, ')
+          ..write('completedBy: $completedBy, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('numericValue: $numericValue, ')
+          ..write('photoAttached: $photoAttached, ')
+          ..write('photoPath: $photoPath, ')
+          ..write('notes: $notes, ')
+          ..write('taskScheduleId: $taskScheduleId, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('equipmentInstanceId: $equipmentInstanceId, ')
+          ..write('customFieldValuesJson: $customFieldValuesJson')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    taskTitle,
+    status,
+    completedBy,
+    completedAt,
+    numericValue,
+    photoAttached,
+    photoPath,
+    notes,
+    taskScheduleId,
+    taskTemplateGroupId,
+    equipmentInstanceId,
+    customFieldValuesJson,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaskSubmissionEntity &&
+          other.id == this.id &&
+          other.taskTitle == this.taskTitle &&
+          other.status == this.status &&
+          other.completedBy == this.completedBy &&
+          other.completedAt == this.completedAt &&
+          other.numericValue == this.numericValue &&
+          other.photoAttached == this.photoAttached &&
+          other.photoPath == this.photoPath &&
+          other.notes == this.notes &&
+          other.taskScheduleId == this.taskScheduleId &&
+          other.taskTemplateGroupId == this.taskTemplateGroupId &&
+          other.equipmentInstanceId == this.equipmentInstanceId &&
+          other.customFieldValuesJson == this.customFieldValuesJson);
+}
+
+class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
+  final Value<int> id;
+  final Value<String> taskTitle;
+  final Value<String> status;
+  final Value<String> completedBy;
+  final Value<DateTime> completedAt;
+  final Value<String?> numericValue;
+  final Value<bool> photoAttached;
+  final Value<String?> photoPath;
+  final Value<String?> notes;
+  final Value<int?> taskScheduleId;
+  final Value<int?> taskTemplateGroupId;
+  final Value<int?> equipmentInstanceId;
+  final Value<String?> customFieldValuesJson;
+  const TaskSubmissionsCompanion({
+    this.id = const Value.absent(),
+    this.taskTitle = const Value.absent(),
+    this.status = const Value.absent(),
+    this.completedBy = const Value.absent(),
+    this.completedAt = const Value.absent(),
+    this.numericValue = const Value.absent(),
+    this.photoAttached = const Value.absent(),
+    this.photoPath = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.taskScheduleId = const Value.absent(),
+    this.taskTemplateGroupId = const Value.absent(),
+    this.equipmentInstanceId = const Value.absent(),
+    this.customFieldValuesJson = const Value.absent(),
+  });
+  TaskSubmissionsCompanion.insert({
+    this.id = const Value.absent(),
+    required String taskTitle,
+    required String status,
+    required String completedBy,
+    required DateTime completedAt,
+    this.numericValue = const Value.absent(),
+    this.photoAttached = const Value.absent(),
+    this.photoPath = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.taskScheduleId = const Value.absent(),
+    this.taskTemplateGroupId = const Value.absent(),
+    this.equipmentInstanceId = const Value.absent(),
+    this.customFieldValuesJson = const Value.absent(),
+  }) : taskTitle = Value(taskTitle),
+       status = Value(status),
+       completedBy = Value(completedBy),
+       completedAt = Value(completedAt);
+  static Insertable<TaskSubmissionEntity> custom({
+    Expression<int>? id,
+    Expression<String>? taskTitle,
+    Expression<String>? status,
+    Expression<String>? completedBy,
+    Expression<DateTime>? completedAt,
+    Expression<String>? numericValue,
+    Expression<bool>? photoAttached,
+    Expression<String>? photoPath,
+    Expression<String>? notes,
+    Expression<int>? taskScheduleId,
+    Expression<int>? taskTemplateGroupId,
+    Expression<int>? equipmentInstanceId,
+    Expression<String>? customFieldValuesJson,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (taskTitle != null) 'task_title': taskTitle,
+      if (status != null) 'status': status,
+      if (completedBy != null) 'completed_by': completedBy,
+      if (completedAt != null) 'completed_at': completedAt,
+      if (numericValue != null) 'numeric_value': numericValue,
+      if (photoAttached != null) 'photo_attached': photoAttached,
+      if (photoPath != null) 'photo_path': photoPath,
+      if (notes != null) 'notes': notes,
+      if (taskScheduleId != null) 'task_schedule_id': taskScheduleId,
+      if (taskTemplateGroupId != null)
+        'task_template_group_id': taskTemplateGroupId,
+      if (equipmentInstanceId != null)
+        'equipment_instance_id': equipmentInstanceId,
+      if (customFieldValuesJson != null)
+        'custom_field_values_json': customFieldValuesJson,
+    });
+  }
+
+  TaskSubmissionsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? taskTitle,
+    Value<String>? status,
+    Value<String>? completedBy,
+    Value<DateTime>? completedAt,
+    Value<String?>? numericValue,
+    Value<bool>? photoAttached,
+    Value<String?>? photoPath,
+    Value<String?>? notes,
+    Value<int?>? taskScheduleId,
+    Value<int?>? taskTemplateGroupId,
+    Value<int?>? equipmentInstanceId,
+    Value<String?>? customFieldValuesJson,
+  }) {
+    return TaskSubmissionsCompanion(
+      id: id ?? this.id,
+      taskTitle: taskTitle ?? this.taskTitle,
+      status: status ?? this.status,
+      completedBy: completedBy ?? this.completedBy,
+      completedAt: completedAt ?? this.completedAt,
+      numericValue: numericValue ?? this.numericValue,
+      photoAttached: photoAttached ?? this.photoAttached,
+      photoPath: photoPath ?? this.photoPath,
+      notes: notes ?? this.notes,
+      taskScheduleId: taskScheduleId ?? this.taskScheduleId,
+      taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
+      equipmentInstanceId: equipmentInstanceId ?? this.equipmentInstanceId,
+      customFieldValuesJson:
+          customFieldValuesJson ?? this.customFieldValuesJson,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (taskTitle.present) {
+      map['task_title'] = Variable<String>(taskTitle.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (completedBy.present) {
+      map['completed_by'] = Variable<String>(completedBy.value);
+    }
+    if (completedAt.present) {
+      map['completed_at'] = Variable<DateTime>(completedAt.value);
+    }
+    if (numericValue.present) {
+      map['numeric_value'] = Variable<String>(numericValue.value);
+    }
+    if (photoAttached.present) {
+      map['photo_attached'] = Variable<bool>(photoAttached.value);
+    }
+    if (photoPath.present) {
+      map['photo_path'] = Variable<String>(photoPath.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (taskScheduleId.present) {
+      map['task_schedule_id'] = Variable<int>(taskScheduleId.value);
+    }
+    if (taskTemplateGroupId.present) {
+      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId.value);
+    }
+    if (equipmentInstanceId.present) {
+      map['equipment_instance_id'] = Variable<int>(equipmentInstanceId.value);
+    }
+    if (customFieldValuesJson.present) {
+      map['custom_field_values_json'] = Variable<String>(
+        customFieldValuesJson.value,
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskSubmissionsCompanion(')
+          ..write('id: $id, ')
+          ..write('taskTitle: $taskTitle, ')
+          ..write('status: $status, ')
+          ..write('completedBy: $completedBy, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('numericValue: $numericValue, ')
+          ..write('photoAttached: $photoAttached, ')
+          ..write('photoPath: $photoPath, ')
+          ..write('notes: $notes, ')
+          ..write('taskScheduleId: $taskScheduleId, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('equipmentInstanceId: $equipmentInstanceId, ')
+          ..write('customFieldValuesJson: $customFieldValuesJson')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UsersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _jobTitleMeta = const VerificationMeta(
+    'jobTitle',
+  );
+  @override
+  late final GeneratedColumn<String> jobTitle = GeneratedColumn<String>(
+    'job_title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _roleTierMeta = const VerificationMeta(
+    'roleTier',
+  );
+  @override
+  late final GeneratedColumn<String> roleTier = GeneratedColumn<String>(
+    'role_tier',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pinHashMeta = const VerificationMeta(
+    'pinHash',
+  );
+  @override
+  late final GeneratedColumn<String> pinHash = GeneratedColumn<String>(
+    'pin_hash',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _pinSaltMeta = const VerificationMeta(
+    'pinSalt',
+  );
+  @override
+  late final GeneratedColumn<String> pinSalt = GeneratedColumn<String>(
+    'pin_salt',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _preferredTemperatureUnitMeta =
+      const VerificationMeta('preferredTemperatureUnit');
+  @override
+  late final GeneratedColumn<String> preferredTemperatureUnit =
+      GeneratedColumn<String>(
+        'preferred_temperature_unit',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('celsius'),
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    jobTitle,
+    roleTier,
+    pinHash,
+    pinSalt,
+    preferredTemperatureUnit,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'users';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<UserEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('job_title')) {
+      context.handle(
+        _jobTitleMeta,
+        jobTitle.isAcceptableOrUnknown(data['job_title']!, _jobTitleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_jobTitleMeta);
+    }
+    if (data.containsKey('role_tier')) {
+      context.handle(
+        _roleTierMeta,
+        roleTier.isAcceptableOrUnknown(data['role_tier']!, _roleTierMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_roleTierMeta);
+    }
+    if (data.containsKey('pin_hash')) {
+      context.handle(
+        _pinHashMeta,
+        pinHash.isAcceptableOrUnknown(data['pin_hash']!, _pinHashMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pinHashMeta);
+    }
+    if (data.containsKey('pin_salt')) {
+      context.handle(
+        _pinSaltMeta,
+        pinSalt.isAcceptableOrUnknown(data['pin_salt']!, _pinSaltMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pinSaltMeta);
+    }
+    if (data.containsKey('preferred_temperature_unit')) {
+      context.handle(
+        _preferredTemperatureUnitMeta,
+        preferredTemperatureUnit.isAcceptableOrUnknown(
+          data['preferred_temperature_unit']!,
+          _preferredTemperatureUnitMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      jobTitle: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}job_title'],
+      )!,
+      roleTier: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}role_tier'],
+      )!,
+      pinHash: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pin_hash'],
+      )!,
+      pinSalt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}pin_salt'],
+      )!,
+      preferredTemperatureUnit: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}preferred_temperature_unit'],
+      )!,
+    );
+  }
+
+  @override
+  $UsersTable createAlias(String alias) {
+    return $UsersTable(attachedDatabase, alias);
+  }
+}
+
+class UserEntity extends DataClass implements Insertable<UserEntity> {
+  final int id;
+  final String name;
+  final String jobTitle;
+  final String roleTier;
+  final String pinHash;
+  final String pinSalt;
+  final String preferredTemperatureUnit;
+  const UserEntity({
+    required this.id,
+    required this.name,
+    required this.jobTitle,
+    required this.roleTier,
+    required this.pinHash,
+    required this.pinSalt,
+    required this.preferredTemperatureUnit,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['job_title'] = Variable<String>(jobTitle);
+    map['role_tier'] = Variable<String>(roleTier);
+    map['pin_hash'] = Variable<String>(pinHash);
+    map['pin_salt'] = Variable<String>(pinSalt);
+    map['preferred_temperature_unit'] = Variable<String>(
+      preferredTemperatureUnit,
+    );
+    return map;
+  }
+
+  UsersCompanion toCompanion(bool nullToAbsent) {
+    return UsersCompanion(
+      id: Value(id),
+      name: Value(name),
+      jobTitle: Value(jobTitle),
+      roleTier: Value(roleTier),
+      pinHash: Value(pinHash),
+      pinSalt: Value(pinSalt),
+      preferredTemperatureUnit: Value(preferredTemperatureUnit),
+    );
+  }
+
+  factory UserEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      jobTitle: serializer.fromJson<String>(json['jobTitle']),
+      roleTier: serializer.fromJson<String>(json['roleTier']),
+      pinHash: serializer.fromJson<String>(json['pinHash']),
+      pinSalt: serializer.fromJson<String>(json['pinSalt']),
+      preferredTemperatureUnit: serializer.fromJson<String>(
+        json['preferredTemperatureUnit'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'jobTitle': serializer.toJson<String>(jobTitle),
+      'roleTier': serializer.toJson<String>(roleTier),
+      'pinHash': serializer.toJson<String>(pinHash),
+      'pinSalt': serializer.toJson<String>(pinSalt),
+      'preferredTemperatureUnit': serializer.toJson<String>(
+        preferredTemperatureUnit,
+      ),
+    };
+  }
+
+  UserEntity copyWith({
+    int? id,
+    String? name,
+    String? jobTitle,
+    String? roleTier,
+    String? pinHash,
+    String? pinSalt,
+    String? preferredTemperatureUnit,
+  }) => UserEntity(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    jobTitle: jobTitle ?? this.jobTitle,
+    roleTier: roleTier ?? this.roleTier,
+    pinHash: pinHash ?? this.pinHash,
+    pinSalt: pinSalt ?? this.pinSalt,
+    preferredTemperatureUnit:
+        preferredTemperatureUnit ?? this.preferredTemperatureUnit,
+  );
+  UserEntity copyWithCompanion(UsersCompanion data) {
+    return UserEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      jobTitle: data.jobTitle.present ? data.jobTitle.value : this.jobTitle,
+      roleTier: data.roleTier.present ? data.roleTier.value : this.roleTier,
+      pinHash: data.pinHash.present ? data.pinHash.value : this.pinHash,
+      pinSalt: data.pinSalt.present ? data.pinSalt.value : this.pinSalt,
+      preferredTemperatureUnit: data.preferredTemperatureUnit.present
+          ? data.preferredTemperatureUnit.value
+          : this.preferredTemperatureUnit,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('jobTitle: $jobTitle, ')
+          ..write('roleTier: $roleTier, ')
+          ..write('pinHash: $pinHash, ')
+          ..write('pinSalt: $pinSalt, ')
+          ..write('preferredTemperatureUnit: $preferredTemperatureUnit')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    name,
+    jobTitle,
+    roleTier,
+    pinHash,
+    pinSalt,
+    preferredTemperatureUnit,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserEntity &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.jobTitle == this.jobTitle &&
+          other.roleTier == this.roleTier &&
+          other.pinHash == this.pinHash &&
+          other.pinSalt == this.pinSalt &&
+          other.preferredTemperatureUnit == this.preferredTemperatureUnit);
+}
+
+class UsersCompanion extends UpdateCompanion<UserEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String> jobTitle;
+  final Value<String> roleTier;
+  final Value<String> pinHash;
+  final Value<String> pinSalt;
+  final Value<String> preferredTemperatureUnit;
+  const UsersCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.jobTitle = const Value.absent(),
+    this.roleTier = const Value.absent(),
+    this.pinHash = const Value.absent(),
+    this.pinSalt = const Value.absent(),
+    this.preferredTemperatureUnit = const Value.absent(),
+  });
+  UsersCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required String jobTitle,
+    required String roleTier,
+    required String pinHash,
+    required String pinSalt,
+    this.preferredTemperatureUnit = const Value.absent(),
+  }) : name = Value(name),
+       jobTitle = Value(jobTitle),
+       roleTier = Value(roleTier),
+       pinHash = Value(pinHash),
+       pinSalt = Value(pinSalt);
+  static Insertable<UserEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? jobTitle,
+    Expression<String>? roleTier,
+    Expression<String>? pinHash,
+    Expression<String>? pinSalt,
+    Expression<String>? preferredTemperatureUnit,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (jobTitle != null) 'job_title': jobTitle,
+      if (roleTier != null) 'role_tier': roleTier,
+      if (pinHash != null) 'pin_hash': pinHash,
+      if (pinSalt != null) 'pin_salt': pinSalt,
+      if (preferredTemperatureUnit != null)
+        'preferred_temperature_unit': preferredTemperatureUnit,
+    });
+  }
+
+  UsersCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String>? jobTitle,
+    Value<String>? roleTier,
+    Value<String>? pinHash,
+    Value<String>? pinSalt,
+    Value<String>? preferredTemperatureUnit,
+  }) {
+    return UsersCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      jobTitle: jobTitle ?? this.jobTitle,
+      roleTier: roleTier ?? this.roleTier,
+      pinHash: pinHash ?? this.pinHash,
+      pinSalt: pinSalt ?? this.pinSalt,
+      preferredTemperatureUnit:
+          preferredTemperatureUnit ?? this.preferredTemperatureUnit,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (jobTitle.present) {
+      map['job_title'] = Variable<String>(jobTitle.value);
+    }
+    if (roleTier.present) {
+      map['role_tier'] = Variable<String>(roleTier.value);
+    }
+    if (pinHash.present) {
+      map['pin_hash'] = Variable<String>(pinHash.value);
+    }
+    if (pinSalt.present) {
+      map['pin_salt'] = Variable<String>(pinSalt.value);
+    }
+    if (preferredTemperatureUnit.present) {
+      map['preferred_temperature_unit'] = Variable<String>(
+        preferredTemperatureUnit.value,
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UsersCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('jobTitle: $jobTitle, ')
+          ..write('roleTier: $roleTier, ')
+          ..write('pinHash: $pinHash, ')
+          ..write('pinSalt: $pinSalt, ')
+          ..write('preferredTemperatureUnit: $preferredTemperatureUnit')
           ..write(')'))
         .toString();
   }
@@ -2760,503 +3564,6 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
   }
 }
 
-class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $AreasTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, name];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'areas';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<AreaEntity> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  AreaEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return AreaEntity(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-    );
-  }
-
-  @override
-  $AreasTable createAlias(String alias) {
-    return $AreasTable(attachedDatabase, alias);
-  }
-}
-
-class AreaEntity extends DataClass implements Insertable<AreaEntity> {
-  final int id;
-  final String name;
-  const AreaEntity({required this.id, required this.name});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
-    return map;
-  }
-
-  AreasCompanion toCompanion(bool nullToAbsent) {
-    return AreasCompanion(id: Value(id), name: Value(name));
-  }
-
-  factory AreaEntity.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return AreaEntity(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
-    };
-  }
-
-  AreaEntity copyWith({int? id, String? name}) =>
-      AreaEntity(id: id ?? this.id, name: name ?? this.name);
-  AreaEntity copyWithCompanion(AreasCompanion data) {
-    return AreaEntity(
-      id: data.id.present ? data.id.value : this.id,
-      name: data.name.present ? data.name.value : this.name,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('AreaEntity(')
-          ..write('id: $id, ')
-          ..write('name: $name')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, name);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is AreaEntity && other.id == this.id && other.name == this.name);
-}
-
-class AreasCompanion extends UpdateCompanion<AreaEntity> {
-  final Value<int> id;
-  final Value<String> name;
-  const AreasCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
-  });
-  AreasCompanion.insert({this.id = const Value.absent(), required String name})
-    : name = Value(name);
-  static Insertable<AreaEntity> custom({
-    Expression<int>? id,
-    Expression<String>? name,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-    });
-  }
-
-  AreasCompanion copyWith({Value<int>? id, Value<String>? name}) {
-    return AreasCompanion(id: id ?? this.id, name: name ?? this.name);
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('AreasCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $EquipmentInstancesTable extends EquipmentInstances
-    with TableInfo<$EquipmentInstancesTable, EquipmentInstanceEntity> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $EquipmentInstancesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _equipmentTypeIdMeta = const VerificationMeta(
-    'equipmentTypeId',
-  );
-  @override
-  late final GeneratedColumn<int> equipmentTypeId = GeneratedColumn<int>(
-    'equipment_type_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES equipment_types (id)',
-    ),
-  );
-  static const VerificationMeta _areaIdMeta = const VerificationMeta('areaId');
-  @override
-  late final GeneratedColumn<int> areaId = GeneratedColumn<int>(
-    'area_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES areas (id)',
-    ),
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, name, equipmentTypeId, areaId];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'equipment_instances';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<EquipmentInstanceEntity> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('equipment_type_id')) {
-      context.handle(
-        _equipmentTypeIdMeta,
-        equipmentTypeId.isAcceptableOrUnknown(
-          data['equipment_type_id']!,
-          _equipmentTypeIdMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_equipmentTypeIdMeta);
-    }
-    if (data.containsKey('area_id')) {
-      context.handle(
-        _areaIdMeta,
-        areaId.isAcceptableOrUnknown(data['area_id']!, _areaIdMeta),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  EquipmentInstanceEntity map(
-    Map<String, dynamic> data, {
-    String? tablePrefix,
-  }) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return EquipmentInstanceEntity(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-      equipmentTypeId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}equipment_type_id'],
-      )!,
-      areaId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}area_id'],
-      ),
-    );
-  }
-
-  @override
-  $EquipmentInstancesTable createAlias(String alias) {
-    return $EquipmentInstancesTable(attachedDatabase, alias);
-  }
-}
-
-class EquipmentInstanceEntity extends DataClass
-    implements Insertable<EquipmentInstanceEntity> {
-  final int id;
-  final String name;
-  final int equipmentTypeId;
-  final int? areaId;
-  const EquipmentInstanceEntity({
-    required this.id,
-    required this.name,
-    required this.equipmentTypeId,
-    this.areaId,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
-    map['equipment_type_id'] = Variable<int>(equipmentTypeId);
-    if (!nullToAbsent || areaId != null) {
-      map['area_id'] = Variable<int>(areaId);
-    }
-    return map;
-  }
-
-  EquipmentInstancesCompanion toCompanion(bool nullToAbsent) {
-    return EquipmentInstancesCompanion(
-      id: Value(id),
-      name: Value(name),
-      equipmentTypeId: Value(equipmentTypeId),
-      areaId: areaId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(areaId),
-    );
-  }
-
-  factory EquipmentInstanceEntity.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return EquipmentInstanceEntity(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
-      equipmentTypeId: serializer.fromJson<int>(json['equipmentTypeId']),
-      areaId: serializer.fromJson<int?>(json['areaId']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
-      'equipmentTypeId': serializer.toJson<int>(equipmentTypeId),
-      'areaId': serializer.toJson<int?>(areaId),
-    };
-  }
-
-  EquipmentInstanceEntity copyWith({
-    int? id,
-    String? name,
-    int? equipmentTypeId,
-    Value<int?> areaId = const Value.absent(),
-  }) => EquipmentInstanceEntity(
-    id: id ?? this.id,
-    name: name ?? this.name,
-    equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
-    areaId: areaId.present ? areaId.value : this.areaId,
-  );
-  EquipmentInstanceEntity copyWithCompanion(EquipmentInstancesCompanion data) {
-    return EquipmentInstanceEntity(
-      id: data.id.present ? data.id.value : this.id,
-      name: data.name.present ? data.name.value : this.name,
-      equipmentTypeId: data.equipmentTypeId.present
-          ? data.equipmentTypeId.value
-          : this.equipmentTypeId,
-      areaId: data.areaId.present ? data.areaId.value : this.areaId,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('EquipmentInstanceEntity(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('equipmentTypeId: $equipmentTypeId, ')
-          ..write('areaId: $areaId')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, name, equipmentTypeId, areaId);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is EquipmentInstanceEntity &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.equipmentTypeId == this.equipmentTypeId &&
-          other.areaId == this.areaId);
-}
-
-class EquipmentInstancesCompanion
-    extends UpdateCompanion<EquipmentInstanceEntity> {
-  final Value<int> id;
-  final Value<String> name;
-  final Value<int> equipmentTypeId;
-  final Value<int?> areaId;
-  const EquipmentInstancesCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
-    this.equipmentTypeId = const Value.absent(),
-    this.areaId = const Value.absent(),
-  });
-  EquipmentInstancesCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-    required int equipmentTypeId,
-    this.areaId = const Value.absent(),
-  }) : name = Value(name),
-       equipmentTypeId = Value(equipmentTypeId);
-  static Insertable<EquipmentInstanceEntity> custom({
-    Expression<int>? id,
-    Expression<String>? name,
-    Expression<int>? equipmentTypeId,
-    Expression<int>? areaId,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (equipmentTypeId != null) 'equipment_type_id': equipmentTypeId,
-      if (areaId != null) 'area_id': areaId,
-    });
-  }
-
-  EquipmentInstancesCompanion copyWith({
-    Value<int>? id,
-    Value<String>? name,
-    Value<int>? equipmentTypeId,
-    Value<int?>? areaId,
-  }) {
-    return EquipmentInstancesCompanion(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
-      areaId: areaId ?? this.areaId,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (equipmentTypeId.present) {
-      map['equipment_type_id'] = Variable<int>(equipmentTypeId.value);
-    }
-    if (areaId.present) {
-      map['area_id'] = Variable<int>(areaId.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('EquipmentInstancesCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('equipmentTypeId: $equipmentTypeId, ')
-          ..write('areaId: $areaId')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $TaskSchedulesTable extends TaskSchedules
     with TableInfo<$TaskSchedulesTable, TaskScheduleEntity> {
   @override
@@ -3864,34 +4171,1206 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final $EquipmentTypesTable equipmentTypes = $EquipmentTypesTable(this);
+  late final $AreasTable areas = $AreasTable(this);
+  late final $EquipmentInstancesTable equipmentInstances =
+      $EquipmentInstancesTable(this);
   late final $TaskSubmissionsTable taskSubmissions = $TaskSubmissionsTable(
     this,
   );
   late final $UsersTable users = $UsersTable(this);
-  late final $EquipmentTypesTable equipmentTypes = $EquipmentTypesTable(this);
   late final $LegalLimitReferencesTable legalLimitReferences =
       $LegalLimitReferencesTable(this);
   late final $TaskTemplatesTable taskTemplates = $TaskTemplatesTable(this);
-  late final $AreasTable areas = $AreasTable(this);
-  late final $EquipmentInstancesTable equipmentInstances =
-      $EquipmentInstancesTable(this);
   late final $TaskSchedulesTable taskSchedules = $TaskSchedulesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-    taskSubmissions,
-    users,
     equipmentTypes,
-    legalLimitReferences,
-    taskTemplates,
     areas,
     equipmentInstances,
+    taskSubmissions,
+    users,
+    legalLimitReferences,
+    taskTemplates,
     taskSchedules,
   ];
 }
 
+typedef $$EquipmentTypesTableCreateCompanionBuilder =
+    EquipmentTypesCompanion Function({Value<int> id, required String name});
+typedef $$EquipmentTypesTableUpdateCompanionBuilder =
+    EquipmentTypesCompanion Function({Value<int> id, Value<String> name});
+
+final class $$EquipmentTypesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $EquipmentTypesTable,
+          EquipmentTypeEntity
+        > {
+  $$EquipmentTypesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<
+    $EquipmentInstancesTable,
+    List<EquipmentInstanceEntity>
+  >
+  _equipmentInstancesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.equipmentInstances,
+        aliasName:
+            'equipment_types__id__equipment_instances__equipment_type_id',
+      );
+
+  $$EquipmentInstancesTableProcessedTableManager get equipmentInstancesRefs {
+    final manager = $$EquipmentInstancesTableTableManager(
+      $_db,
+      $_db.equipmentInstances,
+    ).filter((f) => f.equipmentTypeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _equipmentInstancesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$TaskTemplatesTable, List<TaskTemplateEntity>>
+  _taskTemplatesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskTemplates,
+    aliasName: 'equipment_types__id__task_templates__equipment_type_id',
+  );
+
+  $$TaskTemplatesTableProcessedTableManager get taskTemplatesRefs {
+    final manager = $$TaskTemplatesTableTableManager(
+      $_db,
+      $_db.taskTemplates,
+    ).filter((f) => f.equipmentTypeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_taskTemplatesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$EquipmentTypesTableFilterComposer
+    extends Composer<_$AppDatabase, $EquipmentTypesTable> {
+  $$EquipmentTypesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> equipmentInstancesRefs(
+    Expression<bool> Function($$EquipmentInstancesTableFilterComposer f) f,
+  ) {
+    final $$EquipmentInstancesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.equipmentInstances,
+      getReferencedColumn: (t) => t.equipmentTypeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentInstancesTableFilterComposer(
+            $db: $db,
+            $table: $db.equipmentInstances,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> taskTemplatesRefs(
+    Expression<bool> Function($$TaskTemplatesTableFilterComposer f) f,
+  ) {
+    final $$TaskTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskTemplates,
+      getReferencedColumn: (t) => t.equipmentTypeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.taskTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$EquipmentTypesTableOrderingComposer
+    extends Composer<_$AppDatabase, $EquipmentTypesTable> {
+  $$EquipmentTypesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$EquipmentTypesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EquipmentTypesTable> {
+  $$EquipmentTypesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  Expression<T> equipmentInstancesRefs<T extends Object>(
+    Expression<T> Function($$EquipmentInstancesTableAnnotationComposer a) f,
+  ) {
+    final $$EquipmentInstancesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.equipmentInstances,
+          getReferencedColumn: (t) => t.equipmentTypeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$EquipmentInstancesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.equipmentInstances,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> taskTemplatesRefs<T extends Object>(
+    Expression<T> Function($$TaskTemplatesTableAnnotationComposer a) f,
+  ) {
+    final $$TaskTemplatesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskTemplates,
+      getReferencedColumn: (t) => t.equipmentTypeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskTemplatesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$EquipmentTypesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EquipmentTypesTable,
+          EquipmentTypeEntity,
+          $$EquipmentTypesTableFilterComposer,
+          $$EquipmentTypesTableOrderingComposer,
+          $$EquipmentTypesTableAnnotationComposer,
+          $$EquipmentTypesTableCreateCompanionBuilder,
+          $$EquipmentTypesTableUpdateCompanionBuilder,
+          (EquipmentTypeEntity, $$EquipmentTypesTableReferences),
+          EquipmentTypeEntity,
+          PrefetchHooks Function({
+            bool equipmentInstancesRefs,
+            bool taskTemplatesRefs,
+          })
+        > {
+  $$EquipmentTypesTableTableManager(
+    _$AppDatabase db,
+    $EquipmentTypesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EquipmentTypesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EquipmentTypesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EquipmentTypesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+              }) => EquipmentTypesCompanion(id: id, name: name),
+          createCompanionCallback:
+              ({Value<int> id = const Value.absent(), required String name}) =>
+                  EquipmentTypesCompanion.insert(id: id, name: name),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EquipmentTypesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({equipmentInstancesRefs = false, taskTemplatesRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (equipmentInstancesRefs) db.equipmentInstances,
+                    if (taskTemplatesRefs) db.taskTemplates,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (equipmentInstancesRefs)
+                        await $_getPrefetchedData<
+                          EquipmentTypeEntity,
+                          $EquipmentTypesTable,
+                          EquipmentInstanceEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EquipmentTypesTableReferences
+                              ._equipmentInstancesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EquipmentTypesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).equipmentInstancesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.equipmentTypeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (taskTemplatesRefs)
+                        await $_getPrefetchedData<
+                          EquipmentTypeEntity,
+                          $EquipmentTypesTable,
+                          TaskTemplateEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EquipmentTypesTableReferences
+                              ._taskTemplatesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EquipmentTypesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskTemplatesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.equipmentTypeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$EquipmentTypesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EquipmentTypesTable,
+      EquipmentTypeEntity,
+      $$EquipmentTypesTableFilterComposer,
+      $$EquipmentTypesTableOrderingComposer,
+      $$EquipmentTypesTableAnnotationComposer,
+      $$EquipmentTypesTableCreateCompanionBuilder,
+      $$EquipmentTypesTableUpdateCompanionBuilder,
+      (EquipmentTypeEntity, $$EquipmentTypesTableReferences),
+      EquipmentTypeEntity,
+      PrefetchHooks Function({
+        bool equipmentInstancesRefs,
+        bool taskTemplatesRefs,
+      })
+    >;
+typedef $$AreasTableCreateCompanionBuilder =
+    AreasCompanion Function({Value<int> id, required String name});
+typedef $$AreasTableUpdateCompanionBuilder =
+    AreasCompanion Function({Value<int> id, Value<String> name});
+
+final class $$AreasTableReferences
+    extends BaseReferences<_$AppDatabase, $AreasTable, AreaEntity> {
+  $$AreasTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<
+    $EquipmentInstancesTable,
+    List<EquipmentInstanceEntity>
+  >
+  _equipmentInstancesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.equipmentInstances,
+        aliasName: 'areas__id__equipment_instances__area_id',
+      );
+
+  $$EquipmentInstancesTableProcessedTableManager get equipmentInstancesRefs {
+    final manager = $$EquipmentInstancesTableTableManager(
+      $_db,
+      $_db.equipmentInstances,
+    ).filter((f) => f.areaId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _equipmentInstancesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$AreasTableFilterComposer extends Composer<_$AppDatabase, $AreasTable> {
+  $$AreasTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> equipmentInstancesRefs(
+    Expression<bool> Function($$EquipmentInstancesTableFilterComposer f) f,
+  ) {
+    final $$EquipmentInstancesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.equipmentInstances,
+      getReferencedColumn: (t) => t.areaId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentInstancesTableFilterComposer(
+            $db: $db,
+            $table: $db.equipmentInstances,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$AreasTableOrderingComposer
+    extends Composer<_$AppDatabase, $AreasTable> {
+  $$AreasTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$AreasTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AreasTable> {
+  $$AreasTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  Expression<T> equipmentInstancesRefs<T extends Object>(
+    Expression<T> Function($$EquipmentInstancesTableAnnotationComposer a) f,
+  ) {
+    final $$EquipmentInstancesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.equipmentInstances,
+          getReferencedColumn: (t) => t.areaId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$EquipmentInstancesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.equipmentInstances,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$AreasTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AreasTable,
+          AreaEntity,
+          $$AreasTableFilterComposer,
+          $$AreasTableOrderingComposer,
+          $$AreasTableAnnotationComposer,
+          $$AreasTableCreateCompanionBuilder,
+          $$AreasTableUpdateCompanionBuilder,
+          (AreaEntity, $$AreasTableReferences),
+          AreaEntity,
+          PrefetchHooks Function({bool equipmentInstancesRefs})
+        > {
+  $$AreasTableTableManager(_$AppDatabase db, $AreasTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AreasTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AreasTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AreasTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+              }) => AreasCompanion(id: id, name: name),
+          createCompanionCallback:
+              ({Value<int> id = const Value.absent(), required String name}) =>
+                  AreasCompanion.insert(id: id, name: name),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$AreasTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback: ({equipmentInstancesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (equipmentInstancesRefs) db.equipmentInstances,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (equipmentInstancesRefs)
+                    await $_getPrefetchedData<
+                      AreaEntity,
+                      $AreasTable,
+                      EquipmentInstanceEntity
+                    >(
+                      currentTable: table,
+                      referencedTable: $$AreasTableReferences
+                          ._equipmentInstancesRefsTable(db),
+                      managerFromTypedResult: (p0) => $$AreasTableReferences(
+                        db,
+                        table,
+                        p0,
+                      ).equipmentInstancesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.areaId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$AreasTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AreasTable,
+      AreaEntity,
+      $$AreasTableFilterComposer,
+      $$AreasTableOrderingComposer,
+      $$AreasTableAnnotationComposer,
+      $$AreasTableCreateCompanionBuilder,
+      $$AreasTableUpdateCompanionBuilder,
+      (AreaEntity, $$AreasTableReferences),
+      AreaEntity,
+      PrefetchHooks Function({bool equipmentInstancesRefs})
+    >;
+typedef $$EquipmentInstancesTableCreateCompanionBuilder =
+    EquipmentInstancesCompanion Function({
+      Value<int> id,
+      required String name,
+      required int equipmentTypeId,
+      Value<int?> areaId,
+    });
+typedef $$EquipmentInstancesTableUpdateCompanionBuilder =
+    EquipmentInstancesCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<int> equipmentTypeId,
+      Value<int?> areaId,
+    });
+
+final class $$EquipmentInstancesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $EquipmentInstancesTable,
+          EquipmentInstanceEntity
+        > {
+  $$EquipmentInstancesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $EquipmentTypesTable _equipmentTypeIdTable(_$AppDatabase db) =>
+      db.equipmentTypes.createAlias(
+        'equipment_instances__equipment_type_id__equipment_types__id',
+      );
+
+  $$EquipmentTypesTableProcessedTableManager get equipmentTypeId {
+    final $_column = $_itemColumn<int>('equipment_type_id')!;
+
+    final manager = $$EquipmentTypesTableTableManager(
+      $_db,
+      $_db.equipmentTypes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_equipmentTypeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $AreasTable _areaIdTable(_$AppDatabase db) =>
+      db.areas.createAlias('equipment_instances__area_id__areas__id');
+
+  $$AreasTableProcessedTableManager? get areaId {
+    final $_column = $_itemColumn<int>('area_id');
+    if ($_column == null) return null;
+    final manager = $$AreasTableTableManager(
+      $_db,
+      $_db.areas,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_areaIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$TaskSubmissionsTable, List<TaskSubmissionEntity>>
+  _taskSubmissionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskSubmissions,
+    aliasName:
+        'equipment_instances__id__task_submissions__equipment_instance_id',
+  );
+
+  $$TaskSubmissionsTableProcessedTableManager get taskSubmissionsRefs {
+    final manager =
+        $$TaskSubmissionsTableTableManager($_db, $_db.taskSubmissions).filter(
+          (f) => f.equipmentInstanceId.id.sqlEquals($_itemColumn<int>('id')!),
+        );
+
+    final cache = $_typedResult.readTableOrNull(
+      _taskSubmissionsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$TaskSchedulesTable, List<TaskScheduleEntity>>
+  _taskSchedulesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskSchedules,
+    aliasName: 'equipment_instances__id__task_schedules__equipment_instance_id',
+  );
+
+  $$TaskSchedulesTableProcessedTableManager get taskSchedulesRefs {
+    final manager = $$TaskSchedulesTableTableManager($_db, $_db.taskSchedules)
+        .filter(
+          (f) => f.equipmentInstanceId.id.sqlEquals($_itemColumn<int>('id')!),
+        );
+
+    final cache = $_typedResult.readTableOrNull(_taskSchedulesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$EquipmentInstancesTableFilterComposer
+    extends Composer<_$AppDatabase, $EquipmentInstancesTable> {
+  $$EquipmentInstancesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$EquipmentTypesTableFilterComposer get equipmentTypeId {
+    final $$EquipmentTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentTypeId,
+      referencedTable: $db.equipmentTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.equipmentTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AreasTableFilterComposer get areaId {
+    final $$AreasTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.areaId,
+      referencedTable: $db.areas,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AreasTableFilterComposer(
+            $db: $db,
+            $table: $db.areas,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> taskSubmissionsRefs(
+    Expression<bool> Function($$TaskSubmissionsTableFilterComposer f) f,
+  ) {
+    final $$TaskSubmissionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.equipmentInstanceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableFilterComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> taskSchedulesRefs(
+    Expression<bool> Function($$TaskSchedulesTableFilterComposer f) f,
+  ) {
+    final $$TaskSchedulesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSchedules,
+      getReferencedColumn: (t) => t.equipmentInstanceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSchedulesTableFilterComposer(
+            $db: $db,
+            $table: $db.taskSchedules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$EquipmentInstancesTableOrderingComposer
+    extends Composer<_$AppDatabase, $EquipmentInstancesTable> {
+  $$EquipmentInstancesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$EquipmentTypesTableOrderingComposer get equipmentTypeId {
+    final $$EquipmentTypesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentTypeId,
+      referencedTable: $db.equipmentTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTypesTableOrderingComposer(
+            $db: $db,
+            $table: $db.equipmentTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AreasTableOrderingComposer get areaId {
+    final $$AreasTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.areaId,
+      referencedTable: $db.areas,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AreasTableOrderingComposer(
+            $db: $db,
+            $table: $db.areas,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EquipmentInstancesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EquipmentInstancesTable> {
+  $$EquipmentInstancesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  $$EquipmentTypesTableAnnotationComposer get equipmentTypeId {
+    final $$EquipmentTypesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentTypeId,
+      referencedTable: $db.equipmentTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTypesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.equipmentTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$AreasTableAnnotationComposer get areaId {
+    final $$AreasTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.areaId,
+      referencedTable: $db.areas,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AreasTableAnnotationComposer(
+            $db: $db,
+            $table: $db.areas,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> taskSubmissionsRefs<T extends Object>(
+    Expression<T> Function($$TaskSubmissionsTableAnnotationComposer a) f,
+  ) {
+    final $$TaskSubmissionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.equipmentInstanceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> taskSchedulesRefs<T extends Object>(
+    Expression<T> Function($$TaskSchedulesTableAnnotationComposer a) f,
+  ) {
+    final $$TaskSchedulesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSchedules,
+      getReferencedColumn: (t) => t.equipmentInstanceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSchedulesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskSchedules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$EquipmentInstancesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EquipmentInstancesTable,
+          EquipmentInstanceEntity,
+          $$EquipmentInstancesTableFilterComposer,
+          $$EquipmentInstancesTableOrderingComposer,
+          $$EquipmentInstancesTableAnnotationComposer,
+          $$EquipmentInstancesTableCreateCompanionBuilder,
+          $$EquipmentInstancesTableUpdateCompanionBuilder,
+          (EquipmentInstanceEntity, $$EquipmentInstancesTableReferences),
+          EquipmentInstanceEntity,
+          PrefetchHooks Function({
+            bool equipmentTypeId,
+            bool areaId,
+            bool taskSubmissionsRefs,
+            bool taskSchedulesRefs,
+          })
+        > {
+  $$EquipmentInstancesTableTableManager(
+    _$AppDatabase db,
+    $EquipmentInstancesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EquipmentInstancesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EquipmentInstancesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EquipmentInstancesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int> equipmentTypeId = const Value.absent(),
+                Value<int?> areaId = const Value.absent(),
+              }) => EquipmentInstancesCompanion(
+                id: id,
+                name: name,
+                equipmentTypeId: equipmentTypeId,
+                areaId: areaId,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                required int equipmentTypeId,
+                Value<int?> areaId = const Value.absent(),
+              }) => EquipmentInstancesCompanion.insert(
+                id: id,
+                name: name,
+                equipmentTypeId: equipmentTypeId,
+                areaId: areaId,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EquipmentInstancesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                equipmentTypeId = false,
+                areaId = false,
+                taskSubmissionsRefs = false,
+                taskSchedulesRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (taskSubmissionsRefs) db.taskSubmissions,
+                    if (taskSchedulesRefs) db.taskSchedules,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (equipmentTypeId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.equipmentTypeId,
+                                    referencedTable:
+                                        $$EquipmentInstancesTableReferences
+                                            ._equipmentTypeIdTable(db),
+                                    referencedColumn:
+                                        $$EquipmentInstancesTableReferences
+                                            ._equipmentTypeIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (areaId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.areaId,
+                                    referencedTable:
+                                        $$EquipmentInstancesTableReferences
+                                            ._areaIdTable(db),
+                                    referencedColumn:
+                                        $$EquipmentInstancesTableReferences
+                                            ._areaIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (taskSubmissionsRefs)
+                        await $_getPrefetchedData<
+                          EquipmentInstanceEntity,
+                          $EquipmentInstancesTable,
+                          TaskSubmissionEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EquipmentInstancesTableReferences
+                              ._taskSubmissionsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EquipmentInstancesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskSubmissionsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.equipmentInstanceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (taskSchedulesRefs)
+                        await $_getPrefetchedData<
+                          EquipmentInstanceEntity,
+                          $EquipmentInstancesTable,
+                          TaskScheduleEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EquipmentInstancesTableReferences
+                              ._taskSchedulesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EquipmentInstancesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskSchedulesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.equipmentInstanceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$EquipmentInstancesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EquipmentInstancesTable,
+      EquipmentInstanceEntity,
+      $$EquipmentInstancesTableFilterComposer,
+      $$EquipmentInstancesTableOrderingComposer,
+      $$EquipmentInstancesTableAnnotationComposer,
+      $$EquipmentInstancesTableCreateCompanionBuilder,
+      $$EquipmentInstancesTableUpdateCompanionBuilder,
+      (EquipmentInstanceEntity, $$EquipmentInstancesTableReferences),
+      EquipmentInstanceEntity,
+      PrefetchHooks Function({
+        bool equipmentTypeId,
+        bool areaId,
+        bool taskSubmissionsRefs,
+        bool taskSchedulesRefs,
+      })
+    >;
 typedef $$TaskSubmissionsTableCreateCompanionBuilder =
     TaskSubmissionsCompanion Function({
       Value<int> id,
@@ -3903,6 +5382,10 @@ typedef $$TaskSubmissionsTableCreateCompanionBuilder =
       Value<bool> photoAttached,
       Value<String?> photoPath,
       Value<String?> notes,
+      Value<int?> taskScheduleId,
+      Value<int?> taskTemplateGroupId,
+      Value<int?> equipmentInstanceId,
+      Value<String?> customFieldValuesJson,
     });
 typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
     TaskSubmissionsCompanion Function({
@@ -3915,7 +5398,44 @@ typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
       Value<bool> photoAttached,
       Value<String?> photoPath,
       Value<String?> notes,
+      Value<int?> taskScheduleId,
+      Value<int?> taskTemplateGroupId,
+      Value<int?> equipmentInstanceId,
+      Value<String?> customFieldValuesJson,
     });
+
+final class $$TaskSubmissionsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $TaskSubmissionsTable,
+          TaskSubmissionEntity
+        > {
+  $$TaskSubmissionsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $EquipmentInstancesTable _equipmentInstanceIdTable(_$AppDatabase db) =>
+      db.equipmentInstances.createAlias(
+        'task_submissions__equipment_instance_id__equipment_instances__id',
+      );
+
+  $$EquipmentInstancesTableProcessedTableManager? get equipmentInstanceId {
+    final $_column = $_itemColumn<int>('equipment_instance_id');
+    if ($_column == null) return null;
+    final manager = $$EquipmentInstancesTableTableManager(
+      $_db,
+      $_db.equipmentInstances,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_equipmentInstanceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
 
 class $$TaskSubmissionsTableFilterComposer
     extends Composer<_$AppDatabase, $TaskSubmissionsTable> {
@@ -3970,6 +5490,44 @@ class $$TaskSubmissionsTableFilterComposer
     column: $table.notes,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<int> get taskScheduleId => $composableBuilder(
+    column: $table.taskScheduleId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customFieldValuesJson => $composableBuilder(
+    column: $table.customFieldValuesJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$EquipmentInstancesTableFilterComposer get equipmentInstanceId {
+    final $$EquipmentInstancesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentInstanceId,
+      referencedTable: $db.equipmentInstances,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentInstancesTableFilterComposer(
+            $db: $db,
+            $table: $db.equipmentInstances,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$TaskSubmissionsTableOrderingComposer
@@ -4025,6 +5583,44 @@ class $$TaskSubmissionsTableOrderingComposer
     column: $table.notes,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<int> get taskScheduleId => $composableBuilder(
+    column: $table.taskScheduleId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customFieldValuesJson => $composableBuilder(
+    column: $table.customFieldValuesJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$EquipmentInstancesTableOrderingComposer get equipmentInstanceId {
+    final $$EquipmentInstancesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentInstanceId,
+      referencedTable: $db.equipmentInstances,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentInstancesTableOrderingComposer(
+            $db: $db,
+            $table: $db.equipmentInstances,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$TaskSubmissionsTableAnnotationComposer
@@ -4070,6 +5666,45 @@ class $$TaskSubmissionsTableAnnotationComposer
 
   GeneratedColumn<String> get notes =>
       $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<int> get taskScheduleId => $composableBuilder(
+    column: $table.taskScheduleId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get customFieldValuesJson => $composableBuilder(
+    column: $table.customFieldValuesJson,
+    builder: (column) => column,
+  );
+
+  $$EquipmentInstancesTableAnnotationComposer get equipmentInstanceId {
+    final $$EquipmentInstancesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.equipmentInstanceId,
+          referencedTable: $db.equipmentInstances,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$EquipmentInstancesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.equipmentInstances,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
 }
 
 class $$TaskSubmissionsTableTableManager
@@ -4083,16 +5718,9 @@ class $$TaskSubmissionsTableTableManager
           $$TaskSubmissionsTableAnnotationComposer,
           $$TaskSubmissionsTableCreateCompanionBuilder,
           $$TaskSubmissionsTableUpdateCompanionBuilder,
-          (
-            TaskSubmissionEntity,
-            BaseReferences<
-              _$AppDatabase,
-              $TaskSubmissionsTable,
-              TaskSubmissionEntity
-            >,
-          ),
+          (TaskSubmissionEntity, $$TaskSubmissionsTableReferences),
           TaskSubmissionEntity,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool equipmentInstanceId})
         > {
   $$TaskSubmissionsTableTableManager(
     _$AppDatabase db,
@@ -4118,6 +5746,10 @@ class $$TaskSubmissionsTableTableManager
                 Value<bool> photoAttached = const Value.absent(),
                 Value<String?> photoPath = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
+                Value<int?> taskScheduleId = const Value.absent(),
+                Value<int?> taskTemplateGroupId = const Value.absent(),
+                Value<int?> equipmentInstanceId = const Value.absent(),
+                Value<String?> customFieldValuesJson = const Value.absent(),
               }) => TaskSubmissionsCompanion(
                 id: id,
                 taskTitle: taskTitle,
@@ -4128,6 +5760,10 @@ class $$TaskSubmissionsTableTableManager
                 photoAttached: photoAttached,
                 photoPath: photoPath,
                 notes: notes,
+                taskScheduleId: taskScheduleId,
+                taskTemplateGroupId: taskTemplateGroupId,
+                equipmentInstanceId: equipmentInstanceId,
+                customFieldValuesJson: customFieldValuesJson,
               ),
           createCompanionCallback:
               ({
@@ -4140,6 +5776,10 @@ class $$TaskSubmissionsTableTableManager
                 Value<bool> photoAttached = const Value.absent(),
                 Value<String?> photoPath = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
+                Value<int?> taskScheduleId = const Value.absent(),
+                Value<int?> taskTemplateGroupId = const Value.absent(),
+                Value<int?> equipmentInstanceId = const Value.absent(),
+                Value<String?> customFieldValuesJson = const Value.absent(),
               }) => TaskSubmissionsCompanion.insert(
                 id: id,
                 taskTitle: taskTitle,
@@ -4150,11 +5790,62 @@ class $$TaskSubmissionsTableTableManager
                 photoAttached: photoAttached,
                 photoPath: photoPath,
                 notes: notes,
+                taskScheduleId: taskScheduleId,
+                taskTemplateGroupId: taskTemplateGroupId,
+                equipmentInstanceId: equipmentInstanceId,
+                customFieldValuesJson: customFieldValuesJson,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TaskSubmissionsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({equipmentInstanceId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (equipmentInstanceId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.equipmentInstanceId,
+                                referencedTable:
+                                    $$TaskSubmissionsTableReferences
+                                        ._equipmentInstanceIdTable(db),
+                                referencedColumn:
+                                    $$TaskSubmissionsTableReferences
+                                        ._equipmentInstanceIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
@@ -4169,16 +5860,9 @@ typedef $$TaskSubmissionsTableProcessedTableManager =
       $$TaskSubmissionsTableAnnotationComposer,
       $$TaskSubmissionsTableCreateCompanionBuilder,
       $$TaskSubmissionsTableUpdateCompanionBuilder,
-      (
-        TaskSubmissionEntity,
-        BaseReferences<
-          _$AppDatabase,
-          $TaskSubmissionsTable,
-          TaskSubmissionEntity
-        >,
-      ),
+      (TaskSubmissionEntity, $$TaskSubmissionsTableReferences),
       TaskSubmissionEntity,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool equipmentInstanceId})
     >;
 typedef $$UsersTableCreateCompanionBuilder =
     UsersCompanion Function({
@@ -4188,6 +5872,7 @@ typedef $$UsersTableCreateCompanionBuilder =
       required String roleTier,
       required String pinHash,
       required String pinSalt,
+      Value<String> preferredTemperatureUnit,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
     UsersCompanion Function({
@@ -4197,6 +5882,7 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<String> roleTier,
       Value<String> pinHash,
       Value<String> pinSalt,
+      Value<String> preferredTemperatureUnit,
     });
 
 final class $$UsersTableReferences
@@ -4257,6 +5943,11 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
 
   ColumnFilters<String> get pinSalt => $composableBuilder(
     column: $table.pinSalt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get preferredTemperatureUnit => $composableBuilder(
+    column: $table.preferredTemperatureUnit,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -4324,6 +6015,11 @@ class $$UsersTableOrderingComposer
     column: $table.pinSalt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get preferredTemperatureUnit => $composableBuilder(
+    column: $table.preferredTemperatureUnit,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$UsersTableAnnotationComposer
@@ -4352,6 +6048,11 @@ class $$UsersTableAnnotationComposer
 
   GeneratedColumn<String> get pinSalt =>
       $composableBuilder(column: $table.pinSalt, builder: (column) => column);
+
+  GeneratedColumn<String> get preferredTemperatureUnit => $composableBuilder(
+    column: $table.preferredTemperatureUnit,
+    builder: (column) => column,
+  );
 
   Expression<T> taskTemplatesRefs<T extends Object>(
     Expression<T> Function($$TaskTemplatesTableAnnotationComposer a) f,
@@ -4413,6 +6114,7 @@ class $$UsersTableTableManager
                 Value<String> roleTier = const Value.absent(),
                 Value<String> pinHash = const Value.absent(),
                 Value<String> pinSalt = const Value.absent(),
+                Value<String> preferredTemperatureUnit = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
                 name: name,
@@ -4420,6 +6122,7 @@ class $$UsersTableTableManager
                 roleTier: roleTier,
                 pinHash: pinHash,
                 pinSalt: pinSalt,
+                preferredTemperatureUnit: preferredTemperatureUnit,
               ),
           createCompanionCallback:
               ({
@@ -4429,6 +6132,7 @@ class $$UsersTableTableManager
                 required String roleTier,
                 required String pinHash,
                 required String pinSalt,
+                Value<String> preferredTemperatureUnit = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
                 name: name,
@@ -4436,6 +6140,7 @@ class $$UsersTableTableManager
                 roleTier: roleTier,
                 pinHash: pinHash,
                 pinSalt: pinSalt,
+                preferredTemperatureUnit: preferredTemperatureUnit,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -4493,350 +6198,6 @@ typedef $$UsersTableProcessedTableManager =
       (UserEntity, $$UsersTableReferences),
       UserEntity,
       PrefetchHooks Function({bool taskTemplatesRefs})
-    >;
-typedef $$EquipmentTypesTableCreateCompanionBuilder =
-    EquipmentTypesCompanion Function({Value<int> id, required String name});
-typedef $$EquipmentTypesTableUpdateCompanionBuilder =
-    EquipmentTypesCompanion Function({Value<int> id, Value<String> name});
-
-final class $$EquipmentTypesTableReferences
-    extends
-        BaseReferences<
-          _$AppDatabase,
-          $EquipmentTypesTable,
-          EquipmentTypeEntity
-        > {
-  $$EquipmentTypesTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
-
-  static MultiTypedResultKey<$TaskTemplatesTable, List<TaskTemplateEntity>>
-  _taskTemplatesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.taskTemplates,
-    aliasName: 'equipment_types__id__task_templates__equipment_type_id',
-  );
-
-  $$TaskTemplatesTableProcessedTableManager get taskTemplatesRefs {
-    final manager = $$TaskTemplatesTableTableManager(
-      $_db,
-      $_db.taskTemplates,
-    ).filter((f) => f.equipmentTypeId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_taskTemplatesRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
-  static MultiTypedResultKey<
-    $EquipmentInstancesTable,
-    List<EquipmentInstanceEntity>
-  >
-  _equipmentInstancesRefsTable(_$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(
-        db.equipmentInstances,
-        aliasName:
-            'equipment_types__id__equipment_instances__equipment_type_id',
-      );
-
-  $$EquipmentInstancesTableProcessedTableManager get equipmentInstancesRefs {
-    final manager = $$EquipmentInstancesTableTableManager(
-      $_db,
-      $_db.equipmentInstances,
-    ).filter((f) => f.equipmentTypeId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(
-      _equipmentInstancesRefsTable($_db),
-    );
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$EquipmentTypesTableFilterComposer
-    extends Composer<_$AppDatabase, $EquipmentTypesTable> {
-  $$EquipmentTypesTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  Expression<bool> taskTemplatesRefs(
-    Expression<bool> Function($$TaskTemplatesTableFilterComposer f) f,
-  ) {
-    final $$TaskTemplatesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.taskTemplates,
-      getReferencedColumn: (t) => t.equipmentTypeId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TaskTemplatesTableFilterComposer(
-            $db: $db,
-            $table: $db.taskTemplates,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<bool> equipmentInstancesRefs(
-    Expression<bool> Function($$EquipmentInstancesTableFilterComposer f) f,
-  ) {
-    final $$EquipmentInstancesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.equipmentInstances,
-      getReferencedColumn: (t) => t.equipmentTypeId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EquipmentInstancesTableFilterComposer(
-            $db: $db,
-            $table: $db.equipmentInstances,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$EquipmentTypesTableOrderingComposer
-    extends Composer<_$AppDatabase, $EquipmentTypesTable> {
-  $$EquipmentTypesTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$EquipmentTypesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $EquipmentTypesTable> {
-  $$EquipmentTypesTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  Expression<T> taskTemplatesRefs<T extends Object>(
-    Expression<T> Function($$TaskTemplatesTableAnnotationComposer a) f,
-  ) {
-    final $$TaskTemplatesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.taskTemplates,
-      getReferencedColumn: (t) => t.equipmentTypeId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TaskTemplatesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.taskTemplates,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<T> equipmentInstancesRefs<T extends Object>(
-    Expression<T> Function($$EquipmentInstancesTableAnnotationComposer a) f,
-  ) {
-    final $$EquipmentInstancesTableAnnotationComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.id,
-          referencedTable: $db.equipmentInstances,
-          getReferencedColumn: (t) => t.equipmentTypeId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$EquipmentInstancesTableAnnotationComposer(
-                $db: $db,
-                $table: $db.equipmentInstances,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return f(composer);
-  }
-}
-
-class $$EquipmentTypesTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $EquipmentTypesTable,
-          EquipmentTypeEntity,
-          $$EquipmentTypesTableFilterComposer,
-          $$EquipmentTypesTableOrderingComposer,
-          $$EquipmentTypesTableAnnotationComposer,
-          $$EquipmentTypesTableCreateCompanionBuilder,
-          $$EquipmentTypesTableUpdateCompanionBuilder,
-          (EquipmentTypeEntity, $$EquipmentTypesTableReferences),
-          EquipmentTypeEntity,
-          PrefetchHooks Function({
-            bool taskTemplatesRefs,
-            bool equipmentInstancesRefs,
-          })
-        > {
-  $$EquipmentTypesTableTableManager(
-    _$AppDatabase db,
-    $EquipmentTypesTable table,
-  ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$EquipmentTypesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$EquipmentTypesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$EquipmentTypesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> name = const Value.absent(),
-              }) => EquipmentTypesCompanion(id: id, name: name),
-          createCompanionCallback:
-              ({Value<int> id = const Value.absent(), required String name}) =>
-                  EquipmentTypesCompanion.insert(id: id, name: name),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$EquipmentTypesTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback:
-              ({taskTemplatesRefs = false, equipmentInstancesRefs = false}) {
-                return PrefetchHooks(
-                  db: db,
-                  explicitlyWatchedTables: [
-                    if (taskTemplatesRefs) db.taskTemplates,
-                    if (equipmentInstancesRefs) db.equipmentInstances,
-                  ],
-                  addJoins: null,
-                  getPrefetchedDataCallback: (items) async {
-                    return [
-                      if (taskTemplatesRefs)
-                        await $_getPrefetchedData<
-                          EquipmentTypeEntity,
-                          $EquipmentTypesTable,
-                          TaskTemplateEntity
-                        >(
-                          currentTable: table,
-                          referencedTable: $$EquipmentTypesTableReferences
-                              ._taskTemplatesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$EquipmentTypesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).taskTemplatesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.equipmentTypeId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                      if (equipmentInstancesRefs)
-                        await $_getPrefetchedData<
-                          EquipmentTypeEntity,
-                          $EquipmentTypesTable,
-                          EquipmentInstanceEntity
-                        >(
-                          currentTable: table,
-                          referencedTable: $$EquipmentTypesTableReferences
-                              ._equipmentInstancesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$EquipmentTypesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).equipmentInstancesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.equipmentTypeId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                    ];
-                  },
-                );
-              },
-        ),
-      );
-}
-
-typedef $$EquipmentTypesTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $EquipmentTypesTable,
-      EquipmentTypeEntity,
-      $$EquipmentTypesTableFilterComposer,
-      $$EquipmentTypesTableOrderingComposer,
-      $$EquipmentTypesTableAnnotationComposer,
-      $$EquipmentTypesTableCreateCompanionBuilder,
-      $$EquipmentTypesTableUpdateCompanionBuilder,
-      (EquipmentTypeEntity, $$EquipmentTypesTableReferences),
-      EquipmentTypeEntity,
-      PrefetchHooks Function({
-        bool taskTemplatesRefs,
-        bool equipmentInstancesRefs,
-      })
     >;
 typedef $$LegalLimitReferencesTableCreateCompanionBuilder =
     LegalLimitReferencesCompanion Function({
@@ -5885,738 +7246,6 @@ typedef $$TaskTemplatesTableProcessedTableManager =
         bool createdByUserId,
       })
     >;
-typedef $$AreasTableCreateCompanionBuilder =
-    AreasCompanion Function({Value<int> id, required String name});
-typedef $$AreasTableUpdateCompanionBuilder =
-    AreasCompanion Function({Value<int> id, Value<String> name});
-
-final class $$AreasTableReferences
-    extends BaseReferences<_$AppDatabase, $AreasTable, AreaEntity> {
-  $$AreasTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static MultiTypedResultKey<
-    $EquipmentInstancesTable,
-    List<EquipmentInstanceEntity>
-  >
-  _equipmentInstancesRefsTable(_$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(
-        db.equipmentInstances,
-        aliasName: 'areas__id__equipment_instances__area_id',
-      );
-
-  $$EquipmentInstancesTableProcessedTableManager get equipmentInstancesRefs {
-    final manager = $$EquipmentInstancesTableTableManager(
-      $_db,
-      $_db.equipmentInstances,
-    ).filter((f) => f.areaId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(
-      _equipmentInstancesRefsTable($_db),
-    );
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$AreasTableFilterComposer extends Composer<_$AppDatabase, $AreasTable> {
-  $$AreasTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  Expression<bool> equipmentInstancesRefs(
-    Expression<bool> Function($$EquipmentInstancesTableFilterComposer f) f,
-  ) {
-    final $$EquipmentInstancesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.equipmentInstances,
-      getReferencedColumn: (t) => t.areaId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EquipmentInstancesTableFilterComposer(
-            $db: $db,
-            $table: $db.equipmentInstances,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$AreasTableOrderingComposer
-    extends Composer<_$AppDatabase, $AreasTable> {
-  $$AreasTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$AreasTableAnnotationComposer
-    extends Composer<_$AppDatabase, $AreasTable> {
-  $$AreasTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  Expression<T> equipmentInstancesRefs<T extends Object>(
-    Expression<T> Function($$EquipmentInstancesTableAnnotationComposer a) f,
-  ) {
-    final $$EquipmentInstancesTableAnnotationComposer composer =
-        $composerBuilder(
-          composer: this,
-          getCurrentColumn: (t) => t.id,
-          referencedTable: $db.equipmentInstances,
-          getReferencedColumn: (t) => t.areaId,
-          builder:
-              (
-                joinBuilder, {
-                $addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer,
-              }) => $$EquipmentInstancesTableAnnotationComposer(
-                $db: $db,
-                $table: $db.equipmentInstances,
-                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                joinBuilder: joinBuilder,
-                $removeJoinBuilderFromRootComposer:
-                    $removeJoinBuilderFromRootComposer,
-              ),
-        );
-    return f(composer);
-  }
-}
-
-class $$AreasTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $AreasTable,
-          AreaEntity,
-          $$AreasTableFilterComposer,
-          $$AreasTableOrderingComposer,
-          $$AreasTableAnnotationComposer,
-          $$AreasTableCreateCompanionBuilder,
-          $$AreasTableUpdateCompanionBuilder,
-          (AreaEntity, $$AreasTableReferences),
-          AreaEntity,
-          PrefetchHooks Function({bool equipmentInstancesRefs})
-        > {
-  $$AreasTableTableManager(_$AppDatabase db, $AreasTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$AreasTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$AreasTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$AreasTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> name = const Value.absent(),
-              }) => AreasCompanion(id: id, name: name),
-          createCompanionCallback:
-              ({Value<int> id = const Value.absent(), required String name}) =>
-                  AreasCompanion.insert(id: id, name: name),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) =>
-                    (e.readTable(table), $$AreasTableReferences(db, table, e)),
-              )
-              .toList(),
-          prefetchHooksCallback: ({equipmentInstancesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (equipmentInstancesRefs) db.equipmentInstances,
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (equipmentInstancesRefs)
-                    await $_getPrefetchedData<
-                      AreaEntity,
-                      $AreasTable,
-                      EquipmentInstanceEntity
-                    >(
-                      currentTable: table,
-                      referencedTable: $$AreasTableReferences
-                          ._equipmentInstancesRefsTable(db),
-                      managerFromTypedResult: (p0) => $$AreasTableReferences(
-                        db,
-                        table,
-                        p0,
-                      ).equipmentInstancesRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.areaId == item.id),
-                      typedResults: items,
-                    ),
-                ];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$AreasTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $AreasTable,
-      AreaEntity,
-      $$AreasTableFilterComposer,
-      $$AreasTableOrderingComposer,
-      $$AreasTableAnnotationComposer,
-      $$AreasTableCreateCompanionBuilder,
-      $$AreasTableUpdateCompanionBuilder,
-      (AreaEntity, $$AreasTableReferences),
-      AreaEntity,
-      PrefetchHooks Function({bool equipmentInstancesRefs})
-    >;
-typedef $$EquipmentInstancesTableCreateCompanionBuilder =
-    EquipmentInstancesCompanion Function({
-      Value<int> id,
-      required String name,
-      required int equipmentTypeId,
-      Value<int?> areaId,
-    });
-typedef $$EquipmentInstancesTableUpdateCompanionBuilder =
-    EquipmentInstancesCompanion Function({
-      Value<int> id,
-      Value<String> name,
-      Value<int> equipmentTypeId,
-      Value<int?> areaId,
-    });
-
-final class $$EquipmentInstancesTableReferences
-    extends
-        BaseReferences<
-          _$AppDatabase,
-          $EquipmentInstancesTable,
-          EquipmentInstanceEntity
-        > {
-  $$EquipmentInstancesTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
-
-  static $EquipmentTypesTable _equipmentTypeIdTable(_$AppDatabase db) =>
-      db.equipmentTypes.createAlias(
-        'equipment_instances__equipment_type_id__equipment_types__id',
-      );
-
-  $$EquipmentTypesTableProcessedTableManager get equipmentTypeId {
-    final $_column = $_itemColumn<int>('equipment_type_id')!;
-
-    final manager = $$EquipmentTypesTableTableManager(
-      $_db,
-      $_db.equipmentTypes,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_equipmentTypeIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static $AreasTable _areaIdTable(_$AppDatabase db) =>
-      db.areas.createAlias('equipment_instances__area_id__areas__id');
-
-  $$AreasTableProcessedTableManager? get areaId {
-    final $_column = $_itemColumn<int>('area_id');
-    if ($_column == null) return null;
-    final manager = $$AreasTableTableManager(
-      $_db,
-      $_db.areas,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_areaIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-
-  static MultiTypedResultKey<$TaskSchedulesTable, List<TaskScheduleEntity>>
-  _taskSchedulesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.taskSchedules,
-    aliasName: 'equipment_instances__id__task_schedules__equipment_instance_id',
-  );
-
-  $$TaskSchedulesTableProcessedTableManager get taskSchedulesRefs {
-    final manager = $$TaskSchedulesTableTableManager($_db, $_db.taskSchedules)
-        .filter(
-          (f) => f.equipmentInstanceId.id.sqlEquals($_itemColumn<int>('id')!),
-        );
-
-    final cache = $_typedResult.readTableOrNull(_taskSchedulesRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$EquipmentInstancesTableFilterComposer
-    extends Composer<_$AppDatabase, $EquipmentInstancesTable> {
-  $$EquipmentInstancesTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  $$EquipmentTypesTableFilterComposer get equipmentTypeId {
-    final $$EquipmentTypesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.equipmentTypeId,
-      referencedTable: $db.equipmentTypes,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EquipmentTypesTableFilterComposer(
-            $db: $db,
-            $table: $db.equipmentTypes,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$AreasTableFilterComposer get areaId {
-    final $$AreasTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.areaId,
-      referencedTable: $db.areas,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AreasTableFilterComposer(
-            $db: $db,
-            $table: $db.areas,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  Expression<bool> taskSchedulesRefs(
-    Expression<bool> Function($$TaskSchedulesTableFilterComposer f) f,
-  ) {
-    final $$TaskSchedulesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.taskSchedules,
-      getReferencedColumn: (t) => t.equipmentInstanceId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TaskSchedulesTableFilterComposer(
-            $db: $db,
-            $table: $db.taskSchedules,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$EquipmentInstancesTableOrderingComposer
-    extends Composer<_$AppDatabase, $EquipmentInstancesTable> {
-  $$EquipmentInstancesTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$EquipmentTypesTableOrderingComposer get equipmentTypeId {
-    final $$EquipmentTypesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.equipmentTypeId,
-      referencedTable: $db.equipmentTypes,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EquipmentTypesTableOrderingComposer(
-            $db: $db,
-            $table: $db.equipmentTypes,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$AreasTableOrderingComposer get areaId {
-    final $$AreasTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.areaId,
-      referencedTable: $db.areas,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AreasTableOrderingComposer(
-            $db: $db,
-            $table: $db.areas,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$EquipmentInstancesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $EquipmentInstancesTable> {
-  $$EquipmentInstancesTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  $$EquipmentTypesTableAnnotationComposer get equipmentTypeId {
-    final $$EquipmentTypesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.equipmentTypeId,
-      referencedTable: $db.equipmentTypes,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$EquipmentTypesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.equipmentTypes,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  $$AreasTableAnnotationComposer get areaId {
-    final $$AreasTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.areaId,
-      referencedTable: $db.areas,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$AreasTableAnnotationComposer(
-            $db: $db,
-            $table: $db.areas,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-
-  Expression<T> taskSchedulesRefs<T extends Object>(
-    Expression<T> Function($$TaskSchedulesTableAnnotationComposer a) f,
-  ) {
-    final $$TaskSchedulesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.taskSchedules,
-      getReferencedColumn: (t) => t.equipmentInstanceId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TaskSchedulesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.taskSchedules,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$EquipmentInstancesTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $EquipmentInstancesTable,
-          EquipmentInstanceEntity,
-          $$EquipmentInstancesTableFilterComposer,
-          $$EquipmentInstancesTableOrderingComposer,
-          $$EquipmentInstancesTableAnnotationComposer,
-          $$EquipmentInstancesTableCreateCompanionBuilder,
-          $$EquipmentInstancesTableUpdateCompanionBuilder,
-          (EquipmentInstanceEntity, $$EquipmentInstancesTableReferences),
-          EquipmentInstanceEntity,
-          PrefetchHooks Function({
-            bool equipmentTypeId,
-            bool areaId,
-            bool taskSchedulesRefs,
-          })
-        > {
-  $$EquipmentInstancesTableTableManager(
-    _$AppDatabase db,
-    $EquipmentInstancesTable table,
-  ) : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$EquipmentInstancesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$EquipmentInstancesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$EquipmentInstancesTableAnnotationComposer(
-                $db: db,
-                $table: table,
-              ),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> name = const Value.absent(),
-                Value<int> equipmentTypeId = const Value.absent(),
-                Value<int?> areaId = const Value.absent(),
-              }) => EquipmentInstancesCompanion(
-                id: id,
-                name: name,
-                equipmentTypeId: equipmentTypeId,
-                areaId: areaId,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String name,
-                required int equipmentTypeId,
-                Value<int?> areaId = const Value.absent(),
-              }) => EquipmentInstancesCompanion.insert(
-                id: id,
-                name: name,
-                equipmentTypeId: equipmentTypeId,
-                areaId: areaId,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$EquipmentInstancesTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback:
-              ({
-                equipmentTypeId = false,
-                areaId = false,
-                taskSchedulesRefs = false,
-              }) {
-                return PrefetchHooks(
-                  db: db,
-                  explicitlyWatchedTables: [
-                    if (taskSchedulesRefs) db.taskSchedules,
-                  ],
-                  addJoins:
-                      <
-                        T extends TableManagerState<
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic,
-                          dynamic
-                        >
-                      >(state) {
-                        if (equipmentTypeId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.equipmentTypeId,
-                                    referencedTable:
-                                        $$EquipmentInstancesTableReferences
-                                            ._equipmentTypeIdTable(db),
-                                    referencedColumn:
-                                        $$EquipmentInstancesTableReferences
-                                            ._equipmentTypeIdTable(db)
-                                            .id,
-                                  )
-                                  as T;
-                        }
-                        if (areaId) {
-                          state =
-                              state.withJoin(
-                                    currentTable: table,
-                                    currentColumn: table.areaId,
-                                    referencedTable:
-                                        $$EquipmentInstancesTableReferences
-                                            ._areaIdTable(db),
-                                    referencedColumn:
-                                        $$EquipmentInstancesTableReferences
-                                            ._areaIdTable(db)
-                                            .id,
-                                  )
-                                  as T;
-                        }
-
-                        return state;
-                      },
-                  getPrefetchedDataCallback: (items) async {
-                    return [
-                      if (taskSchedulesRefs)
-                        await $_getPrefetchedData<
-                          EquipmentInstanceEntity,
-                          $EquipmentInstancesTable,
-                          TaskScheduleEntity
-                        >(
-                          currentTable: table,
-                          referencedTable: $$EquipmentInstancesTableReferences
-                              ._taskSchedulesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$EquipmentInstancesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).taskSchedulesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.equipmentInstanceId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                    ];
-                  },
-                );
-              },
-        ),
-      );
-}
-
-typedef $$EquipmentInstancesTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $EquipmentInstancesTable,
-      EquipmentInstanceEntity,
-      $$EquipmentInstancesTableFilterComposer,
-      $$EquipmentInstancesTableOrderingComposer,
-      $$EquipmentInstancesTableAnnotationComposer,
-      $$EquipmentInstancesTableCreateCompanionBuilder,
-      $$EquipmentInstancesTableUpdateCompanionBuilder,
-      (EquipmentInstanceEntity, $$EquipmentInstancesTableReferences),
-      EquipmentInstanceEntity,
-      PrefetchHooks Function({
-        bool equipmentTypeId,
-        bool areaId,
-        bool taskSchedulesRefs,
-      })
-    >;
 typedef $$TaskSchedulesTableCreateCompanionBuilder =
     TaskSchedulesCompanion Function({
       Value<int> id,
@@ -7213,20 +7842,20 @@ typedef $$TaskSchedulesTableProcessedTableManager =
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$TaskSubmissionsTableTableManager get taskSubmissions =>
-      $$TaskSubmissionsTableTableManager(_db, _db.taskSubmissions);
-  $$UsersTableTableManager get users =>
-      $$UsersTableTableManager(_db, _db.users);
   $$EquipmentTypesTableTableManager get equipmentTypes =>
       $$EquipmentTypesTableTableManager(_db, _db.equipmentTypes);
-  $$LegalLimitReferencesTableTableManager get legalLimitReferences =>
-      $$LegalLimitReferencesTableTableManager(_db, _db.legalLimitReferences);
-  $$TaskTemplatesTableTableManager get taskTemplates =>
-      $$TaskTemplatesTableTableManager(_db, _db.taskTemplates);
   $$AreasTableTableManager get areas =>
       $$AreasTableTableManager(_db, _db.areas);
   $$EquipmentInstancesTableTableManager get equipmentInstances =>
       $$EquipmentInstancesTableTableManager(_db, _db.equipmentInstances);
+  $$TaskSubmissionsTableTableManager get taskSubmissions =>
+      $$TaskSubmissionsTableTableManager(_db, _db.taskSubmissions);
+  $$UsersTableTableManager get users =>
+      $$UsersTableTableManager(_db, _db.users);
+  $$LegalLimitReferencesTableTableManager get legalLimitReferences =>
+      $$LegalLimitReferencesTableTableManager(_db, _db.legalLimitReferences);
+  $$TaskTemplatesTableTableManager get taskTemplates =>
+      $$TaskTemplatesTableTableManager(_db, _db.taskTemplates);
   $$TaskSchedulesTableTableManager get taskSchedules =>
       $$TaskSchedulesTableTableManager(_db, _db.taskSchedules);
 }

@@ -8,6 +8,10 @@ class TaskSubmission {
   final bool photoAttached;
   final String? photoPath;
   final String? notes;
+  final int? taskScheduleId;
+  final int? taskTemplateGroupId;
+  final int? equipmentInstanceId;
+  final String? customFieldValuesJson;
 
   const TaskSubmission({
     this.id,
@@ -19,5 +23,9 @@ class TaskSubmission {
     required this.photoAttached,
     this.photoPath,
     this.notes,
+    this.taskScheduleId,
+    this.taskTemplateGroupId,
+    this.equipmentInstanceId,
+    this.customFieldValuesJson,
   });
 }

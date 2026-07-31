@@ -17,6 +17,14 @@ class TaskSubmissions extends Table {
       boolean().withDefault(const Constant(false))();
   TextColumn get photoPath => text().nullable()();
   TextColumn get notes => text().nullable()();
+  // Traceability back to what this submission actually fulfilled, added when
+  // the carousel was wired to real schedules/templates instead of a
+  // hardcoded queue (Sprint 010). Nullable: older rows predate this link.
+  IntColumn get taskScheduleId => integer().nullable()();
+  IntColumn get taskTemplateGroupId => integer().nullable()();
+  IntColumn get equipmentInstanceId =>
+      integer().nullable().references(EquipmentInstances, #id)();
+  TextColumn get customFieldValuesJson => text().nullable()();
 }
 
 @DataClassName('UserEntity')
@@ -27,6 +35,8 @@ class Users extends Table {
   TextColumn get roleTier => text()();
   TextColumn get pinHash => text()();
   TextColumn get pinSalt => text()();
+  TextColumn get preferredTemperatureUnit =>
+      text().withDefault(const Constant('celsius'))();
 }
 
 @DataClassName('EquipmentTypeEntity')
@@ -123,7 +133,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -156,6 +166,22 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 6) {
         await m.createTable(taskSchedules);
+      }
+      if (from < 7) {
+        await m.addColumn(taskSubmissions, taskSubmissions.taskScheduleId);
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.taskTemplateGroupId,
+        );
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.equipmentInstanceId,
+        );
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.customFieldValuesJson,
+        );
+        await m.addColumn(users, users.preferredTemperatureUnit);
       }
     },
     beforeOpen: (details) async {

@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/utils/unit_conversion.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
+import '../../shared/providers/task_template_providers.dart';
+import '../../shared/providers/venue_setup_providers.dart';
 import 'task_controller.dart';
-import 'task_model.dart';
 
 class TaskScreen extends ConsumerStatefulWidget {
   const TaskScreen({super.key});
@@ -16,11 +21,13 @@ class TaskScreen extends ConsumerStatefulWidget {
 
 class _TaskScreenState extends ConsumerState<TaskScreen> {
   late final TaskController controller;
+  bool loading = true;
 
   final TextEditingController numberController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
 
   String result = "PASS";
+  String? selectedChoice;
 
   bool correctiveDone = false;
   bool photoTaken = false;
@@ -32,10 +39,20 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     super.initState();
     controller = TaskController(
       ref.read(taskSubmissionRepositoryProvider),
+      ref.read(taskScheduleRepositoryProvider),
+      ref.read(taskTemplateRepositoryProvider),
+      ref.read(equipmentRepositoryProvider),
       ref.read(currentUserProvider)!,
     );
     numberController.addListener(_onFormChanged);
     notesController.addListener(_onFormChanged);
+    _load();
+  }
+
+  Future<void> _load() async {
+    await controller.loadTasks();
+    if (!mounted) return;
+    setState(() => loading = false);
   }
 
   @override
@@ -51,10 +68,59 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     setState(() {});
   }
 
+  bool get _displayInFahrenheit {
+    final task = controller.getCurrentTask();
+    final currentUser = ref.read(currentUserProvider);
+    return task.unit == 'celsius' &&
+        currentUser?.preferredTemperatureUnit == TemperatureUnit.fahrenheit;
+  }
+
+  String get _numericFieldLabel {
+    final task = controller.getCurrentTask();
+    if (task.unit == null) return "Enter value";
+    final unitLabel = _displayInFahrenheit
+        ? '°F'
+        : (task.unit == 'celsius' ? '°C' : task.unit!);
+    return "Enter value ($unitLabel)";
+  }
+
+  double? get _numberInTemplateUnit {
+    final parsed = double.tryParse(numberController.text.trim());
+    if (parsed == null) return null;
+    return _displayInFahrenheit ? fahrenheitToCelsius(parsed) : parsed;
+  }
+
+  String? get _derivedResultFromNumber {
+    final task = controller.getCurrentTask();
+    if (!task.hasNumericRange) return null;
+    final value = _numberInTemplateUnit;
+    if (value == null) return null;
+    final withinRange = value >= task.minLimit! && value <= task.maxLimit!;
+    return withinRange ? "PASS" : "FAIL";
+  }
+
+  String get effectiveResult {
+    final task = controller.getCurrentTask();
+    if (task.hasNumericRange) {
+      return _derivedResultFromNumber ?? "PASS";
+    }
+    return result;
+  }
+
+  String? get _rangeWarning {
+    final task = controller.getCurrentTask();
+    if (!task.hasNumericRange) return null;
+    if (_derivedResultFromNumber != "FAIL") return null;
+    return task.fixInstructions ?? "Reading is outside the safe range.";
+  }
+
   bool get canSubmit {
     final task = controller.getCurrentTask();
 
-    if (task.requiresNumeric && numberController.text.trim().isEmpty) {
+    if (task.hasNumericRange && _numberInTemplateUnit == null) {
+      return false;
+    }
+    if (task.hasChoice && selectedChoice == null) {
       return false;
     }
     if (task.requiresNotes && notesController.text.trim().isEmpty) {
@@ -63,7 +129,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     if (task.requiresPhoto && !photoTaken) {
       return false;
     }
-    if (task.isCritical && result == "FAIL" && !correctiveDone) {
+    if (task.requiresCorrectiveActionOnFail &&
+        effectiveResult == "FAIL" &&
+        !correctiveDone) {
       return false;
     }
 
@@ -71,18 +139,23 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   }
 
   Future<void> validateAndSubmit() async {
-    Task task = controller.getCurrentTask();
+    final task = controller.getCurrentTask();
 
     setState(() {
       error = null;
     });
 
-    if (task.requiresNumeric && numberController.text.isEmpty) {
-      setState(() => error = "Numeric value required");
+    if (task.hasNumericRange && _numberInTemplateUnit == null) {
+      setState(() => error = "A valid numeric value is required");
       return;
     }
 
-    if (task.requiresNotes && notesController.text.isEmpty) {
+    if (task.hasChoice && selectedChoice == null) {
+      setState(() => error = "Please select an option");
+      return;
+    }
+
+    if (task.requiresNotes && notesController.text.trim().isEmpty) {
       setState(() => error = "Notes required");
       return;
     }
@@ -92,7 +165,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       return;
     }
 
-    if (task.isCritical && result == "FAIL" && !correctiveDone) {
+    if (task.requiresCorrectiveActionOnFail &&
+        effectiveResult == "FAIL" &&
+        !correctiveDone) {
       setState(() => error = "Corrective action must be completed");
       return;
     }
@@ -102,17 +177,19 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
   Future<void> submitTask() async {
     final task = controller.getCurrentTask();
+    final numericValue = _numberInTemplateUnit;
 
     await controller.logTaskSubmission(
       task: task,
-      status: result,
-      numericValue: numberController.text.trim().isEmpty
-          ? null
-          : numberController.text.trim(),
+      status: effectiveResult,
+      numericValue: numericValue?.toString(),
       photoAttached: photoTaken,
       notes: notesController.text.trim().isEmpty
           ? null
           : notesController.text.trim(),
+      customFieldValuesJson: selectedChoice == null
+          ? null
+          : jsonEncode({'selected': selectedChoice}),
     );
 
     if (!mounted) return;
@@ -124,6 +201,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         numberController.clear();
         notesController.clear();
         result = "PASS";
+        selectedChoice = null;
         correctiveDone = false;
         photoTaken = false;
         error = null;
@@ -142,11 +220,36 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Task task = controller.getCurrentTask();
+    if (loading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
     final currentUser = ref.watch(currentUserProvider);
     final canSeeManagerView =
         currentUser?.roleTier == RoleTier.mid ||
         currentUser?.roleTier == RoleTier.top;
+
+    if (!controller.hasTasks) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text("Task"),
+          actions: canSeeManagerView
+              ? [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/manager');
+                    },
+                    icon: const Icon(Icons.visibility),
+                    tooltip: 'Manager View',
+                  ),
+                ]
+              : null,
+        ),
+        body: const Center(child: Text("No tasks assigned yet.")),
+      );
+    }
+
+    final task = controller.getCurrentTask();
 
     return Scaffold(
       appBar: AppBar(
@@ -167,13 +270,47 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text(task.title, style: const TextStyle(fontSize: 22)),
+            Text(task.displayTitle, style: const TextStyle(fontSize: 22)),
             const SizedBox(height: 20),
-            if (task.requiresNumeric)
+            if (task.hasNumericRange)
               TextField(
                 controller: numberController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: "Enter value"),
+                keyboardType: const TextInputType.numberWithOptions(
+                  decimal: true,
+                  signed: true,
+                ),
+                decoration: InputDecoration(labelText: _numericFieldLabel),
+              ),
+            if (task.hasNumericRange && _numberInTemplateUnit != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  _derivedResultFromNumber == "PASS"
+                      ? "Within range — PASS"
+                      : "Outside range — FAIL",
+                  style: TextStyle(
+                    color: _derivedResultFromNumber == "PASS"
+                        ? Colors.green
+                        : Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            if (task.hasChoice)
+              DropdownButtonFormField<String>(
+                initialValue: selectedChoice,
+                decoration: const InputDecoration(labelText: "Select option"),
+                items: task.choiceOptions!
+                    .map(
+                      (option) => DropdownMenuItem(
+                        value: option,
+                        child: Text(option),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  setState(() => selectedChoice = value);
+                },
               ),
             if (task.requiresNotes)
               TextField(
@@ -188,33 +325,45 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 child: Text(photoTaken ? "Photo Added" : "Add Photo"),
               ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () => setState(() => result = "PASS"),
-                  child: const Text("PASS"),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () => setState(() => result = "FAIL"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
+            if (!task.hasNumericRange)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => setState(() => result = "PASS"),
+                    child: const Text("PASS"),
                   ),
-                  child: const Text("FAIL"),
-                ),
-              ],
-            ),
+                  const SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: () => setState(() => result = "FAIL"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text("FAIL"),
+                  ),
+                ],
+              ),
             const SizedBox(height: 20),
-            if (task.isCritical && result == "FAIL")
+            if (_rangeWarning != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  _rangeWarning!,
+                  style: const TextStyle(color: Colors.red),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            if (task.requiresCorrectiveActionOnFail &&
+                effectiveResult == "FAIL")
               Column(
                 children: [
-                  Text(
-                    "Corrective Action Required:\n${task.correctiveAction}",
-                    style: const TextStyle(color: Colors.red),
-                    textAlign: TextAlign.center,
-                  ),
+                  if (task.fixInstructions != null)
+                    Text(
+                      "Corrective Action Required:\n${task.fixInstructions}",
+                      style: const TextStyle(color: Colors.red),
+                      textAlign: TextAlign.center,
+                    ),
                   CheckboxListTile(
                     title: const Text("Corrective action completed"),
                     value: correctiveDone,

@@ -30,6 +30,10 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
             photoAttached: Value(submission.photoAttached),
             photoPath: Value(submission.photoPath),
             notes: Value(submission.notes),
+            taskScheduleId: Value(submission.taskScheduleId),
+            taskTemplateGroupId: Value(submission.taskTemplateGroupId),
+            equipmentInstanceId: Value(submission.equipmentInstanceId),
+            customFieldValuesJson: Value(submission.customFieldValuesJson),
           ),
         );
   }
@@ -81,6 +85,10 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
       photoAttached: row.photoAttached,
       photoPath: row.photoPath,
       notes: row.notes,
+      taskScheduleId: row.taskScheduleId,
+      taskTemplateGroupId: row.taskTemplateGroupId,
+      equipmentInstanceId: row.equipmentInstanceId,
+      customFieldValuesJson: row.customFieldValuesJson,
     );
   }
 }

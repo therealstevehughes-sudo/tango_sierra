@@ -66,6 +66,9 @@ class DriftUserRepository implements UserRepository {
       name: row.name,
       jobTitle: row.jobTitle,
       roleTier: RoleTier.values.byName(row.roleTier),
+      preferredTemperatureUnit: TemperatureUnit.values.byName(
+        row.preferredTemperatureUnit,
+      ),
     );
   }
 }

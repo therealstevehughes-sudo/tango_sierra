@@ -81,5 +81,12 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - The assignment screen has its own entry-point icon on ManagerScreen/TopScreen, separate from Sprint 008's venue-setup icon, keeping the two features cleanly split.
 - This sprint assigns tasks to named individuals only, not broadcast to a whole role tier — role-wide assignment is a different, deferred model.
 
+## Richer task input UI (Sprint 010)
+- TaskSubmission gains traceability columns (taskScheduleId, taskTemplateGroupId, equipmentInstanceId, customFieldValuesJson) — needed for real audit traceability, not optional.
+- For tasks with a numeric range, PASS/FAIL is now auto-derived from whether the reading falls inside [minLimit, maxLimit], replacing the old manual PASS/FAIL button press for those tasks specifically. Non-measurable tasks (choice-only, notes-only) keep the manual PASS/FAIL buttons.
+- Units: per-user preference (temperature only — Celsius/Fahrenheit), template stays canonical, conversion happens only at the display/input edges. The schema field and conversion logic are built now; the self-service toggle UI itself is deferred to Sprint 016 — everyone is defaulted to the template's native unit until then.
+- Legal-limit reference numbers stay a manager-configuration-time concern, not shown to staff during data entry — only the template's own min/max and fixInstructions are surfaced.
+- The carousel shows all of a staff member's active schedules every session (matching today's fixed-list simplicity) — due/overdue tracking (TaskInstance) is a separate, later concern.
+
 ## Open / Not yet decided
 - (nothing logged yet)
