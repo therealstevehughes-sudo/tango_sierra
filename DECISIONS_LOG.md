@@ -60,5 +60,12 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - Manager-view icon on the task screen is visible to both Mid and Top (both are oversight roles), not Mid only.
 - RoleTier is a rename (staff/manager → top/mid/base), not additive — existing seeded users and any real on-disk data get migrated via a real schema migration (schemaVersion bump + remap step), consistent with how every prior schema change in this project has been handled, not a wipe-and-reseed shortcut.
 
+## Task library data model (Sprint 007)
+- Legal-limit violations are warning-only — a manager can still save a template whose limits fall outside the legal reference range, matching PROJECT_BIBLE's literal wording ("trigger a warning"), not a hard block.
+- TaskTemplate keeps an optional EquipmentType link (the category, e.g. "Fridge") — not pushed entirely down to TaskSchedule — so a future tick-box library (Sprint 009) can filter "which templates apply to Fridge-type equipment."
+- Custom fields are stored as a JSON blob column (customFieldsJson) rather than a separate child table, since the full range of field types the real 100+ tasks will need isn't known yet.
+- If/then logic for v1 is minimal structured fields (isCritical, requiresCorrectiveActionOnFail) rather than a generic rule engine — deferred until a concrete task actually needs more.
+- EquipmentType and LegalLimitReference get a handful of seeded example rows (Fridge/Freezer/Hot-hold unit; fridge/freezer/hot-hold legal temps) so the legal-limit check is testable, mirroring how Users got seeded in Sprints 003/006. One example TaskTemplate ("Check Fridge Temperature") is also seeded for the same reason — this is illustrative test data, not the start of loading the real 100+ task library.
+
 ## Open / Not yet decided
 - (nothing logged yet)

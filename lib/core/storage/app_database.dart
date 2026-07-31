@@ -29,12 +29,66 @@ class Users extends Table {
   TextColumn get pinSalt => text()();
 }
 
-@DriftDatabase(tables: [TaskSubmissions, Users])
+@DataClassName('EquipmentTypeEntity')
+class EquipmentTypes extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+}
+
+@DataClassName('LegalLimitReferenceEntity')
+class LegalLimitReferences extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get category => text()();
+  RealColumn get legalMin => real().nullable()();
+  RealColumn get legalMax => real().nullable()();
+  TextColumn get unit => text()();
+}
+
+@DataClassName('TaskTemplateEntity')
+class TaskTemplates extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get templateGroupId => integer()();
+  IntColumn get versionNumber => integer()();
+  IntColumn get previousVersionId =>
+      integer().nullable().references(TaskTemplates, #id)();
+  TextColumn get title => text()();
+  TextColumn get segment => text()();
+  TextColumn get applicableRoleTiers => text()();
+  TextColumn get method => text()();
+  BoolColumn get requiresPhoto =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get requiresNotes =>
+      boolean().withDefault(const Constant(false))();
+  TextColumn get customFieldsJson => text().nullable()();
+  RealColumn get minLimit => real().nullable()();
+  RealColumn get maxLimit => real().nullable()();
+  TextColumn get unit => text().nullable()();
+  TextColumn get legalLimitCategory => text().nullable()();
+  BoolColumn get isCritical => boolean().withDefault(const Constant(false))();
+  BoolColumn get requiresCorrectiveActionOnFail =>
+      boolean().withDefault(const Constant(false))();
+  TextColumn get fixInstructions => text().nullable()();
+  IntColumn get equipmentTypeId =>
+      integer().nullable().references(EquipmentTypes, #id)();
+  DateTimeColumn get createdAt => dateTime()();
+  IntColumn get createdByUserId =>
+      integer().nullable().references(Users, #id)();
+}
+
+@DriftDatabase(
+  tables: [
+    TaskSubmissions,
+    Users,
+    EquipmentTypes,
+    LegalLimitReferences,
+    TaskTemplates,
+  ],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -56,11 +110,21 @@ class AppDatabase extends _$AppDatabase {
           const UsersCompanion(roleTier: Value('mid')),
         );
       }
+      if (from < 4) {
+        await m.createTable(equipmentTypes);
+        await m.createTable(legalLimitReferences);
+        await m.createTable(taskTemplates);
+      }
     },
     beforeOpen: (details) async {
       final existingUsers = await select(users).get();
       if (existingUsers.isEmpty) {
         await _seedUsers();
+      }
+
+      final existingEquipmentTypes = await select(equipmentTypes).get();
+      if (existingEquipmentTypes.isEmpty) {
+        await _seedTaskLibraryReferenceData();
       }
     },
   );
@@ -131,6 +195,68 @@ class AppDatabase extends _$AppDatabase {
         pinHash: hashPin(pin, salt),
         pinSalt: salt,
       ),
+    );
+  }
+
+  Future<void> _seedTaskLibraryReferenceData() async {
+    final fridgeTypeId = await into(equipmentTypes).insert(
+      EquipmentTypesCompanion.insert(name: 'Fridge'),
+    );
+    await into(equipmentTypes).insert(
+      EquipmentTypesCompanion.insert(name: 'Freezer'),
+    );
+    await into(equipmentTypes).insert(
+      EquipmentTypesCompanion.insert(name: 'Hot-hold unit'),
+    );
+
+    await into(legalLimitReferences).insert(
+      LegalLimitReferencesCompanion.insert(
+        category: 'fridge_temp',
+        legalMax: const Value(8.0),
+        unit: 'celsius',
+      ),
+    );
+    await into(legalLimitReferences).insert(
+      LegalLimitReferencesCompanion.insert(
+        category: 'freezer_temp',
+        legalMax: const Value(-18.0),
+        unit: 'celsius',
+      ),
+    );
+    await into(legalLimitReferences).insert(
+      LegalLimitReferencesCompanion.insert(
+        category: 'hot_hold_temp',
+        legalMin: const Value(63.0),
+        unit: 'celsius',
+      ),
+    );
+
+    final templateId = await into(taskTemplates).insert(
+      TaskTemplatesCompanion.insert(
+        templateGroupId: 0,
+        versionNumber: 1,
+        title: 'Check Fridge Temperature',
+        segment: 'food_safety',
+        applicableRoleTiers: 'base',
+        method: 'numeric_photo',
+        requiresPhoto: const Value(true),
+        minLimit: const Value(2.0),
+        maxLimit: const Value(8.0),
+        unit: const Value('celsius'),
+        legalLimitCategory: const Value('fridge_temp'),
+        isCritical: const Value(true),
+        requiresCorrectiveActionOnFail: const Value(true),
+        fixInstructions: const Value(
+          'Move stock to a working fridge and contact management immediately.',
+        ),
+        equipmentTypeId: Value(fridgeTypeId),
+        createdAt: DateTime.now(),
+      ),
+    );
+    await (update(
+      taskTemplates,
+    )..where((t) => t.id.equals(templateId))).write(
+      TaskTemplatesCompanion(templateGroupId: Value(templateId)),
     );
   }
 
