@@ -1,4 +1,4 @@
-enum RoleTier { staff, manager }
+enum RoleTier { top, mid, base }
 
 class User {
   final int id;

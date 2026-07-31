@@ -144,12 +144,14 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   Widget build(BuildContext context) {
     Task task = controller.getCurrentTask();
     final currentUser = ref.watch(currentUserProvider);
-    final isManager = currentUser?.roleTier == RoleTier.manager;
+    final canSeeManagerView =
+        currentUser?.roleTier == RoleTier.mid ||
+        currentUser?.roleTier == RoleTier.top;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text("Task"),
-        actions: isManager
+        actions: canSeeManagerView
             ? [
                 IconButton(
                   onPressed: () {

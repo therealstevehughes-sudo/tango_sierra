@@ -34,7 +34,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -42,6 +42,19 @@ class AppDatabase extends _$AppDatabase {
     onUpgrade: (m, from, to) async {
       if (from < 2) {
         await m.createTable(users);
+      }
+      if (from < 3) {
+        // Two-tier (staff/manager) -> three-tier (top/mid/base) role rename.
+        await (update(
+          users,
+        )..where((u) => u.roleTier.equals('staff'))).write(
+          const UsersCompanion(roleTier: Value('base')),
+        );
+        await (update(
+          users,
+        )..where((u) => u.roleTier.equals('manager'))).write(
+          const UsersCompanion(roleTier: Value('mid')),
+        );
       }
     },
     beforeOpen: (details) async {
@@ -56,44 +69,50 @@ class AppDatabase extends _$AppDatabase {
     await _insertSeedUser(
       name: 'Steve Hughes',
       jobTitle: 'Kitchen Porter',
-      roleTier: 'staff',
+      roleTier: 'base',
       pin: '1111',
     );
     await _insertSeedUser(
       name: 'Aisha Khan',
       jobTitle: 'Line Chef',
-      roleTier: 'staff',
+      roleTier: 'base',
       pin: '2222',
     );
     await _insertSeedUser(
       name: 'Marta Nowak',
       jobTitle: 'Prep Chef',
-      roleTier: 'staff',
+      roleTier: 'base',
       pin: '3333',
     );
     await _insertSeedUser(
       name: 'Lewis Grant',
       jobTitle: 'Sous Chef',
-      roleTier: 'staff',
+      roleTier: 'base',
       pin: '4444',
     );
     await _insertSeedUser(
       name: 'Elena Petrov',
       jobTitle: 'Commis Chef',
-      roleTier: 'staff',
+      roleTier: 'base',
       pin: '5555',
     );
     await _insertSeedUser(
       name: 'Samir Ali',
       jobTitle: 'Grill Chef',
-      roleTier: 'staff',
+      roleTier: 'base',
       pin: '6666',
     );
     await _insertSeedUser(
       name: 'Jordan Blake',
       jobTitle: 'Head Chef / Kitchen Manager',
-      roleTier: 'manager',
+      roleTier: 'mid',
       pin: '9999',
+    );
+    await _insertSeedUser(
+      name: 'Alex Rivera',
+      jobTitle: 'Director / MD',
+      roleTier: 'top',
+      pin: '7777',
     );
   }
 

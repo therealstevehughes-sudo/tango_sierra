@@ -112,3 +112,24 @@ Risks / investigation notes: Bug #1 (photo requirement) did **not** reproduce in
 Deferred items: Everything already deferred in Sprint 004 remains deferred. Root cause of the original bug report (if it wasn't a false positive from hot-reload state or a missed error message) is still unconfirmed — worth asking for exact repro steps (device/build) if it recurs.
 Save point name: SPRINT_005_LOCK
 Notes: Commit 830e2531c9207adab2818b058023fb53750e62fe, message "Sprint 005: disable SUBMIT until requirements met, add manager logout".
+
+---
+
+## Sprint 006
+Date: 2026-07-24
+Objective: Replace the two-tier (staff/manager) role system with the three-tier (top/mid/base) model confirmed in DECISIONS_LOG.md — role/permission foundation and routing only, no venue setup, task library, or dashboard content (that's Sprint 008+).
+Files changed:
+- lib/shared/models/user.dart — `RoleTier` enum renamed from `{staff, manager}` to `{top, mid, base}` (a rename, not additive)
+- lib/core/storage/app_database.dart — schemaVersion bumped 2 → 3; `onUpgrade` now also remaps existing `role_tier` values via drift's typed query API (`staff`→`base`, `manager`→`mid`) for any pre-existing on-disk database, rather than wiping and reseeding; seed data updated to use the new tier values directly for fresh installs, plus a new demo top-tier user added (Alex Rivera, Director / MD, PIN 7777) since no top-tier account existed before this sprint
+- lib/core/storage/app_database.g.dart — build_runner re-ran but produced no diff (no table/column structure changed this sprint; schemaVersion, migration logic, and seed values are all hand-written in app_database.dart, not generated)
+- lib/app/app.dart — routing extended from 2-way to 3-way: `top` → new `TopScreen`, `mid` → `ManagerScreen` (unchanged), `base` → `TaskScreen` (unchanged)
+- lib/features/dashboard/top_screen.dart (new) — deliberately bare placeholder: title, logout button, one line of text. No dashboard/export/branding content — that's Sprint 017/015
+- lib/features/tasks/task_screen.dart — manager-view icon visibility changed from `roleTier == manager` to `roleTier == mid || roleTier == top` (both are oversight roles, per approved decision)
+- DECISIONS_LOG.md — recorded the confirmed title→tier mapping and the four approved calls (Area Manager placement, placeholder screen, icon visibility, real migration)
+Files unchanged: lib/features/manager/manager_screen.dart, lib/features/auth/login_screen.dart, lib/features/tasks/task_controller.dart, lib/shared/repositories/*, lib/shared/providers/* — none of these reference `RoleTier` by specific value and needed no changes
+Architecture impact: Fulfils ARCHITECTURE_LOCK.md's Permissions Rule addition from the last lock update ("Role now carries an explicit tier: top, mid, or base"). No new entities beyond what was already locked; `Role`/`User` were already planned to carry a tier.
+UI impact: Existing Base (was staff) and Mid (was manager) experiences are unchanged in content — only the tier names changed underneath them. Top tier is new and, at this stage, sees only a placeholder screen with a logout button, matching the explicit "foundation and routing only" scope.
+Risks: Confirmed via `flutter analyze` (clean — the migration uses drift's typed `update(users)..where(...)` API, not raw SQL strings, so a wrong table/column name would have been a compile error, not a silent runtime bug) and a Windows debug run against the *existing, unmodified* on-disk dev database from prior sprints' testing (schemaVersion 2, with real seeded `staff`/`manager` data) to confirm the upgrade migration executes without throwing. I did not independently verify the exact post-migration row values via a dedicated database-level test (e.g. asserting Jordan Blake's row now literally reads `mid`) — that would need a synthetic old-schema test harness I judged not worth the build time given the migration logic is fully type-checked and simple (two `WHERE role_tier = X` remaps). The new seed-only addition (Alex Rivera, top tier) only appears on a *fresh* install, since seeding only runs when the `users` table is empty — it will not appear on this machine's existing dev database, which already has 7 seeded rows; wiping the local dev database is the only way to see it here, and I did not do that since it isn't the user's data to discard without asking.
+Deferred items: Everything already deferred in Sprint 005 remains deferred. Venue setup wizard, task library, staff onboarding, branding, notifications, audit versioning, offline queue, multilingual, inspection export, and the real Top-tier dashboard are all Sprint 008+ as scoped.
+Save point name: SPRINT_006_LOCK
+Notes: Commit hash to be recorded after this entry is committed.

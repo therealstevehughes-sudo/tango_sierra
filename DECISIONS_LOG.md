@@ -53,5 +53,12 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 ## Sprint sequence (post Sprint 005)
 006 three-tier roles | 007 task library data model (method/limits/triggers/if-then/custom fields) | 008 venue setup wizard | 009 staff onboarding + task assignment | 010 richer task input UI | 011 shift handover + summary/report | 012 notifications | 013 audit trail versioning | 014 offline queue + sync indicator | 015 branding | 016 multilingual | 017 inspection export | 018 visual/UX redesign
 
+## Three-tier roles (Sprint 006)
+- Confirmed title → tier mapping: Base = Kitchen Porter, Prep Cook/Commis, Line Cook/Chef de Partie, Sous Chef/Shift Lead. Mid = Head Chef/Kitchen Manager, General Manager. Top = Area Manager, Operations Manager, Group Executive Chef, Director/MD.
+- Area Manager placed at Top, not Mid — multi-site scope fits PROJECT_BIBLE's "top tier" definition (company-wide oversight) better than day-to-day single-venue management.
+- Top tier gets a bare placeholder screen this sprint (logout only, no dashboard content) rather than sharing the manager log with Mid — cheap now, avoids having to unwind a "top==mid for now" shortcut later when Sprint 017 builds the real dashboard.
+- Manager-view icon on the task screen is visible to both Mid and Top (both are oversight roles), not Mid only.
+- RoleTier is a rename (staff/manager → top/mid/base), not additive — existing seeded users and any real on-disk data get migrated via a real schema migration (schemaVersion bump + remap step), consistent with how every prior schema change in this project has been handled, not a wipe-and-reseed shortcut.
+
 ## Open / Not yet decided
 - (nothing logged yet)

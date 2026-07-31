@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../features/auth/login_screen.dart';
+import '../features/dashboard/top_screen.dart';
 import '../features/manager/manager_screen.dart';
 import '../features/tasks/task_screen.dart';
 import '../shared/models/user.dart';
@@ -17,7 +18,9 @@ class MyApp extends ConsumerWidget {
     Widget home;
     if (currentUser == null) {
       home = const LoginScreen();
-    } else if (currentUser.roleTier == RoleTier.manager) {
+    } else if (currentUser.roleTier == RoleTier.top) {
+      home = const TopScreen();
+    } else if (currentUser.roleTier == RoleTier.mid) {
       home = const ManagerScreen();
     } else {
       home = const TaskScreen();
