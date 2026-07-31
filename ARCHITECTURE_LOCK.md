@@ -43,6 +43,10 @@ lib/
     food_safety/
     reports/
     settings/
+    venue_setup/
+    onboarding/
+    branding/
+    notifications/
   shared/
     models/
     enums/
@@ -80,7 +84,7 @@ Widgets display state and trigger actions.
 Services and controllers handle behaviour.
 
 ## UI Rule
-Staff UI and Manager UI are different products inside the same app.
+Staff UI, Manager UI, and Top-tier UI are different products inside the same app.
 
 Staff UI:
 - task-first
@@ -95,6 +99,14 @@ Manager UI:
 - reassignment
 - override
 - sign-off
+
+Top-tier UI:
+- dashboards
+- trends
+- site comparison
+- exports
+- branding controls
+- notification-override controls
 
 ## Data Layers
 The architecture must support:
@@ -111,15 +123,20 @@ Every submission record must support:
 - sync timestamp
 - sync state
 
+Sync is additive-only: a synced record must never be merged with or overwritten by a later write.
+
 ## Core Entities
 The data model must support these entities:
 - Organisation
 - Brand
+- BrandingConfig
 - Site
 - Area
 - User
 - Role
 - Shift
+- EquipmentType
+- Equipment
 - TaskTemplate
 - TaskSchedule
 - TaskInstance
@@ -127,17 +144,32 @@ The data model must support these entities:
 - PhotoEvidence
 - Incident
 - CorrectiveAction
-- Equipment
 - CleaningItem
 - TemperatureRecord
+- LegalLimitReference
 - Notification
+- NotificationRule
 - OverrideLog
 - ReassignmentLog
 - Report
 
+Notes on entities above:
+- `BrandingConfig` — company/branch branding (colours, logo, contact info), scoped to Organisation/Brand, editable by top tier only.
+- `EquipmentType` — the general category of equipment (e.g. "Fridge", "Freezer", "Hot-hold unit"). `Equipment` represents a specific named instance of a type, tied to a Site/Area (e.g. "Fridge 1", "Fridge 2").
+- `LegalLimitReference` — reference table of legal min/max values (plus unit) per task/measurement type (e.g. fridge/hot-hold temps), used to validate `TaskTemplate` limits at configuration time.
+- `NotificationRule` — configurable trigger-notification rules (which trigger, which tier/user, channel: push and/or email, who set it, override flag). Distinct from `Notification`, which represents an actual sent/logged notification.
+- `Role` carries a required tier attribute: `top`, `mid`, or `base`.
+
+## Versioning Rule
+Task-library configuration (`TaskTemplate` and other configurable setup entities such as `LegalLimitReference`, `NotificationRule`, `BrandingConfig`) follows the same append-only pattern already used for `TaskSubmission`.
+
+Editing a configuration entity must never mutate the existing row in place. Instead, it creates a new row carrying a `previousVersionId` link back to the prior version. Old versions remain queryable and visible — nothing is ever overwritten.
+
 ## Permissions Rule
 Permissions are role-driven.
 Do not hard-code random visibility into widgets.
+
+Role now carries an explicit tier: top, mid, or base. All role-driven checks must key off this tier, not ad hoc string/role-name comparisons.
 
 ## Design Rule
 All styling must come from the design system.
