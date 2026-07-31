@@ -32,5 +32,26 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 ## Session lifetime (Sprint 004)
 - Not a persistent login. The session auto-resets to the login screen once all tasks for that session are complete (device hand-off point for the next staff member), rather than requiring manual logout.
 
+## Full product vision (confirmed, expands original scope)
+- Three role tiers: top (C-suite, company-wide + stakeholder data), mid (managers/supervisors - assign tasks, manage staff, notified on triggers), base (workers - task execution)
+- Task library: grouped by operation segment/role, site-editable, with trigger events (outside min/max), fix instructions, if/then logic
+- Each task has a configurable method (e.g. thermometer+photo, filter type choices) and custom fields - not just pass/fail/temperature
+- Multiple named instances per equipment type (Fridge 1, Fridge 2, etc.), set up by manager/top tier per venue
+- Venue setup wizard: equipment, operational points, staff + roles - guided, intuitive
+- Company/branch branding controlled by top tier (colors, logo, contact info)
+- Onboarding: manager selects staff, assigns tasks + frequency via tick-box library, can add custom tasks
+- End-of-session summary: pass/fail + triggers, sendable to a selected manager
+- Trigger notifications: configurable by top/mid tier (push and/or email), top tier can override mid-tier settings
+- Shift handover: carry-over notes between shifts
+- Multilingual: each staff member selects their own language
+- Audit trail: append-only, versioned - nothing overwritten; manager changes to task setup (limits, frequency) create a new version, old version stays visible
+- Legal limit checking: task limits checked against a legal-minimum reference table (e.g. fridge/freezer/hot-hold temps); attempts to set outside legal allowance trigger a warning
+- Offline: each device queues entries locally with timestamp, syncs when reconnected - no merging/overwrite, all entries additive; manager dashboard shows a "not yet synced" indicator
+- Units: support both metric/imperial and Celsius/Fahrenheit
+- Inspection data export: management/top tier only
+
+## Sprint sequence (post Sprint 005)
+006 three-tier roles | 007 task library data model (method/limits/triggers/if-then/custom fields) | 008 venue setup wizard | 009 staff onboarding + task assignment | 010 richer task input UI | 011 shift handover + summary/report | 012 notifications | 013 audit trail versioning | 014 offline queue + sync indicator | 015 branding | 016 multilingual | 017 inspection export | 018 visual/UX redesign
+
 ## Open / Not yet decided
 - (nothing logged yet)

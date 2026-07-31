@@ -48,10 +48,18 @@ Secondary:
 - Group Executive Chef
 - Director / MD
 
+## Role Tier Model (confirmed — expands the flat Primary/Secondary grouping above)
+Every user belongs to one of three tiers. This is the formal permissions model going forward; the named titles above are examples of who typically sits in each tier.
+- **Top tier**: C-suite / company-wide oversight. Sees company-wide data and stakeholder-facing reporting. Controls company/branch branding. Can override mid-tier notification settings. Only tier with access to inspection data export.
+- **Mid tier**: managers and supervisors. Assign tasks, manage staff, run venue setup, get notified on trigger events (threshold breaches, escalations).
+- **Base tier**: workers. Task execution only — see what's due now, what's overdue, what to do next.
+
+Exactly which named titles above map to which tier (e.g. whether Area Manager and Operations Manager both sit at "top", or whether one is "mid") is to be confirmed as part of Sprint 006, not assumed here.
+
 ## Role Principle
 Not everyone sees everything.
 
-Each role sees only what it needs to execute or control its responsibilities.
+Each role sees only what it needs to execute or control its responsibilities, per its tier (top / mid / base).
 
 ## Operational Reality
 This app is for real kitchens where:
@@ -98,6 +106,21 @@ Rules:
 Managers do not use the one-task carousel as their main view.
 Managers use list and board views.
 
+## Task Library Model (confirmed, expands Task Execution Model)
+Tasks are no longer a fixed hardcoded set. The app is built around a configurable task library:
+- Tasks are grouped by operational segment and by role
+- The task library is site-editable — a venue's manager/top tier can configure it for that venue
+- Each task can define trigger events, firing when a reading falls outside a configured min/max
+- Each task can carry fix instructions (what to do when it fails)
+- Tasks support if/then conditional logic (e.g. if a critical task fails, then require a corrective action before continuing — generalised beyond a single hardcoded rule)
+- Each task has a configurable **method** — not limited to pass/fail/temperature. Examples: thermometer reading + photo, a choice of filter types, or other custom fields as the task requires
+- This does not relax the existing Task Execution Model rules (one task per screen, minimal typing, large buttons, no bulk ticking) — it only widens what a single task's input can look like
+
+## Legal Limit Compliance (confirmed)
+Where a task's limits relate to a legal requirement (e.g. fridge, freezer, and hot-hold temperatures), those limits are checked against a legal-minimum reference table.
+
+An attempt to configure a task's limit outside the legally allowed range must trigger a warning at setup time.
+
 ## Enforcement Model
 The app must support:
 - time-based task triggering
@@ -130,8 +153,27 @@ Every reassignment must record:
 
 The system must support temporary role flexibility without destroying accountability.
 
+## Venue Setup and Equipment Configuration (confirmed)
+Venues are configured through a guided, intuitive setup wizard covering:
+- equipment
+- operational points/areas
+- staff and their roles
+
+Equipment supports multiple named instances of the same type (e.g. Fridge 1, Fridge 2), set up per venue by the manager/top tier.
+
+## Company Branding (confirmed)
+Company/branch branding — colours, logo, contact info — is controlled by the top tier.
+
+## Staff Onboarding and Task Assignment (confirmed)
+During onboarding, a manager:
+- selects staff for the venue
+- assigns tasks and frequency to staff, using a tick-box library of pre-built tasks
+- can add custom tasks beyond the library
+
 ## Language Principle
 The UI must support multilingual use.
+
+Each staff member selects their own display language — this is a per-user setting, not a single device-wide setting, since devices are shared across a shift.
 
 The app must not rely on language alone to function.
 Tasks must be supported by icons, colour, simple controls, and obvious task states.
@@ -162,6 +204,12 @@ Rules:
 - sync timestamp must also be stored
 - no data loss
 - no fake re-timestamping during sync
+- each device queues entries locally with a timestamp and syncs when reconnected
+- sync is additive only — entries are never merged or overwritten
+- the manager dashboard must show a "not yet synced" indicator for entries pending sync
+
+## Units (confirmed)
+The app must support both metric and imperial units, and both Celsius and Fahrenheit, wherever a task records a measurement.
 
 ## Data Integrity Rules
 - no editing after submission
@@ -171,6 +219,11 @@ Rules:
 - failed critical tasks require corrective action or escalation
 - immutable logs are non-negotiable
 
+## Audit Trail and Versioning (confirmed, extends Data Integrity Rules)
+The audit trail is append-only and versioned. Nothing is ever overwritten.
+
+When a manager changes task setup (e.g. limits, frequency), that change creates a new version. The old version remains visible in the audit trail rather than being replaced.
+
 ## Shift Model
 Each day is structured into:
 - Open
@@ -178,6 +231,15 @@ Each day is structured into:
 - Close
 
 Critical tasks may block completion of a phase.
+
+Shift handover carries notes forward between shifts.
+
+At the end of a session, an end-of-session summary (pass/fail results plus any triggers fired) can be sent to a selected manager.
+
+## Notifications (confirmed)
+Trigger notifications (e.g. a reading outside its configured limit) are configurable by top and/or mid tier, via push and/or email.
+
+Top tier can override mid-tier notification settings.
 
 ## MVP Scope
 MVP includes only:
@@ -199,6 +261,26 @@ MVP excludes:
 - IoT integration
 - maintenance platform complexity beyond fault logging
 
+## Expanded Scope — Full Vision (confirmed, supersedes the MVP boundary above)
+The product scope has expanded beyond the original MVP definition above. The following are now confirmed in scope, sequenced across Sprints 006–018 in MASTER_PLAN.md:
+- three-tier role model (top / mid / base)
+- configurable task library (grouped by segment/role, site-editable, trigger events, fix instructions, if/then logic, custom fields and methods)
+- legal-limit reference checking
+- venue setup wizard (equipment, operational points, staff and roles)
+- multi-instance equipment configuration per venue
+- company/branch branding controlled by top tier
+- staff onboarding with task assignment from a tick-box library, plus custom tasks
+- shift handover and end-of-session summary/report
+- configurable trigger notifications (push/email), with top-tier override of mid-tier settings
+- per-user multilingual selection
+- versioned, append-only audit trail covering task configuration changes, not just submissions
+- offline queue with additive-only sync and a manager-visible "not yet synced" indicator
+- unit support (metric/imperial, Celsius/Fahrenheit)
+- inspection data export restricted to top tier
+- a later visual/UX redesign pass
+
+The original MVP exclusions above (payroll, rota scheduling, recipe management, supplier ordering, advanced AI, IoT, maintenance-platform complexity) still stand — none of the expanded scope above changes what this product must not become (see "What This Product Is Not").
+
 ## Success Definition
 The product succeeds if:
 - staff complete the right tasks at the right times
@@ -217,3 +299,4 @@ The following must never change without explicit approval:
 - multilingual readiness
 - minimal typing
 - action-first UX
+- append-only, versioned audit trail — task configuration changes must never overwrite a prior version
