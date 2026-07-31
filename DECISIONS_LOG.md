@@ -67,5 +67,12 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - If/then logic for v1 is minimal structured fields (isCritical, requiresCorrectiveActionOnFail) rather than a generic rule engine — deferred until a concrete task actually needs more.
 - EquipmentType and LegalLimitReference get a handful of seeded example rows (Fridge/Freezer/Hot-hold unit; fridge/freezer/hot-hold legal temps) so the legal-limit check is testable, mirroring how Users got seeded in Sprints 003/006. One example TaskTemplate ("Check Fridge Temperature") is also seeded for the same reason — this is illustrative test data, not the start of loading the real 100+ task library.
 
+## Venue setup wizard (Sprint 008)
+- No Site/Organisation/Brand this sprint — the app stays implicitly single-venue; Area and Equipment don't get a siteId yet since Site doesn't exist.
+- Equipment.areaId is required in the wizard UI but nullable at the schema level, matching how other optional-but-usually-set FKs have been handled.
+- Staff creation lives on the existing UserRepository (new createStaffMember method) rather than a new repository.
+- Entry-point icons on ManagerScreen and TopScreen are included in this sprint, not deferred — a wizard nobody can reach isn't useful, and each addition is a single icon button, not a redesign.
+- Light suggestion chips (common area names) and auto-numbered equipment names (e.g. "Fridge 3") are in scope for v1 — kept intentionally simple, no recommendation engine.
+
 ## Open / Not yet decided
 - (nothing logged yet)

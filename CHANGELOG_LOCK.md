@@ -153,3 +153,26 @@ Risks: Verified with a temporary test (deleted after, not part of this commit) t
 Deferred items: Wiring this repository into any real screen (still Sprint 010+ for the input UI, Sprint 009 for onboarding/assignment), `TaskSchedule`/`TaskInstance` (which will carry the specific-equipment-instance link), re-pointing logic for any schedule referencing a template that gets edited (nothing references templates yet, so nothing to re-point), loading the real 100+ task library, unit conversion for the legal-limit check.
 Save point name: SPRINT_007_LOCK
 Notes: Commit 4634e7518dd7c1dd29deed304cd4812eadb5e3f7, message "Sprint 007: task library data model (TaskTemplate, versioned)".
+
+---
+
+## Sprint 008
+Date: 2026-07-31
+Objective: Build the venue setup wizard — a guided 3-step flow (Areas → Equipment → Staff) for Mid/Top tier to configure a venue's operational areas, named equipment instances, and staff, reachable from both the manager log and the top-tier screen.
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 4 → 5; new tables `Areas` and `EquipmentInstances` (named `EquipmentInstances`, not `Equipment`, specifically to avoid a class-name collision with the domain model `Equipment` — this also fixes what would have been the only singular table name in the schema, every other table is already plural); `EquipmentInstances.equipmentTypeId` required, `areaId` nullable; `onUpgrade` creates both new tables for existing installs; no seed data for Areas/EquipmentInstances (deliberately left empty so the wizard's own "Add" flow is the only way data appears, giving a clean first-run demonstration)
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/area.dart, lib/shared/models/equipment.dart (new)
+- lib/shared/repositories/area_repository.dart, lib/shared/repositories/equipment_repository.dart (new) — `EquipmentRepository` also exposes `getEquipmentTypes()` since the wizard needs both the type picker and instance creation together
+- lib/shared/repositories/user_repository.dart — added `createStaffMember` (reuses existing salted-PIN hashing, same as seeded users)
+- lib/shared/providers/venue_setup_providers.dart (new)
+- lib/features/venue_setup/venue_setup_wizard_screen.dart (new) — 3-step wizard; each add saves immediately (no data held until a final step); suggestion chips for common area names; equipment name auto-suggested from the selected type + existing count (e.g. "Fridge 3")
+- lib/features/manager/manager_screen.dart, lib/features/dashboard/top_screen.dart — each gets one new icon button (`Icons.store`, "Venue Setup") opening the wizard, alongside the existing logout icon
+- DECISIONS_LOG.md — recorded the five approved defaults
+Files unchanged: lib/features/tasks/*, lib/features/auth/login_screen.dart, lib/shared/repositories/task_submission_repository.dart, lib/shared/repositories/task_template_repository.dart — no changes to the task carousel, task library, or auth
+Architecture impact: First entities to use Area/Equipment beyond Sprint 007's EquipmentType. Confirmed scope: no Site/Organisation/Brand yet — the app remains implicitly single-venue.
+UI impact: New 3-step wizard screen. Two existing screens (manager log, top-tier placeholder) each gain one icon button — no other visual changes to either.
+Risks: A real bug surfaced and was fixed during verification, but it was in the *test's fake repositories*, not the production code — the fakes' `getAll()` methods initially returned a live reference to their internal list rather than a defensive copy, so when the widget stored that reference and the repo's own `create()` later mutated the same list internally, items appeared to double up. The real `DriftAreaRepository`/`DriftEquipmentRepository` query the database fresh on every call and can't have this aliasing problem — confirmed by fixing the fakes (returning `List.of(...)` copies) and rerunning, at which point the full 3-step flow (suggestion chip → area created; type+area dropdown selection with correct auto-suggested naming → equipment created and linked; text fields → staff created with correct role tier) passed end-to-end against the real widget code. Also ran a real Windows debug build against the existing v4 dev database to confirm the v4→v5 migration executes without error on a real existing install.
+Deferred items: Site/Organisation/Brand (multi-venue), TaskSchedule/TaskInstance (which will eventually let a task template target a specific equipment instance), editing or deleting areas/equipment/staff after creation (this sprint is add-only, matching how the rest of this app treats creation), a real "which venue am I configuring" concept.
+Save point name: SPRINT_008_LOCK
+Notes: Commit hash to be recorded after this entry is committed.

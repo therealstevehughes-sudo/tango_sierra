@@ -5,6 +5,12 @@ import '../models/user.dart';
 abstract class UserRepository {
   Future<List<User>> getAll();
   Future<User?> authenticate({required int userId, required String pin});
+  Future<User> createStaffMember({
+    required String name,
+    required String jobTitle,
+    required RoleTier roleTier,
+    required String pin,
+  });
 }
 
 class DriftUserRepository implements UserRepository {
@@ -30,6 +36,28 @@ class DriftUserRepository implements UserRepository {
     if (hashPin(pin, row.pinSalt) != row.pinHash) return null;
 
     return _toModel(row);
+  }
+
+  @override
+  Future<User> createStaffMember({
+    required String name,
+    required String jobTitle,
+    required RoleTier roleTier,
+    required String pin,
+  }) async {
+    final salt = generateSalt();
+    final id = await _db
+        .into(_db.users)
+        .insert(
+          UsersCompanion.insert(
+            name: name,
+            jobTitle: jobTitle,
+            roleTier: roleTier.name,
+            pinHash: hashPin(pin, salt),
+            pinSalt: salt,
+          ),
+        );
+    return User(id: id, name: name, jobTitle: jobTitle, roleTier: roleTier);
   }
 
   User _toModel(UserEntity row) {

@@ -75,6 +75,21 @@ class TaskTemplates extends Table {
       integer().nullable().references(Users, #id)();
 }
 
+@DataClassName('AreaEntity')
+class Areas extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+}
+
+@DataClassName('EquipmentInstanceEntity')
+class EquipmentInstances extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  IntColumn get equipmentTypeId =>
+      integer().references(EquipmentTypes, #id)();
+  IntColumn get areaId => integer().nullable().references(Areas, #id)();
+}
+
 @DriftDatabase(
   tables: [
     TaskSubmissions,
@@ -82,13 +97,15 @@ class TaskTemplates extends Table {
     EquipmentTypes,
     LegalLimitReferences,
     TaskTemplates,
+    Areas,
+    EquipmentInstances,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -114,6 +131,10 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(equipmentTypes);
         await m.createTable(legalLimitReferences);
         await m.createTable(taskTemplates);
+      }
+      if (from < 5) {
+        await m.createTable(areas);
+        await m.createTable(equipmentInstances);
       }
     },
     beforeOpen: (details) async {
