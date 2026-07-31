@@ -74,5 +74,12 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - Entry-point icons on ManagerScreen and TopScreen are included in this sprint, not deferred — a wizard nobody can reach isn't useful, and each addition is a single icon button, not a redesign.
 - Light suggestion chips (common area names) and auto-numbered equipment names (e.g. "Fridge 3") are in scope for v1 — kept intentionally simple, no recommendation engine.
 
+## Staff onboarding + task assignment (Sprint 009)
+- TaskSchedule uses a simple `active` boolean toggle for unassign/reassign, not full append-only versioning like TaskTemplate — full reassignment history is deferred until ReassignmentLog itself gets built.
+- Frequency is a small fixed enum (daily/weekly/per-shift/custom) plus a free-text detail field for the custom case — granular scheduling (specific times, shift-phase-aware) is deferred to Sprint 010/011.
+- Custom tasks default to `segment: 'custom'`, reusing the existing TaskTemplate field rather than adding a dedicated isCustom flag.
+- The assignment screen has its own entry-point icon on ManagerScreen/TopScreen, separate from Sprint 008's venue-setup icon, keeping the two features cleanly split.
+- This sprint assigns tasks to named individuals only, not broadcast to a whole role tier — role-wide assignment is a different, deferred model.
+
 ## Open / Not yet decided
 - (nothing logged yet)

@@ -3257,6 +3257,610 @@ class EquipmentInstancesCompanion
   }
 }
 
+class $TaskSchedulesTable extends TaskSchedules
+    with TableInfo<$TaskSchedulesTable, TaskScheduleEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskSchedulesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _taskTemplateGroupIdMeta =
+      const VerificationMeta('taskTemplateGroupId');
+  @override
+  late final GeneratedColumn<int> taskTemplateGroupId = GeneratedColumn<int>(
+    'task_template_group_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _assignedUserIdMeta = const VerificationMeta(
+    'assignedUserId',
+  );
+  @override
+  late final GeneratedColumn<int> assignedUserId = GeneratedColumn<int>(
+    'assigned_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _equipmentInstanceIdMeta =
+      const VerificationMeta('equipmentInstanceId');
+  @override
+  late final GeneratedColumn<int> equipmentInstanceId = GeneratedColumn<int>(
+    'equipment_instance_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES equipment_instances (id)',
+    ),
+  );
+  static const VerificationMeta _frequencyMeta = const VerificationMeta(
+    'frequency',
+  );
+  @override
+  late final GeneratedColumn<String> frequency = GeneratedColumn<String>(
+    'frequency',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _customFrequencyDetailMeta =
+      const VerificationMeta('customFrequencyDetail');
+  @override
+  late final GeneratedColumn<String> customFrequencyDetail =
+      GeneratedColumn<String>(
+        'custom_frequency_detail',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _assignedByUserIdMeta = const VerificationMeta(
+    'assignedByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> assignedByUserId = GeneratedColumn<int>(
+    'assigned_by_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _assignedAtMeta = const VerificationMeta(
+    'assignedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> assignedAt = GeneratedColumn<DateTime>(
+    'assigned_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    taskTemplateGroupId,
+    assignedUserId,
+    equipmentInstanceId,
+    frequency,
+    customFrequencyDetail,
+    assignedByUserId,
+    assignedAt,
+    active,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task_schedules';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaskScheduleEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('task_template_group_id')) {
+      context.handle(
+        _taskTemplateGroupIdMeta,
+        taskTemplateGroupId.isAcceptableOrUnknown(
+          data['task_template_group_id']!,
+          _taskTemplateGroupIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_taskTemplateGroupIdMeta);
+    }
+    if (data.containsKey('assigned_user_id')) {
+      context.handle(
+        _assignedUserIdMeta,
+        assignedUserId.isAcceptableOrUnknown(
+          data['assigned_user_id']!,
+          _assignedUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_assignedUserIdMeta);
+    }
+    if (data.containsKey('equipment_instance_id')) {
+      context.handle(
+        _equipmentInstanceIdMeta,
+        equipmentInstanceId.isAcceptableOrUnknown(
+          data['equipment_instance_id']!,
+          _equipmentInstanceIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('frequency')) {
+      context.handle(
+        _frequencyMeta,
+        frequency.isAcceptableOrUnknown(data['frequency']!, _frequencyMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_frequencyMeta);
+    }
+    if (data.containsKey('custom_frequency_detail')) {
+      context.handle(
+        _customFrequencyDetailMeta,
+        customFrequencyDetail.isAcceptableOrUnknown(
+          data['custom_frequency_detail']!,
+          _customFrequencyDetailMeta,
+        ),
+      );
+    }
+    if (data.containsKey('assigned_by_user_id')) {
+      context.handle(
+        _assignedByUserIdMeta,
+        assignedByUserId.isAcceptableOrUnknown(
+          data['assigned_by_user_id']!,
+          _assignedByUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_assignedByUserIdMeta);
+    }
+    if (data.containsKey('assigned_at')) {
+      context.handle(
+        _assignedAtMeta,
+        assignedAt.isAcceptableOrUnknown(data['assigned_at']!, _assignedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_assignedAtMeta);
+    }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TaskScheduleEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaskScheduleEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      taskTemplateGroupId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}task_template_group_id'],
+      )!,
+      assignedUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}assigned_user_id'],
+      )!,
+      equipmentInstanceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}equipment_instance_id'],
+      ),
+      frequency: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}frequency'],
+      )!,
+      customFrequencyDetail: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}custom_frequency_detail'],
+      ),
+      assignedByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}assigned_by_user_id'],
+      )!,
+      assignedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}assigned_at'],
+      )!,
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
+    );
+  }
+
+  @override
+  $TaskSchedulesTable createAlias(String alias) {
+    return $TaskSchedulesTable(attachedDatabase, alias);
+  }
+}
+
+class TaskScheduleEntity extends DataClass
+    implements Insertable<TaskScheduleEntity> {
+  final int id;
+  final int taskTemplateGroupId;
+  final int assignedUserId;
+  final int? equipmentInstanceId;
+  final String frequency;
+  final String? customFrequencyDetail;
+  final int assignedByUserId;
+  final DateTime assignedAt;
+  final bool active;
+  const TaskScheduleEntity({
+    required this.id,
+    required this.taskTemplateGroupId,
+    required this.assignedUserId,
+    this.equipmentInstanceId,
+    required this.frequency,
+    this.customFrequencyDetail,
+    required this.assignedByUserId,
+    required this.assignedAt,
+    required this.active,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['task_template_group_id'] = Variable<int>(taskTemplateGroupId);
+    map['assigned_user_id'] = Variable<int>(assignedUserId);
+    if (!nullToAbsent || equipmentInstanceId != null) {
+      map['equipment_instance_id'] = Variable<int>(equipmentInstanceId);
+    }
+    map['frequency'] = Variable<String>(frequency);
+    if (!nullToAbsent || customFrequencyDetail != null) {
+      map['custom_frequency_detail'] = Variable<String>(customFrequencyDetail);
+    }
+    map['assigned_by_user_id'] = Variable<int>(assignedByUserId);
+    map['assigned_at'] = Variable<DateTime>(assignedAt);
+    map['active'] = Variable<bool>(active);
+    return map;
+  }
+
+  TaskSchedulesCompanion toCompanion(bool nullToAbsent) {
+    return TaskSchedulesCompanion(
+      id: Value(id),
+      taskTemplateGroupId: Value(taskTemplateGroupId),
+      assignedUserId: Value(assignedUserId),
+      equipmentInstanceId: equipmentInstanceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(equipmentInstanceId),
+      frequency: Value(frequency),
+      customFrequencyDetail: customFrequencyDetail == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customFrequencyDetail),
+      assignedByUserId: Value(assignedByUserId),
+      assignedAt: Value(assignedAt),
+      active: Value(active),
+    );
+  }
+
+  factory TaskScheduleEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaskScheduleEntity(
+      id: serializer.fromJson<int>(json['id']),
+      taskTemplateGroupId: serializer.fromJson<int>(
+        json['taskTemplateGroupId'],
+      ),
+      assignedUserId: serializer.fromJson<int>(json['assignedUserId']),
+      equipmentInstanceId: serializer.fromJson<int?>(
+        json['equipmentInstanceId'],
+      ),
+      frequency: serializer.fromJson<String>(json['frequency']),
+      customFrequencyDetail: serializer.fromJson<String?>(
+        json['customFrequencyDetail'],
+      ),
+      assignedByUserId: serializer.fromJson<int>(json['assignedByUserId']),
+      assignedAt: serializer.fromJson<DateTime>(json['assignedAt']),
+      active: serializer.fromJson<bool>(json['active']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'taskTemplateGroupId': serializer.toJson<int>(taskTemplateGroupId),
+      'assignedUserId': serializer.toJson<int>(assignedUserId),
+      'equipmentInstanceId': serializer.toJson<int?>(equipmentInstanceId),
+      'frequency': serializer.toJson<String>(frequency),
+      'customFrequencyDetail': serializer.toJson<String?>(
+        customFrequencyDetail,
+      ),
+      'assignedByUserId': serializer.toJson<int>(assignedByUserId),
+      'assignedAt': serializer.toJson<DateTime>(assignedAt),
+      'active': serializer.toJson<bool>(active),
+    };
+  }
+
+  TaskScheduleEntity copyWith({
+    int? id,
+    int? taskTemplateGroupId,
+    int? assignedUserId,
+    Value<int?> equipmentInstanceId = const Value.absent(),
+    String? frequency,
+    Value<String?> customFrequencyDetail = const Value.absent(),
+    int? assignedByUserId,
+    DateTime? assignedAt,
+    bool? active,
+  }) => TaskScheduleEntity(
+    id: id ?? this.id,
+    taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
+    assignedUserId: assignedUserId ?? this.assignedUserId,
+    equipmentInstanceId: equipmentInstanceId.present
+        ? equipmentInstanceId.value
+        : this.equipmentInstanceId,
+    frequency: frequency ?? this.frequency,
+    customFrequencyDetail: customFrequencyDetail.present
+        ? customFrequencyDetail.value
+        : this.customFrequencyDetail,
+    assignedByUserId: assignedByUserId ?? this.assignedByUserId,
+    assignedAt: assignedAt ?? this.assignedAt,
+    active: active ?? this.active,
+  );
+  TaskScheduleEntity copyWithCompanion(TaskSchedulesCompanion data) {
+    return TaskScheduleEntity(
+      id: data.id.present ? data.id.value : this.id,
+      taskTemplateGroupId: data.taskTemplateGroupId.present
+          ? data.taskTemplateGroupId.value
+          : this.taskTemplateGroupId,
+      assignedUserId: data.assignedUserId.present
+          ? data.assignedUserId.value
+          : this.assignedUserId,
+      equipmentInstanceId: data.equipmentInstanceId.present
+          ? data.equipmentInstanceId.value
+          : this.equipmentInstanceId,
+      frequency: data.frequency.present ? data.frequency.value : this.frequency,
+      customFrequencyDetail: data.customFrequencyDetail.present
+          ? data.customFrequencyDetail.value
+          : this.customFrequencyDetail,
+      assignedByUserId: data.assignedByUserId.present
+          ? data.assignedByUserId.value
+          : this.assignedByUserId,
+      assignedAt: data.assignedAt.present
+          ? data.assignedAt.value
+          : this.assignedAt,
+      active: data.active.present ? data.active.value : this.active,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskScheduleEntity(')
+          ..write('id: $id, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('assignedUserId: $assignedUserId, ')
+          ..write('equipmentInstanceId: $equipmentInstanceId, ')
+          ..write('frequency: $frequency, ')
+          ..write('customFrequencyDetail: $customFrequencyDetail, ')
+          ..write('assignedByUserId: $assignedByUserId, ')
+          ..write('assignedAt: $assignedAt, ')
+          ..write('active: $active')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    taskTemplateGroupId,
+    assignedUserId,
+    equipmentInstanceId,
+    frequency,
+    customFrequencyDetail,
+    assignedByUserId,
+    assignedAt,
+    active,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaskScheduleEntity &&
+          other.id == this.id &&
+          other.taskTemplateGroupId == this.taskTemplateGroupId &&
+          other.assignedUserId == this.assignedUserId &&
+          other.equipmentInstanceId == this.equipmentInstanceId &&
+          other.frequency == this.frequency &&
+          other.customFrequencyDetail == this.customFrequencyDetail &&
+          other.assignedByUserId == this.assignedByUserId &&
+          other.assignedAt == this.assignedAt &&
+          other.active == this.active);
+}
+
+class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
+  final Value<int> id;
+  final Value<int> taskTemplateGroupId;
+  final Value<int> assignedUserId;
+  final Value<int?> equipmentInstanceId;
+  final Value<String> frequency;
+  final Value<String?> customFrequencyDetail;
+  final Value<int> assignedByUserId;
+  final Value<DateTime> assignedAt;
+  final Value<bool> active;
+  const TaskSchedulesCompanion({
+    this.id = const Value.absent(),
+    this.taskTemplateGroupId = const Value.absent(),
+    this.assignedUserId = const Value.absent(),
+    this.equipmentInstanceId = const Value.absent(),
+    this.frequency = const Value.absent(),
+    this.customFrequencyDetail = const Value.absent(),
+    this.assignedByUserId = const Value.absent(),
+    this.assignedAt = const Value.absent(),
+    this.active = const Value.absent(),
+  });
+  TaskSchedulesCompanion.insert({
+    this.id = const Value.absent(),
+    required int taskTemplateGroupId,
+    required int assignedUserId,
+    this.equipmentInstanceId = const Value.absent(),
+    required String frequency,
+    this.customFrequencyDetail = const Value.absent(),
+    required int assignedByUserId,
+    required DateTime assignedAt,
+    this.active = const Value.absent(),
+  }) : taskTemplateGroupId = Value(taskTemplateGroupId),
+       assignedUserId = Value(assignedUserId),
+       frequency = Value(frequency),
+       assignedByUserId = Value(assignedByUserId),
+       assignedAt = Value(assignedAt);
+  static Insertable<TaskScheduleEntity> custom({
+    Expression<int>? id,
+    Expression<int>? taskTemplateGroupId,
+    Expression<int>? assignedUserId,
+    Expression<int>? equipmentInstanceId,
+    Expression<String>? frequency,
+    Expression<String>? customFrequencyDetail,
+    Expression<int>? assignedByUserId,
+    Expression<DateTime>? assignedAt,
+    Expression<bool>? active,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (taskTemplateGroupId != null)
+        'task_template_group_id': taskTemplateGroupId,
+      if (assignedUserId != null) 'assigned_user_id': assignedUserId,
+      if (equipmentInstanceId != null)
+        'equipment_instance_id': equipmentInstanceId,
+      if (frequency != null) 'frequency': frequency,
+      if (customFrequencyDetail != null)
+        'custom_frequency_detail': customFrequencyDetail,
+      if (assignedByUserId != null) 'assigned_by_user_id': assignedByUserId,
+      if (assignedAt != null) 'assigned_at': assignedAt,
+      if (active != null) 'active': active,
+    });
+  }
+
+  TaskSchedulesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? taskTemplateGroupId,
+    Value<int>? assignedUserId,
+    Value<int?>? equipmentInstanceId,
+    Value<String>? frequency,
+    Value<String?>? customFrequencyDetail,
+    Value<int>? assignedByUserId,
+    Value<DateTime>? assignedAt,
+    Value<bool>? active,
+  }) {
+    return TaskSchedulesCompanion(
+      id: id ?? this.id,
+      taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
+      assignedUserId: assignedUserId ?? this.assignedUserId,
+      equipmentInstanceId: equipmentInstanceId ?? this.equipmentInstanceId,
+      frequency: frequency ?? this.frequency,
+      customFrequencyDetail:
+          customFrequencyDetail ?? this.customFrequencyDetail,
+      assignedByUserId: assignedByUserId ?? this.assignedByUserId,
+      assignedAt: assignedAt ?? this.assignedAt,
+      active: active ?? this.active,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (taskTemplateGroupId.present) {
+      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId.value);
+    }
+    if (assignedUserId.present) {
+      map['assigned_user_id'] = Variable<int>(assignedUserId.value);
+    }
+    if (equipmentInstanceId.present) {
+      map['equipment_instance_id'] = Variable<int>(equipmentInstanceId.value);
+    }
+    if (frequency.present) {
+      map['frequency'] = Variable<String>(frequency.value);
+    }
+    if (customFrequencyDetail.present) {
+      map['custom_frequency_detail'] = Variable<String>(
+        customFrequencyDetail.value,
+      );
+    }
+    if (assignedByUserId.present) {
+      map['assigned_by_user_id'] = Variable<int>(assignedByUserId.value);
+    }
+    if (assignedAt.present) {
+      map['assigned_at'] = Variable<DateTime>(assignedAt.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskSchedulesCompanion(')
+          ..write('id: $id, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('assignedUserId: $assignedUserId, ')
+          ..write('equipmentInstanceId: $equipmentInstanceId, ')
+          ..write('frequency: $frequency, ')
+          ..write('customFrequencyDetail: $customFrequencyDetail, ')
+          ..write('assignedByUserId: $assignedByUserId, ')
+          ..write('assignedAt: $assignedAt, ')
+          ..write('active: $active')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3271,6 +3875,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $AreasTable areas = $AreasTable(this);
   late final $EquipmentInstancesTable equipmentInstances =
       $EquipmentInstancesTable(this);
+  late final $TaskSchedulesTable taskSchedules = $TaskSchedulesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3283,6 +3888,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     taskTemplates,
     areas,
     equipmentInstances,
+    taskSchedules,
   ];
 }
 
@@ -5571,6 +6177,24 @@ final class $$EquipmentInstancesTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
+
+  static MultiTypedResultKey<$TaskSchedulesTable, List<TaskScheduleEntity>>
+  _taskSchedulesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskSchedules,
+    aliasName: 'equipment_instances__id__task_schedules__equipment_instance_id',
+  );
+
+  $$TaskSchedulesTableProcessedTableManager get taskSchedulesRefs {
+    final manager = $$TaskSchedulesTableTableManager($_db, $_db.taskSchedules)
+        .filter(
+          (f) => f.equipmentInstanceId.id.sqlEquals($_itemColumn<int>('id')!),
+        );
+
+    final cache = $_typedResult.readTableOrNull(_taskSchedulesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$EquipmentInstancesTableFilterComposer
@@ -5636,6 +6260,31 @@ class $$EquipmentInstancesTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> taskSchedulesRefs(
+    Expression<bool> Function($$TaskSchedulesTableFilterComposer f) f,
+  ) {
+    final $$TaskSchedulesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSchedules,
+      getReferencedColumn: (t) => t.equipmentInstanceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSchedulesTableFilterComposer(
+            $db: $db,
+            $table: $db.taskSchedules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 }
 
@@ -5765,6 +6414,31 @@ class $$EquipmentInstancesTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> taskSchedulesRefs<T extends Object>(
+    Expression<T> Function($$TaskSchedulesTableAnnotationComposer a) f,
+  ) {
+    final $$TaskSchedulesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSchedules,
+      getReferencedColumn: (t) => t.equipmentInstanceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSchedulesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskSchedules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$EquipmentInstancesTableTableManager
@@ -5780,7 +6454,11 @@ class $$EquipmentInstancesTableTableManager
           $$EquipmentInstancesTableUpdateCompanionBuilder,
           (EquipmentInstanceEntity, $$EquipmentInstancesTableReferences),
           EquipmentInstanceEntity,
-          PrefetchHooks Function({bool equipmentTypeId, bool areaId})
+          PrefetchHooks Function({
+            bool equipmentTypeId,
+            bool areaId,
+            bool taskSchedulesRefs,
+          })
         > {
   $$EquipmentInstancesTableTableManager(
     _$AppDatabase db,
@@ -5830,64 +6508,93 @@ class $$EquipmentInstancesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({equipmentTypeId = false, areaId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (equipmentTypeId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.equipmentTypeId,
-                                referencedTable:
-                                    $$EquipmentInstancesTableReferences
-                                        ._equipmentTypeIdTable(db),
-                                referencedColumn:
-                                    $$EquipmentInstancesTableReferences
-                                        ._equipmentTypeIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
-                    if (areaId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.areaId,
-                                referencedTable:
-                                    $$EquipmentInstancesTableReferences
-                                        ._areaIdTable(db),
-                                referencedColumn:
-                                    $$EquipmentInstancesTableReferences
-                                        ._areaIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
+          prefetchHooksCallback:
+              ({
+                equipmentTypeId = false,
+                areaId = false,
+                taskSchedulesRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (taskSchedulesRefs) db.taskSchedules,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (equipmentTypeId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.equipmentTypeId,
+                                    referencedTable:
+                                        $$EquipmentInstancesTableReferences
+                                            ._equipmentTypeIdTable(db),
+                                    referencedColumn:
+                                        $$EquipmentInstancesTableReferences
+                                            ._equipmentTypeIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (areaId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.areaId,
+                                    referencedTable:
+                                        $$EquipmentInstancesTableReferences
+                                            ._areaIdTable(db),
+                                    referencedColumn:
+                                        $$EquipmentInstancesTableReferences
+                                            ._areaIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
-                    return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (taskSchedulesRefs)
+                        await $_getPrefetchedData<
+                          EquipmentInstanceEntity,
+                          $EquipmentInstancesTable,
+                          TaskScheduleEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EquipmentInstancesTableReferences
+                              ._taskSchedulesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EquipmentInstancesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskSchedulesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.equipmentInstanceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
                   },
-              getPrefetchedDataCallback: (items) async {
-                return [];
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -5904,7 +6611,603 @@ typedef $$EquipmentInstancesTableProcessedTableManager =
       $$EquipmentInstancesTableUpdateCompanionBuilder,
       (EquipmentInstanceEntity, $$EquipmentInstancesTableReferences),
       EquipmentInstanceEntity,
-      PrefetchHooks Function({bool equipmentTypeId, bool areaId})
+      PrefetchHooks Function({
+        bool equipmentTypeId,
+        bool areaId,
+        bool taskSchedulesRefs,
+      })
+    >;
+typedef $$TaskSchedulesTableCreateCompanionBuilder =
+    TaskSchedulesCompanion Function({
+      Value<int> id,
+      required int taskTemplateGroupId,
+      required int assignedUserId,
+      Value<int?> equipmentInstanceId,
+      required String frequency,
+      Value<String?> customFrequencyDetail,
+      required int assignedByUserId,
+      required DateTime assignedAt,
+      Value<bool> active,
+    });
+typedef $$TaskSchedulesTableUpdateCompanionBuilder =
+    TaskSchedulesCompanion Function({
+      Value<int> id,
+      Value<int> taskTemplateGroupId,
+      Value<int> assignedUserId,
+      Value<int?> equipmentInstanceId,
+      Value<String> frequency,
+      Value<String?> customFrequencyDetail,
+      Value<int> assignedByUserId,
+      Value<DateTime> assignedAt,
+      Value<bool> active,
+    });
+
+final class $$TaskSchedulesTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $TaskSchedulesTable, TaskScheduleEntity> {
+  $$TaskSchedulesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $UsersTable _assignedUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('task_schedules__assigned_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get assignedUserId {
+    final $_column = $_itemColumn<int>('assigned_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_assignedUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $EquipmentInstancesTable _equipmentInstanceIdTable(_$AppDatabase db) =>
+      db.equipmentInstances.createAlias(
+        'task_schedules__equipment_instance_id__equipment_instances__id',
+      );
+
+  $$EquipmentInstancesTableProcessedTableManager? get equipmentInstanceId {
+    final $_column = $_itemColumn<int>('equipment_instance_id');
+    if ($_column == null) return null;
+    final manager = $$EquipmentInstancesTableTableManager(
+      $_db,
+      $_db.equipmentInstances,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_equipmentInstanceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _assignedByUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('task_schedules__assigned_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get assignedByUserId {
+    final $_column = $_itemColumn<int>('assigned_by_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_assignedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TaskSchedulesTableFilterComposer
+    extends Composer<_$AppDatabase, $TaskSchedulesTable> {
+  $$TaskSchedulesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get frequency => $composableBuilder(
+    column: $table.frequency,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customFrequencyDetail => $composableBuilder(
+    column: $table.customFrequencyDetail,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get assignedAt => $composableBuilder(
+    column: $table.assignedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UsersTableFilterComposer get assignedUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assignedUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EquipmentInstancesTableFilterComposer get equipmentInstanceId {
+    final $$EquipmentInstancesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentInstanceId,
+      referencedTable: $db.equipmentInstances,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentInstancesTableFilterComposer(
+            $db: $db,
+            $table: $db.equipmentInstances,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get assignedByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assignedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskSchedulesTableOrderingComposer
+    extends Composer<_$AppDatabase, $TaskSchedulesTable> {
+  $$TaskSchedulesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get frequency => $composableBuilder(
+    column: $table.frequency,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customFrequencyDetail => $composableBuilder(
+    column: $table.customFrequencyDetail,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get assignedAt => $composableBuilder(
+    column: $table.assignedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UsersTableOrderingComposer get assignedUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assignedUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EquipmentInstancesTableOrderingComposer get equipmentInstanceId {
+    final $$EquipmentInstancesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentInstanceId,
+      referencedTable: $db.equipmentInstances,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentInstancesTableOrderingComposer(
+            $db: $db,
+            $table: $db.equipmentInstances,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get assignedByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assignedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskSchedulesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TaskSchedulesTable> {
+  $$TaskSchedulesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get frequency =>
+      $composableBuilder(column: $table.frequency, builder: (column) => column);
+
+  GeneratedColumn<String> get customFrequencyDetail => $composableBuilder(
+    column: $table.customFrequencyDetail,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get assignedAt => $composableBuilder(
+    column: $table.assignedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+
+  $$UsersTableAnnotationComposer get assignedUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assignedUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$EquipmentInstancesTableAnnotationComposer get equipmentInstanceId {
+    final $$EquipmentInstancesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.equipmentInstanceId,
+          referencedTable: $db.equipmentInstances,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$EquipmentInstancesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.equipmentInstances,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get assignedByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.assignedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskSchedulesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaskSchedulesTable,
+          TaskScheduleEntity,
+          $$TaskSchedulesTableFilterComposer,
+          $$TaskSchedulesTableOrderingComposer,
+          $$TaskSchedulesTableAnnotationComposer,
+          $$TaskSchedulesTableCreateCompanionBuilder,
+          $$TaskSchedulesTableUpdateCompanionBuilder,
+          (TaskScheduleEntity, $$TaskSchedulesTableReferences),
+          TaskScheduleEntity,
+          PrefetchHooks Function({
+            bool assignedUserId,
+            bool equipmentInstanceId,
+            bool assignedByUserId,
+          })
+        > {
+  $$TaskSchedulesTableTableManager(_$AppDatabase db, $TaskSchedulesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TaskSchedulesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TaskSchedulesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TaskSchedulesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> taskTemplateGroupId = const Value.absent(),
+                Value<int> assignedUserId = const Value.absent(),
+                Value<int?> equipmentInstanceId = const Value.absent(),
+                Value<String> frequency = const Value.absent(),
+                Value<String?> customFrequencyDetail = const Value.absent(),
+                Value<int> assignedByUserId = const Value.absent(),
+                Value<DateTime> assignedAt = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+              }) => TaskSchedulesCompanion(
+                id: id,
+                taskTemplateGroupId: taskTemplateGroupId,
+                assignedUserId: assignedUserId,
+                equipmentInstanceId: equipmentInstanceId,
+                frequency: frequency,
+                customFrequencyDetail: customFrequencyDetail,
+                assignedByUserId: assignedByUserId,
+                assignedAt: assignedAt,
+                active: active,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int taskTemplateGroupId,
+                required int assignedUserId,
+                Value<int?> equipmentInstanceId = const Value.absent(),
+                required String frequency,
+                Value<String?> customFrequencyDetail = const Value.absent(),
+                required int assignedByUserId,
+                required DateTime assignedAt,
+                Value<bool> active = const Value.absent(),
+              }) => TaskSchedulesCompanion.insert(
+                id: id,
+                taskTemplateGroupId: taskTemplateGroupId,
+                assignedUserId: assignedUserId,
+                equipmentInstanceId: equipmentInstanceId,
+                frequency: frequency,
+                customFrequencyDetail: customFrequencyDetail,
+                assignedByUserId: assignedByUserId,
+                assignedAt: assignedAt,
+                active: active,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TaskSchedulesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                assignedUserId = false,
+                equipmentInstanceId = false,
+                assignedByUserId = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (assignedUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.assignedUserId,
+                                    referencedTable:
+                                        $$TaskSchedulesTableReferences
+                                            ._assignedUserIdTable(db),
+                                    referencedColumn:
+                                        $$TaskSchedulesTableReferences
+                                            ._assignedUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (equipmentInstanceId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.equipmentInstanceId,
+                                    referencedTable:
+                                        $$TaskSchedulesTableReferences
+                                            ._equipmentInstanceIdTable(db),
+                                    referencedColumn:
+                                        $$TaskSchedulesTableReferences
+                                            ._equipmentInstanceIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (assignedByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.assignedByUserId,
+                                    referencedTable:
+                                        $$TaskSchedulesTableReferences
+                                            ._assignedByUserIdTable(db),
+                                    referencedColumn:
+                                        $$TaskSchedulesTableReferences
+                                            ._assignedByUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$TaskSchedulesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaskSchedulesTable,
+      TaskScheduleEntity,
+      $$TaskSchedulesTableFilterComposer,
+      $$TaskSchedulesTableOrderingComposer,
+      $$TaskSchedulesTableAnnotationComposer,
+      $$TaskSchedulesTableCreateCompanionBuilder,
+      $$TaskSchedulesTableUpdateCompanionBuilder,
+      (TaskScheduleEntity, $$TaskSchedulesTableReferences),
+      TaskScheduleEntity,
+      PrefetchHooks Function({
+        bool assignedUserId,
+        bool equipmentInstanceId,
+        bool assignedByUserId,
+      })
     >;
 
 class $AppDatabaseManager {
@@ -5924,4 +7227,6 @@ class $AppDatabaseManager {
       $$AreasTableTableManager(_db, _db.areas);
   $$EquipmentInstancesTableTableManager get equipmentInstances =>
       $$EquipmentInstancesTableTableManager(_db, _db.equipmentInstances);
+  $$TaskSchedulesTableTableManager get taskSchedules =>
+      $$TaskSchedulesTableTableManager(_db, _db.taskSchedules);
 }

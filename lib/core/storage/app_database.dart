@@ -90,6 +90,23 @@ class EquipmentInstances extends Table {
   IntColumn get areaId => integer().nullable().references(Areas, #id)();
 }
 
+@DataClassName('TaskScheduleEntity')
+class TaskSchedules extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  // Not a real FK: templateGroupId has no unique constraint on TaskTemplates
+  // (it's a denormalized grouping key shared across version rows), so this
+  // is a soft reference resolved at the application layer, not the DB layer.
+  IntColumn get taskTemplateGroupId => integer()();
+  IntColumn get assignedUserId => integer().references(Users, #id)();
+  IntColumn get equipmentInstanceId =>
+      integer().nullable().references(EquipmentInstances, #id)();
+  TextColumn get frequency => text()();
+  TextColumn get customFrequencyDetail => text().nullable()();
+  IntColumn get assignedByUserId => integer().references(Users, #id)();
+  DateTimeColumn get assignedAt => dateTime()();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+}
+
 @DriftDatabase(
   tables: [
     TaskSubmissions,
@@ -99,13 +116,14 @@ class EquipmentInstances extends Table {
     TaskTemplates,
     Areas,
     EquipmentInstances,
+    TaskSchedules,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -135,6 +153,9 @@ class AppDatabase extends _$AppDatabase {
       if (from < 5) {
         await m.createTable(areas);
         await m.createTable(equipmentInstances);
+      }
+      if (from < 6) {
+        await m.createTable(taskSchedules);
       }
     },
     beforeOpen: (details) async {

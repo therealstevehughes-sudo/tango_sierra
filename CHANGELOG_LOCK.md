@@ -176,3 +176,25 @@ Risks: A real bug surfaced and was fixed during verification, but it was in the 
 Deferred items: Site/Organisation/Brand (multi-venue), TaskSchedule/TaskInstance (which will eventually let a task template target a specific equipment instance), editing or deleting areas/equipment/staff after creation (this sprint is add-only, matching how the rest of this app treats creation), a real "which venue am I configuring" concept.
 Save point name: SPRINT_008_LOCK
 Notes: Commit a8dbe83e2e040555a248d5ab297411a05a9426cc, message "Sprint 008: venue setup wizard (areas, equipment, staff)".
+
+---
+
+## Sprint 009
+Date: 2026-07-31
+Objective: Build staff onboarding + task assignment — a manager picks a staff member, sees the task library filtered by role tier and grouped by segment, ticks which tasks apply (per equipment instance where relevant) with a frequency, and can add custom tasks inline. Assignment mechanism only — not wired into the task carousel (Sprint 010).
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 5 → 6; new `TaskSchedules` table (`taskTemplateGroupId` — a soft reference, not a real FK, since templateGroupId has no unique constraint on TaskTemplates; `assignedUserId`, `equipmentInstanceId` nullable, `frequency`, `customFrequencyDetail` nullable, `assignedByUserId`, `assignedAt`, `active` defaulting true); `onUpgrade` creates the new table for existing installs; no seed data, same "let the real flow demonstrate itself" choice as Sprint 008's Areas/Equipment
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/task_schedule.dart (new) — `ScheduleFrequency` enum + `TaskSchedule` model
+- lib/shared/repositories/task_schedule_repository.dart (new) — `getAll`, `getForStaffMember`, `assign`, `deactivate` (unassign never deletes, only flips `active`)
+- lib/shared/providers/task_schedule_providers.dart (new)
+- lib/features/onboarding/staff_assignment_screen.dart (new) — staff picker → grouped/filtered tick-box list (equipment-linked templates expand to one row per matching instance) → inline custom-task form reusing Sprint 007's `saveNewVersion` directly, not a parallel creation path
+- lib/features/manager/manager_screen.dart, lib/features/dashboard/top_screen.dart — each gets a second new icon (`Icons.assignment_ind`, "Assign Tasks"), separate from Sprint 008's venue-setup icon
+- DECISIONS_LOG.md — recorded the four approved defaults (simple active toggle, fixed frequency enum, custom segment reuse, separate entry point)
+Files unchanged: lib/features/tasks/*, lib/features/auth/login_screen.dart, lib/shared/repositories/task_submission_repository.dart — no changes to the task carousel or auth
+Architecture impact: First entity to connect Users + TaskTemplate (by templateGroupId, not a frozen version id — so a later template edit automatically applies to existing assignments) + EquipmentInstances together. `TaskSchedule` deliberately does *not* follow the append-only versioning pattern used for `TaskTemplate` — confirmed as an explicit, smaller-scope choice for this sprint, not an oversight.
+UI impact: New assignment screen. Manager log and top-tier screen each gain one more icon — no other visual changes.
+Risks: Caught one real bug in the widget itself during test-writing — the frequency dropdown's `onChanged` originally re-called the assign callback even when an assignment was already active, which would have silently created a duplicate `TaskSchedule` row on every frequency change instead of updating anything. Fixed before committing: changing the dropdown now only updates local UI state, and only takes effect the next time the checkbox is (re-)ticked. Verified with a widget test (fakes built with defensive-copy `getAll()` from the start this time, per the Sprint 008 lesson) exercising the full flow: assign an equipment-linked task to a specific instance → confirm the schedule row's fields (template, user, equipment, assigner) → unassign → confirm the row is deactivated, not deleted → add a custom task → confirm it's saved with `segment: 'custom'` and immediately appears in the assignable list. Also ran a real Windows build against the existing v5 dev database to confirm the v5→v6 migration.
+Deferred items: Wiring TaskSchedule into the task carousel (Sprint 010), role-wide (not just per-individual) assignment, editing an existing assignment's frequency in place, TaskInstance (the actual generated day-to-day occurrence from a schedule).
+Save point name: SPRINT_009_LOCK
+Notes: Commit hash to be recorded after this entry is committed.

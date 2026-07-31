@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../shared/providers/auth_providers.dart';
+import '../onboarding/staff_assignment_screen.dart';
 import '../venue_setup/venue_setup_wizard_screen.dart';
 
 class TopScreen extends ConsumerWidget {
@@ -24,6 +25,18 @@ class TopScreen extends ConsumerWidget {
             },
             icon: const Icon(Icons.store),
             tooltip: 'Venue Setup',
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const StaffAssignmentScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.assignment_ind),
+            tooltip: 'Assign Tasks',
           ),
           IconButton(
             onPressed: () {
