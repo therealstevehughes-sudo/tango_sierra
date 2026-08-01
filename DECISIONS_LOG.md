@@ -99,6 +99,14 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - Incorporated "Full check list.docx"'s structure (19 operational segments, task method vocabulary, priority levels, frequency vocabulary) into PROJECT_BIBLE.md as a new "Task Library Source Content" section — the taxonomy, not the ~100+ individual task rows, which stay in the source document until a future sprint actually loads them.
 - Confirmed the checklist file is unchanged since Sprint 011's extraction (byte-identical), so no new equipment-type gaps found this pass.
 
+## Shift handover + end-of-session summary (Sprint 013)
+- TaskSubmission gains completedByUserId — needed for reliable session-boundary queries (session = submissions by this user since the carousel loaded), replacing reliance on the formatted completedBy display string.
+- "Trigger" and "FAIL" are treated as the same signal for this sprint's summary — no separate trigger-fired flag exists yet.
+- Handover notes are per-venue (one running note, shown to everyone at session start) — matches the app's continued single-venue scope; per-area is a future refinement once tasks/staff are area-aware.
+- "Send to manager" is a real lightweight in-app inbox (new SessionSummaries table with sentTo/acknowledged), not a no-op — gives staff a distinct, explicit "flag this for a specific manager" action beyond the general submission log a manager can already browse.
+- No new Shift/session entity — session boundary is a client-side timestamp captured when the carousel loads; Open/Mid/Close shift-phase tracking remains unbuilt (PROJECT_BIBLE concept only, not yet in the schema).
+- Kept as one sprint (~13 files) rather than split, since both features share the same UI moment (start/end of session).
+
 ## Open / Not yet decided
 - Task priority: the checklist uses 3 levels (Critical/High/Standard); TaskTemplate currently only has a binary `isCritical`. Needs a decision before the real task library gets loaded — add a 3-level field, or accept the information loss of mapping down to the boolean.
 - Task method vocabulary: the checklist's real methods (Tick, Data+Tick, Tick+Photo, Data+Photo, Note, Note+Photo, Tick+Note, Multi) don't fully match the placeholder `method` strings used in Sprint 007/009's example data. Needs reconciling when the real library loads.

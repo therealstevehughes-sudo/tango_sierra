@@ -8,6 +8,7 @@ abstract class TaskSubmissionRepository {
   Future<List<TaskSubmission>> getAll();
   Future<List<TaskSubmission>> getByStaff(String staffId);
   Future<List<TaskSubmission>> getByDateRange(DateTime start, DateTime end);
+  Future<List<TaskSubmission>> getForUserSince(int userId, DateTime since);
   Stream<List<TaskSubmission>> watchAll();
 }
 
@@ -34,6 +35,7 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
             taskTemplateGroupId: Value(submission.taskTemplateGroupId),
             equipmentInstanceId: Value(submission.equipmentInstanceId),
             customFieldValuesJson: Value(submission.customFieldValuesJson),
+            completedByUserId: Value(submission.completedByUserId),
           ),
         );
   }
@@ -68,6 +70,22 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
   }
 
   @override
+  Future<List<TaskSubmission>> getForUserSince(
+    int userId,
+    DateTime since,
+  ) async {
+    final query = _db.select(_db.taskSubmissions)
+      ..where(
+        (t) =>
+            t.completedByUserId.equals(userId) &
+            t.completedAt.isBiggerOrEqualValue(since),
+      )
+      ..orderBy([(t) => OrderingTerm.desc(t.completedAt)]);
+    final rows = await query.get();
+    return rows.map(_toModel).toList();
+  }
+
+  @override
   Stream<List<TaskSubmission>> watchAll() {
     final query = _db.select(_db.taskSubmissions)
       ..orderBy([(t) => OrderingTerm.desc(t.completedAt)]);
@@ -89,6 +107,7 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
       taskTemplateGroupId: row.taskTemplateGroupId,
       equipmentInstanceId: row.equipmentInstanceId,
       customFieldValuesJson: row.customFieldValuesJson,
+      completedByUserId: row.completedByUserId,
     );
   }
 }

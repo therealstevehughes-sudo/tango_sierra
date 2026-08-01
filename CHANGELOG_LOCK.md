@@ -256,3 +256,29 @@ Risks: Re-extracted "Full check list.docx" fresh (same zip-then-parse-XML approa
 Deferred items: Loading the actual ~100+ tasks as TaskTemplate data (separate, later sprint). Resolving the three flagged schema gaps (task priority levels, method vocabulary, frequency vocabulary) — logged as open decisions, not decided here.
 Save point name: SPRINT_012_LOCK
 Notes: Commit b09be870c13788be5a6b8a89f9908df5af190aa5, message "Sprint 012: incorporate Full check list.docx structure into PROJECT_BIBLE".
+
+---
+
+## Sprint 013
+Date: 2026-08-01
+Objective: Shift handover notes + end-of-session summary, sendable to a selected manager, per the approved plan. Numbered as the next sequential sprint, not the roadmap's original "011 shift handover" slot — two inserted fix/docs sprints (011, 012) shifted the numbering, same pattern as before.
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 7 → 8; `TaskSubmissions` gains nullable `completedByUserId`; new `ShiftHandoverNotes` (authorUserId, note, createdAt) and `SessionSummaries` (staffUserId, denormalized staffName, sentToManagerId, passCount, failCount, failedTaskTitlesJson, note, sentAt, acknowledged, acknowledgedAt) tables; `onUpgrade` adds the column and creates both tables for existing installs
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/task_submission.dart, lib/shared/repositories/task_submission_repository.dart — `completedByUserId` read/write, plus new `getForUserSince(userId, since)` for session-boundary queries
+- lib/shared/models/shift_handover_note.dart, lib/shared/models/session_summary.dart (new)
+- lib/shared/repositories/shift_handover_repository.dart, lib/shared/repositories/session_summary_repository.dart (new)
+- lib/shared/providers/shift_handover_providers.dart (new, covers both repositories)
+- lib/features/tasks/task_model.dart — added `SessionStats` alongside the existing `ResolvedTask`
+- lib/features/tasks/task_controller.dart — captures `sessionStartedAt`; new `buildSessionStats()` queries submissions since then for the current user and splits them into pass/fail + failed titles; `logTaskSubmission` now stamps `completedByUserId`
+- lib/features/tasks/end_of_session_summary_screen.dart (new) — pass/fail counts, failed-task list, manager picker + optional note ("Send"), optional handover note field, "Done" pops back to the carousel
+- lib/features/tasks/task_screen.dart — session start now checks for and displays the latest handover note (dismissible dialog); session end now pushes the summary screen (awaited, so it must pop itself) before resetting the session, replacing the old bare "All tasks complete" dialog
+- lib/features/manager/manager_screen.dart — new "Session Summaries" banner above the existing log, live via `watchForManager`, with an acknowledge action per summary
+- DECISIONS_LOG.md — recorded the five approved defaults
+Files unchanged: lib/features/venue_setup/*, lib/features/onboarding/*, lib/features/dashboard/top_screen.dart, lib/features/auth/*, lib/shared/repositories/task_template_repository.dart, lib/shared/repositories/task_schedule_repository.dart — no changes to venue setup, staff assignment, the top-tier screen, auth, or the task library/schedule repositories themselves
+Architecture impact: First entities with no upstream dependency on the task library — `ShiftHandoverNotes` and `SessionSummaries` connect only to `Users`. No Shift/session entity was introduced; session boundary is a client-side timestamp, not a persisted concept, consistent with the scope call in the approved plan.
+UI impact: The end-of-session flow changed shape — a full summary screen instead of a bare dialog, with real actions (send, leave a note) rather than just an acknowledgement tap. `ManagerScreen` gains a banner section. Both changes were explicitly part of the approved plan, not incidental.
+Risks: A real routing subtlety worth documenting: `EndOfSessionSummaryScreen` is `Navigator.push`ed (not `showDialog`d) and must `Navigator.pop` itself on "Done" — `TaskScreen` awaits that push before resetting `currentUserProvider`, mirroring exactly how the old dialog-then-reset flow worked, so app.dart's reactive routing correctly takes over only after the pushed screen is off the stack. Verified with four widget tests (deleted after, not part of this commit): completing a task → FAIL → summary screen shows correct counts and the failed title → send to a manager → confirm the `SessionSummary` row's fields (staff/manager IDs, counts, failed titles) → leave a handover note → "Done" → confirm the note was saved; a second test confirming that same note is shown (and dismissible) at the start of the next session; a third confirming the manager banner renders summaries addressed to the logged-in manager and the acknowledge action works and removes the button. All passed after fixing one test-viewport sizing issue (the summary screen's "Done" button was below the default 800x600 test window — same class of issue as Sprint 009's custom-task form, not a production bug). Also ran a real Windows build against the existing v7 dev database to confirm the v7→v8 migration.
+Deferred items: Real Shift/Open-Mid-Close phase tracking, per-area (rather than per-venue) handover notes, a distinct trigger-fired concept separate from FAIL status, push/email dispatch for session summaries (still Sprint 012-in-the-original-roadmap territory, i.e. notifications, not yet built), editing/deleting a handover note once posted.
+Save point name: SPRINT_013_LOCK
+Notes: Commit hash to be recorded after this entry is committed.

@@ -25,6 +25,10 @@ class TaskSubmissions extends Table {
   IntColumn get equipmentInstanceId =>
       integer().nullable().references(EquipmentInstances, #id)();
   TextColumn get customFieldValuesJson => text().nullable()();
+  // Added for reliable session-boundary queries (Sprint 013) — completedBy
+  // is only a formatted display string, not a real reference.
+  IntColumn get completedByUserId =>
+      integer().nullable().references(Users, #id)();
 }
 
 @DataClassName('UserEntity')
@@ -117,6 +121,32 @@ class TaskSchedules extends Table {
   BoolColumn get active => boolean().withDefault(const Constant(true))();
 }
 
+@DataClassName('ShiftHandoverNoteEntity')
+class ShiftHandoverNotes extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get authorUserId => integer().references(Users, #id)();
+  TextColumn get note => text()();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
+@DataClassName('SessionSummaryEntity')
+class SessionSummaries extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get staffUserId => integer().references(Users, #id)();
+  // Denormalized, matching TaskSubmissions.completedBy's existing pattern —
+  // avoids a join just to render a name in the manager's inbox.
+  TextColumn get staffName => text()();
+  IntColumn get sentToManagerId => integer().references(Users, #id)();
+  IntColumn get passCount => integer()();
+  IntColumn get failCount => integer()();
+  TextColumn get failedTaskTitlesJson => text()();
+  TextColumn get note => text().nullable()();
+  DateTimeColumn get sentAt => dateTime()();
+  BoolColumn get acknowledged =>
+      boolean().withDefault(const Constant(false))();
+  DateTimeColumn get acknowledgedAt => dateTime().nullable()();
+}
+
 @DriftDatabase(
   tables: [
     TaskSubmissions,
@@ -127,13 +157,15 @@ class TaskSchedules extends Table {
     Areas,
     EquipmentInstances,
     TaskSchedules,
+    ShiftHandoverNotes,
+    SessionSummaries,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -182,6 +214,14 @@ class AppDatabase extends _$AppDatabase {
           taskSubmissions.customFieldValuesJson,
         );
         await m.addColumn(users, users.preferredTemperatureUnit);
+      }
+      if (from < 8) {
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.completedByUserId,
+        );
+        await m.createTable(shiftHandoverNotes);
+        await m.createTable(sessionSummaries);
       }
     },
     beforeOpen: (details) async {

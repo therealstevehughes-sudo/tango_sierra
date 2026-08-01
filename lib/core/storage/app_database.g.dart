@@ -690,816 +690,6 @@ class EquipmentInstancesCompanion
   }
 }
 
-class $TaskSubmissionsTable extends TaskSubmissions
-    with TableInfo<$TaskSubmissionsTable, TaskSubmissionEntity> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $TaskSubmissionsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _taskTitleMeta = const VerificationMeta(
-    'taskTitle',
-  );
-  @override
-  late final GeneratedColumn<String> taskTitle = GeneratedColumn<String>(
-    'task_title',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _statusMeta = const VerificationMeta('status');
-  @override
-  late final GeneratedColumn<String> status = GeneratedColumn<String>(
-    'status',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _completedByMeta = const VerificationMeta(
-    'completedBy',
-  );
-  @override
-  late final GeneratedColumn<String> completedBy = GeneratedColumn<String>(
-    'completed_by',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _completedAtMeta = const VerificationMeta(
-    'completedAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
-    'completed_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _numericValueMeta = const VerificationMeta(
-    'numericValue',
-  );
-  @override
-  late final GeneratedColumn<String> numericValue = GeneratedColumn<String>(
-    'numeric_value',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _photoAttachedMeta = const VerificationMeta(
-    'photoAttached',
-  );
-  @override
-  late final GeneratedColumn<bool> photoAttached = GeneratedColumn<bool>(
-    'photo_attached',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("photo_attached" IN (0, 1))',
-    ),
-    defaultValue: const Constant(false),
-  );
-  static const VerificationMeta _photoPathMeta = const VerificationMeta(
-    'photoPath',
-  );
-  @override
-  late final GeneratedColumn<String> photoPath = GeneratedColumn<String>(
-    'photo_path',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
-  @override
-  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
-    'notes',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _taskScheduleIdMeta = const VerificationMeta(
-    'taskScheduleId',
-  );
-  @override
-  late final GeneratedColumn<int> taskScheduleId = GeneratedColumn<int>(
-    'task_schedule_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _taskTemplateGroupIdMeta =
-      const VerificationMeta('taskTemplateGroupId');
-  @override
-  late final GeneratedColumn<int> taskTemplateGroupId = GeneratedColumn<int>(
-    'task_template_group_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _equipmentInstanceIdMeta =
-      const VerificationMeta('equipmentInstanceId');
-  @override
-  late final GeneratedColumn<int> equipmentInstanceId = GeneratedColumn<int>(
-    'equipment_instance_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES equipment_instances (id)',
-    ),
-  );
-  static const VerificationMeta _customFieldValuesJsonMeta =
-      const VerificationMeta('customFieldValuesJson');
-  @override
-  late final GeneratedColumn<String> customFieldValuesJson =
-      GeneratedColumn<String>(
-        'custom_field_values_json',
-        aliasedName,
-        true,
-        type: DriftSqlType.string,
-        requiredDuringInsert: false,
-      );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    taskTitle,
-    status,
-    completedBy,
-    completedAt,
-    numericValue,
-    photoAttached,
-    photoPath,
-    notes,
-    taskScheduleId,
-    taskTemplateGroupId,
-    equipmentInstanceId,
-    customFieldValuesJson,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'task_submissions';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<TaskSubmissionEntity> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('task_title')) {
-      context.handle(
-        _taskTitleMeta,
-        taskTitle.isAcceptableOrUnknown(data['task_title']!, _taskTitleMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_taskTitleMeta);
-    }
-    if (data.containsKey('status')) {
-      context.handle(
-        _statusMeta,
-        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_statusMeta);
-    }
-    if (data.containsKey('completed_by')) {
-      context.handle(
-        _completedByMeta,
-        completedBy.isAcceptableOrUnknown(
-          data['completed_by']!,
-          _completedByMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_completedByMeta);
-    }
-    if (data.containsKey('completed_at')) {
-      context.handle(
-        _completedAtMeta,
-        completedAt.isAcceptableOrUnknown(
-          data['completed_at']!,
-          _completedAtMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_completedAtMeta);
-    }
-    if (data.containsKey('numeric_value')) {
-      context.handle(
-        _numericValueMeta,
-        numericValue.isAcceptableOrUnknown(
-          data['numeric_value']!,
-          _numericValueMeta,
-        ),
-      );
-    }
-    if (data.containsKey('photo_attached')) {
-      context.handle(
-        _photoAttachedMeta,
-        photoAttached.isAcceptableOrUnknown(
-          data['photo_attached']!,
-          _photoAttachedMeta,
-        ),
-      );
-    }
-    if (data.containsKey('photo_path')) {
-      context.handle(
-        _photoPathMeta,
-        photoPath.isAcceptableOrUnknown(data['photo_path']!, _photoPathMeta),
-      );
-    }
-    if (data.containsKey('notes')) {
-      context.handle(
-        _notesMeta,
-        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
-      );
-    }
-    if (data.containsKey('task_schedule_id')) {
-      context.handle(
-        _taskScheduleIdMeta,
-        taskScheduleId.isAcceptableOrUnknown(
-          data['task_schedule_id']!,
-          _taskScheduleIdMeta,
-        ),
-      );
-    }
-    if (data.containsKey('task_template_group_id')) {
-      context.handle(
-        _taskTemplateGroupIdMeta,
-        taskTemplateGroupId.isAcceptableOrUnknown(
-          data['task_template_group_id']!,
-          _taskTemplateGroupIdMeta,
-        ),
-      );
-    }
-    if (data.containsKey('equipment_instance_id')) {
-      context.handle(
-        _equipmentInstanceIdMeta,
-        equipmentInstanceId.isAcceptableOrUnknown(
-          data['equipment_instance_id']!,
-          _equipmentInstanceIdMeta,
-        ),
-      );
-    }
-    if (data.containsKey('custom_field_values_json')) {
-      context.handle(
-        _customFieldValuesJsonMeta,
-        customFieldValuesJson.isAcceptableOrUnknown(
-          data['custom_field_values_json']!,
-          _customFieldValuesJsonMeta,
-        ),
-      );
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  TaskSubmissionEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return TaskSubmissionEntity(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      taskTitle: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}task_title'],
-      )!,
-      status: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}status'],
-      )!,
-      completedBy: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}completed_by'],
-      )!,
-      completedAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}completed_at'],
-      )!,
-      numericValue: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}numeric_value'],
-      ),
-      photoAttached: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}photo_attached'],
-      )!,
-      photoPath: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}photo_path'],
-      ),
-      notes: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}notes'],
-      ),
-      taskScheduleId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}task_schedule_id'],
-      ),
-      taskTemplateGroupId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}task_template_group_id'],
-      ),
-      equipmentInstanceId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}equipment_instance_id'],
-      ),
-      customFieldValuesJson: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}custom_field_values_json'],
-      ),
-    );
-  }
-
-  @override
-  $TaskSubmissionsTable createAlias(String alias) {
-    return $TaskSubmissionsTable(attachedDatabase, alias);
-  }
-}
-
-class TaskSubmissionEntity extends DataClass
-    implements Insertable<TaskSubmissionEntity> {
-  final int id;
-  final String taskTitle;
-  final String status;
-  final String completedBy;
-  final DateTime completedAt;
-  final String? numericValue;
-  final bool photoAttached;
-  final String? photoPath;
-  final String? notes;
-  final int? taskScheduleId;
-  final int? taskTemplateGroupId;
-  final int? equipmentInstanceId;
-  final String? customFieldValuesJson;
-  const TaskSubmissionEntity({
-    required this.id,
-    required this.taskTitle,
-    required this.status,
-    required this.completedBy,
-    required this.completedAt,
-    this.numericValue,
-    required this.photoAttached,
-    this.photoPath,
-    this.notes,
-    this.taskScheduleId,
-    this.taskTemplateGroupId,
-    this.equipmentInstanceId,
-    this.customFieldValuesJson,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['task_title'] = Variable<String>(taskTitle);
-    map['status'] = Variable<String>(status);
-    map['completed_by'] = Variable<String>(completedBy);
-    map['completed_at'] = Variable<DateTime>(completedAt);
-    if (!nullToAbsent || numericValue != null) {
-      map['numeric_value'] = Variable<String>(numericValue);
-    }
-    map['photo_attached'] = Variable<bool>(photoAttached);
-    if (!nullToAbsent || photoPath != null) {
-      map['photo_path'] = Variable<String>(photoPath);
-    }
-    if (!nullToAbsent || notes != null) {
-      map['notes'] = Variable<String>(notes);
-    }
-    if (!nullToAbsent || taskScheduleId != null) {
-      map['task_schedule_id'] = Variable<int>(taskScheduleId);
-    }
-    if (!nullToAbsent || taskTemplateGroupId != null) {
-      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId);
-    }
-    if (!nullToAbsent || equipmentInstanceId != null) {
-      map['equipment_instance_id'] = Variable<int>(equipmentInstanceId);
-    }
-    if (!nullToAbsent || customFieldValuesJson != null) {
-      map['custom_field_values_json'] = Variable<String>(customFieldValuesJson);
-    }
-    return map;
-  }
-
-  TaskSubmissionsCompanion toCompanion(bool nullToAbsent) {
-    return TaskSubmissionsCompanion(
-      id: Value(id),
-      taskTitle: Value(taskTitle),
-      status: Value(status),
-      completedBy: Value(completedBy),
-      completedAt: Value(completedAt),
-      numericValue: numericValue == null && nullToAbsent
-          ? const Value.absent()
-          : Value(numericValue),
-      photoAttached: Value(photoAttached),
-      photoPath: photoPath == null && nullToAbsent
-          ? const Value.absent()
-          : Value(photoPath),
-      notes: notes == null && nullToAbsent
-          ? const Value.absent()
-          : Value(notes),
-      taskScheduleId: taskScheduleId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(taskScheduleId),
-      taskTemplateGroupId: taskTemplateGroupId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(taskTemplateGroupId),
-      equipmentInstanceId: equipmentInstanceId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(equipmentInstanceId),
-      customFieldValuesJson: customFieldValuesJson == null && nullToAbsent
-          ? const Value.absent()
-          : Value(customFieldValuesJson),
-    );
-  }
-
-  factory TaskSubmissionEntity.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return TaskSubmissionEntity(
-      id: serializer.fromJson<int>(json['id']),
-      taskTitle: serializer.fromJson<String>(json['taskTitle']),
-      status: serializer.fromJson<String>(json['status']),
-      completedBy: serializer.fromJson<String>(json['completedBy']),
-      completedAt: serializer.fromJson<DateTime>(json['completedAt']),
-      numericValue: serializer.fromJson<String?>(json['numericValue']),
-      photoAttached: serializer.fromJson<bool>(json['photoAttached']),
-      photoPath: serializer.fromJson<String?>(json['photoPath']),
-      notes: serializer.fromJson<String?>(json['notes']),
-      taskScheduleId: serializer.fromJson<int?>(json['taskScheduleId']),
-      taskTemplateGroupId: serializer.fromJson<int?>(
-        json['taskTemplateGroupId'],
-      ),
-      equipmentInstanceId: serializer.fromJson<int?>(
-        json['equipmentInstanceId'],
-      ),
-      customFieldValuesJson: serializer.fromJson<String?>(
-        json['customFieldValuesJson'],
-      ),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'taskTitle': serializer.toJson<String>(taskTitle),
-      'status': serializer.toJson<String>(status),
-      'completedBy': serializer.toJson<String>(completedBy),
-      'completedAt': serializer.toJson<DateTime>(completedAt),
-      'numericValue': serializer.toJson<String?>(numericValue),
-      'photoAttached': serializer.toJson<bool>(photoAttached),
-      'photoPath': serializer.toJson<String?>(photoPath),
-      'notes': serializer.toJson<String?>(notes),
-      'taskScheduleId': serializer.toJson<int?>(taskScheduleId),
-      'taskTemplateGroupId': serializer.toJson<int?>(taskTemplateGroupId),
-      'equipmentInstanceId': serializer.toJson<int?>(equipmentInstanceId),
-      'customFieldValuesJson': serializer.toJson<String?>(
-        customFieldValuesJson,
-      ),
-    };
-  }
-
-  TaskSubmissionEntity copyWith({
-    int? id,
-    String? taskTitle,
-    String? status,
-    String? completedBy,
-    DateTime? completedAt,
-    Value<String?> numericValue = const Value.absent(),
-    bool? photoAttached,
-    Value<String?> photoPath = const Value.absent(),
-    Value<String?> notes = const Value.absent(),
-    Value<int?> taskScheduleId = const Value.absent(),
-    Value<int?> taskTemplateGroupId = const Value.absent(),
-    Value<int?> equipmentInstanceId = const Value.absent(),
-    Value<String?> customFieldValuesJson = const Value.absent(),
-  }) => TaskSubmissionEntity(
-    id: id ?? this.id,
-    taskTitle: taskTitle ?? this.taskTitle,
-    status: status ?? this.status,
-    completedBy: completedBy ?? this.completedBy,
-    completedAt: completedAt ?? this.completedAt,
-    numericValue: numericValue.present ? numericValue.value : this.numericValue,
-    photoAttached: photoAttached ?? this.photoAttached,
-    photoPath: photoPath.present ? photoPath.value : this.photoPath,
-    notes: notes.present ? notes.value : this.notes,
-    taskScheduleId: taskScheduleId.present
-        ? taskScheduleId.value
-        : this.taskScheduleId,
-    taskTemplateGroupId: taskTemplateGroupId.present
-        ? taskTemplateGroupId.value
-        : this.taskTemplateGroupId,
-    equipmentInstanceId: equipmentInstanceId.present
-        ? equipmentInstanceId.value
-        : this.equipmentInstanceId,
-    customFieldValuesJson: customFieldValuesJson.present
-        ? customFieldValuesJson.value
-        : this.customFieldValuesJson,
-  );
-  TaskSubmissionEntity copyWithCompanion(TaskSubmissionsCompanion data) {
-    return TaskSubmissionEntity(
-      id: data.id.present ? data.id.value : this.id,
-      taskTitle: data.taskTitle.present ? data.taskTitle.value : this.taskTitle,
-      status: data.status.present ? data.status.value : this.status,
-      completedBy: data.completedBy.present
-          ? data.completedBy.value
-          : this.completedBy,
-      completedAt: data.completedAt.present
-          ? data.completedAt.value
-          : this.completedAt,
-      numericValue: data.numericValue.present
-          ? data.numericValue.value
-          : this.numericValue,
-      photoAttached: data.photoAttached.present
-          ? data.photoAttached.value
-          : this.photoAttached,
-      photoPath: data.photoPath.present ? data.photoPath.value : this.photoPath,
-      notes: data.notes.present ? data.notes.value : this.notes,
-      taskScheduleId: data.taskScheduleId.present
-          ? data.taskScheduleId.value
-          : this.taskScheduleId,
-      taskTemplateGroupId: data.taskTemplateGroupId.present
-          ? data.taskTemplateGroupId.value
-          : this.taskTemplateGroupId,
-      equipmentInstanceId: data.equipmentInstanceId.present
-          ? data.equipmentInstanceId.value
-          : this.equipmentInstanceId,
-      customFieldValuesJson: data.customFieldValuesJson.present
-          ? data.customFieldValuesJson.value
-          : this.customFieldValuesJson,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TaskSubmissionEntity(')
-          ..write('id: $id, ')
-          ..write('taskTitle: $taskTitle, ')
-          ..write('status: $status, ')
-          ..write('completedBy: $completedBy, ')
-          ..write('completedAt: $completedAt, ')
-          ..write('numericValue: $numericValue, ')
-          ..write('photoAttached: $photoAttached, ')
-          ..write('photoPath: $photoPath, ')
-          ..write('notes: $notes, ')
-          ..write('taskScheduleId: $taskScheduleId, ')
-          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
-          ..write('equipmentInstanceId: $equipmentInstanceId, ')
-          ..write('customFieldValuesJson: $customFieldValuesJson')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    taskTitle,
-    status,
-    completedBy,
-    completedAt,
-    numericValue,
-    photoAttached,
-    photoPath,
-    notes,
-    taskScheduleId,
-    taskTemplateGroupId,
-    equipmentInstanceId,
-    customFieldValuesJson,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is TaskSubmissionEntity &&
-          other.id == this.id &&
-          other.taskTitle == this.taskTitle &&
-          other.status == this.status &&
-          other.completedBy == this.completedBy &&
-          other.completedAt == this.completedAt &&
-          other.numericValue == this.numericValue &&
-          other.photoAttached == this.photoAttached &&
-          other.photoPath == this.photoPath &&
-          other.notes == this.notes &&
-          other.taskScheduleId == this.taskScheduleId &&
-          other.taskTemplateGroupId == this.taskTemplateGroupId &&
-          other.equipmentInstanceId == this.equipmentInstanceId &&
-          other.customFieldValuesJson == this.customFieldValuesJson);
-}
-
-class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
-  final Value<int> id;
-  final Value<String> taskTitle;
-  final Value<String> status;
-  final Value<String> completedBy;
-  final Value<DateTime> completedAt;
-  final Value<String?> numericValue;
-  final Value<bool> photoAttached;
-  final Value<String?> photoPath;
-  final Value<String?> notes;
-  final Value<int?> taskScheduleId;
-  final Value<int?> taskTemplateGroupId;
-  final Value<int?> equipmentInstanceId;
-  final Value<String?> customFieldValuesJson;
-  const TaskSubmissionsCompanion({
-    this.id = const Value.absent(),
-    this.taskTitle = const Value.absent(),
-    this.status = const Value.absent(),
-    this.completedBy = const Value.absent(),
-    this.completedAt = const Value.absent(),
-    this.numericValue = const Value.absent(),
-    this.photoAttached = const Value.absent(),
-    this.photoPath = const Value.absent(),
-    this.notes = const Value.absent(),
-    this.taskScheduleId = const Value.absent(),
-    this.taskTemplateGroupId = const Value.absent(),
-    this.equipmentInstanceId = const Value.absent(),
-    this.customFieldValuesJson = const Value.absent(),
-  });
-  TaskSubmissionsCompanion.insert({
-    this.id = const Value.absent(),
-    required String taskTitle,
-    required String status,
-    required String completedBy,
-    required DateTime completedAt,
-    this.numericValue = const Value.absent(),
-    this.photoAttached = const Value.absent(),
-    this.photoPath = const Value.absent(),
-    this.notes = const Value.absent(),
-    this.taskScheduleId = const Value.absent(),
-    this.taskTemplateGroupId = const Value.absent(),
-    this.equipmentInstanceId = const Value.absent(),
-    this.customFieldValuesJson = const Value.absent(),
-  }) : taskTitle = Value(taskTitle),
-       status = Value(status),
-       completedBy = Value(completedBy),
-       completedAt = Value(completedAt);
-  static Insertable<TaskSubmissionEntity> custom({
-    Expression<int>? id,
-    Expression<String>? taskTitle,
-    Expression<String>? status,
-    Expression<String>? completedBy,
-    Expression<DateTime>? completedAt,
-    Expression<String>? numericValue,
-    Expression<bool>? photoAttached,
-    Expression<String>? photoPath,
-    Expression<String>? notes,
-    Expression<int>? taskScheduleId,
-    Expression<int>? taskTemplateGroupId,
-    Expression<int>? equipmentInstanceId,
-    Expression<String>? customFieldValuesJson,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (taskTitle != null) 'task_title': taskTitle,
-      if (status != null) 'status': status,
-      if (completedBy != null) 'completed_by': completedBy,
-      if (completedAt != null) 'completed_at': completedAt,
-      if (numericValue != null) 'numeric_value': numericValue,
-      if (photoAttached != null) 'photo_attached': photoAttached,
-      if (photoPath != null) 'photo_path': photoPath,
-      if (notes != null) 'notes': notes,
-      if (taskScheduleId != null) 'task_schedule_id': taskScheduleId,
-      if (taskTemplateGroupId != null)
-        'task_template_group_id': taskTemplateGroupId,
-      if (equipmentInstanceId != null)
-        'equipment_instance_id': equipmentInstanceId,
-      if (customFieldValuesJson != null)
-        'custom_field_values_json': customFieldValuesJson,
-    });
-  }
-
-  TaskSubmissionsCompanion copyWith({
-    Value<int>? id,
-    Value<String>? taskTitle,
-    Value<String>? status,
-    Value<String>? completedBy,
-    Value<DateTime>? completedAt,
-    Value<String?>? numericValue,
-    Value<bool>? photoAttached,
-    Value<String?>? photoPath,
-    Value<String?>? notes,
-    Value<int?>? taskScheduleId,
-    Value<int?>? taskTemplateGroupId,
-    Value<int?>? equipmentInstanceId,
-    Value<String?>? customFieldValuesJson,
-  }) {
-    return TaskSubmissionsCompanion(
-      id: id ?? this.id,
-      taskTitle: taskTitle ?? this.taskTitle,
-      status: status ?? this.status,
-      completedBy: completedBy ?? this.completedBy,
-      completedAt: completedAt ?? this.completedAt,
-      numericValue: numericValue ?? this.numericValue,
-      photoAttached: photoAttached ?? this.photoAttached,
-      photoPath: photoPath ?? this.photoPath,
-      notes: notes ?? this.notes,
-      taskScheduleId: taskScheduleId ?? this.taskScheduleId,
-      taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
-      equipmentInstanceId: equipmentInstanceId ?? this.equipmentInstanceId,
-      customFieldValuesJson:
-          customFieldValuesJson ?? this.customFieldValuesJson,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (taskTitle.present) {
-      map['task_title'] = Variable<String>(taskTitle.value);
-    }
-    if (status.present) {
-      map['status'] = Variable<String>(status.value);
-    }
-    if (completedBy.present) {
-      map['completed_by'] = Variable<String>(completedBy.value);
-    }
-    if (completedAt.present) {
-      map['completed_at'] = Variable<DateTime>(completedAt.value);
-    }
-    if (numericValue.present) {
-      map['numeric_value'] = Variable<String>(numericValue.value);
-    }
-    if (photoAttached.present) {
-      map['photo_attached'] = Variable<bool>(photoAttached.value);
-    }
-    if (photoPath.present) {
-      map['photo_path'] = Variable<String>(photoPath.value);
-    }
-    if (notes.present) {
-      map['notes'] = Variable<String>(notes.value);
-    }
-    if (taskScheduleId.present) {
-      map['task_schedule_id'] = Variable<int>(taskScheduleId.value);
-    }
-    if (taskTemplateGroupId.present) {
-      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId.value);
-    }
-    if (equipmentInstanceId.present) {
-      map['equipment_instance_id'] = Variable<int>(equipmentInstanceId.value);
-    }
-    if (customFieldValuesJson.present) {
-      map['custom_field_values_json'] = Variable<String>(
-        customFieldValuesJson.value,
-      );
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TaskSubmissionsCompanion(')
-          ..write('id: $id, ')
-          ..write('taskTitle: $taskTitle, ')
-          ..write('status: $status, ')
-          ..write('completedBy: $completedBy, ')
-          ..write('completedAt: $completedAt, ')
-          ..write('numericValue: $numericValue, ')
-          ..write('photoAttached: $photoAttached, ')
-          ..write('photoPath: $photoPath, ')
-          ..write('notes: $notes, ')
-          ..write('taskScheduleId: $taskScheduleId, ')
-          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
-          ..write('equipmentInstanceId: $equipmentInstanceId, ')
-          ..write('customFieldValuesJson: $customFieldValuesJson')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -1960,6 +1150,875 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('pinHash: $pinHash, ')
           ..write('pinSalt: $pinSalt, ')
           ..write('preferredTemperatureUnit: $preferredTemperatureUnit')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TaskSubmissionsTable extends TaskSubmissions
+    with TableInfo<$TaskSubmissionsTable, TaskSubmissionEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskSubmissionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _taskTitleMeta = const VerificationMeta(
+    'taskTitle',
+  );
+  @override
+  late final GeneratedColumn<String> taskTitle = GeneratedColumn<String>(
+    'task_title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _completedByMeta = const VerificationMeta(
+    'completedBy',
+  );
+  @override
+  late final GeneratedColumn<String> completedBy = GeneratedColumn<String>(
+    'completed_by',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _completedAtMeta = const VerificationMeta(
+    'completedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
+    'completed_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _numericValueMeta = const VerificationMeta(
+    'numericValue',
+  );
+  @override
+  late final GeneratedColumn<String> numericValue = GeneratedColumn<String>(
+    'numeric_value',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _photoAttachedMeta = const VerificationMeta(
+    'photoAttached',
+  );
+  @override
+  late final GeneratedColumn<bool> photoAttached = GeneratedColumn<bool>(
+    'photo_attached',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("photo_attached" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _photoPathMeta = const VerificationMeta(
+    'photoPath',
+  );
+  @override
+  late final GeneratedColumn<String> photoPath = GeneratedColumn<String>(
+    'photo_path',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _taskScheduleIdMeta = const VerificationMeta(
+    'taskScheduleId',
+  );
+  @override
+  late final GeneratedColumn<int> taskScheduleId = GeneratedColumn<int>(
+    'task_schedule_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _taskTemplateGroupIdMeta =
+      const VerificationMeta('taskTemplateGroupId');
+  @override
+  late final GeneratedColumn<int> taskTemplateGroupId = GeneratedColumn<int>(
+    'task_template_group_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _equipmentInstanceIdMeta =
+      const VerificationMeta('equipmentInstanceId');
+  @override
+  late final GeneratedColumn<int> equipmentInstanceId = GeneratedColumn<int>(
+    'equipment_instance_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES equipment_instances (id)',
+    ),
+  );
+  static const VerificationMeta _customFieldValuesJsonMeta =
+      const VerificationMeta('customFieldValuesJson');
+  @override
+  late final GeneratedColumn<String> customFieldValuesJson =
+      GeneratedColumn<String>(
+        'custom_field_values_json',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _completedByUserIdMeta = const VerificationMeta(
+    'completedByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> completedByUserId = GeneratedColumn<int>(
+    'completed_by_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    taskTitle,
+    status,
+    completedBy,
+    completedAt,
+    numericValue,
+    photoAttached,
+    photoPath,
+    notes,
+    taskScheduleId,
+    taskTemplateGroupId,
+    equipmentInstanceId,
+    customFieldValuesJson,
+    completedByUserId,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task_submissions';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaskSubmissionEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('task_title')) {
+      context.handle(
+        _taskTitleMeta,
+        taskTitle.isAcceptableOrUnknown(data['task_title']!, _taskTitleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_taskTitleMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_statusMeta);
+    }
+    if (data.containsKey('completed_by')) {
+      context.handle(
+        _completedByMeta,
+        completedBy.isAcceptableOrUnknown(
+          data['completed_by']!,
+          _completedByMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_completedByMeta);
+    }
+    if (data.containsKey('completed_at')) {
+      context.handle(
+        _completedAtMeta,
+        completedAt.isAcceptableOrUnknown(
+          data['completed_at']!,
+          _completedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_completedAtMeta);
+    }
+    if (data.containsKey('numeric_value')) {
+      context.handle(
+        _numericValueMeta,
+        numericValue.isAcceptableOrUnknown(
+          data['numeric_value']!,
+          _numericValueMeta,
+        ),
+      );
+    }
+    if (data.containsKey('photo_attached')) {
+      context.handle(
+        _photoAttachedMeta,
+        photoAttached.isAcceptableOrUnknown(
+          data['photo_attached']!,
+          _photoAttachedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('photo_path')) {
+      context.handle(
+        _photoPathMeta,
+        photoPath.isAcceptableOrUnknown(data['photo_path']!, _photoPathMeta),
+      );
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    if (data.containsKey('task_schedule_id')) {
+      context.handle(
+        _taskScheduleIdMeta,
+        taskScheduleId.isAcceptableOrUnknown(
+          data['task_schedule_id']!,
+          _taskScheduleIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('task_template_group_id')) {
+      context.handle(
+        _taskTemplateGroupIdMeta,
+        taskTemplateGroupId.isAcceptableOrUnknown(
+          data['task_template_group_id']!,
+          _taskTemplateGroupIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('equipment_instance_id')) {
+      context.handle(
+        _equipmentInstanceIdMeta,
+        equipmentInstanceId.isAcceptableOrUnknown(
+          data['equipment_instance_id']!,
+          _equipmentInstanceIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('custom_field_values_json')) {
+      context.handle(
+        _customFieldValuesJsonMeta,
+        customFieldValuesJson.isAcceptableOrUnknown(
+          data['custom_field_values_json']!,
+          _customFieldValuesJsonMeta,
+        ),
+      );
+    }
+    if (data.containsKey('completed_by_user_id')) {
+      context.handle(
+        _completedByUserIdMeta,
+        completedByUserId.isAcceptableOrUnknown(
+          data['completed_by_user_id']!,
+          _completedByUserIdMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TaskSubmissionEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaskSubmissionEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      taskTitle: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}task_title'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      completedBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}completed_by'],
+      )!,
+      completedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}completed_at'],
+      )!,
+      numericValue: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}numeric_value'],
+      ),
+      photoAttached: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}photo_attached'],
+      )!,
+      photoPath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}photo_path'],
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      taskScheduleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}task_schedule_id'],
+      ),
+      taskTemplateGroupId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}task_template_group_id'],
+      ),
+      equipmentInstanceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}equipment_instance_id'],
+      ),
+      customFieldValuesJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}custom_field_values_json'],
+      ),
+      completedByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}completed_by_user_id'],
+      ),
+    );
+  }
+
+  @override
+  $TaskSubmissionsTable createAlias(String alias) {
+    return $TaskSubmissionsTable(attachedDatabase, alias);
+  }
+}
+
+class TaskSubmissionEntity extends DataClass
+    implements Insertable<TaskSubmissionEntity> {
+  final int id;
+  final String taskTitle;
+  final String status;
+  final String completedBy;
+  final DateTime completedAt;
+  final String? numericValue;
+  final bool photoAttached;
+  final String? photoPath;
+  final String? notes;
+  final int? taskScheduleId;
+  final int? taskTemplateGroupId;
+  final int? equipmentInstanceId;
+  final String? customFieldValuesJson;
+  final int? completedByUserId;
+  const TaskSubmissionEntity({
+    required this.id,
+    required this.taskTitle,
+    required this.status,
+    required this.completedBy,
+    required this.completedAt,
+    this.numericValue,
+    required this.photoAttached,
+    this.photoPath,
+    this.notes,
+    this.taskScheduleId,
+    this.taskTemplateGroupId,
+    this.equipmentInstanceId,
+    this.customFieldValuesJson,
+    this.completedByUserId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['task_title'] = Variable<String>(taskTitle);
+    map['status'] = Variable<String>(status);
+    map['completed_by'] = Variable<String>(completedBy);
+    map['completed_at'] = Variable<DateTime>(completedAt);
+    if (!nullToAbsent || numericValue != null) {
+      map['numeric_value'] = Variable<String>(numericValue);
+    }
+    map['photo_attached'] = Variable<bool>(photoAttached);
+    if (!nullToAbsent || photoPath != null) {
+      map['photo_path'] = Variable<String>(photoPath);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    if (!nullToAbsent || taskScheduleId != null) {
+      map['task_schedule_id'] = Variable<int>(taskScheduleId);
+    }
+    if (!nullToAbsent || taskTemplateGroupId != null) {
+      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId);
+    }
+    if (!nullToAbsent || equipmentInstanceId != null) {
+      map['equipment_instance_id'] = Variable<int>(equipmentInstanceId);
+    }
+    if (!nullToAbsent || customFieldValuesJson != null) {
+      map['custom_field_values_json'] = Variable<String>(customFieldValuesJson);
+    }
+    if (!nullToAbsent || completedByUserId != null) {
+      map['completed_by_user_id'] = Variable<int>(completedByUserId);
+    }
+    return map;
+  }
+
+  TaskSubmissionsCompanion toCompanion(bool nullToAbsent) {
+    return TaskSubmissionsCompanion(
+      id: Value(id),
+      taskTitle: Value(taskTitle),
+      status: Value(status),
+      completedBy: Value(completedBy),
+      completedAt: Value(completedAt),
+      numericValue: numericValue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(numericValue),
+      photoAttached: Value(photoAttached),
+      photoPath: photoPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(photoPath),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      taskScheduleId: taskScheduleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taskScheduleId),
+      taskTemplateGroupId: taskTemplateGroupId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taskTemplateGroupId),
+      equipmentInstanceId: equipmentInstanceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(equipmentInstanceId),
+      customFieldValuesJson: customFieldValuesJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customFieldValuesJson),
+      completedByUserId: completedByUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(completedByUserId),
+    );
+  }
+
+  factory TaskSubmissionEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaskSubmissionEntity(
+      id: serializer.fromJson<int>(json['id']),
+      taskTitle: serializer.fromJson<String>(json['taskTitle']),
+      status: serializer.fromJson<String>(json['status']),
+      completedBy: serializer.fromJson<String>(json['completedBy']),
+      completedAt: serializer.fromJson<DateTime>(json['completedAt']),
+      numericValue: serializer.fromJson<String?>(json['numericValue']),
+      photoAttached: serializer.fromJson<bool>(json['photoAttached']),
+      photoPath: serializer.fromJson<String?>(json['photoPath']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      taskScheduleId: serializer.fromJson<int?>(json['taskScheduleId']),
+      taskTemplateGroupId: serializer.fromJson<int?>(
+        json['taskTemplateGroupId'],
+      ),
+      equipmentInstanceId: serializer.fromJson<int?>(
+        json['equipmentInstanceId'],
+      ),
+      customFieldValuesJson: serializer.fromJson<String?>(
+        json['customFieldValuesJson'],
+      ),
+      completedByUserId: serializer.fromJson<int?>(json['completedByUserId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'taskTitle': serializer.toJson<String>(taskTitle),
+      'status': serializer.toJson<String>(status),
+      'completedBy': serializer.toJson<String>(completedBy),
+      'completedAt': serializer.toJson<DateTime>(completedAt),
+      'numericValue': serializer.toJson<String?>(numericValue),
+      'photoAttached': serializer.toJson<bool>(photoAttached),
+      'photoPath': serializer.toJson<String?>(photoPath),
+      'notes': serializer.toJson<String?>(notes),
+      'taskScheduleId': serializer.toJson<int?>(taskScheduleId),
+      'taskTemplateGroupId': serializer.toJson<int?>(taskTemplateGroupId),
+      'equipmentInstanceId': serializer.toJson<int?>(equipmentInstanceId),
+      'customFieldValuesJson': serializer.toJson<String?>(
+        customFieldValuesJson,
+      ),
+      'completedByUserId': serializer.toJson<int?>(completedByUserId),
+    };
+  }
+
+  TaskSubmissionEntity copyWith({
+    int? id,
+    String? taskTitle,
+    String? status,
+    String? completedBy,
+    DateTime? completedAt,
+    Value<String?> numericValue = const Value.absent(),
+    bool? photoAttached,
+    Value<String?> photoPath = const Value.absent(),
+    Value<String?> notes = const Value.absent(),
+    Value<int?> taskScheduleId = const Value.absent(),
+    Value<int?> taskTemplateGroupId = const Value.absent(),
+    Value<int?> equipmentInstanceId = const Value.absent(),
+    Value<String?> customFieldValuesJson = const Value.absent(),
+    Value<int?> completedByUserId = const Value.absent(),
+  }) => TaskSubmissionEntity(
+    id: id ?? this.id,
+    taskTitle: taskTitle ?? this.taskTitle,
+    status: status ?? this.status,
+    completedBy: completedBy ?? this.completedBy,
+    completedAt: completedAt ?? this.completedAt,
+    numericValue: numericValue.present ? numericValue.value : this.numericValue,
+    photoAttached: photoAttached ?? this.photoAttached,
+    photoPath: photoPath.present ? photoPath.value : this.photoPath,
+    notes: notes.present ? notes.value : this.notes,
+    taskScheduleId: taskScheduleId.present
+        ? taskScheduleId.value
+        : this.taskScheduleId,
+    taskTemplateGroupId: taskTemplateGroupId.present
+        ? taskTemplateGroupId.value
+        : this.taskTemplateGroupId,
+    equipmentInstanceId: equipmentInstanceId.present
+        ? equipmentInstanceId.value
+        : this.equipmentInstanceId,
+    customFieldValuesJson: customFieldValuesJson.present
+        ? customFieldValuesJson.value
+        : this.customFieldValuesJson,
+    completedByUserId: completedByUserId.present
+        ? completedByUserId.value
+        : this.completedByUserId,
+  );
+  TaskSubmissionEntity copyWithCompanion(TaskSubmissionsCompanion data) {
+    return TaskSubmissionEntity(
+      id: data.id.present ? data.id.value : this.id,
+      taskTitle: data.taskTitle.present ? data.taskTitle.value : this.taskTitle,
+      status: data.status.present ? data.status.value : this.status,
+      completedBy: data.completedBy.present
+          ? data.completedBy.value
+          : this.completedBy,
+      completedAt: data.completedAt.present
+          ? data.completedAt.value
+          : this.completedAt,
+      numericValue: data.numericValue.present
+          ? data.numericValue.value
+          : this.numericValue,
+      photoAttached: data.photoAttached.present
+          ? data.photoAttached.value
+          : this.photoAttached,
+      photoPath: data.photoPath.present ? data.photoPath.value : this.photoPath,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      taskScheduleId: data.taskScheduleId.present
+          ? data.taskScheduleId.value
+          : this.taskScheduleId,
+      taskTemplateGroupId: data.taskTemplateGroupId.present
+          ? data.taskTemplateGroupId.value
+          : this.taskTemplateGroupId,
+      equipmentInstanceId: data.equipmentInstanceId.present
+          ? data.equipmentInstanceId.value
+          : this.equipmentInstanceId,
+      customFieldValuesJson: data.customFieldValuesJson.present
+          ? data.customFieldValuesJson.value
+          : this.customFieldValuesJson,
+      completedByUserId: data.completedByUserId.present
+          ? data.completedByUserId.value
+          : this.completedByUserId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskSubmissionEntity(')
+          ..write('id: $id, ')
+          ..write('taskTitle: $taskTitle, ')
+          ..write('status: $status, ')
+          ..write('completedBy: $completedBy, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('numericValue: $numericValue, ')
+          ..write('photoAttached: $photoAttached, ')
+          ..write('photoPath: $photoPath, ')
+          ..write('notes: $notes, ')
+          ..write('taskScheduleId: $taskScheduleId, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('equipmentInstanceId: $equipmentInstanceId, ')
+          ..write('customFieldValuesJson: $customFieldValuesJson, ')
+          ..write('completedByUserId: $completedByUserId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    taskTitle,
+    status,
+    completedBy,
+    completedAt,
+    numericValue,
+    photoAttached,
+    photoPath,
+    notes,
+    taskScheduleId,
+    taskTemplateGroupId,
+    equipmentInstanceId,
+    customFieldValuesJson,
+    completedByUserId,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaskSubmissionEntity &&
+          other.id == this.id &&
+          other.taskTitle == this.taskTitle &&
+          other.status == this.status &&
+          other.completedBy == this.completedBy &&
+          other.completedAt == this.completedAt &&
+          other.numericValue == this.numericValue &&
+          other.photoAttached == this.photoAttached &&
+          other.photoPath == this.photoPath &&
+          other.notes == this.notes &&
+          other.taskScheduleId == this.taskScheduleId &&
+          other.taskTemplateGroupId == this.taskTemplateGroupId &&
+          other.equipmentInstanceId == this.equipmentInstanceId &&
+          other.customFieldValuesJson == this.customFieldValuesJson &&
+          other.completedByUserId == this.completedByUserId);
+}
+
+class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
+  final Value<int> id;
+  final Value<String> taskTitle;
+  final Value<String> status;
+  final Value<String> completedBy;
+  final Value<DateTime> completedAt;
+  final Value<String?> numericValue;
+  final Value<bool> photoAttached;
+  final Value<String?> photoPath;
+  final Value<String?> notes;
+  final Value<int?> taskScheduleId;
+  final Value<int?> taskTemplateGroupId;
+  final Value<int?> equipmentInstanceId;
+  final Value<String?> customFieldValuesJson;
+  final Value<int?> completedByUserId;
+  const TaskSubmissionsCompanion({
+    this.id = const Value.absent(),
+    this.taskTitle = const Value.absent(),
+    this.status = const Value.absent(),
+    this.completedBy = const Value.absent(),
+    this.completedAt = const Value.absent(),
+    this.numericValue = const Value.absent(),
+    this.photoAttached = const Value.absent(),
+    this.photoPath = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.taskScheduleId = const Value.absent(),
+    this.taskTemplateGroupId = const Value.absent(),
+    this.equipmentInstanceId = const Value.absent(),
+    this.customFieldValuesJson = const Value.absent(),
+    this.completedByUserId = const Value.absent(),
+  });
+  TaskSubmissionsCompanion.insert({
+    this.id = const Value.absent(),
+    required String taskTitle,
+    required String status,
+    required String completedBy,
+    required DateTime completedAt,
+    this.numericValue = const Value.absent(),
+    this.photoAttached = const Value.absent(),
+    this.photoPath = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.taskScheduleId = const Value.absent(),
+    this.taskTemplateGroupId = const Value.absent(),
+    this.equipmentInstanceId = const Value.absent(),
+    this.customFieldValuesJson = const Value.absent(),
+    this.completedByUserId = const Value.absent(),
+  }) : taskTitle = Value(taskTitle),
+       status = Value(status),
+       completedBy = Value(completedBy),
+       completedAt = Value(completedAt);
+  static Insertable<TaskSubmissionEntity> custom({
+    Expression<int>? id,
+    Expression<String>? taskTitle,
+    Expression<String>? status,
+    Expression<String>? completedBy,
+    Expression<DateTime>? completedAt,
+    Expression<String>? numericValue,
+    Expression<bool>? photoAttached,
+    Expression<String>? photoPath,
+    Expression<String>? notes,
+    Expression<int>? taskScheduleId,
+    Expression<int>? taskTemplateGroupId,
+    Expression<int>? equipmentInstanceId,
+    Expression<String>? customFieldValuesJson,
+    Expression<int>? completedByUserId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (taskTitle != null) 'task_title': taskTitle,
+      if (status != null) 'status': status,
+      if (completedBy != null) 'completed_by': completedBy,
+      if (completedAt != null) 'completed_at': completedAt,
+      if (numericValue != null) 'numeric_value': numericValue,
+      if (photoAttached != null) 'photo_attached': photoAttached,
+      if (photoPath != null) 'photo_path': photoPath,
+      if (notes != null) 'notes': notes,
+      if (taskScheduleId != null) 'task_schedule_id': taskScheduleId,
+      if (taskTemplateGroupId != null)
+        'task_template_group_id': taskTemplateGroupId,
+      if (equipmentInstanceId != null)
+        'equipment_instance_id': equipmentInstanceId,
+      if (customFieldValuesJson != null)
+        'custom_field_values_json': customFieldValuesJson,
+      if (completedByUserId != null) 'completed_by_user_id': completedByUserId,
+    });
+  }
+
+  TaskSubmissionsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? taskTitle,
+    Value<String>? status,
+    Value<String>? completedBy,
+    Value<DateTime>? completedAt,
+    Value<String?>? numericValue,
+    Value<bool>? photoAttached,
+    Value<String?>? photoPath,
+    Value<String?>? notes,
+    Value<int?>? taskScheduleId,
+    Value<int?>? taskTemplateGroupId,
+    Value<int?>? equipmentInstanceId,
+    Value<String?>? customFieldValuesJson,
+    Value<int?>? completedByUserId,
+  }) {
+    return TaskSubmissionsCompanion(
+      id: id ?? this.id,
+      taskTitle: taskTitle ?? this.taskTitle,
+      status: status ?? this.status,
+      completedBy: completedBy ?? this.completedBy,
+      completedAt: completedAt ?? this.completedAt,
+      numericValue: numericValue ?? this.numericValue,
+      photoAttached: photoAttached ?? this.photoAttached,
+      photoPath: photoPath ?? this.photoPath,
+      notes: notes ?? this.notes,
+      taskScheduleId: taskScheduleId ?? this.taskScheduleId,
+      taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
+      equipmentInstanceId: equipmentInstanceId ?? this.equipmentInstanceId,
+      customFieldValuesJson:
+          customFieldValuesJson ?? this.customFieldValuesJson,
+      completedByUserId: completedByUserId ?? this.completedByUserId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (taskTitle.present) {
+      map['task_title'] = Variable<String>(taskTitle.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (completedBy.present) {
+      map['completed_by'] = Variable<String>(completedBy.value);
+    }
+    if (completedAt.present) {
+      map['completed_at'] = Variable<DateTime>(completedAt.value);
+    }
+    if (numericValue.present) {
+      map['numeric_value'] = Variable<String>(numericValue.value);
+    }
+    if (photoAttached.present) {
+      map['photo_attached'] = Variable<bool>(photoAttached.value);
+    }
+    if (photoPath.present) {
+      map['photo_path'] = Variable<String>(photoPath.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (taskScheduleId.present) {
+      map['task_schedule_id'] = Variable<int>(taskScheduleId.value);
+    }
+    if (taskTemplateGroupId.present) {
+      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId.value);
+    }
+    if (equipmentInstanceId.present) {
+      map['equipment_instance_id'] = Variable<int>(equipmentInstanceId.value);
+    }
+    if (customFieldValuesJson.present) {
+      map['custom_field_values_json'] = Variable<String>(
+        customFieldValuesJson.value,
+      );
+    }
+    if (completedByUserId.present) {
+      map['completed_by_user_id'] = Variable<int>(completedByUserId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskSubmissionsCompanion(')
+          ..write('id: $id, ')
+          ..write('taskTitle: $taskTitle, ')
+          ..write('status: $status, ')
+          ..write('completedBy: $completedBy, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('numericValue: $numericValue, ')
+          ..write('photoAttached: $photoAttached, ')
+          ..write('photoPath: $photoPath, ')
+          ..write('notes: $notes, ')
+          ..write('taskScheduleId: $taskScheduleId, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('equipmentInstanceId: $equipmentInstanceId, ')
+          ..write('customFieldValuesJson: $customFieldValuesJson, ')
+          ..write('completedByUserId: $completedByUserId')
           ..write(')'))
         .toString();
   }
@@ -4168,6 +4227,1000 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
   }
 }
 
+class $ShiftHandoverNotesTable extends ShiftHandoverNotes
+    with TableInfo<$ShiftHandoverNotesTable, ShiftHandoverNoteEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ShiftHandoverNotesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _authorUserIdMeta = const VerificationMeta(
+    'authorUserId',
+  );
+  @override
+  late final GeneratedColumn<int> authorUserId = GeneratedColumn<int>(
+    'author_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, authorUserId, note, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'shift_handover_notes';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ShiftHandoverNoteEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('author_user_id')) {
+      context.handle(
+        _authorUserIdMeta,
+        authorUserId.isAcceptableOrUnknown(
+          data['author_user_id']!,
+          _authorUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_authorUserIdMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_noteMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ShiftHandoverNoteEntity map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ShiftHandoverNoteEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      authorUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}author_user_id'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ShiftHandoverNotesTable createAlias(String alias) {
+    return $ShiftHandoverNotesTable(attachedDatabase, alias);
+  }
+}
+
+class ShiftHandoverNoteEntity extends DataClass
+    implements Insertable<ShiftHandoverNoteEntity> {
+  final int id;
+  final int authorUserId;
+  final String note;
+  final DateTime createdAt;
+  const ShiftHandoverNoteEntity({
+    required this.id,
+    required this.authorUserId,
+    required this.note,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['author_user_id'] = Variable<int>(authorUserId);
+    map['note'] = Variable<String>(note);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  ShiftHandoverNotesCompanion toCompanion(bool nullToAbsent) {
+    return ShiftHandoverNotesCompanion(
+      id: Value(id),
+      authorUserId: Value(authorUserId),
+      note: Value(note),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory ShiftHandoverNoteEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ShiftHandoverNoteEntity(
+      id: serializer.fromJson<int>(json['id']),
+      authorUserId: serializer.fromJson<int>(json['authorUserId']),
+      note: serializer.fromJson<String>(json['note']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'authorUserId': serializer.toJson<int>(authorUserId),
+      'note': serializer.toJson<String>(note),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  ShiftHandoverNoteEntity copyWith({
+    int? id,
+    int? authorUserId,
+    String? note,
+    DateTime? createdAt,
+  }) => ShiftHandoverNoteEntity(
+    id: id ?? this.id,
+    authorUserId: authorUserId ?? this.authorUserId,
+    note: note ?? this.note,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  ShiftHandoverNoteEntity copyWithCompanion(ShiftHandoverNotesCompanion data) {
+    return ShiftHandoverNoteEntity(
+      id: data.id.present ? data.id.value : this.id,
+      authorUserId: data.authorUserId.present
+          ? data.authorUserId.value
+          : this.authorUserId,
+      note: data.note.present ? data.note.value : this.note,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ShiftHandoverNoteEntity(')
+          ..write('id: $id, ')
+          ..write('authorUserId: $authorUserId, ')
+          ..write('note: $note, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, authorUserId, note, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ShiftHandoverNoteEntity &&
+          other.id == this.id &&
+          other.authorUserId == this.authorUserId &&
+          other.note == this.note &&
+          other.createdAt == this.createdAt);
+}
+
+class ShiftHandoverNotesCompanion
+    extends UpdateCompanion<ShiftHandoverNoteEntity> {
+  final Value<int> id;
+  final Value<int> authorUserId;
+  final Value<String> note;
+  final Value<DateTime> createdAt;
+  const ShiftHandoverNotesCompanion({
+    this.id = const Value.absent(),
+    this.authorUserId = const Value.absent(),
+    this.note = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  ShiftHandoverNotesCompanion.insert({
+    this.id = const Value.absent(),
+    required int authorUserId,
+    required String note,
+    required DateTime createdAt,
+  }) : authorUserId = Value(authorUserId),
+       note = Value(note),
+       createdAt = Value(createdAt);
+  static Insertable<ShiftHandoverNoteEntity> custom({
+    Expression<int>? id,
+    Expression<int>? authorUserId,
+    Expression<String>? note,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (authorUserId != null) 'author_user_id': authorUserId,
+      if (note != null) 'note': note,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  ShiftHandoverNotesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? authorUserId,
+    Value<String>? note,
+    Value<DateTime>? createdAt,
+  }) {
+    return ShiftHandoverNotesCompanion(
+      id: id ?? this.id,
+      authorUserId: authorUserId ?? this.authorUserId,
+      note: note ?? this.note,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (authorUserId.present) {
+      map['author_user_id'] = Variable<int>(authorUserId.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ShiftHandoverNotesCompanion(')
+          ..write('id: $id, ')
+          ..write('authorUserId: $authorUserId, ')
+          ..write('note: $note, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SessionSummariesTable extends SessionSummaries
+    with TableInfo<$SessionSummariesTable, SessionSummaryEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SessionSummariesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _staffUserIdMeta = const VerificationMeta(
+    'staffUserId',
+  );
+  @override
+  late final GeneratedColumn<int> staffUserId = GeneratedColumn<int>(
+    'staff_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _staffNameMeta = const VerificationMeta(
+    'staffName',
+  );
+  @override
+  late final GeneratedColumn<String> staffName = GeneratedColumn<String>(
+    'staff_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sentToManagerIdMeta = const VerificationMeta(
+    'sentToManagerId',
+  );
+  @override
+  late final GeneratedColumn<int> sentToManagerId = GeneratedColumn<int>(
+    'sent_to_manager_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _passCountMeta = const VerificationMeta(
+    'passCount',
+  );
+  @override
+  late final GeneratedColumn<int> passCount = GeneratedColumn<int>(
+    'pass_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _failCountMeta = const VerificationMeta(
+    'failCount',
+  );
+  @override
+  late final GeneratedColumn<int> failCount = GeneratedColumn<int>(
+    'fail_count',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _failedTaskTitlesJsonMeta =
+      const VerificationMeta('failedTaskTitlesJson');
+  @override
+  late final GeneratedColumn<String> failedTaskTitlesJson =
+      GeneratedColumn<String>(
+        'failed_task_titles_json',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sentAtMeta = const VerificationMeta('sentAt');
+  @override
+  late final GeneratedColumn<DateTime> sentAt = GeneratedColumn<DateTime>(
+    'sent_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _acknowledgedMeta = const VerificationMeta(
+    'acknowledged',
+  );
+  @override
+  late final GeneratedColumn<bool> acknowledged = GeneratedColumn<bool>(
+    'acknowledged',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("acknowledged" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _acknowledgedAtMeta = const VerificationMeta(
+    'acknowledgedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> acknowledgedAt =
+      GeneratedColumn<DateTime>(
+        'acknowledged_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    staffUserId,
+    staffName,
+    sentToManagerId,
+    passCount,
+    failCount,
+    failedTaskTitlesJson,
+    note,
+    sentAt,
+    acknowledged,
+    acknowledgedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'session_summaries';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SessionSummaryEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('staff_user_id')) {
+      context.handle(
+        _staffUserIdMeta,
+        staffUserId.isAcceptableOrUnknown(
+          data['staff_user_id']!,
+          _staffUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_staffUserIdMeta);
+    }
+    if (data.containsKey('staff_name')) {
+      context.handle(
+        _staffNameMeta,
+        staffName.isAcceptableOrUnknown(data['staff_name']!, _staffNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_staffNameMeta);
+    }
+    if (data.containsKey('sent_to_manager_id')) {
+      context.handle(
+        _sentToManagerIdMeta,
+        sentToManagerId.isAcceptableOrUnknown(
+          data['sent_to_manager_id']!,
+          _sentToManagerIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sentToManagerIdMeta);
+    }
+    if (data.containsKey('pass_count')) {
+      context.handle(
+        _passCountMeta,
+        passCount.isAcceptableOrUnknown(data['pass_count']!, _passCountMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_passCountMeta);
+    }
+    if (data.containsKey('fail_count')) {
+      context.handle(
+        _failCountMeta,
+        failCount.isAcceptableOrUnknown(data['fail_count']!, _failCountMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_failCountMeta);
+    }
+    if (data.containsKey('failed_task_titles_json')) {
+      context.handle(
+        _failedTaskTitlesJsonMeta,
+        failedTaskTitlesJson.isAcceptableOrUnknown(
+          data['failed_task_titles_json']!,
+          _failedTaskTitlesJsonMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_failedTaskTitlesJsonMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('sent_at')) {
+      context.handle(
+        _sentAtMeta,
+        sentAt.isAcceptableOrUnknown(data['sent_at']!, _sentAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sentAtMeta);
+    }
+    if (data.containsKey('acknowledged')) {
+      context.handle(
+        _acknowledgedMeta,
+        acknowledged.isAcceptableOrUnknown(
+          data['acknowledged']!,
+          _acknowledgedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('acknowledged_at')) {
+      context.handle(
+        _acknowledgedAtMeta,
+        acknowledgedAt.isAcceptableOrUnknown(
+          data['acknowledged_at']!,
+          _acknowledgedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SessionSummaryEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SessionSummaryEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      staffUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}staff_user_id'],
+      )!,
+      staffName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}staff_name'],
+      )!,
+      sentToManagerId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sent_to_manager_id'],
+      )!,
+      passCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}pass_count'],
+      )!,
+      failCount: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}fail_count'],
+      )!,
+      failedTaskTitlesJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}failed_task_titles_json'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      sentAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}sent_at'],
+      )!,
+      acknowledged: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}acknowledged'],
+      )!,
+      acknowledgedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}acknowledged_at'],
+      ),
+    );
+  }
+
+  @override
+  $SessionSummariesTable createAlias(String alias) {
+    return $SessionSummariesTable(attachedDatabase, alias);
+  }
+}
+
+class SessionSummaryEntity extends DataClass
+    implements Insertable<SessionSummaryEntity> {
+  final int id;
+  final int staffUserId;
+  final String staffName;
+  final int sentToManagerId;
+  final int passCount;
+  final int failCount;
+  final String failedTaskTitlesJson;
+  final String? note;
+  final DateTime sentAt;
+  final bool acknowledged;
+  final DateTime? acknowledgedAt;
+  const SessionSummaryEntity({
+    required this.id,
+    required this.staffUserId,
+    required this.staffName,
+    required this.sentToManagerId,
+    required this.passCount,
+    required this.failCount,
+    required this.failedTaskTitlesJson,
+    this.note,
+    required this.sentAt,
+    required this.acknowledged,
+    this.acknowledgedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['staff_user_id'] = Variable<int>(staffUserId);
+    map['staff_name'] = Variable<String>(staffName);
+    map['sent_to_manager_id'] = Variable<int>(sentToManagerId);
+    map['pass_count'] = Variable<int>(passCount);
+    map['fail_count'] = Variable<int>(failCount);
+    map['failed_task_titles_json'] = Variable<String>(failedTaskTitlesJson);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['sent_at'] = Variable<DateTime>(sentAt);
+    map['acknowledged'] = Variable<bool>(acknowledged);
+    if (!nullToAbsent || acknowledgedAt != null) {
+      map['acknowledged_at'] = Variable<DateTime>(acknowledgedAt);
+    }
+    return map;
+  }
+
+  SessionSummariesCompanion toCompanion(bool nullToAbsent) {
+    return SessionSummariesCompanion(
+      id: Value(id),
+      staffUserId: Value(staffUserId),
+      staffName: Value(staffName),
+      sentToManagerId: Value(sentToManagerId),
+      passCount: Value(passCount),
+      failCount: Value(failCount),
+      failedTaskTitlesJson: Value(failedTaskTitlesJson),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      sentAt: Value(sentAt),
+      acknowledged: Value(acknowledged),
+      acknowledgedAt: acknowledgedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(acknowledgedAt),
+    );
+  }
+
+  factory SessionSummaryEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SessionSummaryEntity(
+      id: serializer.fromJson<int>(json['id']),
+      staffUserId: serializer.fromJson<int>(json['staffUserId']),
+      staffName: serializer.fromJson<String>(json['staffName']),
+      sentToManagerId: serializer.fromJson<int>(json['sentToManagerId']),
+      passCount: serializer.fromJson<int>(json['passCount']),
+      failCount: serializer.fromJson<int>(json['failCount']),
+      failedTaskTitlesJson: serializer.fromJson<String>(
+        json['failedTaskTitlesJson'],
+      ),
+      note: serializer.fromJson<String?>(json['note']),
+      sentAt: serializer.fromJson<DateTime>(json['sentAt']),
+      acknowledged: serializer.fromJson<bool>(json['acknowledged']),
+      acknowledgedAt: serializer.fromJson<DateTime?>(json['acknowledgedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'staffUserId': serializer.toJson<int>(staffUserId),
+      'staffName': serializer.toJson<String>(staffName),
+      'sentToManagerId': serializer.toJson<int>(sentToManagerId),
+      'passCount': serializer.toJson<int>(passCount),
+      'failCount': serializer.toJson<int>(failCount),
+      'failedTaskTitlesJson': serializer.toJson<String>(failedTaskTitlesJson),
+      'note': serializer.toJson<String?>(note),
+      'sentAt': serializer.toJson<DateTime>(sentAt),
+      'acknowledged': serializer.toJson<bool>(acknowledged),
+      'acknowledgedAt': serializer.toJson<DateTime?>(acknowledgedAt),
+    };
+  }
+
+  SessionSummaryEntity copyWith({
+    int? id,
+    int? staffUserId,
+    String? staffName,
+    int? sentToManagerId,
+    int? passCount,
+    int? failCount,
+    String? failedTaskTitlesJson,
+    Value<String?> note = const Value.absent(),
+    DateTime? sentAt,
+    bool? acknowledged,
+    Value<DateTime?> acknowledgedAt = const Value.absent(),
+  }) => SessionSummaryEntity(
+    id: id ?? this.id,
+    staffUserId: staffUserId ?? this.staffUserId,
+    staffName: staffName ?? this.staffName,
+    sentToManagerId: sentToManagerId ?? this.sentToManagerId,
+    passCount: passCount ?? this.passCount,
+    failCount: failCount ?? this.failCount,
+    failedTaskTitlesJson: failedTaskTitlesJson ?? this.failedTaskTitlesJson,
+    note: note.present ? note.value : this.note,
+    sentAt: sentAt ?? this.sentAt,
+    acknowledged: acknowledged ?? this.acknowledged,
+    acknowledgedAt: acknowledgedAt.present
+        ? acknowledgedAt.value
+        : this.acknowledgedAt,
+  );
+  SessionSummaryEntity copyWithCompanion(SessionSummariesCompanion data) {
+    return SessionSummaryEntity(
+      id: data.id.present ? data.id.value : this.id,
+      staffUserId: data.staffUserId.present
+          ? data.staffUserId.value
+          : this.staffUserId,
+      staffName: data.staffName.present ? data.staffName.value : this.staffName,
+      sentToManagerId: data.sentToManagerId.present
+          ? data.sentToManagerId.value
+          : this.sentToManagerId,
+      passCount: data.passCount.present ? data.passCount.value : this.passCount,
+      failCount: data.failCount.present ? data.failCount.value : this.failCount,
+      failedTaskTitlesJson: data.failedTaskTitlesJson.present
+          ? data.failedTaskTitlesJson.value
+          : this.failedTaskTitlesJson,
+      note: data.note.present ? data.note.value : this.note,
+      sentAt: data.sentAt.present ? data.sentAt.value : this.sentAt,
+      acknowledged: data.acknowledged.present
+          ? data.acknowledged.value
+          : this.acknowledged,
+      acknowledgedAt: data.acknowledgedAt.present
+          ? data.acknowledgedAt.value
+          : this.acknowledgedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SessionSummaryEntity(')
+          ..write('id: $id, ')
+          ..write('staffUserId: $staffUserId, ')
+          ..write('staffName: $staffName, ')
+          ..write('sentToManagerId: $sentToManagerId, ')
+          ..write('passCount: $passCount, ')
+          ..write('failCount: $failCount, ')
+          ..write('failedTaskTitlesJson: $failedTaskTitlesJson, ')
+          ..write('note: $note, ')
+          ..write('sentAt: $sentAt, ')
+          ..write('acknowledged: $acknowledged, ')
+          ..write('acknowledgedAt: $acknowledgedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    staffUserId,
+    staffName,
+    sentToManagerId,
+    passCount,
+    failCount,
+    failedTaskTitlesJson,
+    note,
+    sentAt,
+    acknowledged,
+    acknowledgedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SessionSummaryEntity &&
+          other.id == this.id &&
+          other.staffUserId == this.staffUserId &&
+          other.staffName == this.staffName &&
+          other.sentToManagerId == this.sentToManagerId &&
+          other.passCount == this.passCount &&
+          other.failCount == this.failCount &&
+          other.failedTaskTitlesJson == this.failedTaskTitlesJson &&
+          other.note == this.note &&
+          other.sentAt == this.sentAt &&
+          other.acknowledged == this.acknowledged &&
+          other.acknowledgedAt == this.acknowledgedAt);
+}
+
+class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
+  final Value<int> id;
+  final Value<int> staffUserId;
+  final Value<String> staffName;
+  final Value<int> sentToManagerId;
+  final Value<int> passCount;
+  final Value<int> failCount;
+  final Value<String> failedTaskTitlesJson;
+  final Value<String?> note;
+  final Value<DateTime> sentAt;
+  final Value<bool> acknowledged;
+  final Value<DateTime?> acknowledgedAt;
+  const SessionSummariesCompanion({
+    this.id = const Value.absent(),
+    this.staffUserId = const Value.absent(),
+    this.staffName = const Value.absent(),
+    this.sentToManagerId = const Value.absent(),
+    this.passCount = const Value.absent(),
+    this.failCount = const Value.absent(),
+    this.failedTaskTitlesJson = const Value.absent(),
+    this.note = const Value.absent(),
+    this.sentAt = const Value.absent(),
+    this.acknowledged = const Value.absent(),
+    this.acknowledgedAt = const Value.absent(),
+  });
+  SessionSummariesCompanion.insert({
+    this.id = const Value.absent(),
+    required int staffUserId,
+    required String staffName,
+    required int sentToManagerId,
+    required int passCount,
+    required int failCount,
+    required String failedTaskTitlesJson,
+    this.note = const Value.absent(),
+    required DateTime sentAt,
+    this.acknowledged = const Value.absent(),
+    this.acknowledgedAt = const Value.absent(),
+  }) : staffUserId = Value(staffUserId),
+       staffName = Value(staffName),
+       sentToManagerId = Value(sentToManagerId),
+       passCount = Value(passCount),
+       failCount = Value(failCount),
+       failedTaskTitlesJson = Value(failedTaskTitlesJson),
+       sentAt = Value(sentAt);
+  static Insertable<SessionSummaryEntity> custom({
+    Expression<int>? id,
+    Expression<int>? staffUserId,
+    Expression<String>? staffName,
+    Expression<int>? sentToManagerId,
+    Expression<int>? passCount,
+    Expression<int>? failCount,
+    Expression<String>? failedTaskTitlesJson,
+    Expression<String>? note,
+    Expression<DateTime>? sentAt,
+    Expression<bool>? acknowledged,
+    Expression<DateTime>? acknowledgedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (staffUserId != null) 'staff_user_id': staffUserId,
+      if (staffName != null) 'staff_name': staffName,
+      if (sentToManagerId != null) 'sent_to_manager_id': sentToManagerId,
+      if (passCount != null) 'pass_count': passCount,
+      if (failCount != null) 'fail_count': failCount,
+      if (failedTaskTitlesJson != null)
+        'failed_task_titles_json': failedTaskTitlesJson,
+      if (note != null) 'note': note,
+      if (sentAt != null) 'sent_at': sentAt,
+      if (acknowledged != null) 'acknowledged': acknowledged,
+      if (acknowledgedAt != null) 'acknowledged_at': acknowledgedAt,
+    });
+  }
+
+  SessionSummariesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? staffUserId,
+    Value<String>? staffName,
+    Value<int>? sentToManagerId,
+    Value<int>? passCount,
+    Value<int>? failCount,
+    Value<String>? failedTaskTitlesJson,
+    Value<String?>? note,
+    Value<DateTime>? sentAt,
+    Value<bool>? acknowledged,
+    Value<DateTime?>? acknowledgedAt,
+  }) {
+    return SessionSummariesCompanion(
+      id: id ?? this.id,
+      staffUserId: staffUserId ?? this.staffUserId,
+      staffName: staffName ?? this.staffName,
+      sentToManagerId: sentToManagerId ?? this.sentToManagerId,
+      passCount: passCount ?? this.passCount,
+      failCount: failCount ?? this.failCount,
+      failedTaskTitlesJson: failedTaskTitlesJson ?? this.failedTaskTitlesJson,
+      note: note ?? this.note,
+      sentAt: sentAt ?? this.sentAt,
+      acknowledged: acknowledged ?? this.acknowledged,
+      acknowledgedAt: acknowledgedAt ?? this.acknowledgedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (staffUserId.present) {
+      map['staff_user_id'] = Variable<int>(staffUserId.value);
+    }
+    if (staffName.present) {
+      map['staff_name'] = Variable<String>(staffName.value);
+    }
+    if (sentToManagerId.present) {
+      map['sent_to_manager_id'] = Variable<int>(sentToManagerId.value);
+    }
+    if (passCount.present) {
+      map['pass_count'] = Variable<int>(passCount.value);
+    }
+    if (failCount.present) {
+      map['fail_count'] = Variable<int>(failCount.value);
+    }
+    if (failedTaskTitlesJson.present) {
+      map['failed_task_titles_json'] = Variable<String>(
+        failedTaskTitlesJson.value,
+      );
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (sentAt.present) {
+      map['sent_at'] = Variable<DateTime>(sentAt.value);
+    }
+    if (acknowledged.present) {
+      map['acknowledged'] = Variable<bool>(acknowledged.value);
+    }
+    if (acknowledgedAt.present) {
+      map['acknowledged_at'] = Variable<DateTime>(acknowledgedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SessionSummariesCompanion(')
+          ..write('id: $id, ')
+          ..write('staffUserId: $staffUserId, ')
+          ..write('staffName: $staffName, ')
+          ..write('sentToManagerId: $sentToManagerId, ')
+          ..write('passCount: $passCount, ')
+          ..write('failCount: $failCount, ')
+          ..write('failedTaskTitlesJson: $failedTaskTitlesJson, ')
+          ..write('note: $note, ')
+          ..write('sentAt: $sentAt, ')
+          ..write('acknowledged: $acknowledged, ')
+          ..write('acknowledgedAt: $acknowledgedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -4175,14 +5228,19 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $AreasTable areas = $AreasTable(this);
   late final $EquipmentInstancesTable equipmentInstances =
       $EquipmentInstancesTable(this);
+  late final $UsersTable users = $UsersTable(this);
   late final $TaskSubmissionsTable taskSubmissions = $TaskSubmissionsTable(
     this,
   );
-  late final $UsersTable users = $UsersTable(this);
   late final $LegalLimitReferencesTable legalLimitReferences =
       $LegalLimitReferencesTable(this);
   late final $TaskTemplatesTable taskTemplates = $TaskTemplatesTable(this);
   late final $TaskSchedulesTable taskSchedules = $TaskSchedulesTable(this);
+  late final $ShiftHandoverNotesTable shiftHandoverNotes =
+      $ShiftHandoverNotesTable(this);
+  late final $SessionSummariesTable sessionSummaries = $SessionSummariesTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -4191,11 +5249,13 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     equipmentTypes,
     areas,
     equipmentInstances,
-    taskSubmissions,
     users,
+    taskSubmissions,
     legalLimitReferences,
     taskTemplates,
     taskSchedules,
+    shiftHandoverNotes,
+    sessionSummaries,
   ];
 }
 
@@ -5371,6 +6431,544 @@ typedef $$EquipmentInstancesTableProcessedTableManager =
         bool taskSchedulesRefs,
       })
     >;
+typedef $$UsersTableCreateCompanionBuilder =
+    UsersCompanion Function({
+      Value<int> id,
+      required String name,
+      required String jobTitle,
+      required String roleTier,
+      required String pinHash,
+      required String pinSalt,
+      Value<String> preferredTemperatureUnit,
+    });
+typedef $$UsersTableUpdateCompanionBuilder =
+    UsersCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<String> jobTitle,
+      Value<String> roleTier,
+      Value<String> pinHash,
+      Value<String> pinSalt,
+      Value<String> preferredTemperatureUnit,
+    });
+
+final class $$UsersTableReferences
+    extends BaseReferences<_$AppDatabase, $UsersTable, UserEntity> {
+  $$UsersTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$TaskSubmissionsTable, List<TaskSubmissionEntity>>
+  _taskSubmissionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskSubmissions,
+    aliasName: 'users__id__task_submissions__completed_by_user_id',
+  );
+
+  $$TaskSubmissionsTableProcessedTableManager get taskSubmissionsRefs {
+    final manager = $$TaskSubmissionsTableTableManager(
+      $_db,
+      $_db.taskSubmissions,
+    ).filter((f) => f.completedByUserId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _taskSubmissionsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$TaskTemplatesTable, List<TaskTemplateEntity>>
+  _taskTemplatesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskTemplates,
+    aliasName: 'users__id__task_templates__created_by_user_id',
+  );
+
+  $$TaskTemplatesTableProcessedTableManager get taskTemplatesRefs {
+    final manager = $$TaskTemplatesTableTableManager(
+      $_db,
+      $_db.taskTemplates,
+    ).filter((f) => f.createdByUserId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_taskTemplatesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $ShiftHandoverNotesTable,
+    List<ShiftHandoverNoteEntity>
+  >
+  _shiftHandoverNotesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.shiftHandoverNotes,
+        aliasName: 'users__id__shift_handover_notes__author_user_id',
+      );
+
+  $$ShiftHandoverNotesTableProcessedTableManager get shiftHandoverNotesRefs {
+    final manager = $$ShiftHandoverNotesTableTableManager(
+      $_db,
+      $_db.shiftHandoverNotes,
+    ).filter((f) => f.authorUserId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _shiftHandoverNotesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
+  $$UsersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get jobTitle => $composableBuilder(
+    column: $table.jobTitle,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get roleTier => $composableBuilder(
+    column: $table.roleTier,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pinHash => $composableBuilder(
+    column: $table.pinHash,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pinSalt => $composableBuilder(
+    column: $table.pinSalt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get preferredTemperatureUnit => $composableBuilder(
+    column: $table.preferredTemperatureUnit,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> taskSubmissionsRefs(
+    Expression<bool> Function($$TaskSubmissionsTableFilterComposer f) f,
+  ) {
+    final $$TaskSubmissionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.completedByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableFilterComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> taskTemplatesRefs(
+    Expression<bool> Function($$TaskTemplatesTableFilterComposer f) f,
+  ) {
+    final $$TaskTemplatesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskTemplates,
+      getReferencedColumn: (t) => t.createdByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskTemplatesTableFilterComposer(
+            $db: $db,
+            $table: $db.taskTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> shiftHandoverNotesRefs(
+    Expression<bool> Function($$ShiftHandoverNotesTableFilterComposer f) f,
+  ) {
+    final $$ShiftHandoverNotesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.shiftHandoverNotes,
+      getReferencedColumn: (t) => t.authorUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ShiftHandoverNotesTableFilterComposer(
+            $db: $db,
+            $table: $db.shiftHandoverNotes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$UsersTableOrderingComposer
+    extends Composer<_$AppDatabase, $UsersTable> {
+  $$UsersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get jobTitle => $composableBuilder(
+    column: $table.jobTitle,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get roleTier => $composableBuilder(
+    column: $table.roleTier,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pinHash => $composableBuilder(
+    column: $table.pinHash,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pinSalt => $composableBuilder(
+    column: $table.pinSalt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get preferredTemperatureUnit => $composableBuilder(
+    column: $table.preferredTemperatureUnit,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$UsersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UsersTable> {
+  $$UsersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get jobTitle =>
+      $composableBuilder(column: $table.jobTitle, builder: (column) => column);
+
+  GeneratedColumn<String> get roleTier =>
+      $composableBuilder(column: $table.roleTier, builder: (column) => column);
+
+  GeneratedColumn<String> get pinHash =>
+      $composableBuilder(column: $table.pinHash, builder: (column) => column);
+
+  GeneratedColumn<String> get pinSalt =>
+      $composableBuilder(column: $table.pinSalt, builder: (column) => column);
+
+  GeneratedColumn<String> get preferredTemperatureUnit => $composableBuilder(
+    column: $table.preferredTemperatureUnit,
+    builder: (column) => column,
+  );
+
+  Expression<T> taskSubmissionsRefs<T extends Object>(
+    Expression<T> Function($$TaskSubmissionsTableAnnotationComposer a) f,
+  ) {
+    final $$TaskSubmissionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.completedByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> taskTemplatesRefs<T extends Object>(
+    Expression<T> Function($$TaskTemplatesTableAnnotationComposer a) f,
+  ) {
+    final $$TaskTemplatesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskTemplates,
+      getReferencedColumn: (t) => t.createdByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskTemplatesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> shiftHandoverNotesRefs<T extends Object>(
+    Expression<T> Function($$ShiftHandoverNotesTableAnnotationComposer a) f,
+  ) {
+    final $$ShiftHandoverNotesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.shiftHandoverNotes,
+          getReferencedColumn: (t) => t.authorUserId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ShiftHandoverNotesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.shiftHandoverNotes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$UsersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $UsersTable,
+          UserEntity,
+          $$UsersTableFilterComposer,
+          $$UsersTableOrderingComposer,
+          $$UsersTableAnnotationComposer,
+          $$UsersTableCreateCompanionBuilder,
+          $$UsersTableUpdateCompanionBuilder,
+          (UserEntity, $$UsersTableReferences),
+          UserEntity,
+          PrefetchHooks Function({
+            bool taskSubmissionsRefs,
+            bool taskTemplatesRefs,
+            bool shiftHandoverNotesRefs,
+          })
+        > {
+  $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UsersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UsersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UsersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> jobTitle = const Value.absent(),
+                Value<String> roleTier = const Value.absent(),
+                Value<String> pinHash = const Value.absent(),
+                Value<String> pinSalt = const Value.absent(),
+                Value<String> preferredTemperatureUnit = const Value.absent(),
+              }) => UsersCompanion(
+                id: id,
+                name: name,
+                jobTitle: jobTitle,
+                roleTier: roleTier,
+                pinHash: pinHash,
+                pinSalt: pinSalt,
+                preferredTemperatureUnit: preferredTemperatureUnit,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                required String jobTitle,
+                required String roleTier,
+                required String pinHash,
+                required String pinSalt,
+                Value<String> preferredTemperatureUnit = const Value.absent(),
+              }) => UsersCompanion.insert(
+                id: id,
+                name: name,
+                jobTitle: jobTitle,
+                roleTier: roleTier,
+                pinHash: pinHash,
+                pinSalt: pinSalt,
+                preferredTemperatureUnit: preferredTemperatureUnit,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$UsersTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                taskSubmissionsRefs = false,
+                taskTemplatesRefs = false,
+                shiftHandoverNotesRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (taskSubmissionsRefs) db.taskSubmissions,
+                    if (taskTemplatesRefs) db.taskTemplates,
+                    if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (taskSubmissionsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          TaskSubmissionEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._taskSubmissionsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskSubmissionsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.completedByUserId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (taskTemplatesRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          TaskTemplateEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._taskTemplatesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskTemplatesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.createdByUserId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (shiftHandoverNotesRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          ShiftHandoverNoteEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._shiftHandoverNotesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).shiftHandoverNotesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.authorUserId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$UsersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $UsersTable,
+      UserEntity,
+      $$UsersTableFilterComposer,
+      $$UsersTableOrderingComposer,
+      $$UsersTableAnnotationComposer,
+      $$UsersTableCreateCompanionBuilder,
+      $$UsersTableUpdateCompanionBuilder,
+      (UserEntity, $$UsersTableReferences),
+      UserEntity,
+      PrefetchHooks Function({
+        bool taskSubmissionsRefs,
+        bool taskTemplatesRefs,
+        bool shiftHandoverNotesRefs,
+      })
+    >;
 typedef $$TaskSubmissionsTableCreateCompanionBuilder =
     TaskSubmissionsCompanion Function({
       Value<int> id,
@@ -5386,6 +6984,7 @@ typedef $$TaskSubmissionsTableCreateCompanionBuilder =
       Value<int?> taskTemplateGroupId,
       Value<int?> equipmentInstanceId,
       Value<String?> customFieldValuesJson,
+      Value<int?> completedByUserId,
     });
 typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
     TaskSubmissionsCompanion Function({
@@ -5402,6 +7001,7 @@ typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
       Value<int?> taskTemplateGroupId,
       Value<int?> equipmentInstanceId,
       Value<String?> customFieldValuesJson,
+      Value<int?> completedByUserId,
     });
 
 final class $$TaskSubmissionsTableReferences
@@ -5430,6 +7030,23 @@ final class $$TaskSubmissionsTableReferences
       $_db.equipmentInstances,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_equipmentInstanceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _completedByUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('task_submissions__completed_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager? get completedByUserId {
+    final $_column = $_itemColumn<int>('completed_by_user_id');
+    if ($_column == null) return null;
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_completedByUserIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -5520,6 +7137,29 @@ class $$TaskSubmissionsTableFilterComposer
           }) => $$EquipmentInstancesTableFilterComposer(
             $db: $db,
             $table: $db.equipmentInstances,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get completedByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.completedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -5621,6 +7261,29 @@ class $$TaskSubmissionsTableOrderingComposer
     );
     return composer;
   }
+
+  $$UsersTableOrderingComposer get completedByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.completedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$TaskSubmissionsTableAnnotationComposer
@@ -5705,6 +7368,29 @@ class $$TaskSubmissionsTableAnnotationComposer
         );
     return composer;
   }
+
+  $$UsersTableAnnotationComposer get completedByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.completedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$TaskSubmissionsTableTableManager
@@ -5720,7 +7406,10 @@ class $$TaskSubmissionsTableTableManager
           $$TaskSubmissionsTableUpdateCompanionBuilder,
           (TaskSubmissionEntity, $$TaskSubmissionsTableReferences),
           TaskSubmissionEntity,
-          PrefetchHooks Function({bool equipmentInstanceId})
+          PrefetchHooks Function({
+            bool equipmentInstanceId,
+            bool completedByUserId,
+          })
         > {
   $$TaskSubmissionsTableTableManager(
     _$AppDatabase db,
@@ -5750,6 +7439,7 @@ class $$TaskSubmissionsTableTableManager
                 Value<int?> taskTemplateGroupId = const Value.absent(),
                 Value<int?> equipmentInstanceId = const Value.absent(),
                 Value<String?> customFieldValuesJson = const Value.absent(),
+                Value<int?> completedByUserId = const Value.absent(),
               }) => TaskSubmissionsCompanion(
                 id: id,
                 taskTitle: taskTitle,
@@ -5764,6 +7454,7 @@ class $$TaskSubmissionsTableTableManager
                 taskTemplateGroupId: taskTemplateGroupId,
                 equipmentInstanceId: equipmentInstanceId,
                 customFieldValuesJson: customFieldValuesJson,
+                completedByUserId: completedByUserId,
               ),
           createCompanionCallback:
               ({
@@ -5780,6 +7471,7 @@ class $$TaskSubmissionsTableTableManager
                 Value<int?> taskTemplateGroupId = const Value.absent(),
                 Value<int?> equipmentInstanceId = const Value.absent(),
                 Value<String?> customFieldValuesJson = const Value.absent(),
+                Value<int?> completedByUserId = const Value.absent(),
               }) => TaskSubmissionsCompanion.insert(
                 id: id,
                 taskTitle: taskTitle,
@@ -5794,6 +7486,7 @@ class $$TaskSubmissionsTableTableManager
                 taskTemplateGroupId: taskTemplateGroupId,
                 equipmentInstanceId: equipmentInstanceId,
                 customFieldValuesJson: customFieldValuesJson,
+                completedByUserId: completedByUserId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -5803,49 +7496,65 @@ class $$TaskSubmissionsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({equipmentInstanceId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (equipmentInstanceId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.equipmentInstanceId,
-                                referencedTable:
-                                    $$TaskSubmissionsTableReferences
-                                        ._equipmentInstanceIdTable(db),
-                                referencedColumn:
-                                    $$TaskSubmissionsTableReferences
-                                        ._equipmentInstanceIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
+          prefetchHooksCallback:
+              ({equipmentInstanceId = false, completedByUserId = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (equipmentInstanceId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.equipmentInstanceId,
+                                    referencedTable:
+                                        $$TaskSubmissionsTableReferences
+                                            ._equipmentInstanceIdTable(db),
+                                    referencedColumn:
+                                        $$TaskSubmissionsTableReferences
+                                            ._equipmentInstanceIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (completedByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.completedByUserId,
+                                    referencedTable:
+                                        $$TaskSubmissionsTableReferences
+                                            ._completedByUserIdTable(db),
+                                    referencedColumn:
+                                        $$TaskSubmissionsTableReferences
+                                            ._completedByUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
-                    return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
                   },
-              getPrefetchedDataCallback: (items) async {
-                return [];
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -5862,342 +7571,7 @@ typedef $$TaskSubmissionsTableProcessedTableManager =
       $$TaskSubmissionsTableUpdateCompanionBuilder,
       (TaskSubmissionEntity, $$TaskSubmissionsTableReferences),
       TaskSubmissionEntity,
-      PrefetchHooks Function({bool equipmentInstanceId})
-    >;
-typedef $$UsersTableCreateCompanionBuilder =
-    UsersCompanion Function({
-      Value<int> id,
-      required String name,
-      required String jobTitle,
-      required String roleTier,
-      required String pinHash,
-      required String pinSalt,
-      Value<String> preferredTemperatureUnit,
-    });
-typedef $$UsersTableUpdateCompanionBuilder =
-    UsersCompanion Function({
-      Value<int> id,
-      Value<String> name,
-      Value<String> jobTitle,
-      Value<String> roleTier,
-      Value<String> pinHash,
-      Value<String> pinSalt,
-      Value<String> preferredTemperatureUnit,
-    });
-
-final class $$UsersTableReferences
-    extends BaseReferences<_$AppDatabase, $UsersTable, UserEntity> {
-  $$UsersTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static MultiTypedResultKey<$TaskTemplatesTable, List<TaskTemplateEntity>>
-  _taskTemplatesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.taskTemplates,
-    aliasName: 'users__id__task_templates__created_by_user_id',
-  );
-
-  $$TaskTemplatesTableProcessedTableManager get taskTemplatesRefs {
-    final manager = $$TaskTemplatesTableTableManager(
-      $_db,
-      $_db.taskTemplates,
-    ).filter((f) => f.createdByUserId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_taskTemplatesRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
-  $$UsersTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get jobTitle => $composableBuilder(
-    column: $table.jobTitle,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get roleTier => $composableBuilder(
-    column: $table.roleTier,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get pinHash => $composableBuilder(
-    column: $table.pinHash,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get pinSalt => $composableBuilder(
-    column: $table.pinSalt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get preferredTemperatureUnit => $composableBuilder(
-    column: $table.preferredTemperatureUnit,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  Expression<bool> taskTemplatesRefs(
-    Expression<bool> Function($$TaskTemplatesTableFilterComposer f) f,
-  ) {
-    final $$TaskTemplatesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.taskTemplates,
-      getReferencedColumn: (t) => t.createdByUserId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TaskTemplatesTableFilterComposer(
-            $db: $db,
-            $table: $db.taskTemplates,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$UsersTableOrderingComposer
-    extends Composer<_$AppDatabase, $UsersTable> {
-  $$UsersTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get jobTitle => $composableBuilder(
-    column: $table.jobTitle,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get roleTier => $composableBuilder(
-    column: $table.roleTier,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get pinHash => $composableBuilder(
-    column: $table.pinHash,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get pinSalt => $composableBuilder(
-    column: $table.pinSalt,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get preferredTemperatureUnit => $composableBuilder(
-    column: $table.preferredTemperatureUnit,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$UsersTableAnnotationComposer
-    extends Composer<_$AppDatabase, $UsersTable> {
-  $$UsersTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  GeneratedColumn<String> get jobTitle =>
-      $composableBuilder(column: $table.jobTitle, builder: (column) => column);
-
-  GeneratedColumn<String> get roleTier =>
-      $composableBuilder(column: $table.roleTier, builder: (column) => column);
-
-  GeneratedColumn<String> get pinHash =>
-      $composableBuilder(column: $table.pinHash, builder: (column) => column);
-
-  GeneratedColumn<String> get pinSalt =>
-      $composableBuilder(column: $table.pinSalt, builder: (column) => column);
-
-  GeneratedColumn<String> get preferredTemperatureUnit => $composableBuilder(
-    column: $table.preferredTemperatureUnit,
-    builder: (column) => column,
-  );
-
-  Expression<T> taskTemplatesRefs<T extends Object>(
-    Expression<T> Function($$TaskTemplatesTableAnnotationComposer a) f,
-  ) {
-    final $$TaskTemplatesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.taskTemplates,
-      getReferencedColumn: (t) => t.createdByUserId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$TaskTemplatesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.taskTemplates,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$UsersTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $UsersTable,
-          UserEntity,
-          $$UsersTableFilterComposer,
-          $$UsersTableOrderingComposer,
-          $$UsersTableAnnotationComposer,
-          $$UsersTableCreateCompanionBuilder,
-          $$UsersTableUpdateCompanionBuilder,
-          (UserEntity, $$UsersTableReferences),
-          UserEntity,
-          PrefetchHooks Function({bool taskTemplatesRefs})
-        > {
-  $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$UsersTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$UsersTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$UsersTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> name = const Value.absent(),
-                Value<String> jobTitle = const Value.absent(),
-                Value<String> roleTier = const Value.absent(),
-                Value<String> pinHash = const Value.absent(),
-                Value<String> pinSalt = const Value.absent(),
-                Value<String> preferredTemperatureUnit = const Value.absent(),
-              }) => UsersCompanion(
-                id: id,
-                name: name,
-                jobTitle: jobTitle,
-                roleTier: roleTier,
-                pinHash: pinHash,
-                pinSalt: pinSalt,
-                preferredTemperatureUnit: preferredTemperatureUnit,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String name,
-                required String jobTitle,
-                required String roleTier,
-                required String pinHash,
-                required String pinSalt,
-                Value<String> preferredTemperatureUnit = const Value.absent(),
-              }) => UsersCompanion.insert(
-                id: id,
-                name: name,
-                jobTitle: jobTitle,
-                roleTier: roleTier,
-                pinHash: pinHash,
-                pinSalt: pinSalt,
-                preferredTemperatureUnit: preferredTemperatureUnit,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) =>
-                    (e.readTable(table), $$UsersTableReferences(db, table, e)),
-              )
-              .toList(),
-          prefetchHooksCallback: ({taskTemplatesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (taskTemplatesRefs) db.taskTemplates,
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (taskTemplatesRefs)
-                    await $_getPrefetchedData<
-                      UserEntity,
-                      $UsersTable,
-                      TaskTemplateEntity
-                    >(
-                      currentTable: table,
-                      referencedTable: $$UsersTableReferences
-                          ._taskTemplatesRefsTable(db),
-                      managerFromTypedResult: (p0) => $$UsersTableReferences(
-                        db,
-                        table,
-                        p0,
-                      ).taskTemplatesRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where(
-                            (e) => e.createdByUserId == item.id,
-                          ),
-                      typedResults: items,
-                    ),
-                ];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$UsersTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $UsersTable,
-      UserEntity,
-      $$UsersTableFilterComposer,
-      $$UsersTableOrderingComposer,
-      $$UsersTableAnnotationComposer,
-      $$UsersTableCreateCompanionBuilder,
-      $$UsersTableUpdateCompanionBuilder,
-      (UserEntity, $$UsersTableReferences),
-      UserEntity,
-      PrefetchHooks Function({bool taskTemplatesRefs})
+      PrefetchHooks Function({bool equipmentInstanceId, bool completedByUserId})
     >;
 typedef $$LegalLimitReferencesTableCreateCompanionBuilder =
     LegalLimitReferencesCompanion Function({
@@ -7838,6 +9212,847 @@ typedef $$TaskSchedulesTableProcessedTableManager =
         bool assignedByUserId,
       })
     >;
+typedef $$ShiftHandoverNotesTableCreateCompanionBuilder =
+    ShiftHandoverNotesCompanion Function({
+      Value<int> id,
+      required int authorUserId,
+      required String note,
+      required DateTime createdAt,
+    });
+typedef $$ShiftHandoverNotesTableUpdateCompanionBuilder =
+    ShiftHandoverNotesCompanion Function({
+      Value<int> id,
+      Value<int> authorUserId,
+      Value<String> note,
+      Value<DateTime> createdAt,
+    });
+
+final class $$ShiftHandoverNotesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ShiftHandoverNotesTable,
+          ShiftHandoverNoteEntity
+        > {
+  $$ShiftHandoverNotesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $UsersTable _authorUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('shift_handover_notes__author_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get authorUserId {
+    final $_column = $_itemColumn<int>('author_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_authorUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ShiftHandoverNotesTableFilterComposer
+    extends Composer<_$AppDatabase, $ShiftHandoverNotesTable> {
+  $$ShiftHandoverNotesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UsersTableFilterComposer get authorUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.authorUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ShiftHandoverNotesTableOrderingComposer
+    extends Composer<_$AppDatabase, $ShiftHandoverNotesTable> {
+  $$ShiftHandoverNotesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UsersTableOrderingComposer get authorUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.authorUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ShiftHandoverNotesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ShiftHandoverNotesTable> {
+  $$ShiftHandoverNotesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$UsersTableAnnotationComposer get authorUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.authorUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ShiftHandoverNotesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ShiftHandoverNotesTable,
+          ShiftHandoverNoteEntity,
+          $$ShiftHandoverNotesTableFilterComposer,
+          $$ShiftHandoverNotesTableOrderingComposer,
+          $$ShiftHandoverNotesTableAnnotationComposer,
+          $$ShiftHandoverNotesTableCreateCompanionBuilder,
+          $$ShiftHandoverNotesTableUpdateCompanionBuilder,
+          (ShiftHandoverNoteEntity, $$ShiftHandoverNotesTableReferences),
+          ShiftHandoverNoteEntity,
+          PrefetchHooks Function({bool authorUserId})
+        > {
+  $$ShiftHandoverNotesTableTableManager(
+    _$AppDatabase db,
+    $ShiftHandoverNotesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ShiftHandoverNotesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ShiftHandoverNotesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ShiftHandoverNotesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> authorUserId = const Value.absent(),
+                Value<String> note = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => ShiftHandoverNotesCompanion(
+                id: id,
+                authorUserId: authorUserId,
+                note: note,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int authorUserId,
+                required String note,
+                required DateTime createdAt,
+              }) => ShiftHandoverNotesCompanion.insert(
+                id: id,
+                authorUserId: authorUserId,
+                note: note,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ShiftHandoverNotesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({authorUserId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (authorUserId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.authorUserId,
+                                referencedTable:
+                                    $$ShiftHandoverNotesTableReferences
+                                        ._authorUserIdTable(db),
+                                referencedColumn:
+                                    $$ShiftHandoverNotesTableReferences
+                                        ._authorUserIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ShiftHandoverNotesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ShiftHandoverNotesTable,
+      ShiftHandoverNoteEntity,
+      $$ShiftHandoverNotesTableFilterComposer,
+      $$ShiftHandoverNotesTableOrderingComposer,
+      $$ShiftHandoverNotesTableAnnotationComposer,
+      $$ShiftHandoverNotesTableCreateCompanionBuilder,
+      $$ShiftHandoverNotesTableUpdateCompanionBuilder,
+      (ShiftHandoverNoteEntity, $$ShiftHandoverNotesTableReferences),
+      ShiftHandoverNoteEntity,
+      PrefetchHooks Function({bool authorUserId})
+    >;
+typedef $$SessionSummariesTableCreateCompanionBuilder =
+    SessionSummariesCompanion Function({
+      Value<int> id,
+      required int staffUserId,
+      required String staffName,
+      required int sentToManagerId,
+      required int passCount,
+      required int failCount,
+      required String failedTaskTitlesJson,
+      Value<String?> note,
+      required DateTime sentAt,
+      Value<bool> acknowledged,
+      Value<DateTime?> acknowledgedAt,
+    });
+typedef $$SessionSummariesTableUpdateCompanionBuilder =
+    SessionSummariesCompanion Function({
+      Value<int> id,
+      Value<int> staffUserId,
+      Value<String> staffName,
+      Value<int> sentToManagerId,
+      Value<int> passCount,
+      Value<int> failCount,
+      Value<String> failedTaskTitlesJson,
+      Value<String?> note,
+      Value<DateTime> sentAt,
+      Value<bool> acknowledged,
+      Value<DateTime?> acknowledgedAt,
+    });
+
+final class $$SessionSummariesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $SessionSummariesTable,
+          SessionSummaryEntity
+        > {
+  $$SessionSummariesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $UsersTable _staffUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('session_summaries__staff_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get staffUserId {
+    final $_column = $_itemColumn<int>('staff_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_staffUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _sentToManagerIdTable(_$AppDatabase db) =>
+      db.users.createAlias('session_summaries__sent_to_manager_id__users__id');
+
+  $$UsersTableProcessedTableManager get sentToManagerId {
+    final $_column = $_itemColumn<int>('sent_to_manager_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_sentToManagerIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SessionSummariesTableFilterComposer
+    extends Composer<_$AppDatabase, $SessionSummariesTable> {
+  $$SessionSummariesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get staffName => $composableBuilder(
+    column: $table.staffName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get passCount => $composableBuilder(
+    column: $table.passCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get failCount => $composableBuilder(
+    column: $table.failCount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get failedTaskTitlesJson => $composableBuilder(
+    column: $table.failedTaskTitlesJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get sentAt => $composableBuilder(
+    column: $table.sentAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get acknowledged => $composableBuilder(
+    column: $table.acknowledged,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get acknowledgedAt => $composableBuilder(
+    column: $table.acknowledgedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UsersTableFilterComposer get staffUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.staffUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get sentToManagerId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.sentToManagerId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SessionSummariesTableOrderingComposer
+    extends Composer<_$AppDatabase, $SessionSummariesTable> {
+  $$SessionSummariesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get staffName => $composableBuilder(
+    column: $table.staffName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get passCount => $composableBuilder(
+    column: $table.passCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get failCount => $composableBuilder(
+    column: $table.failCount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get failedTaskTitlesJson => $composableBuilder(
+    column: $table.failedTaskTitlesJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get sentAt => $composableBuilder(
+    column: $table.sentAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get acknowledged => $composableBuilder(
+    column: $table.acknowledged,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get acknowledgedAt => $composableBuilder(
+    column: $table.acknowledgedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UsersTableOrderingComposer get staffUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.staffUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get sentToManagerId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.sentToManagerId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SessionSummariesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SessionSummariesTable> {
+  $$SessionSummariesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get staffName =>
+      $composableBuilder(column: $table.staffName, builder: (column) => column);
+
+  GeneratedColumn<int> get passCount =>
+      $composableBuilder(column: $table.passCount, builder: (column) => column);
+
+  GeneratedColumn<int> get failCount =>
+      $composableBuilder(column: $table.failCount, builder: (column) => column);
+
+  GeneratedColumn<String> get failedTaskTitlesJson => $composableBuilder(
+    column: $table.failedTaskTitlesJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get sentAt =>
+      $composableBuilder(column: $table.sentAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get acknowledged => $composableBuilder(
+    column: $table.acknowledged,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get acknowledgedAt => $composableBuilder(
+    column: $table.acknowledgedAt,
+    builder: (column) => column,
+  );
+
+  $$UsersTableAnnotationComposer get staffUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.staffUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get sentToManagerId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.sentToManagerId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SessionSummariesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SessionSummariesTable,
+          SessionSummaryEntity,
+          $$SessionSummariesTableFilterComposer,
+          $$SessionSummariesTableOrderingComposer,
+          $$SessionSummariesTableAnnotationComposer,
+          $$SessionSummariesTableCreateCompanionBuilder,
+          $$SessionSummariesTableUpdateCompanionBuilder,
+          (SessionSummaryEntity, $$SessionSummariesTableReferences),
+          SessionSummaryEntity,
+          PrefetchHooks Function({bool staffUserId, bool sentToManagerId})
+        > {
+  $$SessionSummariesTableTableManager(
+    _$AppDatabase db,
+    $SessionSummariesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SessionSummariesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SessionSummariesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SessionSummariesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> staffUserId = const Value.absent(),
+                Value<String> staffName = const Value.absent(),
+                Value<int> sentToManagerId = const Value.absent(),
+                Value<int> passCount = const Value.absent(),
+                Value<int> failCount = const Value.absent(),
+                Value<String> failedTaskTitlesJson = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> sentAt = const Value.absent(),
+                Value<bool> acknowledged = const Value.absent(),
+                Value<DateTime?> acknowledgedAt = const Value.absent(),
+              }) => SessionSummariesCompanion(
+                id: id,
+                staffUserId: staffUserId,
+                staffName: staffName,
+                sentToManagerId: sentToManagerId,
+                passCount: passCount,
+                failCount: failCount,
+                failedTaskTitlesJson: failedTaskTitlesJson,
+                note: note,
+                sentAt: sentAt,
+                acknowledged: acknowledged,
+                acknowledgedAt: acknowledgedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int staffUserId,
+                required String staffName,
+                required int sentToManagerId,
+                required int passCount,
+                required int failCount,
+                required String failedTaskTitlesJson,
+                Value<String?> note = const Value.absent(),
+                required DateTime sentAt,
+                Value<bool> acknowledged = const Value.absent(),
+                Value<DateTime?> acknowledgedAt = const Value.absent(),
+              }) => SessionSummariesCompanion.insert(
+                id: id,
+                staffUserId: staffUserId,
+                staffName: staffName,
+                sentToManagerId: sentToManagerId,
+                passCount: passCount,
+                failCount: failCount,
+                failedTaskTitlesJson: failedTaskTitlesJson,
+                note: note,
+                sentAt: sentAt,
+                acknowledged: acknowledged,
+                acknowledgedAt: acknowledgedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SessionSummariesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({staffUserId = false, sentToManagerId = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (staffUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.staffUserId,
+                                    referencedTable:
+                                        $$SessionSummariesTableReferences
+                                            ._staffUserIdTable(db),
+                                    referencedColumn:
+                                        $$SessionSummariesTableReferences
+                                            ._staffUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (sentToManagerId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.sentToManagerId,
+                                    referencedTable:
+                                        $$SessionSummariesTableReferences
+                                            ._sentToManagerIdTable(db),
+                                    referencedColumn:
+                                        $$SessionSummariesTableReferences
+                                            ._sentToManagerIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$SessionSummariesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SessionSummariesTable,
+      SessionSummaryEntity,
+      $$SessionSummariesTableFilterComposer,
+      $$SessionSummariesTableOrderingComposer,
+      $$SessionSummariesTableAnnotationComposer,
+      $$SessionSummariesTableCreateCompanionBuilder,
+      $$SessionSummariesTableUpdateCompanionBuilder,
+      (SessionSummaryEntity, $$SessionSummariesTableReferences),
+      SessionSummaryEntity,
+      PrefetchHooks Function({bool staffUserId, bool sentToManagerId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -7848,14 +10063,18 @@ class $AppDatabaseManager {
       $$AreasTableTableManager(_db, _db.areas);
   $$EquipmentInstancesTableTableManager get equipmentInstances =>
       $$EquipmentInstancesTableTableManager(_db, _db.equipmentInstances);
-  $$TaskSubmissionsTableTableManager get taskSubmissions =>
-      $$TaskSubmissionsTableTableManager(_db, _db.taskSubmissions);
   $$UsersTableTableManager get users =>
       $$UsersTableTableManager(_db, _db.users);
+  $$TaskSubmissionsTableTableManager get taskSubmissions =>
+      $$TaskSubmissionsTableTableManager(_db, _db.taskSubmissions);
   $$LegalLimitReferencesTableTableManager get legalLimitReferences =>
       $$LegalLimitReferencesTableTableManager(_db, _db.legalLimitReferences);
   $$TaskTemplatesTableTableManager get taskTemplates =>
       $$TaskTemplatesTableTableManager(_db, _db.taskTemplates);
   $$TaskSchedulesTableTableManager get taskSchedules =>
       $$TaskSchedulesTableTableManager(_db, _db.taskSchedules);
+  $$ShiftHandoverNotesTableTableManager get shiftHandoverNotes =>
+      $$ShiftHandoverNotesTableTableManager(_db, _db.shiftHandoverNotes);
+  $$SessionSummariesTableTableManager get sessionSummaries =>
+      $$SessionSummariesTableTableManager(_db, _db.sessionSummaries);
 }

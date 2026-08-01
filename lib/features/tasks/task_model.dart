@@ -42,3 +42,15 @@ class ResolvedTask {
   String get displayTitle =>
       equipmentInstanceName == null ? title : '$title — $equipmentInstanceName';
 }
+
+class SessionStats {
+  final int passCount;
+  final int failCount;
+  final List<String> failedTaskTitles;
+
+  const SessionStats({
+    required this.passCount,
+    required this.failCount,
+    required this.failedTaskTitles,
+  });
+}

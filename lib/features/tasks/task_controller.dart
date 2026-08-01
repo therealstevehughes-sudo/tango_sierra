@@ -26,6 +26,7 @@ class TaskController {
 
   int currentIndex = 0;
   List<ResolvedTask> tasks = [];
+  final DateTime sessionStartedAt = DateTime.now();
 
   bool get hasTasks => tasks.isNotEmpty;
 
@@ -100,6 +101,22 @@ class TaskController {
 
   ResolvedTask getCurrentTask() => tasks[currentIndex];
 
+  Future<SessionStats> buildSessionStats() async {
+    final submissions = await _submissionRepository.getForUserSince(
+      _currentUser.id,
+      sessionStartedAt,
+    );
+
+    final passCount = submissions.where((s) => s.status == 'PASS').length;
+    final failed = submissions.where((s) => s.status == 'FAIL').toList();
+
+    return SessionStats(
+      passCount: passCount,
+      failCount: failed.length,
+      failedTaskTitles: failed.map((s) => s.taskTitle).toList(),
+    );
+  }
+
   bool nextTask() {
     if (currentIndex < tasks.length - 1) {
       currentIndex++;
@@ -129,6 +146,7 @@ class TaskController {
         taskTemplateGroupId: task.templateGroupId,
         equipmentInstanceId: task.equipmentInstanceId,
         customFieldValuesJson: customFieldValuesJson,
+        completedByUserId: _currentUser.id,
       ),
     );
   }

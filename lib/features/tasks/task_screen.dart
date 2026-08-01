@@ -6,10 +6,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/utils/unit_conversion.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import 'end_of_session_summary_screen.dart';
 import 'task_controller.dart';
 
 class TaskScreen extends ConsumerStatefulWidget {
@@ -53,6 +55,24 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     await controller.loadTasks();
     if (!mounted) return;
     setState(() => loading = false);
+
+    final handoverRepo = ref.read(shiftHandoverRepositoryProvider);
+    final latestNote = await handoverRepo.getLatest();
+    if (!mounted || latestNote == null) return;
+
+    await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Handover Notes'),
+        content: Text(latestNote.note),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -207,9 +227,14 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         error = null;
       });
     } else {
-      await showDialog(
-        context: context,
-        builder: (_) => const AlertDialog(title: Text("All tasks complete")),
+      final stats = await controller.buildSessionStats();
+      if (!mounted) return;
+
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => EndOfSessionSummaryScreen(stats: stats),
+        ),
       );
 
       if (!mounted) return;
