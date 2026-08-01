@@ -190,8 +190,12 @@ class AppDatabase extends _$AppDatabase {
         await _seedUsers();
       }
 
-      final existingEquipmentTypes = await select(equipmentTypes).get();
-      if (existingEquipmentTypes.isEmpty) {
+      // Always ensured (not gated on "table empty"), so an existing install
+      // that only has the original 3 equipment types picks up the rest too.
+      await _ensureExpandedEquipmentTypes();
+
+      final existingLegalLimits = await select(legalLimitReferences).get();
+      if (existingLegalLimits.isEmpty) {
         await _seedTaskLibraryReferenceData();
       }
     },
@@ -266,16 +270,49 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
+  // Derived from the real venue checklist ("Full check list.docx") plus the
+  // original 3 test rows — realistic commercial-kitchen equipment coverage,
+  // not an exhaustive catalogue. Managers can still add anything missing via
+  // the wizard's "Something else..." option.
+  static const _expandedEquipmentTypeNames = [
+    'Fridge',
+    'Freezer',
+    'Hot-hold unit',
+    'Blast Chiller',
+    'Walk-in Fridge',
+    'Walk-in Freezer',
+    'Fryer',
+    'Oven',
+    'Grill',
+    'Salamander',
+    'Hob',
+    'Rotisserie',
+    'Kebab Machine',
+    'Bain-marie',
+    'Steamer',
+    'Dishwasher',
+    'Ice Machine',
+    'Prep Station',
+  ];
+
+  Future<void> _ensureExpandedEquipmentTypes() async {
+    final existingNames = (await select(
+      equipmentTypes,
+    ).get()).map((row) => row.name).toSet();
+
+    for (final name in _expandedEquipmentTypeNames) {
+      if (!existingNames.contains(name)) {
+        await into(
+          equipmentTypes,
+        ).insert(EquipmentTypesCompanion.insert(name: name));
+      }
+    }
+  }
+
   Future<void> _seedTaskLibraryReferenceData() async {
-    final fridgeTypeId = await into(equipmentTypes).insert(
-      EquipmentTypesCompanion.insert(name: 'Fridge'),
-    );
-    await into(equipmentTypes).insert(
-      EquipmentTypesCompanion.insert(name: 'Freezer'),
-    );
-    await into(equipmentTypes).insert(
-      EquipmentTypesCompanion.insert(name: 'Hot-hold unit'),
-    );
+    final fridgeType = await (select(
+      equipmentTypes,
+    )..where((t) => t.name.equals('Fridge'))).getSingle();
 
     await into(legalLimitReferences).insert(
       LegalLimitReferencesCompanion.insert(
@@ -317,7 +354,7 @@ class AppDatabase extends _$AppDatabase {
         fixInstructions: const Value(
           'Move stock to a working fridge and contact management immediately.',
         ),
-        equipmentTypeId: Value(fridgeTypeId),
+        equipmentTypeId: Value(fridgeType.id),
         createdAt: DateTime.now(),
       ),
     );

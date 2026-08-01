@@ -6,6 +6,7 @@ import '../models/equipment_type.dart';
 
 abstract class EquipmentRepository {
   Future<List<EquipmentType>> getEquipmentTypes();
+  Future<EquipmentType> createEquipmentType(String name);
   Future<List<Equipment>> getAll();
   Future<Equipment> create({
     required String name,
@@ -25,6 +26,14 @@ class DriftEquipmentRepository implements EquipmentRepository {
     return rows
         .map((row) => EquipmentType(id: row.id, name: row.name))
         .toList();
+  }
+
+  @override
+  Future<EquipmentType> createEquipmentType(String name) async {
+    final id = await _db
+        .into(_db.equipmentTypes)
+        .insert(EquipmentTypesCompanion.insert(name: name));
+    return EquipmentType(id: id, name: name);
   }
 
   @override

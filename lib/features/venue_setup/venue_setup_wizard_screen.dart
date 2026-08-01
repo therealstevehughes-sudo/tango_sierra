@@ -31,6 +31,9 @@ class _VenueSetupWizardScreenState
       TextEditingController();
   int? selectedEquipmentTypeId;
   int? selectedAreaId;
+  bool addingNewEquipmentType = false;
+  final TextEditingController newEquipmentTypeController =
+      TextEditingController();
 
   final TextEditingController staffNameController = TextEditingController();
   final TextEditingController staffJobTitleController =
@@ -48,6 +51,7 @@ class _VenueSetupWizardScreenState
   void dispose() {
     areaNameController.dispose();
     equipmentNameController.dispose();
+    newEquipmentTypeController.dispose();
     staffNameController.dispose();
     staffJobTitleController.dispose();
     staffPinController.dispose();
@@ -103,6 +107,23 @@ class _VenueSetupWizardScreenState
     setState(() {
       equipmentInstances = [...equipmentInstances, created];
       equipmentNameController.clear();
+    });
+  }
+
+  Future<void> _addNewEquipmentType() async {
+    final name = newEquipmentTypeController.text.trim();
+    if (name.isEmpty) return;
+
+    final repo = ref.read(equipmentRepositoryProvider);
+    final created = await repo.createEquipmentType(name);
+
+    if (!mounted) return;
+    setState(() {
+      equipmentTypes = [...equipmentTypes, created];
+      selectedEquipmentTypeId = created.id;
+      addingNewEquipmentType = false;
+      newEquipmentTypeController.clear();
+      equipmentNameController.text = _suggestedEquipmentName(created.id);
     });
   }
 
@@ -260,23 +281,52 @@ class _VenueSetupWizardScreenState
         const SizedBox(height: 8),
         const Text('Add named equipment instances, e.g. "Fridge 1", "Fridge 2".'),
         const SizedBox(height: 16),
-        if (equipmentTypes.isEmpty)
-          const Text('No equipment types available.')
-        else
-          DropdownButtonFormField<int>(
-            initialValue: selectedEquipmentTypeId,
-            decoration: const InputDecoration(labelText: 'Equipment type'),
-            items: equipmentTypes
-                .map(
-                  (t) => DropdownMenuItem(value: t.id, child: Text(t.name)),
-                )
-                .toList(),
-            onChanged: (value) {
+        DropdownButtonFormField<int>(
+          initialValue: selectedEquipmentTypeId,
+          decoration: const InputDecoration(labelText: 'Equipment type'),
+          items: [
+            ...equipmentTypes.map(
+              (t) => DropdownMenuItem(value: t.id, child: Text(t.name)),
+            ),
+            const DropdownMenuItem(
+              value: -1,
+              child: Text('Something else...'),
+            ),
+          ],
+          onChanged: (value) {
+            if (value == -1) {
               setState(() {
-                selectedEquipmentTypeId = value;
-                equipmentNameController.text = _suggestedEquipmentName(value);
+                addingNewEquipmentType = true;
+                selectedEquipmentTypeId = null;
               });
-            },
+              return;
+            }
+            setState(() {
+              addingNewEquipmentType = false;
+              selectedEquipmentTypeId = value;
+              equipmentNameController.text = _suggestedEquipmentName(value);
+            });
+          },
+        ),
+        if (addingNewEquipmentType)
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: newEquipmentTypeController,
+                    decoration: const InputDecoration(
+                      labelText: 'New equipment type name',
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: _addNewEquipmentType,
+                  icon: const Icon(Icons.check),
+                ),
+              ],
+            ),
           ),
         const SizedBox(height: 12),
         if (areas.isEmpty)

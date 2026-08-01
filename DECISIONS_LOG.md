@@ -88,5 +88,12 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - Legal-limit reference numbers stay a manager-configuration-time concern, not shown to staff during data entry — only the template's own min/max and fixInstructions are surfaced.
 - The carousel shows all of a staff member's active schedules every session (matching today's fixed-list simplicity) — due/overdue tracking (TaskInstance) is a separate, later concern.
 
+## Equipment type library expansion (Sprint 011)
+- Found "Full check list.docx" (in Documents\AA Tango Sierra) — the real source checklist — was never actually incorporated into PROJECT_BIBLE.md despite being referenced as if it were; extracted it directly for this sprint rather than guessing at equipment coverage.
+- Expanded EquipmentType seed list to 18 realistic commercial-kitchen types, derived from the checklist's equipment-related sections (refrigeration, fryer, cooking line, wash-up) plus the user's explicit examples (walk-ins, ice machines, prep stations). Deliberately excluded utility-style items (gas/water supply) and consumable/tool items (knives, chopping boards) — they don't fit the "named instance" model (Fridge 1/Fridge 2) the way durable appliances do.
+- Did not also expand LegalLimitReference or add new TaskTemplates for the new types — out of scope for this fix, which is specifically the equipment type library plus the custom-type escape hatch. Loading the real 100+ task library remains a separate, later effort.
+- Equipment type seeding is now always-ensured on every app open (idempotent, checked by name) rather than gated on "table empty" — an existing install with only the original 3 types gets backfilled with the rest. No schema version bump needed since this is pure reference data, not a structural change.
+- The "Something else..." custom equipment type option follows the identical pattern to Sprint 009's custom task capability: inline creation, immediately usable, no separate screen.
+
 ## Open / Not yet decided
 - (nothing logged yet)
