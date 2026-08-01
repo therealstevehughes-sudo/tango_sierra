@@ -95,5 +95,11 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - Equipment type seeding is now always-ensured on every app open (idempotent, checked by name) rather than gated on "table empty" — an existing install with only the original 3 types gets backfilled with the rest. No schema version bump needed since this is pure reference data, not a structural change.
 - The "Something else..." custom equipment type option follows the identical pattern to Sprint 009's custom task capability: inline creation, immediately usable, no separate screen.
 
+## PROJECT_BIBLE checklist incorporation (docs-only pass)
+- Incorporated "Full check list.docx"'s structure (19 operational segments, task method vocabulary, priority levels, frequency vocabulary) into PROJECT_BIBLE.md as a new "Task Library Source Content" section — the taxonomy, not the ~100+ individual task rows, which stay in the source document until a future sprint actually loads them.
+- Confirmed the checklist file is unchanged since Sprint 011's extraction (byte-identical), so no new equipment-type gaps found this pass.
+
 ## Open / Not yet decided
-- (nothing logged yet)
+- Task priority: the checklist uses 3 levels (Critical/High/Standard); TaskTemplate currently only has a binary `isCritical`. Needs a decision before the real task library gets loaded — add a 3-level field, or accept the information loss of mapping down to the boolean.
+- Task method vocabulary: the checklist's real methods (Tick, Data+Tick, Tick+Photo, Data+Photo, Note, Note+Photo, Tick+Note, Multi) don't fully match the placeholder `method` strings used in Sprint 007/009's example data. Needs reconciling when the real library loads.
+- Task frequency vocabulary: the checklist uses frequencies (3x daily, per batch, per delivery, per use, 2x per service, event-based, as-needed) broader than Sprint 009's 4-value enum. Workable via `custom` + free text for now, but worth a decision on whether to expand the enum later.

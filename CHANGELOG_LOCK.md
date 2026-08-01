@@ -240,3 +240,19 @@ Risks: Discovered while reading the source material that "Full check list.docx" 
 Deferred items: Expanding LegalLimitReference or adding new TaskTemplates for the new equipment types (that's loading the real 100+ task library, still a separate later effort, not this fix). Visual/UX polish for the wizard remains Sprint 018.
 Save point name: SPRINT_011_LOCK
 Notes: Commit e5bff13a1687561c0d9efa6f31df5b85285ca9a0, message "Sprint 011: expand equipment type library, add custom type option".
+
+---
+
+## Sprint 012
+Date: 2026-08-01
+Objective: Properly incorporate the real task/equipment checklist ("Full check list.docx") into PROJECT_BIBLE.md — the operational segments, task categories, and equipment types the app is meant to eventually cover. Docs-only, no code changes. Numbered as the next sequential sprint, not the roadmap's "notifications" item of the same number — an inserted docs pass, same pattern as Sprints 005 and 011.
+Files changed:
+- PROJECT_BIBLE.md — added a new "Task Library Source Content (confirmed)" section (after "Task Library Model", before "Legal Limit Compliance") capturing: the 19 operational segments with their sub-categories, mapped as the canonical `TaskTemplate.segment` vocabulary going forward; the real task method vocabulary (Tick/Data/Photo/Note/Multi combinations) found in the source, which is richer than the placeholder strings used in Sprint 007/009's example data; a flagged gap — the source uses 3 priority levels (Critical/High/Standard) where `TaskTemplate` only has a binary `isCritical`; a flagged gap — the source's frequency vocabulary is broader than Sprint 009's 4-value enum; and a note that the equipment-type reconciliation is already done (Sprint 011), not pending. Also added one cross-reference line in the existing "Venue Setup and Equipment Configuration" section pointing to the new content. Nothing removed — deliberately additive/reconciling only, per instruction
+- DECISIONS_LOG.md — recorded the incorporation and the three flagged schema gaps as new "Open / Not yet decided" items
+Files unchanged: everything else — no code, no other control docs
+Architecture impact: None — this is PROJECT_BIBLE.md content only, no ARCHITECTURE_LOCK.md or code changes. The three flagged gaps (priority levels, method vocabulary, frequency vocabulary) are documented as open decisions, not resolved or acted on here.
+UI impact: None.
+Risks: Re-extracted "Full check list.docx" fresh (same zip-then-parse-XML approach as Sprint 011) and diffed it byte-for-byte against Sprint 011's extraction before writing anything — confirmed identical, so this pass is working from the same source content, not a stale copy. The full ~100+ individual task rows are deliberately not reproduced in PROJECT_BIBLE.md — captured the taxonomy (segments, methods, priorities, frequencies) rather than dumping the entire source document into a principles file; the line-by-line content stays authoritative in the docx until a future sprint actually loads it as real TaskTemplate seed data.
+Deferred items: Loading the actual ~100+ tasks as TaskTemplate data (separate, later sprint). Resolving the three flagged schema gaps (task priority levels, method vocabulary, frequency vocabulary) — logged as open decisions, not decided here.
+Save point name: SPRINT_012_LOCK
+Notes: Commit hash to be recorded after this entry is committed.
