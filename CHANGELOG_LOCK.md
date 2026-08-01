@@ -255,4 +255,4 @@ UI impact: None.
 Risks: Re-extracted "Full check list.docx" fresh (same zip-then-parse-XML approach as Sprint 011) and diffed it byte-for-byte against Sprint 011's extraction before writing anything — confirmed identical, so this pass is working from the same source content, not a stale copy. The full ~100+ individual task rows are deliberately not reproduced in PROJECT_BIBLE.md — captured the taxonomy (segments, methods, priorities, frequencies) rather than dumping the entire source document into a principles file; the line-by-line content stays authoritative in the docx until a future sprint actually loads it as real TaskTemplate seed data.
 Deferred items: Loading the actual ~100+ tasks as TaskTemplate data (separate, later sprint). Resolving the three flagged schema gaps (task priority levels, method vocabulary, frequency vocabulary) — logged as open decisions, not decided here.
 Save point name: SPRINT_012_LOCK
-Notes: Commit hash to be recorded after this entry is committed.
+Notes: Commit b09be870c13788be5a6b8a89f9908df5af190aa5, message "Sprint 012: incorporate Full check list.docx structure into PROJECT_BIBLE".
