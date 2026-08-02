@@ -170,6 +170,23 @@ class NotificationRules extends Table {
   DateTimeColumn get createdAt => dateTime()();
 }
 
+@DataClassName('OrganisationEntity')
+class Organisations extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
+@DataClassName('SiteEntity')
+class Sites extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get organisationId =>
+      integer().references(Organisations, #id)();
+  TextColumn get name => text()();
+  TextColumn get address => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
 @DriftDatabase(
   tables: [
     TaskSubmissions,
@@ -183,13 +200,15 @@ class NotificationRules extends Table {
     ShiftHandoverNotes,
     SessionSummaries,
     NotificationRules,
+    Organisations,
+    Sites,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -250,6 +269,10 @@ class AppDatabase extends _$AppDatabase {
       if (from < 9) {
         await m.createTable(notificationRules);
       }
+      if (from < 10) {
+        await m.createTable(organisations);
+        await m.createTable(sites);
+      }
     },
     beforeOpen: (details) async {
       final existingUsers = await select(users).get();
@@ -265,6 +288,8 @@ class AppDatabase extends _$AppDatabase {
       if (existingLegalLimits.isEmpty) {
         await _seedTaskLibraryReferenceData();
       }
+
+      await _ensureDefaultOrganisationAndSite();
     },
   );
 
@@ -429,6 +454,25 @@ class AppDatabase extends _$AppDatabase {
       taskTemplates,
     )..where((t) => t.id.equals(templateId))).write(
       TaskTemplatesCompanion(templateGroupId: Value(templateId)),
+    );
+  }
+
+  Future<void> _ensureDefaultOrganisationAndSite() async {
+    final existingSites = await select(sites).get();
+    if (existingSites.isNotEmpty) return;
+
+    final organisationId = await into(organisations).insert(
+      OrganisationsCompanion.insert(
+        name: 'My Organisation',
+        createdAt: DateTime.now(),
+      ),
+    );
+    await into(sites).insert(
+      SitesCompanion.insert(
+        organisationId: organisationId,
+        name: 'Main Site',
+        createdAt: DateTime.now(),
+      ),
     );
   }
 

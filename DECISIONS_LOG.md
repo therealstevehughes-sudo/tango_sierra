@@ -13,6 +13,10 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - Claude keeps answers short and simple for the user
 - Claude pushes back on ideas that don't fit the ICP or app, and suggests improvements
 
+## Standing process rule (effective immediately, all future sprints)
+If Claude believes something in an approved plan should change during a build, it must STOP and ask before implementing it — not implement the change and report it afterward, even if the change seems more correct or more consistent with locked architecture. Flag it, wait for a decision, then proceed.
+This applies retroactively to nothing already built — Sprint 014's versioning correction (built as an on-the-spot fix to match ARCHITECTURE_LOCK's Versioning Rule, then disclosed) stands as-is and was a reasonable call under the rules in force at the time. This rule governs how deviations from an approved plan are handled from Sprint 015 onward.
+
 ## Data storage (Sprint 001)
 - Use drift for local persistence (relational, matches ARCHITECTURE_LOCK's entity list, type-safe, works with Riverpod streams)
 - Keep the flat TaskLogEntry shape for now, renamed/moved to shared/models/ as TaskSubmission — no TaskTemplate/TaskInstance split yet
@@ -115,6 +119,23 @@ Every agreed decision goes here as a short bullet. This file is the source of tr
 - Channel (push/email) is captured as configuration intent only on the rule — no real dispatch exists (no backend, Phase 6 territory). The rule-creation form shows an explicit note that delivery isn't connected yet, rather than hiding the toggles.
 - Top-tier override of mid-tier rules (per PROJECT_BIBLE) is intended to resolve at query time — the higher tier's active rule wins for a matching trigger scope, nothing gets marked "overridden." `setByTier` is stored to support this, but the actual precedence resolution isn't implemented until the firing-logic follow-up sprint.
 - A widget-level automated test for the new screen was attempted but dropped after an unresolved `pumpAndSettle()` hang (compounded by a mid-session disk-space exhaustion that also caused unrelated test/build failures). Verified instead via a repository-level versioning test (passed) plus a real Windows debug run against the existing dev database confirming the schemaVersion 8→9 migration executes cleanly. Interactive click-through of the new screen was not independently exercised this sprint.
+
+## Multi-site foundation (inserted before notifications-firing/branding)
+- Decision: build the Organisation -> Site schema foundation NOW, not deferred to the end. Reasoning: branding is explicitly per-branch (already next in sequence), and retrofitting a "which site" link onto everything already built (Users, Areas, Equipment, TaskSchedules, NotificationRules) gets more expensive the longer it's deferred.
+- Scope split: build the SCHEMA foundation now (Organisation, Site entities; existing entities gain siteId). Defer the full regional-tier permissions/UI (e.g. "100 branches, regional managers between top and mid") until there's real need - that layer is additive on top of a properly-scoped foundation, not urgent today.
+- This pauses the in-progress "wire notifications to fire" follow-up sprint until the foundation exists, so that sprint doesn't have to be redone site-aware later.
+
+## Multi-site foundation schema (Sprint 015a)
+- No `Brand` entity this sprint, despite ARCHITECTURE_LOCK listing Organisation/Brand/Site as three separate entities — `Site.organisationId` points straight at Organisation for now. Brand is deferred to Sprint 015's branding work; adding a `brandId` FK later is cheap and non-disruptive.
+- `TaskTemplates`, `EquipmentTypes`, `LegalLimitReferences` stay organisation-wide/unscoped (no `siteId`/`organisationId`) — accepted as a known gap against PROJECT_BIBLE's "site-editable" task library wording. Real per-site task library customization is materially bigger work (independent copies vs. site-level override versions via the existing `previousVersionId` chain) and is deferred to a future sprint, not conflated with this schema foundation.
+- Default Organisation/Site are auto-seeded (no setup step) with placeholder names "My Organisation" / "Main Site" — matches this project's established auto-seed-don't-block pattern. Renaming them is a later sprint's UI.
+- Site-scoped tables get a `siteId` column that's nullable at the SQL level (a SQLite/drift constraint — `ALTER TABLE ADD COLUMN` can't retroactively enforce NOT NULL against existing rows) but is treated as required by application code, validated at the repository layer — same approach already used for `NotificationRule`'s "must have a target" check.
+- `NotificationRules.siteId` is nullable *by design*, not just migration necessity — null means "applies org-wide across every site," same pattern as that table's existing `taskTemplateGroupId`.
+- Sprint split confirmed: 015a (this sprint) builds Organisation/Site schema, models, repositories, providers, and default-site seeding only — no existing table gets a `siteId` yet. Follow-up sprints add `siteId` to the 7 site-scoped tables in clusters: (Users, Areas, EquipmentInstances), then (TaskSchedules, TaskSubmissions), then (ShiftHandoverNotes, SessionSummaries, NotificationRules) — each wiring its own UI call sites to a new `currentSiteProvider`.
+
+## Notification refinements (queued after multi-site foundation + notification firing)
+- Per-equipment/task-specific fail notifications: a "specific fail notifications" section where a manager picks which equipment/task fails trigger which tier, via two checkboxes per rule (left = notify top tier, right = notify mid tier). Refines Sprint 014's deliberately-simple "specific template or global any" scoping.
+- Third-party contacts: a section where top/mid tier can add external/internal maintenance and repair contacts, who can also be notified (or have details on file) in an emergency.
 
 ## Open / Not yet decided
 - Task priority: the checklist uses 3 levels (Critical/High/Standard); TaskTemplate currently only has a binary `isCritical`. Needs a decision before the real task library gets loaded — add a 3-level field, or accept the information loss of mapping down to the boolean.
