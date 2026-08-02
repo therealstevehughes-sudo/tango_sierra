@@ -6,6 +6,7 @@ import '../../shared/models/task_submission.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
+import '../notifications/notification_rules_screen.dart';
 import '../onboarding/staff_assignment_screen.dart';
 import '../venue_setup/venue_setup_wizard_screen.dart';
 
@@ -91,6 +92,18 @@ class ManagerScreen extends ConsumerWidget {
             },
             icon: const Icon(Icons.assignment_ind),
             tooltip: 'Assign Tasks',
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const NotificationRulesScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.notifications),
+            tooltip: 'Notification Rules',
           ),
           IconButton(
             onPressed: () {

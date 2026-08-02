@@ -5221,6 +5221,817 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
   }
 }
 
+class $NotificationRulesTable extends NotificationRules
+    with TableInfo<$NotificationRulesTable, NotificationRuleEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $NotificationRulesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _ruleGroupIdMeta = const VerificationMeta(
+    'ruleGroupId',
+  );
+  @override
+  late final GeneratedColumn<int> ruleGroupId = GeneratedColumn<int>(
+    'rule_group_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionNumberMeta = const VerificationMeta(
+    'versionNumber',
+  );
+  @override
+  late final GeneratedColumn<int> versionNumber = GeneratedColumn<int>(
+    'version_number',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _previousVersionIdMeta = const VerificationMeta(
+    'previousVersionId',
+  );
+  @override
+  late final GeneratedColumn<int> previousVersionId = GeneratedColumn<int>(
+    'previous_version_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES notification_rules (id)',
+    ),
+  );
+  static const VerificationMeta _taskTemplateGroupIdMeta =
+      const VerificationMeta('taskTemplateGroupId');
+  @override
+  late final GeneratedColumn<int> taskTemplateGroupId = GeneratedColumn<int>(
+    'task_template_group_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _targetRoleTierMeta = const VerificationMeta(
+    'targetRoleTier',
+  );
+  @override
+  late final GeneratedColumn<String> targetRoleTier = GeneratedColumn<String>(
+    'target_role_tier',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _targetUserIdMeta = const VerificationMeta(
+    'targetUserId',
+  );
+  @override
+  late final GeneratedColumn<int> targetUserId = GeneratedColumn<int>(
+    'target_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _channelPushMeta = const VerificationMeta(
+    'channelPush',
+  );
+  @override
+  late final GeneratedColumn<bool> channelPush = GeneratedColumn<bool>(
+    'channel_push',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("channel_push" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _channelEmailMeta = const VerificationMeta(
+    'channelEmail',
+  );
+  @override
+  late final GeneratedColumn<bool> channelEmail = GeneratedColumn<bool>(
+    'channel_email',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("channel_email" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _setByUserIdMeta = const VerificationMeta(
+    'setByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> setByUserId = GeneratedColumn<int>(
+    'set_by_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _setByTierMeta = const VerificationMeta(
+    'setByTier',
+  );
+  @override
+  late final GeneratedColumn<String> setByTier = GeneratedColumn<String>(
+    'set_by_tier',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    ruleGroupId,
+    versionNumber,
+    previousVersionId,
+    taskTemplateGroupId,
+    targetRoleTier,
+    targetUserId,
+    channelPush,
+    channelEmail,
+    setByUserId,
+    setByTier,
+    active,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'notification_rules';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<NotificationRuleEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('rule_group_id')) {
+      context.handle(
+        _ruleGroupIdMeta,
+        ruleGroupId.isAcceptableOrUnknown(
+          data['rule_group_id']!,
+          _ruleGroupIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_ruleGroupIdMeta);
+    }
+    if (data.containsKey('version_number')) {
+      context.handle(
+        _versionNumberMeta,
+        versionNumber.isAcceptableOrUnknown(
+          data['version_number']!,
+          _versionNumberMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_versionNumberMeta);
+    }
+    if (data.containsKey('previous_version_id')) {
+      context.handle(
+        _previousVersionIdMeta,
+        previousVersionId.isAcceptableOrUnknown(
+          data['previous_version_id']!,
+          _previousVersionIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('task_template_group_id')) {
+      context.handle(
+        _taskTemplateGroupIdMeta,
+        taskTemplateGroupId.isAcceptableOrUnknown(
+          data['task_template_group_id']!,
+          _taskTemplateGroupIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('target_role_tier')) {
+      context.handle(
+        _targetRoleTierMeta,
+        targetRoleTier.isAcceptableOrUnknown(
+          data['target_role_tier']!,
+          _targetRoleTierMeta,
+        ),
+      );
+    }
+    if (data.containsKey('target_user_id')) {
+      context.handle(
+        _targetUserIdMeta,
+        targetUserId.isAcceptableOrUnknown(
+          data['target_user_id']!,
+          _targetUserIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('channel_push')) {
+      context.handle(
+        _channelPushMeta,
+        channelPush.isAcceptableOrUnknown(
+          data['channel_push']!,
+          _channelPushMeta,
+        ),
+      );
+    }
+    if (data.containsKey('channel_email')) {
+      context.handle(
+        _channelEmailMeta,
+        channelEmail.isAcceptableOrUnknown(
+          data['channel_email']!,
+          _channelEmailMeta,
+        ),
+      );
+    }
+    if (data.containsKey('set_by_user_id')) {
+      context.handle(
+        _setByUserIdMeta,
+        setByUserId.isAcceptableOrUnknown(
+          data['set_by_user_id']!,
+          _setByUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_setByUserIdMeta);
+    }
+    if (data.containsKey('set_by_tier')) {
+      context.handle(
+        _setByTierMeta,
+        setByTier.isAcceptableOrUnknown(data['set_by_tier']!, _setByTierMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_setByTierMeta);
+    }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  NotificationRuleEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return NotificationRuleEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      ruleGroupId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rule_group_id'],
+      )!,
+      versionNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version_number'],
+      )!,
+      previousVersionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}previous_version_id'],
+      ),
+      taskTemplateGroupId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}task_template_group_id'],
+      ),
+      targetRoleTier: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}target_role_tier'],
+      ),
+      targetUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}target_user_id'],
+      ),
+      channelPush: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}channel_push'],
+      )!,
+      channelEmail: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}channel_email'],
+      )!,
+      setByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}set_by_user_id'],
+      )!,
+      setByTier: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}set_by_tier'],
+      )!,
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $NotificationRulesTable createAlias(String alias) {
+    return $NotificationRulesTable(attachedDatabase, alias);
+  }
+}
+
+class NotificationRuleEntity extends DataClass
+    implements Insertable<NotificationRuleEntity> {
+  final int id;
+  final int ruleGroupId;
+  final int versionNumber;
+  final int? previousVersionId;
+  final int? taskTemplateGroupId;
+  final String? targetRoleTier;
+  final int? targetUserId;
+  final bool channelPush;
+  final bool channelEmail;
+  final int setByUserId;
+  final String setByTier;
+  final bool active;
+  final DateTime createdAt;
+  const NotificationRuleEntity({
+    required this.id,
+    required this.ruleGroupId,
+    required this.versionNumber,
+    this.previousVersionId,
+    this.taskTemplateGroupId,
+    this.targetRoleTier,
+    this.targetUserId,
+    required this.channelPush,
+    required this.channelEmail,
+    required this.setByUserId,
+    required this.setByTier,
+    required this.active,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['rule_group_id'] = Variable<int>(ruleGroupId);
+    map['version_number'] = Variable<int>(versionNumber);
+    if (!nullToAbsent || previousVersionId != null) {
+      map['previous_version_id'] = Variable<int>(previousVersionId);
+    }
+    if (!nullToAbsent || taskTemplateGroupId != null) {
+      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId);
+    }
+    if (!nullToAbsent || targetRoleTier != null) {
+      map['target_role_tier'] = Variable<String>(targetRoleTier);
+    }
+    if (!nullToAbsent || targetUserId != null) {
+      map['target_user_id'] = Variable<int>(targetUserId);
+    }
+    map['channel_push'] = Variable<bool>(channelPush);
+    map['channel_email'] = Variable<bool>(channelEmail);
+    map['set_by_user_id'] = Variable<int>(setByUserId);
+    map['set_by_tier'] = Variable<String>(setByTier);
+    map['active'] = Variable<bool>(active);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  NotificationRulesCompanion toCompanion(bool nullToAbsent) {
+    return NotificationRulesCompanion(
+      id: Value(id),
+      ruleGroupId: Value(ruleGroupId),
+      versionNumber: Value(versionNumber),
+      previousVersionId: previousVersionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(previousVersionId),
+      taskTemplateGroupId: taskTemplateGroupId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taskTemplateGroupId),
+      targetRoleTier: targetRoleTier == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetRoleTier),
+      targetUserId: targetUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetUserId),
+      channelPush: Value(channelPush),
+      channelEmail: Value(channelEmail),
+      setByUserId: Value(setByUserId),
+      setByTier: Value(setByTier),
+      active: Value(active),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory NotificationRuleEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return NotificationRuleEntity(
+      id: serializer.fromJson<int>(json['id']),
+      ruleGroupId: serializer.fromJson<int>(json['ruleGroupId']),
+      versionNumber: serializer.fromJson<int>(json['versionNumber']),
+      previousVersionId: serializer.fromJson<int?>(json['previousVersionId']),
+      taskTemplateGroupId: serializer.fromJson<int?>(
+        json['taskTemplateGroupId'],
+      ),
+      targetRoleTier: serializer.fromJson<String?>(json['targetRoleTier']),
+      targetUserId: serializer.fromJson<int?>(json['targetUserId']),
+      channelPush: serializer.fromJson<bool>(json['channelPush']),
+      channelEmail: serializer.fromJson<bool>(json['channelEmail']),
+      setByUserId: serializer.fromJson<int>(json['setByUserId']),
+      setByTier: serializer.fromJson<String>(json['setByTier']),
+      active: serializer.fromJson<bool>(json['active']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'ruleGroupId': serializer.toJson<int>(ruleGroupId),
+      'versionNumber': serializer.toJson<int>(versionNumber),
+      'previousVersionId': serializer.toJson<int?>(previousVersionId),
+      'taskTemplateGroupId': serializer.toJson<int?>(taskTemplateGroupId),
+      'targetRoleTier': serializer.toJson<String?>(targetRoleTier),
+      'targetUserId': serializer.toJson<int?>(targetUserId),
+      'channelPush': serializer.toJson<bool>(channelPush),
+      'channelEmail': serializer.toJson<bool>(channelEmail),
+      'setByUserId': serializer.toJson<int>(setByUserId),
+      'setByTier': serializer.toJson<String>(setByTier),
+      'active': serializer.toJson<bool>(active),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  NotificationRuleEntity copyWith({
+    int? id,
+    int? ruleGroupId,
+    int? versionNumber,
+    Value<int?> previousVersionId = const Value.absent(),
+    Value<int?> taskTemplateGroupId = const Value.absent(),
+    Value<String?> targetRoleTier = const Value.absent(),
+    Value<int?> targetUserId = const Value.absent(),
+    bool? channelPush,
+    bool? channelEmail,
+    int? setByUserId,
+    String? setByTier,
+    bool? active,
+    DateTime? createdAt,
+  }) => NotificationRuleEntity(
+    id: id ?? this.id,
+    ruleGroupId: ruleGroupId ?? this.ruleGroupId,
+    versionNumber: versionNumber ?? this.versionNumber,
+    previousVersionId: previousVersionId.present
+        ? previousVersionId.value
+        : this.previousVersionId,
+    taskTemplateGroupId: taskTemplateGroupId.present
+        ? taskTemplateGroupId.value
+        : this.taskTemplateGroupId,
+    targetRoleTier: targetRoleTier.present
+        ? targetRoleTier.value
+        : this.targetRoleTier,
+    targetUserId: targetUserId.present ? targetUserId.value : this.targetUserId,
+    channelPush: channelPush ?? this.channelPush,
+    channelEmail: channelEmail ?? this.channelEmail,
+    setByUserId: setByUserId ?? this.setByUserId,
+    setByTier: setByTier ?? this.setByTier,
+    active: active ?? this.active,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  NotificationRuleEntity copyWithCompanion(NotificationRulesCompanion data) {
+    return NotificationRuleEntity(
+      id: data.id.present ? data.id.value : this.id,
+      ruleGroupId: data.ruleGroupId.present
+          ? data.ruleGroupId.value
+          : this.ruleGroupId,
+      versionNumber: data.versionNumber.present
+          ? data.versionNumber.value
+          : this.versionNumber,
+      previousVersionId: data.previousVersionId.present
+          ? data.previousVersionId.value
+          : this.previousVersionId,
+      taskTemplateGroupId: data.taskTemplateGroupId.present
+          ? data.taskTemplateGroupId.value
+          : this.taskTemplateGroupId,
+      targetRoleTier: data.targetRoleTier.present
+          ? data.targetRoleTier.value
+          : this.targetRoleTier,
+      targetUserId: data.targetUserId.present
+          ? data.targetUserId.value
+          : this.targetUserId,
+      channelPush: data.channelPush.present
+          ? data.channelPush.value
+          : this.channelPush,
+      channelEmail: data.channelEmail.present
+          ? data.channelEmail.value
+          : this.channelEmail,
+      setByUserId: data.setByUserId.present
+          ? data.setByUserId.value
+          : this.setByUserId,
+      setByTier: data.setByTier.present ? data.setByTier.value : this.setByTier,
+      active: data.active.present ? data.active.value : this.active,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('NotificationRuleEntity(')
+          ..write('id: $id, ')
+          ..write('ruleGroupId: $ruleGroupId, ')
+          ..write('versionNumber: $versionNumber, ')
+          ..write('previousVersionId: $previousVersionId, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('targetRoleTier: $targetRoleTier, ')
+          ..write('targetUserId: $targetUserId, ')
+          ..write('channelPush: $channelPush, ')
+          ..write('channelEmail: $channelEmail, ')
+          ..write('setByUserId: $setByUserId, ')
+          ..write('setByTier: $setByTier, ')
+          ..write('active: $active, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    ruleGroupId,
+    versionNumber,
+    previousVersionId,
+    taskTemplateGroupId,
+    targetRoleTier,
+    targetUserId,
+    channelPush,
+    channelEmail,
+    setByUserId,
+    setByTier,
+    active,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is NotificationRuleEntity &&
+          other.id == this.id &&
+          other.ruleGroupId == this.ruleGroupId &&
+          other.versionNumber == this.versionNumber &&
+          other.previousVersionId == this.previousVersionId &&
+          other.taskTemplateGroupId == this.taskTemplateGroupId &&
+          other.targetRoleTier == this.targetRoleTier &&
+          other.targetUserId == this.targetUserId &&
+          other.channelPush == this.channelPush &&
+          other.channelEmail == this.channelEmail &&
+          other.setByUserId == this.setByUserId &&
+          other.setByTier == this.setByTier &&
+          other.active == this.active &&
+          other.createdAt == this.createdAt);
+}
+
+class NotificationRulesCompanion
+    extends UpdateCompanion<NotificationRuleEntity> {
+  final Value<int> id;
+  final Value<int> ruleGroupId;
+  final Value<int> versionNumber;
+  final Value<int?> previousVersionId;
+  final Value<int?> taskTemplateGroupId;
+  final Value<String?> targetRoleTier;
+  final Value<int?> targetUserId;
+  final Value<bool> channelPush;
+  final Value<bool> channelEmail;
+  final Value<int> setByUserId;
+  final Value<String> setByTier;
+  final Value<bool> active;
+  final Value<DateTime> createdAt;
+  const NotificationRulesCompanion({
+    this.id = const Value.absent(),
+    this.ruleGroupId = const Value.absent(),
+    this.versionNumber = const Value.absent(),
+    this.previousVersionId = const Value.absent(),
+    this.taskTemplateGroupId = const Value.absent(),
+    this.targetRoleTier = const Value.absent(),
+    this.targetUserId = const Value.absent(),
+    this.channelPush = const Value.absent(),
+    this.channelEmail = const Value.absent(),
+    this.setByUserId = const Value.absent(),
+    this.setByTier = const Value.absent(),
+    this.active = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  NotificationRulesCompanion.insert({
+    this.id = const Value.absent(),
+    required int ruleGroupId,
+    required int versionNumber,
+    this.previousVersionId = const Value.absent(),
+    this.taskTemplateGroupId = const Value.absent(),
+    this.targetRoleTier = const Value.absent(),
+    this.targetUserId = const Value.absent(),
+    this.channelPush = const Value.absent(),
+    this.channelEmail = const Value.absent(),
+    required int setByUserId,
+    required String setByTier,
+    this.active = const Value.absent(),
+    required DateTime createdAt,
+  }) : ruleGroupId = Value(ruleGroupId),
+       versionNumber = Value(versionNumber),
+       setByUserId = Value(setByUserId),
+       setByTier = Value(setByTier),
+       createdAt = Value(createdAt);
+  static Insertable<NotificationRuleEntity> custom({
+    Expression<int>? id,
+    Expression<int>? ruleGroupId,
+    Expression<int>? versionNumber,
+    Expression<int>? previousVersionId,
+    Expression<int>? taskTemplateGroupId,
+    Expression<String>? targetRoleTier,
+    Expression<int>? targetUserId,
+    Expression<bool>? channelPush,
+    Expression<bool>? channelEmail,
+    Expression<int>? setByUserId,
+    Expression<String>? setByTier,
+    Expression<bool>? active,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (ruleGroupId != null) 'rule_group_id': ruleGroupId,
+      if (versionNumber != null) 'version_number': versionNumber,
+      if (previousVersionId != null) 'previous_version_id': previousVersionId,
+      if (taskTemplateGroupId != null)
+        'task_template_group_id': taskTemplateGroupId,
+      if (targetRoleTier != null) 'target_role_tier': targetRoleTier,
+      if (targetUserId != null) 'target_user_id': targetUserId,
+      if (channelPush != null) 'channel_push': channelPush,
+      if (channelEmail != null) 'channel_email': channelEmail,
+      if (setByUserId != null) 'set_by_user_id': setByUserId,
+      if (setByTier != null) 'set_by_tier': setByTier,
+      if (active != null) 'active': active,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  NotificationRulesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? ruleGroupId,
+    Value<int>? versionNumber,
+    Value<int?>? previousVersionId,
+    Value<int?>? taskTemplateGroupId,
+    Value<String?>? targetRoleTier,
+    Value<int?>? targetUserId,
+    Value<bool>? channelPush,
+    Value<bool>? channelEmail,
+    Value<int>? setByUserId,
+    Value<String>? setByTier,
+    Value<bool>? active,
+    Value<DateTime>? createdAt,
+  }) {
+    return NotificationRulesCompanion(
+      id: id ?? this.id,
+      ruleGroupId: ruleGroupId ?? this.ruleGroupId,
+      versionNumber: versionNumber ?? this.versionNumber,
+      previousVersionId: previousVersionId ?? this.previousVersionId,
+      taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
+      targetRoleTier: targetRoleTier ?? this.targetRoleTier,
+      targetUserId: targetUserId ?? this.targetUserId,
+      channelPush: channelPush ?? this.channelPush,
+      channelEmail: channelEmail ?? this.channelEmail,
+      setByUserId: setByUserId ?? this.setByUserId,
+      setByTier: setByTier ?? this.setByTier,
+      active: active ?? this.active,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (ruleGroupId.present) {
+      map['rule_group_id'] = Variable<int>(ruleGroupId.value);
+    }
+    if (versionNumber.present) {
+      map['version_number'] = Variable<int>(versionNumber.value);
+    }
+    if (previousVersionId.present) {
+      map['previous_version_id'] = Variable<int>(previousVersionId.value);
+    }
+    if (taskTemplateGroupId.present) {
+      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId.value);
+    }
+    if (targetRoleTier.present) {
+      map['target_role_tier'] = Variable<String>(targetRoleTier.value);
+    }
+    if (targetUserId.present) {
+      map['target_user_id'] = Variable<int>(targetUserId.value);
+    }
+    if (channelPush.present) {
+      map['channel_push'] = Variable<bool>(channelPush.value);
+    }
+    if (channelEmail.present) {
+      map['channel_email'] = Variable<bool>(channelEmail.value);
+    }
+    if (setByUserId.present) {
+      map['set_by_user_id'] = Variable<int>(setByUserId.value);
+    }
+    if (setByTier.present) {
+      map['set_by_tier'] = Variable<String>(setByTier.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('NotificationRulesCompanion(')
+          ..write('id: $id, ')
+          ..write('ruleGroupId: $ruleGroupId, ')
+          ..write('versionNumber: $versionNumber, ')
+          ..write('previousVersionId: $previousVersionId, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('targetRoleTier: $targetRoleTier, ')
+          ..write('targetUserId: $targetUserId, ')
+          ..write('channelPush: $channelPush, ')
+          ..write('channelEmail: $channelEmail, ')
+          ..write('setByUserId: $setByUserId, ')
+          ..write('setByTier: $setByTier, ')
+          ..write('active: $active, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -5241,6 +6052,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $SessionSummariesTable sessionSummaries = $SessionSummariesTable(
     this,
   );
+  late final $NotificationRulesTable notificationRules =
+      $NotificationRulesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -5256,6 +6069,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     taskSchedules,
     shiftHandoverNotes,
     sessionSummaries,
+    notificationRules,
   ];
 }
 
@@ -10053,6 +10867,689 @@ typedef $$SessionSummariesTableProcessedTableManager =
       SessionSummaryEntity,
       PrefetchHooks Function({bool staffUserId, bool sentToManagerId})
     >;
+typedef $$NotificationRulesTableCreateCompanionBuilder =
+    NotificationRulesCompanion Function({
+      Value<int> id,
+      required int ruleGroupId,
+      required int versionNumber,
+      Value<int?> previousVersionId,
+      Value<int?> taskTemplateGroupId,
+      Value<String?> targetRoleTier,
+      Value<int?> targetUserId,
+      Value<bool> channelPush,
+      Value<bool> channelEmail,
+      required int setByUserId,
+      required String setByTier,
+      Value<bool> active,
+      required DateTime createdAt,
+    });
+typedef $$NotificationRulesTableUpdateCompanionBuilder =
+    NotificationRulesCompanion Function({
+      Value<int> id,
+      Value<int> ruleGroupId,
+      Value<int> versionNumber,
+      Value<int?> previousVersionId,
+      Value<int?> taskTemplateGroupId,
+      Value<String?> targetRoleTier,
+      Value<int?> targetUserId,
+      Value<bool> channelPush,
+      Value<bool> channelEmail,
+      Value<int> setByUserId,
+      Value<String> setByTier,
+      Value<bool> active,
+      Value<DateTime> createdAt,
+    });
+
+final class $$NotificationRulesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $NotificationRulesTable,
+          NotificationRuleEntity
+        > {
+  $$NotificationRulesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $NotificationRulesTable _previousVersionIdTable(_$AppDatabase db) =>
+      db.notificationRules.createAlias(
+        'notification_rules__previous_version_id__notification_rules__id',
+      );
+
+  $$NotificationRulesTableProcessedTableManager? get previousVersionId {
+    final $_column = $_itemColumn<int>('previous_version_id');
+    if ($_column == null) return null;
+    final manager = $$NotificationRulesTableTableManager(
+      $_db,
+      $_db.notificationRules,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_previousVersionIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _targetUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('notification_rules__target_user_id__users__id');
+
+  $$UsersTableProcessedTableManager? get targetUserId {
+    final $_column = $_itemColumn<int>('target_user_id');
+    if ($_column == null) return null;
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_targetUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _setByUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('notification_rules__set_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get setByUserId {
+    final $_column = $_itemColumn<int>('set_by_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_setByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$NotificationRulesTableFilterComposer
+    extends Composer<_$AppDatabase, $NotificationRulesTable> {
+  $$NotificationRulesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get ruleGroupId => $composableBuilder(
+    column: $table.ruleGroupId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get versionNumber => $composableBuilder(
+    column: $table.versionNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get targetRoleTier => $composableBuilder(
+    column: $table.targetRoleTier,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get channelPush => $composableBuilder(
+    column: $table.channelPush,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get channelEmail => $composableBuilder(
+    column: $table.channelEmail,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get setByTier => $composableBuilder(
+    column: $table.setByTier,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$NotificationRulesTableFilterComposer get previousVersionId {
+    final $$NotificationRulesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.previousVersionId,
+      referencedTable: $db.notificationRules,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$NotificationRulesTableFilterComposer(
+            $db: $db,
+            $table: $db.notificationRules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get targetUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.targetUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get setByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.setByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$NotificationRulesTableOrderingComposer
+    extends Composer<_$AppDatabase, $NotificationRulesTable> {
+  $$NotificationRulesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get ruleGroupId => $composableBuilder(
+    column: $table.ruleGroupId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get versionNumber => $composableBuilder(
+    column: $table.versionNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get targetRoleTier => $composableBuilder(
+    column: $table.targetRoleTier,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get channelPush => $composableBuilder(
+    column: $table.channelPush,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get channelEmail => $composableBuilder(
+    column: $table.channelEmail,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get setByTier => $composableBuilder(
+    column: $table.setByTier,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$NotificationRulesTableOrderingComposer get previousVersionId {
+    final $$NotificationRulesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.previousVersionId,
+      referencedTable: $db.notificationRules,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$NotificationRulesTableOrderingComposer(
+            $db: $db,
+            $table: $db.notificationRules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get targetUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.targetUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get setByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.setByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$NotificationRulesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $NotificationRulesTable> {
+  $$NotificationRulesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get ruleGroupId => $composableBuilder(
+    column: $table.ruleGroupId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get versionNumber => $composableBuilder(
+    column: $table.versionNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get targetRoleTier => $composableBuilder(
+    column: $table.targetRoleTier,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get channelPush => $composableBuilder(
+    column: $table.channelPush,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get channelEmail => $composableBuilder(
+    column: $table.channelEmail,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get setByTier =>
+      $composableBuilder(column: $table.setByTier, builder: (column) => column);
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$NotificationRulesTableAnnotationComposer get previousVersionId {
+    final $$NotificationRulesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.previousVersionId,
+          referencedTable: $db.notificationRules,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$NotificationRulesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.notificationRules,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get targetUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.targetUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get setByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.setByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$NotificationRulesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $NotificationRulesTable,
+          NotificationRuleEntity,
+          $$NotificationRulesTableFilterComposer,
+          $$NotificationRulesTableOrderingComposer,
+          $$NotificationRulesTableAnnotationComposer,
+          $$NotificationRulesTableCreateCompanionBuilder,
+          $$NotificationRulesTableUpdateCompanionBuilder,
+          (NotificationRuleEntity, $$NotificationRulesTableReferences),
+          NotificationRuleEntity,
+          PrefetchHooks Function({
+            bool previousVersionId,
+            bool targetUserId,
+            bool setByUserId,
+          })
+        > {
+  $$NotificationRulesTableTableManager(
+    _$AppDatabase db,
+    $NotificationRulesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$NotificationRulesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$NotificationRulesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$NotificationRulesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> ruleGroupId = const Value.absent(),
+                Value<int> versionNumber = const Value.absent(),
+                Value<int?> previousVersionId = const Value.absent(),
+                Value<int?> taskTemplateGroupId = const Value.absent(),
+                Value<String?> targetRoleTier = const Value.absent(),
+                Value<int?> targetUserId = const Value.absent(),
+                Value<bool> channelPush = const Value.absent(),
+                Value<bool> channelEmail = const Value.absent(),
+                Value<int> setByUserId = const Value.absent(),
+                Value<String> setByTier = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => NotificationRulesCompanion(
+                id: id,
+                ruleGroupId: ruleGroupId,
+                versionNumber: versionNumber,
+                previousVersionId: previousVersionId,
+                taskTemplateGroupId: taskTemplateGroupId,
+                targetRoleTier: targetRoleTier,
+                targetUserId: targetUserId,
+                channelPush: channelPush,
+                channelEmail: channelEmail,
+                setByUserId: setByUserId,
+                setByTier: setByTier,
+                active: active,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int ruleGroupId,
+                required int versionNumber,
+                Value<int?> previousVersionId = const Value.absent(),
+                Value<int?> taskTemplateGroupId = const Value.absent(),
+                Value<String?> targetRoleTier = const Value.absent(),
+                Value<int?> targetUserId = const Value.absent(),
+                Value<bool> channelPush = const Value.absent(),
+                Value<bool> channelEmail = const Value.absent(),
+                required int setByUserId,
+                required String setByTier,
+                Value<bool> active = const Value.absent(),
+                required DateTime createdAt,
+              }) => NotificationRulesCompanion.insert(
+                id: id,
+                ruleGroupId: ruleGroupId,
+                versionNumber: versionNumber,
+                previousVersionId: previousVersionId,
+                taskTemplateGroupId: taskTemplateGroupId,
+                targetRoleTier: targetRoleTier,
+                targetUserId: targetUserId,
+                channelPush: channelPush,
+                channelEmail: channelEmail,
+                setByUserId: setByUserId,
+                setByTier: setByTier,
+                active: active,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$NotificationRulesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                previousVersionId = false,
+                targetUserId = false,
+                setByUserId = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (previousVersionId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.previousVersionId,
+                                    referencedTable:
+                                        $$NotificationRulesTableReferences
+                                            ._previousVersionIdTable(db),
+                                    referencedColumn:
+                                        $$NotificationRulesTableReferences
+                                            ._previousVersionIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (targetUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.targetUserId,
+                                    referencedTable:
+                                        $$NotificationRulesTableReferences
+                                            ._targetUserIdTable(db),
+                                    referencedColumn:
+                                        $$NotificationRulesTableReferences
+                                            ._targetUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (setByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.setByUserId,
+                                    referencedTable:
+                                        $$NotificationRulesTableReferences
+                                            ._setByUserIdTable(db),
+                                    referencedColumn:
+                                        $$NotificationRulesTableReferences
+                                            ._setByUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$NotificationRulesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $NotificationRulesTable,
+      NotificationRuleEntity,
+      $$NotificationRulesTableFilterComposer,
+      $$NotificationRulesTableOrderingComposer,
+      $$NotificationRulesTableAnnotationComposer,
+      $$NotificationRulesTableCreateCompanionBuilder,
+      $$NotificationRulesTableUpdateCompanionBuilder,
+      (NotificationRuleEntity, $$NotificationRulesTableReferences),
+      NotificationRuleEntity,
+      PrefetchHooks Function({
+        bool previousVersionId,
+        bool targetUserId,
+        bool setByUserId,
+      })
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -10077,4 +11574,6 @@ class $AppDatabaseManager {
       $$ShiftHandoverNotesTableTableManager(_db, _db.shiftHandoverNotes);
   $$SessionSummariesTableTableManager get sessionSummaries =>
       $$SessionSummariesTableTableManager(_db, _db.sessionSummaries);
+  $$NotificationRulesTableTableManager get notificationRules =>
+      $$NotificationRulesTableTableManager(_db, _db.notificationRules);
 }

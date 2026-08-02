@@ -147,6 +147,29 @@ class SessionSummaries extends Table {
   DateTimeColumn get acknowledgedAt => dateTime().nullable()();
 }
 
+@DataClassName('NotificationRuleEntity')
+class NotificationRules extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get ruleGroupId => integer()();
+  IntColumn get versionNumber => integer()();
+  IntColumn get previousVersionId =>
+      integer().nullable().references(NotificationRules, #id)();
+  // Not a real FK, same reasoning as TaskSchedules.taskTemplateGroupId: a
+  // grouping key shared across template version rows, not a unique column.
+  // Null means "any task fail", not scoped to one template.
+  IntColumn get taskTemplateGroupId => integer().nullable()();
+  TextColumn get targetRoleTier => text().nullable()();
+  IntColumn get targetUserId => integer().nullable().references(Users, #id)();
+  BoolColumn get channelPush =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get channelEmail =>
+      boolean().withDefault(const Constant(false))();
+  IntColumn get setByUserId => integer().references(Users, #id)();
+  TextColumn get setByTier => text()();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
 @DriftDatabase(
   tables: [
     TaskSubmissions,
@@ -159,13 +182,14 @@ class SessionSummaries extends Table {
     TaskSchedules,
     ShiftHandoverNotes,
     SessionSummaries,
+    NotificationRules,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 8;
+  int get schemaVersion => 9;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -222,6 +246,9 @@ class AppDatabase extends _$AppDatabase {
         );
         await m.createTable(shiftHandoverNotes);
         await m.createTable(sessionSummaries);
+      }
+      if (from < 9) {
+        await m.createTable(notificationRules);
       }
     },
     beforeOpen: (details) async {
