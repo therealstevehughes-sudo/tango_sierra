@@ -424,3 +424,18 @@ Risks: Given Sprint 014's widget test hit an unresolved `pumpAndSettle()` hang, 
 Deferred items: Real push/email dispatch (no backend, Phase 6, unchanged). A UI toggle for creating org-wide NotificationRules (queued from Sprint 015d). The broader Notification refinements backlog (per-equipment-specific notifications, third-party contacts).
 Save point name: SPRINT_017_LOCK
 Notes: Commit 3aca111041a2883d603028f0a8fd4c7a9bb0b8de, message "Sprint 017: in-app notifications inbox on ManagerScreen/TopScreen".
+
+---
+
+## Sprint 018
+Date: 2026-08-02
+Objective: Build the first queued notification refinement — a per-task "quick setup" grid on NotificationRulesScreen (checkboxes for Notify Top / Notify Mid per task template), sitting alongside Sprint 014's existing Add Rule form.
+Files changed:
+- lib/features/notifications/notification_rules_screen.dart — new `_buildQuickSetupSection()` rendered above the existing rule list: a `Table` with one row per current `TaskTemplate` and two checkboxes each (Top, Mid); new `_currentQuickRuleFor` helper (scans loaded rules for a match on `taskTemplateGroupId`/`targetRoleTier`/`targetUserId: null`, current version regardless of active state) and `_toggleQuickRule` (calls the existing `saveNewVersion` — reuses `ruleGroupId` and preserves channels/site if a match is found, else creates fresh defaulting to the setter's own site with both channels off)
+Files unchanged: everything else — no schema, repository, or model changes; the grid is pure UI over the exact repository interface Sprint 014 already built
+Architecture impact: None — no new entities, columns, or repository methods.
+UI impact: `NotificationRulesScreen` gains a new section above the rule list. No changes to the existing Add Rule form or rule list, which remain the path for "any task fail" rules and specific-person targeting.
+Risks: This exact screen has now hit an unresolved `pumpAndSettle()` hang twice before (Sprints 014, 017), so a widget test was not attempted again. Verified instead with a temporary test (deleted after, not part of this commit) that replicated `_toggleQuickRule`'s exact logic against the real repository: first toggle creates a fresh rule; toggling off then on again reuses the same `ruleGroupId` (confirmed via `getAllCurrentVersions` returning exactly one current row, not a duplicate group) and preserves the original site. `flutter analyze` clean. A real Windows debug run confirmed the screen renders without error — left running on-device afterward for a manual visual check, same disclosed limitation as Sprints 014/017.
+Deferred items: Equipment-instance-level granularity (e.g. per-specific-fridge scoping) — flagged as a real alternative reading of the original refinement request but confirmed out of scope this sprint; would need a new `equipmentInstanceId` column and a `TaskController` matching-logic change. Third-party/maintenance contacts (still queued). A UI toggle for explicitly creating org-wide rules via the grid (still queued from Sprint 015d).
+Save point name: SPRINT_018_LOCK
+Notes: Commit d43fc271f34cf30e3198bde2393d17bd5984354c, message "Sprint 018: per-task quick-setup notification checkboxes".
