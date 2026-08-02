@@ -439,3 +439,25 @@ Risks: This exact screen has now hit an unresolved `pumpAndSettle()` hang twice 
 Deferred items: Equipment-instance-level granularity (e.g. per-specific-fridge scoping) — flagged as a real alternative reading of the original refinement request but confirmed out of scope this sprint; would need a new `equipmentInstanceId` column and a `TaskController` matching-logic change. Third-party/maintenance contacts (still queued). A UI toggle for explicitly creating org-wide rules via the grid (still queued from Sprint 015d).
 Save point name: SPRINT_018_LOCK
 Notes: Commit d43fc271f34cf30e3198bde2393d17bd5984354c, message "Sprint 018: per-task quick-setup notification checkboxes".
+
+---
+
+## Sprint 019
+Date: 2026-08-02
+Objective: Build the second and final queued notification refinement — a directory of external/internal maintenance and repair contacts (top/mid tier can add, not wired into automated notification firing).
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 14 → 15; new `ThirdPartyContacts` table (`name`, `company`, `specialty`, `phone`, `email`, `notes`, `siteId` nullable/org-wide-by-default, `createdByUserId`, `createdAt`, `active`); `onUpgrade` creates the table for existing installs
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/third_party_contact.dart (new)
+- lib/shared/repositories/third_party_contact_repository.dart (new) — `getAll`, `create` (throws if neither phone nor email given), `setActive` (simple toggle, no versioning)
+- lib/shared/providers/third_party_contact_providers.dart (new)
+- lib/features/settings/third_party_contacts_screen.dart (new) — list + add-only form, Deactivate/Reactivate action; first real use of the previously-empty `settings/` folder
+- lib/features/manager/manager_screen.dart, lib/features/dashboard/top_screen.dart — each gets a new icon (`Icons.contact_phone`, "Maintenance Contacts")
+- ARCHITECTURE_LOCK.md — added `ThirdPartyContact` to the Core Entities list with a clarifying note (not a `User`, not wired into `NotificationRule`)
+Files unchanged: lib/shared/repositories/notification_rule_repository.dart, lib/features/tasks/task_controller.dart — deliberately not touched; this entity is a manual-lookup directory, not part of the automated firing chain
+Architecture impact: First genuinely new entity added to ARCHITECTURE_LOCK's Core Entities list after the fact, rather than being present from the original lock — documented as part of this sprint rather than left as a gap.
+UI impact: New "Maintenance Contacts" screen reachable from a new icon on both ManagerScreen and TopScreen.
+Risks: Verified with a temporary repository-level test (deleted after, not part of this commit): creating a contact with neither phone nor email throws `ArgumentError`; phone-only and email-only both succeed; org-wide vs. site-specific contacts both store `siteId` correctly; `setActive` toggles correctly and is reflected on the next `getAll()`. `flutter analyze` clean. A real Windows debug run confirmed the schemaVersion 14→15 migration executes cleanly against the existing dev database. Interactive click-through of the new screen was not independently exercised — left the app running on-device for a manual look, same disclosed limitation as prior notification-feature sprints.
+Deferred items: None outstanding from the original "Notification refinements" backlog — both queued items (per-task quick-setup checkboxes, third-party contacts) are now built. Next up per DECISIONS_LOG is the "Feature audit priorities" list (data backup/export, equipment edit/retire, notification escalation, task-taxonomy gaps, PIN reset/staff deactivation) or Sprint 015's original branding work.
+Save point name: SPRINT_019_LOCK
+Notes: Commit 20ffa27e09b458875cd48adb7187a23c9a279ae1, message "Sprint 019: third-party maintenance contacts directory".
