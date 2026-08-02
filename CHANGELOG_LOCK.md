@@ -364,3 +364,25 @@ Risks: Verified with a temporary repository-level test (deleted after, not part 
 Deferred items: `siteId` on `ShiftHandoverNotes`, `SessionSummaries`, `NotificationRules` — the final cluster in the agreed split.
 Save point name: SPRINT_015C_LOCK
 Notes: Commit 2105863e3b66b9c49185738091591b76bda556bf, message "Sprint 015c: siteId on TaskSchedules, TaskSubmissions".
+
+---
+
+## Sprint 015d
+Date: 2026-08-02
+Objective: Add `siteId` to `ShiftHandoverNotes`, `SessionSummaries`, and `NotificationRules`, closing out the agreed 015a/b/c/d multi-site foundation split.
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 12 → 13; nullable `siteId` (FK → Sites) added to all three tables; `onUpgrade` adds all three columns for existing installs; `_backfillSiteIds()` extended to cover `ShiftHandoverNotes`/`SessionSummaries` only — `NotificationRules` is deliberately excluded, so pre-existing rows stay `NULL` (org-wide) rather than being narrowed to the default site
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/shift_handover_note.dart, session_summary.dart — non-nullable `siteId`
+- lib/shared/models/notification_rule.dart — nullable `siteId` (`int?`), same null-means-org-wide meaning as that table's existing `taskTemplateGroupId`
+- lib/shared/repositories/shift_handover_repository.dart, session_summary_repository.dart — `create()` gains a required `siteId` parameter
+- lib/shared/repositories/notification_rule_repository.dart — `saveNewVersion()` gains an *optional* `siteId` parameter (not required, since null is legitimate input); `_toModel` does not assert non-null
+- lib/features/tasks/end_of_session_summary_screen.dart — `_finish`/`_sendToManager` pass `currentUser.siteId`
+- lib/features/notifications/notification_rules_screen.dart — `_saveRule` passes `setBy.siteId` (new rules default to the creator's own site); `_setActive` passes `rule.siteId` (preserves the existing rule's scope, including null, rather than re-deriving it)
+Files unchanged: lib/shared/providers/site_providers.dart — `currentSiteProvider` still hasn't been needed by any call site since 015b; all real call sites across every cluster already held a site-bearing `User`
+Architecture impact: Completes the multi-site foundation split — all 7 originally-identified site-scoped tables now carry `siteId`. `NotificationRules` is the one deliberate exception to the "non-nullable domain model" pattern used throughout 015b/c/d, matching its existing null-means-any convention.
+UI impact: None visible.
+Risks: A real bug was caught and fixed during this sprint's own build, before verification — `_setActive`'s first draft used `siteId: rule.siteId ?? setBy.siteId`, which would have silently converted an org-wide rule to site-specific on any deactivate/reactivate. Fixed to `siteId: rule.siteId`, preserving whatever the rule already had. Verified with a temporary repository-level test (deleted after, not part of this commit) covering all three tables, including an explicit check that deactivating an org-wide rule keeps its `siteId` null. The backfill-exclusion behavior for `NotificationRules` isn't practically testable via a synthetic fresh database (same limitation as every migration sprint in this series), so — as with 015b/c — verified via a real Windows debug run against the actual existing dev database (schemaVersion 12), which launched without error.
+Deferred items: A UI toggle for explicitly creating an org-wide `NotificationRule` (new rules default to the creator's site for now) — queued alongside the existing "Notification refinements" backlog item. The "wire notifications to fire" follow-up sprint, paused since the multi-site foundation decision, can now resume.
+Save point name: SPRINT_015D_LOCK
+Notes: Commit 025115b49dd808dc2f648e2f5abe8f0743dc597b, message "Sprint 015d: siteId on ShiftHandoverNotes, SessionSummaries, NotificationRules".
