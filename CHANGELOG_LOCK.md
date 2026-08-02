@@ -304,3 +304,23 @@ Risks: This sprint's verification was disrupted by an environment issue, not a c
 Deferred items: Firing logic (creating a logged notification when a submission is recorded as FAIL), an in-app notifications inbox banner on ManagerScreen/TopScreen, real push/email dispatch (needs a backend, Phase 6), query-time tier-override precedence resolution (top beats mid for a matching trigger — `setByTier` is stored but not yet acted on anywhere), editing a rule's trigger/target/channels in place beyond deactivate/reactivate, a working automated widget test for `NotificationRulesScreen`.
 Save point name: SPRINT_014_LOCK
 Notes: Commit 2c836b4969701e00ff2807d80c98f0aec5101375, message "Sprint 014: notification rule schema + management UI (unwired)".
+
+---
+
+## Sprint 015a
+Date: 2026-08-02
+Objective: Build the Organisation/Site schema foundation for multi-site support — new tables, models, repositories, providers, and default-site auto-seeding only. No existing table gets a `siteId` yet, and no site-switcher or regional-tier UI is built (both explicitly deferred per DECISIONS_LOG).
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 9 → 10; new `Organisations` (`id`, `name`, `createdAt`) and `Sites` (`id`, `organisationId` FK, `name`, `address` nullable, `createdAt`) tables; `onUpgrade` creates both for existing installs; new `_ensureDefaultOrganisationAndSite()` called from `beforeOpen`, gated on `Sites` being empty — auto-creates "My Organisation" / "Main Site" so nothing breaks and no setup step is required, matching this project's established auto-seed pattern
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/organisation.dart, lib/shared/models/site.dart (new)
+- lib/shared/repositories/organisation_repository.dart, lib/shared/repositories/site_repository.dart (new) — `getAll`, `getDefault` (resolves the lowest-id row rather than using `getSingle()` directly, so it degrades gracefully rather than throwing if a second org/site is ever added ahead of the multi-site UI that would manage that)
+- lib/shared/providers/site_providers.dart (new) — `organisationRepositoryProvider`, `siteRepositoryProvider`, `currentSiteProvider` (a `FutureProvider<Site>` resolving the one seeded default site — no site-switcher exists yet)
+- DECISIONS_LOG.md — recorded the four confirmed decisions (no Brand entity yet, task library stays org-wide/unscoped, default placeholder names, sprint split)
+Files unchanged: every existing table, model, repository, and screen — this sprint adds two new tables and nothing else; no existing table gained a `siteId` column, no UI changed
+Architecture impact: First entities matching ARCHITECTURE_LOCK's `Organisation`/`Site` (`Brand` deliberately not built yet, see DECISIONS_LOG). Nothing else in the schema references them yet — that's the follow-up sprints' job.
+UI impact: None. No screen changed.
+Risks: Verified with a temporary repository-level test (deleted after, not part of this commit): a fresh database auto-seeds exactly one Organisation ("My Organisation") and one Site ("Main Site") correctly linked by `organisationId`, and reopening the same on-disk database a second time does not create a duplicate default (confirms the `beforeOpen` empty-check is a real guard, not just correct on first run). Also ran a real Windows debug build against the existing v9 dev database, confirming the v9→v10 migration executes without error on real data.
+Deferred items: Adding `siteId` to the 7 site-scoped tables (`Users`, `Areas`, `EquipmentInstances`, `TaskSchedules`, `TaskSubmissions`, `ShiftHandoverNotes`, `SessionSummaries`) and nullable-`siteId` on `NotificationRules`, in clustered follow-up sprints per the agreed split. `Brand` entity. Any site-editable task library work for `TaskTemplates`/`EquipmentTypes`/`LegalLimitReferences`. Any UI to create, rename, or switch between organisations/sites.
+Save point name: SPRINT_015A_LOCK
+Notes: Commit f9661719eaa90aca3fd5f590ebabb93be65e7a25, message "Sprint 015a: Organisation/Site schema foundation".
