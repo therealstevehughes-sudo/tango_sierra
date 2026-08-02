@@ -461,3 +461,21 @@ Risks: Verified with a temporary repository-level test (deleted after, not part 
 Deferred items: None outstanding from the original "Notification refinements" backlog — both queued items (per-task quick-setup checkboxes, third-party contacts) are now built. Next up per DECISIONS_LOG is the "Feature audit priorities" list (data backup/export, equipment edit/retire, notification escalation, task-taxonomy gaps, PIN reset/staff deactivation) or Sprint 015's original branding work.
 Save point name: SPRINT_019_LOCK
 Notes: Commit 20ffa27e09b458875cd48adb7187a23c9a279ae1, message "Sprint 019: third-party maintenance contacts directory".
+
+---
+
+## Sprint 020
+Date: 2026-08-02
+Objective: Build local data backup/export — the first and highest-priority item from FEATURE_AUDIT.md — a manual, on-demand copy of the local database that a manager can move off-device for disaster recovery.
+Files changed:
+- lib/core/storage/app_database.dart — new `backupTo(String destinationPath)` method using a parameterized `VACUUM INTO ?` `customStatement`; no schema change, no migration, no schemaVersion bump
+- lib/shared/repositories/backup_repository.dart (new) — resolves a `KitchenControlBackups` folder under the user's Documents (via `path_provider`, `path` — both already dependencies, first direct use in app code), builds a timestamped filename (optionally suffixed with a sanitized custom name), and calls `backupTo`
+- lib/shared/providers/backup_providers.dart (new)
+- lib/features/manager/manager_screen.dart, lib/features/dashboard/top_screen.dart — each gets a new icon (`Icons.backup`, "Back Up Now") opening a confirmation dialog with an optional "Backup name" text field, followed by a result dialog showing the saved file path
+Files unchanged: no repository/model/schema files beyond `app_database.dart`'s new method; no changes to any existing table
+Architecture impact: None structural — no new entity, no new table. First direct application-code use of the `path_provider`/`path` packages (previously only pulled in transitively via `drift_flutter`).
+UI impact: New "Back Up Now" icon on both ManagerScreen and TopScreen, opening a two-step dialog flow (confirm + optional name → result showing the saved path).
+Risks: Verified with a temporary test (deleted after, not part of this commit) that opened the resulting backup file as an independent sqlite3 database and confirmed it contains real seeded data — proving `VACUUM INTO ?` with a bound parameter actually works via drift's `customStatement`, not just assumed. Also confirmed two backups (with and without a custom name) produce distinct files, and that a custom name is folded into the filename alongside the timestamp rather than replacing it. `flutter analyze` clean. A real Windows debug run confirmed both screens render without runtime errors; the actual interactive dialog flow was not independently exercised (no UI-automation tool available) — left the app running on-device for a manual click-through.
+Deferred items: Restore (importing a backup onto a replacement device) — a separate future sprint, deliberately not built now given the destructive risk of overwriting a live database file safely. A "last backup was N days ago" staleness reminder. Retention/cleanup of old backup files. A native "Save As" file picker (would need a new dependency).
+Save point name: SPRINT_020_LOCK
+Notes: Commit 75e4a74ef69ce1af7ea16515900169a7001a9333, message "Sprint 020: local data backup/export".
