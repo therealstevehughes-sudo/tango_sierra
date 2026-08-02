@@ -386,3 +386,25 @@ Risks: A real bug was caught and fixed during this sprint's own build, before ve
 Deferred items: A UI toggle for explicitly creating an org-wide `NotificationRule` (new rules default to the creator's site for now) — queued alongside the existing "Notification refinements" backlog item. The "wire notifications to fire" follow-up sprint, paused since the multi-site foundation decision, can now resume.
 Save point name: SPRINT_015D_LOCK
 Notes: Commit 025115b49dd808dc2f648e2f5abe8f0743dc597b, message "Sprint 015d: siteId on ShiftHandoverNotes, SessionSummaries, NotificationRules".
+
+---
+
+## Sprint 016
+Date: 2026-08-02
+Objective: Resume the "wire notifications to fire" sprint paused since the multi-site foundation began — build the `TriggerNotification` entity (which didn't exist yet) and wire firing logic into `TaskController` so a FAIL submission creates notifications against matching `NotificationRules`, with site scoping and top-beats-mid precedence. No inbox UI yet (deferred to Sprint 017).
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 13 → 14; new `TriggerNotifications` table (`notificationRuleId` FK → the specific rule *version* that fired, `taskSubmissionId` FK, `recipientUserId` FK, `message`, `siteId`, `createdAt`, `acknowledged`/`acknowledgedAt`); `onUpgrade` creates the table for existing installs — brand new table, no backfill needed
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/trigger_notification.dart (new)
+- lib/shared/repositories/trigger_notification_repository.dart (new) — `create`, `watchForUser`, `acknowledge`
+- lib/shared/providers/notification_rule_providers.dart — added `triggerNotificationRepositoryProvider`
+- lib/shared/repositories/task_submission_repository.dart — `submit()` changed from `Future<void>` to `Future<int>`, surfacing the already-computed inserted row id (flagged as an out-of-scope-file change and confirmed before building, per the standing rule)
+- lib/features/tasks/task_controller.dart — three new constructor dependencies (`NotificationRuleRepository`, `TriggerNotificationRepository`, `UserRepository`); `logTaskSubmission` now captures the submission id and, on FAIL, calls a new `_fireNotifications` method implementing the matching/precedence/fan-out algorithm described in DECISIONS_LOG
+- lib/features/tasks/task_screen.dart — `TaskController(...)`'s one construction site updated with the three new provider reads
+Files unchanged: lib/features/manager/manager_screen.dart, lib/features/dashboard/top_screen.dart — no inbox UI this sprint, per the agreed split
+Architecture impact: First real instance of `NotificationRule` actually doing something — rules configured in Sprint 014/015d now drive real firing. Completes the `Notification`/`NotificationRule` entity pair ARCHITECTURE_LOCK originally specified as two distinct entities.
+UI impact: None visible yet — notifications are created in the database but nothing displays them until Sprint 017.
+Risks: Verified with a temporary repository/controller-level test (deleted after, not part of this commit) covering: no rules → zero notifications; a site-matching rule fires; a rule scoped to a different site does not fire for a submission from another site; a top-tier rule suppresses a mid-tier rule within the same trigger scope; PASS submissions never fire; specific-person targeting works independently of tier fan-out. All passed on first run. Also ran a real Windows debug build against the existing dev database confirming the schemaVersion 13→14 migration executes cleanly.
+Deferred items: In-app notifications inbox on ManagerScreen/TopScreen (Sprint 017). Real push/email dispatch (no backend, Phase 6 territory, unchanged from Sprint 014).
+Save point name: SPRINT_016_LOCK
+Notes: Commit 78bb18d18c09a8b8e255d60cfc8c3b43341ec63f, message "Sprint 016: TriggerNotification entity + fire notifications on FAIL".
