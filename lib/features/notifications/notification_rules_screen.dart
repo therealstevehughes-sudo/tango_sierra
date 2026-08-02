@@ -147,6 +147,43 @@ class _NotificationRulesScreenState
     return 'in-app + ${channels.join(' + ')}';
   }
 
+  NotificationRule? _currentQuickRuleFor(int templateGroupId, RoleTier tier) {
+    for (final rule in rules) {
+      if (rule.taskTemplateGroupId == templateGroupId &&
+          rule.targetRoleTier == tier &&
+          rule.targetUserId == null) {
+        return rule;
+      }
+    }
+    return null;
+  }
+
+  Future<void> _toggleQuickRule(
+    int templateGroupId,
+    RoleTier tier,
+    bool enable,
+  ) async {
+    final setBy = ref.read(currentUserProvider);
+    if (setBy == null) return;
+
+    final existing = _currentQuickRuleFor(templateGroupId, tier);
+    final ruleRepo = ref.read(notificationRuleRepositoryProvider);
+
+    await ruleRepo.saveNewVersion(
+      ruleGroupId: existing?.ruleGroupId,
+      taskTemplateGroupId: templateGroupId,
+      targetRoleTier: tier,
+      channelPush: existing?.channelPush ?? false,
+      channelEmail: existing?.channelEmail ?? false,
+      setByUserId: setBy.id,
+      setByTier: setBy.roleTier,
+      active: enable,
+      siteId: existing?.siteId ?? setBy.siteId,
+    );
+
+    await _loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (loading) {
@@ -162,6 +199,8 @@ class _NotificationRulesScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                _buildQuickSetupSection(),
+                const Divider(),
                 if (rules.isEmpty)
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 16),
@@ -182,6 +221,94 @@ class _NotificationRulesScreenState
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildQuickSetupSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Text(
+          'Quick setup: per-task fail notifications',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 4),
+        const Text(
+          'Tick which tier gets notified when a specific task fails.',
+          style: TextStyle(fontSize: 12, color: Colors.grey),
+        ),
+        const SizedBox(height: 8),
+        if (templates.isEmpty)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Text('No task templates set up yet.'),
+          )
+        else
+          Table(
+            columnWidths: const {
+              0: FlexColumnWidth(),
+              1: FixedColumnWidth(70),
+              2: FixedColumnWidth(70),
+            },
+            children: [
+              const TableRow(
+                children: [
+                  SizedBox.shrink(),
+                  Center(
+                    child: Text(
+                      'Top',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Center(
+                    child: Text(
+                      'Mid',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+              ...templates.map((template) {
+                final topRule = _currentQuickRuleFor(
+                  template.templateGroupId,
+                  RoleTier.top,
+                );
+                final midRule = _currentQuickRuleFor(
+                  template.templateGroupId,
+                  RoleTier.mid,
+                );
+                return TableRow(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Text(template.title),
+                    ),
+                    Center(
+                      child: Checkbox(
+                        value: topRule?.active ?? false,
+                        onChanged: (value) => _toggleQuickRule(
+                          template.templateGroupId,
+                          RoleTier.top,
+                          value ?? false,
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Checkbox(
+                        value: midRule?.active ?? false,
+                        onChanged: (value) => _toggleQuickRule(
+                          template.templateGroupId,
+                          RoleTier.mid,
+                          value ?? false,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }),
+            ],
+          ),
+      ],
     );
   }
 

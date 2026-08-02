@@ -172,9 +172,23 @@ This applies retroactively to nothing already built — Sprint 014's versioning 
 - Red-tinted banner (`Colors.red.shade50`) instead of Session Summaries' amber, to visually distinguish the two and match this app's existing red-for-FAIL convention (e.g. the FAIL button on the task screen).
 - Given the pumpAndSettle hang encountered in Sprint 014's widget test, this sprint verified the underlying repository behavior directly (`watchForUser` streams only the addressed recipient's notifications; `acknowledge` correctly sets `acknowledged`/`acknowledgedAt`) rather than attempting a full widget test. A real Windows run confirmed both restructured screens render without runtime errors. Interactive visual confirmation of the banner's actual appearance was not independently exercised — left the app running on-device for a manual look, same disclosed limitation as Sprint 014's rule screen.
 
-## Notification refinements (queued after multi-site foundation + notification firing)
-- Per-equipment/task-specific fail notifications: a "specific fail notifications" section where a manager picks which equipment/task fails trigger which tier, via two checkboxes per rule (left = notify top tier, right = notify mid tier). Refines Sprint 014's deliberately-simple "specific template or global any" scoping.
+## Per-task quick-setup notifications (Sprint 018) — first of the queued notification refinements
+- Task-template-level granularity, not equipment-instance-level — a row per `TaskTemplate`, matching the schema exactly as Sprint 014 built it. Equipment-instance-level scoping (e.g. "Fridge 1" vs "Fridge 2" separately) was flagged as a real alternative reading of "equipment/task fails" but confirmed out of scope for this sprint — it would need a new `equipmentInstanceId` column plus a `TaskController` matching-logic change, materially bigger than a UI addition.
+- All current task templates shown, no filtering by `isCritical`/`requiresCorrectiveActionOnFail` — confirmed, consistent with the existing "Add Rule" form's dropdown which also doesn't filter.
+- Sits alongside the Sprint 014 "Add Rule" form, not a replacement — the grid can't express "any task fail" or specific-person targeting, so the form stays for those cases. Rules created either way are ordinary `NotificationRule` rows, indistinguishable in the existing rule list.
+- No new repository methods or schema — the grid derives checkbox state by scanning the already-loaded current-version rules for a match on `(taskTemplateGroupId, targetRoleTier, targetUserId: null)`, and toggles via the exact same `saveNewVersion`-with-`ruleGroupId` versioning mechanism `_setActive` already uses. Toggling preserves the existing rule's channels/site if one is found, or defaults to the setter's own site with both channels off if creating fresh.
+- Given this exact screen has now hit an unresolved `pumpAndSettle()` hang twice before (Sprints 014 and 017), verified the new toggle logic at the repository level instead — a temporary test replicating the toggle function's exact behavior (not the widget) confirmed: first toggle creates a fresh rule; toggling off then on again reuses the same `ruleGroupId` rather than creating a duplicate group, and preserves the original site. A real Windows run confirmed the screen renders without error; interactive visual confirmation of the grid wasn't independently exercised — left the app running on-device for a manual look.
+
+## Notification refinements (queued)
 - Third-party contacts: a section where top/mid tier can add external/internal maintenance and repair contacts, who can also be notified (or have details on file) in an emergency.
+
+## Feature audit priorities (from FEATURE_AUDIT.md, added as new sprints)
+1. Data backup/export - local drift DB only lives on one device; losing it loses compliance history. Highest priority.
+2. Edit/retire for Areas/Equipment - no way to handle equipment replacement (e.g. broken fridge) without losing submission history
+3. Notification escalation on non-acknowledgment - a fired trigger with nobody acting on it defeats the purpose
+4. Three task-taxonomy gaps (already logged) - blocking real 100+ task library
+5. PIN reset + staff deactivation flow - basic day-one operational need
+Full detail and lower-priority items in FEATURE_AUDIT.md (now in project root alongside DECISIONS_LOG.md).
 
 ## Open / Not yet decided
 - Task priority: the checklist uses 3 levels (Critical/High/Standard); TaskTemplate currently only has a binary `isCritical`. Needs a decision before the real task library gets loaded — add a 3-level field, or accept the information loss of mapping down to the boolean.
