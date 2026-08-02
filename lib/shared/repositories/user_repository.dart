@@ -1,3 +1,5 @@
+import 'package:drift/drift.dart';
+
 import '../../core/storage/app_database.dart';
 import '../../core/utils/pin_hasher.dart';
 import '../models/user.dart';
@@ -10,6 +12,7 @@ abstract class UserRepository {
     required String jobTitle,
     required RoleTier roleTier,
     required String pin,
+    required int siteId,
   });
 }
 
@@ -44,6 +47,7 @@ class DriftUserRepository implements UserRepository {
     required String jobTitle,
     required RoleTier roleTier,
     required String pin,
+    required int siteId,
   }) async {
     final salt = generateSalt();
     final id = await _db
@@ -55,9 +59,16 @@ class DriftUserRepository implements UserRepository {
             roleTier: roleTier.name,
             pinHash: hashPin(pin, salt),
             pinSalt: salt,
+            siteId: Value(siteId),
           ),
         );
-    return User(id: id, name: name, jobTitle: jobTitle, roleTier: roleTier);
+    return User(
+      id: id,
+      name: name,
+      jobTitle: jobTitle,
+      roleTier: roleTier,
+      siteId: siteId,
+    );
   }
 
   User _toModel(UserEntity row) {
@@ -69,6 +80,7 @@ class DriftUserRepository implements UserRepository {
       preferredTemperatureUnit: TemperatureUnit.values.byName(
         row.preferredTemperatureUnit,
       ),
+      siteId: row.siteId!,
     );
   }
 }

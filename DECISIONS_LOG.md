@@ -133,6 +133,13 @@ This applies retroactively to nothing already built — Sprint 014's versioning 
 - `NotificationRules.siteId` is nullable *by design*, not just migration necessity — null means "applies org-wide across every site," same pattern as that table's existing `taskTemplateGroupId`.
 - Sprint split confirmed: 015a (this sprint) builds Organisation/Site schema, models, repositories, providers, and default-site seeding only — no existing table gets a `siteId` yet. Follow-up sprints add `siteId` to the 7 site-scoped tables in clusters: (Users, Areas, EquipmentInstances), then (TaskSchedules, TaskSubmissions), then (ShiftHandoverNotes, SessionSummaries, NotificationRules) — each wiring its own UI call sites to a new `currentSiteProvider`.
 
+## Multi-site foundation: Users/Areas/EquipmentInstances (Sprint 015b)
+- `beforeOpen` reordered: `_ensureDefaultOrganisationAndSite()` now runs first (previously last), since user seeding needs a real site id to seed into. A real change to Sprint 015a's code, not purely additive — flagged and confirmed before building, not decided unilaterally.
+- Domain model `siteId` is non-nullable (`int`, not `int?`) on `User`, `Area`, `Equipment`, even though the underlying DB column is nullable (SQLite/drift migration constraint) — repositories assert non-null when mapping rows, since `beforeOpen`'s backfill guarantees every row has a real value by the time application code reads it.
+- `getAll()` reads are not filtered by site — no `siteId` parameter added to any read method. Only one site exists and no site-switcher UI exists yet; a filter parameter would be unused code built for a hypothetical.
+- `staff_assignment_screen.dart` needed no changes — it only reads Users/EquipmentInstances (for pickers) and creates `TaskSchedules`/`TaskTemplates`, neither in this cluster's scope. Confirmed before building, not assumed.
+- Only one real call site existed for all three tables' create methods: `venue_setup_wizard_screen.dart`'s `_addArea`/`_addEquipment`/`_addStaff`. All three now resolve `currentSiteProvider` and pass its id through.
+
 ## Notification refinements (queued after multi-site foundation + notification firing)
 - Per-equipment/task-specific fail notifications: a "specific fail notifications" section where a manager picks which equipment/task fails trigger which tier, via two checkboxes per rule (left = notify top tier, right = notify mid tier). Refines Sprint 014's deliberately-simple "specific template or global any" scoping.
 - Third-party contacts: a section where top/mid tier can add external/internal maintenance and repair contacts, who can also be notified (or have details on file) in an emergency.

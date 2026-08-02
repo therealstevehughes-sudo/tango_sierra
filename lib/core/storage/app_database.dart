@@ -41,6 +41,10 @@ class Users extends Table {
   TextColumn get pinSalt => text()();
   TextColumn get preferredTemperatureUnit =>
       text().withDefault(const Constant('celsius'))();
+  // Nullable at the SQL level only (ALTER TABLE can't retroactively enforce
+  // NOT NULL against existing rows) — beforeOpen backfills every row to a
+  // real site, and application code treats this as required.
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
 
 @DataClassName('EquipmentTypeEntity')
@@ -93,6 +97,7 @@ class TaskTemplates extends Table {
 class Areas extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
 
 @DataClassName('EquipmentInstanceEntity')
@@ -102,6 +107,7 @@ class EquipmentInstances extends Table {
   IntColumn get equipmentTypeId =>
       integer().references(EquipmentTypes, #id)();
   IntColumn get areaId => integer().nullable().references(Areas, #id)();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
 
 @DataClassName('TaskScheduleEntity')
@@ -208,7 +214,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -273,11 +279,19 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(organisations);
         await m.createTable(sites);
       }
+      if (from < 11) {
+        await m.addColumn(users, users.siteId);
+        await m.addColumn(areas, areas.siteId);
+        await m.addColumn(equipmentInstances, equipmentInstances.siteId);
+      }
     },
     beforeOpen: (details) async {
+      // Runs first — user seeding below needs a real site id to seed into.
+      final defaultSiteId = await _ensureDefaultOrganisationAndSite();
+
       final existingUsers = await select(users).get();
       if (existingUsers.isEmpty) {
-        await _seedUsers();
+        await _seedUsers(defaultSiteId);
       }
 
       // Always ensured (not gated on "table empty"), so an existing install
@@ -289,58 +303,68 @@ class AppDatabase extends _$AppDatabase {
         await _seedTaskLibraryReferenceData();
       }
 
-      await _ensureDefaultOrganisationAndSite();
+      // Idempotent — safe on every open. Only touches rows left over from
+      // before siteId existed (nothing to do on a fresh install).
+      await _backfillSiteIds(defaultSiteId);
     },
   );
 
-  Future<void> _seedUsers() async {
+  Future<void> _seedUsers(int siteId) async {
     await _insertSeedUser(
       name: 'Steve Hughes',
       jobTitle: 'Kitchen Porter',
       roleTier: 'base',
       pin: '1111',
+      siteId: siteId,
     );
     await _insertSeedUser(
       name: 'Aisha Khan',
       jobTitle: 'Line Chef',
       roleTier: 'base',
       pin: '2222',
+      siteId: siteId,
     );
     await _insertSeedUser(
       name: 'Marta Nowak',
       jobTitle: 'Prep Chef',
       roleTier: 'base',
       pin: '3333',
+      siteId: siteId,
     );
     await _insertSeedUser(
       name: 'Lewis Grant',
       jobTitle: 'Sous Chef',
       roleTier: 'base',
       pin: '4444',
+      siteId: siteId,
     );
     await _insertSeedUser(
       name: 'Elena Petrov',
       jobTitle: 'Commis Chef',
       roleTier: 'base',
       pin: '5555',
+      siteId: siteId,
     );
     await _insertSeedUser(
       name: 'Samir Ali',
       jobTitle: 'Grill Chef',
       roleTier: 'base',
       pin: '6666',
+      siteId: siteId,
     );
     await _insertSeedUser(
       name: 'Jordan Blake',
       jobTitle: 'Head Chef / Kitchen Manager',
       roleTier: 'mid',
       pin: '9999',
+      siteId: siteId,
     );
     await _insertSeedUser(
       name: 'Alex Rivera',
       jobTitle: 'Director / MD',
       roleTier: 'top',
       pin: '7777',
+      siteId: siteId,
     );
   }
 
@@ -349,6 +373,7 @@ class AppDatabase extends _$AppDatabase {
     required String jobTitle,
     required String roleTier,
     required String pin,
+    required int siteId,
   }) {
     final salt = generateSalt();
     return into(users).insert(
@@ -358,6 +383,7 @@ class AppDatabase extends _$AppDatabase {
         roleTier: roleTier,
         pinHash: hashPin(pin, salt),
         pinSalt: salt,
+        siteId: Value(siteId),
       ),
     );
   }
@@ -457,9 +483,9 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  Future<void> _ensureDefaultOrganisationAndSite() async {
+  Future<int> _ensureDefaultOrganisationAndSite() async {
     final existingSites = await select(sites).get();
-    if (existingSites.isNotEmpty) return;
+    if (existingSites.isNotEmpty) return existingSites.first.id;
 
     final organisationId = await into(organisations).insert(
       OrganisationsCompanion.insert(
@@ -467,12 +493,26 @@ class AppDatabase extends _$AppDatabase {
         createdAt: DateTime.now(),
       ),
     );
-    await into(sites).insert(
+    return into(sites).insert(
       SitesCompanion.insert(
         organisationId: organisationId,
         name: 'Main Site',
         createdAt: DateTime.now(),
       ),
+    );
+  }
+
+  Future<void> _backfillSiteIds(int siteId) async {
+    await (update(users)..where((u) => u.siteId.isNull())).write(
+      UsersCompanion(siteId: Value(siteId)),
+    );
+    await (update(areas)..where((a) => a.siteId.isNull())).write(
+      AreasCompanion(siteId: Value(siteId)),
+    );
+    await (update(
+      equipmentInstances,
+    )..where((e) => e.siteId.isNull())).write(
+      EquipmentInstancesCompanion(siteId: Value(siteId)),
     );
   }
 

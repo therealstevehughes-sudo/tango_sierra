@@ -193,6 +193,614 @@ class EquipmentTypesCompanion extends UpdateCompanion<EquipmentTypeEntity> {
   }
 }
 
+class $OrganisationsTable extends Organisations
+    with TableInfo<$OrganisationsTable, OrganisationEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $OrganisationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'organisations';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<OrganisationEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  OrganisationEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return OrganisationEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $OrganisationsTable createAlias(String alias) {
+    return $OrganisationsTable(attachedDatabase, alias);
+  }
+}
+
+class OrganisationEntity extends DataClass
+    implements Insertable<OrganisationEntity> {
+  final int id;
+  final String name;
+  final DateTime createdAt;
+  const OrganisationEntity({
+    required this.id,
+    required this.name,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  OrganisationsCompanion toCompanion(bool nullToAbsent) {
+    return OrganisationsCompanion(
+      id: Value(id),
+      name: Value(name),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory OrganisationEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return OrganisationEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  OrganisationEntity copyWith({int? id, String? name, DateTime? createdAt}) =>
+      OrganisationEntity(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  OrganisationEntity copyWithCompanion(OrganisationsCompanion data) {
+    return OrganisationEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('OrganisationEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is OrganisationEntity &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.createdAt == this.createdAt);
+}
+
+class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<DateTime> createdAt;
+  const OrganisationsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  OrganisationsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required DateTime createdAt,
+  }) : name = Value(name),
+       createdAt = Value(createdAt);
+  static Insertable<OrganisationEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  OrganisationsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<DateTime>? createdAt,
+  }) {
+    return OrganisationsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('OrganisationsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SitesTable extends Sites with TableInfo<$SitesTable, SiteEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SitesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _organisationIdMeta = const VerificationMeta(
+    'organisationId',
+  );
+  @override
+  late final GeneratedColumn<int> organisationId = GeneratedColumn<int>(
+    'organisation_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES organisations (id)',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _addressMeta = const VerificationMeta(
+    'address',
+  );
+  @override
+  late final GeneratedColumn<String> address = GeneratedColumn<String>(
+    'address',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    organisationId,
+    name,
+    address,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'sites';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SiteEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('organisation_id')) {
+      context.handle(
+        _organisationIdMeta,
+        organisationId.isAcceptableOrUnknown(
+          data['organisation_id']!,
+          _organisationIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_organisationIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('address')) {
+      context.handle(
+        _addressMeta,
+        address.isAcceptableOrUnknown(data['address']!, _addressMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SiteEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SiteEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      organisationId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}organisation_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      address: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}address'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $SitesTable createAlias(String alias) {
+    return $SitesTable(attachedDatabase, alias);
+  }
+}
+
+class SiteEntity extends DataClass implements Insertable<SiteEntity> {
+  final int id;
+  final int organisationId;
+  final String name;
+  final String? address;
+  final DateTime createdAt;
+  const SiteEntity({
+    required this.id,
+    required this.organisationId,
+    required this.name,
+    this.address,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['organisation_id'] = Variable<int>(organisationId);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || address != null) {
+      map['address'] = Variable<String>(address);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  SitesCompanion toCompanion(bool nullToAbsent) {
+    return SitesCompanion(
+      id: Value(id),
+      organisationId: Value(organisationId),
+      name: Value(name),
+      address: address == null && nullToAbsent
+          ? const Value.absent()
+          : Value(address),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory SiteEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SiteEntity(
+      id: serializer.fromJson<int>(json['id']),
+      organisationId: serializer.fromJson<int>(json['organisationId']),
+      name: serializer.fromJson<String>(json['name']),
+      address: serializer.fromJson<String?>(json['address']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'organisationId': serializer.toJson<int>(organisationId),
+      'name': serializer.toJson<String>(name),
+      'address': serializer.toJson<String?>(address),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  SiteEntity copyWith({
+    int? id,
+    int? organisationId,
+    String? name,
+    Value<String?> address = const Value.absent(),
+    DateTime? createdAt,
+  }) => SiteEntity(
+    id: id ?? this.id,
+    organisationId: organisationId ?? this.organisationId,
+    name: name ?? this.name,
+    address: address.present ? address.value : this.address,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  SiteEntity copyWithCompanion(SitesCompanion data) {
+    return SiteEntity(
+      id: data.id.present ? data.id.value : this.id,
+      organisationId: data.organisationId.present
+          ? data.organisationId.value
+          : this.organisationId,
+      name: data.name.present ? data.name.value : this.name,
+      address: data.address.present ? data.address.value : this.address,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SiteEntity(')
+          ..write('id: $id, ')
+          ..write('organisationId: $organisationId, ')
+          ..write('name: $name, ')
+          ..write('address: $address, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, organisationId, name, address, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SiteEntity &&
+          other.id == this.id &&
+          other.organisationId == this.organisationId &&
+          other.name == this.name &&
+          other.address == this.address &&
+          other.createdAt == this.createdAt);
+}
+
+class SitesCompanion extends UpdateCompanion<SiteEntity> {
+  final Value<int> id;
+  final Value<int> organisationId;
+  final Value<String> name;
+  final Value<String?> address;
+  final Value<DateTime> createdAt;
+  const SitesCompanion({
+    this.id = const Value.absent(),
+    this.organisationId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.address = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  SitesCompanion.insert({
+    this.id = const Value.absent(),
+    required int organisationId,
+    required String name,
+    this.address = const Value.absent(),
+    required DateTime createdAt,
+  }) : organisationId = Value(organisationId),
+       name = Value(name),
+       createdAt = Value(createdAt);
+  static Insertable<SiteEntity> custom({
+    Expression<int>? id,
+    Expression<int>? organisationId,
+    Expression<String>? name,
+    Expression<String>? address,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (organisationId != null) 'organisation_id': organisationId,
+      if (name != null) 'name': name,
+      if (address != null) 'address': address,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  SitesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? organisationId,
+    Value<String>? name,
+    Value<String?>? address,
+    Value<DateTime>? createdAt,
+  }) {
+    return SitesCompanion(
+      id: id ?? this.id,
+      organisationId: organisationId ?? this.organisationId,
+      name: name ?? this.name,
+      address: address ?? this.address,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (organisationId.present) {
+      map['organisation_id'] = Variable<int>(organisationId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (address.present) {
+      map['address'] = Variable<String>(address.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SitesCompanion(')
+          ..write('id: $id, ')
+          ..write('organisationId: $organisationId, ')
+          ..write('name: $name, ')
+          ..write('address: $address, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -220,8 +828,20 @@ class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, siteId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -245,6 +865,12 @@ class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
     return context;
   }
 
@@ -262,6 +888,10 @@ class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
         DriftSqlType.string,
         data['${effectivePrefix}name'],
       )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
     );
   }
 
@@ -274,17 +904,27 @@ class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
 class AreaEntity extends DataClass implements Insertable<AreaEntity> {
   final int id;
   final String name;
-  const AreaEntity({required this.id, required this.name});
+  final int? siteId;
+  const AreaEntity({required this.id, required this.name, this.siteId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['name'] = Variable<String>(name);
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
     return map;
   }
 
   AreasCompanion toCompanion(bool nullToAbsent) {
-    return AreasCompanion(id: Value(id), name: Value(name));
+    return AreasCompanion(
+      id: Value(id),
+      name: Value(name),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
+    );
   }
 
   factory AreaEntity.fromJson(
@@ -295,6 +935,7 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
     return AreaEntity(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
     );
   }
   @override
@@ -303,15 +944,24 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
+      'siteId': serializer.toJson<int?>(siteId),
     };
   }
 
-  AreaEntity copyWith({int? id, String? name}) =>
-      AreaEntity(id: id ?? this.id, name: name ?? this.name);
+  AreaEntity copyWith({
+    int? id,
+    String? name,
+    Value<int?> siteId = const Value.absent(),
+  }) => AreaEntity(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    siteId: siteId.present ? siteId.value : this.siteId,
+  );
   AreaEntity copyWithCompanion(AreasCompanion data) {
     return AreaEntity(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
     );
   }
 
@@ -319,40 +969,59 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
   String toString() {
     return (StringBuffer('AreaEntity(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name);
+  int get hashCode => Object.hash(id, name, siteId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is AreaEntity && other.id == this.id && other.name == this.name);
+      (other is AreaEntity &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.siteId == this.siteId);
 }
 
 class AreasCompanion extends UpdateCompanion<AreaEntity> {
   final Value<int> id;
   final Value<String> name;
+  final Value<int?> siteId;
   const AreasCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
+    this.siteId = const Value.absent(),
   });
-  AreasCompanion.insert({this.id = const Value.absent(), required String name})
-    : name = Value(name);
+  AreasCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.siteId = const Value.absent(),
+  }) : name = Value(name);
   static Insertable<AreaEntity> custom({
     Expression<int>? id,
     Expression<String>? name,
+    Expression<int>? siteId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
+      if (siteId != null) 'site_id': siteId,
     });
   }
 
-  AreasCompanion copyWith({Value<int>? id, Value<String>? name}) {
-    return AreasCompanion(id: id ?? this.id, name: name ?? this.name);
+  AreasCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<int?>? siteId,
+  }) {
+    return AreasCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      siteId: siteId ?? this.siteId,
+    );
   }
 
   @override
@@ -364,6 +1033,9 @@ class AreasCompanion extends UpdateCompanion<AreaEntity> {
     if (name.present) {
       map['name'] = Variable<String>(name.value);
     }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
     return map;
   }
 
@@ -371,7 +1043,8 @@ class AreasCompanion extends UpdateCompanion<AreaEntity> {
   String toString() {
     return (StringBuffer('AreasCompanion(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('name: $name, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -431,8 +1104,26 @@ class $EquipmentInstancesTable extends EquipmentInstances
       'REFERENCES areas (id)',
     ),
   );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
   @override
-  List<GeneratedColumn> get $columns => [id, name, equipmentTypeId, areaId];
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    equipmentTypeId,
+    areaId,
+    siteId,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -473,6 +1164,12 @@ class $EquipmentInstancesTable extends EquipmentInstances
         areaId.isAcceptableOrUnknown(data['area_id']!, _areaIdMeta),
       );
     }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
     return context;
   }
 
@@ -501,6 +1198,10 @@ class $EquipmentInstancesTable extends EquipmentInstances
         DriftSqlType.int,
         data['${effectivePrefix}area_id'],
       ),
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
     );
   }
 
@@ -516,11 +1217,13 @@ class EquipmentInstanceEntity extends DataClass
   final String name;
   final int equipmentTypeId;
   final int? areaId;
+  final int? siteId;
   const EquipmentInstanceEntity({
     required this.id,
     required this.name,
     required this.equipmentTypeId,
     this.areaId,
+    this.siteId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -530,6 +1233,9 @@ class EquipmentInstanceEntity extends DataClass
     map['equipment_type_id'] = Variable<int>(equipmentTypeId);
     if (!nullToAbsent || areaId != null) {
       map['area_id'] = Variable<int>(areaId);
+    }
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
     }
     return map;
   }
@@ -542,6 +1248,9 @@ class EquipmentInstanceEntity extends DataClass
       areaId: areaId == null && nullToAbsent
           ? const Value.absent()
           : Value(areaId),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
     );
   }
 
@@ -555,6 +1264,7 @@ class EquipmentInstanceEntity extends DataClass
       name: serializer.fromJson<String>(json['name']),
       equipmentTypeId: serializer.fromJson<int>(json['equipmentTypeId']),
       areaId: serializer.fromJson<int?>(json['areaId']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
     );
   }
   @override
@@ -565,6 +1275,7 @@ class EquipmentInstanceEntity extends DataClass
       'name': serializer.toJson<String>(name),
       'equipmentTypeId': serializer.toJson<int>(equipmentTypeId),
       'areaId': serializer.toJson<int?>(areaId),
+      'siteId': serializer.toJson<int?>(siteId),
     };
   }
 
@@ -573,11 +1284,13 @@ class EquipmentInstanceEntity extends DataClass
     String? name,
     int? equipmentTypeId,
     Value<int?> areaId = const Value.absent(),
+    Value<int?> siteId = const Value.absent(),
   }) => EquipmentInstanceEntity(
     id: id ?? this.id,
     name: name ?? this.name,
     equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
     areaId: areaId.present ? areaId.value : this.areaId,
+    siteId: siteId.present ? siteId.value : this.siteId,
   );
   EquipmentInstanceEntity copyWithCompanion(EquipmentInstancesCompanion data) {
     return EquipmentInstanceEntity(
@@ -587,6 +1300,7 @@ class EquipmentInstanceEntity extends DataClass
           ? data.equipmentTypeId.value
           : this.equipmentTypeId,
       areaId: data.areaId.present ? data.areaId.value : this.areaId,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
     );
   }
 
@@ -596,13 +1310,14 @@ class EquipmentInstanceEntity extends DataClass
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('equipmentTypeId: $equipmentTypeId, ')
-          ..write('areaId: $areaId')
+          ..write('areaId: $areaId, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, equipmentTypeId, areaId);
+  int get hashCode => Object.hash(id, name, equipmentTypeId, areaId, siteId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -610,7 +1325,8 @@ class EquipmentInstanceEntity extends DataClass
           other.id == this.id &&
           other.name == this.name &&
           other.equipmentTypeId == this.equipmentTypeId &&
-          other.areaId == this.areaId);
+          other.areaId == this.areaId &&
+          other.siteId == this.siteId);
 }
 
 class EquipmentInstancesCompanion
@@ -619,17 +1335,20 @@ class EquipmentInstancesCompanion
   final Value<String> name;
   final Value<int> equipmentTypeId;
   final Value<int?> areaId;
+  final Value<int?> siteId;
   const EquipmentInstancesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.equipmentTypeId = const Value.absent(),
     this.areaId = const Value.absent(),
+    this.siteId = const Value.absent(),
   });
   EquipmentInstancesCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     required int equipmentTypeId,
     this.areaId = const Value.absent(),
+    this.siteId = const Value.absent(),
   }) : name = Value(name),
        equipmentTypeId = Value(equipmentTypeId);
   static Insertable<EquipmentInstanceEntity> custom({
@@ -637,12 +1356,14 @@ class EquipmentInstancesCompanion
     Expression<String>? name,
     Expression<int>? equipmentTypeId,
     Expression<int>? areaId,
+    Expression<int>? siteId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (equipmentTypeId != null) 'equipment_type_id': equipmentTypeId,
       if (areaId != null) 'area_id': areaId,
+      if (siteId != null) 'site_id': siteId,
     });
   }
 
@@ -651,12 +1372,14 @@ class EquipmentInstancesCompanion
     Value<String>? name,
     Value<int>? equipmentTypeId,
     Value<int?>? areaId,
+    Value<int?>? siteId,
   }) {
     return EquipmentInstancesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
       areaId: areaId ?? this.areaId,
+      siteId: siteId ?? this.siteId,
     );
   }
 
@@ -675,6 +1398,9 @@ class EquipmentInstancesCompanion
     if (areaId.present) {
       map['area_id'] = Variable<int>(areaId.value);
     }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
     return map;
   }
 
@@ -684,7 +1410,8 @@ class EquipmentInstancesCompanion
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('equipmentTypeId: $equipmentTypeId, ')
-          ..write('areaId: $areaId')
+          ..write('areaId: $areaId, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -773,6 +1500,18 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         requiredDuringInsert: false,
         defaultValue: const Constant('celsius'),
       );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -782,6 +1521,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     pinHash,
     pinSalt,
     preferredTemperatureUnit,
+    siteId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -847,6 +1587,12 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         ),
       );
     }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
     return context;
   }
 
@@ -884,6 +1630,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         DriftSqlType.string,
         data['${effectivePrefix}preferred_temperature_unit'],
       )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
     );
   }
 
@@ -901,6 +1651,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final String pinHash;
   final String pinSalt;
   final String preferredTemperatureUnit;
+  final int? siteId;
   const UserEntity({
     required this.id,
     required this.name,
@@ -909,6 +1660,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     required this.pinHash,
     required this.pinSalt,
     required this.preferredTemperatureUnit,
+    this.siteId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -922,6 +1674,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     map['preferred_temperature_unit'] = Variable<String>(
       preferredTemperatureUnit,
     );
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
     return map;
   }
 
@@ -934,6 +1689,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       pinHash: Value(pinHash),
       pinSalt: Value(pinSalt),
       preferredTemperatureUnit: Value(preferredTemperatureUnit),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
     );
   }
 
@@ -952,6 +1710,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       preferredTemperatureUnit: serializer.fromJson<String>(
         json['preferredTemperatureUnit'],
       ),
+      siteId: serializer.fromJson<int?>(json['siteId']),
     );
   }
   @override
@@ -967,6 +1726,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'preferredTemperatureUnit': serializer.toJson<String>(
         preferredTemperatureUnit,
       ),
+      'siteId': serializer.toJson<int?>(siteId),
     };
   }
 
@@ -978,6 +1738,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     String? pinHash,
     String? pinSalt,
     String? preferredTemperatureUnit,
+    Value<int?> siteId = const Value.absent(),
   }) => UserEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -987,6 +1748,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     pinSalt: pinSalt ?? this.pinSalt,
     preferredTemperatureUnit:
         preferredTemperatureUnit ?? this.preferredTemperatureUnit,
+    siteId: siteId.present ? siteId.value : this.siteId,
   );
   UserEntity copyWithCompanion(UsersCompanion data) {
     return UserEntity(
@@ -999,6 +1761,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       preferredTemperatureUnit: data.preferredTemperatureUnit.present
           ? data.preferredTemperatureUnit.value
           : this.preferredTemperatureUnit,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
     );
   }
 
@@ -1011,7 +1774,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('roleTier: $roleTier, ')
           ..write('pinHash: $pinHash, ')
           ..write('pinSalt: $pinSalt, ')
-          ..write('preferredTemperatureUnit: $preferredTemperatureUnit')
+          ..write('preferredTemperatureUnit: $preferredTemperatureUnit, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -1025,6 +1789,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     pinHash,
     pinSalt,
     preferredTemperatureUnit,
+    siteId,
   );
   @override
   bool operator ==(Object other) =>
@@ -1036,7 +1801,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.roleTier == this.roleTier &&
           other.pinHash == this.pinHash &&
           other.pinSalt == this.pinSalt &&
-          other.preferredTemperatureUnit == this.preferredTemperatureUnit);
+          other.preferredTemperatureUnit == this.preferredTemperatureUnit &&
+          other.siteId == this.siteId);
 }
 
 class UsersCompanion extends UpdateCompanion<UserEntity> {
@@ -1047,6 +1813,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   final Value<String> pinHash;
   final Value<String> pinSalt;
   final Value<String> preferredTemperatureUnit;
+  final Value<int?> siteId;
   const UsersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -1055,6 +1822,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.pinHash = const Value.absent(),
     this.pinSalt = const Value.absent(),
     this.preferredTemperatureUnit = const Value.absent(),
+    this.siteId = const Value.absent(),
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
@@ -1064,6 +1832,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     required String pinHash,
     required String pinSalt,
     this.preferredTemperatureUnit = const Value.absent(),
+    this.siteId = const Value.absent(),
   }) : name = Value(name),
        jobTitle = Value(jobTitle),
        roleTier = Value(roleTier),
@@ -1077,6 +1846,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Expression<String>? pinHash,
     Expression<String>? pinSalt,
     Expression<String>? preferredTemperatureUnit,
+    Expression<int>? siteId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1087,6 +1857,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       if (pinSalt != null) 'pin_salt': pinSalt,
       if (preferredTemperatureUnit != null)
         'preferred_temperature_unit': preferredTemperatureUnit,
+      if (siteId != null) 'site_id': siteId,
     });
   }
 
@@ -1098,6 +1869,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Value<String>? pinHash,
     Value<String>? pinSalt,
     Value<String>? preferredTemperatureUnit,
+    Value<int?>? siteId,
   }) {
     return UsersCompanion(
       id: id ?? this.id,
@@ -1108,6 +1880,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       pinSalt: pinSalt ?? this.pinSalt,
       preferredTemperatureUnit:
           preferredTemperatureUnit ?? this.preferredTemperatureUnit,
+      siteId: siteId ?? this.siteId,
     );
   }
 
@@ -1137,6 +1910,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
         preferredTemperatureUnit.value,
       );
     }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
     return map;
   }
 
@@ -1149,7 +1925,8 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('roleTier: $roleTier, ')
           ..write('pinHash: $pinHash, ')
           ..write('pinSalt: $pinSalt, ')
-          ..write('preferredTemperatureUnit: $preferredTemperatureUnit')
+          ..write('preferredTemperatureUnit: $preferredTemperatureUnit, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -6032,618 +6809,12 @@ class NotificationRulesCompanion
   }
 }
 
-class $OrganisationsTable extends Organisations
-    with TableInfo<$OrganisationsTable, OrganisationEntity> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $OrganisationsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [id, name, createdAt];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'organisations';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<OrganisationEntity> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  OrganisationEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return OrganisationEntity(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at'],
-      )!,
-    );
-  }
-
-  @override
-  $OrganisationsTable createAlias(String alias) {
-    return $OrganisationsTable(attachedDatabase, alias);
-  }
-}
-
-class OrganisationEntity extends DataClass
-    implements Insertable<OrganisationEntity> {
-  final int id;
-  final String name;
-  final DateTime createdAt;
-  const OrganisationEntity({
-    required this.id,
-    required this.name,
-    required this.createdAt,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
-    map['created_at'] = Variable<DateTime>(createdAt);
-    return map;
-  }
-
-  OrganisationsCompanion toCompanion(bool nullToAbsent) {
-    return OrganisationsCompanion(
-      id: Value(id),
-      name: Value(name),
-      createdAt: Value(createdAt),
-    );
-  }
-
-  factory OrganisationEntity.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return OrganisationEntity(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-    };
-  }
-
-  OrganisationEntity copyWith({int? id, String? name, DateTime? createdAt}) =>
-      OrganisationEntity(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        createdAt: createdAt ?? this.createdAt,
-      );
-  OrganisationEntity copyWithCompanion(OrganisationsCompanion data) {
-    return OrganisationEntity(
-      id: data.id.present ? data.id.value : this.id,
-      name: data.name.present ? data.name.value : this.name,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('OrganisationEntity(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, name, createdAt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is OrganisationEntity &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.createdAt == this.createdAt);
-}
-
-class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
-  final Value<int> id;
-  final Value<String> name;
-  final Value<DateTime> createdAt;
-  const OrganisationsCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
-    this.createdAt = const Value.absent(),
-  });
-  OrganisationsCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-    required DateTime createdAt,
-  }) : name = Value(name),
-       createdAt = Value(createdAt);
-  static Insertable<OrganisationEntity> custom({
-    Expression<int>? id,
-    Expression<String>? name,
-    Expression<DateTime>? createdAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (createdAt != null) 'created_at': createdAt,
-    });
-  }
-
-  OrganisationsCompanion copyWith({
-    Value<int>? id,
-    Value<String>? name,
-    Value<DateTime>? createdAt,
-  }) {
-    return OrganisationsCompanion(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('OrganisationsCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $SitesTable extends Sites with TableInfo<$SitesTable, SiteEntity> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $SitesTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _organisationIdMeta = const VerificationMeta(
-    'organisationId',
-  );
-  @override
-  late final GeneratedColumn<int> organisationId = GeneratedColumn<int>(
-    'organisation_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES organisations (id)',
-    ),
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _addressMeta = const VerificationMeta(
-    'address',
-  );
-  @override
-  late final GeneratedColumn<String> address = GeneratedColumn<String>(
-    'address',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    organisationId,
-    name,
-    address,
-    createdAt,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'sites';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<SiteEntity> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('organisation_id')) {
-      context.handle(
-        _organisationIdMeta,
-        organisationId.isAcceptableOrUnknown(
-          data['organisation_id']!,
-          _organisationIdMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_organisationIdMeta);
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('address')) {
-      context.handle(
-        _addressMeta,
-        address.isAcceptableOrUnknown(data['address']!, _addressMeta),
-      );
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  SiteEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return SiteEntity(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      organisationId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}organisation_id'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-      address: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}address'],
-      ),
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at'],
-      )!,
-    );
-  }
-
-  @override
-  $SitesTable createAlias(String alias) {
-    return $SitesTable(attachedDatabase, alias);
-  }
-}
-
-class SiteEntity extends DataClass implements Insertable<SiteEntity> {
-  final int id;
-  final int organisationId;
-  final String name;
-  final String? address;
-  final DateTime createdAt;
-  const SiteEntity({
-    required this.id,
-    required this.organisationId,
-    required this.name,
-    this.address,
-    required this.createdAt,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['organisation_id'] = Variable<int>(organisationId);
-    map['name'] = Variable<String>(name);
-    if (!nullToAbsent || address != null) {
-      map['address'] = Variable<String>(address);
-    }
-    map['created_at'] = Variable<DateTime>(createdAt);
-    return map;
-  }
-
-  SitesCompanion toCompanion(bool nullToAbsent) {
-    return SitesCompanion(
-      id: Value(id),
-      organisationId: Value(organisationId),
-      name: Value(name),
-      address: address == null && nullToAbsent
-          ? const Value.absent()
-          : Value(address),
-      createdAt: Value(createdAt),
-    );
-  }
-
-  factory SiteEntity.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return SiteEntity(
-      id: serializer.fromJson<int>(json['id']),
-      organisationId: serializer.fromJson<int>(json['organisationId']),
-      name: serializer.fromJson<String>(json['name']),
-      address: serializer.fromJson<String?>(json['address']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'organisationId': serializer.toJson<int>(organisationId),
-      'name': serializer.toJson<String>(name),
-      'address': serializer.toJson<String?>(address),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-    };
-  }
-
-  SiteEntity copyWith({
-    int? id,
-    int? organisationId,
-    String? name,
-    Value<String?> address = const Value.absent(),
-    DateTime? createdAt,
-  }) => SiteEntity(
-    id: id ?? this.id,
-    organisationId: organisationId ?? this.organisationId,
-    name: name ?? this.name,
-    address: address.present ? address.value : this.address,
-    createdAt: createdAt ?? this.createdAt,
-  );
-  SiteEntity copyWithCompanion(SitesCompanion data) {
-    return SiteEntity(
-      id: data.id.present ? data.id.value : this.id,
-      organisationId: data.organisationId.present
-          ? data.organisationId.value
-          : this.organisationId,
-      name: data.name.present ? data.name.value : this.name,
-      address: data.address.present ? data.address.value : this.address,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('SiteEntity(')
-          ..write('id: $id, ')
-          ..write('organisationId: $organisationId, ')
-          ..write('name: $name, ')
-          ..write('address: $address, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, organisationId, name, address, createdAt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is SiteEntity &&
-          other.id == this.id &&
-          other.organisationId == this.organisationId &&
-          other.name == this.name &&
-          other.address == this.address &&
-          other.createdAt == this.createdAt);
-}
-
-class SitesCompanion extends UpdateCompanion<SiteEntity> {
-  final Value<int> id;
-  final Value<int> organisationId;
-  final Value<String> name;
-  final Value<String?> address;
-  final Value<DateTime> createdAt;
-  const SitesCompanion({
-    this.id = const Value.absent(),
-    this.organisationId = const Value.absent(),
-    this.name = const Value.absent(),
-    this.address = const Value.absent(),
-    this.createdAt = const Value.absent(),
-  });
-  SitesCompanion.insert({
-    this.id = const Value.absent(),
-    required int organisationId,
-    required String name,
-    this.address = const Value.absent(),
-    required DateTime createdAt,
-  }) : organisationId = Value(organisationId),
-       name = Value(name),
-       createdAt = Value(createdAt);
-  static Insertable<SiteEntity> custom({
-    Expression<int>? id,
-    Expression<int>? organisationId,
-    Expression<String>? name,
-    Expression<String>? address,
-    Expression<DateTime>? createdAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (organisationId != null) 'organisation_id': organisationId,
-      if (name != null) 'name': name,
-      if (address != null) 'address': address,
-      if (createdAt != null) 'created_at': createdAt,
-    });
-  }
-
-  SitesCompanion copyWith({
-    Value<int>? id,
-    Value<int>? organisationId,
-    Value<String>? name,
-    Value<String?>? address,
-    Value<DateTime>? createdAt,
-  }) {
-    return SitesCompanion(
-      id: id ?? this.id,
-      organisationId: organisationId ?? this.organisationId,
-      name: name ?? this.name,
-      address: address ?? this.address,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (organisationId.present) {
-      map['organisation_id'] = Variable<int>(organisationId.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (address.present) {
-      map['address'] = Variable<String>(address.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('SitesCompanion(')
-          ..write('id: $id, ')
-          ..write('organisationId: $organisationId, ')
-          ..write('name: $name, ')
-          ..write('address: $address, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $EquipmentTypesTable equipmentTypes = $EquipmentTypesTable(this);
+  late final $OrganisationsTable organisations = $OrganisationsTable(this);
+  late final $SitesTable sites = $SitesTable(this);
   late final $AreasTable areas = $AreasTable(this);
   late final $EquipmentInstancesTable equipmentInstances =
       $EquipmentInstancesTable(this);
@@ -6662,14 +6833,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $NotificationRulesTable notificationRules =
       $NotificationRulesTable(this);
-  late final $OrganisationsTable organisations = $OrganisationsTable(this);
-  late final $SitesTable sites = $SitesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     equipmentTypes,
+    organisations,
+    sites,
     areas,
     equipmentInstances,
     users,
@@ -6680,8 +6851,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     shiftHandoverNotes,
     sessionSummaries,
     notificationRules,
-    organisations,
-    sites,
   ];
 }
 
@@ -7029,14 +7198,901 @@ typedef $$EquipmentTypesTableProcessedTableManager =
         bool taskTemplatesRefs,
       })
     >;
+typedef $$OrganisationsTableCreateCompanionBuilder =
+    OrganisationsCompanion Function({
+      Value<int> id,
+      required String name,
+      required DateTime createdAt,
+    });
+typedef $$OrganisationsTableUpdateCompanionBuilder =
+    OrganisationsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<DateTime> createdAt,
+    });
+
+final class $$OrganisationsTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $OrganisationsTable, OrganisationEntity> {
+  $$OrganisationsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static MultiTypedResultKey<$SitesTable, List<SiteEntity>> _sitesRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.sites,
+    aliasName: 'organisations__id__sites__organisation_id',
+  );
+
+  $$SitesTableProcessedTableManager get sitesRefs {
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.organisationId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_sitesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$OrganisationsTableFilterComposer
+    extends Composer<_$AppDatabase, $OrganisationsTable> {
+  $$OrganisationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> sitesRefs(
+    Expression<bool> Function($$SitesTableFilterComposer f) f,
+  ) {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.organisationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$OrganisationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $OrganisationsTable> {
+  $$OrganisationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$OrganisationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $OrganisationsTable> {
+  $$OrganisationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  Expression<T> sitesRefs<T extends Object>(
+    Expression<T> Function($$SitesTableAnnotationComposer a) f,
+  ) {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.organisationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$OrganisationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $OrganisationsTable,
+          OrganisationEntity,
+          $$OrganisationsTableFilterComposer,
+          $$OrganisationsTableOrderingComposer,
+          $$OrganisationsTableAnnotationComposer,
+          $$OrganisationsTableCreateCompanionBuilder,
+          $$OrganisationsTableUpdateCompanionBuilder,
+          (OrganisationEntity, $$OrganisationsTableReferences),
+          OrganisationEntity,
+          PrefetchHooks Function({bool sitesRefs})
+        > {
+  $$OrganisationsTableTableManager(_$AppDatabase db, $OrganisationsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$OrganisationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$OrganisationsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$OrganisationsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => OrganisationsCompanion(
+                id: id,
+                name: name,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                required DateTime createdAt,
+              }) => OrganisationsCompanion.insert(
+                id: id,
+                name: name,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$OrganisationsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({sitesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (sitesRefs) db.sites],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (sitesRefs)
+                    await $_getPrefetchedData<
+                      OrganisationEntity,
+                      $OrganisationsTable,
+                      SiteEntity
+                    >(
+                      currentTable: table,
+                      referencedTable: $$OrganisationsTableReferences
+                          ._sitesRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$OrganisationsTableReferences(
+                            db,
+                            table,
+                            p0,
+                          ).sitesRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.organisationId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$OrganisationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $OrganisationsTable,
+      OrganisationEntity,
+      $$OrganisationsTableFilterComposer,
+      $$OrganisationsTableOrderingComposer,
+      $$OrganisationsTableAnnotationComposer,
+      $$OrganisationsTableCreateCompanionBuilder,
+      $$OrganisationsTableUpdateCompanionBuilder,
+      (OrganisationEntity, $$OrganisationsTableReferences),
+      OrganisationEntity,
+      PrefetchHooks Function({bool sitesRefs})
+    >;
+typedef $$SitesTableCreateCompanionBuilder =
+    SitesCompanion Function({
+      Value<int> id,
+      required int organisationId,
+      required String name,
+      Value<String?> address,
+      required DateTime createdAt,
+    });
+typedef $$SitesTableUpdateCompanionBuilder =
+    SitesCompanion Function({
+      Value<int> id,
+      Value<int> organisationId,
+      Value<String> name,
+      Value<String?> address,
+      Value<DateTime> createdAt,
+    });
+
+final class $$SitesTableReferences
+    extends BaseReferences<_$AppDatabase, $SitesTable, SiteEntity> {
+  $$SitesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $OrganisationsTable _organisationIdTable(_$AppDatabase db) =>
+      db.organisations.createAlias('sites__organisation_id__organisations__id');
+
+  $$OrganisationsTableProcessedTableManager get organisationId {
+    final $_column = $_itemColumn<int>('organisation_id')!;
+
+    final manager = $$OrganisationsTableTableManager(
+      $_db,
+      $_db.organisations,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_organisationIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$AreasTable, List<AreaEntity>> _areasRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.areas,
+    aliasName: 'sites__id__areas__site_id',
+  );
+
+  $$AreasTableProcessedTableManager get areasRefs {
+    final manager = $$AreasTableTableManager(
+      $_db,
+      $_db.areas,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_areasRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $EquipmentInstancesTable,
+    List<EquipmentInstanceEntity>
+  >
+  _equipmentInstancesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.equipmentInstances,
+        aliasName: 'sites__id__equipment_instances__site_id',
+      );
+
+  $$EquipmentInstancesTableProcessedTableManager get equipmentInstancesRefs {
+    final manager = $$EquipmentInstancesTableTableManager(
+      $_db,
+      $_db.equipmentInstances,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _equipmentInstancesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$UsersTable, List<UserEntity>> _usersRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.users,
+    aliasName: 'sites__id__users__site_id',
+  );
+
+  $$UsersTableProcessedTableManager get usersRefs {
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_usersRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
+  $$SitesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get address => $composableBuilder(
+    column: $table.address,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$OrganisationsTableFilterComposer get organisationId {
+    final $$OrganisationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.organisationId,
+      referencedTable: $db.organisations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrganisationsTableFilterComposer(
+            $db: $db,
+            $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> areasRefs(
+    Expression<bool> Function($$AreasTableFilterComposer f) f,
+  ) {
+    final $$AreasTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.areas,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AreasTableFilterComposer(
+            $db: $db,
+            $table: $db.areas,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> equipmentInstancesRefs(
+    Expression<bool> Function($$EquipmentInstancesTableFilterComposer f) f,
+  ) {
+    final $$EquipmentInstancesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.equipmentInstances,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentInstancesTableFilterComposer(
+            $db: $db,
+            $table: $db.equipmentInstances,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> usersRefs(
+    Expression<bool> Function($$UsersTableFilterComposer f) f,
+  ) {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SitesTableOrderingComposer
+    extends Composer<_$AppDatabase, $SitesTable> {
+  $$SitesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get address => $composableBuilder(
+    column: $table.address,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$OrganisationsTableOrderingComposer get organisationId {
+    final $$OrganisationsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.organisationId,
+      referencedTable: $db.organisations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrganisationsTableOrderingComposer(
+            $db: $db,
+            $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SitesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SitesTable> {
+  $$SitesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get address =>
+      $composableBuilder(column: $table.address, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$OrganisationsTableAnnotationComposer get organisationId {
+    final $$OrganisationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.organisationId,
+      referencedTable: $db.organisations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrganisationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> areasRefs<T extends Object>(
+    Expression<T> Function($$AreasTableAnnotationComposer a) f,
+  ) {
+    final $$AreasTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.areas,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AreasTableAnnotationComposer(
+            $db: $db,
+            $table: $db.areas,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> equipmentInstancesRefs<T extends Object>(
+    Expression<T> Function($$EquipmentInstancesTableAnnotationComposer a) f,
+  ) {
+    final $$EquipmentInstancesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.equipmentInstances,
+          getReferencedColumn: (t) => t.siteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$EquipmentInstancesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.equipmentInstances,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> usersRefs<T extends Object>(
+    Expression<T> Function($$UsersTableAnnotationComposer a) f,
+  ) {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SitesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SitesTable,
+          SiteEntity,
+          $$SitesTableFilterComposer,
+          $$SitesTableOrderingComposer,
+          $$SitesTableAnnotationComposer,
+          $$SitesTableCreateCompanionBuilder,
+          $$SitesTableUpdateCompanionBuilder,
+          (SiteEntity, $$SitesTableReferences),
+          SiteEntity,
+          PrefetchHooks Function({
+            bool organisationId,
+            bool areasRefs,
+            bool equipmentInstancesRefs,
+            bool usersRefs,
+          })
+        > {
+  $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SitesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SitesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SitesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> organisationId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> address = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => SitesCompanion(
+                id: id,
+                organisationId: organisationId,
+                name: name,
+                address: address,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int organisationId,
+                required String name,
+                Value<String?> address = const Value.absent(),
+                required DateTime createdAt,
+              }) => SitesCompanion.insert(
+                id: id,
+                organisationId: organisationId,
+                name: name,
+                address: address,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$SitesTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                organisationId = false,
+                areasRefs = false,
+                equipmentInstancesRefs = false,
+                usersRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (areasRefs) db.areas,
+                    if (equipmentInstancesRefs) db.equipmentInstances,
+                    if (usersRefs) db.users,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (organisationId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.organisationId,
+                                    referencedTable: $$SitesTableReferences
+                                        ._organisationIdTable(db),
+                                    referencedColumn: $$SitesTableReferences
+                                        ._organisationIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (areasRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          AreaEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._areasRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(db, table, p0).areasRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (equipmentInstancesRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          EquipmentInstanceEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._equipmentInstancesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).equipmentInstancesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (usersRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          UserEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._usersRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(db, table, p0).usersRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$SitesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SitesTable,
+      SiteEntity,
+      $$SitesTableFilterComposer,
+      $$SitesTableOrderingComposer,
+      $$SitesTableAnnotationComposer,
+      $$SitesTableCreateCompanionBuilder,
+      $$SitesTableUpdateCompanionBuilder,
+      (SiteEntity, $$SitesTableReferences),
+      SiteEntity,
+      PrefetchHooks Function({
+        bool organisationId,
+        bool areasRefs,
+        bool equipmentInstancesRefs,
+        bool usersRefs,
+      })
+    >;
 typedef $$AreasTableCreateCompanionBuilder =
-    AreasCompanion Function({Value<int> id, required String name});
+    AreasCompanion Function({
+      Value<int> id,
+      required String name,
+      Value<int?> siteId,
+    });
 typedef $$AreasTableUpdateCompanionBuilder =
-    AreasCompanion Function({Value<int> id, Value<String> name});
+    AreasCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<int?> siteId,
+    });
 
 final class $$AreasTableReferences
     extends BaseReferences<_$AppDatabase, $AreasTable, AreaEntity> {
   $$AreasTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('areas__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 
   static MultiTypedResultKey<
     $EquipmentInstancesTable,
@@ -7080,6 +8136,29 @@ class $$AreasTableFilterComposer extends Composer<_$AppDatabase, $AreasTable> {
     column: $table.name,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   Expression<bool> equipmentInstancesRefs(
     Expression<bool> Function($$EquipmentInstancesTableFilterComposer f) f,
@@ -7125,6 +8204,29 @@ class $$AreasTableOrderingComposer
     column: $table.name,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$AreasTableAnnotationComposer
@@ -7141,6 +8243,29 @@ class $$AreasTableAnnotationComposer
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   Expression<T> equipmentInstancesRefs<T extends Object>(
     Expression<T> Function($$EquipmentInstancesTableAnnotationComposer a) f,
@@ -7182,7 +8307,7 @@ class $$AreasTableTableManager
           $$AreasTableUpdateCompanionBuilder,
           (AreaEntity, $$AreasTableReferences),
           AreaEntity,
-          PrefetchHooks Function({bool equipmentInstancesRefs})
+          PrefetchHooks Function({bool siteId, bool equipmentInstancesRefs})
         > {
   $$AreasTableTableManager(_$AppDatabase db, $AreasTable table)
     : super(
@@ -7199,47 +8324,86 @@ class $$AreasTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
-              }) => AreasCompanion(id: id, name: name),
+                Value<int?> siteId = const Value.absent(),
+              }) => AreasCompanion(id: id, name: name, siteId: siteId),
           createCompanionCallback:
-              ({Value<int> id = const Value.absent(), required String name}) =>
-                  AreasCompanion.insert(id: id, name: name),
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                Value<int?> siteId = const Value.absent(),
+              }) => AreasCompanion.insert(id: id, name: name, siteId: siteId),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) =>
                     (e.readTable(table), $$AreasTableReferences(db, table, e)),
               )
               .toList(),
-          prefetchHooksCallback: ({equipmentInstancesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (equipmentInstancesRefs) db.equipmentInstances,
-              ],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (equipmentInstancesRefs)
-                    await $_getPrefetchedData<
-                      AreaEntity,
-                      $AreasTable,
-                      EquipmentInstanceEntity
-                    >(
-                      currentTable: table,
-                      referencedTable: $$AreasTableReferences
-                          ._equipmentInstancesRefsTable(db),
-                      managerFromTypedResult: (p0) => $$AreasTableReferences(
-                        db,
-                        table,
-                        p0,
-                      ).equipmentInstancesRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.areaId == item.id),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({siteId = false, equipmentInstancesRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (equipmentInstancesRefs) db.equipmentInstances,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable: $$AreasTableReferences
+                                        ._siteIdTable(db),
+                                    referencedColumn: $$AreasTableReferences
+                                        ._siteIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (equipmentInstancesRefs)
+                        await $_getPrefetchedData<
+                          AreaEntity,
+                          $AreasTable,
+                          EquipmentInstanceEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$AreasTableReferences
+                              ._equipmentInstancesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$AreasTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).equipmentInstancesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.areaId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -7256,7 +8420,7 @@ typedef $$AreasTableProcessedTableManager =
       $$AreasTableUpdateCompanionBuilder,
       (AreaEntity, $$AreasTableReferences),
       AreaEntity,
-      PrefetchHooks Function({bool equipmentInstancesRefs})
+      PrefetchHooks Function({bool siteId, bool equipmentInstancesRefs})
     >;
 typedef $$EquipmentInstancesTableCreateCompanionBuilder =
     EquipmentInstancesCompanion Function({
@@ -7264,6 +8428,7 @@ typedef $$EquipmentInstancesTableCreateCompanionBuilder =
       required String name,
       required int equipmentTypeId,
       Value<int?> areaId,
+      Value<int?> siteId,
     });
 typedef $$EquipmentInstancesTableUpdateCompanionBuilder =
     EquipmentInstancesCompanion Function({
@@ -7271,6 +8436,7 @@ typedef $$EquipmentInstancesTableUpdateCompanionBuilder =
       Value<String> name,
       Value<int> equipmentTypeId,
       Value<int?> areaId,
+      Value<int?> siteId,
     });
 
 final class $$EquipmentInstancesTableReferences
@@ -7316,6 +8482,23 @@ final class $$EquipmentInstancesTableReferences
       $_db.areas,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_areaIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('equipment_instances__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -7418,6 +8601,29 @@ class $$EquipmentInstancesTableFilterComposer
           }) => $$AreasTableFilterComposer(
             $db: $db,
             $table: $db.areas,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -7542,6 +8748,29 @@ class $$EquipmentInstancesTableOrderingComposer
     );
     return composer;
   }
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$EquipmentInstancesTableAnnotationComposer
@@ -7596,6 +8825,29 @@ class $$EquipmentInstancesTableAnnotationComposer
           }) => $$AreasTableAnnotationComposer(
             $db: $db,
             $table: $db.areas,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -7672,6 +8924,7 @@ class $$EquipmentInstancesTableTableManager
           PrefetchHooks Function({
             bool equipmentTypeId,
             bool areaId,
+            bool siteId,
             bool taskSubmissionsRefs,
             bool taskSchedulesRefs,
           })
@@ -7698,11 +8951,13 @@ class $$EquipmentInstancesTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<int> equipmentTypeId = const Value.absent(),
                 Value<int?> areaId = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => EquipmentInstancesCompanion(
                 id: id,
                 name: name,
                 equipmentTypeId: equipmentTypeId,
                 areaId: areaId,
+                siteId: siteId,
               ),
           createCompanionCallback:
               ({
@@ -7710,11 +8965,13 @@ class $$EquipmentInstancesTableTableManager
                 required String name,
                 required int equipmentTypeId,
                 Value<int?> areaId = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => EquipmentInstancesCompanion.insert(
                 id: id,
                 name: name,
                 equipmentTypeId: equipmentTypeId,
                 areaId: areaId,
+                siteId: siteId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -7728,6 +8985,7 @@ class $$EquipmentInstancesTableTableManager
               ({
                 equipmentTypeId = false,
                 areaId = false,
+                siteId = false,
                 taskSubmissionsRefs = false,
                 taskSchedulesRefs = false,
               }) {
@@ -7779,6 +9037,21 @@ class $$EquipmentInstancesTableTableManager
                                     referencedColumn:
                                         $$EquipmentInstancesTableReferences
                                             ._areaIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable:
+                                        $$EquipmentInstancesTableReferences
+                                            ._siteIdTable(db),
+                                    referencedColumn:
+                                        $$EquipmentInstancesTableReferences
+                                            ._siteIdTable(db)
                                             .id,
                                   )
                                   as T;
@@ -7853,6 +9126,7 @@ typedef $$EquipmentInstancesTableProcessedTableManager =
       PrefetchHooks Function({
         bool equipmentTypeId,
         bool areaId,
+        bool siteId,
         bool taskSubmissionsRefs,
         bool taskSchedulesRefs,
       })
@@ -7866,6 +9140,7 @@ typedef $$UsersTableCreateCompanionBuilder =
       required String pinHash,
       required String pinSalt,
       Value<String> preferredTemperatureUnit,
+      Value<int?> siteId,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
     UsersCompanion Function({
@@ -7876,11 +9151,29 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<String> pinHash,
       Value<String> pinSalt,
       Value<String> preferredTemperatureUnit,
+      Value<int?> siteId,
     });
 
 final class $$UsersTableReferences
     extends BaseReferences<_$AppDatabase, $UsersTable, UserEntity> {
   $$UsersTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('users__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
 
   static MultiTypedResultKey<$TaskSubmissionsTable, List<TaskSubmissionEntity>>
   _taskSubmissionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
@@ -7987,6 +9280,29 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
     column: $table.preferredTemperatureUnit,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   Expression<bool> taskSubmissionsRefs(
     Expression<bool> Function($$TaskSubmissionsTableFilterComposer f) f,
@@ -8107,6 +9423,29 @@ class $$UsersTableOrderingComposer
     column: $table.preferredTemperatureUnit,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$UsersTableAnnotationComposer
@@ -8140,6 +9479,29 @@ class $$UsersTableAnnotationComposer
     column: $table.preferredTemperatureUnit,
     builder: (column) => column,
   );
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 
   Expression<T> taskSubmissionsRefs<T extends Object>(
     Expression<T> Function($$TaskSubmissionsTableAnnotationComposer a) f,
@@ -8232,6 +9594,7 @@ class $$UsersTableTableManager
           (UserEntity, $$UsersTableReferences),
           UserEntity,
           PrefetchHooks Function({
+            bool siteId,
             bool taskSubmissionsRefs,
             bool taskTemplatesRefs,
             bool shiftHandoverNotesRefs,
@@ -8257,6 +9620,7 @@ class $$UsersTableTableManager
                 Value<String> pinHash = const Value.absent(),
                 Value<String> pinSalt = const Value.absent(),
                 Value<String> preferredTemperatureUnit = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
                 name: name,
@@ -8265,6 +9629,7 @@ class $$UsersTableTableManager
                 pinHash: pinHash,
                 pinSalt: pinSalt,
                 preferredTemperatureUnit: preferredTemperatureUnit,
+                siteId: siteId,
               ),
           createCompanionCallback:
               ({
@@ -8275,6 +9640,7 @@ class $$UsersTableTableManager
                 required String pinHash,
                 required String pinSalt,
                 Value<String> preferredTemperatureUnit = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
                 name: name,
@@ -8283,6 +9649,7 @@ class $$UsersTableTableManager
                 pinHash: pinHash,
                 pinSalt: pinSalt,
                 preferredTemperatureUnit: preferredTemperatureUnit,
+                siteId: siteId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -8292,6 +9659,7 @@ class $$UsersTableTableManager
               .toList(),
           prefetchHooksCallback:
               ({
+                siteId = false,
                 taskSubmissionsRefs = false,
                 taskTemplatesRefs = false,
                 shiftHandoverNotesRefs = false,
@@ -8303,7 +9671,38 @@ class $$UsersTableTableManager
                     if (taskTemplatesRefs) db.taskTemplates,
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
                   ],
-                  addJoins: null,
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable: $$UsersTableReferences
+                                        ._siteIdTable(db),
+                                    referencedColumn: $$UsersTableReferences
+                                        ._siteIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
                   getPrefetchedDataCallback: (items) async {
                     return [
                       if (taskSubmissionsRefs)
@@ -8390,6 +9789,7 @@ typedef $$UsersTableProcessedTableManager =
       (UserEntity, $$UsersTableReferences),
       UserEntity,
       PrefetchHooks Function({
+        bool siteId,
         bool taskSubmissionsRefs,
         bool taskTemplatesRefs,
         bool shiftHandoverNotesRefs,
@@ -12162,585 +13562,16 @@ typedef $$NotificationRulesTableProcessedTableManager =
         bool setByUserId,
       })
     >;
-typedef $$OrganisationsTableCreateCompanionBuilder =
-    OrganisationsCompanion Function({
-      Value<int> id,
-      required String name,
-      required DateTime createdAt,
-    });
-typedef $$OrganisationsTableUpdateCompanionBuilder =
-    OrganisationsCompanion Function({
-      Value<int> id,
-      Value<String> name,
-      Value<DateTime> createdAt,
-    });
-
-final class $$OrganisationsTableReferences
-    extends
-        BaseReferences<_$AppDatabase, $OrganisationsTable, OrganisationEntity> {
-  $$OrganisationsTableReferences(
-    super.$_db,
-    super.$_table,
-    super.$_typedResult,
-  );
-
-  static MultiTypedResultKey<$SitesTable, List<SiteEntity>> _sitesRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.sites,
-    aliasName: 'organisations__id__sites__organisation_id',
-  );
-
-  $$SitesTableProcessedTableManager get sitesRefs {
-    final manager = $$SitesTableTableManager(
-      $_db,
-      $_db.sites,
-    ).filter((f) => f.organisationId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_sitesRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-}
-
-class $$OrganisationsTableFilterComposer
-    extends Composer<_$AppDatabase, $OrganisationsTable> {
-  $$OrganisationsTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  Expression<bool> sitesRefs(
-    Expression<bool> Function($$SitesTableFilterComposer f) f,
-  ) {
-    final $$SitesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.sites,
-      getReferencedColumn: (t) => t.organisationId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$SitesTableFilterComposer(
-            $db: $db,
-            $table: $db.sites,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$OrganisationsTableOrderingComposer
-    extends Composer<_$AppDatabase, $OrganisationsTable> {
-  $$OrganisationsTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
-}
-
-class $$OrganisationsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $OrganisationsTable> {
-  $$OrganisationsTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  Expression<T> sitesRefs<T extends Object>(
-    Expression<T> Function($$SitesTableAnnotationComposer a) f,
-  ) {
-    final $$SitesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.sites,
-      getReferencedColumn: (t) => t.organisationId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$SitesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.sites,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-}
-
-class $$OrganisationsTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $OrganisationsTable,
-          OrganisationEntity,
-          $$OrganisationsTableFilterComposer,
-          $$OrganisationsTableOrderingComposer,
-          $$OrganisationsTableAnnotationComposer,
-          $$OrganisationsTableCreateCompanionBuilder,
-          $$OrganisationsTableUpdateCompanionBuilder,
-          (OrganisationEntity, $$OrganisationsTableReferences),
-          OrganisationEntity,
-          PrefetchHooks Function({bool sitesRefs})
-        > {
-  $$OrganisationsTableTableManager(_$AppDatabase db, $OrganisationsTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$OrganisationsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$OrganisationsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$OrganisationsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> name = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
-              }) => OrganisationsCompanion(
-                id: id,
-                name: name,
-                createdAt: createdAt,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String name,
-                required DateTime createdAt,
-              }) => OrganisationsCompanion.insert(
-                id: id,
-                name: name,
-                createdAt: createdAt,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$OrganisationsTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: ({sitesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (sitesRefs) db.sites],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (sitesRefs)
-                    await $_getPrefetchedData<
-                      OrganisationEntity,
-                      $OrganisationsTable,
-                      SiteEntity
-                    >(
-                      currentTable: table,
-                      referencedTable: $$OrganisationsTableReferences
-                          ._sitesRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$OrganisationsTableReferences(
-                            db,
-                            table,
-                            p0,
-                          ).sitesRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where(
-                            (e) => e.organisationId == item.id,
-                          ),
-                      typedResults: items,
-                    ),
-                ];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$OrganisationsTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $OrganisationsTable,
-      OrganisationEntity,
-      $$OrganisationsTableFilterComposer,
-      $$OrganisationsTableOrderingComposer,
-      $$OrganisationsTableAnnotationComposer,
-      $$OrganisationsTableCreateCompanionBuilder,
-      $$OrganisationsTableUpdateCompanionBuilder,
-      (OrganisationEntity, $$OrganisationsTableReferences),
-      OrganisationEntity,
-      PrefetchHooks Function({bool sitesRefs})
-    >;
-typedef $$SitesTableCreateCompanionBuilder =
-    SitesCompanion Function({
-      Value<int> id,
-      required int organisationId,
-      required String name,
-      Value<String?> address,
-      required DateTime createdAt,
-    });
-typedef $$SitesTableUpdateCompanionBuilder =
-    SitesCompanion Function({
-      Value<int> id,
-      Value<int> organisationId,
-      Value<String> name,
-      Value<String?> address,
-      Value<DateTime> createdAt,
-    });
-
-final class $$SitesTableReferences
-    extends BaseReferences<_$AppDatabase, $SitesTable, SiteEntity> {
-  $$SitesTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $OrganisationsTable _organisationIdTable(_$AppDatabase db) =>
-      db.organisations.createAlias('sites__organisation_id__organisations__id');
-
-  $$OrganisationsTableProcessedTableManager get organisationId {
-    final $_column = $_itemColumn<int>('organisation_id')!;
-
-    final manager = $$OrganisationsTableTableManager(
-      $_db,
-      $_db.organisations,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_organisationIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-}
-
-class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
-  $$SitesTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get address => $composableBuilder(
-    column: $table.address,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  $$OrganisationsTableFilterComposer get organisationId {
-    final $$OrganisationsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.organisationId,
-      referencedTable: $db.organisations,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$OrganisationsTableFilterComposer(
-            $db: $db,
-            $table: $db.organisations,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$SitesTableOrderingComposer
-    extends Composer<_$AppDatabase, $SitesTable> {
-  $$SitesTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get address => $composableBuilder(
-    column: $table.address,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$OrganisationsTableOrderingComposer get organisationId {
-    final $$OrganisationsTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.organisationId,
-      referencedTable: $db.organisations,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$OrganisationsTableOrderingComposer(
-            $db: $db,
-            $table: $db.organisations,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$SitesTableAnnotationComposer
-    extends Composer<_$AppDatabase, $SitesTable> {
-  $$SitesTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  GeneratedColumn<String> get address =>
-      $composableBuilder(column: $table.address, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  $$OrganisationsTableAnnotationComposer get organisationId {
-    final $$OrganisationsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.organisationId,
-      referencedTable: $db.organisations,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$OrganisationsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.organisations,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$SitesTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $SitesTable,
-          SiteEntity,
-          $$SitesTableFilterComposer,
-          $$SitesTableOrderingComposer,
-          $$SitesTableAnnotationComposer,
-          $$SitesTableCreateCompanionBuilder,
-          $$SitesTableUpdateCompanionBuilder,
-          (SiteEntity, $$SitesTableReferences),
-          SiteEntity,
-          PrefetchHooks Function({bool organisationId})
-        > {
-  $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$SitesTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$SitesTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$SitesTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<int> organisationId = const Value.absent(),
-                Value<String> name = const Value.absent(),
-                Value<String?> address = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
-              }) => SitesCompanion(
-                id: id,
-                organisationId: organisationId,
-                name: name,
-                address: address,
-                createdAt: createdAt,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required int organisationId,
-                required String name,
-                Value<String?> address = const Value.absent(),
-                required DateTime createdAt,
-              }) => SitesCompanion.insert(
-                id: id,
-                organisationId: organisationId,
-                name: name,
-                address: address,
-                createdAt: createdAt,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) =>
-                    (e.readTable(table), $$SitesTableReferences(db, table, e)),
-              )
-              .toList(),
-          prefetchHooksCallback: ({organisationId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (organisationId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.organisationId,
-                                referencedTable: $$SitesTableReferences
-                                    ._organisationIdTable(db),
-                                referencedColumn: $$SitesTableReferences
-                                    ._organisationIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
-
-                    return state;
-                  },
-              getPrefetchedDataCallback: (items) async {
-                return [];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$SitesTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $SitesTable,
-      SiteEntity,
-      $$SitesTableFilterComposer,
-      $$SitesTableOrderingComposer,
-      $$SitesTableAnnotationComposer,
-      $$SitesTableCreateCompanionBuilder,
-      $$SitesTableUpdateCompanionBuilder,
-      (SiteEntity, $$SitesTableReferences),
-      SiteEntity,
-      PrefetchHooks Function({bool organisationId})
-    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
   $$EquipmentTypesTableTableManager get equipmentTypes =>
       $$EquipmentTypesTableTableManager(_db, _db.equipmentTypes);
+  $$OrganisationsTableTableManager get organisations =>
+      $$OrganisationsTableTableManager(_db, _db.organisations);
+  $$SitesTableTableManager get sites =>
+      $$SitesTableTableManager(_db, _db.sites);
   $$AreasTableTableManager get areas =>
       $$AreasTableTableManager(_db, _db.areas);
   $$EquipmentInstancesTableTableManager get equipmentInstances =>
@@ -12761,8 +13592,4 @@ class $AppDatabaseManager {
       $$SessionSummariesTableTableManager(_db, _db.sessionSummaries);
   $$NotificationRulesTableTableManager get notificationRules =>
       $$NotificationRulesTableTableManager(_db, _db.notificationRules);
-  $$OrganisationsTableTableManager get organisations =>
-      $$OrganisationsTableTableManager(_db, _db.organisations);
-  $$SitesTableTableManager get sites =>
-      $$SitesTableTableManager(_db, _db.sites);
 }

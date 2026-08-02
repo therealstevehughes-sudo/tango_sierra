@@ -6,6 +6,7 @@ import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 
 class VenueSetupWizardScreen extends ConsumerStatefulWidget {
@@ -82,8 +83,9 @@ class _VenueSetupWizardScreenState
     final trimmed = name.trim();
     if (trimmed.isEmpty) return;
 
+    final site = await ref.read(currentSiteProvider.future);
     final repo = ref.read(areaRepositoryProvider);
-    final created = await repo.create(trimmed);
+    final created = await repo.create(trimmed, site.id);
 
     if (!mounted) return;
     setState(() {
@@ -96,11 +98,13 @@ class _VenueSetupWizardScreenState
     final name = equipmentNameController.text.trim();
     if (name.isEmpty || selectedEquipmentTypeId == null) return;
 
+    final site = await ref.read(currentSiteProvider.future);
     final repo = ref.read(equipmentRepositoryProvider);
     final created = await repo.create(
       name: name,
       equipmentTypeId: selectedEquipmentTypeId!,
       areaId: selectedAreaId,
+      siteId: site.id,
     );
 
     if (!mounted) return;
@@ -133,12 +137,14 @@ class _VenueSetupWizardScreenState
     final pin = staffPinController.text.trim();
     if (name.isEmpty || jobTitle.isEmpty || pin.isEmpty) return;
 
+    final site = await ref.read(currentSiteProvider.future);
     final repo = ref.read(userRepositoryProvider);
     final created = await repo.createStaffMember(
       name: name,
       jobTitle: jobTitle,
       roleTier: selectedRoleTier,
       pin: pin,
+      siteId: site.id,
     );
 
     if (!mounted) return;
@@ -173,7 +179,7 @@ class _VenueSetupWizardScreenState
 
     final area = areas.firstWhere(
       (a) => a.id == equipment.areaId,
-      orElse: () => const Area(id: -1, name: 'Unknown area'),
+      orElse: () => const Area(id: -1, name: 'Unknown area', siteId: -1),
     );
     return '${type.name} — ${area.name}';
   }

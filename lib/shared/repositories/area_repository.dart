@@ -1,9 +1,11 @@
+import 'package:drift/drift.dart';
+
 import '../../core/storage/app_database.dart';
 import '../models/area.dart';
 
 abstract class AreaRepository {
   Future<List<Area>> getAll();
-  Future<Area> create(String name);
+  Future<Area> create(String name, int siteId);
 }
 
 class DriftAreaRepository implements AreaRepository {
@@ -18,12 +20,13 @@ class DriftAreaRepository implements AreaRepository {
   }
 
   @override
-  Future<Area> create(String name) async {
+  Future<Area> create(String name, int siteId) async {
     final id = await _db
         .into(_db.areas)
-        .insert(AreasCompanion.insert(name: name));
-    return Area(id: id, name: name);
+        .insert(AreasCompanion.insert(name: name, siteId: Value(siteId)));
+    return Area(id: id, name: name, siteId: siteId);
   }
 
-  Area _toModel(AreaEntity row) => Area(id: row.id, name: row.name);
+  Area _toModel(AreaEntity row) =>
+      Area(id: row.id, name: row.name, siteId: row.siteId!);
 }

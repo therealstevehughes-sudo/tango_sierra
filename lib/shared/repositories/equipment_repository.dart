@@ -12,6 +12,7 @@ abstract class EquipmentRepository {
     required String name,
     required int equipmentTypeId,
     int? areaId,
+    required int siteId,
   });
 }
 
@@ -47,6 +48,7 @@ class DriftEquipmentRepository implements EquipmentRepository {
     required String name,
     required int equipmentTypeId,
     int? areaId,
+    required int siteId,
   }) async {
     final id = await _db
         .into(_db.equipmentInstances)
@@ -55,6 +57,7 @@ class DriftEquipmentRepository implements EquipmentRepository {
             name: name,
             equipmentTypeId: equipmentTypeId,
             areaId: Value(areaId),
+            siteId: Value(siteId),
           ),
         );
     return Equipment(
@@ -62,6 +65,7 @@ class DriftEquipmentRepository implements EquipmentRepository {
       name: name,
       equipmentTypeId: equipmentTypeId,
       areaId: areaId,
+      siteId: siteId,
     );
   }
 
@@ -70,5 +74,6 @@ class DriftEquipmentRepository implements EquipmentRepository {
     name: row.name,
     equipmentTypeId: row.equipmentTypeId,
     areaId: row.areaId,
+    siteId: row.siteId!,
   );
 }
