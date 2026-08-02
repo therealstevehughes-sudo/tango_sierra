@@ -7660,6 +7660,663 @@ class TriggerNotificationsCompanion
   }
 }
 
+class $ThirdPartyContactsTable extends ThirdPartyContacts
+    with TableInfo<$ThirdPartyContactsTable, ThirdPartyContactEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ThirdPartyContactsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _companyMeta = const VerificationMeta(
+    'company',
+  );
+  @override
+  late final GeneratedColumn<String> company = GeneratedColumn<String>(
+    'company',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _specialtyMeta = const VerificationMeta(
+    'specialty',
+  );
+  @override
+  late final GeneratedColumn<String> specialty = GeneratedColumn<String>(
+    'specialty',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _phoneMeta = const VerificationMeta('phone');
+  @override
+  late final GeneratedColumn<String> phone = GeneratedColumn<String>(
+    'phone',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _emailMeta = const VerificationMeta('email');
+  @override
+  late final GeneratedColumn<String> email = GeneratedColumn<String>(
+    'email',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _createdByUserIdMeta = const VerificationMeta(
+    'createdByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> createdByUserId = GeneratedColumn<int>(
+    'created_by_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    company,
+    specialty,
+    phone,
+    email,
+    notes,
+    siteId,
+    createdByUserId,
+    createdAt,
+    active,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'third_party_contacts';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ThirdPartyContactEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('company')) {
+      context.handle(
+        _companyMeta,
+        company.isAcceptableOrUnknown(data['company']!, _companyMeta),
+      );
+    }
+    if (data.containsKey('specialty')) {
+      context.handle(
+        _specialtyMeta,
+        specialty.isAcceptableOrUnknown(data['specialty']!, _specialtyMeta),
+      );
+    }
+    if (data.containsKey('phone')) {
+      context.handle(
+        _phoneMeta,
+        phone.isAcceptableOrUnknown(data['phone']!, _phoneMeta),
+      );
+    }
+    if (data.containsKey('email')) {
+      context.handle(
+        _emailMeta,
+        email.isAcceptableOrUnknown(data['email']!, _emailMeta),
+      );
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
+    if (data.containsKey('created_by_user_id')) {
+      context.handle(
+        _createdByUserIdMeta,
+        createdByUserId.isAcceptableOrUnknown(
+          data['created_by_user_id']!,
+          _createdByUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_createdByUserIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ThirdPartyContactEntity map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ThirdPartyContactEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      company: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}company'],
+      ),
+      specialty: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}specialty'],
+      ),
+      phone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}phone'],
+      ),
+      email: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}email'],
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
+      createdByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}created_by_user_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
+    );
+  }
+
+  @override
+  $ThirdPartyContactsTable createAlias(String alias) {
+    return $ThirdPartyContactsTable(attachedDatabase, alias);
+  }
+}
+
+class ThirdPartyContactEntity extends DataClass
+    implements Insertable<ThirdPartyContactEntity> {
+  final int id;
+  final String name;
+  final String? company;
+  final String? specialty;
+  final String? phone;
+  final String? email;
+  final String? notes;
+  final int? siteId;
+  final int createdByUserId;
+  final DateTime createdAt;
+  final bool active;
+  const ThirdPartyContactEntity({
+    required this.id,
+    required this.name,
+    this.company,
+    this.specialty,
+    this.phone,
+    this.email,
+    this.notes,
+    this.siteId,
+    required this.createdByUserId,
+    required this.createdAt,
+    required this.active,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || company != null) {
+      map['company'] = Variable<String>(company);
+    }
+    if (!nullToAbsent || specialty != null) {
+      map['specialty'] = Variable<String>(specialty);
+    }
+    if (!nullToAbsent || phone != null) {
+      map['phone'] = Variable<String>(phone);
+    }
+    if (!nullToAbsent || email != null) {
+      map['email'] = Variable<String>(email);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
+    map['created_by_user_id'] = Variable<int>(createdByUserId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['active'] = Variable<bool>(active);
+    return map;
+  }
+
+  ThirdPartyContactsCompanion toCompanion(bool nullToAbsent) {
+    return ThirdPartyContactsCompanion(
+      id: Value(id),
+      name: Value(name),
+      company: company == null && nullToAbsent
+          ? const Value.absent()
+          : Value(company),
+      specialty: specialty == null && nullToAbsent
+          ? const Value.absent()
+          : Value(specialty),
+      phone: phone == null && nullToAbsent
+          ? const Value.absent()
+          : Value(phone),
+      email: email == null && nullToAbsent
+          ? const Value.absent()
+          : Value(email),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
+      createdByUserId: Value(createdByUserId),
+      createdAt: Value(createdAt),
+      active: Value(active),
+    );
+  }
+
+  factory ThirdPartyContactEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ThirdPartyContactEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      company: serializer.fromJson<String?>(json['company']),
+      specialty: serializer.fromJson<String?>(json['specialty']),
+      phone: serializer.fromJson<String?>(json['phone']),
+      email: serializer.fromJson<String?>(json['email']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
+      createdByUserId: serializer.fromJson<int>(json['createdByUserId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      active: serializer.fromJson<bool>(json['active']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'company': serializer.toJson<String?>(company),
+      'specialty': serializer.toJson<String?>(specialty),
+      'phone': serializer.toJson<String?>(phone),
+      'email': serializer.toJson<String?>(email),
+      'notes': serializer.toJson<String?>(notes),
+      'siteId': serializer.toJson<int?>(siteId),
+      'createdByUserId': serializer.toJson<int>(createdByUserId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'active': serializer.toJson<bool>(active),
+    };
+  }
+
+  ThirdPartyContactEntity copyWith({
+    int? id,
+    String? name,
+    Value<String?> company = const Value.absent(),
+    Value<String?> specialty = const Value.absent(),
+    Value<String?> phone = const Value.absent(),
+    Value<String?> email = const Value.absent(),
+    Value<String?> notes = const Value.absent(),
+    Value<int?> siteId = const Value.absent(),
+    int? createdByUserId,
+    DateTime? createdAt,
+    bool? active,
+  }) => ThirdPartyContactEntity(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    company: company.present ? company.value : this.company,
+    specialty: specialty.present ? specialty.value : this.specialty,
+    phone: phone.present ? phone.value : this.phone,
+    email: email.present ? email.value : this.email,
+    notes: notes.present ? notes.value : this.notes,
+    siteId: siteId.present ? siteId.value : this.siteId,
+    createdByUserId: createdByUserId ?? this.createdByUserId,
+    createdAt: createdAt ?? this.createdAt,
+    active: active ?? this.active,
+  );
+  ThirdPartyContactEntity copyWithCompanion(ThirdPartyContactsCompanion data) {
+    return ThirdPartyContactEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      company: data.company.present ? data.company.value : this.company,
+      specialty: data.specialty.present ? data.specialty.value : this.specialty,
+      phone: data.phone.present ? data.phone.value : this.phone,
+      email: data.email.present ? data.email.value : this.email,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      createdByUserId: data.createdByUserId.present
+          ? data.createdByUserId.value
+          : this.createdByUserId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      active: data.active.present ? data.active.value : this.active,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ThirdPartyContactEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('company: $company, ')
+          ..write('specialty: $specialty, ')
+          ..write('phone: $phone, ')
+          ..write('email: $email, ')
+          ..write('notes: $notes, ')
+          ..write('siteId: $siteId, ')
+          ..write('createdByUserId: $createdByUserId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('active: $active')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    name,
+    company,
+    specialty,
+    phone,
+    email,
+    notes,
+    siteId,
+    createdByUserId,
+    createdAt,
+    active,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ThirdPartyContactEntity &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.company == this.company &&
+          other.specialty == this.specialty &&
+          other.phone == this.phone &&
+          other.email == this.email &&
+          other.notes == this.notes &&
+          other.siteId == this.siteId &&
+          other.createdByUserId == this.createdByUserId &&
+          other.createdAt == this.createdAt &&
+          other.active == this.active);
+}
+
+class ThirdPartyContactsCompanion
+    extends UpdateCompanion<ThirdPartyContactEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String?> company;
+  final Value<String?> specialty;
+  final Value<String?> phone;
+  final Value<String?> email;
+  final Value<String?> notes;
+  final Value<int?> siteId;
+  final Value<int> createdByUserId;
+  final Value<DateTime> createdAt;
+  final Value<bool> active;
+  const ThirdPartyContactsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.company = const Value.absent(),
+    this.specialty = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.email = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.createdByUserId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.active = const Value.absent(),
+  });
+  ThirdPartyContactsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.company = const Value.absent(),
+    this.specialty = const Value.absent(),
+    this.phone = const Value.absent(),
+    this.email = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.siteId = const Value.absent(),
+    required int createdByUserId,
+    required DateTime createdAt,
+    this.active = const Value.absent(),
+  }) : name = Value(name),
+       createdByUserId = Value(createdByUserId),
+       createdAt = Value(createdAt);
+  static Insertable<ThirdPartyContactEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? company,
+    Expression<String>? specialty,
+    Expression<String>? phone,
+    Expression<String>? email,
+    Expression<String>? notes,
+    Expression<int>? siteId,
+    Expression<int>? createdByUserId,
+    Expression<DateTime>? createdAt,
+    Expression<bool>? active,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (company != null) 'company': company,
+      if (specialty != null) 'specialty': specialty,
+      if (phone != null) 'phone': phone,
+      if (email != null) 'email': email,
+      if (notes != null) 'notes': notes,
+      if (siteId != null) 'site_id': siteId,
+      if (createdByUserId != null) 'created_by_user_id': createdByUserId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (active != null) 'active': active,
+    });
+  }
+
+  ThirdPartyContactsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String?>? company,
+    Value<String?>? specialty,
+    Value<String?>? phone,
+    Value<String?>? email,
+    Value<String?>? notes,
+    Value<int?>? siteId,
+    Value<int>? createdByUserId,
+    Value<DateTime>? createdAt,
+    Value<bool>? active,
+  }) {
+    return ThirdPartyContactsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      company: company ?? this.company,
+      specialty: specialty ?? this.specialty,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      notes: notes ?? this.notes,
+      siteId: siteId ?? this.siteId,
+      createdByUserId: createdByUserId ?? this.createdByUserId,
+      createdAt: createdAt ?? this.createdAt,
+      active: active ?? this.active,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (company.present) {
+      map['company'] = Variable<String>(company.value);
+    }
+    if (specialty.present) {
+      map['specialty'] = Variable<String>(specialty.value);
+    }
+    if (phone.present) {
+      map['phone'] = Variable<String>(phone.value);
+    }
+    if (email.present) {
+      map['email'] = Variable<String>(email.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
+    if (createdByUserId.present) {
+      map['created_by_user_id'] = Variable<int>(createdByUserId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ThirdPartyContactsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('company: $company, ')
+          ..write('specialty: $specialty, ')
+          ..write('phone: $phone, ')
+          ..write('email: $email, ')
+          ..write('notes: $notes, ')
+          ..write('siteId: $siteId, ')
+          ..write('createdByUserId: $createdByUserId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('active: $active')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -7686,6 +8343,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $NotificationRulesTable(this);
   late final $TriggerNotificationsTable triggerNotifications =
       $TriggerNotificationsTable(this);
+  late final $ThirdPartyContactsTable thirdPartyContacts =
+      $ThirdPartyContactsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -7705,6 +8364,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     sessionSummaries,
     notificationRules,
     triggerNotifications,
+    thirdPartyContacts,
   ];
 }
 
@@ -8547,6 +9207,30 @@ final class $$SitesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $ThirdPartyContactsTable,
+    List<ThirdPartyContactEntity>
+  >
+  _thirdPartyContactsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.thirdPartyContacts,
+        aliasName: 'sites__id__third_party_contacts__site_id',
+      );
+
+  $$ThirdPartyContactsTableProcessedTableManager get thirdPartyContactsRefs {
+    final manager = $$ThirdPartyContactsTableTableManager(
+      $_db,
+      $_db.thirdPartyContacts,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _thirdPartyContactsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
@@ -8816,6 +9500,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$TriggerNotificationsTableFilterComposer(
             $db: $db,
             $table: $db.triggerNotifications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> thirdPartyContactsRefs(
+    Expression<bool> Function($$ThirdPartyContactsTableFilterComposer f) f,
+  ) {
+    final $$ThirdPartyContactsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.thirdPartyContacts,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ThirdPartyContactsTableFilterComposer(
+            $db: $db,
+            $table: $db.thirdPartyContacts,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -9151,6 +9860,32 @@ class $$SitesTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> thirdPartyContactsRefs<T extends Object>(
+    Expression<T> Function($$ThirdPartyContactsTableAnnotationComposer a) f,
+  ) {
+    final $$ThirdPartyContactsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.thirdPartyContacts,
+          getReferencedColumn: (t) => t.siteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ThirdPartyContactsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.thirdPartyContacts,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -9177,6 +9912,7 @@ class $$SitesTableTableManager
             bool sessionSummariesRefs,
             bool notificationRulesRefs,
             bool triggerNotificationsRefs,
+            bool thirdPartyContactsRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -9236,6 +9972,7 @@ class $$SitesTableTableManager
                 sessionSummariesRefs = false,
                 notificationRulesRefs = false,
                 triggerNotificationsRefs = false,
+                thirdPartyContactsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -9249,6 +9986,7 @@ class $$SitesTableTableManager
                     if (sessionSummariesRefs) db.sessionSummaries,
                     if (notificationRulesRefs) db.notificationRules,
                     if (triggerNotificationsRefs) db.triggerNotifications,
+                    if (thirdPartyContactsRefs) db.thirdPartyContacts,
                   ],
                   addJoins:
                       <
@@ -9465,6 +10203,27 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (thirdPartyContactsRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          ThirdPartyContactEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._thirdPartyContactsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).thirdPartyContactsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -9496,6 +10255,7 @@ typedef $$SitesTableProcessedTableManager =
         bool sessionSummariesRefs,
         bool notificationRulesRefs,
         bool triggerNotificationsRefs,
+        bool thirdPartyContactsRefs,
       })
     >;
 typedef $$AreasTableCreateCompanionBuilder =
@@ -10699,6 +11459,30 @@ final class $$UsersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $ThirdPartyContactsTable,
+    List<ThirdPartyContactEntity>
+  >
+  _thirdPartyContactsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.thirdPartyContacts,
+        aliasName: 'users__id__third_party_contacts__created_by_user_id',
+      );
+
+  $$ThirdPartyContactsTableProcessedTableManager get thirdPartyContactsRefs {
+    final manager = $$ThirdPartyContactsTableTableManager(
+      $_db,
+      $_db.thirdPartyContacts,
+    ).filter((f) => f.createdByUserId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _thirdPartyContactsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
@@ -10858,6 +11642,31 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$TriggerNotificationsTableFilterComposer(
             $db: $db,
             $table: $db.triggerNotifications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> thirdPartyContactsRefs(
+    Expression<bool> Function($$ThirdPartyContactsTableFilterComposer f) f,
+  ) {
+    final $$ThirdPartyContactsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.thirdPartyContacts,
+      getReferencedColumn: (t) => t.createdByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ThirdPartyContactsTableFilterComposer(
+            $db: $db,
+            $table: $db.thirdPartyContacts,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -11092,6 +11901,32 @@ class $$UsersTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> thirdPartyContactsRefs<T extends Object>(
+    Expression<T> Function($$ThirdPartyContactsTableAnnotationComposer a) f,
+  ) {
+    final $$ThirdPartyContactsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.thirdPartyContacts,
+          getReferencedColumn: (t) => t.createdByUserId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ThirdPartyContactsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.thirdPartyContacts,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$UsersTableTableManager
@@ -11113,6 +11948,7 @@ class $$UsersTableTableManager
             bool taskTemplatesRefs,
             bool shiftHandoverNotesRefs,
             bool triggerNotificationsRefs,
+            bool thirdPartyContactsRefs,
           })
         > {
   $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
@@ -11179,6 +12015,7 @@ class $$UsersTableTableManager
                 taskTemplatesRefs = false,
                 shiftHandoverNotesRefs = false,
                 triggerNotificationsRefs = false,
+                thirdPartyContactsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -11187,6 +12024,7 @@ class $$UsersTableTableManager
                     if (taskTemplatesRefs) db.taskTemplates,
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
                     if (triggerNotificationsRefs) db.triggerNotifications,
+                    if (thirdPartyContactsRefs) db.thirdPartyContacts,
                   ],
                   addJoins:
                       <
@@ -11306,6 +12144,27 @@ class $$UsersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (thirdPartyContactsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          ThirdPartyContactEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._thirdPartyContactsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).thirdPartyContactsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.createdByUserId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -11332,6 +12191,7 @@ typedef $$UsersTableProcessedTableManager =
         bool taskTemplatesRefs,
         bool shiftHandoverNotesRefs,
         bool triggerNotificationsRefs,
+        bool thirdPartyContactsRefs,
       })
     >;
 typedef $$TaskSubmissionsTableCreateCompanionBuilder =
@@ -16566,6 +17426,535 @@ typedef $$TriggerNotificationsTableProcessedTableManager =
         bool siteId,
       })
     >;
+typedef $$ThirdPartyContactsTableCreateCompanionBuilder =
+    ThirdPartyContactsCompanion Function({
+      Value<int> id,
+      required String name,
+      Value<String?> company,
+      Value<String?> specialty,
+      Value<String?> phone,
+      Value<String?> email,
+      Value<String?> notes,
+      Value<int?> siteId,
+      required int createdByUserId,
+      required DateTime createdAt,
+      Value<bool> active,
+    });
+typedef $$ThirdPartyContactsTableUpdateCompanionBuilder =
+    ThirdPartyContactsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<String?> company,
+      Value<String?> specialty,
+      Value<String?> phone,
+      Value<String?> email,
+      Value<String?> notes,
+      Value<int?> siteId,
+      Value<int> createdByUserId,
+      Value<DateTime> createdAt,
+      Value<bool> active,
+    });
+
+final class $$ThirdPartyContactsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ThirdPartyContactsTable,
+          ThirdPartyContactEntity
+        > {
+  $$ThirdPartyContactsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('third_party_contacts__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _createdByUserIdTable(_$AppDatabase db) => db.users
+      .createAlias('third_party_contacts__created_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get createdByUserId {
+    final $_column = $_itemColumn<int>('created_by_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_createdByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ThirdPartyContactsTableFilterComposer
+    extends Composer<_$AppDatabase, $ThirdPartyContactsTable> {
+  $$ThirdPartyContactsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get company => $composableBuilder(
+    column: $table.company,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get specialty => $composableBuilder(
+    column: $table.specialty,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get createdByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.createdByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ThirdPartyContactsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ThirdPartyContactsTable> {
+  $$ThirdPartyContactsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get company => $composableBuilder(
+    column: $table.company,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get specialty => $composableBuilder(
+    column: $table.specialty,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get phone => $composableBuilder(
+    column: $table.phone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get email => $composableBuilder(
+    column: $table.email,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get createdByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.createdByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ThirdPartyContactsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ThirdPartyContactsTable> {
+  $$ThirdPartyContactsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get company =>
+      $composableBuilder(column: $table.company, builder: (column) => column);
+
+  GeneratedColumn<String> get specialty =>
+      $composableBuilder(column: $table.specialty, builder: (column) => column);
+
+  GeneratedColumn<String> get phone =>
+      $composableBuilder(column: $table.phone, builder: (column) => column);
+
+  GeneratedColumn<String> get email =>
+      $composableBuilder(column: $table.email, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get createdByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.createdByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ThirdPartyContactsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ThirdPartyContactsTable,
+          ThirdPartyContactEntity,
+          $$ThirdPartyContactsTableFilterComposer,
+          $$ThirdPartyContactsTableOrderingComposer,
+          $$ThirdPartyContactsTableAnnotationComposer,
+          $$ThirdPartyContactsTableCreateCompanionBuilder,
+          $$ThirdPartyContactsTableUpdateCompanionBuilder,
+          (ThirdPartyContactEntity, $$ThirdPartyContactsTableReferences),
+          ThirdPartyContactEntity,
+          PrefetchHooks Function({bool siteId, bool createdByUserId})
+        > {
+  $$ThirdPartyContactsTableTableManager(
+    _$AppDatabase db,
+    $ThirdPartyContactsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ThirdPartyContactsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ThirdPartyContactsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ThirdPartyContactsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> company = const Value.absent(),
+                Value<String?> specialty = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
+                Value<String?> email = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
+                Value<int> createdByUserId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+              }) => ThirdPartyContactsCompanion(
+                id: id,
+                name: name,
+                company: company,
+                specialty: specialty,
+                phone: phone,
+                email: email,
+                notes: notes,
+                siteId: siteId,
+                createdByUserId: createdByUserId,
+                createdAt: createdAt,
+                active: active,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                Value<String?> company = const Value.absent(),
+                Value<String?> specialty = const Value.absent(),
+                Value<String?> phone = const Value.absent(),
+                Value<String?> email = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
+                required int createdByUserId,
+                required DateTime createdAt,
+                Value<bool> active = const Value.absent(),
+              }) => ThirdPartyContactsCompanion.insert(
+                id: id,
+                name: name,
+                company: company,
+                specialty: specialty,
+                phone: phone,
+                email: email,
+                notes: notes,
+                siteId: siteId,
+                createdByUserId: createdByUserId,
+                createdAt: createdAt,
+                active: active,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ThirdPartyContactsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false, createdByUserId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable:
+                                    $$ThirdPartyContactsTableReferences
+                                        ._siteIdTable(db),
+                                referencedColumn:
+                                    $$ThirdPartyContactsTableReferences
+                                        ._siteIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (createdByUserId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.createdByUserId,
+                                referencedTable:
+                                    $$ThirdPartyContactsTableReferences
+                                        ._createdByUserIdTable(db),
+                                referencedColumn:
+                                    $$ThirdPartyContactsTableReferences
+                                        ._createdByUserIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ThirdPartyContactsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ThirdPartyContactsTable,
+      ThirdPartyContactEntity,
+      $$ThirdPartyContactsTableFilterComposer,
+      $$ThirdPartyContactsTableOrderingComposer,
+      $$ThirdPartyContactsTableAnnotationComposer,
+      $$ThirdPartyContactsTableCreateCompanionBuilder,
+      $$ThirdPartyContactsTableUpdateCompanionBuilder,
+      (ThirdPartyContactEntity, $$ThirdPartyContactsTableReferences),
+      ThirdPartyContactEntity,
+      PrefetchHooks Function({bool siteId, bool createdByUserId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -16598,4 +17987,6 @@ class $AppDatabaseManager {
       $$NotificationRulesTableTableManager(_db, _db.notificationRules);
   $$TriggerNotificationsTableTableManager get triggerNotifications =>
       $$TriggerNotificationsTableTableManager(_db, _db.triggerNotifications);
+  $$ThirdPartyContactsTableTableManager get thirdPartyContacts =>
+      $$ThirdPartyContactsTableTableManager(_db, _db.thirdPartyContacts);
 }

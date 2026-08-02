@@ -10,6 +10,7 @@ import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../notifications/notification_rules_screen.dart';
 import '../onboarding/staff_assignment_screen.dart';
+import '../settings/third_party_contacts_screen.dart';
 import '../venue_setup/venue_setup_wizard_screen.dart';
 
 class ManagerScreen extends ConsumerWidget {
@@ -109,6 +110,18 @@ class ManagerScreen extends ConsumerWidget {
             },
             icon: const Icon(Icons.notifications),
             tooltip: 'Notification Rules',
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ThirdPartyContactsScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.contact_phone),
+            tooltip: 'Maintenance Contacts',
           ),
           IconButton(
             onPressed: () {

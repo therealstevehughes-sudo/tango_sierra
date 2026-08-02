@@ -204,6 +204,22 @@ class TriggerNotifications extends Table {
   DateTimeColumn get acknowledgedAt => dateTime().nullable()();
 }
 
+@DataClassName('ThirdPartyContactEntity')
+class ThirdPartyContacts extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  TextColumn get company => text().nullable()();
+  TextColumn get specialty => text().nullable()();
+  TextColumn get phone => text().nullable()();
+  TextColumn get email => text().nullable()();
+  TextColumn get notes => text().nullable()();
+  // Null means visible org-wide, same pattern as NotificationRules.siteId.
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  IntColumn get createdByUserId => integer().references(Users, #id)();
+  DateTimeColumn get createdAt => dateTime()();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+}
+
 @DataClassName('OrganisationEntity')
 class Organisations extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -237,13 +253,14 @@ class Sites extends Table {
     Organisations,
     Sites,
     TriggerNotifications,
+    ThirdPartyContacts,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 14;
+  int get schemaVersion => 15;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -326,6 +343,9 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 14) {
         await m.createTable(triggerNotifications);
+      }
+      if (from < 15) {
+        await m.createTable(thirdPartyContacts);
       }
     },
     beforeOpen: (details) async {
