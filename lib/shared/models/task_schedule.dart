@@ -10,6 +10,7 @@ class TaskSchedule {
   final int assignedByUserId;
   final DateTime assignedAt;
   final bool active;
+  final int siteId;
 
   const TaskSchedule({
     required this.id,
@@ -21,5 +22,6 @@ class TaskSchedule {
     required this.assignedByUserId,
     required this.assignedAt,
     required this.active,
+    required this.siteId,
   });
 }

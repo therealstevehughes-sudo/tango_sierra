@@ -36,6 +36,7 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
             equipmentInstanceId: Value(submission.equipmentInstanceId),
             customFieldValuesJson: Value(submission.customFieldValuesJson),
             completedByUserId: Value(submission.completedByUserId),
+            siteId: Value(submission.siteId),
           ),
         );
   }
@@ -108,6 +109,7 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
       equipmentInstanceId: row.equipmentInstanceId,
       customFieldValuesJson: row.customFieldValuesJson,
       completedByUserId: row.completedByUserId,
+      siteId: row.siteId!,
     );
   }
 }

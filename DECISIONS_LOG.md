@@ -140,6 +140,11 @@ This applies retroactively to nothing already built — Sprint 014's versioning 
 - `staff_assignment_screen.dart` needed no changes — it only reads Users/EquipmentInstances (for pickers) and creates `TaskSchedules`/`TaskTemplates`, neither in this cluster's scope. Confirmed before building, not assumed.
 - Only one real call site existed for all three tables' create methods: `venue_setup_wizard_screen.dart`'s `_addArea`/`_addEquipment`/`_addStaff`. All three now resolve `currentSiteProvider` and pass its id through.
 
+## Multi-site foundation: TaskSchedules/TaskSubmissions (Sprint 015c)
+- Neither real call site needed `currentSiteProvider` — both already held a site-bearing `User` in hand. `TaskSchedules.assign()` (called once, from `staff_assignment_screen.dart`) now derives `siteId` from the assigned staff member's own `siteId`; `TaskSubmissions.submit()` (via `TaskController.logTaskSubmission`) derives it from `_currentUser.siteId`, a field the controller already holds. Confirmed by reading the actual call sites before building, not assumed from the 015a plan's shorthand.
+- `_backfillSiteIds()` extended to cover these two tables rather than adding a second near-duplicate function — one idempotent routine, growing per cluster.
+- Backfill of pre-existing rows still uses the default site id (same as 015b) — the "derive from the acting user" approach only applies to new creates going forward; historical rows have no acting-user context to derive from.
+
 ## Notification refinements (queued after multi-site foundation + notification firing)
 - Per-equipment/task-specific fail notifications: a "specific fail notifications" section where a manager picks which equipment/task fails trigger which tier, via two checkboxes per rule (left = notify top tier, right = notify mid tier). Refines Sprint 014's deliberately-simple "specific template or global any" scoping.
 - Third-party contacts: a section where top/mid tier can add external/internal maintenance and repair contacts, who can also be notified (or have details on file) in an emergency.

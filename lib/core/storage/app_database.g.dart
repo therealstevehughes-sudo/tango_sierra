@@ -2098,6 +2098,18 @@ class $TaskSubmissionsTable extends TaskSubmissions
       'REFERENCES users (id)',
     ),
   );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2114,6 +2126,7 @@ class $TaskSubmissionsTable extends TaskSubmissions
     equipmentInstanceId,
     customFieldValuesJson,
     completedByUserId,
+    siteId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2243,6 +2256,12 @@ class $TaskSubmissionsTable extends TaskSubmissions
         ),
       );
     }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
     return context;
   }
 
@@ -2308,6 +2327,10 @@ class $TaskSubmissionsTable extends TaskSubmissions
         DriftSqlType.int,
         data['${effectivePrefix}completed_by_user_id'],
       ),
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
     );
   }
 
@@ -2333,6 +2356,7 @@ class TaskSubmissionEntity extends DataClass
   final int? equipmentInstanceId;
   final String? customFieldValuesJson;
   final int? completedByUserId;
+  final int? siteId;
   const TaskSubmissionEntity({
     required this.id,
     required this.taskTitle,
@@ -2348,6 +2372,7 @@ class TaskSubmissionEntity extends DataClass
     this.equipmentInstanceId,
     this.customFieldValuesJson,
     this.completedByUserId,
+    this.siteId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2381,6 +2406,9 @@ class TaskSubmissionEntity extends DataClass
     }
     if (!nullToAbsent || completedByUserId != null) {
       map['completed_by_user_id'] = Variable<int>(completedByUserId);
+    }
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
     }
     return map;
   }
@@ -2417,6 +2445,9 @@ class TaskSubmissionEntity extends DataClass
       completedByUserId: completedByUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(completedByUserId),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
     );
   }
 
@@ -2446,6 +2477,7 @@ class TaskSubmissionEntity extends DataClass
         json['customFieldValuesJson'],
       ),
       completedByUserId: serializer.fromJson<int?>(json['completedByUserId']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
     );
   }
   @override
@@ -2468,6 +2500,7 @@ class TaskSubmissionEntity extends DataClass
         customFieldValuesJson,
       ),
       'completedByUserId': serializer.toJson<int?>(completedByUserId),
+      'siteId': serializer.toJson<int?>(siteId),
     };
   }
 
@@ -2486,6 +2519,7 @@ class TaskSubmissionEntity extends DataClass
     Value<int?> equipmentInstanceId = const Value.absent(),
     Value<String?> customFieldValuesJson = const Value.absent(),
     Value<int?> completedByUserId = const Value.absent(),
+    Value<int?> siteId = const Value.absent(),
   }) => TaskSubmissionEntity(
     id: id ?? this.id,
     taskTitle: taskTitle ?? this.taskTitle,
@@ -2511,6 +2545,7 @@ class TaskSubmissionEntity extends DataClass
     completedByUserId: completedByUserId.present
         ? completedByUserId.value
         : this.completedByUserId,
+    siteId: siteId.present ? siteId.value : this.siteId,
   );
   TaskSubmissionEntity copyWithCompanion(TaskSubmissionsCompanion data) {
     return TaskSubmissionEntity(
@@ -2546,6 +2581,7 @@ class TaskSubmissionEntity extends DataClass
       completedByUserId: data.completedByUserId.present
           ? data.completedByUserId.value
           : this.completedByUserId,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
     );
   }
 
@@ -2565,7 +2601,8 @@ class TaskSubmissionEntity extends DataClass
           ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
           ..write('equipmentInstanceId: $equipmentInstanceId, ')
           ..write('customFieldValuesJson: $customFieldValuesJson, ')
-          ..write('completedByUserId: $completedByUserId')
+          ..write('completedByUserId: $completedByUserId, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -2586,6 +2623,7 @@ class TaskSubmissionEntity extends DataClass
     equipmentInstanceId,
     customFieldValuesJson,
     completedByUserId,
+    siteId,
   );
   @override
   bool operator ==(Object other) =>
@@ -2604,7 +2642,8 @@ class TaskSubmissionEntity extends DataClass
           other.taskTemplateGroupId == this.taskTemplateGroupId &&
           other.equipmentInstanceId == this.equipmentInstanceId &&
           other.customFieldValuesJson == this.customFieldValuesJson &&
-          other.completedByUserId == this.completedByUserId);
+          other.completedByUserId == this.completedByUserId &&
+          other.siteId == this.siteId);
 }
 
 class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
@@ -2622,6 +2661,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
   final Value<int?> equipmentInstanceId;
   final Value<String?> customFieldValuesJson;
   final Value<int?> completedByUserId;
+  final Value<int?> siteId;
   const TaskSubmissionsCompanion({
     this.id = const Value.absent(),
     this.taskTitle = const Value.absent(),
@@ -2637,6 +2677,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     this.equipmentInstanceId = const Value.absent(),
     this.customFieldValuesJson = const Value.absent(),
     this.completedByUserId = const Value.absent(),
+    this.siteId = const Value.absent(),
   });
   TaskSubmissionsCompanion.insert({
     this.id = const Value.absent(),
@@ -2653,6 +2694,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     this.equipmentInstanceId = const Value.absent(),
     this.customFieldValuesJson = const Value.absent(),
     this.completedByUserId = const Value.absent(),
+    this.siteId = const Value.absent(),
   }) : taskTitle = Value(taskTitle),
        status = Value(status),
        completedBy = Value(completedBy),
@@ -2672,6 +2714,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     Expression<int>? equipmentInstanceId,
     Expression<String>? customFieldValuesJson,
     Expression<int>? completedByUserId,
+    Expression<int>? siteId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2691,6 +2734,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
       if (customFieldValuesJson != null)
         'custom_field_values_json': customFieldValuesJson,
       if (completedByUserId != null) 'completed_by_user_id': completedByUserId,
+      if (siteId != null) 'site_id': siteId,
     });
   }
 
@@ -2709,6 +2753,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     Value<int?>? equipmentInstanceId,
     Value<String?>? customFieldValuesJson,
     Value<int?>? completedByUserId,
+    Value<int?>? siteId,
   }) {
     return TaskSubmissionsCompanion(
       id: id ?? this.id,
@@ -2726,6 +2771,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
       customFieldValuesJson:
           customFieldValuesJson ?? this.customFieldValuesJson,
       completedByUserId: completedByUserId ?? this.completedByUserId,
+      siteId: siteId ?? this.siteId,
     );
   }
 
@@ -2776,6 +2822,9 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     if (completedByUserId.present) {
       map['completed_by_user_id'] = Variable<int>(completedByUserId.value);
     }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
     return map;
   }
 
@@ -2795,7 +2844,8 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
           ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
           ..write('equipmentInstanceId: $equipmentInstanceId, ')
           ..write('customFieldValuesJson: $customFieldValuesJson, ')
-          ..write('completedByUserId: $completedByUserId')
+          ..write('completedByUserId: $completedByUserId, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -4516,6 +4566,18 @@ class $TaskSchedulesTable extends TaskSchedules
     ),
     defaultValue: const Constant(true),
   );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4527,6 +4589,7 @@ class $TaskSchedulesTable extends TaskSchedules
     assignedByUserId,
     assignedAt,
     active,
+    siteId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4616,6 +4679,12 @@ class $TaskSchedulesTable extends TaskSchedules
         active.isAcceptableOrUnknown(data['active']!, _activeMeta),
       );
     }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
     return context;
   }
 
@@ -4661,6 +4730,10 @@ class $TaskSchedulesTable extends TaskSchedules
         DriftSqlType.bool,
         data['${effectivePrefix}active'],
       )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
     );
   }
 
@@ -4681,6 +4754,7 @@ class TaskScheduleEntity extends DataClass
   final int assignedByUserId;
   final DateTime assignedAt;
   final bool active;
+  final int? siteId;
   const TaskScheduleEntity({
     required this.id,
     required this.taskTemplateGroupId,
@@ -4691,6 +4765,7 @@ class TaskScheduleEntity extends DataClass
     required this.assignedByUserId,
     required this.assignedAt,
     required this.active,
+    this.siteId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4708,6 +4783,9 @@ class TaskScheduleEntity extends DataClass
     map['assigned_by_user_id'] = Variable<int>(assignedByUserId);
     map['assigned_at'] = Variable<DateTime>(assignedAt);
     map['active'] = Variable<bool>(active);
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
     return map;
   }
 
@@ -4726,6 +4804,9 @@ class TaskScheduleEntity extends DataClass
       assignedByUserId: Value(assignedByUserId),
       assignedAt: Value(assignedAt),
       active: Value(active),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
     );
   }
 
@@ -4750,6 +4831,7 @@ class TaskScheduleEntity extends DataClass
       assignedByUserId: serializer.fromJson<int>(json['assignedByUserId']),
       assignedAt: serializer.fromJson<DateTime>(json['assignedAt']),
       active: serializer.fromJson<bool>(json['active']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
     );
   }
   @override
@@ -4767,6 +4849,7 @@ class TaskScheduleEntity extends DataClass
       'assignedByUserId': serializer.toJson<int>(assignedByUserId),
       'assignedAt': serializer.toJson<DateTime>(assignedAt),
       'active': serializer.toJson<bool>(active),
+      'siteId': serializer.toJson<int?>(siteId),
     };
   }
 
@@ -4780,6 +4863,7 @@ class TaskScheduleEntity extends DataClass
     int? assignedByUserId,
     DateTime? assignedAt,
     bool? active,
+    Value<int?> siteId = const Value.absent(),
   }) => TaskScheduleEntity(
     id: id ?? this.id,
     taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
@@ -4794,6 +4878,7 @@ class TaskScheduleEntity extends DataClass
     assignedByUserId: assignedByUserId ?? this.assignedByUserId,
     assignedAt: assignedAt ?? this.assignedAt,
     active: active ?? this.active,
+    siteId: siteId.present ? siteId.value : this.siteId,
   );
   TaskScheduleEntity copyWithCompanion(TaskSchedulesCompanion data) {
     return TaskScheduleEntity(
@@ -4818,6 +4903,7 @@ class TaskScheduleEntity extends DataClass
           ? data.assignedAt.value
           : this.assignedAt,
       active: data.active.present ? data.active.value : this.active,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
     );
   }
 
@@ -4832,7 +4918,8 @@ class TaskScheduleEntity extends DataClass
           ..write('customFrequencyDetail: $customFrequencyDetail, ')
           ..write('assignedByUserId: $assignedByUserId, ')
           ..write('assignedAt: $assignedAt, ')
-          ..write('active: $active')
+          ..write('active: $active, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -4848,6 +4935,7 @@ class TaskScheduleEntity extends DataClass
     assignedByUserId,
     assignedAt,
     active,
+    siteId,
   );
   @override
   bool operator ==(Object other) =>
@@ -4861,7 +4949,8 @@ class TaskScheduleEntity extends DataClass
           other.customFrequencyDetail == this.customFrequencyDetail &&
           other.assignedByUserId == this.assignedByUserId &&
           other.assignedAt == this.assignedAt &&
-          other.active == this.active);
+          other.active == this.active &&
+          other.siteId == this.siteId);
 }
 
 class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
@@ -4874,6 +4963,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
   final Value<int> assignedByUserId;
   final Value<DateTime> assignedAt;
   final Value<bool> active;
+  final Value<int?> siteId;
   const TaskSchedulesCompanion({
     this.id = const Value.absent(),
     this.taskTemplateGroupId = const Value.absent(),
@@ -4884,6 +4974,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     this.assignedByUserId = const Value.absent(),
     this.assignedAt = const Value.absent(),
     this.active = const Value.absent(),
+    this.siteId = const Value.absent(),
   });
   TaskSchedulesCompanion.insert({
     this.id = const Value.absent(),
@@ -4895,6 +4986,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     required int assignedByUserId,
     required DateTime assignedAt,
     this.active = const Value.absent(),
+    this.siteId = const Value.absent(),
   }) : taskTemplateGroupId = Value(taskTemplateGroupId),
        assignedUserId = Value(assignedUserId),
        frequency = Value(frequency),
@@ -4910,6 +5002,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     Expression<int>? assignedByUserId,
     Expression<DateTime>? assignedAt,
     Expression<bool>? active,
+    Expression<int>? siteId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4924,6 +5017,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
       if (assignedByUserId != null) 'assigned_by_user_id': assignedByUserId,
       if (assignedAt != null) 'assigned_at': assignedAt,
       if (active != null) 'active': active,
+      if (siteId != null) 'site_id': siteId,
     });
   }
 
@@ -4937,6 +5031,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     Value<int>? assignedByUserId,
     Value<DateTime>? assignedAt,
     Value<bool>? active,
+    Value<int?>? siteId,
   }) {
     return TaskSchedulesCompanion(
       id: id ?? this.id,
@@ -4949,6 +5044,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
       assignedByUserId: assignedByUserId ?? this.assignedByUserId,
       assignedAt: assignedAt ?? this.assignedAt,
       active: active ?? this.active,
+      siteId: siteId ?? this.siteId,
     );
   }
 
@@ -4984,6 +5080,9 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     if (active.present) {
       map['active'] = Variable<bool>(active.value);
     }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
     return map;
   }
 
@@ -4998,7 +5097,8 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
           ..write('customFrequencyDetail: $customFrequencyDetail, ')
           ..write('assignedByUserId: $assignedByUserId, ')
           ..write('assignedAt: $assignedAt, ')
-          ..write('active: $active')
+          ..write('active: $active, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -7562,6 +7662,44 @@ final class $$SitesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$TaskSubmissionsTable, List<TaskSubmissionEntity>>
+  _taskSubmissionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskSubmissions,
+    aliasName: 'sites__id__task_submissions__site_id',
+  );
+
+  $$TaskSubmissionsTableProcessedTableManager get taskSubmissionsRefs {
+    final manager = $$TaskSubmissionsTableTableManager(
+      $_db,
+      $_db.taskSubmissions,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _taskSubmissionsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$TaskSchedulesTable, List<TaskScheduleEntity>>
+  _taskSchedulesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskSchedules,
+    aliasName: 'sites__id__task_schedules__site_id',
+  );
+
+  $$TaskSchedulesTableProcessedTableManager get taskSchedulesRefs {
+    final manager = $$TaskSchedulesTableTableManager(
+      $_db,
+      $_db.taskSchedules,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_taskSchedulesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
@@ -7681,6 +7819,56 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$UsersTableFilterComposer(
             $db: $db,
             $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> taskSubmissionsRefs(
+    Expression<bool> Function($$TaskSubmissionsTableFilterComposer f) f,
+  ) {
+    final $$TaskSubmissionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableFilterComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> taskSchedulesRefs(
+    Expression<bool> Function($$TaskSchedulesTableFilterComposer f) f,
+  ) {
+    final $$TaskSchedulesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSchedules,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSchedulesTableFilterComposer(
+            $db: $db,
+            $table: $db.taskSchedules,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -7863,6 +8051,56 @@ class $$SitesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> taskSubmissionsRefs<T extends Object>(
+    Expression<T> Function($$TaskSubmissionsTableAnnotationComposer a) f,
+  ) {
+    final $$TaskSubmissionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> taskSchedulesRefs<T extends Object>(
+    Expression<T> Function($$TaskSchedulesTableAnnotationComposer a) f,
+  ) {
+    final $$TaskSchedulesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSchedules,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSchedulesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskSchedules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -7883,6 +8121,8 @@ class $$SitesTableTableManager
             bool areasRefs,
             bool equipmentInstancesRefs,
             bool usersRefs,
+            bool taskSubmissionsRefs,
+            bool taskSchedulesRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -7936,6 +8176,8 @@ class $$SitesTableTableManager
                 areasRefs = false,
                 equipmentInstancesRefs = false,
                 usersRefs = false,
+                taskSubmissionsRefs = false,
+                taskSchedulesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -7943,6 +8185,8 @@ class $$SitesTableTableManager
                     if (areasRefs) db.areas,
                     if (equipmentInstancesRefs) db.equipmentInstances,
                     if (usersRefs) db.users,
+                    if (taskSubmissionsRefs) db.taskSubmissions,
+                    if (taskSchedulesRefs) db.taskSchedules,
                   ],
                   addJoins:
                       <
@@ -8033,6 +8277,48 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (taskSubmissionsRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          TaskSubmissionEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._taskSubmissionsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskSubmissionsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (taskSchedulesRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          TaskScheduleEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._taskSchedulesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskSchedulesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -8058,6 +8344,8 @@ typedef $$SitesTableProcessedTableManager =
         bool areasRefs,
         bool equipmentInstancesRefs,
         bool usersRefs,
+        bool taskSubmissionsRefs,
+        bool taskSchedulesRefs,
       })
     >;
 typedef $$AreasTableCreateCompanionBuilder =
@@ -9811,6 +10099,7 @@ typedef $$TaskSubmissionsTableCreateCompanionBuilder =
       Value<int?> equipmentInstanceId,
       Value<String?> customFieldValuesJson,
       Value<int?> completedByUserId,
+      Value<int?> siteId,
     });
 typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
     TaskSubmissionsCompanion Function({
@@ -9828,6 +10117,7 @@ typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
       Value<int?> equipmentInstanceId,
       Value<String?> customFieldValuesJson,
       Value<int?> completedByUserId,
+      Value<int?> siteId,
     });
 
 final class $$TaskSubmissionsTableReferences
@@ -9873,6 +10163,23 @@ final class $$TaskSubmissionsTableReferences
       $_db.users,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_completedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('task_submissions__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -9986,6 +10293,29 @@ class $$TaskSubmissionsTableFilterComposer
           }) => $$UsersTableFilterComposer(
             $db: $db,
             $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -10110,6 +10440,29 @@ class $$TaskSubmissionsTableOrderingComposer
     );
     return composer;
   }
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$TaskSubmissionsTableAnnotationComposer
@@ -10217,6 +10570,29 @@ class $$TaskSubmissionsTableAnnotationComposer
     );
     return composer;
   }
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$TaskSubmissionsTableTableManager
@@ -10235,6 +10611,7 @@ class $$TaskSubmissionsTableTableManager
           PrefetchHooks Function({
             bool equipmentInstanceId,
             bool completedByUserId,
+            bool siteId,
           })
         > {
   $$TaskSubmissionsTableTableManager(
@@ -10266,6 +10643,7 @@ class $$TaskSubmissionsTableTableManager
                 Value<int?> equipmentInstanceId = const Value.absent(),
                 Value<String?> customFieldValuesJson = const Value.absent(),
                 Value<int?> completedByUserId = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => TaskSubmissionsCompanion(
                 id: id,
                 taskTitle: taskTitle,
@@ -10281,6 +10659,7 @@ class $$TaskSubmissionsTableTableManager
                 equipmentInstanceId: equipmentInstanceId,
                 customFieldValuesJson: customFieldValuesJson,
                 completedByUserId: completedByUserId,
+                siteId: siteId,
               ),
           createCompanionCallback:
               ({
@@ -10298,6 +10677,7 @@ class $$TaskSubmissionsTableTableManager
                 Value<int?> equipmentInstanceId = const Value.absent(),
                 Value<String?> customFieldValuesJson = const Value.absent(),
                 Value<int?> completedByUserId = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => TaskSubmissionsCompanion.insert(
                 id: id,
                 taskTitle: taskTitle,
@@ -10313,6 +10693,7 @@ class $$TaskSubmissionsTableTableManager
                 equipmentInstanceId: equipmentInstanceId,
                 customFieldValuesJson: customFieldValuesJson,
                 completedByUserId: completedByUserId,
+                siteId: siteId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -10323,7 +10704,11 @@ class $$TaskSubmissionsTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({equipmentInstanceId = false, completedByUserId = false}) {
+              ({
+                equipmentInstanceId = false,
+                completedByUserId = false,
+                siteId = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [],
@@ -10373,6 +10758,21 @@ class $$TaskSubmissionsTableTableManager
                                   )
                                   as T;
                         }
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable:
+                                        $$TaskSubmissionsTableReferences
+                                            ._siteIdTable(db),
+                                    referencedColumn:
+                                        $$TaskSubmissionsTableReferences
+                                            ._siteIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
                         return state;
                       },
@@ -10397,7 +10797,11 @@ typedef $$TaskSubmissionsTableProcessedTableManager =
       $$TaskSubmissionsTableUpdateCompanionBuilder,
       (TaskSubmissionEntity, $$TaskSubmissionsTableReferences),
       TaskSubmissionEntity,
-      PrefetchHooks Function({bool equipmentInstanceId, bool completedByUserId})
+      PrefetchHooks Function({
+        bool equipmentInstanceId,
+        bool completedByUserId,
+        bool siteId,
+      })
     >;
 typedef $$LegalLimitReferencesTableCreateCompanionBuilder =
     LegalLimitReferencesCompanion Function({
@@ -11457,6 +11861,7 @@ typedef $$TaskSchedulesTableCreateCompanionBuilder =
       required int assignedByUserId,
       required DateTime assignedAt,
       Value<bool> active,
+      Value<int?> siteId,
     });
 typedef $$TaskSchedulesTableUpdateCompanionBuilder =
     TaskSchedulesCompanion Function({
@@ -11469,6 +11874,7 @@ typedef $$TaskSchedulesTableUpdateCompanionBuilder =
       Value<int> assignedByUserId,
       Value<DateTime> assignedAt,
       Value<bool> active,
+      Value<int?> siteId,
     });
 
 final class $$TaskSchedulesTableReferences
@@ -11527,6 +11933,23 @@ final class $$TaskSchedulesTableReferences
       $_db.users,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_assignedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('task_schedules__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -11633,6 +12056,29 @@ class $$TaskSchedulesTableFilterComposer
           }) => $$UsersTableFilterComposer(
             $db: $db,
             $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -11750,6 +12196,29 @@ class $$TaskSchedulesTableOrderingComposer
     );
     return composer;
   }
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$TaskSchedulesTableAnnotationComposer
@@ -11854,6 +12323,29 @@ class $$TaskSchedulesTableAnnotationComposer
     );
     return composer;
   }
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$TaskSchedulesTableTableManager
@@ -11873,6 +12365,7 @@ class $$TaskSchedulesTableTableManager
             bool assignedUserId,
             bool equipmentInstanceId,
             bool assignedByUserId,
+            bool siteId,
           })
         > {
   $$TaskSchedulesTableTableManager(_$AppDatabase db, $TaskSchedulesTable table)
@@ -11897,6 +12390,7 @@ class $$TaskSchedulesTableTableManager
                 Value<int> assignedByUserId = const Value.absent(),
                 Value<DateTime> assignedAt = const Value.absent(),
                 Value<bool> active = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => TaskSchedulesCompanion(
                 id: id,
                 taskTemplateGroupId: taskTemplateGroupId,
@@ -11907,6 +12401,7 @@ class $$TaskSchedulesTableTableManager
                 assignedByUserId: assignedByUserId,
                 assignedAt: assignedAt,
                 active: active,
+                siteId: siteId,
               ),
           createCompanionCallback:
               ({
@@ -11919,6 +12414,7 @@ class $$TaskSchedulesTableTableManager
                 required int assignedByUserId,
                 required DateTime assignedAt,
                 Value<bool> active = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => TaskSchedulesCompanion.insert(
                 id: id,
                 taskTemplateGroupId: taskTemplateGroupId,
@@ -11929,6 +12425,7 @@ class $$TaskSchedulesTableTableManager
                 assignedByUserId: assignedByUserId,
                 assignedAt: assignedAt,
                 active: active,
+                siteId: siteId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -11943,6 +12440,7 @@ class $$TaskSchedulesTableTableManager
                 assignedUserId = false,
                 equipmentInstanceId = false,
                 assignedByUserId = false,
+                siteId = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -12008,6 +12506,21 @@ class $$TaskSchedulesTableTableManager
                                   )
                                   as T;
                         }
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable:
+                                        $$TaskSchedulesTableReferences
+                                            ._siteIdTable(db),
+                                    referencedColumn:
+                                        $$TaskSchedulesTableReferences
+                                            ._siteIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
                         return state;
                       },
@@ -12036,6 +12549,7 @@ typedef $$TaskSchedulesTableProcessedTableManager =
         bool assignedUserId,
         bool equipmentInstanceId,
         bool assignedByUserId,
+        bool siteId,
       })
     >;
 typedef $$ShiftHandoverNotesTableCreateCompanionBuilder =

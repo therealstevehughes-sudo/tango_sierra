@@ -29,6 +29,7 @@ class TaskSubmissions extends Table {
   // is only a formatted display string, not a real reference.
   IntColumn get completedByUserId =>
       integer().nullable().references(Users, #id)();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
 
 @DataClassName('UserEntity')
@@ -125,6 +126,7 @@ class TaskSchedules extends Table {
   IntColumn get assignedByUserId => integer().references(Users, #id)();
   DateTimeColumn get assignedAt => dateTime()();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
 
 @DataClassName('ShiftHandoverNoteEntity')
@@ -214,7 +216,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 11;
+  int get schemaVersion => 12;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -283,6 +285,10 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(users, users.siteId);
         await m.addColumn(areas, areas.siteId);
         await m.addColumn(equipmentInstances, equipmentInstances.siteId);
+      }
+      if (from < 12) {
+        await m.addColumn(taskSchedules, taskSchedules.siteId);
+        await m.addColumn(taskSubmissions, taskSubmissions.siteId);
       }
     },
     beforeOpen: (details) async {
@@ -513,6 +519,16 @@ class AppDatabase extends _$AppDatabase {
       equipmentInstances,
     )..where((e) => e.siteId.isNull())).write(
       EquipmentInstancesCompanion(siteId: Value(siteId)),
+    );
+    await (update(
+      taskSchedules,
+    )..where((s) => s.siteId.isNull())).write(
+      TaskSchedulesCompanion(siteId: Value(siteId)),
+    );
+    await (update(
+      taskSubmissions,
+    )..where((t) => t.siteId.isNull())).write(
+      TaskSubmissionsCompanion(siteId: Value(siteId)),
     );
   }
 

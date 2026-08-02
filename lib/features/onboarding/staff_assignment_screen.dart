@@ -126,6 +126,7 @@ class _StaffAssignmentScreenState
         equipmentInstanceId: equipmentId,
         frequency: frequency,
         assignedByUserId: manager.id,
+        siteId: staff.siteId,
       );
     } else {
       final existing = _existingSchedule(templateGroupId, equipmentId);

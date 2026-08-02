@@ -147,6 +147,7 @@ class TaskController {
         equipmentInstanceId: task.equipmentInstanceId,
         customFieldValuesJson: customFieldValuesJson,
         completedByUserId: _currentUser.id,
+        siteId: _currentUser.siteId,
       ),
     );
   }

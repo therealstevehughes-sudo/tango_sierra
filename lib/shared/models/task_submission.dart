@@ -13,6 +13,7 @@ class TaskSubmission {
   final int? equipmentInstanceId;
   final String? customFieldValuesJson;
   final int? completedByUserId;
+  final int siteId;
 
   const TaskSubmission({
     this.id,
@@ -29,5 +30,6 @@ class TaskSubmission {
     this.equipmentInstanceId,
     this.customFieldValuesJson,
     this.completedByUserId,
+    required this.siteId,
   });
 }

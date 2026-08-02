@@ -13,6 +13,7 @@ abstract class TaskScheduleRepository {
     required ScheduleFrequency frequency,
     String? customFrequencyDetail,
     required int assignedByUserId,
+    required int siteId,
   });
   Future<void> deactivate(int scheduleId);
 }
@@ -44,6 +45,7 @@ class DriftTaskScheduleRepository implements TaskScheduleRepository {
     required ScheduleFrequency frequency,
     String? customFrequencyDetail,
     required int assignedByUserId,
+    required int siteId,
   }) async {
     final id = await _db
         .into(_db.taskSchedules)
@@ -56,6 +58,7 @@ class DriftTaskScheduleRepository implements TaskScheduleRepository {
             customFrequencyDetail: Value(customFrequencyDetail),
             assignedByUserId: assignedByUserId,
             assignedAt: DateTime.now(),
+            siteId: Value(siteId),
           ),
         );
     final row = await (_db.select(
@@ -83,5 +86,6 @@ class DriftTaskScheduleRepository implements TaskScheduleRepository {
     assignedByUserId: row.assignedByUserId,
     assignedAt: row.assignedAt,
     active: row.active,
+    siteId: row.siteId!,
   );
 }
