@@ -408,3 +408,19 @@ Risks: Verified with a temporary repository/controller-level test (deleted after
 Deferred items: In-app notifications inbox on ManagerScreen/TopScreen (Sprint 017). Real push/email dispatch (no backend, Phase 6 territory, unchanged from Sprint 014).
 Save point name: SPRINT_016_LOCK
 Notes: Commit 78bb18d18c09a8b8e255d60cfc8c3b43341ec63f, message "Sprint 016: TriggerNotification entity + fire notifications on FAIL".
+
+---
+
+## Sprint 017
+Date: 2026-08-02
+Objective: Build the in-app notifications inbox on ManagerScreen and TopScreen, completing the 016/017 split — same pattern as Sprint 013's SessionSummaries banner (StreamBuilder on TriggerNotificationRepository.watchForUser, Acknowledge action per notification).
+Files changed:
+- lib/features/manager/manager_screen.dart — new `StreamBuilder<List<TriggerNotification>>` watching `triggerNotificationRepositoryProvider.watchForUser(currentUser.id)`, placed above the existing Session Summaries banner; new private `_TriggerNotificationsBanner` widget (red-tinted, mirrors `_SessionSummariesBanner`'s structure exactly)
+- lib/features/dashboard/top_screen.dart — body restructured from a bare `Center` to a `Column` (notifications banner + `Expanded` placeholder); same `_TriggerNotificationsBanner` widget duplicated here, matching this project's established pattern of not sharing small UI elements between ManagerScreen/TopScreen
+Files unchanged: everything else — no schema, repository, or controller changes this sprint; `TriggerNotificationRepository`'s `watchForUser`/`acknowledge` methods (built in Sprint 016) are wired in as-is
+Architecture impact: None — pure UI wiring onto an already-built repository.
+UI impact: Both ManagerScreen and TopScreen now show a red "Notifications" banner whenever the logged-in user has any trigger notifications, each with an Acknowledge action. TopScreen has real body content beyond its placeholder text for the first time.
+Risks: Given Sprint 014's widget test hit an unresolved `pumpAndSettle()` hang, this sprint verified the underlying repository behavior directly instead (temporary test, deleted after, not part of this commit): `watchForUser` correctly streams only the addressed recipient's notifications (confirmed a different user sees none), and `acknowledge` correctly sets `acknowledged`/`acknowledgedAt`. `flutter analyze` clean. A real Windows debug run confirmed both restructured screens launch and render without runtime errors — left running on-device afterward for a manual visual check, since no UI-automation tool is available to confirm the banner's actual appearance interactively (same disclosed limitation as Sprint 014).
+Deferred items: Real push/email dispatch (no backend, Phase 6, unchanged). A UI toggle for creating org-wide NotificationRules (queued from Sprint 015d). The broader Notification refinements backlog (per-equipment-specific notifications, third-party contacts).
+Save point name: SPRINT_017_LOCK
+Notes: Commit 3aca111041a2883d603028f0a8fd4c7a9bb0b8de, message "Sprint 017: in-app notifications inbox on ManagerScreen/TopScreen".
