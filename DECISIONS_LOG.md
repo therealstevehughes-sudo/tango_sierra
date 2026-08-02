@@ -189,6 +189,16 @@ This applies retroactively to nothing already built — Sprint 014's versioning 
 - Add-only + active/inactive toggle, no edit form — matches Sprint 008's established v1-scope precedent for Areas/Equipment.
 - Verified with a repository-level test: creating a contact with neither phone nor email throws (mirrors `NotificationRule`'s "must have a target" validation); phone-only and email-only both succeed; org-wide (`siteId: null`) vs. site-specific both store correctly; `setActive` toggles correctly. A real Windows run confirmed the v14→v15 migration executes cleanly against the existing dev database.
 
+## Local data backup/export (Sprint 020) — first feature audit priority
+- Raw SQLite file copy, not a structured (JSON/CSV) export — deliberately distinct from PROJECT_BIBLE's separate, later "Inspection data export" item, which serves a different audience (inspectors reading a report) rather than disaster recovery (getting the exact data back onto a replacement device). Confirmed with the user before building, not conflated.
+- Implemented via SQLite's `VACUUM INTO ?` (a parameterized `customStatement` on `AppDatabase`) — produces a complete, consistent, compacted snapshot safely while the live connection stays open, avoiding WAL-corruption risk from a naive file copy. Verified with a test that opens the resulting file as an independent sqlite database and confirms it contains real data.
+- Export only this sprint, not restore — restore is destructive (overwrites whatever's on the target device) and riskier to do safely while the app has the live file open. Treated as a separate future sprint.
+- No file-picker dependency added — the backup auto-saves to a `KitchenControlBackups` folder under the user's Documents (via the already-present `path_provider`/`path` dependencies, both now used directly in app code for the first time) with a timestamped filename, and the resulting path is shown to the manager in a confirmation dialog. Actually moving the file to a USB drive/cloud folder stays a manual step.
+- No "last backup" staleness reminder this sprint (would need a small persisted timestamp or a new dependency) and no retention/cleanup of old backup files — both flagged as possible future refinements, not built now.
+- Per the user's explicit instruction: the confirmation dialog has an optional "Backup name" text field (e.g. "Pre-inspection backup"); when given, it's folded into the filename *alongside* the timestamp, not in place of it — confirmed the filename always sorts chronologically in a file browser regardless of whether a custom name was given.
+- No schema change, no migration, no schemaVersion bump — this is new application code over the existing database, not a new table.
+- Dialog logic (`_showBackupDialog`) is duplicated as a private top-level function in both `manager_screen.dart` and `top_screen.dart`, matching this project's established pattern of duplicating small per-screen logic rather than sharing it across ManagerScreen/TopScreen.
+
 ## Feature audit priorities (from FEATURE_AUDIT.md, added as new sprints)
 1. Data backup/export - local drift DB only lives on one device; losing it loses compliance history. Highest priority.
 2. Edit/retire for Areas/Equipment - no way to handle equipment replacement (e.g. broken fridge) without losing submission history

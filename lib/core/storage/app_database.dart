@@ -601,6 +601,13 @@ class AppDatabase extends _$AppDatabase {
     // comment. Pre-existing rows stay null (org-wide), not backfilled.
   }
 
+  // Safe to run while the app holds the live connection open — VACUUM INTO
+  // produces a complete, consistent, compacted snapshot without touching
+  // the live file or risking a half-written WAL.
+  Future<void> backupTo(String destinationPath) async {
+    await customStatement('VACUUM INTO ?', [destinationPath]);
+  }
+
   static QueryExecutor _openConnection() {
     return driftDatabase(name: 'kitchen_control_db');
   }
