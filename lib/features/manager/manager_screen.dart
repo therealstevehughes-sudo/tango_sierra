@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../shared/models/session_summary.dart';
 import '../../shared/models/task_submission.dart';
+import '../../shared/models/trigger_notification.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../notifications/notification_rules_screen.dart';
@@ -64,6 +66,9 @@ class ManagerScreen extends ConsumerWidget {
     final entriesAsync = ref.watch(taskSubmissionsStreamProvider);
     final currentUser = ref.watch(currentUserProvider);
     final sessionSummaryRepo = ref.watch(sessionSummaryRepositoryProvider);
+    final triggerNotificationRepo = ref.watch(
+      triggerNotificationRepositoryProvider,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -116,6 +121,18 @@ class ManagerScreen extends ConsumerWidget {
       ),
       body: Column(
         children: [
+          if (currentUser != null)
+            StreamBuilder<List<TriggerNotification>>(
+              stream: triggerNotificationRepo.watchForUser(currentUser.id),
+              builder: (context, snapshot) {
+                final notifications = snapshot.data ?? [];
+                if (notifications.isEmpty) return const SizedBox.shrink();
+                return _TriggerNotificationsBanner(
+                  notifications: notifications,
+                  onAcknowledge: triggerNotificationRepo.acknowledge,
+                );
+              },
+            ),
           if (currentUser != null)
             StreamBuilder<List<SessionSummary>>(
               stream: sessionSummaryRepo.watchForManager(currentUser.id),
@@ -228,6 +245,53 @@ class _SessionSummariesBanner extends StatelessWidget {
                   if (!summary.acknowledged)
                     TextButton(
                       onPressed: () => onAcknowledge(summary.id),
+                      child: const Text('Acknowledge'),
+                    )
+                  else
+                    const Icon(Icons.check, color: Colors.green),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TriggerNotificationsBanner extends StatelessWidget {
+  const _TriggerNotificationsBanner({
+    required this.notifications,
+    required this.onAcknowledge,
+  });
+
+  final List<TriggerNotification> notifications;
+  final void Function(int id) onAcknowledge;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      color: Colors.red.shade50,
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Notifications',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8),
+          ...notifications.map(
+            (notification) => Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: Text(notification.message)),
+                  if (!notification.acknowledged)
+                    TextButton(
+                      onPressed: () => onAcknowledge(notification.id),
                       child: const Text('Acknowledge'),
                     )
                   else
