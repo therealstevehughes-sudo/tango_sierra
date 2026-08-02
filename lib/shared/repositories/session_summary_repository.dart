@@ -14,6 +14,7 @@ abstract class SessionSummaryRepository {
     required int failCount,
     required List<String> failedTaskTitles,
     String? note,
+    required int siteId,
   });
   Stream<List<SessionSummary>> watchForManager(int managerId);
   Future<void> acknowledge(int id);
@@ -33,6 +34,7 @@ class DriftSessionSummaryRepository implements SessionSummaryRepository {
     required int failCount,
     required List<String> failedTaskTitles,
     String? note,
+    required int siteId,
   }) async {
     final id = await _db
         .into(_db.sessionSummaries)
@@ -46,6 +48,7 @@ class DriftSessionSummaryRepository implements SessionSummaryRepository {
             failedTaskTitlesJson: jsonEncode(failedTaskTitles),
             note: Value(note),
             sentAt: DateTime.now(),
+            siteId: Value(siteId),
           ),
         );
     final row = await (_db.select(
@@ -91,6 +94,7 @@ class DriftSessionSummaryRepository implements SessionSummaryRepository {
       sentAt: row.sentAt,
       acknowledged: row.acknowledged,
       acknowledgedAt: row.acknowledgedAt,
+      siteId: row.siteId!,
     );
   }
 }

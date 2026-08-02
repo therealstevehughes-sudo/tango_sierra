@@ -8,6 +8,7 @@ abstract class ShiftHandoverRepository {
   Future<ShiftHandoverNote> create({
     required int authorUserId,
     required String note,
+    required int siteId,
   });
 }
 
@@ -29,6 +30,7 @@ class DriftShiftHandoverRepository implements ShiftHandoverRepository {
   Future<ShiftHandoverNote> create({
     required int authorUserId,
     required String note,
+    required int siteId,
   }) async {
     final id = await _db
         .into(_db.shiftHandoverNotes)
@@ -37,6 +39,7 @@ class DriftShiftHandoverRepository implements ShiftHandoverRepository {
             authorUserId: authorUserId,
             note: note,
             createdAt: DateTime.now(),
+            siteId: Value(siteId),
           ),
         );
     final row = await (_db.select(
@@ -50,5 +53,6 @@ class DriftShiftHandoverRepository implements ShiftHandoverRepository {
     authorUserId: row.authorUserId,
     note: row.note,
     createdAt: row.createdAt,
+    siteId: row.siteId!,
   );
 }

@@ -69,6 +69,7 @@ class _EndOfSessionSummaryScreenState
       note: summaryNoteController.text.trim().isEmpty
           ? null
           : summaryNoteController.text.trim(),
+      siteId: currentUser.siteId,
     );
 
     if (!mounted) return;
@@ -80,7 +81,11 @@ class _EndOfSessionSummaryScreenState
     if (note.isNotEmpty) {
       final currentUser = ref.read(currentUserProvider)!;
       final repo = ref.read(shiftHandoverRepositoryProvider);
-      await repo.create(authorUserId: currentUser.id, note: note);
+      await repo.create(
+        authorUserId: currentUser.id,
+        note: note,
+        siteId: currentUser.siteId,
+      );
     }
 
     if (!mounted) return;

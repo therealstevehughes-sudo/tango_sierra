@@ -10,6 +10,7 @@ class SessionSummary {
   final DateTime sentAt;
   final bool acknowledged;
   final DateTime? acknowledgedAt;
+  final int siteId;
 
   const SessionSummary({
     required this.id,
@@ -23,5 +24,6 @@ class SessionSummary {
     required this.sentAt,
     required this.acknowledged,
     this.acknowledgedAt,
+    required this.siteId,
   });
 }

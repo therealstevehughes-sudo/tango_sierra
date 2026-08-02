@@ -135,6 +135,7 @@ class ShiftHandoverNotes extends Table {
   IntColumn get authorUserId => integer().references(Users, #id)();
   TextColumn get note => text()();
   DateTimeColumn get createdAt => dateTime()();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
 
 @DataClassName('SessionSummaryEntity')
@@ -153,6 +154,7 @@ class SessionSummaries extends Table {
   BoolColumn get acknowledged =>
       boolean().withDefault(const Constant(false))();
   DateTimeColumn get acknowledgedAt => dateTime().nullable()();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
 
 @DataClassName('NotificationRuleEntity')
@@ -176,6 +178,11 @@ class NotificationRules extends Table {
   TextColumn get setByTier => text()();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
   DateTimeColumn get createdAt => dateTime()();
+  // Nullable by design, not just migration necessity — null means "applies
+  // org-wide across every site", same pattern as taskTemplateGroupId above.
+  // Pre-existing (Sprint 014) rules stay null on migration rather than being
+  // backfilled to one site, preserving their original org-wide meaning.
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
 
 @DataClassName('OrganisationEntity')
@@ -216,7 +223,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 12;
+  int get schemaVersion => 13;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -289,6 +296,13 @@ class AppDatabase extends _$AppDatabase {
       if (from < 12) {
         await m.addColumn(taskSchedules, taskSchedules.siteId);
         await m.addColumn(taskSubmissions, taskSubmissions.siteId);
+      }
+      if (from < 13) {
+        await m.addColumn(shiftHandoverNotes, shiftHandoverNotes.siteId);
+        await m.addColumn(sessionSummaries, sessionSummaries.siteId);
+        // notificationRules.siteId intentionally gets no backfill — see the
+        // column's doc comment. Existing rows stay null (org-wide).
+        await m.addColumn(notificationRules, notificationRules.siteId);
       }
     },
     beforeOpen: (details) async {
@@ -530,6 +544,18 @@ class AppDatabase extends _$AppDatabase {
     )..where((t) => t.siteId.isNull())).write(
       TaskSubmissionsCompanion(siteId: Value(siteId)),
     );
+    await (update(
+      shiftHandoverNotes,
+    )..where((n) => n.siteId.isNull())).write(
+      ShiftHandoverNotesCompanion(siteId: Value(siteId)),
+    );
+    await (update(
+      sessionSummaries,
+    )..where((s) => s.siteId.isNull())).write(
+      SessionSummariesCompanion(siteId: Value(siteId)),
+    );
+    // notificationRules is deliberately excluded — see that column's doc
+    // comment. Pre-existing rows stay null (org-wide), not backfilled.
   }
 
   static QueryExecutor _openConnection() {

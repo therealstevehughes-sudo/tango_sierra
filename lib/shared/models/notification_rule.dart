@@ -14,6 +14,9 @@ class NotificationRule {
   final RoleTier setByTier;
   final bool active;
   final DateTime createdAt;
+  // Nullable by design, not a migration artifact — null means "applies
+  // org-wide across every site", same meaning as taskTemplateGroupId above.
+  final int? siteId;
 
   const NotificationRule({
     required this.id,
@@ -29,5 +32,6 @@ class NotificationRule {
     required this.setByTier,
     required this.active,
     required this.createdAt,
+    this.siteId,
   });
 }

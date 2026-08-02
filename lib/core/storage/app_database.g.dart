@@ -5157,8 +5157,26 @@ class $ShiftHandoverNotesTable extends ShiftHandoverNotes
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
   @override
-  List<GeneratedColumn> get $columns => [id, authorUserId, note, createdAt];
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    authorUserId,
+    note,
+    createdAt,
+    siteId,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -5201,6 +5219,12 @@ class $ShiftHandoverNotesTable extends ShiftHandoverNotes
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
     return context;
   }
 
@@ -5229,6 +5253,10 @@ class $ShiftHandoverNotesTable extends ShiftHandoverNotes
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
     );
   }
 
@@ -5244,11 +5272,13 @@ class ShiftHandoverNoteEntity extends DataClass
   final int authorUserId;
   final String note;
   final DateTime createdAt;
+  final int? siteId;
   const ShiftHandoverNoteEntity({
     required this.id,
     required this.authorUserId,
     required this.note,
     required this.createdAt,
+    this.siteId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5257,6 +5287,9 @@ class ShiftHandoverNoteEntity extends DataClass
     map['author_user_id'] = Variable<int>(authorUserId);
     map['note'] = Variable<String>(note);
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
     return map;
   }
 
@@ -5266,6 +5299,9 @@ class ShiftHandoverNoteEntity extends DataClass
       authorUserId: Value(authorUserId),
       note: Value(note),
       createdAt: Value(createdAt),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
     );
   }
 
@@ -5279,6 +5315,7 @@ class ShiftHandoverNoteEntity extends DataClass
       authorUserId: serializer.fromJson<int>(json['authorUserId']),
       note: serializer.fromJson<String>(json['note']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
     );
   }
   @override
@@ -5289,6 +5326,7 @@ class ShiftHandoverNoteEntity extends DataClass
       'authorUserId': serializer.toJson<int>(authorUserId),
       'note': serializer.toJson<String>(note),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'siteId': serializer.toJson<int?>(siteId),
     };
   }
 
@@ -5297,11 +5335,13 @@ class ShiftHandoverNoteEntity extends DataClass
     int? authorUserId,
     String? note,
     DateTime? createdAt,
+    Value<int?> siteId = const Value.absent(),
   }) => ShiftHandoverNoteEntity(
     id: id ?? this.id,
     authorUserId: authorUserId ?? this.authorUserId,
     note: note ?? this.note,
     createdAt: createdAt ?? this.createdAt,
+    siteId: siteId.present ? siteId.value : this.siteId,
   );
   ShiftHandoverNoteEntity copyWithCompanion(ShiftHandoverNotesCompanion data) {
     return ShiftHandoverNoteEntity(
@@ -5311,6 +5351,7 @@ class ShiftHandoverNoteEntity extends DataClass
           : this.authorUserId,
       note: data.note.present ? data.note.value : this.note,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
     );
   }
 
@@ -5320,13 +5361,14 @@ class ShiftHandoverNoteEntity extends DataClass
           ..write('id: $id, ')
           ..write('authorUserId: $authorUserId, ')
           ..write('note: $note, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, authorUserId, note, createdAt);
+  int get hashCode => Object.hash(id, authorUserId, note, createdAt, siteId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -5334,7 +5376,8 @@ class ShiftHandoverNoteEntity extends DataClass
           other.id == this.id &&
           other.authorUserId == this.authorUserId &&
           other.note == this.note &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.siteId == this.siteId);
 }
 
 class ShiftHandoverNotesCompanion
@@ -5343,17 +5386,20 @@ class ShiftHandoverNotesCompanion
   final Value<int> authorUserId;
   final Value<String> note;
   final Value<DateTime> createdAt;
+  final Value<int?> siteId;
   const ShiftHandoverNotesCompanion({
     this.id = const Value.absent(),
     this.authorUserId = const Value.absent(),
     this.note = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.siteId = const Value.absent(),
   });
   ShiftHandoverNotesCompanion.insert({
     this.id = const Value.absent(),
     required int authorUserId,
     required String note,
     required DateTime createdAt,
+    this.siteId = const Value.absent(),
   }) : authorUserId = Value(authorUserId),
        note = Value(note),
        createdAt = Value(createdAt);
@@ -5362,12 +5408,14 @@ class ShiftHandoverNotesCompanion
     Expression<int>? authorUserId,
     Expression<String>? note,
     Expression<DateTime>? createdAt,
+    Expression<int>? siteId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (authorUserId != null) 'author_user_id': authorUserId,
       if (note != null) 'note': note,
       if (createdAt != null) 'created_at': createdAt,
+      if (siteId != null) 'site_id': siteId,
     });
   }
 
@@ -5376,12 +5424,14 @@ class ShiftHandoverNotesCompanion
     Value<int>? authorUserId,
     Value<String>? note,
     Value<DateTime>? createdAt,
+    Value<int?>? siteId,
   }) {
     return ShiftHandoverNotesCompanion(
       id: id ?? this.id,
       authorUserId: authorUserId ?? this.authorUserId,
       note: note ?? this.note,
       createdAt: createdAt ?? this.createdAt,
+      siteId: siteId ?? this.siteId,
     );
   }
 
@@ -5400,6 +5450,9 @@ class ShiftHandoverNotesCompanion
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
     return map;
   }
 
@@ -5409,7 +5462,8 @@ class ShiftHandoverNotesCompanion
           ..write('id: $id, ')
           ..write('authorUserId: $authorUserId, ')
           ..write('note: $note, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -5551,6 +5605,18 @@ class $SessionSummariesTable extends SessionSummaries
         type: DriftSqlType.dateTime,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -5564,6 +5630,7 @@ class $SessionSummariesTable extends SessionSummaries
     sentAt,
     acknowledged,
     acknowledgedAt,
+    siteId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5669,6 +5736,12 @@ class $SessionSummariesTable extends SessionSummaries
         ),
       );
     }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
     return context;
   }
 
@@ -5722,6 +5795,10 @@ class $SessionSummariesTable extends SessionSummaries
         DriftSqlType.dateTime,
         data['${effectivePrefix}acknowledged_at'],
       ),
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
     );
   }
 
@@ -5744,6 +5821,7 @@ class SessionSummaryEntity extends DataClass
   final DateTime sentAt;
   final bool acknowledged;
   final DateTime? acknowledgedAt;
+  final int? siteId;
   const SessionSummaryEntity({
     required this.id,
     required this.staffUserId,
@@ -5756,6 +5834,7 @@ class SessionSummaryEntity extends DataClass
     required this.sentAt,
     required this.acknowledged,
     this.acknowledgedAt,
+    this.siteId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5775,6 +5854,9 @@ class SessionSummaryEntity extends DataClass
     if (!nullToAbsent || acknowledgedAt != null) {
       map['acknowledged_at'] = Variable<DateTime>(acknowledgedAt);
     }
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
     return map;
   }
 
@@ -5793,6 +5875,9 @@ class SessionSummaryEntity extends DataClass
       acknowledgedAt: acknowledgedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(acknowledgedAt),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
     );
   }
 
@@ -5815,6 +5900,7 @@ class SessionSummaryEntity extends DataClass
       sentAt: serializer.fromJson<DateTime>(json['sentAt']),
       acknowledged: serializer.fromJson<bool>(json['acknowledged']),
       acknowledgedAt: serializer.fromJson<DateTime?>(json['acknowledgedAt']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
     );
   }
   @override
@@ -5832,6 +5918,7 @@ class SessionSummaryEntity extends DataClass
       'sentAt': serializer.toJson<DateTime>(sentAt),
       'acknowledged': serializer.toJson<bool>(acknowledged),
       'acknowledgedAt': serializer.toJson<DateTime?>(acknowledgedAt),
+      'siteId': serializer.toJson<int?>(siteId),
     };
   }
 
@@ -5847,6 +5934,7 @@ class SessionSummaryEntity extends DataClass
     DateTime? sentAt,
     bool? acknowledged,
     Value<DateTime?> acknowledgedAt = const Value.absent(),
+    Value<int?> siteId = const Value.absent(),
   }) => SessionSummaryEntity(
     id: id ?? this.id,
     staffUserId: staffUserId ?? this.staffUserId,
@@ -5861,6 +5949,7 @@ class SessionSummaryEntity extends DataClass
     acknowledgedAt: acknowledgedAt.present
         ? acknowledgedAt.value
         : this.acknowledgedAt,
+    siteId: siteId.present ? siteId.value : this.siteId,
   );
   SessionSummaryEntity copyWithCompanion(SessionSummariesCompanion data) {
     return SessionSummaryEntity(
@@ -5885,6 +5974,7 @@ class SessionSummaryEntity extends DataClass
       acknowledgedAt: data.acknowledgedAt.present
           ? data.acknowledgedAt.value
           : this.acknowledgedAt,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
     );
   }
 
@@ -5901,7 +5991,8 @@ class SessionSummaryEntity extends DataClass
           ..write('note: $note, ')
           ..write('sentAt: $sentAt, ')
           ..write('acknowledged: $acknowledged, ')
-          ..write('acknowledgedAt: $acknowledgedAt')
+          ..write('acknowledgedAt: $acknowledgedAt, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -5919,6 +6010,7 @@ class SessionSummaryEntity extends DataClass
     sentAt,
     acknowledged,
     acknowledgedAt,
+    siteId,
   );
   @override
   bool operator ==(Object other) =>
@@ -5934,7 +6026,8 @@ class SessionSummaryEntity extends DataClass
           other.note == this.note &&
           other.sentAt == this.sentAt &&
           other.acknowledged == this.acknowledged &&
-          other.acknowledgedAt == this.acknowledgedAt);
+          other.acknowledgedAt == this.acknowledgedAt &&
+          other.siteId == this.siteId);
 }
 
 class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
@@ -5949,6 +6042,7 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
   final Value<DateTime> sentAt;
   final Value<bool> acknowledged;
   final Value<DateTime?> acknowledgedAt;
+  final Value<int?> siteId;
   const SessionSummariesCompanion({
     this.id = const Value.absent(),
     this.staffUserId = const Value.absent(),
@@ -5961,6 +6055,7 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
     this.sentAt = const Value.absent(),
     this.acknowledged = const Value.absent(),
     this.acknowledgedAt = const Value.absent(),
+    this.siteId = const Value.absent(),
   });
   SessionSummariesCompanion.insert({
     this.id = const Value.absent(),
@@ -5974,6 +6069,7 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
     required DateTime sentAt,
     this.acknowledged = const Value.absent(),
     this.acknowledgedAt = const Value.absent(),
+    this.siteId = const Value.absent(),
   }) : staffUserId = Value(staffUserId),
        staffName = Value(staffName),
        sentToManagerId = Value(sentToManagerId),
@@ -5993,6 +6089,7 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
     Expression<DateTime>? sentAt,
     Expression<bool>? acknowledged,
     Expression<DateTime>? acknowledgedAt,
+    Expression<int>? siteId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -6007,6 +6104,7 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
       if (sentAt != null) 'sent_at': sentAt,
       if (acknowledged != null) 'acknowledged': acknowledged,
       if (acknowledgedAt != null) 'acknowledged_at': acknowledgedAt,
+      if (siteId != null) 'site_id': siteId,
     });
   }
 
@@ -6022,6 +6120,7 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
     Value<DateTime>? sentAt,
     Value<bool>? acknowledged,
     Value<DateTime?>? acknowledgedAt,
+    Value<int?>? siteId,
   }) {
     return SessionSummariesCompanion(
       id: id ?? this.id,
@@ -6035,6 +6134,7 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
       sentAt: sentAt ?? this.sentAt,
       acknowledged: acknowledged ?? this.acknowledged,
       acknowledgedAt: acknowledgedAt ?? this.acknowledgedAt,
+      siteId: siteId ?? this.siteId,
     );
   }
 
@@ -6076,6 +6176,9 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
     if (acknowledgedAt.present) {
       map['acknowledged_at'] = Variable<DateTime>(acknowledgedAt.value);
     }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
     return map;
   }
 
@@ -6092,7 +6195,8 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
           ..write('note: $note, ')
           ..write('sentAt: $sentAt, ')
           ..write('acknowledged: $acknowledged, ')
-          ..write('acknowledgedAt: $acknowledgedAt')
+          ..write('acknowledgedAt: $acknowledgedAt, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -6267,6 +6371,18 @@ class $NotificationRulesTable extends NotificationRules
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -6282,6 +6398,7 @@ class $NotificationRulesTable extends NotificationRules
     setByTier,
     active,
     createdAt,
+    siteId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -6407,6 +6524,12 @@ class $NotificationRulesTable extends NotificationRules
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
     return context;
   }
 
@@ -6468,6 +6591,10 @@ class $NotificationRulesTable extends NotificationRules
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
     );
   }
 
@@ -6492,6 +6619,7 @@ class NotificationRuleEntity extends DataClass
   final String setByTier;
   final bool active;
   final DateTime createdAt;
+  final int? siteId;
   const NotificationRuleEntity({
     required this.id,
     required this.ruleGroupId,
@@ -6506,6 +6634,7 @@ class NotificationRuleEntity extends DataClass
     required this.setByTier,
     required this.active,
     required this.createdAt,
+    this.siteId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -6531,6 +6660,9 @@ class NotificationRuleEntity extends DataClass
     map['set_by_tier'] = Variable<String>(setByTier);
     map['active'] = Variable<bool>(active);
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
     return map;
   }
 
@@ -6557,6 +6689,9 @@ class NotificationRuleEntity extends DataClass
       setByTier: Value(setByTier),
       active: Value(active),
       createdAt: Value(createdAt),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
     );
   }
 
@@ -6581,6 +6716,7 @@ class NotificationRuleEntity extends DataClass
       setByTier: serializer.fromJson<String>(json['setByTier']),
       active: serializer.fromJson<bool>(json['active']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
     );
   }
   @override
@@ -6600,6 +6736,7 @@ class NotificationRuleEntity extends DataClass
       'setByTier': serializer.toJson<String>(setByTier),
       'active': serializer.toJson<bool>(active),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'siteId': serializer.toJson<int?>(siteId),
     };
   }
 
@@ -6617,6 +6754,7 @@ class NotificationRuleEntity extends DataClass
     String? setByTier,
     bool? active,
     DateTime? createdAt,
+    Value<int?> siteId = const Value.absent(),
   }) => NotificationRuleEntity(
     id: id ?? this.id,
     ruleGroupId: ruleGroupId ?? this.ruleGroupId,
@@ -6637,6 +6775,7 @@ class NotificationRuleEntity extends DataClass
     setByTier: setByTier ?? this.setByTier,
     active: active ?? this.active,
     createdAt: createdAt ?? this.createdAt,
+    siteId: siteId.present ? siteId.value : this.siteId,
   );
   NotificationRuleEntity copyWithCompanion(NotificationRulesCompanion data) {
     return NotificationRuleEntity(
@@ -6671,6 +6810,7 @@ class NotificationRuleEntity extends DataClass
       setByTier: data.setByTier.present ? data.setByTier.value : this.setByTier,
       active: data.active.present ? data.active.value : this.active,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
     );
   }
 
@@ -6689,7 +6829,8 @@ class NotificationRuleEntity extends DataClass
           ..write('setByUserId: $setByUserId, ')
           ..write('setByTier: $setByTier, ')
           ..write('active: $active, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -6709,6 +6850,7 @@ class NotificationRuleEntity extends DataClass
     setByTier,
     active,
     createdAt,
+    siteId,
   );
   @override
   bool operator ==(Object other) =>
@@ -6726,7 +6868,8 @@ class NotificationRuleEntity extends DataClass
           other.setByUserId == this.setByUserId &&
           other.setByTier == this.setByTier &&
           other.active == this.active &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.siteId == this.siteId);
 }
 
 class NotificationRulesCompanion
@@ -6744,6 +6887,7 @@ class NotificationRulesCompanion
   final Value<String> setByTier;
   final Value<bool> active;
   final Value<DateTime> createdAt;
+  final Value<int?> siteId;
   const NotificationRulesCompanion({
     this.id = const Value.absent(),
     this.ruleGroupId = const Value.absent(),
@@ -6758,6 +6902,7 @@ class NotificationRulesCompanion
     this.setByTier = const Value.absent(),
     this.active = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.siteId = const Value.absent(),
   });
   NotificationRulesCompanion.insert({
     this.id = const Value.absent(),
@@ -6773,6 +6918,7 @@ class NotificationRulesCompanion
     required String setByTier,
     this.active = const Value.absent(),
     required DateTime createdAt,
+    this.siteId = const Value.absent(),
   }) : ruleGroupId = Value(ruleGroupId),
        versionNumber = Value(versionNumber),
        setByUserId = Value(setByUserId),
@@ -6792,6 +6938,7 @@ class NotificationRulesCompanion
     Expression<String>? setByTier,
     Expression<bool>? active,
     Expression<DateTime>? createdAt,
+    Expression<int>? siteId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -6808,6 +6955,7 @@ class NotificationRulesCompanion
       if (setByTier != null) 'set_by_tier': setByTier,
       if (active != null) 'active': active,
       if (createdAt != null) 'created_at': createdAt,
+      if (siteId != null) 'site_id': siteId,
     });
   }
 
@@ -6825,6 +6973,7 @@ class NotificationRulesCompanion
     Value<String>? setByTier,
     Value<bool>? active,
     Value<DateTime>? createdAt,
+    Value<int?>? siteId,
   }) {
     return NotificationRulesCompanion(
       id: id ?? this.id,
@@ -6840,6 +6989,7 @@ class NotificationRulesCompanion
       setByTier: setByTier ?? this.setByTier,
       active: active ?? this.active,
       createdAt: createdAt ?? this.createdAt,
+      siteId: siteId ?? this.siteId,
     );
   }
 
@@ -6885,6 +7035,9 @@ class NotificationRulesCompanion
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
     return map;
   }
 
@@ -6903,7 +7056,8 @@ class NotificationRulesCompanion
           ..write('setByUserId: $setByUserId, ')
           ..write('setByTier: $setByTier, ')
           ..write('active: $active, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('siteId: $siteId')
           ..write(')'))
         .toString();
   }
@@ -7700,6 +7854,74 @@ final class $$SitesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $ShiftHandoverNotesTable,
+    List<ShiftHandoverNoteEntity>
+  >
+  _shiftHandoverNotesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.shiftHandoverNotes,
+        aliasName: 'sites__id__shift_handover_notes__site_id',
+      );
+
+  $$ShiftHandoverNotesTableProcessedTableManager get shiftHandoverNotesRefs {
+    final manager = $$ShiftHandoverNotesTableTableManager(
+      $_db,
+      $_db.shiftHandoverNotes,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _shiftHandoverNotesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$SessionSummariesTable, List<SessionSummaryEntity>>
+  _sessionSummariesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.sessionSummaries,
+    aliasName: 'sites__id__session_summaries__site_id',
+  );
+
+  $$SessionSummariesTableProcessedTableManager get sessionSummariesRefs {
+    final manager = $$SessionSummariesTableTableManager(
+      $_db,
+      $_db.sessionSummaries,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _sessionSummariesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $NotificationRulesTable,
+    List<NotificationRuleEntity>
+  >
+  _notificationRulesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.notificationRules,
+        aliasName: 'sites__id__notification_rules__site_id',
+      );
+
+  $$NotificationRulesTableProcessedTableManager get notificationRulesRefs {
+    final manager = $$NotificationRulesTableTableManager(
+      $_db,
+      $_db.notificationRules,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _notificationRulesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
@@ -7869,6 +8091,81 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$TaskSchedulesTableFilterComposer(
             $db: $db,
             $table: $db.taskSchedules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> shiftHandoverNotesRefs(
+    Expression<bool> Function($$ShiftHandoverNotesTableFilterComposer f) f,
+  ) {
+    final $$ShiftHandoverNotesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.shiftHandoverNotes,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ShiftHandoverNotesTableFilterComposer(
+            $db: $db,
+            $table: $db.shiftHandoverNotes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> sessionSummariesRefs(
+    Expression<bool> Function($$SessionSummariesTableFilterComposer f) f,
+  ) {
+    final $$SessionSummariesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sessionSummaries,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SessionSummariesTableFilterComposer(
+            $db: $db,
+            $table: $db.sessionSummaries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> notificationRulesRefs(
+    Expression<bool> Function($$NotificationRulesTableFilterComposer f) f,
+  ) {
+    final $$NotificationRulesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.notificationRules,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$NotificationRulesTableFilterComposer(
+            $db: $db,
+            $table: $db.notificationRules,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -8101,6 +8398,83 @@ class $$SitesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> shiftHandoverNotesRefs<T extends Object>(
+    Expression<T> Function($$ShiftHandoverNotesTableAnnotationComposer a) f,
+  ) {
+    final $$ShiftHandoverNotesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.shiftHandoverNotes,
+          getReferencedColumn: (t) => t.siteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ShiftHandoverNotesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.shiftHandoverNotes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> sessionSummariesRefs<T extends Object>(
+    Expression<T> Function($$SessionSummariesTableAnnotationComposer a) f,
+  ) {
+    final $$SessionSummariesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sessionSummaries,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SessionSummariesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sessionSummaries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> notificationRulesRefs<T extends Object>(
+    Expression<T> Function($$NotificationRulesTableAnnotationComposer a) f,
+  ) {
+    final $$NotificationRulesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.notificationRules,
+          getReferencedColumn: (t) => t.siteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$NotificationRulesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.notificationRules,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -8123,6 +8497,9 @@ class $$SitesTableTableManager
             bool usersRefs,
             bool taskSubmissionsRefs,
             bool taskSchedulesRefs,
+            bool shiftHandoverNotesRefs,
+            bool sessionSummariesRefs,
+            bool notificationRulesRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -8178,6 +8555,9 @@ class $$SitesTableTableManager
                 usersRefs = false,
                 taskSubmissionsRefs = false,
                 taskSchedulesRefs = false,
+                shiftHandoverNotesRefs = false,
+                sessionSummariesRefs = false,
+                notificationRulesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -8187,6 +8567,9 @@ class $$SitesTableTableManager
                     if (usersRefs) db.users,
                     if (taskSubmissionsRefs) db.taskSubmissions,
                     if (taskSchedulesRefs) db.taskSchedules,
+                    if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
+                    if (sessionSummariesRefs) db.sessionSummaries,
+                    if (notificationRulesRefs) db.notificationRules,
                   ],
                   addJoins:
                       <
@@ -8319,6 +8702,69 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (shiftHandoverNotesRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          ShiftHandoverNoteEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._shiftHandoverNotesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).shiftHandoverNotesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (sessionSummariesRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          SessionSummaryEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._sessionSummariesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).sessionSummariesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (notificationRulesRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          NotificationRuleEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._notificationRulesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).notificationRulesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -8346,6 +8792,9 @@ typedef $$SitesTableProcessedTableManager =
         bool usersRefs,
         bool taskSubmissionsRefs,
         bool taskSchedulesRefs,
+        bool shiftHandoverNotesRefs,
+        bool sessionSummariesRefs,
+        bool notificationRulesRefs,
       })
     >;
 typedef $$AreasTableCreateCompanionBuilder =
@@ -12558,6 +13007,7 @@ typedef $$ShiftHandoverNotesTableCreateCompanionBuilder =
       required int authorUserId,
       required String note,
       required DateTime createdAt,
+      Value<int?> siteId,
     });
 typedef $$ShiftHandoverNotesTableUpdateCompanionBuilder =
     ShiftHandoverNotesCompanion Function({
@@ -12565,6 +13015,7 @@ typedef $$ShiftHandoverNotesTableUpdateCompanionBuilder =
       Value<int> authorUserId,
       Value<String> note,
       Value<DateTime> createdAt,
+      Value<int?> siteId,
     });
 
 final class $$ShiftHandoverNotesTableReferences
@@ -12591,6 +13042,23 @@ final class $$ShiftHandoverNotesTableReferences
       $_db.users,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_authorUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('shift_handover_notes__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -12636,6 +13104,29 @@ class $$ShiftHandoverNotesTableFilterComposer
           }) => $$UsersTableFilterComposer(
             $db: $db,
             $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -12692,6 +13183,29 @@ class $$ShiftHandoverNotesTableOrderingComposer
     );
     return composer;
   }
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ShiftHandoverNotesTableAnnotationComposer
@@ -12734,6 +13248,29 @@ class $$ShiftHandoverNotesTableAnnotationComposer
     );
     return composer;
   }
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$ShiftHandoverNotesTableTableManager
@@ -12749,7 +13286,7 @@ class $$ShiftHandoverNotesTableTableManager
           $$ShiftHandoverNotesTableUpdateCompanionBuilder,
           (ShiftHandoverNoteEntity, $$ShiftHandoverNotesTableReferences),
           ShiftHandoverNoteEntity,
-          PrefetchHooks Function({bool authorUserId})
+          PrefetchHooks Function({bool authorUserId, bool siteId})
         > {
   $$ShiftHandoverNotesTableTableManager(
     _$AppDatabase db,
@@ -12773,11 +13310,13 @@ class $$ShiftHandoverNotesTableTableManager
                 Value<int> authorUserId = const Value.absent(),
                 Value<String> note = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => ShiftHandoverNotesCompanion(
                 id: id,
                 authorUserId: authorUserId,
                 note: note,
                 createdAt: createdAt,
+                siteId: siteId,
               ),
           createCompanionCallback:
               ({
@@ -12785,11 +13324,13 @@ class $$ShiftHandoverNotesTableTableManager
                 required int authorUserId,
                 required String note,
                 required DateTime createdAt,
+                Value<int?> siteId = const Value.absent(),
               }) => ShiftHandoverNotesCompanion.insert(
                 id: id,
                 authorUserId: authorUserId,
                 note: note,
                 createdAt: createdAt,
+                siteId: siteId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -12799,7 +13340,7 @@ class $$ShiftHandoverNotesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({authorUserId = false}) {
+          prefetchHooksCallback: ({authorUserId = false, siteId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -12834,6 +13375,21 @@ class $$ShiftHandoverNotesTableTableManager
                               )
                               as T;
                     }
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable:
+                                    $$ShiftHandoverNotesTableReferences
+                                        ._siteIdTable(db),
+                                referencedColumn:
+                                    $$ShiftHandoverNotesTableReferences
+                                        ._siteIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
 
                     return state;
                   },
@@ -12858,7 +13414,7 @@ typedef $$ShiftHandoverNotesTableProcessedTableManager =
       $$ShiftHandoverNotesTableUpdateCompanionBuilder,
       (ShiftHandoverNoteEntity, $$ShiftHandoverNotesTableReferences),
       ShiftHandoverNoteEntity,
-      PrefetchHooks Function({bool authorUserId})
+      PrefetchHooks Function({bool authorUserId, bool siteId})
     >;
 typedef $$SessionSummariesTableCreateCompanionBuilder =
     SessionSummariesCompanion Function({
@@ -12873,6 +13429,7 @@ typedef $$SessionSummariesTableCreateCompanionBuilder =
       required DateTime sentAt,
       Value<bool> acknowledged,
       Value<DateTime?> acknowledgedAt,
+      Value<int?> siteId,
     });
 typedef $$SessionSummariesTableUpdateCompanionBuilder =
     SessionSummariesCompanion Function({
@@ -12887,6 +13444,7 @@ typedef $$SessionSummariesTableUpdateCompanionBuilder =
       Value<DateTime> sentAt,
       Value<bool> acknowledged,
       Value<DateTime?> acknowledgedAt,
+      Value<int?> siteId,
     });
 
 final class $$SessionSummariesTableReferences
@@ -12930,6 +13488,23 @@ final class $$SessionSummariesTableReferences
       $_db.users,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_sentToManagerIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('session_summaries__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -13028,6 +13603,29 @@ class $$SessionSummariesTableFilterComposer
           }) => $$UsersTableFilterComposer(
             $db: $db,
             $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -13137,6 +13735,29 @@ class $$SessionSummariesTableOrderingComposer
     );
     return composer;
   }
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$SessionSummariesTableAnnotationComposer
@@ -13226,6 +13847,29 @@ class $$SessionSummariesTableAnnotationComposer
     );
     return composer;
   }
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$SessionSummariesTableTableManager
@@ -13241,7 +13885,11 @@ class $$SessionSummariesTableTableManager
           $$SessionSummariesTableUpdateCompanionBuilder,
           (SessionSummaryEntity, $$SessionSummariesTableReferences),
           SessionSummaryEntity,
-          PrefetchHooks Function({bool staffUserId, bool sentToManagerId})
+          PrefetchHooks Function({
+            bool staffUserId,
+            bool sentToManagerId,
+            bool siteId,
+          })
         > {
   $$SessionSummariesTableTableManager(
     _$AppDatabase db,
@@ -13269,6 +13917,7 @@ class $$SessionSummariesTableTableManager
                 Value<DateTime> sentAt = const Value.absent(),
                 Value<bool> acknowledged = const Value.absent(),
                 Value<DateTime?> acknowledgedAt = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => SessionSummariesCompanion(
                 id: id,
                 staffUserId: staffUserId,
@@ -13281,6 +13930,7 @@ class $$SessionSummariesTableTableManager
                 sentAt: sentAt,
                 acknowledged: acknowledged,
                 acknowledgedAt: acknowledgedAt,
+                siteId: siteId,
               ),
           createCompanionCallback:
               ({
@@ -13295,6 +13945,7 @@ class $$SessionSummariesTableTableManager
                 required DateTime sentAt,
                 Value<bool> acknowledged = const Value.absent(),
                 Value<DateTime?> acknowledgedAt = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => SessionSummariesCompanion.insert(
                 id: id,
                 staffUserId: staffUserId,
@@ -13307,6 +13958,7 @@ class $$SessionSummariesTableTableManager
                 sentAt: sentAt,
                 acknowledged: acknowledged,
                 acknowledgedAt: acknowledgedAt,
+                siteId: siteId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -13317,7 +13969,7 @@ class $$SessionSummariesTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({staffUserId = false, sentToManagerId = false}) {
+              ({staffUserId = false, sentToManagerId = false, siteId = false}) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [],
@@ -13367,6 +14019,21 @@ class $$SessionSummariesTableTableManager
                                   )
                                   as T;
                         }
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable:
+                                        $$SessionSummariesTableReferences
+                                            ._siteIdTable(db),
+                                    referencedColumn:
+                                        $$SessionSummariesTableReferences
+                                            ._siteIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
                         return state;
                       },
@@ -13391,7 +14058,11 @@ typedef $$SessionSummariesTableProcessedTableManager =
       $$SessionSummariesTableUpdateCompanionBuilder,
       (SessionSummaryEntity, $$SessionSummariesTableReferences),
       SessionSummaryEntity,
-      PrefetchHooks Function({bool staffUserId, bool sentToManagerId})
+      PrefetchHooks Function({
+        bool staffUserId,
+        bool sentToManagerId,
+        bool siteId,
+      })
     >;
 typedef $$NotificationRulesTableCreateCompanionBuilder =
     NotificationRulesCompanion Function({
@@ -13408,6 +14079,7 @@ typedef $$NotificationRulesTableCreateCompanionBuilder =
       required String setByTier,
       Value<bool> active,
       required DateTime createdAt,
+      Value<int?> siteId,
     });
 typedef $$NotificationRulesTableUpdateCompanionBuilder =
     NotificationRulesCompanion Function({
@@ -13424,6 +14096,7 @@ typedef $$NotificationRulesTableUpdateCompanionBuilder =
       Value<String> setByTier,
       Value<bool> active,
       Value<DateTime> createdAt,
+      Value<int?> siteId,
     });
 
 final class $$NotificationRulesTableReferences
@@ -13486,6 +14159,23 @@ final class $$NotificationRulesTableReferences
       $_db.users,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_setByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('notification_rules__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -13612,6 +14302,29 @@ class $$NotificationRulesTableFilterComposer
           }) => $$UsersTableFilterComposer(
             $db: $db,
             $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -13749,6 +14462,29 @@ class $$NotificationRulesTableOrderingComposer
     );
     return composer;
   }
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$NotificationRulesTableAnnotationComposer
@@ -13871,6 +14607,29 @@ class $$NotificationRulesTableAnnotationComposer
     );
     return composer;
   }
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$NotificationRulesTableTableManager
@@ -13890,6 +14649,7 @@ class $$NotificationRulesTableTableManager
             bool previousVersionId,
             bool targetUserId,
             bool setByUserId,
+            bool siteId,
           })
         > {
   $$NotificationRulesTableTableManager(
@@ -13923,6 +14683,7 @@ class $$NotificationRulesTableTableManager
                 Value<String> setByTier = const Value.absent(),
                 Value<bool> active = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
               }) => NotificationRulesCompanion(
                 id: id,
                 ruleGroupId: ruleGroupId,
@@ -13937,6 +14698,7 @@ class $$NotificationRulesTableTableManager
                 setByTier: setByTier,
                 active: active,
                 createdAt: createdAt,
+                siteId: siteId,
               ),
           createCompanionCallback:
               ({
@@ -13953,6 +14715,7 @@ class $$NotificationRulesTableTableManager
                 required String setByTier,
                 Value<bool> active = const Value.absent(),
                 required DateTime createdAt,
+                Value<int?> siteId = const Value.absent(),
               }) => NotificationRulesCompanion.insert(
                 id: id,
                 ruleGroupId: ruleGroupId,
@@ -13967,6 +14730,7 @@ class $$NotificationRulesTableTableManager
                 setByTier: setByTier,
                 active: active,
                 createdAt: createdAt,
+                siteId: siteId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -13981,6 +14745,7 @@ class $$NotificationRulesTableTableManager
                 previousVersionId = false,
                 targetUserId = false,
                 setByUserId = false,
+                siteId = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -14046,6 +14811,21 @@ class $$NotificationRulesTableTableManager
                                   )
                                   as T;
                         }
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable:
+                                        $$NotificationRulesTableReferences
+                                            ._siteIdTable(db),
+                                    referencedColumn:
+                                        $$NotificationRulesTableReferences
+                                            ._siteIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
                         return state;
                       },
@@ -14074,6 +14854,7 @@ typedef $$NotificationRulesTableProcessedTableManager =
         bool previousVersionId,
         bool targetUserId,
         bool setByUserId,
+        bool siteId,
       })
     >;
 

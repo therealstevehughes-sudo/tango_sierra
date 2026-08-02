@@ -78,6 +78,7 @@ class _NotificationRulesScreenState
       setByUserId: setBy.id,
       setByTier: setBy.roleTier,
       active: true,
+      siteId: setBy.siteId,
     );
 
     if (!mounted) return;
@@ -108,6 +109,7 @@ class _NotificationRulesScreenState
       setByUserId: setBy.id,
       setByTier: setBy.roleTier,
       active: active,
+      siteId: rule.siteId,
     );
 
     await _loadData();

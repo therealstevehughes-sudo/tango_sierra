@@ -17,6 +17,7 @@ abstract class NotificationRuleRepository {
     required int setByUserId,
     required RoleTier setByTier,
     required bool active,
+    int? siteId,
   });
 }
 
@@ -55,6 +56,7 @@ class DriftNotificationRuleRepository implements NotificationRuleRepository {
     required int setByUserId,
     required RoleTier setByTier,
     required bool active,
+    int? siteId,
   }) async {
     if (targetRoleTier == null && targetUserId == null) {
       throw ArgumentError(
@@ -90,6 +92,7 @@ class DriftNotificationRuleRepository implements NotificationRuleRepository {
             setByTier: setByTier.name,
             active: Value(active),
             createdAt: DateTime.now(),
+            siteId: Value(siteId),
           ),
         );
 
@@ -136,6 +139,7 @@ class DriftNotificationRuleRepository implements NotificationRuleRepository {
       setByTier: RoleTier.values.byName(row.setByTier),
       active: row.active,
       createdAt: row.createdAt,
+      siteId: row.siteId,
     );
   }
 }
