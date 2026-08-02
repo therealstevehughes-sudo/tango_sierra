@@ -343,3 +343,24 @@ Risks: Verified with a temporary repository-level test (deleted after, not part 
 Deferred items: `siteId` on `TaskSchedules`/`TaskSubmissions` (next cluster), then `ShiftHandoverNotes`/`SessionSummaries`/`NotificationRules` (final cluster). Any site-switcher UI, any `getAll()` site filtering.
 Save point name: SPRINT_015B_LOCK
 Notes: Commit 4ddf4cc41548faf33fb88bd3917bf92a5f492337, message "Sprint 015b: siteId on Users, Areas, EquipmentInstances".
+
+---
+
+## Sprint 015c
+Date: 2026-08-02
+Objective: Add `siteId` to `TaskSchedules` and `TaskSubmissions`, and wire their two real creation call sites, per the agreed 015a/b/c/d cluster split.
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 11 → 12; nullable `siteId` (FK → Sites) added to both tables; `onUpgrade` adds both columns for existing installs; `_backfillSiteIds()` extended to cover both (idempotent, same routine used since 015b, not a new duplicate function)
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/task_schedule.dart, task_submission.dart — each gains a non-nullable `siteId` field
+- lib/shared/repositories/task_schedule_repository.dart — `assign()` gains a required `siteId` parameter; `_toModel` asserts non-null
+- lib/shared/repositories/task_submission_repository.dart — no interface change (`submit()` already took a whole `TaskSubmission`); wires `submission.siteId` into the insert and `_toModel`
+- lib/features/onboarding/staff_assignment_screen.dart — `_toggleAssignment`'s `scheduleRepo.assign(...)` call passes `siteId: staff.siteId`
+- lib/features/tasks/task_controller.dart — `logTaskSubmission`'s `TaskSubmission(...)` construction passes `siteId: _currentUser.siteId`
+Files unchanged: everything else — confirmed during planning that neither real call site needed `currentSiteProvider` (both already held a site-bearing `User`), so `lib/shared/providers/site_providers.dart` wasn't touched this sprint
+Architecture impact: Fifth and sixth of the seven site-scoped tables now genuinely site-aware. `ShiftHandoverNotes`, `SessionSummaries`, `NotificationRules` remain unscoped, per the final agreed cluster.
+UI impact: None visible.
+Risks: Verified with a temporary repository-level test (deleted after, not part of this commit): assigning a schedule and logging a submission both correctly attach the acting user's site. The backfill path — the part that matters most, since `TaskSubmissions` almost certainly has real historical rows from manual smoke-testing across many prior sprints — isn't practically testable via a synthetic fresh database (same limitation as 015b), so it was verified via a real Windows debug run against the actual existing dev database, which was at schemaVersion 11 with real historical submissions predating `siteId`. It launched without error, confirming the v11→v12 migration and backfill both ran cleanly against real data.
+Deferred items: `siteId` on `ShiftHandoverNotes`, `SessionSummaries`, `NotificationRules` — the final cluster in the agreed split.
+Save point name: SPRINT_015C_LOCK
+Notes: Commit 2105863e3b66b9c49185738091591b76bda556bf, message "Sprint 015c: siteId on TaskSchedules, TaskSubmissions".
