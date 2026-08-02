@@ -4,7 +4,7 @@ import '../../core/storage/app_database.dart';
 import '../models/task_submission.dart';
 
 abstract class TaskSubmissionRepository {
-  Future<void> submit(TaskSubmission submission);
+  Future<int> submit(TaskSubmission submission);
   Future<List<TaskSubmission>> getAll();
   Future<List<TaskSubmission>> getByStaff(String staffId);
   Future<List<TaskSubmission>> getByDateRange(DateTime start, DateTime end);
@@ -18,7 +18,7 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
   final AppDatabase _db;
 
   @override
-  Future<void> submit(TaskSubmission submission) {
+  Future<int> submit(TaskSubmission submission) {
     return _db
         .into(_db.taskSubmissions)
         .insert(

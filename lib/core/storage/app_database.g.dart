@@ -7063,6 +7063,603 @@ class NotificationRulesCompanion
   }
 }
 
+class $TriggerNotificationsTable extends TriggerNotifications
+    with TableInfo<$TriggerNotificationsTable, TriggerNotificationEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TriggerNotificationsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _notificationRuleIdMeta =
+      const VerificationMeta('notificationRuleId');
+  @override
+  late final GeneratedColumn<int> notificationRuleId = GeneratedColumn<int>(
+    'notification_rule_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES notification_rules (id)',
+    ),
+  );
+  static const VerificationMeta _taskSubmissionIdMeta = const VerificationMeta(
+    'taskSubmissionId',
+  );
+  @override
+  late final GeneratedColumn<int> taskSubmissionId = GeneratedColumn<int>(
+    'task_submission_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES task_submissions (id)',
+    ),
+  );
+  static const VerificationMeta _recipientUserIdMeta = const VerificationMeta(
+    'recipientUserId',
+  );
+  @override
+  late final GeneratedColumn<int> recipientUserId = GeneratedColumn<int>(
+    'recipient_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _messageMeta = const VerificationMeta(
+    'message',
+  );
+  @override
+  late final GeneratedColumn<String> message = GeneratedColumn<String>(
+    'message',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _acknowledgedMeta = const VerificationMeta(
+    'acknowledged',
+  );
+  @override
+  late final GeneratedColumn<bool> acknowledged = GeneratedColumn<bool>(
+    'acknowledged',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("acknowledged" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _acknowledgedAtMeta = const VerificationMeta(
+    'acknowledgedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> acknowledgedAt =
+      GeneratedColumn<DateTime>(
+        'acknowledged_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    notificationRuleId,
+    taskSubmissionId,
+    recipientUserId,
+    message,
+    siteId,
+    createdAt,
+    acknowledged,
+    acknowledgedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'trigger_notifications';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TriggerNotificationEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('notification_rule_id')) {
+      context.handle(
+        _notificationRuleIdMeta,
+        notificationRuleId.isAcceptableOrUnknown(
+          data['notification_rule_id']!,
+          _notificationRuleIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_notificationRuleIdMeta);
+    }
+    if (data.containsKey('task_submission_id')) {
+      context.handle(
+        _taskSubmissionIdMeta,
+        taskSubmissionId.isAcceptableOrUnknown(
+          data['task_submission_id']!,
+          _taskSubmissionIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_taskSubmissionIdMeta);
+    }
+    if (data.containsKey('recipient_user_id')) {
+      context.handle(
+        _recipientUserIdMeta,
+        recipientUserId.isAcceptableOrUnknown(
+          data['recipient_user_id']!,
+          _recipientUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_recipientUserIdMeta);
+    }
+    if (data.containsKey('message')) {
+      context.handle(
+        _messageMeta,
+        message.isAcceptableOrUnknown(data['message']!, _messageMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_messageMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('acknowledged')) {
+      context.handle(
+        _acknowledgedMeta,
+        acknowledged.isAcceptableOrUnknown(
+          data['acknowledged']!,
+          _acknowledgedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('acknowledged_at')) {
+      context.handle(
+        _acknowledgedAtMeta,
+        acknowledgedAt.isAcceptableOrUnknown(
+          data['acknowledged_at']!,
+          _acknowledgedAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TriggerNotificationEntity map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TriggerNotificationEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      notificationRuleId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}notification_rule_id'],
+      )!,
+      taskSubmissionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}task_submission_id'],
+      )!,
+      recipientUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}recipient_user_id'],
+      )!,
+      message: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}message'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      acknowledged: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}acknowledged'],
+      )!,
+      acknowledgedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}acknowledged_at'],
+      ),
+    );
+  }
+
+  @override
+  $TriggerNotificationsTable createAlias(String alias) {
+    return $TriggerNotificationsTable(attachedDatabase, alias);
+  }
+}
+
+class TriggerNotificationEntity extends DataClass
+    implements Insertable<TriggerNotificationEntity> {
+  final int id;
+  final int notificationRuleId;
+  final int taskSubmissionId;
+  final int recipientUserId;
+  final String message;
+  final int siteId;
+  final DateTime createdAt;
+  final bool acknowledged;
+  final DateTime? acknowledgedAt;
+  const TriggerNotificationEntity({
+    required this.id,
+    required this.notificationRuleId,
+    required this.taskSubmissionId,
+    required this.recipientUserId,
+    required this.message,
+    required this.siteId,
+    required this.createdAt,
+    required this.acknowledged,
+    this.acknowledgedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['notification_rule_id'] = Variable<int>(notificationRuleId);
+    map['task_submission_id'] = Variable<int>(taskSubmissionId);
+    map['recipient_user_id'] = Variable<int>(recipientUserId);
+    map['message'] = Variable<String>(message);
+    map['site_id'] = Variable<int>(siteId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['acknowledged'] = Variable<bool>(acknowledged);
+    if (!nullToAbsent || acknowledgedAt != null) {
+      map['acknowledged_at'] = Variable<DateTime>(acknowledgedAt);
+    }
+    return map;
+  }
+
+  TriggerNotificationsCompanion toCompanion(bool nullToAbsent) {
+    return TriggerNotificationsCompanion(
+      id: Value(id),
+      notificationRuleId: Value(notificationRuleId),
+      taskSubmissionId: Value(taskSubmissionId),
+      recipientUserId: Value(recipientUserId),
+      message: Value(message),
+      siteId: Value(siteId),
+      createdAt: Value(createdAt),
+      acknowledged: Value(acknowledged),
+      acknowledgedAt: acknowledgedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(acknowledgedAt),
+    );
+  }
+
+  factory TriggerNotificationEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TriggerNotificationEntity(
+      id: serializer.fromJson<int>(json['id']),
+      notificationRuleId: serializer.fromJson<int>(json['notificationRuleId']),
+      taskSubmissionId: serializer.fromJson<int>(json['taskSubmissionId']),
+      recipientUserId: serializer.fromJson<int>(json['recipientUserId']),
+      message: serializer.fromJson<String>(json['message']),
+      siteId: serializer.fromJson<int>(json['siteId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      acknowledged: serializer.fromJson<bool>(json['acknowledged']),
+      acknowledgedAt: serializer.fromJson<DateTime?>(json['acknowledgedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'notificationRuleId': serializer.toJson<int>(notificationRuleId),
+      'taskSubmissionId': serializer.toJson<int>(taskSubmissionId),
+      'recipientUserId': serializer.toJson<int>(recipientUserId),
+      'message': serializer.toJson<String>(message),
+      'siteId': serializer.toJson<int>(siteId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'acknowledged': serializer.toJson<bool>(acknowledged),
+      'acknowledgedAt': serializer.toJson<DateTime?>(acknowledgedAt),
+    };
+  }
+
+  TriggerNotificationEntity copyWith({
+    int? id,
+    int? notificationRuleId,
+    int? taskSubmissionId,
+    int? recipientUserId,
+    String? message,
+    int? siteId,
+    DateTime? createdAt,
+    bool? acknowledged,
+    Value<DateTime?> acknowledgedAt = const Value.absent(),
+  }) => TriggerNotificationEntity(
+    id: id ?? this.id,
+    notificationRuleId: notificationRuleId ?? this.notificationRuleId,
+    taskSubmissionId: taskSubmissionId ?? this.taskSubmissionId,
+    recipientUserId: recipientUserId ?? this.recipientUserId,
+    message: message ?? this.message,
+    siteId: siteId ?? this.siteId,
+    createdAt: createdAt ?? this.createdAt,
+    acknowledged: acknowledged ?? this.acknowledged,
+    acknowledgedAt: acknowledgedAt.present
+        ? acknowledgedAt.value
+        : this.acknowledgedAt,
+  );
+  TriggerNotificationEntity copyWithCompanion(
+    TriggerNotificationsCompanion data,
+  ) {
+    return TriggerNotificationEntity(
+      id: data.id.present ? data.id.value : this.id,
+      notificationRuleId: data.notificationRuleId.present
+          ? data.notificationRuleId.value
+          : this.notificationRuleId,
+      taskSubmissionId: data.taskSubmissionId.present
+          ? data.taskSubmissionId.value
+          : this.taskSubmissionId,
+      recipientUserId: data.recipientUserId.present
+          ? data.recipientUserId.value
+          : this.recipientUserId,
+      message: data.message.present ? data.message.value : this.message,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      acknowledged: data.acknowledged.present
+          ? data.acknowledged.value
+          : this.acknowledged,
+      acknowledgedAt: data.acknowledgedAt.present
+          ? data.acknowledgedAt.value
+          : this.acknowledgedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TriggerNotificationEntity(')
+          ..write('id: $id, ')
+          ..write('notificationRuleId: $notificationRuleId, ')
+          ..write('taskSubmissionId: $taskSubmissionId, ')
+          ..write('recipientUserId: $recipientUserId, ')
+          ..write('message: $message, ')
+          ..write('siteId: $siteId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('acknowledged: $acknowledged, ')
+          ..write('acknowledgedAt: $acknowledgedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    notificationRuleId,
+    taskSubmissionId,
+    recipientUserId,
+    message,
+    siteId,
+    createdAt,
+    acknowledged,
+    acknowledgedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TriggerNotificationEntity &&
+          other.id == this.id &&
+          other.notificationRuleId == this.notificationRuleId &&
+          other.taskSubmissionId == this.taskSubmissionId &&
+          other.recipientUserId == this.recipientUserId &&
+          other.message == this.message &&
+          other.siteId == this.siteId &&
+          other.createdAt == this.createdAt &&
+          other.acknowledged == this.acknowledged &&
+          other.acknowledgedAt == this.acknowledgedAt);
+}
+
+class TriggerNotificationsCompanion
+    extends UpdateCompanion<TriggerNotificationEntity> {
+  final Value<int> id;
+  final Value<int> notificationRuleId;
+  final Value<int> taskSubmissionId;
+  final Value<int> recipientUserId;
+  final Value<String> message;
+  final Value<int> siteId;
+  final Value<DateTime> createdAt;
+  final Value<bool> acknowledged;
+  final Value<DateTime?> acknowledgedAt;
+  const TriggerNotificationsCompanion({
+    this.id = const Value.absent(),
+    this.notificationRuleId = const Value.absent(),
+    this.taskSubmissionId = const Value.absent(),
+    this.recipientUserId = const Value.absent(),
+    this.message = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.acknowledged = const Value.absent(),
+    this.acknowledgedAt = const Value.absent(),
+  });
+  TriggerNotificationsCompanion.insert({
+    this.id = const Value.absent(),
+    required int notificationRuleId,
+    required int taskSubmissionId,
+    required int recipientUserId,
+    required String message,
+    required int siteId,
+    required DateTime createdAt,
+    this.acknowledged = const Value.absent(),
+    this.acknowledgedAt = const Value.absent(),
+  }) : notificationRuleId = Value(notificationRuleId),
+       taskSubmissionId = Value(taskSubmissionId),
+       recipientUserId = Value(recipientUserId),
+       message = Value(message),
+       siteId = Value(siteId),
+       createdAt = Value(createdAt);
+  static Insertable<TriggerNotificationEntity> custom({
+    Expression<int>? id,
+    Expression<int>? notificationRuleId,
+    Expression<int>? taskSubmissionId,
+    Expression<int>? recipientUserId,
+    Expression<String>? message,
+    Expression<int>? siteId,
+    Expression<DateTime>? createdAt,
+    Expression<bool>? acknowledged,
+    Expression<DateTime>? acknowledgedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (notificationRuleId != null)
+        'notification_rule_id': notificationRuleId,
+      if (taskSubmissionId != null) 'task_submission_id': taskSubmissionId,
+      if (recipientUserId != null) 'recipient_user_id': recipientUserId,
+      if (message != null) 'message': message,
+      if (siteId != null) 'site_id': siteId,
+      if (createdAt != null) 'created_at': createdAt,
+      if (acknowledged != null) 'acknowledged': acknowledged,
+      if (acknowledgedAt != null) 'acknowledged_at': acknowledgedAt,
+    });
+  }
+
+  TriggerNotificationsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? notificationRuleId,
+    Value<int>? taskSubmissionId,
+    Value<int>? recipientUserId,
+    Value<String>? message,
+    Value<int>? siteId,
+    Value<DateTime>? createdAt,
+    Value<bool>? acknowledged,
+    Value<DateTime?>? acknowledgedAt,
+  }) {
+    return TriggerNotificationsCompanion(
+      id: id ?? this.id,
+      notificationRuleId: notificationRuleId ?? this.notificationRuleId,
+      taskSubmissionId: taskSubmissionId ?? this.taskSubmissionId,
+      recipientUserId: recipientUserId ?? this.recipientUserId,
+      message: message ?? this.message,
+      siteId: siteId ?? this.siteId,
+      createdAt: createdAt ?? this.createdAt,
+      acknowledged: acknowledged ?? this.acknowledged,
+      acknowledgedAt: acknowledgedAt ?? this.acknowledgedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (notificationRuleId.present) {
+      map['notification_rule_id'] = Variable<int>(notificationRuleId.value);
+    }
+    if (taskSubmissionId.present) {
+      map['task_submission_id'] = Variable<int>(taskSubmissionId.value);
+    }
+    if (recipientUserId.present) {
+      map['recipient_user_id'] = Variable<int>(recipientUserId.value);
+    }
+    if (message.present) {
+      map['message'] = Variable<String>(message.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (acknowledged.present) {
+      map['acknowledged'] = Variable<bool>(acknowledged.value);
+    }
+    if (acknowledgedAt.present) {
+      map['acknowledged_at'] = Variable<DateTime>(acknowledgedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TriggerNotificationsCompanion(')
+          ..write('id: $id, ')
+          ..write('notificationRuleId: $notificationRuleId, ')
+          ..write('taskSubmissionId: $taskSubmissionId, ')
+          ..write('recipientUserId: $recipientUserId, ')
+          ..write('message: $message, ')
+          ..write('siteId: $siteId, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('acknowledged: $acknowledged, ')
+          ..write('acknowledgedAt: $acknowledgedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -7087,6 +7684,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $NotificationRulesTable notificationRules =
       $NotificationRulesTable(this);
+  late final $TriggerNotificationsTable triggerNotifications =
+      $TriggerNotificationsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -7105,6 +7704,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     shiftHandoverNotes,
     sessionSummaries,
     notificationRules,
+    triggerNotifications,
   ];
 }
 
@@ -7922,6 +8522,31 @@ final class $$SitesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $TriggerNotificationsTable,
+    List<TriggerNotificationEntity>
+  >
+  _triggerNotificationsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.triggerNotifications,
+        aliasName: 'sites__id__trigger_notifications__site_id',
+      );
+
+  $$TriggerNotificationsTableProcessedTableManager
+  get triggerNotificationsRefs {
+    final manager = $$TriggerNotificationsTableTableManager(
+      $_db,
+      $_db.triggerNotifications,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _triggerNotificationsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
@@ -8166,6 +8791,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$NotificationRulesTableFilterComposer(
             $db: $db,
             $table: $db.notificationRules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> triggerNotificationsRefs(
+    Expression<bool> Function($$TriggerNotificationsTableFilterComposer f) f,
+  ) {
+    final $$TriggerNotificationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.triggerNotifications,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TriggerNotificationsTableFilterComposer(
+            $db: $db,
+            $table: $db.triggerNotifications,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -8475,6 +9125,32 @@ class $$SitesTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> triggerNotificationsRefs<T extends Object>(
+    Expression<T> Function($$TriggerNotificationsTableAnnotationComposer a) f,
+  ) {
+    final $$TriggerNotificationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.triggerNotifications,
+          getReferencedColumn: (t) => t.siteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$TriggerNotificationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.triggerNotifications,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -8500,6 +9176,7 @@ class $$SitesTableTableManager
             bool shiftHandoverNotesRefs,
             bool sessionSummariesRefs,
             bool notificationRulesRefs,
+            bool triggerNotificationsRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -8558,6 +9235,7 @@ class $$SitesTableTableManager
                 shiftHandoverNotesRefs = false,
                 sessionSummariesRefs = false,
                 notificationRulesRefs = false,
+                triggerNotificationsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -8570,6 +9248,7 @@ class $$SitesTableTableManager
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
                     if (sessionSummariesRefs) db.sessionSummaries,
                     if (notificationRulesRefs) db.notificationRules,
+                    if (triggerNotificationsRefs) db.triggerNotifications,
                   ],
                   addJoins:
                       <
@@ -8765,6 +9444,27 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (triggerNotificationsRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          TriggerNotificationEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._triggerNotificationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).triggerNotificationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -8795,6 +9495,7 @@ typedef $$SitesTableProcessedTableManager =
         bool shiftHandoverNotesRefs,
         bool sessionSummariesRefs,
         bool notificationRulesRefs,
+        bool triggerNotificationsRefs,
       })
     >;
 typedef $$AreasTableCreateCompanionBuilder =
@@ -9973,6 +10674,31 @@ final class $$UsersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $TriggerNotificationsTable,
+    List<TriggerNotificationEntity>
+  >
+  _triggerNotificationsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.triggerNotifications,
+        aliasName: 'users__id__trigger_notifications__recipient_user_id',
+      );
+
+  $$TriggerNotificationsTableProcessedTableManager
+  get triggerNotificationsRefs {
+    final manager = $$TriggerNotificationsTableTableManager(
+      $_db,
+      $_db.triggerNotifications,
+    ).filter((f) => f.recipientUserId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _triggerNotificationsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
@@ -10107,6 +10833,31 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$ShiftHandoverNotesTableFilterComposer(
             $db: $db,
             $table: $db.shiftHandoverNotes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> triggerNotificationsRefs(
+    Expression<bool> Function($$TriggerNotificationsTableFilterComposer f) f,
+  ) {
+    final $$TriggerNotificationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.triggerNotifications,
+      getReferencedColumn: (t) => t.recipientUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TriggerNotificationsTableFilterComposer(
+            $db: $db,
+            $table: $db.triggerNotifications,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -10315,6 +11066,32 @@ class $$UsersTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> triggerNotificationsRefs<T extends Object>(
+    Expression<T> Function($$TriggerNotificationsTableAnnotationComposer a) f,
+  ) {
+    final $$TriggerNotificationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.triggerNotifications,
+          getReferencedColumn: (t) => t.recipientUserId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$TriggerNotificationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.triggerNotifications,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$UsersTableTableManager
@@ -10335,6 +11112,7 @@ class $$UsersTableTableManager
             bool taskSubmissionsRefs,
             bool taskTemplatesRefs,
             bool shiftHandoverNotesRefs,
+            bool triggerNotificationsRefs,
           })
         > {
   $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
@@ -10400,6 +11178,7 @@ class $$UsersTableTableManager
                 taskSubmissionsRefs = false,
                 taskTemplatesRefs = false,
                 shiftHandoverNotesRefs = false,
+                triggerNotificationsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -10407,6 +11186,7 @@ class $$UsersTableTableManager
                     if (taskSubmissionsRefs) db.taskSubmissions,
                     if (taskTemplatesRefs) db.taskTemplates,
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
+                    if (triggerNotificationsRefs) db.triggerNotifications,
                   ],
                   addJoins:
                       <
@@ -10505,6 +11285,27 @@ class $$UsersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (triggerNotificationsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          TriggerNotificationEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._triggerNotificationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).triggerNotificationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.recipientUserId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -10530,6 +11331,7 @@ typedef $$UsersTableProcessedTableManager =
         bool taskSubmissionsRefs,
         bool taskTemplatesRefs,
         bool shiftHandoverNotesRefs,
+        bool triggerNotificationsRefs,
       })
     >;
 typedef $$TaskSubmissionsTableCreateCompanionBuilder =
@@ -10632,6 +11434,32 @@ final class $$TaskSubmissionsTableReferences
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $TriggerNotificationsTable,
+    List<TriggerNotificationEntity>
+  >
+  _triggerNotificationsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.triggerNotifications,
+        aliasName:
+            'task_submissions__id__trigger_notifications__task_submission_id',
+      );
+
+  $$TriggerNotificationsTableProcessedTableManager
+  get triggerNotificationsRefs {
+    final manager = $$TriggerNotificationsTableTableManager(
+      $_db,
+      $_db.triggerNotifications,
+    ).filter((f) => f.taskSubmissionId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _triggerNotificationsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
     );
   }
 }
@@ -10772,6 +11600,31 @@ class $$TaskSubmissionsTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> triggerNotificationsRefs(
+    Expression<bool> Function($$TriggerNotificationsTableFilterComposer f) f,
+  ) {
+    final $$TriggerNotificationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.triggerNotifications,
+      getReferencedColumn: (t) => t.taskSubmissionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TriggerNotificationsTableFilterComposer(
+            $db: $db,
+            $table: $db.triggerNotifications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 }
 
@@ -11042,6 +11895,32 @@ class $$TaskSubmissionsTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> triggerNotificationsRefs<T extends Object>(
+    Expression<T> Function($$TriggerNotificationsTableAnnotationComposer a) f,
+  ) {
+    final $$TriggerNotificationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.triggerNotifications,
+          getReferencedColumn: (t) => t.taskSubmissionId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$TriggerNotificationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.triggerNotifications,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$TaskSubmissionsTableTableManager
@@ -11061,6 +11940,7 @@ class $$TaskSubmissionsTableTableManager
             bool equipmentInstanceId,
             bool completedByUserId,
             bool siteId,
+            bool triggerNotificationsRefs,
           })
         > {
   $$TaskSubmissionsTableTableManager(
@@ -11157,10 +12037,13 @@ class $$TaskSubmissionsTableTableManager
                 equipmentInstanceId = false,
                 completedByUserId = false,
                 siteId = false,
+                triggerNotificationsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
-                  explicitlyWatchedTables: [],
+                  explicitlyWatchedTables: [
+                    if (triggerNotificationsRefs) db.triggerNotifications,
+                  ],
                   addJoins:
                       <
                         T extends TableManagerState<
@@ -11226,7 +12109,29 @@ class $$TaskSubmissionsTableTableManager
                         return state;
                       },
                   getPrefetchedDataCallback: (items) async {
-                    return [];
+                    return [
+                      if (triggerNotificationsRefs)
+                        await $_getPrefetchedData<
+                          TaskSubmissionEntity,
+                          $TaskSubmissionsTable,
+                          TriggerNotificationEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TaskSubmissionsTableReferences
+                              ._triggerNotificationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TaskSubmissionsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).triggerNotificationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.taskSubmissionId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
                   },
                 );
               },
@@ -11250,6 +12155,7 @@ typedef $$TaskSubmissionsTableProcessedTableManager =
         bool equipmentInstanceId,
         bool completedByUserId,
         bool siteId,
+        bool triggerNotificationsRefs,
       })
     >;
 typedef $$LegalLimitReferencesTableCreateCompanionBuilder =
@@ -14181,6 +15087,36 @@ final class $$NotificationRulesTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
+
+  static MultiTypedResultKey<
+    $TriggerNotificationsTable,
+    List<TriggerNotificationEntity>
+  >
+  _triggerNotificationsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.triggerNotifications,
+    aliasName:
+        'notification_rules__id__trigger_notifications__notification_rule_id',
+  );
+
+  $$TriggerNotificationsTableProcessedTableManager
+  get triggerNotificationsRefs {
+    final manager =
+        $$TriggerNotificationsTableTableManager(
+          $_db,
+          $_db.triggerNotifications,
+        ).filter(
+          (f) => f.notificationRuleId.id.sqlEquals($_itemColumn<int>('id')!),
+        );
+
+    final cache = $_typedResult.readTableOrNull(
+      _triggerNotificationsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$NotificationRulesTableFilterComposer
@@ -14332,6 +15268,31 @@ class $$NotificationRulesTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> triggerNotificationsRefs(
+    Expression<bool> Function($$TriggerNotificationsTableFilterComposer f) f,
+  ) {
+    final $$TriggerNotificationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.triggerNotifications,
+      getReferencedColumn: (t) => t.notificationRuleId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TriggerNotificationsTableFilterComposer(
+            $db: $db,
+            $table: $db.triggerNotifications,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 }
 
@@ -14630,6 +15591,32 @@ class $$NotificationRulesTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> triggerNotificationsRefs<T extends Object>(
+    Expression<T> Function($$TriggerNotificationsTableAnnotationComposer a) f,
+  ) {
+    final $$TriggerNotificationsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.triggerNotifications,
+          getReferencedColumn: (t) => t.notificationRuleId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$TriggerNotificationsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.triggerNotifications,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$NotificationRulesTableTableManager
@@ -14650,6 +15637,7 @@ class $$NotificationRulesTableTableManager
             bool targetUserId,
             bool setByUserId,
             bool siteId,
+            bool triggerNotificationsRefs,
           })
         > {
   $$NotificationRulesTableTableManager(
@@ -14746,10 +15734,13 @@ class $$NotificationRulesTableTableManager
                 targetUserId = false,
                 setByUserId = false,
                 siteId = false,
+                triggerNotificationsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
-                  explicitlyWatchedTables: [],
+                  explicitlyWatchedTables: [
+                    if (triggerNotificationsRefs) db.triggerNotifications,
+                  ],
                   addJoins:
                       <
                         T extends TableManagerState<
@@ -14830,7 +15821,29 @@ class $$NotificationRulesTableTableManager
                         return state;
                       },
                   getPrefetchedDataCallback: (items) async {
-                    return [];
+                    return [
+                      if (triggerNotificationsRefs)
+                        await $_getPrefetchedData<
+                          NotificationRuleEntity,
+                          $NotificationRulesTable,
+                          TriggerNotificationEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$NotificationRulesTableReferences
+                              ._triggerNotificationsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$NotificationRulesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).triggerNotificationsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.notificationRuleId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
                   },
                 );
               },
@@ -14854,6 +15867,702 @@ typedef $$NotificationRulesTableProcessedTableManager =
         bool previousVersionId,
         bool targetUserId,
         bool setByUserId,
+        bool siteId,
+        bool triggerNotificationsRefs,
+      })
+    >;
+typedef $$TriggerNotificationsTableCreateCompanionBuilder =
+    TriggerNotificationsCompanion Function({
+      Value<int> id,
+      required int notificationRuleId,
+      required int taskSubmissionId,
+      required int recipientUserId,
+      required String message,
+      required int siteId,
+      required DateTime createdAt,
+      Value<bool> acknowledged,
+      Value<DateTime?> acknowledgedAt,
+    });
+typedef $$TriggerNotificationsTableUpdateCompanionBuilder =
+    TriggerNotificationsCompanion Function({
+      Value<int> id,
+      Value<int> notificationRuleId,
+      Value<int> taskSubmissionId,
+      Value<int> recipientUserId,
+      Value<String> message,
+      Value<int> siteId,
+      Value<DateTime> createdAt,
+      Value<bool> acknowledged,
+      Value<DateTime?> acknowledgedAt,
+    });
+
+final class $$TriggerNotificationsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $TriggerNotificationsTable,
+          TriggerNotificationEntity
+        > {
+  $$TriggerNotificationsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $NotificationRulesTable _notificationRuleIdTable(_$AppDatabase db) =>
+      db.notificationRules.createAlias(
+        'trigger_notifications__notification_rule_id__notification_rules__id',
+      );
+
+  $$NotificationRulesTableProcessedTableManager get notificationRuleId {
+    final $_column = $_itemColumn<int>('notification_rule_id')!;
+
+    final manager = $$NotificationRulesTableTableManager(
+      $_db,
+      $_db.notificationRules,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_notificationRuleIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $TaskSubmissionsTable _taskSubmissionIdTable(_$AppDatabase db) =>
+      db.taskSubmissions.createAlias(
+        'trigger_notifications__task_submission_id__task_submissions__id',
+      );
+
+  $$TaskSubmissionsTableProcessedTableManager get taskSubmissionId {
+    final $_column = $_itemColumn<int>('task_submission_id')!;
+
+    final manager = $$TaskSubmissionsTableTableManager(
+      $_db,
+      $_db.taskSubmissions,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_taskSubmissionIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _recipientUserIdTable(_$AppDatabase db) => db.users
+      .createAlias('trigger_notifications__recipient_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get recipientUserId {
+    final $_column = $_itemColumn<int>('recipient_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_recipientUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('trigger_notifications__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<int>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TriggerNotificationsTableFilterComposer
+    extends Composer<_$AppDatabase, $TriggerNotificationsTable> {
+  $$TriggerNotificationsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get message => $composableBuilder(
+    column: $table.message,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get acknowledged => $composableBuilder(
+    column: $table.acknowledged,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get acknowledgedAt => $composableBuilder(
+    column: $table.acknowledgedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$NotificationRulesTableFilterComposer get notificationRuleId {
+    final $$NotificationRulesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.notificationRuleId,
+      referencedTable: $db.notificationRules,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$NotificationRulesTableFilterComposer(
+            $db: $db,
+            $table: $db.notificationRules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TaskSubmissionsTableFilterComposer get taskSubmissionId {
+    final $$TaskSubmissionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.taskSubmissionId,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableFilterComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get recipientUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.recipientUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TriggerNotificationsTableOrderingComposer
+    extends Composer<_$AppDatabase, $TriggerNotificationsTable> {
+  $$TriggerNotificationsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get message => $composableBuilder(
+    column: $table.message,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get acknowledged => $composableBuilder(
+    column: $table.acknowledged,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get acknowledgedAt => $composableBuilder(
+    column: $table.acknowledgedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$NotificationRulesTableOrderingComposer get notificationRuleId {
+    final $$NotificationRulesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.notificationRuleId,
+      referencedTable: $db.notificationRules,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$NotificationRulesTableOrderingComposer(
+            $db: $db,
+            $table: $db.notificationRules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TaskSubmissionsTableOrderingComposer get taskSubmissionId {
+    final $$TaskSubmissionsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.taskSubmissionId,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableOrderingComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get recipientUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.recipientUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TriggerNotificationsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TriggerNotificationsTable> {
+  $$TriggerNotificationsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get message =>
+      $composableBuilder(column: $table.message, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get acknowledged => $composableBuilder(
+    column: $table.acknowledged,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get acknowledgedAt => $composableBuilder(
+    column: $table.acknowledgedAt,
+    builder: (column) => column,
+  );
+
+  $$NotificationRulesTableAnnotationComposer get notificationRuleId {
+    final $$NotificationRulesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.notificationRuleId,
+          referencedTable: $db.notificationRules,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$NotificationRulesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.notificationRules,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  $$TaskSubmissionsTableAnnotationComposer get taskSubmissionId {
+    final $$TaskSubmissionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.taskSubmissionId,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get recipientUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.recipientUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TriggerNotificationsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TriggerNotificationsTable,
+          TriggerNotificationEntity,
+          $$TriggerNotificationsTableFilterComposer,
+          $$TriggerNotificationsTableOrderingComposer,
+          $$TriggerNotificationsTableAnnotationComposer,
+          $$TriggerNotificationsTableCreateCompanionBuilder,
+          $$TriggerNotificationsTableUpdateCompanionBuilder,
+          (TriggerNotificationEntity, $$TriggerNotificationsTableReferences),
+          TriggerNotificationEntity,
+          PrefetchHooks Function({
+            bool notificationRuleId,
+            bool taskSubmissionId,
+            bool recipientUserId,
+            bool siteId,
+          })
+        > {
+  $$TriggerNotificationsTableTableManager(
+    _$AppDatabase db,
+    $TriggerNotificationsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TriggerNotificationsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TriggerNotificationsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$TriggerNotificationsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> notificationRuleId = const Value.absent(),
+                Value<int> taskSubmissionId = const Value.absent(),
+                Value<int> recipientUserId = const Value.absent(),
+                Value<String> message = const Value.absent(),
+                Value<int> siteId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<bool> acknowledged = const Value.absent(),
+                Value<DateTime?> acknowledgedAt = const Value.absent(),
+              }) => TriggerNotificationsCompanion(
+                id: id,
+                notificationRuleId: notificationRuleId,
+                taskSubmissionId: taskSubmissionId,
+                recipientUserId: recipientUserId,
+                message: message,
+                siteId: siteId,
+                createdAt: createdAt,
+                acknowledged: acknowledged,
+                acknowledgedAt: acknowledgedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int notificationRuleId,
+                required int taskSubmissionId,
+                required int recipientUserId,
+                required String message,
+                required int siteId,
+                required DateTime createdAt,
+                Value<bool> acknowledged = const Value.absent(),
+                Value<DateTime?> acknowledgedAt = const Value.absent(),
+              }) => TriggerNotificationsCompanion.insert(
+                id: id,
+                notificationRuleId: notificationRuleId,
+                taskSubmissionId: taskSubmissionId,
+                recipientUserId: recipientUserId,
+                message: message,
+                siteId: siteId,
+                createdAt: createdAt,
+                acknowledged: acknowledged,
+                acknowledgedAt: acknowledgedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TriggerNotificationsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                notificationRuleId = false,
+                taskSubmissionId = false,
+                recipientUserId = false,
+                siteId = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (notificationRuleId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.notificationRuleId,
+                                    referencedTable:
+                                        $$TriggerNotificationsTableReferences
+                                            ._notificationRuleIdTable(db),
+                                    referencedColumn:
+                                        $$TriggerNotificationsTableReferences
+                                            ._notificationRuleIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (taskSubmissionId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.taskSubmissionId,
+                                    referencedTable:
+                                        $$TriggerNotificationsTableReferences
+                                            ._taskSubmissionIdTable(db),
+                                    referencedColumn:
+                                        $$TriggerNotificationsTableReferences
+                                            ._taskSubmissionIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (recipientUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.recipientUserId,
+                                    referencedTable:
+                                        $$TriggerNotificationsTableReferences
+                                            ._recipientUserIdTable(db),
+                                    referencedColumn:
+                                        $$TriggerNotificationsTableReferences
+                                            ._recipientUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable:
+                                        $$TriggerNotificationsTableReferences
+                                            ._siteIdTable(db),
+                                    referencedColumn:
+                                        $$TriggerNotificationsTableReferences
+                                            ._siteIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$TriggerNotificationsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TriggerNotificationsTable,
+      TriggerNotificationEntity,
+      $$TriggerNotificationsTableFilterComposer,
+      $$TriggerNotificationsTableOrderingComposer,
+      $$TriggerNotificationsTableAnnotationComposer,
+      $$TriggerNotificationsTableCreateCompanionBuilder,
+      $$TriggerNotificationsTableUpdateCompanionBuilder,
+      (TriggerNotificationEntity, $$TriggerNotificationsTableReferences),
+      TriggerNotificationEntity,
+      PrefetchHooks Function({
+        bool notificationRuleId,
+        bool taskSubmissionId,
+        bool recipientUserId,
         bool siteId,
       })
     >;
@@ -14887,4 +16596,6 @@ class $AppDatabaseManager {
       $$SessionSummariesTableTableManager(_db, _db.sessionSummaries);
   $$NotificationRulesTableTableManager get notificationRules =>
       $$NotificationRulesTableTableManager(_db, _db.notificationRules);
+  $$TriggerNotificationsTableTableManager get triggerNotifications =>
+      $$TriggerNotificationsTableTableManager(_db, _db.triggerNotifications);
 }

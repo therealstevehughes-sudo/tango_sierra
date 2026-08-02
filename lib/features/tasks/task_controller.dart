@@ -1,12 +1,16 @@
 import 'dart:convert';
 
+import '../../shared/models/notification_rule.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/user.dart';
 import '../../shared/repositories/equipment_repository.dart';
+import '../../shared/repositories/notification_rule_repository.dart';
 import '../../shared/repositories/task_schedule_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
 import '../../shared/repositories/task_template_repository.dart';
+import '../../shared/repositories/trigger_notification_repository.dart';
+import '../../shared/repositories/user_repository.dart';
 import 'task_model.dart';
 
 class TaskController {
@@ -16,6 +20,9 @@ class TaskController {
     this._templateRepository,
     this._equipmentRepository,
     this._currentUser,
+    this._notificationRuleRepository,
+    this._triggerNotificationRepository,
+    this._userRepository,
   );
 
   final TaskSubmissionRepository _submissionRepository;
@@ -23,6 +30,9 @@ class TaskController {
   final TaskTemplateRepository _templateRepository;
   final EquipmentRepository _equipmentRepository;
   final User _currentUser;
+  final NotificationRuleRepository _notificationRuleRepository;
+  final TriggerNotificationRepository _triggerNotificationRepository;
+  final UserRepository _userRepository;
 
   int currentIndex = 0;
   List<ResolvedTask> tasks = [];
@@ -132,8 +142,8 @@ class TaskController {
     required bool photoAttached,
     String? notes,
     String? customFieldValuesJson,
-  }) {
-    return _submissionRepository.submit(
+  }) async {
+    final submissionId = await _submissionRepository.submit(
       TaskSubmission(
         taskTitle: task.displayTitle,
         status: status,
@@ -150,5 +160,70 @@ class TaskController {
         siteId: _currentUser.siteId,
       ),
     );
+
+    if (status == 'FAIL') {
+      await _fireNotifications(taskSubmissionId: submissionId, task: task);
+    }
+  }
+
+  Future<void> _fireNotifications({
+    required int taskSubmissionId,
+    required ResolvedTask task,
+  }) async {
+    final siteId = _currentUser.siteId;
+    final allRules = await _notificationRuleRepository.getAllCurrentVersions();
+
+    final matchingRules = allRules.where((rule) {
+      if (!rule.active) return false;
+      final triggerMatches =
+          rule.taskTemplateGroupId == null ||
+          rule.taskTemplateGroupId == task.templateGroupId;
+      final siteMatches = rule.siteId == null || rule.siteId == siteId;
+      return triggerMatches && siteMatches;
+    }).toList();
+
+    // Precedence: within each exact trigger scope, an active top-tier rule
+    // suppresses mid-tier rules in that same scope (top overrides mid).
+    final byScope = <int?, List<NotificationRule>>{};
+    for (final rule in matchingRules) {
+      byScope.putIfAbsent(rule.taskTemplateGroupId, () => []).add(rule);
+    }
+    final firingRules = <NotificationRule>[];
+    for (final scoped in byScope.values) {
+      final topRules = scoped.where((r) => r.setByTier == RoleTier.top);
+      firingRules.addAll(topRules.isNotEmpty ? topRules : scoped);
+    }
+    if (firingRules.isEmpty) return;
+
+    final allUsers = await _userRepository.getAll();
+    final message =
+        'FAIL: ${task.displayTitle} (submitted by ${_currentUser.name})';
+
+    for (final rule in firingRules) {
+      final recipients = <User>[];
+      if (rule.targetUserId != null) {
+        recipients.addAll(allUsers.where((u) => u.id == rule.targetUserId));
+      } else if (rule.targetRoleTier != null) {
+        recipients.addAll(
+          allUsers.where(
+            (u) =>
+                u.roleTier == rule.targetRoleTier &&
+                // Site-specific rules fan out within that site only;
+                // org-wide rules (siteId null) fan out across every site.
+                (rule.siteId == null || u.siteId == rule.siteId),
+          ),
+        );
+      }
+
+      for (final recipient in recipients) {
+        await _triggerNotificationRepository.create(
+          notificationRuleId: rule.id,
+          taskSubmissionId: taskSubmissionId,
+          recipientUserId: recipient.id,
+          message: message,
+          siteId: siteId,
+        );
+      }
+    }
   }
 }

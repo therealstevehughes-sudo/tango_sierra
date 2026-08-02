@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/utils/unit_conversion.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
@@ -45,6 +46,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       ref.read(taskTemplateRepositoryProvider),
       ref.read(equipmentRepositoryProvider),
       ref.read(currentUserProvider)!,
+      ref.read(notificationRuleRepositoryProvider),
+      ref.read(triggerNotificationRepositoryProvider),
+      ref.read(userRepositoryProvider),
     );
     numberController.addListener(_onFormChanged);
     notesController.addListener(_onFormChanged);

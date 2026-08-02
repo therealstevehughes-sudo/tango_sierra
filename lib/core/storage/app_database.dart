@@ -185,6 +185,25 @@ class NotificationRules extends Table {
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
 
+@DataClassName('TriggerNotificationEntity')
+class TriggerNotifications extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  // The specific rule VERSION that fired, not the ruleGroupId — preserves
+  // exactly what config was in effect at the time, even if the rule is
+  // edited (a new version) later.
+  IntColumn get notificationRuleId =>
+      integer().references(NotificationRules, #id)();
+  IntColumn get taskSubmissionId =>
+      integer().references(TaskSubmissions, #id)();
+  IntColumn get recipientUserId => integer().references(Users, #id)();
+  TextColumn get message => text()();
+  IntColumn get siteId => integer().references(Sites, #id)();
+  DateTimeColumn get createdAt => dateTime()();
+  BoolColumn get acknowledged =>
+      boolean().withDefault(const Constant(false))();
+  DateTimeColumn get acknowledgedAt => dateTime().nullable()();
+}
+
 @DataClassName('OrganisationEntity')
 class Organisations extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -217,13 +236,14 @@ class Sites extends Table {
     NotificationRules,
     Organisations,
     Sites,
+    TriggerNotifications,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 13;
+  int get schemaVersion => 14;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -303,6 +323,9 @@ class AppDatabase extends _$AppDatabase {
         // notificationRules.siteId intentionally gets no backfill — see the
         // column's doc comment. Existing rows stay null (org-wide).
         await m.addColumn(notificationRules, notificationRules.siteId);
+      }
+      if (from < 14) {
+        await m.createTable(triggerNotifications);
       }
     },
     beforeOpen: (details) async {
