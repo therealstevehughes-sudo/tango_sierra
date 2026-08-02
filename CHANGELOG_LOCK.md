@@ -324,3 +324,22 @@ Risks: Verified with a temporary repository-level test (deleted after, not part 
 Deferred items: Adding `siteId` to the 7 site-scoped tables (`Users`, `Areas`, `EquipmentInstances`, `TaskSchedules`, `TaskSubmissions`, `ShiftHandoverNotes`, `SessionSummaries`) and nullable-`siteId` on `NotificationRules`, in clustered follow-up sprints per the agreed split. `Brand` entity. Any site-editable task library work for `TaskTemplates`/`EquipmentTypes`/`LegalLimitReferences`. Any UI to create, rename, or switch between organisations/sites.
 Save point name: SPRINT_015A_LOCK
 Notes: Commit f9661719eaa90aca3fd5f590ebabb93be65e7a25, message "Sprint 015a: Organisation/Site schema foundation".
+
+---
+
+## Sprint 015b
+Date: 2026-08-02
+Objective: Add `siteId` to `Users`, `Areas`, and `EquipmentInstances`, and wire their single real creation call site (`venue_setup_wizard_screen.dart`) to `currentSiteProvider`, per the agreed 015a/b/c/d cluster split.
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 10 → 11; nullable `siteId` (FK → Sites) added to all three tables; `onUpgrade` adds the three columns for existing installs; `beforeOpen` reordered so `_ensureDefaultOrganisationAndSite()` runs first (previously last) and now returns the resolved site id; `_seedUsers`/`_insertSeedUser` updated to seed demo users with a real siteId; new idempotent `_backfillSiteIds()` step (`UPDATE ... WHERE siteId IS NULL`) backfills any pre-existing rows to the default site, run on every open
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/user.dart, area.dart, equipment.dart — each gains a non-nullable `siteId` field
+- lib/shared/repositories/user_repository.dart, area_repository.dart, equipment_repository.dart — `createStaffMember`/`create`/`create` each gain a required `siteId` parameter; `_toModel` mapping asserts non-null (`row.siteId!`), relying on the backfill guarantee
+- lib/features/venue_setup/venue_setup_wizard_screen.dart — `_addArea`, `_addEquipment`, `_addStaff` each resolve `ref.read(currentSiteProvider.future)` and pass the site id through
+Files unchanged: lib/features/onboarding/staff_assignment_screen.dart — confirmed during planning it has no create call sites for these three tables (only reads, plus creates `TaskSchedules`/`TaskTemplates`, both out of this cluster's scope); everything else in the app untouched
+Architecture impact: First follow-through on 015a's foundation — three of the seven site-scoped tables are now genuinely site-aware. `TaskSchedules`, `TaskSubmissions`, `ShiftHandoverNotes`, `SessionSummaries`, `NotificationRules` remain unscoped, per the agreed remaining clusters.
+UI impact: None visible — the wizard behaves identically, just silently attaches the resolved site id to whatever it creates.
+Risks: Verified with a temporary repository-level test (deleted after, not part of this commit): seeded demo users all carry the default site's id, and newly created staff/area/equipment all attach to it correctly. The migration/backfill path itself (the part that matters most this sprint, since it touches real pre-existing data) isn't practically testable via a synthetic fresh database — a fresh install goes through `onCreate`, not the `onUpgrade`+backfill path — so that was verified the same way prior schema-migration sprints have been: a real Windows debug run against the actual existing dev database, which was at schemaVersion 10 with real seeded users predating `siteId`. It launched without error, confirming the v10→v11 migration and backfill both ran cleanly against real data.
+Deferred items: `siteId` on `TaskSchedules`/`TaskSubmissions` (next cluster), then `ShiftHandoverNotes`/`SessionSummaries`/`NotificationRules` (final cluster). Any site-switcher UI, any `getAll()` site filtering.
+Save point name: SPRINT_015B_LOCK
+Notes: Commit 4ddf4cc41548faf33fb88bd3917bf92a5f492337, message "Sprint 015b: siteId on Users, Areas, EquipmentInstances".
