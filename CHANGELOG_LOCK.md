@@ -561,3 +561,26 @@ Risks: Confirmed via grep before building that `isCritical` and `method` current
 Deferred items: Loading the actual ~100+ task rows from "Full check list.docx" using this now-correct vocabulary (separate, later effort — this sprint only fixed what they'll load into). Surfacing the 3-level priority anywhere visible to staff/managers (e.g. a "CRITICAL" badge) — deferred until real behavior needs to act on it. Promoting `method` to a typed enum (kept as free-text String, since the dropdown already structurally constrains it and nothing branches on its value yet). Per-rule/per-task escalation tied to priority level. PIN reset + staff deactivation remains the next unaddressed FEATURE_AUDIT.md priority.
 Save point name: SPRINT_023_LOCK
 Notes: Commit 411bd0b, message "Sprint 023: task-taxonomy reconciliation (priority, method, frequency)".
+
+---
+
+## Sprint 024
+Date: 2026-08-03
+Objective: Build PIN reset + staff deactivation — the fifth and final FEATURE_AUDIT.md priority — a manager/top-tier-initiated PIN reset (no old PIN needed) and an active/inactive flag on Users so a departed staff member can no longer log in, without deleting their record.
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 18 → 19; `Users` gains `active` (boolean, default `true`, compile-time default like `EquipmentInstances.active` — no backfill needed), `deactivatedAt` (nullable `DateTime`), `deactivatedByUserId` (nullable FK to `Users`)
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/user.dart — `active`, `deactivatedAt`, `deactivatedByUserId` fields added
+- lib/shared/repositories/user_repository.dart — new `resetPin({userId, newPin})` (fresh salt + hash, no old-PIN check); new `setActive({userId, active, actingUserId})` — deactivating stamps `deactivatedAt`/`deactivatedByUserId` and cascades to deactivate the user's own active `TaskSchedules`; reactivating flips `active` back but deliberately does NOT clear `deactivatedAt`/`deactivatedByUserId` (preserved on record) and does NOT restore the cascaded schedules; `authenticate()` now rejects a correct PIN if the user is inactive
+- lib/shared/providers/auth_providers.dart — `staffDirectoryProvider` filters to `active == true` so deactivated staff never appear as a login tile
+- lib/features/settings/staff_management_screen.dart (new) — lists all staff (active and inactive, inactive shown with a "(deactivated)" label plus who/when), each with Reset PIN (dialog, no confirmation needed) and Deactivate (confirmation dialog, cascading consequence)/Reactivate (no confirmation) actions
+- lib/features/manager/manager_screen.dart, lib/features/dashboard/top_screen.dart — each gets a new "Staff Management" icon (`Icons.badge`), placed next to the existing "Assign Tasks" icon
+- lib/features/onboarding/staff_assignment_screen.dart — staff picker excludes inactive staff from new assignments, mirroring how retired equipment is already excluded there
+- DECISIONS_LOG.md — recorded the deactivation-cascade design, the audit-field preserve-on-reactivation decision (confirmed via a direct question, not assumed), and closed out the full Feature audit priorities list
+Files unchanged: lib/shared/repositories/task_schedule_repository.dart — the cascade is implemented in `UserRepository.setActive()` directly against `_db.taskSchedules`, same approach `EquipmentRepository.setActive()` already uses, no change needed to the schedule repository itself
+Architecture impact: Confirmed against ARCHITECTURE_LOCK's Versioning Rule before building — `User` isn't among the entities requiring append-only versioning, so a plain mutable `active` flag is correct, consistent with `Area`/`EquipmentInstance`/`ThirdPartyContact`.
+UI impact: New "Staff Management" screen reachable from both ManagerScreen and TopScreen. No changes to the task carousel, login flow's visual layout, or any other existing screen beyond the staff picker's filtering.
+Risks: Verified with a temporary repository-level test (deleted after, not part of this commit): `resetPin` changes the PIN without the old one and the old PIN stops working; deactivating blocks login even with the correct PIN, cascades to deactivate an active schedule, and — after reactivating — restores login while the schedule stays deactivated and the deactivation record (`deactivatedAt`/`deactivatedByUserId`) remains populated rather than clearing. `flutter analyze` clean. A real Windows debug run confirmed the schemaVersion 18→19 migration executes cleanly against the existing dev database. Interactive click-through of the new screen's dialogs was not independently exercised — left the app running on-device for a manual look.
+Deferred items: No special handling for a deactivated user who's still a `NotificationRule.targetUserId` or has pending unacknowledged `TriggerNotification`s — accepted gap, not fixed now (they simply can't log in to act on it). No PIN format validation (kept consistent with the pre-existing staff-creation PIN field). No lockout/throttling on repeated wrong PINs. This closes the full "Feature audit priorities" list from DECISIONS_LOG — all five items are now built; remaining FEATURE_AUDIT.md gaps are lower-priority per its own ranking and not yet scheduled.
+Save point name: SPRINT_024_LOCK
+Notes: Commit c570d12, message "Sprint 024: PIN reset + staff deactivation".
