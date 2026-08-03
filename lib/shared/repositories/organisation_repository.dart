@@ -6,6 +6,7 @@ import '../models/organisation.dart';
 abstract class OrganisationRepository {
   Future<List<Organisation>> getAll();
   Future<Organisation> getDefault();
+  Future<void> rename(int id, String newName);
 }
 
 class DriftOrganisationRepository implements OrganisationRepository {
@@ -26,6 +27,15 @@ class DriftOrganisationRepository implements OrganisationRepository {
       ..limit(1);
     final row = await query.getSingle();
     return _toModel(row);
+  }
+
+  @override
+  Future<void> rename(int id, String newName) async {
+    await (_db.update(
+      _db.organisations,
+    )..where((o) => o.id.equals(id))).write(
+      OrganisationsCompanion(name: Value(newName)),
+    );
   }
 
   Organisation _toModel(OrganisationEntity row) {

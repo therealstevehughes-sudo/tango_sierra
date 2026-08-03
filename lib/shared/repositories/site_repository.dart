@@ -6,6 +6,7 @@ import '../models/site.dart';
 abstract class SiteRepository {
   Future<List<Site>> getAll();
   Future<Site> getDefault();
+  Future<void> rename(int id, String newName);
 }
 
 class DriftSiteRepository implements SiteRepository {
@@ -26,6 +27,13 @@ class DriftSiteRepository implements SiteRepository {
       ..limit(1);
     final row = await query.getSingle();
     return _toModel(row);
+  }
+
+  @override
+  Future<void> rename(int id, String newName) async {
+    await (_db.update(_db.sites)..where((s) => s.id.equals(id))).write(
+      SitesCompanion(name: Value(newName)),
+    );
   }
 
   Site _toModel(SiteEntity row) {

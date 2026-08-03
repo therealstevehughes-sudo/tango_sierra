@@ -12,6 +12,7 @@ import '../../shared/providers/task_submission_providers.dart';
 import '../notifications/notification_rules_screen.dart';
 import '../onboarding/staff_assignment_screen.dart';
 import '../settings/third_party_contacts_screen.dart';
+import '../settings/venue_details_screen.dart';
 import '../venue_setup/venue_setup_wizard_screen.dart';
 
 Future<void> _showBackupDialog(BuildContext context, WidgetRef ref) async {
@@ -151,6 +152,18 @@ class ManagerScreen extends ConsumerWidget {
             },
             icon: const Icon(Icons.store),
             tooltip: 'Venue Setup',
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const VenueDetailsScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.location_city),
+            tooltip: 'Venue Details',
           ),
           IconButton(
             onPressed: () {

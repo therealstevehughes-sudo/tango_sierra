@@ -238,6 +238,13 @@ Full detail and lower-priority items in FEATURE_AUDIT.md (now in project root al
 - Retired instances stay visible in the venue setup wizard's Equipment list (greyed, labelled "(retired)") with a Reactivate action, rather than being hidden — matching how inactive rows are already shown elsewhere (`NotificationRulesScreen`, `ThirdPartyContactsScreen`).
 - Site/Organisation rename (the second half of the original ask) is deliberately a separate sprint (021b) — different tables, different (currently nonexistent) screen, agreed upfront as a two-sprint split.
 
+## Site/Organisation rename (Sprint 021b) — completes closing the add-only gap
+- New `lib/features/settings/venue_details_screen.dart` — the first screen to ever surface Organisation/Site data to a user; previously only read internally via `getDefault()`. Shows the current org/site name each with a rename action — not a list, since only one of each exists in practice today (no multi-site UI yet).
+- Same plain-mutable-`UPDATE` `rename()` pattern as Sprint 021a's Areas/EquipmentInstances, for the same reason (checked against ARCHITECTURE_LOCK's Versioning Rule in 021a's planning — neither entity is in the list requiring append-only versioning).
+- New "Venue Details" icon added to both `ManagerScreen`/`TopScreen`, placed directly next to the existing "Venue Setup" icon (same logical grouping — venue configuration) rather than at the end of the action list.
+- Closes the "Site/Organisation currently auto-seeded with placeholder names... NO UI to rename them at all" gap flagged in the Standing design rule: custom naming section — placeholders can now be renamed to a venue's real name.
+- Verified with a repository-level test confirming both the default Organisation and Site rename correctly and the new names persist on re-read. `flutter analyze` clean; no schema change this sprint. A real Windows run confirmed the new screen and icons render without error.
+
 ## Open / Not yet decided
 - Task priority: the checklist uses 3 levels (Critical/High/Standard); TaskTemplate currently only has a binary `isCritical`. Needs a decision before the real task library gets loaded — add a 3-level field, or accept the information loss of mapping down to the boolean.
 - Task method vocabulary: the checklist's real methods (Tick, Data+Tick, Tick+Photo, Data+Photo, Note, Note+Photo, Tick+Note, Multi) don't fully match the placeholder `method` strings used in Sprint 007/009's example data. Needs reconciling when the real library loads.
