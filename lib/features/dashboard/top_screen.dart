@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -5,6 +7,7 @@ import '../../shared/models/trigger_notification.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/backup_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
+import '../notifications/escalation_service.dart';
 import '../notifications/notification_rules_screen.dart';
 import '../onboarding/staff_assignment_screen.dart';
 import '../settings/third_party_contacts_screen.dart';
@@ -75,11 +78,43 @@ Future<void> _showBackupDialog(BuildContext context, WidgetRef ref) async {
   );
 }
 
-class TopScreen extends ConsumerWidget {
+class TopScreen extends ConsumerStatefulWidget {
   const TopScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TopScreen> createState() => _TopScreenState();
+}
+
+class _TopScreenState extends ConsumerState<TopScreen> {
+  Timer? _escalationTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _runEscalationCheck();
+    _escalationTimer = Timer.periodic(
+      const Duration(seconds: 60),
+      (_) => _runEscalationCheck(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _escalationTimer?.cancel();
+    super.dispose();
+  }
+
+  // Runs on load and every tick thereafter — the only realistic mechanism
+  // for a purely local app with no background service. If nobody has this
+  // screen open, nothing escalates; the setState afterward also keeps the
+  // banner's overdue styling fresh even on ticks that escalate nothing.
+  Future<void> _runEscalationCheck() async {
+    await ref.read(escalationServiceProvider).checkAndEscalate();
+    if (mounted) setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserProvider);
     final triggerNotificationRepo = ref.watch(
       triggerNotificationRepositoryProvider,
@@ -205,6 +240,7 @@ class _TriggerNotificationsBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
     return Container(
       width: double.infinity,
       color: Colors.red.shade50,
@@ -217,13 +253,49 @@ class _TriggerNotificationsBanner extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
-          ...notifications.map(
-            (notification) => Padding(
+          ...notifications.map((notification) {
+            final isOverdue =
+                !notification.acknowledged &&
+                now.difference(notification.createdAt) >= escalationThreshold;
+            return Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(child: Text(notification.message)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          notification.message,
+                          style: isOverdue
+                              ? const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red,
+                                )
+                              : null,
+                        ),
+                        if (isOverdue)
+                          Text(
+                            'OVERDUE — unacknowledged for '
+                            '${now.difference(notification.createdAt).inMinutes} min',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        if (notification.escalatedAt != null)
+                          const Text(
+                            'Escalated to top tier',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
                   if (!notification.acknowledged)
                     TextButton(
                       onPressed: () => onAcknowledge(notification.id),
@@ -233,8 +305,8 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                     const Icon(Icons.check, color: Colors.green),
                 ],
               ),
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );

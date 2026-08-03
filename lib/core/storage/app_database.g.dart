@@ -7231,6 +7231,28 @@ class $TriggerNotificationsTable extends TriggerNotifications
         type: DriftSqlType.dateTime,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _originTargetRoleTierMeta =
+      const VerificationMeta('originTargetRoleTier');
+  @override
+  late final GeneratedColumn<String> originTargetRoleTier =
+      GeneratedColumn<String>(
+        'origin_target_role_tier',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _escalatedAtMeta = const VerificationMeta(
+    'escalatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> escalatedAt = GeneratedColumn<DateTime>(
+    'escalated_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -7242,6 +7264,8 @@ class $TriggerNotificationsTable extends TriggerNotifications
     createdAt,
     acknowledged,
     acknowledgedAt,
+    originTargetRoleTier,
+    escalatedAt,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -7333,6 +7357,24 @@ class $TriggerNotificationsTable extends TriggerNotifications
         ),
       );
     }
+    if (data.containsKey('origin_target_role_tier')) {
+      context.handle(
+        _originTargetRoleTierMeta,
+        originTargetRoleTier.isAcceptableOrUnknown(
+          data['origin_target_role_tier']!,
+          _originTargetRoleTierMeta,
+        ),
+      );
+    }
+    if (data.containsKey('escalated_at')) {
+      context.handle(
+        _escalatedAtMeta,
+        escalatedAt.isAcceptableOrUnknown(
+          data['escalated_at']!,
+          _escalatedAtMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -7381,6 +7423,14 @@ class $TriggerNotificationsTable extends TriggerNotifications
         DriftSqlType.dateTime,
         data['${effectivePrefix}acknowledged_at'],
       ),
+      originTargetRoleTier: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}origin_target_role_tier'],
+      ),
+      escalatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}escalated_at'],
+      ),
     );
   }
 
@@ -7401,6 +7451,8 @@ class TriggerNotificationEntity extends DataClass
   final DateTime createdAt;
   final bool acknowledged;
   final DateTime? acknowledgedAt;
+  final String? originTargetRoleTier;
+  final DateTime? escalatedAt;
   const TriggerNotificationEntity({
     required this.id,
     required this.notificationRuleId,
@@ -7411,6 +7463,8 @@ class TriggerNotificationEntity extends DataClass
     required this.createdAt,
     required this.acknowledged,
     this.acknowledgedAt,
+    this.originTargetRoleTier,
+    this.escalatedAt,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -7425,6 +7479,12 @@ class TriggerNotificationEntity extends DataClass
     map['acknowledged'] = Variable<bool>(acknowledged);
     if (!nullToAbsent || acknowledgedAt != null) {
       map['acknowledged_at'] = Variable<DateTime>(acknowledgedAt);
+    }
+    if (!nullToAbsent || originTargetRoleTier != null) {
+      map['origin_target_role_tier'] = Variable<String>(originTargetRoleTier);
+    }
+    if (!nullToAbsent || escalatedAt != null) {
+      map['escalated_at'] = Variable<DateTime>(escalatedAt);
     }
     return map;
   }
@@ -7442,6 +7502,12 @@ class TriggerNotificationEntity extends DataClass
       acknowledgedAt: acknowledgedAt == null && nullToAbsent
           ? const Value.absent()
           : Value(acknowledgedAt),
+      originTargetRoleTier: originTargetRoleTier == null && nullToAbsent
+          ? const Value.absent()
+          : Value(originTargetRoleTier),
+      escalatedAt: escalatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(escalatedAt),
     );
   }
 
@@ -7460,6 +7526,10 @@ class TriggerNotificationEntity extends DataClass
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       acknowledged: serializer.fromJson<bool>(json['acknowledged']),
       acknowledgedAt: serializer.fromJson<DateTime?>(json['acknowledgedAt']),
+      originTargetRoleTier: serializer.fromJson<String?>(
+        json['originTargetRoleTier'],
+      ),
+      escalatedAt: serializer.fromJson<DateTime?>(json['escalatedAt']),
     );
   }
   @override
@@ -7475,6 +7545,8 @@ class TriggerNotificationEntity extends DataClass
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'acknowledged': serializer.toJson<bool>(acknowledged),
       'acknowledgedAt': serializer.toJson<DateTime?>(acknowledgedAt),
+      'originTargetRoleTier': serializer.toJson<String?>(originTargetRoleTier),
+      'escalatedAt': serializer.toJson<DateTime?>(escalatedAt),
     };
   }
 
@@ -7488,6 +7560,8 @@ class TriggerNotificationEntity extends DataClass
     DateTime? createdAt,
     bool? acknowledged,
     Value<DateTime?> acknowledgedAt = const Value.absent(),
+    Value<String?> originTargetRoleTier = const Value.absent(),
+    Value<DateTime?> escalatedAt = const Value.absent(),
   }) => TriggerNotificationEntity(
     id: id ?? this.id,
     notificationRuleId: notificationRuleId ?? this.notificationRuleId,
@@ -7500,6 +7574,10 @@ class TriggerNotificationEntity extends DataClass
     acknowledgedAt: acknowledgedAt.present
         ? acknowledgedAt.value
         : this.acknowledgedAt,
+    originTargetRoleTier: originTargetRoleTier.present
+        ? originTargetRoleTier.value
+        : this.originTargetRoleTier,
+    escalatedAt: escalatedAt.present ? escalatedAt.value : this.escalatedAt,
   );
   TriggerNotificationEntity copyWithCompanion(
     TriggerNotificationsCompanion data,
@@ -7524,6 +7602,12 @@ class TriggerNotificationEntity extends DataClass
       acknowledgedAt: data.acknowledgedAt.present
           ? data.acknowledgedAt.value
           : this.acknowledgedAt,
+      originTargetRoleTier: data.originTargetRoleTier.present
+          ? data.originTargetRoleTier.value
+          : this.originTargetRoleTier,
+      escalatedAt: data.escalatedAt.present
+          ? data.escalatedAt.value
+          : this.escalatedAt,
     );
   }
 
@@ -7538,7 +7622,9 @@ class TriggerNotificationEntity extends DataClass
           ..write('siteId: $siteId, ')
           ..write('createdAt: $createdAt, ')
           ..write('acknowledged: $acknowledged, ')
-          ..write('acknowledgedAt: $acknowledgedAt')
+          ..write('acknowledgedAt: $acknowledgedAt, ')
+          ..write('originTargetRoleTier: $originTargetRoleTier, ')
+          ..write('escalatedAt: $escalatedAt')
           ..write(')'))
         .toString();
   }
@@ -7554,6 +7640,8 @@ class TriggerNotificationEntity extends DataClass
     createdAt,
     acknowledged,
     acknowledgedAt,
+    originTargetRoleTier,
+    escalatedAt,
   );
   @override
   bool operator ==(Object other) =>
@@ -7567,7 +7655,9 @@ class TriggerNotificationEntity extends DataClass
           other.siteId == this.siteId &&
           other.createdAt == this.createdAt &&
           other.acknowledged == this.acknowledged &&
-          other.acknowledgedAt == this.acknowledgedAt);
+          other.acknowledgedAt == this.acknowledgedAt &&
+          other.originTargetRoleTier == this.originTargetRoleTier &&
+          other.escalatedAt == this.escalatedAt);
 }
 
 class TriggerNotificationsCompanion
@@ -7581,6 +7671,8 @@ class TriggerNotificationsCompanion
   final Value<DateTime> createdAt;
   final Value<bool> acknowledged;
   final Value<DateTime?> acknowledgedAt;
+  final Value<String?> originTargetRoleTier;
+  final Value<DateTime?> escalatedAt;
   const TriggerNotificationsCompanion({
     this.id = const Value.absent(),
     this.notificationRuleId = const Value.absent(),
@@ -7591,6 +7683,8 @@ class TriggerNotificationsCompanion
     this.createdAt = const Value.absent(),
     this.acknowledged = const Value.absent(),
     this.acknowledgedAt = const Value.absent(),
+    this.originTargetRoleTier = const Value.absent(),
+    this.escalatedAt = const Value.absent(),
   });
   TriggerNotificationsCompanion.insert({
     this.id = const Value.absent(),
@@ -7602,6 +7696,8 @@ class TriggerNotificationsCompanion
     required DateTime createdAt,
     this.acknowledged = const Value.absent(),
     this.acknowledgedAt = const Value.absent(),
+    this.originTargetRoleTier = const Value.absent(),
+    this.escalatedAt = const Value.absent(),
   }) : notificationRuleId = Value(notificationRuleId),
        taskSubmissionId = Value(taskSubmissionId),
        recipientUserId = Value(recipientUserId),
@@ -7618,6 +7714,8 @@ class TriggerNotificationsCompanion
     Expression<DateTime>? createdAt,
     Expression<bool>? acknowledged,
     Expression<DateTime>? acknowledgedAt,
+    Expression<String>? originTargetRoleTier,
+    Expression<DateTime>? escalatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -7630,6 +7728,9 @@ class TriggerNotificationsCompanion
       if (createdAt != null) 'created_at': createdAt,
       if (acknowledged != null) 'acknowledged': acknowledged,
       if (acknowledgedAt != null) 'acknowledged_at': acknowledgedAt,
+      if (originTargetRoleTier != null)
+        'origin_target_role_tier': originTargetRoleTier,
+      if (escalatedAt != null) 'escalated_at': escalatedAt,
     });
   }
 
@@ -7643,6 +7744,8 @@ class TriggerNotificationsCompanion
     Value<DateTime>? createdAt,
     Value<bool>? acknowledged,
     Value<DateTime?>? acknowledgedAt,
+    Value<String?>? originTargetRoleTier,
+    Value<DateTime?>? escalatedAt,
   }) {
     return TriggerNotificationsCompanion(
       id: id ?? this.id,
@@ -7654,6 +7757,8 @@ class TriggerNotificationsCompanion
       createdAt: createdAt ?? this.createdAt,
       acknowledged: acknowledged ?? this.acknowledged,
       acknowledgedAt: acknowledgedAt ?? this.acknowledgedAt,
+      originTargetRoleTier: originTargetRoleTier ?? this.originTargetRoleTier,
+      escalatedAt: escalatedAt ?? this.escalatedAt,
     );
   }
 
@@ -7687,6 +7792,14 @@ class TriggerNotificationsCompanion
     if (acknowledgedAt.present) {
       map['acknowledged_at'] = Variable<DateTime>(acknowledgedAt.value);
     }
+    if (originTargetRoleTier.present) {
+      map['origin_target_role_tier'] = Variable<String>(
+        originTargetRoleTier.value,
+      );
+    }
+    if (escalatedAt.present) {
+      map['escalated_at'] = Variable<DateTime>(escalatedAt.value);
+    }
     return map;
   }
 
@@ -7701,7 +7814,9 @@ class TriggerNotificationsCompanion
           ..write('siteId: $siteId, ')
           ..write('createdAt: $createdAt, ')
           ..write('acknowledged: $acknowledged, ')
-          ..write('acknowledgedAt: $acknowledgedAt')
+          ..write('acknowledgedAt: $acknowledgedAt, ')
+          ..write('originTargetRoleTier: $originTargetRoleTier, ')
+          ..write('escalatedAt: $escalatedAt')
           ..write(')'))
         .toString();
   }
@@ -16808,6 +16923,8 @@ typedef $$TriggerNotificationsTableCreateCompanionBuilder =
       required DateTime createdAt,
       Value<bool> acknowledged,
       Value<DateTime?> acknowledgedAt,
+      Value<String?> originTargetRoleTier,
+      Value<DateTime?> escalatedAt,
     });
 typedef $$TriggerNotificationsTableUpdateCompanionBuilder =
     TriggerNotificationsCompanion Function({
@@ -16820,6 +16937,8 @@ typedef $$TriggerNotificationsTableUpdateCompanionBuilder =
       Value<DateTime> createdAt,
       Value<bool> acknowledged,
       Value<DateTime?> acknowledgedAt,
+      Value<String?> originTargetRoleTier,
+      Value<DateTime?> escalatedAt,
     });
 
 final class $$TriggerNotificationsTableReferences
@@ -16939,6 +17058,16 @@ class $$TriggerNotificationsTableFilterComposer
 
   ColumnFilters<DateTime> get acknowledgedAt => $composableBuilder(
     column: $table.acknowledgedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get originTargetRoleTier => $composableBuilder(
+    column: $table.originTargetRoleTier,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get escalatedAt => $composableBuilder(
+    column: $table.escalatedAt,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -17069,6 +17198,16 @@ class $$TriggerNotificationsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get originTargetRoleTier => $composableBuilder(
+    column: $table.originTargetRoleTier,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get escalatedAt => $composableBuilder(
+    column: $table.escalatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$NotificationRulesTableOrderingComposer get notificationRuleId {
     final $$NotificationRulesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -17187,6 +17326,16 @@ class $$TriggerNotificationsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get acknowledgedAt => $composableBuilder(
     column: $table.acknowledgedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get originTargetRoleTier => $composableBuilder(
+    column: $table.originTargetRoleTier,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get escalatedAt => $composableBuilder(
+    column: $table.escalatedAt,
     builder: (column) => column,
   );
 
@@ -17334,6 +17483,8 @@ class $$TriggerNotificationsTableTableManager
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<bool> acknowledged = const Value.absent(),
                 Value<DateTime?> acknowledgedAt = const Value.absent(),
+                Value<String?> originTargetRoleTier = const Value.absent(),
+                Value<DateTime?> escalatedAt = const Value.absent(),
               }) => TriggerNotificationsCompanion(
                 id: id,
                 notificationRuleId: notificationRuleId,
@@ -17344,6 +17495,8 @@ class $$TriggerNotificationsTableTableManager
                 createdAt: createdAt,
                 acknowledged: acknowledged,
                 acknowledgedAt: acknowledgedAt,
+                originTargetRoleTier: originTargetRoleTier,
+                escalatedAt: escalatedAt,
               ),
           createCompanionCallback:
               ({
@@ -17356,6 +17509,8 @@ class $$TriggerNotificationsTableTableManager
                 required DateTime createdAt,
                 Value<bool> acknowledged = const Value.absent(),
                 Value<DateTime?> acknowledgedAt = const Value.absent(),
+                Value<String?> originTargetRoleTier = const Value.absent(),
+                Value<DateTime?> escalatedAt = const Value.absent(),
               }) => TriggerNotificationsCompanion.insert(
                 id: id,
                 notificationRuleId: notificationRuleId,
@@ -17366,6 +17521,8 @@ class $$TriggerNotificationsTableTableManager
                 createdAt: createdAt,
                 acknowledged: acknowledged,
                 acknowledgedAt: acknowledgedAt,
+                originTargetRoleTier: originTargetRoleTier,
+                escalatedAt: escalatedAt,
               ),
           withReferenceMapper: (p0) => p0
               .map(

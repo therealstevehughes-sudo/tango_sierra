@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 import '../../core/storage/app_database.dart';
 import '../models/trigger_notification.dart';
+import '../models/user.dart';
 
 abstract class TriggerNotificationRepository {
   Future<TriggerNotification> create({
@@ -10,9 +11,12 @@ abstract class TriggerNotificationRepository {
     required int recipientUserId,
     required String message,
     required int siteId,
+    required RoleTier? originTargetRoleTier,
   });
   Stream<List<TriggerNotification>> watchForUser(int userId);
+  Future<List<TriggerNotification>> getAllUnacknowledged();
   Future<void> acknowledge(int id);
+  Future<void> markEscalated(int id);
 }
 
 class DriftTriggerNotificationRepository
@@ -28,6 +32,7 @@ class DriftTriggerNotificationRepository
     required int recipientUserId,
     required String message,
     required int siteId,
+    required RoleTier? originTargetRoleTier,
   }) async {
     final id = await _db
         .into(_db.triggerNotifications)
@@ -39,6 +44,7 @@ class DriftTriggerNotificationRepository
             message: message,
             siteId: siteId,
             createdAt: DateTime.now(),
+            originTargetRoleTier: Value(originTargetRoleTier?.name),
           ),
         );
     final row = await (_db.select(
@@ -56,6 +62,14 @@ class DriftTriggerNotificationRepository
   }
 
   @override
+  Future<List<TriggerNotification>> getAllUnacknowledged() async {
+    final query = _db.select(_db.triggerNotifications)
+      ..where((t) => t.acknowledged.equals(false));
+    final rows = await query.get();
+    return rows.map(_toModel).toList();
+  }
+
+  @override
   Future<void> acknowledge(int id) async {
     await (_db.update(
       _db.triggerNotifications,
@@ -64,6 +78,15 @@ class DriftTriggerNotificationRepository
         acknowledged: const Value(true),
         acknowledgedAt: Value(DateTime.now()),
       ),
+    );
+  }
+
+  @override
+  Future<void> markEscalated(int id) async {
+    await (_db.update(
+      _db.triggerNotifications,
+    )..where((t) => t.id.equals(id))).write(
+      TriggerNotificationsCompanion(escalatedAt: Value(DateTime.now())),
     );
   }
 
@@ -78,6 +101,10 @@ class DriftTriggerNotificationRepository
       createdAt: row.createdAt,
       acknowledged: row.acknowledged,
       acknowledgedAt: row.acknowledgedAt,
+      originTargetRoleTier: row.originTargetRoleTier == null
+          ? null
+          : RoleTier.values.byName(row.originTargetRoleTier!),
+      escalatedAt: row.escalatedAt,
     );
   }
 }

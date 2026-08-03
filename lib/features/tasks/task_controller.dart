@@ -201,7 +201,8 @@ class TaskController {
 
     for (final rule in firingRules) {
       final recipients = <User>[];
-      if (rule.targetUserId != null) {
+      final isSpecificPersonTarget = rule.targetUserId != null;
+      if (isSpecificPersonTarget) {
         recipients.addAll(allUsers.where((u) => u.id == rule.targetUserId));
       } else if (rule.targetRoleTier != null) {
         recipients.addAll(
@@ -215,6 +216,14 @@ class TaskController {
         );
       }
 
+      // Denormalized onto the notification (Sprint 022) so the escalation
+      // sweep can decide eligibility without a rule lookup. A specific-
+      // person target is recorded as null (same as tier == null) so it's
+      // treated as escalate-eligible, same as a mid-tier target.
+      final originTargetRoleTier = isSpecificPersonTarget
+          ? null
+          : rule.targetRoleTier;
+
       for (final recipient in recipients) {
         await _triggerNotificationRepository.create(
           notificationRuleId: rule.id,
@@ -222,6 +231,7 @@ class TaskController {
           recipientUserId: recipient.id,
           message: message,
           siteId: siteId,
+          originTargetRoleTier: originTargetRoleTier,
         );
       }
     }

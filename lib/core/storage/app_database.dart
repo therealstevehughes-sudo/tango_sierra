@@ -203,6 +203,17 @@ class TriggerNotifications extends Table {
   BoolColumn get acknowledged =>
       boolean().withDefault(const Constant(false))();
   DateTimeColumn get acknowledgedAt => dateTime().nullable()();
+  // Denormalized from the firing rule at creation time (Sprint 022) — null
+  // means the firing rule targeted a specific person, non-null means it
+  // targeted that role tier. Lets the escalation sweep decide whether this
+  // notification has "nowhere further up" to escalate to (top) without a
+  // repository lookup back to the rule, which may since have a newer
+  // version. Pre-existing rows stay null on migration, which is treated as
+  // escalate-eligible — the conservative default for legacy data.
+  TextColumn get originTargetRoleTier => text().nullable()();
+  // Set once this notification has triggered an escalation, so the
+  // escalation sweep never double-escalates the same notification.
+  DateTimeColumn get escalatedAt => dateTime().nullable()();
 }
 
 @DataClassName('ThirdPartyContactEntity')
@@ -261,7 +272,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 16;
+  int get schemaVersion => 17;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -350,6 +361,16 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 16) {
         await m.addColumn(equipmentInstances, equipmentInstances.active);
+      }
+      if (from < 17) {
+        await m.addColumn(
+          triggerNotifications,
+          triggerNotifications.originTargetRoleTier,
+        );
+        await m.addColumn(
+          triggerNotifications,
+          triggerNotifications.escalatedAt,
+        );
       }
     },
     beforeOpen: (details) async {
