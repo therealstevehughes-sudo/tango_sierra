@@ -14,6 +14,18 @@ abstract class UserRepository {
     required String pin,
     required int siteId,
   });
+  Future<void> resetPin({required int userId, required String newPin});
+  // Deactivating also deactivates this user's own active TaskSchedules, so
+  // a manager doesn't see someone who can't log in as still assigned.
+  // Reactivating does NOT restore those schedules — re-assignment is a
+  // deliberate, separate action. deactivatedAt/deactivatedByUserId are
+  // preserved on reactivation (not cleared) — kept on record even once
+  // the person is active again.
+  Future<void> setActive({
+    required int userId,
+    required bool active,
+    required int actingUserId,
+  });
 }
 
 class DriftUserRepository implements UserRepository {
@@ -35,6 +47,7 @@ class DriftUserRepository implements UserRepository {
     final query = _db.select(_db.users)..where((u) => u.id.equals(userId));
     final row = await query.getSingleOrNull();
     if (row == null) return null;
+    if (!row.active) return null;
 
     if (hashPin(pin, row.pinSalt) != row.pinHash) return null;
 
@@ -71,6 +84,46 @@ class DriftUserRepository implements UserRepository {
     );
   }
 
+  @override
+  Future<void> resetPin({
+    required int userId,
+    required String newPin,
+  }) async {
+    final salt = generateSalt();
+    await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+      UsersCompanion(
+        pinHash: Value(hashPin(newPin, salt)),
+        pinSalt: Value(salt),
+      ),
+    );
+  }
+
+  @override
+  Future<void> setActive({
+    required int userId,
+    required bool active,
+    required int actingUserId,
+  }) async {
+    if (active) {
+      await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+        const UsersCompanion(active: Value(true)),
+      );
+      return;
+    }
+
+    await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+      UsersCompanion(
+        active: const Value(false),
+        deactivatedAt: Value(DateTime.now()),
+        deactivatedByUserId: Value(actingUserId),
+      ),
+    );
+    await (_db.update(_db.taskSchedules)..where(
+          (s) => s.assignedUserId.equals(userId) & s.active.equals(true),
+        ))
+        .write(const TaskSchedulesCompanion(active: Value(false)));
+  }
+
   User _toModel(UserEntity row) {
     return User(
       id: row.id,
@@ -81,6 +134,9 @@ class DriftUserRepository implements UserRepository {
         row.preferredTemperatureUnit,
       ),
       siteId: row.siteId!,
+      active: row.active,
+      deactivatedAt: row.deactivatedAt,
+      deactivatedByUserId: row.deactivatedByUserId,
     );
   }
 }

@@ -10,6 +10,7 @@ import '../../shared/providers/notification_rule_providers.dart';
 import '../notifications/escalation_service.dart';
 import '../notifications/notification_rules_screen.dart';
 import '../onboarding/staff_assignment_screen.dart';
+import '../settings/staff_management_screen.dart';
 import '../settings/third_party_contacts_screen.dart';
 import '../settings/venue_details_screen.dart';
 import '../venue_setup/venue_setup_wizard_screen.dart';
@@ -159,6 +160,18 @@ class _TopScreenState extends ConsumerState<TopScreen> {
             },
             icon: const Icon(Icons.assignment_ind),
             tooltip: 'Assign Tasks',
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const StaffManagementScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.badge),
+            tooltip: 'Staff Management',
           ),
           IconButton(
             onPressed: () {

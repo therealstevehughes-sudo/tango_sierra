@@ -9,6 +9,9 @@ class User {
   final RoleTier roleTier;
   final TemperatureUnit preferredTemperatureUnit;
   final int siteId;
+  final bool active;
+  final DateTime? deactivatedAt;
+  final int? deactivatedByUserId;
 
   const User({
     required this.id,
@@ -17,5 +20,8 @@ class User {
     required this.roleTier,
     this.preferredTemperatureUnit = TemperatureUnit.celsius,
     required this.siteId,
+    this.active = true,
+    this.deactivatedAt,
+    this.deactivatedByUserId,
   });
 }

@@ -46,6 +46,15 @@ class Users extends Table {
   // NOT NULL against existing rows) — beforeOpen backfills every row to a
   // real site, and application code treats this as required.
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+  // Reflects the most recent deactivation event and is deliberately
+  // preserved on reactivation (not cleared) — staff deactivation is more
+  // HR/compliance-sensitive than equipment retirement, so "when/who last
+  // deactivated this person" stays on record even after they're brought
+  // back, rather than disappearing the moment `active` flips true again.
+  DateTimeColumn get deactivatedAt => dateTime().nullable()();
+  IntColumn get deactivatedByUserId =>
+      integer().nullable().references(Users, #id)();
 }
 
 @DataClassName('EquipmentTypeEntity')
@@ -279,7 +288,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 18;
+  int get schemaVersion => 19;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -381,6 +390,11 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 18) {
         await m.addColumn(taskTemplates, taskTemplates.priority);
+      }
+      if (from < 19) {
+        await m.addColumn(users, users.active);
+        await m.addColumn(users, users.deactivatedAt);
+        await m.addColumn(users, users.deactivatedByUserId);
       }
     },
     beforeOpen: (details) async {

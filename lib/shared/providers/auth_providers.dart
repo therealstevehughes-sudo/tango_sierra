@@ -10,9 +10,10 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
   return DriftUserRepository(db);
 });
 
-final staffDirectoryProvider = FutureProvider<List<User>>((ref) {
+final staffDirectoryProvider = FutureProvider<List<User>>((ref) async {
   final repository = ref.watch(userRepositoryProvider);
-  return repository.getAll();
+  final staff = await repository.getAll();
+  return staff.where((u) => u.active).toList();
 });
 
 final currentUserProvider = StateProvider<User?>((ref) => null);

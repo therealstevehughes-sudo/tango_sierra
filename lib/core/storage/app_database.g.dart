@@ -1559,6 +1559,44 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
       'REFERENCES sites (id)',
     ),
   );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _deactivatedAtMeta = const VerificationMeta(
+    'deactivatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> deactivatedAt =
+      GeneratedColumn<DateTime>(
+        'deactivated_at',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _deactivatedByUserIdMeta =
+      const VerificationMeta('deactivatedByUserId');
+  @override
+  late final GeneratedColumn<int> deactivatedByUserId = GeneratedColumn<int>(
+    'deactivated_by_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1569,6 +1607,9 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     pinSalt,
     preferredTemperatureUnit,
     siteId,
+    active,
+    deactivatedAt,
+    deactivatedByUserId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1640,6 +1681,30 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
       );
     }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
+    if (data.containsKey('deactivated_at')) {
+      context.handle(
+        _deactivatedAtMeta,
+        deactivatedAt.isAcceptableOrUnknown(
+          data['deactivated_at']!,
+          _deactivatedAtMeta,
+        ),
+      );
+    }
+    if (data.containsKey('deactivated_by_user_id')) {
+      context.handle(
+        _deactivatedByUserIdMeta,
+        deactivatedByUserId.isAcceptableOrUnknown(
+          data['deactivated_by_user_id']!,
+          _deactivatedByUserIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1681,6 +1746,18 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}site_id'],
       ),
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
+      deactivatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}deactivated_at'],
+      ),
+      deactivatedByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deactivated_by_user_id'],
+      ),
     );
   }
 
@@ -1699,6 +1776,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final String pinSalt;
   final String preferredTemperatureUnit;
   final int? siteId;
+  final bool active;
+  final DateTime? deactivatedAt;
+  final int? deactivatedByUserId;
   const UserEntity({
     required this.id,
     required this.name,
@@ -1708,6 +1788,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     required this.pinSalt,
     required this.preferredTemperatureUnit,
     this.siteId,
+    required this.active,
+    this.deactivatedAt,
+    this.deactivatedByUserId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1724,6 +1807,13 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     if (!nullToAbsent || siteId != null) {
       map['site_id'] = Variable<int>(siteId);
     }
+    map['active'] = Variable<bool>(active);
+    if (!nullToAbsent || deactivatedAt != null) {
+      map['deactivated_at'] = Variable<DateTime>(deactivatedAt);
+    }
+    if (!nullToAbsent || deactivatedByUserId != null) {
+      map['deactivated_by_user_id'] = Variable<int>(deactivatedByUserId);
+    }
     return map;
   }
 
@@ -1739,6 +1829,13 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       siteId: siteId == null && nullToAbsent
           ? const Value.absent()
           : Value(siteId),
+      active: Value(active),
+      deactivatedAt: deactivatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deactivatedAt),
+      deactivatedByUserId: deactivatedByUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deactivatedByUserId),
     );
   }
 
@@ -1758,6 +1855,11 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
         json['preferredTemperatureUnit'],
       ),
       siteId: serializer.fromJson<int?>(json['siteId']),
+      active: serializer.fromJson<bool>(json['active']),
+      deactivatedAt: serializer.fromJson<DateTime?>(json['deactivatedAt']),
+      deactivatedByUserId: serializer.fromJson<int?>(
+        json['deactivatedByUserId'],
+      ),
     );
   }
   @override
@@ -1774,6 +1876,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
         preferredTemperatureUnit,
       ),
       'siteId': serializer.toJson<int?>(siteId),
+      'active': serializer.toJson<bool>(active),
+      'deactivatedAt': serializer.toJson<DateTime?>(deactivatedAt),
+      'deactivatedByUserId': serializer.toJson<int?>(deactivatedByUserId),
     };
   }
 
@@ -1786,6 +1891,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     String? pinSalt,
     String? preferredTemperatureUnit,
     Value<int?> siteId = const Value.absent(),
+    bool? active,
+    Value<DateTime?> deactivatedAt = const Value.absent(),
+    Value<int?> deactivatedByUserId = const Value.absent(),
   }) => UserEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -1796,6 +1904,13 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     preferredTemperatureUnit:
         preferredTemperatureUnit ?? this.preferredTemperatureUnit,
     siteId: siteId.present ? siteId.value : this.siteId,
+    active: active ?? this.active,
+    deactivatedAt: deactivatedAt.present
+        ? deactivatedAt.value
+        : this.deactivatedAt,
+    deactivatedByUserId: deactivatedByUserId.present
+        ? deactivatedByUserId.value
+        : this.deactivatedByUserId,
   );
   UserEntity copyWithCompanion(UsersCompanion data) {
     return UserEntity(
@@ -1809,6 +1924,13 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ? data.preferredTemperatureUnit.value
           : this.preferredTemperatureUnit,
       siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      active: data.active.present ? data.active.value : this.active,
+      deactivatedAt: data.deactivatedAt.present
+          ? data.deactivatedAt.value
+          : this.deactivatedAt,
+      deactivatedByUserId: data.deactivatedByUserId.present
+          ? data.deactivatedByUserId.value
+          : this.deactivatedByUserId,
     );
   }
 
@@ -1822,7 +1944,10 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('pinHash: $pinHash, ')
           ..write('pinSalt: $pinSalt, ')
           ..write('preferredTemperatureUnit: $preferredTemperatureUnit, ')
-          ..write('siteId: $siteId')
+          ..write('siteId: $siteId, ')
+          ..write('active: $active, ')
+          ..write('deactivatedAt: $deactivatedAt, ')
+          ..write('deactivatedByUserId: $deactivatedByUserId')
           ..write(')'))
         .toString();
   }
@@ -1837,6 +1962,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     pinSalt,
     preferredTemperatureUnit,
     siteId,
+    active,
+    deactivatedAt,
+    deactivatedByUserId,
   );
   @override
   bool operator ==(Object other) =>
@@ -1849,7 +1977,10 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.pinHash == this.pinHash &&
           other.pinSalt == this.pinSalt &&
           other.preferredTemperatureUnit == this.preferredTemperatureUnit &&
-          other.siteId == this.siteId);
+          other.siteId == this.siteId &&
+          other.active == this.active &&
+          other.deactivatedAt == this.deactivatedAt &&
+          other.deactivatedByUserId == this.deactivatedByUserId);
 }
 
 class UsersCompanion extends UpdateCompanion<UserEntity> {
@@ -1861,6 +1992,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   final Value<String> pinSalt;
   final Value<String> preferredTemperatureUnit;
   final Value<int?> siteId;
+  final Value<bool> active;
+  final Value<DateTime?> deactivatedAt;
+  final Value<int?> deactivatedByUserId;
   const UsersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -1870,6 +2004,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.pinSalt = const Value.absent(),
     this.preferredTemperatureUnit = const Value.absent(),
     this.siteId = const Value.absent(),
+    this.active = const Value.absent(),
+    this.deactivatedAt = const Value.absent(),
+    this.deactivatedByUserId = const Value.absent(),
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
@@ -1880,6 +2017,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     required String pinSalt,
     this.preferredTemperatureUnit = const Value.absent(),
     this.siteId = const Value.absent(),
+    this.active = const Value.absent(),
+    this.deactivatedAt = const Value.absent(),
+    this.deactivatedByUserId = const Value.absent(),
   }) : name = Value(name),
        jobTitle = Value(jobTitle),
        roleTier = Value(roleTier),
@@ -1894,6 +2034,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Expression<String>? pinSalt,
     Expression<String>? preferredTemperatureUnit,
     Expression<int>? siteId,
+    Expression<bool>? active,
+    Expression<DateTime>? deactivatedAt,
+    Expression<int>? deactivatedByUserId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1905,6 +2048,10 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       if (preferredTemperatureUnit != null)
         'preferred_temperature_unit': preferredTemperatureUnit,
       if (siteId != null) 'site_id': siteId,
+      if (active != null) 'active': active,
+      if (deactivatedAt != null) 'deactivated_at': deactivatedAt,
+      if (deactivatedByUserId != null)
+        'deactivated_by_user_id': deactivatedByUserId,
     });
   }
 
@@ -1917,6 +2064,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Value<String>? pinSalt,
     Value<String>? preferredTemperatureUnit,
     Value<int?>? siteId,
+    Value<bool>? active,
+    Value<DateTime?>? deactivatedAt,
+    Value<int?>? deactivatedByUserId,
   }) {
     return UsersCompanion(
       id: id ?? this.id,
@@ -1928,6 +2078,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       preferredTemperatureUnit:
           preferredTemperatureUnit ?? this.preferredTemperatureUnit,
       siteId: siteId ?? this.siteId,
+      active: active ?? this.active,
+      deactivatedAt: deactivatedAt ?? this.deactivatedAt,
+      deactivatedByUserId: deactivatedByUserId ?? this.deactivatedByUserId,
     );
   }
 
@@ -1960,6 +2113,15 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     if (siteId.present) {
       map['site_id'] = Variable<int>(siteId.value);
     }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    if (deactivatedAt.present) {
+      map['deactivated_at'] = Variable<DateTime>(deactivatedAt.value);
+    }
+    if (deactivatedByUserId.present) {
+      map['deactivated_by_user_id'] = Variable<int>(deactivatedByUserId.value);
+    }
     return map;
   }
 
@@ -1973,7 +2135,10 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('pinHash: $pinHash, ')
           ..write('pinSalt: $pinSalt, ')
           ..write('preferredTemperatureUnit: $preferredTemperatureUnit, ')
-          ..write('siteId: $siteId')
+          ..write('siteId: $siteId, ')
+          ..write('active: $active, ')
+          ..write('deactivatedAt: $deactivatedAt, ')
+          ..write('deactivatedByUserId: $deactivatedByUserId')
           ..write(')'))
         .toString();
   }
@@ -11569,6 +11734,9 @@ typedef $$UsersTableCreateCompanionBuilder =
       required String pinSalt,
       Value<String> preferredTemperatureUnit,
       Value<int?> siteId,
+      Value<bool> active,
+      Value<DateTime?> deactivatedAt,
+      Value<int?> deactivatedByUserId,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
     UsersCompanion Function({
@@ -11580,6 +11748,9 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<String> pinSalt,
       Value<String> preferredTemperatureUnit,
       Value<int?> siteId,
+      Value<bool> active,
+      Value<DateTime?> deactivatedAt,
+      Value<int?> deactivatedByUserId,
     });
 
 final class $$UsersTableReferences
@@ -11597,6 +11768,23 @@ final class $$UsersTableReferences
       $_db.sites,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _deactivatedByUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('users__deactivated_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager? get deactivatedByUserId {
+    final $_column = $_itemColumn<int>('deactivated_by_user_id');
+    if ($_column == null) return null;
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_deactivatedByUserIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -11758,6 +11946,16 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get deactivatedAt => $composableBuilder(
+    column: $table.deactivatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
   $$SitesTableFilterComposer get siteId {
     final $$SitesTableFilterComposer composer = $composerBuilder(
       composer: this,
@@ -11772,6 +11970,29 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$SitesTableFilterComposer(
             $db: $db,
             $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get deactivatedByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.deactivatedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -11951,6 +12172,16 @@ class $$UsersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get deactivatedAt => $composableBuilder(
+    column: $table.deactivatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$SitesTableOrderingComposer get siteId {
     final $$SitesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -11965,6 +12196,29 @@ class $$UsersTableOrderingComposer
           }) => $$SitesTableOrderingComposer(
             $db: $db,
             $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get deactivatedByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.deactivatedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -12007,6 +12261,14 @@ class $$UsersTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deactivatedAt => $composableBuilder(
+    column: $table.deactivatedAt,
+    builder: (column) => column,
+  );
+
   $$SitesTableAnnotationComposer get siteId {
     final $$SitesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -12021,6 +12283,29 @@ class $$UsersTableAnnotationComposer
           }) => $$SitesTableAnnotationComposer(
             $db: $db,
             $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get deactivatedByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.deactivatedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -12174,6 +12459,7 @@ class $$UsersTableTableManager
           UserEntity,
           PrefetchHooks Function({
             bool siteId,
+            bool deactivatedByUserId,
             bool taskSubmissionsRefs,
             bool taskTemplatesRefs,
             bool shiftHandoverNotesRefs,
@@ -12202,6 +12488,9 @@ class $$UsersTableTableManager
                 Value<String> pinSalt = const Value.absent(),
                 Value<String> preferredTemperatureUnit = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                Value<DateTime?> deactivatedAt = const Value.absent(),
+                Value<int?> deactivatedByUserId = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
                 name: name,
@@ -12211,6 +12500,9 @@ class $$UsersTableTableManager
                 pinSalt: pinSalt,
                 preferredTemperatureUnit: preferredTemperatureUnit,
                 siteId: siteId,
+                active: active,
+                deactivatedAt: deactivatedAt,
+                deactivatedByUserId: deactivatedByUserId,
               ),
           createCompanionCallback:
               ({
@@ -12222,6 +12514,9 @@ class $$UsersTableTableManager
                 required String pinSalt,
                 Value<String> preferredTemperatureUnit = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                Value<DateTime?> deactivatedAt = const Value.absent(),
+                Value<int?> deactivatedByUserId = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
                 name: name,
@@ -12231,6 +12526,9 @@ class $$UsersTableTableManager
                 pinSalt: pinSalt,
                 preferredTemperatureUnit: preferredTemperatureUnit,
                 siteId: siteId,
+                active: active,
+                deactivatedAt: deactivatedAt,
+                deactivatedByUserId: deactivatedByUserId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -12241,6 +12539,7 @@ class $$UsersTableTableManager
           prefetchHooksCallback:
               ({
                 siteId = false,
+                deactivatedByUserId = false,
                 taskSubmissionsRefs = false,
                 taskTemplatesRefs = false,
                 shiftHandoverNotesRefs = false,
@@ -12281,6 +12580,19 @@ class $$UsersTableTableManager
                                         ._siteIdTable(db),
                                     referencedColumn: $$UsersTableReferences
                                         ._siteIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (deactivatedByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.deactivatedByUserId,
+                                    referencedTable: $$UsersTableReferences
+                                        ._deactivatedByUserIdTable(db),
+                                    referencedColumn: $$UsersTableReferences
+                                        ._deactivatedByUserIdTable(db)
                                         .id,
                                   )
                                   as T;
@@ -12417,6 +12729,7 @@ typedef $$UsersTableProcessedTableManager =
       UserEntity,
       PrefetchHooks Function({
         bool siteId,
+        bool deactivatedByUserId,
         bool taskSubmissionsRefs,
         bool taskTemplatesRefs,
         bool shiftHandoverNotesRefs,

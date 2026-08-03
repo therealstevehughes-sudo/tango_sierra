@@ -222,10 +222,13 @@ class _StaffAssignmentScreenState
   }
 
   Widget _buildStaffList() {
+    // Deactivated staff can't log in to perform tasks, so they're excluded
+    // from being selected for new assignments (Sprint 024).
+    final activeStaff = staffList.where((u) => u.active).toList();
     return ListView.builder(
-      itemCount: staffList.length,
+      itemCount: activeStaff.length,
       itemBuilder: (context, index) {
-        final user = staffList[index];
+        final user = activeStaff[index];
         return ListTile(
           title: Text('${user.name} (${user.jobTitle})'),
           subtitle: Text(user.roleTier.name),
