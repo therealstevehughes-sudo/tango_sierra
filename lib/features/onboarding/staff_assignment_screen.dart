@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
+import '../../shared/models/task_preset.dart';
 import '../../shared/models/task_schedule.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/task_preset_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
@@ -27,6 +29,7 @@ class _StaffAssignmentScreenState
   List<TaskTemplate> templates = [];
   List<EquipmentType> equipmentTypes = [];
   List<Equipment> equipmentInstances = [];
+  List<TaskPreset> presets = [];
 
   User? selectedStaff;
   List<TaskSchedule> schedulesForSelectedStaff = [];
@@ -70,11 +73,13 @@ class _StaffAssignmentScreenState
     final userRepo = ref.read(userRepositoryProvider);
     final templateRepo = ref.read(taskTemplateRepositoryProvider);
     final equipmentRepo = ref.read(equipmentRepositoryProvider);
+    final presetRepo = ref.read(taskPresetRepositoryProvider);
 
     final loadedStaff = await userRepo.getAll();
     final loadedTemplates = await templateRepo.getAllCurrentVersions();
     final loadedTypes = await equipmentRepo.getEquipmentTypes();
     final loadedInstances = await equipmentRepo.getAll();
+    final loadedPresets = await presetRepo.getAll();
 
     if (!mounted) return;
     setState(() {
@@ -82,6 +87,8 @@ class _StaffAssignmentScreenState
       templates = loadedTemplates;
       equipmentTypes = loadedTypes;
       equipmentInstances = loadedInstances;
+      // Only active presets are offered for application.
+      presets = loadedPresets.where((p) => p.active).toList();
       loading = false;
     });
   }
@@ -190,6 +197,90 @@ class _StaffAssignmentScreenState
     });
   }
 
+  String _presetSubtitle(TaskPreset preset) {
+    final parts = <String>[
+      for (final t in equipmentTypes)
+        if (t.id == preset.equipmentTypeId) t.name,
+      if (preset.segment != null && preset.segment!.isNotEmpty)
+        'Section: ${preset.segment}',
+    ];
+    final context = parts.join(' · ');
+    final count = '${preset.items.length} task'
+        '${preset.items.length == 1 ? '' : 's'}';
+    return context.isEmpty ? count : '$context · $count';
+  }
+
+  Future<void> _onApplyPreset(TaskPreset preset) async {
+    // A segment-only preset applies directly to the staff member (no
+    // equipment instance). An equipment-type preset needs a target
+    // instance, so prompt for which one.
+    if (preset.equipmentTypeId == null) {
+      await _applyPreset(preset);
+      return;
+    }
+
+    final matching = equipmentInstances
+        .where((e) => e.equipmentTypeId == preset.equipmentTypeId && e.active)
+        .toList();
+    if (matching.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('No equipment of this type set up yet.')),
+      );
+      return;
+    }
+
+    final chosen = await showDialog<Equipment>(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: Text('Apply "${preset.name}" to which one?'),
+        children: matching
+            .map(
+              (e) => SimpleDialogOption(
+                onPressed: () => Navigator.pop(context, e),
+                child: Text(e.name),
+              ),
+            )
+            .toList(),
+      ),
+    );
+    if (chosen == null) return;
+    await _applyPreset(preset, equipmentInstanceId: chosen.id);
+  }
+
+  Future<void> _applyPreset(
+    TaskPreset preset, {
+    int? equipmentInstanceId,
+  }) async {
+    final staff = selectedStaff;
+    final manager = ref.read(currentUserProvider);
+    if (staff == null || manager == null) return;
+
+    final presetRepo = ref.read(taskPresetRepositoryProvider);
+    final count = await presetRepo.applyPresetToStaff(
+      presetId: preset.id,
+      staffUserId: staff.id,
+      equipmentInstanceId: equipmentInstanceId,
+      assignedByUserId: manager.id,
+      siteId: staff.siteId,
+    );
+
+    if (!mounted) return;
+    final scheduleRepo = ref.read(taskScheduleRepositoryProvider);
+    final refreshed = await scheduleRepo.getForStaffMember(staff.id);
+    if (!mounted) return;
+    setState(() => schedulesForSelectedStaff = refreshed);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          count == 0
+              ? 'All ${preset.name} tasks were already assigned'
+              : 'Added $count task${count == 1 ? '' : 's'} from ${preset.name}',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (loading) {
@@ -253,6 +344,27 @@ class _StaffAssignmentScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (presets.isNotEmpty) ...[
+            const Text(
+              'Task Presets',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            for (final preset in presets)
+              Card(
+                child: ListTile(
+                  title: Text(preset.name),
+                  subtitle: Text(_presetSubtitle(preset)),
+                  trailing: TextButton(
+                    onPressed: () => _onApplyPreset(preset),
+                    child: const Text('Apply'),
+                  ),
+                ),
+              ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const SizedBox(height: 8),
+          ],
           for (final segment in grouped.keys) ...[
             Text(
               segment,

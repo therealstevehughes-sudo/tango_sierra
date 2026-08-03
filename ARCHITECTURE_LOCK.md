@@ -47,6 +47,7 @@ lib/
     onboarding/
     branding/
     notifications/
+    task_library/
   shared/
     models/
     enums/
@@ -153,6 +154,8 @@ The data model must support these entities:
 - ReassignmentLog
 - Report
 - ThirdPartyContact
+- TaskPreset
+- TaskPresetItem
 
 Notes on entities above:
 - `BrandingConfig` — company/branch branding (colours, logo, contact info), scoped to Organisation/Brand, editable by top tier only.
@@ -161,6 +164,7 @@ Notes on entities above:
 - `NotificationRule` — configurable trigger-notification rules (which trigger, which tier/user, channel: push and/or email, who set it, override flag). Distinct from `Notification`, which represents an actual sent/logged notification.
 - `Role` carries a required tier attribute: `top`, `mid`, or `base`.
 - `ThirdPartyContact` — external/internal maintenance and repair contacts (name, company, specialty, phone/email), kept as a directory for staff to act on manually. Not a `User` (no login, no role tier) and not wired into `NotificationRule` targeting — added to this list when the entity was actually built, not part of the original lock.
+- `TaskPreset` / `TaskPresetItem` — a named "standard task set" (a curated grouping of task templates tied to an equipment type and/or a segment) plus its member templates, used to bulk-create `TaskSchedule`s when assigning tasks. A curation convenience, not versioned (not in the Versioning Rule below) and org-wide. Added to this list when the entity was built (Sprint 026), not part of the original lock.
 
 ## Versioning Rule
 Task-library configuration (`TaskTemplate` and other configurable setup entities such as `LegalLimitReference`, `NotificationRule`, `BrandingConfig`) follows the same append-only pattern already used for `TaskSubmission`.

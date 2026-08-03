@@ -8693,6 +8693,875 @@ class ThirdPartyContactsCompanion
   }
 }
 
+class $TaskPresetsTable extends TaskPresets
+    with TableInfo<$TaskPresetsTable, TaskPresetEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskPresetsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _equipmentTypeIdMeta = const VerificationMeta(
+    'equipmentTypeId',
+  );
+  @override
+  late final GeneratedColumn<int> equipmentTypeId = GeneratedColumn<int>(
+    'equipment_type_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES equipment_types (id)',
+    ),
+  );
+  static const VerificationMeta _segmentMeta = const VerificationMeta(
+    'segment',
+  );
+  @override
+  late final GeneratedColumn<String> segment = GeneratedColumn<String>(
+    'segment',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _createdByUserIdMeta = const VerificationMeta(
+    'createdByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> createdByUserId = GeneratedColumn<int>(
+    'created_by_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    equipmentTypeId,
+    segment,
+    active,
+    createdByUserId,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task_presets';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaskPresetEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('equipment_type_id')) {
+      context.handle(
+        _equipmentTypeIdMeta,
+        equipmentTypeId.isAcceptableOrUnknown(
+          data['equipment_type_id']!,
+          _equipmentTypeIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('segment')) {
+      context.handle(
+        _segmentMeta,
+        segment.isAcceptableOrUnknown(data['segment']!, _segmentMeta),
+      );
+    }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
+    if (data.containsKey('created_by_user_id')) {
+      context.handle(
+        _createdByUserIdMeta,
+        createdByUserId.isAcceptableOrUnknown(
+          data['created_by_user_id']!,
+          _createdByUserIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TaskPresetEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaskPresetEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      equipmentTypeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}equipment_type_id'],
+      ),
+      segment: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}segment'],
+      ),
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
+      createdByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}created_by_user_id'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $TaskPresetsTable createAlias(String alias) {
+    return $TaskPresetsTable(attachedDatabase, alias);
+  }
+}
+
+class TaskPresetEntity extends DataClass
+    implements Insertable<TaskPresetEntity> {
+  final int id;
+  final String name;
+  final int? equipmentTypeId;
+  final String? segment;
+  final bool active;
+  final int? createdByUserId;
+  final DateTime createdAt;
+  const TaskPresetEntity({
+    required this.id,
+    required this.name,
+    this.equipmentTypeId,
+    this.segment,
+    required this.active,
+    this.createdByUserId,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || equipmentTypeId != null) {
+      map['equipment_type_id'] = Variable<int>(equipmentTypeId);
+    }
+    if (!nullToAbsent || segment != null) {
+      map['segment'] = Variable<String>(segment);
+    }
+    map['active'] = Variable<bool>(active);
+    if (!nullToAbsent || createdByUserId != null) {
+      map['created_by_user_id'] = Variable<int>(createdByUserId);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  TaskPresetsCompanion toCompanion(bool nullToAbsent) {
+    return TaskPresetsCompanion(
+      id: Value(id),
+      name: Value(name),
+      equipmentTypeId: equipmentTypeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(equipmentTypeId),
+      segment: segment == null && nullToAbsent
+          ? const Value.absent()
+          : Value(segment),
+      active: Value(active),
+      createdByUserId: createdByUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdByUserId),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory TaskPresetEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaskPresetEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      equipmentTypeId: serializer.fromJson<int?>(json['equipmentTypeId']),
+      segment: serializer.fromJson<String?>(json['segment']),
+      active: serializer.fromJson<bool>(json['active']),
+      createdByUserId: serializer.fromJson<int?>(json['createdByUserId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'equipmentTypeId': serializer.toJson<int?>(equipmentTypeId),
+      'segment': serializer.toJson<String?>(segment),
+      'active': serializer.toJson<bool>(active),
+      'createdByUserId': serializer.toJson<int?>(createdByUserId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  TaskPresetEntity copyWith({
+    int? id,
+    String? name,
+    Value<int?> equipmentTypeId = const Value.absent(),
+    Value<String?> segment = const Value.absent(),
+    bool? active,
+    Value<int?> createdByUserId = const Value.absent(),
+    DateTime? createdAt,
+  }) => TaskPresetEntity(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    equipmentTypeId: equipmentTypeId.present
+        ? equipmentTypeId.value
+        : this.equipmentTypeId,
+    segment: segment.present ? segment.value : this.segment,
+    active: active ?? this.active,
+    createdByUserId: createdByUserId.present
+        ? createdByUserId.value
+        : this.createdByUserId,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  TaskPresetEntity copyWithCompanion(TaskPresetsCompanion data) {
+    return TaskPresetEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      equipmentTypeId: data.equipmentTypeId.present
+          ? data.equipmentTypeId.value
+          : this.equipmentTypeId,
+      segment: data.segment.present ? data.segment.value : this.segment,
+      active: data.active.present ? data.active.value : this.active,
+      createdByUserId: data.createdByUserId.present
+          ? data.createdByUserId.value
+          : this.createdByUserId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskPresetEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('equipmentTypeId: $equipmentTypeId, ')
+          ..write('segment: $segment, ')
+          ..write('active: $active, ')
+          ..write('createdByUserId: $createdByUserId, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    name,
+    equipmentTypeId,
+    segment,
+    active,
+    createdByUserId,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaskPresetEntity &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.equipmentTypeId == this.equipmentTypeId &&
+          other.segment == this.segment &&
+          other.active == this.active &&
+          other.createdByUserId == this.createdByUserId &&
+          other.createdAt == this.createdAt);
+}
+
+class TaskPresetsCompanion extends UpdateCompanion<TaskPresetEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<int?> equipmentTypeId;
+  final Value<String?> segment;
+  final Value<bool> active;
+  final Value<int?> createdByUserId;
+  final Value<DateTime> createdAt;
+  const TaskPresetsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.equipmentTypeId = const Value.absent(),
+    this.segment = const Value.absent(),
+    this.active = const Value.absent(),
+    this.createdByUserId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  TaskPresetsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.equipmentTypeId = const Value.absent(),
+    this.segment = const Value.absent(),
+    this.active = const Value.absent(),
+    this.createdByUserId = const Value.absent(),
+    required DateTime createdAt,
+  }) : name = Value(name),
+       createdAt = Value(createdAt);
+  static Insertable<TaskPresetEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<int>? equipmentTypeId,
+    Expression<String>? segment,
+    Expression<bool>? active,
+    Expression<int>? createdByUserId,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (equipmentTypeId != null) 'equipment_type_id': equipmentTypeId,
+      if (segment != null) 'segment': segment,
+      if (active != null) 'active': active,
+      if (createdByUserId != null) 'created_by_user_id': createdByUserId,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  TaskPresetsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<int?>? equipmentTypeId,
+    Value<String?>? segment,
+    Value<bool>? active,
+    Value<int?>? createdByUserId,
+    Value<DateTime>? createdAt,
+  }) {
+    return TaskPresetsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
+      segment: segment ?? this.segment,
+      active: active ?? this.active,
+      createdByUserId: createdByUserId ?? this.createdByUserId,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (equipmentTypeId.present) {
+      map['equipment_type_id'] = Variable<int>(equipmentTypeId.value);
+    }
+    if (segment.present) {
+      map['segment'] = Variable<String>(segment.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    if (createdByUserId.present) {
+      map['created_by_user_id'] = Variable<int>(createdByUserId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskPresetsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('equipmentTypeId: $equipmentTypeId, ')
+          ..write('segment: $segment, ')
+          ..write('active: $active, ')
+          ..write('createdByUserId: $createdByUserId, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TaskPresetItemsTable extends TaskPresetItems
+    with TableInfo<$TaskPresetItemsTable, TaskPresetItemEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskPresetItemsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _presetIdMeta = const VerificationMeta(
+    'presetId',
+  );
+  @override
+  late final GeneratedColumn<int> presetId = GeneratedColumn<int>(
+    'preset_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES task_presets (id)',
+    ),
+  );
+  static const VerificationMeta _taskTemplateGroupIdMeta =
+      const VerificationMeta('taskTemplateGroupId');
+  @override
+  late final GeneratedColumn<int> taskTemplateGroupId = GeneratedColumn<int>(
+    'task_template_group_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _defaultFrequencyMeta = const VerificationMeta(
+    'defaultFrequency',
+  );
+  @override
+  late final GeneratedColumn<String> defaultFrequency = GeneratedColumn<String>(
+    'default_frequency',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _defaultCustomFrequencyDetailMeta =
+      const VerificationMeta('defaultCustomFrequencyDetail');
+  @override
+  late final GeneratedColumn<String> defaultCustomFrequencyDetail =
+      GeneratedColumn<String>(
+        'default_custom_frequency_detail',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    presetId,
+    taskTemplateGroupId,
+    defaultFrequency,
+    defaultCustomFrequencyDetail,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task_preset_items';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaskPresetItemEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('preset_id')) {
+      context.handle(
+        _presetIdMeta,
+        presetId.isAcceptableOrUnknown(data['preset_id']!, _presetIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_presetIdMeta);
+    }
+    if (data.containsKey('task_template_group_id')) {
+      context.handle(
+        _taskTemplateGroupIdMeta,
+        taskTemplateGroupId.isAcceptableOrUnknown(
+          data['task_template_group_id']!,
+          _taskTemplateGroupIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_taskTemplateGroupIdMeta);
+    }
+    if (data.containsKey('default_frequency')) {
+      context.handle(
+        _defaultFrequencyMeta,
+        defaultFrequency.isAcceptableOrUnknown(
+          data['default_frequency']!,
+          _defaultFrequencyMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_defaultFrequencyMeta);
+    }
+    if (data.containsKey('default_custom_frequency_detail')) {
+      context.handle(
+        _defaultCustomFrequencyDetailMeta,
+        defaultCustomFrequencyDetail.isAcceptableOrUnknown(
+          data['default_custom_frequency_detail']!,
+          _defaultCustomFrequencyDetailMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TaskPresetItemEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaskPresetItemEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      presetId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}preset_id'],
+      )!,
+      taskTemplateGroupId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}task_template_group_id'],
+      )!,
+      defaultFrequency: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}default_frequency'],
+      )!,
+      defaultCustomFrequencyDetail: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}default_custom_frequency_detail'],
+      ),
+    );
+  }
+
+  @override
+  $TaskPresetItemsTable createAlias(String alias) {
+    return $TaskPresetItemsTable(attachedDatabase, alias);
+  }
+}
+
+class TaskPresetItemEntity extends DataClass
+    implements Insertable<TaskPresetItemEntity> {
+  final int id;
+  final int presetId;
+  final int taskTemplateGroupId;
+  final String defaultFrequency;
+  final String? defaultCustomFrequencyDetail;
+  const TaskPresetItemEntity({
+    required this.id,
+    required this.presetId,
+    required this.taskTemplateGroupId,
+    required this.defaultFrequency,
+    this.defaultCustomFrequencyDetail,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['preset_id'] = Variable<int>(presetId);
+    map['task_template_group_id'] = Variable<int>(taskTemplateGroupId);
+    map['default_frequency'] = Variable<String>(defaultFrequency);
+    if (!nullToAbsent || defaultCustomFrequencyDetail != null) {
+      map['default_custom_frequency_detail'] = Variable<String>(
+        defaultCustomFrequencyDetail,
+      );
+    }
+    return map;
+  }
+
+  TaskPresetItemsCompanion toCompanion(bool nullToAbsent) {
+    return TaskPresetItemsCompanion(
+      id: Value(id),
+      presetId: Value(presetId),
+      taskTemplateGroupId: Value(taskTemplateGroupId),
+      defaultFrequency: Value(defaultFrequency),
+      defaultCustomFrequencyDetail:
+          defaultCustomFrequencyDetail == null && nullToAbsent
+          ? const Value.absent()
+          : Value(defaultCustomFrequencyDetail),
+    );
+  }
+
+  factory TaskPresetItemEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaskPresetItemEntity(
+      id: serializer.fromJson<int>(json['id']),
+      presetId: serializer.fromJson<int>(json['presetId']),
+      taskTemplateGroupId: serializer.fromJson<int>(
+        json['taskTemplateGroupId'],
+      ),
+      defaultFrequency: serializer.fromJson<String>(json['defaultFrequency']),
+      defaultCustomFrequencyDetail: serializer.fromJson<String?>(
+        json['defaultCustomFrequencyDetail'],
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'presetId': serializer.toJson<int>(presetId),
+      'taskTemplateGroupId': serializer.toJson<int>(taskTemplateGroupId),
+      'defaultFrequency': serializer.toJson<String>(defaultFrequency),
+      'defaultCustomFrequencyDetail': serializer.toJson<String?>(
+        defaultCustomFrequencyDetail,
+      ),
+    };
+  }
+
+  TaskPresetItemEntity copyWith({
+    int? id,
+    int? presetId,
+    int? taskTemplateGroupId,
+    String? defaultFrequency,
+    Value<String?> defaultCustomFrequencyDetail = const Value.absent(),
+  }) => TaskPresetItemEntity(
+    id: id ?? this.id,
+    presetId: presetId ?? this.presetId,
+    taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
+    defaultFrequency: defaultFrequency ?? this.defaultFrequency,
+    defaultCustomFrequencyDetail: defaultCustomFrequencyDetail.present
+        ? defaultCustomFrequencyDetail.value
+        : this.defaultCustomFrequencyDetail,
+  );
+  TaskPresetItemEntity copyWithCompanion(TaskPresetItemsCompanion data) {
+    return TaskPresetItemEntity(
+      id: data.id.present ? data.id.value : this.id,
+      presetId: data.presetId.present ? data.presetId.value : this.presetId,
+      taskTemplateGroupId: data.taskTemplateGroupId.present
+          ? data.taskTemplateGroupId.value
+          : this.taskTemplateGroupId,
+      defaultFrequency: data.defaultFrequency.present
+          ? data.defaultFrequency.value
+          : this.defaultFrequency,
+      defaultCustomFrequencyDetail: data.defaultCustomFrequencyDetail.present
+          ? data.defaultCustomFrequencyDetail.value
+          : this.defaultCustomFrequencyDetail,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskPresetItemEntity(')
+          ..write('id: $id, ')
+          ..write('presetId: $presetId, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('defaultFrequency: $defaultFrequency, ')
+          ..write('defaultCustomFrequencyDetail: $defaultCustomFrequencyDetail')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    presetId,
+    taskTemplateGroupId,
+    defaultFrequency,
+    defaultCustomFrequencyDetail,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaskPresetItemEntity &&
+          other.id == this.id &&
+          other.presetId == this.presetId &&
+          other.taskTemplateGroupId == this.taskTemplateGroupId &&
+          other.defaultFrequency == this.defaultFrequency &&
+          other.defaultCustomFrequencyDetail ==
+              this.defaultCustomFrequencyDetail);
+}
+
+class TaskPresetItemsCompanion extends UpdateCompanion<TaskPresetItemEntity> {
+  final Value<int> id;
+  final Value<int> presetId;
+  final Value<int> taskTemplateGroupId;
+  final Value<String> defaultFrequency;
+  final Value<String?> defaultCustomFrequencyDetail;
+  const TaskPresetItemsCompanion({
+    this.id = const Value.absent(),
+    this.presetId = const Value.absent(),
+    this.taskTemplateGroupId = const Value.absent(),
+    this.defaultFrequency = const Value.absent(),
+    this.defaultCustomFrequencyDetail = const Value.absent(),
+  });
+  TaskPresetItemsCompanion.insert({
+    this.id = const Value.absent(),
+    required int presetId,
+    required int taskTemplateGroupId,
+    required String defaultFrequency,
+    this.defaultCustomFrequencyDetail = const Value.absent(),
+  }) : presetId = Value(presetId),
+       taskTemplateGroupId = Value(taskTemplateGroupId),
+       defaultFrequency = Value(defaultFrequency);
+  static Insertable<TaskPresetItemEntity> custom({
+    Expression<int>? id,
+    Expression<int>? presetId,
+    Expression<int>? taskTemplateGroupId,
+    Expression<String>? defaultFrequency,
+    Expression<String>? defaultCustomFrequencyDetail,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (presetId != null) 'preset_id': presetId,
+      if (taskTemplateGroupId != null)
+        'task_template_group_id': taskTemplateGroupId,
+      if (defaultFrequency != null) 'default_frequency': defaultFrequency,
+      if (defaultCustomFrequencyDetail != null)
+        'default_custom_frequency_detail': defaultCustomFrequencyDetail,
+    });
+  }
+
+  TaskPresetItemsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? presetId,
+    Value<int>? taskTemplateGroupId,
+    Value<String>? defaultFrequency,
+    Value<String?>? defaultCustomFrequencyDetail,
+  }) {
+    return TaskPresetItemsCompanion(
+      id: id ?? this.id,
+      presetId: presetId ?? this.presetId,
+      taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
+      defaultFrequency: defaultFrequency ?? this.defaultFrequency,
+      defaultCustomFrequencyDetail:
+          defaultCustomFrequencyDetail ?? this.defaultCustomFrequencyDetail,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (presetId.present) {
+      map['preset_id'] = Variable<int>(presetId.value);
+    }
+    if (taskTemplateGroupId.present) {
+      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId.value);
+    }
+    if (defaultFrequency.present) {
+      map['default_frequency'] = Variable<String>(defaultFrequency.value);
+    }
+    if (defaultCustomFrequencyDetail.present) {
+      map['default_custom_frequency_detail'] = Variable<String>(
+        defaultCustomFrequencyDetail.value,
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskPresetItemsCompanion(')
+          ..write('id: $id, ')
+          ..write('presetId: $presetId, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('defaultFrequency: $defaultFrequency, ')
+          ..write('defaultCustomFrequencyDetail: $defaultCustomFrequencyDetail')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -8721,6 +9590,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $TriggerNotificationsTable(this);
   late final $ThirdPartyContactsTable thirdPartyContacts =
       $ThirdPartyContactsTable(this);
+  late final $TaskPresetsTable taskPresets = $TaskPresetsTable(this);
+  late final $TaskPresetItemsTable taskPresetItems = $TaskPresetItemsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8741,6 +9614,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     notificationRules,
     triggerNotifications,
     thirdPartyContacts,
+    taskPresets,
+    taskPresetItems,
   ];
 }
 
@@ -8800,6 +9675,24 @@ final class $$EquipmentTypesTableReferences
     ).filter((f) => f.equipmentTypeId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_taskTemplatesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$TaskPresetsTable, List<TaskPresetEntity>>
+  _taskPresetsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskPresets,
+    aliasName: 'equipment_types__id__task_presets__equipment_type_id',
+  );
+
+  $$TaskPresetsTableProcessedTableManager get taskPresetsRefs {
+    final manager = $$TaskPresetsTableTableManager(
+      $_db,
+      $_db.taskPresets,
+    ).filter((f) => f.equipmentTypeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_taskPresetsRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -8866,6 +9759,31 @@ class $$EquipmentTypesTableFilterComposer
           }) => $$TaskTemplatesTableFilterComposer(
             $db: $db,
             $table: $db.taskTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> taskPresetsRefs(
+    Expression<bool> Function($$TaskPresetsTableFilterComposer f) f,
+  ) {
+    final $$TaskPresetsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskPresets,
+      getReferencedColumn: (t) => t.equipmentTypeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetsTableFilterComposer(
+            $db: $db,
+            $table: $db.taskPresets,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -8961,6 +9879,31 @@ class $$EquipmentTypesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> taskPresetsRefs<T extends Object>(
+    Expression<T> Function($$TaskPresetsTableAnnotationComposer a) f,
+  ) {
+    final $$TaskPresetsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskPresets,
+      getReferencedColumn: (t) => t.equipmentTypeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskPresets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$EquipmentTypesTableTableManager
@@ -8979,6 +9922,7 @@ class $$EquipmentTypesTableTableManager
           PrefetchHooks Function({
             bool equipmentInstancesRefs,
             bool taskTemplatesRefs,
+            bool taskPresetsRefs,
           })
         > {
   $$EquipmentTypesTableTableManager(
@@ -9011,12 +9955,17 @@ class $$EquipmentTypesTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({equipmentInstancesRefs = false, taskTemplatesRefs = false}) {
+              ({
+                equipmentInstancesRefs = false,
+                taskTemplatesRefs = false,
+                taskPresetsRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (equipmentInstancesRefs) db.equipmentInstances,
                     if (taskTemplatesRefs) db.taskTemplates,
+                    if (taskPresetsRefs) db.taskPresets,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -9063,6 +10012,27 @@ class $$EquipmentTypesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (taskPresetsRefs)
+                        await $_getPrefetchedData<
+                          EquipmentTypeEntity,
+                          $EquipmentTypesTable,
+                          TaskPresetEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EquipmentTypesTableReferences
+                              ._taskPresetsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EquipmentTypesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskPresetsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.equipmentTypeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -9086,6 +10056,7 @@ typedef $$EquipmentTypesTableProcessedTableManager =
       PrefetchHooks Function({
         bool equipmentInstancesRefs,
         bool taskTemplatesRefs,
+        bool taskPresetsRefs,
       })
     >;
 typedef $$OrganisationsTableCreateCompanionBuilder =
@@ -11901,6 +12872,24 @@ final class $$UsersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$TaskPresetsTable, List<TaskPresetEntity>>
+  _taskPresetsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskPresets,
+    aliasName: 'users__id__task_presets__created_by_user_id',
+  );
+
+  $$TaskPresetsTableProcessedTableManager get taskPresetsRefs {
+    final manager = $$TaskPresetsTableTableManager(
+      $_db,
+      $_db.taskPresets,
+    ).filter((f) => f.createdByUserId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_taskPresetsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
@@ -12118,6 +13107,31 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$ThirdPartyContactsTableFilterComposer(
             $db: $db,
             $table: $db.thirdPartyContacts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> taskPresetsRefs(
+    Expression<bool> Function($$TaskPresetsTableFilterComposer f) f,
+  ) {
+    final $$TaskPresetsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskPresets,
+      getReferencedColumn: (t) => t.createdByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetsTableFilterComposer(
+            $db: $db,
+            $table: $db.taskPresets,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -12442,6 +13456,31 @@ class $$UsersTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> taskPresetsRefs<T extends Object>(
+    Expression<T> Function($$TaskPresetsTableAnnotationComposer a) f,
+  ) {
+    final $$TaskPresetsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskPresets,
+      getReferencedColumn: (t) => t.createdByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskPresets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$UsersTableTableManager
@@ -12465,6 +13504,7 @@ class $$UsersTableTableManager
             bool shiftHandoverNotesRefs,
             bool triggerNotificationsRefs,
             bool thirdPartyContactsRefs,
+            bool taskPresetsRefs,
           })
         > {
   $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
@@ -12545,6 +13585,7 @@ class $$UsersTableTableManager
                 shiftHandoverNotesRefs = false,
                 triggerNotificationsRefs = false,
                 thirdPartyContactsRefs = false,
+                taskPresetsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -12554,6 +13595,7 @@ class $$UsersTableTableManager
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
                     if (triggerNotificationsRefs) db.triggerNotifications,
                     if (thirdPartyContactsRefs) db.thirdPartyContacts,
+                    if (taskPresetsRefs) db.taskPresets,
                   ],
                   addJoins:
                       <
@@ -12707,6 +13749,27 @@ class $$UsersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (taskPresetsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          TaskPresetEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._taskPresetsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskPresetsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.createdByUserId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -12735,6 +13798,7 @@ typedef $$UsersTableProcessedTableManager =
         bool shiftHandoverNotesRefs,
         bool triggerNotificationsRefs,
         bool thirdPartyContactsRefs,
+        bool taskPresetsRefs,
       })
     >;
 typedef $$TaskSubmissionsTableCreateCompanionBuilder =
@@ -18559,6 +19623,887 @@ typedef $$ThirdPartyContactsTableProcessedTableManager =
       ThirdPartyContactEntity,
       PrefetchHooks Function({bool siteId, bool createdByUserId})
     >;
+typedef $$TaskPresetsTableCreateCompanionBuilder =
+    TaskPresetsCompanion Function({
+      Value<int> id,
+      required String name,
+      Value<int?> equipmentTypeId,
+      Value<String?> segment,
+      Value<bool> active,
+      Value<int?> createdByUserId,
+      required DateTime createdAt,
+    });
+typedef $$TaskPresetsTableUpdateCompanionBuilder =
+    TaskPresetsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<int?> equipmentTypeId,
+      Value<String?> segment,
+      Value<bool> active,
+      Value<int?> createdByUserId,
+      Value<DateTime> createdAt,
+    });
+
+final class $$TaskPresetsTableReferences
+    extends BaseReferences<_$AppDatabase, $TaskPresetsTable, TaskPresetEntity> {
+  $$TaskPresetsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $EquipmentTypesTable _equipmentTypeIdTable(_$AppDatabase db) => db
+      .equipmentTypes
+      .createAlias('task_presets__equipment_type_id__equipment_types__id');
+
+  $$EquipmentTypesTableProcessedTableManager? get equipmentTypeId {
+    final $_column = $_itemColumn<int>('equipment_type_id');
+    if ($_column == null) return null;
+    final manager = $$EquipmentTypesTableTableManager(
+      $_db,
+      $_db.equipmentTypes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_equipmentTypeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _createdByUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('task_presets__created_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager? get createdByUserId {
+    final $_column = $_itemColumn<int>('created_by_user_id');
+    if ($_column == null) return null;
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_createdByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$TaskPresetItemsTable, List<TaskPresetItemEntity>>
+  _taskPresetItemsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskPresetItems,
+    aliasName: 'task_presets__id__task_preset_items__preset_id',
+  );
+
+  $$TaskPresetItemsTableProcessedTableManager get taskPresetItemsRefs {
+    final manager = $$TaskPresetItemsTableTableManager(
+      $_db,
+      $_db.taskPresetItems,
+    ).filter((f) => f.presetId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _taskPresetItemsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$TaskPresetsTableFilterComposer
+    extends Composer<_$AppDatabase, $TaskPresetsTable> {
+  $$TaskPresetsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get segment => $composableBuilder(
+    column: $table.segment,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$EquipmentTypesTableFilterComposer get equipmentTypeId {
+    final $$EquipmentTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentTypeId,
+      referencedTable: $db.equipmentTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.equipmentTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get createdByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.createdByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> taskPresetItemsRefs(
+    Expression<bool> Function($$TaskPresetItemsTableFilterComposer f) f,
+  ) {
+    final $$TaskPresetItemsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskPresetItems,
+      getReferencedColumn: (t) => t.presetId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetItemsTableFilterComposer(
+            $db: $db,
+            $table: $db.taskPresetItems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$TaskPresetsTableOrderingComposer
+    extends Composer<_$AppDatabase, $TaskPresetsTable> {
+  $$TaskPresetsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get segment => $composableBuilder(
+    column: $table.segment,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$EquipmentTypesTableOrderingComposer get equipmentTypeId {
+    final $$EquipmentTypesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentTypeId,
+      referencedTable: $db.equipmentTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTypesTableOrderingComposer(
+            $db: $db,
+            $table: $db.equipmentTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get createdByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.createdByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskPresetsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TaskPresetsTable> {
+  $$TaskPresetsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get segment =>
+      $composableBuilder(column: $table.segment, builder: (column) => column);
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$EquipmentTypesTableAnnotationComposer get equipmentTypeId {
+    final $$EquipmentTypesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentTypeId,
+      referencedTable: $db.equipmentTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTypesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.equipmentTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get createdByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.createdByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> taskPresetItemsRefs<T extends Object>(
+    Expression<T> Function($$TaskPresetItemsTableAnnotationComposer a) f,
+  ) {
+    final $$TaskPresetItemsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskPresetItems,
+      getReferencedColumn: (t) => t.presetId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetItemsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskPresetItems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$TaskPresetsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaskPresetsTable,
+          TaskPresetEntity,
+          $$TaskPresetsTableFilterComposer,
+          $$TaskPresetsTableOrderingComposer,
+          $$TaskPresetsTableAnnotationComposer,
+          $$TaskPresetsTableCreateCompanionBuilder,
+          $$TaskPresetsTableUpdateCompanionBuilder,
+          (TaskPresetEntity, $$TaskPresetsTableReferences),
+          TaskPresetEntity,
+          PrefetchHooks Function({
+            bool equipmentTypeId,
+            bool createdByUserId,
+            bool taskPresetItemsRefs,
+          })
+        > {
+  $$TaskPresetsTableTableManager(_$AppDatabase db, $TaskPresetsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TaskPresetsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TaskPresetsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TaskPresetsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int?> equipmentTypeId = const Value.absent(),
+                Value<String?> segment = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                Value<int?> createdByUserId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => TaskPresetsCompanion(
+                id: id,
+                name: name,
+                equipmentTypeId: equipmentTypeId,
+                segment: segment,
+                active: active,
+                createdByUserId: createdByUserId,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                Value<int?> equipmentTypeId = const Value.absent(),
+                Value<String?> segment = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                Value<int?> createdByUserId = const Value.absent(),
+                required DateTime createdAt,
+              }) => TaskPresetsCompanion.insert(
+                id: id,
+                name: name,
+                equipmentTypeId: equipmentTypeId,
+                segment: segment,
+                active: active,
+                createdByUserId: createdByUserId,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TaskPresetsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                equipmentTypeId = false,
+                createdByUserId = false,
+                taskPresetItemsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (taskPresetItemsRefs) db.taskPresetItems,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (equipmentTypeId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.equipmentTypeId,
+                                    referencedTable:
+                                        $$TaskPresetsTableReferences
+                                            ._equipmentTypeIdTable(db),
+                                    referencedColumn:
+                                        $$TaskPresetsTableReferences
+                                            ._equipmentTypeIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (createdByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.createdByUserId,
+                                    referencedTable:
+                                        $$TaskPresetsTableReferences
+                                            ._createdByUserIdTable(db),
+                                    referencedColumn:
+                                        $$TaskPresetsTableReferences
+                                            ._createdByUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (taskPresetItemsRefs)
+                        await $_getPrefetchedData<
+                          TaskPresetEntity,
+                          $TaskPresetsTable,
+                          TaskPresetItemEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TaskPresetsTableReferences
+                              ._taskPresetItemsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TaskPresetsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskPresetItemsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.presetId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$TaskPresetsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaskPresetsTable,
+      TaskPresetEntity,
+      $$TaskPresetsTableFilterComposer,
+      $$TaskPresetsTableOrderingComposer,
+      $$TaskPresetsTableAnnotationComposer,
+      $$TaskPresetsTableCreateCompanionBuilder,
+      $$TaskPresetsTableUpdateCompanionBuilder,
+      (TaskPresetEntity, $$TaskPresetsTableReferences),
+      TaskPresetEntity,
+      PrefetchHooks Function({
+        bool equipmentTypeId,
+        bool createdByUserId,
+        bool taskPresetItemsRefs,
+      })
+    >;
+typedef $$TaskPresetItemsTableCreateCompanionBuilder =
+    TaskPresetItemsCompanion Function({
+      Value<int> id,
+      required int presetId,
+      required int taskTemplateGroupId,
+      required String defaultFrequency,
+      Value<String?> defaultCustomFrequencyDetail,
+    });
+typedef $$TaskPresetItemsTableUpdateCompanionBuilder =
+    TaskPresetItemsCompanion Function({
+      Value<int> id,
+      Value<int> presetId,
+      Value<int> taskTemplateGroupId,
+      Value<String> defaultFrequency,
+      Value<String?> defaultCustomFrequencyDetail,
+    });
+
+final class $$TaskPresetItemsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $TaskPresetItemsTable,
+          TaskPresetItemEntity
+        > {
+  $$TaskPresetItemsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $TaskPresetsTable _presetIdTable(_$AppDatabase db) => db.taskPresets
+      .createAlias('task_preset_items__preset_id__task_presets__id');
+
+  $$TaskPresetsTableProcessedTableManager get presetId {
+    final $_column = $_itemColumn<int>('preset_id')!;
+
+    final manager = $$TaskPresetsTableTableManager(
+      $_db,
+      $_db.taskPresets,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_presetIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TaskPresetItemsTableFilterComposer
+    extends Composer<_$AppDatabase, $TaskPresetItemsTable> {
+  $$TaskPresetItemsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get defaultFrequency => $composableBuilder(
+    column: $table.defaultFrequency,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get defaultCustomFrequencyDetail => $composableBuilder(
+    column: $table.defaultCustomFrequencyDetail,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$TaskPresetsTableFilterComposer get presetId {
+    final $$TaskPresetsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.presetId,
+      referencedTable: $db.taskPresets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetsTableFilterComposer(
+            $db: $db,
+            $table: $db.taskPresets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskPresetItemsTableOrderingComposer
+    extends Composer<_$AppDatabase, $TaskPresetItemsTable> {
+  $$TaskPresetItemsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get defaultFrequency => $composableBuilder(
+    column: $table.defaultFrequency,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get defaultCustomFrequencyDetail =>
+      $composableBuilder(
+        column: $table.defaultCustomFrequencyDetail,
+        builder: (column) => ColumnOrderings(column),
+      );
+
+  $$TaskPresetsTableOrderingComposer get presetId {
+    final $$TaskPresetsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.presetId,
+      referencedTable: $db.taskPresets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetsTableOrderingComposer(
+            $db: $db,
+            $table: $db.taskPresets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskPresetItemsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TaskPresetItemsTable> {
+  $$TaskPresetItemsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get defaultFrequency => $composableBuilder(
+    column: $table.defaultFrequency,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get defaultCustomFrequencyDetail =>
+      $composableBuilder(
+        column: $table.defaultCustomFrequencyDetail,
+        builder: (column) => column,
+      );
+
+  $$TaskPresetsTableAnnotationComposer get presetId {
+    final $$TaskPresetsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.presetId,
+      referencedTable: $db.taskPresets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskPresets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskPresetItemsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaskPresetItemsTable,
+          TaskPresetItemEntity,
+          $$TaskPresetItemsTableFilterComposer,
+          $$TaskPresetItemsTableOrderingComposer,
+          $$TaskPresetItemsTableAnnotationComposer,
+          $$TaskPresetItemsTableCreateCompanionBuilder,
+          $$TaskPresetItemsTableUpdateCompanionBuilder,
+          (TaskPresetItemEntity, $$TaskPresetItemsTableReferences),
+          TaskPresetItemEntity,
+          PrefetchHooks Function({bool presetId})
+        > {
+  $$TaskPresetItemsTableTableManager(
+    _$AppDatabase db,
+    $TaskPresetItemsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TaskPresetItemsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TaskPresetItemsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TaskPresetItemsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> presetId = const Value.absent(),
+                Value<int> taskTemplateGroupId = const Value.absent(),
+                Value<String> defaultFrequency = const Value.absent(),
+                Value<String?> defaultCustomFrequencyDetail =
+                    const Value.absent(),
+              }) => TaskPresetItemsCompanion(
+                id: id,
+                presetId: presetId,
+                taskTemplateGroupId: taskTemplateGroupId,
+                defaultFrequency: defaultFrequency,
+                defaultCustomFrequencyDetail: defaultCustomFrequencyDetail,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int presetId,
+                required int taskTemplateGroupId,
+                required String defaultFrequency,
+                Value<String?> defaultCustomFrequencyDetail =
+                    const Value.absent(),
+              }) => TaskPresetItemsCompanion.insert(
+                id: id,
+                presetId: presetId,
+                taskTemplateGroupId: taskTemplateGroupId,
+                defaultFrequency: defaultFrequency,
+                defaultCustomFrequencyDetail: defaultCustomFrequencyDetail,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TaskPresetItemsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({presetId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (presetId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.presetId,
+                                referencedTable:
+                                    $$TaskPresetItemsTableReferences
+                                        ._presetIdTable(db),
+                                referencedColumn:
+                                    $$TaskPresetItemsTableReferences
+                                        ._presetIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$TaskPresetItemsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaskPresetItemsTable,
+      TaskPresetItemEntity,
+      $$TaskPresetItemsTableFilterComposer,
+      $$TaskPresetItemsTableOrderingComposer,
+      $$TaskPresetItemsTableAnnotationComposer,
+      $$TaskPresetItemsTableCreateCompanionBuilder,
+      $$TaskPresetItemsTableUpdateCompanionBuilder,
+      (TaskPresetItemEntity, $$TaskPresetItemsTableReferences),
+      TaskPresetItemEntity,
+      PrefetchHooks Function({bool presetId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -18593,4 +20538,8 @@ class $AppDatabaseManager {
       $$TriggerNotificationsTableTableManager(_db, _db.triggerNotifications);
   $$ThirdPartyContactsTableTableManager get thirdPartyContacts =>
       $$ThirdPartyContactsTableTableManager(_db, _db.thirdPartyContacts);
+  $$TaskPresetsTableTableManager get taskPresets =>
+      $$TaskPresetsTableTableManager(_db, _db.taskPresets);
+  $$TaskPresetItemsTableTableManager get taskPresetItems =>
+      $$TaskPresetItemsTableTableManager(_db, _db.taskPresetItems);
 }

@@ -17,6 +17,7 @@ import '../onboarding/staff_assignment_screen.dart';
 import '../settings/staff_management_screen.dart';
 import '../settings/third_party_contacts_screen.dart';
 import '../settings/venue_details_screen.dart';
+import '../task_library/preset_management_screen.dart';
 import '../venue_setup/venue_setup_wizard_screen.dart';
 
 Future<void> _showBackupDialog(BuildContext context, WidgetRef ref) async {
@@ -212,6 +213,18 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
             },
             icon: const Icon(Icons.assignment_ind),
             tooltip: 'Assign Tasks',
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const PresetManagementScreen(),
+                ),
+              );
+            },
+            icon: const Icon(Icons.checklist),
+            tooltip: 'Task Presets',
           ),
           IconButton(
             onPressed: () {

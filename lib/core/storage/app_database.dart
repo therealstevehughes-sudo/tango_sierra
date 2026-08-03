@@ -265,6 +265,41 @@ class Sites extends Table {
   DateTimeColumn get createdAt => dateTime()();
 }
 
+// A named "standard task set" (Sprint 026) — a manager-curated grouping of
+// task templates tied to an equipment type and/or a section/segment, so
+// adding a fryer offers its standard tasks in one action instead of
+// hand-building each. Not versioned (not in ARCHITECTURE_LOCK's Versioning
+// Rule list — it's a curation convenience, not audit-sensitive config) and
+// org-wide (no siteId), matching TaskTemplate/EquipmentType's unscoped
+// status. At least one of equipmentTypeId / segment is set, validated in
+// the repository.
+@DataClassName('TaskPresetEntity')
+class TaskPresets extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  IntColumn get equipmentTypeId =>
+      integer().nullable().references(EquipmentTypes, #id)();
+  TextColumn get segment => text().nullable()();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+  IntColumn get createdByUserId =>
+      integer().nullable().references(Users, #id)();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
+@DataClassName('TaskPresetItemEntity')
+class TaskPresetItems extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get presetId => integer().references(TaskPresets, #id)();
+  // Soft reference (not a real FK), same as TaskSchedule.taskTemplateGroupId:
+  // a grouping key shared across a template's version rows, resolved at the
+  // application layer — so a later template edit applies automatically.
+  IntColumn get taskTemplateGroupId => integer()();
+  // The frequency this task defaults to when the preset is applied, stored
+  // as ScheduleFrequency.name (same as TaskSchedules.frequency).
+  TextColumn get defaultFrequency => text()();
+  TextColumn get defaultCustomFrequencyDetail => text().nullable()();
+}
+
 @DriftDatabase(
   tables: [
     TaskSubmissions,
@@ -282,13 +317,15 @@ class Sites extends Table {
     Sites,
     TriggerNotifications,
     ThirdPartyContacts,
+    TaskPresets,
+    TaskPresetItems,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 19;
+  int get schemaVersion => 20;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -396,6 +433,10 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(users, users.deactivatedAt);
         await m.addColumn(users, users.deactivatedByUserId);
       }
+      if (from < 20) {
+        await m.createTable(taskPresets);
+        await m.createTable(taskPresetItems);
+      }
     },
     beforeOpen: (details) async {
       // Runs first — user seeding below needs a real site id to seed into.
@@ -413,6 +454,14 @@ class AppDatabase extends _$AppDatabase {
       final existingLegalLimits = await select(legalLimitReferences).get();
       if (existingLegalLimits.isEmpty) {
         await _seedTaskLibraryReferenceData();
+      }
+
+      // One illustrative preset so the feature is demonstrable before the
+      // real task library (Sprint 027) populates presets for real. Gated on
+      // the presets table being empty.
+      final existingPresets = await select(taskPresets).get();
+      if (existingPresets.isEmpty) {
+        await _seedExamplePreset();
       }
 
       // Idempotent — safe on every open. Only touches rows left over from
@@ -595,6 +644,38 @@ class AppDatabase extends _$AppDatabase {
       taskTemplates,
     )..where((t) => t.id.equals(templateId))).write(
       TaskTemplatesCompanion(templateGroupId: Value(templateId)),
+    );
+  }
+
+  // One illustrative preset ("Standard Fridge Tasks") wrapping the seeded
+  // fridge-temperature template — mirrors this project's precedent of one
+  // small demonstrable example per foundational sprint (Sprint 003's demo
+  // staff, Sprint 007's one template). Skips silently if the seeded fridge
+  // type or template isn't present, rather than assuming they are.
+  Future<void> _seedExamplePreset() async {
+    final fridgeType = await (select(
+      equipmentTypes,
+    )..where((t) => t.name.equals('Fridge'))).getSingleOrNull();
+    if (fridgeType == null) return;
+
+    final fridgeTemplate = await (select(
+      taskTemplates,
+    )..where((t) => t.title.equals('Check Fridge Temperature'))).getSingleOrNull();
+    if (fridgeTemplate == null) return;
+
+    final presetId = await into(taskPresets).insert(
+      TaskPresetsCompanion.insert(
+        name: 'Standard Fridge Tasks',
+        equipmentTypeId: Value(fridgeType.id),
+        createdAt: DateTime.now(),
+      ),
+    );
+    await into(taskPresetItems).insert(
+      TaskPresetItemsCompanion.insert(
+        presetId: presetId,
+        taskTemplateGroupId: fridgeTemplate.templateGroupId,
+        defaultFrequency: 'daily',
+      ),
     );
   }
 
