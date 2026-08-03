@@ -501,3 +501,20 @@ Risks: Verified with a temporary repository-level test (deleted after, not part 
 Deferred items: Site/Organisation rename (Sprint 021b). Areas do not get a retire/deactivate capability this sprint — only rename was asked for Areas; retire was scoped to EquipmentInstances specifically.
 Save point name: SPRINT_021A_LOCK
 Notes: Commit c512dc48630db856d57b47ac40c6feaaa194ee52, message "Sprint 021a: rename + retire for Areas/EquipmentInstances".
+
+---
+
+## Sprint 021b
+Date: 2026-08-03
+Objective: Close the second half of the "add-only" gap — rename capability for Site and Organisation, which currently have no UI at all beyond their auto-seeded placeholder names.
+Files changed:
+- lib/shared/repositories/site_repository.dart, organisation_repository.dart — each gains `rename()`, same plain mutable `UPDATE` pattern as Sprint 021a
+- lib/features/settings/venue_details_screen.dart (new) — the first screen to surface Organisation/Site data to a user; shows the current org/site name each with a rename action
+- lib/features/manager/manager_screen.dart, lib/features/dashboard/top_screen.dart — each gets a new "Venue Details" icon (`Icons.location_city`), placed next to the existing Venue Setup icon
+Files unchanged: no schema/model changes — `Organisation`/`Site` models already had a `name` field; no new column needed
+Architecture impact: None new — same Versioning Rule check as 021a applies (neither entity requires append-only versioning).
+UI impact: New "Venue Details" screen reachable from both ManagerScreen and TopScreen. No changes to any existing screen's flow.
+Risks: Verified with a temporary repository-level test (deleted after, not part of this commit) confirming both the default Organisation and Site rename correctly and persist on re-read. `flutter analyze` clean. A real Windows debug run confirmed the new screen and icons render without runtime errors. Interactive click-through of the rename dialogs was not independently exercised — left the app running on-device for a manual check.
+Deferred items: None outstanding from the original FEATURE_AUDIT.md #2 item — both halves (Areas/EquipmentInstances in 021a, Site/Organisation here) are now built. `NotificationRule`'s missing name field (flagged in the Standing design rule section) remains a separate, not-yet-scheduled gap.
+Save point name: SPRINT_021B_LOCK
+Notes: Commit f3472f72dcf99e9be1f4672dcd646efcb386c2e3, message "Sprint 021b: rename for Site/Organisation".
