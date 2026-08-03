@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../shared/models/area.dart';
 import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
+import '../../shared/models/site.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
@@ -79,11 +80,19 @@ class _VenueSetupWizardScreenState
     });
   }
 
+  // Falls back to the default site when no active site has been explicitly
+  // selected (Venue Details' "Set as Active") — preserves existing
+  // single-site behavior unchanged (Sprint 025).
+  Future<Site> _resolveActiveSite() async {
+    return ref.read(activeSiteProvider) ??
+        await ref.read(currentSiteProvider.future);
+  }
+
   Future<void> _addArea(String name) async {
     final trimmed = name.trim();
     if (trimmed.isEmpty) return;
 
-    final site = await ref.read(currentSiteProvider.future);
+    final site = await _resolveActiveSite();
     final repo = ref.read(areaRepositoryProvider);
     final created = await repo.create(trimmed, site.id);
 
@@ -98,7 +107,7 @@ class _VenueSetupWizardScreenState
     final name = equipmentNameController.text.trim();
     if (name.isEmpty || selectedEquipmentTypeId == null) return;
 
-    final site = await ref.read(currentSiteProvider.future);
+    final site = await _resolveActiveSite();
     final repo = ref.read(equipmentRepositoryProvider);
     final created = await repo.create(
       name: name,
@@ -137,7 +146,7 @@ class _VenueSetupWizardScreenState
     final pin = staffPinController.text.trim();
     if (name.isEmpty || jobTitle.isEmpty || pin.isEmpty) return;
 
-    final site = await ref.read(currentSiteProvider.future);
+    final site = await _resolveActiveSite();
     final repo = ref.read(userRepositoryProvider);
     final created = await repo.createStaffMember(
       name: name,

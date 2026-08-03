@@ -7,6 +7,11 @@ abstract class SiteRepository {
   Future<List<Site>> getAll();
   Future<Site> getDefault();
   Future<void> rename(int id, String newName);
+  Future<Site> create({
+    required String name,
+    String? address,
+    required int organisationId,
+  });
 }
 
 class DriftSiteRepository implements SiteRepository {
@@ -33,6 +38,32 @@ class DriftSiteRepository implements SiteRepository {
   Future<void> rename(int id, String newName) async {
     await (_db.update(_db.sites)..where((s) => s.id.equals(id))).write(
       SitesCompanion(name: Value(newName)),
+    );
+  }
+
+  @override
+  Future<Site> create({
+    required String name,
+    String? address,
+    required int organisationId,
+  }) async {
+    final createdAt = DateTime.now();
+    final id = await _db
+        .into(_db.sites)
+        .insert(
+          SitesCompanion.insert(
+            organisationId: organisationId,
+            name: name,
+            address: Value(address),
+            createdAt: createdAt,
+          ),
+        );
+    return Site(
+      id: id,
+      organisationId: organisationId,
+      name: name,
+      address: address,
+      createdAt: createdAt,
     );
   }
 
