@@ -109,6 +109,7 @@ class EquipmentInstances extends Table {
       integer().references(EquipmentTypes, #id)();
   IntColumn get areaId => integer().nullable().references(Areas, #id)();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
 }
 
 @DataClassName('TaskScheduleEntity')
@@ -260,7 +261,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 15;
+  int get schemaVersion => 16;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -346,6 +347,9 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 15) {
         await m.createTable(thirdPartyContacts);
+      }
+      if (from < 16) {
+        await m.addColumn(equipmentInstances, equipmentInstances.active);
       }
     },
     beforeOpen: (details) async {

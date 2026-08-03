@@ -14,6 +14,12 @@ abstract class EquipmentRepository {
     int? areaId,
     required int siteId,
   });
+  Future<void> rename(int id, String newName);
+  // Retiring (active: false) also deactivates any TaskSchedules currently
+  // pointing at this instance, so staff stop being asked to check equipment
+  // that no longer exists. Reactivating does NOT restore those schedules —
+  // re-assignment is a deliberate, separate manager action.
+  Future<void> setActive(int id, bool active);
 }
 
 class DriftEquipmentRepository implements EquipmentRepository {
@@ -66,7 +72,33 @@ class DriftEquipmentRepository implements EquipmentRepository {
       equipmentTypeId: equipmentTypeId,
       areaId: areaId,
       siteId: siteId,
+      active: true,
     );
+  }
+
+  @override
+  Future<void> rename(int id, String newName) async {
+    await (_db.update(
+      _db.equipmentInstances,
+    )..where((e) => e.id.equals(id))).write(
+      EquipmentInstancesCompanion(name: Value(newName)),
+    );
+  }
+
+  @override
+  Future<void> setActive(int id, bool active) async {
+    await (_db.update(
+      _db.equipmentInstances,
+    )..where((e) => e.id.equals(id))).write(
+      EquipmentInstancesCompanion(active: Value(active)),
+    );
+
+    if (!active) {
+      await (_db.update(_db.taskSchedules)..where(
+            (s) => s.equipmentInstanceId.equals(id) & s.active.equals(true),
+          ))
+          .write(const TaskSchedulesCompanion(active: Value(false)));
+    }
   }
 
   Equipment _toModel(EquipmentInstanceEntity row) => Equipment(
@@ -75,5 +107,6 @@ class DriftEquipmentRepository implements EquipmentRepository {
     equipmentTypeId: row.equipmentTypeId,
     areaId: row.areaId,
     siteId: row.siteId!,
+    active: row.active,
   );
 }

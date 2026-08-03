@@ -4,6 +4,7 @@ class Equipment {
   final int equipmentTypeId;
   final int? areaId;
   final int siteId;
+  final bool active;
 
   const Equipment({
     required this.id,
@@ -11,5 +12,6 @@ class Equipment {
     required this.equipmentTypeId,
     this.areaId,
     required this.siteId,
+    required this.active,
   });
 }

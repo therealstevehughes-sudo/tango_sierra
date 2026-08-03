@@ -207,6 +207,37 @@ This applies retroactively to nothing already built — Sprint 014's versioning 
 5. PIN reset + staff deactivation flow - basic day-one operational need
 Full detail and lower-priority items in FEATURE_AUDIT.md (now in project root alongside DECISIONS_LOG.md).
 
+## Standing design rule: custom naming
+- Every feature that lets a user create a new entry/element (notification rules, backups, venues/sites, areas, tasks, future entities, etc.) should let them enter and save a custom name for it - not just an auto-derived label. Applies going forward to any new creation feature.
+- EXPANDED: naming must also be EDITABLE after creation, not just set once at creation time - a manager should be able to rename something later, not just name it on the way in.
+- Real gaps already found:
+  - NotificationRule has no name field - identified only by task+tier. Needs a nullable name field.
+  - Site/Organisation currently auto-seeded with placeholder names ("My Organisation"/"Main Site") with NO UI to rename them at all. Real gap - a venue should be able to set its own name, not live with a placeholder forever.
+  - Areas and EquipmentInstances have names set at creation (venue setup wizard) but are add-only - no edit/rename capability yet (also already flagged in FEATURE_AUDIT.md priority #2).
+  - TaskTemplates already have a title field and are versioned, so "editing the name" already works via the existing versioning mechanism - no gap here.
+- None of this blocks the in-progress backup/export sprint - these are separate, queued gaps to address when each entity is next touched, not urgent enough alone to justify individual sprints yet. Site/Organisation naming is probably the most user-visible one and worth prioritizing relatively soon.
+
+## Parked features (decided, deliberately not built - revisit only when there's real need)
+- Regional tier (top->regional->venue mid/base for large multi-branch operators) - schema foundation supports adding this later, but the tier itself isn't built
+- Equipment-instance-level notification targeting (per-specific-fridge, not just per task type) - Sprint 018 built the simpler task-level version
+- Restore from backup - Sprint 020 built export only, restore deferred to its own future sprint (meaningfully riskier)
+- Backup staleness reminder ("haven't backed up in X days") - v1 is a manual button only
+- Backup retention/cleanup - no auto-deletion of old backups, manual via Explorer
+- Site-switcher UI - not needed until a second real site exists
+- Third-party contacts wired into automated notification firing - manual-lookup directory only, not an automated dispatch target
+- Brand entity (Organisation -> Brand -> Site) - deferred to whenever real branding work happens
+- Task-library site-editing (per-site version of the library vs. one shared library) - real gap against PROJECT_BIBLE wording, accepted as out of scope for the multi-site foundation
+- Generic if/then rule engine for tasks - Sprint 007 built minimal structured fields instead, full engine deferred unless a real task needs it
+- getAll() siteId-filter parameter on repositories - not needed until there's more than one site to filter by
+
+## Areas/EquipmentInstances rename + retire (Sprint 021a) — first half of closing the add-only gap
+- Confirmed directly against ARCHITECTURE_LOCK's Versioning Rule before building: `Area`/`EquipmentInstance` aren't named among the entities requiring append-only versioning (`TaskTemplate`, `LegalLimitReference`, `NotificationRule`, `BrandingConfig`), and aren't task-library configuration in that sense. Rename and retire are both plain mutable `UPDATE`s, consistent with the lock, not a violation — checked, not assumed.
+- `EquipmentInstances` had no `active` column at all before this sprint — added (`boolean().withDefault(const Constant(true))()`, a normal `addColumn` with a compile-time default, so existing rows get `true` automatically, no backfill loop needed unlike the earlier nullable-FK `siteId` additions).
+- Retiring an equipment instance cascades: it deactivates any `TaskSchedules` currently pointing at that `equipmentInstanceId` (so staff stop being asked to check equipment that no longer exists), while `TaskSubmissions` history is untouched (immutable, never re-validated against current equipment state). Reactivating does **not** restore those schedules — re-assignment is a deliberate, separate manager action via the staff assignment screen. Verified with a repository test covering exactly this asymmetry.
+- Retiring shows a confirmation dialog (cascading effect, real consequence); renaming does not (non-destructive). `staff_assignment_screen.dart`'s equipment picker now excludes retired instances from new assignments.
+- Retired instances stay visible in the venue setup wizard's Equipment list (greyed, labelled "(retired)") with a Reactivate action, rather than being hidden — matching how inactive rows are already shown elsewhere (`NotificationRulesScreen`, `ThirdPartyContactsScreen`).
+- Site/Organisation rename (the second half of the original ask) is deliberately a separate sprint (021b) — different tables, different (currently nonexistent) screen, agreed upfront as a two-sprint split.
+
 ## Open / Not yet decided
 - Task priority: the checklist uses 3 levels (Critical/High/Standard); TaskTemplate currently only has a binary `isCritical`. Needs a decision before the real task library gets loaded — add a 3-level field, or accept the information loss of mapping down to the boolean.
 - Task method vocabulary: the checklist's real methods (Tick, Data+Tick, Tick+Photo, Data+Photo, Note, Note+Photo, Tick+Note, Multi) don't fully match the placeholder `method` strings used in Sprint 007/009's example data. Needs reconciling when the real library loads.

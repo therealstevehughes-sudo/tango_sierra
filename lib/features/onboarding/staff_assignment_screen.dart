@@ -291,7 +291,9 @@ class _StaffAssignmentScreenState
     }
 
     final matchingInstances = equipmentInstances
-        .where((e) => e.equipmentTypeId == template.equipmentTypeId)
+        .where(
+          (e) => e.equipmentTypeId == template.equipmentTypeId && e.active,
+        )
         .toList();
 
     if (matchingInstances.isEmpty) {

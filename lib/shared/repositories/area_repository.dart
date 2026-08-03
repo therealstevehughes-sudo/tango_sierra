@@ -6,6 +6,7 @@ import '../models/area.dart';
 abstract class AreaRepository {
   Future<List<Area>> getAll();
   Future<Area> create(String name, int siteId);
+  Future<void> rename(int id, String newName);
 }
 
 class DriftAreaRepository implements AreaRepository {
@@ -25,6 +26,13 @@ class DriftAreaRepository implements AreaRepository {
         .into(_db.areas)
         .insert(AreasCompanion.insert(name: name, siteId: Value(siteId)));
     return Area(id: id, name: name, siteId: siteId);
+  }
+
+  @override
+  Future<void> rename(int id, String newName) async {
+    await (_db.update(_db.areas)..where((a) => a.id.equals(id))).write(
+      AreasCompanion(name: Value(newName)),
+    );
   }
 
   Area _toModel(AreaEntity row) =>

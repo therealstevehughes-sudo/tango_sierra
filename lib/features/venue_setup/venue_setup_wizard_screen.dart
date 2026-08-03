@@ -156,6 +156,124 @@ class _VenueSetupWizardScreenState
     });
   }
 
+  Future<String?> _promptForName(String title, String currentName) {
+    final controller = TextEditingController(text: currentName);
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(labelText: 'Name'),
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, controller.text.trim()),
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _renameArea(Area area) async {
+    final newName = await _promptForName('Rename Area', area.name);
+    if (newName == null || newName.isEmpty || newName == area.name) return;
+
+    final repo = ref.read(areaRepositoryProvider);
+    await repo.rename(area.id, newName);
+
+    if (!mounted) return;
+    setState(() {
+      areas = areas
+          .map((a) => a.id == area.id ? Area(id: a.id, name: newName, siteId: a.siteId) : a)
+          .toList();
+    });
+  }
+
+  Future<void> _renameEquipment(Equipment equipment) async {
+    final newName = await _promptForName('Rename Equipment', equipment.name);
+    if (newName == null || newName.isEmpty || newName == equipment.name) {
+      return;
+    }
+
+    final repo = ref.read(equipmentRepositoryProvider);
+    await repo.rename(equipment.id, newName);
+
+    if (!mounted) return;
+    setState(() {
+      equipmentInstances = equipmentInstances
+          .map(
+            (e) => e.id == equipment.id
+                ? Equipment(
+                    id: e.id,
+                    name: newName,
+                    equipmentTypeId: e.equipmentTypeId,
+                    areaId: e.areaId,
+                    siteId: e.siteId,
+                    active: e.active,
+                  )
+                : e,
+          )
+          .toList();
+    });
+  }
+
+  Future<void> _toggleEquipmentActive(Equipment equipment) async {
+    final activating = !equipment.active;
+
+    if (!activating) {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Retire Equipment'),
+          content: const Text(
+            'Retiring this equipment will also unassign any tasks '
+            'currently assigned to it. Past submission history is kept. '
+            'Continue?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Retire'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed != true) return;
+    }
+
+    final repo = ref.read(equipmentRepositoryProvider);
+    await repo.setActive(equipment.id, activating);
+
+    if (!mounted) return;
+    setState(() {
+      equipmentInstances = equipmentInstances
+          .map(
+            (e) => e.id == equipment.id
+                ? Equipment(
+                    id: e.id,
+                    name: e.name,
+                    equipmentTypeId: e.equipmentTypeId,
+                    areaId: e.areaId,
+                    siteId: e.siteId,
+                    active: activating,
+                  )
+                : e,
+          )
+          .toList();
+    });
+  }
+
   String _suggestedEquipmentName(int? typeId) {
     if (typeId == null) return '';
     final type = equipmentTypes.firstWhere(
@@ -274,7 +392,16 @@ class _VenueSetupWizardScreenState
           ],
         ),
         const SizedBox(height: 16),
-        ...areas.map((a) => ListTile(title: Text(a.name))),
+        ...areas.map(
+          (a) => ListTile(
+            title: Text(a.name),
+            trailing: IconButton(
+              icon: const Icon(Icons.edit),
+              tooltip: 'Rename',
+              onPressed: () => _renameArea(a),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -363,8 +490,28 @@ class _VenueSetupWizardScreenState
         const SizedBox(height: 16),
         ...equipmentInstances.map(
           (e) => ListTile(
-            title: Text(e.name),
+            title: Text(
+              e.active ? e.name : '${e.name} (retired)',
+              style: e.active
+                  ? null
+                  : const TextStyle(color: Colors.grey),
+            ),
             subtitle: Text(_equipmentSubtitle(e)),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  tooltip: 'Rename',
+                  onPressed: () => _renameEquipment(e),
+                ),
+                IconButton(
+                  icon: Icon(e.active ? Icons.remove_circle_outline : Icons.restore),
+                  tooltip: e.active ? 'Retire' : 'Reactivate',
+                  onPressed: () => _toggleEquipmentActive(e),
+                ),
+              ],
+            ),
           ),
         ),
       ],

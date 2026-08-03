@@ -1116,6 +1116,19 @@ class $EquipmentInstancesTable extends EquipmentInstances
       'REFERENCES sites (id)',
     ),
   );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1123,6 +1136,7 @@ class $EquipmentInstancesTable extends EquipmentInstances
     equipmentTypeId,
     areaId,
     siteId,
+    active,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1170,6 +1184,12 @@ class $EquipmentInstancesTable extends EquipmentInstances
         siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
       );
     }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
     return context;
   }
 
@@ -1202,6 +1222,10 @@ class $EquipmentInstancesTable extends EquipmentInstances
         DriftSqlType.int,
         data['${effectivePrefix}site_id'],
       ),
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
     );
   }
 
@@ -1218,12 +1242,14 @@ class EquipmentInstanceEntity extends DataClass
   final int equipmentTypeId;
   final int? areaId;
   final int? siteId;
+  final bool active;
   const EquipmentInstanceEntity({
     required this.id,
     required this.name,
     required this.equipmentTypeId,
     this.areaId,
     this.siteId,
+    required this.active,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1237,6 +1263,7 @@ class EquipmentInstanceEntity extends DataClass
     if (!nullToAbsent || siteId != null) {
       map['site_id'] = Variable<int>(siteId);
     }
+    map['active'] = Variable<bool>(active);
     return map;
   }
 
@@ -1251,6 +1278,7 @@ class EquipmentInstanceEntity extends DataClass
       siteId: siteId == null && nullToAbsent
           ? const Value.absent()
           : Value(siteId),
+      active: Value(active),
     );
   }
 
@@ -1265,6 +1293,7 @@ class EquipmentInstanceEntity extends DataClass
       equipmentTypeId: serializer.fromJson<int>(json['equipmentTypeId']),
       areaId: serializer.fromJson<int?>(json['areaId']),
       siteId: serializer.fromJson<int?>(json['siteId']),
+      active: serializer.fromJson<bool>(json['active']),
     );
   }
   @override
@@ -1276,6 +1305,7 @@ class EquipmentInstanceEntity extends DataClass
       'equipmentTypeId': serializer.toJson<int>(equipmentTypeId),
       'areaId': serializer.toJson<int?>(areaId),
       'siteId': serializer.toJson<int?>(siteId),
+      'active': serializer.toJson<bool>(active),
     };
   }
 
@@ -1285,12 +1315,14 @@ class EquipmentInstanceEntity extends DataClass
     int? equipmentTypeId,
     Value<int?> areaId = const Value.absent(),
     Value<int?> siteId = const Value.absent(),
+    bool? active,
   }) => EquipmentInstanceEntity(
     id: id ?? this.id,
     name: name ?? this.name,
     equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
     areaId: areaId.present ? areaId.value : this.areaId,
     siteId: siteId.present ? siteId.value : this.siteId,
+    active: active ?? this.active,
   );
   EquipmentInstanceEntity copyWithCompanion(EquipmentInstancesCompanion data) {
     return EquipmentInstanceEntity(
@@ -1301,6 +1333,7 @@ class EquipmentInstanceEntity extends DataClass
           : this.equipmentTypeId,
       areaId: data.areaId.present ? data.areaId.value : this.areaId,
       siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      active: data.active.present ? data.active.value : this.active,
     );
   }
 
@@ -1311,13 +1344,15 @@ class EquipmentInstanceEntity extends DataClass
           ..write('name: $name, ')
           ..write('equipmentTypeId: $equipmentTypeId, ')
           ..write('areaId: $areaId, ')
-          ..write('siteId: $siteId')
+          ..write('siteId: $siteId, ')
+          ..write('active: $active')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, equipmentTypeId, areaId, siteId);
+  int get hashCode =>
+      Object.hash(id, name, equipmentTypeId, areaId, siteId, active);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1326,7 +1361,8 @@ class EquipmentInstanceEntity extends DataClass
           other.name == this.name &&
           other.equipmentTypeId == this.equipmentTypeId &&
           other.areaId == this.areaId &&
-          other.siteId == this.siteId);
+          other.siteId == this.siteId &&
+          other.active == this.active);
 }
 
 class EquipmentInstancesCompanion
@@ -1336,12 +1372,14 @@ class EquipmentInstancesCompanion
   final Value<int> equipmentTypeId;
   final Value<int?> areaId;
   final Value<int?> siteId;
+  final Value<bool> active;
   const EquipmentInstancesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.equipmentTypeId = const Value.absent(),
     this.areaId = const Value.absent(),
     this.siteId = const Value.absent(),
+    this.active = const Value.absent(),
   });
   EquipmentInstancesCompanion.insert({
     this.id = const Value.absent(),
@@ -1349,6 +1387,7 @@ class EquipmentInstancesCompanion
     required int equipmentTypeId,
     this.areaId = const Value.absent(),
     this.siteId = const Value.absent(),
+    this.active = const Value.absent(),
   }) : name = Value(name),
        equipmentTypeId = Value(equipmentTypeId);
   static Insertable<EquipmentInstanceEntity> custom({
@@ -1357,6 +1396,7 @@ class EquipmentInstancesCompanion
     Expression<int>? equipmentTypeId,
     Expression<int>? areaId,
     Expression<int>? siteId,
+    Expression<bool>? active,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1364,6 +1404,7 @@ class EquipmentInstancesCompanion
       if (equipmentTypeId != null) 'equipment_type_id': equipmentTypeId,
       if (areaId != null) 'area_id': areaId,
       if (siteId != null) 'site_id': siteId,
+      if (active != null) 'active': active,
     });
   }
 
@@ -1373,6 +1414,7 @@ class EquipmentInstancesCompanion
     Value<int>? equipmentTypeId,
     Value<int?>? areaId,
     Value<int?>? siteId,
+    Value<bool>? active,
   }) {
     return EquipmentInstancesCompanion(
       id: id ?? this.id,
@@ -1380,6 +1422,7 @@ class EquipmentInstancesCompanion
       equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
       areaId: areaId ?? this.areaId,
       siteId: siteId ?? this.siteId,
+      active: active ?? this.active,
     );
   }
 
@@ -1401,6 +1444,9 @@ class EquipmentInstancesCompanion
     if (siteId.present) {
       map['site_id'] = Variable<int>(siteId.value);
     }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
     return map;
   }
 
@@ -1411,7 +1457,8 @@ class EquipmentInstancesCompanion
           ..write('name: $name, ')
           ..write('equipmentTypeId: $equipmentTypeId, ')
           ..write('areaId: $areaId, ')
-          ..write('siteId: $siteId')
+          ..write('siteId: $siteId, ')
+          ..write('active: $active')
           ..write(')'))
         .toString();
   }
@@ -10627,6 +10674,7 @@ typedef $$EquipmentInstancesTableCreateCompanionBuilder =
       required int equipmentTypeId,
       Value<int?> areaId,
       Value<int?> siteId,
+      Value<bool> active,
     });
 typedef $$EquipmentInstancesTableUpdateCompanionBuilder =
     EquipmentInstancesCompanion Function({
@@ -10635,6 +10683,7 @@ typedef $$EquipmentInstancesTableUpdateCompanionBuilder =
       Value<int> equipmentTypeId,
       Value<int?> areaId,
       Value<int?> siteId,
+      Value<bool> active,
     });
 
 final class $$EquipmentInstancesTableReferences
@@ -10759,6 +10808,11 @@ class $$EquipmentInstancesTableFilterComposer
 
   ColumnFilters<String> get name => $composableBuilder(
     column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -10901,6 +10955,11 @@ class $$EquipmentInstancesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$EquipmentTypesTableOrderingComposer get equipmentTypeId {
     final $$EquipmentTypesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -10985,6 +11044,9 @@ class $$EquipmentInstancesTableAnnotationComposer
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
 
   $$EquipmentTypesTableAnnotationComposer get equipmentTypeId {
     final $$EquipmentTypesTableAnnotationComposer composer = $composerBuilder(
@@ -11150,12 +11212,14 @@ class $$EquipmentInstancesTableTableManager
                 Value<int> equipmentTypeId = const Value.absent(),
                 Value<int?> areaId = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
+                Value<bool> active = const Value.absent(),
               }) => EquipmentInstancesCompanion(
                 id: id,
                 name: name,
                 equipmentTypeId: equipmentTypeId,
                 areaId: areaId,
                 siteId: siteId,
+                active: active,
               ),
           createCompanionCallback:
               ({
@@ -11164,12 +11228,14 @@ class $$EquipmentInstancesTableTableManager
                 required int equipmentTypeId,
                 Value<int?> areaId = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
+                Value<bool> active = const Value.absent(),
               }) => EquipmentInstancesCompanion.insert(
                 id: id,
                 name: name,
                 equipmentTypeId: equipmentTypeId,
                 areaId: areaId,
                 siteId: siteId,
+                active: active,
               ),
           withReferenceMapper: (p0) => p0
               .map(
