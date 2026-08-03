@@ -479,3 +479,25 @@ Risks: Verified with a temporary test (deleted after, not part of this commit) t
 Deferred items: Restore (importing a backup onto a replacement device) — a separate future sprint, deliberately not built now given the destructive risk of overwriting a live database file safely. A "last backup was N days ago" staleness reminder. Retention/cleanup of old backup files. A native "Save As" file picker (would need a new dependency).
 Save point name: SPRINT_020_LOCK
 Notes: Commit 75e4a74ef69ce1af7ea16515900169a7001a9333, message "Sprint 020: local data backup/export".
+
+---
+
+## Sprint 021a
+Date: 2026-08-03
+Objective: Close the "add-only, no edit" gap for Areas and EquipmentInstances — rename for both, retire/reactivate for EquipmentInstances specifically, per the agreed first half of the FEATURE_AUDIT.md #2 split.
+Files changed:
+- lib/core/storage/app_database.dart — schemaVersion bumped 15 → 16; new `EquipmentInstances.active` column (`boolean().withDefault(const Constant(true))()`); `onUpgrade` adds it for existing installs — a compile-time default, so no backfill step is needed
+- lib/core/storage/app_database.g.dart (regenerated)
+- lib/shared/models/equipment.dart — `active` field added
+- lib/shared/repositories/area_repository.dart — `rename()`
+- lib/shared/repositories/equipment_repository.dart — `rename()`, `setActive()` (retiring cascades to deactivate any `TaskSchedules` pointing at the instance; reactivating does not restore them)
+- lib/features/venue_setup/venue_setup_wizard_screen.dart — rename (pencil) icon on Area and Equipment list tiles; retire/reactivate icon on Equipment tiles with a confirmation dialog on retire; retired instances shown greyed with a "(retired)" label rather than hidden
+- lib/features/onboarding/staff_assignment_screen.dart — equipment picker excludes retired instances from new assignments
+- DECISIONS_LOG.md — recorded the Versioning Rule check and the retire-cascade design
+Files unchanged: lib/shared/repositories/site_repository.dart, organisation_repository.dart — Site/Organisation rename is Sprint 021b, a deliberately separate sprint
+Architecture impact: Confirmed against ARCHITECTURE_LOCK's Versioning Rule before building — `Area`/`EquipmentInstance` aren't among the entities requiring append-only versioning, so plain mutable updates are correct, not a lock violation.
+UI impact: Venue setup wizard's Areas and Equipment steps gain rename actions; Equipment step also gains retire/reactivate. No changes to the Staff step or the wizard's overall 3-step flow.
+Risks: Verified with a temporary repository-level test (deleted after, not part of this commit): renaming both Area and Equipment persists correctly; retiring an equipment instance with an active schedule cascades to deactivate that schedule; reactivating the equipment does not restore the schedule (confirmed via `getForStaffMember`, which filters on `active`). `flutter analyze` clean. A real Windows debug run confirmed the schemaVersion 15→16 migration executes cleanly against the existing dev database. Interactive click-through of the rename/retire dialogs was not independently exercised — left the app running on-device for a manual check.
+Deferred items: Site/Organisation rename (Sprint 021b). Areas do not get a retire/deactivate capability this sprint — only rename was asked for Areas; retire was scoped to EquipmentInstances specifically.
+Save point name: SPRINT_021A_LOCK
+Notes: Commit c512dc48630db856d57b47ac40c6feaaa194ee52, message "Sprint 021a: rename + retire for Areas/EquipmentInstances".
