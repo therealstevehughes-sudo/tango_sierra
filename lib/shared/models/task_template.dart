@@ -1,5 +1,10 @@
 import 'user.dart';
 
+// Real 3-level priority from the checklist source (Sprint 023), replacing
+// the binary isCritical for new data going forward. isCritical itself is
+// kept unchanged alongside this for full backward compatibility.
+enum TaskPriority { critical, high, standard }
+
 class TaskTemplate {
   final int id;
   final int templateGroupId;
@@ -22,6 +27,13 @@ class TaskTemplate {
   final int? equipmentTypeId;
   final DateTime createdAt;
   final int? createdByUserId;
+  final TaskPriority? priority;
+
+  // Null on rows created before Sprint 023 (can't be reconstructed from
+  // isCritical without guessing high vs. standard); falls back to the
+  // PROJECT_BIBLE-documented mapping for those legacy rows.
+  TaskPriority get effectivePriority =>
+      priority ?? (isCritical ? TaskPriority.critical : TaskPriority.standard);
 
   const TaskTemplate({
     required this.id,
@@ -45,5 +57,6 @@ class TaskTemplate {
     this.equipmentTypeId,
     required this.createdAt,
     this.createdByUserId,
+    this.priority,
   });
 }

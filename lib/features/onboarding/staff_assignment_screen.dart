@@ -33,7 +33,7 @@ class _StaffAssignmentScreenState
 
   bool showCustomTaskForm = false;
   final TextEditingController customTitleController = TextEditingController();
-  String customMethod = 'numeric_photo';
+  String customMethod = 'tick';
   bool customRequiresPhoto = false;
   bool customRequiresNotes = false;
   final TextEditingController customMinLimitController =
@@ -45,7 +45,7 @@ class _StaffAssignmentScreenState
       TextEditingController();
   final TextEditingController customFieldsJsonController =
       TextEditingController();
-  bool customIsCritical = false;
+  TaskPriority customPriority = TaskPriority.standard;
   bool customRequiresCorrectiveActionOnFail = false;
   int? customEquipmentTypeId;
 
@@ -163,7 +163,7 @@ class _StaffAssignmentScreenState
       unit: customUnitController.text.trim().isEmpty
           ? null
           : customUnitController.text.trim(),
-      isCritical: customIsCritical,
+      priority: customPriority,
       requiresCorrectiveActionOnFail: customRequiresCorrectiveActionOnFail,
       fixInstructions: customFixInstructionsController.text.trim().isEmpty
           ? null
@@ -182,7 +182,7 @@ class _StaffAssignmentScreenState
       customUnitController.clear();
       customFixInstructionsController.clear();
       customFieldsJsonController.clear();
-      customIsCritical = false;
+      customPriority = TaskPriority.standard;
       customRequiresCorrectiveActionOnFail = false;
       customRequiresPhoto = false;
       customRequiresNotes = false;
@@ -348,9 +348,14 @@ class _StaffAssignmentScreenState
           initialValue: customMethod,
           decoration: const InputDecoration(labelText: 'Method'),
           items: const [
-            DropdownMenuItem(value: 'numeric_photo', child: Text('Numeric + Photo')),
-            DropdownMenuItem(value: 'categorical_choice', child: Text('Categorical Choice')),
-            DropdownMenuItem(value: 'notes_only', child: Text('Notes Only')),
+            DropdownMenuItem(value: 'tick', child: Text('Tick')),
+            DropdownMenuItem(value: 'data_tick', child: Text('Data + Tick')),
+            DropdownMenuItem(value: 'tick_photo', child: Text('Tick + Photo')),
+            DropdownMenuItem(value: 'data_photo', child: Text('Data + Photo')),
+            DropdownMenuItem(value: 'note', child: Text('Note')),
+            DropdownMenuItem(value: 'note_photo', child: Text('Note + Photo')),
+            DropdownMenuItem(value: 'tick_note', child: Text('Tick + Note')),
+            DropdownMenuItem(value: 'multi', child: Text('Multi')),
           ],
           onChanged: (value) {
             if (value != null) setState(() => customMethod = value);
@@ -402,10 +407,23 @@ class _StaffAssignmentScreenState
           ],
           onChanged: (value) => setState(() => customEquipmentTypeId = value),
         ),
-        CheckboxListTile(
-          title: const Text('Critical'),
-          value: customIsCritical,
-          onChanged: (v) => setState(() => customIsCritical = v ?? false),
+        DropdownButtonFormField<TaskPriority>(
+          initialValue: customPriority,
+          decoration: const InputDecoration(labelText: 'Priority'),
+          items: const [
+            DropdownMenuItem(
+              value: TaskPriority.critical,
+              child: Text('Critical'),
+            ),
+            DropdownMenuItem(value: TaskPriority.high, child: Text('High')),
+            DropdownMenuItem(
+              value: TaskPriority.standard,
+              child: Text('Standard'),
+            ),
+          ],
+          onChanged: (value) {
+            if (value != null) setState(() => customPriority = value);
+          },
         ),
         CheckboxListTile(
           title: const Text('Requires corrective action on fail'),
@@ -480,7 +498,8 @@ class _AssignmentTileState extends State<_AssignmentTile> {
             value: frequency,
             items: ScheduleFrequency.values
                 .map(
-                  (f) => DropdownMenuItem(value: f, child: Text(f.name)),
+                  (f) =>
+                      DropdownMenuItem(value: f, child: Text(frequencyLabel(f))),
                 )
                 .toList(),
             onChanged: (value) {

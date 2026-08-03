@@ -3515,6 +3515,17 @@ class $TaskTemplatesTable extends TaskTemplates
       'REFERENCES users (id)',
     ),
   );
+  static const VerificationMeta _priorityMeta = const VerificationMeta(
+    'priority',
+  );
+  @override
+  late final GeneratedColumn<String> priority = GeneratedColumn<String>(
+    'priority',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3538,6 +3549,7 @@ class $TaskTemplatesTable extends TaskTemplates
     equipmentTypeId,
     createdAt,
     createdByUserId,
+    priority,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3724,6 +3736,12 @@ class $TaskTemplatesTable extends TaskTemplates
         ),
       );
     }
+    if (data.containsKey('priority')) {
+      context.handle(
+        _priorityMeta,
+        priority.isAcceptableOrUnknown(data['priority']!, _priorityMeta),
+      );
+    }
     return context;
   }
 
@@ -3817,6 +3835,10 @@ class $TaskTemplatesTable extends TaskTemplates
         DriftSqlType.int,
         data['${effectivePrefix}created_by_user_id'],
       ),
+      priority: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}priority'],
+      ),
     );
   }
 
@@ -3849,6 +3871,7 @@ class TaskTemplateEntity extends DataClass
   final int? equipmentTypeId;
   final DateTime createdAt;
   final int? createdByUserId;
+  final String? priority;
   const TaskTemplateEntity({
     required this.id,
     required this.templateGroupId,
@@ -3871,6 +3894,7 @@ class TaskTemplateEntity extends DataClass
     this.equipmentTypeId,
     required this.createdAt,
     this.createdByUserId,
+    this.priority,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3916,6 +3940,9 @@ class TaskTemplateEntity extends DataClass
     if (!nullToAbsent || createdByUserId != null) {
       map['created_by_user_id'] = Variable<int>(createdByUserId);
     }
+    if (!nullToAbsent || priority != null) {
+      map['priority'] = Variable<String>(priority);
+    }
     return map;
   }
 
@@ -3958,6 +3985,9 @@ class TaskTemplateEntity extends DataClass
       createdByUserId: createdByUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(createdByUserId),
+      priority: priority == null && nullToAbsent
+          ? const Value.absent()
+          : Value(priority),
     );
   }
 
@@ -3994,6 +4024,7 @@ class TaskTemplateEntity extends DataClass
       equipmentTypeId: serializer.fromJson<int?>(json['equipmentTypeId']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       createdByUserId: serializer.fromJson<int?>(json['createdByUserId']),
+      priority: serializer.fromJson<String?>(json['priority']),
     );
   }
   @override
@@ -4023,6 +4054,7 @@ class TaskTemplateEntity extends DataClass
       'equipmentTypeId': serializer.toJson<int?>(equipmentTypeId),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'createdByUserId': serializer.toJson<int?>(createdByUserId),
+      'priority': serializer.toJson<String?>(priority),
     };
   }
 
@@ -4048,6 +4080,7 @@ class TaskTemplateEntity extends DataClass
     Value<int?> equipmentTypeId = const Value.absent(),
     DateTime? createdAt,
     Value<int?> createdByUserId = const Value.absent(),
+    Value<String?> priority = const Value.absent(),
   }) => TaskTemplateEntity(
     id: id ?? this.id,
     templateGroupId: templateGroupId ?? this.templateGroupId,
@@ -4083,6 +4116,7 @@ class TaskTemplateEntity extends DataClass
     createdByUserId: createdByUserId.present
         ? createdByUserId.value
         : this.createdByUserId,
+    priority: priority.present ? priority.value : this.priority,
   );
   TaskTemplateEntity copyWithCompanion(TaskTemplatesCompanion data) {
     return TaskTemplateEntity(
@@ -4134,6 +4168,7 @@ class TaskTemplateEntity extends DataClass
       createdByUserId: data.createdByUserId.present
           ? data.createdByUserId.value
           : this.createdByUserId,
+      priority: data.priority.present ? data.priority.value : this.priority,
     );
   }
 
@@ -4162,7 +4197,8 @@ class TaskTemplateEntity extends DataClass
           ..write('fixInstructions: $fixInstructions, ')
           ..write('equipmentTypeId: $equipmentTypeId, ')
           ..write('createdAt: $createdAt, ')
-          ..write('createdByUserId: $createdByUserId')
+          ..write('createdByUserId: $createdByUserId, ')
+          ..write('priority: $priority')
           ..write(')'))
         .toString();
   }
@@ -4190,6 +4226,7 @@ class TaskTemplateEntity extends DataClass
     equipmentTypeId,
     createdAt,
     createdByUserId,
+    priority,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -4216,7 +4253,8 @@ class TaskTemplateEntity extends DataClass
           other.fixInstructions == this.fixInstructions &&
           other.equipmentTypeId == this.equipmentTypeId &&
           other.createdAt == this.createdAt &&
-          other.createdByUserId == this.createdByUserId);
+          other.createdByUserId == this.createdByUserId &&
+          other.priority == this.priority);
 }
 
 class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
@@ -4241,6 +4279,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
   final Value<int?> equipmentTypeId;
   final Value<DateTime> createdAt;
   final Value<int?> createdByUserId;
+  final Value<String?> priority;
   const TaskTemplatesCompanion({
     this.id = const Value.absent(),
     this.templateGroupId = const Value.absent(),
@@ -4263,6 +4302,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     this.equipmentTypeId = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.createdByUserId = const Value.absent(),
+    this.priority = const Value.absent(),
   });
   TaskTemplatesCompanion.insert({
     this.id = const Value.absent(),
@@ -4286,6 +4326,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     this.equipmentTypeId = const Value.absent(),
     required DateTime createdAt,
     this.createdByUserId = const Value.absent(),
+    this.priority = const Value.absent(),
   }) : templateGroupId = Value(templateGroupId),
        versionNumber = Value(versionNumber),
        title = Value(title),
@@ -4315,6 +4356,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     Expression<int>? equipmentTypeId,
     Expression<DateTime>? createdAt,
     Expression<int>? createdByUserId,
+    Expression<String>? priority,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4341,6 +4383,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
       if (equipmentTypeId != null) 'equipment_type_id': equipmentTypeId,
       if (createdAt != null) 'created_at': createdAt,
       if (createdByUserId != null) 'created_by_user_id': createdByUserId,
+      if (priority != null) 'priority': priority,
     });
   }
 
@@ -4366,6 +4409,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     Value<int?>? equipmentTypeId,
     Value<DateTime>? createdAt,
     Value<int?>? createdByUserId,
+    Value<String?>? priority,
   }) {
     return TaskTemplatesCompanion(
       id: id ?? this.id,
@@ -4390,6 +4434,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
       equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
       createdAt: createdAt ?? this.createdAt,
       createdByUserId: createdByUserId ?? this.createdByUserId,
+      priority: priority ?? this.priority,
     );
   }
 
@@ -4463,6 +4508,9 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     if (createdByUserId.present) {
       map['created_by_user_id'] = Variable<int>(createdByUserId.value);
     }
+    if (priority.present) {
+      map['priority'] = Variable<String>(priority.value);
+    }
     return map;
   }
 
@@ -4491,7 +4539,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
           ..write('fixInstructions: $fixInstructions, ')
           ..write('equipmentTypeId: $equipmentTypeId, ')
           ..write('createdAt: $createdAt, ')
-          ..write('createdByUserId: $createdByUserId')
+          ..write('createdByUserId: $createdByUserId, ')
+          ..write('priority: $priority')
           ..write(')'))
         .toString();
   }
@@ -13432,6 +13481,7 @@ typedef $$TaskTemplatesTableCreateCompanionBuilder =
       Value<int?> equipmentTypeId,
       required DateTime createdAt,
       Value<int?> createdByUserId,
+      Value<String?> priority,
     });
 typedef $$TaskTemplatesTableUpdateCompanionBuilder =
     TaskTemplatesCompanion Function({
@@ -13456,6 +13506,7 @@ typedef $$TaskTemplatesTableUpdateCompanionBuilder =
       Value<int?> equipmentTypeId,
       Value<DateTime> createdAt,
       Value<int?> createdByUserId,
+      Value<String?> priority,
     });
 
 final class $$TaskTemplatesTableReferences
@@ -13617,6 +13668,11 @@ class $$TaskTemplatesTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get priority => $composableBuilder(
+    column: $table.priority,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -13790,6 +13846,11 @@ class $$TaskTemplatesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get priority => $composableBuilder(
+    column: $table.priority,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$TaskTemplatesTableOrderingComposer get previousVersionId {
     final $$TaskTemplatesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -13944,6 +14005,9 @@ class $$TaskTemplatesTableAnnotationComposer
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
+  GeneratedColumn<String> get priority =>
+      $composableBuilder(column: $table.priority, builder: (column) => column);
+
   $$TaskTemplatesTableAnnotationComposer get previousVersionId {
     final $$TaskTemplatesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -14068,6 +14132,7 @@ class $$TaskTemplatesTableTableManager
                 Value<int?> equipmentTypeId = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int?> createdByUserId = const Value.absent(),
+                Value<String?> priority = const Value.absent(),
               }) => TaskTemplatesCompanion(
                 id: id,
                 templateGroupId: templateGroupId,
@@ -14090,6 +14155,7 @@ class $$TaskTemplatesTableTableManager
                 equipmentTypeId: equipmentTypeId,
                 createdAt: createdAt,
                 createdByUserId: createdByUserId,
+                priority: priority,
               ),
           createCompanionCallback:
               ({
@@ -14115,6 +14181,7 @@ class $$TaskTemplatesTableTableManager
                 Value<int?> equipmentTypeId = const Value.absent(),
                 required DateTime createdAt,
                 Value<int?> createdByUserId = const Value.absent(),
+                Value<String?> priority = const Value.absent(),
               }) => TaskTemplatesCompanion.insert(
                 id: id,
                 templateGroupId: templateGroupId,
@@ -14137,6 +14204,7 @@ class $$TaskTemplatesTableTableManager
                 equipmentTypeId: equipmentTypeId,
                 createdAt: createdAt,
                 createdByUserId: createdByUserId,
+                priority: priority,
               ),
           withReferenceMapper: (p0) => p0
               .map(

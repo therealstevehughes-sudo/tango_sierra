@@ -30,7 +30,7 @@ abstract class TaskTemplateRepository {
     double? maxLimit,
     String? unit,
     String? legalLimitCategory,
-    required bool isCritical,
+    required TaskPriority priority,
     required bool requiresCorrectiveActionOnFail,
     String? fixInstructions,
     int? equipmentTypeId,
@@ -76,7 +76,7 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
     double? maxLimit,
     String? unit,
     String? legalLimitCategory,
-    required bool isCritical,
+    required TaskPriority priority,
     required bool requiresCorrectiveActionOnFail,
     String? fixInstructions,
     int? equipmentTypeId,
@@ -114,7 +114,8 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
             maxLimit: Value(maxLimit),
             unit: Value(unit),
             legalLimitCategory: Value(legalLimitCategory),
-            isCritical: Value(isCritical),
+            isCritical: Value(priority == TaskPriority.critical),
+            priority: Value(priority.name),
             requiresCorrectiveActionOnFail: Value(
               requiresCorrectiveActionOnFail,
             ),
@@ -229,6 +230,9 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
       equipmentTypeId: row.equipmentTypeId,
       createdAt: row.createdAt,
       createdByUserId: row.createdByUserId,
+      priority: row.priority == null
+          ? null
+          : TaskPriority.values.byName(row.priority!),
     );
   }
 }

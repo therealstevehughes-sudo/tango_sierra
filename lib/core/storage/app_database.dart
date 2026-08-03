@@ -92,6 +92,13 @@ class TaskTemplates extends Table {
   DateTimeColumn get createdAt => dateTime()();
   IntColumn get createdByUserId =>
       integer().nullable().references(Users, #id)();
+  // Real 3-level priority (Sprint 023), nullable — existing rows predate
+  // this field and can't be reconstructed from `isCritical` without
+  // guessing whether a non-critical row was "high" or "standard". Left
+  // null on migration; TaskTemplate.effectivePriority provides the
+  // isCritical-derived fallback for those rows. isCritical itself is
+  // untouched and still authoritative for any existing reader.
+  TextColumn get priority => text().nullable()();
 }
 
 @DataClassName('AreaEntity')
@@ -272,7 +279,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 17;
+  int get schemaVersion => 18;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -371,6 +378,9 @@ class AppDatabase extends _$AppDatabase {
           triggerNotifications,
           triggerNotifications.escalatedAt,
         );
+      }
+      if (from < 18) {
+        await m.addColumn(taskTemplates, taskTemplates.priority);
       }
     },
     beforeOpen: (details) async {
@@ -549,13 +559,16 @@ class AppDatabase extends _$AppDatabase {
         title: 'Check Fridge Temperature',
         segment: 'food_safety',
         applicableRoleTiers: 'base',
-        method: 'numeric_photo',
+        // 'data_photo' = the checklist's "Data + Photo" method (Sprint 023
+        // vocabulary reconciliation) — a numeric reading plus required photo.
+        method: 'data_photo',
         requiresPhoto: const Value(true),
         minLimit: const Value(2.0),
         maxLimit: const Value(8.0),
         unit: const Value('celsius'),
         legalLimitCategory: const Value('fridge_temp'),
         isCritical: const Value(true),
+        priority: const Value('critical'),
         requiresCorrectiveActionOnFail: const Value(true),
         fixInstructions: const Value(
           'Move stock to a working fridge and contact management immediately.',
