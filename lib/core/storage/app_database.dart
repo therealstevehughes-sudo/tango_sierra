@@ -718,6 +718,11 @@ class AppDatabase extends _$AppDatabase {
       // Equipment, Wash-up/Dishwash. Same always-ensured pattern.
       await _seedTaskLibraryClusterB();
 
+      // Cluster C (Sprint 030 follow-up): Segments 7-10 — Cleaning &
+      // Sanitation, Cleaning Chemicals & Consumables, Dry & Ambient
+      // Storage, Deliveries & Goods In. Same always-ensured pattern.
+      await _seedTaskLibraryClusterC();
+
       // Idempotent — safe on every open. Only touches rows left over from
       // before siteId existed (nothing to do on a fresh install).
       await _backfillSiteIds(defaultSiteId);
@@ -1091,6 +1096,17 @@ class AppDatabase extends _$AppDatabase {
     'Dark / Ghost Kitchen',
   ];
 
+  // Sprint 030 Cluster C: both `cleaning_sanitation` and `deliveries_goods_in`
+  // are fully universal in the matrix (✓ across every column, no ~ or ✗ at
+  // all) — all 12. `cleaning_chemicals` has no separate matrix row; per two
+  // decisions confirmed before building: Event/Mobile/Street Food IS tagged
+  // for it (chemicals are tightly coupled to the cleaning tasks already in
+  // its reduced subset, unlike the looser fryer/wash-up pairings), so
+  // `cleaning_chemicals` also gets all 12. `dry_ambient_storage` (also no
+  // matrix row) keeps Event/Mobile/Street Food excluded — confirmed to stay
+  // within the venue type's originally-defined reduced subset, consistent
+  // with the doc's own "compact, portable" framing — so it reuses
+  // `_clusterBVenueTypeNames` (11 of 12).
   static const _segmentVenueTypeNames = <String, List<String>>{
     'food_safety': _venueTypeNames,
     'allergen': _venueTypeNames,
@@ -1098,6 +1114,10 @@ class AppDatabase extends _$AppDatabase {
     'refrigeration_cold_storage': _venueTypeNames,
     'cooking_line_equipment': _clusterBVenueTypeNames,
     'washup_dishwash': _clusterBVenueTypeNames,
+    'cleaning_sanitation': _venueTypeNames,
+    'cleaning_chemicals': _venueTypeNames,
+    'dry_ambient_storage': _clusterBVenueTypeNames,
+    'deliveries_goods_in': _venueTypeNames,
   };
 
   // Cluster A (Sprint 030): HORECA_TASK_LIBRARY.md Segments 1-4 — Food
@@ -2218,6 +2238,493 @@ class AppDatabase extends _$AppDatabase {
     ).get()).map((row) => row.name).toSet();
 
     for (final preset in _clusterBPresets) {
+      if (existingPresetNames.contains(preset.name)) continue;
+
+      final equipmentTypeId = preset.equipmentTypeName == null
+          ? null
+          : equipmentTypeIdByName[preset.equipmentTypeName];
+
+      final presetId = await into(taskPresets).insert(
+        TaskPresetsCompanion.insert(
+          name: preset.name,
+          equipmentTypeId: Value(equipmentTypeId),
+          segment: Value(preset.segment),
+          createdAt: DateTime.now(),
+        ),
+      );
+
+      final memberVenueTypeIds = <int>{};
+      for (final title in preset.itemTitles) {
+        final groupId = templateGroupIdByTitle[title];
+        final frequency = frequencyByTitle[title];
+        if (groupId == null || frequency == null) continue;
+
+        await into(taskPresetItems).insert(
+          TaskPresetItemsCompanion.insert(
+            presetId: presetId,
+            taskTemplateGroupId: groupId,
+            defaultFrequency: frequency,
+          ),
+        );
+
+        final taggedRows = await (select(
+          taskTemplateVenueTypes,
+        )..where((j) => j.taskTemplateGroupId.equals(groupId))).get();
+        memberVenueTypeIds.addAll(taggedRows.map((r) => r.venueTypeId));
+      }
+
+      for (final vtId in memberVenueTypeIds) {
+        await into(taskPresetVenueTypes).insert(
+          TaskPresetVenueTypesCompanion.insert(
+            presetId: presetId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+  }
+
+  // Cluster C (Sprint 030 follow-up): HORECA_TASK_LIBRARY.md Segments 7-10 —
+  // Cleaning & Sanitation, Cleaning Chemicals & Consumables, Dry & Ambient
+  // Storage, Deliveries & Goods In. 28 tasks. Same field mapping approach as
+  // Clusters A/B.
+  //
+  // No new method or frequency vocabulary gaps this cluster — every value
+  // used (tick, tick_photo, tick_note, data, data_photo, data_tick, note,
+  // multi; daily, weekly, perShift, perUse, perDelivery) already exists.
+  //
+  // Equipment-mapping notes:
+  // - "Dry store temperature / humidity" (column blank) -> Dry Store Area,
+  //   the same "blank column, one unambiguous seeded type named in the
+  //   title" pattern as Cluster B's Extraction Canopy/Gas Interlock System.
+  // - "Slicer / mincer strip-down clean" (column blank) -> left unmapped
+  //   (equipmentTypeId null), a new sub-case of the established "don't
+  //   guess between two named options" rule: unlike Extraction Canopy, the
+  //   title names TWO real seeded types (Slicer, Mincer) with no signal
+  //   preferring one, so — consistent with how Cluster B kept "Rotisserie /
+  //   kebab machine" and "Grill / salamander" literal — this stays
+  //   unmapped rather than guessing which one.
+  // - "Prep surfaces cleaned & sanitised" (column blank) -> also left
+  //   unmapped. "Prep surfaces" reads as a general food-contact-surface
+  //   concept, not obviously the same thing as the seeded "Prep Station"
+  //   equipment type (a specific workstation unit) — mapping it there would
+  //   be guessing at an equivalence the source doesn't state.
+  //
+  // Two new [FSA] limits, both delivery temperature checks (mirrors the
+  // existing fridge/freezer temp categories but scoped to goods-in, since
+  // an item can be in-spec on the shelf but out-of-spec on arrival).
+  static const _clusterCTasks = [
+    // 7.1 Food-contact surfaces & equipment
+    _LibraryTask(
+      title: 'Prep surfaces cleaned & sanitised',
+      segment: 'cleaning_sanitation',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['base'],
+      fixInstructions:
+          "[BEST] Contact/dwell time varies per product and sanitiser — "
+          "follow the product label's stated contact time. No single UK "
+          "legal figure.",
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Chopping boards colour-coded & sound',
+      segment: 'cleaning_sanitation',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Slicer / mincer strip-down clean',
+      segment: 'cleaning_sanitation',
+      method: 'tick_photo',
+      priority: 'critical',
+      roleTiers: ['base'],
+      frequency: 'perUse',
+    ),
+    _LibraryTask(
+      title: 'Can opener blade clean',
+      segment: 'cleaning_sanitation',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Ice machine clean & descaled',
+      segment: 'cleaning_sanitation',
+      method: 'tick_photo',
+      priority: 'high',
+      equipmentTypeName: 'Ice Machine',
+      roleTiers: ['base'],
+      frequency: 'weekly',
+    ),
+    // 7.2 Floors, walls, drains
+    _LibraryTask(
+      title: 'Kitchen floor cleaned',
+      segment: 'cleaning_sanitation',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Drains / gullies cleared',
+      segment: 'cleaning_sanitation',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Walls / splashbacks wiped',
+      segment: 'cleaning_sanitation',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Bin areas cleaned',
+      segment: 'cleaning_sanitation',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    // 7.3 Schedule verification (Due Diligence evidence)
+    _LibraryTask(
+      title: 'Deep clean checklist',
+      segment: 'cleaning_sanitation',
+      method: 'multi',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Cleaning schedule signed off',
+      segment: 'cleaning_sanitation',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'daily',
+    ),
+    // Segment 8 — Cleaning Chemicals & Consumables
+    _LibraryTask(
+      title: 'Sanitiser in stock & in date',
+      segment: 'cleaning_chemicals',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions:
+          '[BEST] Sanitiser should be BS EN 1276/13697 compliant '
+          '(bactericidal/fungicidal standards). No UK legal limit — a '
+          'recognised industry standard, not statute.',
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Degreaser in stock',
+      segment: 'cleaning_chemicals',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Blue roll / paper towel stocked',
+      segment: 'cleaning_chemicals',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'COSHH sheets present & chemicals labelled',
+      segment: 'cleaning_chemicals',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          '[LAW] COSHH (Control of Substances Hazardous to Health) data '
+          'sheets must be present and chemicals correctly labelled — a '
+          'legal requirement.',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Chemical dilution / dosing correct',
+      segment: 'cleaning_chemicals',
+      method: 'data_tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    // Segment 9 — Dry & Ambient Storage
+    _LibraryTask(
+      title: 'Dry store temperature / humidity',
+      segment: 'dry_ambient_storage',
+      method: 'data',
+      priority: 'standard',
+      equipmentTypeName: 'Dry Store Area',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Stock off floor / on shelving',
+      segment: 'dry_ambient_storage',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Open dry goods sealed & dated',
+      segment: 'dry_ambient_storage',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'No damaged / bloated / infested packaging',
+      segment: 'dry_ambient_storage',
+      method: 'tick_note',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    // Segment 10 — Deliveries & Goods In
+    _LibraryTask(
+      title: 'Chilled goods temp on arrival',
+      segment: 'deliveries_goods_in',
+      method: 'data_photo',
+      priority: 'critical',
+      roleTiers: ['base'],
+      maxLimit: 8.0,
+      unit: 'celsius',
+      legalLimitCategory: 'delivery_chilled_temp',
+      fixInstructions:
+          '[FSA] Chilled deliveries should read 8°C or below on arrival, '
+          'aiming for 5°C. Reject if significantly above.',
+      frequency: 'perDelivery',
+    ),
+    _LibraryTask(
+      title: 'Frozen goods temp on arrival',
+      segment: 'deliveries_goods_in',
+      method: 'data_photo',
+      priority: 'critical',
+      roleTiers: ['base'],
+      maxLimit: -18.0,
+      unit: 'celsius',
+      legalLimitCategory: 'delivery_frozen_temp',
+      fixInstructions:
+          '[FSA] Frozen deliveries should read approximately -18°C on '
+          'arrival. Reject if the product shows signs of '
+          'softening/thawing.',
+      frequency: 'perDelivery',
+    ),
+    _LibraryTask(
+      title: 'Vehicle / driver hygiene',
+      segment: 'deliveries_goods_in',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perDelivery',
+    ),
+    _LibraryTask(
+      title: 'Packaging intact',
+      segment: 'deliveries_goods_in',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perDelivery',
+    ),
+    _LibraryTask(
+      title: 'Use-by dates acceptable',
+      segment: 'deliveries_goods_in',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perDelivery',
+    ),
+    _LibraryTask(
+      title: 'Reconciled to order/invoice',
+      segment: 'deliveries_goods_in',
+      method: 'tick_note',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'perDelivery',
+    ),
+    _LibraryTask(
+      title: 'Rejected items logged',
+      segment: 'deliveries_goods_in',
+      method: 'note',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perDelivery',
+    ),
+    _LibraryTask(
+      title: 'Supplier traceability captured',
+      segment: 'deliveries_goods_in',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          '[LAW] One-step-back traceability (know where each '
+          'ingredient/batch came from) is a legal requirement.',
+      frequency: 'perDelivery',
+    ),
+  ];
+
+  static const _clusterCPresets = [
+    _LibraryPreset(
+      name: 'Ice Machine Tasks',
+      equipmentTypeName: 'Ice Machine',
+      itemTitles: ['Ice machine clean & descaled'],
+    ),
+    _LibraryPreset(
+      name: 'Dry Store Area Tasks',
+      equipmentTypeName: 'Dry Store Area',
+      itemTitles: ['Dry store temperature / humidity'],
+    ),
+    _LibraryPreset(
+      name: 'Cleaning & Sanitation Tasks',
+      segment: 'cleaning_sanitation',
+      itemTitles: [
+        'Prep surfaces cleaned & sanitised',
+        'Chopping boards colour-coded & sound',
+        'Slicer / mincer strip-down clean',
+        'Can opener blade clean',
+        'Kitchen floor cleaned',
+        'Drains / gullies cleared',
+        'Walls / splashbacks wiped',
+        'Bin areas cleaned',
+        'Deep clean checklist',
+        'Cleaning schedule signed off',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Cleaning Chemicals Tasks',
+      segment: 'cleaning_chemicals',
+      itemTitles: [
+        'Sanitiser in stock & in date',
+        'Degreaser in stock',
+        'Blue roll / paper towel stocked',
+        'COSHH sheets present & chemicals labelled',
+        'Chemical dilution / dosing correct',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Dry & Ambient Storage Tasks',
+      segment: 'dry_ambient_storage',
+      itemTitles: [
+        'Stock off floor / on shelving',
+        'Open dry goods sealed & dated',
+        'No damaged / bloated / infested packaging',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Deliveries & Goods In Tasks',
+      segment: 'deliveries_goods_in',
+      itemTitles: [
+        'Chilled goods temp on arrival',
+        'Frozen goods temp on arrival',
+        'Vehicle / driver hygiene',
+        'Packaging intact',
+        'Use-by dates acceptable',
+        'Reconciled to order/invoice',
+        'Rejected items logged',
+        'Supplier traceability captured',
+      ],
+    ),
+  ];
+
+  Future<void> _seedTaskLibraryClusterC() async {
+    final equipmentTypeIdByName = {
+      for (final row in await select(equipmentTypes).get())
+        row.name: row.id,
+    };
+    final venueTypeIdByName = {
+      for (final row in await select(venueTypes).get()) row.name: row.id,
+    };
+
+    await _ensureLegalLimitReference(
+      category: 'delivery_chilled_temp',
+      maxLimit: 8.0,
+      unit: 'celsius',
+      basis: 'fsa',
+    );
+    await _ensureLegalLimitReference(
+      category: 'delivery_frozen_temp',
+      maxLimit: -18.0,
+      unit: 'celsius',
+      basis: 'fsa',
+    );
+
+    final existingTitles = (await select(
+      taskTemplates,
+    ).get()).map((row) => row.title).toSet();
+
+    for (final task in _clusterCTasks) {
+      if (existingTitles.contains(task.title)) continue;
+
+      final equipmentTypeId = task.equipmentTypeName == null
+          ? null
+          : equipmentTypeIdByName[task.equipmentTypeName];
+
+      final insertedId = await into(taskTemplates).insert(
+        TaskTemplatesCompanion.insert(
+          templateGroupId: 0,
+          versionNumber: 1,
+          title: task.title,
+          segment: task.segment,
+          applicableRoleTiers: task.roleTiers.join(','),
+          method: task.method,
+          requiresPhoto: Value(task.method.contains('photo')),
+          requiresNotes: Value(task.method.contains('note')),
+          minLimit: Value(task.minLimit),
+          maxLimit: Value(task.maxLimit),
+          unit: Value(task.unit),
+          legalLimitCategory: Value(task.legalLimitCategory),
+          isCritical: Value(task.priority == 'critical'),
+          priority: Value(task.priority),
+          requiresCorrectiveActionOnFail: Value(task.priority == 'critical'),
+          fixInstructions: Value(task.fixInstructions),
+          equipmentTypeId: Value(equipmentTypeId),
+          createdAt: DateTime.now(),
+        ),
+      );
+      await (update(
+        taskTemplates,
+      )..where((t) => t.id.equals(insertedId))).write(
+        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
+      );
+
+      final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
+      for (final vtName in venueTypeNames) {
+        final vtId = venueTypeIdByName[vtName];
+        if (vtId == null) continue;
+        await into(taskTemplateVenueTypes).insert(
+          TaskTemplateVenueTypesCompanion.insert(
+            taskTemplateGroupId: insertedId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+
+    final templateGroupIdByTitle = {
+      for (final row in await select(taskTemplates).get())
+        row.title: row.templateGroupId,
+    };
+    final frequencyByTitle = {
+      for (final task in _clusterCTasks) task.title: task.frequency,
+    };
+    final existingPresetNames = (await select(
+      taskPresets,
+    ).get()).map((row) => row.name).toSet();
+
+    for (final preset in _clusterCPresets) {
       if (existingPresetNames.contains(preset.name)) continue;
 
       final equipmentTypeId = preset.equipmentTypeName == null
