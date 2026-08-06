@@ -636,10 +636,26 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
-  // Derived from the real venue checklist ("Full check list.docx") plus the
-  // original 3 test rows — realistic commercial-kitchen equipment coverage,
-  // not an exhaustive catalogue. Managers can still add anything missing via
-  // the wizard's "Something else..." option.
+  // Original 18: derived from the real venue checklist ("Full check
+  // list.docx") plus the original 3 test rows — realistic commercial-
+  // kitchen equipment coverage, not an exhaustive catalogue.
+  //
+  // Sprint 028 expansion (below the original 18): from
+  // HORECA_EQUIPMENT_AND_VENUES.md Part A, covering the ALL-HoReCa target
+  // market's gaps (beverage, prep machinery, bakery, cold-storage
+  // variants, wash-up, ventilation/safety, non-refrigerated storage) that
+  // the original checklist-derived 18 didn't need. Two of the doc's own
+  // "Bold = likely already in your 18" / "(NEW)" markings didn't match
+  // the real list on inspection — "Walk-in freezer" was marked (NEW) but
+  // is already in the original 18 (skipped here, not duplicated); "Display
+  // / serve-over fridge" was marked bold/existing but isn't actually
+  // present (added here as "Serve-Over Fridge"). Names condensed to
+  // Title Case with no slashes/parentheses, matching the existing list's
+  // style — e.g. "Prep/counter fridge (refrigerated prep table /
+  // saladette)" -> "Prep Fridge".
+  //
+  // Managers can still add anything missing via the wizard's
+  // "Something else..." option.
   static const _expandedEquipmentTypeNames = [
     'Fridge',
     'Freezer',
@@ -659,6 +675,59 @@ class AppDatabase extends _$AppDatabase {
     'Dishwasher',
     'Ice Machine',
     'Prep Station',
+    // Cold storage / refrigeration
+    'Prep Fridge',
+    'Undercounter Fridge',
+    'Serve-Over Fridge',
+    'Refrigerated Display Case',
+    'Back-Bar Fridge',
+    'Gelato Dipping Cabinet',
+    // Cooking — hot line
+    'Deck Oven',
+    'Conveyor Oven',
+    'Pizza Oven',
+    'Griddle',
+    'Pressure Fryer',
+    'Bratt Pan',
+    'Boiling Pan',
+    'Wok Range',
+    'Microwave',
+    'Sous-Vide Bath',
+    'Induction Hob',
+    // Holding / warming
+    'Heated Gantry',
+    'Proving Cabinet',
+    'Soup Kettle',
+    // Prep / processing
+    'Food Processor',
+    'Planetary Mixer',
+    'Slicer',
+    'Mincer',
+    'Dough Sheeter',
+    'Blender',
+    'Vacuum Packer',
+    // Wash-up / warewashing
+    'Glasswasher',
+    'Conveyor Dishwasher',
+    'Pot Wash Sink',
+    'Hand-Wash Sink',
+    // Beverage
+    'Coffee Machine',
+    'Filter Brewer',
+    'Post-Mix System',
+    'Cellar Cooler',
+    'Keg System',
+    'Water Boiler',
+    'Juicer',
+    'Slush Machine',
+    // Ventilation / utilities / safety
+    'Extraction Canopy',
+    'Grease Trap',
+    'Gas Interlock System',
+    'Fire Suppression System',
+    // Storage (non-refrigerated)
+    'Dry Store Area',
+    'Chemical Store',
   ];
 
   Future<void> _ensureExpandedEquipmentTypes() async {
