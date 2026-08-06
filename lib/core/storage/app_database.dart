@@ -714,6 +714,10 @@ class AppDatabase extends _$AppDatabase {
       // Storage equipment condition — HORECA_TASK_LIBRARY.md segments 1-4).
       await _seedTaskLibraryClusterA();
 
+      // Cluster B (Sprint 030 follow-up): Segments 5-6 — Cooking Line
+      // Equipment, Wash-up/Dishwash. Same always-ensured pattern.
+      await _seedTaskLibraryClusterB();
+
       // Idempotent — safe on every open. Only touches rows left over from
       // before siteId existed (nothing to do on a fresh install).
       await _backfillSiteIds(defaultSiteId);
@@ -1061,11 +1065,39 @@ class AppDatabase extends _$AppDatabase {
   // is expected, not a bug. Filtering value shows up starting with more
   // venue-specific clusters (Bar & Beverage, Hotel-Specific, Fryer/Oil,
   // Front of House).
+  // Sprint 030 Cluster B: all 12 venue types except 'Event / Mobile / Street
+  // Food'. Confirmed before building — the matrix gives Fryer/Oil (segment
+  // 5.1) a stricter row (explicit ✗ for Bar/Pub) than general Cooking Line
+  // Equipment (5.2/5.3, only "sometimes" for Bar/Pub), but per the agreed
+  // simpler default, all of segment 5 (including fryer/oil) uses ONE tag
+  // set — the more permissive "Cooking line equip" row — rather than
+  // splitting the segment. Event/Mobile/Street Food is excluded from both
+  // `cooking_line_equipment` and `washup_dishwash` per the agreed reading of
+  // this venue type's reduced subset (food safety, hygiene, cleaning,
+  // deliveries, waste only) — confirmed rather than assumed, since the
+  // matrix itself marks Wash-up as universal and this required a real
+  // interpretive call.
+  static const _clusterBVenueTypeNames = [
+    'Quick Service (QSR)',
+    'Fast Casual',
+    'Casual Dining',
+    'Fine Dining',
+    'Café',
+    'Bakery / Patisserie',
+    'Bar / Pub',
+    'Gastropub',
+    'Hotel',
+    'Contract / Institutional Catering',
+    'Dark / Ghost Kitchen',
+  ];
+
   static const _segmentVenueTypeNames = <String, List<String>>{
     'food_safety': _venueTypeNames,
     'allergen': _venueTypeNames,
     'personal_hygiene_ppe': _venueTypeNames,
     'refrigeration_cold_storage': _venueTypeNames,
+    'cooking_line_equipment': _clusterBVenueTypeNames,
+    'washup_dishwash': _clusterBVenueTypeNames,
   };
 
   // Cluster A (Sprint 030): HORECA_TASK_LIBRARY.md Segments 1-4 — Food
@@ -1704,6 +1736,488 @@ class AppDatabase extends _$AppDatabase {
     ).get()).map((row) => row.name).toSet();
 
     for (final preset in _clusterAPresets) {
+      if (existingPresetNames.contains(preset.name)) continue;
+
+      final equipmentTypeId = preset.equipmentTypeName == null
+          ? null
+          : equipmentTypeIdByName[preset.equipmentTypeName];
+
+      final presetId = await into(taskPresets).insert(
+        TaskPresetsCompanion.insert(
+          name: preset.name,
+          equipmentTypeId: Value(equipmentTypeId),
+          segment: Value(preset.segment),
+          createdAt: DateTime.now(),
+        ),
+      );
+
+      final memberVenueTypeIds = <int>{};
+      for (final title in preset.itemTitles) {
+        final groupId = templateGroupIdByTitle[title];
+        final frequency = frequencyByTitle[title];
+        if (groupId == null || frequency == null) continue;
+
+        await into(taskPresetItems).insert(
+          TaskPresetItemsCompanion.insert(
+            presetId: presetId,
+            taskTemplateGroupId: groupId,
+            defaultFrequency: frequency,
+          ),
+        );
+
+        final taggedRows = await (select(
+          taskTemplateVenueTypes,
+        )..where((j) => j.taskTemplateGroupId.equals(groupId))).get();
+        memberVenueTypeIds.addAll(taggedRows.map((r) => r.venueTypeId));
+      }
+
+      for (final vtId in memberVenueTypeIds) {
+        await into(taskPresetVenueTypes).insert(
+          TaskPresetVenueTypesCompanion.insert(
+            presetId: presetId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+  }
+
+  // Cluster B (Sprint 030 follow-up): HORECA_TASK_LIBRARY.md Segments 5-6 —
+  // Cooking Line Equipment (5.1 Fryer & Oil, 5.2 Ovens/Grills/Hobs/Other,
+  // 5.3 Mechanical & Safety) and Wash-up/Dishwash. 22 tasks. Same field
+  // mapping approach as Cluster A.
+  //
+  // No new method or frequency vocabulary gaps this cluster — every value
+  // used (data, data_photo, data_tick, tick, tick_photo; daily, weekly,
+  // perShift, perService, asNeeded) already exists from Cluster A.
+  //
+  // Equipment-mapping judgment calls, consistent with Cluster A's
+  // Serve-Over Fridge precedent (task title's specific subject overrides a
+  // blank or generic column tag when a matching seeded type exists):
+  // - "Extraction canopy filters clean" (column blank) -> Extraction Canopy
+  // - "Gas interlock / emergency cut-off test" (column blank) -> Gas
+  //   Interlock System
+  // - "Glasswasher functioning & dosed" (column says "Dishwasher", title
+  //   names Glasswasher specifically) -> Glasswasher
+  // Where the title names TWO distinct equipment concepts and the column
+  // tags only one, the literal column tag is followed rather than guessing
+  // which is meant — "Rotisserie / kebab machine..." stays Rotisserie only
+  // (not also Kebab Machine); "Grill / salamander..." stays Grill only (not
+  // also Salamander).
+  //
+  // Two new numeric limits this cluster, both [BEST] (no UK legal limit
+  // exists for either): fryer oil temperature/TPM, dishwasher wash/rinse
+  // temperature.
+  static const _clusterBTasks = [
+    // 5.1 Fryer & oil
+    _LibraryTask(
+      title: 'Oil temperature',
+      segment: 'cooking_line_equipment',
+      method: 'data_photo',
+      priority: 'high',
+      equipmentTypeName: 'Fryer',
+      roleTiers: ['base'],
+      maxLimit: 180.0,
+      unit: 'celsius',
+      legalLimitCategory: 'fryer_oil_temp',
+      fixInstructions:
+          '[BEST] Typical fryer oil operating temperature is up to 180°C. '
+          'No UK legal limit — industry best practice.',
+      frequency: 'perService',
+    ),
+    _LibraryTask(
+      title: 'Oil quality (TPM/colour)',
+      segment: 'cooking_line_equipment',
+      method: 'data_tick',
+      priority: 'high',
+      equipmentTypeName: 'Fryer',
+      roleTiers: ['base'],
+      maxLimit: 24.0,
+      unit: 'percent',
+      legalLimitCategory: 'fryer_oil_tpm',
+      fixInstructions:
+          '[BEST] No UK legal limit. Discard oil at approximately 24-27% '
+          'TPM (total polar materials) — an industry best-practice '
+          'benchmark, not a legal figure.',
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Oil filtering / polishing',
+      segment: 'cooking_line_equipment',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Fryer',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Oil change & log',
+      segment: 'cooking_line_equipment',
+      method: 'data_tick',
+      priority: 'standard',
+      equipmentTypeName: 'Fryer',
+      roleTiers: ['base'],
+      frequency: 'asNeeded',
+    ),
+    _LibraryTask(
+      title: 'Fryer deep clean',
+      segment: 'cooking_line_equipment',
+      method: 'tick_photo',
+      priority: 'standard',
+      equipmentTypeName: 'Fryer',
+      roleTiers: ['base'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Oil usage log',
+      segment: 'cooking_line_equipment',
+      method: 'data',
+      priority: 'high',
+      equipmentTypeName: 'Fryer',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    // 5.2 Ovens / grills / hobs / other
+    _LibraryTask(
+      title: 'Oven working temperature',
+      segment: 'cooking_line_equipment',
+      method: 'data',
+      priority: 'standard',
+      equipmentTypeName: 'Oven',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Combi self-clean run',
+      segment: 'cooking_line_equipment',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Oven',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Grill / salamander clean & working',
+      segment: 'cooking_line_equipment',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Grill',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Hob / burner ignition & flame',
+      segment: 'cooking_line_equipment',
+      method: 'tick',
+      priority: 'high',
+      equipmentTypeName: 'Hob',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Rotisserie / kebab machine temp & clean',
+      segment: 'cooking_line_equipment',
+      method: 'data_tick',
+      priority: 'high',
+      equipmentTypeName: 'Rotisserie',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Steamer descale',
+      segment: 'cooking_line_equipment',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Steamer',
+      roleTiers: ['base'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Extraction canopy filters clean',
+      segment: 'cooking_line_equipment',
+      method: 'tick_photo',
+      priority: 'high',
+      equipmentTypeName: 'Extraction Canopy',
+      roleTiers: ['base'],
+      fixInstructions:
+          '[BEST] Grease build-up in extraction ductwork is a significant '
+          'fire risk — clean on schedule regardless of visible soiling.',
+      frequency: 'weekly',
+    ),
+    // 5.3 Mechanical & safety
+    _LibraryTask(
+      title: 'Gas interlock / emergency cut-off test',
+      segment: 'cooking_line_equipment',
+      method: 'tick',
+      priority: 'critical',
+      equipmentTypeName: 'Gas Interlock System',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Equipment guard / cut-out intact',
+      segment: 'cooking_line_equipment',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'weekly',
+    ),
+    // Segment 6 — Wash-up / Dishwash
+    _LibraryTask(
+      title: 'Dishwasher wash temperature',
+      segment: 'washup_dishwash',
+      method: 'data',
+      priority: 'high',
+      equipmentTypeName: 'Dishwasher',
+      roleTiers: ['base'],
+      minLimit: 55.0,
+      maxLimit: 65.0,
+      unit: 'celsius',
+      legalLimitCategory: 'dishwasher_wash_temp',
+      fixInstructions:
+          '[BEST] Typical dishwasher wash temperature is 55-65°C. No UK '
+          'legal limit — industry best practice for effective washing.',
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Dishwasher rinse temperature',
+      segment: 'washup_dishwash',
+      method: 'data',
+      priority: 'high',
+      equipmentTypeName: 'Dishwasher',
+      roleTiers: ['base'],
+      minLimit: 82.0,
+      unit: 'celsius',
+      legalLimitCategory: 'dishwasher_rinse_temp',
+      fixInstructions:
+          '[BEST] Rinse at 82°C or above for a sanitising effect. No UK '
+          'legal limit — industry best practice.',
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Detergent / rinse-aid levels',
+      segment: 'washup_dishwash',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Dishwasher',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Dishwasher filter cleaned',
+      segment: 'washup_dishwash',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Dishwasher',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Glasswasher functioning & dosed',
+      segment: 'washup_dishwash',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Glasswasher',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Pot-wash sanitiser strength',
+      segment: 'washup_dishwash',
+      method: 'data_tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Air-dry (no tea-towel drying)',
+      segment: 'washup_dishwash',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+  ];
+
+  // Same equipment-tagged-vs-segment-tagged preset rule as Cluster A. Single-
+  // item presets (Grill/Hob/Rotisserie/Steamer/Extraction Canopy/Gas
+  // Interlock System/Glasswasher Tasks) are expected — matches Cluster A's
+  // precedent (Blast Chiller/Serve-Over Fridge/Bain-marie Tasks were also
+  // single-item.
+  static const _clusterBPresets = [
+    _LibraryPreset(
+      name: 'Fryer Tasks',
+      equipmentTypeName: 'Fryer',
+      itemTitles: [
+        'Oil temperature',
+        'Oil quality (TPM/colour)',
+        'Oil filtering / polishing',
+        'Oil change & log',
+        'Fryer deep clean',
+        'Oil usage log',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Oven Tasks',
+      equipmentTypeName: 'Oven',
+      itemTitles: ['Oven working temperature', 'Combi self-clean run'],
+    ),
+    _LibraryPreset(
+      name: 'Grill Tasks',
+      equipmentTypeName: 'Grill',
+      itemTitles: ['Grill / salamander clean & working'],
+    ),
+    _LibraryPreset(
+      name: 'Hob Tasks',
+      equipmentTypeName: 'Hob',
+      itemTitles: ['Hob / burner ignition & flame'],
+    ),
+    _LibraryPreset(
+      name: 'Rotisserie Tasks',
+      equipmentTypeName: 'Rotisserie',
+      itemTitles: ['Rotisserie / kebab machine temp & clean'],
+    ),
+    _LibraryPreset(
+      name: 'Steamer Tasks',
+      equipmentTypeName: 'Steamer',
+      itemTitles: ['Steamer descale'],
+    ),
+    _LibraryPreset(
+      name: 'Extraction Canopy Tasks',
+      equipmentTypeName: 'Extraction Canopy',
+      itemTitles: ['Extraction canopy filters clean'],
+    ),
+    _LibraryPreset(
+      name: 'Gas Interlock System Tasks',
+      equipmentTypeName: 'Gas Interlock System',
+      itemTitles: ['Gas interlock / emergency cut-off test'],
+    ),
+    _LibraryPreset(
+      name: 'Dishwasher Tasks',
+      equipmentTypeName: 'Dishwasher',
+      itemTitles: [
+        'Dishwasher wash temperature',
+        'Dishwasher rinse temperature',
+        'Detergent / rinse-aid levels',
+        'Dishwasher filter cleaned',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Glasswasher Tasks',
+      equipmentTypeName: 'Glasswasher',
+      itemTitles: ['Glasswasher functioning & dosed'],
+    ),
+    _LibraryPreset(
+      name: 'Cooking Line Equipment Tasks',
+      segment: 'cooking_line_equipment',
+      itemTitles: ['Equipment guard / cut-out intact'],
+    ),
+    _LibraryPreset(
+      name: 'Wash-up Tasks',
+      segment: 'washup_dishwash',
+      itemTitles: ['Pot-wash sanitiser strength', 'Air-dry (no tea-towel drying)'],
+    ),
+  ];
+
+  Future<void> _seedTaskLibraryClusterB() async {
+    final equipmentTypeIdByName = {
+      for (final row in await select(equipmentTypes).get())
+        row.name: row.id,
+    };
+    final venueTypeIdByName = {
+      for (final row in await select(venueTypes).get()) row.name: row.id,
+    };
+
+    await _ensureLegalLimitReference(
+      category: 'fryer_oil_temp',
+      maxLimit: 180.0,
+      unit: 'celsius',
+      basis: 'best',
+    );
+    await _ensureLegalLimitReference(
+      category: 'fryer_oil_tpm',
+      maxLimit: 24.0,
+      unit: 'percent',
+      basis: 'best',
+    );
+    await _ensureLegalLimitReference(
+      category: 'dishwasher_wash_temp',
+      minLimit: 55.0,
+      maxLimit: 65.0,
+      unit: 'celsius',
+      basis: 'best',
+    );
+    await _ensureLegalLimitReference(
+      category: 'dishwasher_rinse_temp',
+      minLimit: 82.0,
+      unit: 'celsius',
+      basis: 'best',
+    );
+
+    final existingTitles = (await select(
+      taskTemplates,
+    ).get()).map((row) => row.title).toSet();
+
+    for (final task in _clusterBTasks) {
+      if (existingTitles.contains(task.title)) continue;
+
+      final equipmentTypeId = task.equipmentTypeName == null
+          ? null
+          : equipmentTypeIdByName[task.equipmentTypeName];
+
+      final insertedId = await into(taskTemplates).insert(
+        TaskTemplatesCompanion.insert(
+          templateGroupId: 0,
+          versionNumber: 1,
+          title: task.title,
+          segment: task.segment,
+          applicableRoleTiers: task.roleTiers.join(','),
+          method: task.method,
+          requiresPhoto: Value(task.method.contains('photo')),
+          requiresNotes: Value(task.method.contains('note')),
+          minLimit: Value(task.minLimit),
+          maxLimit: Value(task.maxLimit),
+          unit: Value(task.unit),
+          legalLimitCategory: Value(task.legalLimitCategory),
+          isCritical: Value(task.priority == 'critical'),
+          priority: Value(task.priority),
+          requiresCorrectiveActionOnFail: Value(task.priority == 'critical'),
+          fixInstructions: Value(task.fixInstructions),
+          equipmentTypeId: Value(equipmentTypeId),
+          createdAt: DateTime.now(),
+        ),
+      );
+      await (update(
+        taskTemplates,
+      )..where((t) => t.id.equals(insertedId))).write(
+        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
+      );
+
+      final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
+      for (final vtName in venueTypeNames) {
+        final vtId = venueTypeIdByName[vtName];
+        if (vtId == null) continue;
+        await into(taskTemplateVenueTypes).insert(
+          TaskTemplateVenueTypesCompanion.insert(
+            taskTemplateGroupId: insertedId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+
+    final templateGroupIdByTitle = {
+      for (final row in await select(taskTemplates).get())
+        row.title: row.templateGroupId,
+    };
+    final frequencyByTitle = {
+      for (final task in _clusterBTasks) task.title: task.frequency,
+    };
+    final existingPresetNames = (await select(
+      taskPresets,
+    ).get()).map((row) => row.name).toSet();
+
+    for (final preset in _clusterBPresets) {
       if (existingPresetNames.contains(preset.name)) continue;
 
       final equipmentTypeId = preset.equipmentTypeName == null
