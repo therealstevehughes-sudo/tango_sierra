@@ -48,13 +48,15 @@ Secondary:
 - Group Executive Chef
 - Director / MD
 
-## Role Tier Model (confirmed — expands the flat Primary/Secondary grouping above)
-Every user belongs to one of three tiers. This is the formal permissions model going forward; the named titles above are examples of who typically sits in each tier.
-- **Top tier**: C-suite / company-wide oversight. Sees company-wide data and stakeholder-facing reporting. Controls company/branch branding. Can override mid-tier notification settings. Only tier with access to inspection data export.
-- **Mid tier**: managers and supervisors. Assign tasks, manage staff, run venue setup, get notified on trigger events (threshold breaches, escalations).
-- **Base tier**: workers. Task execution only — see what's due now, what's overdue, what to do next.
+## Role Tier Model (confirmed — five tiers, supersedes the original three-tier model)
+Every user belongs to one of five tiers (Sprint 027; originally three — top/mid/base — split further once real multi-venue operators were considered). Each tier is a distinct escalation/visibility boundary: an unresolved problem rolls up exactly one level, not straight to the top. Job titles are labels mapped onto tiers, not the tiers themselves.
+- **Base**: workers — does tasks, logs proof. Task execution only. (Kitchen Porter, Commis, Line Chef, Server, Bar Staff.)
+- **Supervisor**: runs a shift, first responder to a failed check on the floor. (Head Chef on shift, Duty Manager.)
+- **Venue Manager**: accountable for one venue — sets up the venue, assigns tasks, gets that site's escalations.
+- **Regional**: oversees a cluster of venues, gets escalations a Venue Manager didn't close.
+- **Executive/Director**: company-wide — sets policy and branding, sees everything, owns the audit relationship. Only tier with access to inspection data export.
 
-Exactly which named titles above map to which tier (e.g. whether Area Manager and Operations Manager both sit at "top", or whether one is "mid") is to be confirmed as part of Sprint 006, not assumed here.
+Exactly which real job titles map to which tier is a per-organisation judgment call, correctable per-user via Staff Management's "Change Tier" action — not fixed rigidly by title.
 
 ## Role Principle
 Not everyone sees everything.

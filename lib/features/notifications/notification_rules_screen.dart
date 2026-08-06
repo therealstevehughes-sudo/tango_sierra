@@ -28,7 +28,7 @@ class _NotificationRulesScreenState
   bool showForm = false;
   int? formTaskTemplateGroupId;
   _TargetMode formTargetMode = _TargetMode.tier;
-  RoleTier formTargetTier = RoleTier.mid;
+  RoleTier formTargetTier = RoleTier.supervisor;
   int? formTargetUserId;
   bool formChannelPush = false;
   bool formChannelEmail = false;
@@ -86,7 +86,7 @@ class _NotificationRulesScreenState
       showForm = false;
       formTaskTemplateGroupId = null;
       formTargetMode = _TargetMode.tier;
-      formTargetTier = RoleTier.mid;
+      formTargetTier = RoleTier.supervisor;
       formTargetUserId = null;
       formChannelPush = false;
       formChannelEmail = false;
@@ -145,6 +145,23 @@ class _NotificationRulesScreenState
     ];
     if (channels.isEmpty) return 'in-app only';
     return 'in-app + ${channels.join(' + ')}';
+  }
+
+  // Short labels so all 5 tier columns fit the quick-setup grid (Sprint 027
+  // expanded this from 2 hardcoded Top/Mid columns to one per tier).
+  String _tierColumnLabel(RoleTier tier) {
+    switch (tier) {
+      case RoleTier.base:
+        return 'Base';
+      case RoleTier.supervisor:
+        return 'Supv';
+      case RoleTier.venueManager:
+        return 'Venue\nMgr';
+      case RoleTier.regional:
+        return 'Regnl';
+      case RoleTier.executive:
+        return 'Exec';
+    }
   }
 
   NotificationRule? _currentQuickRuleFor(int templateGroupId, RoleTier tier) {
@@ -244,69 +261,55 @@ class _NotificationRulesScreenState
             child: Text('No task templates set up yet.'),
           )
         else
-          Table(
-            columnWidths: const {
-              0: FlexColumnWidth(),
-              1: FixedColumnWidth(70),
-              2: FixedColumnWidth(70),
-            },
-            children: [
-              const TableRow(
-                children: [
-                  SizedBox.shrink(),
-                  Center(
-                    child: Text(
-                      'Top',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      'Mid',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-              ...templates.map((template) {
-                final topRule = _currentQuickRuleFor(
-                  template.templateGroupId,
-                  RoleTier.top,
-                );
-                final midRule = _currentQuickRuleFor(
-                  template.templateGroupId,
-                  RoleTier.mid,
-                );
-                return TableRow(
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Table(
+              columnWidths: {
+                0: const FixedColumnWidth(160),
+                for (var i = 1; i <= RoleTier.values.length; i++)
+                  i: const FixedColumnWidth(90),
+              },
+              children: [
+                TableRow(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Text(template.title),
-                    ),
-                    Center(
-                      child: Checkbox(
-                        value: topRule?.active ?? false,
-                        onChanged: (value) => _toggleQuickRule(
-                          template.templateGroupId,
-                          RoleTier.top,
-                          value ?? false,
+                    const SizedBox.shrink(),
+                    for (final tier in RoleTier.values)
+                      Center(
+                        child: Text(
+                          _tierColumnLabel(tier),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ),
-                    Center(
-                      child: Checkbox(
-                        value: midRule?.active ?? false,
-                        onChanged: (value) => _toggleQuickRule(
-                          template.templateGroupId,
-                          RoleTier.mid,
-                          value ?? false,
-                        ),
-                      ),
-                    ),
                   ],
-                );
-              }),
-            ],
+                ),
+                ...templates.map((template) {
+                  return TableRow(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: Text(template.title),
+                      ),
+                      for (final tier in RoleTier.values)
+                        Center(
+                          child: Checkbox(
+                            value:
+                                _currentQuickRuleFor(
+                                  template.templateGroupId,
+                                  tier,
+                                )?.active ??
+                                false,
+                            onChanged: (value) => _toggleQuickRule(
+                              template.templateGroupId,
+                              tier,
+                              value ?? false,
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                }),
+              ],
+            ),
           ),
       ],
     );

@@ -1,4 +1,19 @@
-enum RoleTier { top, mid, base }
+// Five-tier model (Sprint 027, supersedes the original 3-tier top/mid/base).
+// Declaration order IS rank order — base=0 through executive=4 — so
+// tier.index doubles as its rank; nextRoleTierUp() relies on this.
+// Each tier is a distinct escalation/visibility boundary: a problem rolls
+// up exactly one level (see roleTierRank/nextRoleTierUp below).
+enum RoleTier { base, supervisor, venueManager, regional, executive }
+
+int roleTierRank(RoleTier tier) => tier.index;
+
+// The tier one level above [tier], or null if [tier] is already the top
+// (executive) — nothing escalates further.
+RoleTier? nextRoleTierUp(RoleTier tier) {
+  final nextIndex = tier.index + 1;
+  if (nextIndex >= RoleTier.values.length) return null;
+  return RoleTier.values[nextIndex];
+}
 
 enum TemperatureUnit { celsius, fahrenheit }
 

@@ -79,6 +79,45 @@ class _StaffManagementScreenState
     ).showSnackBar(SnackBar(content: Text('PIN reset for ${user.name}')));
   }
 
+  Future<void> _changeRoleTier(User user) async {
+    var selected = user.roleTier;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text('Change Role Tier — ${user.name}'),
+          content: DropdownButtonFormField<RoleTier>(
+            initialValue: selected,
+            decoration: const InputDecoration(labelText: 'Role tier'),
+            items: RoleTier.values
+                .map((t) => DropdownMenuItem(value: t, child: Text(t.name)))
+                .toList(),
+            onChanged: (value) =>
+                setDialogState(() => selected = value ?? selected),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Save'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (confirmed != true || selected == user.roleTier) return;
+
+    final repo = ref.read(userRepositoryProvider);
+    await repo.changeRoleTier(userId: user.id, newTier: selected);
+
+    if (!mounted) return;
+    await _loadData();
+  }
+
   Future<void> _deactivate(User user) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -157,6 +196,10 @@ class _StaffManagementScreenState
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            TextButton(
+              onPressed: () => _changeRoleTier(user),
+              child: const Text('Change Tier'),
+            ),
             TextButton(
               onPressed: () => _resetPin(user),
               child: const Text('Reset PIN'),

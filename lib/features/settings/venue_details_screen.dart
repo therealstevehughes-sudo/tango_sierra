@@ -241,7 +241,7 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                   ),
                 );
               }),
-              if (currentUser?.roleTier == RoleTier.top) ...[
+              if (currentUser?.roleTier == RoleTier.executive) ...[
                 const SizedBox(height: 12),
                 ElevatedButton(
                   onPressed: _createVenue,

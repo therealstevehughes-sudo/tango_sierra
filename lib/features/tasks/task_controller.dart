@@ -182,16 +182,22 @@ class TaskController {
       return triggerMatches && siteMatches;
     }).toList();
 
-    // Precedence: within each exact trigger scope, an active top-tier rule
-    // suppresses mid-tier rules in that same scope (top overrides mid).
+    // Precedence: within each exact trigger scope, rules set by the
+    // highest-ranked tier present suppress rules set by any lower tier in
+    // that same scope (generalizes the original "top overrides mid" to all
+    // five tiers — Sprint 027).
     final byScope = <int?, List<NotificationRule>>{};
     for (final rule in matchingRules) {
       byScope.putIfAbsent(rule.taskTemplateGroupId, () => []).add(rule);
     }
     final firingRules = <NotificationRule>[];
     for (final scoped in byScope.values) {
-      final topRules = scoped.where((r) => r.setByTier == RoleTier.top);
-      firingRules.addAll(topRules.isNotEmpty ? topRules : scoped);
+      final highestRank = scoped
+          .map((r) => roleTierRank(r.setByTier))
+          .reduce((a, b) => a > b ? a : b);
+      firingRules.addAll(
+        scoped.where((r) => roleTierRank(r.setByTier) == highestRank),
+      );
     }
     if (firingRules.isEmpty) return;
 

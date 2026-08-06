@@ -26,6 +26,14 @@ abstract class UserRepository {
     required bool active,
     required int actingUserId,
   });
+  // Corrects a user's tier after creation — needed alongside the Sprint 027
+  // three-to-five-tier migration, since the automatic mid/top remap default
+  // (mid->venueManager, top->executive) is a lossy guess for real users who
+  // were actually supervisor- or regional-flavored.
+  Future<void> changeRoleTier({
+    required int userId,
+    required RoleTier newTier,
+  });
 }
 
 class DriftUserRepository implements UserRepository {
@@ -122,6 +130,16 @@ class DriftUserRepository implements UserRepository {
           (s) => s.assignedUserId.equals(userId) & s.active.equals(true),
         ))
         .write(const TaskSchedulesCompanion(active: Value(false)));
+  }
+
+  @override
+  Future<void> changeRoleTier({
+    required int userId,
+    required RoleTier newTier,
+  }) async {
+    await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+      UsersCompanion(roleTier: Value(newTier.name)),
+    );
   }
 
   User _toModel(UserEntity row) {

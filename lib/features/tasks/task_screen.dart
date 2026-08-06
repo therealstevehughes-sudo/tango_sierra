@@ -255,8 +255,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
     final currentUser = ref.watch(currentUserProvider);
     final canSeeManagerView =
-        currentUser?.roleTier == RoleTier.mid ||
-        currentUser?.roleTier == RoleTier.top;
+        currentUser != null && currentUser.roleTier != RoleTier.base;
 
     if (!controller.hasTasks) {
       return Scaffold(

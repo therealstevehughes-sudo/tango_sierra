@@ -325,7 +325,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 20;
+  int get schemaVersion => 21;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -437,6 +437,79 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(taskPresets);
         await m.createTable(taskPresetItems);
       }
+      if (from < 21) {
+        // Three-tier (top/mid/base) -> five-tier (base/supervisor/
+        // venueManager/regional/executive) remap (Sprint 027). Default
+        // mapping: mid->venueManager, top->executive — the closer of each
+        // pair's two plausible new homes; correctable per-user afterward
+        // via UserRepository.changeRoleTier(). Every place RoleTier is
+        // persisted as a string needs the same remap, not just Users.
+        await (update(users)..where((u) => u.roleTier.equals('mid'))).write(
+          const UsersCompanion(roleTier: Value('venueManager')),
+        );
+        await (update(users)..where((u) => u.roleTier.equals('top'))).write(
+          const UsersCompanion(roleTier: Value('executive')),
+        );
+        await (update(
+          notificationRules,
+        )..where((r) => r.targetRoleTier.equals('mid'))).write(
+          const NotificationRulesCompanion(
+            targetRoleTier: Value('venueManager'),
+          ),
+        );
+        await (update(
+          notificationRules,
+        )..where((r) => r.targetRoleTier.equals('top'))).write(
+          const NotificationRulesCompanion(
+            targetRoleTier: Value('executive'),
+          ),
+        );
+        await (update(
+          notificationRules,
+        )..where((r) => r.setByTier.equals('mid'))).write(
+          const NotificationRulesCompanion(setByTier: Value('venueManager')),
+        );
+        await (update(
+          notificationRules,
+        )..where((r) => r.setByTier.equals('top'))).write(
+          const NotificationRulesCompanion(setByTier: Value('executive')),
+        );
+        await (update(
+          triggerNotifications,
+        )..where((t) => t.originTargetRoleTier.equals('mid'))).write(
+          const TriggerNotificationsCompanion(
+            originTargetRoleTier: Value('venueManager'),
+          ),
+        );
+        await (update(
+          triggerNotifications,
+        )..where((t) => t.originTargetRoleTier.equals('top'))).write(
+          const TriggerNotificationsCompanion(
+            originTargetRoleTier: Value('executive'),
+          ),
+        );
+        // applicableRoleTiers is a comma-joined list (e.g. "base,mid"), not
+        // a single value, so it needs a read-modify-write per row rather
+        // than a WHERE-equals UPDATE.
+        final allTemplates = await select(taskTemplates).get();
+        for (final row in allTemplates) {
+          final tiers = row.applicableRoleTiers
+              .split(',')
+              .map((t) {
+                if (t == 'mid') return 'venueManager';
+                if (t == 'top') return 'executive';
+                return t;
+              })
+              .join(',');
+          if (tiers != row.applicableRoleTiers) {
+            await (update(
+              taskTemplates,
+            )..where((t) => t.id.equals(row.id))).write(
+              TaskTemplatesCompanion(applicableRoleTiers: Value(tiers)),
+            );
+          }
+        }
+      }
     },
     beforeOpen: (details) async {
       // Runs first — user seeding below needs a real site id to seed into.
@@ -514,16 +587,30 @@ class AppDatabase extends _$AppDatabase {
       siteId: siteId,
     );
     await _insertSeedUser(
+      name: 'Priya Shah',
+      jobTitle: 'Duty Manager',
+      roleTier: 'supervisor',
+      pin: '8888',
+      siteId: siteId,
+    );
+    await _insertSeedUser(
       name: 'Jordan Blake',
       jobTitle: 'Head Chef / Kitchen Manager',
-      roleTier: 'mid',
+      roleTier: 'venueManager',
       pin: '9999',
+      siteId: siteId,
+    );
+    await _insertSeedUser(
+      name: 'Marcus Webb',
+      jobTitle: 'Regional Manager',
+      roleTier: 'regional',
+      pin: '5678',
       siteId: siteId,
     );
     await _insertSeedUser(
       name: 'Alex Rivera',
       jobTitle: 'Director / MD',
-      roleTier: 'top',
+      roleTier: 'executive',
       pin: '7777',
       siteId: siteId,
     );

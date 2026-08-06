@@ -44,7 +44,7 @@ class _EndOfSessionSummaryScreenState
     final userRepo = ref.read(userRepositoryProvider);
     final all = await userRepo.getAll();
     final managerList = all
-        .where((u) => u.roleTier == RoleTier.mid || u.roleTier == RoleTier.top)
+        .where((u) => u.roleTier != RoleTier.base)
         .toList();
 
     if (!mounted) return;
