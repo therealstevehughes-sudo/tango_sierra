@@ -20,6 +20,16 @@ abstract class EquipmentRepository {
   // that no longer exists. Reactivating does NOT restore those schedules —
   // re-assignment is a deliberate, separate manager action.
   Future<void> setActive(int id, bool active);
+
+  /// The venue type ids an equipment type is tagged relevant to (Sprint
+  /// 029). Schema-ready only this sprint — no seeded tag data and not yet
+  /// wired into any filtering UI, since there's no sourced per-equipment
+  /// venue-type data, only broad segment-level guidance.
+  Future<List<int>> getVenueTypeIds(int equipmentTypeId);
+
+  /// Replaces the full set of venue types tagged on an equipment type with
+  /// exactly [venueTypeIds].
+  Future<void> setVenueTypeIds(int equipmentTypeId, List<int> venueTypeIds);
 }
 
 class DriftEquipmentRepository implements EquipmentRepository {
@@ -99,6 +109,36 @@ class DriftEquipmentRepository implements EquipmentRepository {
           ))
           .write(const TaskSchedulesCompanion(active: Value(false)));
     }
+  }
+
+  @override
+  Future<List<int>> getVenueTypeIds(int equipmentTypeId) async {
+    final rows = await (_db.select(_db.equipmentTypeVenueTypes)
+          ..where((j) => j.equipmentTypeId.equals(equipmentTypeId)))
+        .get();
+    return rows.map((row) => row.venueTypeId).toList();
+  }
+
+  @override
+  Future<void> setVenueTypeIds(
+    int equipmentTypeId,
+    List<int> venueTypeIds,
+  ) async {
+    await _db.transaction(() async {
+      await (_db.delete(_db.equipmentTypeVenueTypes)
+            ..where((j) => j.equipmentTypeId.equals(equipmentTypeId)))
+          .go();
+      for (final venueTypeId in venueTypeIds) {
+        await _db
+            .into(_db.equipmentTypeVenueTypes)
+            .insert(
+              EquipmentTypeVenueTypesCompanion.insert(
+                equipmentTypeId: equipmentTypeId,
+                venueTypeId: venueTypeId,
+              ),
+            );
+      }
+    });
   }
 
   Equipment _toModel(EquipmentInstanceEntity row) => Equipment(

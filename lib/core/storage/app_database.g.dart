@@ -9562,6 +9562,1282 @@ class TaskPresetItemsCompanion extends UpdateCompanion<TaskPresetItemEntity> {
   }
 }
 
+class $VenueTypesTable extends VenueTypes
+    with TableInfo<$VenueTypesTable, VenueTypeEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $VenueTypesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'venue_types';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<VenueTypeEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  VenueTypeEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return VenueTypeEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+    );
+  }
+
+  @override
+  $VenueTypesTable createAlias(String alias) {
+    return $VenueTypesTable(attachedDatabase, alias);
+  }
+}
+
+class VenueTypeEntity extends DataClass implements Insertable<VenueTypeEntity> {
+  final int id;
+  final String name;
+  const VenueTypeEntity({required this.id, required this.name});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    return map;
+  }
+
+  VenueTypesCompanion toCompanion(bool nullToAbsent) {
+    return VenueTypesCompanion(id: Value(id), name: Value(name));
+  }
+
+  factory VenueTypeEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return VenueTypeEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+    };
+  }
+
+  VenueTypeEntity copyWith({int? id, String? name}) =>
+      VenueTypeEntity(id: id ?? this.id, name: name ?? this.name);
+  VenueTypeEntity copyWithCompanion(VenueTypesCompanion data) {
+    return VenueTypeEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('VenueTypeEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is VenueTypeEntity &&
+          other.id == this.id &&
+          other.name == this.name);
+}
+
+class VenueTypesCompanion extends UpdateCompanion<VenueTypeEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  const VenueTypesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+  });
+  VenueTypesCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+  }) : name = Value(name);
+  static Insertable<VenueTypeEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    });
+  }
+
+  VenueTypesCompanion copyWith({Value<int>? id, Value<String>? name}) {
+    return VenueTypesCompanion(id: id ?? this.id, name: name ?? this.name);
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('VenueTypesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SiteVenueTypesTable extends SiteVenueTypes
+    with TableInfo<$SiteVenueTypesTable, SiteVenueTypeEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SiteVenueTypesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _venueTypeIdMeta = const VerificationMeta(
+    'venueTypeId',
+  );
+  @override
+  late final GeneratedColumn<int> venueTypeId = GeneratedColumn<int>(
+    'venue_type_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES venue_types (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, siteId, venueTypeId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'site_venue_types';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SiteVenueTypeEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('venue_type_id')) {
+      context.handle(
+        _venueTypeIdMeta,
+        venueTypeId.isAcceptableOrUnknown(
+          data['venue_type_id']!,
+          _venueTypeIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_venueTypeIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SiteVenueTypeEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SiteVenueTypeEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      )!,
+      venueTypeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}venue_type_id'],
+      )!,
+    );
+  }
+
+  @override
+  $SiteVenueTypesTable createAlias(String alias) {
+    return $SiteVenueTypesTable(attachedDatabase, alias);
+  }
+}
+
+class SiteVenueTypeEntity extends DataClass
+    implements Insertable<SiteVenueTypeEntity> {
+  final int id;
+  final int siteId;
+  final int venueTypeId;
+  const SiteVenueTypeEntity({
+    required this.id,
+    required this.siteId,
+    required this.venueTypeId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['site_id'] = Variable<int>(siteId);
+    map['venue_type_id'] = Variable<int>(venueTypeId);
+    return map;
+  }
+
+  SiteVenueTypesCompanion toCompanion(bool nullToAbsent) {
+    return SiteVenueTypesCompanion(
+      id: Value(id),
+      siteId: Value(siteId),
+      venueTypeId: Value(venueTypeId),
+    );
+  }
+
+  factory SiteVenueTypeEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SiteVenueTypeEntity(
+      id: serializer.fromJson<int>(json['id']),
+      siteId: serializer.fromJson<int>(json['siteId']),
+      venueTypeId: serializer.fromJson<int>(json['venueTypeId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'siteId': serializer.toJson<int>(siteId),
+      'venueTypeId': serializer.toJson<int>(venueTypeId),
+    };
+  }
+
+  SiteVenueTypeEntity copyWith({int? id, int? siteId, int? venueTypeId}) =>
+      SiteVenueTypeEntity(
+        id: id ?? this.id,
+        siteId: siteId ?? this.siteId,
+        venueTypeId: venueTypeId ?? this.venueTypeId,
+      );
+  SiteVenueTypeEntity copyWithCompanion(SiteVenueTypesCompanion data) {
+    return SiteVenueTypeEntity(
+      id: data.id.present ? data.id.value : this.id,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      venueTypeId: data.venueTypeId.present
+          ? data.venueTypeId.value
+          : this.venueTypeId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SiteVenueTypeEntity(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('venueTypeId: $venueTypeId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, siteId, venueTypeId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SiteVenueTypeEntity &&
+          other.id == this.id &&
+          other.siteId == this.siteId &&
+          other.venueTypeId == this.venueTypeId);
+}
+
+class SiteVenueTypesCompanion extends UpdateCompanion<SiteVenueTypeEntity> {
+  final Value<int> id;
+  final Value<int> siteId;
+  final Value<int> venueTypeId;
+  const SiteVenueTypesCompanion({
+    this.id = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.venueTypeId = const Value.absent(),
+  });
+  SiteVenueTypesCompanion.insert({
+    this.id = const Value.absent(),
+    required int siteId,
+    required int venueTypeId,
+  }) : siteId = Value(siteId),
+       venueTypeId = Value(venueTypeId);
+  static Insertable<SiteVenueTypeEntity> custom({
+    Expression<int>? id,
+    Expression<int>? siteId,
+    Expression<int>? venueTypeId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (siteId != null) 'site_id': siteId,
+      if (venueTypeId != null) 'venue_type_id': venueTypeId,
+    });
+  }
+
+  SiteVenueTypesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? siteId,
+    Value<int>? venueTypeId,
+  }) {
+    return SiteVenueTypesCompanion(
+      id: id ?? this.id,
+      siteId: siteId ?? this.siteId,
+      venueTypeId: venueTypeId ?? this.venueTypeId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
+    if (venueTypeId.present) {
+      map['venue_type_id'] = Variable<int>(venueTypeId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SiteVenueTypesCompanion(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('venueTypeId: $venueTypeId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $EquipmentTypeVenueTypesTable extends EquipmentTypeVenueTypes
+    with
+        TableInfo<$EquipmentTypeVenueTypesTable, EquipmentTypeVenueTypeEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EquipmentTypeVenueTypesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _equipmentTypeIdMeta = const VerificationMeta(
+    'equipmentTypeId',
+  );
+  @override
+  late final GeneratedColumn<int> equipmentTypeId = GeneratedColumn<int>(
+    'equipment_type_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES equipment_types (id)',
+    ),
+  );
+  static const VerificationMeta _venueTypeIdMeta = const VerificationMeta(
+    'venueTypeId',
+  );
+  @override
+  late final GeneratedColumn<int> venueTypeId = GeneratedColumn<int>(
+    'venue_type_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES venue_types (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, equipmentTypeId, venueTypeId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'equipment_type_venue_types';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<EquipmentTypeVenueTypeEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('equipment_type_id')) {
+      context.handle(
+        _equipmentTypeIdMeta,
+        equipmentTypeId.isAcceptableOrUnknown(
+          data['equipment_type_id']!,
+          _equipmentTypeIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_equipmentTypeIdMeta);
+    }
+    if (data.containsKey('venue_type_id')) {
+      context.handle(
+        _venueTypeIdMeta,
+        venueTypeId.isAcceptableOrUnknown(
+          data['venue_type_id']!,
+          _venueTypeIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_venueTypeIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  EquipmentTypeVenueTypeEntity map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EquipmentTypeVenueTypeEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      equipmentTypeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}equipment_type_id'],
+      )!,
+      venueTypeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}venue_type_id'],
+      )!,
+    );
+  }
+
+  @override
+  $EquipmentTypeVenueTypesTable createAlias(String alias) {
+    return $EquipmentTypeVenueTypesTable(attachedDatabase, alias);
+  }
+}
+
+class EquipmentTypeVenueTypeEntity extends DataClass
+    implements Insertable<EquipmentTypeVenueTypeEntity> {
+  final int id;
+  final int equipmentTypeId;
+  final int venueTypeId;
+  const EquipmentTypeVenueTypeEntity({
+    required this.id,
+    required this.equipmentTypeId,
+    required this.venueTypeId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['equipment_type_id'] = Variable<int>(equipmentTypeId);
+    map['venue_type_id'] = Variable<int>(venueTypeId);
+    return map;
+  }
+
+  EquipmentTypeVenueTypesCompanion toCompanion(bool nullToAbsent) {
+    return EquipmentTypeVenueTypesCompanion(
+      id: Value(id),
+      equipmentTypeId: Value(equipmentTypeId),
+      venueTypeId: Value(venueTypeId),
+    );
+  }
+
+  factory EquipmentTypeVenueTypeEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return EquipmentTypeVenueTypeEntity(
+      id: serializer.fromJson<int>(json['id']),
+      equipmentTypeId: serializer.fromJson<int>(json['equipmentTypeId']),
+      venueTypeId: serializer.fromJson<int>(json['venueTypeId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'equipmentTypeId': serializer.toJson<int>(equipmentTypeId),
+      'venueTypeId': serializer.toJson<int>(venueTypeId),
+    };
+  }
+
+  EquipmentTypeVenueTypeEntity copyWith({
+    int? id,
+    int? equipmentTypeId,
+    int? venueTypeId,
+  }) => EquipmentTypeVenueTypeEntity(
+    id: id ?? this.id,
+    equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
+    venueTypeId: venueTypeId ?? this.venueTypeId,
+  );
+  EquipmentTypeVenueTypeEntity copyWithCompanion(
+    EquipmentTypeVenueTypesCompanion data,
+  ) {
+    return EquipmentTypeVenueTypeEntity(
+      id: data.id.present ? data.id.value : this.id,
+      equipmentTypeId: data.equipmentTypeId.present
+          ? data.equipmentTypeId.value
+          : this.equipmentTypeId,
+      venueTypeId: data.venueTypeId.present
+          ? data.venueTypeId.value
+          : this.venueTypeId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EquipmentTypeVenueTypeEntity(')
+          ..write('id: $id, ')
+          ..write('equipmentTypeId: $equipmentTypeId, ')
+          ..write('venueTypeId: $venueTypeId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, equipmentTypeId, venueTypeId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is EquipmentTypeVenueTypeEntity &&
+          other.id == this.id &&
+          other.equipmentTypeId == this.equipmentTypeId &&
+          other.venueTypeId == this.venueTypeId);
+}
+
+class EquipmentTypeVenueTypesCompanion
+    extends UpdateCompanion<EquipmentTypeVenueTypeEntity> {
+  final Value<int> id;
+  final Value<int> equipmentTypeId;
+  final Value<int> venueTypeId;
+  const EquipmentTypeVenueTypesCompanion({
+    this.id = const Value.absent(),
+    this.equipmentTypeId = const Value.absent(),
+    this.venueTypeId = const Value.absent(),
+  });
+  EquipmentTypeVenueTypesCompanion.insert({
+    this.id = const Value.absent(),
+    required int equipmentTypeId,
+    required int venueTypeId,
+  }) : equipmentTypeId = Value(equipmentTypeId),
+       venueTypeId = Value(venueTypeId);
+  static Insertable<EquipmentTypeVenueTypeEntity> custom({
+    Expression<int>? id,
+    Expression<int>? equipmentTypeId,
+    Expression<int>? venueTypeId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (equipmentTypeId != null) 'equipment_type_id': equipmentTypeId,
+      if (venueTypeId != null) 'venue_type_id': venueTypeId,
+    });
+  }
+
+  EquipmentTypeVenueTypesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? equipmentTypeId,
+    Value<int>? venueTypeId,
+  }) {
+    return EquipmentTypeVenueTypesCompanion(
+      id: id ?? this.id,
+      equipmentTypeId: equipmentTypeId ?? this.equipmentTypeId,
+      venueTypeId: venueTypeId ?? this.venueTypeId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (equipmentTypeId.present) {
+      map['equipment_type_id'] = Variable<int>(equipmentTypeId.value);
+    }
+    if (venueTypeId.present) {
+      map['venue_type_id'] = Variable<int>(venueTypeId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EquipmentTypeVenueTypesCompanion(')
+          ..write('id: $id, ')
+          ..write('equipmentTypeId: $equipmentTypeId, ')
+          ..write('venueTypeId: $venueTypeId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TaskPresetVenueTypesTable extends TaskPresetVenueTypes
+    with TableInfo<$TaskPresetVenueTypesTable, TaskPresetVenueTypeEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskPresetVenueTypesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _presetIdMeta = const VerificationMeta(
+    'presetId',
+  );
+  @override
+  late final GeneratedColumn<int> presetId = GeneratedColumn<int>(
+    'preset_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES task_presets (id)',
+    ),
+  );
+  static const VerificationMeta _venueTypeIdMeta = const VerificationMeta(
+    'venueTypeId',
+  );
+  @override
+  late final GeneratedColumn<int> venueTypeId = GeneratedColumn<int>(
+    'venue_type_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES venue_types (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, presetId, venueTypeId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task_preset_venue_types';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaskPresetVenueTypeEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('preset_id')) {
+      context.handle(
+        _presetIdMeta,
+        presetId.isAcceptableOrUnknown(data['preset_id']!, _presetIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_presetIdMeta);
+    }
+    if (data.containsKey('venue_type_id')) {
+      context.handle(
+        _venueTypeIdMeta,
+        venueTypeId.isAcceptableOrUnknown(
+          data['venue_type_id']!,
+          _venueTypeIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_venueTypeIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TaskPresetVenueTypeEntity map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaskPresetVenueTypeEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      presetId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}preset_id'],
+      )!,
+      venueTypeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}venue_type_id'],
+      )!,
+    );
+  }
+
+  @override
+  $TaskPresetVenueTypesTable createAlias(String alias) {
+    return $TaskPresetVenueTypesTable(attachedDatabase, alias);
+  }
+}
+
+class TaskPresetVenueTypeEntity extends DataClass
+    implements Insertable<TaskPresetVenueTypeEntity> {
+  final int id;
+  final int presetId;
+  final int venueTypeId;
+  const TaskPresetVenueTypeEntity({
+    required this.id,
+    required this.presetId,
+    required this.venueTypeId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['preset_id'] = Variable<int>(presetId);
+    map['venue_type_id'] = Variable<int>(venueTypeId);
+    return map;
+  }
+
+  TaskPresetVenueTypesCompanion toCompanion(bool nullToAbsent) {
+    return TaskPresetVenueTypesCompanion(
+      id: Value(id),
+      presetId: Value(presetId),
+      venueTypeId: Value(venueTypeId),
+    );
+  }
+
+  factory TaskPresetVenueTypeEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaskPresetVenueTypeEntity(
+      id: serializer.fromJson<int>(json['id']),
+      presetId: serializer.fromJson<int>(json['presetId']),
+      venueTypeId: serializer.fromJson<int>(json['venueTypeId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'presetId': serializer.toJson<int>(presetId),
+      'venueTypeId': serializer.toJson<int>(venueTypeId),
+    };
+  }
+
+  TaskPresetVenueTypeEntity copyWith({
+    int? id,
+    int? presetId,
+    int? venueTypeId,
+  }) => TaskPresetVenueTypeEntity(
+    id: id ?? this.id,
+    presetId: presetId ?? this.presetId,
+    venueTypeId: venueTypeId ?? this.venueTypeId,
+  );
+  TaskPresetVenueTypeEntity copyWithCompanion(
+    TaskPresetVenueTypesCompanion data,
+  ) {
+    return TaskPresetVenueTypeEntity(
+      id: data.id.present ? data.id.value : this.id,
+      presetId: data.presetId.present ? data.presetId.value : this.presetId,
+      venueTypeId: data.venueTypeId.present
+          ? data.venueTypeId.value
+          : this.venueTypeId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskPresetVenueTypeEntity(')
+          ..write('id: $id, ')
+          ..write('presetId: $presetId, ')
+          ..write('venueTypeId: $venueTypeId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, presetId, venueTypeId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaskPresetVenueTypeEntity &&
+          other.id == this.id &&
+          other.presetId == this.presetId &&
+          other.venueTypeId == this.venueTypeId);
+}
+
+class TaskPresetVenueTypesCompanion
+    extends UpdateCompanion<TaskPresetVenueTypeEntity> {
+  final Value<int> id;
+  final Value<int> presetId;
+  final Value<int> venueTypeId;
+  const TaskPresetVenueTypesCompanion({
+    this.id = const Value.absent(),
+    this.presetId = const Value.absent(),
+    this.venueTypeId = const Value.absent(),
+  });
+  TaskPresetVenueTypesCompanion.insert({
+    this.id = const Value.absent(),
+    required int presetId,
+    required int venueTypeId,
+  }) : presetId = Value(presetId),
+       venueTypeId = Value(venueTypeId);
+  static Insertable<TaskPresetVenueTypeEntity> custom({
+    Expression<int>? id,
+    Expression<int>? presetId,
+    Expression<int>? venueTypeId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (presetId != null) 'preset_id': presetId,
+      if (venueTypeId != null) 'venue_type_id': venueTypeId,
+    });
+  }
+
+  TaskPresetVenueTypesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? presetId,
+    Value<int>? venueTypeId,
+  }) {
+    return TaskPresetVenueTypesCompanion(
+      id: id ?? this.id,
+      presetId: presetId ?? this.presetId,
+      venueTypeId: venueTypeId ?? this.venueTypeId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (presetId.present) {
+      map['preset_id'] = Variable<int>(presetId.value);
+    }
+    if (venueTypeId.present) {
+      map['venue_type_id'] = Variable<int>(venueTypeId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskPresetVenueTypesCompanion(')
+          ..write('id: $id, ')
+          ..write('presetId: $presetId, ')
+          ..write('venueTypeId: $venueTypeId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TaskTemplateVenueTypesTable extends TaskTemplateVenueTypes
+    with TableInfo<$TaskTemplateVenueTypesTable, TaskTemplateVenueTypeEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskTemplateVenueTypesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _taskTemplateGroupIdMeta =
+      const VerificationMeta('taskTemplateGroupId');
+  @override
+  late final GeneratedColumn<int> taskTemplateGroupId = GeneratedColumn<int>(
+    'task_template_group_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _venueTypeIdMeta = const VerificationMeta(
+    'venueTypeId',
+  );
+  @override
+  late final GeneratedColumn<int> venueTypeId = GeneratedColumn<int>(
+    'venue_type_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES venue_types (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, taskTemplateGroupId, venueTypeId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task_template_venue_types';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaskTemplateVenueTypeEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('task_template_group_id')) {
+      context.handle(
+        _taskTemplateGroupIdMeta,
+        taskTemplateGroupId.isAcceptableOrUnknown(
+          data['task_template_group_id']!,
+          _taskTemplateGroupIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_taskTemplateGroupIdMeta);
+    }
+    if (data.containsKey('venue_type_id')) {
+      context.handle(
+        _venueTypeIdMeta,
+        venueTypeId.isAcceptableOrUnknown(
+          data['venue_type_id']!,
+          _venueTypeIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_venueTypeIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TaskTemplateVenueTypeEntity map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaskTemplateVenueTypeEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      taskTemplateGroupId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}task_template_group_id'],
+      )!,
+      venueTypeId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}venue_type_id'],
+      )!,
+    );
+  }
+
+  @override
+  $TaskTemplateVenueTypesTable createAlias(String alias) {
+    return $TaskTemplateVenueTypesTable(attachedDatabase, alias);
+  }
+}
+
+class TaskTemplateVenueTypeEntity extends DataClass
+    implements Insertable<TaskTemplateVenueTypeEntity> {
+  final int id;
+  final int taskTemplateGroupId;
+  final int venueTypeId;
+  const TaskTemplateVenueTypeEntity({
+    required this.id,
+    required this.taskTemplateGroupId,
+    required this.venueTypeId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['task_template_group_id'] = Variable<int>(taskTemplateGroupId);
+    map['venue_type_id'] = Variable<int>(venueTypeId);
+    return map;
+  }
+
+  TaskTemplateVenueTypesCompanion toCompanion(bool nullToAbsent) {
+    return TaskTemplateVenueTypesCompanion(
+      id: Value(id),
+      taskTemplateGroupId: Value(taskTemplateGroupId),
+      venueTypeId: Value(venueTypeId),
+    );
+  }
+
+  factory TaskTemplateVenueTypeEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaskTemplateVenueTypeEntity(
+      id: serializer.fromJson<int>(json['id']),
+      taskTemplateGroupId: serializer.fromJson<int>(
+        json['taskTemplateGroupId'],
+      ),
+      venueTypeId: serializer.fromJson<int>(json['venueTypeId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'taskTemplateGroupId': serializer.toJson<int>(taskTemplateGroupId),
+      'venueTypeId': serializer.toJson<int>(venueTypeId),
+    };
+  }
+
+  TaskTemplateVenueTypeEntity copyWith({
+    int? id,
+    int? taskTemplateGroupId,
+    int? venueTypeId,
+  }) => TaskTemplateVenueTypeEntity(
+    id: id ?? this.id,
+    taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
+    venueTypeId: venueTypeId ?? this.venueTypeId,
+  );
+  TaskTemplateVenueTypeEntity copyWithCompanion(
+    TaskTemplateVenueTypesCompanion data,
+  ) {
+    return TaskTemplateVenueTypeEntity(
+      id: data.id.present ? data.id.value : this.id,
+      taskTemplateGroupId: data.taskTemplateGroupId.present
+          ? data.taskTemplateGroupId.value
+          : this.taskTemplateGroupId,
+      venueTypeId: data.venueTypeId.present
+          ? data.venueTypeId.value
+          : this.venueTypeId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskTemplateVenueTypeEntity(')
+          ..write('id: $id, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('venueTypeId: $venueTypeId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, taskTemplateGroupId, venueTypeId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaskTemplateVenueTypeEntity &&
+          other.id == this.id &&
+          other.taskTemplateGroupId == this.taskTemplateGroupId &&
+          other.venueTypeId == this.venueTypeId);
+}
+
+class TaskTemplateVenueTypesCompanion
+    extends UpdateCompanion<TaskTemplateVenueTypeEntity> {
+  final Value<int> id;
+  final Value<int> taskTemplateGroupId;
+  final Value<int> venueTypeId;
+  const TaskTemplateVenueTypesCompanion({
+    this.id = const Value.absent(),
+    this.taskTemplateGroupId = const Value.absent(),
+    this.venueTypeId = const Value.absent(),
+  });
+  TaskTemplateVenueTypesCompanion.insert({
+    this.id = const Value.absent(),
+    required int taskTemplateGroupId,
+    required int venueTypeId,
+  }) : taskTemplateGroupId = Value(taskTemplateGroupId),
+       venueTypeId = Value(venueTypeId);
+  static Insertable<TaskTemplateVenueTypeEntity> custom({
+    Expression<int>? id,
+    Expression<int>? taskTemplateGroupId,
+    Expression<int>? venueTypeId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (taskTemplateGroupId != null)
+        'task_template_group_id': taskTemplateGroupId,
+      if (venueTypeId != null) 'venue_type_id': venueTypeId,
+    });
+  }
+
+  TaskTemplateVenueTypesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? taskTemplateGroupId,
+    Value<int>? venueTypeId,
+  }) {
+    return TaskTemplateVenueTypesCompanion(
+      id: id ?? this.id,
+      taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
+      venueTypeId: venueTypeId ?? this.venueTypeId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (taskTemplateGroupId.present) {
+      map['task_template_group_id'] = Variable<int>(taskTemplateGroupId.value);
+    }
+    if (venueTypeId.present) {
+      map['venue_type_id'] = Variable<int>(venueTypeId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskTemplateVenueTypesCompanion(')
+          ..write('id: $id, ')
+          ..write('taskTemplateGroupId: $taskTemplateGroupId, ')
+          ..write('venueTypeId: $venueTypeId')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -9594,6 +10870,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TaskPresetItemsTable taskPresetItems = $TaskPresetItemsTable(
     this,
   );
+  late final $VenueTypesTable venueTypes = $VenueTypesTable(this);
+  late final $SiteVenueTypesTable siteVenueTypes = $SiteVenueTypesTable(this);
+  late final $EquipmentTypeVenueTypesTable equipmentTypeVenueTypes =
+      $EquipmentTypeVenueTypesTable(this);
+  late final $TaskPresetVenueTypesTable taskPresetVenueTypes =
+      $TaskPresetVenueTypesTable(this);
+  late final $TaskTemplateVenueTypesTable taskTemplateVenueTypes =
+      $TaskTemplateVenueTypesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -9616,6 +10900,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     thirdPartyContacts,
     taskPresets,
     taskPresetItems,
+    venueTypes,
+    siteVenueTypes,
+    equipmentTypeVenueTypes,
+    taskPresetVenueTypes,
+    taskTemplateVenueTypes,
   ];
 }
 
@@ -9693,6 +10982,33 @@ final class $$EquipmentTypesTableReferences
     ).filter((f) => f.equipmentTypeId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_taskPresetsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $EquipmentTypeVenueTypesTable,
+    List<EquipmentTypeVenueTypeEntity>
+  >
+  _equipmentTypeVenueTypesRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.equipmentTypeVenueTypes,
+    aliasName:
+        'equipment_types__id__equipment_type_venue_types__equipment_type_id',
+  );
+
+  $$EquipmentTypeVenueTypesTableProcessedTableManager
+  get equipmentTypeVenueTypesRefs {
+    final manager = $$EquipmentTypeVenueTypesTableTableManager(
+      $_db,
+      $_db.equipmentTypeVenueTypes,
+    ).filter((f) => f.equipmentTypeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _equipmentTypeVenueTypesRefsTable($_db),
+    );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -9790,6 +11106,32 @@ class $$EquipmentTypesTableFilterComposer
                 $removeJoinBuilderFromRootComposer,
           ),
     );
+    return f(composer);
+  }
+
+  Expression<bool> equipmentTypeVenueTypesRefs(
+    Expression<bool> Function($$EquipmentTypeVenueTypesTableFilterComposer f) f,
+  ) {
+    final $$EquipmentTypeVenueTypesTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.equipmentTypeVenueTypes,
+          getReferencedColumn: (t) => t.equipmentTypeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$EquipmentTypeVenueTypesTableFilterComposer(
+                $db: $db,
+                $table: $db.equipmentTypeVenueTypes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
@@ -9904,6 +11246,33 @@ class $$EquipmentTypesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> equipmentTypeVenueTypesRefs<T extends Object>(
+    Expression<T> Function($$EquipmentTypeVenueTypesTableAnnotationComposer a)
+    f,
+  ) {
+    final $$EquipmentTypeVenueTypesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.equipmentTypeVenueTypes,
+          getReferencedColumn: (t) => t.equipmentTypeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$EquipmentTypeVenueTypesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.equipmentTypeVenueTypes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$EquipmentTypesTableTableManager
@@ -9923,6 +11292,7 @@ class $$EquipmentTypesTableTableManager
             bool equipmentInstancesRefs,
             bool taskTemplatesRefs,
             bool taskPresetsRefs,
+            bool equipmentTypeVenueTypesRefs,
           })
         > {
   $$EquipmentTypesTableTableManager(
@@ -9959,6 +11329,7 @@ class $$EquipmentTypesTableTableManager
                 equipmentInstancesRefs = false,
                 taskTemplatesRefs = false,
                 taskPresetsRefs = false,
+                equipmentTypeVenueTypesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -9966,6 +11337,7 @@ class $$EquipmentTypesTableTableManager
                     if (equipmentInstancesRefs) db.equipmentInstances,
                     if (taskTemplatesRefs) db.taskTemplates,
                     if (taskPresetsRefs) db.taskPresets,
+                    if (equipmentTypeVenueTypesRefs) db.equipmentTypeVenueTypes,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -10033,6 +11405,27 @@ class $$EquipmentTypesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (equipmentTypeVenueTypesRefs)
+                        await $_getPrefetchedData<
+                          EquipmentTypeEntity,
+                          $EquipmentTypesTable,
+                          EquipmentTypeVenueTypeEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$EquipmentTypesTableReferences
+                              ._equipmentTypeVenueTypesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$EquipmentTypesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).equipmentTypeVenueTypesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.equipmentTypeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -10057,6 +11450,7 @@ typedef $$EquipmentTypesTableProcessedTableManager =
         bool equipmentInstancesRefs,
         bool taskTemplatesRefs,
         bool taskPresetsRefs,
+        bool equipmentTypeVenueTypesRefs,
       })
     >;
 typedef $$OrganisationsTableCreateCompanionBuilder =
@@ -10578,6 +11972,24 @@ final class $$SitesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$SiteVenueTypesTable, List<SiteVenueTypeEntity>>
+  _siteVenueTypesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.siteVenueTypes,
+    aliasName: 'sites__id__site_venue_types__site_id',
+  );
+
+  $$SiteVenueTypesTableProcessedTableManager get siteVenueTypesRefs {
+    final manager = $$SiteVenueTypesTableTableManager(
+      $_db,
+      $_db.siteVenueTypes,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_siteVenueTypesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
@@ -10872,6 +12284,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$ThirdPartyContactsTableFilterComposer(
             $db: $db,
             $table: $db.thirdPartyContacts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> siteVenueTypesRefs(
+    Expression<bool> Function($$SiteVenueTypesTableFilterComposer f) f,
+  ) {
+    final $$SiteVenueTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.siteVenueTypes,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SiteVenueTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.siteVenueTypes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -11233,6 +12670,31 @@ class $$SitesTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> siteVenueTypesRefs<T extends Object>(
+    Expression<T> Function($$SiteVenueTypesTableAnnotationComposer a) f,
+  ) {
+    final $$SiteVenueTypesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.siteVenueTypes,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SiteVenueTypesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.siteVenueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -11260,6 +12722,7 @@ class $$SitesTableTableManager
             bool notificationRulesRefs,
             bool triggerNotificationsRefs,
             bool thirdPartyContactsRefs,
+            bool siteVenueTypesRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -11320,6 +12783,7 @@ class $$SitesTableTableManager
                 notificationRulesRefs = false,
                 triggerNotificationsRefs = false,
                 thirdPartyContactsRefs = false,
+                siteVenueTypesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -11334,6 +12798,7 @@ class $$SitesTableTableManager
                     if (notificationRulesRefs) db.notificationRules,
                     if (triggerNotificationsRefs) db.triggerNotifications,
                     if (thirdPartyContactsRefs) db.thirdPartyContacts,
+                    if (siteVenueTypesRefs) db.siteVenueTypes,
                   ],
                   addJoins:
                       <
@@ -11571,6 +13036,27 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (siteVenueTypesRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          SiteVenueTypeEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._siteVenueTypesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).siteVenueTypesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -11603,6 +13089,7 @@ typedef $$SitesTableProcessedTableManager =
         bool notificationRulesRefs,
         bool triggerNotificationsRefs,
         bool thirdPartyContactsRefs,
+        bool siteVenueTypesRefs,
       })
     >;
 typedef $$AreasTableCreateCompanionBuilder =
@@ -19702,6 +21189,31 @@ final class $$TaskPresetsTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $TaskPresetVenueTypesTable,
+    List<TaskPresetVenueTypeEntity>
+  >
+  _taskPresetVenueTypesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.taskPresetVenueTypes,
+        aliasName: 'task_presets__id__task_preset_venue_types__preset_id',
+      );
+
+  $$TaskPresetVenueTypesTableProcessedTableManager
+  get taskPresetVenueTypesRefs {
+    final manager = $$TaskPresetVenueTypesTableTableManager(
+      $_db,
+      $_db.taskPresetVenueTypes,
+    ).filter((f) => f.presetId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _taskPresetVenueTypesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$TaskPresetsTableFilterComposer
@@ -19800,6 +21312,31 @@ class $$TaskPresetsTableFilterComposer
           }) => $$TaskPresetItemsTableFilterComposer(
             $db: $db,
             $table: $db.taskPresetItems,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> taskPresetVenueTypesRefs(
+    Expression<bool> Function($$TaskPresetVenueTypesTableFilterComposer f) f,
+  ) {
+    final $$TaskPresetVenueTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskPresetVenueTypes,
+      getReferencedColumn: (t) => t.presetId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetVenueTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.taskPresetVenueTypes,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -19985,6 +21522,32 @@ class $$TaskPresetsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> taskPresetVenueTypesRefs<T extends Object>(
+    Expression<T> Function($$TaskPresetVenueTypesTableAnnotationComposer a) f,
+  ) {
+    final $$TaskPresetVenueTypesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.taskPresetVenueTypes,
+          getReferencedColumn: (t) => t.presetId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$TaskPresetVenueTypesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.taskPresetVenueTypes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$TaskPresetsTableTableManager
@@ -20004,6 +21567,7 @@ class $$TaskPresetsTableTableManager
             bool equipmentTypeId,
             bool createdByUserId,
             bool taskPresetItemsRefs,
+            bool taskPresetVenueTypesRefs,
           })
         > {
   $$TaskPresetsTableTableManager(_$AppDatabase db, $TaskPresetsTable table)
@@ -20066,11 +21630,13 @@ class $$TaskPresetsTableTableManager
                 equipmentTypeId = false,
                 createdByUserId = false,
                 taskPresetItemsRefs = false,
+                taskPresetVenueTypesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (taskPresetItemsRefs) db.taskPresetItems,
+                    if (taskPresetVenueTypesRefs) db.taskPresetVenueTypes,
                   ],
                   addJoins:
                       <
@@ -20144,6 +21710,27 @@ class $$TaskPresetsTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (taskPresetVenueTypesRefs)
+                        await $_getPrefetchedData<
+                          TaskPresetEntity,
+                          $TaskPresetsTable,
+                          TaskPresetVenueTypeEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TaskPresetsTableReferences
+                              ._taskPresetVenueTypesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TaskPresetsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskPresetVenueTypesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.presetId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -20168,6 +21755,7 @@ typedef $$TaskPresetsTableProcessedTableManager =
         bool equipmentTypeId,
         bool createdByUserId,
         bool taskPresetItemsRefs,
+        bool taskPresetVenueTypesRefs,
       })
     >;
 typedef $$TaskPresetItemsTableCreateCompanionBuilder =
@@ -20504,6 +22092,1990 @@ typedef $$TaskPresetItemsTableProcessedTableManager =
       TaskPresetItemEntity,
       PrefetchHooks Function({bool presetId})
     >;
+typedef $$VenueTypesTableCreateCompanionBuilder =
+    VenueTypesCompanion Function({Value<int> id, required String name});
+typedef $$VenueTypesTableUpdateCompanionBuilder =
+    VenueTypesCompanion Function({Value<int> id, Value<String> name});
+
+final class $$VenueTypesTableReferences
+    extends BaseReferences<_$AppDatabase, $VenueTypesTable, VenueTypeEntity> {
+  $$VenueTypesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$SiteVenueTypesTable, List<SiteVenueTypeEntity>>
+  _siteVenueTypesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.siteVenueTypes,
+    aliasName: 'venue_types__id__site_venue_types__venue_type_id',
+  );
+
+  $$SiteVenueTypesTableProcessedTableManager get siteVenueTypesRefs {
+    final manager = $$SiteVenueTypesTableTableManager(
+      $_db,
+      $_db.siteVenueTypes,
+    ).filter((f) => f.venueTypeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_siteVenueTypesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $EquipmentTypeVenueTypesTable,
+    List<EquipmentTypeVenueTypeEntity>
+  >
+  _equipmentTypeVenueTypesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.equipmentTypeVenueTypes,
+        aliasName: 'venue_types__id__equipment_type_venue_types__venue_type_id',
+      );
+
+  $$EquipmentTypeVenueTypesTableProcessedTableManager
+  get equipmentTypeVenueTypesRefs {
+    final manager = $$EquipmentTypeVenueTypesTableTableManager(
+      $_db,
+      $_db.equipmentTypeVenueTypes,
+    ).filter((f) => f.venueTypeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _equipmentTypeVenueTypesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $TaskPresetVenueTypesTable,
+    List<TaskPresetVenueTypeEntity>
+  >
+  _taskPresetVenueTypesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.taskPresetVenueTypes,
+        aliasName: 'venue_types__id__task_preset_venue_types__venue_type_id',
+      );
+
+  $$TaskPresetVenueTypesTableProcessedTableManager
+  get taskPresetVenueTypesRefs {
+    final manager = $$TaskPresetVenueTypesTableTableManager(
+      $_db,
+      $_db.taskPresetVenueTypes,
+    ).filter((f) => f.venueTypeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _taskPresetVenueTypesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $TaskTemplateVenueTypesTable,
+    List<TaskTemplateVenueTypeEntity>
+  >
+  _taskTemplateVenueTypesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.taskTemplateVenueTypes,
+        aliasName: 'venue_types__id__task_template_venue_types__venue_type_id',
+      );
+
+  $$TaskTemplateVenueTypesTableProcessedTableManager
+  get taskTemplateVenueTypesRefs {
+    final manager = $$TaskTemplateVenueTypesTableTableManager(
+      $_db,
+      $_db.taskTemplateVenueTypes,
+    ).filter((f) => f.venueTypeId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _taskTemplateVenueTypesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$VenueTypesTableFilterComposer
+    extends Composer<_$AppDatabase, $VenueTypesTable> {
+  $$VenueTypesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> siteVenueTypesRefs(
+    Expression<bool> Function($$SiteVenueTypesTableFilterComposer f) f,
+  ) {
+    final $$SiteVenueTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.siteVenueTypes,
+      getReferencedColumn: (t) => t.venueTypeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SiteVenueTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.siteVenueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> equipmentTypeVenueTypesRefs(
+    Expression<bool> Function($$EquipmentTypeVenueTypesTableFilterComposer f) f,
+  ) {
+    final $$EquipmentTypeVenueTypesTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.equipmentTypeVenueTypes,
+          getReferencedColumn: (t) => t.venueTypeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$EquipmentTypeVenueTypesTableFilterComposer(
+                $db: $db,
+                $table: $db.equipmentTypeVenueTypes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<bool> taskPresetVenueTypesRefs(
+    Expression<bool> Function($$TaskPresetVenueTypesTableFilterComposer f) f,
+  ) {
+    final $$TaskPresetVenueTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskPresetVenueTypes,
+      getReferencedColumn: (t) => t.venueTypeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetVenueTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.taskPresetVenueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> taskTemplateVenueTypesRefs(
+    Expression<bool> Function($$TaskTemplateVenueTypesTableFilterComposer f) f,
+  ) {
+    final $$TaskTemplateVenueTypesTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.taskTemplateVenueTypes,
+          getReferencedColumn: (t) => t.venueTypeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$TaskTemplateVenueTypesTableFilterComposer(
+                $db: $db,
+                $table: $db.taskTemplateVenueTypes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$VenueTypesTableOrderingComposer
+    extends Composer<_$AppDatabase, $VenueTypesTable> {
+  $$VenueTypesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$VenueTypesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $VenueTypesTable> {
+  $$VenueTypesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  Expression<T> siteVenueTypesRefs<T extends Object>(
+    Expression<T> Function($$SiteVenueTypesTableAnnotationComposer a) f,
+  ) {
+    final $$SiteVenueTypesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.siteVenueTypes,
+      getReferencedColumn: (t) => t.venueTypeId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SiteVenueTypesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.siteVenueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> equipmentTypeVenueTypesRefs<T extends Object>(
+    Expression<T> Function($$EquipmentTypeVenueTypesTableAnnotationComposer a)
+    f,
+  ) {
+    final $$EquipmentTypeVenueTypesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.equipmentTypeVenueTypes,
+          getReferencedColumn: (t) => t.venueTypeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$EquipmentTypeVenueTypesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.equipmentTypeVenueTypes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> taskPresetVenueTypesRefs<T extends Object>(
+    Expression<T> Function($$TaskPresetVenueTypesTableAnnotationComposer a) f,
+  ) {
+    final $$TaskPresetVenueTypesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.taskPresetVenueTypes,
+          getReferencedColumn: (t) => t.venueTypeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$TaskPresetVenueTypesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.taskPresetVenueTypes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> taskTemplateVenueTypesRefs<T extends Object>(
+    Expression<T> Function($$TaskTemplateVenueTypesTableAnnotationComposer a) f,
+  ) {
+    final $$TaskTemplateVenueTypesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.taskTemplateVenueTypes,
+          getReferencedColumn: (t) => t.venueTypeId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$TaskTemplateVenueTypesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.taskTemplateVenueTypes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$VenueTypesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $VenueTypesTable,
+          VenueTypeEntity,
+          $$VenueTypesTableFilterComposer,
+          $$VenueTypesTableOrderingComposer,
+          $$VenueTypesTableAnnotationComposer,
+          $$VenueTypesTableCreateCompanionBuilder,
+          $$VenueTypesTableUpdateCompanionBuilder,
+          (VenueTypeEntity, $$VenueTypesTableReferences),
+          VenueTypeEntity,
+          PrefetchHooks Function({
+            bool siteVenueTypesRefs,
+            bool equipmentTypeVenueTypesRefs,
+            bool taskPresetVenueTypesRefs,
+            bool taskTemplateVenueTypesRefs,
+          })
+        > {
+  $$VenueTypesTableTableManager(_$AppDatabase db, $VenueTypesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$VenueTypesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$VenueTypesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$VenueTypesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+              }) => VenueTypesCompanion(id: id, name: name),
+          createCompanionCallback:
+              ({Value<int> id = const Value.absent(), required String name}) =>
+                  VenueTypesCompanion.insert(id: id, name: name),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$VenueTypesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                siteVenueTypesRefs = false,
+                equipmentTypeVenueTypesRefs = false,
+                taskPresetVenueTypesRefs = false,
+                taskTemplateVenueTypesRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (siteVenueTypesRefs) db.siteVenueTypes,
+                    if (equipmentTypeVenueTypesRefs) db.equipmentTypeVenueTypes,
+                    if (taskPresetVenueTypesRefs) db.taskPresetVenueTypes,
+                    if (taskTemplateVenueTypesRefs) db.taskTemplateVenueTypes,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (siteVenueTypesRefs)
+                        await $_getPrefetchedData<
+                          VenueTypeEntity,
+                          $VenueTypesTable,
+                          SiteVenueTypeEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$VenueTypesTableReferences
+                              ._siteVenueTypesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$VenueTypesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).siteVenueTypesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.venueTypeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (equipmentTypeVenueTypesRefs)
+                        await $_getPrefetchedData<
+                          VenueTypeEntity,
+                          $VenueTypesTable,
+                          EquipmentTypeVenueTypeEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$VenueTypesTableReferences
+                              ._equipmentTypeVenueTypesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$VenueTypesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).equipmentTypeVenueTypesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.venueTypeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (taskPresetVenueTypesRefs)
+                        await $_getPrefetchedData<
+                          VenueTypeEntity,
+                          $VenueTypesTable,
+                          TaskPresetVenueTypeEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$VenueTypesTableReferences
+                              ._taskPresetVenueTypesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$VenueTypesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskPresetVenueTypesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.venueTypeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (taskTemplateVenueTypesRefs)
+                        await $_getPrefetchedData<
+                          VenueTypeEntity,
+                          $VenueTypesTable,
+                          TaskTemplateVenueTypeEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$VenueTypesTableReferences
+                              ._taskTemplateVenueTypesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$VenueTypesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskTemplateVenueTypesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.venueTypeId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$VenueTypesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $VenueTypesTable,
+      VenueTypeEntity,
+      $$VenueTypesTableFilterComposer,
+      $$VenueTypesTableOrderingComposer,
+      $$VenueTypesTableAnnotationComposer,
+      $$VenueTypesTableCreateCompanionBuilder,
+      $$VenueTypesTableUpdateCompanionBuilder,
+      (VenueTypeEntity, $$VenueTypesTableReferences),
+      VenueTypeEntity,
+      PrefetchHooks Function({
+        bool siteVenueTypesRefs,
+        bool equipmentTypeVenueTypesRefs,
+        bool taskPresetVenueTypesRefs,
+        bool taskTemplateVenueTypesRefs,
+      })
+    >;
+typedef $$SiteVenueTypesTableCreateCompanionBuilder =
+    SiteVenueTypesCompanion Function({
+      Value<int> id,
+      required int siteId,
+      required int venueTypeId,
+    });
+typedef $$SiteVenueTypesTableUpdateCompanionBuilder =
+    SiteVenueTypesCompanion Function({
+      Value<int> id,
+      Value<int> siteId,
+      Value<int> venueTypeId,
+    });
+
+final class $$SiteVenueTypesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $SiteVenueTypesTable,
+          SiteVenueTypeEntity
+        > {
+  $$SiteVenueTypesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('site_venue_types__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<int>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $VenueTypesTable _venueTypeIdTable(_$AppDatabase db) => db.venueTypes
+      .createAlias('site_venue_types__venue_type_id__venue_types__id');
+
+  $$VenueTypesTableProcessedTableManager get venueTypeId {
+    final $_column = $_itemColumn<int>('venue_type_id')!;
+
+    final manager = $$VenueTypesTableTableManager(
+      $_db,
+      $_db.venueTypes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_venueTypeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SiteVenueTypesTableFilterComposer
+    extends Composer<_$AppDatabase, $SiteVenueTypesTable> {
+  $$SiteVenueTypesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$VenueTypesTableFilterComposer get venueTypeId {
+    final $$VenueTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SiteVenueTypesTableOrderingComposer
+    extends Composer<_$AppDatabase, $SiteVenueTypesTable> {
+  $$SiteVenueTypesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$VenueTypesTableOrderingComposer get venueTypeId {
+    final $$VenueTypesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableOrderingComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SiteVenueTypesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SiteVenueTypesTable> {
+  $$SiteVenueTypesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$VenueTypesTableAnnotationComposer get venueTypeId {
+    final $$VenueTypesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SiteVenueTypesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SiteVenueTypesTable,
+          SiteVenueTypeEntity,
+          $$SiteVenueTypesTableFilterComposer,
+          $$SiteVenueTypesTableOrderingComposer,
+          $$SiteVenueTypesTableAnnotationComposer,
+          $$SiteVenueTypesTableCreateCompanionBuilder,
+          $$SiteVenueTypesTableUpdateCompanionBuilder,
+          (SiteVenueTypeEntity, $$SiteVenueTypesTableReferences),
+          SiteVenueTypeEntity,
+          PrefetchHooks Function({bool siteId, bool venueTypeId})
+        > {
+  $$SiteVenueTypesTableTableManager(
+    _$AppDatabase db,
+    $SiteVenueTypesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SiteVenueTypesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SiteVenueTypesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SiteVenueTypesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> siteId = const Value.absent(),
+                Value<int> venueTypeId = const Value.absent(),
+              }) => SiteVenueTypesCompanion(
+                id: id,
+                siteId: siteId,
+                venueTypeId: venueTypeId,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int siteId,
+                required int venueTypeId,
+              }) => SiteVenueTypesCompanion.insert(
+                id: id,
+                siteId: siteId,
+                venueTypeId: venueTypeId,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SiteVenueTypesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false, venueTypeId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable: $$SiteVenueTypesTableReferences
+                                    ._siteIdTable(db),
+                                referencedColumn:
+                                    $$SiteVenueTypesTableReferences
+                                        ._siteIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (venueTypeId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.venueTypeId,
+                                referencedTable: $$SiteVenueTypesTableReferences
+                                    ._venueTypeIdTable(db),
+                                referencedColumn:
+                                    $$SiteVenueTypesTableReferences
+                                        ._venueTypeIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$SiteVenueTypesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SiteVenueTypesTable,
+      SiteVenueTypeEntity,
+      $$SiteVenueTypesTableFilterComposer,
+      $$SiteVenueTypesTableOrderingComposer,
+      $$SiteVenueTypesTableAnnotationComposer,
+      $$SiteVenueTypesTableCreateCompanionBuilder,
+      $$SiteVenueTypesTableUpdateCompanionBuilder,
+      (SiteVenueTypeEntity, $$SiteVenueTypesTableReferences),
+      SiteVenueTypeEntity,
+      PrefetchHooks Function({bool siteId, bool venueTypeId})
+    >;
+typedef $$EquipmentTypeVenueTypesTableCreateCompanionBuilder =
+    EquipmentTypeVenueTypesCompanion Function({
+      Value<int> id,
+      required int equipmentTypeId,
+      required int venueTypeId,
+    });
+typedef $$EquipmentTypeVenueTypesTableUpdateCompanionBuilder =
+    EquipmentTypeVenueTypesCompanion Function({
+      Value<int> id,
+      Value<int> equipmentTypeId,
+      Value<int> venueTypeId,
+    });
+
+final class $$EquipmentTypeVenueTypesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $EquipmentTypeVenueTypesTable,
+          EquipmentTypeVenueTypeEntity
+        > {
+  $$EquipmentTypeVenueTypesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $EquipmentTypesTable _equipmentTypeIdTable(_$AppDatabase db) =>
+      db.equipmentTypes.createAlias(
+        'equipment_type_venue_types__equipment_type_id__equipment_types__id',
+      );
+
+  $$EquipmentTypesTableProcessedTableManager get equipmentTypeId {
+    final $_column = $_itemColumn<int>('equipment_type_id')!;
+
+    final manager = $$EquipmentTypesTableTableManager(
+      $_db,
+      $_db.equipmentTypes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_equipmentTypeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $VenueTypesTable _venueTypeIdTable(_$AppDatabase db) =>
+      db.venueTypes.createAlias(
+        'equipment_type_venue_types__venue_type_id__venue_types__id',
+      );
+
+  $$VenueTypesTableProcessedTableManager get venueTypeId {
+    final $_column = $_itemColumn<int>('venue_type_id')!;
+
+    final manager = $$VenueTypesTableTableManager(
+      $_db,
+      $_db.venueTypes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_venueTypeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$EquipmentTypeVenueTypesTableFilterComposer
+    extends Composer<_$AppDatabase, $EquipmentTypeVenueTypesTable> {
+  $$EquipmentTypeVenueTypesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$EquipmentTypesTableFilterComposer get equipmentTypeId {
+    final $$EquipmentTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentTypeId,
+      referencedTable: $db.equipmentTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.equipmentTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$VenueTypesTableFilterComposer get venueTypeId {
+    final $$VenueTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EquipmentTypeVenueTypesTableOrderingComposer
+    extends Composer<_$AppDatabase, $EquipmentTypeVenueTypesTable> {
+  $$EquipmentTypeVenueTypesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$EquipmentTypesTableOrderingComposer get equipmentTypeId {
+    final $$EquipmentTypesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentTypeId,
+      referencedTable: $db.equipmentTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTypesTableOrderingComposer(
+            $db: $db,
+            $table: $db.equipmentTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$VenueTypesTableOrderingComposer get venueTypeId {
+    final $$VenueTypesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableOrderingComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EquipmentTypeVenueTypesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EquipmentTypeVenueTypesTable> {
+  $$EquipmentTypeVenueTypesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  $$EquipmentTypesTableAnnotationComposer get equipmentTypeId {
+    final $$EquipmentTypesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.equipmentTypeId,
+      referencedTable: $db.equipmentTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentTypesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.equipmentTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$VenueTypesTableAnnotationComposer get venueTypeId {
+    final $$VenueTypesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EquipmentTypeVenueTypesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EquipmentTypeVenueTypesTable,
+          EquipmentTypeVenueTypeEntity,
+          $$EquipmentTypeVenueTypesTableFilterComposer,
+          $$EquipmentTypeVenueTypesTableOrderingComposer,
+          $$EquipmentTypeVenueTypesTableAnnotationComposer,
+          $$EquipmentTypeVenueTypesTableCreateCompanionBuilder,
+          $$EquipmentTypeVenueTypesTableUpdateCompanionBuilder,
+          (
+            EquipmentTypeVenueTypeEntity,
+            $$EquipmentTypeVenueTypesTableReferences,
+          ),
+          EquipmentTypeVenueTypeEntity,
+          PrefetchHooks Function({bool equipmentTypeId, bool venueTypeId})
+        > {
+  $$EquipmentTypeVenueTypesTableTableManager(
+    _$AppDatabase db,
+    $EquipmentTypeVenueTypesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EquipmentTypeVenueTypesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$EquipmentTypeVenueTypesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$EquipmentTypeVenueTypesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> equipmentTypeId = const Value.absent(),
+                Value<int> venueTypeId = const Value.absent(),
+              }) => EquipmentTypeVenueTypesCompanion(
+                id: id,
+                equipmentTypeId: equipmentTypeId,
+                venueTypeId: venueTypeId,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int equipmentTypeId,
+                required int venueTypeId,
+              }) => EquipmentTypeVenueTypesCompanion.insert(
+                id: id,
+                equipmentTypeId: equipmentTypeId,
+                venueTypeId: venueTypeId,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EquipmentTypeVenueTypesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({equipmentTypeId = false, venueTypeId = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (equipmentTypeId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.equipmentTypeId,
+                                    referencedTable:
+                                        $$EquipmentTypeVenueTypesTableReferences
+                                            ._equipmentTypeIdTable(db),
+                                    referencedColumn:
+                                        $$EquipmentTypeVenueTypesTableReferences
+                                            ._equipmentTypeIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (venueTypeId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.venueTypeId,
+                                    referencedTable:
+                                        $$EquipmentTypeVenueTypesTableReferences
+                                            ._venueTypeIdTable(db),
+                                    referencedColumn:
+                                        $$EquipmentTypeVenueTypesTableReferences
+                                            ._venueTypeIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$EquipmentTypeVenueTypesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EquipmentTypeVenueTypesTable,
+      EquipmentTypeVenueTypeEntity,
+      $$EquipmentTypeVenueTypesTableFilterComposer,
+      $$EquipmentTypeVenueTypesTableOrderingComposer,
+      $$EquipmentTypeVenueTypesTableAnnotationComposer,
+      $$EquipmentTypeVenueTypesTableCreateCompanionBuilder,
+      $$EquipmentTypeVenueTypesTableUpdateCompanionBuilder,
+      (EquipmentTypeVenueTypeEntity, $$EquipmentTypeVenueTypesTableReferences),
+      EquipmentTypeVenueTypeEntity,
+      PrefetchHooks Function({bool equipmentTypeId, bool venueTypeId})
+    >;
+typedef $$TaskPresetVenueTypesTableCreateCompanionBuilder =
+    TaskPresetVenueTypesCompanion Function({
+      Value<int> id,
+      required int presetId,
+      required int venueTypeId,
+    });
+typedef $$TaskPresetVenueTypesTableUpdateCompanionBuilder =
+    TaskPresetVenueTypesCompanion Function({
+      Value<int> id,
+      Value<int> presetId,
+      Value<int> venueTypeId,
+    });
+
+final class $$TaskPresetVenueTypesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $TaskPresetVenueTypesTable,
+          TaskPresetVenueTypeEntity
+        > {
+  $$TaskPresetVenueTypesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $TaskPresetsTable _presetIdTable(_$AppDatabase db) => db.taskPresets
+      .createAlias('task_preset_venue_types__preset_id__task_presets__id');
+
+  $$TaskPresetsTableProcessedTableManager get presetId {
+    final $_column = $_itemColumn<int>('preset_id')!;
+
+    final manager = $$TaskPresetsTableTableManager(
+      $_db,
+      $_db.taskPresets,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_presetIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $VenueTypesTable _venueTypeIdTable(_$AppDatabase db) => db.venueTypes
+      .createAlias('task_preset_venue_types__venue_type_id__venue_types__id');
+
+  $$VenueTypesTableProcessedTableManager get venueTypeId {
+    final $_column = $_itemColumn<int>('venue_type_id')!;
+
+    final manager = $$VenueTypesTableTableManager(
+      $_db,
+      $_db.venueTypes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_venueTypeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TaskPresetVenueTypesTableFilterComposer
+    extends Composer<_$AppDatabase, $TaskPresetVenueTypesTable> {
+  $$TaskPresetVenueTypesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$TaskPresetsTableFilterComposer get presetId {
+    final $$TaskPresetsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.presetId,
+      referencedTable: $db.taskPresets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetsTableFilterComposer(
+            $db: $db,
+            $table: $db.taskPresets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$VenueTypesTableFilterComposer get venueTypeId {
+    final $$VenueTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskPresetVenueTypesTableOrderingComposer
+    extends Composer<_$AppDatabase, $TaskPresetVenueTypesTable> {
+  $$TaskPresetVenueTypesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$TaskPresetsTableOrderingComposer get presetId {
+    final $$TaskPresetsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.presetId,
+      referencedTable: $db.taskPresets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetsTableOrderingComposer(
+            $db: $db,
+            $table: $db.taskPresets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$VenueTypesTableOrderingComposer get venueTypeId {
+    final $$VenueTypesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableOrderingComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskPresetVenueTypesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TaskPresetVenueTypesTable> {
+  $$TaskPresetVenueTypesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  $$TaskPresetsTableAnnotationComposer get presetId {
+    final $$TaskPresetsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.presetId,
+      referencedTable: $db.taskPresets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskPresetsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskPresets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$VenueTypesTableAnnotationComposer get venueTypeId {
+    final $$VenueTypesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskPresetVenueTypesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaskPresetVenueTypesTable,
+          TaskPresetVenueTypeEntity,
+          $$TaskPresetVenueTypesTableFilterComposer,
+          $$TaskPresetVenueTypesTableOrderingComposer,
+          $$TaskPresetVenueTypesTableAnnotationComposer,
+          $$TaskPresetVenueTypesTableCreateCompanionBuilder,
+          $$TaskPresetVenueTypesTableUpdateCompanionBuilder,
+          (TaskPresetVenueTypeEntity, $$TaskPresetVenueTypesTableReferences),
+          TaskPresetVenueTypeEntity,
+          PrefetchHooks Function({bool presetId, bool venueTypeId})
+        > {
+  $$TaskPresetVenueTypesTableTableManager(
+    _$AppDatabase db,
+    $TaskPresetVenueTypesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TaskPresetVenueTypesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TaskPresetVenueTypesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$TaskPresetVenueTypesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> presetId = const Value.absent(),
+                Value<int> venueTypeId = const Value.absent(),
+              }) => TaskPresetVenueTypesCompanion(
+                id: id,
+                presetId: presetId,
+                venueTypeId: venueTypeId,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int presetId,
+                required int venueTypeId,
+              }) => TaskPresetVenueTypesCompanion.insert(
+                id: id,
+                presetId: presetId,
+                venueTypeId: venueTypeId,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TaskPresetVenueTypesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({presetId = false, venueTypeId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (presetId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.presetId,
+                                referencedTable:
+                                    $$TaskPresetVenueTypesTableReferences
+                                        ._presetIdTable(db),
+                                referencedColumn:
+                                    $$TaskPresetVenueTypesTableReferences
+                                        ._presetIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (venueTypeId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.venueTypeId,
+                                referencedTable:
+                                    $$TaskPresetVenueTypesTableReferences
+                                        ._venueTypeIdTable(db),
+                                referencedColumn:
+                                    $$TaskPresetVenueTypesTableReferences
+                                        ._venueTypeIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$TaskPresetVenueTypesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaskPresetVenueTypesTable,
+      TaskPresetVenueTypeEntity,
+      $$TaskPresetVenueTypesTableFilterComposer,
+      $$TaskPresetVenueTypesTableOrderingComposer,
+      $$TaskPresetVenueTypesTableAnnotationComposer,
+      $$TaskPresetVenueTypesTableCreateCompanionBuilder,
+      $$TaskPresetVenueTypesTableUpdateCompanionBuilder,
+      (TaskPresetVenueTypeEntity, $$TaskPresetVenueTypesTableReferences),
+      TaskPresetVenueTypeEntity,
+      PrefetchHooks Function({bool presetId, bool venueTypeId})
+    >;
+typedef $$TaskTemplateVenueTypesTableCreateCompanionBuilder =
+    TaskTemplateVenueTypesCompanion Function({
+      Value<int> id,
+      required int taskTemplateGroupId,
+      required int venueTypeId,
+    });
+typedef $$TaskTemplateVenueTypesTableUpdateCompanionBuilder =
+    TaskTemplateVenueTypesCompanion Function({
+      Value<int> id,
+      Value<int> taskTemplateGroupId,
+      Value<int> venueTypeId,
+    });
+
+final class $$TaskTemplateVenueTypesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $TaskTemplateVenueTypesTable,
+          TaskTemplateVenueTypeEntity
+        > {
+  $$TaskTemplateVenueTypesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $VenueTypesTable _venueTypeIdTable(_$AppDatabase db) => db.venueTypes
+      .createAlias('task_template_venue_types__venue_type_id__venue_types__id');
+
+  $$VenueTypesTableProcessedTableManager get venueTypeId {
+    final $_column = $_itemColumn<int>('venue_type_id')!;
+
+    final manager = $$VenueTypesTableTableManager(
+      $_db,
+      $_db.venueTypes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_venueTypeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TaskTemplateVenueTypesTableFilterComposer
+    extends Composer<_$AppDatabase, $TaskTemplateVenueTypesTable> {
+  $$TaskTemplateVenueTypesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$VenueTypesTableFilterComposer get venueTypeId {
+    final $$VenueTypesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableFilterComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskTemplateVenueTypesTableOrderingComposer
+    extends Composer<_$AppDatabase, $TaskTemplateVenueTypesTable> {
+  $$TaskTemplateVenueTypesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$VenueTypesTableOrderingComposer get venueTypeId {
+    final $$VenueTypesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableOrderingComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskTemplateVenueTypesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TaskTemplateVenueTypesTable> {
+  $$TaskTemplateVenueTypesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get taskTemplateGroupId => $composableBuilder(
+    column: $table.taskTemplateGroupId,
+    builder: (column) => column,
+  );
+
+  $$VenueTypesTableAnnotationComposer get venueTypeId {
+    final $$VenueTypesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.venueTypeId,
+      referencedTable: $db.venueTypes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$VenueTypesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.venueTypes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskTemplateVenueTypesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaskTemplateVenueTypesTable,
+          TaskTemplateVenueTypeEntity,
+          $$TaskTemplateVenueTypesTableFilterComposer,
+          $$TaskTemplateVenueTypesTableOrderingComposer,
+          $$TaskTemplateVenueTypesTableAnnotationComposer,
+          $$TaskTemplateVenueTypesTableCreateCompanionBuilder,
+          $$TaskTemplateVenueTypesTableUpdateCompanionBuilder,
+          (
+            TaskTemplateVenueTypeEntity,
+            $$TaskTemplateVenueTypesTableReferences,
+          ),
+          TaskTemplateVenueTypeEntity,
+          PrefetchHooks Function({bool venueTypeId})
+        > {
+  $$TaskTemplateVenueTypesTableTableManager(
+    _$AppDatabase db,
+    $TaskTemplateVenueTypesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TaskTemplateVenueTypesTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$TaskTemplateVenueTypesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$TaskTemplateVenueTypesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> taskTemplateGroupId = const Value.absent(),
+                Value<int> venueTypeId = const Value.absent(),
+              }) => TaskTemplateVenueTypesCompanion(
+                id: id,
+                taskTemplateGroupId: taskTemplateGroupId,
+                venueTypeId: venueTypeId,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int taskTemplateGroupId,
+                required int venueTypeId,
+              }) => TaskTemplateVenueTypesCompanion.insert(
+                id: id,
+                taskTemplateGroupId: taskTemplateGroupId,
+                venueTypeId: venueTypeId,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TaskTemplateVenueTypesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({venueTypeId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (venueTypeId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.venueTypeId,
+                                referencedTable:
+                                    $$TaskTemplateVenueTypesTableReferences
+                                        ._venueTypeIdTable(db),
+                                referencedColumn:
+                                    $$TaskTemplateVenueTypesTableReferences
+                                        ._venueTypeIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$TaskTemplateVenueTypesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaskTemplateVenueTypesTable,
+      TaskTemplateVenueTypeEntity,
+      $$TaskTemplateVenueTypesTableFilterComposer,
+      $$TaskTemplateVenueTypesTableOrderingComposer,
+      $$TaskTemplateVenueTypesTableAnnotationComposer,
+      $$TaskTemplateVenueTypesTableCreateCompanionBuilder,
+      $$TaskTemplateVenueTypesTableUpdateCompanionBuilder,
+      (TaskTemplateVenueTypeEntity, $$TaskTemplateVenueTypesTableReferences),
+      TaskTemplateVenueTypeEntity,
+      PrefetchHooks Function({bool venueTypeId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -20542,4 +24114,20 @@ class $AppDatabaseManager {
       $$TaskPresetsTableTableManager(_db, _db.taskPresets);
   $$TaskPresetItemsTableTableManager get taskPresetItems =>
       $$TaskPresetItemsTableTableManager(_db, _db.taskPresetItems);
+  $$VenueTypesTableTableManager get venueTypes =>
+      $$VenueTypesTableTableManager(_db, _db.venueTypes);
+  $$SiteVenueTypesTableTableManager get siteVenueTypes =>
+      $$SiteVenueTypesTableTableManager(_db, _db.siteVenueTypes);
+  $$EquipmentTypeVenueTypesTableTableManager get equipmentTypeVenueTypes =>
+      $$EquipmentTypeVenueTypesTableTableManager(
+        _db,
+        _db.equipmentTypeVenueTypes,
+      );
+  $$TaskPresetVenueTypesTableTableManager get taskPresetVenueTypes =>
+      $$TaskPresetVenueTypesTableTableManager(_db, _db.taskPresetVenueTypes);
+  $$TaskTemplateVenueTypesTableTableManager get taskTemplateVenueTypes =>
+      $$TaskTemplateVenueTypesTableTableManager(
+        _db,
+        _db.taskTemplateVenueTypes,
+      );
 }

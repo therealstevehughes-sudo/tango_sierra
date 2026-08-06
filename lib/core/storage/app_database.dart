@@ -300,6 +300,66 @@ class TaskPresetItems extends Table {
   TextColumn get defaultCustomFrequencyDetail => text().nullable()();
 }
 
+// A venue "type" (Sprint 029) — e.g. Café, Fine Dining, Hotel — used to
+// filter which tasks/presets/equipment are offered at setup. Per
+// HORECA_EQUIPMENT_AND_VENUES.md Part B's own recommendation, this is a
+// tagging aid, not a hard lockout: a café that happens to have a fryer can
+// still add fryer tasks manually. Fixed seeded list (idempotent
+// always-ensured, same pattern as EquipmentTypes) plus a "Something else..."
+// inline-create escape hatch, matching EquipmentType precedent. No active/
+// retire flag, also matching EquipmentType.
+@DataClassName('VenueTypeEntity')
+class VenueTypes extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+}
+
+// A site can have more than one venue type (e.g. a gastropub is kitchen +
+// bar), so this is many-to-many rather than a single column on Sites. Wired
+// to real UI this sprint (Venue Details screen).
+@DataClassName('SiteVenueTypeEntity')
+class SiteVenueTypes extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get siteId => integer().references(Sites, #id)();
+  IntColumn get venueTypeId => integer().references(VenueTypes, #id)();
+}
+
+// Schema + repository method only this sprint — no seeded tag data and no
+// filtering UI wired in yet. There's no sourced per-equipment venue-type
+// data, only broad segment-level guidance in Part B, so tagging individual
+// equipment types is deferred until that's available.
+@DataClassName('EquipmentTypeVenueTypeEntity')
+class EquipmentTypeVenueTypes extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get equipmentTypeId =>
+      integer().references(EquipmentTypes, #id)();
+  IntColumn get venueTypeId => integer().references(VenueTypes, #id)();
+}
+
+// Schema + repository method only this sprint, same reasoning as
+// EquipmentTypeVenueTypes above — deferred until real per-preset venue-type
+// data exists.
+@DataClassName('TaskPresetVenueTypeEntity')
+class TaskPresetVenueTypes extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get presetId => integer().references(TaskPresets, #id)();
+  IntColumn get venueTypeId => integer().references(VenueTypes, #id)();
+}
+
+// Schema + repository method only this sprint, deliberately unwired and
+// unpopulated — prepared for Build Order item 4 (loading the real
+// HORECA_TASK_LIBRARY.md task library) to populate later. Keyed on
+// taskTemplateGroupId, a soft reference (not a real FK), same pattern as
+// TaskSchedules.taskTemplateGroupId: templateGroupId has no unique
+// constraint on TaskTemplates since it's shared across a template's version
+// rows, so this is resolved at the application layer, not the DB layer.
+@DataClassName('TaskTemplateVenueTypeEntity')
+class TaskTemplateVenueTypes extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get taskTemplateGroupId => integer()();
+  IntColumn get venueTypeId => integer().references(VenueTypes, #id)();
+}
+
 @DriftDatabase(
   tables: [
     TaskSubmissions,
@@ -319,13 +379,18 @@ class TaskPresetItems extends Table {
     ThirdPartyContacts,
     TaskPresets,
     TaskPresetItems,
+    VenueTypes,
+    SiteVenueTypes,
+    EquipmentTypeVenueTypes,
+    TaskPresetVenueTypes,
+    TaskTemplateVenueTypes,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 21;
+  int get schemaVersion => 22;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -510,6 +575,13 @@ class AppDatabase extends _$AppDatabase {
           }
         }
       }
+      if (from < 22) {
+        await m.createTable(venueTypes);
+        await m.createTable(siteVenueTypes);
+        await m.createTable(equipmentTypeVenueTypes);
+        await m.createTable(taskPresetVenueTypes);
+        await m.createTable(taskTemplateVenueTypes);
+      }
     },
     beforeOpen: (details) async {
       // Runs first — user seeding below needs a real site id to seed into.
@@ -523,6 +595,9 @@ class AppDatabase extends _$AppDatabase {
       // Always ensured (not gated on "table empty"), so an existing install
       // that only has the original 3 equipment types picks up the rest too.
       await _ensureExpandedEquipmentTypes();
+
+      // Always ensured, same pattern as equipment types above.
+      await _ensureVenueTypes();
 
       final existingLegalLimits = await select(legalLimitReferences).get();
       if (existingLegalLimits.isEmpty) {
@@ -740,6 +815,37 @@ class AppDatabase extends _$AppDatabase {
         await into(
           equipmentTypes,
         ).insert(EquipmentTypesCompanion.insert(name: name));
+      }
+    }
+  }
+
+  // 12 core venue types from HORECA_EQUIPMENT_AND_VENUES.md Part B. Fixed
+  // list (not manager-editable/retirable), matching EquipmentType — managers
+  // can add a custom type via the "Something else..." escape hatch on the
+  // tagging UI instead.
+  static const _venueTypeNames = [
+    'Quick Service (QSR)',
+    'Fast Casual',
+    'Casual Dining',
+    'Fine Dining',
+    'Café',
+    'Bakery / Patisserie',
+    'Bar / Pub',
+    'Gastropub',
+    'Hotel',
+    'Contract / Institutional Catering',
+    'Event / Mobile / Street Food',
+    'Dark / Ghost Kitchen',
+  ];
+
+  Future<void> _ensureVenueTypes() async {
+    final existingNames = (await select(
+      venueTypes,
+    ).get()).map((row) => row.name).toSet();
+
+    for (final name in _venueTypeNames) {
+      if (!existingNames.contains(name)) {
+        await into(venueTypes).insert(VenueTypesCompanion.insert(name: name));
       }
     }
   }

@@ -12,6 +12,14 @@ abstract class SiteRepository {
     String? address,
     required int organisationId,
   });
+
+  /// The venue type ids currently tagged on a site (Sprint 029). A site can
+  /// have more than one (e.g. a gastropub is kitchen + bar).
+  Future<List<int>> getVenueTypeIds(int siteId);
+
+  /// Replaces the full set of venue types tagged on a site with exactly
+  /// [venueTypeIds].
+  Future<void> setVenueTypeIds(int siteId, List<int> venueTypeIds);
 }
 
 class DriftSiteRepository implements SiteRepository {
@@ -65,6 +73,33 @@ class DriftSiteRepository implements SiteRepository {
       address: address,
       createdAt: createdAt,
     );
+  }
+
+  @override
+  Future<List<int>> getVenueTypeIds(int siteId) async {
+    final rows = await (_db.select(
+      _db.siteVenueTypes,
+    )..where((j) => j.siteId.equals(siteId))).get();
+    return rows.map((row) => row.venueTypeId).toList();
+  }
+
+  @override
+  Future<void> setVenueTypeIds(int siteId, List<int> venueTypeIds) async {
+    await _db.transaction(() async {
+      await (_db.delete(
+        _db.siteVenueTypes,
+      )..where((j) => j.siteId.equals(siteId))).go();
+      for (final venueTypeId in venueTypeIds) {
+        await _db
+            .into(_db.siteVenueTypes)
+            .insert(
+              SiteVenueTypesCompanion.insert(
+                siteId: siteId,
+                venueTypeId: venueTypeId,
+              ),
+            );
+      }
+    });
   }
 
   Site _toModel(SiteEntity row) {

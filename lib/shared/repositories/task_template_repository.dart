@@ -36,6 +36,18 @@ abstract class TaskTemplateRepository {
     int? equipmentTypeId,
     required int createdByUserId,
   });
+
+  /// The venue type ids a task template is tagged relevant to (Sprint 029),
+  /// keyed on templateGroupId (a soft reference, not a real FK — see
+  /// TaskTemplateVenueTypes in app_database.dart) so it survives template
+  /// versioning. Schema-ready only this sprint — deliberately unpopulated,
+  /// prepared for Build Order item 4 (loading the real task library) to
+  /// populate later.
+  Future<List<int>> getVenueTypeIds(int templateGroupId);
+
+  /// Replaces the full set of venue types tagged on a template group with
+  /// exactly [venueTypeIds].
+  Future<void> setVenueTypeIds(int templateGroupId, List<int> venueTypeIds);
 }
 
 class DriftTaskTemplateRepository implements TaskTemplateRepository {
@@ -188,6 +200,36 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
     }
 
     return warnings.isEmpty ? null : warnings.join('; ');
+  }
+
+  @override
+  Future<List<int>> getVenueTypeIds(int templateGroupId) async {
+    final rows = await (_db.select(_db.taskTemplateVenueTypes)
+          ..where((j) => j.taskTemplateGroupId.equals(templateGroupId)))
+        .get();
+    return rows.map((row) => row.venueTypeId).toList();
+  }
+
+  @override
+  Future<void> setVenueTypeIds(
+    int templateGroupId,
+    List<int> venueTypeIds,
+  ) async {
+    await _db.transaction(() async {
+      await (_db.delete(_db.taskTemplateVenueTypes)
+            ..where((j) => j.taskTemplateGroupId.equals(templateGroupId)))
+          .go();
+      for (final venueTypeId in venueTypeIds) {
+        await _db
+            .into(_db.taskTemplateVenueTypes)
+            .insert(
+              TaskTemplateVenueTypesCompanion.insert(
+                taskTemplateGroupId: templateGroupId,
+                venueTypeId: venueTypeId,
+              ),
+            );
+      }
+    });
   }
 
   List<int> _currentVersionIds(List<TaskTemplateEntity> rows) {

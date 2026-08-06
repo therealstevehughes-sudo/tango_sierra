@@ -35,6 +35,16 @@ abstract class TaskPresetRepository {
     required int assignedByUserId,
     required int siteId,
   });
+
+  /// The venue type ids a preset is tagged relevant to (Sprint 029).
+  /// Schema-ready only this sprint — no seeded tag data and not yet wired
+  /// into the presets section UI, since there's no sourced per-preset
+  /// venue-type data, only broad segment-level guidance.
+  Future<List<int>> getVenueTypeIds(int presetId);
+
+  /// Replaces the full set of venue types tagged on a preset with exactly
+  /// [venueTypeIds].
+  Future<void> setVenueTypeIds(int presetId, List<int> venueTypeIds);
 }
 
 class DriftTaskPresetRepository implements TaskPresetRepository {
@@ -185,6 +195,33 @@ class DriftTaskPresetRepository implements TaskPresetRepository {
       createdCount++;
     }
     return createdCount;
+  }
+
+  @override
+  Future<List<int>> getVenueTypeIds(int presetId) async {
+    final rows = await (_db.select(
+      _db.taskPresetVenueTypes,
+    )..where((j) => j.presetId.equals(presetId))).get();
+    return rows.map((row) => row.venueTypeId).toList();
+  }
+
+  @override
+  Future<void> setVenueTypeIds(int presetId, List<int> venueTypeIds) async {
+    await _db.transaction(() async {
+      await (_db.delete(
+        _db.taskPresetVenueTypes,
+      )..where((j) => j.presetId.equals(presetId))).go();
+      for (final venueTypeId in venueTypeIds) {
+        await _db
+            .into(_db.taskPresetVenueTypes)
+            .insert(
+              TaskPresetVenueTypesCompanion.insert(
+                presetId: presetId,
+                venueTypeId: venueTypeId,
+              ),
+            );
+      }
+    });
   }
 
   TaskPreset _toModel(TaskPresetEntity row, List<TaskPresetItem> items) {

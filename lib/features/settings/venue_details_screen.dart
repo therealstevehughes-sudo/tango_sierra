@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../shared/models/organisation.dart';
 import '../../shared/models/site.dart';
 import '../../shared/models/user.dart';
+import '../../shared/models/venue_type.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../../shared/providers/venue_type_providers.dart';
 
 class VenueDetailsScreen extends ConsumerStatefulWidget {
   const VenueDetailsScreen({super.key});
@@ -19,6 +21,8 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
   bool loading = true;
   Organisation? organisation;
   List<Site> sites = [];
+  List<VenueType> venueTypes = [];
+  Map<int, Set<int>> siteVenueTypeIds = {};
 
   final TextEditingController newSiteNameController = TextEditingController();
   final TextEditingController newSiteAddressController =
@@ -40,16 +44,57 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
   Future<void> _loadData() async {
     final orgRepo = ref.read(organisationRepositoryProvider);
     final siteRepo = ref.read(siteRepositoryProvider);
+    final venueTypeRepo = ref.read(venueTypeRepositoryProvider);
 
     final loadedOrg = await orgRepo.getDefault();
     final loadedSites = await siteRepo.getAll();
+    final loadedVenueTypes = await venueTypeRepo.getAll();
+
+    final loadedSiteVenueTypeIds = <int, Set<int>>{};
+    for (final site in loadedSites) {
+      final ids = await siteRepo.getVenueTypeIds(site.id);
+      loadedSiteVenueTypeIds[site.id] = ids.toSet();
+    }
 
     if (!mounted) return;
     setState(() {
       organisation = loadedOrg;
       sites = loadedSites;
+      venueTypes = loadedVenueTypes;
+      siteVenueTypeIds = loadedSiteVenueTypeIds;
       loading = false;
     });
+  }
+
+  Future<void> _toggleVenueType(Site site, int venueTypeId) async {
+    final current = Set<int>.from(siteVenueTypeIds[site.id] ?? const {});
+    if (current.contains(venueTypeId)) {
+      current.remove(venueTypeId);
+    } else {
+      current.add(venueTypeId);
+    }
+
+    final siteRepo = ref.read(siteRepositoryProvider);
+    await siteRepo.setVenueTypeIds(site.id, current.toList());
+
+    if (!mounted) return;
+    setState(() {
+      siteVenueTypeIds[site.id] = current;
+    });
+  }
+
+  Future<void> _addCustomVenueType(Site site) async {
+    final name = await _promptForName('New Venue Type', '');
+    if (name == null || name.isEmpty) return;
+
+    final venueTypeRepo = ref.read(venueTypeRepositoryProvider);
+    final created = await venueTypeRepo.create(name);
+
+    if (!mounted) return;
+    setState(() {
+      venueTypes = [...venueTypes, created];
+    });
+    await _toggleVenueType(site, created.id);
   }
 
   // Mirrors SiteRepository.getDefault()'s ordering (first by id) — the
@@ -214,30 +259,71 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
               const SizedBox(height: 8),
               ...sites.map((site) {
                 final isActive = site.id == effectiveActiveId;
+                final taggedIds = siteVenueTypeIds[site.id] ?? const {};
                 return Card(
-                  child: ListTile(
-                    title: Text(site.name),
-                    subtitle: Text(site.address ?? ''),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        if (isActive)
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8),
-                            child: Chip(label: Text('Active')),
-                          )
-                        else
-                          TextButton(
-                            onPressed: () => _setActive(site),
-                            child: const Text('Set as Active'),
-                          ),
-                        IconButton(
-                          icon: const Icon(Icons.edit),
-                          tooltip: 'Rename',
-                          onPressed: () => _renameSite(site),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        title: Text(site.name),
+                        subtitle: Text(site.address ?? ''),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (isActive)
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8),
+                                child: Chip(label: Text('Active')),
+                              )
+                            else
+                              TextButton(
+                                onPressed: () => _setActive(site),
+                                child: const Text('Set as Active'),
+                              ),
+                            IconButton(
+                              icon: const Icon(Icons.edit),
+                              tooltip: 'Rename',
+                              onPressed: () => _renameSite(site),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Venue type',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 4,
+                              children: [
+                                ...venueTypes.map(
+                                  (type) => FilterChip(
+                                    label: Text(type.name),
+                                    selected: taggedIds.contains(type.id),
+                                    onSelected: (_) =>
+                                        _toggleVenueType(site, type.id),
+                                  ),
+                                ),
+                                ActionChip(
+                                  avatar: const Icon(Icons.add, size: 18),
+                                  label: const Text('Something else...'),
+                                  onPressed: () => _addCustomVenueType(site),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 );
               }),
