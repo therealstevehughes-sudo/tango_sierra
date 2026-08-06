@@ -723,6 +723,11 @@ class AppDatabase extends _$AppDatabase {
       // Storage, Deliveries & Goods In. Same always-ensured pattern.
       await _seedTaskLibraryClusterC();
 
+      // Cluster D (Sprint 030 follow-up): Segments 11-14 — Utilities &
+      // Safety, Waste & Pest Control, Preventive Maintenance, Stock
+      // Control. Same always-ensured pattern.
+      await _seedTaskLibraryClusterD();
+
       // Idempotent — safe on every open. Only touches rows left over from
       // before siteId existed (nothing to do on a fresh install).
       await _backfillSiteIds(defaultSiteId);
@@ -1107,6 +1112,19 @@ class AppDatabase extends _$AppDatabase {
   // within the venue type's originally-defined reduced subset, consistent
   // with the doc's own "compact, portable" framing — so it reuses
   // `_clusterBVenueTypeNames` (11 of 12).
+  // Sprint 030 Cluster D: `utilities_safety`, `waste_pest_control`, and
+  // `stock_control` all get all 12 — `waste_pest_control` because "waste"
+  // was explicitly named in Event/Mobile/Street Food's original reduced
+  // subset (no ambiguity); `utilities_safety` and `stock_control` per two
+  // decisions confirmed before building (utilities: the doc's own venue
+  // description names "handwash challenges" for this venue type, which is
+  // literally part of this segment; stock control: closely related to
+  // deliveries, already in scope, and universal in practice).
+  // `preventive_maintenance` (also no separate matrix row) keeps
+  // Event/Mobile/Street Food excluded — confirmed as a fixed-premises
+  // compliance concept (certificates/contracted inspections tied to a
+  // location) that doesn't naturally fit a mobile/temporary setup, and it
+  // wasn't in the original subset — reuses `_clusterBVenueTypeNames`.
   static const _segmentVenueTypeNames = <String, List<String>>{
     'food_safety': _venueTypeNames,
     'allergen': _venueTypeNames,
@@ -1118,6 +1136,10 @@ class AppDatabase extends _$AppDatabase {
     'cleaning_chemicals': _venueTypeNames,
     'dry_ambient_storage': _clusterBVenueTypeNames,
     'deliveries_goods_in': _venueTypeNames,
+    'utilities_safety': _venueTypeNames,
+    'waste_pest_control': _venueTypeNames,
+    'preventive_maintenance': _clusterBVenueTypeNames,
+    'stock_control': _venueTypeNames,
   };
 
   // Cluster A (Sprint 030): HORECA_TASK_LIBRARY.md Segments 1-4 — Food
@@ -2761,6 +2783,453 @@ class AppDatabase extends _$AppDatabase {
       }
 
       for (final vtId in memberVenueTypeIds) {
+        await into(taskPresetVenueTypes).insert(
+          TaskPresetVenueTypesCompanion.insert(
+            presetId: presetId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+  }
+
+  // Cluster D (Sprint 030 follow-up): HORECA_TASK_LIBRARY.md Segments 11-14
+  // — Utilities & Safety, Waste & Pest Control, Preventive Maintenance,
+  // Stock Control. 23 tasks.
+  //
+  // No new method vocabulary gaps — `data_note` (added in Cluster A but
+  // unused until now) is used for the first time by "Wastage / spoilage
+  // log". No new frequency values needed: "Per visit" (pest control
+  // contractor visit) maps to `eventBased`, per the original Sprint 030
+  // plan's already-agreed folding of Per order/Per menu change/Per visit
+  // into that one value (not a new gap — those three were always meant to
+  // share it).
+  //
+  // First task in the library tagged `Top` ("Gas safety certificate in
+  // date") — confirmed before building: `Top` maps to
+  // `[regional, executive]`, mirroring the already-established
+  // `Mid`→`[supervisor, venueManager]` default's pairing to Sprint 027's
+  // screen groupings (Top pairs to the TopScreen grouping the same way).
+  //
+  // Equipment-mapping notes: "Hand-wash sinks stocked" (column blank, title
+  // unambiguous) → Hand-Wash Sink, same established pattern. "Extraction/
+  // duct professional clean in date" (column blank, title names the same
+  // underlying equipment as Cluster B's "Extraction canopy filters clean")
+  // → Extraction Canopy — the first case of two different tasks across
+  // clusters mapping to the same equipment type's preset, which already
+  // exists from Cluster B. Handled by extending the preset-seeding loop
+  // below to add a missing item to an already-existing preset rather than
+  // skip it outright — the previous by-name-skip-if-exists logic would
+  // otherwise have silently dropped this task from any preset. Not a new
+  // judgment call, a necessary, mechanical extension of the existing
+  // "equipment-tagged tasks bundle into that equipment's preset" rule to a
+  // case that hadn't come up before (the target preset predating this
+  // cluster). "PAT / electrical inspection in date" and "Gas safety
+  // certificate in date" are left unmapped — both are venue-wide compliance
+  // checks (PAT covers all electrical equipment generally; the gas
+  // certificate covers the overall gas installation, not the Gas Interlock
+  // System specifically), not a single named equipment instance.
+  static const _clusterDTasks = [
+    // Segment 11 — Utilities & Safety
+    _LibraryTask(
+      title: 'Hot water at sinks',
+      segment: 'utilities_safety',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Hand-wash sinks stocked',
+      segment: 'utilities_safety',
+      method: 'tick',
+      priority: 'critical',
+      equipmentTypeName: 'Hand-Wash Sink',
+      roleTiers: ['base'],
+      fixInstructions:
+          '[LAW] A dedicated hand-wash basin, separate from food prep/'
+          'wash-up sinks, is a legal requirement.',
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Fire exits clear & unlocked',
+      segment: 'utilities_safety',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          '[LAW] Fire exits must be kept clear and unlocked at all times '
+          'during operating hours.',
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Fire extinguishers in place & in date',
+      segment: 'utilities_safety',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'First aid kit stocked',
+      segment: 'utilities_safety',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Lighting functional',
+      segment: 'utilities_safety',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Gas / electrical no visible faults',
+      segment: 'utilities_safety',
+      method: 'tick_note',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    // Segment 12 — Waste & Pest Control
+    _LibraryTask(
+      title: 'General waste removed & bins clean',
+      segment: 'waste_pest_control',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Food waste segregated',
+      segment: 'waste_pest_control',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Used cooking oil stored / collected',
+      segment: 'waste_pest_control',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions:
+          '[LAW] Used cooking oil must go to a licensed waste carrier.',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Pest activity check (droppings/gnaw/nest)',
+      segment: 'waste_pest_control',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Fly killer / bait stations working',
+      segment: 'waste_pest_control',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'External bin area secure & clean',
+      segment: 'waste_pest_control',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Pest control contract visit log',
+      segment: 'waste_pest_control',
+      method: 'note',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'eventBased',
+    ),
+    // Segment 13 — Preventive Maintenance
+    _LibraryTask(
+      title: 'Equipment fault log reviewed',
+      segment: 'preventive_maintenance',
+      method: 'note',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Scheduled servicing up to date',
+      segment: 'preventive_maintenance',
+      method: 'tick_note',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'PAT / electrical inspection in date',
+      segment: 'preventive_maintenance',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Extraction/duct professional clean in date',
+      segment: 'preventive_maintenance',
+      method: 'tick',
+      priority: 'high',
+      equipmentTypeName: 'Extraction Canopy',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          '[BEST] Regular professional extraction/duct cleaning reduces '
+          'fire risk and supports insurance compliance. No single UK '
+          'legal figure for frequency.',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Gas safety certificate in date',
+      segment: 'preventive_maintenance',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['regional', 'executive'],
+      fixInstructions:
+          '[LAW] A valid Gas Safety Certificate (Gas Safety Regs) is a '
+          'legal requirement for gas installations.',
+      frequency: 'monthly',
+    ),
+    // Segment 14 — Stock Control
+    _LibraryTask(
+      title: 'Stock count / par levels',
+      segment: 'stock_control',
+      method: 'data_tick',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Wastage / spoilage log',
+      segment: 'stock_control',
+      method: 'data_note',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Low-stock reorder flagged',
+      segment: 'stock_control',
+      method: 'note',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'High-value stock reconciled',
+      segment: 'stock_control',
+      method: 'data',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'weekly',
+    ),
+  ];
+
+  // "Extraction Canopy Tasks" reuses the preset Cluster B already created —
+  // handled by the preset-seeding loop below, not by declaring it here
+  // again (which would just be skipped by the by-name check).
+  static const _clusterDPresets = [
+    _LibraryPreset(
+      name: 'Hand-Wash Sink Tasks',
+      equipmentTypeName: 'Hand-Wash Sink',
+      itemTitles: ['Hand-wash sinks stocked'],
+    ),
+    _LibraryPreset(
+      name: 'Extraction Canopy Tasks',
+      equipmentTypeName: 'Extraction Canopy',
+      itemTitles: ['Extraction/duct professional clean in date'],
+    ),
+    _LibraryPreset(
+      name: 'Utilities & Safety Tasks',
+      segment: 'utilities_safety',
+      itemTitles: [
+        'Hot water at sinks',
+        'Fire exits clear & unlocked',
+        'Fire extinguishers in place & in date',
+        'First aid kit stocked',
+        'Lighting functional',
+        'Gas / electrical no visible faults',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Waste & Pest Control Tasks',
+      segment: 'waste_pest_control',
+      itemTitles: [
+        'General waste removed & bins clean',
+        'Food waste segregated',
+        'Used cooking oil stored / collected',
+        'Pest activity check (droppings/gnaw/nest)',
+        'Fly killer / bait stations working',
+        'External bin area secure & clean',
+        'Pest control contract visit log',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Preventive Maintenance Tasks',
+      segment: 'preventive_maintenance',
+      itemTitles: [
+        'Equipment fault log reviewed',
+        'Scheduled servicing up to date',
+        'PAT / electrical inspection in date',
+        'Gas safety certificate in date',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Stock Control Tasks',
+      segment: 'stock_control',
+      itemTitles: [
+        'Stock count / par levels',
+        'Wastage / spoilage log',
+        'Low-stock reorder flagged',
+        'High-value stock reconciled',
+      ],
+    ),
+  ];
+
+  Future<void> _seedTaskLibraryClusterD() async {
+    final equipmentTypeIdByName = {
+      for (final row in await select(equipmentTypes).get())
+        row.name: row.id,
+    };
+    final venueTypeIdByName = {
+      for (final row in await select(venueTypes).get()) row.name: row.id,
+    };
+
+    final existingTitles = (await select(
+      taskTemplates,
+    ).get()).map((row) => row.title).toSet();
+
+    for (final task in _clusterDTasks) {
+      if (existingTitles.contains(task.title)) continue;
+
+      final equipmentTypeId = task.equipmentTypeName == null
+          ? null
+          : equipmentTypeIdByName[task.equipmentTypeName];
+
+      final insertedId = await into(taskTemplates).insert(
+        TaskTemplatesCompanion.insert(
+          templateGroupId: 0,
+          versionNumber: 1,
+          title: task.title,
+          segment: task.segment,
+          applicableRoleTiers: task.roleTiers.join(','),
+          method: task.method,
+          requiresPhoto: Value(task.method.contains('photo')),
+          requiresNotes: Value(task.method.contains('note')),
+          minLimit: Value(task.minLimit),
+          maxLimit: Value(task.maxLimit),
+          unit: Value(task.unit),
+          legalLimitCategory: Value(task.legalLimitCategory),
+          isCritical: Value(task.priority == 'critical'),
+          priority: Value(task.priority),
+          requiresCorrectiveActionOnFail: Value(task.priority == 'critical'),
+          fixInstructions: Value(task.fixInstructions),
+          equipmentTypeId: Value(equipmentTypeId),
+          createdAt: DateTime.now(),
+        ),
+      );
+      await (update(
+        taskTemplates,
+      )..where((t) => t.id.equals(insertedId))).write(
+        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
+      );
+
+      final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
+      for (final vtName in venueTypeNames) {
+        final vtId = venueTypeIdByName[vtName];
+        if (vtId == null) continue;
+        await into(taskTemplateVenueTypes).insert(
+          TaskTemplateVenueTypesCompanion.insert(
+            taskTemplateGroupId: insertedId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+
+    final templateGroupIdByTitle = {
+      for (final row in await select(taskTemplates).get())
+        row.title: row.templateGroupId,
+    };
+    final frequencyByTitle = {
+      for (final task in _clusterDTasks) task.title: task.frequency,
+    };
+
+    // Unlike Clusters A/B/C, a preset here can already exist from an
+    // earlier cluster (Extraction Canopy Tasks, from Cluster B) — so this
+    // loop resolves-or-creates the preset by name, then adds any of this
+    // cluster's items it doesn't already have (checked by templateGroupId,
+    // not just skipped), and only adds venue-type tags it doesn't already
+    // carry. Safe to rerun: every step below is itself idempotent.
+    for (final preset in _clusterDPresets) {
+      final existingPreset = await (select(
+        taskPresets,
+      )..where((p) => p.name.equals(preset.name))).getSingleOrNull();
+
+      final int presetId;
+      if (existingPreset != null) {
+        presetId = existingPreset.id;
+      } else {
+        final equipmentTypeId = preset.equipmentTypeName == null
+            ? null
+            : equipmentTypeIdByName[preset.equipmentTypeName];
+        presetId = await into(taskPresets).insert(
+          TaskPresetsCompanion.insert(
+            name: preset.name,
+            equipmentTypeId: Value(equipmentTypeId),
+            segment: Value(preset.segment),
+            createdAt: DateTime.now(),
+          ),
+        );
+      }
+
+      final existingItemGroupIds = (await (select(
+        taskPresetItems,
+      )..where((i) => i.presetId.equals(presetId))).get())
+          .map((i) => i.taskTemplateGroupId)
+          .toSet();
+
+      final memberVenueTypeIds = <int>{};
+      for (final title in preset.itemTitles) {
+        final groupId = templateGroupIdByTitle[title];
+        final frequency = frequencyByTitle[title];
+        if (groupId == null || frequency == null) continue;
+
+        if (!existingItemGroupIds.contains(groupId)) {
+          await into(taskPresetItems).insert(
+            TaskPresetItemsCompanion.insert(
+              presetId: presetId,
+              taskTemplateGroupId: groupId,
+              defaultFrequency: frequency,
+            ),
+          );
+        }
+
+        final taggedRows = await (select(
+          taskTemplateVenueTypes,
+        )..where((j) => j.taskTemplateGroupId.equals(groupId))).get();
+        memberVenueTypeIds.addAll(taggedRows.map((r) => r.venueTypeId));
+      }
+
+      final existingPresetVenueTypeIds = (await (select(
+        taskPresetVenueTypes,
+      )..where((j) => j.presetId.equals(presetId))).get())
+          .map((j) => j.venueTypeId)
+          .toSet();
+      for (final vtId in memberVenueTypeIds) {
+        if (existingPresetVenueTypeIds.contains(vtId)) continue;
         await into(taskPresetVenueTypes).insert(
           TaskPresetVenueTypesCompanion.insert(
             presetId: presetId,
