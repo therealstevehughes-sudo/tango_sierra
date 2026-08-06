@@ -3124,6 +3124,41 @@ class $LegalLimitReferencesTable extends LegalLimitReferences
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _basisMeta = const VerificationMeta('basis');
+  @override
+  late final GeneratedColumn<String> basis = GeneratedColumn<String>(
+    'basis',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('fsa'),
+  );
+  static const VerificationMeta _verifiedAtMeta = const VerificationMeta(
+    'verifiedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> verifiedAt = GeneratedColumn<DateTime>(
+    'verified_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _verifiedByUserIdMeta = const VerificationMeta(
+    'verifiedByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> verifiedByUserId = GeneratedColumn<int>(
+    'verified_by_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3131,6 +3166,9 @@ class $LegalLimitReferencesTable extends LegalLimitReferences
     legalMin,
     legalMax,
     unit,
+    basis,
+    verifiedAt,
+    verifiedByUserId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3175,6 +3213,27 @@ class $LegalLimitReferencesTable extends LegalLimitReferences
     } else if (isInserting) {
       context.missing(_unitMeta);
     }
+    if (data.containsKey('basis')) {
+      context.handle(
+        _basisMeta,
+        basis.isAcceptableOrUnknown(data['basis']!, _basisMeta),
+      );
+    }
+    if (data.containsKey('verified_at')) {
+      context.handle(
+        _verifiedAtMeta,
+        verifiedAt.isAcceptableOrUnknown(data['verified_at']!, _verifiedAtMeta),
+      );
+    }
+    if (data.containsKey('verified_by_user_id')) {
+      context.handle(
+        _verifiedByUserIdMeta,
+        verifiedByUserId.isAcceptableOrUnknown(
+          data['verified_by_user_id']!,
+          _verifiedByUserIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -3207,6 +3266,18 @@ class $LegalLimitReferencesTable extends LegalLimitReferences
         DriftSqlType.string,
         data['${effectivePrefix}unit'],
       )!,
+      basis: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}basis'],
+      )!,
+      verifiedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}verified_at'],
+      ),
+      verifiedByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}verified_by_user_id'],
+      ),
     );
   }
 
@@ -3223,12 +3294,18 @@ class LegalLimitReferenceEntity extends DataClass
   final double? legalMin;
   final double? legalMax;
   final String unit;
+  final String basis;
+  final DateTime? verifiedAt;
+  final int? verifiedByUserId;
   const LegalLimitReferenceEntity({
     required this.id,
     required this.category,
     this.legalMin,
     this.legalMax,
     required this.unit,
+    required this.basis,
+    this.verifiedAt,
+    this.verifiedByUserId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3242,6 +3319,13 @@ class LegalLimitReferenceEntity extends DataClass
       map['legal_max'] = Variable<double>(legalMax);
     }
     map['unit'] = Variable<String>(unit);
+    map['basis'] = Variable<String>(basis);
+    if (!nullToAbsent || verifiedAt != null) {
+      map['verified_at'] = Variable<DateTime>(verifiedAt);
+    }
+    if (!nullToAbsent || verifiedByUserId != null) {
+      map['verified_by_user_id'] = Variable<int>(verifiedByUserId);
+    }
     return map;
   }
 
@@ -3256,6 +3340,13 @@ class LegalLimitReferenceEntity extends DataClass
           ? const Value.absent()
           : Value(legalMax),
       unit: Value(unit),
+      basis: Value(basis),
+      verifiedAt: verifiedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(verifiedAt),
+      verifiedByUserId: verifiedByUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(verifiedByUserId),
     );
   }
 
@@ -3270,6 +3361,9 @@ class LegalLimitReferenceEntity extends DataClass
       legalMin: serializer.fromJson<double?>(json['legalMin']),
       legalMax: serializer.fromJson<double?>(json['legalMax']),
       unit: serializer.fromJson<String>(json['unit']),
+      basis: serializer.fromJson<String>(json['basis']),
+      verifiedAt: serializer.fromJson<DateTime?>(json['verifiedAt']),
+      verifiedByUserId: serializer.fromJson<int?>(json['verifiedByUserId']),
     );
   }
   @override
@@ -3281,6 +3375,9 @@ class LegalLimitReferenceEntity extends DataClass
       'legalMin': serializer.toJson<double?>(legalMin),
       'legalMax': serializer.toJson<double?>(legalMax),
       'unit': serializer.toJson<String>(unit),
+      'basis': serializer.toJson<String>(basis),
+      'verifiedAt': serializer.toJson<DateTime?>(verifiedAt),
+      'verifiedByUserId': serializer.toJson<int?>(verifiedByUserId),
     };
   }
 
@@ -3290,12 +3387,20 @@ class LegalLimitReferenceEntity extends DataClass
     Value<double?> legalMin = const Value.absent(),
     Value<double?> legalMax = const Value.absent(),
     String? unit,
+    String? basis,
+    Value<DateTime?> verifiedAt = const Value.absent(),
+    Value<int?> verifiedByUserId = const Value.absent(),
   }) => LegalLimitReferenceEntity(
     id: id ?? this.id,
     category: category ?? this.category,
     legalMin: legalMin.present ? legalMin.value : this.legalMin,
     legalMax: legalMax.present ? legalMax.value : this.legalMax,
     unit: unit ?? this.unit,
+    basis: basis ?? this.basis,
+    verifiedAt: verifiedAt.present ? verifiedAt.value : this.verifiedAt,
+    verifiedByUserId: verifiedByUserId.present
+        ? verifiedByUserId.value
+        : this.verifiedByUserId,
   );
   LegalLimitReferenceEntity copyWithCompanion(
     LegalLimitReferencesCompanion data,
@@ -3306,6 +3411,13 @@ class LegalLimitReferenceEntity extends DataClass
       legalMin: data.legalMin.present ? data.legalMin.value : this.legalMin,
       legalMax: data.legalMax.present ? data.legalMax.value : this.legalMax,
       unit: data.unit.present ? data.unit.value : this.unit,
+      basis: data.basis.present ? data.basis.value : this.basis,
+      verifiedAt: data.verifiedAt.present
+          ? data.verifiedAt.value
+          : this.verifiedAt,
+      verifiedByUserId: data.verifiedByUserId.present
+          ? data.verifiedByUserId.value
+          : this.verifiedByUserId,
     );
   }
 
@@ -3316,13 +3428,25 @@ class LegalLimitReferenceEntity extends DataClass
           ..write('category: $category, ')
           ..write('legalMin: $legalMin, ')
           ..write('legalMax: $legalMax, ')
-          ..write('unit: $unit')
+          ..write('unit: $unit, ')
+          ..write('basis: $basis, ')
+          ..write('verifiedAt: $verifiedAt, ')
+          ..write('verifiedByUserId: $verifiedByUserId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, category, legalMin, legalMax, unit);
+  int get hashCode => Object.hash(
+    id,
+    category,
+    legalMin,
+    legalMax,
+    unit,
+    basis,
+    verifiedAt,
+    verifiedByUserId,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3331,7 +3455,10 @@ class LegalLimitReferenceEntity extends DataClass
           other.category == this.category &&
           other.legalMin == this.legalMin &&
           other.legalMax == this.legalMax &&
-          other.unit == this.unit);
+          other.unit == this.unit &&
+          other.basis == this.basis &&
+          other.verifiedAt == this.verifiedAt &&
+          other.verifiedByUserId == this.verifiedByUserId);
 }
 
 class LegalLimitReferencesCompanion
@@ -3341,12 +3468,18 @@ class LegalLimitReferencesCompanion
   final Value<double?> legalMin;
   final Value<double?> legalMax;
   final Value<String> unit;
+  final Value<String> basis;
+  final Value<DateTime?> verifiedAt;
+  final Value<int?> verifiedByUserId;
   const LegalLimitReferencesCompanion({
     this.id = const Value.absent(),
     this.category = const Value.absent(),
     this.legalMin = const Value.absent(),
     this.legalMax = const Value.absent(),
     this.unit = const Value.absent(),
+    this.basis = const Value.absent(),
+    this.verifiedAt = const Value.absent(),
+    this.verifiedByUserId = const Value.absent(),
   });
   LegalLimitReferencesCompanion.insert({
     this.id = const Value.absent(),
@@ -3354,6 +3487,9 @@ class LegalLimitReferencesCompanion
     this.legalMin = const Value.absent(),
     this.legalMax = const Value.absent(),
     required String unit,
+    this.basis = const Value.absent(),
+    this.verifiedAt = const Value.absent(),
+    this.verifiedByUserId = const Value.absent(),
   }) : category = Value(category),
        unit = Value(unit);
   static Insertable<LegalLimitReferenceEntity> custom({
@@ -3362,6 +3498,9 @@ class LegalLimitReferencesCompanion
     Expression<double>? legalMin,
     Expression<double>? legalMax,
     Expression<String>? unit,
+    Expression<String>? basis,
+    Expression<DateTime>? verifiedAt,
+    Expression<int>? verifiedByUserId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3369,6 +3508,9 @@ class LegalLimitReferencesCompanion
       if (legalMin != null) 'legal_min': legalMin,
       if (legalMax != null) 'legal_max': legalMax,
       if (unit != null) 'unit': unit,
+      if (basis != null) 'basis': basis,
+      if (verifiedAt != null) 'verified_at': verifiedAt,
+      if (verifiedByUserId != null) 'verified_by_user_id': verifiedByUserId,
     });
   }
 
@@ -3378,6 +3520,9 @@ class LegalLimitReferencesCompanion
     Value<double?>? legalMin,
     Value<double?>? legalMax,
     Value<String>? unit,
+    Value<String>? basis,
+    Value<DateTime?>? verifiedAt,
+    Value<int?>? verifiedByUserId,
   }) {
     return LegalLimitReferencesCompanion(
       id: id ?? this.id,
@@ -3385,6 +3530,9 @@ class LegalLimitReferencesCompanion
       legalMin: legalMin ?? this.legalMin,
       legalMax: legalMax ?? this.legalMax,
       unit: unit ?? this.unit,
+      basis: basis ?? this.basis,
+      verifiedAt: verifiedAt ?? this.verifiedAt,
+      verifiedByUserId: verifiedByUserId ?? this.verifiedByUserId,
     );
   }
 
@@ -3406,6 +3554,15 @@ class LegalLimitReferencesCompanion
     if (unit.present) {
       map['unit'] = Variable<String>(unit.value);
     }
+    if (basis.present) {
+      map['basis'] = Variable<String>(basis.value);
+    }
+    if (verifiedAt.present) {
+      map['verified_at'] = Variable<DateTime>(verifiedAt.value);
+    }
+    if (verifiedByUserId.present) {
+      map['verified_by_user_id'] = Variable<int>(verifiedByUserId.value);
+    }
     return map;
   }
 
@@ -3416,7 +3573,10 @@ class LegalLimitReferencesCompanion
           ..write('category: $category, ')
           ..write('legalMin: $legalMin, ')
           ..write('legalMax: $legalMax, ')
-          ..write('unit: $unit')
+          ..write('unit: $unit, ')
+          ..write('basis: $basis, ')
+          ..write('verifiedAt: $verifiedAt, ')
+          ..write('verifiedByUserId: $verifiedByUserId')
           ..write(')'))
         .toString();
   }
@@ -14269,6 +14429,31 @@ final class $$UsersTableReferences
     );
   }
 
+  static MultiTypedResultKey<
+    $LegalLimitReferencesTable,
+    List<LegalLimitReferenceEntity>
+  >
+  _legalLimitReferencesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.legalLimitReferences,
+        aliasName: 'users__id__legal_limit_references__verified_by_user_id',
+      );
+
+  $$LegalLimitReferencesTableProcessedTableManager
+  get legalLimitReferencesRefs {
+    final manager = $$LegalLimitReferencesTableTableManager(
+      $_db,
+      $_db.legalLimitReferences,
+    ).filter((f) => f.verifiedByUserId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _legalLimitReferencesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<$TaskTemplatesTable, List<TaskTemplateEntity>>
   _taskTemplatesRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
     db.taskTemplates,
@@ -14494,6 +14679,31 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$TaskSubmissionsTableFilterComposer(
             $db: $db,
             $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> legalLimitReferencesRefs(
+    Expression<bool> Function($$LegalLimitReferencesTableFilterComposer f) f,
+  ) {
+    final $$LegalLimitReferencesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.legalLimitReferences,
+      getReferencedColumn: (t) => t.verifiedByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$LegalLimitReferencesTableFilterComposer(
+            $db: $db,
+            $table: $db.legalLimitReferences,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -14841,6 +15051,32 @@ class $$UsersTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> legalLimitReferencesRefs<T extends Object>(
+    Expression<T> Function($$LegalLimitReferencesTableAnnotationComposer a) f,
+  ) {
+    final $$LegalLimitReferencesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.legalLimitReferences,
+          getReferencedColumn: (t) => t.verifiedByUserId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$LegalLimitReferencesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.legalLimitReferences,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
   Expression<T> taskTemplatesRefs<T extends Object>(
     Expression<T> Function($$TaskTemplatesTableAnnotationComposer a) f,
   ) {
@@ -14987,6 +15223,7 @@ class $$UsersTableTableManager
             bool siteId,
             bool deactivatedByUserId,
             bool taskSubmissionsRefs,
+            bool legalLimitReferencesRefs,
             bool taskTemplatesRefs,
             bool shiftHandoverNotesRefs,
             bool triggerNotificationsRefs,
@@ -15068,6 +15305,7 @@ class $$UsersTableTableManager
                 siteId = false,
                 deactivatedByUserId = false,
                 taskSubmissionsRefs = false,
+                legalLimitReferencesRefs = false,
                 taskTemplatesRefs = false,
                 shiftHandoverNotesRefs = false,
                 triggerNotificationsRefs = false,
@@ -15078,6 +15316,7 @@ class $$UsersTableTableManager
                   db: db,
                   explicitlyWatchedTables: [
                     if (taskSubmissionsRefs) db.taskSubmissions,
+                    if (legalLimitReferencesRefs) db.legalLimitReferences,
                     if (taskTemplatesRefs) db.taskTemplates,
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
                     if (triggerNotificationsRefs) db.triggerNotifications,
@@ -15149,6 +15388,27 @@ class $$UsersTableTableManager
                           referencedItemsForCurrentItem:
                               (item, referencedItems) => referencedItems.where(
                                 (e) => e.completedByUserId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (legalLimitReferencesRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          LegalLimitReferenceEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._legalLimitReferencesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).legalLimitReferencesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.verifiedByUserId == item.id,
                               ),
                           typedResults: items,
                         ),
@@ -15281,6 +15541,7 @@ typedef $$UsersTableProcessedTableManager =
         bool siteId,
         bool deactivatedByUserId,
         bool taskSubmissionsRefs,
+        bool legalLimitReferencesRefs,
         bool taskTemplatesRefs,
         bool shiftHandoverNotesRefs,
         bool triggerNotificationsRefs,
@@ -16119,6 +16380,9 @@ typedef $$LegalLimitReferencesTableCreateCompanionBuilder =
       Value<double?> legalMin,
       Value<double?> legalMax,
       required String unit,
+      Value<String> basis,
+      Value<DateTime?> verifiedAt,
+      Value<int?> verifiedByUserId,
     });
 typedef $$LegalLimitReferencesTableUpdateCompanionBuilder =
     LegalLimitReferencesCompanion Function({
@@ -16127,7 +16391,41 @@ typedef $$LegalLimitReferencesTableUpdateCompanionBuilder =
       Value<double?> legalMin,
       Value<double?> legalMax,
       Value<String> unit,
+      Value<String> basis,
+      Value<DateTime?> verifiedAt,
+      Value<int?> verifiedByUserId,
     });
+
+final class $$LegalLimitReferencesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $LegalLimitReferencesTable,
+          LegalLimitReferenceEntity
+        > {
+  $$LegalLimitReferencesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $UsersTable _verifiedByUserIdTable(_$AppDatabase db) => db.users
+      .createAlias('legal_limit_references__verified_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager? get verifiedByUserId {
+    final $_column = $_itemColumn<int>('verified_by_user_id');
+    if ($_column == null) return null;
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_verifiedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
 
 class $$LegalLimitReferencesTableFilterComposer
     extends Composer<_$AppDatabase, $LegalLimitReferencesTable> {
@@ -16162,6 +16460,39 @@ class $$LegalLimitReferencesTableFilterComposer
     column: $table.unit,
     builder: (column) => ColumnFilters(column),
   );
+
+  ColumnFilters<String> get basis => $composableBuilder(
+    column: $table.basis,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get verifiedAt => $composableBuilder(
+    column: $table.verifiedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UsersTableFilterComposer get verifiedByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.verifiedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$LegalLimitReferencesTableOrderingComposer
@@ -16197,6 +16528,39 @@ class $$LegalLimitReferencesTableOrderingComposer
     column: $table.unit,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get basis => $composableBuilder(
+    column: $table.basis,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get verifiedAt => $composableBuilder(
+    column: $table.verifiedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UsersTableOrderingComposer get verifiedByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.verifiedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$LegalLimitReferencesTableAnnotationComposer
@@ -16222,6 +16586,37 @@ class $$LegalLimitReferencesTableAnnotationComposer
 
   GeneratedColumn<String> get unit =>
       $composableBuilder(column: $table.unit, builder: (column) => column);
+
+  GeneratedColumn<String> get basis =>
+      $composableBuilder(column: $table.basis, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get verifiedAt => $composableBuilder(
+    column: $table.verifiedAt,
+    builder: (column) => column,
+  );
+
+  $$UsersTableAnnotationComposer get verifiedByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.verifiedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$LegalLimitReferencesTableTableManager
@@ -16235,16 +16630,9 @@ class $$LegalLimitReferencesTableTableManager
           $$LegalLimitReferencesTableAnnotationComposer,
           $$LegalLimitReferencesTableCreateCompanionBuilder,
           $$LegalLimitReferencesTableUpdateCompanionBuilder,
-          (
-            LegalLimitReferenceEntity,
-            BaseReferences<
-              _$AppDatabase,
-              $LegalLimitReferencesTable,
-              LegalLimitReferenceEntity
-            >,
-          ),
+          (LegalLimitReferenceEntity, $$LegalLimitReferencesTableReferences),
           LegalLimitReferenceEntity,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool verifiedByUserId})
         > {
   $$LegalLimitReferencesTableTableManager(
     _$AppDatabase db,
@@ -16272,12 +16660,18 @@ class $$LegalLimitReferencesTableTableManager
                 Value<double?> legalMin = const Value.absent(),
                 Value<double?> legalMax = const Value.absent(),
                 Value<String> unit = const Value.absent(),
+                Value<String> basis = const Value.absent(),
+                Value<DateTime?> verifiedAt = const Value.absent(),
+                Value<int?> verifiedByUserId = const Value.absent(),
               }) => LegalLimitReferencesCompanion(
                 id: id,
                 category: category,
                 legalMin: legalMin,
                 legalMax: legalMax,
                 unit: unit,
+                basis: basis,
+                verifiedAt: verifiedAt,
+                verifiedByUserId: verifiedByUserId,
               ),
           createCompanionCallback:
               ({
@@ -16286,17 +16680,70 @@ class $$LegalLimitReferencesTableTableManager
                 Value<double?> legalMin = const Value.absent(),
                 Value<double?> legalMax = const Value.absent(),
                 required String unit,
+                Value<String> basis = const Value.absent(),
+                Value<DateTime?> verifiedAt = const Value.absent(),
+                Value<int?> verifiedByUserId = const Value.absent(),
               }) => LegalLimitReferencesCompanion.insert(
                 id: id,
                 category: category,
                 legalMin: legalMin,
                 legalMax: legalMax,
                 unit: unit,
+                basis: basis,
+                verifiedAt: verifiedAt,
+                verifiedByUserId: verifiedByUserId,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$LegalLimitReferencesTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({verifiedByUserId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (verifiedByUserId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.verifiedByUserId,
+                                referencedTable:
+                                    $$LegalLimitReferencesTableReferences
+                                        ._verifiedByUserIdTable(db),
+                                referencedColumn:
+                                    $$LegalLimitReferencesTableReferences
+                                        ._verifiedByUserIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
@@ -16311,16 +16758,9 @@ typedef $$LegalLimitReferencesTableProcessedTableManager =
       $$LegalLimitReferencesTableAnnotationComposer,
       $$LegalLimitReferencesTableCreateCompanionBuilder,
       $$LegalLimitReferencesTableUpdateCompanionBuilder,
-      (
-        LegalLimitReferenceEntity,
-        BaseReferences<
-          _$AppDatabase,
-          $LegalLimitReferencesTable,
-          LegalLimitReferenceEntity
-        >,
-      ),
+      (LegalLimitReferenceEntity, $$LegalLimitReferencesTableReferences),
       LegalLimitReferenceEntity,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool verifiedByUserId})
     >;
 typedef $$TaskTemplatesTableCreateCompanionBuilder =
     TaskTemplatesCompanion Function({

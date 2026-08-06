@@ -464,10 +464,12 @@ class _StaffAssignmentScreenState
           decoration: const InputDecoration(labelText: 'Method'),
           items: const [
             DropdownMenuItem(value: 'tick', child: Text('Tick')),
+            DropdownMenuItem(value: 'data', child: Text('Data')),
             DropdownMenuItem(value: 'data_tick', child: Text('Data + Tick')),
             DropdownMenuItem(value: 'tick_photo', child: Text('Tick + Photo')),
             DropdownMenuItem(value: 'data_photo', child: Text('Data + Photo')),
             DropdownMenuItem(value: 'note', child: Text('Note')),
+            DropdownMenuItem(value: 'data_note', child: Text('Data + Note')),
             DropdownMenuItem(value: 'note_photo', child: Text('Note + Photo')),
             DropdownMenuItem(value: 'tick_note', child: Text('Tick + Note')),
             DropdownMenuItem(value: 'multi', child: Text('Multi')),

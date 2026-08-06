@@ -70,6 +70,20 @@ class LegalLimitReferences extends Table {
   RealColumn get legalMin => real().nullable()();
   RealColumn get legalMax => real().nullable()();
   TextColumn get unit => text()();
+  // Sprint 030: which of [LAW]/[FSA]/[BEST] this figure is, sourced from
+  // HORECA_TASK_LIBRARY.md, so nobody mistakes a best-practice figure for a
+  // legal one. Compile-time default 'fsa' (the middle-weight, not
+  // over-claiming legal status) — existing rows corrected explicitly to
+  // their real basis by the schemaVersion 23 migration and by
+  // _seedTaskLibraryReferenceData, not left on the default.
+  TextColumn get basis => text().withDefault(const Constant('fsa'))();
+  // Nullable, unpopulated this sprint — no UI exists yet to set these.
+  // Forward-compatible groundwork for a future sprint's professional
+  // sign-off action: every limit loaded from the research doc still needs a
+  // qualified food-safety professional to review it before real deployment.
+  DateTimeColumn get verifiedAt => dateTime().nullable()();
+  IntColumn get verifiedByUserId =>
+      integer().nullable().references(Users, #id)();
 }
 
 @DataClassName('TaskTemplateEntity')
@@ -360,6 +374,57 @@ class TaskTemplateVenueTypes extends Table {
   IntColumn get venueTypeId => integer().references(VenueTypes, #id)();
 }
 
+// A single row from HORECA_TASK_LIBRARY.md, pre-mapped to TaskTemplate's
+// fields (Sprint 030). `roleTiers`/`method`/`frequency` store the exact
+// RoleTier.name/ScheduleFrequency.name values used elsewhere in the schema,
+// not display labels.
+class _LibraryTask {
+  final String title;
+  final String segment;
+  final String method;
+  final String priority;
+  final String? equipmentTypeName;
+  final List<String> roleTiers;
+  final double? minLimit;
+  final double? maxLimit;
+  final String? unit;
+  final String? legalLimitCategory;
+  final String? fixInstructions;
+  final String frequency;
+
+  const _LibraryTask({
+    required this.title,
+    required this.segment,
+    required this.method,
+    required this.priority,
+    this.equipmentTypeName,
+    required this.roleTiers,
+    this.minLimit,
+    this.maxLimit,
+    this.unit,
+    this.legalLimitCategory,
+    this.fixInstructions,
+    required this.frequency,
+  });
+}
+
+// A generated TaskPreset (Sprint 030): tasks with an equipment type bundle
+// into that equipment's preset; tasks without one bundle into their
+// segment's preset instead — so no task appears in two presets.
+class _LibraryPreset {
+  final String name;
+  final String? equipmentTypeName;
+  final String? segment;
+  final List<String> itemTitles;
+
+  const _LibraryPreset({
+    required this.name,
+    this.equipmentTypeName,
+    this.segment,
+    required this.itemTitles,
+  });
+}
+
 @DriftDatabase(
   tables: [
     TaskSubmissions,
@@ -390,7 +455,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 22;
+  int get schemaVersion => 23;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -582,6 +647,37 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(taskPresetVenueTypes);
         await m.createTable(taskTemplateVenueTypes);
       }
+      if (from < 23) {
+        await m.addColumn(legalLimitReferences, legalLimitReferences.basis);
+        await m.addColumn(
+          legalLimitReferences,
+          legalLimitReferences.verifiedAt,
+        );
+        await m.addColumn(
+          legalLimitReferences,
+          legalLimitReferences.verifiedByUserId,
+        );
+        // The 3 pre-existing rows all get the compile-time default ('fsa')
+        // from the addColumn above — correct their real basis explicitly
+        // rather than leaving fridge/hot-hold mislabelled as guidance when
+        // they're actually law. Matches HORECA_TASK_LIBRARY.md's sourcing
+        // note exactly.
+        await (update(
+          legalLimitReferences,
+        )..where((r) => r.category.equals('fridge_temp'))).write(
+          const LegalLimitReferencesCompanion(basis: Value('law')),
+        );
+        await (update(
+          legalLimitReferences,
+        )..where((r) => r.category.equals('freezer_temp'))).write(
+          const LegalLimitReferencesCompanion(basis: Value('fsa')),
+        );
+        await (update(
+          legalLimitReferences,
+        )..where((r) => r.category.equals('hot_hold_temp'))).write(
+          const LegalLimitReferencesCompanion(basis: Value('law')),
+        );
+      }
     },
     beforeOpen: (details) async {
       // Runs first — user seeding below needs a real site id to seed into.
@@ -611,6 +707,12 @@ class AppDatabase extends _$AppDatabase {
       if (existingPresets.isEmpty) {
         await _seedExamplePreset();
       }
+
+      // Always ensured (checked by title/name, not gated on "table empty")
+      // — Sprint 030, Build Order item 4, Cluster A (Food Safety & Temp,
+      // Allergen Management, Personal Hygiene & PPE, Refrigeration & Cold
+      // Storage equipment condition — HORECA_TASK_LIBRARY.md segments 1-4).
+      await _seedTaskLibraryClusterA();
 
       // Idempotent — safe on every open. Only touches rows left over from
       // before siteId existed (nothing to do on a fresh install).
@@ -860,6 +962,7 @@ class AppDatabase extends _$AppDatabase {
         category: 'fridge_temp',
         legalMax: const Value(8.0),
         unit: 'celsius',
+        basis: const Value('law'),
       ),
     );
     await into(legalLimitReferences).insert(
@@ -867,6 +970,7 @@ class AppDatabase extends _$AppDatabase {
         category: 'freezer_temp',
         legalMax: const Value(-18.0),
         unit: 'celsius',
+        basis: const Value('fsa'),
       ),
     );
     await into(legalLimitReferences).insert(
@@ -874,6 +978,7 @@ class AppDatabase extends _$AppDatabase {
         category: 'hot_hold_temp',
         legalMin: const Value(63.0),
         unit: 'celsius',
+        basis: const Value('law'),
       ),
     );
 
@@ -939,6 +1044,710 @@ class AppDatabase extends _$AppDatabase {
         defaultFrequency: 'daily',
       ),
     );
+  }
+
+  // Maps HORECA_TASK_LIBRARY.md segments to which of the 12 seeded venue
+  // types their tasks are tagged with (Sprint 030). Per
+  // HORECA_EQUIPMENT_AND_VENUES.md Part B's applicability matrix: Personal
+  // Hygiene/PPE is check-marked for every matrix column (genuinely
+  // universal); Food Safety & Temp and Allergen include a "sometimes" (~)
+  // for Bar/Pub, which still counts as tagged since tags are a
+  // default-offering aid, not a lockout (a café that happens to have a
+  // fryer can still add fryer tasks manually — the same logic applies in
+  // reverse). Refrigeration & Cold Storage (equipment condition) has no
+  // separate matrix row, so it's aliased to Food Safety & Temp's row — same
+  // working area. Cluster A's 4 segments all resolve to all 12 venue types,
+  // so this cluster produces no differentiation between venue types — that
+  // is expected, not a bug. Filtering value shows up starting with more
+  // venue-specific clusters (Bar & Beverage, Hotel-Specific, Fryer/Oil,
+  // Front of House).
+  static const _segmentVenueTypeNames = <String, List<String>>{
+    'food_safety': _venueTypeNames,
+    'allergen': _venueTypeNames,
+    'personal_hygiene_ppe': _venueTypeNames,
+    'refrigeration_cold_storage': _venueTypeNames,
+  };
+
+  // Cluster A (Sprint 030): HORECA_TASK_LIBRARY.md Segments 1-4 — Food
+  // Safety & Temperature Control, Allergen Management, Personal Hygiene &
+  // PPE, Refrigeration & Cold Storage (equipment condition). 36 tasks.
+  //
+  // Field mapping notes:
+  // - `Base`/`Mid` role tags map to `[base]` / `[supervisor, venueManager]`
+  //   respectively (agreed default — paired groups matching Sprint 027's
+  //   ManagerScreen grouping, not a single-tier collapse).
+  // - Method vocabulary gained two values this sprint: `data` (plain
+  //   numeric reading, no tick/photo) and `data_note` (unused in Cluster A
+  //   itself, added now for later clusters).
+  // - Frequency vocabulary gained `twoXDaily`, `perService`, `monthly`.
+  // - Where the source gives both a [LAW]/[FSA] hard limit and a secondary
+  //   "target" figure (e.g. fridge 8°C legal max + 5°C FSA target), only
+  //   the primary hard limit becomes the structured minLimit/maxLimit; the
+  //   secondary target and its basis tag are folded into `fixInstructions`
+  //   text, since the schema has no concept of a second, softer threshold.
+  // - Cooked/reheated core temperature and the cooling log are genuinely
+  //   temperature-AND-time limits (e.g. "70°C for 2 min"); this app only
+  //   captures a single Data reading, so only the temperature threshold is
+  //   structured — the time component is explained in `fixInstructions`,
+  //   not enforced. A known, disclosed simplification, not new to this
+  //   sprint (the app has never modeled duration-at-temperature).
+  // - England/Wales/NI figures are stored as the real limit where England
+  //   and Scotland diverge (reheat, high-risk cooking core); Scotland's
+  //   stricter [LAW] figure is noted in `fixInstructions` text only — there
+  //   is no jurisdiction concept in the schema (accepted limitation, agreed
+  //   in the Sprint 030 plan).
+  // - "Display/serve-over fridge temperature"'s equipment is mapped to the
+  //   more specific "Serve-Over Fridge" type (added in Sprint 028
+  //   specifically anticipating this task) rather than the source's terser
+  //   "Fridge" tag in its equipment column — a judgment call favoring the
+  //   task's own title over the column's shorthand, not a literal
+  //   transcription.
+  static const _clusterATasks = [
+    // 1.1 Refrigeration temperatures
+    _LibraryTask(
+      title: 'Fridge temperature',
+      segment: 'food_safety',
+      method: 'data_photo',
+      priority: 'critical',
+      equipmentTypeName: 'Fridge',
+      roleTiers: ['base'],
+      maxLimit: 8.0,
+      unit: 'celsius',
+      legalLimitCategory: 'fridge_temp',
+      fixInstructions:
+          'Legal max 8°C [LAW]; FSA target 5°C [FSA]. Move stock to a '
+          'working fridge and contact management immediately if exceeded.',
+      frequency: 'threeXDaily',
+    ),
+    _LibraryTask(
+      title: 'Freezer temperature',
+      segment: 'food_safety',
+      method: 'data_photo',
+      priority: 'critical',
+      equipmentTypeName: 'Freezer',
+      roleTiers: ['base'],
+      maxLimit: -18.0,
+      unit: 'celsius',
+      legalLimitCategory: 'freezer_temp',
+      fixInstructions:
+          'FSA standard: freezer should read -18°C or below [FSA]. Check '
+          'door seal and consider moving stock if above.',
+      frequency: 'twoXDaily',
+    ),
+    _LibraryTask(
+      title: 'Walk-in cold room temperature',
+      segment: 'food_safety',
+      method: 'data_photo',
+      priority: 'critical',
+      equipmentTypeName: 'Walk-in Fridge',
+      roleTiers: ['base'],
+      maxLimit: 8.0,
+      unit: 'celsius',
+      legalLimitCategory: 'fridge_temp',
+      fixInstructions:
+          'Legal max 8°C [LAW]; FSA target 5°C [FSA]. Move stock to a '
+          'working unit and contact management immediately if exceeded.',
+      frequency: 'threeXDaily',
+    ),
+    _LibraryTask(
+      title: 'Blast chiller cycle temperature',
+      segment: 'food_safety',
+      method: 'data',
+      priority: 'high',
+      equipmentTypeName: 'Blast Chiller',
+      roleTiers: ['base'],
+      fixInstructions:
+          'Part of the cooked-to-chilled cooling process — see the Cooling '
+          'log task for the 90-minute rule [FSA].',
+      frequency: 'perUse',
+    ),
+    _LibraryTask(
+      title: 'Display/serve-over fridge temperature',
+      segment: 'food_safety',
+      method: 'data_photo',
+      priority: 'critical',
+      equipmentTypeName: 'Serve-Over Fridge',
+      roleTiers: ['base'],
+      maxLimit: 8.0,
+      unit: 'celsius',
+      legalLimitCategory: 'fridge_temp',
+      fixInstructions:
+          'Legal max 8°C [LAW]; FSA target 5°C [FSA]. Move stock to a '
+          'working fridge and contact management immediately if exceeded.',
+      frequency: 'perService',
+    ),
+    // 1.2 Cooking, reheating & cooling
+    _LibraryTask(
+      title: 'Cooked food core temperature',
+      segment: 'food_safety',
+      method: 'data_photo',
+      priority: 'critical',
+      roleTiers: ['base'],
+      minLimit: 70.0,
+      unit: 'celsius',
+      legalLimitCategory: 'cooked_core_temp',
+      fixInstructions:
+          'Core must reach 70°C for 2 min, or equivalent e.g. 75°C for 30s '
+          '[FSA]. Scotland: 75°C/30s required by law for high-risk foods '
+          '[LAW]. This app records a single reading, not time-at-'
+          'temperature — use a calibrated probe and confirm the hold time '
+          'manually.',
+      frequency: 'perBatch',
+    ),
+    _LibraryTask(
+      title: 'Reheated food core temperature',
+      segment: 'food_safety',
+      method: 'data_photo',
+      priority: 'critical',
+      roleTiers: ['base'],
+      minLimit: 70.0,
+      unit: 'celsius',
+      legalLimitCategory: 'reheated_core_temp',
+      fixInstructions:
+          'England/Wales/NI: reheat to approximately 70°C for 2 min [FSA]. '
+          'Scotland: 82°C required by law [LAW]. This app records a single '
+          'reading, not time-at-temperature.',
+      frequency: 'perBatch',
+    ),
+    _LibraryTask(
+      title: 'Hot-holding temperature',
+      segment: 'food_safety',
+      method: 'data_photo',
+      priority: 'critical',
+      equipmentTypeName: 'Bain-marie',
+      roleTiers: ['base'],
+      minLimit: 63.0,
+      unit: 'celsius',
+      legalLimitCategory: 'hot_hold_temp',
+      fixInstructions:
+          'Must hold at 63°C or above [LAW]. Below 63°C, a single 2-hour '
+          'time-control window applies before food must be discarded or '
+          'used.',
+      frequency: 'twoXPerService',
+    ),
+    _LibraryTask(
+      title: 'Cooling log (cooked to chilled)',
+      segment: 'food_safety',
+      method: 'data_tick',
+      priority: 'critical',
+      roleTiers: ['base'],
+      maxLimit: 8.0,
+      unit: 'celsius',
+      legalLimitCategory: 'cooling_temp',
+      fixInstructions:
+          "Must cool from cooked to below 8°C within 90 minutes [FSA] (the "
+          "'90-minute rule').",
+      frequency: 'perBatch',
+    ),
+    _LibraryTask(
+      title: 'Reheat-once verification',
+      segment: 'food_safety',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions:
+          '[FSA] guidance: reheat food once only — do not reheat leftovers '
+          'a second time.',
+      frequency: 'perBatch',
+    ),
+    _LibraryTask(
+      title: 'Probe calibration check',
+      segment: 'food_safety',
+      method: 'data_tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions:
+          '[BEST] Check probe reads 0°C in melting ice and 100°C in '
+          'boiling water, both within ±1°C. No UK legal figure — an '
+          'industry best-practice calibration check.',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Probe sanitised between uses',
+      segment: 'food_safety',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perUse',
+    ),
+    // 1.3 Date marking & rotation
+    _LibraryTask(
+      title: 'Use-by / best-before date check',
+      segment: 'food_safety',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'FIFO stock rotation',
+      segment: 'food_safety',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Opened-product date labelling',
+      segment: 'food_safety',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: '[FSA] Date-mark products on opening.',
+      frequency: 'perUse',
+    ),
+    _LibraryTask(
+      title: 'Controlled defrost log',
+      segment: 'food_safety',
+      method: 'data_tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      maxLimit: 8.0,
+      unit: 'celsius',
+      legalLimitCategory: 'defrost_temp',
+      fixInstructions:
+          '[FSA] Thaw under refrigeration so the product stays at or below '
+          '8°C throughout.',
+      frequency: 'perUse',
+    ),
+    // Segment 2 — Allergen Management
+    _LibraryTask(
+      title: 'Allergen matrix current & accessible',
+      segment: 'allergen',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          "[LAW] Must cover all 14 legally-defined allergens (Food "
+          "Information Regulations / Natasha's Law).",
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Allergen review on new/changed dishes',
+      segment: 'allergen',
+      method: 'note',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: "PPDS labelling correct (Natasha's Law)",
+      segment: 'allergen',
+      method: 'tick_photo',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          '[LAW] Pre-packed for direct sale (PPDS) items need a full '
+          "ingredient list with the 14 allergens emphasised (Natasha's "
+          'Law).',
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Separate allergen prep area/equipment',
+      segment: 'allergen',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['base'],
+      frequency: 'perUse',
+    ),
+    _LibraryTask(
+      title: 'Allergen-free order verified end-to-end',
+      segment: 'allergen',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['base'],
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: 'Purple allergen boards/cloths used',
+      segment: 'allergen',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perUse',
+    ),
+    _LibraryTask(
+      title: 'Staff allergen briefing',
+      segment: 'allergen',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'perShift',
+    ),
+    // Segment 3 — Personal Hygiene & PPE
+    _LibraryTask(
+      title: 'Handwashing on entry / between tasks',
+      segment: 'personal_hygiene_ppe',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Clean uniform / apron',
+      segment: 'personal_hygiene_ppe',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Hair covering / beard net',
+      segment: 'personal_hygiene_ppe',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'No jewellery / false nails',
+      segment: 'personal_hygiene_ppe',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Fitness-to-work / illness declaration',
+      segment: 'personal_hygiene_ppe',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['base'],
+      fixInstructions:
+          '[FSA] Staff must be symptom-free for 48 hours before returning '
+          'to work after vomiting/diarrhoea illness.',
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Cuts covered (blue plaster)',
+      segment: 'personal_hygiene_ppe',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Gloves available & changed appropriately',
+      segment: 'personal_hygiene_ppe',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    // Segment 4 — Refrigeration & Cold Storage (equipment condition)
+    _LibraryTask(
+      title: 'Fridge door seal intact',
+      segment: 'refrigeration_cold_storage',
+      method: 'tick',
+      priority: 'high',
+      equipmentTypeName: 'Fridge',
+      roleTiers: ['base'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Freezer ice build-up check',
+      segment: 'refrigeration_cold_storage',
+      method: 'tick_note',
+      priority: 'standard',
+      equipmentTypeName: 'Freezer',
+      roleTiers: ['base'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Walk-in shelving clean & sound',
+      segment: 'refrigeration_cold_storage',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Walk-in Fridge',
+      roleTiers: ['base'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Condenser / vents dust-free',
+      segment: 'refrigeration_cold_storage',
+      method: 'tick_photo',
+      priority: 'standard',
+      equipmentTypeName: 'Fridge',
+      roleTiers: ['base'],
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Fridge/freezer alarm functioning',
+      segment: 'refrigeration_cold_storage',
+      method: 'tick',
+      priority: 'high',
+      equipmentTypeName: 'Fridge',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Not overloaded (airflow)',
+      segment: 'refrigeration_cold_storage',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Fridge',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+  ];
+
+  // Equipment-tagged tasks bundle into that equipment's preset; tasks
+  // without an equipment tag bundle into their segment's preset instead.
+  // Distinct names from Sprint 026's "Standard Fridge Tasks" so the two
+  // coexist rather than colliding on the by-name idempotency check (agreed
+  // — the old illustrative example is left in place, not retired).
+  static const _clusterAPresets = [
+    _LibraryPreset(
+      name: 'Fridge Tasks',
+      equipmentTypeName: 'Fridge',
+      itemTitles: [
+        'Fridge temperature',
+        'Fridge door seal intact',
+        'Condenser / vents dust-free',
+        'Fridge/freezer alarm functioning',
+        'Not overloaded (airflow)',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Freezer Tasks',
+      equipmentTypeName: 'Freezer',
+      itemTitles: ['Freezer temperature', 'Freezer ice build-up check'],
+    ),
+    _LibraryPreset(
+      name: 'Walk-in Fridge Tasks',
+      equipmentTypeName: 'Walk-in Fridge',
+      itemTitles: [
+        'Walk-in cold room temperature',
+        'Walk-in shelving clean & sound',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Blast Chiller Tasks',
+      equipmentTypeName: 'Blast Chiller',
+      itemTitles: ['Blast chiller cycle temperature'],
+    ),
+    _LibraryPreset(
+      name: 'Serve-Over Fridge Tasks',
+      equipmentTypeName: 'Serve-Over Fridge',
+      itemTitles: ['Display/serve-over fridge temperature'],
+    ),
+    _LibraryPreset(
+      name: 'Bain-marie Tasks',
+      equipmentTypeName: 'Bain-marie',
+      itemTitles: ['Hot-holding temperature'],
+    ),
+    _LibraryPreset(
+      name: 'Food Safety Tasks',
+      segment: 'food_safety',
+      itemTitles: [
+        'Cooked food core temperature',
+        'Reheated food core temperature',
+        'Cooling log (cooked to chilled)',
+        'Reheat-once verification',
+        'Probe calibration check',
+        'Probe sanitised between uses',
+        'Use-by / best-before date check',
+        'FIFO stock rotation',
+        'Opened-product date labelling',
+        'Controlled defrost log',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Allergen Management Tasks',
+      segment: 'allergen',
+      itemTitles: [
+        'Allergen matrix current & accessible',
+        'Allergen review on new/changed dishes',
+        "PPDS labelling correct (Natasha's Law)",
+        'Separate allergen prep area/equipment',
+        'Allergen-free order verified end-to-end',
+        'Purple allergen boards/cloths used',
+        'Staff allergen briefing',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Personal Hygiene & PPE Tasks',
+      segment: 'personal_hygiene_ppe',
+      itemTitles: [
+        'Handwashing on entry / between tasks',
+        'Clean uniform / apron',
+        'Hair covering / beard net',
+        'No jewellery / false nails',
+        'Fitness-to-work / illness declaration',
+        'Cuts covered (blue plaster)',
+        'Gloves available & changed appropriately',
+      ],
+    ),
+  ];
+
+  Future<void> _ensureLegalLimitReference({
+    required String category,
+    double? minLimit,
+    double? maxLimit,
+    required String unit,
+    required String basis,
+  }) async {
+    final existing = await (select(
+      legalLimitReferences,
+    )..where((r) => r.category.equals(category))).getSingleOrNull();
+    if (existing != null) return;
+
+    await into(legalLimitReferences).insert(
+      LegalLimitReferencesCompanion.insert(
+        category: category,
+        legalMin: Value(minLimit),
+        legalMax: Value(maxLimit),
+        unit: unit,
+        basis: Value(basis),
+      ),
+    );
+  }
+
+  Future<void> _seedTaskLibraryClusterA() async {
+    final equipmentTypeIdByName = {
+      for (final row in await select(equipmentTypes).get())
+        row.name: row.id,
+    };
+    final venueTypeIdByName = {
+      for (final row in await select(venueTypes).get()) row.name: row.id,
+    };
+
+    await _ensureLegalLimitReference(
+      category: 'cooked_core_temp',
+      minLimit: 70.0,
+      unit: 'celsius',
+      basis: 'fsa',
+    );
+    await _ensureLegalLimitReference(
+      category: 'reheated_core_temp',
+      minLimit: 70.0,
+      unit: 'celsius',
+      basis: 'fsa',
+    );
+    await _ensureLegalLimitReference(
+      category: 'cooling_temp',
+      maxLimit: 8.0,
+      unit: 'celsius',
+      basis: 'fsa',
+    );
+    await _ensureLegalLimitReference(
+      category: 'defrost_temp',
+      maxLimit: 8.0,
+      unit: 'celsius',
+      basis: 'fsa',
+    );
+
+    final existingTitles = (await select(
+      taskTemplates,
+    ).get()).map((row) => row.title).toSet();
+
+    for (final task in _clusterATasks) {
+      if (existingTitles.contains(task.title)) continue;
+
+      final equipmentTypeId = task.equipmentTypeName == null
+          ? null
+          : equipmentTypeIdByName[task.equipmentTypeName];
+
+      final insertedId = await into(taskTemplates).insert(
+        TaskTemplatesCompanion.insert(
+          templateGroupId: 0,
+          versionNumber: 1,
+          title: task.title,
+          segment: task.segment,
+          applicableRoleTiers: task.roleTiers.join(','),
+          method: task.method,
+          requiresPhoto: Value(task.method.contains('photo')),
+          requiresNotes: Value(task.method.contains('note')),
+          minLimit: Value(task.minLimit),
+          maxLimit: Value(task.maxLimit),
+          unit: Value(task.unit),
+          legalLimitCategory: Value(task.legalLimitCategory),
+          isCritical: Value(task.priority == 'critical'),
+          priority: Value(task.priority),
+          requiresCorrectiveActionOnFail: Value(task.priority == 'critical'),
+          fixInstructions: Value(task.fixInstructions),
+          equipmentTypeId: Value(equipmentTypeId),
+          createdAt: DateTime.now(),
+        ),
+      );
+      await (update(
+        taskTemplates,
+      )..where((t) => t.id.equals(insertedId))).write(
+        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
+      );
+
+      final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
+      for (final vtName in venueTypeNames) {
+        final vtId = venueTypeIdByName[vtName];
+        if (vtId == null) continue;
+        await into(taskTemplateVenueTypes).insert(
+          TaskTemplateVenueTypesCompanion.insert(
+            taskTemplateGroupId: insertedId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+
+    // Re-read fresh so presets can look up every task's templateGroupId,
+    // whether it was just created above or already existed from a prior
+    // partial run.
+    final templateGroupIdByTitle = {
+      for (final row in await select(taskTemplates).get())
+        row.title: row.templateGroupId,
+    };
+    final frequencyByTitle = {
+      for (final task in _clusterATasks) task.title: task.frequency,
+    };
+    final existingPresetNames = (await select(
+      taskPresets,
+    ).get()).map((row) => row.name).toSet();
+
+    for (final preset in _clusterAPresets) {
+      if (existingPresetNames.contains(preset.name)) continue;
+
+      final equipmentTypeId = preset.equipmentTypeName == null
+          ? null
+          : equipmentTypeIdByName[preset.equipmentTypeName];
+
+      final presetId = await into(taskPresets).insert(
+        TaskPresetsCompanion.insert(
+          name: preset.name,
+          equipmentTypeId: Value(equipmentTypeId),
+          segment: Value(preset.segment),
+          createdAt: DateTime.now(),
+        ),
+      );
+
+      final memberVenueTypeIds = <int>{};
+      for (final title in preset.itemTitles) {
+        final groupId = templateGroupIdByTitle[title];
+        final frequency = frequencyByTitle[title];
+        if (groupId == null || frequency == null) continue;
+
+        await into(taskPresetItems).insert(
+          TaskPresetItemsCompanion.insert(
+            presetId: presetId,
+            taskTemplateGroupId: groupId,
+            defaultFrequency: frequency,
+          ),
+        );
+
+        final taggedRows = await (select(
+          taskTemplateVenueTypes,
+        )..where((j) => j.taskTemplateGroupId.equals(groupId))).get();
+        memberVenueTypeIds.addAll(taggedRows.map((r) => r.venueTypeId));
+      }
+
+      for (final vtId in memberVenueTypeIds) {
+        await into(taskPresetVenueTypes).insert(
+          TaskPresetVenueTypesCompanion.insert(
+            presetId: presetId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
   }
 
   Future<int> _ensureDefaultOrganisationAndSite() async {
