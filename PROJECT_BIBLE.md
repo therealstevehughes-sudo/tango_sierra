@@ -118,44 +118,49 @@ Tasks are no longer a fixed hardcoded set. The app is built around a configurabl
 - Each task has a configurable **method** — not limited to pass/fail/temperature. Examples: thermometer reading + photo, a choice of filter types, or other custom fields as the task requires
 - This does not relax the existing Task Execution Model rules (one task per screen, minimal typing, large buttons, no bulk ticking) — it only widens what a single task's input can look like
 
-## Task Library Source Content (confirmed)
-The real task/equipment library content — what the ~100+ tasks in "Task Library Model" above will actually be — comes from a single authoritative source: **"Full check list.docx"** (Documents\AA Tango Sierra\Full check list.docx). This section captures its structure so the app's `segment`, method, priority, and frequency vocabulary stays aligned with it as the real library gets loaded in a future sprint. The full line-by-line task list (~100+ individual rows) is not reproduced here — it lives in the source document; this is the taxonomy, not the data.
+## Task Library Source Content (confirmed, rewritten Sprint 030)
+The real task/equipment library content — what the tasks in "Task Library Model" above actually are — now comes from **`HORECA_TASK_LIBRARY.md`** (v2, researched, project root), a comprehensively researched, UK-sourced document built for the full ALL-HoReCa target market. **This supersedes the original source, "Full check list.docx"** (Documents\AA Tango Sierra\Full check list.docx) — that document is retired as the library source; nothing further is loaded from it. `HORECA_TASK_LIBRARY.md`'s full ~150-task content has now been loaded into the app in its entirety, across Sprint 030 and five follow-up sprints (Clusters A-F, one per group of segments) — this section captures the resulting taxonomy for reference, not as a still-pending future step.
 
-### Operational segments
-These map directly onto `TaskTemplate.segment` and are the canonical list going forward, in place of the ad hoc placeholder values (`food_safety`, `cleaning`, `custom`) used by Sprint 007/009's illustrative seed data:
-1. Food Safety & Temperature Control — Refrigeration Temperatures, Food Temperature Control, Delivery Checks
-2. Refrigeration System Control — Physical Condition, Internal Conditions, Storage Compliance, Fault Detection
-3. Fryer & Oil Management — Oil Quality, Oil Usage, Fryer Equipment, Cleaning
-4. Cooking Line Equipment — Core Equipment, Specialist Equipment, Mechanical Checks
-5. Cleaning System — Surface Cleaning, Equipment Cleaning, Floors & Structure, Deep Cleaning
-6. Cleaning Chemicals & Consumables — Stock Levels, Correct Usage, Equipment
-7. Cooking Consumables — Core Items, Packaging Materials, Operational Consumables
-8. Service Consumables
-9. Dry Store — Organisation, Compliance, Risk
-10. Wash-Up & Serviceware — Machines, Items, Availability
-11. Smallwares & Utensils
-12. Utilities & Safety
-13. Service Readiness
-14. Opening & Closing
-15. Waste & Pest Control
-16. Preventive Maintenance
-17. Incident Logging
-18. Staff Accountability
-19. Stock Control
+### Operational segments (21, all loaded)
+These map directly onto `TaskTemplate.segment`, replacing the old 19-segment taxonomy above (retired along with its source document):
+1. `food_safety` — Food Safety & Temperature Control (refrigeration, cooking/reheating/cooling, date marking & rotation)
+2. `allergen` — Allergen Management (Natasha's Law / PPDS labelling, allergen matrix, prep separation)
+3. `personal_hygiene_ppe` — Personal Hygiene & PPE
+4. `refrigeration_cold_storage` — Refrigeration & Cold Storage (equipment condition, not temperature readings — those are segment 1)
+5. `cooking_line_equipment` — Cooking Line Equipment (fryer & oil, ovens/grills/hobs, mechanical & safety)
+6. `washup_dishwash` — Wash-up / Dishwash
+7. `cleaning_sanitation` — Cleaning & Sanitation (food-contact surfaces, floors/walls/drains, schedule sign-off)
+8. `cleaning_chemicals` — Cleaning Chemicals & Consumables
+9. `dry_ambient_storage` — Dry & Ambient Storage
+10. `deliveries_goods_in` — Deliveries & Goods In
+11. `utilities_safety` — Utilities & Safety (hand-wash sinks, fire exits, first aid)
+12. `waste_pest_control` — Waste & Pest Control
+13. `preventive_maintenance` — Preventive Maintenance (PAT testing, gas safety certification, servicing)
+14. `stock_control` — Stock Control
+15. `opening_procedures` — Opening Procedures
+16. `closing_procedures` — Closing Procedures
+17. `service_readiness` — Service Readiness
+18. `front_of_house` — Front of House / Service *(new — no equivalent in the old taxonomy)*
+19. `bar_beverage` — Bar & Beverage *(new)*
+20. `hotel_specific` — Hotel-Specific *(new; hotels only — the narrowest venue-type applicability of any segment)*
+21. `management_compliance_oversight` — Management & Compliance Oversight (replaces the old taxonomy's "Incident Logging"/"Staff Accountability", which described behaviour this app already models through other entities — `Incident`, `OverrideLog`, the audit trail — rather than carousel task types)
 
-Segments 17 (Incident Logging) and 18 (Staff Accountability) are different in kind from the rest — they describe behaviour this app already models through other entities (`Incident`, `OverrideLog`, the audit trail) rather than new carousel task types. Segments 1–16 and 19 are genuine task-library content.
+Every segment is tagged by which of the app's 12 seeded venue types it applies to, via `TaskTemplateVenueTypes` (Sprint 029's join table, populated as each cluster loaded) — see "Venue Setup and Equipment Configuration" below.
 
-### Task method vocabulary (found in the source, not yet fully matched by the schema)
-The checklist's real "method" column uses: Tick, Data + Tick, Tick + Photo, Data + Photo, Note, Note + Photo, Tick + Note, and Multi (a multi-part checklist within one task, e.g. "Deep clean checklist"). This is richer than the placeholder `method` strings (`numeric_photo`, `categorical_choice`, `notes_only`) used in Sprint 007/009's example data — a future task-library-loading sprint should treat the checklist's own vocabulary as canonical, not the placeholders.
+### Task method vocabulary (10 values, all in use)
+`Tick`, `Data`, `Data + Tick`, `Data + Note`, `Tick + Photo`, `Data + Photo`, `Note`, `Note + Photo`, `Tick + Note`, `Multi` (a multi-part checklist within one task, e.g. "Deep clean checklist"). The original 8 (Sprint 023) gained `Data` and `Data + Note` during Cluster A, once real tasks needing a plain numeric reading (no tick/photo) or a numeric-reading-plus-note combination actually came up.
 
-### Task priority levels (a real gap against the current schema)
-The source uses **three** priority levels — Critical, High, Standard — not the binary `isCritical` flag `TaskTemplate` currently has. Flagging this now rather than silently working around it later: loading the real library will need either a 3-level priority field or an agreed mapping down to the current boolean (e.g. Critical → `isCritical: true`, High/Standard → `false`), which loses information either way. Not resolved here — this is a docs-only pass — but the decision shouldn't be made implicitly when that sprint arrives.
+### Task priority levels (unchanged — three levels)
+Critical / High / Standard, stored in `TaskTemplate.priority` (Sprint 023) alongside the legacy `isCritical` boolean (`isCritical = priority == critical`, one source of truth). No change from the original taxonomy.
 
-### Task frequency vocabulary (broader than the current schema)
-The source uses: 3x daily, daily, per use, per batch, 2x per service, per delivery, weekly, event-based, per shift, and as-needed. Sprint 009's `ScheduleFrequency` enum (daily/weekly/per-shift/custom) covers some of these directly and would fold the rest (3x daily, per batch, per delivery, per use, 2x per service, as-needed, event-based) into `custom` with a free-text detail — workable for now, but worth knowing the real vocabulary is wider than the enum suggests.
+### Task frequency vocabulary (13 named values + a free-text escape hatch)
+`Daily`, `Weekly`, `Per Shift`, `3x Daily`, `2x Daily`, `Per Batch`, `Per Delivery`, `Per Use`, `Per Service`, `2x Per Service`, `Event-Based`, `As Needed`, `Monthly` — plus `Custom` (free-text detail, for anything the named vocabulary doesn't cover). Sprint 023 established the first 11; Sprint 030 (Clusters A/B) added `2x Daily`, `Per Service`, and `Monthly` once real tasks needing them appeared. "Per order", "Per menu change", and "Per visit" (contractor visits) all fold into `Event-Based` rather than getting their own values — treated as instances of the same underlying concept (an irregular, trigger-driven cadence rather than a fixed schedule).
 
-### Equipment types (already reconciled — Sprint 011)
-The equipment-relevant sections above (2, 3, 4, 10) informed the 18-type `EquipmentType` seed list already built in Sprint 011 (Fridge, Freezer, Hot-hold unit, Blast Chiller, Walk-in Fridge, Walk-in Freezer, Fryer, Oven, Grill, Salamander, Hob, Rotisserie, Kebab Machine, Bain-marie, Steamer, Dishwasher, Ice Machine, Prep Station). This part of the reconciliation is done, not pending — noted here for completeness, not as outstanding work.
+### Equipment types (63, not 18 — Sprint 028)
+Expanded from the original 18-type list (Sprint 011, derived from the now-retired "Full check list.docx") to 63 types via `HORECA_EQUIPMENT_AND_VENUES.md` Part A, covering the ALL-HoReCa target market's full range (beverage, prep machinery, bakery, cold-storage variants, wash-up, ventilation/safety, non-refrigerated storage). See `staff_management_screen.dart`'s and the venue setup wizard's equipment picker for the live list; managers can still add anything missing via "Something else...".
+
+### Venue types (12, tagging structure — Sprint 029/030)
+12 canonical venue types (Quick Service/QSR, Fast Casual, Casual Dining, Fine Dining, Café, Bakery/Patisserie, Bar/Pub, Gastropub, Hotel, Contract/Institutional Catering, Event/Mobile/Street Food, Dark/Ghost Kitchen), from `HORECA_EQUIPMENT_AND_VENUES.md` Part B. Sites are tagged with one or more venue types (Sprint 029); tasks, presets, and equipment types can each be tagged too, filtering what's offered at setup — a **default-offering aid, not a hard lockout** (a café that happens to have a fryer can still add fryer tasks manually). All 21 segments are now tagged (Sprint 030); equipment-type and preset-level tagging remain schema-ready but unpopulated — see "Open / Not yet decided" in DECISIONS_LOG.md.
 
 ## Legal Limit Compliance (confirmed)
 Where a task's limits relate to a legal requirement (e.g. fridge, freezer, and hot-hold temperatures), those limits are checked against a legal-minimum reference table.
@@ -200,7 +205,7 @@ Venues are configured through a guided, intuitive setup wizard covering:
 - operational points/areas
 - staff and their roles
 
-Equipment supports multiple named instances of the same type (e.g. Fridge 1, Fridge 2), set up per venue by the manager/top tier. The seeded equipment type library (18 types as of Sprint 011 — see "Task Library Source Content" above) is derived from the same checklist that will eventually supply the full task library; managers can add further types inline if theirs isn't listed.
+Equipment supports multiple named instances of the same type (e.g. Fridge 1, Fridge 2), set up per venue by the manager/top tier. The seeded equipment type library (63 types as of Sprint 028 — see "Task Library Source Content" above) is derived from the same research source that now supplies the full task library; managers can add further types inline if theirs isn't listed.
 
 ## Company Branding (confirmed)
 Company/branch branding — colours, logo, contact info — is controlled by the top tier.

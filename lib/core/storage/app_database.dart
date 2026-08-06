@@ -733,6 +733,11 @@ class AppDatabase extends _$AppDatabase {
       // always-ensured pattern.
       await _seedTaskLibraryClusterE();
 
+      // Cluster F (Sprint 030 follow-up, FINAL CLUSTER): Segments 18-21 —
+      // Front of House / Service, Bar & Beverage, Hotel-Specific,
+      // Management & Compliance Oversight. Completes Build Order item 4.
+      await _seedTaskLibraryClusterF();
+
       // Idempotent — safe on every open. Only touches rows left over from
       // before siteId existed (nothing to do on a fresh install).
       await _backfillSiteIds(defaultSiteId);
@@ -1130,6 +1135,50 @@ class AppDatabase extends _$AppDatabase {
   // compliance concept (certificates/contracted inspections tied to a
   // location) that doesn't naturally fit a mobile/temporary setup, and it
   // wasn't in the original subset — reuses `_clusterBVenueTypeNames`.
+  // Sprint 030 Cluster F: `front_of_house` excludes both Dark/Ghost Kitchen
+  // (mechanical — matches the already-established "QSR/Restaurant minus FOH
+  // and Bar" derivation, the first time that exclusion actually applies)
+  // and Event/Mobile/Street Food (confirmed before building — a mobile
+  // setup doesn't typically have a "dining area" or "customer toilets" in
+  // the traditional sense). 10 of 12.
+  static const _clusterFFrontOfHouseVenueTypeNames = [
+    'Quick Service (QSR)',
+    'Fast Casual',
+    'Casual Dining',
+    'Fine Dining',
+    'Café',
+    'Bakery / Patisserie',
+    'Bar / Pub',
+    'Gastropub',
+    'Hotel',
+    'Contract / Institutional Catering',
+  ];
+
+  // `bar_beverage`: QSR and Bakery are hard-excluded by the matrix's own
+  // explicit ✗; Dark/Ghost Kitchen excluded per the established "minus Bar"
+  // derivation; Event/Mobile/Street Food excluded, confirmed before
+  // building (cellar/keg/optics infrastructure doesn't fit a typical mobile
+  // setup — the least ambiguous of this cluster's Event/Mobile calls). 8 of
+  // 12: Fast Casual and Gastropub still tagged via their union derivation
+  // (Fast Casual = QSR∪Restaurant, Restaurant is tagged; Gastropub =
+  // Restaurant∪Bar, both tagged).
+  static const _clusterFBarBeverageVenueTypeNames = [
+    'Fast Casual',
+    'Casual Dining',
+    'Fine Dining',
+    'Café',
+    'Bar / Pub',
+    'Gastropub',
+    'Hotel',
+    'Contract / Institutional Catering',
+  ];
+
+  // `hotel_specific`: the matrix marks every column except Hotel itself as
+  // an explicit ✗ — the most restrictive row in the whole doc. All 4
+  // derived venue types clearly don't apply either (none reduce to Hotel).
+  // Mechanically unambiguous, not a judgment call. 1 of 12.
+  static const _clusterFHotelSpecificVenueTypeNames = ['Hotel'];
+
   static const _segmentVenueTypeNames = <String, List<String>>{
     'food_safety': _venueTypeNames,
     'allergen': _venueTypeNames,
@@ -1155,6 +1204,16 @@ class AppDatabase extends _$AppDatabase {
     'opening_procedures': _venueTypeNames,
     'closing_procedures': _venueTypeNames,
     'service_readiness': _venueTypeNames,
+    'front_of_house': _clusterFFrontOfHouseVenueTypeNames,
+    'bar_beverage': _clusterFBarBeverageVenueTypeNames,
+    'hotel_specific': _clusterFHotelSpecificVenueTypeNames,
+    // Sprint 030 Cluster F: `management_compliance_oversight` has no matrix
+    // row; confirmed before building to include Event/Mobile/Street Food —
+    // compliance oversight (EHO readiness, staff training, food safety
+    // review) applies to any food business regardless of size or format,
+    // arguably more universal than the operational segments already
+    // included. All 12.
+    'management_compliance_oversight': _venueTypeNames,
   };
 
   // Cluster A (Sprint 030): HORECA_TASK_LIBRARY.md Segments 1-4 — Food
@@ -3507,6 +3566,561 @@ class AppDatabase extends _$AppDatabase {
     // needed here too, since Bain-marie Tasks and Fridge Tasks both already
     // exist from Cluster A. Safe to rerun: every step is idempotent.
     for (final preset in _clusterEPresets) {
+      final existingPreset = await (select(
+        taskPresets,
+      )..where((p) => p.name.equals(preset.name))).getSingleOrNull();
+
+      final int presetId;
+      if (existingPreset != null) {
+        presetId = existingPreset.id;
+      } else {
+        final equipmentTypeId = preset.equipmentTypeName == null
+            ? null
+            : equipmentTypeIdByName[preset.equipmentTypeName];
+        presetId = await into(taskPresets).insert(
+          TaskPresetsCompanion.insert(
+            name: preset.name,
+            equipmentTypeId: Value(equipmentTypeId),
+            segment: Value(preset.segment),
+            createdAt: DateTime.now(),
+          ),
+        );
+      }
+
+      final existingItemGroupIds = (await (select(
+        taskPresetItems,
+      )..where((i) => i.presetId.equals(presetId))).get())
+          .map((i) => i.taskTemplateGroupId)
+          .toSet();
+
+      final memberVenueTypeIds = <int>{};
+      for (final title in preset.itemTitles) {
+        final groupId = templateGroupIdByTitle[title];
+        final frequency = frequencyByTitle[title];
+        if (groupId == null || frequency == null) continue;
+
+        if (!existingItemGroupIds.contains(groupId)) {
+          await into(taskPresetItems).insert(
+            TaskPresetItemsCompanion.insert(
+              presetId: presetId,
+              taskTemplateGroupId: groupId,
+              defaultFrequency: frequency,
+            ),
+          );
+        }
+
+        final taggedRows = await (select(
+          taskTemplateVenueTypes,
+        )..where((j) => j.taskTemplateGroupId.equals(groupId))).get();
+        memberVenueTypeIds.addAll(taggedRows.map((r) => r.venueTypeId));
+      }
+
+      final existingPresetVenueTypeIds = (await (select(
+        taskPresetVenueTypes,
+      )..where((j) => j.presetId.equals(presetId))).get())
+          .map((j) => j.venueTypeId)
+          .toSet();
+      for (final vtId in memberVenueTypeIds) {
+        if (existingPresetVenueTypeIds.contains(vtId)) continue;
+        await into(taskPresetVenueTypes).insert(
+          TaskPresetVenueTypesCompanion.insert(
+            presetId: presetId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+  }
+
+  // Cluster F (Sprint 030 follow-up, FINAL CLUSTER): HORECA_TASK_LIBRARY.md
+  // Segments 18-21 — Front of House / Service, Bar & Beverage,
+  // Hotel-Specific, Management & Compliance Oversight. 28 tasks. Completes
+  // Build Order item 4.
+  //
+  // No new method, frequency, or role-tier vocabulary — every value used
+  // (including `note_photo`, part of the original 8-value vocabulary since
+  // Sprint 023 but not actually used by any task until now) already
+  // existed.
+  //
+  // Two `LegalLimitReference` categories reused from Cluster A (`hot_hold_
+  // temp` for hot buffet/breakfast buffet/banqueting hot-hold; `fridge_temp`
+  // for cold buffet display) — same real-world legal figures, checked at
+  // different service moments. Two genuinely new categories: `cellar_temp`
+  // (11-13°C cask ale target, [BEST]) and `buffet_out_of_temp_time` (max 4
+  // hours, [FSA]) — the latter is a duration limit, not a temperature one;
+  // `unit: 'hours'` is used since the schema's unit column is free text.
+  // "Breakfast buffet temperatures" combines a hot AND cold threshold in
+  // one task (hot ≥63°C / cold ≤8°C) — left structurally unlimited (no
+  // single min/max pair fits both), with both figures explained in
+  // `fixInstructions` instead, same treatment as Cluster E's "All
+  // refrigeration temps at open".
+  //
+  // Equipment-mapping judgment calls, extending the established "task
+  // title's specific subject overrides a generic column tag" rule (first
+  // used for Serve-Over Fridge in Cluster A): "Cellar / keg temperature"
+  // (column says the generic "Fridge") → Cellar Cooler, the purpose-built
+  // seeded type. "Beer line cleaning" and "Post-mix / soda gun cleaned"
+  // (both blank columns, titles unambiguous) → Keg System and Post-Mix
+  // System respectively, the established blank-column pattern.
+  //
+  // Three preset merges into existing presets from Clusters A/E: "Hot
+  // buffet display temperature", "Breakfast buffet temperatures", and
+  // "Banqueting / function hot-hold log" all map to Bain-marie, whose
+  // preset already has 2 items (from Clusters A and E) — the first
+  // three-way merge into a single preset across three different clusters.
+  // "Cold buffet display temperature" maps to Fridge, merging a 7th item
+  // into that preset. Both handled by the resolve-or-create-then-merge
+  // preset loop Cluster D introduced.
+  static const _clusterFTasks = [
+    // Segment 18 — Front of House / Service
+    _LibraryTask(
+      title: 'Dining area cleaned & set',
+      segment: 'front_of_house',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perService',
+    ),
+    _LibraryTask(
+      title: 'Tables / condiments sanitised',
+      segment: 'front_of_house',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perService',
+    ),
+    _LibraryTask(
+      title: 'Customer toilets checked & stocked',
+      segment: 'front_of_house',
+      method: 'tick_note',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'twoXPerService',
+    ),
+    _LibraryTask(
+      title: 'Allergen requests relayed to kitchen',
+      segment: 'front_of_house',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['base'],
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: 'Coffee machine cleaned & backflushed',
+      segment: 'front_of_house',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Coffee Machine',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Hot buffet display temperature',
+      segment: 'front_of_house',
+      method: 'data_photo',
+      priority: 'critical',
+      equipmentTypeName: 'Bain-marie',
+      roleTiers: ['base'],
+      minLimit: 63.0,
+      unit: 'celsius',
+      legalLimitCategory: 'hot_hold_temp',
+      fixInstructions: 'Must hold at 63°C or above [LAW].',
+      frequency: 'twoXPerService',
+    ),
+    _LibraryTask(
+      title: 'Cold buffet display temperature',
+      segment: 'front_of_house',
+      method: 'data_photo',
+      priority: 'critical',
+      equipmentTypeName: 'Fridge',
+      roleTiers: ['base'],
+      maxLimit: 8.0,
+      unit: 'celsius',
+      legalLimitCategory: 'fridge_temp',
+      fixInstructions: 'Legal max 8°C [LAW].',
+      frequency: 'twoXPerService',
+    ),
+    _LibraryTask(
+      title: 'Buffet out-of-temperature time log',
+      segment: 'front_of_house',
+      method: 'data_tick',
+      priority: 'critical',
+      roleTiers: ['base'],
+      maxLimit: 4.0,
+      unit: 'hours',
+      legalLimitCategory: 'buffet_out_of_temp_time',
+      fixInstructions:
+          '[FSA] Food on cold display without temperature control has a '
+          'maximum single 4-hour window before it must be discarded or '
+          'returned to refrigeration.',
+      frequency: 'perService',
+    ),
+    // Segment 19 — Bar & Beverage
+    _LibraryTask(
+      title: 'Cellar / keg temperature',
+      segment: 'bar_beverage',
+      method: 'data',
+      priority: 'standard',
+      equipmentTypeName: 'Cellar Cooler',
+      roleTiers: ['base'],
+      minLimit: 11.0,
+      maxLimit: 13.0,
+      unit: 'celsius',
+      legalLimitCategory: 'cellar_temp',
+      fixInstructions:
+          '[BEST] Cask ale cellar temperature target 11-13°C. No UK legal '
+          'limit — industry best practice.',
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Beer line cleaning',
+      segment: 'bar_beverage',
+      method: 'tick_note',
+      priority: 'high',
+      equipmentTypeName: 'Keg System',
+      roleTiers: ['base'],
+      fixInstructions:
+          '[BEST] Clean beer lines every 7 days. No UK legal requirement — '
+          'industry best practice.',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Ice well / scoop hygiene',
+      segment: 'bar_beverage',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Post-mix / soda gun cleaned',
+      segment: 'bar_beverage',
+      method: 'tick',
+      priority: 'standard',
+      equipmentTypeName: 'Post-Mix System',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Glassware condition (no chips)',
+      segment: 'bar_beverage',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Optics / measures verified',
+      segment: 'bar_beverage',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions:
+          '[LAW] Optics and measures must be accurate and calibrated per '
+          'the Weights & Measures Act.',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Open wine / vermouth dated',
+      segment: 'bar_beverage',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    // Segment 20 — Hotel-Specific
+    _LibraryTask(
+      title: 'Breakfast buffet temperatures',
+      segment: 'hotel_specific',
+      method: 'data_photo',
+      priority: 'critical',
+      equipmentTypeName: 'Bain-marie',
+      roleTiers: ['base'],
+      fixInstructions:
+          '[LAW] Hot sections must hold ≥63°C; cold sections must hold '
+          '≤8°C. Record whichever section applies.',
+      frequency: 'perService',
+    ),
+    _LibraryTask(
+      title: 'Room service tray temp on dispatch',
+      segment: 'hotel_specific',
+      method: 'data',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: 'Minibar stock & date check',
+      segment: 'hotel_specific',
+      method: 'tick_note',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Banqueting / function hot-hold log',
+      segment: 'hotel_specific',
+      method: 'data_photo',
+      priority: 'critical',
+      equipmentTypeName: 'Bain-marie',
+      roleTiers: ['base'],
+      minLimit: 63.0,
+      unit: 'celsius',
+      legalLimitCategory: 'hot_hold_temp',
+      fixInstructions: 'Must hold at 63°C or above [LAW].',
+      frequency: 'perService',
+    ),
+    _LibraryTask(
+      title: 'Guest allergen request (rooms)',
+      segment: 'hotel_specific',
+      method: 'note',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: 'Poolside / satellite bar hygiene',
+      segment: 'hotel_specific',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perShift',
+    ),
+    // Segment 21 — Management & Compliance Oversight
+    _LibraryTask(
+      title: 'Daily compliance review / sign-off',
+      segment: 'management_compliance_oversight',
+      method: 'tick_note',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Weekly food safety walk-round',
+      segment: 'management_compliance_oversight',
+      method: 'note_photo',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Corrective actions closed out',
+      segment: 'management_compliance_oversight',
+      method: 'note',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'SFBB / HACCP diary reviewed',
+      segment: 'management_compliance_oversight',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          '[FSA] The SFBB/HACCP diary itself should be formally reviewed '
+          'on a 4-weekly cycle (this check confirms review has happened).',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'EHO / audit readiness check',
+      segment: 'management_compliance_oversight',
+      method: 'multi',
+      priority: 'high',
+      roleTiers: ['regional', 'executive'],
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Staff training records current',
+      segment: 'management_compliance_oversight',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['regional', 'executive'],
+      fixInstructions:
+          '[BEST] Level 2 Food Hygiene certification is the commonly '
+          'expected baseline. No single UK legal minimum training level '
+          'specified in law.',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Supplier approval / due diligence',
+      segment: 'management_compliance_oversight',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['regional', 'executive'],
+      frequency: 'monthly',
+    ),
+  ];
+
+  // "Bain-marie Tasks" and "Fridge Tasks" reuse presets from Clusters A/E —
+  // handled by the resolve-or-create-then-merge preset loop below.
+  static const _clusterFPresets = [
+    _LibraryPreset(
+      name: 'Coffee Machine Tasks',
+      equipmentTypeName: 'Coffee Machine',
+      itemTitles: ['Coffee machine cleaned & backflushed'],
+    ),
+    _LibraryPreset(
+      name: 'Bain-marie Tasks',
+      equipmentTypeName: 'Bain-marie',
+      itemTitles: [
+        'Hot buffet display temperature',
+        'Breakfast buffet temperatures',
+        'Banqueting / function hot-hold log',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Fridge Tasks',
+      equipmentTypeName: 'Fridge',
+      itemTitles: ['Cold buffet display temperature'],
+    ),
+    _LibraryPreset(
+      name: 'Cellar Cooler Tasks',
+      equipmentTypeName: 'Cellar Cooler',
+      itemTitles: ['Cellar / keg temperature'],
+    ),
+    _LibraryPreset(
+      name: 'Keg System Tasks',
+      equipmentTypeName: 'Keg System',
+      itemTitles: ['Beer line cleaning'],
+    ),
+    _LibraryPreset(
+      name: 'Post-Mix System Tasks',
+      equipmentTypeName: 'Post-Mix System',
+      itemTitles: ['Post-mix / soda gun cleaned'],
+    ),
+    _LibraryPreset(
+      name: 'Front of House Tasks',
+      segment: 'front_of_house',
+      itemTitles: [
+        'Dining area cleaned & set',
+        'Tables / condiments sanitised',
+        'Customer toilets checked & stocked',
+        'Allergen requests relayed to kitchen',
+        'Buffet out-of-temperature time log',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Bar & Beverage Tasks',
+      segment: 'bar_beverage',
+      itemTitles: [
+        'Ice well / scoop hygiene',
+        'Glassware condition (no chips)',
+        'Optics / measures verified',
+        'Open wine / vermouth dated',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Hotel-Specific Tasks',
+      segment: 'hotel_specific',
+      itemTitles: [
+        'Room service tray temp on dispatch',
+        'Minibar stock & date check',
+        'Guest allergen request (rooms)',
+        'Poolside / satellite bar hygiene',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Management & Compliance Oversight Tasks',
+      segment: 'management_compliance_oversight',
+      itemTitles: [
+        'Daily compliance review / sign-off',
+        'Weekly food safety walk-round',
+        'Corrective actions closed out',
+        'SFBB / HACCP diary reviewed',
+        'EHO / audit readiness check',
+        'Staff training records current',
+        'Supplier approval / due diligence',
+      ],
+    ),
+  ];
+
+  Future<void> _seedTaskLibraryClusterF() async {
+    final equipmentTypeIdByName = {
+      for (final row in await select(equipmentTypes).get())
+        row.name: row.id,
+    };
+    final venueTypeIdByName = {
+      for (final row in await select(venueTypes).get()) row.name: row.id,
+    };
+
+    await _ensureLegalLimitReference(
+      category: 'cellar_temp',
+      minLimit: 11.0,
+      maxLimit: 13.0,
+      unit: 'celsius',
+      basis: 'best',
+    );
+    await _ensureLegalLimitReference(
+      category: 'buffet_out_of_temp_time',
+      maxLimit: 4.0,
+      unit: 'hours',
+      basis: 'fsa',
+    );
+
+    final existingTitles = (await select(
+      taskTemplates,
+    ).get()).map((row) => row.title).toSet();
+
+    for (final task in _clusterFTasks) {
+      if (existingTitles.contains(task.title)) continue;
+
+      final equipmentTypeId = task.equipmentTypeName == null
+          ? null
+          : equipmentTypeIdByName[task.equipmentTypeName];
+
+      final insertedId = await into(taskTemplates).insert(
+        TaskTemplatesCompanion.insert(
+          templateGroupId: 0,
+          versionNumber: 1,
+          title: task.title,
+          segment: task.segment,
+          applicableRoleTiers: task.roleTiers.join(','),
+          method: task.method,
+          requiresPhoto: Value(task.method.contains('photo')),
+          requiresNotes: Value(task.method.contains('note')),
+          minLimit: Value(task.minLimit),
+          maxLimit: Value(task.maxLimit),
+          unit: Value(task.unit),
+          legalLimitCategory: Value(task.legalLimitCategory),
+          isCritical: Value(task.priority == 'critical'),
+          priority: Value(task.priority),
+          requiresCorrectiveActionOnFail: Value(task.priority == 'critical'),
+          fixInstructions: Value(task.fixInstructions),
+          equipmentTypeId: Value(equipmentTypeId),
+          createdAt: DateTime.now(),
+        ),
+      );
+      await (update(
+        taskTemplates,
+      )..where((t) => t.id.equals(insertedId))).write(
+        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
+      );
+
+      final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
+      for (final vtName in venueTypeNames) {
+        final vtId = venueTypeIdByName[vtName];
+        if (vtId == null) continue;
+        await into(taskTemplateVenueTypes).insert(
+          TaskTemplateVenueTypesCompanion.insert(
+            taskTemplateGroupId: insertedId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+
+    final templateGroupIdByTitle = {
+      for (final row in await select(taskTemplates).get())
+        row.title: row.templateGroupId,
+    };
+    final frequencyByTitle = {
+      for (final task in _clusterFTasks) task.title: task.frequency,
+    };
+
+    // Same resolve-or-create-then-merge preset loop introduced in Cluster D
+    // and reused in Cluster E. Safe to rerun: every step is idempotent.
+    for (final preset in _clusterFPresets) {
       final existingPreset = await (select(
         taskPresets,
       )..where((p) => p.name.equals(preset.name))).getSingleOrNull();
