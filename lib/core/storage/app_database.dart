@@ -728,6 +728,11 @@ class AppDatabase extends _$AppDatabase {
       // Control. Same always-ensured pattern.
       await _seedTaskLibraryClusterD();
 
+      // Cluster E (Sprint 030 follow-up): Segments 15-17 — Opening
+      // Procedures, Closing Procedures, Service Readiness. Same
+      // always-ensured pattern.
+      await _seedTaskLibraryClusterE();
+
       // Idempotent — safe on every open. Only touches rows left over from
       // before siteId existed (nothing to do on a fresh install).
       await _backfillSiteIds(defaultSiteId);
@@ -1140,6 +1145,16 @@ class AppDatabase extends _$AppDatabase {
     'waste_pest_control': _venueTypeNames,
     'preventive_maintenance': _clusterBVenueTypeNames,
     'stock_control': _venueTypeNames,
+    // Sprint 030 Cluster E: `opening_procedures`, `closing_procedures`, and
+    // `service_readiness` have no matrix row and weren't named in
+    // Event/Mobile/Street Food's original reduced subset — confirmed before
+    // building to include it anyway, since these are operational/temporal
+    // concepts (opening, closing, prepping for service) relevant to any
+    // venue with a trading day or service period, including mobile ones.
+    // All three get all 12.
+    'opening_procedures': _venueTypeNames,
+    'closing_procedures': _venueTypeNames,
+    'service_readiness': _venueTypeNames,
   };
 
   // Cluster A (Sprint 030): HORECA_TASK_LIBRARY.md Segments 1-4 — Food
@@ -3174,6 +3189,324 @@ class AppDatabase extends _$AppDatabase {
     // not just skipped), and only adds venue-type tags it doesn't already
     // carry. Safe to rerun: every step below is itself idempotent.
     for (final preset in _clusterDPresets) {
+      final existingPreset = await (select(
+        taskPresets,
+      )..where((p) => p.name.equals(preset.name))).getSingleOrNull();
+
+      final int presetId;
+      if (existingPreset != null) {
+        presetId = existingPreset.id;
+      } else {
+        final equipmentTypeId = preset.equipmentTypeName == null
+            ? null
+            : equipmentTypeIdByName[preset.equipmentTypeName];
+        presetId = await into(taskPresets).insert(
+          TaskPresetsCompanion.insert(
+            name: preset.name,
+            equipmentTypeId: Value(equipmentTypeId),
+            segment: Value(preset.segment),
+            createdAt: DateTime.now(),
+          ),
+        );
+      }
+
+      final existingItemGroupIds = (await (select(
+        taskPresetItems,
+      )..where((i) => i.presetId.equals(presetId))).get())
+          .map((i) => i.taskTemplateGroupId)
+          .toSet();
+
+      final memberVenueTypeIds = <int>{};
+      for (final title in preset.itemTitles) {
+        final groupId = templateGroupIdByTitle[title];
+        final frequency = frequencyByTitle[title];
+        if (groupId == null || frequency == null) continue;
+
+        if (!existingItemGroupIds.contains(groupId)) {
+          await into(taskPresetItems).insert(
+            TaskPresetItemsCompanion.insert(
+              presetId: presetId,
+              taskTemplateGroupId: groupId,
+              defaultFrequency: frequency,
+            ),
+          );
+        }
+
+        final taggedRows = await (select(
+          taskTemplateVenueTypes,
+        )..where((j) => j.taskTemplateGroupId.equals(groupId))).get();
+        memberVenueTypeIds.addAll(taggedRows.map((r) => r.venueTypeId));
+      }
+
+      final existingPresetVenueTypeIds = (await (select(
+        taskPresetVenueTypes,
+      )..where((j) => j.presetId.equals(presetId))).get())
+          .map((j) => j.venueTypeId)
+          .toSet();
+      for (final vtId in memberVenueTypeIds) {
+        if (existingPresetVenueTypeIds.contains(vtId)) continue;
+        await into(taskPresetVenueTypes).insert(
+          TaskPresetVenueTypesCompanion.insert(
+            presetId: presetId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+  }
+
+  // Cluster E (Sprint 030 follow-up): HORECA_TASK_LIBRARY.md Segments 15-17
+  // — Opening Procedures, Closing Procedures, Service Readiness. 13 tasks.
+  //
+  // No new method, frequency, or role-tier vocabulary this cluster — every
+  // value used already existed.
+  //
+  // "Hot-hold / bain-marie pre-heated" reuses the existing `hot_hold_temp`
+  // legal limit category (same ≥63°C [LAW] figure Cluster A's "Hot-holding
+  // temperature" already uses) rather than a new category — it's the same
+  // real-world legal threshold, just checked at a different moment (before
+  // service starts, not during it).
+  //
+  // Two preset merges into existing presets from Cluster A, per the same
+  // pattern Cluster D established for Extraction Canopy Tasks: "Hot-hold /
+  // bain-marie pre-heated" → Bain-marie Tasks (currently 1 item), "Service
+  // fridges stocked & at temp" → Fridge Tasks (currently 5 items). Handled
+  // by the same resolve-or-create preset loop Cluster D introduced.
+  static const _clusterETasks = [
+    // Segment 15 — Opening Procedures
+    _LibraryTask(
+      title: 'Opening checklist complete',
+      segment: 'opening_procedures',
+      method: 'multi',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'All refrigeration temps at open',
+      segment: 'opening_procedures',
+      method: 'data',
+      priority: 'critical',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Equipment switched on & warmed',
+      segment: 'opening_procedures',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'No overnight pest / leak / fault',
+      segment: 'opening_procedures',
+      method: 'tick_note',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    // Segment 16 — Closing Procedures
+    _LibraryTask(
+      title: 'Closing checklist complete',
+      segment: 'closing_procedures',
+      method: 'multi',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Equipment safely off',
+      segment: 'closing_procedures',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Perishables stored / covered / dated',
+      segment: 'closing_procedures',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Final clean-down',
+      segment: 'closing_procedures',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Premises secured / alarm set',
+      segment: 'closing_procedures',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'daily',
+    ),
+    // Segment 17 — Service Readiness
+    _LibraryTask(
+      title: 'Mise en place complete',
+      segment: 'service_readiness',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      frequency: 'perService',
+    ),
+    _LibraryTask(
+      title: 'Hot-hold / bain-marie pre-heated',
+      segment: 'service_readiness',
+      method: 'data',
+      priority: 'high',
+      equipmentTypeName: 'Bain-marie',
+      roleTiers: ['base'],
+      minLimit: 63.0,
+      unit: 'celsius',
+      legalLimitCategory: 'hot_hold_temp',
+      fixInstructions: 'Must reach 63°C or above before service begins [LAW].',
+      frequency: 'perService',
+    ),
+    _LibraryTask(
+      title: 'Specials / allergen info briefed',
+      segment: 'service_readiness',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      frequency: 'perService',
+    ),
+    _LibraryTask(
+      title: 'Service fridges stocked & at temp',
+      segment: 'service_readiness',
+      method: 'data',
+      priority: 'high',
+      equipmentTypeName: 'Fridge',
+      roleTiers: ['base'],
+      frequency: 'perService',
+    ),
+  ];
+
+  // "Bain-marie Tasks" and "Fridge Tasks" reuse presets Cluster A already
+  // created — handled by the resolve-or-create preset loop below, not by
+  // declaring them as new (which would just be skipped by a plain by-name
+  // check without the merge logic Cluster D introduced).
+  static const _clusterEPresets = [
+    _LibraryPreset(
+      name: 'Bain-marie Tasks',
+      equipmentTypeName: 'Bain-marie',
+      itemTitles: ['Hot-hold / bain-marie pre-heated'],
+    ),
+    _LibraryPreset(
+      name: 'Fridge Tasks',
+      equipmentTypeName: 'Fridge',
+      itemTitles: ['Service fridges stocked & at temp'],
+    ),
+    _LibraryPreset(
+      name: 'Opening Procedures Tasks',
+      segment: 'opening_procedures',
+      itemTitles: [
+        'Opening checklist complete',
+        'All refrigeration temps at open',
+        'Equipment switched on & warmed',
+        'No overnight pest / leak / fault',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Closing Procedures Tasks',
+      segment: 'closing_procedures',
+      itemTitles: [
+        'Closing checklist complete',
+        'Equipment safely off',
+        'Perishables stored / covered / dated',
+        'Final clean-down',
+        'Premises secured / alarm set',
+      ],
+    ),
+    _LibraryPreset(
+      name: 'Service Readiness Tasks',
+      segment: 'service_readiness',
+      itemTitles: [
+        'Mise en place complete',
+        'Specials / allergen info briefed',
+      ],
+    ),
+  ];
+
+  Future<void> _seedTaskLibraryClusterE() async {
+    final equipmentTypeIdByName = {
+      for (final row in await select(equipmentTypes).get())
+        row.name: row.id,
+    };
+    final venueTypeIdByName = {
+      for (final row in await select(venueTypes).get()) row.name: row.id,
+    };
+
+    final existingTitles = (await select(
+      taskTemplates,
+    ).get()).map((row) => row.title).toSet();
+
+    for (final task in _clusterETasks) {
+      if (existingTitles.contains(task.title)) continue;
+
+      final equipmentTypeId = task.equipmentTypeName == null
+          ? null
+          : equipmentTypeIdByName[task.equipmentTypeName];
+
+      final insertedId = await into(taskTemplates).insert(
+        TaskTemplatesCompanion.insert(
+          templateGroupId: 0,
+          versionNumber: 1,
+          title: task.title,
+          segment: task.segment,
+          applicableRoleTiers: task.roleTiers.join(','),
+          method: task.method,
+          requiresPhoto: Value(task.method.contains('photo')),
+          requiresNotes: Value(task.method.contains('note')),
+          minLimit: Value(task.minLimit),
+          maxLimit: Value(task.maxLimit),
+          unit: Value(task.unit),
+          legalLimitCategory: Value(task.legalLimitCategory),
+          isCritical: Value(task.priority == 'critical'),
+          priority: Value(task.priority),
+          requiresCorrectiveActionOnFail: Value(task.priority == 'critical'),
+          fixInstructions: Value(task.fixInstructions),
+          equipmentTypeId: Value(equipmentTypeId),
+          createdAt: DateTime.now(),
+        ),
+      );
+      await (update(
+        taskTemplates,
+      )..where((t) => t.id.equals(insertedId))).write(
+        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
+      );
+
+      final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
+      for (final vtName in venueTypeNames) {
+        final vtId = venueTypeIdByName[vtName];
+        if (vtId == null) continue;
+        await into(taskTemplateVenueTypes).insert(
+          TaskTemplateVenueTypesCompanion.insert(
+            taskTemplateGroupId: insertedId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+
+    final templateGroupIdByTitle = {
+      for (final row in await select(taskTemplates).get())
+        row.title: row.templateGroupId,
+    };
+    final frequencyByTitle = {
+      for (final task in _clusterETasks) task.title: task.frequency,
+    };
+
+    // Same resolve-or-create-then-merge preset loop Cluster D introduced —
+    // needed here too, since Bain-marie Tasks and Fridge Tasks both already
+    // exist from Cluster A. Safe to rerun: every step is idempotent.
+    for (final preset in _clusterEPresets) {
       final existingPreset = await (select(
         taskPresets,
       )..where((p) => p.name.equals(preset.name))).getSingleOrNull();
