@@ -7,6 +7,7 @@ import '../features/manager/manager_screen.dart';
 import '../features/tasks/task_screen.dart';
 import '../shared/models/user.dart';
 import '../shared/providers/auth_providers.dart';
+import 'theme/app_theme.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
@@ -35,7 +36,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Kitchen Control',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: AppTheme.light,
       home: home,
       routes: {'/manager': (_) => const ManagerScreen()},
     );
