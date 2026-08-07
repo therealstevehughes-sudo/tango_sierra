@@ -276,7 +276,23 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 ]
               : null,
         ),
-        body: const Center(child: Text("No tasks assigned yet.")),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text("No tasks assigned yet."),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () =>
+                      ref.read(currentUserProvider.notifier).state = null,
+                  child: const Text("Log out"),
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     }
 

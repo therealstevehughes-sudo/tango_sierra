@@ -352,25 +352,27 @@ class _PresetManagementScreenState
             ),
           Padding(
             padding: const EdgeInsets.all(8),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // Visual/UX audit: three actions used to sit in one fixed-width
+            // Row (an "Add task" icon-button plus a nested Row of two more
+            // TextButtons) with no wrap — narrow enough to overflow. A Wrap
+            // reflows the third action onto its own line instead.
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              spacing: 8,
+              runSpacing: 4,
               children: [
                 TextButton.icon(
                   onPressed: () => _addItem(preset),
                   icon: const Icon(Icons.add),
                   label: const Text('Add task'),
                 ),
-                Row(
-                  children: [
-                    TextButton(
-                      onPressed: () => _rename(preset),
-                      child: const Text('Rename'),
-                    ),
-                    TextButton(
-                      onPressed: () => _setActive(preset, !preset.active),
-                      child: Text(preset.active ? 'Deactivate' : 'Reactivate'),
-                    ),
-                  ],
+                TextButton(
+                  onPressed: () => _rename(preset),
+                  child: const Text('Rename'),
+                ),
+                TextButton(
+                  onPressed: () => _setActive(preset, !preset.active),
+                  child: Text(preset.active ? 'Deactivate' : 'Reactivate'),
                 ),
               ],
             ),

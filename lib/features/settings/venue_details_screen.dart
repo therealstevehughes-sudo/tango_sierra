@@ -266,26 +266,37 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                     children: [
                       ListTile(
                         title: Text(site.name),
-                        subtitle: Text(site.address ?? ''),
-                        trailing: Row(
+                        // Visual/UX audit: the Active indicator and "Set as
+                        // Active" action used to share `trailing` with the
+                        // rename icon in a Row — the same "trailing eats the
+                        // title's width" pattern that broke Staff
+                        // Management's name wrap. Moved into `subtitle` so a
+                        // long venue name isn't squeezed at narrow widths.
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            Text(site.address ?? ''),
+                            const SizedBox(height: 4),
                             if (isActive)
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 8),
+                              const Align(
+                                alignment: Alignment.centerLeft,
                                 child: Chip(label: Text('Active')),
                               )
                             else
-                              TextButton(
-                                onPressed: () => _setActive(site),
-                                child: const Text('Set as Active'),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: TextButton(
+                                  onPressed: () => _setActive(site),
+                                  child: const Text('Set as Active'),
+                                ),
                               ),
-                            IconButton(
-                              icon: const Icon(Icons.edit),
-                              tooltip: 'Rename',
-                              onPressed: () => _renameSite(site),
-                            ),
                           ],
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.edit),
+                          tooltip: 'Rename',
+                          onPressed: () => _renameSite(site),
                         ),
                       ),
                       Padding(

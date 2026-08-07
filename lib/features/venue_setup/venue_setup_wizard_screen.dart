@@ -397,6 +397,7 @@ class _VenueSetupWizardScreenState
             IconButton(
               onPressed: () => _addArea(areaNameController.text),
               icon: const Icon(Icons.add),
+              tooltip: 'Add area',
             ),
           ],
         ),
@@ -466,6 +467,7 @@ class _VenueSetupWizardScreenState
                 IconButton(
                   onPressed: _addNewEquipmentType,
                   icon: const Icon(Icons.check),
+                  tooltip: 'Confirm new equipment type',
                 ),
               ],
             ),
@@ -493,7 +495,11 @@ class _VenueSetupWizardScreenState
                 decoration: const InputDecoration(labelText: 'Equipment name'),
               ),
             ),
-            IconButton(onPressed: _addEquipment, icon: const Icon(Icons.add)),
+            IconButton(
+              onPressed: _addEquipment,
+              icon: const Icon(Icons.add),
+              tooltip: 'Add equipment',
+            ),
           ],
         ),
         const SizedBox(height: 16),

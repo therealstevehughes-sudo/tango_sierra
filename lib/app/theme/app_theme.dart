@@ -49,7 +49,11 @@ class AppTheme {
       ),
       // Strong primary button (Layout Rule) with a real touch-target floor
       // for wet hands / time pressure — 56dp, not Material's smaller
-      // default.
+      // default. `Size(64, 56)`, not `Size.fromHeight(56)` — the latter
+      // sets minimum WIDTH to infinity, which crashes with "BoxConstraints
+      // forces an infinite width" the moment an ElevatedButton is placed
+      // inside a Row (unconstrained main-axis width), found during the
+      // full-app visual/UX audit on the task screen's PASS/FAIL buttons.
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.teal,
@@ -57,7 +61,7 @@ class AppTheme {
           disabledBackgroundColor: AppColors.lineStrong,
           disabledForegroundColor: AppColors.muted,
           textStyle: textTheme.labelLarge,
-          minimumSize: const Size.fromHeight(56),
+          minimumSize: const Size(64, 56),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
