@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/section_header.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/task_preset.dart';
 import '../../shared/models/task_schedule.dart';
@@ -251,7 +252,7 @@ class _PresetManagementScreenState
                   child: Text('No presets yet.'),
                 )
               else
-                ...presets.map(_buildPresetCard),
+                ..._buildGroupedPresets(),
               const Divider(),
               if (!showCreateForm)
                 ElevatedButton(
@@ -297,6 +298,33 @@ class _PresetManagementScreenState
         ],
       ),
     );
+  }
+
+  // Sub-sprint 2 (visual/UX pass): was one flat, undifferentiated list of
+  // all presets in load order — finding a specific one (now ~44 after the
+  // Sprint 030 task library load) meant scrolling the whole list. Split
+  // into two headed groups matching the data's own existing distinction
+  // (`equipmentTypeId` vs. `segment`), the same split the task-library
+  // seeding itself already uses when generating presets.
+  List<Widget> _buildGroupedPresets() {
+    final equipmentPresets = presets
+        .where((p) => p.equipmentTypeId != null)
+        .toList();
+    final segmentPresets = presets
+        .where((p) => p.equipmentTypeId == null)
+        .toList();
+
+    return [
+      if (equipmentPresets.isNotEmpty) ...[
+        const SectionHeader(title: 'Equipment presets'),
+        ...equipmentPresets.map(_buildPresetCard),
+        const SizedBox(height: 16),
+      ],
+      if (segmentPresets.isNotEmpty) ...[
+        const SectionHeader(title: 'Section presets'),
+        ...segmentPresets.map(_buildPresetCard),
+      ],
+    ];
   }
 
   Widget _buildPresetCard(TaskPreset preset) {

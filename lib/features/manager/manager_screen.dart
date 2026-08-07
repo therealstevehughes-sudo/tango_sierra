@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
+import '../../core/widgets/user_title.dart';
 import '../../shared/models/session_summary.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/trigger_notification.dart';
@@ -176,106 +178,16 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Manager View'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const VenueSetupWizardScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.store),
-            tooltip: 'Venue Setup',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const VenueDetailsScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.location_city),
-            tooltip: 'Venue Details',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const StaffAssignmentScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.assignment_ind),
-            tooltip: 'Assign Tasks',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const PresetManagementScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.checklist),
-            tooltip: 'Task Presets',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const StaffManagementScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.badge),
-            tooltip: 'Staff Management',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const NotificationRulesScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.notifications),
-            tooltip: 'Notification Rules',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const ThirdPartyContactsScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.contact_phone),
-            tooltip: 'Maintenance Contacts',
-          ),
-          IconButton(
-            onPressed: () => _showBackupDialog(context, ref),
-            icon: const Icon(Icons.backup),
-            tooltip: 'Back Up Now',
-          ),
-          IconButton(
-            onPressed: () {
-              ref.read(currentUserProvider.notifier).state = null;
-            },
-            icon: const Icon(Icons.logout),
-            tooltip: 'Log out',
-          ),
-        ],
+        title: currentUser != null
+            ? UserTitle(user: currentUser)
+            : const Text('Manager View'),
       ),
+      // Sub-sprint 2 (visual/UX pass): replaces the previous 9-icon,
+      // tooltip-only AppBar action row — tooltips never surface on touch
+      // devices, so a user unfamiliar with the glyphs had no way to tell
+      // what a button did before pressing it. A drawer with a visible icon
+      // + label per row fixes that without crowding the app bar.
+      drawer: _ManagerDrawer(onBackUp: () => _showBackupDialog(context, ref)),
       body: Column(
         children: [
           if (currentUser != null)
@@ -356,6 +268,95 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
               error: (error, stackTrace) =>
                   Center(child: Text('Error loading tasks: $error')),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ManagerDrawer extends ConsumerWidget {
+  const _ManagerDrawer({required this.onBackUp});
+
+  final VoidCallback onBackUp;
+
+  void _navigate(BuildContext context, Widget screen) {
+    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: AppColors.tealTint),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                'Manager View',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.tealInk,
+                ),
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.store),
+            title: const Text('Venue Setup'),
+            onTap: () =>
+                _navigate(context, const VenueSetupWizardScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.location_city),
+            title: const Text('Venue Details'),
+            onTap: () => _navigate(context, const VenueDetailsScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.assignment_ind),
+            title: const Text('Assign Tasks'),
+            onTap: () => _navigate(context, const StaffAssignmentScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.checklist),
+            title: const Text('Task Presets'),
+            onTap: () => _navigate(context, const PresetManagementScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.badge),
+            title: const Text('Staff Management'),
+            onTap: () => _navigate(context, const StaffManagementScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.notifications),
+            title: const Text('Notification Rules'),
+            onTap: () => _navigate(context, const NotificationRulesScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.contact_phone),
+            title: const Text('Maintenance Contacts'),
+            onTap: () => _navigate(context, const ThirdPartyContactsScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.backup),
+            title: const Text('Back Up Now'),
+            onTap: () {
+              Navigator.pop(context);
+              onBackUp();
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Log out'),
+            onTap: () {
+              Navigator.pop(context);
+              ref.read(currentUserProvider.notifier).state = null;
+            },
           ),
         ],
       ),

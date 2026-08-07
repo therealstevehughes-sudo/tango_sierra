@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 
+enum _StaffAction { changeTier, resetPin, toggleActive }
+
 class StaffManagementScreen extends ConsumerStatefulWidget {
   const StaffManagementScreen({super.key});
 
@@ -188,26 +190,40 @@ class _StaffManagementScreenState
             'by $deactivatedBy',
     ];
 
+    // Sub-sprint 2 (visual/UX pass): was a Row of 3 full-text TextButtons
+    // at their natural width in `trailing` — ListTile gives trailing first
+    // claim on space, leaving `title: Text(user.name)` almost none, so the
+    // name wrapped one letter per line. A single overflow menu guarantees
+    // the name a real width while keeping every action fully labelled
+    // (just not always visible).
     return Card(
       child: ListTile(
         title: Text(user.name),
         subtitle: Text(subtitleParts.join('\n')),
         isThreeLine: subtitleParts.length > 2,
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextButton(
-              onPressed: () => _changeRoleTier(user),
-              child: const Text('Change Tier'),
+        trailing: PopupMenuButton<_StaffAction>(
+          tooltip: 'More actions',
+          onSelected: (action) {
+            switch (action) {
+              case _StaffAction.changeTier:
+                _changeRoleTier(user);
+              case _StaffAction.resetPin:
+                _resetPin(user);
+              case _StaffAction.toggleActive:
+                user.active ? _deactivate(user) : _setActive(user, true);
+            }
+          },
+          itemBuilder: (context) => [
+            const PopupMenuItem(
+              value: _StaffAction.changeTier,
+              child: Text('Change Tier'),
             ),
-            TextButton(
-              onPressed: () => _resetPin(user),
-              child: const Text('Reset PIN'),
+            const PopupMenuItem(
+              value: _StaffAction.resetPin,
+              child: Text('Reset PIN'),
             ),
-            TextButton(
-              onPressed: () => user.active
-                  ? _deactivate(user)
-                  : _setActive(user, true),
+            PopupMenuItem(
+              value: _StaffAction.toggleActive,
               child: Text(user.active ? 'Deactivate' : 'Reactivate'),
             ),
           ],

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/utils/unit_conversion.dart';
+import '../../core/widgets/user_title.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
@@ -260,7 +261,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     if (!controller.hasTasks) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Task"),
+          title: currentUser != null
+              ? UserTitle(user: currentUser)
+              : const Text("Task"),
           actions: canSeeManagerView
               ? [
                   IconButton(
@@ -281,7 +284,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Task"),
+        title: currentUser != null
+            ? UserTitle(user: currentUser)
+            : const Text("Task"),
         actions: canSeeManagerView
             ? [
                 IconButton(

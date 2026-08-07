@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
+import '../../core/widgets/user_title.dart';
 import '../../shared/models/trigger_notification.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/backup_providers.dart';
@@ -124,106 +126,14 @@ class _TopScreenState extends ConsumerState<TopScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Top-Tier View'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const VenueSetupWizardScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.store),
-            tooltip: 'Venue Setup',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const VenueDetailsScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.location_city),
-            tooltip: 'Venue Details',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const StaffAssignmentScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.assignment_ind),
-            tooltip: 'Assign Tasks',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const PresetManagementScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.checklist),
-            tooltip: 'Task Presets',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const StaffManagementScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.badge),
-            tooltip: 'Staff Management',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const NotificationRulesScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.notifications),
-            tooltip: 'Notification Rules',
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const ThirdPartyContactsScreen(),
-                ),
-              );
-            },
-            icon: const Icon(Icons.contact_phone),
-            tooltip: 'Maintenance Contacts',
-          ),
-          IconButton(
-            onPressed: () => _showBackupDialog(context, ref),
-            icon: const Icon(Icons.backup),
-            tooltip: 'Back Up Now',
-          ),
-          IconButton(
-            onPressed: () {
-              ref.read(currentUserProvider.notifier).state = null;
-            },
-            icon: const Icon(Icons.logout),
-            tooltip: 'Log out',
-          ),
-        ],
+        title: currentUser != null
+            ? UserTitle(user: currentUser)
+            : const Text('Top-Tier View'),
       ),
+      // Sub-sprint 2 (visual/UX pass): see manager_screen.dart's identical
+      // change for the rationale — replaces the previous 9-icon,
+      // tooltip-only AppBar action row.
+      drawer: _TopDrawer(onBackUp: () => _showBackupDialog(context, ref)),
       body: Column(
         children: [
           if (currentUser != null)
@@ -248,6 +158,95 @@ class _TopScreenState extends ConsumerState<TopScreen> {
                 ),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TopDrawer extends ConsumerWidget {
+  const _TopDrawer({required this.onBackUp});
+
+  final VoidCallback onBackUp;
+
+  void _navigate(BuildContext context, Widget screen) {
+    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          const DrawerHeader(
+            decoration: BoxDecoration(color: AppColors.tealTint),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                'Top-Tier View',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.tealInk,
+                ),
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.store),
+            title: const Text('Venue Setup'),
+            onTap: () =>
+                _navigate(context, const VenueSetupWizardScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.location_city),
+            title: const Text('Venue Details'),
+            onTap: () => _navigate(context, const VenueDetailsScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.assignment_ind),
+            title: const Text('Assign Tasks'),
+            onTap: () => _navigate(context, const StaffAssignmentScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.checklist),
+            title: const Text('Task Presets'),
+            onTap: () => _navigate(context, const PresetManagementScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.badge),
+            title: const Text('Staff Management'),
+            onTap: () => _navigate(context, const StaffManagementScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.notifications),
+            title: const Text('Notification Rules'),
+            onTap: () => _navigate(context, const NotificationRulesScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.contact_phone),
+            title: const Text('Maintenance Contacts'),
+            onTap: () => _navigate(context, const ThirdPartyContactsScreen()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.backup),
+            title: const Text('Back Up Now'),
+            onTap: () {
+              Navigator.pop(context);
+              onBackUp();
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Log out'),
+            onTap: () {
+              Navigator.pop(context);
+              ref.read(currentUserProvider.notifier).state = null;
+            },
           ),
         ],
       ),
