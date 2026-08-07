@@ -3,7 +3,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
 import '../../core/utils/unit_conversion.dart';
+import '../../core/widgets/app_card.dart';
+import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/status_badge.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -91,6 +95,26 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
   void _onFormChanged() {
     setState(() {});
+  }
+
+  // Visual/UX pass, Sub-sprint 3: Log Out is now always visible in the app
+  // bar on every state of this screen (previously only the empty-task
+  // state had a way out at all) — a small, secondary-styled action so it
+  // doesn't compete with SUBMIT as the screen's one primary action.
+  List<Widget> _appBarActions(bool canSeeManagerView) {
+    return [
+      if (canSeeManagerView)
+        IconButton(
+          onPressed: () => Navigator.pushNamed(context, '/manager'),
+          icon: const Icon(Icons.visibility),
+          tooltip: 'Manager View',
+        ),
+      TextButton.icon(
+        onPressed: () => ref.read(currentUserProvider.notifier).state = null,
+        icon: const Icon(Icons.logout, size: 18),
+        label: const Text('Log out'),
+      ),
+    ];
   }
 
   bool get _displayInFahrenheit {
@@ -264,35 +288,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           title: currentUser != null
               ? UserTitle(user: currentUser)
               : const Text("Task"),
-          actions: canSeeManagerView
-              ? [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/manager');
-                    },
-                    icon: const Icon(Icons.visibility),
-                    tooltip: 'Manager View',
-                  ),
-                ]
-              : null,
+          actions: _appBarActions(canSeeManagerView),
         ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text("No tasks assigned yet."),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () =>
-                      ref.read(currentUserProvider.notifier).state = null,
-                  child: const Text("Log out"),
-                ),
-              ],
-            ),
-          ),
-        ),
+        body: const Center(child: Text("No tasks assigned yet.")),
       );
     }
 
@@ -303,93 +301,109 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text("Task"),
-        actions: canSeeManagerView
-            ? [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/manager');
-                  },
-                  icon: const Icon(Icons.visibility),
-                  tooltip: 'Manager View',
-                ),
-              ]
-            : null,
+        actions: _appBarActions(canSeeManagerView),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Text(task.displayTitle, style: const TextStyle(fontSize: 22)),
-            const SizedBox(height: 20),
-            if (task.hasNumericRange)
-              TextField(
-                controller: numberController,
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                  signed: true,
-                ),
-                decoration: InputDecoration(labelText: _numericFieldLabel),
-              ),
-            if (task.hasNumericRange && _numberInTemplateUnit != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 8),
-                child: Text(
-                  _derivedResultFromNumber == "PASS"
-                      ? "Within range — PASS"
-                      : "Outside range — FAIL",
-                  style: TextStyle(
-                    color: _derivedResultFromNumber == "PASS"
-                        ? Colors.green
-                        : Colors.red,
-                    fontWeight: FontWeight.bold,
+            // Visual/UX pass, Sub-sprint 3: task title + inputs grouped in
+            // one AppCard (Layout Rule's "consistent card structure"),
+            // scoped narrowly to the content itself — PASS/FAIL, warnings,
+            // and SUBMIT stay outside as the screen's action zone.
+            AppCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    task.displayTitle,
+                    style: Theme.of(context).textTheme.headlineMedium,
                   ),
-                ),
-              ),
-            if (task.hasChoice)
-              DropdownButtonFormField<String>(
-                initialValue: selectedChoice,
-                decoration: const InputDecoration(labelText: "Select option"),
-                items: task.choiceOptions!
-                    .map(
-                      (option) => DropdownMenuItem(
-                        value: option,
-                        child: Text(option),
+                  const SizedBox(height: 20),
+                  if (task.hasNumericRange)
+                    TextField(
+                      controller: numberController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                        signed: true,
                       ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  setState(() => selectedChoice = value);
-                },
+                      decoration: InputDecoration(labelText: _numericFieldLabel),
+                    ),
+                  if (task.hasNumericRange && _numberInTemplateUnit != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: StatusBadge(
+                        kind: _derivedResultFromNumber == "PASS"
+                            ? StatusKind.pass
+                            : StatusKind.critical,
+                        label: _derivedResultFromNumber == "PASS"
+                            ? "Within range — PASS"
+                            : "Outside range — FAIL",
+                      ),
+                    ),
+                  if (task.hasChoice)
+                    DropdownButtonFormField<String>(
+                      initialValue: selectedChoice,
+                      decoration: const InputDecoration(
+                        labelText: "Select option",
+                      ),
+                      items: task.choiceOptions!
+                          .map(
+                            (option) => DropdownMenuItem(
+                              value: option,
+                              child: Text(option),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        setState(() => selectedChoice = value);
+                      },
+                    ),
+                  if (task.requiresNotes)
+                    TextField(
+                      controller: notesController,
+                      decoration: const InputDecoration(labelText: "Notes"),
+                    ),
+                  if (task.requiresPhoto)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() => photoTaken = true);
+                        },
+                        child: Text(photoTaken ? "Photo Added" : "Add Photo"),
+                      ),
+                    ),
+                ],
               ),
-            if (task.requiresNotes)
-              TextField(
-                controller: notesController,
-                decoration: const InputDecoration(labelText: "Notes"),
-              ),
-            if (task.requiresPhoto)
-              ElevatedButton(
-                onPressed: () {
-                  setState(() => photoTaken = true);
-                },
-                child: Text(photoTaken ? "Photo Added" : "Add Photo"),
-              ),
+            ),
             const SizedBox(height: 20),
+            // PASS/FAIL as an equal-width segmented pair, not two competing
+            // buttons — large touch targets for wet hands, and colour is
+            // never the only signal (icon + word always accompany it).
             if (!task.hasNumericRange)
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    onPressed: () => setState(() => result = "PASS"),
-                    child: const Text("PASS"),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () => setState(() => result = "FAIL"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
+                  Expanded(
+                    child: _ResultOption(
+                      label: 'PASS',
+                      icon: Icons.check_circle_outline,
+                      color: AppColors.pass,
+                      bgColor: AppColors.passBg,
+                      selected: result == 'PASS',
+                      onTap: () => setState(() => result = 'PASS'),
                     ),
-                    child: const Text("FAIL"),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: _ResultOption(
+                      label: 'FAIL',
+                      icon: Icons.cancel_outlined,
+                      color: AppColors.critical,
+                      bgColor: AppColors.criticalBg,
+                      selected: result == 'FAIL',
+                      onTap: () => setState(() => result = 'FAIL'),
+                    ),
                   ),
                 ],
               ),
@@ -397,22 +411,20 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
             if (_rangeWarning != null)
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
-                child: Text(
-                  _rangeWarning!,
-                  style: const TextStyle(color: Colors.red),
-                  textAlign: TextAlign.center,
-                ),
+                child: Text(_rangeWarning!, textAlign: TextAlign.center),
               ),
             if (task.requiresCorrectiveActionOnFail &&
                 effectiveResult == "FAIL")
               Column(
                 children: [
-                  if (task.fixInstructions != null)
-                    Text(
-                      "Corrective Action Required:\n${task.fixInstructions}",
-                      style: const TextStyle(color: Colors.red),
-                      textAlign: TextAlign.center,
-                    ),
+                  const StatusBadge(
+                    kind: StatusKind.critical,
+                    label: 'Corrective action required',
+                  ),
+                  if (task.fixInstructions != null) ...[
+                    const SizedBox(height: 8),
+                    Text(task.fixInstructions!, textAlign: TextAlign.center),
+                  ],
                   CheckboxListTile(
                     title: const Text("Corrective action completed"),
                     value: correctiveDone,
@@ -428,9 +440,69 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 child: Text(error!, style: const TextStyle(color: Colors.red)),
               ),
             const Spacer(),
-            ElevatedButton(
-              onPressed: canSubmit ? validateAndSubmit : null,
-              child: const Text("SUBMIT"),
+            SizedBox(
+              width: double.infinity,
+              child: PrimaryActionButton(
+                label: "SUBMIT",
+                icon: Icons.check,
+                onPressed: canSubmit ? validateAndSubmit : null,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// One half of the PASS/FAIL segmented pair — large touch target, and
+/// colour is never the only signal: icon + word are always present, even
+/// unselected (muted, not just absent), per DESIGN_SYSTEM_LOCK's
+/// Accessibility Rule.
+class _ResultOption extends StatelessWidget {
+  const _ResultOption({
+    required this.label,
+    required this.icon,
+    required this.color,
+    required this.bgColor,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final IconData icon;
+  final Color color;
+  final Color bgColor;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: selected ? bgColor : AppColors.card,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: selected ? color : AppColors.line,
+            width: selected ? 2 : 1,
+          ),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: selected ? color : AppColors.muted, size: 28),
+            const SizedBox(height: 6),
+            Text(
+              label,
+              style: TextStyle(
+                color: selected ? color : AppColors.muted,
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+              ),
             ),
           ],
         ),
