@@ -914,3 +914,19 @@ Risks: **Methodology finding, not an app bug**: this dev machine runs at 200% Wi
 Deferred items: none — both follow-ups complete.
 Save point name: SPRINT_031F_LOCK
 Notes: Commit 46f318b, message "Login screen: restore warmth (teal avatar + divider) and add name search".
+
+---
+
+## Sprint 031 (follow-up) — Fix real overflow on the corrective-action screen, found by the user's own click-through
+Date: 2026-08-07
+Objective: The user navigated to the redesigned corrective-action screen themselves (first real end-to-end interaction with it since Sub-sprint 4) and screenshotted a genuine `RenderFlex` overflow on the two-path row — "BOTTOM OVERFLOWED BY 38 PIXELS", not a mock-up. Everything else on the screen (fixInstructions card, two-path chooser, "Reported to manager") rendered and worked correctly.
+Files changed:
+- lib/features/tasks/task_screen.dart — the body was never wrapped in a scroll view. Fine for the old one-badge/one-line/one-checkbox corrective-action block, but Sub-sprint 4's taller replacement (badge + bordered/tinted instructions card with a real multi-line fixInstructions string + a two-tile row) pushed total content height past the viewport, and `Spacer()` can't fix a genuine overflow — it only distributes remaining space, it can't shrink content that's already too tall. Wrapped the body in a `SingleChildScrollView`; removed `Spacer()`, replaced with a fixed `SizedBox(height: 24)` — SUBMIT now sits naturally after the last content block instead of pinned to the bottom edge, the same pattern already used on `end_of_session_summary_screen.dart`.
+- DECISIONS_LOG.md — the finding and the fix.
+Files unchanged: no other screens.
+Architecture impact: None.
+UI impact: The corrective-action screen no longer overflows; SUBMIT is reached by scrolling on shorter windows instead of being cut off.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run launches without error; the user directly re-confirmed the fix on the running app.
+Deferred items: none.
+Save point name: SPRINT_031G_LOCK
+Notes: Commit fcecb9e, message "Fix real overflow on corrective-action screen, found by user click-through".
