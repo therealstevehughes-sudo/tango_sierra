@@ -878,3 +878,39 @@ Risks: The PASS/FAIL segmented pair and the end-of-session summary screen's new 
 Deferred items: Sub-sprint 4 (manager/mid-tier screens), Sub-sprint 5 (top/director-tier screens).
 Save point name: SPRINT_031D_LOCK
 Notes: Part 1 commit d1735e3, message "Sprint 031 (Sub-sprint 3, Part 1): visual pass for the task carousel". Part 2 (code + DECISIONS_LOG.md) commit cad12ad, message "Sprint 031 (Sub-sprint 3, Part 2): login/staff-list + end-of-session summary, completes Sub-sprint 3".
+
+---
+
+## Sprint 031 (Sub-sprint 4) — Corrective action redesign: two recorded paths, never blocked
+Date: 2026-08-07
+Objective: A real compliance gap found testing the redesigned task carousel — `requiresCorrectiveActionOnFail` gated SUBMIT behind a single "completed" checkbox a worker often couldn't honestly tick (e.g. a Kitchen Porter can't repair a fridge), either trapping them or training them to lie. Proposed and agreed before building, including a specific decision on guaranteed escalation. Renumbers the remaining plan: what was "Sub-sprint 4" (manager/mid-tier screens) becomes Sub-sprint 5, and "Sub-sprint 5" (top/director-tier) becomes Sub-sprint 6 — this piece was base-tier task-screen work that came up organically, not the planned manager-tier migration.
+Files changed:
+- lib/core/storage/app_database.dart (+ .g.dart) — schemaVersion 23→24: `TaskSubmissions` gains nullable `correctiveActionOutcome` ('fixed'/'reported') and `correctiveActionNote`; `TriggerNotifications.notificationRuleId` changed from required to nullable via Drift's `TableMigration` (SQLite has no `ALTER COLUMN`), since a guaranteed-floor notification has no originating rule to attribute to.
+- lib/features/tasks/task_model.dart — `ResolvedTask` gains `assignedByUserId` (from `TaskSchedule.assignedByUserId`), needed for the guaranteed-floor escalation.
+- lib/features/tasks/task_controller.dart — `_fireNotifications` now, for a 'reported' outcome, runs a guaranteed-floor pass after rule-driven recipients: the assigning manager first, or every user at the lowest non-base tier at the site if that can't be resolved — deduped against anyone already notified, and running even with zero configured `NotificationRule`s (the one case that previously returned early with no rules matched).
+- lib/features/tasks/task_screen.dart — fix instructions promoted to a bordered, tinted "Here's what to do:" card. The single checkbox replaced with two `_ResultOption` tiles (reused from the PASS/FAIL segmented pair) — "I fixed it" (optional description) and "Reported to manager". SUBMIT still gated on choosing one path, never on completing the action itself.
+- lib/shared/models/task_submission.dart, trigger_notification.dart, and their repositories — threaded the new fields/nullability through.
+- DECISIONS_LOG.md — the logged finding, the agreed plan (including the guaranteed-escalation decision), and what was built.
+Files unchanged: no screen outside the task carousel.
+Architecture impact: Second schema change this project has needed a `TableMigration` for (table recreation, not additive `addColumn`) — noted as a real but well-contained pattern, not a concern.
+UI impact: A FAIL requiring corrective action now offers two clear, equally-weighted paths instead of one blocking checkbox; the fix instructions are much harder to miss.
+Risks: The two-path UI wasn't live-clicked-through this pass (reaching a FAIL on a corrective-action-required task requires real task interaction) — flagged rather than assumed. Verified: `flutter analyze` clean; a real Windows debug run confirmed the schemaVersion 23→24 migration, including the `TriggerNotifications` table recreation, executes cleanly against the existing dev database with real data, and the app remains stable afterward.
+Deferred items: Sub-sprint 5 (manager/mid-tier screens), Sub-sprint 6 (top/director-tier screens).
+Save point name: SPRINT_031E_LOCK
+Notes: Commit 535b80a, message "Sprint 031 (Sub-sprint 4): corrective action redesign - two recorded paths, never blocked".
+
+---
+
+## Sprint 031 (follow-up) — Login screen warmth restored + search
+Date: 2026-08-07
+Objective: Two follow-ups to Sub-sprint 3's login-screen redesign. First, a direct screenshot comparison showed the grouped/dense staff list had visually regressed — functionally correct but zero colour anywhere, reading as a generic undesigned list against the signed-off "clinical but warm" direction. Second, a new request: a search box for fast lookup in a 30+ person roster.
+Files changed:
+- lib/features/auth/login_screen.dart — `_StaffTile` gains a small teal initial-avatar (`tealTint` background, `tealInk` initial), restoring colour specifically on the tappable element rather than the (deliberately neutral) tier headers; a subtle divider between tiles. `_StaffList` converted from `StatelessWidget` to `StatefulWidget` to hold a search query; a `TextField` above the list filters by name across both tier groups while typing (tier grouping/`SectionHeader`s stay visible when the search box is empty), with regional/executive still excluded from filtered results — the exclusion is a login-visibility rule, not a grouping-display detail.
+- DECISIONS_LOG.md — the logged finding, what was built, and a methodology correction to the standing narrow-width-testing rule (see below).
+Files unchanged: no other screens.
+Architecture impact: None.
+UI impact: The login screen regains the teal accent on staff rows and gains fast name search; grouped/dense layout from Sub-sprint 3 unchanged.
+Risks: **Methodology finding, not an app bug**: this dev machine runs at 200% Windows DPI scaling (confirmed via `GetDpiForWindow`), and a screenshot script that calls `MoveWindow`/`GetWindowRect` without first setting per-monitor DPI awareness on the calling thread gets an inconsistent coordinate system — a raw "380" resize actually produced ~277 *logical* pixels, narrower than intended, and produced a false-positive-looking mid-word text wrap on a staff tile that doesn't reproduce at the correctly DPI-scaled 380-logical-px width (760 physical px on this machine). Documented as a standing correction to the narrow-width-testing rule so future verification in this environment targets the right physical-pixel value. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches to this screen (the home route) without error; screenshotted at the DPI-corrected 380-logical-px width and confirmed clean (avatars, divider, search, grouping all render correctly, no wrapping).
+Deferred items: none — both follow-ups complete.
+Save point name: SPRINT_031F_LOCK
+Notes: Commit 46f318b, message "Login screen: restore warmth (teal avatar + divider) and add name search".
