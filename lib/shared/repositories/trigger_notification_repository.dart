@@ -6,7 +6,7 @@ import '../models/user.dart';
 
 abstract class TriggerNotificationRepository {
   Future<TriggerNotification> create({
-    required int notificationRuleId,
+    required int? notificationRuleId,
     required int taskSubmissionId,
     required int recipientUserId,
     required String message,
@@ -27,7 +27,7 @@ class DriftTriggerNotificationRepository
 
   @override
   Future<TriggerNotification> create({
-    required int notificationRuleId,
+    required int? notificationRuleId,
     required int taskSubmissionId,
     required int recipientUserId,
     required String message,
@@ -38,7 +38,7 @@ class DriftTriggerNotificationRepository
         .into(_db.triggerNotifications)
         .insert(
           TriggerNotificationsCompanion.insert(
-            notificationRuleId: notificationRuleId,
+            notificationRuleId: Value(notificationRuleId),
             taskSubmissionId: taskSubmissionId,
             recipientUserId: recipientUserId,
             message: message,

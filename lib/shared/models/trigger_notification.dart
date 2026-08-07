@@ -2,7 +2,7 @@ import 'user.dart';
 
 class TriggerNotification {
   final int id;
-  final int notificationRuleId;
+  final int? notificationRuleId;
   final int taskSubmissionId;
   final int recipientUserId;
   final String message;

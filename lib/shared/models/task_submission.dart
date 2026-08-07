@@ -14,6 +14,8 @@ class TaskSubmission {
   final String? customFieldValuesJson;
   final int? completedByUserId;
   final int siteId;
+  final String? correctiveActionOutcome;
+  final String? correctiveActionNote;
 
   const TaskSubmission({
     this.id,
@@ -31,5 +33,7 @@ class TaskSubmission {
     this.customFieldValuesJson,
     this.completedByUserId,
     required this.siteId,
+    this.correctiveActionOutcome,
+    this.correctiveActionNote,
   });
 }

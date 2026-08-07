@@ -2322,6 +2322,28 @@ class $TaskSubmissionsTable extends TaskSubmissions
       'REFERENCES sites (id)',
     ),
   );
+  static const VerificationMeta _correctiveActionOutcomeMeta =
+      const VerificationMeta('correctiveActionOutcome');
+  @override
+  late final GeneratedColumn<String> correctiveActionOutcome =
+      GeneratedColumn<String>(
+        'corrective_action_outcome',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _correctiveActionNoteMeta =
+      const VerificationMeta('correctiveActionNote');
+  @override
+  late final GeneratedColumn<String> correctiveActionNote =
+      GeneratedColumn<String>(
+        'corrective_action_note',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2339,6 +2361,8 @@ class $TaskSubmissionsTable extends TaskSubmissions
     customFieldValuesJson,
     completedByUserId,
     siteId,
+    correctiveActionOutcome,
+    correctiveActionNote,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2474,6 +2498,24 @@ class $TaskSubmissionsTable extends TaskSubmissions
         siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
       );
     }
+    if (data.containsKey('corrective_action_outcome')) {
+      context.handle(
+        _correctiveActionOutcomeMeta,
+        correctiveActionOutcome.isAcceptableOrUnknown(
+          data['corrective_action_outcome']!,
+          _correctiveActionOutcomeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('corrective_action_note')) {
+      context.handle(
+        _correctiveActionNoteMeta,
+        correctiveActionNote.isAcceptableOrUnknown(
+          data['corrective_action_note']!,
+          _correctiveActionNoteMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2543,6 +2585,14 @@ class $TaskSubmissionsTable extends TaskSubmissions
         DriftSqlType.int,
         data['${effectivePrefix}site_id'],
       ),
+      correctiveActionOutcome: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}corrective_action_outcome'],
+      ),
+      correctiveActionNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}corrective_action_note'],
+      ),
     );
   }
 
@@ -2569,6 +2619,8 @@ class TaskSubmissionEntity extends DataClass
   final String? customFieldValuesJson;
   final int? completedByUserId;
   final int? siteId;
+  final String? correctiveActionOutcome;
+  final String? correctiveActionNote;
   const TaskSubmissionEntity({
     required this.id,
     required this.taskTitle,
@@ -2585,6 +2637,8 @@ class TaskSubmissionEntity extends DataClass
     this.customFieldValuesJson,
     this.completedByUserId,
     this.siteId,
+    this.correctiveActionOutcome,
+    this.correctiveActionNote,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2621,6 +2675,14 @@ class TaskSubmissionEntity extends DataClass
     }
     if (!nullToAbsent || siteId != null) {
       map['site_id'] = Variable<int>(siteId);
+    }
+    if (!nullToAbsent || correctiveActionOutcome != null) {
+      map['corrective_action_outcome'] = Variable<String>(
+        correctiveActionOutcome,
+      );
+    }
+    if (!nullToAbsent || correctiveActionNote != null) {
+      map['corrective_action_note'] = Variable<String>(correctiveActionNote);
     }
     return map;
   }
@@ -2660,6 +2722,12 @@ class TaskSubmissionEntity extends DataClass
       siteId: siteId == null && nullToAbsent
           ? const Value.absent()
           : Value(siteId),
+      correctiveActionOutcome: correctiveActionOutcome == null && nullToAbsent
+          ? const Value.absent()
+          : Value(correctiveActionOutcome),
+      correctiveActionNote: correctiveActionNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(correctiveActionNote),
     );
   }
 
@@ -2690,6 +2758,12 @@ class TaskSubmissionEntity extends DataClass
       ),
       completedByUserId: serializer.fromJson<int?>(json['completedByUserId']),
       siteId: serializer.fromJson<int?>(json['siteId']),
+      correctiveActionOutcome: serializer.fromJson<String?>(
+        json['correctiveActionOutcome'],
+      ),
+      correctiveActionNote: serializer.fromJson<String?>(
+        json['correctiveActionNote'],
+      ),
     );
   }
   @override
@@ -2713,6 +2787,10 @@ class TaskSubmissionEntity extends DataClass
       ),
       'completedByUserId': serializer.toJson<int?>(completedByUserId),
       'siteId': serializer.toJson<int?>(siteId),
+      'correctiveActionOutcome': serializer.toJson<String?>(
+        correctiveActionOutcome,
+      ),
+      'correctiveActionNote': serializer.toJson<String?>(correctiveActionNote),
     };
   }
 
@@ -2732,6 +2810,8 @@ class TaskSubmissionEntity extends DataClass
     Value<String?> customFieldValuesJson = const Value.absent(),
     Value<int?> completedByUserId = const Value.absent(),
     Value<int?> siteId = const Value.absent(),
+    Value<String?> correctiveActionOutcome = const Value.absent(),
+    Value<String?> correctiveActionNote = const Value.absent(),
   }) => TaskSubmissionEntity(
     id: id ?? this.id,
     taskTitle: taskTitle ?? this.taskTitle,
@@ -2758,6 +2838,12 @@ class TaskSubmissionEntity extends DataClass
         ? completedByUserId.value
         : this.completedByUserId,
     siteId: siteId.present ? siteId.value : this.siteId,
+    correctiveActionOutcome: correctiveActionOutcome.present
+        ? correctiveActionOutcome.value
+        : this.correctiveActionOutcome,
+    correctiveActionNote: correctiveActionNote.present
+        ? correctiveActionNote.value
+        : this.correctiveActionNote,
   );
   TaskSubmissionEntity copyWithCompanion(TaskSubmissionsCompanion data) {
     return TaskSubmissionEntity(
@@ -2794,6 +2880,12 @@ class TaskSubmissionEntity extends DataClass
           ? data.completedByUserId.value
           : this.completedByUserId,
       siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      correctiveActionOutcome: data.correctiveActionOutcome.present
+          ? data.correctiveActionOutcome.value
+          : this.correctiveActionOutcome,
+      correctiveActionNote: data.correctiveActionNote.present
+          ? data.correctiveActionNote.value
+          : this.correctiveActionNote,
     );
   }
 
@@ -2814,7 +2906,9 @@ class TaskSubmissionEntity extends DataClass
           ..write('equipmentInstanceId: $equipmentInstanceId, ')
           ..write('customFieldValuesJson: $customFieldValuesJson, ')
           ..write('completedByUserId: $completedByUserId, ')
-          ..write('siteId: $siteId')
+          ..write('siteId: $siteId, ')
+          ..write('correctiveActionOutcome: $correctiveActionOutcome, ')
+          ..write('correctiveActionNote: $correctiveActionNote')
           ..write(')'))
         .toString();
   }
@@ -2836,6 +2930,8 @@ class TaskSubmissionEntity extends DataClass
     customFieldValuesJson,
     completedByUserId,
     siteId,
+    correctiveActionOutcome,
+    correctiveActionNote,
   );
   @override
   bool operator ==(Object other) =>
@@ -2855,7 +2951,9 @@ class TaskSubmissionEntity extends DataClass
           other.equipmentInstanceId == this.equipmentInstanceId &&
           other.customFieldValuesJson == this.customFieldValuesJson &&
           other.completedByUserId == this.completedByUserId &&
-          other.siteId == this.siteId);
+          other.siteId == this.siteId &&
+          other.correctiveActionOutcome == this.correctiveActionOutcome &&
+          other.correctiveActionNote == this.correctiveActionNote);
 }
 
 class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
@@ -2874,6 +2972,8 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
   final Value<String?> customFieldValuesJson;
   final Value<int?> completedByUserId;
   final Value<int?> siteId;
+  final Value<String?> correctiveActionOutcome;
+  final Value<String?> correctiveActionNote;
   const TaskSubmissionsCompanion({
     this.id = const Value.absent(),
     this.taskTitle = const Value.absent(),
@@ -2890,6 +2990,8 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     this.customFieldValuesJson = const Value.absent(),
     this.completedByUserId = const Value.absent(),
     this.siteId = const Value.absent(),
+    this.correctiveActionOutcome = const Value.absent(),
+    this.correctiveActionNote = const Value.absent(),
   });
   TaskSubmissionsCompanion.insert({
     this.id = const Value.absent(),
@@ -2907,6 +3009,8 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     this.customFieldValuesJson = const Value.absent(),
     this.completedByUserId = const Value.absent(),
     this.siteId = const Value.absent(),
+    this.correctiveActionOutcome = const Value.absent(),
+    this.correctiveActionNote = const Value.absent(),
   }) : taskTitle = Value(taskTitle),
        status = Value(status),
        completedBy = Value(completedBy),
@@ -2927,6 +3031,8 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     Expression<String>? customFieldValuesJson,
     Expression<int>? completedByUserId,
     Expression<int>? siteId,
+    Expression<String>? correctiveActionOutcome,
+    Expression<String>? correctiveActionNote,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2947,6 +3053,10 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
         'custom_field_values_json': customFieldValuesJson,
       if (completedByUserId != null) 'completed_by_user_id': completedByUserId,
       if (siteId != null) 'site_id': siteId,
+      if (correctiveActionOutcome != null)
+        'corrective_action_outcome': correctiveActionOutcome,
+      if (correctiveActionNote != null)
+        'corrective_action_note': correctiveActionNote,
     });
   }
 
@@ -2966,6 +3076,8 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     Value<String?>? customFieldValuesJson,
     Value<int?>? completedByUserId,
     Value<int?>? siteId,
+    Value<String?>? correctiveActionOutcome,
+    Value<String?>? correctiveActionNote,
   }) {
     return TaskSubmissionsCompanion(
       id: id ?? this.id,
@@ -2984,6 +3096,9 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
           customFieldValuesJson ?? this.customFieldValuesJson,
       completedByUserId: completedByUserId ?? this.completedByUserId,
       siteId: siteId ?? this.siteId,
+      correctiveActionOutcome:
+          correctiveActionOutcome ?? this.correctiveActionOutcome,
+      correctiveActionNote: correctiveActionNote ?? this.correctiveActionNote,
     );
   }
 
@@ -3037,6 +3152,16 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     if (siteId.present) {
       map['site_id'] = Variable<int>(siteId.value);
     }
+    if (correctiveActionOutcome.present) {
+      map['corrective_action_outcome'] = Variable<String>(
+        correctiveActionOutcome.value,
+      );
+    }
+    if (correctiveActionNote.present) {
+      map['corrective_action_note'] = Variable<String>(
+        correctiveActionNote.value,
+      );
+    }
     return map;
   }
 
@@ -3057,7 +3182,9 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
           ..write('equipmentInstanceId: $equipmentInstanceId, ')
           ..write('customFieldValuesJson: $customFieldValuesJson, ')
           ..write('completedByUserId: $completedByUserId, ')
-          ..write('siteId: $siteId')
+          ..write('siteId: $siteId, ')
+          ..write('correctiveActionOutcome: $correctiveActionOutcome, ')
+          ..write('correctiveActionNote: $correctiveActionNote')
           ..write(')'))
         .toString();
   }
@@ -7509,9 +7636,9 @@ class $TriggerNotificationsTable extends TriggerNotifications
   late final GeneratedColumn<int> notificationRuleId = GeneratedColumn<int>(
     'notification_rule_id',
     aliasedName,
-    false,
+    true,
     type: DriftSqlType.int,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES notification_rules (id)',
     ),
@@ -7664,8 +7791,6 @@ class $TriggerNotificationsTable extends TriggerNotifications
           _notificationRuleIdMeta,
         ),
       );
-    } else if (isInserting) {
-      context.missing(_notificationRuleIdMeta);
     }
     if (data.containsKey('task_submission_id')) {
       context.handle(
@@ -7768,7 +7893,7 @@ class $TriggerNotificationsTable extends TriggerNotifications
       notificationRuleId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}notification_rule_id'],
-      )!,
+      ),
       taskSubmissionId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}task_submission_id'],
@@ -7817,7 +7942,7 @@ class $TriggerNotificationsTable extends TriggerNotifications
 class TriggerNotificationEntity extends DataClass
     implements Insertable<TriggerNotificationEntity> {
   final int id;
-  final int notificationRuleId;
+  final int? notificationRuleId;
   final int taskSubmissionId;
   final int recipientUserId;
   final String message;
@@ -7829,7 +7954,7 @@ class TriggerNotificationEntity extends DataClass
   final DateTime? escalatedAt;
   const TriggerNotificationEntity({
     required this.id,
-    required this.notificationRuleId,
+    this.notificationRuleId,
     required this.taskSubmissionId,
     required this.recipientUserId,
     required this.message,
@@ -7844,7 +7969,9 @@ class TriggerNotificationEntity extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['notification_rule_id'] = Variable<int>(notificationRuleId);
+    if (!nullToAbsent || notificationRuleId != null) {
+      map['notification_rule_id'] = Variable<int>(notificationRuleId);
+    }
     map['task_submission_id'] = Variable<int>(taskSubmissionId);
     map['recipient_user_id'] = Variable<int>(recipientUserId);
     map['message'] = Variable<String>(message);
@@ -7866,7 +7993,9 @@ class TriggerNotificationEntity extends DataClass
   TriggerNotificationsCompanion toCompanion(bool nullToAbsent) {
     return TriggerNotificationsCompanion(
       id: Value(id),
-      notificationRuleId: Value(notificationRuleId),
+      notificationRuleId: notificationRuleId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notificationRuleId),
       taskSubmissionId: Value(taskSubmissionId),
       recipientUserId: Value(recipientUserId),
       message: Value(message),
@@ -7892,7 +8021,7 @@ class TriggerNotificationEntity extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TriggerNotificationEntity(
       id: serializer.fromJson<int>(json['id']),
-      notificationRuleId: serializer.fromJson<int>(json['notificationRuleId']),
+      notificationRuleId: serializer.fromJson<int?>(json['notificationRuleId']),
       taskSubmissionId: serializer.fromJson<int>(json['taskSubmissionId']),
       recipientUserId: serializer.fromJson<int>(json['recipientUserId']),
       message: serializer.fromJson<String>(json['message']),
@@ -7911,7 +8040,7 @@ class TriggerNotificationEntity extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'notificationRuleId': serializer.toJson<int>(notificationRuleId),
+      'notificationRuleId': serializer.toJson<int?>(notificationRuleId),
       'taskSubmissionId': serializer.toJson<int>(taskSubmissionId),
       'recipientUserId': serializer.toJson<int>(recipientUserId),
       'message': serializer.toJson<String>(message),
@@ -7926,7 +8055,7 @@ class TriggerNotificationEntity extends DataClass
 
   TriggerNotificationEntity copyWith({
     int? id,
-    int? notificationRuleId,
+    Value<int?> notificationRuleId = const Value.absent(),
     int? taskSubmissionId,
     int? recipientUserId,
     String? message,
@@ -7938,7 +8067,9 @@ class TriggerNotificationEntity extends DataClass
     Value<DateTime?> escalatedAt = const Value.absent(),
   }) => TriggerNotificationEntity(
     id: id ?? this.id,
-    notificationRuleId: notificationRuleId ?? this.notificationRuleId,
+    notificationRuleId: notificationRuleId.present
+        ? notificationRuleId.value
+        : this.notificationRuleId,
     taskSubmissionId: taskSubmissionId ?? this.taskSubmissionId,
     recipientUserId: recipientUserId ?? this.recipientUserId,
     message: message ?? this.message,
@@ -8037,7 +8168,7 @@ class TriggerNotificationEntity extends DataClass
 class TriggerNotificationsCompanion
     extends UpdateCompanion<TriggerNotificationEntity> {
   final Value<int> id;
-  final Value<int> notificationRuleId;
+  final Value<int?> notificationRuleId;
   final Value<int> taskSubmissionId;
   final Value<int> recipientUserId;
   final Value<String> message;
@@ -8062,7 +8193,7 @@ class TriggerNotificationsCompanion
   });
   TriggerNotificationsCompanion.insert({
     this.id = const Value.absent(),
-    required int notificationRuleId,
+    this.notificationRuleId = const Value.absent(),
     required int taskSubmissionId,
     required int recipientUserId,
     required String message,
@@ -8072,8 +8203,7 @@ class TriggerNotificationsCompanion
     this.acknowledgedAt = const Value.absent(),
     this.originTargetRoleTier = const Value.absent(),
     this.escalatedAt = const Value.absent(),
-  }) : notificationRuleId = Value(notificationRuleId),
-       taskSubmissionId = Value(taskSubmissionId),
+  }) : taskSubmissionId = Value(taskSubmissionId),
        recipientUserId = Value(recipientUserId),
        message = Value(message),
        siteId = Value(siteId),
@@ -8110,7 +8240,7 @@ class TriggerNotificationsCompanion
 
   TriggerNotificationsCompanion copyWith({
     Value<int>? id,
-    Value<int>? notificationRuleId,
+    Value<int?>? notificationRuleId,
     Value<int>? taskSubmissionId,
     Value<int>? recipientUserId,
     Value<String>? message,
@@ -15566,6 +15696,8 @@ typedef $$TaskSubmissionsTableCreateCompanionBuilder =
       Value<String?> customFieldValuesJson,
       Value<int?> completedByUserId,
       Value<int?> siteId,
+      Value<String?> correctiveActionOutcome,
+      Value<String?> correctiveActionNote,
     });
 typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
     TaskSubmissionsCompanion Function({
@@ -15584,6 +15716,8 @@ typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
       Value<String?> customFieldValuesJson,
       Value<int?> completedByUserId,
       Value<int?> siteId,
+      Value<String?> correctiveActionOutcome,
+      Value<String?> correctiveActionNote,
     });
 
 final class $$TaskSubmissionsTableReferences
@@ -15745,6 +15879,16 @@ class $$TaskSubmissionsTableFilterComposer
 
   ColumnFilters<String> get customFieldValuesJson => $composableBuilder(
     column: $table.customFieldValuesJson,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get correctiveActionOutcome => $composableBuilder(
+    column: $table.correctiveActionOutcome,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get correctiveActionNote => $composableBuilder(
+    column: $table.correctiveActionNote,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -15912,6 +16056,16 @@ class $$TaskSubmissionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get correctiveActionOutcome => $composableBuilder(
+    column: $table.correctiveActionOutcome,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get correctiveActionNote => $composableBuilder(
+    column: $table.correctiveActionNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$EquipmentInstancesTableOrderingComposer get equipmentInstanceId {
     final $$EquipmentInstancesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -16038,6 +16192,16 @@ class $$TaskSubmissionsTableAnnotationComposer
 
   GeneratedColumn<String> get customFieldValuesJson => $composableBuilder(
     column: $table.customFieldValuesJson,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get correctiveActionOutcome => $composableBuilder(
+    column: $table.correctiveActionOutcome,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get correctiveActionNote => $composableBuilder(
+    column: $table.correctiveActionNote,
     builder: (column) => column,
   );
 
@@ -16188,6 +16352,8 @@ class $$TaskSubmissionsTableTableManager
                 Value<String?> customFieldValuesJson = const Value.absent(),
                 Value<int?> completedByUserId = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
+                Value<String?> correctiveActionOutcome = const Value.absent(),
+                Value<String?> correctiveActionNote = const Value.absent(),
               }) => TaskSubmissionsCompanion(
                 id: id,
                 taskTitle: taskTitle,
@@ -16204,6 +16370,8 @@ class $$TaskSubmissionsTableTableManager
                 customFieldValuesJson: customFieldValuesJson,
                 completedByUserId: completedByUserId,
                 siteId: siteId,
+                correctiveActionOutcome: correctiveActionOutcome,
+                correctiveActionNote: correctiveActionNote,
               ),
           createCompanionCallback:
               ({
@@ -16222,6 +16390,8 @@ class $$TaskSubmissionsTableTableManager
                 Value<String?> customFieldValuesJson = const Value.absent(),
                 Value<int?> completedByUserId = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
+                Value<String?> correctiveActionOutcome = const Value.absent(),
+                Value<String?> correctiveActionNote = const Value.absent(),
               }) => TaskSubmissionsCompanion.insert(
                 id: id,
                 taskTitle: taskTitle,
@@ -16238,6 +16408,8 @@ class $$TaskSubmissionsTableTableManager
                 customFieldValuesJson: customFieldValuesJson,
                 completedByUserId: completedByUserId,
                 siteId: siteId,
+                correctiveActionOutcome: correctiveActionOutcome,
+                correctiveActionNote: correctiveActionNote,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -20287,7 +20459,7 @@ typedef $$NotificationRulesTableProcessedTableManager =
 typedef $$TriggerNotificationsTableCreateCompanionBuilder =
     TriggerNotificationsCompanion Function({
       Value<int> id,
-      required int notificationRuleId,
+      Value<int?> notificationRuleId,
       required int taskSubmissionId,
       required int recipientUserId,
       required String message,
@@ -20301,7 +20473,7 @@ typedef $$TriggerNotificationsTableCreateCompanionBuilder =
 typedef $$TriggerNotificationsTableUpdateCompanionBuilder =
     TriggerNotificationsCompanion Function({
       Value<int> id,
-      Value<int> notificationRuleId,
+      Value<int?> notificationRuleId,
       Value<int> taskSubmissionId,
       Value<int> recipientUserId,
       Value<String> message,
@@ -20331,9 +20503,9 @@ final class $$TriggerNotificationsTableReferences
         'trigger_notifications__notification_rule_id__notification_rules__id',
       );
 
-  $$NotificationRulesTableProcessedTableManager get notificationRuleId {
-    final $_column = $_itemColumn<int>('notification_rule_id')!;
-
+  $$NotificationRulesTableProcessedTableManager? get notificationRuleId {
+    final $_column = $_itemColumn<int>('notification_rule_id');
+    if ($_column == null) return null;
     final manager = $$NotificationRulesTableTableManager(
       $_db,
       $_db.notificationRules,
@@ -20847,7 +21019,7 @@ class $$TriggerNotificationsTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                Value<int> notificationRuleId = const Value.absent(),
+                Value<int?> notificationRuleId = const Value.absent(),
                 Value<int> taskSubmissionId = const Value.absent(),
                 Value<int> recipientUserId = const Value.absent(),
                 Value<String> message = const Value.absent(),
@@ -20873,7 +21045,7 @@ class $$TriggerNotificationsTableTableManager
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
-                required int notificationRuleId,
+                Value<int?> notificationRuleId = const Value.absent(),
                 required int taskSubmissionId,
                 required int recipientUserId,
                 required String message,

@@ -87,6 +87,7 @@ class TaskController {
           choiceOptions: _parseChoiceOptions(template.customFieldsJson),
           equipmentInstanceId: schedule.equipmentInstanceId,
           equipmentInstanceName: equipmentInstanceName,
+          assignedByUserId: schedule.assignedByUserId,
         ),
       );
     }
@@ -142,6 +143,8 @@ class TaskController {
     required bool photoAttached,
     String? notes,
     String? customFieldValuesJson,
+    String? correctiveActionOutcome,
+    String? correctiveActionNote,
   }) async {
     final submissionId = await _submissionRepository.submit(
       TaskSubmission(
@@ -158,17 +161,24 @@ class TaskController {
         customFieldValuesJson: customFieldValuesJson,
         completedByUserId: _currentUser.id,
         siteId: _currentUser.siteId,
+        correctiveActionOutcome: correctiveActionOutcome,
+        correctiveActionNote: correctiveActionNote,
       ),
     );
 
     if (status == 'FAIL') {
-      await _fireNotifications(taskSubmissionId: submissionId, task: task);
+      await _fireNotifications(
+        taskSubmissionId: submissionId,
+        task: task,
+        correctiveActionOutcome: correctiveActionOutcome,
+      );
     }
   }
 
   Future<void> _fireNotifications({
     required int taskSubmissionId,
     required ResolvedTask task,
+    String? correctiveActionOutcome,
   }) async {
     final siteId = _currentUser.siteId;
     final allRules = await _notificationRuleRepository.getAllCurrentVersions();
@@ -199,11 +209,22 @@ class TaskController {
         scoped.where((r) => roleTierRank(r.setByTier) == highestRank),
       );
     }
-    if (firingRules.isEmpty) return;
+
+    final isReported = correctiveActionOutcome == 'reported';
+    // Corrective-action redesign (Sprint 031, Sub-sprint 4): a plain FAIL
+    // with no matching rule stays silent, same as always. But "Reported to
+    // manager" specifically must always reach someone — a worker saying "I
+    // can't fix this" reaching nobody is the exact silent failure this
+    // feature exists to prevent — so skip the early return in that one case.
+    if (firingRules.isEmpty && !isReported) return;
 
     final allUsers = await _userRepository.getAll();
-    final message =
-        'FAIL: ${task.displayTitle} (submitted by ${_currentUser.name})';
+    final message = isReported
+        ? 'REPORTED (could not fix): ${task.displayTitle} '
+              '(submitted by ${_currentUser.name})'
+        : 'FAIL: ${task.displayTitle} (submitted by ${_currentUser.name})';
+
+    final notifiedUserIds = <int>{};
 
     for (final rule in firingRules) {
       final recipients = <User>[];
@@ -231,6 +252,7 @@ class TaskController {
           : rule.targetRoleTier;
 
       for (final recipient in recipients) {
+        notifiedUserIds.add(recipient.id);
         await _triggerNotificationRepository.create(
           notificationRuleId: rule.id,
           taskSubmissionId: taskSubmissionId,
@@ -240,6 +262,48 @@ class TaskController {
           originTargetRoleTier: originTargetRoleTier,
         );
       }
+    }
+
+    if (!isReported) return;
+
+    // Guaranteed floor: the assigning manager first; if they can't be
+    // resolved, the lowest non-base tier present at the site (everyone at
+    // that tier, not an arbitrary pick — under-notifying defeats the
+    // point). Configured rules above add recipients on top of this floor,
+    // never replace it; dedup so nobody gets the same fail twice.
+    final floorRecipients = <User>[];
+    final assignedBy = allUsers.where((u) => u.id == task.assignedByUserId);
+    if (assignedBy.isNotEmpty) {
+      floorRecipients.add(assignedBy.first);
+    } else {
+      final nonBaseAtSite = allUsers
+          .where((u) => u.roleTier != RoleTier.base && u.siteId == siteId)
+          .toList();
+      if (nonBaseAtSite.isNotEmpty) {
+        final lowestRank = nonBaseAtSite
+            .map((u) => roleTierRank(u.roleTier))
+            .reduce((a, b) => a < b ? a : b);
+        floorRecipients.addAll(
+          nonBaseAtSite.where((u) => roleTierRank(u.roleTier) == lowestRank),
+        );
+      }
+      // If neither resolves (no assigning manager on record and no non-base
+      // staff at this site at all), there is genuinely nobody at this site
+      // to notify — an accepted edge case, not solved by reaching outside
+      // the site.
+    }
+
+    for (final recipient in floorRecipients) {
+      if (notifiedUserIds.contains(recipient.id)) continue;
+      notifiedUserIds.add(recipient.id);
+      await _triggerNotificationRepository.create(
+        notificationRuleId: null,
+        taskSubmissionId: taskSubmissionId,
+        recipientUserId: recipient.id,
+        message: message,
+        siteId: siteId,
+        originTargetRoleTier: null,
+      );
     }
   }
 }

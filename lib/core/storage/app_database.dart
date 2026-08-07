@@ -30,6 +30,15 @@ class TaskSubmissions extends Table {
   IntColumn get completedByUserId =>
       integer().nullable().references(Users, #id)();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  // Corrective-action redesign (Sprint 031, Sub-sprint 4): only set when the
+  // task's `requiresCorrectiveActionOnFail` was true and the result was
+  // FAIL. 'fixed' or 'reported' — replaces the old single "completed"
+  // checkbox, which forced a worker to tick something they often couldn't
+  // actually do themselves (e.g. a Kitchen Porter can't repair a fridge).
+  // Kept separate from `notes` above, which serves a task's own unrelated
+  // `requiresNotes` flag.
+  TextColumn get correctiveActionOutcome => text().nullable()();
+  TextColumn get correctiveActionNote => text().nullable()();
 }
 
 @DataClassName('UserEntity')
@@ -221,9 +230,12 @@ class TriggerNotifications extends Table {
   IntColumn get id => integer().autoIncrement()();
   // The specific rule VERSION that fired, not the ruleGroupId — preserves
   // exactly what config was in effect at the time, even if the rule is
-  // edited (a new version) later.
+  // edited (a new version) later. Nullable since Sprint 031, Sub-sprint 4:
+  // a "Reported to manager" corrective-action notification can fire from
+  // the guaranteed-floor escalation with no configured rule behind it at
+  // all.
   IntColumn get notificationRuleId =>
-      integer().references(NotificationRules, #id)();
+      integer().nullable().references(NotificationRules, #id)();
   IntColumn get taskSubmissionId =>
       integer().references(TaskSubmissions, #id)();
   IntColumn get recipientUserId => integer().references(Users, #id)();
@@ -455,7 +467,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 23;
+  int get schemaVersion => 24;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -677,6 +689,22 @@ class AppDatabase extends _$AppDatabase {
         )..where((r) => r.category.equals('hot_hold_temp'))).write(
           const LegalLimitReferencesCompanion(basis: Value('law')),
         );
+      }
+      if (from < 24) {
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.correctiveActionOutcome,
+        );
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.correctiveActionNote,
+        );
+        // SQLite has no ALTER COLUMN — loosening notificationRuleId from
+        // NOT NULL to nullable means recreating the table. Drift's
+        // TableMigration does this safely (temp table, copy matching
+        // columns, drop, rename); every existing row's value is a real
+        // int, so it satisfies the new nullable column type unchanged.
+        await m.alterTable(TableMigration(triggerNotifications));
       }
     },
     beforeOpen: (details) async {

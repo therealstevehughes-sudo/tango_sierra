@@ -15,6 +15,11 @@ class ResolvedTask {
   final List<String>? choiceOptions;
   final int? equipmentInstanceId;
   final String? equipmentInstanceName;
+  // Who assigned this task (TaskSchedule.assignedByUserId) — used by the
+  // corrective-action "Reported to manager" guaranteed-floor escalation
+  // (Sprint 031, Sub-sprint 4) to notify the actual assigning manager first,
+  // before falling back to the lowest non-base tier at the site.
+  final int assignedByUserId;
 
   const ResolvedTask({
     required this.scheduleId,
@@ -33,6 +38,7 @@ class ResolvedTask {
     this.choiceOptions,
     this.equipmentInstanceId,
     this.equipmentInstanceName,
+    required this.assignedByUserId,
   });
 
   bool get hasNumericRange => minLimit != null && maxLimit != null;

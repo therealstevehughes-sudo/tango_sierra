@@ -33,11 +33,16 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
   final TextEditingController numberController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
+  final TextEditingController correctiveNoteController =
+      TextEditingController();
 
   String result = "PASS";
   String? selectedChoice;
 
-  bool correctiveDone = false;
+  // Corrective-action redesign (Sprint 031, Sub-sprint 4): 'fixed' or
+  // 'reported' — replaces the old single "completed" checkbox, which forced
+  // a worker to tick something they often couldn't actually do themselves.
+  String? correctiveActionOutcome;
   bool photoTaken = false;
 
   String? error;
@@ -90,6 +95,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     notesController.removeListener(_onFormChanged);
     numberController.dispose();
     notesController.dispose();
+    correctiveNoteController.dispose();
     super.dispose();
   }
 
@@ -180,7 +186,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     }
     if (task.requiresCorrectiveActionOnFail &&
         effectiveResult == "FAIL" &&
-        !correctiveDone) {
+        correctiveActionOutcome == null) {
       return false;
     }
 
@@ -216,8 +222,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
     if (task.requiresCorrectiveActionOnFail &&
         effectiveResult == "FAIL" &&
-        !correctiveDone) {
-      setState(() => error = "Corrective action must be completed");
+        correctiveActionOutcome == null) {
+      setState(() => error = "Choose how the corrective action was handled");
       return;
     }
 
@@ -239,6 +245,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       customFieldValuesJson: selectedChoice == null
           ? null
           : jsonEncode({'selected': selectedChoice}),
+      correctiveActionOutcome: correctiveActionOutcome,
+      correctiveActionNote: correctiveNoteController.text.trim().isEmpty
+          ? null
+          : correctiveNoteController.text.trim(),
     );
 
     if (!mounted) return;
@@ -249,9 +259,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       setState(() {
         numberController.clear();
         notesController.clear();
+        correctiveNoteController.clear();
         result = "PASS";
         selectedChoice = null;
-        correctiveDone = false;
+        correctiveActionOutcome = null;
         photoTaken = false;
         error = null;
       });
@@ -413,25 +424,94 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(_rangeWarning!, textAlign: TextAlign.center),
               ),
+            // Corrective-action redesign (Sprint 031, Sub-sprint 4): fix
+            // instructions promoted to a prominent, unmissable card (not
+            // fine print), and the old single "completed" checkbox —
+            // which blocked a worker behind something they often couldn't
+            // actually do themselves — replaced with two recorded paths.
+            // Neither is a silent skip; SUBMIT still requires picking one.
             if (task.requiresCorrectiveActionOnFail &&
                 effectiveResult == "FAIL")
               Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const StatusBadge(
                     kind: StatusKind.critical,
                     label: 'Corrective action required',
                   ),
                   if (task.fixInstructions != null) ...[
-                    const SizedBox(height: 8),
-                    Text(task.fixInstructions!, textAlign: TextAlign.center),
+                    const SizedBox(height: 12),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.criticalBg,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: AppColors.critical),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Here's what to do:",
+                            style: Theme.of(context).textTheme.titleLarge
+                                ?.copyWith(color: AppColors.critical),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            task.fixInstructions!,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
-                  CheckboxListTile(
-                    title: const Text("Corrective action completed"),
-                    value: correctiveDone,
-                    onChanged: (val) {
-                      setState(() => correctiveDone = val ?? false);
-                    },
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _ResultOption(
+                          label: 'I fixed it',
+                          icon: Icons.build_circle_outlined,
+                          color: AppColors.pass,
+                          bgColor: AppColors.passBg,
+                          selected: correctiveActionOutcome == 'fixed',
+                          onTap: () =>
+                              setState(() => correctiveActionOutcome = 'fixed'),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _ResultOption(
+                          label: 'Reported to manager',
+                          icon: Icons.campaign_outlined,
+                          color: AppColors.teal,
+                          bgColor: AppColors.tealTint,
+                          selected: correctiveActionOutcome == 'reported',
+                          onTap: () => setState(
+                            () => correctiveActionOutcome = 'reported',
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
+                  if (correctiveActionOutcome == 'fixed') ...[
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: correctiveNoteController,
+                      decoration: const InputDecoration(
+                        labelText: 'What did you do? (optional)',
+                      ),
+                    ),
+                  ],
+                  if (correctiveActionOutcome == 'reported') ...[
+                    const SizedBox(height: 12),
+                    Text(
+                      'Your manager will be notified.',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
                 ],
               ),
             if (error != null)

@@ -37,6 +37,8 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
             customFieldValuesJson: Value(submission.customFieldValuesJson),
             completedByUserId: Value(submission.completedByUserId),
             siteId: Value(submission.siteId),
+            correctiveActionOutcome: Value(submission.correctiveActionOutcome),
+            correctiveActionNote: Value(submission.correctiveActionNote),
           ),
         );
   }
@@ -110,6 +112,8 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
       customFieldValuesJson: row.customFieldValuesJson,
       completedByUserId: row.completedByUserId,
       siteId: row.siteId!,
+      correctiveActionOutcome: row.correctiveActionOutcome,
+      correctiveActionNote: row.correctiveActionNote,
     );
   }
 }
