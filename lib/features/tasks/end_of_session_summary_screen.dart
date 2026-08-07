@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
+import '../../core/widgets/app_card.dart';
+import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/section_header.dart';
+import '../../core/widgets/status_badge.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
@@ -105,43 +110,59 @@ class _EndOfSessionSummaryScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'Tasks completed: $total',
-                  style: const TextStyle(fontSize: 18),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Pass: ${widget.stats.passCount}',
-                  style: const TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
+                // Visual/UX pass, Sub-sprint 3: the glanceable pass/fail
+                // summary — the one thing this screen must communicate at a
+                // glance — grouped in an AppCard; colour is never the only
+                // signal (StatusBadge pairs it with an icon and a word).
+                AppCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Tasks completed: $total',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          StatusBadge(
+                            kind: StatusKind.pass,
+                            label: 'Pass: ${widget.stats.passCount}',
+                          ),
+                          StatusBadge(
+                            kind: StatusKind.critical,
+                            label: 'Fail: ${widget.stats.failCount}',
+                          ),
+                        ],
+                      ),
+                      if (widget.stats.failedTaskTitles.isNotEmpty) ...[
+                        const SizedBox(height: 16),
+                        const SectionHeader(title: 'Triggers / Failed tasks'),
+                        ...widget.stats.failedTaskTitles.map(
+                          (title) => Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Icon(
+                                  Icons.cancel_outlined,
+                                  size: 16,
+                                  color: AppColors.critical,
+                                ),
+                                const SizedBox(width: 6),
+                                Expanded(child: Text(title)),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ),
-                Text(
-                  'Fail: ${widget.stats.failCount}',
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                if (widget.stats.failedTaskTitles.isNotEmpty) ...[
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Triggers / Failed tasks:',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  ...widget.stats.failedTaskTitles.map(
-                    (title) => Text('• $title'),
-                  ),
-                ],
                 const SizedBox(height: 24),
-                const Divider(),
-                const SizedBox(height: 8),
-                const Text(
-                  'Send this summary to a manager (optional)',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
+                const SectionHeader(title: 'Send this summary to a manager (optional)'),
                 const SizedBox(height: 8),
                 if (loadingManagers)
                   const Center(child: CircularProgressIndicator())
@@ -180,12 +201,7 @@ class _EndOfSessionSummaryScreenState
                   ),
                 ],
                 const SizedBox(height: 24),
-                const Divider(),
-                const SizedBox(height: 8),
-                const Text(
-                  'Leave a note for the next shift (optional)',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
+                const SectionHeader(title: 'Leave a note for the next shift (optional)'),
                 const SizedBox(height: 8),
                 TextField(
                   controller: handoverNoteController,
@@ -193,7 +209,7 @@ class _EndOfSessionSummaryScreenState
                   decoration: const InputDecoration(labelText: 'Handover note'),
                 ),
                 const SizedBox(height: 24),
-                ElevatedButton(onPressed: _finish, child: const Text('Done')),
+                PrimaryActionButton(label: 'Done', onPressed: _finish),
               ],
             ),
           ),

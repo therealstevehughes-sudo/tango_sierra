@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/section_header.dart';
+import '../../core/widgets/status_badge.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 
@@ -106,32 +109,82 @@ class _StaffList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Visual/UX pass, Sub-sprint 3: regional/executive accounts are
+    // deliberately excluded from this shared, walk-up staff list — senior
+    // tiers aren't meant to be visible/selectable on a shared store device.
+    // They currently have no other way to log in from this screen; that's
+    // an accepted gap until a separate private-auth mechanism exists, not
+    // a bug. Filtered here rather than in `staffDirectoryProvider` itself,
+    // since that provider otherwise means "all active staff" and has no
+    // other consumer today — conflating it with this screen's own
+    // login-visibility rule would be a surprise for any future reuse.
+    final kitchenStaff = staff
+        .where((u) => u.roleTier == RoleTier.base)
+        .toList();
+    final supervisorsAndManagers = staff
+        .where(
+          (u) =>
+              u.roleTier == RoleTier.supervisor ||
+              u.roleTier == RoleTier.venueManager,
+        )
+        .toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 20),
-        const Text(
+        Text(
           "Who are you?",
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 22),
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(height: 20),
         Expanded(
-          child: ListView.builder(
-            itemCount: staff.length,
-            itemBuilder: (context, index) {
-              final user = staff[index];
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: ElevatedButton(
-                  onPressed: () => onSelect(user),
-                  child: Text("${user.name} (${user.jobTitle})"),
+          child: ListView(
+            children: [
+              if (kitchenStaff.isNotEmpty) ...[
+                const SectionHeader(title: 'Kitchen Staff'),
+                ...kitchenStaff.map(
+                  (user) => _StaffTile(user: user, onTap: () => onSelect(user)),
                 ),
-              );
-            },
+                const SizedBox(height: 16),
+              ],
+              if (supervisorsAndManagers.isNotEmpty) ...[
+                const SectionHeader(title: 'Supervisors & Managers'),
+                ...supervisorsAndManagers.map(
+                  (user) => _StaffTile(user: user, onTap: () => onSelect(user)),
+                ),
+              ],
+            ],
           ),
         ),
       ],
+    );
+  }
+}
+
+class _StaffTile extends StatelessWidget {
+  const _StaffTile({required this.user, required this.onTap});
+
+  final User user;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    // Name prominent, job title smaller underneath — two separate Text
+    // widgets, so the title can never wrap mid-word into the name's line.
+    // `dense: true` is what actually makes this tighter than the old
+    // 56dp+-tall button-per-person layout, for scanning a 30+ person roster.
+    return ListTile(
+      dense: true,
+      onTap: onTap,
+      title: Text(
+        user.name,
+        style: Theme.of(
+          context,
+        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+      ),
+      subtitle: Text(user.jobTitle),
     );
   }
 }
@@ -160,7 +213,7 @@ class _PinEntry extends StatelessWidget {
       children: [
         Text(
           user.name,
-          style: const TextStyle(fontSize: 22),
+          style: Theme.of(context).textTheme.headlineMedium,
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 20),
@@ -175,11 +228,11 @@ class _PinEntry extends StatelessWidget {
         if (error != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
-            child: Text(error!, style: const TextStyle(color: Colors.red)),
+            child: StatusBadge(kind: StatusKind.critical, label: error!),
           ),
-        ElevatedButton(
+        PrimaryActionButton(
+          label: "LOGIN",
           onPressed: submitting ? null : onSubmit,
-          child: const Text("LOGIN"),
         ),
         TextButton(onPressed: onBack, child: const Text("Back")),
       ],
