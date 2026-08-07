@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/status_badge.dart';
@@ -101,11 +102,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 }
 
-class _StaffList extends StatelessWidget {
+class _StaffList extends StatefulWidget {
   const _StaffList({required this.staff, required this.onSelect});
 
   final List<User> staff;
   final ValueChanged<User> onSelect;
+
+  @override
+  State<_StaffList> createState() => _StaffListState();
+}
+
+class _StaffListState extends State<_StaffList> {
+  final TextEditingController searchController = TextEditingController();
+  String query = '';
+
+  @override
+  void initState() {
+    super.initState();
+    searchController.addListener(() {
+      setState(() => query = searchController.text.trim().toLowerCase());
+    });
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -117,17 +140,26 @@ class _StaffList extends StatelessWidget {
     // a bug. Filtered here rather than in `staffDirectoryProvider` itself,
     // since that provider otherwise means "all active staff" and has no
     // other consumer today — conflating it with this screen's own
-    // login-visibility rule would be a surprise for any future reuse.
-    final kitchenStaff = staff
+    // login-visibility rule would be a surprise for any future reuse. The
+    // search box below filters this same already-excluded set, so a
+    // hidden-tier name can never surface through a search match either.
+    final kitchenStaff = widget.staff
         .where((u) => u.roleTier == RoleTier.base)
         .toList();
-    final supervisorsAndManagers = staff
+    final supervisorsAndManagers = widget.staff
         .where(
           (u) =>
               u.roleTier == RoleTier.supervisor ||
               u.roleTier == RoleTier.venueManager,
         )
         .toList();
+
+    final isSearching = query.isNotEmpty;
+    final searchResults = isSearching
+        ? [...kitchenStaff, ...supervisorsAndManagers]
+              .where((u) => u.name.toLowerCase().contains(query))
+              .toList()
+        : const <User>[];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -138,28 +170,71 @@ class _StaffList extends StatelessWidget {
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
-        const SizedBox(height: 20),
-        Expanded(
-          child: ListView(
-            children: [
-              if (kitchenStaff.isNotEmpty) ...[
-                const SectionHeader(title: 'Kitchen Staff'),
-                ...kitchenStaff.map(
-                  (user) => _StaffTile(user: user, onTap: () => onSelect(user)),
-                ),
-                const SizedBox(height: 16),
-              ],
-              if (supervisorsAndManagers.isNotEmpty) ...[
-                const SectionHeader(title: 'Supervisors & Managers'),
-                ...supervisorsAndManagers.map(
-                  (user) => _StaffTile(user: user, onTap: () => onSelect(user)),
-                ),
-              ],
-            ],
+        const SizedBox(height: 16),
+        TextField(
+          controller: searchController,
+          decoration: const InputDecoration(
+            labelText: 'Search',
+            prefixIcon: Icon(Icons.search),
           ),
+        ),
+        const SizedBox(height: 12),
+        Expanded(
+          child: isSearching
+              ? _buildSearchResults(searchResults)
+              : _buildGroupedList(kitchenStaff, supervisorsAndManagers),
         ),
       ],
     );
+  }
+
+  Widget _buildSearchResults(List<User> results) {
+    if (results.isEmpty) {
+      return Center(
+        child: Text(
+          'No matches',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      );
+    }
+    return ListView.separated(
+      itemCount: results.length,
+      separatorBuilder: (_, _) => const Divider(),
+      itemBuilder: (context, index) => _StaffTile(
+        user: results[index],
+        onTap: () => widget.onSelect(results[index]),
+      ),
+    );
+  }
+
+  Widget _buildGroupedList(
+    List<User> kitchenStaff,
+    List<User> supervisorsAndManagers,
+  ) {
+    return ListView(
+      children: [
+        if (kitchenStaff.isNotEmpty) ...[
+          const SectionHeader(title: 'Kitchen Staff'),
+          ..._tilesWithDividers(kitchenStaff),
+          const SizedBox(height: 16),
+        ],
+        if (supervisorsAndManagers.isNotEmpty) ...[
+          const SectionHeader(title: 'Supervisors & Managers'),
+          ..._tilesWithDividers(supervisorsAndManagers),
+        ],
+      ],
+    );
+  }
+
+  List<Widget> _tilesWithDividers(List<User> users) {
+    final tiles = <Widget>[];
+    for (var i = 0; i < users.length; i++) {
+      tiles.add(
+        _StaffTile(user: users[i], onTap: () => widget.onSelect(users[i])),
+      );
+      if (i != users.length - 1) tiles.add(const Divider());
+    }
+    return tiles;
   }
 }
 
@@ -175,9 +250,19 @@ class _StaffTile extends StatelessWidget {
     // widgets, so the title can never wrap mid-word into the name's line.
     // `dense: true` is what actually makes this tighter than the old
     // 56dp+-tall button-per-person layout, for scanning a 30+ person roster.
+    // The teal initial-avatar restores the accent colour on the actual
+    // tappable element after the plain grouped list read as undesigned.
     return ListTile(
       dense: true,
       onTap: onTap,
+      leading: CircleAvatar(
+        backgroundColor: AppColors.tealTint,
+        foregroundColor: AppColors.tealInk,
+        child: Text(
+          user.name.isEmpty ? '?' : user.name[0].toUpperCase(),
+          style: const TextStyle(fontWeight: FontWeight.w700),
+        ),
+      ),
       title: Text(
         user.name,
         style: Theme.of(
