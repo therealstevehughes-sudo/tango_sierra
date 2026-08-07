@@ -840,3 +840,23 @@ Risks: The drawer is the fix for the narrow-width overflow findings by construct
 Deferred items: Sub-sprint 3 (staff/base-tier screens, including the already-logged "Login/staff-list screen refinements": name/title split, tighter tiles, tier grouping). Sub-sprints 4-5 (manager/mid-tier, top/director-tier screens).
 Save point name: SPRINT_031B_LOCK
 Notes: Commit c16125a, message "Sprint 031 (Sub-sprint 2): fix 3 logged UI bugs, confirm narrow-width responsiveness, personalize screen titles".
+
+---
+
+## Sprint 031 (full-app audit) — trapped-screen bug, theme crash, and layout fixes across the whole app
+Date: 2026-08-07
+Objective: A real screenshot showed a base-tier user landing on a blank task screen with no way out after Sub-sprint 2 — piecemeal per-sub-sprint fixing had missed it. Paused the sub-sprint sequence to diagnose that bug and audit every screen in the app (13 screens) for the same class of defect (missing way out, overflow/clipping, unreadable labels), then fix what was found.
+Files changed:
+- lib/features/tasks/task_screen.dart — the empty-state Scaffold (base-tier user with zero assigned tasks) had only a static "No tasks assigned yet." message and no drawer, no back arrow, no action of any kind. Added a visible "Log out" button — the confirmed fix for the reported bug.
+- lib/app/theme/app_theme.dart — `elevatedButtonTheme.minimumSize` was `Size.fromHeight(56)`, which sets minimum width to infinity, not just height. Crashes any `ElevatedButton` placed inside a `Row` with "BoxConstraints forces an infinite width" — found by the real Windows smoke test (not `flutter analyze`, which is static and doesn't run layout), reproduced live on task_screen.dart's PASS/FAIL button row. The same Row+ElevatedButton pattern exists in several other screens' Cancel/Save button pairs and would have crashed identically once reached. Fixed at the theme root: `Size(64, 56)`.
+- lib/features/settings/venue_details_screen.dart — a site row's `trailing` combined an Active chip/"Set as Active" button with a rename icon in one Row, squeezing the venue name's width (the same pattern that broke Staff Management's name wrap in Sub-sprint 2). Moved into `subtitle`.
+- lib/features/task_library/preset_management_screen.dart — a preset card's 3-button action row (Add task / Rename / Deactivate) had no wrap and was a real overflow risk at narrow widths. Changed to a `Wrap`.
+- lib/features/venue_setup/venue_setup_wizard_screen.dart — added tooltips to 3 icon-only add buttons that were missing one, inconsistent with every other icon button in the file.
+- DECISIONS_LOG.md — full diagnosis, the audit approach (code review, not live click-through, after mouse automation proved unsafe), every fix, and verification.
+Files unchanged: the other ~8 audited screens (login, end-of-session summary, manager, top, staff management, notification rules, maintenance contacts, assign tasks) were reviewed and found structurally sound for this failure class — no changes needed.
+Architecture impact: None. No schema change.
+UI impact: Base-tier users with no assigned tasks can now log out instead of being stuck. `ElevatedButton`s inside a `Row` (several Cancel/Save button pairs app-wide) no longer crash the app. Venue Details and Task Presets narrow-width layout fixes as described above.
+Risks: The `Size.fromHeight(56)` crash was a Sub-sprint 1 regression that had gone unnoticed because none of the affected screens had been clicked through since the theme was introduced — a reminder that `flutter analyze` alone doesn't catch runtime layout crashes; the real Windows debug run is what caught it. Mid-verification the user needed to restart their computer; the code was committed as an explicit WIP checkpoint (commit c92aadc) ahead of that, then verified and documented after restart — flutter analyze was clean at checkpoint time, and both flutter analyze and a real Windows run were confirmed clean afterward, plus the user's own direct use of the app post-restart.
+Deferred items: Sub-sprints 3-5 (staff/base-tier, manager/mid-tier, top/director-tier screen migrations) resume from here.
+Save point name: SPRINT_031C_LOCK
+Notes: Commit c92aadc (WIP checkpoint, code only), message "WIP: full-app UX audit fixes (Sprint 031, not yet fully verified)". DECISIONS_LOG.md write-up committed separately as 2003273, message "Document full-app UX audit: trapped-screen bug, theme crash, layout fixes".
