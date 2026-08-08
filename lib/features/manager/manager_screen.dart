@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/app_banner.dart';
+import '../../core/widgets/app_card.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/session_summary.dart';
 import '../../shared/models/task_submission.dart';
@@ -159,12 +161,42 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
     return '$day $month $year $hour:$minute';
   }
 
-  String buildLogLine(TaskSubmission entry) {
-    final symbol = entry.status == 'PASS' ? '✓' : '✗';
-    final statusText = entry.status == 'PASS' ? 'Pass' : 'Fail';
-    final photoText = entry.photoAttached ? ' 📷' : '';
+  // Visual/UX pass, Sub-sprint 5: was a hand-built ✓/✗ + "Pass"/"Fail"
+  // string — the same "ad hoc instead of shared widget" pattern the
+  // base-tier audit found. A full StatusBadge pill per line would be too
+  // heavy for this screen's "control room" density (many lines, dense
+  // list) — deliberately lighter: a small coloured icon, and colour on the
+  // text only for FAIL, so failures are what actually draws the eye.
+  Widget _buildLogLine(TaskSubmission entry) {
+    final isPass = entry.status == 'PASS';
+    final color = isPass ? AppColors.pass : AppColors.critical;
 
-    return '$symbol ${entry.taskTitle} (${formatDateTime(entry.completedAt)}) - $statusText$photoText';
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            isPass ? Icons.check_circle_outline : Icons.cancel_outlined,
+            size: 16,
+            color: color,
+          ),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              '${entry.taskTitle} (${formatDateTime(entry.completedAt)})'
+              '${entry.photoAttached ? ' 📷' : ''}',
+              style: TextStyle(
+                fontSize: 14,
+                height: 1.3,
+                color: isPass ? null : color,
+                fontWeight: isPass ? null : FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -234,31 +266,22 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
                     final staffEntries = groupedEntries[staffName]!;
 
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 18),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            staffName,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          ...staffEntries.map(
-                            (entry) => Padding(
-                              padding: const EdgeInsets.only(bottom: 4),
-                              child: Text(
-                                buildLogLine(entry),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  height: 1.3,
-                                ),
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: AppCard(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              staffName,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 8),
+                            ...staffEntries.map(_buildLogLine),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -375,16 +398,14 @@ class _SessionSummariesBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      color: Colors.amber.shade50,
-      padding: const EdgeInsets.all(12),
+    return AppBanner(
+      kind: BannerKind.caution,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'Session Summaries',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.caution),
           ),
           const SizedBox(height: 8),
           ...summaries.map(
@@ -406,7 +427,7 @@ class _SessionSummariesBanner extends StatelessWidget {
                       child: const Text('Acknowledge'),
                     )
                   else
-                    const Icon(Icons.check, color: Colors.green),
+                    const Icon(Icons.check, color: AppColors.pass),
                 ],
               ),
             ),
@@ -429,16 +450,14 @@ class _TriggerNotificationsBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    return Container(
-      width: double.infinity,
-      color: Colors.red.shade50,
-      padding: const EdgeInsets.all(12),
+    return AppBanner(
+      kind: BannerKind.critical,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'Notifications',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.critical),
           ),
           const SizedBox(height: 8),
           ...notifications.map((notification) {
@@ -459,7 +478,7 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                           style: isOverdue
                               ? const TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.red,
+                                  color: AppColors.critical,
                                 )
                               : null,
                         ),
@@ -469,16 +488,17 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                             '${now.difference(notification.createdAt).inMinutes} min',
                             style: const TextStyle(
                               fontSize: 12,
-                              color: Colors.red,
+                              color: AppColors.critical,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         if (notification.escalatedAt != null)
-                          const Text(
+                          Text(
                             'Escalated to top tier',
                             style: TextStyle(
                               fontSize: 12,
                               fontStyle: FontStyle.italic,
+                              color: AppColors.muted,
                             ),
                           ),
                       ],
@@ -490,7 +510,7 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                       child: const Text('Acknowledge'),
                     )
                   else
-                    const Icon(Icons.check, color: Colors.green),
+                    const Icon(Icons.check, color: AppColors.pass),
                 ],
               ),
             );
