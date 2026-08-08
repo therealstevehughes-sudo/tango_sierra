@@ -930,3 +930,20 @@ Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run lau
 Deferred items: none.
 Save point name: SPRINT_031G_LOCK
 Notes: Commit fcecb9e, message "Fix real overflow on corrective-action screen, found by user click-through".
+
+---
+
+## Sprint 031 (Sub-sprint 5, Checkpoint 1) — Visual/UX pass: manager screen ("control room")
+Date: 2026-08-08
+Objective: Fifth of the visual pass's screen groups — manager/mid-tier screens, applying the same theme/shared widgets as base-tier, but "control room" density (denser, information-forward, not big-touch-target). Building `manager_screen.dart` first as its own checkpoint (the hub screen), per the agreed 4-checkpoint split.
+Files changed:
+- lib/core/widgets/app_banner.dart (new) — `AppBanner(kind: caution|critical, child: ...)`, a shared icon+tint alert banner replacing three near-duplicate ad hoc implementations (this screen's two now, Task Presets' verification banner in a later checkpoint). Same icon language as `StatusBadge` for the same colours.
+- lib/features/manager/manager_screen.dart — the hand-built `✓`/`✗` + "Pass"/"Fail" log line string replaced with a small coloured icon (not a full `StatusBadge` pill — deliberately lighter for this dense, many-lines-per-screen context); text itself only coloured on FAIL. Each staff member's log now grouped in an `AppCard` (previously no card structure at all). Both banners' raw `Colors.amber.shade50`/`Colors.red.shade50`/`Colors.red`/`Colors.green` replaced with `AppBanner` + `AppColors`.
+- DECISIONS_LOG.md — the plan's 6 agreed open decisions and this checkpoint's build/verification.
+Files unchanged: the other 7 manager-tier screens — checkpoints 2-4.
+Architecture impact: None. No schema change.
+UI impact: Manager screen's two banners and submission log now use the shared theme/widgets instead of raw Material colours and a hand-built status string.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error; the user logged in as a real manager-tier user and screenshotted the live screen — both banners correct, log card-grouped with the lighter icon treatment, no overflow. Bonus real-world confirmation: the screenshot also showed Sub-sprint 4's corrective-action "Reported to manager" guaranteed-floor escalation genuinely working (three real REPORTED notifications visible, including an overdue/escalated one).
+Deferred items: Checkpoints 2-4 (7 remaining manager-tier screens).
+Save point name: SPRINT_031H_LOCK
+Notes: Commit d7c6f0b, message "Sprint 031 (Sub-sprint 5, Checkpoint 1): visual pass for the manager screen".
