@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/section_header.dart';
 import '../../shared/models/notification_rule.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/user.dart';
@@ -230,9 +232,9 @@ class _NotificationRulesScreenState
                   ...rules.map(_buildRuleTile),
                 const Divider(),
                 if (!showForm)
-                  ElevatedButton(
+                  PrimaryActionButton(
+                    label: 'Add Rule',
                     onPressed: () => setState(() => showForm = true),
-                    child: const Text('Add Rule'),
                   )
                 else
                   _buildForm(),
@@ -248,14 +250,10 @@ class _NotificationRulesScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          'Quick setup: per-task fail notifications',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 4),
-        const Text(
+        const SectionHeader(title: 'Quick setup: per-task fail notifications'),
+        Text(
           'Tick which tier gets notified when a specific task fails.',
-          style: TextStyle(fontSize: 12, color: Colors.grey),
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         const SizedBox(height: 8),
         if (templates.isEmpty)
@@ -341,11 +339,7 @@ class _NotificationRulesScreenState
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 12),
-        const Text(
-          'New Rule',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
+        const SectionHeader(title: 'New Rule'),
         DropdownButtonFormField<int?>(
           initialValue: formTaskTemplateGroupId,
           decoration: const InputDecoration(labelText: 'Trigger'),
@@ -423,12 +417,12 @@ class _NotificationRulesScreenState
           value: formChannelEmail,
           onChanged: (v) => setState(() => formChannelEmail = v ?? false),
         ),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
             'Rules are shown in-app now; push/email delivery is not yet '
             'connected to a backend and will be added in a later sprint.',
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ),
         const SizedBox(height: 12),
@@ -439,13 +433,13 @@ class _NotificationRulesScreenState
               onPressed: () => setState(() => showForm = false),
               child: const Text('Cancel'),
             ),
-            ElevatedButton(
+            PrimaryActionButton(
+              label: 'Save Rule',
               onPressed:
                   formTargetMode == _TargetMode.user &&
                       formTargetUserId == null
                   ? null
                   : _saveRule,
-              child: const Text('Save Rule'),
             ),
           ],
         ),

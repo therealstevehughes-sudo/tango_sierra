@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/section_header.dart';
 import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/task_preset.dart';
@@ -314,16 +316,28 @@ class _StaffAssignmentScreenState
 
   Widget _buildStaffList() {
     // Deactivated staff can't log in to perform tasks, so they're excluded
-    // from being selected for new assignments (Sprint 024).
-    final activeStaff = staffList.where((u) => u.active).toList();
+    // from being selected for new assignments (Sprint 024). Regional/
+    // executive are company-wide oversight roles, not day-to-day
+    // task-assignment targets — excluded here too (Sprint 031), same shape
+    // as the login screen's regional/executive exclusion.
+    final activeStaff = staffList
+        .where(
+          (u) =>
+              u.active &&
+              u.roleTier != RoleTier.regional &&
+              u.roleTier != RoleTier.executive,
+        )
+        .toList();
     return ListView.builder(
       itemCount: activeStaff.length,
       itemBuilder: (context, index) {
         final user = activeStaff[index];
-        return ListTile(
-          title: Text('${user.name} (${user.jobTitle})'),
-          subtitle: Text(roleTierDisplayName(user.roleTier)),
-          onTap: () => _selectStaff(user),
+        return Card(
+          child: ListTile(
+            title: Text('${user.name} (${user.jobTitle})'),
+            subtitle: Text(roleTierDisplayName(user.roleTier)),
+            onTap: () => _selectStaff(user),
+          ),
         );
       },
     );
@@ -345,11 +359,7 @@ class _StaffAssignmentScreenState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (presets.isNotEmpty) ...[
-            const Text(
-              'Task Presets',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
+            const SectionHeader(title: 'Task Presets'),
             for (final preset in presets)
               Card(
                 child: ListTile(
@@ -366,20 +376,16 @@ class _StaffAssignmentScreenState
             const SizedBox(height: 8),
           ],
           for (final segment in grouped.keys) ...[
-            Text(
-              segment,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
+            SectionHeader(title: segment),
             for (final template in grouped[segment]!)
               _buildTemplateRow(template),
             const SizedBox(height: 16),
           ],
           const Divider(),
           if (!showCustomTaskForm)
-            ElevatedButton(
+            PrimaryActionButton(
+              label: 'Add Custom Task',
               onPressed: () => setState(() => showCustomTaskForm = true),
-              child: const Text('Add Custom Task'),
             )
           else
             _buildCustomTaskForm(),
@@ -452,8 +458,7 @@ class _StaffAssignmentScreenState
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 12),
-        const Text('Custom Task', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 12),
+        const SectionHeader(title: 'Custom Task'),
         TextField(
           controller: customTitleController,
           decoration: const InputDecoration(labelText: 'Title'),
@@ -566,9 +571,9 @@ class _StaffAssignmentScreenState
               onPressed: () => setState(() => showCustomTaskForm = false),
               child: const Text('Cancel'),
             ),
-            ElevatedButton(
+            PrimaryActionButton(
+              label: 'Save Custom Task',
               onPressed: _saveCustomTask,
-              child: const Text('Save Custom Task'),
             ),
           ],
         ),
