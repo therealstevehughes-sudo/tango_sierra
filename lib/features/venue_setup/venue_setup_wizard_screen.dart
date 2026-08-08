@@ -564,8 +564,10 @@ class _VenueSetupWizardScreenState
           decoration: const InputDecoration(labelText: 'Role tier'),
           items: RoleTier.values
               .map(
-                (tier) =>
-                    DropdownMenuItem(value: tier, child: Text(tier.name)),
+                (tier) => DropdownMenuItem(
+                  value: tier,
+                  child: Text(roleTierDisplayName(tier)),
+                ),
               )
               .toList(),
           onChanged: (value) {
@@ -586,7 +588,7 @@ class _VenueSetupWizardScreenState
           (s) => Card(
             child: ListTile(
               title: Text('${s.name} (${s.jobTitle})'),
-              subtitle: Text(s.roleTier.name),
+              subtitle: Text(roleTierDisplayName(s.roleTier)),
             ),
           ),
         ),

@@ -133,7 +133,7 @@ class _NotificationRulesScreenState
       return 'Unknown user';
     }
     if (rule.targetRoleTier != null) {
-      return '${rule.targetRoleTier!.name} tier';
+      return '${roleTierDisplayName(rule.targetRoleTier!)} tier';
     }
     return 'Unset';
   }
@@ -149,18 +149,21 @@ class _NotificationRulesScreenState
 
   // Short labels so all 5 tier columns fit the quick-setup grid (Sprint 027
   // expanded this from 2 hardcoded Top/Mid columns to one per tier).
+  // Sprint 031 (Tier display names): abbreviated from roleTierDisplayName,
+  // not the raw enum — 'Exec' would now contradict 'Director' shown
+  // everywhere else for the same tier.
   String _tierColumnLabel(RoleTier tier) {
     switch (tier) {
       case RoleTier.base:
-        return 'Base';
+        return 'Team';
       case RoleTier.supervisor:
         return 'Supv';
       case RoleTier.venueManager:
-        return 'Venue\nMgr';
+        return 'Mgr';
       case RoleTier.regional:
         return 'Regnl';
       case RoleTier.executive:
-        return 'Exec';
+        return 'Dir';
     }
   }
 
@@ -321,7 +324,7 @@ class _NotificationRulesScreenState
         title: Text(_triggerLabel(rule)),
         subtitle: Text(
           'Notify: ${_targetLabel(rule)} (${_channelsLabel(rule)})\n'
-          'Set by ${rule.setByTier.name} tier'
+          'Set by ${roleTierDisplayName(rule.setByTier)} tier'
           '${rule.active ? '' : ' — inactive'}',
         ),
         isThreeLine: true,
@@ -386,7 +389,10 @@ class _NotificationRulesScreenState
             decoration: const InputDecoration(labelText: 'Role tier'),
             items: RoleTier.values
                 .map(
-                  (t) => DropdownMenuItem(value: t, child: Text(t.name)),
+                  (t) => DropdownMenuItem(
+                    value: t,
+                    child: Text(roleTierDisplayName(t)),
+                  ),
                 )
                 .toList(),
             onChanged: (value) {

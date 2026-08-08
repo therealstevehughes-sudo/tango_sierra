@@ -599,6 +599,21 @@ Third checkpoint of the manager-tier pass — the most-restructured screen (the 
 - Verified: `flutter analyze` clean. A real Windows debug run confirmed the app launches without error. The user navigated to the Venue Setup Wizard's Areas step and confirmed: page title correctly larger/bolder than a section label, all three area rows now genuinely card-bordered (previously bare), "Next" rendering as the shared teal primary button.
 - **This completes Checkpoint 3.** Remaining: Checkpoint 4 (notification rules + assign tasks) — the last of the manager-tier pass.
 
+## Tier DISPLAY names (UI-label-only, enum unchanged)
+Friendly labels wherever a `RoleTier` is shown to a user — base→"Team Member", supervisor→"Supervisor", venueManager→"Manager", regional→"Regional Manager", executive→"Director" — via one new mapping helper, `roleTierDisplayName(RoleTier)` in `lib/shared/models/user.dart` (colocated with `roleTierRank`/`nextRoleTierUp`, the existing tier-helper functions). The stored enum value (`.name`, e.g. `'venueManager'`) is completely unchanged — every database write/read, migration, and comparison keeps using the raw enum exactly as before; only what's rendered on screen changes.
+- **Found and fixed 8 genuine raw-name leaks**, confirmed by grepping every `roleTier`/`RoleTier`/`tier.name` reference in `lib/` and checking each call site individually (not assumed from the file list in the request):
+  1. `staff_management_screen.dart` — Change Tier dialog's dropdown items.
+  2. `staff_management_screen.dart` — staff tile subtitle (`jobTitle · tier`).
+  3. `venue_setup_wizard_screen.dart` — Staff step's Role tier dropdown.
+  4. `venue_setup_wizard_screen.dart` — Staff step's added-staff list subtitle.
+  5. `staff_assignment_screen.dart` — Assign Tasks' staff-picker subtitle.
+  6. `notification_rules_screen.dart` — `_targetLabel`'s "X tier" text on a rule tile.
+  7. `notification_rules_screen.dart` — rule tile's "Set by X tier" subtitle.
+  8. `notification_rules_screen.dart` — New Rule form's Role tier dropdown.
+- **Checked and confirmed NOT a leak — `login_screen.dart`'s group headers**: "Kitchen Staff" / "Supervisors & Managers" are hand-written multi-tier group labels from Sub-sprint 3 (base→one group; supervisor+venueManager→another), not derived from `tier.name` or this new mapping at all. Nothing to change here — confirmed by reading the actual code rather than assuming the request's own example list was exhaustively accurate.
+- **Judgment call — `notification_rules_screen.dart`'s `_tierColumnLabel`** (the quick-setup grid's short column headers, e.g. 'Supv', kept deliberately abbreviated to fit a 90px fixed column width) is a *different*, already-friendly short-label set, not a raw-name leak — full display names like "Regional Manager" would overflow that column badly. Left it abbreviated, but **realigned its wording to the new mapping** rather than leaving it untouched: it previously abbreviated 'Executive' as 'Exec', which would now visibly contradict 'Director' shown everywhere else for that same tier. Updated to Team/Supv/Mgr/Regnl/Dir — short forms of the new display names, not the old enum-derived ones.
+- Verified: `flutter analyze` clean. A real Windows debug run confirmed the app launches without error.
+
 ## Open / Not yet decided
 - All three task-taxonomy gaps (priority, method, frequency) logged here since Sprint 012 are now resolved — see "Task-taxonomy reconciliation (Sprint 023)" above. The old "Full check list.docx" 132-task load this pointed to is superseded and now fully retired — see "Target market + library research": HORECA_TASK_LIBRARY.md was the library source for the complete load (Build Order item 4, DONE — see the six "Task library load" entries above, Clusters A-F), feeding the venue-type tagging structure Sprint 029 built (`TaskTemplateVenueTypes` is now populated for all ~150 loaded tasks).
 - Multi-site is only partially usable: creating a second `Site` is safe (Sprint 025), but `Area`/`EquipmentInstance`/`TaskSchedule`/`User` reads are not yet filtered by site, so two venues' data currently displays mixed together in shared lists. Needs its own sprint before real day-to-day multi-site use is viable.

@@ -322,7 +322,7 @@ class _StaffAssignmentScreenState
         final user = activeStaff[index];
         return ListTile(
           title: Text('${user.name} (${user.jobTitle})'),
-          subtitle: Text(user.roleTier.name),
+          subtitle: Text(roleTierDisplayName(user.roleTier)),
           onTap: () => _selectStaff(user),
         );
       },

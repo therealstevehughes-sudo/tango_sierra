@@ -15,6 +15,26 @@ RoleTier? nextRoleTierUp(RoleTier tier) {
   return RoleTier.values[nextIndex];
 }
 
+// Friendly labels for wherever a tier is shown to a user (Sprint 031 —
+// "Tier display names"). UI-label-only: the stored enum value (`.name`,
+// e.g. 'venueManager') never changes — only what's rendered on screen.
+// Every call site that puts a RoleTier in front of a user should go
+// through this, not `tier.name` directly.
+String roleTierDisplayName(RoleTier tier) {
+  switch (tier) {
+    case RoleTier.base:
+      return 'Team Member';
+    case RoleTier.supervisor:
+      return 'Supervisor';
+    case RoleTier.venueManager:
+      return 'Manager';
+    case RoleTier.regional:
+      return 'Regional Manager';
+    case RoleTier.executive:
+      return 'Director';
+  }
+}
+
 enum TemperatureUnit { celsius, fahrenheit }
 
 class User {

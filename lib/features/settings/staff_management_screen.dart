@@ -92,7 +92,12 @@ class _StaffManagementScreenState
             initialValue: selected,
             decoration: const InputDecoration(labelText: 'Role tier'),
             items: RoleTier.values
-                .map((t) => DropdownMenuItem(value: t, child: Text(t.name)))
+                .map(
+                  (t) => DropdownMenuItem(
+                    value: t,
+                    child: Text(roleTierDisplayName(t)),
+                  ),
+                )
                 .toList(),
             onChanged: (value) =>
                 setDialogState(() => selected = value ?? selected),
@@ -183,7 +188,7 @@ class _StaffManagementScreenState
   Widget _buildStaffTile(User user) {
     final deactivatedBy = _deactivatedByName(user);
     final subtitleParts = <String>[
-      '${user.jobTitle} · ${user.roleTier.name}',
+      '${user.jobTitle} · ${roleTierDisplayName(user.roleTier)}',
       if (!user.active) '(deactivated)',
       if (!user.active && user.deactivatedAt != null && deactivatedBy != null)
         'on ${user.deactivatedAt!.toLocal().toString().split('.').first} '
