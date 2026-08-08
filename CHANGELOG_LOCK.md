@@ -947,3 +947,20 @@ Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run con
 Deferred items: Checkpoints 2-4 (7 remaining manager-tier screens).
 Save point name: SPRINT_031H_LOCK
 Notes: Commit d7c6f0b, message "Sprint 031 (Sub-sprint 5, Checkpoint 1): visual pass for the manager screen".
+
+---
+
+## Sprint 031 (Sub-sprint 5, Checkpoint 2) — Visual/UX pass: staff management, venue details, maintenance contacts
+Date: 2026-08-08
+Objective: Second checkpoint of the manager-tier pass — three structurally similar Card+ListTile+form screens.
+Files changed:
+- lib/features/settings/venue_details_screen.dart — "Venues"/"Venue type" ad hoc headers → `SectionHeader`; "Create New Venue" → `PrimaryActionButton`.
+- lib/features/settings/third_party_contacts_screen.dart — "New Contact" ad hoc header → `SectionHeader`; helper text's raw `Colors.grey` → theme `bodySmall`; "Add Contact"/"Save Contact" → `PrimaryActionButton`.
+- DECISIONS_LOG.md — two judgment calls made this checkpoint (see below) and verification.
+Files unchanged: lib/features/settings/staff_management_screen.dart — confirmed already fully compliant from Sub-sprint 2, no changes needed.
+Architecture impact: None. No schema change.
+UI impact: Consistent section headers and primary-button styling across these three screens; no functional change.
+Risks: None new. Two judgment calls, both documented in DECISIONS_LOG.md: (1) `AppCard` does not get applied to the existing `Card(child: ListTile(...))` pattern — it would double-pad and inflate row height, working against the agreed "control room density" direction; bare `Card` (already correctly themed) stays as-is everywhere this pattern appears, including in later checkpoints. (2) `PrimaryActionButton` applies to a form's primary commit action even when Row-paired with Cancel (e.g. "Save Contact"), not just standalone full-width buttons — visually identical either way since both inherit the same `ElevatedButtonThemeData`, this is a code-consistency swap; `AlertDialog` popup buttons stay plain `ElevatedButton`, unchanged from every earlier sub-sprint's precedent. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error; the user navigated to all three screens via the Manager drawer and confirmed correct rendering.
+Deferred items: Checkpoints 3 (venue setup wizard + task presets), 4 (notification rules + assign tasks).
+Save point name: SPRINT_031I_LOCK
+Notes: Commit 41a0629, message "Sprint 031 (Sub-sprint 5, Checkpoint 2): staff management, venue details, maintenance contacts".
