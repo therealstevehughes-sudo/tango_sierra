@@ -981,3 +981,23 @@ Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run con
 Deferred items: Checkpoint 4 (notification rules + assign tasks) — the last of the manager-tier pass.
 Save point name: SPRINT_031J_LOCK
 Notes: Commit 0c94b83, message "Sprint 031 (Sub-sprint 5, Checkpoint 3): venue setup wizard + task presets".
+
+---
+
+## Tier display names (UI-label-only)
+Date: 2026-08-08
+Objective: Friendly display labels wherever a `RoleTier` is shown to a user (base→"Team Member", supervisor→"Supervisor", venueManager→"Manager", regional→"Regional Manager", executive→"Director"), without changing the stored enum value anywhere.
+Files changed:
+- lib/shared/models/user.dart — new `roleTierDisplayName(RoleTier)` helper, colocated with the existing `roleTierRank`/`nextRoleTierUp` tier helpers.
+- lib/features/settings/staff_management_screen.dart — Change Tier dialog's dropdown, staff tile subtitle.
+- lib/features/venue_setup/venue_setup_wizard_screen.dart — Staff step's Role tier dropdown and added-staff list subtitle.
+- lib/features/onboarding/staff_assignment_screen.dart — staff-picker subtitle.
+- lib/features/notifications/notification_rules_screen.dart — `_targetLabel`, rule tile's "Set by X tier" subtitle, New Rule form's Role tier dropdown; `_tierColumnLabel` (the quick-setup grid's abbreviated column headers) realigned to the new names — 'Exec' would now contradict 'Director' shown elsewhere for the same tier.
+- DECISIONS_LOG.md — all 8 leak sites found, one confirmed non-leak (login screen's hand-written group headers), and the `_tierColumnLabel` judgment call.
+Files unchanged: no database/repository/migration file — every stored `.name` write (`user_repository.dart`, `notification_rule_repository.dart`) is untouched, confirmed by grep.
+Architecture impact: None. No schema change.
+UI impact: Every tier dropdown, subtitle, and label a user sees now reads as a friendly name instead of the raw enum identifier (e.g. "Manager" instead of "venueManager").
+Risks: None. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error.
+Deferred items: none.
+Save point name: SPRINT_031K_LOCK
+Notes: Commit 7715e60, message "Add tier display-name labels (UI-only, enum unchanged)".
