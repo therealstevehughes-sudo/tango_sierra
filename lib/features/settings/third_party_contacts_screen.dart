@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/section_header.dart';
 import '../../shared/models/third_party_contact.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/third_party_contact_providers.dart';
@@ -133,9 +135,9 @@ class _ThirdPartyContactsScreenState
                   ...contacts.map(_buildContactTile),
                 const Divider(),
                 if (!showForm)
-                  ElevatedButton(
+                  PrimaryActionButton(
+                    label: 'Add Contact',
                     onPressed: () => setState(() => showForm = true),
-                    child: const Text('Add Contact'),
                   )
                 else
                   _buildForm(),
@@ -167,11 +169,7 @@ class _ThirdPartyContactsScreenState
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 12),
-        const Text(
-          'New Contact',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
+        const SectionHeader(title: 'New Contact'),
         TextField(
           controller: nameController,
           decoration: const InputDecoration(labelText: 'Name'),
@@ -206,11 +204,11 @@ class _ThirdPartyContactsScreenState
           decoration: const InputDecoration(labelText: 'Notes (optional)'),
         ),
         const SizedBox(height: 8),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Text(
             'At least a phone number or email is required.',
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ),
         const SizedBox(height: 12),
@@ -221,9 +219,9 @@ class _ThirdPartyContactsScreenState
               onPressed: () => setState(() => showForm = false),
               child: const Text('Cancel'),
             ),
-            ElevatedButton(
+            PrimaryActionButton(
+              label: 'Save Contact',
               onPressed: _saveContact,
-              child: const Text('Save Contact'),
             ),
           ],
         ),

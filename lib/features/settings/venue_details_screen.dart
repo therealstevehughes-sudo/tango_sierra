@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/section_header.dart';
 import '../../shared/models/organisation.dart';
 import '../../shared/models/site.dart';
 import '../../shared/models/user.dart';
@@ -252,11 +254,7 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-              const Text(
-                'Venues',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
+              const SectionHeader(title: 'Venues'),
               ...sites.map((site) {
                 final isActive = site.id == effectiveActiveId;
                 final taggedIds = siteVenueTypeIds[site.id] ?? const {};
@@ -304,14 +302,7 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Venue type',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
+                            const SectionHeader(title: 'Venue type'),
                             Wrap(
                               spacing: 8,
                               runSpacing: 4,
@@ -340,9 +331,9 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
               }),
               if (currentUser?.roleTier == RoleTier.executive) ...[
                 const SizedBox(height: 12),
-                ElevatedButton(
+                PrimaryActionButton(
+                  label: 'Create New Venue',
                   onPressed: _createVenue,
-                  child: const Text('Create New Venue'),
                 ),
               ],
             ],
