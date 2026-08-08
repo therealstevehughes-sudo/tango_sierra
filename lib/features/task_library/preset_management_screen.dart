@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
+import '../../core/widgets/app_banner.dart';
+import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/task_preset.dart';
@@ -273,29 +276,14 @@ class _PresetManagementScreenState
   // been signed off by a qualified food-safety professional yet — this
   // banner keeps that visible wherever a manager browses the library.
   Widget _buildVerificationBanner() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.amber.shade50,
-        border: Border.all(color: Colors.amber.shade700),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.warning_amber_rounded, color: Colors.amber.shade900),
-          const SizedBox(width: 8),
-          const Expanded(
-            child: Text(
-              'Task limits are researched and sourced (tagged [LAW]/[FSA]/'
-              '[BEST] in each task\'s instructions) but not yet signed off '
-              'by a qualified food-safety professional. Do not treat them '
-              'as legally authoritative until verified.',
-              style: TextStyle(fontSize: 13),
-            ),
-          ),
-        ],
+    return const AppBanner(
+      kind: BannerKind.caution,
+      child: Text(
+        'Task limits are researched and sourced (tagged [LAW]/[FSA]/'
+        '[BEST] in each task\'s instructions) but not yet signed off '
+        'by a qualified food-safety professional. Do not treat them '
+        'as legally authoritative until verified.',
+        style: TextStyle(fontSize: 13),
       ),
     );
   }
@@ -332,7 +320,7 @@ class _PresetManagementScreenState
       child: ExpansionTile(
         title: Text(
           preset.active ? preset.name : '${preset.name} (inactive)',
-          style: TextStyle(color: preset.active ? null : Colors.grey),
+          style: TextStyle(color: preset.active ? null : AppColors.muted),
         ),
         subtitle: Text(
           '${_contextLabel(preset)} · ${preset.items.length} task'
@@ -387,11 +375,7 @@ class _PresetManagementScreenState
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 12),
-        const Text(
-          'New Preset',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 12),
+        const SectionHeader(title: 'New Preset'),
         TextField(
           controller: nameController,
           decoration: const InputDecoration(labelText: 'Name'),
@@ -419,11 +403,11 @@ class _PresetManagementScreenState
           ),
         ),
         const SizedBox(height: 8),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 4),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Text(
             'Set an equipment type or a section (at least one).',
-            style: TextStyle(fontSize: 12, color: Colors.grey),
+            style: Theme.of(context).textTheme.bodySmall,
           ),
         ),
         const SizedBox(height: 12),
@@ -434,9 +418,9 @@ class _PresetManagementScreenState
               onPressed: () => setState(() => showCreateForm = false),
               child: const Text('Cancel'),
             ),
-            ElevatedButton(
+            PrimaryActionButton(
+              label: 'Create Preset',
               onPressed: _createPreset,
-              child: const Text('Create Preset'),
             ),
           ],
         ),

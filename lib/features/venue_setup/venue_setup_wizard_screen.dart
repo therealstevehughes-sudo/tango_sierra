@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
+import '../../core/widgets/primary_action_button.dart';
 import '../../shared/models/area.dart';
 import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
@@ -339,7 +341,8 @@ class _VenueSetupWizardScreenState
                     )
                   else
                     const SizedBox.shrink(),
-                  ElevatedButton(
+                  PrimaryActionButton(
+                    label: currentStep < 2 ? 'Next' : 'Finish Setup',
                     onPressed: () {
                       if (currentStep < 2) {
                         setState(() => currentStep += 1);
@@ -347,7 +350,6 @@ class _VenueSetupWizardScreenState
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text(currentStep < 2 ? 'Next' : 'Finish Setup'),
                   ),
                 ],
               ),
@@ -375,7 +377,7 @@ class _VenueSetupWizardScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text('Areas', style: TextStyle(fontSize: 22)),
+        Text('Areas', style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
         const Text('Add the operational zones of this venue.'),
         const SizedBox(height: 16),
@@ -403,12 +405,14 @@ class _VenueSetupWizardScreenState
         ),
         const SizedBox(height: 16),
         ...areas.map(
-          (a) => ListTile(
-            title: Text(a.name),
-            trailing: IconButton(
-              icon: const Icon(Icons.edit),
-              tooltip: 'Rename',
-              onPressed: () => _renameArea(a),
+          (a) => Card(
+            child: ListTile(
+              title: Text(a.name),
+              trailing: IconButton(
+                icon: const Icon(Icons.edit),
+                tooltip: 'Rename',
+                onPressed: () => _renameArea(a),
+              ),
             ),
           ),
         ),
@@ -420,7 +424,7 @@ class _VenueSetupWizardScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text('Equipment', style: TextStyle(fontSize: 22)),
+        Text('Equipment', style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
         const Text('Add named equipment instances, e.g. "Fridge 1", "Fridge 2".'),
         const SizedBox(height: 16),
@@ -504,28 +508,32 @@ class _VenueSetupWizardScreenState
         ),
         const SizedBox(height: 16),
         ...equipmentInstances.map(
-          (e) => ListTile(
-            title: Text(
-              e.active ? e.name : '${e.name} (retired)',
-              style: e.active
-                  ? null
-                  : const TextStyle(color: Colors.grey),
-            ),
-            subtitle: Text(_equipmentSubtitle(e)),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  tooltip: 'Rename',
-                  onPressed: () => _renameEquipment(e),
-                ),
-                IconButton(
-                  icon: Icon(e.active ? Icons.remove_circle_outline : Icons.restore),
-                  tooltip: e.active ? 'Retire' : 'Reactivate',
-                  onPressed: () => _toggleEquipmentActive(e),
-                ),
-              ],
+          (e) => Card(
+            child: ListTile(
+              title: Text(
+                e.active ? e.name : '${e.name} (retired)',
+                style: e.active
+                    ? null
+                    : const TextStyle(color: AppColors.muted),
+              ),
+              subtitle: Text(_equipmentSubtitle(e)),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    tooltip: 'Rename',
+                    onPressed: () => _renameEquipment(e),
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      e.active ? Icons.remove_circle_outline : Icons.restore,
+                    ),
+                    tooltip: e.active ? 'Retire' : 'Reactivate',
+                    onPressed: () => _toggleEquipmentActive(e),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -537,7 +545,7 @@ class _VenueSetupWizardScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text('Staff', style: TextStyle(fontSize: 22)),
+        Text('Staff', style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
         const Text('Add staff members and assign their role tier.'),
         const SizedBox(height: 16),
@@ -572,15 +580,14 @@ class _VenueSetupWizardScreenState
           decoration: const InputDecoration(labelText: 'PIN'),
         ),
         const SizedBox(height: 12),
-        ElevatedButton(
-          onPressed: _addStaff,
-          child: const Text('Add Staff Member'),
-        ),
+        PrimaryActionButton(label: 'Add Staff Member', onPressed: _addStaff),
         const SizedBox(height: 16),
         ...staff.map(
-          (s) => ListTile(
-            title: Text('${s.name} (${s.jobTitle})'),
-            subtitle: Text(s.roleTier.name),
+          (s) => Card(
+            child: ListTile(
+              title: Text('${s.name} (${s.jobTitle})'),
+              subtitle: Text(s.roleTier.name),
+            ),
           ),
         ),
       ],
