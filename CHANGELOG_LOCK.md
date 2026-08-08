@@ -964,3 +964,20 @@ Risks: None new. Two judgment calls, both documented in DECISIONS_LOG.md: (1) `A
 Deferred items: Checkpoints 3 (venue setup wizard + task presets), 4 (notification rules + assign tasks).
 Save point name: SPRINT_031I_LOCK
 Notes: Commit 41a0629, message "Sprint 031 (Sub-sprint 5, Checkpoint 2): staff management, venue details, maintenance contacts".
+
+---
+
+## Sprint 031 (Sub-sprint 5, Checkpoint 3) — Visual/UX pass: venue setup wizard + task presets
+Date: 2026-08-08
+Objective: Third checkpoint of the manager-tier pass — the wizard (most restructured, no card structure on any of its 3 steps previously) plus Task Presets (already partially themed).
+Files changed:
+- lib/features/venue_setup/venue_setup_wizard_screen.dart — step titles → `titleLarge` (page titles, not `SectionHeader`); every bare area/equipment/staff `ListTile` → wrapped in `Card`; "Add Staff Member" and the bottom-nav "Next"/"Finish Setup" → `PrimaryActionButton`; equipment's "(retired)" label → `AppColors.muted`.
+- lib/features/task_library/preset_management_screen.dart — verification banner → `AppBanner` (dropping its border to match the other two `AppBanner` sites' chrome); "New Preset" → `SectionHeader`; inactive-preset colour → `AppColors.muted`; helper text → theme `bodySmall`; "Create Preset" → `PrimaryActionButton`.
+- DECISIONS_LOG.md — this checkpoint's build and verification (no new judgment calls — both from Checkpoint 2 applied, not re-litigated).
+Files unchanged: none this checkpoint beyond the two screens above.
+Architecture impact: None. No schema change.
+UI impact: The wizard's three steps now have real card-bordered list rows and consistent page-title styling; Task Presets' banner and remaining ad hoc text now theme-driven.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error; the user navigated to the wizard's Areas step and confirmed the title/card/button changes render correctly.
+Deferred items: Checkpoint 4 (notification rules + assign tasks) — the last of the manager-tier pass.
+Save point name: SPRINT_031J_LOCK
+Notes: Commit 0c94b83, message "Sprint 031 (Sub-sprint 5, Checkpoint 3): venue setup wizard + task presets".
