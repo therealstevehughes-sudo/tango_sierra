@@ -1001,3 +1001,36 @@ Risks: None. Verified: `flutter analyze` clean; a real Windows debug run confirm
 Deferred items: none.
 Save point name: SPRINT_031K_LOCK
 Notes: Commit 7715e60, message "Add tier display-name labels (UI-only, enum unchanged)".
+
+---
+
+## Sprint 031 (Sub-sprint 5, Checkpoint 4) — Visual/UX pass: notification rules + assign tasks — completes Sub-sprint 5
+Date: 2026-08-08
+Objective: Fourth and final checkpoint of the manager-tier pass — the two largest, most complex forms.
+Files changed:
+- lib/features/notifications/notification_rules_screen.dart — "Quick setup..."/"New Rule" headers → `SectionHeader`; both `Colors.grey` captions → theme `bodySmall`; "Add Rule"/"Save Rule" → `PrimaryActionButton`. Quick-setup grid's horizontal-scroll `Table` left as-is (a real data matrix, explicitly out of scope).
+- lib/features/onboarding/staff_assignment_screen.dart — "Task Presets"/segment names/"Custom Task" headers → `SectionHeader`; "Add Custom Task"/"Save Custom Task" → `PrimaryActionButton`; the staff-picker's previously-bare `ListTile` wrapped in `Card` (not explicitly named in the plan, applied for consistency with checkpoints 1-3 — flagged).
+- DECISIONS_LOG.md — this checkpoint's build/verification and the Sub-sprint 5 completion note.
+Files unchanged: none beyond the two screens above.
+Architecture impact: None. No schema change.
+UI impact: Both screens now use the shared theme/widgets consistently; no functional change.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error; the user navigated to both screens via the Manager drawer and confirmed correct rendering.
+Deferred items: Sub-sprint 6 (top/director-tier screens) — the last group of the original visual-pass plan.
+Save point name: SPRINT_031L_LOCK
+Notes: Commit 952c45d (combined with the regional/executive exclusion fix below — both touched staff_assignment_screen.dart in the same session, committed together), message "Sprint 031 (Sub-sprint 5, Checkpoint 4): notification rules + assign tasks, completes Sub-sprint 5".
+
+---
+
+## Assign Tasks: exclude regional/executive from the staff picker
+Date: 2026-08-08
+Objective: Direct follow-up from clicking through Checkpoint 4 — the Assign Tasks staff picker showed all active staff with no tier filter, including regional/executive (Director/Regional Manager), which don't belong in a day-to-day task-assignment list. Same shape as the already-built login-screen exclusion (Sub-sprint 3).
+Files changed:
+- lib/features/onboarding/staff_assignment_screen.dart — `_buildStaffList()`'s `activeStaff` filter now also excludes `RoleTier.regional`/`RoleTier.executive`, alongside the existing `active` filter.
+- DECISIONS_LOG.md — the finding and fix.
+Files unchanged: no other screen — this doesn't touch the login screen's separate, already-built exclusion.
+Architecture impact: None. No schema change. No existing `TaskSchedule` rows are touched or retroactively deactivated — this only changes who can be newly selected going forward.
+UI impact: Regional/executive accounts no longer appear as assignable in the Assign Tasks staff picker.
+Risks: None. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error.
+Deferred items: none.
+Save point name: SPRINT_031M_LOCK
+Notes: Commit 952c45d (combined with Checkpoint 4 above — both touched staff_assignment_screen.dart in the same session, committed together), message "Sprint 031 (Sub-sprint 5, Checkpoint 4): notification rules + assign tasks, completes Sub-sprint 5".
