@@ -1034,3 +1034,21 @@ Risks: None. Verified: `flutter analyze` clean; a real Windows debug run confirm
 Deferred items: none.
 Save point name: SPRINT_031M_LOCK
 Notes: Commit 952c45d (combined with Checkpoint 4 above — both touched staff_assignment_screen.dart in the same session, committed together), message "Sprint 031 (Sub-sprint 5, Checkpoint 4): notification rules + assign tasks, completes Sub-sprint 5".
+---
+
+## Leadership Access — private senior-tier login entry point (Sprint 031)
+Date: 2026-08-10
+Objective: Give regional/executive accounts (deliberately hidden from the shared staff login list since Sub-sprint 3) a private way to log in, as an interim PIN-only mechanism honestly labelled as such, pending real email/2FA auth (parked, needs backend).
+Files changed:
+- lib/features/auth/pin_entry.dart (new) — public `PinEntry` widget, extracted from `login_screen.dart`'s old private `_PinEntry`, shared by both the main login flow and Leadership Access.
+- lib/features/auth/senior_login_screen.dart (new) — `SeniorLoginScreen`: filters staff to regional/executive, shows the on-screen interim-access disclaimer via `AppBanner`, reuses `PinEntry`. Pop-to-root fix: after a successful `authenticate()`, `Navigator.of(context).popUntil((route) => route.isFirst)` — without it, the app appeared to do nothing on a correct PIN, since this screen is reached via `Navigator.push` and setting `currentUserProvider` alone doesn't unwind an already-pushed route (same class of bug as Sprint 013's end-of-session summary screen).
+- lib/features/auth/login_screen.dart — `_StaffList` wrapped in a `Stack` adding a discreet top-right `lock_outline` icon (muted, tooltip "Leadership Access") pushing `SeniorLoginScreen`.
+- lib/core/storage/app_database.dart — `_seedUsers` (one-time, gated on the `users` table being empty) rewritten as `_ensureSeedUsers` (idempotent, checked by name — mirrors `_ensureExpandedEquipmentTypes`). Found because Marcus Webb and Priya Shah, added to the seed list after this project's own dev database's `users` table was already non-empty, never reached it. `beforeOpen`'s call site now calls `_ensureSeedUsers` unconditionally, matching every other seed routine's pattern.
+- DECISIONS_LOG.md — plan, 5 approved choices, both bugs found/fixed during live testing, and verification.
+Files unchanged: no schema/migration file — `_ensureSeedUsers` inserts via the existing `_insertSeedUser` helper, same table, same columns.
+Architecture impact: None. No schema change. `beforeOpen` now does slightly more work on every launch (a `SELECT` + a name-set diff against 10 known seed users), same cost class as the equipment/venue-type `_ensure*` routines already running there.
+UI impact: A new discreet login entry point for regional/executive accounts; no change to the main staff list's appearance beyond the small corner icon.
+Risks: `_ensureSeedUsers` runs against the real, already-populated dev database, not just a fresh install — verified directly: a real Windows debug run against the actual dev database (`C:\Users\User\Documents\kitchen_control_db.sqlite`) confirmed exactly the two missing users (Marcus Webb, Priya Shah) were backfilled with no duplicates of the existing 9 rows, checked by direct SQLite query before and after. `flutter analyze` clean. The routing fix was confirmed live by the user; the two senior PINs (Marcus Webb 5678, Alex Rivera 7777) are pending the user's own live re-test.
+Deferred items: Real email/password + 2FA sign-in for regional/executive (needs backend, parked).
+Save point name: SPRINT_031N_LOCK
+Notes: Commit c09e3b6, message "Sprint 031: add Leadership Access (private senior-tier login), fix senior-login routing, and make seed-user creation idempotent".
