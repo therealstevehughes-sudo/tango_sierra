@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -165,6 +166,14 @@ class _LeadershipList extends StatelessWidget {
                     final user = leadership[index];
                     return ListTile(
                       dense: true,
+                      leading: CircleAvatar(
+                        backgroundColor: AppColors.tealTint,
+                        foregroundColor: AppColors.tealInk,
+                        child: Text(
+                          user.name.isEmpty ? '?' : user.name[0].toUpperCase(),
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
+                      ),
                       title: Text(
                         user.name,
                         style: Theme.of(context).textTheme.bodyLarge

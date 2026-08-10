@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/trigger_notification.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -148,13 +149,33 @@ class _TopScreenState extends ConsumerState<TopScreen> {
                 );
               },
             ),
-          const Expanded(
+          Expanded(
             child: Center(
               child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Text(
-                  'Dashboards, exports, and branding controls are coming in a later sprint.',
-                  textAlign: TextAlign.center,
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(
+                      Icons.dashboard_outlined,
+                      size: 48,
+                      color: AppColors.muted,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Dashboards coming soon',
+                      style: Theme.of(context).textTheme.titleMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Dashboards, exports, and branding controls are '
+                      'coming in a later sprint.',
+                      style: Theme.of(context).textTheme.bodyMedium
+                          ?.copyWith(color: AppColors.muted),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -266,16 +287,14 @@ class _TriggerNotificationsBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    return Container(
-      width: double.infinity,
-      color: Colors.red.shade50,
-      padding: const EdgeInsets.all(12),
+    return AppBanner(
+      kind: BannerKind.critical,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
             'Notifications',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.critical),
           ),
           const SizedBox(height: 8),
           ...notifications.map((notification) {
@@ -296,7 +315,7 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                           style: isOverdue
                               ? const TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.red,
+                                  color: AppColors.critical,
                                 )
                               : null,
                         ),
@@ -306,16 +325,17 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                             '${now.difference(notification.createdAt).inMinutes} min',
                             style: const TextStyle(
                               fontSize: 12,
-                              color: Colors.red,
+                              color: AppColors.critical,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         if (notification.escalatedAt != null)
-                          const Text(
+                          Text(
                             'Escalated to top tier',
                             style: TextStyle(
                               fontSize: 12,
                               fontStyle: FontStyle.italic,
+                              color: AppColors.muted,
                             ),
                           ),
                       ],
@@ -327,7 +347,7 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                       child: const Text('Acknowledge'),
                     )
                   else
-                    const Icon(Icons.check, color: Colors.green),
+                    const Icon(Icons.check, color: AppColors.pass),
                 ],
               ),
             );

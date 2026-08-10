@@ -383,6 +383,7 @@ class _VenueSetupWizardScreenState
         const SizedBox(height: 16),
         Wrap(
           spacing: 8,
+          runSpacing: 8,
           children: suggestions
               .map((s) => ActionChip(label: Text(s), onPressed: () => _addArea(s)))
               .toList(),
