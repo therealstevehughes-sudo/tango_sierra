@@ -711,10 +711,14 @@ class AppDatabase extends _$AppDatabase {
       // Runs first — user seeding below needs a real site id to seed into.
       final defaultSiteId = await _ensureDefaultOrganisationAndSite();
 
-      final existingUsers = await select(users).get();
-      if (existingUsers.isEmpty) {
-        await _seedUsers(defaultSiteId);
-      }
+      // Always ensured (checked by name, not gated on "table empty") —
+      // Sprint 031 fix: this used to run once only, on first launch. Seed
+      // users added to the list afterward (Priya Shah, Marcus Webb) never
+      // reached any device whose users table was already non-empty by
+      // then — confirmed against this project's own real dev database,
+      // which had neither. Matches every other seed routine's established
+      // idempotent pattern below.
+      await _ensureSeedUsers(defaultSiteId);
 
       // Always ensured (not gated on "table empty"), so an existing install
       // that only has the original 3 equipment types picks up the rest too.
@@ -772,76 +776,91 @@ class AppDatabase extends _$AppDatabase {
     },
   );
 
-  Future<void> _seedUsers(int siteId) async {
-    await _insertSeedUser(
+  // Idempotent, checked by name — same pattern as
+  // `_ensureExpandedEquipmentTypes`/`_ensureVenueTypes`. Was a one-time-only
+  // `_seedUsers` gated on the table being empty until Sprint 031; any name
+  // added to this list after a device's first launch now still reaches it,
+  // instead of silently never being created.
+  Future<void> _ensureSeedUsers(int siteId) async {
+    final existingNames = (await select(
+      users,
+    ).get()).map((row) => row.name).toSet();
+
+    Future<void> ensure({
+      required String name,
+      required String jobTitle,
+      required String roleTier,
+      required String pin,
+    }) async {
+      if (existingNames.contains(name)) return;
+      await _insertSeedUser(
+        name: name,
+        jobTitle: jobTitle,
+        roleTier: roleTier,
+        pin: pin,
+        siteId: siteId,
+      );
+    }
+
+    await ensure(
       name: 'Steve Hughes',
       jobTitle: 'Kitchen Porter',
       roleTier: 'base',
       pin: '1111',
-      siteId: siteId,
     );
-    await _insertSeedUser(
+    await ensure(
       name: 'Aisha Khan',
       jobTitle: 'Line Chef',
       roleTier: 'base',
       pin: '2222',
-      siteId: siteId,
     );
-    await _insertSeedUser(
+    await ensure(
       name: 'Marta Nowak',
       jobTitle: 'Prep Chef',
       roleTier: 'base',
       pin: '3333',
-      siteId: siteId,
     );
-    await _insertSeedUser(
+    await ensure(
       name: 'Lewis Grant',
       jobTitle: 'Sous Chef',
       roleTier: 'base',
       pin: '4444',
-      siteId: siteId,
     );
-    await _insertSeedUser(
+    await ensure(
       name: 'Elena Petrov',
       jobTitle: 'Commis Chef',
       roleTier: 'base',
       pin: '5555',
-      siteId: siteId,
     );
-    await _insertSeedUser(
+    await ensure(
       name: 'Samir Ali',
       jobTitle: 'Grill Chef',
       roleTier: 'base',
       pin: '6666',
-      siteId: siteId,
     );
-    await _insertSeedUser(
+    await ensure(
       name: 'Priya Shah',
       jobTitle: 'Duty Manager',
       roleTier: 'supervisor',
       pin: '8888',
-      siteId: siteId,
     );
-    await _insertSeedUser(
+    await ensure(
       name: 'Jordan Blake',
       jobTitle: 'Head Chef / Kitchen Manager',
       roleTier: 'venueManager',
       pin: '9999',
-      siteId: siteId,
     );
-    await _insertSeedUser(
+    await ensure(
       name: 'Marcus Webb',
       jobTitle: 'Regional Manager',
       roleTier: 'regional',
       pin: '5678',
-      siteId: siteId,
     );
-    await _insertSeedUser(
+    await ensure(
       name: 'Alex Rivera',
       jobTitle: 'Director / MD',
       roleTier: 'executive',
       pin: '7777',
-      siteId: siteId,
     );
   }
 

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
-import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/section_header.dart';
-import '../../core/widgets/status_badge.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import 'pin_entry.dart';
+import 'senior_login_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -88,7 +88,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   error: (err, stack) =>
                       Center(child: Text('Error loading staff: $err')),
                 )
-              : _PinEntry(
+              : PinEntry(
                   user: selectedUser!,
                   controller: pinController,
                   error: error,
@@ -135,14 +135,14 @@ class _StaffListState extends State<_StaffList> {
     // Visual/UX pass, Sub-sprint 3: regional/executive accounts are
     // deliberately excluded from this shared, walk-up staff list — senior
     // tiers aren't meant to be visible/selectable on a shared store device.
-    // They currently have no other way to log in from this screen; that's
-    // an accepted gap until a separate private-auth mechanism exists, not
-    // a bug. Filtered here rather than in `staffDirectoryProvider` itself,
-    // since that provider otherwise means "all active staff" and has no
-    // other consumer today — conflating it with this screen's own
-    // login-visibility rule would be a surprise for any future reuse. The
-    // search box below filters this same already-excluded set, so a
-    // hidden-tier name can never surface through a search match either.
+    // Filtered here rather than in `staffDirectoryProvider` itself, since
+    // that provider otherwise means "all active staff" and has no other
+    // consumer today — conflating it with this screen's own login-visibility
+    // rule would be a surprise for any future reuse. The search box below
+    // filters this same already-excluded set, so a hidden-tier name can
+    // never surface through a search match either. Their own way in is the
+    // discreet lock icon below, which opens Leadership Access (Sprint 031)
+    // — an interim PIN-only flow, not full secure sign-in (see that screen).
     final kitchenStaff = widget.staff
         .where((u) => u.roleTier == RoleTier.base)
         .toList();
@@ -161,28 +161,50 @@ class _StaffListState extends State<_StaffList> {
               .toList()
         : const <User>[];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Stack(
       children: [
-        const SizedBox(height: 20),
-        Text(
-          "Who are you?",
-          textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headlineMedium,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: 20),
+            Text(
+              "Who are you?",
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: searchController,
+              decoration: const InputDecoration(
+                labelText: 'Search',
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: isSearching
+                  ? _buildSearchResults(searchResults)
+                  : _buildGroupedList(kitchenStaff, supervisorsAndManagers),
+            ),
+          ],
         ),
-        const SizedBox(height: 16),
-        TextField(
-          controller: searchController,
-          decoration: const InputDecoration(
-            labelText: 'Search',
-            prefixIcon: Icon(Icons.search),
+        // Discreet entry point for regional/executive sign-in (Sprint 031)
+        // — deliberately unlabeled (no visible text, just the glyph) and
+        // muted so it doesn't read as an action worth noticing on a shared
+        // store device. A tooltip is fine since tooltips don't surface on
+        // touch anyway, which is exactly who this needs to be invisible to.
+        Positioned(
+          top: 0,
+          right: 0,
+          child: IconButton(
+            icon: const Icon(Icons.lock_outline, color: AppColors.muted),
+            iconSize: 20,
+            tooltip: 'Leadership Access',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
+            ),
           ),
-        ),
-        const SizedBox(height: 12),
-        Expanded(
-          child: isSearching
-              ? _buildSearchResults(searchResults)
-              : _buildGroupedList(kitchenStaff, supervisorsAndManagers),
         ),
       ],
     );
@@ -270,57 +292,6 @@ class _StaffTile extends StatelessWidget {
         ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
       subtitle: Text(user.jobTitle),
-    );
-  }
-}
-
-class _PinEntry extends StatelessWidget {
-  const _PinEntry({
-    required this.user,
-    required this.controller,
-    required this.error,
-    required this.submitting,
-    required this.onSubmit,
-    required this.onBack,
-  });
-
-  final User user;
-  final TextEditingController controller;
-  final String? error;
-  final bool submitting;
-  final VoidCallback onSubmit;
-  final VoidCallback onBack;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          user.name,
-          style: Theme.of(context).textTheme.headlineMedium,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 20),
-        TextField(
-          controller: controller,
-          keyboardType: TextInputType.number,
-          obscureText: true,
-          textAlign: TextAlign.center,
-          decoration: const InputDecoration(labelText: "Enter PIN"),
-        ),
-        const SizedBox(height: 20),
-        if (error != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: StatusBadge(kind: StatusKind.critical, label: error!),
-          ),
-        PrimaryActionButton(
-          label: "LOGIN",
-          onPressed: submitting ? null : onSubmit,
-        ),
-        TextButton(onPressed: onBack, child: const Text("Back")),
-      ],
     );
   }
 }
