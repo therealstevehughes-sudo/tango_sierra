@@ -1070,3 +1070,21 @@ Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run con
 Deferred items: The real TopScreen dashboard (due/overdue data, exports, branding controls) — a separate later feature, out of scope for this visual-only pass.
 Save point name: SPRINT_031O_LOCK
 Notes: Commit 77c13c6, message "Sprint 031 (Sub-sprint 6): visual pass for top-tier screens, completes the visual/UX pass".
+
+---
+
+## Tier feature access — management drawer filtered by tier (Sprint 031)
+Date: 2026-08-10
+Objective: Restrict the management drawer so each tier only sees the features it should. Corrected premise found before building: base never had drawer access (routes to TaskScreen, no drawer property at all); the real bug was supervisor sharing ManagerScreen's completely unfiltered drawer with venueManager.
+Files changed:
+- lib/core/widgets/management_drawer.dart (new) — `ManagementDrawer(title, onBackUp)`, a single shared `ConsumerWidget` replacing the previously byte-for-byte-duplicate `_ManagerDrawer`/`_TopDrawer`. Each item carries a `minTier`; visibility is `roleTierRank(currentUser.roleTier) >= roleTierRank(item.minTier)`, reusing the existing `roleTierRank` helper (same pattern as "Create New Venue"'s existing executive-only gate). All venue-configuration items (Venue Setup, Venue Details, Assign Tasks, Task Presets, Staff Management, Notification Rules, Maintenance Contacts, Back Up Now) are venueManager-minimum; Log out is ungated.
+- lib/features/manager/manager_screen.dart — `_ManagerDrawer` removed, now uses `ManagementDrawer(title: 'Manager View', ...)`; the 7 screen-target imports that existed only for drawer navigation removed.
+- lib/features/dashboard/top_screen.dart — `_TopDrawer` removed, now uses `ManagementDrawer(title: 'Top-Tier View', ...)`; same import cleanup.
+- DECISIONS_LOG.md — the corrected premise, the agreed decisions (Assign Tasks excluded for supervisor, shared-widget approach chosen), the build, and verification.
+Files unchanged: no schema/repository/migration file — this is drawer-visibility only, no data model change. No placeholder drawer items added for unbuilt regional-comparison/company-dashboard/branding features — neither drawer had any such item to begin with.
+Architecture impact: None. No schema change.
+UI impact: Supervisor's drawer now shows only Log out. VenueManager, regional, and executive are unaffected — same full set as before, just now reached via one shared, tier-gated widget instead of two independently-maintained duplicates.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error; the user confirmed live — Priya Shah (supervisor) sees only Log out, Jordan Blake (venueManager) sees the full set, and both senior tiers via Leadership Access still see the full set on TopScreen, unchanged.
+Deferred items: none.
+Save point name: SPRINT_031P_LOCK
+Notes: Commit d2e5f01, message "Filter management drawer by tier: shared ManagementDrawer widget".
