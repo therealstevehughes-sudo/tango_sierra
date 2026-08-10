@@ -1052,3 +1052,21 @@ Risks: `_ensureSeedUsers` runs against the real, already-populated dev database,
 Deferred items: Real email/password + 2FA sign-in for regional/executive (needs backend, parked).
 Save point name: SPRINT_031N_LOCK
 Notes: Commit c09e3b6, message "Sprint 031: add Leadership Access (private senior-tier login), fix senior-login routing, and make seed-user creation idempotent".
+
+---
+
+## Sprint 031 (Sub-sprint 6) — Visual/UX pass: top-tier screens — completes the visual/UX pass
+Date: 2026-08-10
+Objective: Sixth and final sub-sprint of the visual/UX pass — bring the top/director-tier surfaces (TopScreen, Leadership Access) in line with the shared design system, plus one small logged fix. TopScreen's real dashboard content is a separate later feature (needs due/overdue data infrastructure); this sub-sprint themes what exists today.
+Files changed:
+- lib/features/dashboard/top_screen.dart — `_TriggerNotificationsBanner` (an untouched pre-Checkpoint-1 copy of manager_screen.dart's old banner) replaced with `AppBanner(kind: BannerKind.critical, ...)` + `AppColors`. Placeholder body restyled with a muted `Icons.dashboard_outlined` icon, a `titleMedium` heading ("Dashboards coming soon"), and the existing explanatory sentence in muted `bodyMedium`.
+- lib/features/auth/senior_login_screen.dart — `_LeadershipList` rows gain the same teal initial-`CircleAvatar` as the main login screen's `_StaffTile`, its closest structural sibling.
+- lib/features/venue_setup/venue_setup_wizard_screen.dart — Areas step's suggestion-chip `Wrap` gains `runSpacing: 8` alongside the existing `spacing: 8`, so wrapped rows don't touch vertically at narrow width.
+- DECISIONS_LOG.md — this sub-sprint's audit, build, and verification; notes that "Visual pass progress"/"Small visual fixes" sections referenced in the task don't exist under those names anywhere in the repo's control docs.
+Files unchanged: `_TopDrawer` (already structurally identical to `_ManagerDrawer`, confirmed by reading, no changes needed). No `_SessionSummariesBanner` equivalent added to TopScreen — agreed as intentional (session summaries are a supervisor/manager shift-oversight flow, not a top-tier concern).
+Architecture impact: None. No schema change.
+UI impact: TopScreen's notification banner and placeholder now match the rest of the app's themed screens; Leadership Access's list has the same warmth treatment as the main login list; the wizard's Areas-step chips no longer touch when wrapped.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error against the existing dev database; the user logged in via Leadership Access (both senior PINs) and confirmed all changes render/behave correctly live.
+Deferred items: The real TopScreen dashboard (due/overdue data, exports, branding controls) — a separate later feature, out of scope for this visual-only pass.
+Save point name: SPRINT_031O_LOCK
+Notes: Commit 77c13c6, message "Sprint 031 (Sub-sprint 6): visual pass for top-tier screens, completes the visual/UX pass".
