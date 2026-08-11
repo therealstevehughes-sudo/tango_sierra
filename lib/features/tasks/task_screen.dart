@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/unit_conversion.dart';
+import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/status_badge.dart';
@@ -340,6 +341,14 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                       task.displayTitle,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
+                    if (task.guidanceText != null &&
+                        task.guidanceText!.isNotEmpty) ...[
+                      const SizedBox(height: 12),
+                      AppBanner(
+                        kind: BannerKind.info,
+                        child: Text(task.guidanceText!),
+                      ),
+                    ],
                     const SizedBox(height: 20),
                     if (task.hasNumericRange)
                       TextField(

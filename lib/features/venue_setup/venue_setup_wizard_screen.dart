@@ -6,6 +6,7 @@ import '../../core/widgets/primary_action_button.dart';
 import '../../shared/models/area.dart';
 import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
+import '../../shared/models/job_role.dart';
 import '../../shared/models/site.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -44,6 +45,10 @@ class _VenueSetupWizardScreenState
       TextEditingController();
   final TextEditingController staffPinController = TextEditingController();
   RoleTier selectedRoleTier = RoleTier.base;
+  // JobRole.everyone is deliberately excluded from selection here — it's a
+  // task-applicability value (a handful of hygiene-basics tasks that apply
+  // regardless of job), never a real person's own day job.
+  JobRole selectedJobRole = JobRole.chefCook;
 
   @override
   void initState() {
@@ -154,6 +159,7 @@ class _VenueSetupWizardScreenState
       name: name,
       jobTitle: jobTitle,
       roleTier: selectedRoleTier,
+      jobRole: selectedJobRole,
       pin: pin,
       siteId: site.id,
     );
@@ -576,6 +582,23 @@ class _VenueSetupWizardScreenState
           },
         ),
         const SizedBox(height: 12),
+        DropdownButtonFormField<JobRole>(
+          initialValue: selectedJobRole,
+          decoration: const InputDecoration(labelText: 'Job role'),
+          items: JobRole.values
+              .where((role) => role != JobRole.everyone)
+              .map(
+                (role) => DropdownMenuItem(
+                  value: role,
+                  child: Text(jobRoleDisplayName(role)),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {
+            if (value != null) setState(() => selectedJobRole = value);
+          },
+        ),
+        const SizedBox(height: 12),
         TextField(
           controller: staffPinController,
           keyboardType: TextInputType.number,
@@ -589,7 +612,11 @@ class _VenueSetupWizardScreenState
           (s) => Card(
             child: ListTile(
               title: Text('${s.name} (${s.jobTitle})'),
-              subtitle: Text(roleTierDisplayName(s.roleTier)),
+              subtitle: Text(
+                s.jobRole == null
+                    ? roleTierDisplayName(s.roleTier)
+                    : '${roleTierDisplayName(s.roleTier)} · ${jobRoleDisplayName(s.jobRole!)}',
+              ),
             ),
           ),
         ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme/app_colors.dart';
 
-enum BannerKind { caution, critical }
+enum BannerKind { info, caution, critical }
 
 /// A consistent icon + tinted-background alert banner — replaces three
 /// near-duplicate ad hoc implementations (manager screen's session
@@ -23,6 +23,11 @@ class AppBanner extends StatelessWidget {
     // caution/critical should look like the same "kind" of thing wherever
     // they appear, not just share a hue.
     final (Color fg, Color bg, IconData icon) = switch (kind) {
+      // Sprint 031 (task-guidance text): neutral/informational, not a
+      // warning — reuses the existing teal accent tokens (already used for
+      // "quiet informational" chrome elsewhere, e.g. the login screen's
+      // avatars and drawer headers) rather than adding a new colour token.
+      BannerKind.info => (AppColors.tealInk, AppColors.tealTint, Icons.info_outline),
       BannerKind.caution => (
         AppColors.caution,
         AppColors.cautionBg,

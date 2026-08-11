@@ -5,6 +5,7 @@ import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
+import '../../shared/models/job_role.dart';
 import '../../shared/models/task_preset.dart';
 import '../../shared/models/task_schedule.dart';
 import '../../shared/models/task_template.dart';
@@ -35,6 +36,11 @@ class _StaffAssignmentScreenState
 
   User? selectedStaff;
   List<TaskSchedule> schedulesForSelectedStaff = [];
+  // Sprint 031 (HORECA_TASK_ENRICHMENT.md load): jobRole is a default, not
+  // a lockout (unlike the tier filter below, which stays untouched) — this
+  // just starts the list narrowed to the selected staff member's own job,
+  // resettable per-staff so it doesn't leak the last person's choice.
+  bool showAllJobRoles = false;
 
   bool showCustomTaskForm = false;
   final TextEditingController customTitleController = TextEditingController();
@@ -103,6 +109,7 @@ class _StaffAssignmentScreenState
     setState(() {
       selectedStaff = user;
       schedulesForSelectedStaff = schedules;
+      showAllJobRoles = false;
     });
   }
 
@@ -345,12 +352,28 @@ class _StaffAssignmentScreenState
 
   Widget _buildAssignmentList() {
     final staff = selectedStaff!;
+    // Tier is a real lockout — unchanged, still the only access-control
+    // filter. jobRole below is a default on top of it, not a second
+    // lockout: a manager can always reveal the rest of this same
+    // tier-filtered set via the toggle.
     final applicable = templates
         .where((t) => t.applicableRoleTiers.contains(staff.roleTier))
         .toList();
 
+    final canNarrowByJobRole = staff.jobRole != null;
+    final visible = (canNarrowByJobRole && !showAllJobRoles)
+        ? applicable
+              .where(
+                (t) =>
+                    t.jobRole == null ||
+                    t.jobRole == JobRole.everyone ||
+                    t.jobRole == staff.jobRole,
+              )
+              .toList()
+        : applicable;
+
     final Map<String, List<TaskTemplate>> grouped = {};
-    for (final template in applicable) {
+    for (final template in visible) {
       grouped.putIfAbsent(template.segment, () => []).add(template);
     }
 
@@ -375,6 +398,15 @@ class _StaffAssignmentScreenState
             const Divider(),
             const SizedBox(height: 8),
           ],
+          if (canNarrowByJobRole)
+            CheckboxListTile(
+              value: showAllJobRoles,
+              title: Text(
+                'Show all roles (default: ${jobRoleDisplayName(staff.jobRole!)} only)',
+              ),
+              onChanged: (value) =>
+                  setState(() => showAllJobRoles = value ?? false),
+            ),
           for (final segment in grouped.keys) ...[
             SectionHeader(title: segment),
             for (final template in grouped[segment]!)

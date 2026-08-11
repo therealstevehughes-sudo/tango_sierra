@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 
 import '../../core/storage/app_database.dart';
 import '../../core/utils/pin_hasher.dart';
+import '../models/job_role.dart';
 import '../models/user.dart';
 
 abstract class UserRepository {
@@ -11,6 +12,7 @@ abstract class UserRepository {
     required String name,
     required String jobTitle,
     required RoleTier roleTier,
+    required JobRole jobRole,
     required String pin,
     required int siteId,
   });
@@ -67,6 +69,7 @@ class DriftUserRepository implements UserRepository {
     required String name,
     required String jobTitle,
     required RoleTier roleTier,
+    required JobRole jobRole,
     required String pin,
     required int siteId,
   }) async {
@@ -78,6 +81,7 @@ class DriftUserRepository implements UserRepository {
             name: name,
             jobTitle: jobTitle,
             roleTier: roleTier.name,
+            jobRole: Value(jobRole.name),
             pinHash: hashPin(pin, salt),
             pinSalt: salt,
             siteId: Value(siteId),
@@ -88,6 +92,7 @@ class DriftUserRepository implements UserRepository {
       name: name,
       jobTitle: jobTitle,
       roleTier: roleTier,
+      jobRole: jobRole,
       siteId: siteId,
     );
   }
@@ -148,6 +153,7 @@ class DriftUserRepository implements UserRepository {
       name: row.name,
       jobTitle: row.jobTitle,
       roleTier: RoleTier.values.byName(row.roleTier),
+      jobRole: row.jobRole == null ? null : JobRole.values.byName(row.jobRole!),
       preferredTemperatureUnit: TemperatureUnit.values.byName(
         row.preferredTemperatureUnit,
       ),

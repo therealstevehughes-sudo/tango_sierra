@@ -1,3 +1,5 @@
+import 'job_role.dart';
+
 // Five-tier model (Sprint 027, supersedes the original 3-tier top/mid/base).
 // Declaration order IS rank order — base=0 through executive=4 — so
 // tier.index doubles as its rank; nextRoleTierUp() relies on this.
@@ -42,6 +44,10 @@ class User {
   final String name;
   final String jobTitle;
   final RoleTier roleTier;
+  // Nullable: rows created before Sprint 031's job-role tagging predate
+  // this field. Null means "not yet formalised", not "everyone" — see
+  // JobRole's own doc comment for why those two states can't collide.
+  final JobRole? jobRole;
   final TemperatureUnit preferredTemperatureUnit;
   final int siteId;
   final bool active;
@@ -53,6 +59,7 @@ class User {
     required this.name,
     required this.jobTitle,
     required this.roleTier,
+    this.jobRole,
     this.preferredTemperatureUnit = TemperatureUnit.celsius,
     required this.siteId,
     this.active = true,

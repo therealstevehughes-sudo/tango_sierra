@@ -84,6 +84,7 @@ class TaskController {
           isCritical: template.isCritical,
           requiresCorrectiveActionOnFail: template.requiresCorrectiveActionOnFail,
           fixInstructions: template.fixInstructions,
+          guidanceText: template.guidanceText,
           choiceOptions: _parseChoiceOptions(template.customFieldsJson),
           equipmentInstanceId: schedule.equipmentInstanceId,
           equipmentInstanceName: equipmentInstanceName,

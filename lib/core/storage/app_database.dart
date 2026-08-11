@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
 import '../utils/pin_hasher.dart';
+import 'task_enrichment_data.dart';
 
 part 'app_database.g.dart';
 
@@ -64,6 +65,13 @@ class Users extends Table {
   DateTimeColumn get deactivatedAt => dateTime().nullable()();
   IntColumn get deactivatedByUserId =>
       integer().nullable().references(Users, #id)();
+  // Sprint 031 (HORECA_TASK_ENRICHMENT.md load): a person's own day job,
+  // formalised from their previously free-text jobTitle. Nullable — rows
+  // created before this field, or a future staff member not yet assigned
+  // one, simply don't drive Assign Tasks' default filter. Never set to
+  // JobRole.everyone (see job_role.dart) — that value only applies to
+  // TaskTemplate.
+  TextColumn get jobRole => text().nullable()();
 }
 
 @DataClassName('EquipmentTypeEntity')
@@ -131,6 +139,18 @@ class TaskTemplates extends Table {
   // isCritical-derived fallback for those rows. isCritical itself is
   // untouched and still authoritative for any existing reader.
   TextColumn get priority => text().nullable()();
+  // Sprint 031 (HORECA_TASK_ENRICHMENT.md load), both nullable. jobRole is
+  // a default (not a lockout, unlike applicableRoleTiers) for which job
+  // usually does this task — Assign Tasks pre-filters by it but a manager
+  // can still assign anything within their tier's existing access.
+  // guidanceText is short "what to do / what to record" text shown to the
+  // worker on the task screen. Applied to existing rows as a NEW VERSION
+  // (never an in-place UPDATE) via `_ensureTaskEnrichment`, per this
+  // table's append-only versioning rule — every downstream reference
+  // (TaskSchedules, TaskPresetItems, venue-type tags) is a soft reference
+  // by templateGroupId, so the enriched version applies automatically.
+  TextColumn get jobRole => text().nullable()();
+  TextColumn get guidanceText => text().nullable()();
 }
 
 @DataClassName('AreaEntity')
@@ -467,7 +487,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 24;
+  int get schemaVersion => 25;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -706,6 +726,16 @@ class AppDatabase extends _$AppDatabase {
         // int, so it satisfies the new nullable column type unchanged.
         await m.alterTable(TableMigration(triggerNotifications));
       }
+      if (from < 25) {
+        // HORECA_TASK_ENRICHMENT.md load (Sprint 031): job-role tags +
+        // worker-facing guidance text. jobRole/guidanceText start null on
+        // every existing template row here — `_ensureTaskEnrichment` (run
+        // from beforeOpen below) populates them via new version rows, not
+        // this migration, to respect the append-only versioning rule.
+        await m.addColumn(taskTemplates, taskTemplates.jobRole);
+        await m.addColumn(taskTemplates, taskTemplates.guidanceText);
+        await m.addColumn(users, users.jobRole);
+      }
     },
     beforeOpen: (details) async {
       // Runs first — user seeding below needs a real site id to seed into.
@@ -719,6 +749,11 @@ class AppDatabase extends _$AppDatabase {
       // which had neither. Matches every other seed routine's established
       // idempotent pattern below.
       await _ensureSeedUsers(defaultSiteId);
+
+      // Backfills jobRole onto seed users that already existed before this
+      // column did — see the function doc for why `ensure` above alone
+      // isn't enough.
+      await _ensureSeedUserJobRoles();
 
       // Always ensured (not gated on "table empty"), so an existing install
       // that only has the original 3 equipment types picks up the rest too.
@@ -770,6 +805,14 @@ class AppDatabase extends _$AppDatabase {
       // Management & Compliance Oversight. Completes Build Order item 4.
       await _seedTaskLibraryClusterF();
 
+      // Always ensured (checked per-title, per-current-version — see the
+      // function doc). HORECA_TASK_ENRICHMENT.md load (Sprint 031): adds
+      // jobRole + guidanceText to the templates loaded above, as new
+      // versions rather than in-place updates (append-only versioning
+      // rule). Must run after all 6 cluster loads, since it enriches
+      // templates they create.
+      await _ensureTaskEnrichment();
+
       // Idempotent — safe on every open. Only touches rows left over from
       // before siteId existed (nothing to do on a fresh install).
       await _backfillSiteIds(defaultSiteId);
@@ -781,6 +824,23 @@ class AppDatabase extends _$AppDatabase {
   // `_seedUsers` gated on the table being empty until Sprint 031; any name
   // added to this list after a device's first launch now still reaches it,
   // instead of silently never being created.
+  // (name, jobRole) for every seed user — the single source of truth for
+  // both a freshly-inserted seed user (via `ensure` below) and the
+  // already-existing-row backfill in `_ensureSeedUserJobRoles`, so the two
+  // paths can't drift apart.
+  static const _seedUserJobRoles = {
+    'Steve Hughes': 'kitchenPorter',
+    'Aisha Khan': 'chefCook',
+    'Marta Nowak': 'chefCook',
+    'Lewis Grant': 'chefCook',
+    'Elena Petrov': 'chefCook',
+    'Samir Ali': 'chefCook',
+    'Priya Shah': 'management',
+    'Jordan Blake': 'management',
+    'Marcus Webb': 'management',
+    'Alex Rivera': 'management',
+  };
+
   Future<void> _ensureSeedUsers(int siteId) async {
     final existingNames = (await select(
       users,
@@ -798,6 +858,7 @@ class AppDatabase extends _$AppDatabase {
         jobTitle: jobTitle,
         roleTier: roleTier,
         pin: pin,
+        jobRole: _seedUserJobRoles[name],
         siteId: siteId,
       );
     }
@@ -864,12 +925,31 @@ class AppDatabase extends _$AppDatabase {
     );
   }
 
+  // Backfills jobRole onto seed users that already existed before Sprint
+  // 031 added the column — `ensure` above only sets it on a brand-new
+  // insert, so an already-populated install (like this project's own dev
+  // database) needs this separate pass. Only touches rows where jobRole is
+  // still null, so it never overwrites a value set some other way.
+  Future<void> _ensureSeedUserJobRoles() async {
+    final rows = await (select(
+      users,
+    )..where((u) => u.jobRole.isNull())).get();
+    for (final row in rows) {
+      final jobRole = _seedUserJobRoles[row.name];
+      if (jobRole == null) continue;
+      await (update(users)..where((u) => u.id.equals(row.id))).write(
+        UsersCompanion(jobRole: Value(jobRole)),
+      );
+    }
+  }
+
   Future<void> _insertSeedUser({
     required String name,
     required String jobTitle,
     required String roleTier,
     required String pin,
     required int siteId,
+    String? jobRole,
   }) {
     final salt = generateSalt();
     return into(users).insert(
@@ -880,6 +960,7 @@ class AppDatabase extends _$AppDatabase {
         pinHash: hashPin(pin, salt),
         pinSalt: salt,
         siteId: Value(siteId),
+        jobRole: Value(jobRole),
       ),
     );
   }
@@ -4251,6 +4332,71 @@ class AppDatabase extends _$AppDatabase {
         createdAt: DateTime.now(),
       ),
     );
+  }
+
+  // HORECA_TASK_ENRICHMENT.md load (Sprint 031). Idempotent by (title,
+  // already-enriched?) rather than by title alone, since — unlike the
+  // cluster loaders, which only ever INSERT a title that doesn't exist yet
+  // — every title here already exists; running this on every launch must
+  // not create a new version every time. TaskTemplate is append-only
+  // versioned (ARCHITECTURE_LOCK.md), so enrichment is applied as a new
+  // version of the current row, never an in-place UPDATE — every other
+  // table that references a template (TaskSchedules, TaskPresetItems,
+  // TaskTemplateVenueTypes) does so by templateGroupId, a soft reference
+  // already designed to survive exactly this (proven in Sprint 029), so
+  // nothing downstream needs to change.
+  Future<void> _ensureTaskEnrichment() async {
+    final allRows = await select(taskTemplates).get();
+    final referencedAsPrevious = allRows
+        .map((r) => r.previousVersionId)
+        .whereType<int>()
+        .toSet();
+    final currentByTitle = {
+      for (final row in allRows)
+        if (!referencedAsPrevious.contains(row.id)) row.title: row,
+    };
+
+    for (final enrichment in taskEnrichmentData) {
+      final current = currentByTitle[enrichment.title];
+      // Title doesn't match any current-version template — logged via the
+      // offline title-match audit that accompanied this load, not at
+      // runtime (this file has no logging precedent; every other seed
+      // function is verified externally instead). Not guessed at, not
+      // silently forced to match.
+      if (current == null) continue;
+      // Already enriched (a prior launch already created the new version).
+      if (current.jobRole != null) continue;
+
+      await into(taskTemplates).insert(
+        TaskTemplatesCompanion.insert(
+          templateGroupId: current.templateGroupId,
+          versionNumber: current.versionNumber + 1,
+          previousVersionId: Value(current.id),
+          title: current.title,
+          segment: current.segment,
+          applicableRoleTiers: current.applicableRoleTiers,
+          method: current.method,
+          requiresPhoto: Value(current.requiresPhoto),
+          requiresNotes: Value(current.requiresNotes),
+          customFieldsJson: Value(current.customFieldsJson),
+          minLimit: Value(current.minLimit),
+          maxLimit: Value(current.maxLimit),
+          unit: Value(current.unit),
+          legalLimitCategory: Value(current.legalLimitCategory),
+          isCritical: Value(current.isCritical),
+          priority: Value(current.priority),
+          requiresCorrectiveActionOnFail: Value(
+            current.requiresCorrectiveActionOnFail,
+          ),
+          fixInstructions: Value(current.fixInstructions),
+          equipmentTypeId: Value(current.equipmentTypeId),
+          createdAt: DateTime.now(),
+          createdByUserId: Value(current.createdByUserId),
+          jobRole: Value(enrichment.jobRole.name),
+          guidanceText: Value(enrichment.guidanceText),
+        ),
+      );
+    }
   }
 
   Future<void> _backfillSiteIds(int siteId) async {

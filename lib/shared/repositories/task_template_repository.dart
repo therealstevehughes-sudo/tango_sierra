@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 
 import '../../core/storage/app_database.dart';
+import '../models/job_role.dart';
 import '../models/task_template.dart';
 import '../models/user.dart';
 
@@ -275,6 +276,10 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
       priority: row.priority == null
           ? null
           : TaskPriority.values.byName(row.priority!),
+      jobRole: row.jobRole == null
+          ? null
+          : JobRole.values.byName(row.jobRole!),
+      guidanceText: row.guidanceText,
     );
   }
 }

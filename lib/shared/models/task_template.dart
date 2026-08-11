@@ -1,3 +1,4 @@
+import 'job_role.dart';
 import 'user.dart';
 
 // Real 3-level priority from the checklist source (Sprint 023), replacing
@@ -28,6 +29,14 @@ class TaskTemplate {
   final DateTime createdAt;
   final int? createdByUserId;
   final TaskPriority? priority;
+  // Both nullable: added by Sprint 031's HORECA_TASK_ENRICHMENT.md load.
+  // A default (not a lockout, unlike applicableRoleTiers) for which job
+  // usually does this task — Assign Tasks uses it to pre-filter the list,
+  // but a manager can still assign anything within their tier's access.
+  // Null on rows not yet enriched (custom tasks, or library tasks the
+  // enrichment doc doesn't cover).
+  final JobRole? jobRole;
+  final String? guidanceText;
 
   // Null on rows created before Sprint 023 (can't be reconstructed from
   // isCritical without guessing high vs. standard); falls back to the
@@ -58,5 +67,7 @@ class TaskTemplate {
     required this.createdAt,
     this.createdByUserId,
     this.priority,
+    this.jobRole,
+    this.guidanceText,
   });
 }

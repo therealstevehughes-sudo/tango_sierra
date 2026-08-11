@@ -1597,6 +1597,17 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
       'REFERENCES users (id)',
     ),
   );
+  static const VerificationMeta _jobRoleMeta = const VerificationMeta(
+    'jobRole',
+  );
+  @override
+  late final GeneratedColumn<String> jobRole = GeneratedColumn<String>(
+    'job_role',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1610,6 +1621,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     active,
     deactivatedAt,
     deactivatedByUserId,
+    jobRole,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1705,6 +1717,12 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         ),
       );
     }
+    if (data.containsKey('job_role')) {
+      context.handle(
+        _jobRoleMeta,
+        jobRole.isAcceptableOrUnknown(data['job_role']!, _jobRoleMeta),
+      );
+    }
     return context;
   }
 
@@ -1758,6 +1776,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}deactivated_by_user_id'],
       ),
+      jobRole: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}job_role'],
+      ),
     );
   }
 
@@ -1779,6 +1801,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final bool active;
   final DateTime? deactivatedAt;
   final int? deactivatedByUserId;
+  final String? jobRole;
   const UserEntity({
     required this.id,
     required this.name,
@@ -1791,6 +1814,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     required this.active,
     this.deactivatedAt,
     this.deactivatedByUserId,
+    this.jobRole,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1814,6 +1838,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     if (!nullToAbsent || deactivatedByUserId != null) {
       map['deactivated_by_user_id'] = Variable<int>(deactivatedByUserId);
     }
+    if (!nullToAbsent || jobRole != null) {
+      map['job_role'] = Variable<String>(jobRole);
+    }
     return map;
   }
 
@@ -1836,6 +1863,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       deactivatedByUserId: deactivatedByUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(deactivatedByUserId),
+      jobRole: jobRole == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobRole),
     );
   }
 
@@ -1860,6 +1890,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       deactivatedByUserId: serializer.fromJson<int?>(
         json['deactivatedByUserId'],
       ),
+      jobRole: serializer.fromJson<String?>(json['jobRole']),
     );
   }
   @override
@@ -1879,6 +1910,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'active': serializer.toJson<bool>(active),
       'deactivatedAt': serializer.toJson<DateTime?>(deactivatedAt),
       'deactivatedByUserId': serializer.toJson<int?>(deactivatedByUserId),
+      'jobRole': serializer.toJson<String?>(jobRole),
     };
   }
 
@@ -1894,6 +1926,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     bool? active,
     Value<DateTime?> deactivatedAt = const Value.absent(),
     Value<int?> deactivatedByUserId = const Value.absent(),
+    Value<String?> jobRole = const Value.absent(),
   }) => UserEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -1911,6 +1944,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     deactivatedByUserId: deactivatedByUserId.present
         ? deactivatedByUserId.value
         : this.deactivatedByUserId,
+    jobRole: jobRole.present ? jobRole.value : this.jobRole,
   );
   UserEntity copyWithCompanion(UsersCompanion data) {
     return UserEntity(
@@ -1931,6 +1965,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       deactivatedByUserId: data.deactivatedByUserId.present
           ? data.deactivatedByUserId.value
           : this.deactivatedByUserId,
+      jobRole: data.jobRole.present ? data.jobRole.value : this.jobRole,
     );
   }
 
@@ -1947,7 +1982,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('siteId: $siteId, ')
           ..write('active: $active, ')
           ..write('deactivatedAt: $deactivatedAt, ')
-          ..write('deactivatedByUserId: $deactivatedByUserId')
+          ..write('deactivatedByUserId: $deactivatedByUserId, ')
+          ..write('jobRole: $jobRole')
           ..write(')'))
         .toString();
   }
@@ -1965,6 +2001,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     active,
     deactivatedAt,
     deactivatedByUserId,
+    jobRole,
   );
   @override
   bool operator ==(Object other) =>
@@ -1980,7 +2017,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.siteId == this.siteId &&
           other.active == this.active &&
           other.deactivatedAt == this.deactivatedAt &&
-          other.deactivatedByUserId == this.deactivatedByUserId);
+          other.deactivatedByUserId == this.deactivatedByUserId &&
+          other.jobRole == this.jobRole);
 }
 
 class UsersCompanion extends UpdateCompanion<UserEntity> {
@@ -1995,6 +2033,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   final Value<bool> active;
   final Value<DateTime?> deactivatedAt;
   final Value<int?> deactivatedByUserId;
+  final Value<String?> jobRole;
   const UsersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -2007,6 +2046,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.active = const Value.absent(),
     this.deactivatedAt = const Value.absent(),
     this.deactivatedByUserId = const Value.absent(),
+    this.jobRole = const Value.absent(),
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
@@ -2020,6 +2060,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.active = const Value.absent(),
     this.deactivatedAt = const Value.absent(),
     this.deactivatedByUserId = const Value.absent(),
+    this.jobRole = const Value.absent(),
   }) : name = Value(name),
        jobTitle = Value(jobTitle),
        roleTier = Value(roleTier),
@@ -2037,6 +2078,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Expression<bool>? active,
     Expression<DateTime>? deactivatedAt,
     Expression<int>? deactivatedByUserId,
+    Expression<String>? jobRole,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2052,6 +2094,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       if (deactivatedAt != null) 'deactivated_at': deactivatedAt,
       if (deactivatedByUserId != null)
         'deactivated_by_user_id': deactivatedByUserId,
+      if (jobRole != null) 'job_role': jobRole,
     });
   }
 
@@ -2067,6 +2110,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Value<bool>? active,
     Value<DateTime?>? deactivatedAt,
     Value<int?>? deactivatedByUserId,
+    Value<String?>? jobRole,
   }) {
     return UsersCompanion(
       id: id ?? this.id,
@@ -2081,6 +2125,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       active: active ?? this.active,
       deactivatedAt: deactivatedAt ?? this.deactivatedAt,
       deactivatedByUserId: deactivatedByUserId ?? this.deactivatedByUserId,
+      jobRole: jobRole ?? this.jobRole,
     );
   }
 
@@ -2122,6 +2167,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     if (deactivatedByUserId.present) {
       map['deactivated_by_user_id'] = Variable<int>(deactivatedByUserId.value);
     }
+    if (jobRole.present) {
+      map['job_role'] = Variable<String>(jobRole.value);
+    }
     return map;
   }
 
@@ -2138,7 +2186,8 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('siteId: $siteId, ')
           ..write('active: $active, ')
           ..write('deactivatedAt: $deactivatedAt, ')
-          ..write('deactivatedByUserId: $deactivatedByUserId')
+          ..write('deactivatedByUserId: $deactivatedByUserId, ')
+          ..write('jobRole: $jobRole')
           ..write(')'))
         .toString();
   }
@@ -3978,6 +4027,28 @@ class $TaskTemplatesTable extends TaskTemplates
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _jobRoleMeta = const VerificationMeta(
+    'jobRole',
+  );
+  @override
+  late final GeneratedColumn<String> jobRole = GeneratedColumn<String>(
+    'job_role',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _guidanceTextMeta = const VerificationMeta(
+    'guidanceText',
+  );
+  @override
+  late final GeneratedColumn<String> guidanceText = GeneratedColumn<String>(
+    'guidance_text',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4002,6 +4073,8 @@ class $TaskTemplatesTable extends TaskTemplates
     createdAt,
     createdByUserId,
     priority,
+    jobRole,
+    guidanceText,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4194,6 +4267,21 @@ class $TaskTemplatesTable extends TaskTemplates
         priority.isAcceptableOrUnknown(data['priority']!, _priorityMeta),
       );
     }
+    if (data.containsKey('job_role')) {
+      context.handle(
+        _jobRoleMeta,
+        jobRole.isAcceptableOrUnknown(data['job_role']!, _jobRoleMeta),
+      );
+    }
+    if (data.containsKey('guidance_text')) {
+      context.handle(
+        _guidanceTextMeta,
+        guidanceText.isAcceptableOrUnknown(
+          data['guidance_text']!,
+          _guidanceTextMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -4291,6 +4379,14 @@ class $TaskTemplatesTable extends TaskTemplates
         DriftSqlType.string,
         data['${effectivePrefix}priority'],
       ),
+      jobRole: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}job_role'],
+      ),
+      guidanceText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}guidance_text'],
+      ),
     );
   }
 
@@ -4324,6 +4420,8 @@ class TaskTemplateEntity extends DataClass
   final DateTime createdAt;
   final int? createdByUserId;
   final String? priority;
+  final String? jobRole;
+  final String? guidanceText;
   const TaskTemplateEntity({
     required this.id,
     required this.templateGroupId,
@@ -4347,6 +4445,8 @@ class TaskTemplateEntity extends DataClass
     required this.createdAt,
     this.createdByUserId,
     this.priority,
+    this.jobRole,
+    this.guidanceText,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4395,6 +4495,12 @@ class TaskTemplateEntity extends DataClass
     if (!nullToAbsent || priority != null) {
       map['priority'] = Variable<String>(priority);
     }
+    if (!nullToAbsent || jobRole != null) {
+      map['job_role'] = Variable<String>(jobRole);
+    }
+    if (!nullToAbsent || guidanceText != null) {
+      map['guidance_text'] = Variable<String>(guidanceText);
+    }
     return map;
   }
 
@@ -4440,6 +4546,12 @@ class TaskTemplateEntity extends DataClass
       priority: priority == null && nullToAbsent
           ? const Value.absent()
           : Value(priority),
+      jobRole: jobRole == null && nullToAbsent
+          ? const Value.absent()
+          : Value(jobRole),
+      guidanceText: guidanceText == null && nullToAbsent
+          ? const Value.absent()
+          : Value(guidanceText),
     );
   }
 
@@ -4477,6 +4589,8 @@ class TaskTemplateEntity extends DataClass
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       createdByUserId: serializer.fromJson<int?>(json['createdByUserId']),
       priority: serializer.fromJson<String?>(json['priority']),
+      jobRole: serializer.fromJson<String?>(json['jobRole']),
+      guidanceText: serializer.fromJson<String?>(json['guidanceText']),
     );
   }
   @override
@@ -4507,6 +4621,8 @@ class TaskTemplateEntity extends DataClass
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'createdByUserId': serializer.toJson<int?>(createdByUserId),
       'priority': serializer.toJson<String?>(priority),
+      'jobRole': serializer.toJson<String?>(jobRole),
+      'guidanceText': serializer.toJson<String?>(guidanceText),
     };
   }
 
@@ -4533,6 +4649,8 @@ class TaskTemplateEntity extends DataClass
     DateTime? createdAt,
     Value<int?> createdByUserId = const Value.absent(),
     Value<String?> priority = const Value.absent(),
+    Value<String?> jobRole = const Value.absent(),
+    Value<String?> guidanceText = const Value.absent(),
   }) => TaskTemplateEntity(
     id: id ?? this.id,
     templateGroupId: templateGroupId ?? this.templateGroupId,
@@ -4569,6 +4687,8 @@ class TaskTemplateEntity extends DataClass
         ? createdByUserId.value
         : this.createdByUserId,
     priority: priority.present ? priority.value : this.priority,
+    jobRole: jobRole.present ? jobRole.value : this.jobRole,
+    guidanceText: guidanceText.present ? guidanceText.value : this.guidanceText,
   );
   TaskTemplateEntity copyWithCompanion(TaskTemplatesCompanion data) {
     return TaskTemplateEntity(
@@ -4621,6 +4741,10 @@ class TaskTemplateEntity extends DataClass
           ? data.createdByUserId.value
           : this.createdByUserId,
       priority: data.priority.present ? data.priority.value : this.priority,
+      jobRole: data.jobRole.present ? data.jobRole.value : this.jobRole,
+      guidanceText: data.guidanceText.present
+          ? data.guidanceText.value
+          : this.guidanceText,
     );
   }
 
@@ -4650,7 +4774,9 @@ class TaskTemplateEntity extends DataClass
           ..write('equipmentTypeId: $equipmentTypeId, ')
           ..write('createdAt: $createdAt, ')
           ..write('createdByUserId: $createdByUserId, ')
-          ..write('priority: $priority')
+          ..write('priority: $priority, ')
+          ..write('jobRole: $jobRole, ')
+          ..write('guidanceText: $guidanceText')
           ..write(')'))
         .toString();
   }
@@ -4679,6 +4805,8 @@ class TaskTemplateEntity extends DataClass
     createdAt,
     createdByUserId,
     priority,
+    jobRole,
+    guidanceText,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -4706,7 +4834,9 @@ class TaskTemplateEntity extends DataClass
           other.equipmentTypeId == this.equipmentTypeId &&
           other.createdAt == this.createdAt &&
           other.createdByUserId == this.createdByUserId &&
-          other.priority == this.priority);
+          other.priority == this.priority &&
+          other.jobRole == this.jobRole &&
+          other.guidanceText == this.guidanceText);
 }
 
 class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
@@ -4732,6 +4862,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
   final Value<DateTime> createdAt;
   final Value<int?> createdByUserId;
   final Value<String?> priority;
+  final Value<String?> jobRole;
+  final Value<String?> guidanceText;
   const TaskTemplatesCompanion({
     this.id = const Value.absent(),
     this.templateGroupId = const Value.absent(),
@@ -4755,6 +4887,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     this.createdAt = const Value.absent(),
     this.createdByUserId = const Value.absent(),
     this.priority = const Value.absent(),
+    this.jobRole = const Value.absent(),
+    this.guidanceText = const Value.absent(),
   });
   TaskTemplatesCompanion.insert({
     this.id = const Value.absent(),
@@ -4779,6 +4913,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     required DateTime createdAt,
     this.createdByUserId = const Value.absent(),
     this.priority = const Value.absent(),
+    this.jobRole = const Value.absent(),
+    this.guidanceText = const Value.absent(),
   }) : templateGroupId = Value(templateGroupId),
        versionNumber = Value(versionNumber),
        title = Value(title),
@@ -4809,6 +4945,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     Expression<DateTime>? createdAt,
     Expression<int>? createdByUserId,
     Expression<String>? priority,
+    Expression<String>? jobRole,
+    Expression<String>? guidanceText,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4836,6 +4974,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
       if (createdAt != null) 'created_at': createdAt,
       if (createdByUserId != null) 'created_by_user_id': createdByUserId,
       if (priority != null) 'priority': priority,
+      if (jobRole != null) 'job_role': jobRole,
+      if (guidanceText != null) 'guidance_text': guidanceText,
     });
   }
 
@@ -4862,6 +5002,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     Value<DateTime>? createdAt,
     Value<int?>? createdByUserId,
     Value<String?>? priority,
+    Value<String?>? jobRole,
+    Value<String?>? guidanceText,
   }) {
     return TaskTemplatesCompanion(
       id: id ?? this.id,
@@ -4887,6 +5029,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
       createdAt: createdAt ?? this.createdAt,
       createdByUserId: createdByUserId ?? this.createdByUserId,
       priority: priority ?? this.priority,
+      jobRole: jobRole ?? this.jobRole,
+      guidanceText: guidanceText ?? this.guidanceText,
     );
   }
 
@@ -4963,6 +5107,12 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     if (priority.present) {
       map['priority'] = Variable<String>(priority.value);
     }
+    if (jobRole.present) {
+      map['job_role'] = Variable<String>(jobRole.value);
+    }
+    if (guidanceText.present) {
+      map['guidance_text'] = Variable<String>(guidanceText.value);
+    }
     return map;
   }
 
@@ -4992,7 +5142,9 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
           ..write('equipmentTypeId: $equipmentTypeId, ')
           ..write('createdAt: $createdAt, ')
           ..write('createdByUserId: $createdByUserId, ')
-          ..write('priority: $priority')
+          ..write('priority: $priority, ')
+          ..write('jobRole: $jobRole, ')
+          ..write('guidanceText: $guidanceText')
           ..write(')'))
         .toString();
   }
@@ -14485,6 +14637,7 @@ typedef $$UsersTableCreateCompanionBuilder =
       Value<bool> active,
       Value<DateTime?> deactivatedAt,
       Value<int?> deactivatedByUserId,
+      Value<String?> jobRole,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
     UsersCompanion Function({
@@ -14499,6 +14652,7 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<bool> active,
       Value<DateTime?> deactivatedAt,
       Value<int?> deactivatedByUserId,
+      Value<String?> jobRole,
     });
 
 final class $$UsersTableReferences
@@ -14744,6 +14898,11 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
 
   ColumnFilters<DateTime> get deactivatedAt => $composableBuilder(
     column: $table.deactivatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get jobRole => $composableBuilder(
+    column: $table.jobRole,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -15023,6 +15182,11 @@ class $$UsersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get jobRole => $composableBuilder(
+    column: $table.jobRole,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$SitesTableOrderingComposer get siteId {
     final $$SitesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -15109,6 +15273,9 @@ class $$UsersTableAnnotationComposer
     column: $table.deactivatedAt,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get jobRole =>
+      $composableBuilder(column: $table.jobRole, builder: (column) => column);
 
   $$SitesTableAnnotationComposer get siteId {
     final $$SitesTableAnnotationComposer composer = $composerBuilder(
@@ -15385,6 +15552,7 @@ class $$UsersTableTableManager
                 Value<bool> active = const Value.absent(),
                 Value<DateTime?> deactivatedAt = const Value.absent(),
                 Value<int?> deactivatedByUserId = const Value.absent(),
+                Value<String?> jobRole = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
                 name: name,
@@ -15397,6 +15565,7 @@ class $$UsersTableTableManager
                 active: active,
                 deactivatedAt: deactivatedAt,
                 deactivatedByUserId: deactivatedByUserId,
+                jobRole: jobRole,
               ),
           createCompanionCallback:
               ({
@@ -15411,6 +15580,7 @@ class $$UsersTableTableManager
                 Value<bool> active = const Value.absent(),
                 Value<DateTime?> deactivatedAt = const Value.absent(),
                 Value<int?> deactivatedByUserId = const Value.absent(),
+                Value<String?> jobRole = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
                 name: name,
@@ -15423,6 +15593,7 @@ class $$UsersTableTableManager
                 active: active,
                 deactivatedAt: deactivatedAt,
                 deactivatedByUserId: deactivatedByUserId,
+                jobRole: jobRole,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -16958,6 +17129,8 @@ typedef $$TaskTemplatesTableCreateCompanionBuilder =
       required DateTime createdAt,
       Value<int?> createdByUserId,
       Value<String?> priority,
+      Value<String?> jobRole,
+      Value<String?> guidanceText,
     });
 typedef $$TaskTemplatesTableUpdateCompanionBuilder =
     TaskTemplatesCompanion Function({
@@ -16983,6 +17156,8 @@ typedef $$TaskTemplatesTableUpdateCompanionBuilder =
       Value<DateTime> createdAt,
       Value<int?> createdByUserId,
       Value<String?> priority,
+      Value<String?> jobRole,
+      Value<String?> guidanceText,
     });
 
 final class $$TaskTemplatesTableReferences
@@ -17149,6 +17324,16 @@ class $$TaskTemplatesTableFilterComposer
 
   ColumnFilters<String> get priority => $composableBuilder(
     column: $table.priority,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get jobRole => $composableBuilder(
+    column: $table.jobRole,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get guidanceText => $composableBuilder(
+    column: $table.guidanceText,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -17327,6 +17512,16 @@ class $$TaskTemplatesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get jobRole => $composableBuilder(
+    column: $table.jobRole,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get guidanceText => $composableBuilder(
+    column: $table.guidanceText,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$TaskTemplatesTableOrderingComposer get previousVersionId {
     final $$TaskTemplatesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -17484,6 +17679,14 @@ class $$TaskTemplatesTableAnnotationComposer
   GeneratedColumn<String> get priority =>
       $composableBuilder(column: $table.priority, builder: (column) => column);
 
+  GeneratedColumn<String> get jobRole =>
+      $composableBuilder(column: $table.jobRole, builder: (column) => column);
+
+  GeneratedColumn<String> get guidanceText => $composableBuilder(
+    column: $table.guidanceText,
+    builder: (column) => column,
+  );
+
   $$TaskTemplatesTableAnnotationComposer get previousVersionId {
     final $$TaskTemplatesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -17609,6 +17812,8 @@ class $$TaskTemplatesTableTableManager
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int?> createdByUserId = const Value.absent(),
                 Value<String?> priority = const Value.absent(),
+                Value<String?> jobRole = const Value.absent(),
+                Value<String?> guidanceText = const Value.absent(),
               }) => TaskTemplatesCompanion(
                 id: id,
                 templateGroupId: templateGroupId,
@@ -17632,6 +17837,8 @@ class $$TaskTemplatesTableTableManager
                 createdAt: createdAt,
                 createdByUserId: createdByUserId,
                 priority: priority,
+                jobRole: jobRole,
+                guidanceText: guidanceText,
               ),
           createCompanionCallback:
               ({
@@ -17658,6 +17865,8 @@ class $$TaskTemplatesTableTableManager
                 required DateTime createdAt,
                 Value<int?> createdByUserId = const Value.absent(),
                 Value<String?> priority = const Value.absent(),
+                Value<String?> jobRole = const Value.absent(),
+                Value<String?> guidanceText = const Value.absent(),
               }) => TaskTemplatesCompanion.insert(
                 id: id,
                 templateGroupId: templateGroupId,
@@ -17681,6 +17890,8 @@ class $$TaskTemplatesTableTableManager
                 createdAt: createdAt,
                 createdByUserId: createdByUserId,
                 priority: priority,
+                jobRole: jobRole,
+                guidanceText: guidanceText,
               ),
           withReferenceMapper: (p0) => p0
               .map(

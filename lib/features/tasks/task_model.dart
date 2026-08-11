@@ -12,6 +12,10 @@ class ResolvedTask {
   final bool isCritical;
   final bool requiresCorrectiveActionOnFail;
   final String? fixInstructions;
+  // Sprint 031 (HORECA_TASK_ENRICHMENT.md load): short "what to do / what
+  // to record" text shown prominently when the worker opens the task. Null
+  // on tasks not yet enriched (custom tasks, or ones outside the doc).
+  final String? guidanceText;
   final List<String>? choiceOptions;
   final int? equipmentInstanceId;
   final String? equipmentInstanceName;
@@ -35,6 +39,7 @@ class ResolvedTask {
     required this.isCritical,
     required this.requiresCorrectiveActionOnFail,
     this.fixInstructions,
+    this.guidanceText,
     this.choiceOptions,
     this.equipmentInstanceId,
     this.equipmentInstanceName,
