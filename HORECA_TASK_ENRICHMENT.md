@@ -23,7 +23,7 @@ Format: **Task** — Role — Guidance
 - **Cooked food core temperature** — Chef/Cook — Probe the thickest part of the food. Record the number, photo it. Must reach 70°C for 2 min (or 75°C).
 - **Reheated food core temperature** — Chef/Cook — Probe the centre of the reheated item. Record it, photo it. Must be piping hot throughout (~70°C; Scotland 82°C).
 - **Hot-holding temperature** — Chef/Cook — Probe food held hot for service. Record it, photo it. Must stay at or above 63°C.
-- **Cooling log (cooked→chilled)** — Chef/Cook — Note the time cooking finished and the time it reached fridge-cold. Must be below 8°C within 90 minutes.
+- **Cooling log (cooked to chilled)** — Chef/Cook — Note the time cooking finished and the time it reached fridge-cold. Must be below 8°C within 90 minutes.
 - **Reheat-once verification** — Chef/Cook — Confirm this item hasn't been reheated before. Food may only be reheated once, then discarded.
 - **Probe calibration check** — Chef/Cook — Test the probe in iced water (should read ~0°C) and boiling water (~100°C). Record both. Flag if off by more than 1°C.
 - **Probe sanitised between uses** — Chef/Cook — Wipe the probe with a sanitiser wipe before and after each use.

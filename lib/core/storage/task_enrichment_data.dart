@@ -3,12 +3,12 @@ import '../../shared/models/job_role.dart';
 // Data for HORECA_TASK_ENRICHMENT.md's load (Sprint 031) — job-role tag +
 // worker-facing guidance text per task title, matched against the current
 // version of each already-loaded TaskTemplate (see _ensureTaskEnrichment in
-// app_database.dart). 149 of the source doc's 150 rows are here: "Cooling
-// log (cooked→chilled)" is deliberately excluded — its title uses an
-// arrow character matching HORECA_TASK_LIBRARY.md's own original wording,
-// but the template actually loaded by Cluster A (Sprint 030) used "Cooling
-// log (cooked to chilled)" instead, so it can't be matched by title without
-// guessing. Logged in DECISIONS_LOG.md for the source doc to be corrected.
+// app_database.dart). All 150 of the source doc's rows are here. "Cooling
+// log (cooked to chilled)" originally shipped as 149 rows, excluding this
+// one — the doc used an arrow character ("cooked→chilled") that didn't
+// match the title Cluster A (Sprint 030) actually loaded. The doc's title
+// was corrected to match the loaded template rather than renaming the
+// template; this row was added once that correction landed.
 class TaskEnrichmentRow {
   const TaskEnrichmentRow({
     required this.title,
@@ -61,6 +61,11 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
     title: "Hot-holding temperature",
     jobRole: JobRole.chefCook,
     guidanceText: "Probe food held hot for service. Record it, photo it. Must stay at or above 63°C.",
+  ),
+  TaskEnrichmentRow(
+    title: "Cooling log (cooked to chilled)",
+    jobRole: JobRole.chefCook,
+    guidanceText: "Note the time cooking finished and the time it reached fridge-cold. Must be below 8°C within 90 minutes.",
   ),
   TaskEnrichmentRow(
     title: "Reheat-once verification",
