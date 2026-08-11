@@ -1113,3 +1113,20 @@ Risks: None new. Verified: `flutter analyze` clean. Two consecutive real Windows
 Deferred items: none. The one unmatched enrichment row ("Cooling log (cooked→chilled)" vs. the loaded "Cooling log (cooked to chilled)") is reported to the user to decide which source to correct — not resolved unilaterally.
 Save point name: SPRINT_031Q_LOCK
 Notes: Commit 9676ece, message "Sprint 031: load HORECA_TASK_ENRICHMENT.md - job-role tags + guidance text".
+
+---
+
+## HORECA_TASK_ENRICHMENT.md follow-up: "Cooling log" title corrected, 150/150 now match
+Date: 2026-08-11
+Objective: Apply the one enrichment row left unmatched by the prior load, now that the source doc's title was corrected to match the already-loaded template.
+Files changed:
+- HORECA_TASK_ENRICHMENT.md — "Cooling log (cooked→chilled)" retitled to "Cooling log (cooked to chilled)" (user edit, not this session's code).
+- lib/core/storage/task_enrichment_data.dart — the one previously-excluded row added (title/jobRole/guidanceText for "Cooling log (cooked to chilled)"); header comment updated from "149 of 150" to "all 150".
+- DECISIONS_LOG.md — the re-run title-match audit (150/150) and verification.
+Files unchanged: `_ensureTaskEnrichment()` in app_database.dart — no code change needed, since it already skips any current-version row whose jobRole is already set; re-running it just had one row left to act on.
+Architecture impact: None beyond what the original load entry already covers — one more TaskTemplate new-version row, same append-only mechanism.
+UI impact: "Cooling log (cooked to chilled)" now shows a job-role tag and guidance text like every other enriched task.
+Risks: None. Verified: `flutter analyze` clean; a real Windows debug run against the actual dev database confirmed exactly one new TaskTemplate version was created (301 total rows, up from 300), with the correct jobRole/guidanceText, and that all 150 previously-enriched rows were correctly skipped (no duplicates, 151 current-version rows unchanged).
+Deferred items: none.
+Save point name: SPRINT_031R_LOCK
+Notes: Commit be6efb2, message "Add the last enrichment row now that its title matches (150/150)".
