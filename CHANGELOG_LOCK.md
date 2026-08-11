@@ -1088,3 +1088,28 @@ Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run con
 Deferred items: none.
 Save point name: SPRINT_031P_LOCK
 Notes: Commit d2e5f01, message "Filter management drawer by tier: shared ManagementDrawer widget".
+
+---
+
+## HORECA_TASK_ENRICHMENT.md load: job-role tags + guidance text (Sprint 031)
+Date: 2026-08-11
+Objective: Load job-role tags and worker-facing guidance text onto the ~150-task library from HORECA_TASK_ENRICHMENT.md, and formalise a jobRole on staff (from their existing free-text job title), so Assign Tasks can default to a staff member's own job (a default, not a lockout) and the task screen can show clear "what to do" guidance.
+Files changed:
+- lib/shared/models/job_role.dart (new) — JobRole enum (chefCook/kitchenPorter/frontOfHouse/bar/management/everyone) + display-name helper, shared by User.jobRole and TaskTemplate.jobRole.
+- lib/core/storage/task_enrichment_data.dart (new) — 149 (title, jobRole, guidanceText) rows, title-matched against the real dev database before writing.
+- lib/core/storage/app_database.dart — TaskTemplates gains nullable jobRole/guidanceText columns; Users gains nullable jobRole. schemaVersion 24→25. New `_ensureTaskEnrichment()` applies enrichment as new TaskTemplate versions (append-only versioning rule), idempotent by title + "already enriched" check. Seed users' jobRole set on new inserts and backfilled onto already-existing rows via `_ensureSeedUserJobRoles()`.
+- lib/shared/models/task_template.dart, lib/shared/models/user.dart — new fields.
+- lib/shared/repositories/task_template_repository.dart, lib/shared/repositories/user_repository.dart — read/write the new fields; createStaffMember gains a required jobRole parameter.
+- lib/core/widgets/app_banner.dart — new BannerKind.info (reuses existing teal accent tokens, no new colour).
+- lib/features/tasks/task_model.dart, task_controller.dart, task_screen.dart — guidanceText threaded through and shown via AppBanner(kind: info) under the task title.
+- lib/features/onboarding/staff_assignment_screen.dart — Assign Tasks defaults to jobRole match (plus untagged/everyone tasks) on top of the existing, unchanged tier lockout, with a "Show all roles" toggle that resets per staff member.
+- lib/features/venue_setup/venue_setup_wizard_screen.dart — Staff step gains a Job Role dropdown (excludes `everyone`).
+- HORECA_TASK_ENRICHMENT.md added to the repo as a tracked source doc, alongside HORECA_TASK_LIBRARY.md/HORECA_EQUIPMENT_AND_VENUES.md.
+- DECISIONS_LOG.md — the plan, the title-match audit (149/150, with the 1 mismatch root-caused), and verification.
+Files unchanged: no change to TaskSchedules, TaskPresetItems, or the venue-type-tagging join tables — all reference templates by templateGroupId, a soft reference already proven (Sprint 029) to survive a version bump, so the enriched version applies to them automatically. The existing `applicableRoleTiers` tier lockout in Assign Tasks is untouched.
+Architecture impact: schemaVersion 24→25, additive nullable columns only. TaskTemplate's append-only versioning rule (ARCHITECTURE_LOCK.md) is exercised at scale (149 new version rows in one pass) rather than changed.
+UI impact: Task screen shows a new informational guidance banner where guidanceText is set. Assign Tasks' task list is pre-filtered to the selected staff member's job role by default, with a toggle to see everything (within their existing tier access). Venue Setup Wizard's Staff step has one new dropdown.
+Risks: None new. Verified: `flutter analyze` clean. Two consecutive real Windows debug runs against the actual dev database confirmed: the migration executes cleanly; exactly 149 of 151 current-version templates got jobRole/guidanceText (the 2 expected exceptions match precisely); no duplicate current-version titles; all 9 real seed users' jobRole backfilled correctly; a second run confirmed idempotency (row count unchanged, no re-duplication).
+Deferred items: none. The one unmatched enrichment row ("Cooling log (cooked→chilled)" vs. the loaded "Cooling log (cooked to chilled)") is reported to the user to decide which source to correct — not resolved unilaterally.
+Save point name: SPRINT_031Q_LOCK
+Notes: Commit 9676ece, message "Sprint 031: load HORECA_TASK_ENRICHMENT.md - job-role tags + guidance text".
