@@ -1130,3 +1130,22 @@ Risks: None. Verified: `flutter analyze` clean; a real Windows debug run against
 Deferred items: none.
 Save point name: SPRINT_031R_LOCK
 Notes: Commit be6efb2, message "Add the last enrichment row now that its title matches (150/150)".
+
+---
+
+## Manager log filtering: nested-cascade filter (Sprint 031)
+Date: 2026-08-12
+Objective: Fix the manager submission log becoming an unusable wall at scale (30 staff x 150 tasks x days) with a nested-cascade "Filter by" (Name/Date/Task) control, plus a layout restructure once live testing showed the filter and banners squeezing the log itself.
+Files changed:
+- lib/shared/repositories/task_submission_repository.dart — new `watchDefaultView()` (today's entries ∪ every FAIL regardless of date — checked first that a strict "today" bound could hide an old un-ruled critical fail no other surface shows), `watchFiltered({name, date, task})`, and `getDistinctNames/getDistinctDates/getDistinctTasks` (DB-side, not client-side over the existing unbounded `watchAll()`, which is left in place but now unused by any screen).
+- lib/features/manager/manager_log_filter.dart (new) — `ManagerLogFilter`, self-contained cascade widget (axis + 3 levels + option lists), collapsed by default via `Card(ExpansionTile(...))` with a live one-line summary, reports only the resolved filter up to `ManagerScreen`.
+- lib/core/utils/date_format.dart (new) — `formatDate`/`formatDateTime` extracted from a method previously private to `_ManagerScreenState`, now also needed by the filter widget.
+- lib/features/manager/manager_screen.dart — grouping/line rendering now follow the active filter's lead dimension; body restructured from a fixed `Column` (banners/filter outside the scroll, only the log `Expanded`) into one scrollable `ListView` (banners + collapsed filter + log cards all as items), fixing a real layout bug found via the user's own live testing.
+- DECISIONS_LOG.md — the "Manager log filtering" section referenced in the task didn't exist under that name before this entry; the safety check on whether the trigger-notifications banner covers all open issues regardless of date (it doesn't, for un-ruled plain FAILs); the layout-bug fix; and an incident note (an automated screenshot attempt briefly captured the user's own unrelated Word document instead of the app window — deleted immediately, not analyzed).
+Files unchanged: no schema/migration — pure query and UI logic. TopScreen doesn't show this log, so untouched.
+Architecture impact: None. No schema change.
+UI impact: Manager log now defaults to today + all fails instead of everything ever; a collapsed "Filter by" control narrows it by Name/Date/Task; banners and the log now share one scrollable region instead of banners/filter permanently reserving viewport height.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error; the user tested live — default view, all three cascade modes, "Clear filters", and (after the layout fix) confirmed banners/filter now scroll with the log instead of squeezing it.
+Deferred items: none.
+Save point name: SPRINT_031S_LOCK
+Notes: Commit c79a899, message "Sprint 031: manager log nested-cascade filter, fixes unusable-at-scale wall".
