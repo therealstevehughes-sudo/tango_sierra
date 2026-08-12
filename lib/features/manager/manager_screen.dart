@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
@@ -17,6 +18,7 @@ import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../notifications/escalation_service.dart';
+import 'manager_log_filter.dart';
 
 Future<void> _showBackupDialog(BuildContext context, WidgetRef ref) async {
   final nameController = TextEditingController();
@@ -91,6 +93,7 @@ class ManagerScreen extends ConsumerStatefulWidget {
 
 class _ManagerScreenState extends ConsumerState<ManagerScreen> {
   Timer? _escalationTimer;
+  LogFilterSelection _filter = const LogFilterSelection();
 
   @override
   void initState() {
@@ -117,42 +120,33 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
     if (mounted) setState(() {});
   }
 
-  Map<String, List<TaskSubmission>> groupEntriesByStaff(
+  // Manager log filtering (Sprint 031): grouping follows whichever
+  // dimension leads the active "Filter by" lens — Name/null groups by
+  // staff (the pre-existing, unchanged default), Date groups by calendar
+  // day, Task groups by task title. This is a distinct decision from which
+  // dimensions are actually selected as filter values (ManagerLogFilter's
+  // own concern) — grouping only cares about the chosen lens.
+  Map<String, List<TaskSubmission>> _groupEntries(
     List<TaskSubmission> items,
+    LogFilterAxis? axis,
   ) {
-    final Map<String, List<TaskSubmission>> grouped = {};
-
-    for (final entry in items) {
-      grouped.putIfAbsent(entry.completedBy, () => []);
-      grouped[entry.completedBy]!.add(entry);
+    String keyOf(TaskSubmission entry) {
+      switch (axis) {
+        case LogFilterAxis.date:
+          return formatDate(entry.completedAt);
+        case LogFilterAxis.task:
+          return entry.taskTitle;
+        case LogFilterAxis.name:
+        case null:
+          return entry.completedBy;
+      }
     }
 
+    final Map<String, List<TaskSubmission>> grouped = {};
+    for (final entry in items) {
+      grouped.putIfAbsent(keyOf(entry), () => []).add(entry);
+    }
     return grouped;
-  }
-
-  String formatDateTime(DateTime dateTime) {
-    const months = <String>[
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
-    ];
-
-    final day = dateTime.day;
-    final month = months[dateTime.month - 1];
-    final year = dateTime.year;
-    final hour = dateTime.hour.toString().padLeft(2, '0');
-    final minute = dateTime.minute.toString().padLeft(2, '0');
-
-    return '$day $month $year $hour:$minute';
   }
 
   // Visual/UX pass, Sub-sprint 5: was a hand-built ✓/✗ + "Pass"/"Fail"
@@ -161,9 +155,29 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
   // heavy for this screen's "control room" density (many lines, dense
   // list) — deliberately lighter: a small coloured icon, and colour on the
   // text only for FAIL, so failures are what actually draws the eye.
-  Widget _buildLogLine(TaskSubmission entry) {
+  //
+  // Manager log filtering (Sprint 031): the line's own text adapts to
+  // whatever the group header (see _groupEntries) DOESN'T already show —
+  // grouped by staff, the header already says who, so the line shows
+  // task+date; grouped by date, the header already says when, so the line
+  // shows who+task; grouped by task, the line shows who+date.
+  Widget _buildLogLine(TaskSubmission entry, LogFilterAxis? groupBy) {
     final isPass = entry.status == 'PASS';
     final color = isPass ? AppColors.pass : AppColors.critical;
+
+    final String label;
+    switch (groupBy) {
+      case LogFilterAxis.date:
+        label = '${entry.completedBy} — ${entry.taskTitle}';
+        break;
+      case LogFilterAxis.task:
+        label = '${entry.completedBy} (${formatDateTime(entry.completedAt)})';
+        break;
+      case LogFilterAxis.name:
+      case null:
+        label = '${entry.taskTitle} (${formatDateTime(entry.completedAt)})';
+        break;
+    }
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
@@ -178,8 +192,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
           const SizedBox(width: 6),
           Expanded(
             child: Text(
-              '${entry.taskTitle} (${formatDateTime(entry.completedAt)})'
-              '${entry.photoAttached ? ' 📷' : ''}',
+              '$label${entry.photoAttached ? ' 📷' : ''}',
               style: TextStyle(
                 fontSize: 14,
                 height: 1.3,
@@ -195,7 +208,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final entriesAsync = ref.watch(taskSubmissionsStreamProvider);
+    final taskSubmissionRepo = ref.watch(taskSubmissionRepositoryProvider);
     final currentUser = ref.watch(currentUserProvider);
     final sessionSummaryRepo = ref.watch(sessionSummaryRepositoryProvider);
     final triggerNotificationRepo = ref.watch(
@@ -217,79 +230,116 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
         title: 'Manager View',
         onBackUp: () => _showBackupDialog(context, ref),
       ),
-      body: Column(
-        children: [
-          if (currentUser != null)
-            StreamBuilder<List<TriggerNotification>>(
-              stream: triggerNotificationRepo.watchForUser(currentUser.id),
-              builder: (context, snapshot) {
-                final notifications = snapshot.data ?? [];
-                if (notifications.isEmpty) return const SizedBox.shrink();
-                return _TriggerNotificationsBanner(
-                  notifications: notifications,
-                  onAcknowledge: triggerNotificationRepo.acknowledge,
-                );
-              },
-            ),
-          if (currentUser != null)
-            StreamBuilder<List<SessionSummary>>(
-              stream: sessionSummaryRepo.watchForManager(currentUser.id),
-              builder: (context, snapshot) {
-                final summaries = snapshot.data ?? [];
-                if (summaries.isEmpty) return const SizedBox.shrink();
-                return _SessionSummariesBanner(
-                  summaries: summaries,
-                  onAcknowledge: sessionSummaryRepo.acknowledge,
-                );
-              },
-            ),
-          Expanded(
-            child: entriesAsync.when(
-              data: (entries) {
-                if (entries.isEmpty) {
-                  return const Center(
-                    child: Text('No completed tasks logged yet'),
-                  );
-                }
+      // Layout fix (Sprint 031): the banners and the filter used to sit
+      // outside the scrollable area (only the log itself was Expanded),
+      // so their combined height was a fixed tax on the viewport — with
+      // the cascade filter and a few notifications/summaries, the actual
+      // log (the point of this screen) could get squeezed to almost
+      // nothing. Now everything is one scrollable ListView: banners and
+      // the (collapsed-by-default) filter are just its first items, so
+      // they scroll away instead of permanently reserving space. The
+      // banners themselves are unchanged — still fully visible, not
+      // collapsible, since a manager must not miss a critical/caution
+      // alert by default; they just no longer block the log.
+      body: StreamBuilder<List<TaskSubmission>>(
+        // Manager log filtering (Sprint 031): the log becomes an unusable
+        // wall at real scale (30 staff x 150 tasks x days), so this no
+        // longer defaults to the unbounded watchAll(). No filter active:
+        // today's entries, plus every FAIL regardless of date (FAILs must
+        // never silently age out of a compliance view — see
+        // DECISIONS_LOG.md). A filter active: the matching subset, via
+        // the same repository.
+        stream: _filter.isActive
+            ? taskSubmissionRepo.watchFiltered(
+                name: _filter.name,
+                date: _filter.date,
+                task: _filter.task,
+              )
+            : taskSubmissionRepo.watchDefaultView(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-                final groupedEntries = groupEntriesByStaff(entries);
-                final staffNames = groupedEntries.keys.toList();
+          final entries = snapshot.data!;
+          final groupedEntries = _groupEntries(entries, _filter.axis);
+          final groupKeys = groupedEntries.keys.toList();
 
-                return ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: staffNames.length,
-                  itemBuilder: (context, index) {
-                    final staffName = staffNames[index];
-                    final staffEntries = groupedEntries[staffName]!;
-
+          return ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              if (currentUser != null)
+                StreamBuilder<List<TriggerNotification>>(
+                  stream: triggerNotificationRepo.watchForUser(
+                    currentUser.id,
+                  ),
+                  builder: (context, snapshot) {
+                    final notifications = snapshot.data ?? [];
+                    if (notifications.isEmpty) return const SizedBox.shrink();
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: AppCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              staffName,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            ...staffEntries.map(_buildLogLine),
-                          ],
-                        ),
+                      child: _TriggerNotificationsBanner(
+                        notifications: notifications,
+                        onAcknowledge: triggerNotificationRepo.acknowledge,
                       ),
                     );
                   },
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stackTrace) =>
-                  Center(child: Text('Error loading tasks: $error')),
-            ),
-          ),
-        ],
+                ),
+              if (currentUser != null)
+                StreamBuilder<List<SessionSummary>>(
+                  stream: sessionSummaryRepo.watchForManager(currentUser.id),
+                  builder: (context, snapshot) {
+                    final summaries = snapshot.data ?? [];
+                    if (summaries.isEmpty) return const SizedBox.shrink();
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: _SessionSummariesBanner(
+                        summaries: summaries,
+                        onAcknowledge: sessionSummaryRepo.acknowledge,
+                      ),
+                    );
+                  },
+                ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: ManagerLogFilter(
+                  onChanged: (selection) =>
+                      setState(() => _filter = selection),
+                ),
+              ),
+              if (entries.isEmpty)
+                const Padding(
+                  padding: EdgeInsets.only(top: 24),
+                  child: Center(
+                    child: Text('No completed tasks logged yet'),
+                  ),
+                )
+              else
+                for (final groupKey in groupKeys)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: AppCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            groupKey,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          ...groupedEntries[groupKey]!.map(
+                            (entry) => _buildLogLine(entry, _filter.axis),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+            ],
+          );
+        },
       ),
     );
   }

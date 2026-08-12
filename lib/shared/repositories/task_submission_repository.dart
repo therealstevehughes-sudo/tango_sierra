@@ -10,6 +10,28 @@ abstract class TaskSubmissionRepository {
   Future<List<TaskSubmission>> getByDateRange(DateTime start, DateTime end);
   Future<List<TaskSubmission>> getForUserSince(int userId, DateTime since);
   Stream<List<TaskSubmission>> watchAll();
+
+  // Manager log filtering (Sprint 031) — the log becomes an unusable wall
+  // at real scale (30 staff x 150 tasks x days), so ManagerScreen no longer
+  // defaults to watchAll(). Default view: today's entries, plus every
+  // FAIL regardless of date, since FAILs must never silently age out of a
+  // compliance view (PASS is the volume that's safe to bound to today).
+  Stream<List<TaskSubmission>> watchDefaultView();
+
+  // Cascading filter option lookups, each optionally scoped by whichever
+  // other dimension(s) are already selected — one generic method per
+  // dimension serves all three "Filter by" modes (Name/Date/Task), rather
+  // than nine mode-specific methods.
+  Future<List<String>> getDistinctNames({DateTime? date, String? task});
+  Future<List<DateTime>> getDistinctDates({String? name, String? task});
+  Future<List<String>> getDistinctTasks({String? name, DateTime? date});
+
+  // The actual filtered result once one or more dimensions are chosen.
+  Stream<List<TaskSubmission>> watchFiltered({
+    String? name,
+    DateTime? date,
+    String? task,
+  });
 }
 
 class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
@@ -94,6 +116,133 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
       ..orderBy([(t) => OrderingTerm.desc(t.completedAt)]);
     return query.watch().map((rows) => rows.map(_toModel).toList());
   }
+
+  @override
+  Stream<List<TaskSubmission>> watchDefaultView() {
+    final startOfToday = _startOfDay(DateTime.now());
+    final endOfToday = startOfToday.add(const Duration(days: 1));
+    final query = _db.select(_db.taskSubmissions)
+      ..where(
+        (t) =>
+            (t.completedAt.isBiggerOrEqualValue(startOfToday) &
+                t.completedAt.isSmallerThanValue(endOfToday)) |
+            t.status.equals('FAIL'),
+      )
+      ..orderBy([(t) => OrderingTerm.desc(t.completedAt)]);
+    return query.watch().map((rows) => rows.map(_toModel).toList());
+  }
+
+  @override
+  Stream<List<TaskSubmission>> watchFiltered({
+    String? name,
+    DateTime? date,
+    String? task,
+  }) {
+    final query = _db.select(_db.taskSubmissions)
+      ..orderBy([(t) => OrderingTerm.desc(t.completedAt)]);
+    if (name != null) {
+      query.where((t) => t.completedBy.equals(name));
+    }
+    if (date != null) {
+      final start = _startOfDay(date);
+      final end = start.add(const Duration(days: 1));
+      query.where(
+        (t) =>
+            t.completedAt.isBiggerOrEqualValue(start) &
+            t.completedAt.isSmallerThanValue(end),
+      );
+    }
+    if (task != null) {
+      query.where((t) => t.taskTitle.equals(task));
+    }
+    return query.watch().map((rows) => rows.map(_toModel).toList());
+  }
+
+  @override
+  Future<List<String>> getDistinctNames({DateTime? date, String? task}) async {
+    final query = _db.selectOnly(_db.taskSubmissions, distinct: true)
+      ..addColumns([_db.taskSubmissions.completedBy]);
+    _applyDateAndTaskScope(query, date: date, task: task);
+    final rows = await query.get();
+    final names = rows
+        .map((row) => row.read(_db.taskSubmissions.completedBy)!)
+        .toList();
+    names.sort();
+    return names;
+  }
+
+  @override
+  Future<List<String>> getDistinctTasks({String? name, DateTime? date}) async {
+    final query = _db.selectOnly(_db.taskSubmissions, distinct: true)
+      ..addColumns([_db.taskSubmissions.taskTitle]);
+    if (name != null) {
+      query.where(_db.taskSubmissions.completedBy.equals(name));
+    }
+    if (date != null) {
+      final start = _startOfDay(date);
+      final end = start.add(const Duration(days: 1));
+      query.where(
+        _db.taskSubmissions.completedAt.isBiggerOrEqualValue(start) &
+            _db.taskSubmissions.completedAt.isSmallerThanValue(end),
+      );
+    }
+    final rows = await query.get();
+    final tasks = rows
+        .map((row) => row.read(_db.taskSubmissions.taskTitle)!)
+        .toList();
+    tasks.sort();
+    return tasks;
+  }
+
+  @override
+  Future<List<DateTime>> getDistinctDates({String? name, String? task}) async {
+    // Unlike name/task, a calendar day isn't a stored column value — two
+    // submissions on the same day still have different completedAt
+    // timestamps, so SQL-level DISTINCT can't dedupe them. Fetches just
+    // the completedAt column (not full rows) for whatever scope is given,
+    // then truncates and dedupes to calendar days in Dart. When neither
+    // name nor task narrows it (the root of "Filter by Date"), this scans
+    // one column across the whole table — still far lighter than the
+    // full-row watchAll() this replaces, and the distinct-day result set
+    // itself stays small (bounded by real calendar time, not submission
+    // volume).
+    final query = _db.selectOnly(_db.taskSubmissions)
+      ..addColumns([_db.taskSubmissions.completedAt]);
+    if (name != null) {
+      query.where(_db.taskSubmissions.completedBy.equals(name));
+    }
+    if (task != null) {
+      query.where(_db.taskSubmissions.taskTitle.equals(task));
+    }
+    final rows = await query.get();
+    final days = rows
+        .map((row) => _startOfDay(row.read(_db.taskSubmissions.completedAt)!))
+        .toSet()
+        .toList();
+    days.sort((a, b) => b.compareTo(a));
+    return days;
+  }
+
+  void _applyDateAndTaskScope(
+    JoinedSelectStatement query, {
+    DateTime? date,
+    String? task,
+  }) {
+    if (date != null) {
+      final start = _startOfDay(date);
+      final end = start.add(const Duration(days: 1));
+      query.where(
+        _db.taskSubmissions.completedAt.isBiggerOrEqualValue(start) &
+            _db.taskSubmissions.completedAt.isSmallerThanValue(end),
+      );
+    }
+    if (task != null) {
+      query.where(_db.taskSubmissions.taskTitle.equals(task));
+    }
+  }
+
+  DateTime _startOfDay(DateTime dateTime) =>
+      DateTime(dateTime.year, dateTime.month, dateTime.day);
 
   TaskSubmission _toModel(TaskSubmissionEntity row) {
     return TaskSubmission(
