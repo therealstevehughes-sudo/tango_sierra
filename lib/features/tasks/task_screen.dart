@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/utils/date_format.dart';
 import '../../core/utils/unit_conversion.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
@@ -341,6 +342,15 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                       task.displayTitle,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
+                    if (task.isOverdue) ...[
+                      const SizedBox(height: 8),
+                      StatusBadge(
+                        kind: StatusKind.overdue,
+                        label: task.overdueSince == null
+                            ? 'Overdue'
+                            : 'Overdue since ${formatDate(task.overdueSince!)}',
+                      ),
+                    ],
                     if (task.guidanceText != null &&
                         task.guidanceText!.isNotEmpty) ...[
                       const SizedBox(height: 12),

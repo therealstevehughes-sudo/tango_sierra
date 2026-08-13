@@ -11,6 +11,7 @@ import '../../shared/repositories/task_submission_repository.dart';
 import '../../shared/repositories/task_template_repository.dart';
 import '../../shared/repositories/trigger_notification_repository.dart';
 import '../../shared/repositories/user_repository.dart';
+import 'due_status_service.dart';
 import 'task_model.dart';
 
 class TaskController {
@@ -22,8 +23,10 @@ class TaskController {
     this._currentUser,
     this._notificationRuleRepository,
     this._triggerNotificationRepository,
-    this._userRepository,
-  );
+    this._userRepository, [
+    DueStatusService? dueStatusService,
+  ]) : _dueStatusService = dueStatusService ??
+            DueStatusService(_submissionRepository);
 
   final TaskSubmissionRepository _submissionRepository;
   final TaskScheduleRepository _scheduleRepository;
@@ -33,6 +36,7 @@ class TaskController {
   final NotificationRuleRepository _notificationRuleRepository;
   final TriggerNotificationRepository _triggerNotificationRepository;
   final UserRepository _userRepository;
+  final DueStatusService _dueStatusService;
 
   int currentIndex = 0;
   List<ResolvedTask> tasks = [];
@@ -58,6 +62,16 @@ class TaskController {
         }
       }
       if (template == null) continue;
+
+      // Due/overdue tracking (Sprint 031, Sub-sprint A): previously every
+      // active schedule showed up every session regardless of whether it
+      // had already been completed for its period — a worker would see
+      // today's fridge check again five minutes after submitting it. A
+      // satisfied schedule is skipped entirely; an overdue one is still
+      // shown (never hidden — see the compliance principle established
+      // for FAILs) with isOverdue/overdueSince set.
+      final dueResult = await _dueStatusService.computeStatus(schedule);
+      if (dueResult.state == ScheduleDueState.satisfied) continue;
 
       String? equipmentInstanceName;
       if (schedule.equipmentInstanceId != null) {
@@ -89,6 +103,8 @@ class TaskController {
           equipmentInstanceId: schedule.equipmentInstanceId,
           equipmentInstanceName: equipmentInstanceName,
           assignedByUserId: schedule.assignedByUserId,
+          isOverdue: dueResult.state == ScheduleDueState.overdue,
+          overdueSince: dueResult.overdueSince,
         ),
       );
     }

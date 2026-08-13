@@ -32,6 +32,17 @@ abstract class TaskSubmissionRepository {
     DateTime? date,
     String? task,
   });
+
+  // Due/overdue tracking (Sprint 031, Build Order item 5) — how many
+  // PASS/FAIL submissions a schedule has within [start, end). NOT_COMPLETED
+  // (Sub-sprint B) deliberately doesn't count: an abandoned task must not
+  // satisfy its period, or it would wrongly stop showing as due/overdue
+  // when the worker returns.
+  Future<int> countForScheduleInRange({
+    required int taskScheduleId,
+    required DateTime start,
+    required DateTime end,
+  });
 }
 
 class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
@@ -243,6 +254,24 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
 
   DateTime _startOfDay(DateTime dateTime) =>
       DateTime(dateTime.year, dateTime.month, dateTime.day);
+
+  @override
+  Future<int> countForScheduleInRange({
+    required int taskScheduleId,
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    final query = _db.selectOnly(_db.taskSubmissions)
+      ..addColumns([_db.taskSubmissions.id.count()])
+      ..where(
+        _db.taskSubmissions.taskScheduleId.equals(taskScheduleId) &
+            _db.taskSubmissions.completedAt.isBiggerOrEqualValue(start) &
+            _db.taskSubmissions.completedAt.isSmallerThanValue(end) &
+            _db.taskSubmissions.status.isIn(const ['PASS', 'FAIL']),
+      );
+    final row = await query.getSingle();
+    return row.read(_db.taskSubmissions.id.count()) ?? 0;
+  }
 
   TaskSubmission _toModel(TaskSubmissionEntity row) {
     return TaskSubmission(

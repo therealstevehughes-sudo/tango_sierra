@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme/app_colors.dart';
 
-enum StatusKind { pass, caution, critical }
+enum StatusKind { pass, caution, critical, overdue }
 
 /// Never colour alone (DESIGN_SYSTEM_LOCK's Accessibility Rule and Colour
 /// Logic — "use colour for state, not decoration"): every status pairs a
@@ -31,6 +31,16 @@ class StatusBadge extends StatelessWidget {
         AppColors.critical,
         AppColors.criticalBg,
         Icons.cancel_outlined,
+      ),
+      // Due/overdue tracking (Sprint 031, Sub-sprint A): a distinct icon
+      // (not error_outline, already caution's) keeps "overdue" from
+      // reading as the same thing as a caution alert, while reusing the
+      // caution colour tokens rather than adding a new one to the
+      // deliberately minimal pass/caution/critical palette.
+      StatusKind.overdue => (
+        AppColors.caution,
+        AppColors.cautionBg,
+        Icons.schedule,
       ),
     };
 

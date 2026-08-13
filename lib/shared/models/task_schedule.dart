@@ -52,6 +52,79 @@ String frequencyLabel(ScheduleFrequency frequency) {
   }
 }
 
+// Due/overdue tracking (Sprint 031, Build Order item 5). Only these five
+// frequencies describe a pure calendar-time recurrence that's computable
+// without a shift/service-period system — perShift/perService/etc. are
+// shift- or event-relative concepts this app doesn't model yet (logged,
+// deferred decision), so they stay "always available, no due/overdue
+// badge" rather than being silently mis-computed.
+bool isClockBasedFrequency(ScheduleFrequency frequency) {
+  switch (frequency) {
+    case ScheduleFrequency.daily:
+    case ScheduleFrequency.twoXDaily:
+    case ScheduleFrequency.threeXDaily:
+    case ScheduleFrequency.weekly:
+    case ScheduleFrequency.monthly:
+      return true;
+    default:
+      return false;
+  }
+}
+
+// How many PASS/FAIL submissions satisfy one period — 2x/3x-daily need
+// more than one before the day counts as done.
+int requiredSubmissionsPerPeriod(ScheduleFrequency frequency) {
+  switch (frequency) {
+    case ScheduleFrequency.twoXDaily:
+      return 2;
+    case ScheduleFrequency.threeXDaily:
+      return 3;
+    default:
+      return 1;
+  }
+}
+
+// Start of the period containing [reference], device-local. Weekly starts
+// Monday (UK/ISO convention). Only meaningful for clock-based frequencies
+// — callers must check isClockBasedFrequency first.
+DateTime periodStart(ScheduleFrequency frequency, DateTime reference) {
+  final startOfDay = DateTime(reference.year, reference.month, reference.day);
+  switch (frequency) {
+    case ScheduleFrequency.daily:
+    case ScheduleFrequency.twoXDaily:
+    case ScheduleFrequency.threeXDaily:
+      return startOfDay;
+    case ScheduleFrequency.weekly:
+      final daysSinceMonday = startOfDay.weekday - DateTime.monday;
+      return startOfDay.subtract(Duration(days: daysSinceMonday));
+    case ScheduleFrequency.monthly:
+      return DateTime(reference.year, reference.month, 1);
+    default:
+      throw ArgumentError(
+        'periodStart is only defined for clock-based frequencies',
+      );
+  }
+}
+
+// Exclusive end of the period that starts at [start] — i.e. the start of
+// the next period of the same frequency.
+DateTime periodEnd(ScheduleFrequency frequency, DateTime start) {
+  switch (frequency) {
+    case ScheduleFrequency.daily:
+    case ScheduleFrequency.twoXDaily:
+    case ScheduleFrequency.threeXDaily:
+      return start.add(const Duration(days: 1));
+    case ScheduleFrequency.weekly:
+      return start.add(const Duration(days: 7));
+    case ScheduleFrequency.monthly:
+      return DateTime(start.year, start.month + 1, 1);
+    default:
+      throw ArgumentError(
+        'periodEnd is only defined for clock-based frequencies',
+      );
+  }
+}
+
 class TaskSchedule {
   final int id;
   final int taskTemplateGroupId;

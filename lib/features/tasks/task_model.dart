@@ -24,6 +24,13 @@ class ResolvedTask {
   // (Sprint 031, Sub-sprint 4) to notify the actual assigning manager first,
   // before falling back to the lowest non-base tier at the site.
   final int assignedByUserId;
+  // Due/overdue tracking (Sprint 031, Sub-sprint A). isOverdue is false for
+  // both "genuinely due, not yet overdue" and "non-clock frequency, not
+  // tracked" — a satisfied schedule is filtered out of the carousel
+  // entirely before a ResolvedTask is ever built for it, so there's no
+  // third "satisfied" state to represent here.
+  final bool isOverdue;
+  final DateTime? overdueSince;
 
   const ResolvedTask({
     required this.scheduleId,
@@ -44,6 +51,8 @@ class ResolvedTask {
     this.equipmentInstanceId,
     this.equipmentInstanceName,
     required this.assignedByUserId,
+    this.isOverdue = false,
+    this.overdueSince,
   });
 
   bool get hasNumericRange => minLimit != null && maxLimit != null;
