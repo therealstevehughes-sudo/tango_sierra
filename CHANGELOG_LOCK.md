@@ -1149,3 +1149,24 @@ Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run con
 Deferred items: none.
 Save point name: SPRINT_031S_LOCK
 Notes: Commit c79a899, message "Sprint 031: manager log nested-cascade filter, fixes unusable-at-scale wall".
+
+---
+
+## Due/overdue tracking core (Sprint 031, Build Order item 5, Sub-sprint A)
+Date: 2026-08-12
+Objective: Close the real gap that every active TaskSchedule showed in the worker's carousel every session regardless of whether it was already submitted for its period. First of a 4-part split (A: core, B: exit behaviour, C: time-windowed tasks, D: manager-facing overdue notifications).
+Files changed:
+- lib/shared/models/task_schedule.dart — `isClockBasedFrequency`, `requiredSubmissionsPerPeriod`, `periodStart`/`periodEnd` helpers colocated with `ScheduleFrequency`. Due/overdue scoped to daily/twoXDaily/threeXDaily/weekly/monthly only; the other 9 frequencies (shift/event-relative, no computable due-time yet) are unaffected.
+- lib/features/tasks/due_status_service.dart (new) — `DueStatusService.computeStatus()`: satisfied/due/overdue, checking only the immediately-preceding period (collapses to one overdue flag per schedule, not one per missed period). Shared, not controller-private — Sub-sprint D will reuse it.
+- lib/shared/repositories/task_submission_repository.dart — new `countForScheduleInRange` (PASS/FAIL only, deliberately excludes the future NOT_COMPLETED status).
+- lib/features/tasks/task_model.dart, task_controller.dart — `ResolvedTask` gains `isOverdue`/`overdueSince`; `loadTasks()` skips satisfied schedules, flags overdue ones.
+- lib/core/widgets/status_badge.dart — new `StatusKind.overdue` (dedicated icon, reuses caution's colour tokens rather than adding a new one).
+- lib/features/tasks/task_screen.dart — overdue badge shown on the task card.
+- DECISIONS_LOG.md — the plan, the confirmed real-code gap, scope, and verification.
+Files unchanged: no schema/migration — pure computation over existing data.
+Architecture impact: None. No schema change.
+UI impact: Worker's carousel no longer shows already-completed periodic tasks; overdue ones are flagged and persist until done.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error; predicted the exact expected outcome from real data already in the dev database, then the user confirmed live it matched precisely (Steve Hughes's 6 daily tasks overdue since 11 Aug, weekly task not overdue, event/per-use/per-shift unaffected; Lewis Grant's 2 daily tasks overdue since 11 Aug; submitting an overdue task removes it from the carousel).
+Deferred items: Sub-sprints B (exit behaviour), C (time-windowed tasks), D (manager-facing overdue notifications).
+Save point name: SPRINT_031T_LOCK
+Notes: Commit 1c2d604, message "Sprint 031 (Build Order item 5, Sub-sprint A): due/overdue tracking core".
