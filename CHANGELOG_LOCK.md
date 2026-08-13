@@ -1209,3 +1209,21 @@ Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run con
 Deferred items: Sub-sprint D (manager-facing overdue notifications) — the last of Build Order item 5.
 Save point name: SPRINT_031V_LOCK
 Notes: Commit 5b322a1, message "Sprint 031 (Build Order item 5, Sub-sprint C): time-windowed tasks".
+
+---
+
+## Manager-facing overdue notifications (Sprint 031, Build Order item 5, Sub-sprint D) — completes Build Order item 5
+Date: 2026-08-13
+Objective: A manager needs to know when tasks are going/gone overdue at their site, without it being silently hidden — same principle already applied to FAILs. Last of the 4-part due/overdue split (A: core, B: exit behaviour, C: time-windowed tasks, D: this).
+Files changed:
+- lib/features/tasks/overdue_summary_service.dart (new) — `OverdueSummaryService.getSummaryForSite(siteId)`, reusing `DueStatusService.computeStatus` per schedule, properly site-scoped via `TaskSchedule.siteId`. Deliberately not routed through `TriggerNotification`/`NotificationRule` — reverses an earlier assumption (a guaranteed-floor escalation like "reported to manager") made before due/overdue existed as real code; overdue is a live, continuously-recomputed fact with no event to fire or miss, not a discrete incident.
+- lib/features/manager/overdue_summary_card.dart (new) — collapsed `Card(ExpansionTile(...))` (matching `ManagerLogFilter`'s established pattern), staff-grouped and capped at 5 shown when expanded.
+- lib/features/manager/manager_screen.dart — wired into the existing 60s `Timer.periodic` (renamed `_runEscalationCheck` → `_runPeriodicChecks`), placed below the alert banners and above the log filter.
+- DECISIONS_LOG.md — the reversed assumption, the site-scoping confirmation, and verification.
+Files unchanged: `DueStatusService` (Sub-sprint A) — reused as-is, no changes needed; its existing "only a closed period is ever overdue" logic already correctly excludes not-yet-open windowed tasks and non-clock frequencies.
+Architecture impact: None. No schema change — a live query, not a stored notification.
+UI impact: Manager View gains a collapsed overdue summary card, absent entirely when nothing is overdue.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error; the user tested live — card appears with correct count, expands to show staff-grouped detail with dates, absent when nothing overdue.
+Deferred items: TopScreen's cross-site overdue rollup for regional/executive — a separate design question, not attempted here.
+Save point name: SPRINT_031W_LOCK
+Notes: Commit 6b8e0c6, message "Sprint 031 (Build Order item 5, Sub-sprint D): manager-facing overdue notifications - completes Build Order item 5". This completes all of Build Order item 5.
