@@ -18,7 +18,9 @@ import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../notifications/escalation_service.dart';
+import '../tasks/overdue_summary_service.dart';
 import 'manager_log_filter.dart';
+import 'overdue_summary_card.dart';
 
 Future<void> _showBackupDialog(BuildContext context, WidgetRef ref) async {
   final nameController = TextEditingController();
@@ -94,14 +96,15 @@ class ManagerScreen extends ConsumerStatefulWidget {
 class _ManagerScreenState extends ConsumerState<ManagerScreen> {
   Timer? _escalationTimer;
   LogFilterSelection _filter = const LogFilterSelection();
+  List<OverdueSummaryEntry> _overdueEntries = [];
 
   @override
   void initState() {
     super.initState();
-    _runEscalationCheck();
+    _runPeriodicChecks();
     _escalationTimer = Timer.periodic(
       const Duration(seconds: 60),
-      (_) => _runEscalationCheck(),
+      (_) => _runPeriodicChecks(),
     );
   }
 
@@ -113,11 +116,24 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
 
   // Runs on load and every tick thereafter — the only realistic mechanism
   // for a purely local app with no background service. If nobody has this
-  // screen open, nothing escalates; the setState afterward also keeps the
-  // banner's overdue styling fresh even on ticks that escalate nothing.
-  Future<void> _runEscalationCheck() async {
+  // screen open, nothing escalates and the overdue summary goes stale;
+  // there's nothing to "miss" for the overdue half specifically though —
+  // unlike a notification, it's a live fact, correct the instant any
+  // manager next opens this screen, not a fired-or-not event. Renamed
+  // from _runEscalationCheck (Sprint 031, Sub-sprint D) once it started
+  // doing more than escalation.
+  Future<void> _runPeriodicChecks() async {
     await ref.read(escalationServiceProvider).checkAndEscalate();
-    if (mounted) setState(() {});
+
+    final currentUser = ref.read(currentUserProvider);
+    if (currentUser != null) {
+      final overdue = await ref
+          .read(overdueSummaryServiceProvider)
+          .getSummaryForSite(currentUser.siteId);
+      if (mounted) setState(() => _overdueEntries = overdue);
+    } else if (mounted) {
+      setState(() {});
+    }
   }
 
   // Manager log filtering (Sprint 031): grouping follows whichever
@@ -317,6 +333,11 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
                       ),
                     );
                   },
+                ),
+              if (_overdueEntries.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: OverdueSummaryCard(entries: _overdueEntries),
                 ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
