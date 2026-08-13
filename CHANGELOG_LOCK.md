@@ -1188,3 +1188,24 @@ Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run con
 Deferred items: Sub-sprints C (time-windowed tasks), D (manager-facing overdue notifications).
 Save point name: SPRINT_031U_LOCK
 Notes: Commit 56b91e2, message "Sprint 031 (Build Order item 5, Sub-sprint B): exit behaviour".
+
+---
+
+## Time-windowed tasks (Sprint 031, Build Order item 5, Sub-sprint C)
+Date: 2026-08-13
+Objective: Fixed-clock anti-cheating windows — a task can be restricted to a valid time-of-day window; outside it, visible but locked. Third of the 4-part due/overdue split (A: core, B: exit behaviour, C: this, D: manager-facing overdue notifications).
+Files changed:
+- lib/core/storage/app_database.dart — `TaskSchedules` gains nullable `windowStartMinutes`/`windowEndMinutesExclusive`. schemaVersion 25→26.
+- lib/shared/models/task_schedule.dart, lib/shared/repositories/task_schedule_repository.dart — model fields, `assign()` params, row mapping.
+- lib/features/onboarding/staff_assignment_screen.dart — `_AssignmentTile` gains an optional "Restrict to a time window" toggle + start/end time pickers, hidden for `twoXDaily`/`threeXDaily`.
+- lib/features/tasks/task_model.dart — `ResolvedTask` gains window fields + `isLocked`.
+- lib/features/tasks/task_controller.dart — `loadTasks()` populates window fields and sorts locked tasks to the end; new `skipLockedTask()` fixes a real carousel-trap bug (a locked current task couldn't otherwise be advanced past).
+- lib/features/tasks/task_screen.dart — a separate locked-state Scaffold (title + overdue badge if applicable, `AppBanner(caution)` "Available from HH:MM", Skip in place of Submit).
+- DECISIONS_LOG.md — the resolved TaskSchedule-vs-TaskTemplate conflict, the carousel-trap fix, confirmation that window composes correctly with due/overdue with no new code, and disclosed scope limitations (no midnight-crossing windows, minor Skip-on-last-task rough edge).
+Files unchanged: `DueStatusService` (Sub-sprint A) — confirmed by re-reading it that windows compose correctly with its existing logic, no changes needed.
+Architecture impact: schemaVersion 25→26, additive nullable columns only.
+UI impact: Assign Tasks gains an optional per-assignment time-window control; a locked task's carousel entry shows an availability message and a Skip action instead of the normal inputs.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run confirmed the migration executed cleanly against the existing dev database; the user tested live — a locked task shows correctly with Skip working, an open-window task behaves normally, the toggle is absent for 2x/3x-daily.
+Deferred items: Sub-sprint D (manager-facing overdue notifications) — the last of Build Order item 5.
+Save point name: SPRINT_031V_LOCK
+Notes: Commit 5b322a1, message "Sprint 031 (Build Order item 5, Sub-sprint C): time-windowed tasks".
