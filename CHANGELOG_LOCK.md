@@ -1170,3 +1170,21 @@ Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run con
 Deferred items: Sub-sprints B (exit behaviour), C (time-windowed tasks), D (manager-facing overdue notifications).
 Save point name: SPRINT_031T_LOCK
 Notes: Commit 1c2d604, message "Sprint 031 (Build Order item 5, Sub-sprint A): due/overdue tracking core".
+
+---
+
+## Exit behaviour (Sprint 031, Build Order item 5, Sub-sprint B)
+Date: 2026-08-13
+Objective: Leaving mid-session must never be silent — a confirmation when tasks remain, and a permanent record of what was left undone. Second of the 4-part due/overdue split (A: core, B: this, C: time-windowed tasks, D: manager-facing overdue notifications).
+Files changed:
+- lib/features/tasks/task_controller.dart — new `hasRemainingTasks` getter and `logRemainingAsNotCompleted()`, logging each not-yet-submitted task as a new `'NOT_COMPLETED'` status (no schema change). Deliberately doesn't fire notifications — leaving mid-shift is allowed, expected behaviour.
+- lib/features/tasks/task_screen.dart — the single shared "Log out" action (confirmed the only exit path — no back arrow, TaskScreen is always `MaterialApp.home`) now gated behind a confirmation dialog whenever tasks remain, using the logged copy verbatim. Natural full completion is untouched — still routes straight to the existing end-of-session summary.
+- lib/features/manager/manager_screen.dart — `_buildLogLine` gains a genuine third branch for `NOT_COMPLETED` (neutral muted icon + explicit "NOT COMPLETED (session ended)" text), distinguishable from both PASS and FAIL in all three grouping modes.
+- DECISIONS_LOG.md — the confirmed-covers-every-exit-path check, the manager-log distinguishability fix, and a disclosed judgment call (the default log view's FAIL-only date exemption wasn't extended to NOT_COMPLETED, since that signal is already carried by due/overdue re-surfacing).
+Files unchanged: no schema/migration — `status` was already free text.
+Architecture impact: None. No schema change.
+UI impact: Leaving the task carousel with unsubmitted tasks now shows a confirmation dialog; confirmed exit is recorded, not silent. Manager log shows abandoned tasks with a distinct, non-alarming treatment.
+Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run confirmed the app launches without error; the user tested live — dialog only appears when tasks remain, Cancel/confirm both behave correctly, abandoned tasks correctly reappear as due/overdue next session, manager log shows the distinct NOT_COMPLETED treatment.
+Deferred items: Sub-sprints C (time-windowed tasks), D (manager-facing overdue notifications).
+Save point name: SPRINT_031U_LOCK
+Notes: Commit 56b91e2, message "Sprint 031 (Build Order item 5, Sub-sprint B): exit behaviour".
