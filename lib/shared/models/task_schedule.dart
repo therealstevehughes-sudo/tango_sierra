@@ -136,6 +136,10 @@ class TaskSchedule {
   final DateTime assignedAt;
   final bool active;
   final int siteId;
+  // Time-windowed tasks (Sprint 031, Sub-sprint C) — both null or both
+  // set. Minutes since midnight, end exclusive.
+  final int? windowStartMinutes;
+  final int? windowEndMinutesExclusive;
 
   const TaskSchedule({
     required this.id,
@@ -148,5 +152,7 @@ class TaskSchedule {
     required this.assignedAt,
     required this.active,
     required this.siteId,
+    this.windowStartMinutes,
+    this.windowEndMinutesExclusive,
   });
 }

@@ -21,6 +21,7 @@ import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import 'end_of_session_summary_screen.dart';
 import 'task_controller.dart';
+import 'task_model.dart';
 
 class TaskScreen extends ConsumerStatefulWidget {
   const TaskScreen({super.key});
@@ -214,6 +215,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   bool get canSubmit {
     final task = controller.getCurrentTask();
 
+    // Belt-and-braces: the locked branch of build() returns an entirely
+    // separate Scaffold with no SUBMIT button reachable at all, but this
+    // stays as a safety net against a future refactor merging the paths.
+    if (task.isLocked) return false;
     if (task.hasNumericRange && _numberInTemplateUnit == null) {
       return false;
     }
@@ -348,6 +353,15 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     }
 
     final task = controller.getCurrentTask();
+
+    // Time-windowed tasks (Sprint 031, Sub-sprint C): an entirely separate,
+    // simplified Scaffold — not a conditional branch woven into the full
+    // input/PASS-FAIL/corrective-action tree below, which is unreachable
+    // while locked anyway. Visible, never hidden (same principle as
+    // overdue/FAILs), but not actionable.
+    if (task.isLocked) {
+      return _buildLockedScaffold(context, task, currentUser, canSeeManagerView);
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -601,6 +615,76 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   label: "SUBMIT",
                   icon: Icons.check,
                   onPressed: canSubmit ? validateAndSubmit : null,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Time-windowed tasks (Sprint 031, Sub-sprint C). HONEST LIMIT: enforced
+  // against the device clock (DateTime.now(), via ResolvedTask.isLocked),
+  // fakeable until a backend provides trusted server time — raises the
+  // bar against casual cheating, not tamper-proof.
+  Widget _buildLockedScaffold(
+    BuildContext context,
+    ResolvedTask task,
+    User? currentUser,
+    bool canSeeManagerView,
+  ) {
+    final start = task.windowStartMinutes!;
+    final startTime = TimeOfDay(hour: start ~/ 60, minute: start % 60);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: currentUser != null
+            ? UserTitle(user: currentUser)
+            : const Text("Task"),
+        actions: _appBarActions(canSeeManagerView),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              AppCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      task.displayTitle,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                    // A task can be both overdue (an earlier period was
+                    // missed) and locked (today's window hasn't opened
+                    // yet) at the same time — shown here too rather than
+                    // hidden, same "never silently disappear" principle.
+                    if (task.isOverdue) ...[
+                      const SizedBox(height: 8),
+                      StatusBadge(
+                        kind: StatusKind.overdue,
+                        label: task.overdueSince == null
+                            ? 'Overdue'
+                            : 'Overdue since ${formatDate(task.overdueSince!)}',
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              AppBanner(
+                kind: BannerKind.caution,
+                child: Text('Available from ${startTime.format(context)}'),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                child: PrimaryActionButton(
+                  label: 'Skip — comes back later',
+                  icon: Icons.skip_next,
+                  onPressed: () => setState(() => controller.skipLockedTask()),
                 ),
               ),
             ],

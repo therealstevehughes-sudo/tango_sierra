@@ -31,6 +31,13 @@ class ResolvedTask {
   // third "satisfied" state to represent here.
   final bool isOverdue;
   final DateTime? overdueSince;
+  // Time-windowed tasks (Sprint 031, Sub-sprint C) — both null or both
+  // set, minutes since midnight, end exclusive. HONEST LIMIT: isLocked
+  // reads the device clock (DateTime.now()), fakeable until a backend
+  // provides trusted server time — same limitation already logged for
+  // completedAt and due/overdue, not newly introduced here.
+  final int? windowStartMinutes;
+  final int? windowEndMinutesExclusive;
 
   const ResolvedTask({
     required this.scheduleId,
@@ -53,6 +60,8 @@ class ResolvedTask {
     required this.assignedByUserId,
     this.isOverdue = false,
     this.overdueSince,
+    this.windowStartMinutes,
+    this.windowEndMinutesExclusive,
   });
 
   bool get hasNumericRange => minLimit != null && maxLimit != null;
@@ -61,6 +70,16 @@ class ResolvedTask {
 
   String get displayTitle =>
       equipmentInstanceName == null ? title : '$title — $equipmentInstanceName';
+
+  bool get isLocked {
+    if (windowStartMinutes == null || windowEndMinutesExclusive == null) {
+      return false;
+    }
+    final now = DateTime.now();
+    final nowMinutes = now.hour * 60 + now.minute;
+    return nowMinutes < windowStartMinutes! ||
+        nowMinutes >= windowEndMinutesExclusive!;
+  }
 }
 
 class SessionStats {

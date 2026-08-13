@@ -105,12 +105,37 @@ class TaskController {
           assignedByUserId: schedule.assignedByUserId,
           isOverdue: dueResult.state == ScheduleDueState.overdue,
           overdueSince: dueResult.overdueSince,
+          windowStartMinutes: schedule.windowStartMinutes,
+          windowEndMinutesExclusive: schedule.windowEndMinutesExclusive,
         ),
       );
     }
 
+    // Time-windowed tasks (Sprint 031, Sub-sprint C): a locked task is
+    // never hidden (same principle as overdue/FAILs), but it also can't
+    // be the one blocking everything else — sorting locked tasks to the
+    // end means the worker naturally reaches every actionable task first.
+    // stable sort — doesn't reorder within either group.
+    resolved.sort((a, b) {
+      if (a.isLocked == b.isLocked) return 0;
+      return a.isLocked ? 1 : -1;
+    });
+
     tasks = resolved;
     currentIndex = 0;
+  }
+
+  // Time-windowed tasks (Sprint 031, Sub-sprint C): the only way past a
+  // locked task if it's still the current one once every unlocked task is
+  // done (sorting alone doesn't help once nothing unlocked remains) — the
+  // worker can't submit it, so without this they'd be trapped, violating
+  // the standing "never trapped" rule. Not logged as NOT_COMPLETED: unlike
+  // exit behaviour's abandoned tasks, a locked task was never actually
+  // offered as available, so there's nothing to record — it's simply
+  // re-evaluated, and re-offered, next time loadTasks() runs.
+  bool skipLockedTask() {
+    if (!hasTasks || !getCurrentTask().isLocked) return false;
+    return nextTask();
   }
 
   List<String>? _parseChoiceOptions(String? customFieldsJson) {

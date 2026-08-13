@@ -187,6 +187,16 @@ class TaskSchedules extends Table {
   DateTimeColumn get assignedAt => dateTime()();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  // Time-windowed tasks (Sprint 031, Build Order item 5, Sub-sprint C) —
+  // anti-cheating: fixed-clock windows only for now (relative-to-shift
+  // deferred, no shift system yet). Both null or both set — minutes since
+  // midnight, end exclusive (1440 = midnight/end of day). Lives on the
+  // schedule, not TaskTemplate: a template is org-wide/unscoped, but a
+  // window is inherently site-specific (different venues close at
+  // different times), and TaskSchedule already carries this kind of "when"
+  // configuration via frequency.
+  IntColumn get windowStartMinutes => integer().nullable()();
+  IntColumn get windowEndMinutesExclusive => integer().nullable()();
 }
 
 @DataClassName('ShiftHandoverNoteEntity')
@@ -487,7 +497,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 25;
+  int get schemaVersion => 26;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -735,6 +745,15 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(taskTemplates, taskTemplates.jobRole);
         await m.addColumn(taskTemplates, taskTemplates.guidanceText);
         await m.addColumn(users, users.jobRole);
+      }
+      if (from < 26) {
+        // Time-windowed tasks (Sprint 031, Sub-sprint C) — fixed-clock
+        // anti-cheating windows, set per assignment alongside frequency.
+        await m.addColumn(taskSchedules, taskSchedules.windowStartMinutes);
+        await m.addColumn(
+          taskSchedules,
+          taskSchedules.windowEndMinutesExclusive,
+        );
       }
     },
     beforeOpen: (details) async {

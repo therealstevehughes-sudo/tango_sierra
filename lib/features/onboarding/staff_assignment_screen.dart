@@ -128,6 +128,8 @@ class _StaffAssignmentScreenState
     int? equipmentId,
     required ScheduleFrequency frequency,
     required bool assign,
+    int? windowStartMinutes,
+    int? windowEndMinutesExclusive,
   }) async {
     final staff = selectedStaff;
     final manager = ref.read(currentUserProvider);
@@ -143,6 +145,8 @@ class _StaffAssignmentScreenState
         frequency: frequency,
         assignedByUserId: manager.id,
         siteId: staff.siteId,
+        windowStartMinutes: windowStartMinutes,
+        windowEndMinutesExclusive: windowEndMinutesExclusive,
       );
     } else {
       final existing = _existingSchedule(templateGroupId, equipmentId);
@@ -428,18 +432,21 @@ class _StaffAssignmentScreenState
 
   Widget _buildTemplateRow(TaskTemplate template) {
     if (template.equipmentTypeId == null) {
+      final existing = _existingSchedule(template.templateGroupId, null);
       return _AssignmentTile(
         label: template.title,
-        frequency: _existingSchedule(
-          template.templateGroupId,
-          null,
-        )?.frequency ?? ScheduleFrequency.daily,
-        assigned: _existingSchedule(template.templateGroupId, null) != null,
-        onChanged: (assign, frequency) => _toggleAssignment(
-          templateGroupId: template.templateGroupId,
-          frequency: frequency,
-          assign: assign,
-        ),
+        frequency: existing?.frequency ?? ScheduleFrequency.daily,
+        assigned: existing != null,
+        windowStartMinutes: existing?.windowStartMinutes,
+        windowEndMinutesExclusive: existing?.windowEndMinutesExclusive,
+        onChanged: (assign, frequency, windowStart, windowEnd) =>
+            _toggleAssignment(
+              templateGroupId: template.templateGroupId,
+              frequency: frequency,
+              assign: assign,
+              windowStartMinutes: windowStart,
+              windowEndMinutesExclusive: windowEnd,
+            ),
       );
     }
 
@@ -463,25 +470,33 @@ class _StaffAssignmentScreenState
         children: [
           Text(template.title, style: const TextStyle(fontWeight: FontWeight.w600)),
           for (final instance in matchingInstances)
-            _AssignmentTile(
-              label: instance.name,
-              indent: true,
-              frequency: _existingSchedule(
-                template.templateGroupId,
-                instance.id,
-              )?.frequency ?? ScheduleFrequency.daily,
-              assigned:
-                  _existingSchedule(template.templateGroupId, instance.id) !=
-                  null,
-              onChanged: (assign, frequency) => _toggleAssignment(
-                templateGroupId: template.templateGroupId,
-                equipmentId: instance.id,
-                frequency: frequency,
-                assign: assign,
-              ),
-            ),
+            _buildEquipmentAssignmentTile(template, instance),
         ],
       ),
+    );
+  }
+
+  Widget _buildEquipmentAssignmentTile(
+    TaskTemplate template,
+    Equipment instance,
+  ) {
+    final existing = _existingSchedule(template.templateGroupId, instance.id);
+    return _AssignmentTile(
+      label: instance.name,
+      indent: true,
+      frequency: existing?.frequency ?? ScheduleFrequency.daily,
+      assigned: existing != null,
+      windowStartMinutes: existing?.windowStartMinutes,
+      windowEndMinutesExclusive: existing?.windowEndMinutesExclusive,
+      onChanged: (assign, frequency, windowStart, windowEnd) =>
+          _toggleAssignment(
+            templateGroupId: template.templateGroupId,
+            equipmentId: instance.id,
+            frequency: frequency,
+            assign: assign,
+            windowStartMinutes: windowStart,
+            windowEndMinutesExclusive: windowEnd,
+          ),
     );
   }
 
@@ -621,13 +636,23 @@ class _AssignmentTile extends StatefulWidget {
     required this.frequency,
     required this.onChanged,
     this.indent = false,
+    this.windowStartMinutes,
+    this.windowEndMinutesExclusive,
   });
 
   final String label;
   final bool assigned;
   final ScheduleFrequency frequency;
   final bool indent;
-  final void Function(bool assign, ScheduleFrequency frequency) onChanged;
+  final int? windowStartMinutes;
+  final int? windowEndMinutesExclusive;
+  final void Function(
+    bool assign,
+    ScheduleFrequency frequency,
+    int? windowStartMinutes,
+    int? windowEndMinutesExclusive,
+  )
+  onChanged;
 
   @override
   State<_AssignmentTile> createState() => _AssignmentTileState();
@@ -635,35 +660,128 @@ class _AssignmentTile extends StatefulWidget {
 
 class _AssignmentTileState extends State<_AssignmentTile> {
   late ScheduleFrequency frequency = widget.frequency;
+  late bool windowEnabled = widget.windowStartMinutes != null;
+  late TimeOfDay? windowStart = _toTimeOfDay(widget.windowStartMinutes);
+  // Stored exclusive-of-that-minute, but the picker shows the last minute
+  // the task is actually available — so displayed as (stored - 1).
+  late TimeOfDay? windowEnd = _toTimeOfDay(
+    widget.windowEndMinutesExclusive == null
+        ? null
+        : widget.windowEndMinutesExclusive! - 1,
+  );
+
+  static TimeOfDay? _toTimeOfDay(int? minutes) => minutes == null
+      ? null
+      : TimeOfDay(hour: minutes ~/ 60, minute: minutes % 60);
+
+  // Time-windowed tasks (Sprint 031, Sub-sprint C) — a single window can't
+  // sensibly represent 2/3 separate required check-ins in a day (which
+  // "check" would it gate?), so the option isn't offered for those
+  // frequencies rather than shipping a combination that technically works
+  // but doesn't mean what a manager would expect.
+  bool get _windowSupported =>
+      frequency != ScheduleFrequency.twoXDaily &&
+      frequency != ScheduleFrequency.threeXDaily;
+
+  void _notifyChanged(bool assign) {
+    final hasWindow = windowEnabled && _windowSupported &&
+        windowStart != null &&
+        windowEnd != null;
+    widget.onChanged(
+      assign,
+      frequency,
+      hasWindow ? windowStart!.hour * 60 + windowStart!.minute : null,
+      hasWindow ? windowEnd!.hour * 60 + windowEnd!.minute + 1 : null,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: widget.indent ? 16 : 0),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Checkbox(
-            value: widget.assigned,
-            onChanged: (checked) =>
-                widget.onChanged(checked ?? false, frequency),
+          Row(
+            children: [
+              Checkbox(
+                value: widget.assigned,
+                onChanged: (checked) => _notifyChanged(checked ?? false),
+              ),
+              Expanded(child: Text(widget.label)),
+              DropdownButton<ScheduleFrequency>(
+                value: frequency,
+                items: ScheduleFrequency.values
+                    .map(
+                      (f) => DropdownMenuItem(
+                        value: f,
+                        child: Text(frequencyLabel(f)),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  if (value == null) return;
+                  // Only takes effect the next time the checkbox is
+                  // (re-)ticked — changing frequency on an already-active
+                  // assignment would otherwise silently create a
+                  // duplicate schedule row.
+                  setState(() => frequency = value);
+                },
+              ),
+            ],
           ),
-          Expanded(child: Text(widget.label)),
-          DropdownButton<ScheduleFrequency>(
-            value: frequency,
-            items: ScheduleFrequency.values
-                .map(
-                  (f) =>
-                      DropdownMenuItem(value: f, child: Text(frequencyLabel(f))),
-                )
-                .toList(),
-            onChanged: (value) {
-              if (value == null) return;
-              // Only takes effect the next time the checkbox is (re-)ticked —
-              // changing frequency on an already-active assignment would
-              // otherwise silently create a duplicate schedule row.
-              setState(() => frequency = value);
-            },
-          ),
+          if (_windowSupported)
+            Padding(
+              padding: const EdgeInsets.only(left: 40),
+              child: CheckboxListTile(
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+                controlAffinity: ListTileControlAffinity.leading,
+                value: windowEnabled,
+                title: const Text('Restrict to a time window'),
+                onChanged: (checked) =>
+                    setState(() => windowEnabled = checked ?? false),
+              ),
+            ),
+          if (_windowSupported && windowEnabled)
+            Padding(
+              padding: const EdgeInsets.only(left: 40, bottom: 8),
+              child: Row(
+                children: [
+                  TextButton(
+                    onPressed: () async {
+                      final picked = await showTimePicker(
+                        context: context,
+                        initialTime: windowStart ?? const TimeOfDay(hour: 21, minute: 0),
+                      );
+                      if (picked == null) return;
+                      setState(() => windowStart = picked);
+                    },
+                    child: Text(
+                      windowStart == null
+                          ? 'Available from…'
+                          : 'From ${windowStart!.format(context)}',
+                    ),
+                  ),
+                  const Text('–'),
+                  TextButton(
+                    onPressed: () async {
+                      final picked = await showTimePicker(
+                        context: context,
+                        initialTime: windowEnd ?? const TimeOfDay(hour: 23, minute: 59),
+                      );
+                      if (picked == null) return;
+                      setState(() => windowEnd = picked);
+                    },
+                    child: Text(
+                      windowEnd == null
+                          ? 'until…'
+                          : 'until ${windowEnd!.format(context)}',
+                    ),
+                  ),
+                ],
+              ),
+            ),
         ],
       ),
     );
