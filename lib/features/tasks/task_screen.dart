@@ -109,6 +109,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // bar on every state of this screen (previously only the empty-task
   // state had a way out at all) — a small, secondary-styled action so it
   // doesn't compete with SUBMIT as the screen's one primary action.
+  //
+  // Exit behaviour (Sprint 031, Sub-sprint B): this is the ONLY exit path
+  // from this screen — confirmed by reading the file, both AppBar states
+  // share this same _appBarActions, there's no back arrow (TaskScreen is
+  // always MaterialApp.home, never pushed) and no OS-level interception.
+  // Gating it here covers every way a worker can leave mid-session.
   List<Widget> _appBarActions(bool canSeeManagerView) {
     return [
       if (canSeeManagerView)
@@ -118,11 +124,45 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           tooltip: 'Manager View',
         ),
       TextButton.icon(
-        onPressed: () => ref.read(currentUserProvider.notifier).state = null,
+        onPressed: _confirmLogOut,
         icon: const Icon(Icons.logout, size: 18),
         label: const Text('Log out'),
       ),
     ];
+  }
+
+  // Natural full completion (the last task submitted) already routes
+  // through EndOfSessionSummaryScreen and logs out from there — this only
+  // ever fires for an EARLY exit, while tasks remain.
+  Future<void> _confirmLogOut() async {
+    if (controller.hasRemainingTasks) {
+      final leave = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Leave before finishing?'),
+          content: const Text(
+            "Some checks aren't complete. This will be recorded. You can "
+            "return and finish anytime this shift.",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Log Out'),
+            ),
+          ],
+        ),
+      );
+      if (leave != true) return;
+
+      await controller.logRemainingAsNotCompleted();
+    }
+
+    if (!mounted) return;
+    ref.read(currentUserProvider.notifier).state = null;
   }
 
   bool get _displayInFahrenheit {

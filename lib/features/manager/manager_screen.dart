@@ -162,8 +162,27 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
   // task+date; grouped by date, the header already says when, so the line
   // shows who+task; grouped by task, the line shows who+date.
   Widget _buildLogLine(TaskSubmission entry, LogFilterAxis? groupBy) {
+    // Exit behaviour (Sprint 031, Sub-sprint B): NOT_COMPLETED is its own
+    // state, not a FAIL wearing a different name — confirmed with the
+    // user this needed a genuinely distinguishable treatment (icon AND
+    // word, not colour alone, per the Accessibility Rule), not just
+    // falling into the old binary isPass/critical branch. Neutral muted
+    // colour, since an abandoned mid-shift task isn't itself a compliance
+    // failure — it's expected, allowed behaviour, just never silent.
     final isPass = entry.status == 'PASS';
-    final color = isPass ? AppColors.pass : AppColors.critical;
+    final isNotCompleted = entry.status == 'NOT_COMPLETED';
+    final Color color;
+    final IconData icon;
+    if (isNotCompleted) {
+      color = AppColors.muted;
+      icon = Icons.remove_circle_outline;
+    } else if (isPass) {
+      color = AppColors.pass;
+      icon = Icons.check_circle_outline;
+    } else {
+      color = AppColors.critical;
+      icon = Icons.cancel_outlined;
+    }
 
     final String label;
     switch (groupBy) {
@@ -178,21 +197,20 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
         label = '${entry.taskTitle} (${formatDateTime(entry.completedAt)})';
         break;
     }
+    final statusSuffix = isNotCompleted
+        ? ' — NOT COMPLETED (session ended)'
+        : '';
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            isPass ? Icons.check_circle_outline : Icons.cancel_outlined,
-            size: 16,
-            color: color,
-          ),
+          Icon(icon, size: 16, color: color),
           const SizedBox(width: 6),
           Expanded(
             child: Text(
-              '$label${entry.photoAttached ? ' 📷' : ''}',
+              '$label$statusSuffix${entry.photoAttached ? ' 📷' : ''}',
               style: TextStyle(
                 fontSize: 14,
                 height: 1.3,

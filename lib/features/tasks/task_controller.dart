@@ -129,6 +129,40 @@ class TaskController {
 
   ResolvedTask getCurrentTask() => tasks[currentIndex];
 
+  // Exit behaviour (Sprint 031, Build Order item 5, Sub-sprint B): whether
+  // leaving right now would abandon anything — everything from
+  // currentIndex onward hasn't been submitted this session (nextTask()
+  // only advances past a task once it's actually submitted).
+  bool get hasRemainingTasks => hasTasks && currentIndex < tasks.length;
+
+  // Logs each not-yet-submitted task as NOT_COMPLETED so leaving mid-shift
+  // is recorded, not silent — never vanishes, stays outstanding (matching
+  // the same "never silently hidden" principle already applied to FAILs
+  // and overdue tasks). Deliberately does NOT call _fireNotifications:
+  // leaving before finishing is allowed, expected behaviour per the
+  // logged exit-behaviour decision, not itself a compliance failure
+  // needing escalation. countForScheduleInRange (Sub-sprint A) only counts
+  // PASS/FAIL, so this correctly does not satisfy the task's period — it
+  // reappears as due (or overdue) when the worker returns.
+  Future<void> logRemainingAsNotCompleted() async {
+    for (final task in tasks.sublist(currentIndex)) {
+      await _submissionRepository.submit(
+        TaskSubmission(
+          taskTitle: task.displayTitle,
+          status: 'NOT_COMPLETED',
+          completedBy: '${_currentUser.name} (${_currentUser.jobTitle})',
+          completedAt: DateTime.now(),
+          photoAttached: false,
+          taskScheduleId: task.scheduleId,
+          taskTemplateGroupId: task.templateGroupId,
+          equipmentInstanceId: task.equipmentInstanceId,
+          completedByUserId: _currentUser.id,
+          siteId: _currentUser.siteId,
+        ),
+      );
+    }
+  }
+
   Future<SessionStats> buildSessionStats() async {
     final submissions = await _submissionRepository.getForUserSince(
       _currentUser.id,
