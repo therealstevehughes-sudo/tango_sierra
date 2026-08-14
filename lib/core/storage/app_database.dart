@@ -213,6 +213,20 @@ class TrainingRecords extends Table {
   DateTimeColumn get createdAt => dateTime()();
 }
 
+@DataClassName('SupplierEntity')
+class Suppliers extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  TextColumn get contact => text().nullable()();
+  TextColumn get category => text()();
+  TextColumn get customCategoryTitle => text().nullable()();
+  TextColumn get approvalStatus => text()();
+  TextColumn get approvalNote => text().nullable()();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
 @DataClassName('ShiftHandoverNoteEntity')
 class ShiftHandoverNotes extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -492,6 +506,7 @@ class _LibraryPreset {
     EquipmentInstances,
     TaskSchedules,
     TrainingRecords,
+    Suppliers,
     ShiftHandoverNotes,
     SessionSummaries,
     NotificationRules,
@@ -512,7 +527,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 27;
+  int get schemaVersion => 28;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -776,6 +791,12 @@ class AppDatabase extends _$AppDatabase {
         // "Confidence in Management" section. Append-only, new table, no
         // backfill needed (nothing existed before this to migrate).
         await m.createTable(trainingRecords);
+      }
+      if (from < 28) {
+        // Supplier register (Sprint 031, finalized beta build order item
+        // 4) — editable, not append-only (see the Suppliers table's own
+        // doc comment for why). New table, no backfill needed.
+        await m.createTable(suppliers);
       }
     },
     beforeOpen: (details) async {
