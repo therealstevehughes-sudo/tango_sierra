@@ -36,6 +36,13 @@ abstract class UserRepository {
     required int userId,
     required RoleTier newTier,
   });
+  // Departments (Sprint 031, Build Order item 5, Sub-sprint B). departmentId
+  // null clears the assignment — explicit, not silently omitted, mirrors
+  // how a "No department" dropdown option is always shown, never hidden.
+  Future<void> changeDepartment({
+    required int userId,
+    required int? departmentId,
+  });
 }
 
 class DriftUserRepository implements UserRepository {
@@ -147,6 +154,16 @@ class DriftUserRepository implements UserRepository {
     );
   }
 
+  @override
+  Future<void> changeDepartment({
+    required int userId,
+    required int? departmentId,
+  }) async {
+    await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+      UsersCompanion(departmentId: Value(departmentId)),
+    );
+  }
+
   User _toModel(UserEntity row) {
     return User(
       id: row.id,
@@ -161,6 +178,7 @@ class DriftUserRepository implements UserRepository {
       active: row.active,
       deactivatedAt: row.deactivatedAt,
       deactivatedByUserId: row.deactivatedByUserId,
+      departmentId: row.departmentId,
     );
   }
 }

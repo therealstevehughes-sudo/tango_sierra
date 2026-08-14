@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../features/notifications/notification_rules_screen.dart';
 import '../../features/onboarding/staff_assignment_screen.dart';
+import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/staff_management_screen.dart';
 import '../../features/settings/supplier_management_screen.dart';
 import '../../features/settings/third_party_contacts_screen.dart';
@@ -81,6 +82,12 @@ final List<_DrawerItemDef> _managementItems = [
     label: 'Supplier Management',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const SupplierManagementScreen(),
+  ),
+  _DrawerItemDef(
+    icon: Icons.groups,
+    label: 'Department Management',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const DepartmentManagementScreen(),
   ),
 ];
 

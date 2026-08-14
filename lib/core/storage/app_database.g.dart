@@ -1464,6 +1464,352 @@ class EquipmentInstancesCompanion
   }
 }
 
+class $DepartmentsTable extends Departments
+    with TableInfo<$DepartmentsTable, DepartmentEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DepartmentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, siteId, active, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'departments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DepartmentEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DepartmentEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DepartmentEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DepartmentsTable createAlias(String alias) {
+    return $DepartmentsTable(attachedDatabase, alias);
+  }
+}
+
+class DepartmentEntity extends DataClass
+    implements Insertable<DepartmentEntity> {
+  final int id;
+  final String name;
+  final int? siteId;
+  final bool active;
+  final DateTime createdAt;
+  const DepartmentEntity({
+    required this.id,
+    required this.name,
+    this.siteId,
+    required this.active,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
+    map['active'] = Variable<bool>(active);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  DepartmentsCompanion toCompanion(bool nullToAbsent) {
+    return DepartmentsCompanion(
+      id: Value(id),
+      name: Value(name),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
+      active: Value(active),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory DepartmentEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DepartmentEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
+      active: serializer.fromJson<bool>(json['active']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'siteId': serializer.toJson<int?>(siteId),
+      'active': serializer.toJson<bool>(active),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  DepartmentEntity copyWith({
+    int? id,
+    String? name,
+    Value<int?> siteId = const Value.absent(),
+    bool? active,
+    DateTime? createdAt,
+  }) => DepartmentEntity(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    siteId: siteId.present ? siteId.value : this.siteId,
+    active: active ?? this.active,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  DepartmentEntity copyWithCompanion(DepartmentsCompanion data) {
+    return DepartmentEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      active: data.active.present ? data.active.value : this.active,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DepartmentEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('siteId: $siteId, ')
+          ..write('active: $active, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, siteId, active, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DepartmentEntity &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.siteId == this.siteId &&
+          other.active == this.active &&
+          other.createdAt == this.createdAt);
+}
+
+class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<int?> siteId;
+  final Value<bool> active;
+  final Value<DateTime> createdAt;
+  const DepartmentsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.active = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  DepartmentsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.siteId = const Value.absent(),
+    this.active = const Value.absent(),
+    required DateTime createdAt,
+  }) : name = Value(name),
+       createdAt = Value(createdAt);
+  static Insertable<DepartmentEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<int>? siteId,
+    Expression<bool>? active,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (siteId != null) 'site_id': siteId,
+      if (active != null) 'active': active,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  DepartmentsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<int?>? siteId,
+    Value<bool>? active,
+    Value<DateTime>? createdAt,
+  }) {
+    return DepartmentsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      siteId: siteId ?? this.siteId,
+      active: active ?? this.active,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DepartmentsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('siteId: $siteId, ')
+          ..write('active: $active, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -1608,6 +1954,20 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _departmentIdMeta = const VerificationMeta(
+    'departmentId',
+  );
+  @override
+  late final GeneratedColumn<int> departmentId = GeneratedColumn<int>(
+    'department_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES departments (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1622,6 +1982,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     deactivatedAt,
     deactivatedByUserId,
     jobRole,
+    departmentId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1723,6 +2084,15 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         jobRole.isAcceptableOrUnknown(data['job_role']!, _jobRoleMeta),
       );
     }
+    if (data.containsKey('department_id')) {
+      context.handle(
+        _departmentIdMeta,
+        departmentId.isAcceptableOrUnknown(
+          data['department_id']!,
+          _departmentIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1780,6 +2150,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         DriftSqlType.string,
         data['${effectivePrefix}job_role'],
       ),
+      departmentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}department_id'],
+      ),
     );
   }
 
@@ -1802,6 +2176,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final DateTime? deactivatedAt;
   final int? deactivatedByUserId;
   final String? jobRole;
+  final int? departmentId;
   const UserEntity({
     required this.id,
     required this.name,
@@ -1815,6 +2190,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     this.deactivatedAt,
     this.deactivatedByUserId,
     this.jobRole,
+    this.departmentId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1841,6 +2217,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     if (!nullToAbsent || jobRole != null) {
       map['job_role'] = Variable<String>(jobRole);
     }
+    if (!nullToAbsent || departmentId != null) {
+      map['department_id'] = Variable<int>(departmentId);
+    }
     return map;
   }
 
@@ -1866,6 +2245,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       jobRole: jobRole == null && nullToAbsent
           ? const Value.absent()
           : Value(jobRole),
+      departmentId: departmentId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(departmentId),
     );
   }
 
@@ -1891,6 +2273,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
         json['deactivatedByUserId'],
       ),
       jobRole: serializer.fromJson<String?>(json['jobRole']),
+      departmentId: serializer.fromJson<int?>(json['departmentId']),
     );
   }
   @override
@@ -1911,6 +2294,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'deactivatedAt': serializer.toJson<DateTime?>(deactivatedAt),
       'deactivatedByUserId': serializer.toJson<int?>(deactivatedByUserId),
       'jobRole': serializer.toJson<String?>(jobRole),
+      'departmentId': serializer.toJson<int?>(departmentId),
     };
   }
 
@@ -1927,6 +2311,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     Value<DateTime?> deactivatedAt = const Value.absent(),
     Value<int?> deactivatedByUserId = const Value.absent(),
     Value<String?> jobRole = const Value.absent(),
+    Value<int?> departmentId = const Value.absent(),
   }) => UserEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -1945,6 +2330,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
         ? deactivatedByUserId.value
         : this.deactivatedByUserId,
     jobRole: jobRole.present ? jobRole.value : this.jobRole,
+    departmentId: departmentId.present ? departmentId.value : this.departmentId,
   );
   UserEntity copyWithCompanion(UsersCompanion data) {
     return UserEntity(
@@ -1966,6 +2352,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ? data.deactivatedByUserId.value
           : this.deactivatedByUserId,
       jobRole: data.jobRole.present ? data.jobRole.value : this.jobRole,
+      departmentId: data.departmentId.present
+          ? data.departmentId.value
+          : this.departmentId,
     );
   }
 
@@ -1983,7 +2372,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('active: $active, ')
           ..write('deactivatedAt: $deactivatedAt, ')
           ..write('deactivatedByUserId: $deactivatedByUserId, ')
-          ..write('jobRole: $jobRole')
+          ..write('jobRole: $jobRole, ')
+          ..write('departmentId: $departmentId')
           ..write(')'))
         .toString();
   }
@@ -2002,6 +2392,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     deactivatedAt,
     deactivatedByUserId,
     jobRole,
+    departmentId,
   );
   @override
   bool operator ==(Object other) =>
@@ -2018,7 +2409,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.active == this.active &&
           other.deactivatedAt == this.deactivatedAt &&
           other.deactivatedByUserId == this.deactivatedByUserId &&
-          other.jobRole == this.jobRole);
+          other.jobRole == this.jobRole &&
+          other.departmentId == this.departmentId);
 }
 
 class UsersCompanion extends UpdateCompanion<UserEntity> {
@@ -2034,6 +2426,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   final Value<DateTime?> deactivatedAt;
   final Value<int?> deactivatedByUserId;
   final Value<String?> jobRole;
+  final Value<int?> departmentId;
   const UsersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -2047,6 +2440,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.deactivatedAt = const Value.absent(),
     this.deactivatedByUserId = const Value.absent(),
     this.jobRole = const Value.absent(),
+    this.departmentId = const Value.absent(),
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
@@ -2061,6 +2455,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.deactivatedAt = const Value.absent(),
     this.deactivatedByUserId = const Value.absent(),
     this.jobRole = const Value.absent(),
+    this.departmentId = const Value.absent(),
   }) : name = Value(name),
        jobTitle = Value(jobTitle),
        roleTier = Value(roleTier),
@@ -2079,6 +2474,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Expression<DateTime>? deactivatedAt,
     Expression<int>? deactivatedByUserId,
     Expression<String>? jobRole,
+    Expression<int>? departmentId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2095,6 +2491,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       if (deactivatedByUserId != null)
         'deactivated_by_user_id': deactivatedByUserId,
       if (jobRole != null) 'job_role': jobRole,
+      if (departmentId != null) 'department_id': departmentId,
     });
   }
 
@@ -2111,6 +2508,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Value<DateTime?>? deactivatedAt,
     Value<int?>? deactivatedByUserId,
     Value<String?>? jobRole,
+    Value<int?>? departmentId,
   }) {
     return UsersCompanion(
       id: id ?? this.id,
@@ -2126,6 +2524,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       deactivatedAt: deactivatedAt ?? this.deactivatedAt,
       deactivatedByUserId: deactivatedByUserId ?? this.deactivatedByUserId,
       jobRole: jobRole ?? this.jobRole,
+      departmentId: departmentId ?? this.departmentId,
     );
   }
 
@@ -2170,6 +2569,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     if (jobRole.present) {
       map['job_role'] = Variable<String>(jobRole.value);
     }
+    if (departmentId.present) {
+      map['department_id'] = Variable<int>(departmentId.value);
+    }
     return map;
   }
 
@@ -2187,7 +2589,8 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('active: $active, ')
           ..write('deactivatedAt: $deactivatedAt, ')
           ..write('deactivatedByUserId: $deactivatedByUserId, ')
-          ..write('jobRole: $jobRole')
+          ..write('jobRole: $jobRole, ')
+          ..write('departmentId: $departmentId')
           ..write(')'))
         .toString();
   }
@@ -12790,6 +13193,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $AreasTable areas = $AreasTable(this);
   late final $EquipmentInstancesTable equipmentInstances =
       $EquipmentInstancesTable(this);
+  late final $DepartmentsTable departments = $DepartmentsTable(this);
   late final $UsersTable users = $UsersTable(this);
   late final $SuppliersTable suppliers = $SuppliersTable(this);
   late final $TaskSubmissionsTable taskSubmissions = $TaskSubmissionsTable(
@@ -12835,6 +13239,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     sites,
     areas,
     equipmentInstances,
+    departments,
     users,
     suppliers,
     taskSubmissions,
@@ -13748,6 +14153,24 @@ final class $$SitesTableReferences
     );
   }
 
+  static MultiTypedResultKey<$DepartmentsTable, List<DepartmentEntity>>
+  _departmentsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.departments,
+    aliasName: 'sites__id__departments__site_id',
+  );
+
+  $$DepartmentsTableProcessedTableManager get departmentsRefs {
+    final manager = $$DepartmentsTableTableManager(
+      $_db,
+      $_db.departments,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_departmentsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<$UsersTable, List<UserEntity>> _usersRefsTable(
     _$AppDatabase db,
   ) => MultiTypedResultKey.fromTable(
@@ -14071,6 +14494,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$EquipmentInstancesTableFilterComposer(
             $db: $db,
             $table: $db.equipmentInstances,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> departmentsRefs(
+    Expression<bool> Function($$DepartmentsTableFilterComposer f) f,
+  ) {
+    final $$DepartmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.departments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -14504,6 +14952,31 @@ class $$SitesTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> departmentsRefs<T extends Object>(
+    Expression<T> Function($$DepartmentsTableAnnotationComposer a) f,
+  ) {
+    final $$DepartmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> usersRefs<T extends Object>(
     Expression<T> Function($$UsersTableAnnotationComposer a) f,
   ) {
@@ -14801,6 +15274,7 @@ class $$SitesTableTableManager
             bool organisationId,
             bool areasRefs,
             bool equipmentInstancesRefs,
+            bool departmentsRefs,
             bool usersRefs,
             bool suppliersRefs,
             bool taskSubmissionsRefs,
@@ -14864,6 +15338,7 @@ class $$SitesTableTableManager
                 organisationId = false,
                 areasRefs = false,
                 equipmentInstancesRefs = false,
+                departmentsRefs = false,
                 usersRefs = false,
                 suppliersRefs = false,
                 taskSubmissionsRefs = false,
@@ -14881,6 +15356,7 @@ class $$SitesTableTableManager
                   explicitlyWatchedTables: [
                     if (areasRefs) db.areas,
                     if (equipmentInstancesRefs) db.equipmentInstances,
+                    if (departmentsRefs) db.departments,
                     if (usersRefs) db.users,
                     if (suppliersRefs) db.suppliers,
                     if (taskSubmissionsRefs) db.taskSubmissions,
@@ -14959,6 +15435,27 @@ class $$SitesTableTableManager
                                 table,
                                 p0,
                               ).equipmentInstancesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (departmentsRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          DepartmentEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._departmentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).departmentsRefs,
                           referencedItemsForCurrentItem:
                               (item, referencedItems) => referencedItems.where(
                                 (e) => e.siteId == item.id,
@@ -15216,6 +15713,7 @@ typedef $$SitesTableProcessedTableManager =
         bool organisationId,
         bool areasRefs,
         bool equipmentInstancesRefs,
+        bool departmentsRefs,
         bool usersRefs,
         bool suppliersRefs,
         bool taskSubmissionsRefs,
@@ -16319,6 +16817,404 @@ typedef $$EquipmentInstancesTableProcessedTableManager =
         bool taskSchedulesRefs,
       })
     >;
+typedef $$DepartmentsTableCreateCompanionBuilder =
+    DepartmentsCompanion Function({
+      Value<int> id,
+      required String name,
+      Value<int?> siteId,
+      Value<bool> active,
+      required DateTime createdAt,
+    });
+typedef $$DepartmentsTableUpdateCompanionBuilder =
+    DepartmentsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<int?> siteId,
+      Value<bool> active,
+      Value<DateTime> createdAt,
+    });
+
+final class $$DepartmentsTableReferences
+    extends BaseReferences<_$AppDatabase, $DepartmentsTable, DepartmentEntity> {
+  $$DepartmentsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('departments__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$UsersTable, List<UserEntity>> _usersRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.users,
+    aliasName: 'departments__id__users__department_id',
+  );
+
+  $$UsersTableProcessedTableManager get usersRefs {
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.departmentId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_usersRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$DepartmentsTableFilterComposer
+    extends Composer<_$AppDatabase, $DepartmentsTable> {
+  $$DepartmentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> usersRefs(
+    Expression<bool> Function($$UsersTableFilterComposer f) f,
+  ) {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.departmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$DepartmentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $DepartmentsTable> {
+  $$DepartmentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DepartmentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DepartmentsTable> {
+  $$DepartmentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> usersRefs<T extends Object>(
+    Expression<T> Function($$UsersTableAnnotationComposer a) f,
+  ) {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.departmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$DepartmentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DepartmentsTable,
+          DepartmentEntity,
+          $$DepartmentsTableFilterComposer,
+          $$DepartmentsTableOrderingComposer,
+          $$DepartmentsTableAnnotationComposer,
+          $$DepartmentsTableCreateCompanionBuilder,
+          $$DepartmentsTableUpdateCompanionBuilder,
+          (DepartmentEntity, $$DepartmentsTableReferences),
+          DepartmentEntity,
+          PrefetchHooks Function({bool siteId, bool usersRefs})
+        > {
+  $$DepartmentsTableTableManager(_$AppDatabase db, $DepartmentsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DepartmentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DepartmentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DepartmentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => DepartmentsCompanion(
+                id: id,
+                name: name,
+                siteId: siteId,
+                active: active,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                Value<int?> siteId = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                required DateTime createdAt,
+              }) => DepartmentsCompanion.insert(
+                id: id,
+                name: name,
+                siteId: siteId,
+                active: active,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DepartmentsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false, usersRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (usersRefs) db.users],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable: $$DepartmentsTableReferences
+                                    ._siteIdTable(db),
+                                referencedColumn: $$DepartmentsTableReferences
+                                    ._siteIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (usersRefs)
+                    await $_getPrefetchedData<
+                      DepartmentEntity,
+                      $DepartmentsTable,
+                      UserEntity
+                    >(
+                      currentTable: table,
+                      referencedTable: $$DepartmentsTableReferences
+                          ._usersRefsTable(db),
+                      managerFromTypedResult: (p0) =>
+                          $$DepartmentsTableReferences(db, table, p0).usersRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where(
+                            (e) => e.departmentId == item.id,
+                          ),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$DepartmentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DepartmentsTable,
+      DepartmentEntity,
+      $$DepartmentsTableFilterComposer,
+      $$DepartmentsTableOrderingComposer,
+      $$DepartmentsTableAnnotationComposer,
+      $$DepartmentsTableCreateCompanionBuilder,
+      $$DepartmentsTableUpdateCompanionBuilder,
+      (DepartmentEntity, $$DepartmentsTableReferences),
+      DepartmentEntity,
+      PrefetchHooks Function({bool siteId, bool usersRefs})
+    >;
 typedef $$UsersTableCreateCompanionBuilder =
     UsersCompanion Function({
       Value<int> id,
@@ -16333,6 +17229,7 @@ typedef $$UsersTableCreateCompanionBuilder =
       Value<DateTime?> deactivatedAt,
       Value<int?> deactivatedByUserId,
       Value<String?> jobRole,
+      Value<int?> departmentId,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
     UsersCompanion Function({
@@ -16348,6 +17245,7 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<DateTime?> deactivatedAt,
       Value<int?> deactivatedByUserId,
       Value<String?> jobRole,
+      Value<int?> departmentId,
     });
 
 final class $$UsersTableReferences
@@ -16382,6 +17280,23 @@ final class $$UsersTableReferences
       $_db.users,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_deactivatedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $DepartmentsTable _departmentIdTable(_$AppDatabase db) =>
+      db.departments.createAlias('users__department_id__departments__id');
+
+  $$DepartmentsTableProcessedTableManager? get departmentId {
+    final $_column = $_itemColumn<int>('department_id');
+    if ($_column == null) return null;
+    final manager = $$DepartmentsTableTableManager(
+      $_db,
+      $_db.departments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_departmentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -16638,6 +17553,29 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$UsersTableFilterComposer(
             $db: $db,
             $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DepartmentsTableFilterComposer get departmentId {
+    final $$DepartmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.departments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -16927,6 +17865,29 @@ class $$UsersTableOrderingComposer
     );
     return composer;
   }
+
+  $$DepartmentsTableOrderingComposer get departmentId {
+    final $$DepartmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$UsersTableAnnotationComposer
@@ -17009,6 +17970,29 @@ class $$UsersTableAnnotationComposer
           }) => $$UsersTableAnnotationComposer(
             $db: $db,
             $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DepartmentsTableAnnotationComposer get departmentId {
+    final $$DepartmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.departments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -17214,6 +18198,7 @@ class $$UsersTableTableManager
           PrefetchHooks Function({
             bool siteId,
             bool deactivatedByUserId,
+            bool departmentId,
             bool taskSubmissionsRefs,
             bool legalLimitReferencesRefs,
             bool taskTemplatesRefs,
@@ -17248,6 +18233,7 @@ class $$UsersTableTableManager
                 Value<DateTime?> deactivatedAt = const Value.absent(),
                 Value<int?> deactivatedByUserId = const Value.absent(),
                 Value<String?> jobRole = const Value.absent(),
+                Value<int?> departmentId = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
                 name: name,
@@ -17261,6 +18247,7 @@ class $$UsersTableTableManager
                 deactivatedAt: deactivatedAt,
                 deactivatedByUserId: deactivatedByUserId,
                 jobRole: jobRole,
+                departmentId: departmentId,
               ),
           createCompanionCallback:
               ({
@@ -17276,6 +18263,7 @@ class $$UsersTableTableManager
                 Value<DateTime?> deactivatedAt = const Value.absent(),
                 Value<int?> deactivatedByUserId = const Value.absent(),
                 Value<String?> jobRole = const Value.absent(),
+                Value<int?> departmentId = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
                 name: name,
@@ -17289,6 +18277,7 @@ class $$UsersTableTableManager
                 deactivatedAt: deactivatedAt,
                 deactivatedByUserId: deactivatedByUserId,
                 jobRole: jobRole,
+                departmentId: departmentId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -17300,6 +18289,7 @@ class $$UsersTableTableManager
               ({
                 siteId = false,
                 deactivatedByUserId = false,
+                departmentId = false,
                 taskSubmissionsRefs = false,
                 legalLimitReferencesRefs = false,
                 taskTemplatesRefs = false,
@@ -17357,6 +18347,19 @@ class $$UsersTableTableManager
                                         ._deactivatedByUserIdTable(db),
                                     referencedColumn: $$UsersTableReferences
                                         ._deactivatedByUserIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (departmentId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.departmentId,
+                                    referencedTable: $$UsersTableReferences
+                                        ._departmentIdTable(db),
+                                    referencedColumn: $$UsersTableReferences
+                                        ._departmentIdTable(db)
                                         .id,
                                   )
                                   as T;
@@ -17536,6 +18539,7 @@ typedef $$UsersTableProcessedTableManager =
       PrefetchHooks Function({
         bool siteId,
         bool deactivatedByUserId,
+        bool departmentId,
         bool taskSubmissionsRefs,
         bool legalLimitReferencesRefs,
         bool taskTemplatesRefs,
@@ -27894,6 +28898,8 @@ class $AppDatabaseManager {
       $$AreasTableTableManager(_db, _db.areas);
   $$EquipmentInstancesTableTableManager get equipmentInstances =>
       $$EquipmentInstancesTableTableManager(_db, _db.equipmentInstances);
+  $$DepartmentsTableTableManager get departments =>
+      $$DepartmentsTableTableManager(_db, _db.departments);
   $$UsersTableTableManager get users =>
       $$UsersTableTableManager(_db, _db.users);
   $$SuppliersTableTableManager get suppliers =>

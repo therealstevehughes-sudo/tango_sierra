@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../shared/models/department.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/department_providers.dart';
 import 'training_records_screen.dart';
 
-enum _StaffAction { changeTier, resetPin, toggleActive, trainingRecords }
+enum _StaffAction {
+  changeTier,
+  changeDepartment,
+  resetPin,
+  toggleActive,
+  trainingRecords,
+}
 
 class StaffManagementScreen extends ConsumerStatefulWidget {
   const StaffManagementScreen({super.key});
@@ -19,6 +27,10 @@ class _StaffManagementScreenState
     extends ConsumerState<StaffManagementScreen> {
   bool loading = true;
   List<User> staff = [];
+  // Keyed by department id, populated from every site any loaded staff
+  // member belongs to — Staff Management isn't itself site-filtered yet
+  // (a pre-existing, separately logged gap), so this can't assume one site.
+  Map<int, Department> departmentsById = {};
 
   @override
   void initState() {
@@ -30,9 +42,19 @@ class _StaffManagementScreenState
     final repo = ref.read(userRepositoryProvider);
     final loaded = await repo.getAll();
 
+    final departmentRepo = ref.read(departmentRepositoryProvider);
+    final byId = <int, Department>{};
+    for (final siteId in loaded.map((u) => u.siteId).toSet()) {
+      final departments = await departmentRepo.getForSite(siteId);
+      for (final department in departments) {
+        byId[department.id!] = department;
+      }
+    }
+
     if (!mounted) return;
     setState(() {
       staff = loaded;
+      departmentsById = byId;
       loading = false;
     });
   }
@@ -126,6 +148,72 @@ class _StaffManagementScreenState
     await _loadData();
   }
 
+  Future<void> _changeDepartment(User user) async {
+    final departmentRepo = ref.read(departmentRepositoryProvider);
+    final siteDepartments = await departmentRepo.getForSite(user.siteId);
+
+    // If the user's current department was since deactivated, it still
+    // needs to appear as a selectable option so the dialog can show the
+    // real current value without silently dropping it from the list —
+    // same "never silently disappear" principle used elsewhere.
+    final currentDepartment = user.departmentId == null
+        ? null
+        : departmentsById[user.departmentId];
+    final options = [
+      ...siteDepartments,
+      if (currentDepartment != null &&
+          !siteDepartments.any((d) => d.id == currentDepartment.id))
+        currentDepartment,
+    ];
+
+    if (!mounted) return;
+
+    var selected = user.departmentId;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text('Change Department — ${user.name}'),
+          content: DropdownButtonFormField<int?>(
+            initialValue: selected,
+            decoration: const InputDecoration(labelText: 'Department'),
+            items: [
+              const DropdownMenuItem<int?>(
+                value: null,
+                child: Text('No department'),
+              ),
+              ...options.map(
+                (d) => DropdownMenuItem<int?>(
+                  value: d.id,
+                  child: Text(d.active ? d.name : '${d.name} (inactive)'),
+                ),
+              ),
+            ],
+            onChanged: (value) => setDialogState(() => selected = value),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Save'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (confirmed != true || selected == user.departmentId) return;
+
+    final repo = ref.read(userRepositoryProvider);
+    await repo.changeDepartment(userId: user.id, departmentId: selected);
+
+    if (!mounted) return;
+    await _loadData();
+  }
+
   Future<void> _deactivate(User user) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -188,8 +276,12 @@ class _StaffManagementScreenState
 
   Widget _buildStaffTile(User user) {
     final deactivatedBy = _deactivatedByName(user);
+    final department = user.departmentId == null
+        ? null
+        : departmentsById[user.departmentId];
     final subtitleParts = <String>[
       '${user.jobTitle} · ${roleTierDisplayName(user.roleTier)}',
+      if (department != null) department.name,
       if (!user.active) '(deactivated)',
       if (!user.active && user.deactivatedAt != null && deactivatedBy != null)
         'on ${user.deactivatedAt!.toLocal().toString().split('.').first} '
@@ -213,6 +305,8 @@ class _StaffManagementScreenState
             switch (action) {
               case _StaffAction.changeTier:
                 _changeRoleTier(user);
+              case _StaffAction.changeDepartment:
+                _changeDepartment(user);
               case _StaffAction.resetPin:
                 _resetPin(user);
               case _StaffAction.toggleActive:
@@ -230,6 +324,10 @@ class _StaffManagementScreenState
             const PopupMenuItem(
               value: _StaffAction.changeTier,
               child: Text('Change Tier'),
+            ),
+            const PopupMenuItem(
+              value: _StaffAction.changeDepartment,
+              child: Text('Change Department'),
             ),
             const PopupMenuItem(
               value: _StaffAction.resetPin,

@@ -53,6 +53,11 @@ class User {
   final bool active;
   final DateTime? deactivatedAt;
   final int? deactivatedByUserId;
+  // Departments (Sprint 031, Build Order item 5, Sub-sprint B). Nullable
+  // and genuinely optional — not every venue or every staff member has one
+  // assigned. Distinct from jobRole ("what you do") and roleTier ("how much
+  // you can see/escalate to") — this is "which part of the venue."
+  final int? departmentId;
 
   const User({
     required this.id,
@@ -65,5 +70,6 @@ class User {
     this.active = true,
     this.deactivatedAt,
     this.deactivatedByUserId,
+    this.departmentId,
   });
 }

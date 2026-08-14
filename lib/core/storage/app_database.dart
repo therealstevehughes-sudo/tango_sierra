@@ -82,6 +82,11 @@ class Users extends Table {
   // JobRole.everyone (see job_role.dart) — that value only applies to
   // TaskTemplate.
   TextColumn get jobRole => text().nullable()();
+  // Departments (Sprint 031, Build Order item 5, Sub-sprint B) — nullable
+  // and genuinely optional (approved explicitly, not every venue or every
+  // staff member needs one assigned), distinct from jobRole/roleTier above.
+  IntColumn get departmentId =>
+      integer().nullable().references(Departments, #id)();
 }
 
 @DataClassName('EquipmentTypeEntity')
@@ -241,6 +246,23 @@ class Suppliers extends Table {
   TextColumn get customCategoryTitle => text().nullable()();
   TextColumn get approvalStatus => text()();
   TextColumn get approvalNote => text().nullable()();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
+// Departments (Sprint 031, Build Order item 5, Sub-sprint B) — a
+// venue-defined grouping (Kitchen, Housekeeping, Reception, ...), set up
+// per-venue rather than a fixed enum. Distinct from both a user's jobRole
+// ("what you do") and roleTier ("how much you can see/escalate to") — this
+// is "which part of the venue." Editable, not append-only: mirrors
+// Suppliers' shape (siteId + active + createdAt), not TaskTemplate's
+// versioning rule — a department being renamed or deactivated is live
+// operational data, not a compliance record needing a version history.
+@DataClassName('DepartmentEntity')
+class Departments extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
   DateTimeColumn get createdAt => dateTime()();
@@ -526,6 +548,7 @@ class _LibraryPreset {
     TaskSchedules,
     TrainingRecords,
     Suppliers,
+    Departments,
     ShiftHandoverNotes,
     SessionSummaries,
     NotificationRules,
@@ -546,7 +569,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 29;
+  int get schemaVersion => 30;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -830,6 +853,13 @@ class AppDatabase extends _$AppDatabase {
           taskTemplates.requiresSupplierSelection,
         );
         await m.addColumn(taskSubmissions, taskSubmissions.supplierId);
+      }
+      if (from < 30) {
+        // Departments (Sprint 031, Build Order item 5, Sub-sprint B) — new
+        // venue-scoped table, plus a nullable link from Users. No backfill:
+        // genuinely optional, not every venue/staff member needs one.
+        await m.createTable(departments);
+        await m.addColumn(users, users.departmentId);
       }
     },
     beforeOpen: (details) async {
