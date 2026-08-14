@@ -16,6 +16,12 @@ class TaskSubmission {
   final int siteId;
   final String? correctiveActionOutcome;
   final String? correctiveActionNote;
+  // Supplier register + traceability (Sprint 031, finalized beta build
+  // order item 4, Sub-sprint B) — which supplier a delivery-related
+  // submission came from, one-step-back trace. Optional: not every
+  // submission is delivery-related, and even on ones that are, the worker
+  // isn't blocked from submitting without picking one.
+  final int? supplierId;
 
   const TaskSubmission({
     this.id,
@@ -35,5 +41,6 @@ class TaskSubmission {
     required this.siteId,
     this.correctiveActionOutcome,
     this.correctiveActionNote,
+    this.supplierId,
   });
 }

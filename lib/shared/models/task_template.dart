@@ -37,6 +37,10 @@ class TaskTemplate {
   // enrichment doc doesn't cover).
   final JobRole? jobRole;
   final String? guidanceText;
+  // Supplier register + traceability (Sprint 031, finalized beta build
+  // order item 4, Sub-sprint B) — true only on "Supplier traceability
+  // captured"; task_screen.dart shows a supplier picker when set.
+  final bool requiresSupplierSelection;
 
   // Null on rows created before Sprint 023 (can't be reconstructed from
   // isCritical without guessing high vs. standard); falls back to the
@@ -69,5 +73,6 @@ class TaskTemplate {
     this.priority,
     this.jobRole,
     this.guidanceText,
+    this.requiresSupplierSelection = false,
   });
 }

@@ -40,6 +40,16 @@ class TaskSubmissions extends Table {
   // `requiresNotes` flag.
   TextColumn get correctiveActionOutcome => text().nullable()();
   TextColumn get correctiveActionNote => text().nullable()();
+  // Supplier register + traceability (Sprint 031, finalized beta build
+  // order item 4, Sub-sprint B) — one-step-back trace: which supplier a
+  // delivery-related submission came from. Set per-submission via a
+  // dropdown (not inherited from TaskSchedule the way equipmentInstanceId
+  // is — a schedule is fixed to one piece of equipment, but a different
+  // supplier delivers each time). Nullable and optional: the worker can
+  // submit without picking one, same "never block the kitchen running"
+  // principle as the approval-status warning elsewhere in this feature.
+  IntColumn get supplierId =>
+      integer().nullable().references(Suppliers, #id)();
 }
 
 @DataClassName('UserEntity')
@@ -151,6 +161,15 @@ class TaskTemplates extends Table {
   // by templateGroupId, so the enriched version applies automatically.
   TextColumn get jobRole => text().nullable()();
   TextColumn get guidanceText => text().nullable()();
+  // Supplier register + traceability (Sprint 031, finalized beta build
+  // order item 4, Sub-sprint B): true only on "Supplier traceability
+  // captured" (deliveries_goods_in) — task_screen.dart shows a supplier
+  // picker when set. Starts false on every existing row via this column's
+  // default; applied to that one template as a NEW VERSION (never an
+  // in-place UPDATE) via `_ensureSupplierTraceabilityFlag`, same
+  // append-only pattern `_ensureTaskEnrichment` already established above.
+  BoolColumn get requiresSupplierSelection =>
+      boolean().withDefault(const Constant(false))();
 }
 
 @DataClassName('AreaEntity')
@@ -527,7 +546,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 28;
+  int get schemaVersion => 29;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -798,6 +817,20 @@ class AppDatabase extends _$AppDatabase {
         // doc comment for why). New table, no backfill needed.
         await m.createTable(suppliers);
       }
+      if (from < 29) {
+        // Delivery traceability link (Sprint 031, finalized beta build
+        // order item 4, Sub-sprint B). requiresSupplierSelection starts
+        // false on every existing TaskTemplate row here —
+        // `_ensureSupplierTraceabilityFlag` (run from beforeOpen below)
+        // sets it true on "Supplier traceability captured" via a new
+        // version row, not this migration, to respect the append-only
+        // versioning rule for TaskTemplate specifically.
+        await m.addColumn(
+          taskTemplates,
+          taskTemplates.requiresSupplierSelection,
+        );
+        await m.addColumn(taskSubmissions, taskSubmissions.supplierId);
+      }
     },
     beforeOpen: (details) async {
       // Runs first — user seeding below needs a real site id to seed into.
@@ -874,6 +907,12 @@ class AppDatabase extends _$AppDatabase {
       // rule). Must run after all 6 cluster loads, since it enriches
       // templates they create.
       await _ensureTaskEnrichment();
+
+      // Idempotent, checked by title/current-version + the flag itself —
+      // same pattern as _ensureTaskEnrichment just above. Supplier
+      // register + traceability (Sprint 031, finalized beta build order
+      // item 4, Sub-sprint B).
+      await _ensureSupplierTraceabilityFlag();
 
       // Idempotent — safe on every open. Only touches rows left over from
       // before siteId existed (nothing to do on a fresh install).
@@ -4459,6 +4498,82 @@ class AppDatabase extends _$AppDatabase {
         ),
       );
     }
+  }
+
+  // Supplier register + traceability (Sprint 031, finalized beta build
+  // order item 4, Sub-sprint B) — mirrors `_ensureTaskEnrichment` exactly:
+  // applies the new field to the one existing template row it belongs on
+  // (deliveries_goods_in's "Supplier traceability captured") as a NEW
+  // VERSION, never an in-place UPDATE, per TaskTemplate's append-only
+  // versioning rule.
+  //
+  // ALSO widens applicableRoleTiers to include `base` here — a real,
+  // pre-existing gap found live-testing this sub-sprint, not something it
+  // introduced: app.dart routes supervisor/venueManager tier logins
+  // straight to ManagerScreen with no path back to TaskScreen, so a task
+  // tiered to supervisor/venueManager-only (as this one originally was,
+  // from the Sprint 030 library load) can never actually be completed by
+  // anyone. Confirmed "Reconciled to order/invoice" has the identical
+  // problem — deliberately NOT touched here, out of scope for this
+  // sub-sprint; the broader routing gap is logged in DECISIONS_LOG as a
+  // follow-up, this is a targeted workaround for the one task this
+  // sub-sprint's own dropdown depends on being testable/usable at all.
+  Future<void> _ensureSupplierTraceabilityFlag() async {
+    final allRows = await select(taskTemplates).get();
+    final referencedAsPrevious = allRows
+        .map((r) => r.previousVersionId)
+        .whereType<int>()
+        .toSet();
+    final currentByTitle = {
+      for (final row in allRows)
+        if (!referencedAsPrevious.contains(row.id)) row.title: row,
+    };
+
+    final current = currentByTitle['Supplier traceability captured'];
+    if (current == null) return;
+
+    final tiers = current.applicableRoleTiers
+        .split(',')
+        .where((s) => s.isNotEmpty)
+        .toList();
+    final needsBaseTier = !tiers.contains('base');
+    final needsFlag = !current.requiresSupplierSelection;
+    if (!needsBaseTier && !needsFlag) return;
+
+    final newTiers = needsBaseTier
+        ? [...tiers, 'base'].join(',')
+        : current.applicableRoleTiers;
+
+    await into(taskTemplates).insert(
+      TaskTemplatesCompanion.insert(
+        templateGroupId: current.templateGroupId,
+        versionNumber: current.versionNumber + 1,
+        previousVersionId: Value(current.id),
+        title: current.title,
+        segment: current.segment,
+        applicableRoleTiers: newTiers,
+        method: current.method,
+        requiresPhoto: Value(current.requiresPhoto),
+        requiresNotes: Value(current.requiresNotes),
+        customFieldsJson: Value(current.customFieldsJson),
+        minLimit: Value(current.minLimit),
+        maxLimit: Value(current.maxLimit),
+        unit: Value(current.unit),
+        legalLimitCategory: Value(current.legalLimitCategory),
+        isCritical: Value(current.isCritical),
+        priority: Value(current.priority),
+        requiresCorrectiveActionOnFail: Value(
+          current.requiresCorrectiveActionOnFail,
+        ),
+        fixInstructions: Value(current.fixInstructions),
+        equipmentTypeId: Value(current.equipmentTypeId),
+        createdAt: DateTime.now(),
+        createdByUserId: Value(current.createdByUserId),
+        jobRole: Value(current.jobRole),
+        guidanceText: Value(current.guidanceText),
+        requiresSupplierSelection: const Value(true),
+      ),
+    );
   }
 
   Future<void> _backfillSiteIds(int siteId) async {

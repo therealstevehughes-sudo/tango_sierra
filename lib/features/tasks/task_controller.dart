@@ -107,6 +107,7 @@ class TaskController {
           overdueSince: dueResult.overdueSince,
           windowStartMinutes: schedule.windowStartMinutes,
           windowEndMinutesExclusive: schedule.windowEndMinutesExclusive,
+          requiresSupplierSelection: template.requiresSupplierSelection,
         ),
       );
     }
@@ -221,6 +222,7 @@ class TaskController {
     String? customFieldValuesJson,
     String? correctiveActionOutcome,
     String? correctiveActionNote,
+    int? supplierId,
   }) async {
     final submissionId = await _submissionRepository.submit(
       TaskSubmission(
@@ -239,6 +241,7 @@ class TaskController {
         siteId: _currentUser.siteId,
         correctiveActionOutcome: correctiveActionOutcome,
         correctiveActionNote: correctiveActionNote,
+        supplierId: supplierId,
       ),
     );
 

@@ -9,14 +9,17 @@ import 'package:pdf/widgets.dart' as pw;
 
 import '../../core/utils/date_format.dart';
 import '../../shared/models/site.dart';
+import '../../shared/models/supplier.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/training_record.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/training_record_providers.dart';
 import '../../shared/repositories/site_repository.dart';
+import '../../shared/repositories/supplier_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
 import '../../shared/repositories/task_template_repository.dart';
 import '../../shared/repositories/training_record_repository.dart';
@@ -59,6 +62,38 @@ class _ExpiredTrainingEntry {
   final DateTime expiredAt;
 }
 
+// Not-completed grouping (found live-testing: one abandoned session can
+// create dozens of individual NOT_COMPLETED rows, all sharing the exact
+// same completedAt timestamp — the moment of exit — since
+// TaskController.logRemainingAsNotCompleted logs everything remaining in
+// one pass). Grouping by (staffName, completedAt) is a correct summary of
+// a real event, not a heuristic: every row in a group genuinely happened
+// at the same moment for the same reason.
+class _NotCompletedGroup {
+  _NotCompletedGroup({required this.staffName, required this.sessionEndedAt})
+    : taskCount = 1;
+
+  final String staffName;
+  final DateTime sessionEndedAt;
+  int taskCount;
+}
+
+class _FlaggedDeliveryEntry {
+  const _FlaggedDeliveryEntry({
+    required this.completedAt,
+    required this.taskTitle,
+    required this.staffName,
+    required this.supplierName,
+    required this.approvalStatus,
+  });
+
+  final DateTime completedAt;
+  final String taskTitle;
+  final String staffName;
+  final String supplierName;
+  final SupplierApprovalStatus approvalStatus;
+}
+
 class EhoExportService {
   EhoExportService(
     this._submissionRepository,
@@ -67,12 +102,14 @@ class EhoExportService {
     this._overdueSummaryService,
     this._trainingRecordRepository,
     this._userRepository,
+    this._supplierRepository,
   );
 
   final TaskSubmissionRepository _submissionRepository;
   final TaskTemplateRepository _templateRepository;
   final SiteRepository _siteRepository;
   final OverdueSummaryService _overdueSummaryService;
+  final SupplierRepository _supplierRepository;
   final TrainingRecordRepository _trainingRecordRepository;
   final UserRepository _userRepository;
 
@@ -179,6 +216,43 @@ class EhoExportService {
       }
     }
 
+    // Supplier register + traceability (Sprint 031, finalized beta build
+    // order item 4, Sub-sprint B) — a due-diligence tally (active suppliers
+    // by approval status) plus a flagged-deliveries subsection for any
+    // submission in this date range that named a pending/suspended
+    // supplier. Same "never silently hidden" treatment as expired training.
+    final allSuppliers = await _supplierRepository.getForSite(siteId);
+    final activeSuppliers = allSuppliers.where((s) => s.active).toList();
+    final suppliersById = {for (final s in allSuppliers) s.id: s};
+    final approvedSupplierCount = activeSuppliers
+        .where((s) => s.approvalStatus == SupplierApprovalStatus.approved)
+        .length;
+    final pendingSupplierCount = activeSuppliers
+        .where((s) => s.approvalStatus == SupplierApprovalStatus.pending)
+        .length;
+    final suspendedSupplierCount = activeSuppliers
+        .where((s) => s.approvalStatus == SupplierApprovalStatus.suspended)
+        .length;
+
+    final flaggedDeliveries = <_FlaggedDeliveryEntry>[];
+    for (final submission in submissions) {
+      if (submission.supplierId == null) continue;
+      final supplier = suppliersById[submission.supplierId];
+      if (supplier == null ||
+          supplier.approvalStatus == SupplierApprovalStatus.approved) {
+        continue;
+      }
+      flaggedDeliveries.add(
+        _FlaggedDeliveryEntry(
+          completedAt: submission.completedAt,
+          taskTitle: submission.taskTitle,
+          staffName: submission.completedBy,
+          supplierName: supplier.name,
+          approvalStatus: supplier.approvalStatus,
+        ),
+      );
+    }
+
     final bySegment = <String, List<TaskSubmission>>{};
     for (final submission in submissions) {
       final segment =
@@ -201,20 +275,61 @@ class EhoExportService {
       theme: pw.ThemeData.withFont(base: font, bold: font),
     );
 
-    doc.addPage(
-      pw.MultiPage(
-        // Space efficiency: full header only on page 1, one condensed
-        // line on every page after — a multi-page compliance record
-        // shouldn't spend real estate re-stating the same block on
-        // every page.
+    // Resilience (found live-testing: a wide date range + heavy test-data
+    // churn produced 81 submissions, pushing the full detailed log past the
+    // `pdf` package's MultiPage page-count safety cap and throwing
+    // PdfTooBigPageException with NOTHING saved at all — not even the
+    // summary, the part an inspector actually reads). Two fixes, kept
+    // together deliberately (see DECISIONS_LOG.md for the full source-code
+    // investigation):
+    //   1. Root cause: `pdf` 3.13.0's `Table` widget (`table.dart`) has
+    //      `bool get hasMoreWidgets => true` hardcoded — a Table never
+    //      correctly signals to MultiPage that it has finished spanning
+    //      across pages, so a table needing genuine multi-page continuation
+    //      (our 56-row Not-Completed table did; no single segment table did)
+    //      makes MultiPage allocate blank pages forever until it hits the
+    //      cap. `TableHelper.fromTextArray` does NOT fix this — verified in
+    //      source, it constructs the identical Table class. The real fix is
+    //      `_chunkedTable` below: never let a single Table need to span more
+    //      than one page in the first place.
+    //   2. Even with chunking, some future pathological volume could still
+    //      overflow — Block A (limitations + Summary + Exceptions, what an
+    //      inspector actually reads) must never be lost to that. Verified in
+    //      source that `Document.addPage` commits a MultiPage's pages
+    //      directly into the real PdfDocument as it lays out, with no
+    //      rollback if it later throws — so a plain try/catch around
+    //      `doc.addPage(...)` leaves the failed attempt's blank pages
+    //      behind. Fixed by attempting each block in a throwaway `Document`
+    //      first; only on success is an equivalent fresh widget (MultiPage
+    //      keeps mutable state on itself between calls — confirmed via
+    //      source, `_pages` is an instance field — so the exact same widget
+    //      instance can't safely be reused; each attempt gets its own via
+    //      the builder closures) added to the real output document.
+    const maxPages = 150;
+
+    void addResilientPage(
+      pw.Document target,
+      pw.MultiPage Function() build,
+      pw.MultiPage Function() fallback, {
+      bool Function(Object error)? isRecoverable,
+    }) {
+      final scratch = pw.Document();
+      try {
+        scratch.addPage(build());
+      } catch (e) {
+        if (isRecoverable != null && !isRecoverable(e)) rethrow;
+        target.addPage(fallback());
+        return;
+      }
+      target.addPage(build());
+    }
+
+    addResilientPage(
+      doc,
+      () => pw.MultiPage(
+        maxPages: maxPages,
         header: (context) => context.pageNumber == 1
-            ? _buildFullHeader(
-                siteName,
-                site?.address,
-                start,
-                end,
-                generatedByName,
-              )
+            ? _buildFullHeader(siteName, site?.address, start, end, generatedByName)
             : _buildCondensedHeader(siteName, start, end),
         build: (context) => [
           _buildLimitationsNotice(),
@@ -233,6 +348,10 @@ class EhoExportService {
             trainingCurrentCount: trainingCurrentCount,
             trainingExpiringSoonCount: trainingExpiringSoonCount,
             trainingExpiredCount: trainingExpiredCount,
+            activeSupplierCount: activeSuppliers.length,
+            approvedSupplierCount: approvedSupplierCount,
+            pendingSupplierCount: pendingSupplierCount,
+            suspendedSupplierCount: suspendedSupplierCount,
           ),
           pw.SizedBox(height: 12),
           _buildExceptionsSection(
@@ -240,15 +359,35 @@ class EhoExportService {
             notCompletedEntries: notCompletedEntries,
             outstanding: outstanding,
             expiredTraining: expiredTraining,
+            flaggedDeliveries: flaggedDeliveries,
           ),
-          if (includeFullLog) ...[
-            pw.SizedBox(height: 16),
+        ],
+      ),
+      () => pw.MultiPage(
+        maxPages: maxPages,
+        header: (context) => _buildCondensedHeader(siteName, start, end),
+        build: (context) => [
+          pw.Text(
+            'Export summary could not be generated for this date range — '
+            'narrow the date range and try again.',
+          ),
+        ],
+      ),
+    );
+
+    if (includeFullLog) {
+      addResilientPage(
+        doc,
+        () => pw.MultiPage(
+          maxPages: maxPages,
+          // Always condensed — this block is a continuation of Block A
+          // above, never really "page 1" of the export, even though
+          // MultiPage restarts its own internal page numbering here.
+          header: (context) => _buildCondensedHeader(siteName, start, end),
+          build: (context) => [
             pw.Text(
               'Full Detailed Log',
-              style: pw.TextStyle(
-                fontSize: 16,
-                fontWeight: pw.FontWeight.bold,
-              ),
+              style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
             ),
             pw.SizedBox(height: 4),
             if (sortedSegments.isEmpty)
@@ -261,9 +400,33 @@ class EhoExportService {
               pw.SizedBox(height: 6),
             ],
           ],
-        ],
-      ),
-    );
+        ),
+        () => pw.MultiPage(
+          maxPages: maxPages,
+          header: (context) => _buildCondensedHeader(siteName, start, end),
+          build: (context) => [
+            pw.Text(
+              'Full Detailed Log — omitted',
+              style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 4),
+            pw.Text(
+              'This date range has too much activity to list in full '
+              '(${sortedSegments.length} segments, ${submissions.length} '
+              'records). Narrow the date range and regenerate, or leave '
+              '"Include full detailed log" unchecked for the summary '
+              'view above.',
+            ),
+          ],
+        ),
+        // All-or-nothing per block, deliberately — the pdf package has no
+        // "here's what fit" callback, so a real partial cutoff would mean
+        // hand-rolling pagination prediction. A clear notice beats a table
+        // stopping mid-row. Only catch the specific page-cap exception here
+        // — anything else is a real bug that should still surface.
+        isRecoverable: (e) => e is PdfTooBigPageException,
+      );
+    }
 
     final documentsDir = await getApplicationDocumentsDirectory();
     final exportsDir = Directory(
@@ -375,6 +538,10 @@ class EhoExportService {
     required int trainingCurrentCount,
     required int trainingExpiringSoonCount,
     required int trainingExpiredCount,
+    required int activeSupplierCount,
+    required int approvedSupplierCount,
+    required int pendingSupplierCount,
+    required int suspendedSupplierCount,
   }) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -407,6 +574,11 @@ class EhoExportService {
           '$trainingExpiringSoonCount expiring within 30 days, '
           '$trainingExpiredCount expired.',
         ),
+        pw.Text(
+          'Supplier due diligence: $activeSupplierCount active suppliers, '
+          '$approvedSupplierCount approved, $pendingSupplierCount pending, '
+          '$suspendedSupplierCount suspended.',
+        ),
         pw.SizedBox(height: 6),
         pw.Text(
           'Management review / oversight evidence',
@@ -438,6 +610,7 @@ class EhoExportService {
     required List<TaskSubmission> notCompletedEntries,
     required List<OverdueSummaryEntry> outstanding,
     required List<_ExpiredTrainingEntry> expiredTraining,
+    required List<_FlaggedDeliveryEntry> flaggedDeliveries,
   }) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -469,7 +642,22 @@ class EhoExportService {
             style: const pw.TextStyle(fontStyle: pw.FontStyle.italic),
           )
         else
-          _buildExceptionTable(notCompletedEntries, showCorrectiveAction: false),
+          // Grouped by (staff, exact exit timestamp) — every row in a
+          // group genuinely happened at the same moment for the same
+          // reason (TaskController.logRemainingAsNotCompleted logs
+          // everything remaining in one pass on exit), so this is a
+          // correct summary of one real event, not a heuristic. Found
+          // live-testing: one abandoned 20-task session otherwise produced
+          // 16+ individual rows — noisy for an inspector to read and part
+          // of what pushed a real table into needing multi-page spanning.
+          for (final group in _groupNotCompleted(notCompletedEntries))
+            pw.Text(
+              '  - ${group.staffName}: session ended '
+              '${formatDateTime(group.sessionEndedAt)} — '
+              '${group.taskCount} task${group.taskCount == 1 ? '' : 's'} '
+              'not completed',
+              style: const pw.TextStyle(color: PdfColors.grey700),
+            ),
         pw.SizedBox(height: 8),
         pw.Text(
           'Training expired',
@@ -488,50 +676,121 @@ class EhoExportService {
               style: const pw.TextStyle(color: PdfColors.red800),
             ),
         pw.SizedBox(height: 8),
+        pw.Text(
+          'Deliveries from an unapproved supplier',
+          style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+        ),
+        if (flaggedDeliveries.isEmpty)
+          pw.Text(
+            'None.',
+            style: const pw.TextStyle(fontStyle: pw.FontStyle.italic),
+          )
+        else
+          for (final entry in flaggedDeliveries)
+            pw.Text(
+              '  - ${formatDateTime(entry.completedAt)}: ${entry.taskTitle} '
+              '(${entry.staffName}) — ${entry.supplierName} '
+              '(${supplierApprovalStatusLabel(entry.approvalStatus)})',
+              style: const pw.TextStyle(color: PdfColors.red800),
+            ),
+        pw.SizedBox(height: 8),
         _buildOutstandingSection(outstanding),
       ],
     );
+  }
+
+  // Not-completed grouping (Sprint 031, EHO export resilience fix) — see
+  // _NotCompletedGroup's own doc comment for why (staffName, completedAt)
+  // is a correct grouping key, not a heuristic.
+  List<_NotCompletedGroup> _groupNotCompleted(List<TaskSubmission> entries) {
+    final byKey = <String, _NotCompletedGroup>{};
+    for (final entry in entries) {
+      final key =
+          '${entry.completedBy}|${entry.completedAt.millisecondsSinceEpoch}';
+      final existing = byKey[key];
+      if (existing == null) {
+        byKey[key] = _NotCompletedGroup(
+          staffName: entry.completedBy,
+          sessionEndedAt: entry.completedAt,
+        );
+      } else {
+        existing.taskCount++;
+      }
+    }
+    final groups = byKey.values.toList()
+      ..sort((a, b) => b.sessionEndedAt.compareTo(a.sessionEndedAt));
+    return groups;
+  }
+
+  // Chunking (Sprint 031, EHO export resilience fix) — routes around a
+  // real `pdf` 3.13.0 package bug rather than fighting it: `Table`'s
+  // `hasMoreWidgets` is hardcoded `true` (confirmed by reading
+  // table.dart), so MultiPage never learns a Table has finished laying out
+  // once it needs to continue onto a second page, and allocates blank
+  // pages until it hits the page cap. A Table that only ever needs ONE
+  // page never reaches that broken path. 25 rows/chunk stays just under
+  // the ~28-row tables already proven to render correctly on their own.
+  List<pw.Widget> _chunkedTable(
+    List<pw.TableRow> rows,
+    pw.TableRow headerRow,
+    Map<int, pw.TableColumnWidth> columnWidths, {
+    int chunkSize = 25,
+  }) {
+    if (rows.isEmpty) return const [];
+    final widgets = <pw.Widget>[];
+    for (var i = 0; i < rows.length; i += chunkSize) {
+      final end = (i + chunkSize < rows.length) ? i + chunkSize : rows.length;
+      widgets.add(
+        pw.Table(
+          border: pw.TableBorder.all(color: PdfColors.grey400, width: 0.5),
+          columnWidths: columnWidths,
+          children: [headerRow, ...rows.sublist(i, end)],
+        ),
+      );
+      if (end < rows.length) widgets.add(pw.SizedBox(height: 4));
+    }
+    return widgets;
   }
 
   pw.Widget _buildExceptionTable(
     List<TaskSubmission> entries, {
     required bool showCorrectiveAction,
   }) {
-    return pw.Table(
-      border: pw.TableBorder.all(color: PdfColors.grey400, width: 0.5),
-      columnWidths: showCorrectiveAction
-          ? const {
-              0: pw.FlexColumnWidth(2),
-              1: pw.FlexColumnWidth(3),
-              2: pw.FlexColumnWidth(2),
-              3: pw.FlexColumnWidth(4),
-            }
-          : const {
-              0: pw.FlexColumnWidth(2),
-              1: pw.FlexColumnWidth(3),
-              2: pw.FlexColumnWidth(2),
-            },
+    final columnWidths = showCorrectiveAction
+        ? const {
+            0: pw.FlexColumnWidth(2),
+            1: pw.FlexColumnWidth(3),
+            2: pw.FlexColumnWidth(2),
+            3: pw.FlexColumnWidth(4),
+          }
+        : const {
+            0: pw.FlexColumnWidth(2),
+            1: pw.FlexColumnWidth(3),
+            2: pw.FlexColumnWidth(2),
+          };
+    final headerRow = pw.TableRow(
+      decoration: const pw.BoxDecoration(color: PdfColors.grey200),
       children: [
+        _cell('Date/Time', bold: true),
+        _cell('Task', bold: true),
+        _cell('Staff', bold: true),
+        if (showCorrectiveAction) _cell('Corrective action', bold: true),
+      ],
+    );
+    final rows = [
+      for (final entry in entries)
         pw.TableRow(
-          decoration: const pw.BoxDecoration(color: PdfColors.grey200),
           children: [
-            _cell('Date/Time', bold: true),
-            _cell('Task', bold: true),
-            _cell('Staff', bold: true),
-            if (showCorrectiveAction) _cell('Corrective action', bold: true),
+            _cell(formatDateTime(entry.completedAt)),
+            _cell(entry.taskTitle),
+            _cell(entry.completedBy),
+            if (showCorrectiveAction) _cell(_notesAndCorrectiveAction(entry)),
           ],
         ),
-        for (final entry in entries)
-          pw.TableRow(
-            children: [
-              _cell(formatDateTime(entry.completedAt)),
-              _cell(entry.taskTitle),
-              _cell(entry.completedBy),
-              if (showCorrectiveAction)
-                _cell(_notesAndCorrectiveAction(entry)),
-            ],
-          ),
-      ],
+    ];
+    return pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: _chunkedTable(rows, headerRow, columnWidths),
     );
   }
 
@@ -574,6 +833,46 @@ class EhoExportService {
     String segment,
     List<TaskSubmission> submissions,
   ) {
+    const columnWidths = {
+      0: pw.FlexColumnWidth(2),
+      1: pw.FlexColumnWidth(3),
+      2: pw.FlexColumnWidth(2),
+      3: pw.FlexColumnWidth(1.5),
+      4: pw.FlexColumnWidth(4),
+    };
+    final headerRow = pw.TableRow(
+      decoration: const pw.BoxDecoration(color: PdfColors.grey200),
+      children: [
+        _cell('Date/Time', bold: true),
+        _cell('Task', bold: true),
+        _cell('Staff', bold: true),
+        _cell('Result', bold: true),
+        _cell('Notes / corrective action', bold: true),
+      ],
+    );
+    final rows = [
+      for (final submission in submissions)
+        pw.TableRow(
+          children: [
+            _cell(formatDateTime(submission.completedAt)),
+            _cell(
+              '${submission.taskTitle}'
+              '${submission.numericValue == null ? '' : ' (${submission.numericValue})'}'
+              '${submission.photoAttached ? ' [Photo attached]' : ''}',
+            ),
+            _cell(submission.completedBy),
+            _cell(
+              submission.status,
+              color: switch (submission.status) {
+                'FAIL' => PdfColors.red800,
+                'NOT_COMPLETED' => PdfColors.grey700,
+                _ => null,
+              },
+            ),
+            _cell(_notesAndCorrectiveAction(submission)),
+          ],
+        ),
+    ];
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
@@ -582,49 +881,7 @@ class EhoExportService {
           style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
         ),
         pw.SizedBox(height: 2),
-        pw.Table(
-          border: pw.TableBorder.all(color: PdfColors.grey400, width: 0.5),
-          columnWidths: const {
-            0: pw.FlexColumnWidth(2),
-            1: pw.FlexColumnWidth(3),
-            2: pw.FlexColumnWidth(2),
-            3: pw.FlexColumnWidth(1.5),
-            4: pw.FlexColumnWidth(4),
-          },
-          children: [
-            pw.TableRow(
-              decoration: const pw.BoxDecoration(color: PdfColors.grey200),
-              children: [
-                _cell('Date/Time', bold: true),
-                _cell('Task', bold: true),
-                _cell('Staff', bold: true),
-                _cell('Result', bold: true),
-                _cell('Notes / corrective action', bold: true),
-              ],
-            ),
-            for (final submission in submissions)
-              pw.TableRow(
-                children: [
-                  _cell(formatDateTime(submission.completedAt)),
-                  _cell(
-                    '${submission.taskTitle}'
-                    '${submission.numericValue == null ? '' : ' (${submission.numericValue})'}'
-                    '${submission.photoAttached ? ' [Photo attached]' : ''}',
-                  ),
-                  _cell(submission.completedBy),
-                  _cell(
-                    submission.status,
-                    color: switch (submission.status) {
-                      'FAIL' => PdfColors.red800,
-                      'NOT_COMPLETED' => PdfColors.grey700,
-                      _ => null,
-                    },
-                  ),
-                  _cell(_notesAndCorrectiveAction(submission)),
-                ],
-              ),
-          ],
-        ),
+        ..._chunkedTable(rows, headerRow, columnWidths),
       ],
     );
   }
@@ -674,5 +931,6 @@ final ehoExportServiceProvider = Provider<EhoExportService>((ref) {
     ref.watch(overdueSummaryServiceProvider),
     ref.watch(trainingRecordRepositoryProvider),
     ref.watch(userRepositoryProvider),
+    ref.watch(supplierRepositoryProvider),
   );
 });

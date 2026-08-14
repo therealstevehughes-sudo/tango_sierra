@@ -2193,6 +2193,628 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   }
 }
 
+class $SuppliersTable extends Suppliers
+    with TableInfo<$SuppliersTable, SupplierEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SuppliersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contactMeta = const VerificationMeta(
+    'contact',
+  );
+  @override
+  late final GeneratedColumn<String> contact = GeneratedColumn<String>(
+    'contact',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _customCategoryTitleMeta =
+      const VerificationMeta('customCategoryTitle');
+  @override
+  late final GeneratedColumn<String> customCategoryTitle =
+      GeneratedColumn<String>(
+        'custom_category_title',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _approvalStatusMeta = const VerificationMeta(
+    'approvalStatus',
+  );
+  @override
+  late final GeneratedColumn<String> approvalStatus = GeneratedColumn<String>(
+    'approval_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _approvalNoteMeta = const VerificationMeta(
+    'approvalNote',
+  );
+  @override
+  late final GeneratedColumn<String> approvalNote = GeneratedColumn<String>(
+    'approval_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    contact,
+    category,
+    customCategoryTitle,
+    approvalStatus,
+    approvalNote,
+    siteId,
+    active,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'suppliers';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SupplierEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('contact')) {
+      context.handle(
+        _contactMeta,
+        contact.isAcceptableOrUnknown(data['contact']!, _contactMeta),
+      );
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('custom_category_title')) {
+      context.handle(
+        _customCategoryTitleMeta,
+        customCategoryTitle.isAcceptableOrUnknown(
+          data['custom_category_title']!,
+          _customCategoryTitleMeta,
+        ),
+      );
+    }
+    if (data.containsKey('approval_status')) {
+      context.handle(
+        _approvalStatusMeta,
+        approvalStatus.isAcceptableOrUnknown(
+          data['approval_status']!,
+          _approvalStatusMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_approvalStatusMeta);
+    }
+    if (data.containsKey('approval_note')) {
+      context.handle(
+        _approvalNoteMeta,
+        approvalNote.isAcceptableOrUnknown(
+          data['approval_note']!,
+          _approvalNoteMeta,
+        ),
+      );
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SupplierEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SupplierEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      contact: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}contact'],
+      ),
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      customCategoryTitle: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}custom_category_title'],
+      ),
+      approvalStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}approval_status'],
+      )!,
+      approvalNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}approval_note'],
+      ),
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $SuppliersTable createAlias(String alias) {
+    return $SuppliersTable(attachedDatabase, alias);
+  }
+}
+
+class SupplierEntity extends DataClass implements Insertable<SupplierEntity> {
+  final int id;
+  final String name;
+  final String? contact;
+  final String category;
+  final String? customCategoryTitle;
+  final String approvalStatus;
+  final String? approvalNote;
+  final int? siteId;
+  final bool active;
+  final DateTime createdAt;
+  const SupplierEntity({
+    required this.id,
+    required this.name,
+    this.contact,
+    required this.category,
+    this.customCategoryTitle,
+    required this.approvalStatus,
+    this.approvalNote,
+    this.siteId,
+    required this.active,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || contact != null) {
+      map['contact'] = Variable<String>(contact);
+    }
+    map['category'] = Variable<String>(category);
+    if (!nullToAbsent || customCategoryTitle != null) {
+      map['custom_category_title'] = Variable<String>(customCategoryTitle);
+    }
+    map['approval_status'] = Variable<String>(approvalStatus);
+    if (!nullToAbsent || approvalNote != null) {
+      map['approval_note'] = Variable<String>(approvalNote);
+    }
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
+    map['active'] = Variable<bool>(active);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  SuppliersCompanion toCompanion(bool nullToAbsent) {
+    return SuppliersCompanion(
+      id: Value(id),
+      name: Value(name),
+      contact: contact == null && nullToAbsent
+          ? const Value.absent()
+          : Value(contact),
+      category: Value(category),
+      customCategoryTitle: customCategoryTitle == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customCategoryTitle),
+      approvalStatus: Value(approvalStatus),
+      approvalNote: approvalNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(approvalNote),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
+      active: Value(active),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory SupplierEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SupplierEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      contact: serializer.fromJson<String?>(json['contact']),
+      category: serializer.fromJson<String>(json['category']),
+      customCategoryTitle: serializer.fromJson<String?>(
+        json['customCategoryTitle'],
+      ),
+      approvalStatus: serializer.fromJson<String>(json['approvalStatus']),
+      approvalNote: serializer.fromJson<String?>(json['approvalNote']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
+      active: serializer.fromJson<bool>(json['active']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'contact': serializer.toJson<String?>(contact),
+      'category': serializer.toJson<String>(category),
+      'customCategoryTitle': serializer.toJson<String?>(customCategoryTitle),
+      'approvalStatus': serializer.toJson<String>(approvalStatus),
+      'approvalNote': serializer.toJson<String?>(approvalNote),
+      'siteId': serializer.toJson<int?>(siteId),
+      'active': serializer.toJson<bool>(active),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  SupplierEntity copyWith({
+    int? id,
+    String? name,
+    Value<String?> contact = const Value.absent(),
+    String? category,
+    Value<String?> customCategoryTitle = const Value.absent(),
+    String? approvalStatus,
+    Value<String?> approvalNote = const Value.absent(),
+    Value<int?> siteId = const Value.absent(),
+    bool? active,
+    DateTime? createdAt,
+  }) => SupplierEntity(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    contact: contact.present ? contact.value : this.contact,
+    category: category ?? this.category,
+    customCategoryTitle: customCategoryTitle.present
+        ? customCategoryTitle.value
+        : this.customCategoryTitle,
+    approvalStatus: approvalStatus ?? this.approvalStatus,
+    approvalNote: approvalNote.present ? approvalNote.value : this.approvalNote,
+    siteId: siteId.present ? siteId.value : this.siteId,
+    active: active ?? this.active,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  SupplierEntity copyWithCompanion(SuppliersCompanion data) {
+    return SupplierEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      contact: data.contact.present ? data.contact.value : this.contact,
+      category: data.category.present ? data.category.value : this.category,
+      customCategoryTitle: data.customCategoryTitle.present
+          ? data.customCategoryTitle.value
+          : this.customCategoryTitle,
+      approvalStatus: data.approvalStatus.present
+          ? data.approvalStatus.value
+          : this.approvalStatus,
+      approvalNote: data.approvalNote.present
+          ? data.approvalNote.value
+          : this.approvalNote,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      active: data.active.present ? data.active.value : this.active,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SupplierEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('contact: $contact, ')
+          ..write('category: $category, ')
+          ..write('customCategoryTitle: $customCategoryTitle, ')
+          ..write('approvalStatus: $approvalStatus, ')
+          ..write('approvalNote: $approvalNote, ')
+          ..write('siteId: $siteId, ')
+          ..write('active: $active, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    name,
+    contact,
+    category,
+    customCategoryTitle,
+    approvalStatus,
+    approvalNote,
+    siteId,
+    active,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SupplierEntity &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.contact == this.contact &&
+          other.category == this.category &&
+          other.customCategoryTitle == this.customCategoryTitle &&
+          other.approvalStatus == this.approvalStatus &&
+          other.approvalNote == this.approvalNote &&
+          other.siteId == this.siteId &&
+          other.active == this.active &&
+          other.createdAt == this.createdAt);
+}
+
+class SuppliersCompanion extends UpdateCompanion<SupplierEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String?> contact;
+  final Value<String> category;
+  final Value<String?> customCategoryTitle;
+  final Value<String> approvalStatus;
+  final Value<String?> approvalNote;
+  final Value<int?> siteId;
+  final Value<bool> active;
+  final Value<DateTime> createdAt;
+  const SuppliersCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.contact = const Value.absent(),
+    this.category = const Value.absent(),
+    this.customCategoryTitle = const Value.absent(),
+    this.approvalStatus = const Value.absent(),
+    this.approvalNote = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.active = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  SuppliersCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.contact = const Value.absent(),
+    required String category,
+    this.customCategoryTitle = const Value.absent(),
+    required String approvalStatus,
+    this.approvalNote = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.active = const Value.absent(),
+    required DateTime createdAt,
+  }) : name = Value(name),
+       category = Value(category),
+       approvalStatus = Value(approvalStatus),
+       createdAt = Value(createdAt);
+  static Insertable<SupplierEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? contact,
+    Expression<String>? category,
+    Expression<String>? customCategoryTitle,
+    Expression<String>? approvalStatus,
+    Expression<String>? approvalNote,
+    Expression<int>? siteId,
+    Expression<bool>? active,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (contact != null) 'contact': contact,
+      if (category != null) 'category': category,
+      if (customCategoryTitle != null)
+        'custom_category_title': customCategoryTitle,
+      if (approvalStatus != null) 'approval_status': approvalStatus,
+      if (approvalNote != null) 'approval_note': approvalNote,
+      if (siteId != null) 'site_id': siteId,
+      if (active != null) 'active': active,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  SuppliersCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String?>? contact,
+    Value<String>? category,
+    Value<String?>? customCategoryTitle,
+    Value<String>? approvalStatus,
+    Value<String?>? approvalNote,
+    Value<int?>? siteId,
+    Value<bool>? active,
+    Value<DateTime>? createdAt,
+  }) {
+    return SuppliersCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      contact: contact ?? this.contact,
+      category: category ?? this.category,
+      customCategoryTitle: customCategoryTitle ?? this.customCategoryTitle,
+      approvalStatus: approvalStatus ?? this.approvalStatus,
+      approvalNote: approvalNote ?? this.approvalNote,
+      siteId: siteId ?? this.siteId,
+      active: active ?? this.active,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (contact.present) {
+      map['contact'] = Variable<String>(contact.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (customCategoryTitle.present) {
+      map['custom_category_title'] = Variable<String>(
+        customCategoryTitle.value,
+      );
+    }
+    if (approvalStatus.present) {
+      map['approval_status'] = Variable<String>(approvalStatus.value);
+    }
+    if (approvalNote.present) {
+      map['approval_note'] = Variable<String>(approvalNote.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SuppliersCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('contact: $contact, ')
+          ..write('category: $category, ')
+          ..write('customCategoryTitle: $customCategoryTitle, ')
+          ..write('approvalStatus: $approvalStatus, ')
+          ..write('approvalNote: $approvalNote, ')
+          ..write('siteId: $siteId, ')
+          ..write('active: $active, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $TaskSubmissionsTable extends TaskSubmissions
     with TableInfo<$TaskSubmissionsTable, TaskSubmissionEntity> {
   @override
@@ -2393,6 +3015,20 @@ class $TaskSubmissionsTable extends TaskSubmissions
         type: DriftSqlType.string,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _supplierIdMeta = const VerificationMeta(
+    'supplierId',
+  );
+  @override
+  late final GeneratedColumn<int> supplierId = GeneratedColumn<int>(
+    'supplier_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES suppliers (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2412,6 +3048,7 @@ class $TaskSubmissionsTable extends TaskSubmissions
     siteId,
     correctiveActionOutcome,
     correctiveActionNote,
+    supplierId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2565,6 +3202,12 @@ class $TaskSubmissionsTable extends TaskSubmissions
         ),
       );
     }
+    if (data.containsKey('supplier_id')) {
+      context.handle(
+        _supplierIdMeta,
+        supplierId.isAcceptableOrUnknown(data['supplier_id']!, _supplierIdMeta),
+      );
+    }
     return context;
   }
 
@@ -2642,6 +3285,10 @@ class $TaskSubmissionsTable extends TaskSubmissions
         DriftSqlType.string,
         data['${effectivePrefix}corrective_action_note'],
       ),
+      supplierId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}supplier_id'],
+      ),
     );
   }
 
@@ -2670,6 +3317,7 @@ class TaskSubmissionEntity extends DataClass
   final int? siteId;
   final String? correctiveActionOutcome;
   final String? correctiveActionNote;
+  final int? supplierId;
   const TaskSubmissionEntity({
     required this.id,
     required this.taskTitle,
@@ -2688,6 +3336,7 @@ class TaskSubmissionEntity extends DataClass
     this.siteId,
     this.correctiveActionOutcome,
     this.correctiveActionNote,
+    this.supplierId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2733,6 +3382,9 @@ class TaskSubmissionEntity extends DataClass
     if (!nullToAbsent || correctiveActionNote != null) {
       map['corrective_action_note'] = Variable<String>(correctiveActionNote);
     }
+    if (!nullToAbsent || supplierId != null) {
+      map['supplier_id'] = Variable<int>(supplierId);
+    }
     return map;
   }
 
@@ -2777,6 +3429,9 @@ class TaskSubmissionEntity extends DataClass
       correctiveActionNote: correctiveActionNote == null && nullToAbsent
           ? const Value.absent()
           : Value(correctiveActionNote),
+      supplierId: supplierId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(supplierId),
     );
   }
 
@@ -2813,6 +3468,7 @@ class TaskSubmissionEntity extends DataClass
       correctiveActionNote: serializer.fromJson<String?>(
         json['correctiveActionNote'],
       ),
+      supplierId: serializer.fromJson<int?>(json['supplierId']),
     );
   }
   @override
@@ -2840,6 +3496,7 @@ class TaskSubmissionEntity extends DataClass
         correctiveActionOutcome,
       ),
       'correctiveActionNote': serializer.toJson<String?>(correctiveActionNote),
+      'supplierId': serializer.toJson<int?>(supplierId),
     };
   }
 
@@ -2861,6 +3518,7 @@ class TaskSubmissionEntity extends DataClass
     Value<int?> siteId = const Value.absent(),
     Value<String?> correctiveActionOutcome = const Value.absent(),
     Value<String?> correctiveActionNote = const Value.absent(),
+    Value<int?> supplierId = const Value.absent(),
   }) => TaskSubmissionEntity(
     id: id ?? this.id,
     taskTitle: taskTitle ?? this.taskTitle,
@@ -2893,6 +3551,7 @@ class TaskSubmissionEntity extends DataClass
     correctiveActionNote: correctiveActionNote.present
         ? correctiveActionNote.value
         : this.correctiveActionNote,
+    supplierId: supplierId.present ? supplierId.value : this.supplierId,
   );
   TaskSubmissionEntity copyWithCompanion(TaskSubmissionsCompanion data) {
     return TaskSubmissionEntity(
@@ -2935,6 +3594,9 @@ class TaskSubmissionEntity extends DataClass
       correctiveActionNote: data.correctiveActionNote.present
           ? data.correctiveActionNote.value
           : this.correctiveActionNote,
+      supplierId: data.supplierId.present
+          ? data.supplierId.value
+          : this.supplierId,
     );
   }
 
@@ -2957,7 +3619,8 @@ class TaskSubmissionEntity extends DataClass
           ..write('completedByUserId: $completedByUserId, ')
           ..write('siteId: $siteId, ')
           ..write('correctiveActionOutcome: $correctiveActionOutcome, ')
-          ..write('correctiveActionNote: $correctiveActionNote')
+          ..write('correctiveActionNote: $correctiveActionNote, ')
+          ..write('supplierId: $supplierId')
           ..write(')'))
         .toString();
   }
@@ -2981,6 +3644,7 @@ class TaskSubmissionEntity extends DataClass
     siteId,
     correctiveActionOutcome,
     correctiveActionNote,
+    supplierId,
   );
   @override
   bool operator ==(Object other) =>
@@ -3002,7 +3666,8 @@ class TaskSubmissionEntity extends DataClass
           other.completedByUserId == this.completedByUserId &&
           other.siteId == this.siteId &&
           other.correctiveActionOutcome == this.correctiveActionOutcome &&
-          other.correctiveActionNote == this.correctiveActionNote);
+          other.correctiveActionNote == this.correctiveActionNote &&
+          other.supplierId == this.supplierId);
 }
 
 class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
@@ -3023,6 +3688,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
   final Value<int?> siteId;
   final Value<String?> correctiveActionOutcome;
   final Value<String?> correctiveActionNote;
+  final Value<int?> supplierId;
   const TaskSubmissionsCompanion({
     this.id = const Value.absent(),
     this.taskTitle = const Value.absent(),
@@ -3041,6 +3707,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     this.siteId = const Value.absent(),
     this.correctiveActionOutcome = const Value.absent(),
     this.correctiveActionNote = const Value.absent(),
+    this.supplierId = const Value.absent(),
   });
   TaskSubmissionsCompanion.insert({
     this.id = const Value.absent(),
@@ -3060,6 +3727,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     this.siteId = const Value.absent(),
     this.correctiveActionOutcome = const Value.absent(),
     this.correctiveActionNote = const Value.absent(),
+    this.supplierId = const Value.absent(),
   }) : taskTitle = Value(taskTitle),
        status = Value(status),
        completedBy = Value(completedBy),
@@ -3082,6 +3750,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     Expression<int>? siteId,
     Expression<String>? correctiveActionOutcome,
     Expression<String>? correctiveActionNote,
+    Expression<int>? supplierId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -3106,6 +3775,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
         'corrective_action_outcome': correctiveActionOutcome,
       if (correctiveActionNote != null)
         'corrective_action_note': correctiveActionNote,
+      if (supplierId != null) 'supplier_id': supplierId,
     });
   }
 
@@ -3127,6 +3797,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     Value<int?>? siteId,
     Value<String?>? correctiveActionOutcome,
     Value<String?>? correctiveActionNote,
+    Value<int?>? supplierId,
   }) {
     return TaskSubmissionsCompanion(
       id: id ?? this.id,
@@ -3148,6 +3819,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
       correctiveActionOutcome:
           correctiveActionOutcome ?? this.correctiveActionOutcome,
       correctiveActionNote: correctiveActionNote ?? this.correctiveActionNote,
+      supplierId: supplierId ?? this.supplierId,
     );
   }
 
@@ -3211,6 +3883,9 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
         correctiveActionNote.value,
       );
     }
+    if (supplierId.present) {
+      map['supplier_id'] = Variable<int>(supplierId.value);
+    }
     return map;
   }
 
@@ -3233,7 +3908,8 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
           ..write('completedByUserId: $completedByUserId, ')
           ..write('siteId: $siteId, ')
           ..write('correctiveActionOutcome: $correctiveActionOutcome, ')
-          ..write('correctiveActionNote: $correctiveActionNote')
+          ..write('correctiveActionNote: $correctiveActionNote, ')
+          ..write('supplierId: $supplierId')
           ..write(')'))
         .toString();
   }
@@ -4049,6 +4725,21 @@ class $TaskTemplatesTable extends TaskTemplates
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _requiresSupplierSelectionMeta =
+      const VerificationMeta('requiresSupplierSelection');
+  @override
+  late final GeneratedColumn<bool> requiresSupplierSelection =
+      GeneratedColumn<bool>(
+        'requires_supplier_selection',
+        aliasedName,
+        false,
+        type: DriftSqlType.bool,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("requires_supplier_selection" IN (0, 1))',
+        ),
+        defaultValue: const Constant(false),
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4075,6 +4766,7 @@ class $TaskTemplatesTable extends TaskTemplates
     priority,
     jobRole,
     guidanceText,
+    requiresSupplierSelection,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4282,6 +4974,15 @@ class $TaskTemplatesTable extends TaskTemplates
         ),
       );
     }
+    if (data.containsKey('requires_supplier_selection')) {
+      context.handle(
+        _requiresSupplierSelectionMeta,
+        requiresSupplierSelection.isAcceptableOrUnknown(
+          data['requires_supplier_selection']!,
+          _requiresSupplierSelectionMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -4387,6 +5088,10 @@ class $TaskTemplatesTable extends TaskTemplates
         DriftSqlType.string,
         data['${effectivePrefix}guidance_text'],
       ),
+      requiresSupplierSelection: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}requires_supplier_selection'],
+      )!,
     );
   }
 
@@ -4422,6 +5127,7 @@ class TaskTemplateEntity extends DataClass
   final String? priority;
   final String? jobRole;
   final String? guidanceText;
+  final bool requiresSupplierSelection;
   const TaskTemplateEntity({
     required this.id,
     required this.templateGroupId,
@@ -4447,6 +5153,7 @@ class TaskTemplateEntity extends DataClass
     this.priority,
     this.jobRole,
     this.guidanceText,
+    required this.requiresSupplierSelection,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4501,6 +5208,9 @@ class TaskTemplateEntity extends DataClass
     if (!nullToAbsent || guidanceText != null) {
       map['guidance_text'] = Variable<String>(guidanceText);
     }
+    map['requires_supplier_selection'] = Variable<bool>(
+      requiresSupplierSelection,
+    );
     return map;
   }
 
@@ -4552,6 +5262,7 @@ class TaskTemplateEntity extends DataClass
       guidanceText: guidanceText == null && nullToAbsent
           ? const Value.absent()
           : Value(guidanceText),
+      requiresSupplierSelection: Value(requiresSupplierSelection),
     );
   }
 
@@ -4591,6 +5302,9 @@ class TaskTemplateEntity extends DataClass
       priority: serializer.fromJson<String?>(json['priority']),
       jobRole: serializer.fromJson<String?>(json['jobRole']),
       guidanceText: serializer.fromJson<String?>(json['guidanceText']),
+      requiresSupplierSelection: serializer.fromJson<bool>(
+        json['requiresSupplierSelection'],
+      ),
     );
   }
   @override
@@ -4623,6 +5337,9 @@ class TaskTemplateEntity extends DataClass
       'priority': serializer.toJson<String?>(priority),
       'jobRole': serializer.toJson<String?>(jobRole),
       'guidanceText': serializer.toJson<String?>(guidanceText),
+      'requiresSupplierSelection': serializer.toJson<bool>(
+        requiresSupplierSelection,
+      ),
     };
   }
 
@@ -4651,6 +5368,7 @@ class TaskTemplateEntity extends DataClass
     Value<String?> priority = const Value.absent(),
     Value<String?> jobRole = const Value.absent(),
     Value<String?> guidanceText = const Value.absent(),
+    bool? requiresSupplierSelection,
   }) => TaskTemplateEntity(
     id: id ?? this.id,
     templateGroupId: templateGroupId ?? this.templateGroupId,
@@ -4689,6 +5407,8 @@ class TaskTemplateEntity extends DataClass
     priority: priority.present ? priority.value : this.priority,
     jobRole: jobRole.present ? jobRole.value : this.jobRole,
     guidanceText: guidanceText.present ? guidanceText.value : this.guidanceText,
+    requiresSupplierSelection:
+        requiresSupplierSelection ?? this.requiresSupplierSelection,
   );
   TaskTemplateEntity copyWithCompanion(TaskTemplatesCompanion data) {
     return TaskTemplateEntity(
@@ -4745,6 +5465,9 @@ class TaskTemplateEntity extends DataClass
       guidanceText: data.guidanceText.present
           ? data.guidanceText.value
           : this.guidanceText,
+      requiresSupplierSelection: data.requiresSupplierSelection.present
+          ? data.requiresSupplierSelection.value
+          : this.requiresSupplierSelection,
     );
   }
 
@@ -4776,7 +5499,8 @@ class TaskTemplateEntity extends DataClass
           ..write('createdByUserId: $createdByUserId, ')
           ..write('priority: $priority, ')
           ..write('jobRole: $jobRole, ')
-          ..write('guidanceText: $guidanceText')
+          ..write('guidanceText: $guidanceText, ')
+          ..write('requiresSupplierSelection: $requiresSupplierSelection')
           ..write(')'))
         .toString();
   }
@@ -4807,6 +5531,7 @@ class TaskTemplateEntity extends DataClass
     priority,
     jobRole,
     guidanceText,
+    requiresSupplierSelection,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -4836,7 +5561,8 @@ class TaskTemplateEntity extends DataClass
           other.createdByUserId == this.createdByUserId &&
           other.priority == this.priority &&
           other.jobRole == this.jobRole &&
-          other.guidanceText == this.guidanceText);
+          other.guidanceText == this.guidanceText &&
+          other.requiresSupplierSelection == this.requiresSupplierSelection);
 }
 
 class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
@@ -4864,6 +5590,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
   final Value<String?> priority;
   final Value<String?> jobRole;
   final Value<String?> guidanceText;
+  final Value<bool> requiresSupplierSelection;
   const TaskTemplatesCompanion({
     this.id = const Value.absent(),
     this.templateGroupId = const Value.absent(),
@@ -4889,6 +5616,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     this.priority = const Value.absent(),
     this.jobRole = const Value.absent(),
     this.guidanceText = const Value.absent(),
+    this.requiresSupplierSelection = const Value.absent(),
   });
   TaskTemplatesCompanion.insert({
     this.id = const Value.absent(),
@@ -4915,6 +5643,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     this.priority = const Value.absent(),
     this.jobRole = const Value.absent(),
     this.guidanceText = const Value.absent(),
+    this.requiresSupplierSelection = const Value.absent(),
   }) : templateGroupId = Value(templateGroupId),
        versionNumber = Value(versionNumber),
        title = Value(title),
@@ -4947,6 +5676,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     Expression<String>? priority,
     Expression<String>? jobRole,
     Expression<String>? guidanceText,
+    Expression<bool>? requiresSupplierSelection,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4976,6 +5706,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
       if (priority != null) 'priority': priority,
       if (jobRole != null) 'job_role': jobRole,
       if (guidanceText != null) 'guidance_text': guidanceText,
+      if (requiresSupplierSelection != null)
+        'requires_supplier_selection': requiresSupplierSelection,
     });
   }
 
@@ -5004,6 +5736,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     Value<String?>? priority,
     Value<String?>? jobRole,
     Value<String?>? guidanceText,
+    Value<bool>? requiresSupplierSelection,
   }) {
     return TaskTemplatesCompanion(
       id: id ?? this.id,
@@ -5031,6 +5764,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
       priority: priority ?? this.priority,
       jobRole: jobRole ?? this.jobRole,
       guidanceText: guidanceText ?? this.guidanceText,
+      requiresSupplierSelection:
+          requiresSupplierSelection ?? this.requiresSupplierSelection,
     );
   }
 
@@ -5113,6 +5848,11 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     if (guidanceText.present) {
       map['guidance_text'] = Variable<String>(guidanceText.value);
     }
+    if (requiresSupplierSelection.present) {
+      map['requires_supplier_selection'] = Variable<bool>(
+        requiresSupplierSelection.value,
+      );
+    }
     return map;
   }
 
@@ -5144,7 +5884,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
           ..write('createdByUserId: $createdByUserId, ')
           ..write('priority: $priority, ')
           ..write('jobRole: $jobRole, ')
-          ..write('guidanceText: $guidanceText')
+          ..write('guidanceText: $guidanceText, ')
+          ..write('requiresSupplierSelection: $requiresSupplierSelection')
           ..write(')'))
         .toString();
   }
@@ -6558,628 +7299,6 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
           ..write('expiresAt: $expiresAt, ')
           ..write('signedOffByUserId: $signedOffByUserId, ')
           ..write('certificateReference: $certificateReference, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $SuppliersTable extends Suppliers
-    with TableInfo<$SuppliersTable, SupplierEntity> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $SuppliersTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-    'id',
-    aliasedName,
-    false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
-  );
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-    'name',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _contactMeta = const VerificationMeta(
-    'contact',
-  );
-  @override
-  late final GeneratedColumn<String> contact = GeneratedColumn<String>(
-    'contact',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _categoryMeta = const VerificationMeta(
-    'category',
-  );
-  @override
-  late final GeneratedColumn<String> category = GeneratedColumn<String>(
-    'category',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _customCategoryTitleMeta =
-      const VerificationMeta('customCategoryTitle');
-  @override
-  late final GeneratedColumn<String> customCategoryTitle =
-      GeneratedColumn<String>(
-        'custom_category_title',
-        aliasedName,
-        true,
-        type: DriftSqlType.string,
-        requiredDuringInsert: false,
-      );
-  static const VerificationMeta _approvalStatusMeta = const VerificationMeta(
-    'approvalStatus',
-  );
-  @override
-  late final GeneratedColumn<String> approvalStatus = GeneratedColumn<String>(
-    'approval_status',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-  );
-  static const VerificationMeta _approvalNoteMeta = const VerificationMeta(
-    'approvalNote',
-  );
-  @override
-  late final GeneratedColumn<String> approvalNote = GeneratedColumn<String>(
-    'approval_note',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-  );
-  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
-  @override
-  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
-    'site_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'REFERENCES sites (id)',
-    ),
-  );
-  static const VerificationMeta _activeMeta = const VerificationMeta('active');
-  @override
-  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
-    'active',
-    aliasedName,
-    false,
-    type: DriftSqlType.bool,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'CHECK ("active" IN (0, 1))',
-    ),
-    defaultValue: const Constant(true),
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
-  );
-  @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    name,
-    contact,
-    category,
-    customCategoryTitle,
-    approvalStatus,
-    approvalNote,
-    siteId,
-    active,
-    createdAt,
-  ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'suppliers';
-  @override
-  VerificationContext validateIntegrity(
-    Insertable<SupplierEntity> instance, {
-    bool isInserting = false,
-  }) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-        _nameMeta,
-        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('contact')) {
-      context.handle(
-        _contactMeta,
-        contact.isAcceptableOrUnknown(data['contact']!, _contactMeta),
-      );
-    }
-    if (data.containsKey('category')) {
-      context.handle(
-        _categoryMeta,
-        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_categoryMeta);
-    }
-    if (data.containsKey('custom_category_title')) {
-      context.handle(
-        _customCategoryTitleMeta,
-        customCategoryTitle.isAcceptableOrUnknown(
-          data['custom_category_title']!,
-          _customCategoryTitleMeta,
-        ),
-      );
-    }
-    if (data.containsKey('approval_status')) {
-      context.handle(
-        _approvalStatusMeta,
-        approvalStatus.isAcceptableOrUnknown(
-          data['approval_status']!,
-          _approvalStatusMeta,
-        ),
-      );
-    } else if (isInserting) {
-      context.missing(_approvalStatusMeta);
-    }
-    if (data.containsKey('approval_note')) {
-      context.handle(
-        _approvalNoteMeta,
-        approvalNote.isAcceptableOrUnknown(
-          data['approval_note']!,
-          _approvalNoteMeta,
-        ),
-      );
-    }
-    if (data.containsKey('site_id')) {
-      context.handle(
-        _siteIdMeta,
-        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
-      );
-    }
-    if (data.containsKey('active')) {
-      context.handle(
-        _activeMeta,
-        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
-      );
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  SupplierEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return SupplierEntity(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}id'],
-      )!,
-      name: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}name'],
-      )!,
-      contact: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}contact'],
-      ),
-      category: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}category'],
-      )!,
-      customCategoryTitle: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}custom_category_title'],
-      ),
-      approvalStatus: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}approval_status'],
-      )!,
-      approvalNote: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}approval_note'],
-      ),
-      siteId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}site_id'],
-      ),
-      active: attachedDatabase.typeMapping.read(
-        DriftSqlType.bool,
-        data['${effectivePrefix}active'],
-      )!,
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.dateTime,
-        data['${effectivePrefix}created_at'],
-      )!,
-    );
-  }
-
-  @override
-  $SuppliersTable createAlias(String alias) {
-    return $SuppliersTable(attachedDatabase, alias);
-  }
-}
-
-class SupplierEntity extends DataClass implements Insertable<SupplierEntity> {
-  final int id;
-  final String name;
-  final String? contact;
-  final String category;
-  final String? customCategoryTitle;
-  final String approvalStatus;
-  final String? approvalNote;
-  final int? siteId;
-  final bool active;
-  final DateTime createdAt;
-  const SupplierEntity({
-    required this.id,
-    required this.name,
-    this.contact,
-    required this.category,
-    this.customCategoryTitle,
-    required this.approvalStatus,
-    this.approvalNote,
-    this.siteId,
-    required this.active,
-    required this.createdAt,
-  });
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
-    if (!nullToAbsent || contact != null) {
-      map['contact'] = Variable<String>(contact);
-    }
-    map['category'] = Variable<String>(category);
-    if (!nullToAbsent || customCategoryTitle != null) {
-      map['custom_category_title'] = Variable<String>(customCategoryTitle);
-    }
-    map['approval_status'] = Variable<String>(approvalStatus);
-    if (!nullToAbsent || approvalNote != null) {
-      map['approval_note'] = Variable<String>(approvalNote);
-    }
-    if (!nullToAbsent || siteId != null) {
-      map['site_id'] = Variable<int>(siteId);
-    }
-    map['active'] = Variable<bool>(active);
-    map['created_at'] = Variable<DateTime>(createdAt);
-    return map;
-  }
-
-  SuppliersCompanion toCompanion(bool nullToAbsent) {
-    return SuppliersCompanion(
-      id: Value(id),
-      name: Value(name),
-      contact: contact == null && nullToAbsent
-          ? const Value.absent()
-          : Value(contact),
-      category: Value(category),
-      customCategoryTitle: customCategoryTitle == null && nullToAbsent
-          ? const Value.absent()
-          : Value(customCategoryTitle),
-      approvalStatus: Value(approvalStatus),
-      approvalNote: approvalNote == null && nullToAbsent
-          ? const Value.absent()
-          : Value(approvalNote),
-      siteId: siteId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(siteId),
-      active: Value(active),
-      createdAt: Value(createdAt),
-    );
-  }
-
-  factory SupplierEntity.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return SupplierEntity(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
-      contact: serializer.fromJson<String?>(json['contact']),
-      category: serializer.fromJson<String>(json['category']),
-      customCategoryTitle: serializer.fromJson<String?>(
-        json['customCategoryTitle'],
-      ),
-      approvalStatus: serializer.fromJson<String>(json['approvalStatus']),
-      approvalNote: serializer.fromJson<String?>(json['approvalNote']),
-      siteId: serializer.fromJson<int?>(json['siteId']),
-      active: serializer.fromJson<bool>(json['active']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
-      'contact': serializer.toJson<String?>(contact),
-      'category': serializer.toJson<String>(category),
-      'customCategoryTitle': serializer.toJson<String?>(customCategoryTitle),
-      'approvalStatus': serializer.toJson<String>(approvalStatus),
-      'approvalNote': serializer.toJson<String?>(approvalNote),
-      'siteId': serializer.toJson<int?>(siteId),
-      'active': serializer.toJson<bool>(active),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-    };
-  }
-
-  SupplierEntity copyWith({
-    int? id,
-    String? name,
-    Value<String?> contact = const Value.absent(),
-    String? category,
-    Value<String?> customCategoryTitle = const Value.absent(),
-    String? approvalStatus,
-    Value<String?> approvalNote = const Value.absent(),
-    Value<int?> siteId = const Value.absent(),
-    bool? active,
-    DateTime? createdAt,
-  }) => SupplierEntity(
-    id: id ?? this.id,
-    name: name ?? this.name,
-    contact: contact.present ? contact.value : this.contact,
-    category: category ?? this.category,
-    customCategoryTitle: customCategoryTitle.present
-        ? customCategoryTitle.value
-        : this.customCategoryTitle,
-    approvalStatus: approvalStatus ?? this.approvalStatus,
-    approvalNote: approvalNote.present ? approvalNote.value : this.approvalNote,
-    siteId: siteId.present ? siteId.value : this.siteId,
-    active: active ?? this.active,
-    createdAt: createdAt ?? this.createdAt,
-  );
-  SupplierEntity copyWithCompanion(SuppliersCompanion data) {
-    return SupplierEntity(
-      id: data.id.present ? data.id.value : this.id,
-      name: data.name.present ? data.name.value : this.name,
-      contact: data.contact.present ? data.contact.value : this.contact,
-      category: data.category.present ? data.category.value : this.category,
-      customCategoryTitle: data.customCategoryTitle.present
-          ? data.customCategoryTitle.value
-          : this.customCategoryTitle,
-      approvalStatus: data.approvalStatus.present
-          ? data.approvalStatus.value
-          : this.approvalStatus,
-      approvalNote: data.approvalNote.present
-          ? data.approvalNote.value
-          : this.approvalNote,
-      siteId: data.siteId.present ? data.siteId.value : this.siteId,
-      active: data.active.present ? data.active.value : this.active,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('SupplierEntity(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('contact: $contact, ')
-          ..write('category: $category, ')
-          ..write('customCategoryTitle: $customCategoryTitle, ')
-          ..write('approvalStatus: $approvalStatus, ')
-          ..write('approvalNote: $approvalNote, ')
-          ..write('siteId: $siteId, ')
-          ..write('active: $active, ')
-          ..write('createdAt: $createdAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    id,
-    name,
-    contact,
-    category,
-    customCategoryTitle,
-    approvalStatus,
-    approvalNote,
-    siteId,
-    active,
-    createdAt,
-  );
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is SupplierEntity &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.contact == this.contact &&
-          other.category == this.category &&
-          other.customCategoryTitle == this.customCategoryTitle &&
-          other.approvalStatus == this.approvalStatus &&
-          other.approvalNote == this.approvalNote &&
-          other.siteId == this.siteId &&
-          other.active == this.active &&
-          other.createdAt == this.createdAt);
-}
-
-class SuppliersCompanion extends UpdateCompanion<SupplierEntity> {
-  final Value<int> id;
-  final Value<String> name;
-  final Value<String?> contact;
-  final Value<String> category;
-  final Value<String?> customCategoryTitle;
-  final Value<String> approvalStatus;
-  final Value<String?> approvalNote;
-  final Value<int?> siteId;
-  final Value<bool> active;
-  final Value<DateTime> createdAt;
-  const SuppliersCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
-    this.contact = const Value.absent(),
-    this.category = const Value.absent(),
-    this.customCategoryTitle = const Value.absent(),
-    this.approvalStatus = const Value.absent(),
-    this.approvalNote = const Value.absent(),
-    this.siteId = const Value.absent(),
-    this.active = const Value.absent(),
-    this.createdAt = const Value.absent(),
-  });
-  SuppliersCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-    this.contact = const Value.absent(),
-    required String category,
-    this.customCategoryTitle = const Value.absent(),
-    required String approvalStatus,
-    this.approvalNote = const Value.absent(),
-    this.siteId = const Value.absent(),
-    this.active = const Value.absent(),
-    required DateTime createdAt,
-  }) : name = Value(name),
-       category = Value(category),
-       approvalStatus = Value(approvalStatus),
-       createdAt = Value(createdAt);
-  static Insertable<SupplierEntity> custom({
-    Expression<int>? id,
-    Expression<String>? name,
-    Expression<String>? contact,
-    Expression<String>? category,
-    Expression<String>? customCategoryTitle,
-    Expression<String>? approvalStatus,
-    Expression<String>? approvalNote,
-    Expression<int>? siteId,
-    Expression<bool>? active,
-    Expression<DateTime>? createdAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (contact != null) 'contact': contact,
-      if (category != null) 'category': category,
-      if (customCategoryTitle != null)
-        'custom_category_title': customCategoryTitle,
-      if (approvalStatus != null) 'approval_status': approvalStatus,
-      if (approvalNote != null) 'approval_note': approvalNote,
-      if (siteId != null) 'site_id': siteId,
-      if (active != null) 'active': active,
-      if (createdAt != null) 'created_at': createdAt,
-    });
-  }
-
-  SuppliersCompanion copyWith({
-    Value<int>? id,
-    Value<String>? name,
-    Value<String?>? contact,
-    Value<String>? category,
-    Value<String?>? customCategoryTitle,
-    Value<String>? approvalStatus,
-    Value<String?>? approvalNote,
-    Value<int?>? siteId,
-    Value<bool>? active,
-    Value<DateTime>? createdAt,
-  }) {
-    return SuppliersCompanion(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      contact: contact ?? this.contact,
-      category: category ?? this.category,
-      customCategoryTitle: customCategoryTitle ?? this.customCategoryTitle,
-      approvalStatus: approvalStatus ?? this.approvalStatus,
-      approvalNote: approvalNote ?? this.approvalNote,
-      siteId: siteId ?? this.siteId,
-      active: active ?? this.active,
-      createdAt: createdAt ?? this.createdAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (contact.present) {
-      map['contact'] = Variable<String>(contact.value);
-    }
-    if (category.present) {
-      map['category'] = Variable<String>(category.value);
-    }
-    if (customCategoryTitle.present) {
-      map['custom_category_title'] = Variable<String>(
-        customCategoryTitle.value,
-      );
-    }
-    if (approvalStatus.present) {
-      map['approval_status'] = Variable<String>(approvalStatus.value);
-    }
-    if (approvalNote.present) {
-      map['approval_note'] = Variable<String>(approvalNote.value);
-    }
-    if (siteId.present) {
-      map['site_id'] = Variable<int>(siteId.value);
-    }
-    if (active.present) {
-      map['active'] = Variable<bool>(active.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('SuppliersCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('contact: $contact, ')
-          ..write('category: $category, ')
-          ..write('customCategoryTitle: $customCategoryTitle, ')
-          ..write('approvalStatus: $approvalStatus, ')
-          ..write('approvalNote: $approvalNote, ')
-          ..write('siteId: $siteId, ')
-          ..write('active: $active, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -12672,6 +12791,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $EquipmentInstancesTable equipmentInstances =
       $EquipmentInstancesTable(this);
   late final $UsersTable users = $UsersTable(this);
+  late final $SuppliersTable suppliers = $SuppliersTable(this);
   late final $TaskSubmissionsTable taskSubmissions = $TaskSubmissionsTable(
     this,
   );
@@ -12682,7 +12802,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TrainingRecordsTable trainingRecords = $TrainingRecordsTable(
     this,
   );
-  late final $SuppliersTable suppliers = $SuppliersTable(this);
   late final $ShiftHandoverNotesTable shiftHandoverNotes =
       $ShiftHandoverNotesTable(this);
   late final $SessionSummariesTable sessionSummaries = $SessionSummariesTable(
@@ -12717,12 +12836,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     areas,
     equipmentInstances,
     users,
+    suppliers,
     taskSubmissions,
     legalLimitReferences,
     taskTemplates,
     taskSchedules,
     trainingRecords,
-    suppliers,
     shiftHandoverNotes,
     sessionSummaries,
     notificationRules,
@@ -13648,6 +13767,24 @@ final class $$SitesTableReferences
     );
   }
 
+  static MultiTypedResultKey<$SuppliersTable, List<SupplierEntity>>
+  _suppliersRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.suppliers,
+    aliasName: 'sites__id__suppliers__site_id',
+  );
+
+  $$SuppliersTableProcessedTableManager get suppliersRefs {
+    final manager = $$SuppliersTableTableManager(
+      $_db,
+      $_db.suppliers,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_suppliersRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<$TaskSubmissionsTable, List<TaskSubmissionEntity>>
   _taskSubmissionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
     db.taskSubmissions,
@@ -13701,24 +13838,6 @@ final class $$SitesTableReferences
     final cache = $_typedResult.readTableOrNull(
       _trainingRecordsRefsTable($_db),
     );
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
-
-  static MultiTypedResultKey<$SuppliersTable, List<SupplierEntity>>
-  _suppliersRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.suppliers,
-    aliasName: 'sites__id__suppliers__site_id',
-  );
-
-  $$SuppliersTableProcessedTableManager get suppliersRefs {
-    final manager = $$SuppliersTableTableManager(
-      $_db,
-      $_db.suppliers,
-    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_suppliersRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -13986,6 +14105,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
     return f(composer);
   }
 
+  Expression<bool> suppliersRefs(
+    Expression<bool> Function($$SuppliersTableFilterComposer f) f,
+  ) {
+    final $$SuppliersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.suppliers,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SuppliersTableFilterComposer(
+            $db: $db,
+            $table: $db.suppliers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<bool> taskSubmissionsRefs(
     Expression<bool> Function($$TaskSubmissionsTableFilterComposer f) f,
   ) {
@@ -14052,31 +14196,6 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$TrainingRecordsTableFilterComposer(
             $db: $db,
             $table: $db.trainingRecords,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<bool> suppliersRefs(
-    Expression<bool> Function($$SuppliersTableFilterComposer f) f,
-  ) {
-    final $$SuppliersTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.suppliers,
-      getReferencedColumn: (t) => t.siteId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$SuppliersTableFilterComposer(
-            $db: $db,
-            $table: $db.suppliers,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -14410,6 +14529,31 @@ class $$SitesTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> suppliersRefs<T extends Object>(
+    Expression<T> Function($$SuppliersTableAnnotationComposer a) f,
+  ) {
+    final $$SuppliersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.suppliers,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SuppliersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.suppliers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> taskSubmissionsRefs<T extends Object>(
     Expression<T> Function($$TaskSubmissionsTableAnnotationComposer a) f,
   ) {
@@ -14476,31 +14620,6 @@ class $$SitesTableAnnotationComposer
           }) => $$TrainingRecordsTableAnnotationComposer(
             $db: $db,
             $table: $db.trainingRecords,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
-
-  Expression<T> suppliersRefs<T extends Object>(
-    Expression<T> Function($$SuppliersTableAnnotationComposer a) f,
-  ) {
-    final $$SuppliersTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.suppliers,
-      getReferencedColumn: (t) => t.siteId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$SuppliersTableAnnotationComposer(
-            $db: $db,
-            $table: $db.suppliers,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -14683,10 +14802,10 @@ class $$SitesTableTableManager
             bool areasRefs,
             bool equipmentInstancesRefs,
             bool usersRefs,
+            bool suppliersRefs,
             bool taskSubmissionsRefs,
             bool taskSchedulesRefs,
             bool trainingRecordsRefs,
-            bool suppliersRefs,
             bool shiftHandoverNotesRefs,
             bool sessionSummariesRefs,
             bool notificationRulesRefs,
@@ -14746,10 +14865,10 @@ class $$SitesTableTableManager
                 areasRefs = false,
                 equipmentInstancesRefs = false,
                 usersRefs = false,
+                suppliersRefs = false,
                 taskSubmissionsRefs = false,
                 taskSchedulesRefs = false,
                 trainingRecordsRefs = false,
-                suppliersRefs = false,
                 shiftHandoverNotesRefs = false,
                 sessionSummariesRefs = false,
                 notificationRulesRefs = false,
@@ -14763,10 +14882,10 @@ class $$SitesTableTableManager
                     if (areasRefs) db.areas,
                     if (equipmentInstancesRefs) db.equipmentInstances,
                     if (usersRefs) db.users,
+                    if (suppliersRefs) db.suppliers,
                     if (taskSubmissionsRefs) db.taskSubmissions,
                     if (taskSchedulesRefs) db.taskSchedules,
                     if (trainingRecordsRefs) db.trainingRecords,
-                    if (suppliersRefs) db.suppliers,
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
                     if (sessionSummariesRefs) db.sessionSummaries,
                     if (notificationRulesRefs) db.notificationRules,
@@ -14863,6 +14982,27 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (suppliersRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          SupplierEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._suppliersRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).suppliersRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                       if (taskSubmissionsRefs)
                         await $_getPrefetchedData<
                           SiteEntity,
@@ -14920,27 +15060,6 @@ class $$SitesTableTableManager
                                 table,
                                 p0,
                               ).trainingRecordsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.siteId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                      if (suppliersRefs)
-                        await $_getPrefetchedData<
-                          SiteEntity,
-                          $SitesTable,
-                          SupplierEntity
-                        >(
-                          currentTable: table,
-                          referencedTable: $$SitesTableReferences
-                              ._suppliersRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$SitesTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).suppliersRefs,
                           referencedItemsForCurrentItem:
                               (item, referencedItems) => referencedItems.where(
                                 (e) => e.siteId == item.id,
@@ -15098,10 +15217,10 @@ typedef $$SitesTableProcessedTableManager =
         bool areasRefs,
         bool equipmentInstancesRefs,
         bool usersRefs,
+        bool suppliersRefs,
         bool taskSubmissionsRefs,
         bool taskSchedulesRefs,
         bool trainingRecordsRefs,
-        bool suppliersRefs,
         bool shiftHandoverNotesRefs,
         bool sessionSummariesRefs,
         bool notificationRulesRefs,
@@ -17426,6 +17545,513 @@ typedef $$UsersTableProcessedTableManager =
         bool taskPresetsRefs,
       })
     >;
+typedef $$SuppliersTableCreateCompanionBuilder =
+    SuppliersCompanion Function({
+      Value<int> id,
+      required String name,
+      Value<String?> contact,
+      required String category,
+      Value<String?> customCategoryTitle,
+      required String approvalStatus,
+      Value<String?> approvalNote,
+      Value<int?> siteId,
+      Value<bool> active,
+      required DateTime createdAt,
+    });
+typedef $$SuppliersTableUpdateCompanionBuilder =
+    SuppliersCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<String?> contact,
+      Value<String> category,
+      Value<String?> customCategoryTitle,
+      Value<String> approvalStatus,
+      Value<String?> approvalNote,
+      Value<int?> siteId,
+      Value<bool> active,
+      Value<DateTime> createdAt,
+    });
+
+final class $$SuppliersTableReferences
+    extends BaseReferences<_$AppDatabase, $SuppliersTable, SupplierEntity> {
+  $$SuppliersTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('suppliers__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$TaskSubmissionsTable, List<TaskSubmissionEntity>>
+  _taskSubmissionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskSubmissions,
+    aliasName: 'suppliers__id__task_submissions__supplier_id',
+  );
+
+  $$TaskSubmissionsTableProcessedTableManager get taskSubmissionsRefs {
+    final manager = $$TaskSubmissionsTableTableManager(
+      $_db,
+      $_db.taskSubmissions,
+    ).filter((f) => f.supplierId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _taskSubmissionsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$SuppliersTableFilterComposer
+    extends Composer<_$AppDatabase, $SuppliersTable> {
+  $$SuppliersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contact => $composableBuilder(
+    column: $table.contact,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customCategoryTitle => $composableBuilder(
+    column: $table.customCategoryTitle,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get approvalStatus => $composableBuilder(
+    column: $table.approvalStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get approvalNote => $composableBuilder(
+    column: $table.approvalNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> taskSubmissionsRefs(
+    Expression<bool> Function($$TaskSubmissionsTableFilterComposer f) f,
+  ) {
+    final $$TaskSubmissionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.supplierId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableFilterComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SuppliersTableOrderingComposer
+    extends Composer<_$AppDatabase, $SuppliersTable> {
+  $$SuppliersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contact => $composableBuilder(
+    column: $table.contact,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customCategoryTitle => $composableBuilder(
+    column: $table.customCategoryTitle,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get approvalStatus => $composableBuilder(
+    column: $table.approvalStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get approvalNote => $composableBuilder(
+    column: $table.approvalNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SuppliersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SuppliersTable> {
+  $$SuppliersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get contact =>
+      $composableBuilder(column: $table.contact, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get customCategoryTitle => $composableBuilder(
+    column: $table.customCategoryTitle,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get approvalStatus => $composableBuilder(
+    column: $table.approvalStatus,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get approvalNote => $composableBuilder(
+    column: $table.approvalNote,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> taskSubmissionsRefs<T extends Object>(
+    Expression<T> Function($$TaskSubmissionsTableAnnotationComposer a) f,
+  ) {
+    final $$TaskSubmissionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSubmissions,
+      getReferencedColumn: (t) => t.supplierId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSubmissionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SuppliersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SuppliersTable,
+          SupplierEntity,
+          $$SuppliersTableFilterComposer,
+          $$SuppliersTableOrderingComposer,
+          $$SuppliersTableAnnotationComposer,
+          $$SuppliersTableCreateCompanionBuilder,
+          $$SuppliersTableUpdateCompanionBuilder,
+          (SupplierEntity, $$SuppliersTableReferences),
+          SupplierEntity,
+          PrefetchHooks Function({bool siteId, bool taskSubmissionsRefs})
+        > {
+  $$SuppliersTableTableManager(_$AppDatabase db, $SuppliersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SuppliersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SuppliersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SuppliersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String?> contact = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<String?> customCategoryTitle = const Value.absent(),
+                Value<String> approvalStatus = const Value.absent(),
+                Value<String?> approvalNote = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => SuppliersCompanion(
+                id: id,
+                name: name,
+                contact: contact,
+                category: category,
+                customCategoryTitle: customCategoryTitle,
+                approvalStatus: approvalStatus,
+                approvalNote: approvalNote,
+                siteId: siteId,
+                active: active,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                Value<String?> contact = const Value.absent(),
+                required String category,
+                Value<String?> customCategoryTitle = const Value.absent(),
+                required String approvalStatus,
+                Value<String?> approvalNote = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                required DateTime createdAt,
+              }) => SuppliersCompanion.insert(
+                id: id,
+                name: name,
+                contact: contact,
+                category: category,
+                customCategoryTitle: customCategoryTitle,
+                approvalStatus: approvalStatus,
+                approvalNote: approvalNote,
+                siteId: siteId,
+                active: active,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SuppliersTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({siteId = false, taskSubmissionsRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (taskSubmissionsRefs) db.taskSubmissions,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable: $$SuppliersTableReferences
+                                        ._siteIdTable(db),
+                                    referencedColumn: $$SuppliersTableReferences
+                                        ._siteIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (taskSubmissionsRefs)
+                        await $_getPrefetchedData<
+                          SupplierEntity,
+                          $SuppliersTable,
+                          TaskSubmissionEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SuppliersTableReferences
+                              ._taskSubmissionsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SuppliersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).taskSubmissionsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.supplierId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$SuppliersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SuppliersTable,
+      SupplierEntity,
+      $$SuppliersTableFilterComposer,
+      $$SuppliersTableOrderingComposer,
+      $$SuppliersTableAnnotationComposer,
+      $$SuppliersTableCreateCompanionBuilder,
+      $$SuppliersTableUpdateCompanionBuilder,
+      (SupplierEntity, $$SuppliersTableReferences),
+      SupplierEntity,
+      PrefetchHooks Function({bool siteId, bool taskSubmissionsRefs})
+    >;
 typedef $$TaskSubmissionsTableCreateCompanionBuilder =
     TaskSubmissionsCompanion Function({
       Value<int> id,
@@ -17445,6 +18071,7 @@ typedef $$TaskSubmissionsTableCreateCompanionBuilder =
       Value<int?> siteId,
       Value<String?> correctiveActionOutcome,
       Value<String?> correctiveActionNote,
+      Value<int?> supplierId,
     });
 typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
     TaskSubmissionsCompanion Function({
@@ -17465,6 +18092,7 @@ typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
       Value<int?> siteId,
       Value<String?> correctiveActionOutcome,
       Value<String?> correctiveActionNote,
+      Value<int?> supplierId,
     });
 
 final class $$TaskSubmissionsTableReferences
@@ -17527,6 +18155,23 @@ final class $$TaskSubmissionsTableReferences
       $_db.sites,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SuppliersTable _supplierIdTable(_$AppDatabase db) =>
+      db.suppliers.createAlias('task_submissions__supplier_id__suppliers__id');
+
+  $$SuppliersTableProcessedTableManager? get supplierId {
+    final $_column = $_itemColumn<int>('supplier_id');
+    if ($_column == null) return null;
+    final manager = $$SuppliersTableTableManager(
+      $_db,
+      $_db.suppliers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_supplierIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -17699,6 +18344,29 @@ class $$TaskSubmissionsTableFilterComposer
           }) => $$SitesTableFilterComposer(
             $db: $db,
             $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SuppliersTableFilterComposer get supplierId {
+    final $$SuppliersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.supplierId,
+      referencedTable: $db.suppliers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SuppliersTableFilterComposer(
+            $db: $db,
+            $table: $db.suppliers,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -17881,6 +18549,29 @@ class $$TaskSubmissionsTableOrderingComposer
     );
     return composer;
   }
+
+  $$SuppliersTableOrderingComposer get supplierId {
+    final $$SuppliersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.supplierId,
+      referencedTable: $db.suppliers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SuppliersTableOrderingComposer(
+            $db: $db,
+            $table: $db.suppliers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$TaskSubmissionsTableAnnotationComposer
@@ -18022,6 +18713,29 @@ class $$TaskSubmissionsTableAnnotationComposer
     return composer;
   }
 
+  $$SuppliersTableAnnotationComposer get supplierId {
+    final $$SuppliersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.supplierId,
+      referencedTable: $db.suppliers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SuppliersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.suppliers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   Expression<T> triggerNotificationsRefs<T extends Object>(
     Expression<T> Function($$TriggerNotificationsTableAnnotationComposer a) f,
   ) {
@@ -18066,6 +18780,7 @@ class $$TaskSubmissionsTableTableManager
             bool equipmentInstanceId,
             bool completedByUserId,
             bool siteId,
+            bool supplierId,
             bool triggerNotificationsRefs,
           })
         > {
@@ -18101,6 +18816,7 @@ class $$TaskSubmissionsTableTableManager
                 Value<int?> siteId = const Value.absent(),
                 Value<String?> correctiveActionOutcome = const Value.absent(),
                 Value<String?> correctiveActionNote = const Value.absent(),
+                Value<int?> supplierId = const Value.absent(),
               }) => TaskSubmissionsCompanion(
                 id: id,
                 taskTitle: taskTitle,
@@ -18119,6 +18835,7 @@ class $$TaskSubmissionsTableTableManager
                 siteId: siteId,
                 correctiveActionOutcome: correctiveActionOutcome,
                 correctiveActionNote: correctiveActionNote,
+                supplierId: supplierId,
               ),
           createCompanionCallback:
               ({
@@ -18139,6 +18856,7 @@ class $$TaskSubmissionsTableTableManager
                 Value<int?> siteId = const Value.absent(),
                 Value<String?> correctiveActionOutcome = const Value.absent(),
                 Value<String?> correctiveActionNote = const Value.absent(),
+                Value<int?> supplierId = const Value.absent(),
               }) => TaskSubmissionsCompanion.insert(
                 id: id,
                 taskTitle: taskTitle,
@@ -18157,6 +18875,7 @@ class $$TaskSubmissionsTableTableManager
                 siteId: siteId,
                 correctiveActionOutcome: correctiveActionOutcome,
                 correctiveActionNote: correctiveActionNote,
+                supplierId: supplierId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -18171,6 +18890,7 @@ class $$TaskSubmissionsTableTableManager
                 equipmentInstanceId = false,
                 completedByUserId = false,
                 siteId = false,
+                supplierId = false,
                 triggerNotificationsRefs = false,
               }) {
                 return PrefetchHooks(
@@ -18239,6 +18959,21 @@ class $$TaskSubmissionsTableTableManager
                                   )
                                   as T;
                         }
+                        if (supplierId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.supplierId,
+                                    referencedTable:
+                                        $$TaskSubmissionsTableReferences
+                                            ._supplierIdTable(db),
+                                    referencedColumn:
+                                        $$TaskSubmissionsTableReferences
+                                            ._supplierIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
                         return state;
                       },
@@ -18289,6 +19024,7 @@ typedef $$TaskSubmissionsTableProcessedTableManager =
         bool equipmentInstanceId,
         bool completedByUserId,
         bool siteId,
+        bool supplierId,
         bool triggerNotificationsRefs,
       })
     >;
@@ -18707,6 +19443,7 @@ typedef $$TaskTemplatesTableCreateCompanionBuilder =
       Value<String?> priority,
       Value<String?> jobRole,
       Value<String?> guidanceText,
+      Value<bool> requiresSupplierSelection,
     });
 typedef $$TaskTemplatesTableUpdateCompanionBuilder =
     TaskTemplatesCompanion Function({
@@ -18734,6 +19471,7 @@ typedef $$TaskTemplatesTableUpdateCompanionBuilder =
       Value<String?> priority,
       Value<String?> jobRole,
       Value<String?> guidanceText,
+      Value<bool> requiresSupplierSelection,
     });
 
 final class $$TaskTemplatesTableReferences
@@ -18910,6 +19648,11 @@ class $$TaskTemplatesTableFilterComposer
 
   ColumnFilters<String> get guidanceText => $composableBuilder(
     column: $table.guidanceText,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get requiresSupplierSelection => $composableBuilder(
+    column: $table.requiresSupplierSelection,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -19098,6 +19841,11 @@ class $$TaskTemplatesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get requiresSupplierSelection => $composableBuilder(
+    column: $table.requiresSupplierSelection,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$TaskTemplatesTableOrderingComposer get previousVersionId {
     final $$TaskTemplatesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -19263,6 +20011,11 @@ class $$TaskTemplatesTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<bool> get requiresSupplierSelection => $composableBuilder(
+    column: $table.requiresSupplierSelection,
+    builder: (column) => column,
+  );
+
   $$TaskTemplatesTableAnnotationComposer get previousVersionId {
     final $$TaskTemplatesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -19390,6 +20143,7 @@ class $$TaskTemplatesTableTableManager
                 Value<String?> priority = const Value.absent(),
                 Value<String?> jobRole = const Value.absent(),
                 Value<String?> guidanceText = const Value.absent(),
+                Value<bool> requiresSupplierSelection = const Value.absent(),
               }) => TaskTemplatesCompanion(
                 id: id,
                 templateGroupId: templateGroupId,
@@ -19415,6 +20169,7 @@ class $$TaskTemplatesTableTableManager
                 priority: priority,
                 jobRole: jobRole,
                 guidanceText: guidanceText,
+                requiresSupplierSelection: requiresSupplierSelection,
               ),
           createCompanionCallback:
               ({
@@ -19443,6 +20198,7 @@ class $$TaskTemplatesTableTableManager
                 Value<String?> priority = const Value.absent(),
                 Value<String?> jobRole = const Value.absent(),
                 Value<String?> guidanceText = const Value.absent(),
+                Value<bool> requiresSupplierSelection = const Value.absent(),
               }) => TaskTemplatesCompanion.insert(
                 id: id,
                 templateGroupId: templateGroupId,
@@ -19468,6 +20224,7 @@ class $$TaskTemplatesTableTableManager
                 priority: priority,
                 jobRole: jobRole,
                 guidanceText: guidanceText,
+                requiresSupplierSelection: requiresSupplierSelection,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -20926,418 +21683,6 @@ typedef $$TrainingRecordsTableProcessedTableManager =
       (TrainingRecordEntity, $$TrainingRecordsTableReferences),
       TrainingRecordEntity,
       PrefetchHooks Function({bool userId, bool siteId, bool signedOffByUserId})
-    >;
-typedef $$SuppliersTableCreateCompanionBuilder =
-    SuppliersCompanion Function({
-      Value<int> id,
-      required String name,
-      Value<String?> contact,
-      required String category,
-      Value<String?> customCategoryTitle,
-      required String approvalStatus,
-      Value<String?> approvalNote,
-      Value<int?> siteId,
-      Value<bool> active,
-      required DateTime createdAt,
-    });
-typedef $$SuppliersTableUpdateCompanionBuilder =
-    SuppliersCompanion Function({
-      Value<int> id,
-      Value<String> name,
-      Value<String?> contact,
-      Value<String> category,
-      Value<String?> customCategoryTitle,
-      Value<String> approvalStatus,
-      Value<String?> approvalNote,
-      Value<int?> siteId,
-      Value<bool> active,
-      Value<DateTime> createdAt,
-    });
-
-final class $$SuppliersTableReferences
-    extends BaseReferences<_$AppDatabase, $SuppliersTable, SupplierEntity> {
-  $$SuppliersTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $SitesTable _siteIdTable(_$AppDatabase db) =>
-      db.sites.createAlias('suppliers__site_id__sites__id');
-
-  $$SitesTableProcessedTableManager? get siteId {
-    final $_column = $_itemColumn<int>('site_id');
-    if ($_column == null) return null;
-    final manager = $$SitesTableTableManager(
-      $_db,
-      $_db.sites,
-    ).filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
-  }
-}
-
-class $$SuppliersTableFilterComposer
-    extends Composer<_$AppDatabase, $SuppliersTable> {
-  $$SuppliersTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get contact => $composableBuilder(
-    column: $table.contact,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get category => $composableBuilder(
-    column: $table.category,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get customCategoryTitle => $composableBuilder(
-    column: $table.customCategoryTitle,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get approvalStatus => $composableBuilder(
-    column: $table.approvalStatus,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<String> get approvalNote => $composableBuilder(
-    column: $table.approvalNote,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<bool> get active => $composableBuilder(
-    column: $table.active,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  $$SitesTableFilterComposer get siteId {
-    final $$SitesTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.siteId,
-      referencedTable: $db.sites,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$SitesTableFilterComposer(
-            $db: $db,
-            $table: $db.sites,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$SuppliersTableOrderingComposer
-    extends Composer<_$AppDatabase, $SuppliersTable> {
-  $$SuppliersTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get name => $composableBuilder(
-    column: $table.name,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get contact => $composableBuilder(
-    column: $table.contact,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get category => $composableBuilder(
-    column: $table.category,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get customCategoryTitle => $composableBuilder(
-    column: $table.customCategoryTitle,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get approvalStatus => $composableBuilder(
-    column: $table.approvalStatus,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<String> get approvalNote => $composableBuilder(
-    column: $table.approvalNote,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<bool> get active => $composableBuilder(
-    column: $table.active,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
-
-  $$SitesTableOrderingComposer get siteId {
-    final $$SitesTableOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.siteId,
-      referencedTable: $db.sites,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$SitesTableOrderingComposer(
-            $db: $db,
-            $table: $db.sites,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$SuppliersTableAnnotationComposer
-    extends Composer<_$AppDatabase, $SuppliersTable> {
-  $$SuppliersTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  GeneratedColumn<String> get contact =>
-      $composableBuilder(column: $table.contact, builder: (column) => column);
-
-  GeneratedColumn<String> get category =>
-      $composableBuilder(column: $table.category, builder: (column) => column);
-
-  GeneratedColumn<String> get customCategoryTitle => $composableBuilder(
-    column: $table.customCategoryTitle,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get approvalStatus => $composableBuilder(
-    column: $table.approvalStatus,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<String> get approvalNote => $composableBuilder(
-    column: $table.approvalNote,
-    builder: (column) => column,
-  );
-
-  GeneratedColumn<bool> get active =>
-      $composableBuilder(column: $table.active, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  $$SitesTableAnnotationComposer get siteId {
-    final $$SitesTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.siteId,
-      referencedTable: $db.sites,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$SitesTableAnnotationComposer(
-            $db: $db,
-            $table: $db.sites,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return composer;
-  }
-}
-
-class $$SuppliersTableTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          $SuppliersTable,
-          SupplierEntity,
-          $$SuppliersTableFilterComposer,
-          $$SuppliersTableOrderingComposer,
-          $$SuppliersTableAnnotationComposer,
-          $$SuppliersTableCreateCompanionBuilder,
-          $$SuppliersTableUpdateCompanionBuilder,
-          (SupplierEntity, $$SuppliersTableReferences),
-          SupplierEntity,
-          PrefetchHooks Function({bool siteId})
-        > {
-  $$SuppliersTableTableManager(_$AppDatabase db, $SuppliersTable table)
-    : super(
-        TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$SuppliersTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$SuppliersTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$SuppliersTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                Value<String> name = const Value.absent(),
-                Value<String?> contact = const Value.absent(),
-                Value<String> category = const Value.absent(),
-                Value<String?> customCategoryTitle = const Value.absent(),
-                Value<String> approvalStatus = const Value.absent(),
-                Value<String?> approvalNote = const Value.absent(),
-                Value<int?> siteId = const Value.absent(),
-                Value<bool> active = const Value.absent(),
-                Value<DateTime> createdAt = const Value.absent(),
-              }) => SuppliersCompanion(
-                id: id,
-                name: name,
-                contact: contact,
-                category: category,
-                customCategoryTitle: customCategoryTitle,
-                approvalStatus: approvalStatus,
-                approvalNote: approvalNote,
-                siteId: siteId,
-                active: active,
-                createdAt: createdAt,
-              ),
-          createCompanionCallback:
-              ({
-                Value<int> id = const Value.absent(),
-                required String name,
-                Value<String?> contact = const Value.absent(),
-                required String category,
-                Value<String?> customCategoryTitle = const Value.absent(),
-                required String approvalStatus,
-                Value<String?> approvalNote = const Value.absent(),
-                Value<int?> siteId = const Value.absent(),
-                Value<bool> active = const Value.absent(),
-                required DateTime createdAt,
-              }) => SuppliersCompanion.insert(
-                id: id,
-                name: name,
-                contact: contact,
-                category: category,
-                customCategoryTitle: customCategoryTitle,
-                approvalStatus: approvalStatus,
-                approvalNote: approvalNote,
-                siteId: siteId,
-                active: active,
-                createdAt: createdAt,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (
-                  e.readTable(table),
-                  $$SuppliersTableReferences(db, table, e),
-                ),
-              )
-              .toList(),
-          prefetchHooksCallback: ({siteId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (siteId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.siteId,
-                                referencedTable: $$SuppliersTableReferences
-                                    ._siteIdTable(db),
-                                referencedColumn: $$SuppliersTableReferences
-                                    ._siteIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
-
-                    return state;
-                  },
-              getPrefetchedDataCallback: (items) async {
-                return [];
-              },
-            );
-          },
-        ),
-      );
-}
-
-typedef $$SuppliersTableProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      $SuppliersTable,
-      SupplierEntity,
-      $$SuppliersTableFilterComposer,
-      $$SuppliersTableOrderingComposer,
-      $$SuppliersTableAnnotationComposer,
-      $$SuppliersTableCreateCompanionBuilder,
-      $$SuppliersTableUpdateCompanionBuilder,
-      (SupplierEntity, $$SuppliersTableReferences),
-      SupplierEntity,
-      PrefetchHooks Function({bool siteId})
     >;
 typedef $$ShiftHandoverNotesTableCreateCompanionBuilder =
     ShiftHandoverNotesCompanion Function({
@@ -27551,6 +27896,8 @@ class $AppDatabaseManager {
       $$EquipmentInstancesTableTableManager(_db, _db.equipmentInstances);
   $$UsersTableTableManager get users =>
       $$UsersTableTableManager(_db, _db.users);
+  $$SuppliersTableTableManager get suppliers =>
+      $$SuppliersTableTableManager(_db, _db.suppliers);
   $$TaskSubmissionsTableTableManager get taskSubmissions =>
       $$TaskSubmissionsTableTableManager(_db, _db.taskSubmissions);
   $$LegalLimitReferencesTableTableManager get legalLimitReferences =>
@@ -27561,8 +27908,6 @@ class $AppDatabaseManager {
       $$TaskSchedulesTableTableManager(_db, _db.taskSchedules);
   $$TrainingRecordsTableTableManager get trainingRecords =>
       $$TrainingRecordsTableTableManager(_db, _db.trainingRecords);
-  $$SuppliersTableTableManager get suppliers =>
-      $$SuppliersTableTableManager(_db, _db.suppliers);
   $$ShiftHandoverNotesTableTableManager get shiftHandoverNotes =>
       $$ShiftHandoverNotesTableTableManager(_db, _db.shiftHandoverNotes);
   $$SessionSummariesTableTableManager get sessionSummaries =>

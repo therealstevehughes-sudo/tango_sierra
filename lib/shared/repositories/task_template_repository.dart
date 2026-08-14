@@ -280,6 +280,7 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
           ? null
           : JobRole.values.byName(row.jobRole!),
       guidanceText: row.guidanceText,
+      requiresSupplierSelection: row.requiresSupplierSelection,
     );
   }
 }

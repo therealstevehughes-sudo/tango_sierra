@@ -102,15 +102,43 @@ Future<void> showEhoExportDialog(BuildContext context, WidgetRef ref) async {
   ).add(const Duration(days: 1));
 
   final service = ref.read(ehoExportServiceProvider);
-  final path = await service.generate(
-    siteId: currentUser.siteId,
-    start: rangeStart,
-    end: rangeEnd,
-    generatedByName: currentUser.name,
-    includeFullLog: includeFullLog,
-  );
+
+  // Never fail silently (found live-testing: an unhandled exception here
+  // used to just close the dialog with no PDF, no file, and no indication
+  // anything went wrong). Any failure now surfaces a real message.
+  String? path;
+  Object? error;
+  try {
+    path = await service.generate(
+      siteId: currentUser.siteId,
+      start: rangeStart,
+      end: rangeEnd,
+      generatedByName: currentUser.name,
+      includeFullLog: includeFullLog,
+    );
+  } catch (e) {
+    error = e;
+  }
 
   if (!context.mounted) return;
+
+  if (error != null) {
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Export Failed'),
+        content: Text('Export failed: $error'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+    return;
+  }
+
   await showDialog(
     context: context,
     builder: (context) => AlertDialog(

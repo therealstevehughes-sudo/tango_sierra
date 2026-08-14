@@ -11,10 +11,12 @@ import '../../core/widgets/app_card.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../core/widgets/user_title.dart';
+import '../../shared/models/supplier.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
+import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
@@ -48,6 +50,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   String? correctiveActionOutcome;
   bool photoTaken = false;
 
+  // Supplier register + traceability (Sprint 031, finalized beta build
+  // order item 4, Sub-sprint B). Optional — never blocks submission (same
+  // "never block the kitchen running" principle as the approval-status
+  // warning below): a worker can't refuse a delivery already at the door.
+  List<Supplier> suppliers = [];
+  int? selectedSupplierId;
+
   String? error;
 
   @override
@@ -70,6 +79,15 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
   Future<void> _load() async {
     await controller.loadTasks();
+
+    final currentUser = ref.read(currentUserProvider);
+    if (currentUser != null) {
+      final allSuppliers = await ref
+          .read(supplierRepositoryProvider)
+          .getForSite(currentUser.siteId);
+      suppliers = allSuppliers.where((s) => s.active).toList();
+    }
+
     if (!mounted) return;
     setState(() => loading = false);
 
@@ -205,6 +223,27 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     return result;
   }
 
+  // Flags, never blocks (Sprint 031, finalized beta build order item 4,
+  // Sub-sprint B) — a worker can't refuse a delivery already at the door,
+  // so an unapproved supplier is surfaced for manager visibility, not
+  // gated behind it.
+  String? get _selectedSupplierWarning {
+    if (selectedSupplierId == null) return null;
+    Supplier? selected;
+    for (final s in suppliers) {
+      if (s.id == selectedSupplierId) {
+        selected = s;
+        break;
+      }
+    }
+    if (selected == null || selected.approvalStatus == SupplierApprovalStatus.approved) {
+      return null;
+    }
+    return 'This supplier is marked '
+        '${supplierApprovalStatusLabel(selected.approvalStatus)} — the '
+        'check will still be recorded.';
+  }
+
   String? get _rangeWarning {
     final task = controller.getCurrentTask();
     if (!task.hasNumericRange) return null;
@@ -296,6 +335,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       correctiveActionNote: correctiveNoteController.text.trim().isEmpty
           ? null
           : correctiveNoteController.text.trim(),
+      supplierId: selectedSupplierId,
     );
 
     if (!mounted) return;
@@ -311,6 +351,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         selectedChoice = null;
         correctiveActionOutcome = null;
         photoTaken = false;
+        selectedSupplierId = null;
         error = null;
       });
     } else {
@@ -470,6 +511,34 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           child: Text(photoTaken ? "Photo Added" : "Add Photo"),
                         ),
                       ),
+                    if (task.requiresSupplierSelection) ...[
+                      const SizedBox(height: 12),
+                      DropdownButtonFormField<int>(
+                        initialValue: selectedSupplierId,
+                        decoration: const InputDecoration(
+                          labelText: 'Supplier (optional)',
+                        ),
+                        items: suppliers
+                            .map(
+                              (s) => DropdownMenuItem(
+                                value: s.id,
+                                child: Text(s.name),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() => selectedSupplierId = value);
+                        },
+                      ),
+                      if (_selectedSupplierWarning != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8),
+                          child: AppBanner(
+                            kind: BannerKind.caution,
+                            child: Text(_selectedSupplierWarning!),
+                          ),
+                        ),
+                    ],
                   ],
                 ),
               ),

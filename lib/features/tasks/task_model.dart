@@ -38,6 +38,10 @@ class ResolvedTask {
   // completedAt and due/overdue, not newly introduced here.
   final int? windowStartMinutes;
   final int? windowEndMinutesExclusive;
+  // Supplier register + traceability (Sprint 031, finalized beta build
+  // order item 4, Sub-sprint B) — true only on "Supplier traceability
+  // captured"; task_screen.dart shows a supplier picker when set.
+  final bool requiresSupplierSelection;
 
   const ResolvedTask({
     required this.scheduleId,
@@ -62,6 +66,7 @@ class ResolvedTask {
     this.overdueSince,
     this.windowStartMinutes,
     this.windowEndMinutesExclusive,
+    this.requiresSupplierSelection = false,
   });
 
   bool get hasNumericRange => minLimit != null && maxLimit != null;
