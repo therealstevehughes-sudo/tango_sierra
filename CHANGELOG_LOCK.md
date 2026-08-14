@@ -1272,3 +1272,23 @@ Risks: None new. A real bug was found live-testing (the expiry-date picker's `fi
 Deferred items: none for this feature.
 Save point name: SPRINT_031Y_LOCK
 Notes: Commit 220541c, message "Sprint 031 (finalized beta build order item 3): training records".
+
+---
+
+## Supplier register (Sprint 031, finalized beta build order item 4, Sub-sprint A)
+Date: 2026-08-14
+Objective: A venue-level supplier register (name, contact, category, approval status) — one-step-back traceability is a UK legal requirement and every competitor bundles this as standard. First of a two-part split: A (this — register core), B (delivery traceability link + EHO export, next).
+Files changed:
+- lib/shared/models/supplier_category.dart (new) — `SupplierCategory` enum (8 common UK/HORECA categories) + `other`, mirrors `TrainingItemType`'s enum+custom shape.
+- lib/shared/models/supplier.dart (new) — `Supplier` model, `SupplierApprovalStatus` (approved/pending/suspended).
+- lib/core/storage/app_database.dart, app_database.g.dart — new `Suppliers` table (editable, active-flag, not versioned — matches `EquipmentInstance`, confirmed against `ARCHITECTURE_LOCK.md`'s four-entity versioning list). schemaVersion 27→28.
+- lib/shared/repositories/supplier_repository.dart, lib/shared/providers/supplier_providers.dart (new) — `getForSite`, `create`, `updateDetails`, `setApprovalStatus`, `setActive`.
+- lib/features/settings/supplier_management_screen.dart (new) — mirrors `StaffManagementScreen`'s Card+ListTile+PopupMenuButton structure; approval status shown via the existing `StatusBadge` component.
+- lib/core/widgets/management_drawer.dart — new "Supplier Management" item, `RoleTier.venueManager`+.
+Files unchanged: no task/delivery wiring yet — that's Sub-sprint B.
+Architecture impact: schemaVersion 27→28, one additive new table, no backfill.
+UI impact: Management drawer gains a Supplier Management screen (venue manager tier and above).
+Risks: None new. A scope-boundary check against `PROJECT_BIBLE.md`'s "supplier ordering" exclusion was done before building and confirmed this feature (compliance record-keeping) is a different thing (no POs, quantities, or reordering). Verified: `flutter analyze` clean; `build_runner` regenerated cleanly; a real Windows debug run confirmed the migration (suppliers table present, schema version 28, checked directly against the dev database). The user tested live: add (catalogue + Other category), the approval-status badge, edit details, change approval status, deactivate/reactivate.
+Deferred items: delivery traceability link + EHO export integration — Sub-sprint B, next.
+Save point name: SPRINT_031Z_LOCK
+Notes: Commit 98478d0, message "Sprint 031 (finalized beta build order item 4, Sub-sprint A): supplier register".
