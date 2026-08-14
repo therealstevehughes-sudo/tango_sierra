@@ -1329,3 +1329,25 @@ Risks: None new. The `task_screen.dart` <-> `tier_home_screen.dart` <-> `manager
 Deferred items: Settings entry point (Sub-sprint C); Departments (Sub-sprint B, next); a richer "return to home without logging out" flow was considered and explicitly deferred in favor of keeping Log out as TaskScreen's sole exit.
 Save point name: SPRINT_031AB_LOCK
 Notes: Commit ac2fe94, message "Sprint 031 (Build Order item 5, Sub-sprint A): tier home screen + My Tasks fix".
+
+---
+
+## Departments (Sprint 031, Build Order item 5, Sub-sprint B)
+Date: 2026-08-14
+Objective: A venue-defined Department entity (Kitchen, Housekeeping, Reception, ...), venue-scoped and nullable on staff — distinct from jobRole ("what you do") and roleTier ("how much you can see/escalate to"). Lays the groundwork for a future departments-first login flow (not built here — that threshold/UX decision stays open). Three open decisions (CRUD location, createdAt column, deactivate-assignment behavior) proposed with recommendations, all approved as recommended.
+Files changed:
+- lib/core/storage/app_database.dart, app_database.g.dart — new `Departments` table (`id`, `name`, `siteId` nullable FK, `active`, `createdAt` — shape copied from `Suppliers`, confirmed the better precedent over the simpler `Areas`). `Users.departmentId` nullable FK→`Departments`. schemaVersion 29→30.
+- lib/shared/models/department.dart (new) — `Department` model.
+- lib/shared/models/user.dart — `User.departmentId` (nullable), mirrors the existing `jobRole` nullable-field convention.
+- lib/shared/repositories/department_repository.dart, lib/shared/providers/department_providers.dart (new) — `DepartmentRepository`/`DriftDepartmentRepository`: `getForSite`, `create`, `rename`, `setActive`, mirrors `SupplierRepository`.
+- lib/shared/repositories/user_repository.dart — `changeDepartment({userId, departmentId})`, mirrors `changeRoleTier`; `departmentId: null` explicitly clears an assignment.
+- lib/features/settings/department_management_screen.dart (new) — mirrors `SupplierManagementScreen`'s Card+ListTile+PopupMenuButton structure (Rename / Deactivate-Reactivate).
+- lib/core/widgets/management_drawer.dart — new "Department Management" item, `RoleTier.venueManager`+.
+- lib/features/settings/staff_management_screen.dart — new "Change Department" action, dialog mirrors "Change Tier"; always offers an explicit "No department" option; a staff member's currently-assigned department still appears (labelled inactive) in their own dropdown even if since deactivated, so the dialog never silently hides their real current value, while being excluded from every other assignment's option list. Staff tiles gained a department-name subtitle line.
+Files unchanged: no Venue Setup wizard changes — Department CRUD lives only in the standalone management screen, approved over adding a wizard step (manageable any time, not tied to first-time venue setup, same placement reasoning as Suppliers).
+Architecture impact: schemaVersion 29→30, one additive new table plus one additive nullable column, no backfill.
+UI impact: Management drawer gains a Department Management screen (venue manager tier and above); Staff Management gains a "Change Department" action and a department-name subtitle line.
+Risks: None new. Verified: `flutter analyze` clean; `build_runner` regenerated cleanly (same pre-existing dual-FK-to-Users warning class, not new). A real Windows debug run confirmed the migration executed cleanly against the actual dev database (checked directly: PRAGMA user_version = 30, departments table present, users.department_id column present); the app launched and ran stably post-migration.
+Deferred items: the departments-first login flow (threshold/UX decision still open, unscheduled); Settings shell + units — Sub-sprint C, next.
+Save point name: SPRINT_031AC_LOCK
+Notes: Commit 81fcca6, message "Sprint 031 (Build Order item 5, Sub-sprint B): departments".
