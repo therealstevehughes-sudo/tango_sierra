@@ -10,12 +10,17 @@ import 'package:pdf/widgets.dart' as pw;
 import '../../core/utils/date_format.dart';
 import '../../shared/models/site.dart';
 import '../../shared/models/task_submission.dart';
+import '../../shared/models/training_record.dart';
+import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
+import '../../shared/providers/training_record_providers.dart';
 import '../../shared/repositories/site_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
 import '../../shared/repositories/task_template_repository.dart';
+import '../../shared/repositories/training_record_repository.dart';
+import '../../shared/repositories/user_repository.dart';
 import '../tasks/overdue_summary_service.dart';
 
 // EHO/audit export (Sprint 031) — a one-tap, inspector-ready PDF of a
@@ -29,6 +34,10 @@ import '../tasks/overdue_summary_service.dart';
 // Summary + Exceptions, not a dense everything-dump. The full detailed
 // log still exists but is opt-in (includeFullLog), not the default.
 //
+// Training records (Sprint 031) feed this too — active-staff-only tallies
+// in the Summary line and an expired-training subsection in Exceptions,
+// same "never silently hidden" treatment as fails/not-completed tasks.
+//
 // HONEST LIMIT, stated on the export itself, not just in code: timestamps
 // are device-clock (fakeable until a backend provides trusted server
 // time), and "photo attached" is a marker only — no real image is
@@ -38,18 +47,34 @@ import '../tasks/overdue_summary_service.dart';
 // be actively misleading, not just an omission.
 const _reviewSegment = 'management_compliance_oversight';
 
+class _ExpiredTrainingEntry {
+  const _ExpiredTrainingEntry({
+    required this.staffName,
+    required this.itemTitle,
+    required this.expiredAt,
+  });
+
+  final String staffName;
+  final String itemTitle;
+  final DateTime expiredAt;
+}
+
 class EhoExportService {
   EhoExportService(
     this._submissionRepository,
     this._templateRepository,
     this._siteRepository,
     this._overdueSummaryService,
+    this._trainingRecordRepository,
+    this._userRepository,
   );
 
   final TaskSubmissionRepository _submissionRepository;
   final TaskTemplateRepository _templateRepository;
   final SiteRepository _siteRepository;
   final OverdueSummaryService _overdueSummaryService;
+  final TrainingRecordRepository _trainingRecordRepository;
+  final UserRepository _userRepository;
 
   Future<String> generate({
     required int siteId,
@@ -111,6 +136,49 @@ class EhoExportService {
       siteId,
     );
 
+    // Training records (Sprint 031) — active staff only: a departed
+    // member's lapsed training isn't a live "Confidence in Management"
+    // gap for this venue today. Each staff member's history is reduced to
+    // their latest record per item (a renewal supersedes the status of an
+    // earlier expired one, even though the old row itself stays on file).
+    final allUsers = await _userRepository.getAll();
+    final activeStaff = allUsers
+        .where((u) => u.siteId == siteId && u.active)
+        .toList();
+    final activeStaffIds = activeStaff.map((u) => u.id).toSet();
+    final trainingRecords = await _trainingRecordRepository.getForSite(
+      siteId,
+    );
+    final trainingByUser = <int, List<TrainingRecord>>{};
+    for (final record in trainingRecords) {
+      if (!activeStaffIds.contains(record.userId)) continue;
+      trainingByUser.putIfAbsent(record.userId, () => []).add(record);
+    }
+    var trainingCurrentCount = 0;
+    var trainingExpiringSoonCount = 0;
+    var trainingExpiredCount = 0;
+    final expiredTraining = <_ExpiredTrainingEntry>[];
+    for (final user in activeStaff) {
+      final latest = latestPerItem(trainingByUser[user.id] ?? []);
+      for (final record in latest) {
+        switch (computeTrainingStatus(record.expiresAt)) {
+          case TrainingStatus.current:
+            trainingCurrentCount++;
+          case TrainingStatus.expiringSoon:
+            trainingExpiringSoonCount++;
+          case TrainingStatus.expired:
+            trainingExpiredCount++;
+            expiredTraining.add(
+              _ExpiredTrainingEntry(
+                staffName: user.name,
+                itemTitle: record.displayTitle,
+                expiredAt: record.expiresAt!,
+              ),
+            );
+        }
+      }
+    }
+
     final bySegment = <String, List<TaskSubmission>>{};
     for (final submission in submissions) {
       final segment =
@@ -161,12 +229,17 @@ class EhoExportService {
             fixedCount: fixedCount,
             reportedCount: reportedCount,
             reviewEntries: reviewEntries,
+            activeStaffCount: activeStaff.length,
+            trainingCurrentCount: trainingCurrentCount,
+            trainingExpiringSoonCount: trainingExpiringSoonCount,
+            trainingExpiredCount: trainingExpiredCount,
           ),
           pw.SizedBox(height: 12),
           _buildExceptionsSection(
             failEntries: failEntries,
             notCompletedEntries: notCompletedEntries,
             outstanding: outstanding,
+            expiredTraining: expiredTraining,
           ),
           if (includeFullLog) ...[
             pw.SizedBox(height: 16),
@@ -298,6 +371,10 @@ class EhoExportService {
     required int fixedCount,
     required int reportedCount,
     required List<TaskSubmission> reviewEntries,
+    required int activeStaffCount,
+    required int trainingCurrentCount,
+    required int trainingExpiringSoonCount,
+    required int trainingExpiredCount,
   }) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -321,6 +398,14 @@ class EhoExportService {
               : '$failCount fail${failCount == 1 ? '' : 's'} recorded: '
                     '$fixedCount fixed on the spot, $reportedCount '
                     'reported to manager.',
+        ),
+        pw.SizedBox(height: 6),
+        pw.Text(
+          'Staff training: $activeStaffCount active staff, '
+          '$trainingCurrentCount training record'
+          '${trainingCurrentCount == 1 ? '' : 's'} current, '
+          '$trainingExpiringSoonCount expiring within 30 days, '
+          '$trainingExpiredCount expired.',
         ),
         pw.SizedBox(height: 6),
         pw.Text(
@@ -352,6 +437,7 @@ class EhoExportService {
     required List<TaskSubmission> failEntries,
     required List<TaskSubmission> notCompletedEntries,
     required List<OverdueSummaryEntry> outstanding,
+    required List<_ExpiredTrainingEntry> expiredTraining,
   }) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -384,6 +470,23 @@ class EhoExportService {
           )
         else
           _buildExceptionTable(notCompletedEntries, showCorrectiveAction: false),
+        pw.SizedBox(height: 8),
+        pw.Text(
+          'Training expired',
+          style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+        ),
+        if (expiredTraining.isEmpty)
+          pw.Text(
+            'None.',
+            style: const pw.TextStyle(fontStyle: pw.FontStyle.italic),
+          )
+        else
+          for (final entry in expiredTraining)
+            pw.Text(
+              '  - ${entry.staffName}: ${entry.itemTitle} '
+              '(expired ${formatDate(entry.expiredAt)})',
+              style: const pw.TextStyle(color: PdfColors.red800),
+            ),
         pw.SizedBox(height: 8),
         _buildOutstandingSection(outstanding),
       ],
@@ -569,5 +672,7 @@ final ehoExportServiceProvider = Provider<EhoExportService>((ref) {
     ref.watch(taskTemplateRepositoryProvider),
     ref.watch(siteRepositoryProvider),
     ref.watch(overdueSummaryServiceProvider),
+    ref.watch(trainingRecordRepositoryProvider),
+    ref.watch(userRepositoryProvider),
   );
 });

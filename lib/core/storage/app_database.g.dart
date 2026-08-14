@@ -5927,6 +5927,643 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
   }
 }
 
+class $TrainingRecordsTable extends TrainingRecords
+    with TableInfo<$TrainingRecordsTable, TrainingRecordEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TrainingRecordsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _itemTypeMeta = const VerificationMeta(
+    'itemType',
+  );
+  @override
+  late final GeneratedColumn<String> itemType = GeneratedColumn<String>(
+    'item_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _customItemTitleMeta = const VerificationMeta(
+    'customItemTitle',
+  );
+  @override
+  late final GeneratedColumn<String> customItemTitle = GeneratedColumn<String>(
+    'custom_item_title',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _completedAtMeta = const VerificationMeta(
+    'completedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
+    'completed_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _expiresAtMeta = const VerificationMeta(
+    'expiresAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> expiresAt = GeneratedColumn<DateTime>(
+    'expires_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _signedOffByUserIdMeta = const VerificationMeta(
+    'signedOffByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> signedOffByUserId = GeneratedColumn<int>(
+    'signed_off_by_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _certificateReferenceMeta =
+      const VerificationMeta('certificateReference');
+  @override
+  late final GeneratedColumn<String> certificateReference =
+      GeneratedColumn<String>(
+        'certificate_reference',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    userId,
+    siteId,
+    itemType,
+    customItemTitle,
+    completedAt,
+    expiresAt,
+    signedOffByUserId,
+    certificateReference,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'training_records';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TrainingRecordEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
+    if (data.containsKey('item_type')) {
+      context.handle(
+        _itemTypeMeta,
+        itemType.isAcceptableOrUnknown(data['item_type']!, _itemTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_itemTypeMeta);
+    }
+    if (data.containsKey('custom_item_title')) {
+      context.handle(
+        _customItemTitleMeta,
+        customItemTitle.isAcceptableOrUnknown(
+          data['custom_item_title']!,
+          _customItemTitleMeta,
+        ),
+      );
+    }
+    if (data.containsKey('completed_at')) {
+      context.handle(
+        _completedAtMeta,
+        completedAt.isAcceptableOrUnknown(
+          data['completed_at']!,
+          _completedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_completedAtMeta);
+    }
+    if (data.containsKey('expires_at')) {
+      context.handle(
+        _expiresAtMeta,
+        expiresAt.isAcceptableOrUnknown(data['expires_at']!, _expiresAtMeta),
+      );
+    }
+    if (data.containsKey('signed_off_by_user_id')) {
+      context.handle(
+        _signedOffByUserIdMeta,
+        signedOffByUserId.isAcceptableOrUnknown(
+          data['signed_off_by_user_id']!,
+          _signedOffByUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_signedOffByUserIdMeta);
+    }
+    if (data.containsKey('certificate_reference')) {
+      context.handle(
+        _certificateReferenceMeta,
+        certificateReference.isAcceptableOrUnknown(
+          data['certificate_reference']!,
+          _certificateReferenceMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TrainingRecordEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TrainingRecordEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
+      itemType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}item_type'],
+      )!,
+      customItemTitle: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}custom_item_title'],
+      ),
+      completedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}completed_at'],
+      )!,
+      expiresAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}expires_at'],
+      ),
+      signedOffByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}signed_off_by_user_id'],
+      )!,
+      certificateReference: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}certificate_reference'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $TrainingRecordsTable createAlias(String alias) {
+    return $TrainingRecordsTable(attachedDatabase, alias);
+  }
+}
+
+class TrainingRecordEntity extends DataClass
+    implements Insertable<TrainingRecordEntity> {
+  final int id;
+  final int userId;
+  final int? siteId;
+  final String itemType;
+  final String? customItemTitle;
+  final DateTime completedAt;
+  final DateTime? expiresAt;
+  final int signedOffByUserId;
+  final String? certificateReference;
+  final DateTime createdAt;
+  const TrainingRecordEntity({
+    required this.id,
+    required this.userId,
+    this.siteId,
+    required this.itemType,
+    this.customItemTitle,
+    required this.completedAt,
+    this.expiresAt,
+    required this.signedOffByUserId,
+    this.certificateReference,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_id'] = Variable<int>(userId);
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
+    map['item_type'] = Variable<String>(itemType);
+    if (!nullToAbsent || customItemTitle != null) {
+      map['custom_item_title'] = Variable<String>(customItemTitle);
+    }
+    map['completed_at'] = Variable<DateTime>(completedAt);
+    if (!nullToAbsent || expiresAt != null) {
+      map['expires_at'] = Variable<DateTime>(expiresAt);
+    }
+    map['signed_off_by_user_id'] = Variable<int>(signedOffByUserId);
+    if (!nullToAbsent || certificateReference != null) {
+      map['certificate_reference'] = Variable<String>(certificateReference);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  TrainingRecordsCompanion toCompanion(bool nullToAbsent) {
+    return TrainingRecordsCompanion(
+      id: Value(id),
+      userId: Value(userId),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
+      itemType: Value(itemType),
+      customItemTitle: customItemTitle == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customItemTitle),
+      completedAt: Value(completedAt),
+      expiresAt: expiresAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiresAt),
+      signedOffByUserId: Value(signedOffByUserId),
+      certificateReference: certificateReference == null && nullToAbsent
+          ? const Value.absent()
+          : Value(certificateReference),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory TrainingRecordEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TrainingRecordEntity(
+      id: serializer.fromJson<int>(json['id']),
+      userId: serializer.fromJson<int>(json['userId']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
+      itemType: serializer.fromJson<String>(json['itemType']),
+      customItemTitle: serializer.fromJson<String?>(json['customItemTitle']),
+      completedAt: serializer.fromJson<DateTime>(json['completedAt']),
+      expiresAt: serializer.fromJson<DateTime?>(json['expiresAt']),
+      signedOffByUserId: serializer.fromJson<int>(json['signedOffByUserId']),
+      certificateReference: serializer.fromJson<String?>(
+        json['certificateReference'],
+      ),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userId': serializer.toJson<int>(userId),
+      'siteId': serializer.toJson<int?>(siteId),
+      'itemType': serializer.toJson<String>(itemType),
+      'customItemTitle': serializer.toJson<String?>(customItemTitle),
+      'completedAt': serializer.toJson<DateTime>(completedAt),
+      'expiresAt': serializer.toJson<DateTime?>(expiresAt),
+      'signedOffByUserId': serializer.toJson<int>(signedOffByUserId),
+      'certificateReference': serializer.toJson<String?>(certificateReference),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  TrainingRecordEntity copyWith({
+    int? id,
+    int? userId,
+    Value<int?> siteId = const Value.absent(),
+    String? itemType,
+    Value<String?> customItemTitle = const Value.absent(),
+    DateTime? completedAt,
+    Value<DateTime?> expiresAt = const Value.absent(),
+    int? signedOffByUserId,
+    Value<String?> certificateReference = const Value.absent(),
+    DateTime? createdAt,
+  }) => TrainingRecordEntity(
+    id: id ?? this.id,
+    userId: userId ?? this.userId,
+    siteId: siteId.present ? siteId.value : this.siteId,
+    itemType: itemType ?? this.itemType,
+    customItemTitle: customItemTitle.present
+        ? customItemTitle.value
+        : this.customItemTitle,
+    completedAt: completedAt ?? this.completedAt,
+    expiresAt: expiresAt.present ? expiresAt.value : this.expiresAt,
+    signedOffByUserId: signedOffByUserId ?? this.signedOffByUserId,
+    certificateReference: certificateReference.present
+        ? certificateReference.value
+        : this.certificateReference,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  TrainingRecordEntity copyWithCompanion(TrainingRecordsCompanion data) {
+    return TrainingRecordEntity(
+      id: data.id.present ? data.id.value : this.id,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      itemType: data.itemType.present ? data.itemType.value : this.itemType,
+      customItemTitle: data.customItemTitle.present
+          ? data.customItemTitle.value
+          : this.customItemTitle,
+      completedAt: data.completedAt.present
+          ? data.completedAt.value
+          : this.completedAt,
+      expiresAt: data.expiresAt.present ? data.expiresAt.value : this.expiresAt,
+      signedOffByUserId: data.signedOffByUserId.present
+          ? data.signedOffByUserId.value
+          : this.signedOffByUserId,
+      certificateReference: data.certificateReference.present
+          ? data.certificateReference.value
+          : this.certificateReference,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TrainingRecordEntity(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('siteId: $siteId, ')
+          ..write('itemType: $itemType, ')
+          ..write('customItemTitle: $customItemTitle, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('expiresAt: $expiresAt, ')
+          ..write('signedOffByUserId: $signedOffByUserId, ')
+          ..write('certificateReference: $certificateReference, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    userId,
+    siteId,
+    itemType,
+    customItemTitle,
+    completedAt,
+    expiresAt,
+    signedOffByUserId,
+    certificateReference,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TrainingRecordEntity &&
+          other.id == this.id &&
+          other.userId == this.userId &&
+          other.siteId == this.siteId &&
+          other.itemType == this.itemType &&
+          other.customItemTitle == this.customItemTitle &&
+          other.completedAt == this.completedAt &&
+          other.expiresAt == this.expiresAt &&
+          other.signedOffByUserId == this.signedOffByUserId &&
+          other.certificateReference == this.certificateReference &&
+          other.createdAt == this.createdAt);
+}
+
+class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
+  final Value<int> id;
+  final Value<int> userId;
+  final Value<int?> siteId;
+  final Value<String> itemType;
+  final Value<String?> customItemTitle;
+  final Value<DateTime> completedAt;
+  final Value<DateTime?> expiresAt;
+  final Value<int> signedOffByUserId;
+  final Value<String?> certificateReference;
+  final Value<DateTime> createdAt;
+  const TrainingRecordsCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.itemType = const Value.absent(),
+    this.customItemTitle = const Value.absent(),
+    this.completedAt = const Value.absent(),
+    this.expiresAt = const Value.absent(),
+    this.signedOffByUserId = const Value.absent(),
+    this.certificateReference = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  TrainingRecordsCompanion.insert({
+    this.id = const Value.absent(),
+    required int userId,
+    this.siteId = const Value.absent(),
+    required String itemType,
+    this.customItemTitle = const Value.absent(),
+    required DateTime completedAt,
+    this.expiresAt = const Value.absent(),
+    required int signedOffByUserId,
+    this.certificateReference = const Value.absent(),
+    required DateTime createdAt,
+  }) : userId = Value(userId),
+       itemType = Value(itemType),
+       completedAt = Value(completedAt),
+       signedOffByUserId = Value(signedOffByUserId),
+       createdAt = Value(createdAt);
+  static Insertable<TrainingRecordEntity> custom({
+    Expression<int>? id,
+    Expression<int>? userId,
+    Expression<int>? siteId,
+    Expression<String>? itemType,
+    Expression<String>? customItemTitle,
+    Expression<DateTime>? completedAt,
+    Expression<DateTime>? expiresAt,
+    Expression<int>? signedOffByUserId,
+    Expression<String>? certificateReference,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+      if (siteId != null) 'site_id': siteId,
+      if (itemType != null) 'item_type': itemType,
+      if (customItemTitle != null) 'custom_item_title': customItemTitle,
+      if (completedAt != null) 'completed_at': completedAt,
+      if (expiresAt != null) 'expires_at': expiresAt,
+      if (signedOffByUserId != null) 'signed_off_by_user_id': signedOffByUserId,
+      if (certificateReference != null)
+        'certificate_reference': certificateReference,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  TrainingRecordsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? userId,
+    Value<int?>? siteId,
+    Value<String>? itemType,
+    Value<String?>? customItemTitle,
+    Value<DateTime>? completedAt,
+    Value<DateTime?>? expiresAt,
+    Value<int>? signedOffByUserId,
+    Value<String?>? certificateReference,
+    Value<DateTime>? createdAt,
+  }) {
+    return TrainingRecordsCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      siteId: siteId ?? this.siteId,
+      itemType: itemType ?? this.itemType,
+      customItemTitle: customItemTitle ?? this.customItemTitle,
+      completedAt: completedAt ?? this.completedAt,
+      expiresAt: expiresAt ?? this.expiresAt,
+      signedOffByUserId: signedOffByUserId ?? this.signedOffByUserId,
+      certificateReference: certificateReference ?? this.certificateReference,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
+    if (itemType.present) {
+      map['item_type'] = Variable<String>(itemType.value);
+    }
+    if (customItemTitle.present) {
+      map['custom_item_title'] = Variable<String>(customItemTitle.value);
+    }
+    if (completedAt.present) {
+      map['completed_at'] = Variable<DateTime>(completedAt.value);
+    }
+    if (expiresAt.present) {
+      map['expires_at'] = Variable<DateTime>(expiresAt.value);
+    }
+    if (signedOffByUserId.present) {
+      map['signed_off_by_user_id'] = Variable<int>(signedOffByUserId.value);
+    }
+    if (certificateReference.present) {
+      map['certificate_reference'] = Variable<String>(
+        certificateReference.value,
+      );
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TrainingRecordsCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('siteId: $siteId, ')
+          ..write('itemType: $itemType, ')
+          ..write('customItemTitle: $customItemTitle, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('expiresAt: $expiresAt, ')
+          ..write('signedOffByUserId: $signedOffByUserId, ')
+          ..write('certificateReference: $certificateReference, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $ShiftHandoverNotesTable extends ShiftHandoverNotes
     with TableInfo<$ShiftHandoverNotesTable, ShiftHandoverNoteEntity> {
   @override
@@ -11420,6 +12057,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $LegalLimitReferencesTable(this);
   late final $TaskTemplatesTable taskTemplates = $TaskTemplatesTable(this);
   late final $TaskSchedulesTable taskSchedules = $TaskSchedulesTable(this);
+  late final $TrainingRecordsTable trainingRecords = $TrainingRecordsTable(
+    this,
+  );
   late final $ShiftHandoverNotesTable shiftHandoverNotes =
       $ShiftHandoverNotesTable(this);
   late final $SessionSummariesTable sessionSummaries = $SessionSummariesTable(
@@ -11458,6 +12098,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     legalLimitReferences,
     taskTemplates,
     taskSchedules,
+    trainingRecords,
     shiftHandoverNotes,
     sessionSummaries,
     notificationRules,
@@ -12421,6 +13062,26 @@ final class $$SitesTableReferences
     );
   }
 
+  static MultiTypedResultKey<$TrainingRecordsTable, List<TrainingRecordEntity>>
+  _trainingRecordsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.trainingRecords,
+    aliasName: 'sites__id__training_records__site_id',
+  );
+
+  $$TrainingRecordsTableProcessedTableManager get trainingRecordsRefs {
+    final manager = $$TrainingRecordsTableTableManager(
+      $_db,
+      $_db.trainingRecords,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _trainingRecordsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<
     $ShiftHandoverNotesTable,
     List<ShiftHandoverNoteEntity>
@@ -12724,6 +13385,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$TaskSchedulesTableFilterComposer(
             $db: $db,
             $table: $db.taskSchedules,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> trainingRecordsRefs(
+    Expression<bool> Function($$TrainingRecordsTableFilterComposer f) f,
+  ) {
+    final $$TrainingRecordsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.trainingRecords,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TrainingRecordsTableFilterComposer(
+            $db: $db,
+            $table: $db.trainingRecords,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -13107,6 +13793,31 @@ class $$SitesTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> trainingRecordsRefs<T extends Object>(
+    Expression<T> Function($$TrainingRecordsTableAnnotationComposer a) f,
+  ) {
+    final $$TrainingRecordsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.trainingRecords,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TrainingRecordsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.trainingRecords,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> shiftHandoverNotesRefs<T extends Object>(
     Expression<T> Function($$ShiftHandoverNotesTableAnnotationComposer a) f,
   ) {
@@ -13282,6 +13993,7 @@ class $$SitesTableTableManager
             bool usersRefs,
             bool taskSubmissionsRefs,
             bool taskSchedulesRefs,
+            bool trainingRecordsRefs,
             bool shiftHandoverNotesRefs,
             bool sessionSummariesRefs,
             bool notificationRulesRefs,
@@ -13343,6 +14055,7 @@ class $$SitesTableTableManager
                 usersRefs = false,
                 taskSubmissionsRefs = false,
                 taskSchedulesRefs = false,
+                trainingRecordsRefs = false,
                 shiftHandoverNotesRefs = false,
                 sessionSummariesRefs = false,
                 notificationRulesRefs = false,
@@ -13358,6 +14071,7 @@ class $$SitesTableTableManager
                     if (usersRefs) db.users,
                     if (taskSubmissionsRefs) db.taskSubmissions,
                     if (taskSchedulesRefs) db.taskSchedules,
+                    if (trainingRecordsRefs) db.trainingRecords,
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
                     if (sessionSummariesRefs) db.sessionSummaries,
                     if (notificationRulesRefs) db.notificationRules,
@@ -13490,6 +14204,27 @@ class $$SitesTableTableManager
                                 table,
                                 p0,
                               ).taskSchedulesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (trainingRecordsRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          TrainingRecordEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._trainingRecordsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).trainingRecordsRefs,
                           referencedItemsForCurrentItem:
                               (item, referencedItems) => referencedItems.where(
                                 (e) => e.siteId == item.id,
@@ -13649,6 +14384,7 @@ typedef $$SitesTableProcessedTableManager =
         bool usersRefs,
         bool taskSubmissionsRefs,
         bool taskSchedulesRefs,
+        bool trainingRecordsRefs,
         bool shiftHandoverNotesRefs,
         bool sessionSummariesRefs,
         bool notificationRulesRefs,
@@ -18867,6 +19603,612 @@ typedef $$TaskSchedulesTableProcessedTableManager =
         bool assignedByUserId,
         bool siteId,
       })
+    >;
+typedef $$TrainingRecordsTableCreateCompanionBuilder =
+    TrainingRecordsCompanion Function({
+      Value<int> id,
+      required int userId,
+      Value<int?> siteId,
+      required String itemType,
+      Value<String?> customItemTitle,
+      required DateTime completedAt,
+      Value<DateTime?> expiresAt,
+      required int signedOffByUserId,
+      Value<String?> certificateReference,
+      required DateTime createdAt,
+    });
+typedef $$TrainingRecordsTableUpdateCompanionBuilder =
+    TrainingRecordsCompanion Function({
+      Value<int> id,
+      Value<int> userId,
+      Value<int?> siteId,
+      Value<String> itemType,
+      Value<String?> customItemTitle,
+      Value<DateTime> completedAt,
+      Value<DateTime?> expiresAt,
+      Value<int> signedOffByUserId,
+      Value<String?> certificateReference,
+      Value<DateTime> createdAt,
+    });
+
+final class $$TrainingRecordsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $TrainingRecordsTable,
+          TrainingRecordEntity
+        > {
+  $$TrainingRecordsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $UsersTable _userIdTable(_$AppDatabase db) =>
+      db.users.createAlias('training_records__user_id__users__id');
+
+  $$UsersTableProcessedTableManager get userId {
+    final $_column = $_itemColumn<int>('user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_userIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('training_records__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _signedOffByUserIdTable(_$AppDatabase db) => db.users
+      .createAlias('training_records__signed_off_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get signedOffByUserId {
+    final $_column = $_itemColumn<int>('signed_off_by_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_signedOffByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TrainingRecordsTableFilterComposer
+    extends Composer<_$AppDatabase, $TrainingRecordsTable> {
+  $$TrainingRecordsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get itemType => $composableBuilder(
+    column: $table.itemType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customItemTitle => $composableBuilder(
+    column: $table.customItemTitle,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get expiresAt => $composableBuilder(
+    column: $table.expiresAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get certificateReference => $composableBuilder(
+    column: $table.certificateReference,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UsersTableFilterComposer get userId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get signedOffByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.signedOffByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TrainingRecordsTableOrderingComposer
+    extends Composer<_$AppDatabase, $TrainingRecordsTable> {
+  $$TrainingRecordsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get itemType => $composableBuilder(
+    column: $table.itemType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get customItemTitle => $composableBuilder(
+    column: $table.customItemTitle,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get expiresAt => $composableBuilder(
+    column: $table.expiresAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get certificateReference => $composableBuilder(
+    column: $table.certificateReference,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UsersTableOrderingComposer get userId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get signedOffByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.signedOffByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TrainingRecordsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TrainingRecordsTable> {
+  $$TrainingRecordsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get itemType =>
+      $composableBuilder(column: $table.itemType, builder: (column) => column);
+
+  GeneratedColumn<String> get customItemTitle => $composableBuilder(
+    column: $table.customItemTitle,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get expiresAt =>
+      $composableBuilder(column: $table.expiresAt, builder: (column) => column);
+
+  GeneratedColumn<String> get certificateReference => $composableBuilder(
+    column: $table.certificateReference,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$UsersTableAnnotationComposer get userId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get signedOffByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.signedOffByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TrainingRecordsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TrainingRecordsTable,
+          TrainingRecordEntity,
+          $$TrainingRecordsTableFilterComposer,
+          $$TrainingRecordsTableOrderingComposer,
+          $$TrainingRecordsTableAnnotationComposer,
+          $$TrainingRecordsTableCreateCompanionBuilder,
+          $$TrainingRecordsTableUpdateCompanionBuilder,
+          (TrainingRecordEntity, $$TrainingRecordsTableReferences),
+          TrainingRecordEntity,
+          PrefetchHooks Function({
+            bool userId,
+            bool siteId,
+            bool signedOffByUserId,
+          })
+        > {
+  $$TrainingRecordsTableTableManager(
+    _$AppDatabase db,
+    $TrainingRecordsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TrainingRecordsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TrainingRecordsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TrainingRecordsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> userId = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
+                Value<String> itemType = const Value.absent(),
+                Value<String?> customItemTitle = const Value.absent(),
+                Value<DateTime> completedAt = const Value.absent(),
+                Value<DateTime?> expiresAt = const Value.absent(),
+                Value<int> signedOffByUserId = const Value.absent(),
+                Value<String?> certificateReference = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => TrainingRecordsCompanion(
+                id: id,
+                userId: userId,
+                siteId: siteId,
+                itemType: itemType,
+                customItemTitle: customItemTitle,
+                completedAt: completedAt,
+                expiresAt: expiresAt,
+                signedOffByUserId: signedOffByUserId,
+                certificateReference: certificateReference,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int userId,
+                Value<int?> siteId = const Value.absent(),
+                required String itemType,
+                Value<String?> customItemTitle = const Value.absent(),
+                required DateTime completedAt,
+                Value<DateTime?> expiresAt = const Value.absent(),
+                required int signedOffByUserId,
+                Value<String?> certificateReference = const Value.absent(),
+                required DateTime createdAt,
+              }) => TrainingRecordsCompanion.insert(
+                id: id,
+                userId: userId,
+                siteId: siteId,
+                itemType: itemType,
+                customItemTitle: customItemTitle,
+                completedAt: completedAt,
+                expiresAt: expiresAt,
+                signedOffByUserId: signedOffByUserId,
+                certificateReference: certificateReference,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TrainingRecordsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({userId = false, siteId = false, signedOffByUserId = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (userId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.userId,
+                                    referencedTable:
+                                        $$TrainingRecordsTableReferences
+                                            ._userIdTable(db),
+                                    referencedColumn:
+                                        $$TrainingRecordsTableReferences
+                                            ._userIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable:
+                                        $$TrainingRecordsTableReferences
+                                            ._siteIdTable(db),
+                                    referencedColumn:
+                                        $$TrainingRecordsTableReferences
+                                            ._siteIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (signedOffByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.signedOffByUserId,
+                                    referencedTable:
+                                        $$TrainingRecordsTableReferences
+                                            ._signedOffByUserIdTable(db),
+                                    referencedColumn:
+                                        $$TrainingRecordsTableReferences
+                                            ._signedOffByUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$TrainingRecordsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TrainingRecordsTable,
+      TrainingRecordEntity,
+      $$TrainingRecordsTableFilterComposer,
+      $$TrainingRecordsTableOrderingComposer,
+      $$TrainingRecordsTableAnnotationComposer,
+      $$TrainingRecordsTableCreateCompanionBuilder,
+      $$TrainingRecordsTableUpdateCompanionBuilder,
+      (TrainingRecordEntity, $$TrainingRecordsTableReferences),
+      TrainingRecordEntity,
+      PrefetchHooks Function({bool userId, bool siteId, bool signedOffByUserId})
     >;
 typedef $$ShiftHandoverNotesTableCreateCompanionBuilder =
     ShiftHandoverNotesCompanion Function({
@@ -25088,6 +26430,8 @@ class $AppDatabaseManager {
       $$TaskTemplatesTableTableManager(_db, _db.taskTemplates);
   $$TaskSchedulesTableTableManager get taskSchedules =>
       $$TaskSchedulesTableTableManager(_db, _db.taskSchedules);
+  $$TrainingRecordsTableTableManager get trainingRecords =>
+      $$TrainingRecordsTableTableManager(_db, _db.trainingRecords);
   $$ShiftHandoverNotesTableTableManager get shiftHandoverNotes =>
       $$ShiftHandoverNotesTableTableManager(_db, _db.shiftHandoverNotes);
   $$SessionSummariesTableTableManager get sessionSummaries =>

@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import 'training_records_screen.dart';
 
-enum _StaffAction { changeTier, resetPin, toggleActive }
+enum _StaffAction { changeTier, resetPin, toggleActive, trainingRecords }
 
 class StaffManagementScreen extends ConsumerStatefulWidget {
   const StaffManagementScreen({super.key});
@@ -216,6 +217,13 @@ class _StaffManagementScreenState
                 _resetPin(user);
               case _StaffAction.toggleActive:
                 user.active ? _deactivate(user) : _setActive(user, true);
+              case _StaffAction.trainingRecords:
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => TrainingRecordsScreen(staffMember: user),
+                  ),
+                );
             }
           },
           itemBuilder: (context) => [
@@ -230,6 +238,10 @@ class _StaffManagementScreenState
             PopupMenuItem(
               value: _StaffAction.toggleActive,
               child: Text(user.active ? 'Deactivate' : 'Reactivate'),
+            ),
+            const PopupMenuItem(
+              value: _StaffAction.trainingRecords,
+              child: Text('Training Records'),
             ),
           ],
         ),

@@ -199,6 +199,20 @@ class TaskSchedules extends Table {
   IntColumn get windowEndMinutesExclusive => integer().nullable()();
 }
 
+@DataClassName('TrainingRecordEntity')
+class TrainingRecords extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get userId => integer().references(Users, #id)();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  TextColumn get itemType => text()();
+  TextColumn get customItemTitle => text().nullable()();
+  DateTimeColumn get completedAt => dateTime()();
+  DateTimeColumn get expiresAt => dateTime().nullable()();
+  IntColumn get signedOffByUserId => integer().references(Users, #id)();
+  TextColumn get certificateReference => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
 @DataClassName('ShiftHandoverNoteEntity')
 class ShiftHandoverNotes extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -477,6 +491,7 @@ class _LibraryPreset {
     Areas,
     EquipmentInstances,
     TaskSchedules,
+    TrainingRecords,
     ShiftHandoverNotes,
     SessionSummaries,
     NotificationRules,
@@ -497,7 +512,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 26;
+  int get schemaVersion => 27;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -754,6 +769,13 @@ class AppDatabase extends _$AppDatabase {
           taskSchedules,
           taskSchedules.windowEndMinutesExclusive,
         );
+      }
+      if (from < 27) {
+        // Training records (Sprint 031) — per-staff training/induction
+        // sign-off log, feeding both Staff Management and the EHO export's
+        // "Confidence in Management" section. Append-only, new table, no
+        // backfill needed (nothing existed before this to migrate).
+        await m.createTable(trainingRecords);
       }
     },
     beforeOpen: (details) async {
