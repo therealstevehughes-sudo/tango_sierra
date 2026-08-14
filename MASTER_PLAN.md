@@ -100,7 +100,7 @@ Deliverables:
 - high-level dashboard
 - export-ready data structure
 
-Note: now delivered via Sprint 011 (shift handover + summary/report) and Sprint 017 (inspection export, top tier only), on top of the three-tier role model from Sprint 006.
+Note: now delivered via Sprint 011 (shift handover + summary/report) and Sprint 017 (inspection export — venue manager tier and above as of Sprint 031, not top tier only as originally planned here), on top of the three-tier role model from Sprint 006.
 
 ## Phase 8: Language Support
 Goals:
@@ -152,7 +152,7 @@ Goal: company/branch branding (colours, logo, contact info), controlled by top t
 Goal: per-user language selection; compliance logs and exports remain in English.
 
 **017 — Inspection export**
-Goal: inspection data export, restricted to top tier only.
+Goal: EHO/audit-ready PDF export of a venue's compliance records for a chosen date range. Built Sprint 031 — venue manager tier and above (reconsidered from an originally-planned top-tier-only restriction: an EHO inspection is unannounced and happens at the venue, so requiring the Director specifically would defeat the feature's point).
 
 **018 — Visual/UX redesign**
 Goal: a dedicated pass on visual design/UX once the above functional scope is in place — not before, and not incrementally smuggled into earlier sprints.

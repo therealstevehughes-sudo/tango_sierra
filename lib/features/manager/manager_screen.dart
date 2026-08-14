@@ -17,6 +17,7 @@ import '../../shared/providers/backup_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
+import '../export/eho_export_dialog.dart';
 import '../notifications/escalation_service.dart';
 import '../tasks/overdue_summary_service.dart';
 import 'manager_log_filter.dart';
@@ -263,6 +264,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
       drawer: ManagementDrawer(
         title: 'Manager View',
         onBackUp: () => _showBackupDialog(context, ref),
+        onEhoExport: () => showEhoExportDialog(context, ref),
       ),
       // Layout fix (Sprint 031): the banners and the filter used to sit
       // outside the scrollable area (only the log itself was Expanded),

@@ -43,6 +43,15 @@ abstract class TaskSubmissionRepository {
     required DateTime start,
     required DateTime end,
   });
+
+  // EHO/audit export (Sprint 031) — properly site-scoped using the real
+  // siteId column, same approach Sub-sprint D established for the overdue
+  // summary, not the older unscoped-reads gap logged elsewhere in the app.
+  Future<List<TaskSubmission>> getForSiteAndDateRange({
+    required int siteId,
+    required DateTime start,
+    required DateTime end,
+  });
 }
 
 class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
@@ -101,6 +110,22 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
     final query = _db.select(_db.taskSubmissions)
       ..where((t) => t.completedAt.isBetweenValues(start, end))
       ..orderBy([(t) => OrderingTerm.desc(t.completedAt)]);
+    final rows = await query.get();
+    return rows.map(_toModel).toList();
+  }
+
+  @override
+  Future<List<TaskSubmission>> getForSiteAndDateRange({
+    required int siteId,
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    final query = _db.select(_db.taskSubmissions)
+      ..where(
+        (t) =>
+            t.siteId.equals(siteId) & t.completedAt.isBetweenValues(start, end),
+      )
+      ..orderBy([(t) => OrderingTerm.asc(t.completedAt)]);
     final rows = await query.get();
     return rows.map(_toModel).toList();
   }

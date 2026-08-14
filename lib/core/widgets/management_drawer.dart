@@ -78,6 +78,13 @@ final List<_DrawerItemDef> _managementItems = [
 ];
 
 const _backUpMinTier = RoleTier.venueManager;
+// EHO/audit export (Sprint 031) — venueManager and above, not
+// executive-only as originally logged in PROJECT_BIBLE.md/MASTER_PLAN.md.
+// Reconsidered and changed: an EHO inspection is unannounced and happens
+// at the venue, so requiring the Director specifically would defeat the
+// one-tap-in-the-moment value the feature exists for. Confirmed with the
+// user before building — PROJECT_BIBLE.md/MASTER_PLAN.md updated to match.
+const _ehoExportMinTier = RoleTier.venueManager;
 
 /// Shared by `ManagerScreen` (supervisor/venueManager) and `TopScreen`
 /// (regional/executive) — was two byte-for-byte duplicate drawers before
@@ -90,10 +97,19 @@ class ManagementDrawer extends ConsumerWidget {
     super.key,
     required this.title,
     required this.onBackUp,
+    required this.onEhoExport,
   });
 
   final String title;
   final VoidCallback onBackUp;
+  // A callback captured from the calling screen's own long-lived `ref`,
+  // not a call made directly with this widget's own `ref` — found via a
+  // real runtime crash (Sprint 031): the export dialog awaits a date
+  // picker before its first `ref.read`, and by then this Drawer had
+  // already been disposed by the Navigator.pop() that closed it, making
+  // its own `ref` unsafe to use. Back Up Now already avoided this by
+  // using a callback; this now matches that same pattern.
+  final VoidCallback onEhoExport;
 
   void _navigate(BuildContext context, Widget screen) {
     Navigator.pop(context);
@@ -140,6 +156,15 @@ class ManagementDrawer extends ConsumerWidget {
               onTap: () {
                 Navigator.pop(context);
                 onBackUp();
+              },
+            ),
+          if (atLeast(_ehoExportMinTier))
+            ListTile(
+              leading: const Icon(Icons.picture_as_pdf_outlined),
+              title: const Text('EHO / Audit Export'),
+              onTap: () {
+                Navigator.pop(context);
+                onEhoExport();
               },
             ),
           const Divider(),

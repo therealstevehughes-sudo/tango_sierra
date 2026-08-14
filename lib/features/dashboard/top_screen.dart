@@ -11,6 +11,7 @@ import '../../shared/models/trigger_notification.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/backup_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
+import '../export/eho_export_dialog.dart';
 import '../notifications/escalation_service.dart';
 
 Future<void> _showBackupDialog(BuildContext context, WidgetRef ref) async {
@@ -131,6 +132,7 @@ class _TopScreenState extends ConsumerState<TopScreen> {
       drawer: ManagementDrawer(
         title: 'Top-Tier View',
         onBackUp: () => _showBackupDialog(context, ref),
+        onEhoExport: () => showEhoExportDialog(context, ref),
       ),
       body: Column(
         children: [
