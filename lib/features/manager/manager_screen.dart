@@ -20,6 +20,7 @@ import '../../shared/providers/task_submission_providers.dart';
 import '../export/eho_export_dialog.dart';
 import '../notifications/escalation_service.dart';
 import '../tasks/overdue_summary_service.dart';
+import '../tasks/task_screen.dart';
 import 'manager_log_filter.dart';
 import 'overdue_summary_card.dart';
 
@@ -255,6 +256,20 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text('Manager View'),
+        // Bidirectional Tasks <-> Oversight switching (Sprint 031, Build
+        // Order item 5, Sub-sprint A follow-up): mirrors the "Manager View"
+        // eye icon on TaskScreen, so a manager can switch either direction
+        // without detouring through the tier home screen.
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const TaskScreen()),
+            ),
+            icon: const Icon(Icons.checklist),
+            tooltip: 'My Tasks',
+          ),
+        ],
       ),
       // Sub-sprint 2 (visual/UX pass): replaces the previous 9-icon,
       // tooltip-only AppBar action row — tooltips never surface on touch

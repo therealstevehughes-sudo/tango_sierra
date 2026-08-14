@@ -14,6 +14,7 @@ import '../../core/widgets/user_title.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../home/tier_home_screen.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
@@ -130,15 +131,28 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // doesn't compete with SUBMIT as the screen's one primary action.
   //
   // Exit behaviour (Sprint 031, Sub-sprint B): this is the ONLY exit path
-  // from this screen — confirmed by reading the file, both AppBar states
-  // share this same _appBarActions, there's no back arrow (TaskScreen is
-  // always MaterialApp.home, never pushed) and no OS-level interception.
-  // Gating it here covers every way a worker can leave mid-session.
-  List<Widget> _appBarActions(bool canSeeManagerView) {
+  // from this screen. Originally true because TaskScreen was always
+  // MaterialApp.home, never pushed — no longer the case since the tier
+  // home screen (Build Order item 5, Sub-sprint A) reaches this screen via
+  // Navigator.push for supervisor+ tiers, which would otherwise add a real
+  // back arrow bypassing this exact confirmation. Kept true on purpose:
+  // every AppBar below sets `automaticallyImplyLeading: false` and the
+  // Scaffold is wrapped in `PopScope(canPop: false)`, so Log out stays the
+  // only way out rather than reopening this already-audited logic to a
+  // second, unconfirmed exit path.
+  List<Widget> _appBarActions(User? currentUser) {
+    final canSeeManagerView =
+        currentUser != null && currentUser.roleTier != RoleTier.base;
     return [
       if (canSeeManagerView)
         IconButton(
-          onPressed: () => Navigator.pushNamed(context, '/manager'),
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) =>
+                  TierHomeScreen.oversightScreenFor(currentUser.roleTier),
+            ),
+          ),
           icon: const Icon(Icons.visibility),
           tooltip: 'Manager View',
         ),
@@ -378,18 +392,20 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     }
 
     final currentUser = ref.watch(currentUserProvider);
-    final canSeeManagerView =
-        currentUser != null && currentUser.roleTier != RoleTier.base;
 
     if (!controller.hasTasks) {
-      return Scaffold(
-        appBar: AppBar(
-          title: currentUser != null
-              ? UserTitle(user: currentUser)
-              : const Text("Task"),
-          actions: _appBarActions(canSeeManagerView),
+      return PopScope(
+        canPop: false,
+        child: Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            title: currentUser != null
+                ? UserTitle(user: currentUser)
+                : const Text("Task"),
+            actions: _appBarActions(currentUser),
+          ),
+          body: const Center(child: Text("No tasks assigned yet.")),
         ),
-        body: const Center(child: Text("No tasks assigned yet.")),
       );
     }
 
@@ -401,15 +417,18 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     // while locked anyway. Visible, never hidden (same principle as
     // overdue/FAILs), but not actionable.
     if (task.isLocked) {
-      return _buildLockedScaffold(context, task, currentUser, canSeeManagerView);
+      return _buildLockedScaffold(context, task, currentUser);
     }
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text("Task"),
-        actions: _appBarActions(canSeeManagerView),
+        actions: _appBarActions(currentUser),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -690,6 +709,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           ),
         ),
       ),
+      ),
     );
   }
 
@@ -701,17 +721,19 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     BuildContext context,
     ResolvedTask task,
     User? currentUser,
-    bool canSeeManagerView,
   ) {
     final start = task.windowStartMinutes!;
     final startTime = TimeOfDay(hour: start ~/ 60, minute: start % 60);
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text("Task"),
-        actions: _appBarActions(canSeeManagerView),
+        actions: _appBarActions(currentUser),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -759,6 +781,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

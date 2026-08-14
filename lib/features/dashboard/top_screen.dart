@@ -13,6 +13,7 @@ import '../../shared/providers/backup_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../export/eho_export_dialog.dart';
 import '../notifications/escalation_service.dart';
+import '../tasks/task_screen.dart';
 
 Future<void> _showBackupDialog(BuildContext context, WidgetRef ref) async {
   final nameController = TextEditingController();
@@ -125,6 +126,19 @@ class _TopScreenState extends ConsumerState<TopScreen> {
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text('Top-Tier View'),
+        // Bidirectional Tasks <-> Oversight switching (Sprint 031, Build
+        // Order item 5, Sub-sprint A follow-up): see manager_screen.dart's
+        // identical action for the rationale.
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const TaskScreen()),
+            ),
+            icon: const Icon(Icons.checklist),
+            tooltip: 'My Tasks',
+          ),
+        ],
       ),
       // Sub-sprint 2 (visual/UX pass): see manager_screen.dart's identical
       // change for the rationale — replaces the previous 9-icon,
