@@ -1311,3 +1311,21 @@ Risks: None new — all three live-testing findings were pre-existing gaps or ge
 Deferred items: the "My Tasks navigation fix" (approved direction, not yet built) and the fuller "Tier home screen" redesign — both logged in DECISIONS_LOG.md, queued for Build Order item 5 or a standalone interim fix.
 Save point name: SPRINT_031AA_LOCK
 Notes: Commit cd06720, message "Sprint 031 (finalized beta build order item 4, Sub-sprint B): delivery traceability link + EHO export integration + export resilience fixes".
+
+---
+
+## Tier home screen (Sprint 031, Build Order item 5, Sub-sprint A)
+Date: 2026-08-14
+Objective: Close the routing gap where supervisor+ tiers had no path back to their own tasks (logged as "My Tasks navigation fix" / "Tier home screen" in DECISIONS_LOG.md) with a real per-tier home screen — My Tasks / Oversight this sub-sprint, Settings deferred to Sub-sprints B/C. Plan for all of Build Order item 5 approved in one pass; this covers Sub-sprint A only, plus a same-session approved follow-up (bidirectional Tasks/Oversight switching).
+Files changed:
+- lib/features/home/tier_home_screen.dart (new) — `TierHomeScreen`, one shared widget for every non-base tier (mirrors `ManagementDrawer`'s shared-widget precedent); My Tasks + Oversight buttons only. `oversightScreenFor(RoleTier)` routes regional/executive to `TopScreen`, supervisor/venueManager to `ManagerScreen`.
+- lib/app/app.dart — base tier still routes straight to `TaskScreen`; every other tier now routes to `TierHomeScreen` instead of straight to `ManagerScreen`/`TopScreen`. Removed the `/manager` named route and its direct screen imports.
+- lib/features/tasks/task_screen.dart — "Manager View" eye icon now routes via `TierHomeScreen.oversightScreenFor(currentUser.roleTier)` instead of the old hardcoded `/manager` route (a latent bug for regional/executive, who could never reach this screen before now). All three `Scaffold`s (empty-state, main, locked) gained `automaticallyImplyLeading: false` + `PopScope(canPop: false, ...)` — approved via `AskUserQuestion` after flagging that `Navigator.push`-based reachability would otherwise add a back arrow bypassing the already-audited exit-confirmation dialog. Log out remains the sole exit path, unchanged.
+- lib/features/manager/manager_screen.dart, lib/features/dashboard/top_screen.dart — follow-up (approved same session): added a "My Tasks" `AppBar` action mirroring the eye icon, pushing `TaskScreen`, so switching Tasks <-> Oversight works both directions from wherever the user currently is.
+Files unchanged: no Settings entry point yet — deliberately not added until Sub-sprints B/C exist for it to open. No drawer added to the home screen itself, per explicit instruction — management tools stay one level in, inside Oversight's existing `ManagementDrawer`, not duplicated.
+Architecture impact: none — no schema change, routing/navigation only.
+UI impact: every non-base tier now lands on a home screen with My Tasks/Oversight instead of landing directly on their oversight screen; My Tasks and Oversight are each reachable from the other via a one-tap AppBar action.
+Risks: None new. The `task_screen.dart` <-> `tier_home_screen.dart` <-> `manager_screen.dart`/`top_screen.dart` mutual import this creates is legal Dart and raised no analyzer issue. Verified: `flutter analyze` clean throughout (including after the follow-up). A real Windows debug build launched cleanly both before and after the follow-up (one stale prior debug instance had to be killed mid-session — it was locking the .exe and failing the CMake install step, a build-tooling issue unrelated to the code change).
+Deferred items: Settings entry point (Sub-sprint C); Departments (Sub-sprint B, next); a richer "return to home without logging out" flow was considered and explicitly deferred in favor of keeping Log out as TaskScreen's sole exit.
+Save point name: SPRINT_031AB_LOCK
+Notes: Commit ac2fe94, message "Sprint 031 (Build Order item 5, Sub-sprint A): tier home screen + My Tasks fix".
