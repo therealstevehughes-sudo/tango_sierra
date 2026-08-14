@@ -1292,3 +1292,22 @@ Risks: None new. A scope-boundary check against `PROJECT_BIBLE.md`'s "supplier o
 Deferred items: delivery traceability link + EHO export integration — Sub-sprint B, next.
 Save point name: SPRINT_031Z_LOCK
 Notes: Commit 98478d0, message "Sprint 031 (finalized beta build order item 4, Sub-sprint A): supplier register".
+
+---
+
+## Supplier register + traceability, Sub-sprint B: delivery link + EHO export integration (Sprint 031) — completes item 4
+Date: 2026-08-14
+Objective: Link a delivery-related task submission to a supplier (one-step-back traceability) and feed the result into the EHO export's due-diligence story. Completes finalized beta build order item 4 (Sub-sprint A: register core, done; this: the link + export).
+Files changed:
+- lib/core/storage/app_database.dart, app_database.g.dart — `TaskTemplates.requiresSupplierSelection`, `TaskSubmissions.supplierId`, `_ensureSupplierTraceabilityFlag()` (append-only new version, mirrors `_ensureTaskEnrichment`). schemaVersion 28→29. Interim stopgap in the same function: widens "Supplier traceability captured" to include `base` tier, unblocking a pre-existing architectural gap (see DECISIONS_LOG.md "My Tasks navigation fix").
+- lib/shared/models/task_template.dart, task_submission.dart, lib/shared/repositories/task_template_repository.dart, task_submission_repository.dart — thread the new fields through.
+- lib/features/tasks/task_model.dart, task_controller.dart, task_screen.dart — `ResolvedTask.requiresSupplierSelection`; a per-submission supplier dropdown (optional, never gates SUBMIT) with a non-blocking caution banner when the picked supplier isn't approved.
+- lib/features/export/eho_export_service.dart — supplier due-diligence Summary line, "Deliveries from an unapproved supplier" Exceptions subsection; plus three resilience fixes found live-testing (see below).
+- lib/features/export/eho_export_dialog.dart — `service.generate()` wrapped in try/catch; failures now show a real "Export Failed" message instead of the dialog silently closing.
+Files unchanged: none beyond the above.
+Architecture impact: schemaVersion 28→29, additive columns only.
+UI impact: a supplier dropdown on the one delivery-traceability task; EHO export gains two supplier lines; export failures are now visible instead of silent.
+Risks: None new — all three live-testing findings were pre-existing gaps or genuine package bugs, not introduced by this feature, and all are now fixed and verified. Full detail (including the `pdf` 3.13.0 `Table.hasMoreWidgets` source-level bug, the `Document.addPage` no-rollback behavior, and the NOT_COMPLETED grouping fix) is in DECISIONS_LOG.md under this same heading. Verified: `flutter analyze` clean throughout. A real Windows debug run confirmed the schemaVersion 28→29 migration and the append-only tier-widening version chain, both checked directly against the dev database. The user live-tested end-to-end: the supplier dropdown (after ruling out a carousel-position red herring), the pending-supplier caution banner not blocking submission, and — after the resilience fixes — a wide 24 Jul-14 Aug export dropping from 155 pages to 6, with the grouped Not-Completed line, correct Summary, and both supplier lines all confirmed correct reading the regenerated PDF directly.
+Deferred items: the "My Tasks navigation fix" (approved direction, not yet built) and the fuller "Tier home screen" redesign — both logged in DECISIONS_LOG.md, queued for Build Order item 5 or a standalone interim fix.
+Save point name: SPRINT_031AA_LOCK
+Notes: Commit cd06720, message "Sprint 031 (finalized beta build order item 4, Sub-sprint B): delivery traceability link + EHO export integration + export resilience fixes".
