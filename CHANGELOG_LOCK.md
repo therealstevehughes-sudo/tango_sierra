@@ -1251,3 +1251,24 @@ Risks: None new. The device-clock timestamp and photo-marker-only limitations ar
 Deferred items: none for this feature. Noted for later, not a defect: on a real venue (vs. sparse dev test data) the Summary's day-coverage and "management review: none recorded" lines are exactly what an EHO reads first, making the review/sign-off task type genuinely matter.
 Save point name: SPRINT_031X_LOCK
 Notes: Commit a1ace94, message "Sprint 031: EHO/audit export (Summary + Exceptions, gated full log)".
+
+---
+
+## Training records (Sprint 031, finalized beta build order item 3)
+Date: 2026-08-14
+Objective: Per-staff training/induction sign-off log — UK EHOs explicitly ask for it, every competitor bundles it as standard, and it feeds the EHO export's "Confidence in Management" section with people-evidence, not just task-evidence. Plan (6 points) proposed and approved in full before building.
+Files changed:
+- lib/shared/models/training_item.dart (new) — `TrainingItemType` enum (7 common UK items + `other`), mirrors `ScheduleFrequency`'s enum+custom shape.
+- lib/shared/models/training_record.dart (new) — `TrainingRecord` model, `TrainingStatus` (current/expiringSoon/expired) with a 30-day expiring-soon window, `latestPerItem()` reduction.
+- lib/core/storage/app_database.dart, app_database.g.dart — new `TrainingRecords` table (append-only, no versioning chain — a discrete historical fact like `TaskSubmission`, not superseded configuration). schemaVersion 26→27.
+- lib/shared/repositories/training_record_repository.dart, lib/shared/providers/training_record_providers.dart (new) — insert + query only, no edit/delete, by design.
+- lib/features/settings/training_records_screen.dart (new) — per-staff screen: current status per item (with a StatusBadge chip), collapsed "Full history" for superseded records, an Add Record dialog.
+- lib/features/settings/staff_management_screen.dart — new "Training Records" overflow-menu action per staff tile, inherits the screen's existing `RoleTier.venueManager` gate.
+- lib/features/export/eho_export_service.dart — new Summary line ("Staff training: N active staff, X current, Y expiring, Z expired") and Exceptions "Training expired" subsection, active-staff-scoped.
+Files unchanged: `DueStatusService`/`OverdueSummaryService` — training expiry is a separate, simpler live computation (single-record comparison, no period logic), not routed through either.
+Architecture impact: schemaVersion 26→27, one additive new table, no backfill.
+UI impact: Staff Management gains a per-staff Training Records screen; EHO export gains a training summary line and an expired-training exceptions subsection.
+Risks: None new. A real bug was found live-testing (the expiry-date picker's `firstDate` blocked any date before today, making it impossible to record an already-expired item) and fixed to `DateTime(2020)`, matching the completed-date picker's range. Verified: `flutter analyze` clean; `build_runner` regenerated cleanly; a real Windows debug run confirmed the migration (training_records table present, schema version 27, checked directly against the dev database). The user tested live end-to-end, including after the date-picker fix: expired/current status chips, a renewal correctly superseding the old record into history, `other` custom-item validation, and a regenerated EHO export read directly (not described secondhand) showing the correct Summary line and an accurate "Training expired: None."
+Deferred items: none for this feature.
+Save point name: SPRINT_031Y_LOCK
+Notes: Commit 220541c, message "Sprint 031 (finalized beta build order item 3): training records".
