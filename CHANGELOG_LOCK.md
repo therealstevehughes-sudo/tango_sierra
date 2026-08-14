@@ -1227,3 +1227,27 @@ Risks: None new. Verified: `flutter analyze` clean; a real Windows debug run con
 Deferred items: TopScreen's cross-site overdue rollup for regional/executive — a separate design question, not attempted here.
 Save point name: SPRINT_031W_LOCK
 Notes: Commit 6b8e0c6, message "Sprint 031 (Build Order item 5, Sub-sprint D): manager-facing overdue notifications - completes Build Order item 5". This completes all of Build Order item 5.
+
+---
+
+## EHO / audit export (Sprint 031)
+Date: 2026-08-14
+Objective: A one-tap, inspector-ready PDF export of a venue's compliance records for a chosen date range — the #1 feature UK competitors have that this app didn't, per new `COMPETITIVE_ANALYSIS.md`. Pulled forward ahead of its originally-planned phase (MASTER_PLAN.md "017 — Inspection export").
+Files changed:
+- lib/features/export/eho_export_service.dart (new) — `EhoExportService.generate`, via the `pdf` package (^3.11.1). Builds a Summary + Exceptions (Fails / Not-Completed / Currently Outstanding) PDF, with an opt-in, default-off Full Detailed Log section grouped by the existing 21 task segments.
+- lib/features/export/eho_export_dialog.dart (new) — date-range picker + "Include full detailed log" checkbox (default off), triggered from the management drawer.
+- lib/core/widgets/management_drawer.dart — new "EHO Export" item (tier-gated at `RoleTier.venueManager`), wired via a `required this.onEhoExport` callback (matching the existing `onBackUp` pattern) rather than the drawer's own `ref`, after a live `ref`-lifetime crash was found and fixed.
+- lib/features/dashboard/top_screen.dart, lib/features/manager/manager_screen.dart — both pass `onEhoExport: () => showEhoExportDialog(context, ref)` using each screen's own long-lived `ref`.
+- lib/shared/repositories/task_submission_repository.dart — new `getForSiteAndDateRange`, site-scoped, ordered ascending by `completedAt`.
+- assets/fonts/Roboto-Regular.ttf, assets/fonts/Roboto-OFL.txt (new) — bundled Unicode-capable font (Google's official `google/fonts` repo, OFL-licensed), fixing a missing-glyph/unopenable-PDF defect found live-testing (default base14 Helvetica doesn't cover all needed characters). Disclosed limitation: source is a variable font with no static Bold instance, so bold text renders at regular weight.
+- pubspec.yaml, pubspec.lock — added `pdf: ^3.11.1` dependency; registered the bundled font asset.
+- PROJECT_BIBLE.md, MASTER_PLAN.md — tier for this export reconsidered from executive/top-tier-only to venue manager tier and above (an EHO inspection is unannounced and happens at the venue, so requiring the Director specifically would defeat the feature's point); both docs updated with the reasoning left inline.
+- COMPETITIVE_ANALYSIS.md (new) — the UK/international competitor research that justified pulling this feature forward.
+- DECISIONS_LOG.md — full history: the tier reconsideration, the two live bugs found and fixed (ref-lifetime crash, missing-glyph font defect), and the mid-build restructure to Summary+Exceptions-first per real UK-EHO research the user supplied (a dense everything-dump is the wrong default format; EHOs assess "Confidence in Management" and can do so within minutes off the summary).
+Files unchanged: `OverdueSummaryService` (Sub-sprint D) — reused as-is for the Currently Outstanding section, no changes needed.
+Architecture impact: None. No schema change — a computed export over existing data.
+UI impact: Management drawer (venue manager tier and above) gains an "EHO Export" item opening a date-range + full-log-toggle dialog, producing a PDF saved to the app's Documents export folder.
+Risks: None new. The device-clock timestamp and photo-marker-only limitations are disclosed on the export document itself, not hidden. Verified: `flutter analyze` clean throughout. Multiple real Windows debug runs. The user live-tested repeatedly across all three build stages (initial build, post-font-fix, post-restructure), including a run against the real accumulated dev dataset (34 submissions, 19 pass/3 fail/12 not-completed, 7-13 Aug 2026) with the full-log toggle both on and off — confirming correct toggle gating (2 pages off / 3 pages on), genuine multi-page pagination (a segment table splits across pages), the condensed running header and single limitations box, correct FAIL/NOT_COMPLETED colour coding in the full log, and correct staff-grouped Currently Outstanding content. Both PDFs read directly (not described secondhand) before commit.
+Deferred items: none for this feature. Noted for later, not a defect: on a real venue (vs. sparse dev test data) the Summary's day-coverage and "management review: none recorded" lines are exactly what an EHO reads first, making the review/sign-off task type genuinely matter.
+Save point name: SPRINT_031X_LOCK
+Notes: Commit a1ace94, message "Sprint 031: EHO/audit export (Summary + Exceptions, gated full log)".
