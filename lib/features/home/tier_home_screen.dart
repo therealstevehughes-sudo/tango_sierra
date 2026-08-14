@@ -8,6 +8,7 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../dashboard/top_screen.dart';
 import '../manager/manager_screen.dart';
+import '../settings/settings_screen.dart';
 import '../tasks/task_screen.dart';
 
 // Tier home screen (Sprint 031, Build Order item 5, Sub-sprint A) — closes
@@ -19,10 +20,8 @@ import '../tasks/task_screen.dart';
 // deliberately unchanged — a Kitchen Porter has one job and lands straight
 // on TaskScreen, no home menu, per the Staff Task Screen Rule's minimalism.
 //
-// Only My Tasks / Oversight exist this sub-sprint — Settings (venue and
-// personal) is added once Sub-sprints B (Departments) and C (Settings
-// layer) exist for it to actually open; adding a button with nothing real
-// behind it would be building ahead of what's needed.
+// Settings (Sub-sprint C) added alongside My Tasks / Oversight — the third
+// and final button this screen was always meant to have.
 class TierHomeScreen extends ConsumerWidget {
   const TierHomeScreen({super.key});
 
@@ -85,6 +84,15 @@ class TierHomeScreen extends ConsumerWidget {
                                 oversightScreenFor(currentUser.roleTier),
                           ),
                         ),
+                ),
+                const SizedBox(height: 12),
+                PrimaryActionButton(
+                  label: 'Settings',
+                  icon: Icons.settings,
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const SettingsScreen()),
+                  ),
                 ),
               ],
             ),

@@ -186,7 +186,14 @@ class ManagementDrawer extends ConsumerWidget {
             leading: const Icon(Icons.logout),
             title: const Text('Log out'),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context); // closes the drawer itself
+              // Pop to root before nulling currentUserProvider (Sprint 031,
+              // Sub-sprint C follow-up) — ManagerScreen/TopScreen are
+              // reachable via Navigator.push since Sub-sprint A, so without
+              // this a pushed instance stayed mounted underneath after
+              // logout while MaterialApp.home reactively swapped to
+              // LoginScreen. Same fix as TaskScreen's logout paths.
+              Navigator.of(context).popUntil((route) => route.isFirst);
               ref.read(currentUserProvider.notifier).state = null;
             },
           ),

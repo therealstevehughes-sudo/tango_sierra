@@ -72,4 +72,24 @@ class User {
     this.deactivatedByUserId,
     this.departmentId,
   });
+
+  // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — needed
+  // so a self-serve preference change (temperature unit) can update the
+  // already-logged-in currentUserProvider in place, without a re-login.
+  User copyWith({TemperatureUnit? preferredTemperatureUnit}) {
+    return User(
+      id: id,
+      name: name,
+      jobTitle: jobTitle,
+      roleTier: roleTier,
+      jobRole: jobRole,
+      preferredTemperatureUnit:
+          preferredTemperatureUnit ?? this.preferredTemperatureUnit,
+      siteId: siteId,
+      active: active,
+      deactivatedAt: deactivatedAt,
+      deactivatedByUserId: deactivatedByUserId,
+      departmentId: departmentId,
+    );
+  }
 }

@@ -43,6 +43,14 @@ abstract class UserRepository {
     required int userId,
     required int? departmentId,
   });
+  // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — a
+  // self-serve personal preference, not an admin action on someone else.
+  // Display-only: canonical storage (Celsius) is never touched, conversion
+  // happens only where a value is shown or entered.
+  Future<void> setPreferredTemperatureUnit({
+    required int userId,
+    required TemperatureUnit unit,
+  });
 }
 
 class DriftUserRepository implements UserRepository {
@@ -161,6 +169,16 @@ class DriftUserRepository implements UserRepository {
   }) async {
     await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
       UsersCompanion(departmentId: Value(departmentId)),
+    );
+  }
+
+  @override
+  Future<void> setPreferredTemperatureUnit({
+    required int userId,
+    required TemperatureUnit unit,
+  }) async {
+    await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+      UsersCompanion(preferredTemperatureUnit: Value(unit.name)),
     );
   }
 

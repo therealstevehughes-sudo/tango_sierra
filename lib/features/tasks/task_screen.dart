@@ -36,6 +36,14 @@ class TaskScreen extends ConsumerStatefulWidget {
 class _TaskScreenState extends ConsumerState<TaskScreen> {
   late final TaskController controller;
   bool loading = true;
+  // Fail-safe (Sprint 031, Sub-sprint C follow-up): true when this screen
+  // was reached with no logged-in user — `controller` is never initialized
+  // in that case. This is the guard for the *class* of bug the popUntil
+  // fixes the *trigger* for: even if some future push path reaches this
+  // screen with a null user, build() must never crash the whole app on it
+  // (the old bare `ref.read(currentUserProvider)!` did exactly that) — it
+  // fails safe back to the login route instead.
+  bool _userMissing = false;
 
   final TextEditingController numberController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
@@ -63,12 +71,23 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   @override
   void initState() {
     super.initState();
+    final user = ref.read(currentUserProvider);
+    if (user == null) {
+      // Fail safe rather than crash — see _userMissing's doc comment.
+      // Bails out to the root route on the next frame; app.dart's reactive
+      // routing already shows LoginScreen once currentUserProvider is null.
+      _userMissing = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) Navigator.of(context).popUntil((route) => route.isFirst);
+      });
+      return;
+    }
     controller = TaskController(
       ref.read(taskSubmissionRepositoryProvider),
       ref.read(taskScheduleRepositoryProvider),
       ref.read(taskTemplateRepositoryProvider),
       ref.read(equipmentRepositoryProvider),
-      ref.read(currentUserProvider)!,
+      user,
       ref.read(notificationRuleRepositoryProvider),
       ref.read(triggerNotificationRepositoryProvider),
       ref.read(userRepositoryProvider),
@@ -195,6 +214,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     }
 
     if (!mounted) return;
+    // Pop to root before nulling currentUserProvider (Sprint 031, Sub-sprint
+    // C follow-up) — this screen is reachable via Navigator.push since
+    // Sub-sprint A, so without this a pushed TaskScreen stayed mounted
+    // underneath after logout while MaterialApp.home reactively swapped to
+    // LoginScreen. Same push-vs-reactive-home bug class already fixed for
+    // SeniorLoginScreen's login flow, mirrored here for logout.
+    Navigator.of(context).popUntil((route) => route.isFirst);
     ref.read(currentUserProvider.notifier).state = null;
   }
 
@@ -381,12 +407,21 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
       if (!mounted) return;
 
+      // Same pop-before-null fix as _confirmLogOut — this auto-logout on
+      // full session completion is reachable via this pushed TaskScreen
+      // too, since Sub-sprint A.
+      Navigator.of(context).popUntil((route) => route.isFirst);
       ref.read(currentUserProvider.notifier).state = null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_userMissing) {
+      // `controller` was never initialized — see _userMissing's doc
+      // comment. Nothing below this may touch `controller`.
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     if (loading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
