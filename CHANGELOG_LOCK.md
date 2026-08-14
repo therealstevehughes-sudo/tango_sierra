@@ -1351,3 +1351,23 @@ Risks: None new. Verified: `flutter analyze` clean; `build_runner` regenerated c
 Deferred items: the departments-first login flow (threshold/UX decision still open, unscheduled); Settings shell + units — Sub-sprint C, next.
 Save point name: SPRINT_031AC_LOCK
 Notes: Commit 81fcca6, message "Sprint 031 (Build Order item 5, Sub-sprint B): departments".
+
+---
+
+## Settings shell + units (Sprint 031, Build Order item 5, Sub-sprint C) — completes item 5
+Date: 2026-08-14
+Objective: The third and final TierHomeScreen entry point (My Tasks / Oversight / Settings), plus the first real settings content — a personal temperature-unit preference. Three decisions confirmed before building (units stays personal per-user, temperature-only/no metric-imperial toggle, Venue section gated at venueManager+) — see DECISIONS_LOG.md for full reasoning. Live-testing surfaced a real app-crashing bug, root-caused and fixed as part of this sub-sprint.
+Files changed:
+- lib/features/settings/settings_screen.dart (new) — `SettingsScreen`: Personal section (temperature-unit dropdown, real; Dark Mode/Language shown as "Coming soon") always shown; Venue section (Branding/Login Layout, both "Coming soon") shown only at venueManager tier and above.
+- lib/features/home/tier_home_screen.dart — third "Settings" button added alongside My Tasks/Oversight.
+- lib/shared/models/user.dart — `User.copyWith()` (new), lets a preference change update the already-logged-in `currentUserProvider` in place without a re-login.
+- lib/shared/repositories/user_repository.dart — `setPreferredTemperatureUnit({userId, unit})`; display-only, canonical (Celsius) storage never touched.
+- lib/features/tasks/task_screen.dart — **crash fix**: the bare `ref.read(currentUserProvider)!` in `initState` (safe only while this screen was always `MaterialApp.home`, unsafe since Sub-sprint A made it push-reachable) replaced with a fail-safe `_userMissing` guard — a null user now fails safe back to login instead of crashing the app. Both logout paths (the explicit "Log out" button and the automatic end-of-session logout) now pop to the navigator root before nulling `currentUserProvider`, mirroring the fix already applied to `SeniorLoginScreen`'s login flow this session, for the mirror-image logout direction.
+- lib/core/widgets/management_drawer.dart — **crash fix**: "Log out" (shared by `ManagerScreen`/`TopScreen`) now also pops to the navigator root before nulling `currentUserProvider`, same fix as above.
+Files unchanged: no schema change this sub-sprint.
+Architecture impact: none.
+UI impact: TierHomeScreen gains a Settings button; a working temperature-unit preference; logging out from anywhere reachable via push now correctly returns to a clean root state instead of risking a crash.
+Risks: The crash fix closes a real, confirmed app-killing bug (not a cosmetic issue) — full root-cause detail (captured stack trace, exact trigger, the push-vs-reactive-home bug class) is in DECISIONS_LOG.md. Two other findings from the original live-test report ("Venue section missing for a venueManager", "no way back from Settings") were confirmed to be symptoms of the crash, not separate defects — reproduced and ruled out via a temporary widget test against the real dev database before being dismissed, not assumed. Verified: `flutter analyze` clean throughout. The exact crash sequence (push My Tasks → Log out → push My Tasks again) was reproduced against the real dev database before the fix (confirmed crashing) and re-verified after (confirmed clean). A real Windows debug build launched cleanly.
+Deferred items: Dark Mode, Language, Branding, Login Layout — all shown as "Coming soon", none built. Metric/imperial units — confirmed out of scope, no non-temperature measurable data exists anywhere in the app to convert.
+Save point name: SPRINT_031AD_LOCK
+Notes: Commit 895eae4, message "Sprint 031 (Build Order item 5, Sub-sprint C): settings shell + units - completes item 5".
