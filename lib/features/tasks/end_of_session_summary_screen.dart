@@ -9,6 +9,7 @@ import '../../core/widgets/status_badge.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
+import '../dashboard/reliability_service.dart';
 import 'task_model.dart';
 
 class EndOfSessionSummaryScreen extends ConsumerStatefulWidget {
@@ -28,6 +29,9 @@ class _EndOfSessionSummaryScreenState
   int? selectedManagerId;
   bool sent = false;
 
+  bool loadingReliability = true;
+  ReliabilitySummary? reliability;
+
   final TextEditingController summaryNoteController = TextEditingController();
   final TextEditingController handoverNoteController =
       TextEditingController();
@@ -36,6 +40,7 @@ class _EndOfSessionSummaryScreenState
   void initState() {
     super.initState();
     _loadManagers();
+    _loadReliability();
   }
 
   @override
@@ -56,6 +61,22 @@ class _EndOfSessionSummaryScreenState
     setState(() {
       managers = managerList;
       loadingManagers = false;
+    });
+  }
+
+  Future<void> _loadReliability() async {
+    final currentUser = ref.read(currentUserProvider);
+    if (currentUser == null) {
+      setState(() => loadingReliability = false);
+      return;
+    }
+    final service = ref.read(reliabilityServiceProvider);
+    final summary = await service.computeForUser(currentUser.id);
+
+    if (!mounted) return;
+    setState(() {
+      reliability = summary;
+      loadingReliability = false;
     });
   }
 
@@ -161,6 +182,43 @@ class _EndOfSessionSummaryScreenState
                     ],
                   ),
                 ),
+                if (!loadingReliability &&
+                    reliability != null &&
+                    reliability!.totalPeriods > 0) ...[
+                  const SizedBox(height: 24),
+                  const SectionHeader(title: 'Your reliability'),
+                  const SizedBox(height: 8),
+                  AppCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Last 30 days — checks completed and logged on time.'
+                          ' A logged fail counts the same as a logged pass:'
+                          ' this only measures whether you checked and when.',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                        const SizedBox(height: 12),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            StatusBadge(
+                              kind: StatusKind.pass,
+                              label:
+                                  '${(reliability!.completionRate! * 100).round()}% completed',
+                            ),
+                            StatusBadge(
+                              kind: StatusKind.pass,
+                              label:
+                                  '${(reliability!.onTimeRate! * 100).round()}% on time',
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
                 const SizedBox(height: 24),
                 const SectionHeader(title: 'Send this summary to a manager (optional)'),
                 const SizedBox(height: 8),
