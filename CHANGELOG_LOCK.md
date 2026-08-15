@@ -1421,3 +1421,21 @@ Verified: `flutter analyze` clean. Two unit tests against an in-memory database 
 Deferred items: Sub-sprint B (Supervisor/Venue Manager DashboardScreen) and Sub-sprint C (Regional/Executive TopScreen dashboard body) - not yet started, pending plan review. Four small unreviewed choices (lookback window, badge colour thresholding, hidden-vs-explicit empty state, card copy) logged in DECISIONS_LOG.md for a follow-up polish pass.
 Save point name: SPRINT_031AG_LOCK
 Notes: Commit 025e6cc, message "Sprint 031: dashboard + worker recognition, Sub-sprint A - reliability scoring".
+
+---
+
+## Dashboard + worker recognition - Sub-sprints B+C: venue dashboard for all non-base tiers (Sprint 031) - completes the feature
+Date: 2026-08-15
+Objective: Sub-sprint B built a venue-scoped Dashboard for supervisor/venueManager, reusing Sub-sprint A's ReliabilityService via a new computeForSite aggregate. Sub-sprint C reused that exact same view for regional/executive, replacing TopScreen's "Dashboards coming soon" placeholder rather than building a new screen. Full detail, the four confirmed pre-build decisions for B, and the anti-gaming display rules for both sub-sprints are in DECISIONS_LOG.md.
+Files changed:
+- lib/features/dashboard/reliability_service.dart - `computeForSite(siteId)` + `StaffReliabilitySummary`/`SiteReliabilitySummary`, third constructor dependency (`UserRepository`).
+- lib/core/widgets/metric_chip.dart (new) - neutral, non-graded counterpart to StatusBadge, reserved for score-derived figures that must never carry judgment.
+- lib/features/dashboard/dashboard_screen.dart (new) - `DashboardScreen` (Scaffold+drawer wrapper) + `DashboardBody` (the reusable summary card + team list), the latter also embedded directly in TopScreen for Sub-sprint C.
+- lib/core/widgets/management_drawer.dart - new "Dashboard" item, minTier: supervisor.
+- lib/features/tasks/end_of_session_summary_screen.dart - Sub-sprint A's card retrofitted from StatusBadge(pass) to MetricChip.
+- lib/features/dashboard/top_screen.dart - placeholder body replaced with `const Expanded(child: DashboardBody())`.
+Risks: None new - Sub-sprint C is a refactor-and-embed, not new logic.
+Verified: `flutter analyze` clean throughout both sub-sprints. A temporary unit test (deleted after, not part of this commit) against an in-memory database confirmed computeForSite sums only active staff at the given site, excluding inactive staff and other sites, with PASS/FAIL parity holding at the aggregate level. Real Windows debug builds launched and ran stably after both sub-sprints; the user reviewed Sub-sprint B's live screen directly before Sub-sprint C was built on top of it.
+**This completes the dashboard + worker recognition feature** (Sub-sprints A, B, C). Next in the finalized beta build order: item 7, Branding.
+Save point name: SPRINT_031AH_LOCK
+Notes: Commit 236fb0a, message "Sprint 031: dashboard + worker recognition, Sub-sprints B+C - venue dashboard for all non-base tiers".
