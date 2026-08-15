@@ -1391,3 +1391,19 @@ Risks: None new. Two minor, disclosed nuances left as-is (not bugs): staff_assig
 Deferred items: the collapsible-oversight declutter, explicitly sequenced next by the user, separate from this pass.
 Save point name: SPRINT_031AE_LOCK
 Notes: Commit 3347120, message "Sprint 031: navigation consistency - one ManagementDrawer everywhere (TOP PRIORITY)".
+
+---
+
+## Collapsible oversight declutter - ManagerScreen/TopScreen (Sprint 031)
+Date: 2026-08-15
+Objective: ManagerScreen was a wall of always-expanded sections (Alerts, Overdue, Session Summaries, Submission Log) - overwhelming at real scale. Overdue was already collapsible (Sub-sprint D); the other three weren't. Four decisions confirmed before building, all approved as recommended.
+Files changed:
+- lib/features/manager/manager_screen.dart - _TriggerNotificationsBanner and _SessionSummariesBanner both changed from plain AppBanner to Card(ExpansionTile). Alerts starts expanded (initiallyExpanded: true); Session Summaries starts collapsed. Both headers flag unacknowledged count distinctly in the subtitle, not just a bare total. New _SubmissionLogSection wraps the existing, unchanged ManagerLogFilter plus the resulting grouped log cards in one new outer Card(ExpansionTile), collapsed by default, header flags FAIL presence distinctly rather than a bare count.
+- lib/features/dashboard/top_screen.dart - same Alerts treatment as ManagerScreen (its only shared section - TopScreen has no Overdue/Session Summaries/Submission Log, confirmed out of scope in earlier sub-sprints).
+Files unchanged: no schema change. ManagerLogFilter itself untouched - the new wrapper sits around it, per the approved decision not to extend an already-tested component.
+Architecture impact: none.
+UI impact: ManagerScreen's four sections are now uniformly collapsible with count-bearing headers; nothing is hidden by default, only tidied - every header always shows a count, and unacknowledged/FAIL subsets are flagged distinctly rather than folded into a bare total.
+Risks: None new. Verified: `flutter analyze` clean throughout. A real Windows debug build launched and ran stably. A temporary widget test (deleted after, not part of this commit) against the real dev database confirmed the exact designed initiallyExpanded flags on every found ExpansionTile (Alerts true, Session Summaries and Submission Log both false) before a test-teardown-only hang unrelated to app code (db.close() racing the still-mounted widget's active streams - diagnostic-test plumbing, not production code).
+Deferred items: none - this closes out the oversight-declutter follow-up.
+Save point name: SPRINT_031AF_LOCK
+Notes: Commit 94a9e9d, message "Sprint 031: collapsible oversight declutter - ManagerScreen/TopScreen".
