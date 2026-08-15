@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -27,6 +28,7 @@ class SettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
+      drawer: const ManagementDrawer(title: 'Settings'),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

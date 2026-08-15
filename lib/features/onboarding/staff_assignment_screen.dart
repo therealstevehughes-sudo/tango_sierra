@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/equipment.dart';
@@ -314,6 +315,12 @@ class _StaffAssignmentScreenState
                 onPressed: () => setState(() => selectedStaff = null),
               ),
       ),
+      // Navigation-consistency pass (Sprint 031): while a staff member is
+      // selected, this AppBar's `leading` is the "back to staff list"
+      // arrow above, not the drawer hamburger — the drawer stays reachable
+      // via edge-swipe in that state (pre-existing Scaffold behavior, not
+      // new here), same as any screen with a custom leading widget.
+      drawer: const ManagementDrawer(title: 'Assign Tasks'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

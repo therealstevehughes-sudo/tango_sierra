@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../shared/models/area.dart';
 import '../../shared/models/equipment.dart';
@@ -329,6 +330,7 @@ class _VenueSetupWizardScreenState
       appBar: AppBar(
         title: Text('Venue Setup — Step ${currentStep + 1} of 3'),
       ),
+      drawer: const ManagementDrawer(title: 'Venue Setup'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

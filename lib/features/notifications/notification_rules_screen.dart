@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/notification_rule.dart';
@@ -214,6 +215,7 @@ class _NotificationRulesScreenState
 
     return Scaffold(
       appBar: AppBar(title: const Text('Notification Rules')),
+      drawer: const ManagementDrawer(title: 'Notification Rules'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

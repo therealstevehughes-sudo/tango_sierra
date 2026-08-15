@@ -8,13 +8,13 @@ import '../../core/utils/date_format.dart';
 import '../../core/utils/unit_conversion.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
-import '../home/tier_home_screen.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
@@ -159,22 +159,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // Scaffold is wrapped in `PopScope(canPop: false)`, so Log out stays the
   // only way out rather than reopening this already-audited logic to a
   // second, unconfirmed exit path.
-  List<Widget> _appBarActions(User? currentUser) {
-    final canSeeManagerView =
-        currentUser != null && currentUser.roleTier != RoleTier.base;
+  // Navigation-consistency pass (Sprint 031): the standalone "Manager View"
+  // eye icon that used to live here is gone — Oversight is now a
+  // ManagementDrawer item (see build()'s drawer:), reachable the same way
+  // from every non-base screen instead of a TaskScreen-only shortcut.
+  List<Widget> _appBarActions() {
     return [
-      if (canSeeManagerView)
-        IconButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) =>
-                  TierHomeScreen.oversightScreenFor(currentUser.roleTier),
-            ),
-          ),
-          icon: const Icon(Icons.visibility),
-          tooltip: 'Manager View',
-        ),
       TextButton.icon(
         onPressed: _confirmLogOut,
         icon: const Icon(Icons.logout, size: 18),
@@ -427,6 +417,23 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     }
 
     final currentUser = ref.watch(currentUserProvider);
+    // Navigation-consistency pass (Sprint 031): the drawer is base-tier's
+    // one deliberate exception — a Kitchen Porter still just sees tasks +
+    // Log out, no menu, per the Staff Task Screen Rule's minimalism.
+    final drawer = currentUser != null && currentUser.roleTier != RoleTier.base
+        ? ManagementDrawer(title: 'My Tasks', onLogout: _confirmLogOut)
+        : null;
+    // automaticallyImplyLeading: false (below, kept from Sub-sprint A's
+    // back-arrow suppression) also hides the drawer's own auto-hamburger,
+    // so it needs an explicit leading button whenever a drawer exists.
+    final drawerLeading = drawer == null
+        ? null
+        : Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          );
 
     if (!controller.hasTasks) {
       return PopScope(
@@ -434,11 +441,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
+            leading: drawerLeading,
             title: currentUser != null
                 ? UserTitle(user: currentUser)
                 : const Text("Task"),
-            actions: _appBarActions(currentUser),
+            actions: _appBarActions(),
           ),
+          drawer: drawer,
           body: const Center(child: Text("No tasks assigned yet.")),
         ),
       );
@@ -452,7 +461,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     // while locked anyway. Visible, never hidden (same principle as
     // overdue/FAILs), but not actionable.
     if (task.isLocked) {
-      return _buildLockedScaffold(context, task, currentUser);
+      return _buildLockedScaffold(context, task, currentUser, drawer, drawerLeading);
     }
 
     return PopScope(
@@ -460,11 +469,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       child: Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        leading: drawerLeading,
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text("Task"),
-        actions: _appBarActions(currentUser),
+        actions: _appBarActions(),
       ),
+      drawer: drawer,
       body: Padding(
         padding: const EdgeInsets.all(16),
         // Corrective-action redesign (Sprint 031, Sub-sprint 4): the body
@@ -756,6 +767,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     BuildContext context,
     ResolvedTask task,
     User? currentUser,
+    Widget? drawer,
+    Widget? drawerLeading,
   ) {
     final start = task.windowStartMinutes!;
     final startTime = TimeOfDay(hour: start ~/ 60, minute: start % 60);
@@ -765,11 +778,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       child: Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        leading: drawerLeading,
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text("Task"),
-        actions: _appBarActions(currentUser),
+        actions: _appBarActions(),
       ),
+      drawer: drawer,
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(

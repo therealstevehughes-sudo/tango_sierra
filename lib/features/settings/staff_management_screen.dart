@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/management_drawer.dart';
 import '../../shared/models/department.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -264,6 +265,7 @@ class _StaffManagementScreenState
 
     return Scaffold(
       appBar: AppBar(title: const Text('Staff Management')),
+      drawer: const ManagementDrawer(title: 'Staff Management'),
       body: SafeArea(
         child: ListView.builder(
           padding: const EdgeInsets.all(16),

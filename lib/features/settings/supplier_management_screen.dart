@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/supplier_category.dart';
@@ -344,6 +345,7 @@ class _SupplierManagementScreenState
 
     return Scaffold(
       appBar: AppBar(title: const Text('Supplier Management')),
+      drawer: const ManagementDrawer(title: 'Supplier Management'),
       body: SafeArea(
         child: suppliers.isEmpty
             ? const Center(child: Text('No suppliers added yet.'))

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_banner.dart';
+import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/equipment_type.dart';
@@ -242,6 +243,7 @@ class _PresetManagementScreenState
 
     return Scaffold(
       appBar: AppBar(title: const Text('Task Presets')),
+      drawer: const ManagementDrawer(title: 'Task Presets'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/third_party_contact.dart';
@@ -119,6 +120,7 @@ class _ThirdPartyContactsScreenState
 
     return Scaffold(
       appBar: AppBar(title: const Text('Maintenance Contacts')),
+      drawer: const ManagementDrawer(title: 'Maintenance Contacts'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

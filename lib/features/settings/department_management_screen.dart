@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/management_drawer.dart';
 import '../../shared/models/department.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/department_providers.dart';
@@ -131,6 +132,7 @@ class _DepartmentManagementScreenState
 
     return Scaffold(
       appBar: AppBar(title: const Text('Department Management')),
+      drawer: const ManagementDrawer(title: 'Department Management'),
       body: SafeArea(
         child: departments.isEmpty
             ? const Center(child: Text('No departments added yet.'))

@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../features/home/tier_home_screen.dart';
 import '../../features/notifications/notification_rules_screen.dart';
 import '../../features/onboarding/staff_assignment_screen.dart';
 import '../../features/settings/department_management_screen.dart';
+import '../../features/settings/settings_screen.dart';
 import '../../features/settings/staff_management_screen.dart';
 import '../../features/settings/supplier_management_screen.dart';
 import '../../features/settings/third_party_contacts_screen.dart';
 import '../../features/settings/venue_details_screen.dart';
 import '../../features/task_library/preset_management_screen.dart';
+import '../../features/tasks/task_screen.dart';
 import '../../features/venue_setup/venue_setup_wizard_screen.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -110,12 +113,19 @@ class ManagementDrawer extends ConsumerWidget {
   const ManagementDrawer({
     super.key,
     required this.title,
-    required this.onBackUp,
-    required this.onEhoExport,
+    this.onBackUp,
+    this.onEhoExport,
+    this.onLogout,
   });
 
   final String title;
-  final VoidCallback onBackUp;
+  // Nullable (Sprint 031, navigation-consistency pass) — Back Up Now / EHO
+  // Export only appear when the caller supplies these, since only
+  // ManagerScreen/TopScreen wire them; every other screen this drawer is
+  // now on (TierHomeScreen, TaskScreen, Settings, the 9 tool screens) omits
+  // them rather than duplicating the callback wiring everywhere. Home is
+  // always one tap away from any of those two actions regardless.
+  //
   // A callback captured from the calling screen's own long-lived `ref`,
   // not a call made directly with this widget's own `ref` — found via a
   // real runtime crash (Sprint 031): the export dialog awaits a date
@@ -123,7 +133,14 @@ class ManagementDrawer extends ConsumerWidget {
   // already been disposed by the Navigator.pop() that closed it, making
   // its own `ref` unsafe to use. Back Up Now already avoided this by
   // using a callback; this now matches that same pattern.
-  final VoidCallback onEhoExport;
+  final VoidCallback? onBackUp;
+  final VoidCallback? onEhoExport;
+  // Nullable — only TaskScreen supplies this (its own confirmation-aware
+  // _confirmLogOut, which checks hasRemainingTasks first). Every other
+  // screen falls back to the drawer's own default: pop to root, then null
+  // currentUserProvider — there's no "remaining tasks" concept outside
+  // TaskScreen, so no confirmation is needed elsewhere.
+  final VoidCallback? onLogout;
 
   void _navigate(BuildContext context, Widget screen) {
     Navigator.pop(context);
@@ -156,6 +173,40 @@ class ManagementDrawer extends ConsumerWidget {
               ),
             ),
           ),
+          // Universal navigation (Sprint 031, navigation-consistency pass)
+          // — present on every screen this drawer is used on, ungated,
+          // since every non-base tier can always reach its own tasks, the
+          // oversight view for its tier, and Settings. Home pops to root
+          // rather than pushing — TierHomeScreen is already MaterialApp.home
+          // for every non-base tier, so this never stacks a duplicate copy.
+          ListTile(
+            leading: const Icon(Icons.home_outlined),
+            title: const Text('Home'),
+            onTap: () {
+              Navigator.pop(context);
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.checklist),
+            title: const Text('My Tasks'),
+            onTap: () => _navigate(context, const TaskScreen()),
+          ),
+          if (tier != null)
+            ListTile(
+              leading: const Icon(Icons.visibility),
+              title: const Text('Oversight'),
+              onTap: () => _navigate(
+                context,
+                TierHomeScreen.oversightScreenFor(tier),
+              ),
+            ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Settings'),
+            onTap: () => _navigate(context, const SettingsScreen()),
+          ),
+          const Divider(),
           for (final item in _managementItems)
             if (atLeast(item.minTier))
               ListTile(
@@ -163,22 +214,22 @@ class ManagementDrawer extends ConsumerWidget {
                 title: Text(item.label),
                 onTap: () => _navigate(context, item.screenBuilder(context)),
               ),
-          if (atLeast(_backUpMinTier))
+          if (onBackUp != null && atLeast(_backUpMinTier))
             ListTile(
               leading: const Icon(Icons.backup),
               title: const Text('Back Up Now'),
               onTap: () {
                 Navigator.pop(context);
-                onBackUp();
+                onBackUp!();
               },
             ),
-          if (atLeast(_ehoExportMinTier))
+          if (onEhoExport != null && atLeast(_ehoExportMinTier))
             ListTile(
               leading: const Icon(Icons.picture_as_pdf_outlined),
               title: const Text('EHO / Audit Export'),
               onTap: () {
                 Navigator.pop(context);
-                onEhoExport();
+                onEhoExport!();
               },
             ),
           const Divider(),
@@ -187,6 +238,10 @@ class ManagementDrawer extends ConsumerWidget {
             title: const Text('Log out'),
             onTap: () {
               Navigator.pop(context); // closes the drawer itself
+              if (onLogout != null) {
+                onLogout!();
+                return;
+              }
               // Pop to root before nulling currentUserProvider (Sprint 031,
               // Sub-sprint C follow-up) — ManagerScreen/TopScreen are
               // reachable via Navigator.push since Sub-sprint A, so without
