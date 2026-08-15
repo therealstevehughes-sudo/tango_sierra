@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
-import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/user_title.dart';
@@ -341,43 +340,15 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
                   padding: const EdgeInsets.only(bottom: 12),
                   child: OverdueSummaryCard(entries: _overdueEntries),
                 ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: ManagerLogFilter(
-                  onChanged: (selection) =>
-                      setState(() => _filter = selection),
-                ),
+              _SubmissionLogSection(
+                entries: entries,
+                groupedEntries: groupedEntries,
+                groupKeys: groupKeys,
+                axis: _filter.axis,
+                buildLogLine: _buildLogLine,
+                onFilterChanged: (selection) =>
+                    setState(() => _filter = selection),
               ),
-              if (entries.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.only(top: 24),
-                  child: Center(
-                    child: Text('No completed tasks logged yet'),
-                  ),
-                )
-              else
-                for (final groupKey in groupKeys)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: AppCard(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            groupKey,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          ...groupedEntries[groupKey]!.map(
-                            (entry) => _buildLogLine(entry, _filter.axis),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
             ],
           );
         },
@@ -386,6 +357,97 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
   }
 }
 
+// Busy-oversight declutter (Sprint 031): wraps the existing ManagerLogFilter
+// (unchanged, still owns its own collapse state for just the filter
+// controls) plus the resulting grouped log cards in one new outer
+// Card+ExpansionTile, collapsed by default — previously the log cards
+// rendered unconditionally below the filter with nothing to tidy them
+// away. The collapsed header flags FAIL presence distinctly (not a bare
+// count): "12 entries" alone can't distinguish 12 uneventful passes from
+// 12 entries including 2 fails without expanding, which would be exactly
+// the kind of silent-by-omission gap the "fails never hidden" principle
+// exists to prevent — the count itself is never hidden, just the detail.
+class _SubmissionLogSection extends StatelessWidget {
+  const _SubmissionLogSection({
+    required this.entries,
+    required this.groupedEntries,
+    required this.groupKeys,
+    required this.axis,
+    required this.buildLogLine,
+    required this.onFilterChanged,
+  });
+
+  final List<TaskSubmission> entries;
+  final Map<String, List<TaskSubmission>> groupedEntries;
+  final List<String> groupKeys;
+  final LogFilterAxis? axis;
+  final Widget Function(TaskSubmission entry, LogFilterAxis? axis) buildLogLine;
+  final ValueChanged<LogFilterSelection> onFilterChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final failCount = entries.where((e) => e.status == 'FAIL').length;
+
+    return Card(
+      child: ExpansionTile(
+        leading: const Icon(Icons.list_alt),
+        title: Text(
+          '${entries.length} entr${entries.length == 1 ? 'y' : 'ies'}',
+        ),
+        subtitle: failCount > 0
+            ? Text(
+                '$failCount FAIL${failCount == 1 ? '' : 's'}',
+                style: const TextStyle(
+                  color: AppColors.critical,
+                  fontWeight: FontWeight.w700,
+                ),
+              )
+            : const Text('No fails'),
+        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+        children: [
+          ManagerLogFilter(onChanged: onFilterChanged),
+          const SizedBox(height: 12),
+          if (entries.isEmpty)
+            const Padding(
+              padding: EdgeInsets.only(bottom: 8),
+              child: Center(child: Text('No completed tasks logged yet')),
+            )
+          else
+            for (final groupKey in groupKeys)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: AppCard(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        groupKey,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      ...groupedEntries[groupKey]!.map(
+                        (entry) => buildLogLine(entry, axis),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+        ],
+      ),
+    );
+  }
+}
+
+// Busy-oversight declutter (Sprint 031): Card+ExpansionTile, matching
+// OverdueSummaryCard/ManagerLogFilter's established pattern — collapsed by
+// default. The collapsed header flags the *unacknowledged* count
+// specifically, not just a bare total: an unacknowledged summary is the
+// thing that actually needs action, so it must stay distinguishable from
+// an already-handled one without expanding (same reasoning the Submission
+// Log's collapsed header above applies to FAILs).
 class _SessionSummariesBanner extends StatelessWidget {
   const _SessionSummariesBanner({
     required this.summaries,
@@ -397,16 +459,26 @@ class _SessionSummariesBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppBanner(
-      kind: BannerKind.caution,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    final unacknowledged = summaries.where((s) => !s.acknowledged).length;
+
+    return Card(
+      child: ExpansionTile(
+        leading: const Icon(Icons.assignment_turned_in, color: AppColors.caution),
+        title: Text(
+          '${summaries.length} session '
+          'summar${summaries.length == 1 ? 'y' : 'ies'}',
+        ),
+        subtitle: unacknowledged > 0
+            ? Text(
+                '$unacknowledged unacknowledged',
+                style: const TextStyle(
+                  color: AppColors.caution,
+                  fontWeight: FontWeight.w700,
+                ),
+              )
+            : const Text('All acknowledged'),
+        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         children: [
-          const Text(
-            'Session Summaries',
-            style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.caution),
-          ),
-          const SizedBox(height: 8),
           ...summaries.map(
             (summary) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
@@ -437,6 +509,13 @@ class _SessionSummariesBanner extends StatelessWidget {
   }
 }
 
+// Busy-oversight declutter (Sprint 031): Card+ExpansionTile like the other
+// three sections, but initiallyExpanded: true — alerts are urgent, a
+// manager must see them immediately, so this one starts open rather than
+// collapsed. Still tap-to-collapse once read, same as everywhere else,
+// so it doesn't permanently occupy space after being handled — nothing is
+// hidden by default, which is what the "never miss a critical alert"
+// principle actually requires; it never required being un-collapsible.
 class _TriggerNotificationsBanner extends StatelessWidget {
   const _TriggerNotificationsBanner({
     required this.notifications,
@@ -449,16 +528,26 @@ class _TriggerNotificationsBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    return AppBanner(
-      kind: BannerKind.critical,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    final unacknowledged = notifications.where((n) => !n.acknowledged).length;
+
+    return Card(
+      child: ExpansionTile(
+        initiallyExpanded: true,
+        leading: const Icon(Icons.notifications, color: AppColors.critical),
+        title: Text(
+          '${notifications.length} alert${notifications.length == 1 ? '' : 's'}',
+        ),
+        subtitle: unacknowledged > 0
+            ? Text(
+                '$unacknowledged unacknowledged',
+                style: const TextStyle(
+                  color: AppColors.critical,
+                  fontWeight: FontWeight.w700,
+                ),
+              )
+            : const Text('All acknowledged'),
+        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         children: [
-          const Text(
-            'Notifications',
-            style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.critical),
-          ),
-          const SizedBox(height: 8),
           ...notifications.map((notification) {
             final isOverdue =
                 !notification.acknowledged &&

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
-import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/trigger_notification.dart';
@@ -185,6 +184,11 @@ class _TopScreenState extends ConsumerState<TopScreen> {
   }
 }
 
+// Busy-oversight declutter (Sprint 031): matches manager_screen.dart's
+// identical change — Card+ExpansionTile, initiallyExpanded: true (alerts
+// start open, since they're urgent, but stay tap-to-collapse once read
+// rather than permanently occupying space). Same duplicated-per-screen
+// pattern as everywhere else between ManagerScreen/TopScreen.
 class _TriggerNotificationsBanner extends StatelessWidget {
   const _TriggerNotificationsBanner({
     required this.notifications,
@@ -197,16 +201,26 @@ class _TriggerNotificationsBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    return AppBanner(
-      kind: BannerKind.critical,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    final unacknowledged = notifications.where((n) => !n.acknowledged).length;
+
+    return Card(
+      child: ExpansionTile(
+        initiallyExpanded: true,
+        leading: const Icon(Icons.notifications, color: AppColors.critical),
+        title: Text(
+          '${notifications.length} alert${notifications.length == 1 ? '' : 's'}',
+        ),
+        subtitle: unacknowledged > 0
+            ? Text(
+                '$unacknowledged unacknowledged',
+                style: const TextStyle(
+                  color: AppColors.critical,
+                  fontWeight: FontWeight.w700,
+                ),
+              )
+            : const Text('All acknowledged'),
+        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         children: [
-          const Text(
-            'Notifications',
-            style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.critical),
-          ),
-          const SizedBox(height: 8),
           ...notifications.map((notification) {
             final isOverdue =
                 !notification.acknowledged &&
