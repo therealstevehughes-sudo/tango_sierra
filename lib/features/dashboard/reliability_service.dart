@@ -2,10 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../shared/models/task_schedule.dart';
 import '../../shared/models/task_submission.dart';
+import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/repositories/task_schedule_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
+import '../../shared/repositories/user_repository.dart';
 
 // Worker recognition (Sprint 031, dashboard + worker recognition,
 // Sub-sprint A). THE CRITICAL RULE, agreed before any code was written: this
@@ -40,11 +42,43 @@ class ReliabilitySummary {
       totalPeriods == 0 ? null : onTimePeriods / totalPeriods;
 }
 
+// Sub-sprint B (Dashboard). One entry per staff member — deliberately carries
+// nothing beyond identity and the same ReliabilitySummary a worker sees of
+// themselves. In particular: no FAIL count, no pass/fail breakdown of any
+// kind. The team list this feeds must never let a manager reconstruct a
+// per-person judgment the score is designed not to make — confirmed with the
+// user before this was built, not assumed.
+class StaffReliabilitySummary {
+  const StaffReliabilitySummary({
+    required this.userId,
+    required this.userName,
+    required this.reliability,
+  });
+
+  final int userId;
+  final String userName;
+  final ReliabilitySummary reliability;
+}
+
+class SiteReliabilitySummary {
+  const SiteReliabilitySummary({required this.overall, required this.staff});
+
+  // Summed across every staff member — the venue-wide figure shown at the
+  // top of the dashboard.
+  final ReliabilitySummary overall;
+  final List<StaffReliabilitySummary> staff;
+}
+
 class ReliabilityService {
-  ReliabilityService(this._scheduleRepository, this._submissionRepository);
+  ReliabilityService(
+    this._scheduleRepository,
+    this._submissionRepository,
+    this._userRepository,
+  );
 
   final TaskScheduleRepository _scheduleRepository;
   final TaskSubmissionRepository _submissionRepository;
+  final UserRepository _userRepository;
 
   // Only clock-based frequencies (daily/2x/3x-daily/weekly/monthly) have a
   // computable period to judge — same restriction DueStatusService already
@@ -149,11 +183,54 @@ class ReliabilityService {
       onTimePeriods: onTimePeriods,
     );
   }
+
+  // Sub-sprint B (Dashboard) — every active staff member at the site,
+  // regardless of tier (anyone can have a schedule assigned, so filtering by
+  // tier would be an arbitrary exclusion; OverdueSummaryService doesn't
+  // filter by tier either).
+  Future<SiteReliabilitySummary> computeForSite(
+    int siteId, {
+    DateTime? now,
+    Duration lookback = const Duration(days: 30),
+  }) async {
+    final users = (await _userRepository.getAll())
+        .where((u) => u.active && u.siteId == siteId)
+        .toList();
+
+    var totalPeriods = 0;
+    var completedPeriods = 0;
+    var onTimePeriods = 0;
+    final staff = <StaffReliabilitySummary>[];
+
+    for (final user in users) {
+      final summary = await computeForUser(user.id, now: now, lookback: lookback);
+      staff.add(
+        StaffReliabilitySummary(
+          userId: user.id,
+          userName: user.name,
+          reliability: summary,
+        ),
+      );
+      totalPeriods += summary.totalPeriods;
+      completedPeriods += summary.completedPeriods;
+      onTimePeriods += summary.onTimePeriods;
+    }
+
+    return SiteReliabilitySummary(
+      overall: ReliabilitySummary(
+        totalPeriods: totalPeriods,
+        completedPeriods: completedPeriods,
+        onTimePeriods: onTimePeriods,
+      ),
+      staff: staff,
+    );
+  }
 }
 
 final reliabilityServiceProvider = Provider<ReliabilityService>((ref) {
   return ReliabilityService(
     ref.watch(taskScheduleRepositoryProvider),
     ref.watch(taskSubmissionRepositoryProvider),
+    ref.watch(userRepositoryProvider),
   );
 });

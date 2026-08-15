@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/home/tier_home_screen.dart';
 import '../../features/notifications/notification_rules_screen.dart';
 import '../../features/onboarding/staff_assignment_screen.dart';
@@ -200,6 +201,18 @@ class ManagementDrawer extends ConsumerWidget {
                 context,
                 TierHomeScreen.oversightScreenFor(tier),
               ),
+            ),
+          // Dashboard + worker recognition (Sprint 031, Sub-sprint B) —
+          // supervisor and above, matching supervisor sharing venueManager's
+          // venue-wide dashboard (confirmed before building). This drawer
+          // only ever renders for supervisor+ in the first place (base has
+          // no drawer at all), so `atLeast` is always true here — kept for
+          // documentation clarity, not because it currently excludes anyone.
+          if (tier != null && atLeast(RoleTier.supervisor))
+            ListTile(
+              leading: const Icon(Icons.insights),
+              title: const Text('Dashboard'),
+              onTap: () => _navigate(context, const DashboardScreen()),
             ),
           ListTile(
             leading: const Icon(Icons.settings),

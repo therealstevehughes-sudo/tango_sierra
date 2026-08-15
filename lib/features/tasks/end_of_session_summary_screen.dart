@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/status_badge.dart';
@@ -203,13 +204,13 @@ class _EndOfSessionSummaryScreenState
                           spacing: 8,
                           runSpacing: 8,
                           children: [
-                            StatusBadge(
-                              kind: StatusKind.pass,
+                            MetricChip(
+                              icon: Icons.check_circle_outline,
                               label:
                                   '${(reliability!.completionRate! * 100).round()}% completed',
                             ),
-                            StatusBadge(
-                              kind: StatusKind.pass,
+                            MetricChip(
+                              icon: Icons.schedule,
                               label:
                                   '${(reliability!.onTimeRate! * 100).round()}% on time',
                             ),

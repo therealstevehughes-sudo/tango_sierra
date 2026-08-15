@@ -12,6 +12,7 @@ import '../../shared/providers/backup_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../export/eho_export_dialog.dart';
 import '../notifications/escalation_service.dart';
+import 'dashboard_screen.dart';
 
 Future<void> _showBackupDialog(BuildContext context, WidgetRef ref) async {
   final nameController = TextEditingController();
@@ -147,37 +148,13 @@ class _TopScreenState extends ConsumerState<TopScreen> {
                 );
               },
             ),
-          Expanded(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.dashboard_outlined,
-                      size: 48,
-                      color: AppColors.muted,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      'Dashboards coming soon',
-                      style: Theme.of(context).textTheme.titleMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      'Dashboards, exports, and branding controls are '
-                      'coming in a later sprint.',
-                      style: Theme.of(context).textTheme.bodyMedium
-                          ?.copyWith(color: AppColors.muted),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          // Dashboard + worker recognition, Sub-sprint C: reuses the exact
+          // same DashboardBody Sub-sprint B built for supervisor/venueManager
+          // — same venue-scoped view (currentUser.siteId), same anti-gaming
+          // display rules (alphabetical roster, neutral chips, no per-person
+          // FAIL counts). Cross-venue comparison stays deferred until
+          // multi-site is actually usable — see DECISIONS_LOG.md.
+          const Expanded(child: DashboardBody()),
         ],
       ),
     );
