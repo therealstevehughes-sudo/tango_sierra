@@ -1407,3 +1407,17 @@ Risks: None new. Verified: `flutter analyze` clean throughout. A real Windows de
 Deferred items: none - this closes out the oversight-declutter follow-up.
 Save point name: SPRINT_031AF_LOCK
 Notes: Commit 94a9e9d, message "Sprint 031: collapsible oversight declutter - ManagerScreen/TopScreen".
+
+---
+
+## Dashboard + worker recognition - Sub-sprint A: reliability scoring (Sprint 031)
+Date: 2026-08-15
+Objective: worker recognition scoring that rewards completion and on-time logging, never pass rates - a PASS and a FAIL count identically toward a worker's score. Full writeup, the anti-gaming rule's structural enforcement, and the four confirmed pre-build decisions are in DECISIONS_LOG.md.
+Files changed:
+- lib/features/dashboard/reliability_service.dart (new) - ReliabilitySummary + ReliabilityService.computeForUser(userId), status read once (PASS/FAIL vs NOT_COMPLETED only, never PASS vs FAIL).
+- lib/features/tasks/end_of_session_summary_screen.dart - "Your reliability" card, shown only when there's data.
+Risks: None new - see DECISIONS_LOG.md for the disclosed on-time/completion overlap for non-windowed schedules.
+Verified: `flutter analyze` clean. Two unit tests against an in-memory database with hand-computed expected values (deleted after, not part of this commit) confirmed the scoring math, including PASS/FAIL parity. A run against the real dev database (temporarily, via the same reversible optional AppDatabase executor param used earlier this sprint, reverted before commit) confirmed no crash across all 11 real users. A real Windows debug build launched and ran stably.
+Deferred items: Sub-sprint B (Supervisor/Venue Manager DashboardScreen) and Sub-sprint C (Regional/Executive TopScreen dashboard body) - not yet started, pending plan review. Four small unreviewed choices (lookback window, badge colour thresholding, hidden-vs-explicit empty state, card copy) logged in DECISIONS_LOG.md for a follow-up polish pass.
+Save point name: SPRINT_031AG_LOCK
+Notes: Commit 025e6cc, message "Sprint 031: dashboard + worker recognition, Sub-sprint A - reliability scoring".
