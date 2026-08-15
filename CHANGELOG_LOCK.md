@@ -1371,3 +1371,23 @@ Risks: The crash fix closes a real, confirmed app-killing bug (not a cosmetic is
 Deferred items: Dark Mode, Language, Branding, Login Layout — all shown as "Coming soon", none built. Metric/imperial units — confirmed out of scope, no non-temperature measurable data exists anywhere in the app to convert.
 Save point name: SPRINT_031AD_LOCK
 Notes: Commit 895eae4, message "Sprint 031 (Build Order item 5, Sub-sprint C): settings shell + units - completes item 5".
+
+---
+
+## Navigation consistency - one ManagementDrawer everywhere (Sprint 031) - TOP PRIORITY
+Date: 2026-08-15
+Objective: A supervisor/manager could not reliably reach Home, My Tasks, Oversight, or Settings/tools from most screens - each was only reachable from some screens, making the rest dead ends. Flagged as the #1 UX problem. Plan proposed with four explicit decisions (TaskScreen logout handling, redundant-icon removal, optional backup/EHO callbacks, single-pass scope), all approved as recommended.
+Files changed (15):
+- lib/core/widgets/management_drawer.dart - gained four always-visible, ungated items (Home, My Tasks, Oversight, Settings) above the existing tier-gated tool items; onBackUp/onEhoExport changed from required to optional; new optional onLogout override.
+- lib/features/home/tier_home_screen.dart - gained the drawer; standalone "Settings" button removed (merged into the drawer).
+- lib/features/tasks/task_screen.dart - gained the drawer (non-base tiers only), wired via onLogout to the screen's own confirmation-aware _confirmLogOut; removed the redundant "Manager View" eye icon; explicit leading IconButton added on all three Scaffolds since automaticallyImplyLeading: false also suppresses the drawer's own auto-hamburger; _buildLockedScaffold gained drawer/drawerLeading params.
+- lib/features/manager/manager_screen.dart, lib/features/dashboard/top_screen.dart - removed the now-redundant standalone "My Tasks" AppBar icon (the drawer covers it).
+- lib/features/settings/settings_screen.dart - gained the drawer.
+- lib/features/venue_setup/venue_setup_wizard_screen.dart, lib/features/settings/venue_details_screen.dart, lib/features/onboarding/staff_assignment_screen.dart, lib/features/task_library/preset_management_screen.dart, lib/features/settings/staff_management_screen.dart, lib/features/notifications/notification_rules_screen.dart, lib/features/settings/third_party_contacts_screen.dart, lib/features/settings/supplier_management_screen.dart, lib/features/settings/department_management_screen.dart - all 9 management tool screens gained the drawer (no onBackUp/onEhoExport wired - those stay hub-screen-only).
+Files unchanged: no schema change.
+Architecture impact: none - navigation/UI only.
+UI impact: every supervisor+ screen now has the same drawer with the same four universal destinations plus tier-gated tools - no more dead ends or one-way screens.
+Risks: None new. Two minor, disclosed nuances left as-is (not bugs): staff_assignment_screen.dart's pre-existing state-dependent back arrow occupies the leading slot while a staff member is selected (drawer still reachable via edge-swipe); TierHomeScreen/SettingsScreen's DrawerHeader title text duplicates that screen's own universal nav item label (harmless no-op, not confusing to a real user). Verified: `flutter analyze` clean throughout, including the larger management_drawer.dart cross-screen import cycle (confirmed legal Dart). A temporary widget test (deleted after, not part of this commit) against the real dev database confirmed a full deep multi-hop path (Home -> My Tasks -> Oversight -> Staff Management, 3 pushes deep -> Home, confirmed it pops all the way to root, not one level -> Settings -> My Tasks again, confirmed no stale-provider crash) with zero exceptions; confirmed Priya Shah (supervisor) sees the four universal items but not gated tools; confirmed Steve Hughes (base) has no drawer at all. A real Windows debug build launched and ran stably.
+Deferred items: the collapsible-oversight declutter, explicitly sequenced next by the user, separate from this pass.
+Save point name: SPRINT_031AE_LOCK
+Notes: Commit 3347120, message "Sprint 031: navigation consistency - one ManagementDrawer everywhere (TOP PRIORITY)".
