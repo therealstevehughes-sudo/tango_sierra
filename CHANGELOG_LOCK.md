@@ -1439,3 +1439,22 @@ Verified: `flutter analyze` clean throughout both sub-sprints. A temporary unit 
 **This completes the dashboard + worker recognition feature** (Sub-sprints A, B, C). Next in the finalized beta build order: item 7, Branding.
 Save point name: SPRINT_031AH_LOCK
 Notes: Commit 236fb0a, message "Sprint 031: dashboard + worker recognition, Sub-sprints B+C - venue dashboard for all non-base tiers".
+
+---
+
+## Branding - finalized beta build order item 7 (Sprint 031) - completes the finalized beta build order
+Date: 2026-08-16
+Objective: company brand identity (colour, name, contact details), executive-tier only, Organisation-scoped, live-rethemes the app and brands the EHO export header. Full detail, the tier-gating conflict found and resolved before building, and the contrast-safety proof are in DECISIONS_LOG.md.
+Files changed:
+- lib/core/storage/app_database.dart - new `BrandingConfigs` table (schemaVersion 30→31), append-only versioned like `NotificationRule`.
+- lib/shared/models/branding_config.dart, lib/shared/repositories/branding_config_repository.dart, lib/shared/providers/branding_providers.dart (all new).
+- lib/app/theme/contrast.dart (new) - `readableForegroundOn`, proven to guarantee ≥4.58:1 (√21) contrast for any background colour.
+- lib/app/theme/app_theme.dart - `AppTheme.light` gained a `brandAccent` parameter, feeding only `colorScheme.primary`/buttons/chips - `colorScheme.error` and every safety-colour constant untouched.
+- lib/app/app.dart - reactively watches `brandingConfigProvider`, re-themes immediately on save.
+- lib/features/settings/settings_screen.dart - new executive-only "Company" section, preset palette + custom hex (not an unconstrained colour wheel).
+- lib/features/export/eho_export_service.dart - branded PDF header (company name + accent colour), row colours elsewhere unaffected.
+Risks: None new.
+Verified: `flutter analyze` clean, including after `build_runner` regenerated drift code for the new table. A temporary unit test suite (deleted after, not part of this commit) confirmed the contrast guarantee, that `colorScheme.error` survives even the adversarial case of `brandAccent` set to `AppColors.critical` itself, and `BrandingConfigRepository`'s version-chaining. A real Windows debug build launched and ran stably; the user tested live end-to-end (tier gating, live re-theme, EHO export header) before this was committed, catching one real mistake in my own verification instructions (Marcus Webb is regional, not executive) via their own screenshot.
+**This completes the finalized beta build order** (items 1-7: due/overdue, EHO export, training records, supplier register, departments+settings, dashboard, branding). Per the user's logged sequencing decision, the project now pivots to backend work.
+Save point name: SPRINT_031AI_LOCK
+Notes: Commit 981a110, message "Sprint 031: branding - finalized beta build order item 7".
