@@ -6,6 +6,7 @@ import '../features/home/tier_home_screen.dart';
 import '../features/tasks/task_screen.dart';
 import '../shared/models/user.dart';
 import '../shared/providers/auth_providers.dart';
+import '../shared/providers/branding_providers.dart';
 import 'theme/app_theme.dart';
 
 class MyApp extends ConsumerWidget {
@@ -14,6 +15,17 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
+    // Branding (Sprint 031, finalized beta build order item 7) — watching
+    // this StreamProvider directly means saving a new brand colour
+    // anywhere re-themes the whole app immediately, no restart. `null`
+    // (no BrandingConfig row yet, or still loading) falls back to
+    // AppTheme.light's own default teal accent.
+    final brandAccentArgb = ref
+        .watch(brandingConfigProvider)
+        .maybeWhen(data: (config) => config?.primaryColorArgb, orElse: () => null);
+    final brandAccent = brandAccentArgb == null
+        ? null
+        : Color(brandAccentArgb);
 
     // Tier home screen (Sprint 031, Build Order item 5, Sub-sprint A):
     // every non-base tier now lands on TierHomeScreen (My Tasks /
@@ -33,7 +45,7 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Kitchen Control',
-      theme: AppTheme.light,
+      theme: AppTheme.light(brandAccent: brandAccent),
       home: home,
     );
   }

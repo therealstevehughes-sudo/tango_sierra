@@ -8,16 +8,19 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import '../../core/utils/date_format.dart';
+import '../../shared/models/branding_config.dart';
 import '../../shared/models/site.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/training_record.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/branding_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/training_record_providers.dart';
+import '../../shared/repositories/branding_config_repository.dart';
 import '../../shared/repositories/site_repository.dart';
 import '../../shared/repositories/supplier_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
@@ -103,6 +106,7 @@ class EhoExportService {
     this._trainingRecordRepository,
     this._userRepository,
     this._supplierRepository,
+    this._brandingConfigRepository,
   );
 
   final TaskSubmissionRepository _submissionRepository;
@@ -112,6 +116,7 @@ class EhoExportService {
   final SupplierRepository _supplierRepository;
   final TrainingRecordRepository _trainingRecordRepository;
   final UserRepository _userRepository;
+  final BrandingConfigRepository _brandingConfigRepository;
 
   Future<String> generate({
     required int siteId,
@@ -129,6 +134,21 @@ class EhoExportService {
       }
     }
     final siteName = site?.name ?? 'Unknown site';
+
+    // Branding (Sprint 031, finalized beta build order item 7) — a
+    // branded compliance PDF reads as more professional to an inspector.
+    // Only the company name and the brand accent colour (used for
+    // heading text/rule colour) come from BrandingConfig — every FAIL/
+    // NOT_COMPLETED/etc. row colour below stays exactly as hardcoded,
+    // same "safety colours never overridden by brand" boundary as the
+    // live app theme.
+    final BrandingConfig? branding = site == null
+        ? null
+        : await _brandingConfigRepository.getCurrent(site.organisationId);
+    final companyName = branding?.companyName ?? 'Kitchen Control';
+    final accentColor = branding == null
+        ? PdfColors.black
+        : PdfColor.fromInt(branding.primaryColorArgb);
 
     final submissions = await _submissionRepository.getForSiteAndDateRange(
       siteId: siteId,
@@ -329,8 +349,16 @@ class EhoExportService {
       () => pw.MultiPage(
         maxPages: maxPages,
         header: (context) => context.pageNumber == 1
-            ? _buildFullHeader(siteName, site?.address, start, end, generatedByName)
-            : _buildCondensedHeader(siteName, start, end),
+            ? _buildFullHeader(
+                companyName,
+                accentColor,
+                siteName,
+                site?.address,
+                start,
+                end,
+                generatedByName,
+              )
+            : _buildCondensedHeader(companyName, accentColor, siteName, start, end),
         build: (context) => [
           _buildLimitationsNotice(),
           pw.SizedBox(height: 12),
@@ -365,7 +393,7 @@ class EhoExportService {
       ),
       () => pw.MultiPage(
         maxPages: maxPages,
-        header: (context) => _buildCondensedHeader(siteName, start, end),
+        header: (context) => _buildCondensedHeader(companyName, accentColor, siteName, start, end),
         build: (context) => [
           pw.Text(
             'Export summary could not be generated for this date range — '
@@ -383,7 +411,7 @@ class EhoExportService {
           // Always condensed — this block is a continuation of Block A
           // above, never really "page 1" of the export, even though
           // MultiPage restarts its own internal page numbering here.
-          header: (context) => _buildCondensedHeader(siteName, start, end),
+          header: (context) => _buildCondensedHeader(companyName, accentColor, siteName, start, end),
           build: (context) => [
             pw.Text(
               'Full Detailed Log',
@@ -403,7 +431,7 @@ class EhoExportService {
         ),
         () => pw.MultiPage(
           maxPages: maxPages,
-          header: (context) => _buildCondensedHeader(siteName, start, end),
+          header: (context) => _buildCondensedHeader(companyName, accentColor, siteName, start, end),
           build: (context) => [
             pw.Text(
               'Full Detailed Log — omitted',
@@ -443,7 +471,14 @@ class EhoExportService {
     return path;
   }
 
+  // Branding (Sprint 031, finalized beta build order item 7): companyName/
+  // accentColor come from BrandingConfig when set, falling back to
+  // "Kitchen Control"/black otherwise. Only the heading text/divider
+  // colour are branded — every FAIL/critical-styled row elsewhere in this
+  // document stays hardcoded, untouched by brand colour.
   pw.Widget _buildFullHeader(
+    String companyName,
+    PdfColor accentColor,
     String siteName,
     String? siteAddress,
     DateTime start,
@@ -454,8 +489,12 @@ class EhoExportService {
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
         pw.Text(
-          'Kitchen Control — Compliance Export',
-          style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
+          '$companyName — Compliance Export',
+          style: pw.TextStyle(
+            fontSize: 20,
+            fontWeight: pw.FontWeight.bold,
+            color: accentColor,
+          ),
         ),
         pw.SizedBox(height: 4),
         pw.Text(
@@ -466,12 +505,14 @@ class EhoExportService {
           'Generated ${formatDateTime(DateTime.now())} by $generatedByName',
           style: const pw.TextStyle(color: PdfColors.grey700),
         ),
-        pw.Divider(),
+        pw.Divider(color: accentColor),
       ],
     );
   }
 
   pw.Widget _buildCondensedHeader(
+    String companyName,
+    PdfColor accentColor,
     String siteName,
     DateTime start,
     DateTime end,
@@ -479,12 +520,12 @@ class EhoExportService {
     return pw.Column(
       children: [
         pw.Text(
-          'Kitchen Control — $siteName — ${formatDate(start)} to '
+          '$companyName — $siteName — ${formatDate(start)} to '
           '${formatDate(end)}',
           style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700),
         ),
         pw.SizedBox(height: 4),
-        pw.Divider(thickness: 0.5),
+        pw.Divider(thickness: 0.5, color: accentColor),
       ],
     );
   }
@@ -932,5 +973,6 @@ final ehoExportServiceProvider = Provider<EhoExportService>((ref) {
     ref.watch(trainingRecordRepositoryProvider),
     ref.watch(userRepositoryProvider),
     ref.watch(supplierRepositoryProvider),
+    ref.watch(brandingConfigRepositoryProvider),
   );
 });

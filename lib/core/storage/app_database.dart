@@ -390,6 +390,37 @@ class Sites extends Table {
   DateTimeColumn get createdAt => dateTime()();
 }
 
+// Branding (Sprint 031, finalized beta build order item 7) — company brand
+// identity, Organisation-scoped (one shared brand company-wide, not
+// per-Site — confirmed before building: multi-site is still only partially
+// usable, so a per-site override would be built ahead of real need).
+// Append-only versioned (configGroupId/versionNumber/previousVersionId),
+// mirroring NotificationRules exactly — BrandingConfig is named alongside
+// TaskTemplate/LegalLimitReference/NotificationRule in ARCHITECTURE_LOCK's
+// Versioning Rule list. Only the brand accent colour is stored — the
+// locked safety colours (pass/caution/critical) live in AppColors as
+// static const literals and are never read from this table by anything.
+// Logo is deliberately not a field here yet — deferred to the backend
+// phase (see DECISIONS_LOG.md), same reasoning as real photo capture.
+@DataClassName('BrandingConfigEntity')
+class BrandingConfigs extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get configGroupId => integer()();
+  IntColumn get versionNumber => integer()();
+  IntColumn get previousVersionId =>
+      integer().nullable().references(BrandingConfigs, #id)();
+  IntColumn get organisationId => integer().references(Organisations, #id)();
+  TextColumn get companyName => text().nullable()();
+  // Stored as a full ARGB int (0xFFRRGGBB) — constructs directly into
+  // either Flutter's Color() or the pdf package's PdfColor.fromInt(),
+  // avoiding a hex-string parse step at every read site.
+  IntColumn get primaryColorArgb => integer()();
+  TextColumn get contactPhone => text().nullable()();
+  TextColumn get contactEmail => text().nullable()();
+  IntColumn get setByUserId => integer().references(Users, #id)();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
 // A named "standard task set" (Sprint 026) — a manager-curated grouping of
 // task templates tied to an equipment type and/or a section/segment, so
 // adding a fryer offers its standard tasks in one action instead of
@@ -563,13 +594,14 @@ class _LibraryPreset {
     EquipmentTypeVenueTypes,
     TaskPresetVenueTypes,
     TaskTemplateVenueTypes,
+    BrandingConfigs,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 30;
+  int get schemaVersion => 31;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -860,6 +892,14 @@ class AppDatabase extends _$AppDatabase {
         // genuinely optional, not every venue/staff member needs one.
         await m.createTable(departments);
         await m.addColumn(users, users.departmentId);
+      }
+      if (from < 31) {
+        // Branding (Sprint 031, finalized beta build order item 7) — new
+        // append-only table, no backfill needed (nothing existed before
+        // this to migrate; no BrandingConfig row means "use the app's
+        // default teal accent," handled at the read site, not by seeding
+        // a row here).
+        await m.createTable(brandingConfigs);
       }
     },
     beforeOpen: (details) async {

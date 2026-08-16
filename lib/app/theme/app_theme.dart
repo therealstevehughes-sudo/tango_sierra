@@ -2,28 +2,46 @@ import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
 import 'app_text_theme.dart';
+import 'contrast.dart';
 
-/// The app's Material theme — visual/UX pass, Sub-sprint 1. Encodes
+/// The app's Material theme — visual/UX pass, Sub-sprint 1; made brandable
+/// in Sprint 031 (finalized beta build order item 7). Encodes
 /// DESIGN_SYSTEM_LOCK.md's rules as real component themes (strong primary
 /// button, consistent card structure, generous spacing, large touch
 /// targets) rather than leaving every screen to reproduce them ad hoc, per
 /// ARCHITECTURE_LOCK.md's Design Rule and Component Consistency Rule.
 /// Light-only for now — no dark mode exists anywhere in this app yet.
+///
+/// NON-NEGOTIABLE (confirmed before building): [brandAccent] only ever
+/// feeds the theme's primary/accent palette below. AppColors.pass/caution/
+/// critical (and their Bg tints) are never referenced anywhere in this
+/// file — StatusBadge/AppBanner/MetricChip read those three constants
+/// directly, completely bypassing ThemeData, so there is no code path
+/// through which a brand colour could reach a safety colour. A venue
+/// picking a red brand colour changes button backgrounds; it cannot make a
+/// "critical" alert less visible, since that alert's colour was never a
+/// function of this parameter to begin with.
 class AppTheme {
   AppTheme._();
 
-  static ThemeData get light {
+  static ThemeData light({Color? brandAccent}) {
     final textTheme = AppTextTheme.textTheme;
+    final accent = brandAccent ?? AppColors.teal;
+    final onAccent = readableForegroundOn(accent);
+    final accentTint = Color.alphaBlend(
+      accent.withValues(alpha: 0.12),
+      AppColors.paper,
+    );
 
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
       scaffoldBackgroundColor: AppColors.paper,
-      colorScheme: const ColorScheme.light(
-        primary: AppColors.teal,
-        onPrimary: AppColors.onTeal,
-        secondary: AppColors.tealInk,
-        onSecondary: AppColors.onTeal,
+      colorScheme: ColorScheme.light(
+        primary: accent,
+        onPrimary: onAccent,
+        secondary: accent,
+        onSecondary: onAccent,
         surface: AppColors.card,
         onSurface: AppColors.ink,
         error: AppColors.critical,
@@ -56,8 +74,8 @@ class AppTheme {
       // full-app visual/UX audit on the task screen's PASS/FAIL buttons.
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.teal,
-          foregroundColor: AppColors.onTeal,
+          backgroundColor: accent,
+          foregroundColor: onAccent,
           disabledBackgroundColor: AppColors.lineStrong,
           disabledForegroundColor: AppColors.muted,
           textStyle: textTheme.labelLarge,
@@ -71,7 +89,7 @@ class AppTheme {
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: AppColors.tealInk,
+          foregroundColor: accent,
           minimumSize: const Size(48, 48),
           textStyle: textTheme.labelLarge?.copyWith(fontSize: 14),
         ),
@@ -85,9 +103,9 @@ class AppTheme {
         ),
       ),
       chipTheme: ChipThemeData(
-        backgroundColor: AppColors.tealTint,
+        backgroundColor: accentTint,
         labelStyle: textTheme.bodySmall?.copyWith(
-          color: AppColors.tealInk,
+          color: accent,
           fontWeight: FontWeight.w600,
         ),
         side: BorderSide.none,
@@ -112,7 +130,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: AppColors.teal, width: 2),
+          borderSide: BorderSide(color: accent, width: 2),
         ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,

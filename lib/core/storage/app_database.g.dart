@@ -13184,6 +13184,713 @@ class TaskTemplateVenueTypesCompanion
   }
 }
 
+class $BrandingConfigsTable extends BrandingConfigs
+    with TableInfo<$BrandingConfigsTable, BrandingConfigEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $BrandingConfigsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _configGroupIdMeta = const VerificationMeta(
+    'configGroupId',
+  );
+  @override
+  late final GeneratedColumn<int> configGroupId = GeneratedColumn<int>(
+    'config_group_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _versionNumberMeta = const VerificationMeta(
+    'versionNumber',
+  );
+  @override
+  late final GeneratedColumn<int> versionNumber = GeneratedColumn<int>(
+    'version_number',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _previousVersionIdMeta = const VerificationMeta(
+    'previousVersionId',
+  );
+  @override
+  late final GeneratedColumn<int> previousVersionId = GeneratedColumn<int>(
+    'previous_version_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES branding_configs (id)',
+    ),
+  );
+  static const VerificationMeta _organisationIdMeta = const VerificationMeta(
+    'organisationId',
+  );
+  @override
+  late final GeneratedColumn<int> organisationId = GeneratedColumn<int>(
+    'organisation_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES organisations (id)',
+    ),
+  );
+  static const VerificationMeta _companyNameMeta = const VerificationMeta(
+    'companyName',
+  );
+  @override
+  late final GeneratedColumn<String> companyName = GeneratedColumn<String>(
+    'company_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _primaryColorArgbMeta = const VerificationMeta(
+    'primaryColorArgb',
+  );
+  @override
+  late final GeneratedColumn<int> primaryColorArgb = GeneratedColumn<int>(
+    'primary_color_argb',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _contactPhoneMeta = const VerificationMeta(
+    'contactPhone',
+  );
+  @override
+  late final GeneratedColumn<String> contactPhone = GeneratedColumn<String>(
+    'contact_phone',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _contactEmailMeta = const VerificationMeta(
+    'contactEmail',
+  );
+  @override
+  late final GeneratedColumn<String> contactEmail = GeneratedColumn<String>(
+    'contact_email',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _setByUserIdMeta = const VerificationMeta(
+    'setByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> setByUserId = GeneratedColumn<int>(
+    'set_by_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    configGroupId,
+    versionNumber,
+    previousVersionId,
+    organisationId,
+    companyName,
+    primaryColorArgb,
+    contactPhone,
+    contactEmail,
+    setByUserId,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'branding_configs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<BrandingConfigEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('config_group_id')) {
+      context.handle(
+        _configGroupIdMeta,
+        configGroupId.isAcceptableOrUnknown(
+          data['config_group_id']!,
+          _configGroupIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_configGroupIdMeta);
+    }
+    if (data.containsKey('version_number')) {
+      context.handle(
+        _versionNumberMeta,
+        versionNumber.isAcceptableOrUnknown(
+          data['version_number']!,
+          _versionNumberMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_versionNumberMeta);
+    }
+    if (data.containsKey('previous_version_id')) {
+      context.handle(
+        _previousVersionIdMeta,
+        previousVersionId.isAcceptableOrUnknown(
+          data['previous_version_id']!,
+          _previousVersionIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('organisation_id')) {
+      context.handle(
+        _organisationIdMeta,
+        organisationId.isAcceptableOrUnknown(
+          data['organisation_id']!,
+          _organisationIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_organisationIdMeta);
+    }
+    if (data.containsKey('company_name')) {
+      context.handle(
+        _companyNameMeta,
+        companyName.isAcceptableOrUnknown(
+          data['company_name']!,
+          _companyNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('primary_color_argb')) {
+      context.handle(
+        _primaryColorArgbMeta,
+        primaryColorArgb.isAcceptableOrUnknown(
+          data['primary_color_argb']!,
+          _primaryColorArgbMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_primaryColorArgbMeta);
+    }
+    if (data.containsKey('contact_phone')) {
+      context.handle(
+        _contactPhoneMeta,
+        contactPhone.isAcceptableOrUnknown(
+          data['contact_phone']!,
+          _contactPhoneMeta,
+        ),
+      );
+    }
+    if (data.containsKey('contact_email')) {
+      context.handle(
+        _contactEmailMeta,
+        contactEmail.isAcceptableOrUnknown(
+          data['contact_email']!,
+          _contactEmailMeta,
+        ),
+      );
+    }
+    if (data.containsKey('set_by_user_id')) {
+      context.handle(
+        _setByUserIdMeta,
+        setByUserId.isAcceptableOrUnknown(
+          data['set_by_user_id']!,
+          _setByUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_setByUserIdMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  BrandingConfigEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return BrandingConfigEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      configGroupId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}config_group_id'],
+      )!,
+      versionNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}version_number'],
+      )!,
+      previousVersionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}previous_version_id'],
+      ),
+      organisationId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}organisation_id'],
+      )!,
+      companyName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}company_name'],
+      ),
+      primaryColorArgb: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}primary_color_argb'],
+      )!,
+      contactPhone: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}contact_phone'],
+      ),
+      contactEmail: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}contact_email'],
+      ),
+      setByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}set_by_user_id'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $BrandingConfigsTable createAlias(String alias) {
+    return $BrandingConfigsTable(attachedDatabase, alias);
+  }
+}
+
+class BrandingConfigEntity extends DataClass
+    implements Insertable<BrandingConfigEntity> {
+  final int id;
+  final int configGroupId;
+  final int versionNumber;
+  final int? previousVersionId;
+  final int organisationId;
+  final String? companyName;
+  final int primaryColorArgb;
+  final String? contactPhone;
+  final String? contactEmail;
+  final int setByUserId;
+  final DateTime createdAt;
+  const BrandingConfigEntity({
+    required this.id,
+    required this.configGroupId,
+    required this.versionNumber,
+    this.previousVersionId,
+    required this.organisationId,
+    this.companyName,
+    required this.primaryColorArgb,
+    this.contactPhone,
+    this.contactEmail,
+    required this.setByUserId,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['config_group_id'] = Variable<int>(configGroupId);
+    map['version_number'] = Variable<int>(versionNumber);
+    if (!nullToAbsent || previousVersionId != null) {
+      map['previous_version_id'] = Variable<int>(previousVersionId);
+    }
+    map['organisation_id'] = Variable<int>(organisationId);
+    if (!nullToAbsent || companyName != null) {
+      map['company_name'] = Variable<String>(companyName);
+    }
+    map['primary_color_argb'] = Variable<int>(primaryColorArgb);
+    if (!nullToAbsent || contactPhone != null) {
+      map['contact_phone'] = Variable<String>(contactPhone);
+    }
+    if (!nullToAbsent || contactEmail != null) {
+      map['contact_email'] = Variable<String>(contactEmail);
+    }
+    map['set_by_user_id'] = Variable<int>(setByUserId);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  BrandingConfigsCompanion toCompanion(bool nullToAbsent) {
+    return BrandingConfigsCompanion(
+      id: Value(id),
+      configGroupId: Value(configGroupId),
+      versionNumber: Value(versionNumber),
+      previousVersionId: previousVersionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(previousVersionId),
+      organisationId: Value(organisationId),
+      companyName: companyName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(companyName),
+      primaryColorArgb: Value(primaryColorArgb),
+      contactPhone: contactPhone == null && nullToAbsent
+          ? const Value.absent()
+          : Value(contactPhone),
+      contactEmail: contactEmail == null && nullToAbsent
+          ? const Value.absent()
+          : Value(contactEmail),
+      setByUserId: Value(setByUserId),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory BrandingConfigEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return BrandingConfigEntity(
+      id: serializer.fromJson<int>(json['id']),
+      configGroupId: serializer.fromJson<int>(json['configGroupId']),
+      versionNumber: serializer.fromJson<int>(json['versionNumber']),
+      previousVersionId: serializer.fromJson<int?>(json['previousVersionId']),
+      organisationId: serializer.fromJson<int>(json['organisationId']),
+      companyName: serializer.fromJson<String?>(json['companyName']),
+      primaryColorArgb: serializer.fromJson<int>(json['primaryColorArgb']),
+      contactPhone: serializer.fromJson<String?>(json['contactPhone']),
+      contactEmail: serializer.fromJson<String?>(json['contactEmail']),
+      setByUserId: serializer.fromJson<int>(json['setByUserId']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'configGroupId': serializer.toJson<int>(configGroupId),
+      'versionNumber': serializer.toJson<int>(versionNumber),
+      'previousVersionId': serializer.toJson<int?>(previousVersionId),
+      'organisationId': serializer.toJson<int>(organisationId),
+      'companyName': serializer.toJson<String?>(companyName),
+      'primaryColorArgb': serializer.toJson<int>(primaryColorArgb),
+      'contactPhone': serializer.toJson<String?>(contactPhone),
+      'contactEmail': serializer.toJson<String?>(contactEmail),
+      'setByUserId': serializer.toJson<int>(setByUserId),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  BrandingConfigEntity copyWith({
+    int? id,
+    int? configGroupId,
+    int? versionNumber,
+    Value<int?> previousVersionId = const Value.absent(),
+    int? organisationId,
+    Value<String?> companyName = const Value.absent(),
+    int? primaryColorArgb,
+    Value<String?> contactPhone = const Value.absent(),
+    Value<String?> contactEmail = const Value.absent(),
+    int? setByUserId,
+    DateTime? createdAt,
+  }) => BrandingConfigEntity(
+    id: id ?? this.id,
+    configGroupId: configGroupId ?? this.configGroupId,
+    versionNumber: versionNumber ?? this.versionNumber,
+    previousVersionId: previousVersionId.present
+        ? previousVersionId.value
+        : this.previousVersionId,
+    organisationId: organisationId ?? this.organisationId,
+    companyName: companyName.present ? companyName.value : this.companyName,
+    primaryColorArgb: primaryColorArgb ?? this.primaryColorArgb,
+    contactPhone: contactPhone.present ? contactPhone.value : this.contactPhone,
+    contactEmail: contactEmail.present ? contactEmail.value : this.contactEmail,
+    setByUserId: setByUserId ?? this.setByUserId,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  BrandingConfigEntity copyWithCompanion(BrandingConfigsCompanion data) {
+    return BrandingConfigEntity(
+      id: data.id.present ? data.id.value : this.id,
+      configGroupId: data.configGroupId.present
+          ? data.configGroupId.value
+          : this.configGroupId,
+      versionNumber: data.versionNumber.present
+          ? data.versionNumber.value
+          : this.versionNumber,
+      previousVersionId: data.previousVersionId.present
+          ? data.previousVersionId.value
+          : this.previousVersionId,
+      organisationId: data.organisationId.present
+          ? data.organisationId.value
+          : this.organisationId,
+      companyName: data.companyName.present
+          ? data.companyName.value
+          : this.companyName,
+      primaryColorArgb: data.primaryColorArgb.present
+          ? data.primaryColorArgb.value
+          : this.primaryColorArgb,
+      contactPhone: data.contactPhone.present
+          ? data.contactPhone.value
+          : this.contactPhone,
+      contactEmail: data.contactEmail.present
+          ? data.contactEmail.value
+          : this.contactEmail,
+      setByUserId: data.setByUserId.present
+          ? data.setByUserId.value
+          : this.setByUserId,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BrandingConfigEntity(')
+          ..write('id: $id, ')
+          ..write('configGroupId: $configGroupId, ')
+          ..write('versionNumber: $versionNumber, ')
+          ..write('previousVersionId: $previousVersionId, ')
+          ..write('organisationId: $organisationId, ')
+          ..write('companyName: $companyName, ')
+          ..write('primaryColorArgb: $primaryColorArgb, ')
+          ..write('contactPhone: $contactPhone, ')
+          ..write('contactEmail: $contactEmail, ')
+          ..write('setByUserId: $setByUserId, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    configGroupId,
+    versionNumber,
+    previousVersionId,
+    organisationId,
+    companyName,
+    primaryColorArgb,
+    contactPhone,
+    contactEmail,
+    setByUserId,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is BrandingConfigEntity &&
+          other.id == this.id &&
+          other.configGroupId == this.configGroupId &&
+          other.versionNumber == this.versionNumber &&
+          other.previousVersionId == this.previousVersionId &&
+          other.organisationId == this.organisationId &&
+          other.companyName == this.companyName &&
+          other.primaryColorArgb == this.primaryColorArgb &&
+          other.contactPhone == this.contactPhone &&
+          other.contactEmail == this.contactEmail &&
+          other.setByUserId == this.setByUserId &&
+          other.createdAt == this.createdAt);
+}
+
+class BrandingConfigsCompanion extends UpdateCompanion<BrandingConfigEntity> {
+  final Value<int> id;
+  final Value<int> configGroupId;
+  final Value<int> versionNumber;
+  final Value<int?> previousVersionId;
+  final Value<int> organisationId;
+  final Value<String?> companyName;
+  final Value<int> primaryColorArgb;
+  final Value<String?> contactPhone;
+  final Value<String?> contactEmail;
+  final Value<int> setByUserId;
+  final Value<DateTime> createdAt;
+  const BrandingConfigsCompanion({
+    this.id = const Value.absent(),
+    this.configGroupId = const Value.absent(),
+    this.versionNumber = const Value.absent(),
+    this.previousVersionId = const Value.absent(),
+    this.organisationId = const Value.absent(),
+    this.companyName = const Value.absent(),
+    this.primaryColorArgb = const Value.absent(),
+    this.contactPhone = const Value.absent(),
+    this.contactEmail = const Value.absent(),
+    this.setByUserId = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  BrandingConfigsCompanion.insert({
+    this.id = const Value.absent(),
+    required int configGroupId,
+    required int versionNumber,
+    this.previousVersionId = const Value.absent(),
+    required int organisationId,
+    this.companyName = const Value.absent(),
+    required int primaryColorArgb,
+    this.contactPhone = const Value.absent(),
+    this.contactEmail = const Value.absent(),
+    required int setByUserId,
+    required DateTime createdAt,
+  }) : configGroupId = Value(configGroupId),
+       versionNumber = Value(versionNumber),
+       organisationId = Value(organisationId),
+       primaryColorArgb = Value(primaryColorArgb),
+       setByUserId = Value(setByUserId),
+       createdAt = Value(createdAt);
+  static Insertable<BrandingConfigEntity> custom({
+    Expression<int>? id,
+    Expression<int>? configGroupId,
+    Expression<int>? versionNumber,
+    Expression<int>? previousVersionId,
+    Expression<int>? organisationId,
+    Expression<String>? companyName,
+    Expression<int>? primaryColorArgb,
+    Expression<String>? contactPhone,
+    Expression<String>? contactEmail,
+    Expression<int>? setByUserId,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (configGroupId != null) 'config_group_id': configGroupId,
+      if (versionNumber != null) 'version_number': versionNumber,
+      if (previousVersionId != null) 'previous_version_id': previousVersionId,
+      if (organisationId != null) 'organisation_id': organisationId,
+      if (companyName != null) 'company_name': companyName,
+      if (primaryColorArgb != null) 'primary_color_argb': primaryColorArgb,
+      if (contactPhone != null) 'contact_phone': contactPhone,
+      if (contactEmail != null) 'contact_email': contactEmail,
+      if (setByUserId != null) 'set_by_user_id': setByUserId,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  BrandingConfigsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? configGroupId,
+    Value<int>? versionNumber,
+    Value<int?>? previousVersionId,
+    Value<int>? organisationId,
+    Value<String?>? companyName,
+    Value<int>? primaryColorArgb,
+    Value<String?>? contactPhone,
+    Value<String?>? contactEmail,
+    Value<int>? setByUserId,
+    Value<DateTime>? createdAt,
+  }) {
+    return BrandingConfigsCompanion(
+      id: id ?? this.id,
+      configGroupId: configGroupId ?? this.configGroupId,
+      versionNumber: versionNumber ?? this.versionNumber,
+      previousVersionId: previousVersionId ?? this.previousVersionId,
+      organisationId: organisationId ?? this.organisationId,
+      companyName: companyName ?? this.companyName,
+      primaryColorArgb: primaryColorArgb ?? this.primaryColorArgb,
+      contactPhone: contactPhone ?? this.contactPhone,
+      contactEmail: contactEmail ?? this.contactEmail,
+      setByUserId: setByUserId ?? this.setByUserId,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (configGroupId.present) {
+      map['config_group_id'] = Variable<int>(configGroupId.value);
+    }
+    if (versionNumber.present) {
+      map['version_number'] = Variable<int>(versionNumber.value);
+    }
+    if (previousVersionId.present) {
+      map['previous_version_id'] = Variable<int>(previousVersionId.value);
+    }
+    if (organisationId.present) {
+      map['organisation_id'] = Variable<int>(organisationId.value);
+    }
+    if (companyName.present) {
+      map['company_name'] = Variable<String>(companyName.value);
+    }
+    if (primaryColorArgb.present) {
+      map['primary_color_argb'] = Variable<int>(primaryColorArgb.value);
+    }
+    if (contactPhone.present) {
+      map['contact_phone'] = Variable<String>(contactPhone.value);
+    }
+    if (contactEmail.present) {
+      map['contact_email'] = Variable<String>(contactEmail.value);
+    }
+    if (setByUserId.present) {
+      map['set_by_user_id'] = Variable<int>(setByUserId.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('BrandingConfigsCompanion(')
+          ..write('id: $id, ')
+          ..write('configGroupId: $configGroupId, ')
+          ..write('versionNumber: $versionNumber, ')
+          ..write('previousVersionId: $previousVersionId, ')
+          ..write('organisationId: $organisationId, ')
+          ..write('companyName: $companyName, ')
+          ..write('primaryColorArgb: $primaryColorArgb, ')
+          ..write('contactPhone: $contactPhone, ')
+          ..write('contactEmail: $contactEmail, ')
+          ..write('setByUserId: $setByUserId, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -13229,6 +13936,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $TaskPresetVenueTypesTable(this);
   late final $TaskTemplateVenueTypesTable taskTemplateVenueTypes =
       $TaskTemplateVenueTypesTable(this);
+  late final $BrandingConfigsTable brandingConfigs = $BrandingConfigsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -13259,6 +13969,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     equipmentTypeVenueTypes,
     taskPresetVenueTypes,
     taskTemplateVenueTypes,
+    brandingConfigs,
   ];
 }
 
@@ -13847,6 +14558,26 @@ final class $$OrganisationsTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$BrandingConfigsTable, List<BrandingConfigEntity>>
+  _brandingConfigsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.brandingConfigs,
+    aliasName: 'organisations__id__branding_configs__organisation_id',
+  );
+
+  $$BrandingConfigsTableProcessedTableManager get brandingConfigsRefs {
+    final manager = $$BrandingConfigsTableTableManager(
+      $_db,
+      $_db.brandingConfigs,
+    ).filter((f) => f.organisationId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _brandingConfigsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$OrganisationsTableFilterComposer
@@ -13889,6 +14620,31 @@ class $$OrganisationsTableFilterComposer
           }) => $$SitesTableFilterComposer(
             $db: $db,
             $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> brandingConfigsRefs(
+    Expression<bool> Function($$BrandingConfigsTableFilterComposer f) f,
+  ) {
+    final $$BrandingConfigsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.brandingConfigs,
+      getReferencedColumn: (t) => t.organisationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrandingConfigsTableFilterComposer(
+            $db: $db,
+            $table: $db.brandingConfigs,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -13966,6 +14722,31 @@ class $$OrganisationsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> brandingConfigsRefs<T extends Object>(
+    Expression<T> Function($$BrandingConfigsTableAnnotationComposer a) f,
+  ) {
+    final $$BrandingConfigsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.brandingConfigs,
+      getReferencedColumn: (t) => t.organisationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrandingConfigsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.brandingConfigs,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$OrganisationsTableTableManager
@@ -13981,7 +14762,7 @@ class $$OrganisationsTableTableManager
           $$OrganisationsTableUpdateCompanionBuilder,
           (OrganisationEntity, $$OrganisationsTableReferences),
           OrganisationEntity,
-          PrefetchHooks Function({bool sitesRefs})
+          PrefetchHooks Function({bool sitesRefs, bool brandingConfigsRefs})
         > {
   $$OrganisationsTableTableManager(_$AppDatabase db, $OrganisationsTable table)
     : super(
@@ -14022,38 +14803,63 @@ class $$OrganisationsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({sitesRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (sitesRefs) db.sites],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (sitesRefs)
-                    await $_getPrefetchedData<
-                      OrganisationEntity,
-                      $OrganisationsTable,
-                      SiteEntity
-                    >(
-                      currentTable: table,
-                      referencedTable: $$OrganisationsTableReferences
-                          ._sitesRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$OrganisationsTableReferences(
-                            db,
-                            table,
-                            p0,
-                          ).sitesRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where(
-                            (e) => e.organisationId == item.id,
-                          ),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({sitesRefs = false, brandingConfigsRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (sitesRefs) db.sites,
+                    if (brandingConfigsRefs) db.brandingConfigs,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (sitesRefs)
+                        await $_getPrefetchedData<
+                          OrganisationEntity,
+                          $OrganisationsTable,
+                          SiteEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$OrganisationsTableReferences
+                              ._sitesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$OrganisationsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).sitesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.organisationId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (brandingConfigsRefs)
+                        await $_getPrefetchedData<
+                          OrganisationEntity,
+                          $OrganisationsTable,
+                          BrandingConfigEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$OrganisationsTableReferences
+                              ._brandingConfigsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$OrganisationsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).brandingConfigsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.organisationId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -14070,7 +14876,7 @@ typedef $$OrganisationsTableProcessedTableManager =
       $$OrganisationsTableUpdateCompanionBuilder,
       (OrganisationEntity, $$OrganisationsTableReferences),
       OrganisationEntity,
-      PrefetchHooks Function({bool sitesRefs})
+      PrefetchHooks Function({bool sitesRefs, bool brandingConfigsRefs})
     >;
 typedef $$SitesTableCreateCompanionBuilder =
     SitesCompanion Function({
@@ -17456,6 +18262,26 @@ final class $$UsersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$BrandingConfigsTable, List<BrandingConfigEntity>>
+  _brandingConfigsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.brandingConfigs,
+    aliasName: 'users__id__branding_configs__set_by_user_id',
+  );
+
+  $$BrandingConfigsTableProcessedTableManager get brandingConfigsRefs {
+    final manager = $$BrandingConfigsTableTableManager(
+      $_db,
+      $_db.brandingConfigs,
+    ).filter((f) => f.setByUserId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _brandingConfigsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
@@ -17751,6 +18577,31 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$TaskPresetsTableFilterComposer(
             $db: $db,
             $table: $db.taskPresets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> brandingConfigsRefs(
+    Expression<bool> Function($$BrandingConfigsTableFilterComposer f) f,
+  ) {
+    final $$BrandingConfigsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.brandingConfigs,
+      getReferencedColumn: (t) => t.setByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrandingConfigsTableFilterComposer(
+            $db: $db,
+            $table: $db.brandingConfigs,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -18180,6 +19031,31 @@ class $$UsersTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> brandingConfigsRefs<T extends Object>(
+    Expression<T> Function($$BrandingConfigsTableAnnotationComposer a) f,
+  ) {
+    final $$BrandingConfigsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.brandingConfigs,
+      getReferencedColumn: (t) => t.setByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrandingConfigsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.brandingConfigs,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$UsersTableTableManager
@@ -18206,6 +19082,7 @@ class $$UsersTableTableManager
             bool triggerNotificationsRefs,
             bool thirdPartyContactsRefs,
             bool taskPresetsRefs,
+            bool brandingConfigsRefs,
           })
         > {
   $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
@@ -18297,6 +19174,7 @@ class $$UsersTableTableManager
                 triggerNotificationsRefs = false,
                 thirdPartyContactsRefs = false,
                 taskPresetsRefs = false,
+                brandingConfigsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -18308,6 +19186,7 @@ class $$UsersTableTableManager
                     if (triggerNotificationsRefs) db.triggerNotifications,
                     if (thirdPartyContactsRefs) db.thirdPartyContacts,
                     if (taskPresetsRefs) db.taskPresets,
+                    if (brandingConfigsRefs) db.brandingConfigs,
                   ],
                   addJoins:
                       <
@@ -18516,6 +19395,27 @@ class $$UsersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (brandingConfigsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          BrandingConfigEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._brandingConfigsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).brandingConfigsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.setByUserId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -18547,6 +19447,7 @@ typedef $$UsersTableProcessedTableManager =
         bool triggerNotificationsRefs,
         bool thirdPartyContactsRefs,
         bool taskPresetsRefs,
+        bool brandingConfigsRefs,
       })
     >;
 typedef $$SuppliersTableCreateCompanionBuilder =
@@ -28884,6 +29785,648 @@ typedef $$TaskTemplateVenueTypesTableProcessedTableManager =
       TaskTemplateVenueTypeEntity,
       PrefetchHooks Function({bool venueTypeId})
     >;
+typedef $$BrandingConfigsTableCreateCompanionBuilder =
+    BrandingConfigsCompanion Function({
+      Value<int> id,
+      required int configGroupId,
+      required int versionNumber,
+      Value<int?> previousVersionId,
+      required int organisationId,
+      Value<String?> companyName,
+      required int primaryColorArgb,
+      Value<String?> contactPhone,
+      Value<String?> contactEmail,
+      required int setByUserId,
+      required DateTime createdAt,
+    });
+typedef $$BrandingConfigsTableUpdateCompanionBuilder =
+    BrandingConfigsCompanion Function({
+      Value<int> id,
+      Value<int> configGroupId,
+      Value<int> versionNumber,
+      Value<int?> previousVersionId,
+      Value<int> organisationId,
+      Value<String?> companyName,
+      Value<int> primaryColorArgb,
+      Value<String?> contactPhone,
+      Value<String?> contactEmail,
+      Value<int> setByUserId,
+      Value<DateTime> createdAt,
+    });
+
+final class $$BrandingConfigsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $BrandingConfigsTable,
+          BrandingConfigEntity
+        > {
+  $$BrandingConfigsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $BrandingConfigsTable _previousVersionIdTable(_$AppDatabase db) =>
+      db.brandingConfigs.createAlias(
+        'branding_configs__previous_version_id__branding_configs__id',
+      );
+
+  $$BrandingConfigsTableProcessedTableManager? get previousVersionId {
+    final $_column = $_itemColumn<int>('previous_version_id');
+    if ($_column == null) return null;
+    final manager = $$BrandingConfigsTableTableManager(
+      $_db,
+      $_db.brandingConfigs,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_previousVersionIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $OrganisationsTable _organisationIdTable(_$AppDatabase db) => db
+      .organisations
+      .createAlias('branding_configs__organisation_id__organisations__id');
+
+  $$OrganisationsTableProcessedTableManager get organisationId {
+    final $_column = $_itemColumn<int>('organisation_id')!;
+
+    final manager = $$OrganisationsTableTableManager(
+      $_db,
+      $_db.organisations,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_organisationIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _setByUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('branding_configs__set_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get setByUserId {
+    final $_column = $_itemColumn<int>('set_by_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_setByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$BrandingConfigsTableFilterComposer
+    extends Composer<_$AppDatabase, $BrandingConfigsTable> {
+  $$BrandingConfigsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get configGroupId => $composableBuilder(
+    column: $table.configGroupId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get versionNumber => $composableBuilder(
+    column: $table.versionNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get companyName => $composableBuilder(
+    column: $table.companyName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get primaryColorArgb => $composableBuilder(
+    column: $table.primaryColorArgb,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contactPhone => $composableBuilder(
+    column: $table.contactPhone,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get contactEmail => $composableBuilder(
+    column: $table.contactEmail,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$BrandingConfigsTableFilterComposer get previousVersionId {
+    final $$BrandingConfigsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.previousVersionId,
+      referencedTable: $db.brandingConfigs,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrandingConfigsTableFilterComposer(
+            $db: $db,
+            $table: $db.brandingConfigs,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$OrganisationsTableFilterComposer get organisationId {
+    final $$OrganisationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.organisationId,
+      referencedTable: $db.organisations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrganisationsTableFilterComposer(
+            $db: $db,
+            $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get setByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.setByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$BrandingConfigsTableOrderingComposer
+    extends Composer<_$AppDatabase, $BrandingConfigsTable> {
+  $$BrandingConfigsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get configGroupId => $composableBuilder(
+    column: $table.configGroupId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get versionNumber => $composableBuilder(
+    column: $table.versionNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get companyName => $composableBuilder(
+    column: $table.companyName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get primaryColorArgb => $composableBuilder(
+    column: $table.primaryColorArgb,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contactPhone => $composableBuilder(
+    column: $table.contactPhone,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get contactEmail => $composableBuilder(
+    column: $table.contactEmail,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$BrandingConfigsTableOrderingComposer get previousVersionId {
+    final $$BrandingConfigsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.previousVersionId,
+      referencedTable: $db.brandingConfigs,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrandingConfigsTableOrderingComposer(
+            $db: $db,
+            $table: $db.brandingConfigs,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$OrganisationsTableOrderingComposer get organisationId {
+    final $$OrganisationsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.organisationId,
+      referencedTable: $db.organisations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrganisationsTableOrderingComposer(
+            $db: $db,
+            $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get setByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.setByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$BrandingConfigsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $BrandingConfigsTable> {
+  $$BrandingConfigsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get configGroupId => $composableBuilder(
+    column: $table.configGroupId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get versionNumber => $composableBuilder(
+    column: $table.versionNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get companyName => $composableBuilder(
+    column: $table.companyName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get primaryColorArgb => $composableBuilder(
+    column: $table.primaryColorArgb,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get contactPhone => $composableBuilder(
+    column: $table.contactPhone,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get contactEmail => $composableBuilder(
+    column: $table.contactEmail,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$BrandingConfigsTableAnnotationComposer get previousVersionId {
+    final $$BrandingConfigsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.previousVersionId,
+      referencedTable: $db.brandingConfigs,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$BrandingConfigsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.brandingConfigs,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$OrganisationsTableAnnotationComposer get organisationId {
+    final $$OrganisationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.organisationId,
+      referencedTable: $db.organisations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrganisationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get setByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.setByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$BrandingConfigsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $BrandingConfigsTable,
+          BrandingConfigEntity,
+          $$BrandingConfigsTableFilterComposer,
+          $$BrandingConfigsTableOrderingComposer,
+          $$BrandingConfigsTableAnnotationComposer,
+          $$BrandingConfigsTableCreateCompanionBuilder,
+          $$BrandingConfigsTableUpdateCompanionBuilder,
+          (BrandingConfigEntity, $$BrandingConfigsTableReferences),
+          BrandingConfigEntity,
+          PrefetchHooks Function({
+            bool previousVersionId,
+            bool organisationId,
+            bool setByUserId,
+          })
+        > {
+  $$BrandingConfigsTableTableManager(
+    _$AppDatabase db,
+    $BrandingConfigsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$BrandingConfigsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$BrandingConfigsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$BrandingConfigsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> configGroupId = const Value.absent(),
+                Value<int> versionNumber = const Value.absent(),
+                Value<int?> previousVersionId = const Value.absent(),
+                Value<int> organisationId = const Value.absent(),
+                Value<String?> companyName = const Value.absent(),
+                Value<int> primaryColorArgb = const Value.absent(),
+                Value<String?> contactPhone = const Value.absent(),
+                Value<String?> contactEmail = const Value.absent(),
+                Value<int> setByUserId = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => BrandingConfigsCompanion(
+                id: id,
+                configGroupId: configGroupId,
+                versionNumber: versionNumber,
+                previousVersionId: previousVersionId,
+                organisationId: organisationId,
+                companyName: companyName,
+                primaryColorArgb: primaryColorArgb,
+                contactPhone: contactPhone,
+                contactEmail: contactEmail,
+                setByUserId: setByUserId,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int configGroupId,
+                required int versionNumber,
+                Value<int?> previousVersionId = const Value.absent(),
+                required int organisationId,
+                Value<String?> companyName = const Value.absent(),
+                required int primaryColorArgb,
+                Value<String?> contactPhone = const Value.absent(),
+                Value<String?> contactEmail = const Value.absent(),
+                required int setByUserId,
+                required DateTime createdAt,
+              }) => BrandingConfigsCompanion.insert(
+                id: id,
+                configGroupId: configGroupId,
+                versionNumber: versionNumber,
+                previousVersionId: previousVersionId,
+                organisationId: organisationId,
+                companyName: companyName,
+                primaryColorArgb: primaryColorArgb,
+                contactPhone: contactPhone,
+                contactEmail: contactEmail,
+                setByUserId: setByUserId,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$BrandingConfigsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                previousVersionId = false,
+                organisationId = false,
+                setByUserId = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (previousVersionId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.previousVersionId,
+                                    referencedTable:
+                                        $$BrandingConfigsTableReferences
+                                            ._previousVersionIdTable(db),
+                                    referencedColumn:
+                                        $$BrandingConfigsTableReferences
+                                            ._previousVersionIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (organisationId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.organisationId,
+                                    referencedTable:
+                                        $$BrandingConfigsTableReferences
+                                            ._organisationIdTable(db),
+                                    referencedColumn:
+                                        $$BrandingConfigsTableReferences
+                                            ._organisationIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (setByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.setByUserId,
+                                    referencedTable:
+                                        $$BrandingConfigsTableReferences
+                                            ._setByUserIdTable(db),
+                                    referencedColumn:
+                                        $$BrandingConfigsTableReferences
+                                            ._setByUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$BrandingConfigsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $BrandingConfigsTable,
+      BrandingConfigEntity,
+      $$BrandingConfigsTableFilterComposer,
+      $$BrandingConfigsTableOrderingComposer,
+      $$BrandingConfigsTableAnnotationComposer,
+      $$BrandingConfigsTableCreateCompanionBuilder,
+      $$BrandingConfigsTableUpdateCompanionBuilder,
+      (BrandingConfigEntity, $$BrandingConfigsTableReferences),
+      BrandingConfigEntity,
+      PrefetchHooks Function({
+        bool previousVersionId,
+        bool organisationId,
+        bool setByUserId,
+      })
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -28944,4 +30487,6 @@ class $AppDatabaseManager {
         _db,
         _db.taskTemplateVenueTypes,
       );
+  $$BrandingConfigsTableTableManager get brandingConfigs =>
+      $$BrandingConfigsTableTableManager(_db, _db.brandingConfigs);
 }
