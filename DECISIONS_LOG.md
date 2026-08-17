@@ -29,6 +29,11 @@ Everything was built backend-ready (local drift DB) - so this is migration/integ
 ## Sequencing decision (Claude, overseeing)
 Finish branding (mid-flight, small) -> then pivot FULLY to backend. Remaining prototype polish (alphabet jump, calendar picker, dark mode, multilingual) WAITS until after partner is live - none of it matters if the partner can't use the app. Order: branding -> backend -> (later) polish + multilingual.
 
+## Backend Phase 1 - maximum separation from Bloody Hell (2026-08-17)
+Amends the "BACKEND - approach decided" entry above: not Steve's existing IONOS VPS (which also runs an unrelated app, Bloody Hell) - a genuinely new, dedicated VPS under the same IONOS account, with zero shared files/volumes/secrets/domains. Confirmed: same IONOS account is fine (no separate billing needed), the technical isolation is what matters.
+Full step-by-step Phase 1 plan (provisioning, hardening, secrets, reverse proxy, firewall, backups, the 7-point go/no-go gate) given directly to Steve to execute - not repeated here, see the conversation record. Three agreed stop-and-confirm points before Phase 2 (auth): secrets generated, proxy routing confirmed before the firewall opens, and the final 7-point verification checklist.
+Non-secret server inventory and live Phase 1 checklist status tracked in `BACKEND_INFRA.md` (new file, project root) - kept separate from this narrative log since it's current-state tracking (IPs, what's live), not a decision record. Explicitly never contains secrets (passwords, JWT secrets, API keys) - those stay in Steve's password manager only, per the security practice agreed for this phase.
+
 ## Data storage (Sprint 001)
 - Use drift for local persistence (relational, matches ARCHITECTURE_LOCK's entity list, type-safe, works with Riverpod streams)
 - Keep the flat TaskLogEntry shape for now, renamed/moved to shared/models/ as TaskSubmission — no TaskTemplate/TaskInstance split yet
