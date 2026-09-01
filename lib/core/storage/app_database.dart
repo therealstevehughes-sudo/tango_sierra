@@ -87,6 +87,12 @@ class Users extends Table {
   // staff member needs one assigned), distinct from jobRole/roleTier above.
   IntColumn get departmentId =>
       integer().nullable().references(Departments, #id)();
+  // Phase 2 (real backend auth): links a local staff row to its Supabase
+  // auth.users identity, once provisioned. Null means "not yet synced to
+  // the backend" — the local PIN check still works as a fallback in that
+  // state (see UserRepository.authenticate). Never used for anything
+  // security-relevant client-side; it's just a foreign-system pointer.
+  TextColumn get supabaseUserId => text().nullable()();
 }
 
 @DataClassName('EquipmentTypeEntity')
@@ -601,7 +607,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 31;
+  int get schemaVersion => 32;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -900,6 +906,13 @@ class AppDatabase extends _$AppDatabase {
         // default teal accent," handled at the read site, not by seeding
         // a row here).
         await m.createTable(brandingConfigs);
+      }
+      if (from < 32) {
+        // Phase 2 (real backend auth) — links a local staff row to its
+        // Supabase identity once provisioned. No backfill: null means
+        // "not yet synced," which UserRepository already treats as a
+        // valid, expected state (falls back to local-only PIN check).
+        await m.addColumn(users, users.supabaseUserId);
       }
     },
     beforeOpen: (details) async {

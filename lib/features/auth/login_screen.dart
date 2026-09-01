@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/section_header.dart';
+import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import 'pin_entry.dart';
@@ -53,22 +54,40 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
 
     final repository = ref.read(userRepositoryProvider);
-    final authenticated = await repository.authenticate(
+    final outcome = await repository.authenticate(
       userId: user.id,
       pin: pinController.text.trim(),
+      useBackendAuth: ref.read(backendAuthEnabledProvider),
     );
 
     if (!mounted) return;
 
-    if (authenticated == null) {
-      setState(() {
-        error = "Incorrect PIN";
-        submitting = false;
-      });
-      return;
+    switch (outcome) {
+      case PinAuthSuccess(:final user, :final accessToken):
+        ref.read(currentUserProvider.notifier).state = user;
+        ref.read(currentSessionTokenProvider.notifier).state = accessToken;
+      case PinAuthIncorrect():
+        setState(() {
+          error = "Incorrect PIN";
+          submitting = false;
+        });
+      case PinAuthLocked(:final lockedUntil):
+        final minutesLeft = lockedUntil.difference(DateTime.now()).inMinutes + 1;
+        setState(() {
+          error = "Too many wrong attempts. Try again in $minutesLeft min.";
+          submitting = false;
+        });
+      case PinAuthNotFound():
+        setState(() {
+          error = "Account not found";
+          submitting = false;
+        });
+      case PinAuthError(:final message):
+        setState(() {
+          error = message;
+          submitting = false;
+        });
     }
-
-    ref.read(currentUserProvider.notifier).state = authenticated;
   }
 
   @override

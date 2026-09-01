@@ -1968,6 +1968,17 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
       'REFERENCES departments (id)',
     ),
   );
+  static const VerificationMeta _supabaseUserIdMeta = const VerificationMeta(
+    'supabaseUserId',
+  );
+  @override
+  late final GeneratedColumn<String> supabaseUserId = GeneratedColumn<String>(
+    'supabase_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1983,6 +1994,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     deactivatedByUserId,
     jobRole,
     departmentId,
+    supabaseUserId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2093,6 +2105,15 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         ),
       );
     }
+    if (data.containsKey('supabase_user_id')) {
+      context.handle(
+        _supabaseUserIdMeta,
+        supabaseUserId.isAcceptableOrUnknown(
+          data['supabase_user_id']!,
+          _supabaseUserIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2154,6 +2175,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}department_id'],
       ),
+      supabaseUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}supabase_user_id'],
+      ),
     );
   }
 
@@ -2177,6 +2202,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final int? deactivatedByUserId;
   final String? jobRole;
   final int? departmentId;
+  final String? supabaseUserId;
   const UserEntity({
     required this.id,
     required this.name,
@@ -2191,6 +2217,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     this.deactivatedByUserId,
     this.jobRole,
     this.departmentId,
+    this.supabaseUserId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2220,6 +2247,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     if (!nullToAbsent || departmentId != null) {
       map['department_id'] = Variable<int>(departmentId);
     }
+    if (!nullToAbsent || supabaseUserId != null) {
+      map['supabase_user_id'] = Variable<String>(supabaseUserId);
+    }
     return map;
   }
 
@@ -2248,6 +2278,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       departmentId: departmentId == null && nullToAbsent
           ? const Value.absent()
           : Value(departmentId),
+      supabaseUserId: supabaseUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(supabaseUserId),
     );
   }
 
@@ -2274,6 +2307,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       ),
       jobRole: serializer.fromJson<String?>(json['jobRole']),
       departmentId: serializer.fromJson<int?>(json['departmentId']),
+      supabaseUserId: serializer.fromJson<String?>(json['supabaseUserId']),
     );
   }
   @override
@@ -2295,6 +2329,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'deactivatedByUserId': serializer.toJson<int?>(deactivatedByUserId),
       'jobRole': serializer.toJson<String?>(jobRole),
       'departmentId': serializer.toJson<int?>(departmentId),
+      'supabaseUserId': serializer.toJson<String?>(supabaseUserId),
     };
   }
 
@@ -2312,6 +2347,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     Value<int?> deactivatedByUserId = const Value.absent(),
     Value<String?> jobRole = const Value.absent(),
     Value<int?> departmentId = const Value.absent(),
+    Value<String?> supabaseUserId = const Value.absent(),
   }) => UserEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -2331,6 +2367,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
         : this.deactivatedByUserId,
     jobRole: jobRole.present ? jobRole.value : this.jobRole,
     departmentId: departmentId.present ? departmentId.value : this.departmentId,
+    supabaseUserId: supabaseUserId.present
+        ? supabaseUserId.value
+        : this.supabaseUserId,
   );
   UserEntity copyWithCompanion(UsersCompanion data) {
     return UserEntity(
@@ -2355,6 +2394,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       departmentId: data.departmentId.present
           ? data.departmentId.value
           : this.departmentId,
+      supabaseUserId: data.supabaseUserId.present
+          ? data.supabaseUserId.value
+          : this.supabaseUserId,
     );
   }
 
@@ -2373,7 +2415,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('deactivatedAt: $deactivatedAt, ')
           ..write('deactivatedByUserId: $deactivatedByUserId, ')
           ..write('jobRole: $jobRole, ')
-          ..write('departmentId: $departmentId')
+          ..write('departmentId: $departmentId, ')
+          ..write('supabaseUserId: $supabaseUserId')
           ..write(')'))
         .toString();
   }
@@ -2393,6 +2436,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     deactivatedByUserId,
     jobRole,
     departmentId,
+    supabaseUserId,
   );
   @override
   bool operator ==(Object other) =>
@@ -2410,7 +2454,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.deactivatedAt == this.deactivatedAt &&
           other.deactivatedByUserId == this.deactivatedByUserId &&
           other.jobRole == this.jobRole &&
-          other.departmentId == this.departmentId);
+          other.departmentId == this.departmentId &&
+          other.supabaseUserId == this.supabaseUserId);
 }
 
 class UsersCompanion extends UpdateCompanion<UserEntity> {
@@ -2427,6 +2472,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   final Value<int?> deactivatedByUserId;
   final Value<String?> jobRole;
   final Value<int?> departmentId;
+  final Value<String?> supabaseUserId;
   const UsersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -2441,6 +2487,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.deactivatedByUserId = const Value.absent(),
     this.jobRole = const Value.absent(),
     this.departmentId = const Value.absent(),
+    this.supabaseUserId = const Value.absent(),
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
@@ -2456,6 +2503,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.deactivatedByUserId = const Value.absent(),
     this.jobRole = const Value.absent(),
     this.departmentId = const Value.absent(),
+    this.supabaseUserId = const Value.absent(),
   }) : name = Value(name),
        jobTitle = Value(jobTitle),
        roleTier = Value(roleTier),
@@ -2475,6 +2523,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Expression<int>? deactivatedByUserId,
     Expression<String>? jobRole,
     Expression<int>? departmentId,
+    Expression<String>? supabaseUserId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2492,6 +2541,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
         'deactivated_by_user_id': deactivatedByUserId,
       if (jobRole != null) 'job_role': jobRole,
       if (departmentId != null) 'department_id': departmentId,
+      if (supabaseUserId != null) 'supabase_user_id': supabaseUserId,
     });
   }
 
@@ -2509,6 +2559,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Value<int?>? deactivatedByUserId,
     Value<String?>? jobRole,
     Value<int?>? departmentId,
+    Value<String?>? supabaseUserId,
   }) {
     return UsersCompanion(
       id: id ?? this.id,
@@ -2525,6 +2576,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       deactivatedByUserId: deactivatedByUserId ?? this.deactivatedByUserId,
       jobRole: jobRole ?? this.jobRole,
       departmentId: departmentId ?? this.departmentId,
+      supabaseUserId: supabaseUserId ?? this.supabaseUserId,
     );
   }
 
@@ -2572,6 +2624,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     if (departmentId.present) {
       map['department_id'] = Variable<int>(departmentId.value);
     }
+    if (supabaseUserId.present) {
+      map['supabase_user_id'] = Variable<String>(supabaseUserId.value);
+    }
     return map;
   }
 
@@ -2590,7 +2645,8 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('deactivatedAt: $deactivatedAt, ')
           ..write('deactivatedByUserId: $deactivatedByUserId, ')
           ..write('jobRole: $jobRole, ')
-          ..write('departmentId: $departmentId')
+          ..write('departmentId: $departmentId, ')
+          ..write('supabaseUserId: $supabaseUserId')
           ..write(')'))
         .toString();
   }
@@ -18036,6 +18092,7 @@ typedef $$UsersTableCreateCompanionBuilder =
       Value<int?> deactivatedByUserId,
       Value<String?> jobRole,
       Value<int?> departmentId,
+      Value<String?> supabaseUserId,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
     UsersCompanion Function({
@@ -18052,6 +18109,7 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<int?> deactivatedByUserId,
       Value<String?> jobRole,
       Value<int?> departmentId,
+      Value<String?> supabaseUserId,
     });
 
 final class $$UsersTableReferences
@@ -18339,6 +18397,11 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
 
   ColumnFilters<String> get jobRole => $composableBuilder(
     column: $table.jobRole,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get supabaseUserId => $composableBuilder(
+    column: $table.supabaseUserId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -18671,6 +18734,11 @@ class $$UsersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get supabaseUserId => $composableBuilder(
+    column: $table.supabaseUserId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$SitesTableOrderingComposer get siteId {
     final $$SitesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -18783,6 +18851,11 @@ class $$UsersTableAnnotationComposer
 
   GeneratedColumn<String> get jobRole =>
       $composableBuilder(column: $table.jobRole, builder: (column) => column);
+
+  GeneratedColumn<String> get supabaseUserId => $composableBuilder(
+    column: $table.supabaseUserId,
+    builder: (column) => column,
+  );
 
   $$SitesTableAnnotationComposer get siteId {
     final $$SitesTableAnnotationComposer composer = $composerBuilder(
@@ -19111,6 +19184,7 @@ class $$UsersTableTableManager
                 Value<int?> deactivatedByUserId = const Value.absent(),
                 Value<String?> jobRole = const Value.absent(),
                 Value<int?> departmentId = const Value.absent(),
+                Value<String?> supabaseUserId = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
                 name: name,
@@ -19125,6 +19199,7 @@ class $$UsersTableTableManager
                 deactivatedByUserId: deactivatedByUserId,
                 jobRole: jobRole,
                 departmentId: departmentId,
+                supabaseUserId: supabaseUserId,
               ),
           createCompanionCallback:
               ({
@@ -19141,6 +19216,7 @@ class $$UsersTableTableManager
                 Value<int?> deactivatedByUserId = const Value.absent(),
                 Value<String?> jobRole = const Value.absent(),
                 Value<int?> departmentId = const Value.absent(),
+                Value<String?> supabaseUserId = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
                 name: name,
@@ -19155,6 +19231,7 @@ class $$UsersTableTableManager
                 deactivatedByUserId: deactivatedByUserId,
                 jobRole: jobRole,
                 departmentId: departmentId,
+                supabaseUserId: supabaseUserId,
               ),
           withReferenceMapper: (p0) => p0
               .map(

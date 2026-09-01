@@ -1,13 +1,31 @@
 import 'package:drift/drift.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide User;
 
 import '../../core/storage/app_database.dart';
 import '../../core/utils/pin_hasher.dart';
 import '../models/job_role.dart';
+import '../models/pin_auth_outcome.dart';
 import '../models/user.dart';
 
 abstract class UserRepository {
   Future<List<User>> getAll();
-  Future<User?> authenticate({required int userId, required String pin});
+  // Phase 2 (real backend auth) — Leadership Access uses this to map a
+  // real Supabase auth session (email+password) back to the local staff
+  // profile it belongs to. Null if no local row has been linked to that
+  // Supabase identity yet (linking is currently a manual/admin step, not
+  // a self-service flow — see Phase 2 notes).
+  Future<User?> findBySupabaseUserId(String supabaseUserId);
+  // Phase 2 (real backend auth): useBackendAuth defaults to false, keeping
+  // every existing caller's behaviour byte-for-byte unchanged until it's
+  // explicitly opted in via backendAuthEnabledProvider. Even when true,
+  // a user with no supabaseUserId yet (not synced to the backend) still
+  // falls back to the local check — a safe, gradual add-on, not a
+  // hard cutover.
+  Future<PinAuthOutcome> authenticate({
+    required int userId,
+    required String pin,
+    bool useBackendAuth = false,
+  });
   Future<User> createStaffMember({
     required String name,
     required String jobTitle,
@@ -65,18 +83,67 @@ class DriftUserRepository implements UserRepository {
   }
 
   @override
-  Future<User?> authenticate({
+  Future<User?> findBySupabaseUserId(String supabaseUserId) async {
+    final query = _db.select(_db.users)
+      ..where((u) => u.supabaseUserId.equals(supabaseUserId));
+    final row = await query.getSingleOrNull();
+    if (row == null || !row.active) return null;
+    return _toModel(row);
+  }
+
+  @override
+  Future<PinAuthOutcome> authenticate({
     required int userId,
     required String pin,
+    bool useBackendAuth = false,
   }) async {
     final query = _db.select(_db.users)..where((u) => u.id.equals(userId));
     final row = await query.getSingleOrNull();
-    if (row == null) return null;
-    if (!row.active) return null;
+    if (row == null) return const PinAuthNotFound();
+    if (!row.active) return const PinAuthNotFound();
 
-    if (hashPin(pin, row.pinSalt) != row.pinHash) return null;
+    if (useBackendAuth && row.supabaseUserId != null) {
+      return _authenticateViaBackend(row: row, pin: pin);
+    }
 
-    return _toModel(row);
+    if (hashPin(pin, row.pinSalt) != row.pinHash) {
+      return const PinAuthIncorrect();
+    }
+    return PinAuthSuccess(_toModel(row));
+  }
+
+  // Calls the pin-login Edge Function, which does the real verification
+  // (and lockout enforcement) server-side — this method never sees or
+  // checks the PIN itself, only interprets the function's response.
+  Future<PinAuthOutcome> _authenticateViaBackend({
+    required UserEntity row,
+    required String pin,
+  }) async {
+    try {
+      final response = await Supabase.instance.client.functions.invoke(
+        'pin-login',
+        body: {'user_id': row.supabaseUserId, 'pin': pin},
+      );
+      final data = response.data as Map<String, dynamic>;
+      return PinAuthSuccess(
+        _toModel(row),
+        accessToken: data['access_token'] as String,
+      );
+    } on FunctionException catch (e) {
+      if (e.status == 423) {
+        final details = e.details;
+        final lockedUntilStr = details is Map ? details['locked_until'] as String? : null;
+        return PinAuthLocked(
+          lockedUntilStr != null
+              ? DateTime.parse(lockedUntilStr)
+              : DateTime.now().add(const Duration(minutes: 15)),
+        );
+      }
+      if (e.status == 401) return const PinAuthIncorrect();
+      return PinAuthError('Could not reach the server (${e.status})');
+    } catch (_) {
+      return const PinAuthError('Could not reach the server');
+    }
   }
 
   @override
