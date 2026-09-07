@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../shared/models/user.dart';
@@ -128,7 +129,9 @@ class _EndOfSessionSummaryScreenState
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
+          child: ResponsiveContent(
+            maxWidth: 560,
+            child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -271,6 +274,7 @@ class _EndOfSessionSummaryScreenState
                 PrimaryActionButton(label: 'Done', onPressed: _finish),
               ],
             ),
+          ),
           ),
         ),
       ),

@@ -15,6 +15,7 @@ abstract class BrandingConfigRepository {
     String? contactPhone,
     String? contactEmail,
     required int setByUserId,
+    String? logoPath,
   });
 }
 
@@ -73,6 +74,7 @@ class DriftBrandingConfigRepository implements BrandingConfigRepository {
     String? contactPhone,
     String? contactEmail,
     required int setByUserId,
+    String? logoPath,
   }) async {
     int? previousVersionId;
     var nextVersionNumber = 1;
@@ -100,6 +102,7 @@ class DriftBrandingConfigRepository implements BrandingConfigRepository {
             contactEmail: Value(contactEmail),
             setByUserId: setByUserId,
             createdAt: DateTime.now(),
+            logoPath: Value(logoPath),
           ),
         );
 
@@ -129,5 +132,6 @@ class DriftBrandingConfigRepository implements BrandingConfigRepository {
     contactEmail: row.contactEmail,
     setByUserId: row.setByUserId,
     createdAt: row.createdAt,
+    logoPath: row.logoPath,
   );
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
@@ -324,9 +325,11 @@ class _StaffAssignmentScreenState
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: selectedStaff == null
-              ? _buildStaffList()
-              : _buildAssignmentList(),
+          child: ResponsiveContent(
+            child: selectedStaff == null
+                ? _buildStaffList()
+                : _buildAssignmentList(),
+          ),
         ),
       ),
     );

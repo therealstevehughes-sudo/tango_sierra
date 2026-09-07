@@ -22,6 +22,16 @@ class TaskSubmission {
   // submission is delivery-related, and even on ones that are, the worker
   // isn't blocked from submitting without picking one.
   final int? supplierId;
+  // Fails & Problems Register (Part A) — 'open'/'resolved'/null (null for
+  // PASS rows, where it doesn't apply). Denormalized for fast filtering;
+  // the real audit trail lives in ProblemStatusEvents.
+  final String? problemStatus;
+  // Instance-name prominence (2026-09-06) — the equipment instance's name
+  // as it was at submission time, denormalized so every display surface
+  // can render it separately (bold/leading) from taskTitle rather than as
+  // an indistinct suffix baked into one string. Null for tasks with no
+  // linked equipment.
+  final String? equipmentInstanceName;
 
   const TaskSubmission({
     this.id,
@@ -42,5 +52,15 @@ class TaskSubmission {
     this.correctiveActionOutcome,
     this.correctiveActionNote,
     this.supplierId,
+    this.problemStatus,
+    this.equipmentInstanceName,
   });
+
+  // Flat-string fallback for contexts that just want one combined display
+  // string (e.g. the end-of-session summary's plain failed-task list) —
+  // not one of the five surfaces that need bold/leading treatment, but
+  // shouldn't lose the instance name either now that taskTitle is plain.
+  String get displayTitle => equipmentInstanceName == null
+      ? taskTitle
+      : '$taskTitle — $equipmentInstanceName';
 }

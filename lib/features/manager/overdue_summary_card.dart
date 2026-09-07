@@ -54,12 +54,29 @@ class OverdueSummaryCard extends StatelessWidget {
                   for (final entry in byStaff[staffName]!)
                     Padding(
                       padding: const EdgeInsets.only(left: 8, top: 2),
-                      child: Text(
-                        entry.overdueSince == null
-                            ? entry.taskTitle
-                            : '${entry.taskTitle} — overdue since '
-                                  '${formatDate(entry.overdueSince!)}',
-                        style: const TextStyle(color: AppColors.critical),
+                      child: Text.rich(
+                        TextSpan(
+                          style: const TextStyle(color: AppColors.critical),
+                          children: [
+                            // Instance-name prominence (2026-09-06): found
+                            // while fixing the other four surfaces — this
+                            // card previously had no instance disambiguation
+                            // at all, so two overdue fridges were identical.
+                            if (entry.equipmentInstanceName != null)
+                              TextSpan(
+                                text: '${entry.equipmentInstanceName} — ',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            TextSpan(
+                              text: entry.overdueSince == null
+                                  ? entry.taskTitle
+                                  : '${entry.taskTitle} — overdue since '
+                                        '${formatDate(entry.overdueSince!)}',
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                 ],

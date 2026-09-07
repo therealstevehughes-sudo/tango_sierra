@@ -632,9 +632,22 @@ class EhoExportService {
           )
         else
           for (final entry in reviewEntries)
-            pw.Text(
-              '  - ${entry.taskTitle} — ${formatDateTime(entry.completedAt)}'
-              ' (${entry.completedBy})',
+            pw.RichText(
+              text: pw.TextSpan(
+                children: [
+                  const pw.TextSpan(text: '  - '),
+                  if (entry.equipmentInstanceName != null)
+                    pw.TextSpan(
+                      text: '${entry.equipmentInstanceName} — ',
+                      style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                    ),
+                  pw.TextSpan(
+                    text: '${entry.taskTitle} — '
+                        '${formatDateTime(entry.completedAt)}'
+                        ' (${entry.completedBy})',
+                  ),
+                ],
+              ),
             ),
       ],
     );
@@ -823,7 +836,7 @@ class EhoExportService {
         pw.TableRow(
           children: [
             _cell(formatDateTime(entry.completedAt)),
-            _cell(entry.taskTitle),
+            _cellWithInstance(entry.taskTitle, entry.equipmentInstanceName),
             _cell(entry.completedBy),
             if (showCorrectiveAction) _cell(_notesAndCorrectiveAction(entry)),
           ],
@@ -860,10 +873,26 @@ class EhoExportService {
               style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
             ),
             for (final entry in byStaff[staffName]!)
-              pw.Text(
-                '  - ${entry.taskTitle}'
-                '${entry.overdueSince == null ? '' : ' (overdue since ${formatDate(entry.overdueSince!)})'}',
-                style: const pw.TextStyle(color: PdfColors.red800),
+              pw.RichText(
+                text: pw.TextSpan(
+                  style: const pw.TextStyle(color: PdfColors.red800),
+                  children: [
+                    const pw.TextSpan(text: '  - '),
+                    // Instance-name prominence (2026-09-06) — found while
+                    // fixing the other four surfaces: this section
+                    // previously had no way to tell two overdue same-type
+                    // instances apart at all.
+                    if (entry.equipmentInstanceName != null)
+                      pw.TextSpan(
+                        text: '${entry.equipmentInstanceName} — ',
+                        style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                      ),
+                    pw.TextSpan(
+                      text: '${entry.taskTitle}'
+                          '${entry.overdueSince == null ? '' : ' (overdue since ${formatDate(entry.overdueSince!)})'}',
+                    ),
+                  ],
+                ),
               ),
           ],
       ],
@@ -896,10 +925,11 @@ class EhoExportService {
         pw.TableRow(
           children: [
             _cell(formatDateTime(submission.completedAt)),
-            _cell(
+            _cellWithInstance(
               '${submission.taskTitle}'
               '${submission.numericValue == null ? '' : ' (${submission.numericValue})'}'
               '${submission.photoAttached ? ' [Photo attached]' : ''}',
+              submission.equipmentInstanceName,
             ),
             _cell(submission.completedBy),
             _cell(
@@ -948,6 +978,29 @@ class EhoExportService {
           fontWeight: bold ? pw.FontWeight.bold : pw.FontWeight.normal,
           color: color,
         ),
+      ),
+    );
+  }
+
+  // Instance-name prominence (2026-09-06) — same task-title cell as
+  // above, but for a row whose task is tied to a specific equipment
+  // instance: the instance name gets its own bold line above the plain
+  // title, rather than being folded into one indistinct string. This is
+  // a printed compliance document — "which fridge" has to survive being
+  // read on paper, not just glanced at on a screen.
+  pw.Widget _cellWithInstance(String title, String? instanceName) {
+    if (instanceName == null) return _cell(title);
+    return pw.Padding(
+      padding: const pw.EdgeInsets.all(2),
+      child: pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        children: [
+          pw.Text(
+            instanceName,
+            style: pw.TextStyle(fontSize: 8, fontWeight: pw.FontWeight.bold),
+          ),
+          pw.Text(title, style: const pw.TextStyle(fontSize: 8)),
+        ],
       ),
     );
   }

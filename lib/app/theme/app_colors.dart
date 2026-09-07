@@ -28,7 +28,12 @@ class AppColors {
   // StatusBadge).
   static const Color pass = Color(0xFF1E7A4C);
   static const Color passBg = Color(0xFFE4F1E8);
-  static const Color caution = Color(0xFFB5720A);
+  // Darkened from the original #B5720A (2026-09-03): the original failed
+  // WCAG AA for normal text (3.4-3.9:1 depending on background — the icon
+  // and large-text cases were fine, but StatusBadge's 14px label wasn't).
+  // This shade clears 4.5:1 against cautionBg/paper/card while staying
+  // unmistakably amber, not drifting toward brown or red.
+  static const Color caution = Color(0xFF976008);
   static const Color cautionBg = Color(0xFFFBEDD8);
   static const Color critical = Color(0xFFB23A2E);
   static const Color criticalBg = Color(0xFFF8E1DE);

@@ -5,6 +5,8 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
+import '../../shared/providers/venue_setup_providers.dart' show equipmentRepositoryProvider;
+import '../../shared/repositories/equipment_repository.dart';
 import '../../shared/repositories/task_schedule_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
 import '../../shared/repositories/task_template_repository.dart';
@@ -21,11 +23,18 @@ class OverdueSummaryEntry {
     required this.staffName,
     required this.taskTitle,
     this.overdueSince,
+    this.equipmentInstanceName,
   });
 
   final String staffName;
   final String taskTitle;
   final DateTime? overdueSince;
+  // Instance-name prominence (2026-09-06) — this list previously showed
+  // only the plain template title, so two overdue fridges were
+  // indistinguishable here (a real gap found while fixing the other four
+  // surfaces, not one of the originally-reported five, but the same
+  // underlying problem in the same EHO export document).
+  final String? equipmentInstanceName;
 }
 
 class OverdueSummaryService {
@@ -33,6 +42,7 @@ class OverdueSummaryService {
     this._scheduleRepository,
     this._userRepository,
     this._templateRepository,
+    this._equipmentRepository,
     TaskSubmissionRepository submissionRepository, [
     DueStatusService? dueStatusService,
   ]) : _dueStatusService = dueStatusService ??
@@ -41,6 +51,7 @@ class OverdueSummaryService {
   final TaskScheduleRepository _scheduleRepository;
   final UserRepository _userRepository;
   final TaskTemplateRepository _templateRepository;
+  final EquipmentRepository _equipmentRepository;
   final DueStatusService _dueStatusService;
 
   // Site-scoped using TaskSchedule's own real siteId column — every
@@ -62,6 +73,7 @@ class OverdueSummaryService {
     );
     final users = await _userRepository.getAll();
     final templates = await _templateRepository.getAllCurrentVersions();
+    final equipmentInstances = await _equipmentRepository.getAll();
 
     final entries = <OverdueSummaryEntry>[];
     for (final schedule in schedules) {
@@ -86,11 +98,22 @@ class OverdueSummaryService {
       }
       if (template == null) continue;
 
+      String? equipmentInstanceName;
+      if (schedule.equipmentInstanceId != null) {
+        for (final instance in equipmentInstances) {
+          if (instance.id == schedule.equipmentInstanceId) {
+            equipmentInstanceName = instance.name;
+            break;
+          }
+        }
+      }
+
       entries.add(
         OverdueSummaryEntry(
           staffName: staffName,
           taskTitle: template.title,
           overdueSince: result.overdueSince,
+          equipmentInstanceName: equipmentInstanceName,
         ),
       );
     }
@@ -103,6 +126,7 @@ final overdueSummaryServiceProvider = Provider<OverdueSummaryService>((ref) {
     ref.watch(taskScheduleRepositoryProvider),
     ref.watch(userRepositoryProvider),
     ref.watch(taskTemplateRepositoryProvider),
+    ref.watch(equipmentRepositoryProvider),
     ref.watch(taskSubmissionRepositoryProvider),
   );
 });

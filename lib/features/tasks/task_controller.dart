@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import '../../shared/models/notification_rule.dart';
+import '../../shared/models/problem_status_event.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/user.dart';
 import '../../shared/repositories/equipment_repository.dart';
 import '../../shared/repositories/notification_rule_repository.dart';
+import '../../shared/repositories/problem_register_repository.dart';
 import '../../shared/repositories/task_schedule_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
 import '../../shared/repositories/task_template_repository.dart';
@@ -23,7 +25,8 @@ class TaskController {
     this._currentUser,
     this._notificationRuleRepository,
     this._triggerNotificationRepository,
-    this._userRepository, [
+    this._userRepository,
+    this._problemRegisterRepository, [
     DueStatusService? dueStatusService,
   ]) : _dueStatusService = dueStatusService ??
             DueStatusService(_submissionRepository);
@@ -36,6 +39,7 @@ class TaskController {
   final NotificationRuleRepository _notificationRuleRepository;
   final TriggerNotificationRepository _triggerNotificationRepository;
   final UserRepository _userRepository;
+  final ProblemRegisterRepository _problemRegisterRepository;
   final DueStatusService _dueStatusService;
 
   int currentIndex = 0;
@@ -172,9 +176,9 @@ class TaskController {
   // reappears as due (or overdue) when the worker returns.
   Future<void> logRemainingAsNotCompleted() async {
     for (final task in tasks.sublist(currentIndex)) {
-      await _submissionRepository.submit(
+      final submissionId = await _submissionRepository.submit(
         TaskSubmission(
-          taskTitle: task.displayTitle,
+          taskTitle: task.title,
           status: 'NOT_COMPLETED',
           completedBy: '${_currentUser.name} (${_currentUser.jobTitle})',
           completedAt: DateTime.now(),
@@ -184,7 +188,16 @@ class TaskController {
           equipmentInstanceId: task.equipmentInstanceId,
           completedByUserId: _currentUser.id,
           siteId: _currentUser.siteId,
+          equipmentInstanceName: task.equipmentInstanceName,
         ),
+      );
+      // Fails & Problems Register (Part A2): an abandoned task is a
+      // problem that must never silently disappear, same as a FAIL —
+      // starts open, same as a plain fail with no corrective action.
+      await _problemRegisterRepository.initialize(
+        taskSubmissionId: submissionId,
+        status: ProblemStatus.open,
+        byUserId: _currentUser.id,
       );
     }
   }
@@ -201,7 +214,7 @@ class TaskController {
     return SessionStats(
       passCount: passCount,
       failCount: failed.length,
-      failedTaskTitles: failed.map((s) => s.taskTitle).toList(),
+      failedTaskTitles: failed.map((s) => s.displayTitle).toList(),
     );
   }
 
@@ -226,7 +239,7 @@ class TaskController {
   }) async {
     final submissionId = await _submissionRepository.submit(
       TaskSubmission(
-        taskTitle: task.displayTitle,
+        taskTitle: task.title,
         status: status,
         completedBy: '${_currentUser.name} (${_currentUser.jobTitle})',
         completedAt: DateTime.now(),
@@ -242,10 +255,22 @@ class TaskController {
         correctiveActionOutcome: correctiveActionOutcome,
         correctiveActionNote: correctiveActionNote,
         supplierId: supplierId,
+        equipmentInstanceName: task.equipmentInstanceName,
       ),
     );
 
     if (status == 'FAIL') {
+      // Fails & Problems Register (Part A1): "I fixed it" auto-resolves
+      // (but stays visible in the register — resolved is a filter, not a
+      // deletion); "Reported to manager," or a plain fail with no
+      // corrective action at all, starts open until a manager closes it.
+      await _problemRegisterRepository.initialize(
+        taskSubmissionId: submissionId,
+        status: correctiveActionOutcome == 'fixed'
+            ? ProblemStatus.resolved
+            : ProblemStatus.open,
+        byUserId: _currentUser.id,
+      );
       await _fireNotifications(
         taskSubmissionId: submissionId,
         task: task,
@@ -339,6 +364,7 @@ class TaskController {
           message: message,
           siteId: siteId,
           originTargetRoleTier: originTargetRoleTier,
+          equipmentInstanceName: task.equipmentInstanceName,
         );
       }
     }
@@ -382,6 +408,7 @@ class TaskController {
         message: message,
         siteId: siteId,
         originTargetRoleTier: null,
+        equipmentInstanceName: task.equipmentInstanceName,
       );
     }
   }

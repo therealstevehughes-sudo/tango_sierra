@@ -15,6 +15,11 @@ class TriggerNotification {
   // to do with acknowledgment; used only to decide escalation eligibility.
   final RoleTier? originTargetRoleTier;
   final DateTime? escalatedAt;
+  // Instance-name prominence (2026-09-06) — same denormalization as
+  // TaskSubmission.equipmentInstanceName, captured when this notification
+  // fires, so the alert banner can render it bold/leading rather than
+  // buried inside the plain `message` string.
+  final String? equipmentInstanceName;
 
   const TriggerNotification({
     required this.id,
@@ -28,5 +33,6 @@ class TriggerNotification {
     this.acknowledgedAt,
     this.originTargetRoleTier,
     this.escalatedAt,
+    this.equipmentInstanceName,
   });
 }

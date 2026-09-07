@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../shared/models/training_item.dart';
 import '../../shared/models/training_record.dart';
@@ -205,29 +206,31 @@ class _TrainingRecordsScreenState
         title: Text('Training Records — ${widget.staffMember.name}'),
       ),
       body: SafeArea(
-        child: records.isEmpty
-            ? const Center(child: Text('No training records yet.'))
-            : ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  ...current.map(_buildCurrentTile),
-                  if (supersededCount > 0) ...[
-                    const SizedBox(height: 8),
-                    Card(
-                      child: ExpansionTile(
-                        title: Text(
-                          'Full history ($supersededCount earlier record'
-                          '${supersededCount == 1 ? '' : 's'})',
+        child: ResponsiveContent(
+          child: records.isEmpty
+              ? const Center(child: Text('No training records yet.'))
+              : ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    ...current.map(_buildCurrentTile),
+                    if (supersededCount > 0) ...[
+                      const SizedBox(height: 8),
+                      Card(
+                        child: ExpansionTile(
+                          title: Text(
+                            'Full history ($supersededCount earlier record'
+                            '${supersededCount == 1 ? '' : 's'})',
+                          ),
+                          children: records
+                              .where((r) => !current.contains(r))
+                              .map(_buildHistoryTile)
+                              .toList(),
                         ),
-                        children: records
-                            .where((r) => !current.contains(r))
-                            .map(_buildHistoryTile)
-                            .toList(),
                       ),
-                    ),
+                    ],
                   ],
-                ],
-              ),
+                ),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addRecord,

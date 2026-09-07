@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/management_drawer.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/trigger_notification.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -142,9 +143,16 @@ class _TopScreenState extends ConsumerState<TopScreen> {
               builder: (context, snapshot) {
                 final notifications = snapshot.data ?? [];
                 if (notifications.isEmpty) return const SizedBox.shrink();
-                return _TriggerNotificationsBanner(
-                  notifications: notifications,
-                  onAcknowledge: triggerNotificationRepo.acknowledge,
+                // Responsive foundation: capped to the same width as
+                // DashboardBody below it, so the two don't visually
+                // mismatch on a wide screen. Safe to wrap here (unlike the
+                // Expanded content below) since this banner has no flex
+                // layout of its own to disrupt.
+                return ResponsiveContent(
+                  child: _TriggerNotificationsBanner(
+                    notifications: notifications,
+                    onAcknowledge: triggerNotificationRepo.acknowledge,
+                  ),
                 );
               },
             ),
@@ -211,6 +219,16 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Instance-name prominence (2026-09-06): same fix
+                        // as manager_screen.dart's identical banner.
+                        if (notification.equipmentInstanceName != null)
+                          Text(
+                            notification.equipmentInstanceName!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.teal,
+                            ),
+                          ),
                         Text(
                           notification.message,
                           style: isOverdue

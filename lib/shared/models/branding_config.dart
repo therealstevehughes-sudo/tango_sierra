@@ -14,6 +14,7 @@ class BrandingConfig {
   final String? contactEmail;
   final int setByUserId;
   final DateTime createdAt;
+  final String? logoPath;
 
   const BrandingConfig({
     required this.id,
@@ -27,5 +28,6 @@ class BrandingConfig {
     this.contactEmail,
     required this.setByUserId,
     required this.createdAt,
+    this.logoPath,
   });
 }

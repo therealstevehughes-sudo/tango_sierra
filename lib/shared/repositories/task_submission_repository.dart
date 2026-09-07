@@ -82,6 +82,8 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
             correctiveActionOutcome: Value(submission.correctiveActionOutcome),
             correctiveActionNote: Value(submission.correctiveActionNote),
             supplierId: Value(submission.supplierId),
+            problemStatus: Value(submission.problemStatus),
+            equipmentInstanceName: Value(submission.equipmentInstanceName),
           ),
         );
   }
@@ -319,6 +321,8 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
       correctiveActionOutcome: row.correctiveActionOutcome,
       correctiveActionNote: row.correctiveActionNote,
       supplierId: row.supplierId,
+      problemStatus: row.problemStatus,
+      equipmentInstanceName: row.equipmentInstanceName,
     );
   }
 }

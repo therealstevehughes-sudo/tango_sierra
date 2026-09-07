@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/task_preset.dart';
@@ -247,26 +248,28 @@ class _PresetManagementScreenState
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: ListView(
-            children: [
-              _buildVerificationBanner(),
-              const SizedBox(height: 12),
-              if (presets.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: Text('No presets yet.'),
-                )
-              else
-                ..._buildGroupedPresets(),
-              const Divider(),
-              if (!showCreateForm)
-                ElevatedButton(
-                  onPressed: () => setState(() => showCreateForm = true),
-                  child: const Text('Create Preset'),
-                )
-              else
-                _buildCreateForm(),
-            ],
+          child: ResponsiveContent(
+            child: ListView(
+              children: [
+                _buildVerificationBanner(),
+                const SizedBox(height: 12),
+                if (presets.isEmpty)
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16),
+                    child: Text('No presets yet.'),
+                  )
+                else
+                  ..._buildGroupedPresets(),
+                const Divider(),
+                if (!showCreateForm)
+                  ElevatedButton(
+                    onPressed: () => setState(() => showCreateForm = true),
+                    child: const Text('Create Preset'),
+                  )
+                else
+                  _buildCreateForm(),
+              ],
+            ),
           ),
         ),
       ),

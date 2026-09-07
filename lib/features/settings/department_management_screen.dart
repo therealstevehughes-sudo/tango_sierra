@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/management_drawer.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/department.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/department_providers.dart';
@@ -134,14 +135,16 @@ class _DepartmentManagementScreenState
       appBar: AppBar(title: const Text('Department Management')),
       drawer: const ManagementDrawer(title: 'Department Management'),
       body: SafeArea(
-        child: departments.isEmpty
-            ? const Center(child: Text('No departments added yet.'))
-            : ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: departments.length,
-                itemBuilder: (context, index) =>
-                    _buildDepartmentTile(departments[index]),
-              ),
+        child: ResponsiveContent(
+          child: departments.isEmpty
+              ? const Center(child: Text('No departments added yet.'))
+              : ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: departments.length,
+                  itemBuilder: (context, index) =>
+                      _buildDepartmentTile(departments[index]),
+                ),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addDepartment,

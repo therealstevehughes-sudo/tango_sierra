@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 
 import '../../core/storage/app_database.dart';
+import '../models/duplicate_equipment_name_exception.dart';
 import '../models/equipment.dart';
 import '../models/equipment_type.dart';
 
@@ -66,11 +67,14 @@ class DriftEquipmentRepository implements EquipmentRepository {
     int? areaId,
     required int siteId,
   }) async {
+    final trimmedName = name.trim();
+    await _checkNotDuplicate(siteId: siteId, name: trimmedName);
+
     final id = await _db
         .into(_db.equipmentInstances)
         .insert(
           EquipmentInstancesCompanion.insert(
-            name: name,
+            name: trimmedName,
             equipmentTypeId: equipmentTypeId,
             areaId: Value(areaId),
             siteId: Value(siteId),
@@ -78,7 +82,7 @@ class DriftEquipmentRepository implements EquipmentRepository {
         );
     return Equipment(
       id: id,
-      name: name,
+      name: trimmedName,
       equipmentTypeId: equipmentTypeId,
       areaId: areaId,
       siteId: siteId,
@@ -88,11 +92,48 @@ class DriftEquipmentRepository implements EquipmentRepository {
 
   @override
   Future<void> rename(int id, String newName) async {
+    final trimmedName = newName.trim();
+    final existing = await (_db.select(
+      _db.equipmentInstances,
+    )..where((e) => e.id.equals(id))).getSingle();
+
+    if (existing.siteId != null) {
+      await _checkNotDuplicate(
+        siteId: existing.siteId!,
+        name: trimmedName,
+        excludingId: id,
+      );
+    }
+
     await (_db.update(
       _db.equipmentInstances,
     )..where((e) => e.id.equals(id))).write(
-      EquipmentInstancesCompanion(name: Value(newName)),
+      EquipmentInstancesCompanion(name: Value(trimmedName)),
     );
+  }
+
+  // Same-venue uniqueness (2026-09-06) — case-insensitive and trimmed, so
+  // "fridge" and " Fridge " still count as the same collision a worker
+  // would actually be confused by. Scoped to one venue: a "Walk-in Fridge"
+  // at a different venue entirely isn't ambiguous to anyone who'd ever see
+  // both, so it isn't blocked here — and this scoping is also what keeps
+  // the check correct once multiple tenants share this backend (Phase B).
+  Future<void> _checkNotDuplicate({
+    required int siteId,
+    required String name,
+    int? excludingId,
+  }) async {
+    final query = _db.select(_db.equipmentInstances)
+      ..where((e) => e.siteId.equals(siteId));
+    final existingAtSite = await query.get();
+
+    final normalized = name.toLowerCase();
+    final collision = existingAtSite.any(
+      (e) => e.id != excludingId && e.name.trim().toLowerCase() == normalized,
+    );
+    if (collision) {
+      throw DuplicateEquipmentNameException(name);
+    }
   }
 
   @override

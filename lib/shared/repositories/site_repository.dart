@@ -6,6 +6,11 @@ import '../models/site.dart';
 abstract class SiteRepository {
   Future<List<Site>> getAll();
   Future<Site> getDefault();
+  // Branding inheritance (Part E): the branch home screen needs its own
+  // site's name specifically, not "the default site" — a regional/
+  // executive user's currentSiteProvider-style default would show the
+  // wrong venue's name for anyone not at the first-created site.
+  Future<Site?> getById(int id);
   Future<void> rename(int id, String newName);
   Future<Site> create({
     required String name,
@@ -40,6 +45,13 @@ class DriftSiteRepository implements SiteRepository {
       ..limit(1);
     final row = await query.getSingle();
     return _toModel(row);
+  }
+
+  @override
+  Future<Site?> getById(int id) async {
+    final query = _db.select(_db.sites)..where((s) => s.id.equals(id));
+    final row = await query.getSingleOrNull();
+    return row == null ? null : _toModel(row);
   }
 
   @override

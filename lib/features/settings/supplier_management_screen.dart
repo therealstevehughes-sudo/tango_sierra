@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/management_drawer.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/supplier_category.dart';
@@ -347,14 +348,16 @@ class _SupplierManagementScreenState
       appBar: AppBar(title: const Text('Supplier Management')),
       drawer: const ManagementDrawer(title: 'Supplier Management'),
       body: SafeArea(
-        child: suppliers.isEmpty
-            ? const Center(child: Text('No suppliers added yet.'))
-            : ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: suppliers.length,
-                itemBuilder: (context, index) =>
-                    _buildSupplierTile(suppliers[index]),
-              ),
+        child: ResponsiveContent(
+          child: suppliers.isEmpty
+              ? const Center(child: Text('No suppliers added yet.'))
+              : ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: suppliers.length,
+                  itemBuilder: (context, index) =>
+                      _buildSupplierTile(suppliers[index]),
+                ),
+        ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addSupplier,

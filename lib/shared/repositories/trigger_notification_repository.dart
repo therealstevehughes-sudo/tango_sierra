@@ -12,6 +12,7 @@ abstract class TriggerNotificationRepository {
     required String message,
     required int siteId,
     required RoleTier? originTargetRoleTier,
+    String? equipmentInstanceName,
   });
   Stream<List<TriggerNotification>> watchForUser(int userId);
   Future<List<TriggerNotification>> getAllUnacknowledged();
@@ -33,6 +34,7 @@ class DriftTriggerNotificationRepository
     required String message,
     required int siteId,
     required RoleTier? originTargetRoleTier,
+    String? equipmentInstanceName,
   }) async {
     final id = await _db
         .into(_db.triggerNotifications)
@@ -45,6 +47,7 @@ class DriftTriggerNotificationRepository
             siteId: siteId,
             createdAt: DateTime.now(),
             originTargetRoleTier: Value(originTargetRoleTier?.name),
+            equipmentInstanceName: Value(equipmentInstanceName),
           ),
         );
     final row = await (_db.select(
@@ -105,6 +108,7 @@ class DriftTriggerNotificationRepository
           ? null
           : RoleTier.values.byName(row.originTargetRoleTier!),
       escalatedAt: row.escalatedAt,
+      equipmentInstanceName: row.equipmentInstanceName,
     );
   }
 }

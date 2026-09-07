@@ -1,10 +1,16 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 import '../../app/theme/contrast.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/branding_config.dart';
 import '../../shared/models/user.dart';
@@ -42,7 +48,8 @@ class SettingsScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
       drawer: const ManagementDrawer(title: 'Settings'),
-      body: ListView(
+      body: ResponsiveContent(
+        child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           const SectionHeader(title: 'Personal'),
@@ -74,6 +81,7 @@ class SettingsScreen extends ConsumerWidget {
             _CompanyBrandingSection(currentUser: currentUser),
           ],
         ],
+      ),
       ),
     );
   }
@@ -121,6 +129,7 @@ class _CompanyBrandingSectionState
   BrandingConfig? _loadedConfig;
   bool _loaded = false;
   bool _saving = false;
+  String? _logoPath;
 
   @override
   void initState() {
@@ -158,8 +167,42 @@ class _CompanyBrandingSectionState
         if (_useCustomHex) {
           _customHexController.text = _toHex(current.primaryColorArgb);
         }
+        _logoPath = current.logoPath;
       }
     });
+  }
+
+  // Copies the picked file into this app's own local storage rather than
+  // referencing wherever the user originally picked it from (a Downloads
+  // folder, a USB drive, a network share) — that source location could be
+  // renamed, moved, or disconnected later, which would silently break the
+  // logo. Same reasoning as TaskSubmissions.photoPath's design intent.
+  Future<void> _pickLogo() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+    final pickedPath = result?.files.single.path;
+    if (pickedPath == null) return;
+
+    final docsDir = await getApplicationDocumentsDirectory();
+    final brandingDir = Directory(p.join(docsDir.path, 'branding'));
+    if (!await brandingDir.exists()) {
+      await brandingDir.create(recursive: true);
+    }
+
+    final extension = p.extension(pickedPath);
+    final destPath = p.join(
+      brandingDir.path,
+      'logo_${DateTime.now().millisecondsSinceEpoch}$extension',
+    );
+    await File(pickedPath).copy(destPath);
+
+    if (!mounted) return;
+    setState(() => _logoPath = destPath);
+  }
+
+  void _removeLogo() {
+    setState(() => _logoPath = null);
   }
 
   String _toHex(int argb) =>
@@ -199,6 +242,7 @@ class _CompanyBrandingSectionState
           ? null
           : _contactEmailController.text.trim(),
       setByUserId: widget.currentUser.id,
+      logoPath: _logoPath,
     );
 
     if (!mounted) return;
@@ -235,6 +279,43 @@ class _CompanyBrandingSectionState
           TextField(
             controller: _companyNameController,
             decoration: const InputDecoration(labelText: 'Company name'),
+          ),
+          const SizedBox(height: 16),
+          Text('Company logo', style: Theme.of(context).textTheme.labelLarge),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              if (_logoPath != null)
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.file(
+                    File(_logoPath!),
+                    width: 56,
+                    height: 56,
+                    fit: BoxFit.contain,
+                  ),
+                )
+              else
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Theme.of(context).dividerColor),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(Icons.image_outlined),
+                ),
+              const SizedBox(width: 12),
+              TextButton(
+                onPressed: _pickLogo,
+                child: Text(_logoPath == null ? 'Choose Logo' : 'Change Logo'),
+              ),
+              if (_logoPath != null)
+                TextButton(
+                  onPressed: _removeLogo,
+                  child: const Text('Remove'),
+                ),
+            ],
           ),
           const SizedBox(height: 12),
           Text('Brand colour', style: Theme.of(context).textTheme.labelLarge),

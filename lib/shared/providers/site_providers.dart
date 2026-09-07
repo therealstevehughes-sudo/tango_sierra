@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/legacy.dart';
 import '../models/site.dart';
 import '../repositories/organisation_repository.dart';
 import '../repositories/site_repository.dart';
+import 'auth_providers.dart' show currentUserProvider;
 import 'task_submission_providers.dart' show appDatabaseProvider;
 
 final organisationRepositoryProvider = Provider<OrganisationRepository>((
@@ -34,3 +35,16 @@ final currentSiteProvider = FutureProvider<Site>((ref) {
 // read (getAll()-style queries remain unfiltered by site) — see Sprint
 // 025's DECISIONS_LOG entry for the disclosed limitation.
 final activeSiteProvider = StateProvider<Site?>((ref) => null);
+
+// Branding inheritance (Part E) — the logged-in user's own site, for
+// showing "which branch is this" on the home screen. Deliberately
+// different from currentSiteProvider above (which always resolves to the
+// first-created site regardless of who's logged in) — a regional/
+// executive user's own siteId still points at wherever their own account
+// is homed, and that's the specific name this screen needs.
+final currentUserSiteProvider = FutureProvider<Site?>((ref) async {
+  final user = ref.watch(currentUserProvider);
+  if (user == null) return null;
+  final repository = ref.watch(siteRepositoryProvider);
+  return repository.getById(user.siteId);
+});

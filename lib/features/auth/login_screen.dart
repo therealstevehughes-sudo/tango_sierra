@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
@@ -98,7 +99,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: selectedUser == null
+          child: ResponsiveContent(
+            child: selectedUser == null
               ? staffAsync.when(
                   data: (staff) =>
                       _StaffList(staff: staff, onSelect: selectUser),
@@ -115,6 +117,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   onSubmit: submitPin,
                   onBack: backToStaffList,
                 ),
+          ),
         ),
       ),
     );

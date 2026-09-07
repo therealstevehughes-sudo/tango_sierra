@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/third_party_contact.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -124,26 +125,28 @@ class _ThirdPartyContactsScreenState
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (contacts.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Text('No contacts added yet.'),
-                  )
-                else
-                  ...contacts.map(_buildContactTile),
-                const Divider(),
-                if (!showForm)
-                  PrimaryActionButton(
-                    label: 'Add Contact',
-                    onPressed: () => setState(() => showForm = true),
-                  )
-                else
-                  _buildForm(),
-              ],
+          child: ResponsiveContent(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  if (contacts.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: Text('No contacts added yet.'),
+                    )
+                  else
+                    ...contacts.map(_buildContactTile),
+                  const Divider(),
+                  if (!showForm)
+                    PrimaryActionButton(
+                      label: 'Add Contact',
+                      onPressed: () => setState(() => showForm = true),
+                    )
+                  else
+                    _buildForm(),
+                ],
+              ),
             ),
           ),
         ),

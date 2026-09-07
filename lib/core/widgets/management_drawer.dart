@@ -6,6 +6,7 @@ import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/home/tier_home_screen.dart';
 import '../../features/notifications/notification_rules_screen.dart';
 import '../../features/onboarding/staff_assignment_screen.dart';
+import '../../features/problems/problems_register_screen.dart';
 import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/settings/staff_management_screen.dart';
@@ -213,6 +214,14 @@ class ManagementDrawer extends ConsumerWidget {
               leading: const Icon(Icons.insights),
               title: const Text('Dashboard'),
               onTap: () => _navigate(context, const DashboardScreen()),
+            ),
+          // Fails & Problems Register (Part A) — same floor as Dashboard:
+          // every leadership tier (supervisor and above), never base.
+          if (tier != null && atLeast(RoleTier.supervisor))
+            ListTile(
+              leading: const Icon(Icons.report_problem_outlined),
+              title: const Text('Fails & Problems Register'),
+              onTap: () => _navigate(context, const ProblemsRegisterScreen()),
             ),
           ListTile(
             leading: const Icon(Icons.settings),

@@ -50,6 +50,41 @@ class TaskSubmissions extends Table {
   // principle as the approval-status warning elsewhere in this feature.
   IntColumn get supplierId =>
       integer().nullable().references(Suppliers, #id)();
+  // Fails & Problems Register (Part A, 2026-09-03) — denormalized "current"
+  // status for fast filtering/display, same pattern as
+  // SessionSummaries.staffName. 'open'/'resolved', null for PASS rows where
+  // it doesn't apply. The real source of truth (who/when changed it, and
+  // full history) lives in ProblemStatusEvents below — this column is a
+  // read-optimization, never written to directly except by mirroring the
+  // latest event.
+  TextColumn get problemStatus => text().nullable()();
+  // Instance-name prominence (2026-09-06) — denormalized at submission
+  // time, same pattern as problemStatus above and SessionSummaries.
+  // staffName: `taskTitle` reverts to being just the plain template
+  // title; this column carries the specific equipment instance's name
+  // (captured as it was at submission time, not a live lookup — an
+  // instance can be renamed/retired later without rewriting history).
+  // Null for tasks with no linked equipment. Every display surface reads
+  // this separately from taskTitle so it can render the instance name
+  // bold/leading rather than as an indistinct suffix.
+  TextColumn get equipmentInstanceName => text().nullable()();
+}
+
+// Fails & Problems Register (Part A) — every open/resolved transition is
+// its own row here, never a silent in-place edit. Deliberately a real
+// audit trail (not just "current status + last-changed-by" columns on
+// TaskSubmissions) because a compliance register is exactly the kind of
+// thing that should be able to answer "who reopened this and when" later,
+// not just "what's the status now."
+@DataClassName('ProblemStatusEventEntity')
+class ProblemStatusEvents extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get taskSubmissionId =>
+      integer().references(TaskSubmissions, #id)();
+  TextColumn get status => text()(); // 'open' | 'resolved'
+  IntColumn get changedByUserId => integer().references(Users, #id)();
+  DateTimeColumn get changedAt => dateTime()();
+  TextColumn get note => text().nullable()();
 }
 
 @DataClassName('UserEntity')
@@ -361,6 +396,11 @@ class TriggerNotifications extends Table {
   // Set once this notification has triggered an escalation, so the
   // escalation sweep never double-escalates the same notification.
   DateTimeColumn get escalatedAt => dateTime().nullable()();
+  // Instance-name prominence (2026-09-06) — same denormalization as
+  // TaskSubmissions.equipmentInstanceName, captured at the moment this
+  // notification fires, so the alert banner can render it bold/leading
+  // instead of buried inside the plain `message` string.
+  TextColumn get equipmentInstanceName => text().nullable()();
 }
 
 @DataClassName('ThirdPartyContactEntity')
@@ -425,6 +465,13 @@ class BrandingConfigs extends Table {
   TextColumn get contactEmail => text().nullable()();
   IntColumn get setByUserId => integer().references(Users, #id)();
   DateTimeColumn get createdAt => dateTime()();
+  // Company logo (Part E, 2026-09-03) — a local file path, same pattern as
+  // TaskSubmissions.photoPath: the picked image is copied into this app's
+  // own local storage (not referenced from wherever the user originally
+  // picked it, which might be removable/temporary), and this column just
+  // points at that stable copy. Nullable — companies without a logo yet
+  // just show their name/accent colour, same as today.
+  TextColumn get logoPath => text().nullable()();
 }
 
 // A named "standard task set" (Sprint 026) — a manager-curated grouping of
@@ -601,13 +648,14 @@ class _LibraryPreset {
     TaskPresetVenueTypes,
     TaskTemplateVenueTypes,
     BrandingConfigs,
+    ProblemStatusEvents,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 32;
+  int get schemaVersion => 35;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -913,6 +961,29 @@ class AppDatabase extends _$AppDatabase {
         // "not yet synced," which UserRepository already treats as a
         // valid, expected state (falls back to local-only PIN check).
         await m.addColumn(users, users.supabaseUserId);
+      }
+      if (from < 33) {
+        // Company logo (Part E) — no backfill needed, null means "no logo
+        // set yet," same as every existing BrandingConfig row today.
+        await m.addColumn(brandingConfigs, brandingConfigs.logoPath);
+      }
+      if (from < 34) {
+        // Fails & Problems Register (Part A).
+        await m.addColumn(taskSubmissions, taskSubmissions.problemStatus);
+        await m.createTable(problemStatusEvents);
+        await _backfillProblemStatus();
+      }
+      if (from < 35) {
+        // Instance-name prominence — see the columns' own doc comments.
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.equipmentInstanceName,
+        );
+        await m.addColumn(
+          triggerNotifications,
+          triggerNotifications.equipmentInstanceName,
+        );
+        await _backfillEquipmentInstanceNames();
       }
     },
     beforeOpen: (details) async {
@@ -4693,6 +4764,98 @@ class AppDatabase extends _$AppDatabase {
     );
     // notificationRules is deliberately excluded — see that column's doc
     // comment. Pre-existing rows stay null (org-wide), not backfilled.
+  }
+
+  // Fails & Problems Register (Part A) — every pre-existing FAIL/
+  // NOT_COMPLETED row gets an initial status so the register's "never hide
+  // a fail" guarantee covers history too, not just submissions from today
+  // onward. A FAIL already marked 'fixed' backfills as resolved; everything
+  // else (a plain fail, "reported," or an abandoned NOT_COMPLETED task)
+  // backfills as open, matching what A1/A2 say the default should be for a
+  // fresh submission. The backfilled event is attributed to whoever
+  // completed the submission, since a 'fixed' correctiveActionOutcome was
+  // literally that same person's own action at the time — not a fabricated
+  // actor, just recording what already happened under its real status now.
+  Future<void> _backfillProblemStatus() async {
+    final rows = await (select(
+      taskSubmissions,
+    )..where((t) => t.status.isIn(const ['FAIL', 'NOT_COMPLETED']))).get();
+
+    for (final row in rows) {
+      final resolved = row.correctiveActionOutcome == 'fixed';
+      final status = resolved ? 'resolved' : 'open';
+
+      await (update(taskSubmissions)..where((t) => t.id.equals(row.id))).write(
+        TaskSubmissionsCompanion(problemStatus: Value(status)),
+      );
+
+      if (row.completedByUserId != null) {
+        await into(problemStatusEvents).insert(
+          ProblemStatusEventsCompanion.insert(
+            taskSubmissionId: row.id,
+            status: status,
+            changedByUserId: row.completedByUserId!,
+            changedAt: row.completedAt,
+          ),
+        );
+      }
+    }
+  }
+
+  // Instance-name prominence — every pre-existing submission/notification
+  // that has an equipment link gets equipmentInstanceName backfilled from
+  // that instance's CURRENT name (the best available source — this app
+  // never stored the name separately before now). taskTitle's old combined
+  // "Title — Instance" format is only stripped back to plain "Title" when
+  // it verifiably ends with that exact instance name; if the instance was
+  // renamed since, the old string is left alone rather than guessed at.
+  // This box has no real customer data yet (dev/test only, per the shared-
+  // box hard rule), which is what makes rewriting historical taskTitle
+  // text an acceptable one-time cleanup rather than an audit-trail risk.
+  Future<void> _backfillEquipmentInstanceNames() async {
+    final instances = await select(equipmentInstances).get();
+    final nameById = {for (final i in instances) i.id: i.name};
+
+    final submissionRows = await (select(
+      taskSubmissions,
+    )..where((t) => t.equipmentInstanceId.isNotNull())).get();
+
+    for (final row in submissionRows) {
+      final name = nameById[row.equipmentInstanceId];
+      if (name == null) continue;
+
+      final suffix = ' — $name';
+      final cleanedTitle = row.taskTitle.endsWith(suffix)
+          ? row.taskTitle.substring(0, row.taskTitle.length - suffix.length)
+          : row.taskTitle;
+
+      await (update(
+        taskSubmissions,
+      )..where((t) => t.id.equals(row.id))).write(
+        TaskSubmissionsCompanion(
+          taskTitle: Value(cleanedTitle),
+          equipmentInstanceName: Value(name),
+        ),
+      );
+    }
+
+    // Notifications reference their submission, not the equipment
+    // instance directly — join through it rather than re-deriving.
+    final notificationRows = await select(triggerNotifications).get();
+    final submissionById = {for (final s in submissionRows) s.id: s};
+
+    for (final row in notificationRows) {
+      final submission = submissionById[row.taskSubmissionId];
+      if (submission?.equipmentInstanceId == null) continue;
+      final name = nameById[submission!.equipmentInstanceId];
+      if (name == null) continue;
+
+      await (update(
+        triggerNotifications,
+      )..where((t) => t.id.equals(row.id))).write(
+        TriggerNotificationsCompanion(equipmentInstanceName: Value(name)),
+      );
+    }
   }
 
   // Safe to run while the app holds the live connection open — VACUUM INTO

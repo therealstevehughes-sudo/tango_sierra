@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/notification_rule.dart';
 import '../../shared/models/task_template.dart';
@@ -219,7 +220,14 @@ class _NotificationRulesScreenState
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
+          // Responsive foundation: wider than the 480 default — the
+          // quick-setup section below has a role-tier x task-template
+          // table that's already built to scroll horizontally rather than
+          // fit any fixed width, so a wider cap keeps that scrolling to a
+          // minimum while still capping the plain rule-list/form content.
+          child: ResponsiveContent(
+            maxWidth: 560,
+            child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -241,6 +249,7 @@ class _NotificationRulesScreenState
                 else
                   _buildForm(),
               ],
+            ),
             ),
           ),
         ),

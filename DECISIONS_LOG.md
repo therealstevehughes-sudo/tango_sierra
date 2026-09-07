@@ -61,6 +61,30 @@ DECISION: offline login is accepted as a real, known limitation now that PIN-che
 DECISION: PIN lockout is 5 wrong attempts -> 15-minute freeze, enforced entirely server-side (in the database function itself, not the app) specifically because a 4-digit PIN checked over a network is newly guessable (10,000 combinations) in a way the old local-only check never exposed. Verified directly, twice: locked out an account by calling the database function directly, and separately by calling the live function's real internet address directly (bypassing the app entirely) - both times, even the *correct* PIN was rejected while locked, proving the lockout is a hard gate the app can't be bypassed around.
 BUILT AND VERIFIED same day: real integration test (not a mock) on the actual Windows build, real network, real server - tap name, correct PIN, real session token comes back; wrong PIN correctly rejected; with the new backend-login switch left off, the existing local-only check keeps working exactly as before, untouched. Full detail, known gaps (SMTP not yet configured for real invite emails, no bulk staff-sync tool yet, no admin UI for linking a new leadership account to their local profile) in `BACKEND_INFRA.md`.
 
+## UX decisions + build sequencing (2026-09-06)
+Consolidating strategy into one place and locking a build sequence, so remaining work is built once in the right order rather than built then reworked. Foundation before decoration.
+
+AGREED BUILD SEQUENCE:
+- PHASE A: finish the responsive foundation (mid-way at time of writing - Step 1, the breakpoint system + login/home/task screen retrofit, is done; the remaining ~17 screens are not).
+- PHASE B: the multi-tenant + region backend foundation with RLS tenant isolation (the big one - many isolated companies on one backend, Organisation->Region->Site hierarchy, each tenant's data walled off).
+- PHASE C: new-client onboarding (as TENANT signup) + branded-per-branch home screen + the interactive org-builder/organogram - all built ON the Phase B structure, not before it.
+- PHASE D: UX polish - hybrid task view (carousel + grouped-by-heading overview), dual-mode task assignment (by-staff AND by-task). The visual timeline for task windows can come earlier since it's small/standalone.
+
+Explicit ordering rationale: Phase C's onboarding wizard and org-builder are TENANT-facing concepts and must be built against Phase B's real multi-tenant/Region schema, not against the current single-company assumption - building onboarding before the tenant/region backend exists would mean rebuilding it once Phase B lands.
+
+## Dedicated server - DEFERRED (2026-09-06)
+Purchasing the dedicated VenuRite server is deferred until the business bank account is set up. Phase B (multi-tenant/region/RLS foundation) is built and tested on the existing shared box in the meantime, since there's no real customer data yet - dev/test only.
+HARD RULE: no real company data goes on the shared box, ever. The move to the dedicated UK server happens before any real company goes live - a clean fresh build at that point, not a migration, matching the existing Phase 1 decision that a fresh build is simpler than migrating when there's no real data to preserve.
+
+## Master Status reconciliation (2026-09-06)
+A status summary from Steve's separate strategy advisor was checked line-by-line against this log and the actual codebase, to keep both pictures aligned. Confirmed accurate: app rename to VenuRite, the domain, everything in the "built" feature list (including exact counts - 63 equipment types, ~150 tasks across 21 segments, schemaVersion 34), Phase 1/2 backend status, Phase 3/B not started, Phase A responsive status (19/21 screens), the A->B->C->D build sequence, the dedicated-server-deferred hard rule, and that the researched legal limits (LAW/FSA/BEST) aren't yet professionally certified.
+
+New context from that summary, logged here since it wasn't previously written down anywhere in this repo:
+- DECISION: multi-country support means building the underlying MECHANISM now (the schema/logic doesn't hardcode UK-only assumptions), not shipping other countries' actual content - each new country's task library/legal limits needs its own local professional verification before real reliance there, same bar as the UK content already needs (see the legal-limits caveat above).
+- Reference: 11 strategy documents exist (PRD, MVP Scope, TRD, User Flow, Monetisation, Launch/Acquisition/Growth, Founder Term Sheet, Investment Term Sheet, Cap Table, Founder Strategy Note PRIVATE, Database Schema) - held in Steve's separate strategy chat, not this repo. Noting their existence for continuity; their content hasn't been seen or verified from here.
+
+One discrepancy flagged, not silently corrected: the advisor's summary states the dedicated-server spec as "IONOS VPS 8-16-480" (8 vCPU/16GB/480GB, reading the same vCore-RAM-storage convention as the existing shared box's "VPS 6-8-240"). What was actually advised in this chat was 4 vCPU / 16GB RAM / ~200-320GB - RAM matches, but vCPU and storage are both higher in the advisor's figure. Not corrected here since it may be a deliberate upgrade decided outside this chat - flagging so it's a conscious choice either way, not an uncaught mismatch.
+
 ## Data storage (Sprint 001)
 - Use drift for local persistence (relational, matches ARCHITECTURE_LOCK's entity list, type-safe, works with Riverpod streams)
 - Keep the flat TaskLogEntry shape for now, renamed/moved to shared/models/ as TaskSubmission — no TaskTemplate/TaskInstance split yet

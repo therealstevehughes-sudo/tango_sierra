@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/metric_chip.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -113,7 +114,11 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
             a.userName.toLowerCase().compareTo(b.userName.toLowerCase()),
       );
 
-    return SingleChildScrollView(
+    // Responsive foundation: wrapped here (not at each call site) since
+    // this widget is embedded directly in both DashboardScreen and
+    // TopScreen — one fix covers both.
+    return ResponsiveContent(
+      child: SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -199,6 +204,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
               ),
             ),
         ],
+      ),
       ),
     );
   }

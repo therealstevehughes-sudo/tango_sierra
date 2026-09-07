@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
 import '../../core/widgets/app_banner.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../shared/providers/auth_providers.dart';
 
 /// Leadership Access — the private entry point for regional/executive
@@ -107,10 +108,10 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 400),
-              child: Column(
+          child: ResponsiveContent(
+            maxWidth: 400,
+            alignment: Alignment.center,
+            child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -170,7 +171,6 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                   ),
                 ],
               ),
-            ),
           ),
         ),
       ),

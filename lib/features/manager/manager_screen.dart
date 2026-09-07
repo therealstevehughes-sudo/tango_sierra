@@ -7,6 +7,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/session_summary.dart';
 import '../../shared/models/task_submission.dart';
@@ -200,22 +201,48 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
       icon = Icons.cancel_outlined;
     }
 
-    final String label;
+    // Instance-name prominence (2026-09-06): the instance name (if any)
+    // renders bold within the line, wherever the task title itself would
+    // appear — never just folded into the plain string, so "which fridge"
+    // reads at a glance even in a dense scrolling log.
+    const boldInstance = TextStyle(fontWeight: FontWeight.w700);
+    List<InlineSpan> titleSpans() {
+      final instanceName = entry.equipmentInstanceName;
+      if (instanceName == null) return [TextSpan(text: entry.taskTitle)];
+      return [
+        TextSpan(text: instanceName, style: boldInstance),
+        TextSpan(text: ' — ${entry.taskTitle}'),
+      ];
+    }
+
+    final List<InlineSpan> spans;
     switch (groupBy) {
       case LogFilterAxis.date:
-        label = '${entry.completedBy} — ${entry.taskTitle}';
+        spans = [TextSpan(text: '${entry.completedBy} — '), ...titleSpans()];
         break;
       case LogFilterAxis.task:
-        label = '${entry.completedBy} (${formatDateTime(entry.completedAt)})';
+        spans = [
+          TextSpan(
+            text: '${entry.completedBy} (${formatDateTime(entry.completedAt)})',
+          ),
+        ];
         break;
       case LogFilterAxis.name:
       case null:
-        label = '${entry.taskTitle} (${formatDateTime(entry.completedAt)})';
+        spans = [
+          ...titleSpans(),
+          TextSpan(text: ' (${formatDateTime(entry.completedAt)})'),
+        ];
         break;
     }
     final statusSuffix = isNotCompleted
         ? ' — NOT COMPLETED (session ended)'
         : '';
+    spans.add(
+      TextSpan(
+        text: '$statusSuffix${entry.photoAttached ? ' 📷' : ''}',
+      ),
+    );
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
@@ -225,13 +252,15 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
           Icon(icon, size: 16, color: color),
           const SizedBox(width: 6),
           Expanded(
-            child: Text(
-              '$label$statusSuffix${entry.photoAttached ? ' 📷' : ''}',
-              style: TextStyle(
-                fontSize: 14,
-                height: 1.3,
-                color: isPass ? null : color,
-                fontWeight: isPass ? null : FontWeight.w600,
+            child: Text.rich(
+              TextSpan(
+                style: TextStyle(
+                  fontSize: 14,
+                  height: 1.3,
+                  color: isPass ? null : color,
+                  fontWeight: isPass ? null : FontWeight.w600,
+                ),
+                children: spans,
               ),
             ),
           ),
@@ -300,7 +329,8 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
           final groupedEntries = _groupEntries(entries, _filter.axis);
           final groupKeys = groupedEntries.keys.toList();
 
-          return ListView(
+          return ResponsiveContent(
+            child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
               if (currentUser != null)
@@ -350,6 +380,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
                     setState(() => _filter = selection),
               ),
             ],
+          ),
           );
         },
       ),
@@ -561,6 +592,18 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Instance-name prominence (2026-09-06): leads on
+                        // its own bold line, same principle as every other
+                        // surface — "which fridge" shouldn't require
+                        // reading the whole alert sentence.
+                        if (notification.equipmentInstanceName != null)
+                          Text(
+                            notification.equipmentInstanceName!,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.teal,
+                            ),
+                          ),
                         Text(
                           notification.message,
                           style: isOverdue

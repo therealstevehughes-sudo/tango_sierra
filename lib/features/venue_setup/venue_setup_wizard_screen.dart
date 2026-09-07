@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/area.dart';
+import '../../shared/models/duplicate_equipment_name_exception.dart';
 import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/job_role.dart';
@@ -117,18 +119,28 @@ class _VenueSetupWizardScreenState
 
     final site = await _resolveActiveSite();
     final repo = ref.read(equipmentRepositoryProvider);
-    final created = await repo.create(
-      name: name,
-      equipmentTypeId: selectedEquipmentTypeId!,
-      areaId: selectedAreaId,
-      siteId: site.id,
-    );
+    // Same-venue uniqueness (2026-09-06): a rejected duplicate is a real,
+    // expected outcome here, not an unhandled crash — the error message
+    // itself repeats the naming-guidance examples as a second nudge.
+    try {
+      final created = await repo.create(
+        name: name,
+        equipmentTypeId: selectedEquipmentTypeId!,
+        areaId: selectedAreaId,
+        siteId: site.id,
+      );
 
-    if (!mounted) return;
-    setState(() {
-      equipmentInstances = [...equipmentInstances, created];
-      equipmentNameController.clear();
-    });
+      if (!mounted) return;
+      setState(() {
+        equipmentInstances = [...equipmentInstances, created];
+        equipmentNameController.clear();
+      });
+    } on DuplicateEquipmentNameException catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message)));
+    }
   }
 
   Future<void> _addNewEquipmentType() async {
@@ -221,7 +233,15 @@ class _VenueSetupWizardScreenState
     }
 
     final repo = ref.read(equipmentRepositoryProvider);
-    await repo.rename(equipment.id, newName);
+    try {
+      await repo.rename(equipment.id, newName);
+    } on DuplicateEquipmentNameException catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message)));
+      return;
+    }
 
     if (!mounted) return;
     setState(() {
@@ -334,7 +354,8 @@ class _VenueSetupWizardScreenState
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
+          child: ResponsiveContent(
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(child: SingleChildScrollView(child: _buildStep())),
@@ -362,6 +383,7 @@ class _VenueSetupWizardScreenState
                 ],
               ),
             ],
+          ),
           ),
         ),
       ),
@@ -505,7 +527,15 @@ class _VenueSetupWizardScreenState
             Expanded(
               child: TextField(
                 controller: equipmentNameController,
-                decoration: const InputDecoration(labelText: 'Equipment name'),
+                // Naming guidance (2026-09-06): nudges toward a name that
+                // distinguishes this instance from any others of the same
+                // type ("Fridge 1/2" tells nobody which physical unit to
+                // check) — compliance-critical once a venue has 2+ of the
+                // same equipment.
+                decoration: const InputDecoration(
+                  labelText: 'Equipment name',
+                  hintText: 'e.g. Meat Walk-in, Dessert Fridge, Bar Fryer',
+                ),
               ),
             ),
             IconButton(

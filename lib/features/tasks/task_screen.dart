@@ -10,12 +10,14 @@ import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
+import '../../shared/providers/problem_register_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
@@ -91,6 +93,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       ref.read(notificationRuleRepositoryProvider),
       ref.read(triggerNotificationRepositoryProvider),
       ref.read(userRepositoryProvider),
+      ref.read(problemRegisterRepositoryProvider),
     );
     numberController.addListener(_onFormChanged);
     notesController.addListener(_onFormChanged);
@@ -487,7 +490,16 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         // the Spacer-pinned-to-bottom SUBMIT button is gone with it — it
         // now sits naturally after the last content block instead, same
         // pattern already used on the end-of-session summary screen.
-        child: SingleChildScrollView(
+        //
+        // Responsive foundation: wrapped in ResponsiveContent (wider than
+        // the 480 default — this screen's two-button PASS/FAIL row and
+        // fix-instructions card want more breathing room than a plain
+        // list/form does) so the form doesn't stretch edge-to-edge on a
+        // tablet-landscape or desktop window. The scroll view itself
+        // already protects narrow phone widths from overflowing.
+        child: ResponsiveContent(
+          maxWidth: 560,
+          child: SingleChildScrollView(
           child: Column(
             children: [
               // Visual/UX pass, Sub-sprint 3: task title + inputs grouped in
@@ -498,10 +510,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      task.displayTitle,
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
+                    _TaskTitleHeader(task: task),
                     if (task.isOverdue) ...[
                       const SizedBox(height: 8),
                       StatusBadge(
@@ -754,6 +763,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
             ],
           ),
         ),
+        ),
       ),
       ),
     );
@@ -787,17 +797,17 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       drawer: drawer,
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: SingleChildScrollView(
+        // Responsive foundation: same treatment as the main task body above.
+        child: ResponsiveContent(
+          maxWidth: 560,
+          child: SingleChildScrollView(
           child: Column(
             children: [
               AppCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      task.displayTitle,
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
+                    _TaskTitleHeader(task: task),
                     // A task can be both overdue (an earlier period was
                     // missed) and locked (today's window hasn't opened
                     // yet) at the same time — shown here too rather than
@@ -831,8 +841,42 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
             ],
           ),
         ),
+        ),
       ),
       ),
+    );
+  }
+}
+
+// Instance-name prominence (2026-09-06) — when a task is tied to a specific
+// piece of equipment, that instance's name leads as its own bold, accent-
+// coloured line above the task title, rather than trailing indistinctly
+// inside one plain string. Compliance-critical: with 2+ of the same
+// equipment type at a venue, this is the one piece of text that tells a
+// worker which physical unit they're looking at.
+class _TaskTitleHeader extends StatelessWidget {
+  const _TaskTitleHeader({required this.task});
+
+  final ResolvedTask task;
+
+  @override
+  Widget build(BuildContext context) {
+    final instanceName = task.equipmentInstanceName;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (instanceName != null) ...[
+          Text(
+            instanceName,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              color: AppColors.teal,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 2),
+        ],
+        Text(task.title, style: Theme.of(context).textTheme.headlineMedium),
+      ],
     );
   }
 }
@@ -880,6 +924,11 @@ class _ResultOption extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               label,
+              // Responsive foundation: on a narrow phone, half-width labels
+              // like "Reported to manager" can wrap to two lines — centered
+              // so that reads as intentional rather than accidentally
+              // left-aligned within a centered icon column.
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: selected ? color : AppColors.muted,
                 fontWeight: FontWeight.w700,
