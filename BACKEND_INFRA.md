@@ -365,6 +365,171 @@ existing seed users, since their PINs are already known plaintext.
   twice this session (`functions` container had stale blank keys baked in
   from before they were generated).
 
+## Phase B1 — claims + RLS foundation + cross-tenant proof (built and PROVEN 2026-09-08)
+
+Implements the design approved in DECISIONS_LOG.md's Phase B1 entry. Backend
+state checked directly before building (not assumed): only `staff_pins`
+existed server-side; no `organisations`/`regions`/`sites` tables at all.
+
+**Built (all real, permanent — kept, not thrown away after the proof):**
+- `public.organisations(id, name, created_at)`, `public.regions(id,
+  organisation_id, name, created_at)`, `public.sites(id, organisation_id,
+  region_id, name, created_at)`. No grants to anon/authenticated yet —
+  these become RLS-governed app-facing tables in a later cluster (B2+).
+- `verify_staff_pin()` extended to also return `organisation_id`/
+  `region_id`, resolved via a **live join through `sites`** at
+  verification time (`select organisation_id, region_id from sites where
+  id = rec.site_id`) — never cached on `staff_pins`, so a site's region/
+  org reassignment takes effect on the very next login. `pin-login` Edge
+  Function carries both into `app_metadata`.
+- `custom_access_token_hook(event jsonb)` — this stack's GoTrue is
+  v2.189.0, which supports the Custom Access Token Hook, so Leadership
+  claims are live too, not just PIN's: enabled via
+  `GOTRUE_HOOK_CUSTOM_ACCESS_TOKEN_ENABLED`/`_URI` in `docker-compose.yml`
+  (previously-commented lines already vendored, uncommented — see
+  `docker-compose.yml.bak-b1` on the server for the pre-change copy), auth
+  container force-recreated, confirmed healthy with no errors in logs. The
+  hook resolves `organisation_id`/`region_id` from the account's existing
+  `site_id` claim on every token mint/refresh — symmetric with PIN's live
+  join. `site_id` itself is still set once at provisioning (unchanged);
+  only org/region resolution is live.
+- `can_access_site(target_site_id int)` — the single reusable tier-aware
+  function, `SECURITY DEFINER` with pinned `search_path` (same defensive
+  pattern as `verify_staff_pin()`): branch tiers (base/supervisor/
+  venueManager) match own `site_id`; regional matches any site sharing the
+  caller's `region_id`; executive matches any site sharing the caller's
+  `organisation_id`. Any missing/null claim returns `false` (fail closed).
+  Reads claims via `current_setting('request.jwt.claims', true)`
+  (PostgREST's convention), not a caller-supplied parameter.
+
+**The proof — verbatim, run entirely via direct `curl` against
+`https://api.venurite.com/rest/v1/...`, never the app UI.** Throwaway
+tenants: Org A (id 1) with Region A1 (id 1: sites A1a=1, A1b=2) and Region
+A2 (id 2: site A2a=3); Org B (id 2) with Region B1 (id 3: site B1a=4). A
+throwaway table `isolation_proof_rows(id, site_id, note)`, one row per
+site.
+
+- **Test 0** — RLS enabled, **zero policies** yet. Branch token, SELECT:
+  ```
+  []
+  HTTP_STATUS:200
+  ```
+  Proves "enabled, no policy" locks out even a legitimate session —
+  fail-closed, not a false positive for "isolation working."
+
+  *(Policy added at this point: `for all using (can_access_site(site_id))
+  with check (can_access_site(site_id))`.)*
+
+- **Test 1** — branch token (site A1a) SELECT:
+  ```
+  [{"id":1,"site_id":1,"note":"row for site A1a"}]
+  HTTP_STATUS:200
+  ```
+- **Test 2** — branch token INSERT at its own site:
+  ```
+  [{"id":5,"site_id":1,"note":"branch_a1a legit insert"}]
+  HTTP_STATUS:201
+  ```
+- **Test 3** — branch token INSERT claiming `site_id=4` (tenant B):
+  ```
+  {"code":"42501","details":null,"hint":null,"message":"new row violates row-level security policy for table \"isolation_proof_rows\""}
+  HTTP_STATUS:403
+  ```
+  Admin follow-up query confirmed no hostile row landed (table still
+  showed exactly rows 1-5, id 4 untouched).
+- **Test 4** — branch token SELECT filtered directly by `site_id=eq.4`:
+  ```
+  []
+  HTTP_STATUS:200
+  ```
+- **Test 5** — branch token UPDATE targeting site B1a's row (id=4):
+  ```
+  []
+  HTTP_STATUS:200
+  ```
+  (0 rows affected — PostgREST returns an empty array, not an error, for
+  a no-op RLS-filtered update.) Admin follow-up confirmed row 4 unchanged.
+- **Test 6** — branch token DELETE targeting site B1a's row (id=4):
+  ```
+  HTTP_STATUS:204
+  ```
+  (0 rows affected.) Admin follow-up confirmed row 4 still present.
+- **Test 7** — regional token (Region A1) SELECT:
+  ```
+  [{"id":1,"site_id":1,...}, {"id":2,"site_id":2,...}, {"id":5,"site_id":1,...}]
+  HTTP_STATUS:200
+  ```
+  Exactly Region A1's two sites (1, 2) — not site 3 (Region A2, same org),
+  not site 4 (Org B).
+- **Test 8** — regional token write attempt at site A2a (id=3, same org,
+  sibling region):
+  ```
+  {"code":"42501",...}
+  HTTP_STATUS:403
+  ```
+- **Test 9** — executive token (Org A) SELECT:
+  ```
+  [{"id":1,...}, {"id":2,...}, {"id":3,...}, {"id":5,...}]
+  HTTP_STATUS:200
+  ```
+  All three of Org A's sites (1, 2, 3) — not site 4 (Org B).
+- **Test 10** — executive token write attempt at site B1a (id=4, different
+  org):
+  ```
+  {"code":"42501",...}
+  HTTP_STATUS:403
+  ```
+- **Test 11 — real production path**, not a hand-crafted token: created a
+  genuine throwaway Supabase auth user + `staff_pins` row (site A1a, PIN
+  4321), called the actual live `pin-login` function:
+  ```
+  {"access_token":"...","user":{"id":"...","role_tier":"base","site_id":1,
+   "local_user_id":9999,"organisation_id":1,"region_id":1}}
+  HTTP_STATUS:200
+  ```
+  Decoded the real token's `app_metadata`: `organisation_id: 1,
+  region_id: 1` — correct, resolved live by `verify_staff_pin()`. Using
+  that real token against the proof table reproduced Test 1 exactly
+  (rows 1 and 5 only). Wrong PIN correctly rejected:
+  `{"error":"incorrect pin"}` / `HTTP_STATUS:401`.
+- **Test 12 — negative control**, anon key only, no token:
+  ```
+  []
+  HTTP_STATUS:200
+  ```
+  No regression from today's pre-B1 baseline (already-documented 403/401
+  behavior on bare REST access).
+- **Trap tests — missing-claim fail-closed** (the null-claim trap):
+  a regional token with `region_id` claim omitted, and an executive token
+  with `organisation_id` claim omitted, both returned:
+  ```
+  []
+  HTTP_STATUS:200
+  ```
+  for both. Confirms `can_access_site()` treats a missing claim as no
+  access, never an accidental match.
+- **Test 13 — concurrency**: Org A's and Org B's branch tokens fired at
+  the same instant via backgrounded curl calls —
+  ```
+  branch_a1a: [{"id":1,...},{"id":5,...}]
+  branch_b1a: [{"id":4,"site_id":4,"note":"row for site B1a"}]
+  ```
+  Each saw only its own tenant's row, no cross-contamination through the
+  Supavisor connection pooler.
+
+**Cleanup, verified not assumed**: throwaway auth user deleted via the
+admin API (its `staff_pins` row disappeared automatically via the
+existing `ON DELETE CASCADE` — confirmed as a bonus, the cascade actually
+works); `isolation_proof_rows` dropped; all throwaway sites/regions/
+organisations deleted. Re-queried immediately after: 0 organisations, 0
+regions, 0 sites, `\dt public.*` shows only the real (now empty)
+`organisations`/`regions`/`sites` plus `staff_pins` — no residue.
+
+**Known gap carried forward**: the human security review of this RLS
+design (the gate logged in DECISIONS_LOG.md's "Phase B approved" entry)
+is still outstanding — required before any real second company's data
+goes live, separate from and in addition to this technical proof.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

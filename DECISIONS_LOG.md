@@ -93,6 +93,36 @@ Phase B plan (multi-tenant + Region schema + RLS foundation, proposed 2026-09-06
 NEW GATE, logged alongside the existing "dedicated server before real data" hard rule: before any REAL second company's data goes live on this backend, the RLS design gets one human security review by someone backend-experienced, in addition to the technical cross-tenant proof B1 builds. Not needed now (dev/test only) - a pre-real-multi-tenant-data gate, same spirit as the original "final security review before real shop data" commitment logged under "BACKEND - approach decided."
 Build order starting now: B0 (Region schema) first, then B1 (claims + RLS foundation + the cross-tenant proof) - B1 gets its own dedicated session, proof result shown before moving on to B2+.
 
+## B0 (Region schema) built and verified (2026-09-08)
+Local drift schema only, per the approved build order. `Regions` table added (`organisationId` FK, `name`, `createdAt`); `Sites` and `Users` each gained a nullable `regionId` FK - null means "attaches directly to the Organisation," the common case. One region per regional-tier manager (`User.regionId`), matching the approved scope limit. `RegionRepository` added, scoped to `getForOrganisation()` only (no global `getAll()`) to respect the tenant boundary even at this stage. schemaVersion 35 -> 36.
+Verified directly against the real local database, not assumed: rebuilt and relaunched the Windows app, then queried the actual sqlite file afterward - `PRAGMA user_version` = 36, `regions` table present, `sites.region_id`/`users.region_id` both present. `flutter analyze` clean project-wide. Committed alongside an unrelated pending Gradle memory-tuning fix (staging accident, corrected via amend so the commit message covers both - see git history).
+
+## B1 (claims + RLS foundation + cross-tenant proof) built and PROVEN (2026-09-08)
+The most important verification in the project to date - full detail (exact SQL, exact curl commands/results for all 14 tests) captured verbatim in BACKEND_INFRA.md's B1 section. Summary of what was built and proven:
+
+**Backend state found before building** (checked directly over SSH, not assumed): only `staff_pins` existed server-side. No `organisations`/`regions`/`sites` tables in Postgres at all - B0 was local-only. This confirmed B1 had to create the real tenant schema server-side, not just wire up policies.
+
+**Built**:
+- Real, permanent `organisations`/`regions`/`sites` tables in Postgres (per open decision #1 - built once, kept forever, not thrown away after the proof).
+- `verify_staff_pin()` extended to return `organisation_id`/`region_id`, resolved via a LIVE join through `sites` at verification time - never cached on `staff_pins`. `pin-login` Edge Function carries both into the token's `app_metadata`.
+- Leadership (GoTrue) claims made live too, not just PIN's: this GoTrue version (v2.189.0) supports the Custom Access Token Hook (per open decision #2's "check first" instruction), so a new `custom_access_token_hook()` Postgres function was wired in (`GOTRUE_HOOK_CUSTOM_ACCESS_TOKEN_ENABLED`/`_URI` in docker-compose.yml, auth container force-recreated, confirmed healthy with no errors) - it resolves `organisation_id`/`region_id` from the account's `site_id` on every token mint/refresh, symmetric with the PIN path.
+- `can_access_site(target_site_id)` - the single reusable tier-aware function: branch tiers (base/supervisor/venueManager) match own `site_id`; regional matches any site in the caller's `region_id`; executive matches any site in the caller's `organisation_id`. Any missing/null claim returns false (fail closed). `SECURITY DEFINER`, pinned `search_path`, same defensive pattern as `verify_staff_pin()`.
+
+**The proof** (throwaway Org A [Region A1: sites A1a/A1b; Region A2: site A2a] + throwaway Org B [Region B1: site B1a], all via direct curl against `https://api.venurite.com/rest/v1/...`, never the app UI) - all 14 tests + 2 extra trap sub-tests, ALL PASSED exactly as predicted:
+- Test 0 (fail-closed baseline, RLS on / zero policies): 0 rows for a legitimate token - confirms "enabled, no policy" locks everyone out rather than looking like success.
+- Tests 1-6 (branch tier, own site A1a): SELECT saw only its own row; legitimate INSERT succeeded; INSERT/UPDATE/DELETE targeting tenant B's site all rejected or affected 0 rows, confirmed via a separate admin query that nothing changed.
+- Tests 7-8 (regional tier, Region A1): SELECT saw exactly its own region's two sites, not the sibling region (A2a) in the SAME org, not tenant B; write to the sibling region rejected.
+- Tests 9-10 (executive tier, Org A): SELECT saw all three of its own org's sites, not tenant B; write to tenant B rejected.
+- Test 11 (real production path, not a hand-crafted token): created a genuine throwaway Supabase auth user + `staff_pins` row, called the actual live `pin-login` function, decoded the real returned token and confirmed correct `organisation_id`/`region_id`, then confirmed it reproduced test 1's result exactly; wrong PIN correctly rejected (401).
+- Test 12 (negative control, anon key only): 0 rows - no regression from today's baseline.
+- Trap tests (missing-claim fail-closed): a regional token with no `region_id` claim and an executive token with no `organisation_id` claim both returned 0 rows, not an accidental match.
+- Test 13 (concurrency): Org A's and Org B's tokens fired simultaneously - each got only its own tenant's data, no cross-contamination via the Supavisor connection pooler.
+**Cleanup verified, not assumed**: all throwaway rows/tables/auth user deleted afterward; re-queried immediately after - 0 orgs, 0 regions, 0 sites, the throwaway `staff_pins` row already gone via the existing `ON DELETE CASCADE` from deleting its auth user (a bonus confirmation the cascade works). Only the real, empty `organisations`/`regions`/`sites` schema remains.
+
+Per open decision #3: zero real/dev accounts (Steve Hughes, Alex Rivera) were touched or need to re-login - the proof used only throwaway data end to end.
+NEW GATE reminder: this technical proof is not the human security review the "Phase B approved" gate above still requires before any real second company's data goes live - that review is separate and still outstanding.
+Next: B2 (Foundation cluster) - syncing the real Organisation/Region/Site data into this now-proven structure, each subsequent cluster (B2-B5) built, proven with its own test, and committed individually per the agreed build order.
+
 ## Master Status reconciliation (2026-09-06)
 A status summary from Steve's separate strategy advisor was checked line-by-line against this log and the actual codebase, to keep both pictures aligned. Confirmed accurate: app rename to VenuRite, the domain, everything in the "built" feature list (including exact counts - 63 equipment types, ~150 tasks across 21 segments, schemaVersion 34), Phase 1/2 backend status, Phase 3/B not started, Phase A responsive status (19/21 screens), the A->B->C->D build sequence, the dedicated-server-deferred hard rule, and that the researched legal limits (LAW/FSA/BEST) aren't yet professionally certified.
 
