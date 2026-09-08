@@ -58,6 +58,9 @@ class User {
   // assigned. Distinct from jobRole ("what you do") and roleTier ("how much
   // you can see/escalate to") — this is "which part of the venue."
   final int? departmentId;
+  // Phase B0 — set only for regional-tier accounts: which one region they
+  // oversee (one region per manager). Null for every other tier.
+  final int? regionId;
 
   const User({
     required this.id,
@@ -71,6 +74,7 @@ class User {
     this.deactivatedAt,
     this.deactivatedByUserId,
     this.departmentId,
+    this.regionId,
   });
 
   // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — needed
@@ -90,6 +94,7 @@ class User {
       deactivatedAt: deactivatedAt,
       deactivatedByUserId: deactivatedByUserId,
       departmentId: departmentId,
+      regionId: regionId,
     );
   }
 }

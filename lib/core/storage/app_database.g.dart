@@ -443,6 +443,312 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
   }
 }
 
+class $RegionsTable extends Regions
+    with TableInfo<$RegionsTable, RegionEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RegionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _organisationIdMeta = const VerificationMeta(
+    'organisationId',
+  );
+  @override
+  late final GeneratedColumn<int> organisationId = GeneratedColumn<int>(
+    'organisation_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES organisations (id)',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, organisationId, name, createdAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'regions';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<RegionEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('organisation_id')) {
+      context.handle(
+        _organisationIdMeta,
+        organisationId.isAcceptableOrUnknown(
+          data['organisation_id']!,
+          _organisationIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_organisationIdMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  RegionEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RegionEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      organisationId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}organisation_id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $RegionsTable createAlias(String alias) {
+    return $RegionsTable(attachedDatabase, alias);
+  }
+}
+
+class RegionEntity extends DataClass implements Insertable<RegionEntity> {
+  final int id;
+  final int organisationId;
+  final String name;
+  final DateTime createdAt;
+  const RegionEntity({
+    required this.id,
+    required this.organisationId,
+    required this.name,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['organisation_id'] = Variable<int>(organisationId);
+    map['name'] = Variable<String>(name);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  RegionsCompanion toCompanion(bool nullToAbsent) {
+    return RegionsCompanion(
+      id: Value(id),
+      organisationId: Value(organisationId),
+      name: Value(name),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory RegionEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RegionEntity(
+      id: serializer.fromJson<int>(json['id']),
+      organisationId: serializer.fromJson<int>(json['organisationId']),
+      name: serializer.fromJson<String>(json['name']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'organisationId': serializer.toJson<int>(organisationId),
+      'name': serializer.toJson<String>(name),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  RegionEntity copyWith({
+    int? id,
+    int? organisationId,
+    String? name,
+    DateTime? createdAt,
+  }) => RegionEntity(
+    id: id ?? this.id,
+    organisationId: organisationId ?? this.organisationId,
+    name: name ?? this.name,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  RegionEntity copyWithCompanion(RegionsCompanion data) {
+    return RegionEntity(
+      id: data.id.present ? data.id.value : this.id,
+      organisationId: data.organisationId.present
+          ? data.organisationId.value
+          : this.organisationId,
+      name: data.name.present ? data.name.value : this.name,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RegionEntity(')
+          ..write('id: $id, ')
+          ..write('organisationId: $organisationId, ')
+          ..write('name: $name, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, organisationId, name, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RegionEntity &&
+          other.id == this.id &&
+          other.organisationId == this.organisationId &&
+          other.name == this.name &&
+          other.createdAt == this.createdAt);
+}
+
+class RegionsCompanion extends UpdateCompanion<RegionEntity> {
+  final Value<int> id;
+  final Value<int> organisationId;
+  final Value<String> name;
+  final Value<DateTime> createdAt;
+  const RegionsCompanion({
+    this.id = const Value.absent(),
+    this.organisationId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  RegionsCompanion.insert({
+    this.id = const Value.absent(),
+    required int organisationId,
+    required String name,
+    required DateTime createdAt,
+  }) : organisationId = Value(organisationId),
+       name = Value(name),
+       createdAt = Value(createdAt);
+  static Insertable<RegionEntity> custom({
+    Expression<int>? id,
+    Expression<int>? organisationId,
+    Expression<String>? name,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (organisationId != null) 'organisation_id': organisationId,
+      if (name != null) 'name': name,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  RegionsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? organisationId,
+    Value<String>? name,
+    Value<DateTime>? createdAt,
+  }) {
+    return RegionsCompanion(
+      id: id ?? this.id,
+      organisationId: organisationId ?? this.organisationId,
+      name: name ?? this.name,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (organisationId.present) {
+      map['organisation_id'] = Variable<int>(organisationId.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RegionsCompanion(')
+          ..write('id: $id, ')
+          ..write('organisationId: $organisationId, ')
+          ..write('name: $name, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $SitesTable extends Sites with TableInfo<$SitesTable, SiteEntity> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -506,6 +812,20 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, SiteEntity> {
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _regionIdMeta = const VerificationMeta(
+    'regionId',
+  );
+  @override
+  late final GeneratedColumn<int> regionId = GeneratedColumn<int>(
+    'region_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES regions (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -513,6 +833,7 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, SiteEntity> {
     name,
     address,
     createdAt,
+    regionId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -562,6 +883,12 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, SiteEntity> {
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('region_id')) {
+      context.handle(
+        _regionIdMeta,
+        regionId.isAcceptableOrUnknown(data['region_id']!, _regionIdMeta),
+      );
+    }
     return context;
   }
 
@@ -591,6 +918,10 @@ class $SitesTable extends Sites with TableInfo<$SitesTable, SiteEntity> {
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      regionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}region_id'],
+      ),
     );
   }
 
@@ -606,12 +937,14 @@ class SiteEntity extends DataClass implements Insertable<SiteEntity> {
   final String name;
   final String? address;
   final DateTime createdAt;
+  final int? regionId;
   const SiteEntity({
     required this.id,
     required this.organisationId,
     required this.name,
     this.address,
     required this.createdAt,
+    this.regionId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -623,6 +956,9 @@ class SiteEntity extends DataClass implements Insertable<SiteEntity> {
       map['address'] = Variable<String>(address);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || regionId != null) {
+      map['region_id'] = Variable<int>(regionId);
+    }
     return map;
   }
 
@@ -635,6 +971,9 @@ class SiteEntity extends DataClass implements Insertable<SiteEntity> {
           ? const Value.absent()
           : Value(address),
       createdAt: Value(createdAt),
+      regionId: regionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(regionId),
     );
   }
 
@@ -649,6 +988,7 @@ class SiteEntity extends DataClass implements Insertable<SiteEntity> {
       name: serializer.fromJson<String>(json['name']),
       address: serializer.fromJson<String?>(json['address']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      regionId: serializer.fromJson<int?>(json['regionId']),
     );
   }
   @override
@@ -660,6 +1000,7 @@ class SiteEntity extends DataClass implements Insertable<SiteEntity> {
       'name': serializer.toJson<String>(name),
       'address': serializer.toJson<String?>(address),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'regionId': serializer.toJson<int?>(regionId),
     };
   }
 
@@ -669,12 +1010,14 @@ class SiteEntity extends DataClass implements Insertable<SiteEntity> {
     String? name,
     Value<String?> address = const Value.absent(),
     DateTime? createdAt,
+    Value<int?> regionId = const Value.absent(),
   }) => SiteEntity(
     id: id ?? this.id,
     organisationId: organisationId ?? this.organisationId,
     name: name ?? this.name,
     address: address.present ? address.value : this.address,
     createdAt: createdAt ?? this.createdAt,
+    regionId: regionId.present ? regionId.value : this.regionId,
   );
   SiteEntity copyWithCompanion(SitesCompanion data) {
     return SiteEntity(
@@ -685,6 +1028,7 @@ class SiteEntity extends DataClass implements Insertable<SiteEntity> {
       name: data.name.present ? data.name.value : this.name,
       address: data.address.present ? data.address.value : this.address,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      regionId: data.regionId.present ? data.regionId.value : this.regionId,
     );
   }
 
@@ -695,13 +1039,15 @@ class SiteEntity extends DataClass implements Insertable<SiteEntity> {
           ..write('organisationId: $organisationId, ')
           ..write('name: $name, ')
           ..write('address: $address, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('regionId: $regionId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, organisationId, name, address, createdAt);
+  int get hashCode =>
+      Object.hash(id, organisationId, name, address, createdAt, regionId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -710,7 +1056,8 @@ class SiteEntity extends DataClass implements Insertable<SiteEntity> {
           other.organisationId == this.organisationId &&
           other.name == this.name &&
           other.address == this.address &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.regionId == this.regionId);
 }
 
 class SitesCompanion extends UpdateCompanion<SiteEntity> {
@@ -719,12 +1066,14 @@ class SitesCompanion extends UpdateCompanion<SiteEntity> {
   final Value<String> name;
   final Value<String?> address;
   final Value<DateTime> createdAt;
+  final Value<int?> regionId;
   const SitesCompanion({
     this.id = const Value.absent(),
     this.organisationId = const Value.absent(),
     this.name = const Value.absent(),
     this.address = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.regionId = const Value.absent(),
   });
   SitesCompanion.insert({
     this.id = const Value.absent(),
@@ -732,6 +1081,7 @@ class SitesCompanion extends UpdateCompanion<SiteEntity> {
     required String name,
     this.address = const Value.absent(),
     required DateTime createdAt,
+    this.regionId = const Value.absent(),
   }) : organisationId = Value(organisationId),
        name = Value(name),
        createdAt = Value(createdAt);
@@ -741,6 +1091,7 @@ class SitesCompanion extends UpdateCompanion<SiteEntity> {
     Expression<String>? name,
     Expression<String>? address,
     Expression<DateTime>? createdAt,
+    Expression<int>? regionId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -748,6 +1099,7 @@ class SitesCompanion extends UpdateCompanion<SiteEntity> {
       if (name != null) 'name': name,
       if (address != null) 'address': address,
       if (createdAt != null) 'created_at': createdAt,
+      if (regionId != null) 'region_id': regionId,
     });
   }
 
@@ -757,6 +1109,7 @@ class SitesCompanion extends UpdateCompanion<SiteEntity> {
     Value<String>? name,
     Value<String?>? address,
     Value<DateTime>? createdAt,
+    Value<int?>? regionId,
   }) {
     return SitesCompanion(
       id: id ?? this.id,
@@ -764,6 +1117,7 @@ class SitesCompanion extends UpdateCompanion<SiteEntity> {
       name: name ?? this.name,
       address: address ?? this.address,
       createdAt: createdAt ?? this.createdAt,
+      regionId: regionId ?? this.regionId,
     );
   }
 
@@ -785,6 +1139,9 @@ class SitesCompanion extends UpdateCompanion<SiteEntity> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (regionId.present) {
+      map['region_id'] = Variable<int>(regionId.value);
+    }
     return map;
   }
 
@@ -795,7 +1152,8 @@ class SitesCompanion extends UpdateCompanion<SiteEntity> {
           ..write('organisationId: $organisationId, ')
           ..write('name: $name, ')
           ..write('address: $address, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('regionId: $regionId')
           ..write(')'))
         .toString();
   }
@@ -1979,6 +2337,20 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _regionIdMeta = const VerificationMeta(
+    'regionId',
+  );
+  @override
+  late final GeneratedColumn<int> regionId = GeneratedColumn<int>(
+    'region_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES regions (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1995,6 +2367,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     jobRole,
     departmentId,
     supabaseUserId,
+    regionId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2114,6 +2487,12 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         ),
       );
     }
+    if (data.containsKey('region_id')) {
+      context.handle(
+        _regionIdMeta,
+        regionId.isAcceptableOrUnknown(data['region_id']!, _regionIdMeta),
+      );
+    }
     return context;
   }
 
@@ -2179,6 +2558,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         DriftSqlType.string,
         data['${effectivePrefix}supabase_user_id'],
       ),
+      regionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}region_id'],
+      ),
     );
   }
 
@@ -2203,6 +2586,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final String? jobRole;
   final int? departmentId;
   final String? supabaseUserId;
+  final int? regionId;
   const UserEntity({
     required this.id,
     required this.name,
@@ -2218,6 +2602,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     this.jobRole,
     this.departmentId,
     this.supabaseUserId,
+    this.regionId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2250,6 +2635,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     if (!nullToAbsent || supabaseUserId != null) {
       map['supabase_user_id'] = Variable<String>(supabaseUserId);
     }
+    if (!nullToAbsent || regionId != null) {
+      map['region_id'] = Variable<int>(regionId);
+    }
     return map;
   }
 
@@ -2281,6 +2669,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       supabaseUserId: supabaseUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(supabaseUserId),
+      regionId: regionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(regionId),
     );
   }
 
@@ -2308,6 +2699,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       jobRole: serializer.fromJson<String?>(json['jobRole']),
       departmentId: serializer.fromJson<int?>(json['departmentId']),
       supabaseUserId: serializer.fromJson<String?>(json['supabaseUserId']),
+      regionId: serializer.fromJson<int?>(json['regionId']),
     );
   }
   @override
@@ -2330,6 +2722,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'jobRole': serializer.toJson<String?>(jobRole),
       'departmentId': serializer.toJson<int?>(departmentId),
       'supabaseUserId': serializer.toJson<String?>(supabaseUserId),
+      'regionId': serializer.toJson<int?>(regionId),
     };
   }
 
@@ -2348,6 +2741,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     Value<String?> jobRole = const Value.absent(),
     Value<int?> departmentId = const Value.absent(),
     Value<String?> supabaseUserId = const Value.absent(),
+    Value<int?> regionId = const Value.absent(),
   }) => UserEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -2370,6 +2764,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     supabaseUserId: supabaseUserId.present
         ? supabaseUserId.value
         : this.supabaseUserId,
+    regionId: regionId.present ? regionId.value : this.regionId,
   );
   UserEntity copyWithCompanion(UsersCompanion data) {
     return UserEntity(
@@ -2397,6 +2792,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       supabaseUserId: data.supabaseUserId.present
           ? data.supabaseUserId.value
           : this.supabaseUserId,
+      regionId: data.regionId.present ? data.regionId.value : this.regionId,
     );
   }
 
@@ -2416,7 +2812,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('deactivatedByUserId: $deactivatedByUserId, ')
           ..write('jobRole: $jobRole, ')
           ..write('departmentId: $departmentId, ')
-          ..write('supabaseUserId: $supabaseUserId')
+          ..write('supabaseUserId: $supabaseUserId, ')
+          ..write('regionId: $regionId')
           ..write(')'))
         .toString();
   }
@@ -2437,6 +2834,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     jobRole,
     departmentId,
     supabaseUserId,
+    regionId,
   );
   @override
   bool operator ==(Object other) =>
@@ -2455,7 +2853,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.deactivatedByUserId == this.deactivatedByUserId &&
           other.jobRole == this.jobRole &&
           other.departmentId == this.departmentId &&
-          other.supabaseUserId == this.supabaseUserId);
+          other.supabaseUserId == this.supabaseUserId &&
+          other.regionId == this.regionId);
 }
 
 class UsersCompanion extends UpdateCompanion<UserEntity> {
@@ -2473,6 +2872,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   final Value<String?> jobRole;
   final Value<int?> departmentId;
   final Value<String?> supabaseUserId;
+  final Value<int?> regionId;
   const UsersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -2488,6 +2888,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.jobRole = const Value.absent(),
     this.departmentId = const Value.absent(),
     this.supabaseUserId = const Value.absent(),
+    this.regionId = const Value.absent(),
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
@@ -2504,6 +2905,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.jobRole = const Value.absent(),
     this.departmentId = const Value.absent(),
     this.supabaseUserId = const Value.absent(),
+    this.regionId = const Value.absent(),
   }) : name = Value(name),
        jobTitle = Value(jobTitle),
        roleTier = Value(roleTier),
@@ -2524,6 +2926,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Expression<String>? jobRole,
     Expression<int>? departmentId,
     Expression<String>? supabaseUserId,
+    Expression<int>? regionId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2542,6 +2945,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       if (jobRole != null) 'job_role': jobRole,
       if (departmentId != null) 'department_id': departmentId,
       if (supabaseUserId != null) 'supabase_user_id': supabaseUserId,
+      if (regionId != null) 'region_id': regionId,
     });
   }
 
@@ -2560,6 +2964,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Value<String?>? jobRole,
     Value<int?>? departmentId,
     Value<String?>? supabaseUserId,
+    Value<int?>? regionId,
   }) {
     return UsersCompanion(
       id: id ?? this.id,
@@ -2577,6 +2982,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       jobRole: jobRole ?? this.jobRole,
       departmentId: departmentId ?? this.departmentId,
       supabaseUserId: supabaseUserId ?? this.supabaseUserId,
+      regionId: regionId ?? this.regionId,
     );
   }
 
@@ -2627,6 +3033,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     if (supabaseUserId.present) {
       map['supabase_user_id'] = Variable<String>(supabaseUserId.value);
     }
+    if (regionId.present) {
+      map['region_id'] = Variable<int>(regionId.value);
+    }
     return map;
   }
 
@@ -2646,7 +3055,8 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('deactivatedByUserId: $deactivatedByUserId, ')
           ..write('jobRole: $jobRole, ')
           ..write('departmentId: $departmentId, ')
-          ..write('supabaseUserId: $supabaseUserId')
+          ..write('supabaseUserId: $supabaseUserId, ')
+          ..write('regionId: $regionId')
           ..write(')'))
         .toString();
   }
@@ -14609,6 +15019,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $EquipmentTypesTable equipmentTypes = $EquipmentTypesTable(this);
   late final $OrganisationsTable organisations = $OrganisationsTable(this);
+  late final $RegionsTable regions = $RegionsTable(this);
   late final $SitesTable sites = $SitesTable(this);
   late final $AreasTable areas = $AreasTable(this);
   late final $EquipmentInstancesTable equipmentInstances =
@@ -14661,6 +15072,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     equipmentTypes,
     organisations,
+    regions,
     sites,
     areas,
     equipmentInstances,
@@ -15256,6 +15668,24 @@ final class $$OrganisationsTableReferences
     super.$_typedResult,
   );
 
+  static MultiTypedResultKey<$RegionsTable, List<RegionEntity>>
+  _regionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.regions,
+    aliasName: 'organisations__id__regions__organisation_id',
+  );
+
+  $$RegionsTableProcessedTableManager get regionsRefs {
+    final manager = $$RegionsTableTableManager(
+      $_db,
+      $_db.regions,
+    ).filter((f) => f.organisationId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_regionsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<$SitesTable, List<SiteEntity>> _sitesRefsTable(
     _$AppDatabase db,
   ) => MultiTypedResultKey.fromTable(
@@ -15319,6 +15749,31 @@ class $$OrganisationsTableFilterComposer
     column: $table.createdAt,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> regionsRefs(
+    Expression<bool> Function($$RegionsTableFilterComposer f) f,
+  ) {
+    final $$RegionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.regions,
+      getReferencedColumn: (t) => t.organisationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RegionsTableFilterComposer(
+            $db: $db,
+            $table: $db.regions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 
   Expression<bool> sitesRefs(
     Expression<bool> Function($$SitesTableFilterComposer f) f,
@@ -15414,6 +15869,31 @@ class $$OrganisationsTableAnnotationComposer
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
+  Expression<T> regionsRefs<T extends Object>(
+    Expression<T> Function($$RegionsTableAnnotationComposer a) f,
+  ) {
+    final $$RegionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.regions,
+      getReferencedColumn: (t) => t.organisationId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RegionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.regions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> sitesRefs<T extends Object>(
     Expression<T> Function($$SitesTableAnnotationComposer a) f,
   ) {
@@ -15478,7 +15958,11 @@ class $$OrganisationsTableTableManager
           $$OrganisationsTableUpdateCompanionBuilder,
           (OrganisationEntity, $$OrganisationsTableReferences),
           OrganisationEntity,
-          PrefetchHooks Function({bool sitesRefs, bool brandingConfigsRefs})
+          PrefetchHooks Function({
+            bool regionsRefs,
+            bool sitesRefs,
+            bool brandingConfigsRefs,
+          })
         > {
   $$OrganisationsTableTableManager(_$AppDatabase db, $OrganisationsTable table)
     : super(
@@ -15520,16 +16004,42 @@ class $$OrganisationsTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({sitesRefs = false, brandingConfigsRefs = false}) {
+              ({
+                regionsRefs = false,
+                sitesRefs = false,
+                brandingConfigsRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
+                    if (regionsRefs) db.regions,
                     if (sitesRefs) db.sites,
                     if (brandingConfigsRefs) db.brandingConfigs,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
                     return [
+                      if (regionsRefs)
+                        await $_getPrefetchedData<
+                          OrganisationEntity,
+                          $OrganisationsTable,
+                          RegionEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$OrganisationsTableReferences
+                              ._regionsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$OrganisationsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).regionsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.organisationId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                       if (sitesRefs)
                         await $_getPrefetchedData<
                           OrganisationEntity,
@@ -15592,7 +16102,489 @@ typedef $$OrganisationsTableProcessedTableManager =
       $$OrganisationsTableUpdateCompanionBuilder,
       (OrganisationEntity, $$OrganisationsTableReferences),
       OrganisationEntity,
-      PrefetchHooks Function({bool sitesRefs, bool brandingConfigsRefs})
+      PrefetchHooks Function({
+        bool regionsRefs,
+        bool sitesRefs,
+        bool brandingConfigsRefs,
+      })
+    >;
+typedef $$RegionsTableCreateCompanionBuilder =
+    RegionsCompanion Function({
+      Value<int> id,
+      required int organisationId,
+      required String name,
+      required DateTime createdAt,
+    });
+typedef $$RegionsTableUpdateCompanionBuilder =
+    RegionsCompanion Function({
+      Value<int> id,
+      Value<int> organisationId,
+      Value<String> name,
+      Value<DateTime> createdAt,
+    });
+
+final class $$RegionsTableReferences
+    extends BaseReferences<_$AppDatabase, $RegionsTable, RegionEntity> {
+  $$RegionsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $OrganisationsTable _organisationIdTable(_$AppDatabase db) => db
+      .organisations
+      .createAlias('regions__organisation_id__organisations__id');
+
+  $$OrganisationsTableProcessedTableManager get organisationId {
+    final $_column = $_itemColumn<int>('organisation_id')!;
+
+    final manager = $$OrganisationsTableTableManager(
+      $_db,
+      $_db.organisations,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_organisationIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$SitesTable, List<SiteEntity>> _sitesRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.sites,
+    aliasName: 'regions__id__sites__region_id',
+  );
+
+  $$SitesTableProcessedTableManager get sitesRefs {
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.regionId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_sitesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$UsersTable, List<UserEntity>> _usersRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.users,
+    aliasName: 'regions__id__users__region_id',
+  );
+
+  $$UsersTableProcessedTableManager get usersRefs {
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.regionId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_usersRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$RegionsTableFilterComposer
+    extends Composer<_$AppDatabase, $RegionsTable> {
+  $$RegionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$OrganisationsTableFilterComposer get organisationId {
+    final $$OrganisationsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.organisationId,
+      referencedTable: $db.organisations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrganisationsTableFilterComposer(
+            $db: $db,
+            $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> sitesRefs(
+    Expression<bool> Function($$SitesTableFilterComposer f) f,
+  ) {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.regionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> usersRefs(
+    Expression<bool> Function($$UsersTableFilterComposer f) f,
+  ) {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.regionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$RegionsTableOrderingComposer
+    extends Composer<_$AppDatabase, $RegionsTable> {
+  $$RegionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$OrganisationsTableOrderingComposer get organisationId {
+    final $$OrganisationsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.organisationId,
+      referencedTable: $db.organisations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrganisationsTableOrderingComposer(
+            $db: $db,
+            $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$RegionsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RegionsTable> {
+  $$RegionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$OrganisationsTableAnnotationComposer get organisationId {
+    final $$OrganisationsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.organisationId,
+      referencedTable: $db.organisations,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$OrganisationsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> sitesRefs<T extends Object>(
+    Expression<T> Function($$SitesTableAnnotationComposer a) f,
+  ) {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.regionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> usersRefs<T extends Object>(
+    Expression<T> Function($$UsersTableAnnotationComposer a) f,
+  ) {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.regionId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$RegionsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $RegionsTable,
+          RegionEntity,
+          $$RegionsTableFilterComposer,
+          $$RegionsTableOrderingComposer,
+          $$RegionsTableAnnotationComposer,
+          $$RegionsTableCreateCompanionBuilder,
+          $$RegionsTableUpdateCompanionBuilder,
+          (RegionEntity, $$RegionsTableReferences),
+          RegionEntity,
+          PrefetchHooks Function({
+            bool organisationId,
+            bool sitesRefs,
+            bool usersRefs,
+          })
+        > {
+  $$RegionsTableTableManager(_$AppDatabase db, $RegionsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$RegionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RegionsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$RegionsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> organisationId = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => RegionsCompanion(
+                id: id,
+                organisationId: organisationId,
+                name: name,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int organisationId,
+                required String name,
+                required DateTime createdAt,
+              }) => RegionsCompanion.insert(
+                id: id,
+                organisationId: organisationId,
+                name: name,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$RegionsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({organisationId = false, sitesRefs = false, usersRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (sitesRefs) db.sites,
+                    if (usersRefs) db.users,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (organisationId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.organisationId,
+                                    referencedTable: $$RegionsTableReferences
+                                        ._organisationIdTable(db),
+                                    referencedColumn: $$RegionsTableReferences
+                                        ._organisationIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (sitesRefs)
+                        await $_getPrefetchedData<
+                          RegionEntity,
+                          $RegionsTable,
+                          SiteEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$RegionsTableReferences
+                              ._sitesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$RegionsTableReferences(db, table, p0).sitesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.regionId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (usersRefs)
+                        await $_getPrefetchedData<
+                          RegionEntity,
+                          $RegionsTable,
+                          UserEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$RegionsTableReferences
+                              ._usersRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$RegionsTableReferences(db, table, p0).usersRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.regionId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$RegionsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $RegionsTable,
+      RegionEntity,
+      $$RegionsTableFilterComposer,
+      $$RegionsTableOrderingComposer,
+      $$RegionsTableAnnotationComposer,
+      $$RegionsTableCreateCompanionBuilder,
+      $$RegionsTableUpdateCompanionBuilder,
+      (RegionEntity, $$RegionsTableReferences),
+      RegionEntity,
+      PrefetchHooks Function({
+        bool organisationId,
+        bool sitesRefs,
+        bool usersRefs,
+      })
     >;
 typedef $$SitesTableCreateCompanionBuilder =
     SitesCompanion Function({
@@ -15601,6 +16593,7 @@ typedef $$SitesTableCreateCompanionBuilder =
       required String name,
       Value<String?> address,
       required DateTime createdAt,
+      Value<int?> regionId,
     });
 typedef $$SitesTableUpdateCompanionBuilder =
     SitesCompanion Function({
@@ -15609,6 +16602,7 @@ typedef $$SitesTableUpdateCompanionBuilder =
       Value<String> name,
       Value<String?> address,
       Value<DateTime> createdAt,
+      Value<int?> regionId,
     });
 
 final class $$SitesTableReferences
@@ -15626,6 +16620,23 @@ final class $$SitesTableReferences
       $_db.organisations,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_organisationIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $RegionsTable _regionIdTable(_$AppDatabase db) =>
+      db.regions.createAlias('sites__region_id__regions__id');
+
+  $$RegionsTableProcessedTableManager? get regionId {
+    final $_column = $_itemColumn<int>('region_id');
+    if ($_column == null) return null;
+    final manager = $$RegionsTableTableManager(
+      $_db,
+      $_db.regions,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_regionIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -15966,6 +16977,29 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$OrganisationsTableFilterComposer(
             $db: $db,
             $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$RegionsTableFilterComposer get regionId {
+    final $$RegionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.regionId,
+      referencedTable: $db.regions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RegionsTableFilterComposer(
+            $db: $db,
+            $table: $db.regions,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -16377,6 +17411,29 @@ class $$SitesTableOrderingComposer
     );
     return composer;
   }
+
+  $$RegionsTableOrderingComposer get regionId {
+    final $$RegionsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.regionId,
+      referencedTable: $db.regions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RegionsTableOrderingComposer(
+            $db: $db,
+            $table: $db.regions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$SitesTableAnnotationComposer
@@ -16414,6 +17471,29 @@ class $$SitesTableAnnotationComposer
           }) => $$OrganisationsTableAnnotationComposer(
             $db: $db,
             $table: $db.organisations,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$RegionsTableAnnotationComposer get regionId {
+    final $$RegionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.regionId,
+      referencedTable: $db.regions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RegionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.regions,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -16794,6 +17874,7 @@ class $$SitesTableTableManager
           SiteEntity,
           PrefetchHooks Function({
             bool organisationId,
+            bool regionId,
             bool areasRefs,
             bool equipmentInstancesRefs,
             bool departmentsRefs,
@@ -16828,12 +17909,14 @@ class $$SitesTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<String?> address = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<int?> regionId = const Value.absent(),
               }) => SitesCompanion(
                 id: id,
                 organisationId: organisationId,
                 name: name,
                 address: address,
                 createdAt: createdAt,
+                regionId: regionId,
               ),
           createCompanionCallback:
               ({
@@ -16842,12 +17925,14 @@ class $$SitesTableTableManager
                 required String name,
                 Value<String?> address = const Value.absent(),
                 required DateTime createdAt,
+                Value<int?> regionId = const Value.absent(),
               }) => SitesCompanion.insert(
                 id: id,
                 organisationId: organisationId,
                 name: name,
                 address: address,
                 createdAt: createdAt,
+                regionId: regionId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -16858,6 +17943,7 @@ class $$SitesTableTableManager
           prefetchHooksCallback:
               ({
                 organisationId = false,
+                regionId = false,
                 areasRefs = false,
                 equipmentInstancesRefs = false,
                 departmentsRefs = false,
@@ -16916,6 +18002,19 @@ class $$SitesTableTableManager
                                         ._organisationIdTable(db),
                                     referencedColumn: $$SitesTableReferences
                                         ._organisationIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (regionId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.regionId,
+                                    referencedTable: $$SitesTableReferences
+                                        ._regionIdTable(db),
+                                    referencedColumn: $$SitesTableReferences
+                                        ._regionIdTable(db)
                                         .id,
                                   )
                                   as T;
@@ -17233,6 +18332,7 @@ typedef $$SitesTableProcessedTableManager =
       SiteEntity,
       PrefetchHooks Function({
         bool organisationId,
+        bool regionId,
         bool areasRefs,
         bool equipmentInstancesRefs,
         bool departmentsRefs,
@@ -18753,6 +19853,7 @@ typedef $$UsersTableCreateCompanionBuilder =
       Value<String?> jobRole,
       Value<int?> departmentId,
       Value<String?> supabaseUserId,
+      Value<int?> regionId,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
     UsersCompanion Function({
@@ -18770,6 +19871,7 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<String?> jobRole,
       Value<int?> departmentId,
       Value<String?> supabaseUserId,
+      Value<int?> regionId,
     });
 
 final class $$UsersTableReferences
@@ -18821,6 +19923,23 @@ final class $$UsersTableReferences
       $_db.departments,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_departmentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $RegionsTable _regionIdTable(_$AppDatabase db) =>
+      db.regions.createAlias('users__region_id__regions__id');
+
+  $$RegionsTableProcessedTableManager? get regionId {
+    final $_column = $_itemColumn<int>('region_id');
+    if ($_column == null) return null;
+    final manager = $$RegionsTableTableManager(
+      $_db,
+      $_db.regions,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_regionIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -19149,6 +20268,29 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$DepartmentsTableFilterComposer(
             $db: $db,
             $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$RegionsTableFilterComposer get regionId {
+    final $$RegionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.regionId,
+      referencedTable: $db.regions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RegionsTableFilterComposer(
+            $db: $db,
+            $table: $db.regions,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -19516,6 +20658,29 @@ class $$UsersTableOrderingComposer
     );
     return composer;
   }
+
+  $$RegionsTableOrderingComposer get regionId {
+    final $$RegionsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.regionId,
+      referencedTable: $db.regions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RegionsTableOrderingComposer(
+            $db: $db,
+            $table: $db.regions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$UsersTableAnnotationComposer
@@ -19626,6 +20791,29 @@ class $$UsersTableAnnotationComposer
           }) => $$DepartmentsTableAnnotationComposer(
             $db: $db,
             $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$RegionsTableAnnotationComposer get regionId {
+    final $$RegionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.regionId,
+      referencedTable: $db.regions,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$RegionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.regions,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -19883,6 +21071,7 @@ class $$UsersTableTableManager
             bool siteId,
             bool deactivatedByUserId,
             bool departmentId,
+            bool regionId,
             bool taskSubmissionsRefs,
             bool legalLimitReferencesRefs,
             bool taskTemplatesRefs,
@@ -19921,6 +21110,7 @@ class $$UsersTableTableManager
                 Value<String?> jobRole = const Value.absent(),
                 Value<int?> departmentId = const Value.absent(),
                 Value<String?> supabaseUserId = const Value.absent(),
+                Value<int?> regionId = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
                 name: name,
@@ -19936,6 +21126,7 @@ class $$UsersTableTableManager
                 jobRole: jobRole,
                 departmentId: departmentId,
                 supabaseUserId: supabaseUserId,
+                regionId: regionId,
               ),
           createCompanionCallback:
               ({
@@ -19953,6 +21144,7 @@ class $$UsersTableTableManager
                 Value<String?> jobRole = const Value.absent(),
                 Value<int?> departmentId = const Value.absent(),
                 Value<String?> supabaseUserId = const Value.absent(),
+                Value<int?> regionId = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
                 name: name,
@@ -19968,6 +21160,7 @@ class $$UsersTableTableManager
                 jobRole: jobRole,
                 departmentId: departmentId,
                 supabaseUserId: supabaseUserId,
+                regionId: regionId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -19980,6 +21173,7 @@ class $$UsersTableTableManager
                 siteId = false,
                 deactivatedByUserId = false,
                 departmentId = false,
+                regionId = false,
                 taskSubmissionsRefs = false,
                 legalLimitReferencesRefs = false,
                 taskTemplatesRefs = false,
@@ -20054,6 +21248,19 @@ class $$UsersTableTableManager
                                         ._departmentIdTable(db),
                                     referencedColumn: $$UsersTableReferences
                                         ._departmentIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (regionId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.regionId,
+                                    referencedTable: $$UsersTableReferences
+                                        ._regionIdTable(db),
+                                    referencedColumn: $$UsersTableReferences
+                                        ._regionIdTable(db)
                                         .id,
                                   )
                                   as T;
@@ -20276,6 +21483,7 @@ typedef $$UsersTableProcessedTableManager =
         bool siteId,
         bool deactivatedByUserId,
         bool departmentId,
+        bool regionId,
         bool taskSubmissionsRefs,
         bool legalLimitReferencesRefs,
         bool taskTemplatesRefs,
@@ -31895,6 +33103,8 @@ class $AppDatabaseManager {
       $$EquipmentTypesTableTableManager(_db, _db.equipmentTypes);
   $$OrganisationsTableTableManager get organisations =>
       $$OrganisationsTableTableManager(_db, _db.organisations);
+  $$RegionsTableTableManager get regions =>
+      $$RegionsTableTableManager(_db, _db.regions);
   $$SitesTableTableManager get sites =>
       $$SitesTableTableManager(_db, _db.sites);
   $$AreasTableTableManager get areas =>

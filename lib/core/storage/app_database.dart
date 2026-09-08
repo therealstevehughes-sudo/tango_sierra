@@ -128,6 +128,12 @@ class Users extends Table {
   // state (see UserRepository.authenticate). Never used for anything
   // security-relevant client-side; it's just a foreign-system pointer.
   TextColumn get supabaseUserId => text().nullable()();
+  // Phase B0 — set only for regional-tier accounts, defining which one
+  // region they oversee (one region per manager, per the approved plan —
+  // not a multi-region assignment). Null for every other tier: branch
+  // tiers keep using siteId above unchanged, and executive's scope is the
+  // whole Organisation, needing no region link at all.
+  IntColumn get regionId => integer().nullable().references(Regions, #id)();
 }
 
 @DataClassName('EquipmentTypeEntity')
@@ -426,6 +432,23 @@ class Organisations extends Table {
   DateTimeColumn get createdAt => dateTime()();
 }
 
+// Phase B0 (2026-09-08) — an OPTIONAL grouping layer inside an
+// Organisation, sitting between it and Sites. Deliberately one flat level,
+// not an arbitrary-depth tree: covers real UK-chain depth (director ->
+// regional -> branch) without over-building a general org-chart structure
+// nobody's asked for yet. A Region always belongs to exactly one
+// Organisation; a Site's regionId is nullable — a customer with no regions
+// simply never sets it, and its Sites attach directly to the Organisation,
+// same as before this table existed.
+@DataClassName('RegionEntity')
+class Regions extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get organisationId =>
+      integer().references(Organisations, #id)();
+  TextColumn get name => text()();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
 @DataClassName('SiteEntity')
 class Sites extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -434,6 +457,10 @@ class Sites extends Table {
   TextColumn get name => text()();
   TextColumn get address => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
+  // Phase B0 — null means "attaches directly to the Organisation, no
+  // region layer" (the common case today). organisationId above is
+  // unchanged and stays the authoritative tenant link either way.
+  IntColumn get regionId => integer().nullable().references(Regions, #id)();
 }
 
 // Branding (Sprint 031, finalized beta build order item 7) — company brand
@@ -649,13 +676,14 @@ class _LibraryPreset {
     TaskTemplateVenueTypes,
     BrandingConfigs,
     ProblemStatusEvents,
+    Regions,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 35;
+  int get schemaVersion => 36;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -984,6 +1012,15 @@ class AppDatabase extends _$AppDatabase {
           triggerNotifications.equipmentInstanceName,
         );
         await _backfillEquipmentInstanceNames();
+      }
+      if (from < 36) {
+        // Phase B0 — the optional Region layer. Fully additive: no
+        // backfill needed, null on Sites/Users.regionId means "no region,
+        // attaches directly to the Organisation" — the correct meaning
+        // for every existing row, not just a placeholder default.
+        await m.createTable(regions);
+        await m.addColumn(sites, sites.regionId);
+        await m.addColumn(users, users.regionId);
       }
     },
     beforeOpen: (details) async {

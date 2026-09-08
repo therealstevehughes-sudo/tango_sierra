@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/legacy.dart';
 
 import '../models/site.dart';
 import '../repositories/organisation_repository.dart';
+import '../repositories/region_repository.dart';
 import '../repositories/site_repository.dart';
 import 'auth_providers.dart' show currentUserProvider;
 import 'task_submission_providers.dart' show appDatabaseProvider;
@@ -17,6 +18,11 @@ final organisationRepositoryProvider = Provider<OrganisationRepository>((
 final siteRepositoryProvider = Provider<SiteRepository>((ref) {
   final db = ref.watch(appDatabaseProvider);
   return DriftSiteRepository(db);
+});
+
+final regionRepositoryProvider = Provider<RegionRepository>((ref) {
+  final db = ref.watch(appDatabaseProvider);
+  return DriftRegionRepository(db);
 });
 
 // Resolves the first-created site — the only site that existed until

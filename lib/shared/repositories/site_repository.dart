@@ -11,6 +11,10 @@ abstract class SiteRepository {
   // executive user's currentSiteProvider-style default would show the
   // wrong venue's name for anyone not at the first-created site.
   Future<Site?> getById(int id);
+  // Phase B0 — null clears the assignment (site attaches directly to the
+  // Organisation again), same "explicit null, not hidden" convention as
+  // Department assignment elsewhere in this app.
+  Future<void> setRegion(int siteId, int? regionId);
   Future<void> rename(int id, String newName);
   Future<Site> create({
     required String name,
@@ -62,6 +66,13 @@ class DriftSiteRepository implements SiteRepository {
   }
 
   @override
+  Future<void> setRegion(int siteId, int? regionId) async {
+    await (_db.update(_db.sites)..where((s) => s.id.equals(siteId))).write(
+      SitesCompanion(regionId: Value(regionId)),
+    );
+  }
+
+  @override
   Future<Site> create({
     required String name,
     String? address,
@@ -84,6 +95,7 @@ class DriftSiteRepository implements SiteRepository {
       name: name,
       address: address,
       createdAt: createdAt,
+      regionId: null,
     );
   }
 
@@ -121,6 +133,7 @@ class DriftSiteRepository implements SiteRepository {
       name: row.name,
       address: row.address,
       createdAt: row.createdAt,
+      regionId: row.regionId,
     );
   }
 }
