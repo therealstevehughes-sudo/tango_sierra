@@ -3,14 +3,28 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 
+import '../../core/network/backend_rest_client.dart';
 import '../../core/network/supabase_client.dart';
 import '../models/user.dart';
+import '../repositories/supabase_user_repository.dart';
 import '../repositories/user_repository.dart';
 import 'task_submission_providers.dart' show appDatabaseProvider;
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {
   final db = ref.watch(appDatabaseProvider);
-  return DriftUserRepository(db);
+  final driftRepository = DriftUserRepository(db);
+  // Phase B3 — authenticate()/resetPin()/createStaffMember() always stay
+  // on this same Drift instance regardless of the flag (see
+  // SupabaseUserRepository's doc comment) — built here once so it's
+  // available either as the whole repository or as the credential
+  // delegate the backend-profile wrapper falls back to.
+  if (ref.watch(backendDataEnabledProvider)) {
+    return SupabaseUserRepository(
+      BackendRestClient(() => ref.read(currentBackendAccessTokenProvider)),
+      driftRepository,
+    );
+  }
+  return driftRepository;
 });
 
 final staffDirectoryProvider = FutureProvider<List<User>>((ref) async {

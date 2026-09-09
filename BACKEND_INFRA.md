@@ -667,6 +667,147 @@ tables + the proof's seeded rows) deleted; re-queried immediately after —
 (logged in DECISIONS_LOG.md's "Phase B approved" entry) is still
 outstanding — required before any real second company's data goes live.
 
+## Phase B3 — People cluster (built and PROVEN 2026-09-09)
+
+Users and TrainingRecords moved onto the backend with RLS. The trickiest
+interaction so far (Users is the table auth itself depends on) — resolved
+by construction, confirmed by the proof.
+
+**Why auth can't break**: `verify_staff_pin()` reads only `staff_pins` and
+`sites` (its `SECURITY DEFINER` privilege, owned by the superuser
+`postgres`, already bypasses RLS entirely for those — the exact mechanism
+that let it join `sites` transparently since B1). It never queries
+`public.users` at all, before or after this cluster. RLS on `users`
+governs the app's normal profile-data calls only — a completely separate
+code path from login.
+
+**Schema added** (PIN credentials deliberately excluded — those stay only
+in `staff_pins`, per Phase 2's separation):
+```sql
+create table public.users (
+  id serial primary key, name text not null, job_title text not null,
+  role_tier text not null, job_role text,
+  preferred_temperature_unit text not null default 'celsius',
+  site_id integer references public.sites(id),
+  active boolean not null default true,
+  deactivated_at timestamptz, deactivated_by_user_id integer references public.users(id),
+  department_id integer references public.departments(id),
+  region_id integer references public.regions(id),
+  supabase_user_id uuid
+);
+
+create table public.training_records (
+  id serial primary key, user_id integer not null references public.users(id),
+  site_id integer references public.sites(id),
+  item_type text not null, custom_item_title text,
+  completed_at timestamptz not null, expires_at timestamptz,
+  signed_off_by_user_id integer not null references public.users(id),
+  certificate_reference text, created_at timestamptz not null default now()
+);
+```
+
+**Real finding #1**: adding a plain FK from `staff_pins.local_user_id` to
+`public.users(id)` failed immediately —
+```
+ERROR: insert or update on table "staff_pins" violates foreign key
+constraint "staff_pins_local_user_id_fkey"
+DETAIL: Key (local_user_id)=(1) is not present in table "users".
+```
+The pre-existing Phase 2 test row (Steve Hughes) predates `public.users`
+entirely. Added as `NOT VALID` instead:
+```sql
+alter table public.staff_pins add constraint staff_pins_local_user_id_fkey
+  foreign key (local_user_id) references public.users(id) not valid;
+```
+Enforced for every future write, doesn't require backfilling that real
+row now (which would mean migrating real data prematurely). **Design
+note for whenever real data sync happens**: `public.users` rows must be
+inserted with an explicit `id` matching the local Drift id, not the
+`SERIAL` default, or `staff_pins.local_user_id` stops meaning anything.
+
+**RLS** — reuses `can_access_site(site_id)` directly on both tables, no
+new function, enabled + policied before any grant (same discipline as B2):
+```sql
+create policy tenant_isolation on public.users for all
+  using (can_access_site(site_id)) with check (can_access_site(site_id));
+create policy tenant_isolation on public.training_records for all
+  using (can_access_site(site_id)) with check (can_access_site(site_id));
+```
+
+**The proof — verbatim, direct curl.** Throwaway Org A (id 7, Region A1
+id 7: sites A1a=13/A1b=14, Region A2 id 8: site A2a=15) / Org B (id 8,
+Region B1 id 9: site B1a=16). Seeded one active user + one **deactivated**
+user at site 13, one user at site 16.
+
+- `users` own-site read (branch, site 13) — **both** the active and
+  deactivated colleague come back: `[{"id":1,...,"active":true},
+  {"id":2,...,"active":false}]` / `200`. Isolation is the tenant boundary,
+  not the active/inactive one.
+- branch read filtered to site 16 (tenant B) → `[]` / `200`.
+- branch write attempt at tenant B's user → `[]` / `200` (0 rows affected).
+- regional (region 7) SELECT → both site-13 users, not site 15/16.
+- executive (org 7) SELECT → all of Org A's users, not Org B's.
+- branch UPDATE on its **own deactivated** colleague (id 2) →
+  **succeeds**, full row returned — confirms isolation never blocked an
+  in-tenant action based on `active` status.
+- `training_records`: own read returns its row; read filtered to
+  tenant B's site → `[]`; write attempt at tenant B's site → `403`,
+  `"new row violates row-level security policy for table
+  \"training_records\""`.
+
+**Real finding #2, during cleanup**: the throwaway proof user landed on
+`id=1` (fresh table, `SERIAL` starts at 1) — colliding with
+`staff_pins.local_user_id=1`'s FK. Deleting it failed:
+```
+ERROR: update or delete on table "users" violates foreign key
+constraint "staff_pins_local_user_id_fkey" on table "staff_pins"
+```
+Couldn't be deleted (the FK requires some row at `id=1`); neutralized
+instead:
+```sql
+update public.users set name = 'RESERVED (staff_pins FK placeholder, not real data)',
+  job_title = 'n/a', site_id = null, active = false where id = 1;
+```
+This row now exists permanently until real onboarding populates `id=1`
+properly — documented here so it's never mistaken for real data. Users 2
+and 3 (no FK references) deleted normally; all other throwaway rows
+(sites, regions, organisations, training_records) deleted and verified
+empty.
+
+**App-layer wiring**:
+- `SupabaseUserRepository` implements only the profile-data methods
+  (`getAll`, `findBySupabaseUserId`, `setActive`, `changeRoleTier`,
+  `changeDepartment`, `assignRegion`, `setPreferredTemperatureUnit`)
+  against the backend; `authenticate()`/`resetPin()`/`createStaffMember()`
+  all delegate unchanged to a wrapped `DriftUserRepository` — same split
+  pattern as B2's `SupabaseEquipmentRepository` (types vs. instances).
+- `SupabaseTrainingRecordRepository` implements the full interface
+  directly — no split needed, no auth entanglement.
+- **Dart-layer integration test**
+  (`integration_test/phase_b3_backend_repositories_test.dart`), live
+  backend, hand-crafted throwaway token: `SupabaseUserRepository.getAll()`
+  correctly tenant-scoped; `setActive()` on another tenant's user
+  completes with **no exception** and leaves that user untouched — this
+  corrected an initially-wrong test expectation (an UPDATE matching zero
+  RLS-visible rows returns `200`/empty, not a `403`; only an INSERT
+  violating `WITH CHECK` throws — exactly the B1/B2-proven distinction,
+  re-confirmed here at the Dart layer, not assumed); and — the specific
+  thing asked to be shown — `authenticate()` called through
+  `userRepositoryProvider` with `backendDataEnabledProvider` **on** still
+  returns `PinAuthNotFound` for a nonexistent user, proving it reached the
+  real, unchanged Drift path rather than the network. All 3 passed live,
+  no mocks, no dependency on any real seed account.
+
+**Known gap logged, not closed**: `verify_staff_pin()` does not check
+`users.active` — a deactivated account could theoretically still obtain a
+backend token via the PIN path today. Deliberately not bundled into this
+cluster (an auth-behaviour change deserves its own explicit decision).
+Follow-up, not yet scheduled.
+
+**Known gap carried forward, unchanged**: the human security review gate
+is still outstanding — required before any real second company's data
+goes live.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

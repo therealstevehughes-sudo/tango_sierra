@@ -144,7 +144,25 @@ Architecture note: `EquipmentRepository` mixes EquipmentTypes (in scope) with Eq
 Bonus fix, not the target but confirmed real: `AreaRepository.getAll()` has never filtered by site locally (the known "multi-site only partially usable" gap logged under Open/Not yet decided) - the backend path fixes this for free via RLS, once `backendDataEnabledProvider` is on.
 
 All throwaway data (two proof tenants, one Dart-test tenant pair) deleted and verified empty afterward. Human-security-review gate (Phase B approved entry) still outstanding, unchanged by this cluster.
-Next: B3 (People cluster), same discipline - build, prove per table, commit as its own piece.
+
+## B3 (People cluster) built and PROVEN (2026-09-09)
+Users and TrainingRecords moved onto the backend with RLS. Full verbatim proof (curl + Dart integration test) in BACKEND_INFRA.md's B3 section. This was flagged as the trickiest interaction so far (Users is the table auth itself depends on) - resolved cleanly, confirmed by the proof, not just argued:
+
+**Auth stays untouched, by construction**: `verify_staff_pin()` never reads `public.users` at all - only `staff_pins` + `sites`, exactly as B1 left it. RLS on `users` cannot break login because the auth function doesn't touch that table, before or after this cluster. Not proposed or built: any change to `verify_staff_pin()`'s behaviour.
+
+Decisions confirmed, per the user's answers:
+1. `users.active` server-side enforcement inside `verify_staff_pin()` - NOT bundled into B3, logged as a genuine standalone follow-up (a deactivated account could theoretically still get a backend token today - real gap, deliberately not closed as a side effect of a schema migration).
+2. `authenticate()`/`resetPin()`/`createStaffMember()` delegate unchanged to a wrapped `DriftUserRepository` inside `SupabaseUserRepository` - confirmed, matches the B2 `SupabaseEquipmentRepository` precedent. This is what guarantees auth is literally untouched regardless of the flag.
+3. `staff_pins.local_user_id` gained a real FK to `public.users(id)` - added as `NOT VALID` (see real finding below), not a plain FK.
+
+**Real finding, not smoothed over**: the pre-existing Phase 2 test row (`staff_pins.local_user_id=1`, Steve Hughes) predates `public.users` entirely - a plain FK failed immediately on creation. Added as `NOT VALID` instead (enforced for every future write, doesn't require backfilling that real row now - which would mean migrating real data, explicitly out of scope). Design note logged: any future real-data sync must insert `public.users` rows with an explicit `id` matching the local Drift id, not the `SERIAL` default, to keep `staff_pins.local_user_id` meaningful.
+
+**Second real finding, during proof cleanup**: a throwaway proof user landed on `id=1` by coincidence, colliding with that same FK reference. Couldn't be deleted (the FK requires SOME row to exist there) - neutralized into an inert, clearly-labelled placeholder (`'RESERVED (staff_pins FK placeholder, not real data)'`, inactive, no site) rather than force-deleted or left as throwaway-named junk. One such row now permanently exists at `users.id=1` until real onboarding populates it properly - documented so it isn't mistaken for real data later.
+
+RLS reuses `can_access_site(site_id)` directly on both tables - no new function needed. Proof (throwaway Org A/B, direct curl): full matrix on `users` (own-site read showing BOTH active and deactivated colleagues - isolation, not permission, stays the boundary; cross-tenant read empty; cross-tenant write silently affects 0 rows; regional/executive scoping correct; an in-tenant write to a deactivated colleague still succeeds); lighter 3-test confirmation on `training_records`. All passed. A real Dart-layer integration test (`integration_test/phase_b3_backend_repositories_test.dart`) then proved the actual `SupabaseUserRepository`/`SupabaseTrainingRecordRepository` code against the live backend, including the specific thing asked to be shown: `authenticate()` called through the backend-flagged repository still round-trips through the unchanged Drift path (proven with a nonexistent userId, avoiding any dependency on real seed data). All 3 passed live, no mocks.
+
+All throwaway data deleted and verified empty afterward (except the one documented placeholder row, which is permanent by design). Human-security-review gate still outstanding, unchanged.
+Next: B4 (Operational config cluster), same discipline.
 
 ## Master Status reconciliation (2026-09-06)
 A status summary from Steve's separate strategy advisor was checked line-by-line against this log and the actual codebase, to keep both pictures aligned. Confirmed accurate: app rename to VenuRite, the domain, everything in the "built" feature list (including exact counts - 63 equipment types, ~150 tasks across 21 segments, schemaVersion 34), Phase 1/2 backend status, Phase 3/B not started, Phase A responsive status (19/21 screens), the A->B->C->D build sequence, the dedicated-server-deferred hard rule, and that the researched legal limits (LAW/FSA/BEST) aren't yet professionally certified.
