@@ -808,6 +808,179 @@ Follow-up, not yet scheduled.
 is still outstanding — required before any real second company's data
 goes live.
 
+## Phase B4 — Operational config cluster (built and PROVEN 2026-09-09)
+
+TaskTemplates, TaskSchedules, NotificationRules, BrandingConfigs moved onto
+the backend with RLS — the biggest cluster so far, and the one with the
+most genuinely new scoping shapes (not clean reuses of a prior pattern).
+
+**Real finding during build**: `primary_color_argb` as Postgres `integer`
+(32-bit signed) overflowed on the first real ARGB value (alpha=0xFF,
+e.g. `4278190080`) — `ERROR: integer out of range`. Fixed immediately:
+```sql
+alter table public.branding_configs alter column primary_color_argb type bigint;
+```
+
+**Schema** (four tables; PIN credentials n/a here):
+```sql
+create table public.task_templates (
+  id serial primary key, template_group_id integer not null,
+  version_number integer not null,
+  previous_version_id integer references public.task_templates(id),
+  title text not null, segment text not null,
+  applicable_role_tiers text not null, method text not null,
+  requires_photo boolean not null default false,
+  requires_notes boolean not null default false,
+  custom_fields_json text, min_limit real, max_limit real, unit text,
+  legal_limit_category text, is_critical boolean not null default false,
+  requires_corrective_action_on_fail boolean not null default false,
+  fix_instructions text,
+  equipment_type_id integer references public.equipment_types(id),
+  created_at timestamptz not null default now(),
+  created_by_user_id integer references public.users(id),
+  priority text, job_role text, guidance_text text,
+  requires_supplier_selection boolean not null default false,
+  -- null = shared baseline library (~150 tasks), non-null = a tenant's
+  -- own private template or fork.
+  organisation_id integer references public.organisations(id)
+);
+
+create table public.task_schedules (
+  id serial primary key,
+  task_template_group_id integer not null,  -- soft ref, matches local design
+  assigned_user_id integer not null references public.users(id),
+  equipment_instance_id integer,  -- soft ref, NO FK -- equipment_instances
+                                   -- isn't backend-hosted yet (later cluster)
+  frequency text not null, custom_frequency_detail text,
+  assigned_by_user_id integer not null references public.users(id),
+  assigned_at timestamptz not null, active boolean not null default true,
+  site_id integer references public.sites(id),
+  window_start_minutes integer, window_end_minutes_exclusive integer
+);
+
+create table public.notification_rules (
+  id serial primary key, rule_group_id integer not null,
+  version_number integer not null,
+  previous_version_id integer references public.notification_rules(id),
+  task_template_group_id integer,  -- soft ref, matches local design
+  target_role_tier text, target_user_id integer references public.users(id),
+  channel_push boolean not null default false,
+  channel_email boolean not null default false,
+  set_by_user_id integer not null references public.users(id),
+  set_by_tier text not null, active boolean not null default true,
+  created_at timestamptz not null default now(),
+  site_id integer references public.sites(id),
+  -- NEW, backend-only, not in the local model. null site_id = "org-wide"
+  -- (meaningful locally, cross-tenant-ambiguous without this on a shared
+  -- backend). Always set, resolved from the creating session's own org.
+  organisation_id integer not null references public.organisations(id)
+);
+
+create table public.branding_configs (
+  id serial primary key, config_group_id integer not null,
+  version_number integer not null,
+  previous_version_id integer references public.branding_configs(id),
+  organisation_id integer not null references public.organisations(id),
+  company_name text,
+  primary_color_argb bigint not null,  -- see the finding above
+  contact_phone text, contact_email text,
+  set_by_user_id integer not null references public.users(id),
+  created_at timestamptz not null default now(),
+  logo_path text  -- known limitation: local file path, non-functional
+                   -- across devices/server, unchanged from the original
+                   -- branding decision
+);
+```
+
+**`can_access_organisation(target_org_id)`** — simpler than
+`can_access_region()`: every tier's own `organisation_id` claim IS the
+scope, no tier branching:
+```sql
+select target_org_id is not null
+  and (claims ->> 'organisation_id') is not null
+  and target_org_id = (claims ->> 'organisation_id')::integer;
+```
+
+**RLS**, enabled + policied before any grant (same discipline as B2/B3):
+- `task_templates`: `using (organisation_id is null or
+  can_access_organisation(organisation_id)) with check
+  (can_access_organisation(organisation_id))`.
+- `task_schedules`: `using (can_access_site(site_id))` — direct reuse.
+- `notification_rules`: `using ((site_id is not null and
+  can_access_site(site_id)) or (site_id is null and
+  can_access_organisation(organisation_id)))`.
+- `branding_configs`: `using (can_access_organisation(organisation_id))`.
+
+**THE FORK-ON-WRITE RULE** (`SupabaseTaskTemplateRepository.saveNewVersion`,
+app-layer, not RLS): editing an existing `templateGroupId` chain checks
+whether the chain's current head belongs to the caller's own org. If it
+doesn't (shared baseline, or — unreachable under RLS anyway, but checked
+explicitly — a different tenant's), the write forks: starts a brand-new
+`templateGroupId` under the caller's own `organisation_id`, exactly like
+a fresh create, leaving the original chain completely untouched. Without
+this, extending a shared chain would silently retag the ENTIRE chain
+(every earlier shared version included) as one tenant's private property.
+
+**The proof — verbatim, direct curl.** Throwaway Org A (id 11, site
+A1=19) / Org B (id 12, site B1=20).
+
+- `task_templates`: branch_a sees shared (id1) + its own private (id2);
+  branch_b sees shared only; branch_a INSERT of a null-org row → `403`.
+  **Fork-on-write**: branch_a inserts a new version on the shared
+  `template_group_id=1`, tagged `organisation_id: 11` →
+  `HTTP_STATUS:201`. Re-read: branch_b's view of group 1 is **still
+  exactly one row, version 1, unchanged** — 
+  `[{"id":1,"title":"B4-PROOF-SHARED-TASK","organisation_id":null,"version_number":1}]`.
+  branch_a now sees the original (id1) + its private task (id2) + its
+  new fork (id4, `organisation_id: 11`, `version_number: 2`).
+- `notification_rules`: branch_a (site 19) sees its site-specific rule
+  AND its org-wide rule (2 rows); branch_b sees only its own org-wide
+  rule (1 row); branch_a's attempt to insert an org-wide rule claiming
+  `organisation_id: 12` (Org B) → `403`.
+- `branding_configs`: branch_a and executive_a both see only Org A's
+  config (confirms org-scoped, not site-scoped — executive isn't
+  "more" scoped, same org boundary either way); branch_a's write attempt
+  at Org B's config → `[]` (0 rows affected).
+- `task_schedules`: own read; cross-tenant read → `[]`; cross-tenant
+  write attempt → `403`.
+
+**App-layer wiring**:
+- `SupabaseTaskTemplateRepository` implements the fork-on-write rule
+  above; `getVenueTypeIds`/`setVenueTypeIds` throw `UnimplementedError`
+  (matches the local app's own "schema-ready, not yet wired into any UI"
+  state — not a new gap this cluster introduces).
+- `SupabaseTaskScheduleRepository`, `SupabaseNotificationRuleRepository`,
+  `SupabaseBrandingConfigRepository` implement their full interfaces
+  directly against the backend.
+- `SupabaseBrandingConfigRepository.watchCurrent()` has no server push
+  available without Supabase Realtime (out of this cluster's scope) —
+  implemented as a real 30-second poll instead (values emitted only on
+  change, not every tick), a working trade-off for "mostly online"
+  branding rather than a broken stand-in.
+- **Dart-layer integration test**
+  (`integration_test/phase_b4_backend_repositories_test.dart`), live
+  backend, hand-crafted throwaway tokens (Org G / Org H): proved the
+  fork-on-write rule at the actual application-code layer — calling
+  `SupabaseTaskTemplateRepository.saveNewVersion()` on a shared task
+  from Org G's session produces a new `templateGroupId` under Org G,
+  Org H's view of the original chain is confirmed unchanged afterward,
+  and Org H never sees Org G's fork; plus `task_schedules` tenant
+  scoping. Both passed live, no mocks. (One test-fixture bug of my own —
+  used a JWT claim value instead of a real `users.id` for a required FK
+  — caught immediately by the resulting `403`/FK error and fixed before
+  being mistaken for a code defect.)
+
+**Named, not fixed**: Postgres FK constraints validate that the
+referenced row's primary key exists — they don't go through RLS. A
+session could set `previousVersionId` to an id from a tenant it can't
+read; the FK accepts it (no content leak, since RLS still blocks reading
+that row — only pollutes the writer's own chain metadata with a dangling
+pointer). Confined impact, isolation itself unaffected — documented and
+accepted rather than engineered around.
+
+**Known gap carried forward, unchanged**: the human security review gate
+is still outstanding.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

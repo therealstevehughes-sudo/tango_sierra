@@ -2,12 +2,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/branding_config.dart';
 import '../repositories/branding_config_repository.dart';
+import '../repositories/supabase_branding_config_repository.dart';
+import 'auth_providers.dart' show backendDataEnabledProvider;
+import 'backend_providers.dart' show backendRestClientProvider;
 import 'site_providers.dart' show organisationRepositoryProvider;
 import 'task_submission_providers.dart' show appDatabaseProvider;
 
 final brandingConfigRepositoryProvider = Provider<BrandingConfigRepository>((
   ref,
 ) {
+  if (ref.watch(backendDataEnabledProvider)) {
+    return SupabaseBrandingConfigRepository(ref.watch(backendRestClientProvider));
+  }
   final db = ref.watch(appDatabaseProvider);
   return DriftBrandingConfigRepository(db);
 });
