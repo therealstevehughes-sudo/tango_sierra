@@ -530,6 +530,143 @@ design (the gate logged in DECISIONS_LOG.md's "Phase B approved" entry)
 is still outstanding — required before any real second company's data
 goes live, separate from and in addition to this technical proof.
 
+## Phase B2 — Foundation cluster (built and PROVEN 2026-09-08)
+
+Organisations, Regions, Sites, VenueTypes, Departments, Areas, EquipmentTypes
+moved onto the backend with RLS. Real schema checked before building (not
+assumed): `venue_types`/`equipment_types` had `create()` methods but no
+org/site linkage at all — fixed with a nullable `organisation_id` before
+any policy was written.
+
+**Schema added:**
+```sql
+alter table public.sites add column address text;
+
+create table public.venue_types (
+  id serial primary key, name text not null,
+  organisation_id integer references public.organisations(id)
+); -- null organisation_id = shared baseline; non-null = a tenant's own addition
+
+create table public.equipment_types (
+  id serial primary key, name text not null,
+  organisation_id integer references public.organisations(id)
+);
+
+create table public.site_venue_types (
+  id serial primary key,
+  site_id integer not null references public.sites(id),
+  venue_type_id integer not null references public.venue_types(id)
+);
+
+create table public.departments (
+  id serial primary key, name text not null,
+  site_id integer references public.sites(id),
+  active boolean not null default true, created_at timestamptz not null default now()
+);
+
+create table public.areas (
+  id serial primary key, name text not null,
+  site_id integer references public.sites(id)
+);
+```
+
+**`can_access_region(target_region_id)`** — parallel to B1's
+`can_access_site()`: branch tier matches the region of its *own* site
+(live lookup through `sites`, since a branch token doesn't carry
+`region_id` directly); regional matches its own `region_id`; executive
+matches any region in its org.
+
+**RLS — enabled + policied on all 7 tables BEFORE any grant was added**
+(closing B1's own "grant before policy" trap for real):
+- `organisations`: `using (id = claim.organisation_id)`.
+- `regions`: `using (can_access_region(id))`.
+- `sites`: `using (can_access_site(id))` — reused directly, B1's function.
+- `venue_types` / `equipment_types`: `using (organisation_id is null or
+  organisation_id = claim.organisation_id) with check (organisation_id =
+  claim.organisation_id)` — shared baseline plus own tenant's additions;
+  a session can never write a null-org ("global") row.
+- `site_venue_types` / `departments` / `areas`: `using
+  (can_access_site(site_id))` — same function/shape as `sites`.
+
+**The proof — verbatim, direct curl, never the app UI.** Throwaway
+tenants (fresh ids, B1's were already cleaned up): Org A (id 3) — Region
+A1 (id 4: sites A1a=5, A1b=6), Region A2 (id 5: site A2a=7); Org B (id 4)
+— Region B1 (id 6: site B1a=8).
+
+- **Sites (full matrix, 7 tests)**:
+  - branch (site 5) SELECT: `[{"id":5,"name":"B2-PROOF-SITE-A1a"}]`
+  - branch INSERT claiming `organisation_id:4` (tenant B): `403`,
+    `"new row violates row-level security policy for table \"sites\""`
+  - branch UPDATE site 8 (tenant B): `[]` / `200` (0 rows affected)
+  - regional (region 4) SELECT: sites 5, 6 only — not 7 (sibling region,
+    same org), not 8
+  - regional (region 5) SELECT: site 7 only
+  - executive (org 3) SELECT: sites 5, 6, 7 — not 8 (Org B)
+  - executive write attempt at site 8: `[]` / `200` (0 rows affected)
+- **Organisations (3 tests)**: branch SELECT → only org 3; branch SELECT
+  org 4 by id → `[]`; executive UPDATE org 4 → `[]` (0 rows affected).
+- **Regions (4 tests)**: branch SELECT → only region 4 (own site's
+  region); regional (region 4) SELECT → only region 4, not region 5;
+  executive SELECT → regions 4 and 5 (both in org 3), not region 6;
+  regional write attempt at region 5 (sibling region, same org) → `[]`
+  (0 rows affected).
+- **VenueTypes / EquipmentTypes (the null-org logic)**: seeded one
+  shared-baseline row (`organisation_id: null`) and one Org-A-private row
+  per table. branch_a1a SELECT → both rows (shared + its own private);
+  branch_b1a SELECT → shared row only, **not** Org A's private row;
+  branch_a1a attempting to INSERT a null-org ("global") row → `403`,
+  `"new row violates row-level security policy for table \"venue_types\""`.
+- **Departments / Areas / SiteVenueTypes (lighter confirmation, reusing
+  B1's proven `can_access_site()` shape)**: branch_a1a own-site read
+  returns its own row; read filtered to tenant B's site → `[]`; write
+  attempt at tenant B's site → `403` RLS rejection, on all three tables.
+
+**Cleanup verified**: all throwaway rows across all 8 tables (7 Foundation
+tables + the proof's seeded rows) deleted; re-queried immediately after —
+0 rows in every one. Only the real, empty schema remains.
+
+**App-layer wiring** (new this cluster, not just SQL):
+- `backendDataEnabledProvider` (`lib/shared/providers/auth_providers.dart`)
+  — off by default, mirrors `backendAuthEnabledProvider`'s shape exactly.
+  Only produces results once `backendAuthEnabledProvider` is also on for
+  that session (RLS needs real claims).
+- `currentBackendAccessTokenProvider` — unifies PIN sessions' own token
+  (`currentSessionTokenProvider`, never touches `supabase_flutter`'s auth
+  state) and Leadership's real GoTrue session token, so every
+  `Supabase*Repository` sends the right one regardless of login path.
+- `BackendRestClient` (`lib/core/network/backend_rest_client.dart`) — a
+  small raw-REST helper (the `http` package) against `/rest/v1/<table>`,
+  since `supabase_flutter`'s own `SupabaseClient.from(table)` reads only
+  its ambient auth session, which PIN sessions never populate.
+- Seven `Supabase*Repository` classes (`lib/shared/repositories/supabase_*.dart`),
+  each implementing the *same existing interface* as its Drift
+  counterpart — no call-site changes needed anywhere, since RLS scopes
+  results silently server-side. Provider files
+  (`site_providers.dart`, `department_providers.dart`,
+  `venue_type_providers.dart`, `venue_setup_providers.dart`) branch on
+  `backendDataEnabledProvider` to pick Drift vs. Supabase.
+- `EquipmentRepository` mixes in-scope (types) and out-of-scope
+  (instances, tagging) methods in one interface — `SupabaseEquipmentRepository`
+  implements only the types methods and delegates the rest to a wrapped
+  `DriftEquipmentRepository`, so nothing else regresses.
+- **Real Dart-layer integration test**
+  (`integration_test/phase_b2_backend_repositories_test.dart`), run
+  against the live backend with a hand-crafted throwaway-tenant token (the
+  app itself can never mint one — no `JWT_SECRET` access): confirmed
+  `organisationRepositoryProvider`/`siteRepositoryProvider`/
+  `departmentRepositoryProvider` all correctly tenant-scoped, and that a
+  cross-tenant `SiteRepository.create()` call throws a real
+  `BackendRequestException` with `isRlsRejection == true`. All 4 passed.
+  Fixture tenant deleted and verified gone afterward.
+- Flag-off path re-confirmed separately: a normal (non-integration-test)
+  Windows debug build launched and ran normally with
+  `backendDataEnabledProvider` at its default `false` — the working local
+  app is unaffected by any of this.
+
+**Known gap carried forward, unchanged**: the human security review gate
+(logged in DECISIONS_LOG.md's "Phase B approved" entry) is still
+outstanding — required before any real second company's data goes live.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

@@ -123,6 +123,29 @@ Per open decision #3: zero real/dev accounts (Steve Hughes, Alex Rivera) were to
 NEW GATE reminder: this technical proof is not the human security review the "Phase B approved" gate above still requires before any real second company's data goes live - that review is separate and still outstanding.
 Next: B2 (Foundation cluster) - syncing the real Organisation/Region/Site data into this now-proven structure, each subsequent cluster (B2-B5) built, proven with its own test, and committed individually per the agreed build order.
 
+## B2 (Foundation cluster) built and PROVEN (2026-09-08)
+Organisations, Regions, Sites, VenueTypes, Departments, Areas, EquipmentTypes moved onto the backend with RLS, behind a new `backendDataEnabledProvider` switch (default off - the working local app is unchanged either way). Full verbatim proof (curl results for all 7 tables, plus the Dart-layer integration test) in BACKEND_INFRA.md's B2 section.
+
+Two real findings from checking the actual schema before building (flagged, not assumed away):
+- `equipment_types`/`venue_types` are user-extensible (`create()` methods exist on both) but had zero org/site linkage - a custom type one tenant creates would have leaked to every other tenant. Fixed with a nullable `organisation_id` (null = shared baseline shipped with every install, non-null = a tenant's own private addition) - confirmed via curl that a tenant's custom type is invisible to another tenant while the shared baseline is visible to both.
+- `organisations`/`regions`/`sites` existed from B1 with RLS still disabled (deliberately deferred). Enabled RLS + added policy BEFORE any grant was added on all 7 tables this cluster, per B1's own "grant before policy" trap - closing that gap for real, not just noting it.
+
+Decisions confirmed, per the user's answers:
+1. Nullable `organisation_id` on the two type tables - approved, built as above.
+2. Real local dev data (1 org, 1 site, 12 venue types, 64 equipment types) NOT auto-migrated to the backend as part of B2 - confirmed, that's a separate deliberate step tied to Phase C onboarding.
+3. `site_id` stays nullable on Departments/Areas backend tables (matching local, no real null rows exist today) - `can_access_site(null)` fails closed on that edge case rather than adding a NOT NULL constraint for a case that doesn't occur.
+
+Proof approach, as agreed - full matrix on the new rules, lighter confirmation on tables reusing B1's proven shape: full read/write/cross-tenant test on `sites` (7 tests), `organisations` (3 tests), `regions` (4 tests, proving `can_access_region()` including same-org-different-region); the type-table null-org logic tested distinctly on `venue_types`/`equipment_types` (shared baseline visible to both tenants, private addition visible only to its own, global-row write rejected); lighter 3-test confirmation (own read / other-tenant read empty / other-tenant write rejected) on `departments`, `areas`, `site_venue_types`. All via direct curl against the live public API, verbatim results logged, all passed.
+
+**New this cluster, beyond the SQL proof**: a real Dart-layer integration test (`integration_test/phase_b2_backend_repositories_test.dart`) proves the actual repository/provider code added this phase - not just the RLS policies - genuinely works against the live backend: a hand-crafted throwaway-tenant token exercised through the real `organisationRepositoryProvider`/`siteRepositoryProvider`/`departmentRepositoryProvider`, confirming correct tenant-scoped reads and a real `BackendRequestException` (RLS rejection) on a cross-tenant `SiteRepository.create()` call. All 4 passed against the live server, no mocks. A normal (flag-off) Windows debug build was also launched separately and confirmed running normally, unaffected.
+
+Architecture note: `EquipmentRepository` mixes EquipmentTypes (in scope) with EquipmentInstances and equipment/venue-type tagging (not in scope - operational data reserved for a later cluster) in one interface - `SupabaseEquipmentRepository` implements only the types methods against the backend and delegates every instance/tagging method to a wrapped Drift instance, so the rest of the interface keeps working unchanged. Site venue-type tagging (`SiteRepository.getVenueTypeIds`/`setVenueTypeIds`) is proven at the RLS level but not yet wired to a backend call from the app - throws `UnimplementedError` on the backend path pending the Venue Details screen retrofit, matching "capability built, app wiring incremental."
+
+Bonus fix, not the target but confirmed real: `AreaRepository.getAll()` has never filtered by site locally (the known "multi-site only partially usable" gap logged under Open/Not yet decided) - the backend path fixes this for free via RLS, once `backendDataEnabledProvider` is on.
+
+All throwaway data (two proof tenants, one Dart-test tenant pair) deleted and verified empty afterward. Human-security-review gate (Phase B approved entry) still outstanding, unchanged by this cluster.
+Next: B3 (People cluster), same discipline - build, prove per table, commit as its own piece.
+
 ## Master Status reconciliation (2026-09-06)
 A status summary from Steve's separate strategy advisor was checked line-by-line against this log and the actual codebase, to keep both pictures aligned. Confirmed accurate: app rename to VenuRite, the domain, everything in the "built" feature list (including exact counts - 63 equipment types, ~150 tasks across 21 segments, schemaVersion 34), Phase 1/2 backend status, Phase 3/B not started, Phase A responsive status (19/21 screens), the A->B->C->D build sequence, the dedicated-server-deferred hard rule, and that the researched legal limits (LAW/FSA/BEST) aren't yet professionally certified.
 

@@ -43,6 +43,11 @@ dependencies:
   pdf: ^3.11.1
   supabase_flutter: ^2.8.0
   file_picker: ^8.1.7
+  # Phase B2 — raw REST calls against Supabase's PostgREST endpoint,
+  # carrying whichever access token the current session actually has (PIN
+  # sessions never touch supabase_flutter's own auth/session state, so its
+  # ambient client can't be used for these calls — see BackendRestClient).
+  http: ^1.6.0
 
 dev_dependencies:
   flutter_test:

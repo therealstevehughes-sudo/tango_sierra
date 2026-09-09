@@ -5,22 +5,35 @@ import '../models/site.dart';
 import '../repositories/organisation_repository.dart';
 import '../repositories/region_repository.dart';
 import '../repositories/site_repository.dart';
-import 'auth_providers.dart' show currentUserProvider;
+import '../repositories/supabase_organisation_repository.dart';
+import '../repositories/supabase_region_repository.dart';
+import '../repositories/supabase_site_repository.dart';
+import 'auth_providers.dart' show backendDataEnabledProvider, currentUserProvider;
+import 'backend_providers.dart' show backendRestClientProvider;
 import 'task_submission_providers.dart' show appDatabaseProvider;
 
 final organisationRepositoryProvider = Provider<OrganisationRepository>((
   ref,
 ) {
+  if (ref.watch(backendDataEnabledProvider)) {
+    return SupabaseOrganisationRepository(ref.watch(backendRestClientProvider));
+  }
   final db = ref.watch(appDatabaseProvider);
   return DriftOrganisationRepository(db);
 });
 
 final siteRepositoryProvider = Provider<SiteRepository>((ref) {
+  if (ref.watch(backendDataEnabledProvider)) {
+    return SupabaseSiteRepository(ref.watch(backendRestClientProvider));
+  }
   final db = ref.watch(appDatabaseProvider);
   return DriftSiteRepository(db);
 });
 
 final regionRepositoryProvider = Provider<RegionRepository>((ref) {
+  if (ref.watch(backendDataEnabledProvider)) {
+    return SupabaseRegionRepository(ref.watch(backendRestClientProvider));
+  }
   final db = ref.watch(appDatabaseProvider);
   return DriftRegionRepository(db);
 });
