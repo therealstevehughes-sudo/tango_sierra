@@ -197,6 +197,27 @@ Minor known limitations documented in BACKEND_INFRA.md, none security-relevant: 
 **Still outstanding, unchanged: the human security review gate** - before any REAL second company's data goes live, the RLS design gets one human security review by someone backend-experienced, in addition to this technical cross-tenant proof. Now that B0-B5 are complete and the whole isolation model is in place, this review is the next real gate on the path to a real multi-tenant deployment (alongside "dedicated server before real data").
 Follow-ons now queued (none blocking the foundation itself): Realtime push layer; `verify_staff_pin()` server-side `users.active` enforcement (from B3); Suppliers cluster; equipment-retire cascade on the backend path; the human security review.
 
+## Phase C1 approved - tenant signup + cascading onboarding (2026-09-10)
+Phase C starts with C1: new-client onboarding built as TENANT signup on the completed B0-B5 multi-tenant foundation. Plan approved as written. Six decisions confirmed:
+1. Fresh-install entry is an explicit "Sign in / Set up a company" choice screen - no auto-detection (an un-authed client can't read the backend org list under RLS anyway).
+2. Senior-tier invites (regional/executive) produce a copyable one-time setup link the inviting manager passes on manually. Real email delivery is the later SMTP-dependent upgrade.
+3. The `tenant-signup` endpoint is open for now (dev/test, pre-customers). An invite-code / approval gate is a NEW pre-real-public-launch gate, logged alongside the human security review and the dedicated-server rule - not built now.
+4. C1 scope = tenant signup + cascading onboarding + per-tier setup checklists ONLY. The branded-per-branch home screen and the interactive org-builder/organogram (also in PHASE C VISION) are separate follow-ons C2/C3.
+5. Real installs = both backend flags (`backendAuthEnabledProvider`, `backendDataEnabledProvider`) forced ON, no runtime toggle. The Drift-only path stays as-is for the dev/demo flavour only.
+6. Regional tier = one region, set at invite time (a regional manager is created FOR a specific region, not assigned regions afterward) - matches the existing B-phase constraint.
+
+Build breakdown (each build -> prove -> commit, same discipline as B0-B5):
+- **C1a** - demo-seed gating (local only, no backend).
+- **C1b** - `tenant-signup` Edge Function + fresh-install entry + signup screen.
+- **C1c** - `invite-senior` Edge Function + Region/Branch management screens.
+- **C1d** - `provision-staff-pin` Edge Function + staff onboarding wired through it + per-tier setup checklist card. Then a full end-to-end chain verification.
+
+## Phase C1a - demo-seed gating (built and PROVEN 2026-09-10)
+New compile-time flag `kSeedDemoData` (`lib/core/config/build_flags.dart`, `bool.fromEnvironment('SEED_DEMO_DATA', defaultValue: true)`). `app_database.dart`'s `beforeOpen` now gates the fake `My Organisation` / `Main Site`, the ~40 named demo staff, the `_ensureSeedUserJobRoles` backfill, the `Standard Fridge Tasks` example preset, and the `_backfillSiteIds` call behind it. Shipped REFERENCE content is deliberately NOT gated - the ~150-task library, 64 equipment types, 12 venue types, and the task-library segment presets are what every tenant needs.
+Real build: `flutter build windows --dart-define=SEED_DEMO_DATA=false` opens completely empty (no org, no site, no staff, no example preset). Demo/dev build (the default): byte-for-byte unchanged.
+Proven: a new integration test (`integration_test/phase_c1a_seed_gating_test.dart`, in-memory DB via a new `AppDatabase.forTesting` constructor) run BOTH ways - with `SEED_DEMO_DATA=false` it asserts organisations/sites/users empty and no example preset while equipment types (>50), venue types (>=12), task templates (>100) and reference presets are still seeded; with the default flag it asserts the demo company/venue/staff/example-preset are all present. Both runs passed.
+This also closes the B2 open item "real local dev data NOT auto-migrated" - a real install is born empty and populated through onboarding against the backend, so there is never dev data to migrate.
+
 ## Master Status reconciliation (2026-09-06)
 A status summary from Steve's separate strategy advisor was checked line-by-line against this log and the actual codebase, to keep both pictures aligned. Confirmed accurate: app rename to VenuRite, the domain, everything in the "built" feature list (including exact counts - 63 equipment types, ~150 tasks across 21 segments, schemaVersion 34), Phase 1/2 backend status, Phase 3/B not started, Phase A responsive status (19/21 screens), the A->B->C->D build sequence, the dedicated-server-deferred hard rule, and that the researched legal limits (LAW/FSA/BEST) aren't yet professionally certified.
 

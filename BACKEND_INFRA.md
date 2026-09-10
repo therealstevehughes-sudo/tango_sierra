@@ -1170,6 +1170,28 @@ security review of this RLS design by someone backend-experienced — in
 addition to the technical cross-tenant proof above, and alongside the
 existing "dedicated server before real data" rule.
 
+## Phase C1 — tenant signup + cascading onboarding (in progress, 2026-09-10)
+
+Built on the completed B0–B5 foundation. Backend surface for C1 is three
+new service-role Edge Functions (each the same shape as `pin-login`),
+added across sub-parts:
+- `tenant-signup` — C1b — creates an Organisation + its first executive
+  (GoTrue account + `public.users` row + optional `branding_configs`) in
+  one transaction. Open endpoint for now; an invite-code/approval gate is
+  a logged pre-real-public-launch gate.
+- `invite-senior` — C1c — creates a regional/executive GoTrue account
+  with `raw_app_meta_data` claims set at invite time, returns a copyable
+  one-time setup link (real email delivery is the later SMTP-dependent
+  upgrade).
+- `provision-staff-pin` — C1d — writes a `staff_pins` row for a
+  base/supervisor user a branch manager just created (there's no
+  client-reachable path to `staff_pins` today — it's service-role only).
+
+**C1a (demo-seed gating)** — no backend change. Local-only: the
+`SEED_DEMO_DATA` compile-time flag gates the fake company/venue/staff so a
+real build (`--dart-define=SEED_DEMO_DATA=false`) opens empty. Recorded
+here so the sub-part is accounted for; detail in DECISIONS_LOG.md.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
+import '../config/build_flags.dart';
 import '../utils/pin_hasher.dart';
 import 'task_enrichment_data.dart';
 
@@ -682,6 +683,11 @@ class _LibraryPreset {
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
+  // For tests that need an isolated database (e.g. an in-memory one) so
+  // they don't touch the real on-device file. Runs the same migrations
+  // and the same beforeOpen seeding path.
+  AppDatabase.forTesting(super.executor);
+
   @override
   int get schemaVersion => 36;
 
@@ -1024,22 +1030,30 @@ class AppDatabase extends _$AppDatabase {
       }
     },
     beforeOpen: (details) async {
-      // Runs first — user seeding below needs a real site id to seed into.
-      final defaultSiteId = await _ensureDefaultOrganisationAndSite();
+      // Phase C1a — the fake company / venue / people are demo scaffolding
+      // only. A real install (--dart-define=SEED_DEMO_DATA=false) opens
+      // completely empty and is populated through the tenant-signup flow
+      // instead. Shipped REFERENCE content below (equipment types, venue
+      // types, the ~150-task library) is NOT gated — every tenant needs it.
+      int? defaultSiteId;
+      if (kSeedDemoData) {
+        // Runs first — demo-user seeding below needs a real site id.
+        defaultSiteId = await _ensureDefaultOrganisationAndSite();
 
-      // Always ensured (checked by name, not gated on "table empty") —
-      // Sprint 031 fix: this used to run once only, on first launch. Seed
-      // users added to the list afterward (Priya Shah, Marcus Webb) never
-      // reached any device whose users table was already non-empty by
-      // then — confirmed against this project's own real dev database,
-      // which had neither. Matches every other seed routine's established
-      // idempotent pattern below.
-      await _ensureSeedUsers(defaultSiteId);
+        // Always ensured (checked by name, not gated on "table empty") —
+        // Sprint 031 fix: this used to run once only, on first launch.
+        // Seed users added to the list afterward (Priya Shah, Marcus Webb)
+        // never reached any device whose users table was already non-empty
+        // by then — confirmed against this project's own real dev
+        // database, which had neither. Matches every other seed routine's
+        // established idempotent pattern below.
+        await _ensureSeedUsers(defaultSiteId);
 
-      // Backfills jobRole onto seed users that already existed before this
-      // column did — see the function doc for why `ensure` above alone
-      // isn't enough.
-      await _ensureSeedUserJobRoles();
+        // Backfills jobRole onto seed users that already existed before
+        // this column did — see the function doc for why `ensure` above
+        // alone isn't enough.
+        await _ensureSeedUserJobRoles();
+      }
 
       // Always ensured (not gated on "table empty"), so an existing install
       // that only has the original 3 equipment types picks up the rest too.
@@ -1055,10 +1069,13 @@ class AppDatabase extends _$AppDatabase {
 
       // One illustrative preset so the feature is demonstrable before the
       // real task library (Sprint 027) populates presets for real. Gated on
-      // the presets table being empty.
-      final existingPresets = await select(taskPresets).get();
-      if (existingPresets.isEmpty) {
-        await _seedExamplePreset();
+      // the presets table being empty AND on the demo flavour — a real
+      // install builds its own presets during onboarding.
+      if (kSeedDemoData) {
+        final existingPresets = await select(taskPresets).get();
+        if (existingPresets.isEmpty) {
+          await _seedExamplePreset();
+        }
       }
 
       // Always ensured (checked by title/name, not gated on "table empty")
@@ -1106,8 +1123,11 @@ class AppDatabase extends _$AppDatabase {
       await _ensureSupplierTraceabilityFlag();
 
       // Idempotent — safe on every open. Only touches rows left over from
-      // before siteId existed (nothing to do on a fresh install).
-      await _backfillSiteIds(defaultSiteId);
+      // before siteId existed. A real (non-demo) install has no such rows
+      // and no default site to backfill into, so it's skipped entirely.
+      if (defaultSiteId != null) {
+        await _backfillSiteIds(defaultSiteId);
+      }
     },
   );
 
