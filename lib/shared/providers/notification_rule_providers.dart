@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../repositories/notification_rule_repository.dart';
 import '../repositories/supabase_notification_rule_repository.dart';
+import '../repositories/supabase_trigger_notification_repository.dart';
 import '../repositories/trigger_notification_repository.dart';
 import 'auth_providers.dart'
     show backendDataEnabledProvider, currentBackendOrganisationIdProvider;
@@ -26,6 +27,11 @@ final notificationRuleRepositoryProvider =
 
 final triggerNotificationRepositoryProvider =
     Provider<TriggerNotificationRepository>((ref) {
+      if (ref.watch(backendDataEnabledProvider)) {
+        return SupabaseTriggerNotificationRepository(
+          ref.watch(backendRestClientProvider),
+        );
+      }
       final db = ref.watch(appDatabaseProvider);
       return DriftTriggerNotificationRepository(db);
     });

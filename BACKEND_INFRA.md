@@ -981,6 +981,195 @@ accepted rather than engineered around.
 **Known gap carried forward, unchanged**: the human security review gate
 is still outstanding.
 
+## Phase B5 — Live/transactional cluster (built and PROVEN 2026-09-10) — MULTI-TENANT FOUNDATION COMPLETE
+
+TaskSubmissions, TriggerNotifications, SessionSummaries, ShiftHandoverNotes,
+ProblemStatusEvents, and EquipmentInstances (the B2 deferral) all moved
+onto the backend with RLS. Every one reuses `can_access_site(site_id)` —
+no new function needed this cluster.
+
+**Schema** (six tables + two FK upgrades):
+```sql
+create table public.equipment_instances (
+  id serial primary key, name text not null,
+  equipment_type_id integer not null references public.equipment_types(id),
+  area_id integer references public.areas(id),
+  site_id integer references public.sites(id),
+  active boolean not null default true
+);
+
+create table public.task_submissions (
+  id serial primary key, task_title text not null, status text not null,
+  completed_by text not null, completed_at timestamptz not null,
+  numeric_value text, photo_attached boolean not null default false,
+  photo_path text, notes text,
+  task_schedule_id integer,        -- soft ref, no FK even locally
+  task_template_group_id integer,  -- soft ref, no FK even locally
+  equipment_instance_id integer references public.equipment_instances(id),
+  custom_field_values_json text,
+  completed_by_user_id integer references public.users(id),
+  site_id integer references public.sites(id),
+  corrective_action_outcome text, corrective_action_note text,
+  supplier_id integer,  -- soft ref, NO FK -- Suppliers not backend-hosted yet
+  problem_status text, equipment_instance_name text
+);
+
+create table public.trigger_notifications (
+  id serial primary key,
+  notification_rule_id integer references public.notification_rules(id),
+  task_submission_id integer not null references public.task_submissions(id),
+  recipient_user_id integer not null references public.users(id),
+  message text not null,
+  site_id integer not null references public.sites(id),
+  created_at timestamptz not null default now(),
+  acknowledged boolean not null default false, acknowledged_at timestamptz,
+  origin_target_role_tier text, escalated_at timestamptz,
+  equipment_instance_name text
+);
+
+create table public.session_summaries (
+  id serial primary key,
+  staff_user_id integer not null references public.users(id),
+  staff_name text not null,
+  sent_to_manager_id integer not null references public.users(id),
+  pass_count integer not null, fail_count integer not null,
+  failed_task_titles_json text not null, note text,
+  sent_at timestamptz not null,
+  acknowledged boolean not null default false, acknowledged_at timestamptz,
+  site_id integer references public.sites(id)
+);
+
+create table public.shift_handover_notes (
+  id serial primary key,
+  author_user_id integer not null references public.users(id),
+  note text not null, created_at timestamptz not null,
+  site_id integer references public.sites(id)
+);
+
+create table public.problem_status_events (
+  id serial primary key,
+  task_submission_id integer not null references public.task_submissions(id),
+  status text not null,
+  changed_by_user_id integer not null references public.users(id),
+  changed_at timestamptz not null, note text,
+  -- B5: NEW, backend-only. Locally the app joins through
+  -- task_submission_id for site scoping; every other child table
+  -- denormalises site_id directly, so this matches that convention.
+  -- Populated from the parent submission at write time.
+  site_id integer references public.sites(id)
+);
+
+-- FK upgrades: both tables were empty on the backend, so plain validated
+-- constraints (no NOT VALID needed).
+alter table public.task_schedules add constraint
+  task_schedules_equipment_instance_id_fkey
+  foreign key (equipment_instance_id) references public.equipment_instances(id);
+-- (task_submissions.equipment_instance_id got its FK inline above.)
+```
+
+**RLS**, enabled + policied before any grant on all six:
+`for all using (can_access_site(site_id)) with check (can_access_site(site_id))`.
+
+**The proof — verbatim, direct curl.** Throwaway Org A (id 15, site
+A1=23) / Org B (id 16, site B1=24), seeded a submission per tenant with
+denormalised fields (`completed_by`, `equipment_instance_name`,
+`problem_status`), plus a child row per tenant in each of the other five
+tables.
+
+- `task_submissions`:
+  - branch_a SELECT → its own row only, denormalised fields intact:
+    `[{"id":1,"site_id":23,"completed_by":"B5-PROOF-USER-A (denormalised)","equipment_instance_name":"B5-PROOF-FRIDGE-A (denormalised)","problem_status":"open"}]`
+  - branch_a read tenant B's submission by id → `[]` (no denormalised
+    field leak)
+  - branch_a INSERT claiming tenant B's site → `403`
+  - branch_a UPDATE tenant B's submission's `problem_status` → `[]`
+    (0 rows); admin follow-up: tenant B's row still `problem_status = open`
+  - branch_a append a NEW submission at its own site → `HTTP_STATUS:201`
+    (append-only audit write works)
+  - branch_b SELECT → only tenant B's row, never tenant A's
+- `problem_status_events`:
+  - branch_a SELECT → its own event only (new denormalised site_id working)
+  - branch_a read tenant B's event → `[]`
+  - branch_a INSERT a status-change event carrying `site_id: 24` (tenant
+    B) → `403`
+  - branch_a INSERT a legitimate status-change at its own site →
+    `HTTP_STATUS:201`
+- `equipment_instances`: own read; cross-tenant read → `[]`;
+  cross-tenant write → `403`.
+- **FK upgrade check**: a `task_schedules` insert referencing
+  `equipment_instance_id: 99999` (nonexistent) →
+  `{"code":"23503","details":"Key is not present in table
+  \"equipment_instances\".","message":"...violates foreign key constraint
+  \"task_schedules_equipment_instance_id_fkey\""}` / `HTTP_STATUS:409` —
+  confirms the FK is live and validated, not `NOT VALID`.
+- `trigger_notifications`, `session_summaries`, `shift_handover_notes`:
+  each — own read returns its row; cross-tenant read → `[]`;
+  cross-tenant write → `403`.
+
+**Cleanup verified**: all six B5 tables + adjacent (organisations, sites,
+users, equipment_types) re-queried immediately after — 0 rows everywhere
+except the one permanent `users.id=1` placeholder documented in the B3
+section.
+
+**App-layer wiring**:
+- Six new `Supabase*Repository` classes; `SupabaseEquipmentRepository`
+  (from B2) upgraded so instance methods (`getAll`/`create`/`rename`/
+  `setActive`) now go to the backend too, keeping only the venue-type
+  tagging join delegated to Drift. The same-site duplicate-name check is
+  replicated against the RLS-scoped instance list.
+- `backend_polling_stream.dart` — the interim stand-in for a push feed.
+  Backend-path `watch*` methods (`TaskSubmissionRepository.watchAll`/
+  `watchDefaultView`/`watchFiltered`, `TriggerNotificationRepository.
+  watchForUser`, `SessionSummaryRepository.watchForManager`,
+  `ProblemRegisterRepository.watchForSite`) fetch on listen then poll
+  every 20s, emitting only on change. This is the accepted PULL guarantee
+  — correct data at most one interval late — not a true push.
+- `TaskSubmissionRepository`'s DISTINCT-lookup methods fetch the
+  RLS-scoped rows and dedupe in Dart (PostgREST has no bare SELECT
+  DISTINCT).
+- **Dart-layer integration test**
+  (`integration_test/phase_b5_backend_repositories_test.dart`), live
+  backend, hand-crafted throwaway token: `SupabaseTaskSubmissionRepository`
+  appends a record, reads it back, and never sees the other tenant's —
+  including its denormalised `completed_by`/`equipment_instance_name`;
+  the upgraded `SupabaseEquipmentRepository` creates an instance at its
+  own site and is rejected creating one at another tenant's. Both passed
+  live, no mocks.
+
+**Minor known limitations, none security-relevant, all documented:**
+- Backend-path `watch*` streams poll, don't push — the Realtime follow-on.
+- `SupabaseProblemRegisterRepository._recordStatusChange` is two REST
+  calls, not a transaction (PostgREST has no multi-statement transaction
+  without an RPC). The `problem_status_events` row is the source of
+  truth; `task_submissions.problem_status` is a read-optimisation mirror
+  — if the mirror write failed, `getHistory` would still be correct.
+- `SupabaseEquipmentRepository.setActive(false)` doesn't yet
+  cascade-deactivate dependent TaskSchedules on the backend path (the
+  local path does) — belongs with the "retire equipment" flow retrofit.
+- BrandingConfig `logo_path` still a non-portable local file path,
+  unchanged from the original branding decision.
+
+## Multi-tenant isolation foundation (B0–B5) — status
+
+| Cluster | Tables | Function(s) added | Proven |
+|---|---|---|---|
+| B0 | Region (local schema) | — | migration verified against real DB |
+| B1 | organisations, regions, sites (skeleton) | `can_access_site`, live claims join, GoTrue hook | 14-test curl matrix + real pin-login token |
+| B2 | + venue_types, equipment_types, site_venue_types, departments, areas | — (nullable-org pattern) | full/moderate/light curl matrix + Dart test |
+| B3 | + users, training_records | — (reuse) | curl matrix (incl. deactivated-user) + Dart test (auth untouched) |
+| B4 | + task_templates, task_schedules, notification_rules, branding_configs | `can_access_organisation` | curl matrix + fork-on-write proven twice |
+| B5 | + equipment_instances, task_submissions, trigger_notifications, session_summaries, shift_handover_notes, problem_status_events | — (reuse) | curl matrix + Dart test |
+
+Every table with a tenant boundary now has RLS enabled + forced + a
+`tenant_isolation` policy, added before any grant. Three reusable
+functions cover every shape: `can_access_site(site_id)`,
+`can_access_region(region_id)`, `can_access_organisation(org_id)`.
+
+**The one gate still open before real multi-tenant data**: a human
+security review of this RLS design by someone backend-experienced — in
+addition to the technical cross-tenant proof above, and alongside the
+existing "dedicated server before real data" rule.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.
