@@ -107,7 +107,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     if (currentUser != null) {
       final allSuppliers = await ref
           .read(supplierRepositoryProvider)
-          .getForSite(currentUser.siteId);
+          .getForSite(currentUser.siteId!);
       suppliers = allSuppliers.where((s) => s.active).toList();
     }
 

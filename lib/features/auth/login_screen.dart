@@ -7,6 +7,7 @@ import '../../core/widgets/section_header.dart';
 import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../onboarding/tenant_signup_screen.dart';
 import 'pin_entry.dart';
 import 'senior_login_screen.dart';
 
@@ -102,8 +103,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           child: ResponsiveContent(
             child: selectedUser == null
               ? staffAsync.when(
-                  data: (staff) =>
-                      _StaffList(staff: staff, onSelect: selectUser),
+                  data: (staff) => staff.isEmpty
+                      ? const _FreshInstallEntry()
+                      : _StaffList(staff: staff, onSelect: selectUser),
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                   error: (err, stack) =>
@@ -118,6 +120,63 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   onBack: backToStaffList,
                 ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Phase C1b — what a fresh (real) install shows: no staff yet, so the
+/// only ways forward are creating a company or, if you were invited,
+/// signing in via Leadership Access. This is the effective "Sign in / Set
+/// up a company" choice screen (decision #1) — no separate widget needed,
+/// it's just what LoginScreen becomes when the staff list is empty.
+class _FreshInstallEntry extends StatelessWidget {
+  const _FreshInstallEntry();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ResponsiveContent(
+        maxWidth: 380,
+        alignment: Alignment.center,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              'Welcome to VenuRite',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Set up your company to get started, or sign in if you were '
+              'invited.',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const SizedBox(height: 28),
+            FilledButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const TenantSignupScreen(),
+                ),
+              ),
+              child: const Text('Set up a new company'),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const SeniorLoginScreen(),
+                ),
+              ),
+              child: const Text('Sign in'),
+            ),
+          ],
         ),
       ),
     );

@@ -34,7 +34,7 @@ class _SupplierManagementScreenState
     final currentUser = ref.read(currentUserProvider);
     if (currentUser == null) return;
     final repo = ref.read(supplierRepositoryProvider);
-    final loaded = await repo.getForSite(currentUser.siteId);
+    final loaded = await repo.getForSite(currentUser.siteId!);
 
     if (!mounted) return;
     setState(() {
@@ -161,7 +161,7 @@ class _SupplierManagementScreenState
       approvalNote: approvalNoteController.text.trim().isEmpty
           ? null
           : approvalNoteController.text.trim(),
-      siteId: currentUser.siteId,
+      siteId: currentUser.siteId!,
     );
 
     if (!mounted) return;

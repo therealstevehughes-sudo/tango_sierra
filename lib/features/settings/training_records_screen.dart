@@ -172,7 +172,7 @@ class _TrainingRecordsScreenState
       TrainingRecord(
         id: null,
         userId: widget.staffMember.id,
-        siteId: widget.staffMember.siteId,
+        siteId: widget.staffMember.siteId!,
         itemType: itemType,
         customItemTitle: itemType == TrainingItemType.other
             ? customTitleController.text.trim()

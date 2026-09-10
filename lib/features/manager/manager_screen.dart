@@ -130,7 +130,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
     if (currentUser != null) {
       final overdue = await ref
           .read(overdueSummaryServiceProvider)
-          .getSummaryForSite(currentUser.siteId);
+          .getSummaryForSite(currentUser.siteId!);
       if (mounted) setState(() => _overdueEntries = overdue);
     } else if (mounted) {
       setState(() {});

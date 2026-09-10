@@ -32,7 +32,7 @@ class _DepartmentManagementScreenState
     final currentUser = ref.read(currentUserProvider);
     if (currentUser == null) return;
     final repo = ref.read(departmentRepositoryProvider);
-    final loaded = await repo.getForSite(currentUser.siteId);
+    final loaded = await repo.getForSite(currentUser.siteId!);
 
     if (!mounted) return;
     setState(() {
@@ -75,7 +75,7 @@ class _DepartmentManagementScreenState
     final repo = ref.read(departmentRepositoryProvider);
     await repo.create(
       name: nameController.text.trim(),
-      siteId: currentUser.siteId,
+      siteId: currentUser.siteId!,
     );
 
     if (!mounted) return;

@@ -49,7 +49,11 @@ class User {
   // JobRole's own doc comment for why those two states can't collide.
   final JobRole? jobRole;
   final TemperatureUnit preferredTemperatureUnit;
-  final int siteId;
+  // Nullable since Phase C1b — a freshly signed-up executive (Director)
+  // has no home site until they create the company's first branch. Every
+  // other tier (base/supervisor/venueManager, and a regional's home site)
+  // always has one; those call sites unwrap it with `!` and a note.
+  final int? siteId;
   final bool active;
   final DateTime? deactivatedAt;
   final int? deactivatedByUserId;
@@ -69,7 +73,7 @@ class User {
     required this.roleTier,
     this.jobRole,
     this.preferredTemperatureUnit = TemperatureUnit.celsius,
-    required this.siteId,
+    this.siteId,
     this.active = true,
     this.deactivatedAt,
     this.deactivatedByUserId,

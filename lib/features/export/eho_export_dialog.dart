@@ -110,7 +110,7 @@ Future<void> showEhoExportDialog(BuildContext context, WidgetRef ref) async {
   Object? error;
   try {
     path = await service.generate(
-      siteId: currentUser.siteId,
+      siteId: currentUser.siteId!,
       start: rangeStart,
       end: rangeEnd,
       generatedByName: currentUser.name,

@@ -154,7 +154,7 @@ class SupabaseUserRepository implements UserRepository {
     preferredTemperatureUnit: TemperatureUnit.values.byName(
       row['preferred_temperature_unit'] as String,
     ),
-    siteId: row['site_id'] as int,
+    siteId: row['site_id'] as int?,
     active: row['active'] as bool,
     deactivatedAt: row['deactivated_at'] == null
         ? null

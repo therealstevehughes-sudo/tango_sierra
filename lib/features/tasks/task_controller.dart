@@ -187,7 +187,7 @@ class TaskController {
           taskTemplateGroupId: task.templateGroupId,
           equipmentInstanceId: task.equipmentInstanceId,
           completedByUserId: _currentUser.id,
-          siteId: _currentUser.siteId,
+          siteId: _currentUser.siteId!,
           equipmentInstanceName: task.equipmentInstanceName,
         ),
       );
@@ -251,7 +251,7 @@ class TaskController {
         equipmentInstanceId: task.equipmentInstanceId,
         customFieldValuesJson: customFieldValuesJson,
         completedByUserId: _currentUser.id,
-        siteId: _currentUser.siteId,
+        siteId: _currentUser.siteId!,
         correctiveActionOutcome: correctiveActionOutcome,
         correctiveActionNote: correctiveActionNote,
         supplierId: supplierId,
@@ -284,7 +284,7 @@ class TaskController {
     required ResolvedTask task,
     String? correctiveActionOutcome,
   }) async {
-    final siteId = _currentUser.siteId;
+    final siteId = _currentUser.siteId!; // base/supervisor/venueManager only reach task submission
     final allRules = await _notificationRuleRepository.getAllCurrentVersions();
 
     final matchingRules = allRules.where((rule) {

@@ -146,7 +146,7 @@ class _StaffAssignmentScreenState
         equipmentInstanceId: equipmentId,
         frequency: frequency,
         assignedByUserId: manager.id,
-        siteId: staff.siteId,
+        siteId: staff.siteId!,
         windowStartMinutes: windowStartMinutes,
         windowEndMinutesExclusive: windowEndMinutesExclusive,
       );
@@ -276,7 +276,7 @@ class _StaffAssignmentScreenState
       staffUserId: staff.id,
       equipmentInstanceId: equipmentInstanceId,
       assignedByUserId: manager.id,
-      siteId: staff.siteId,
+      siteId: staff.siteId!,
     );
 
     if (!mounted) return;

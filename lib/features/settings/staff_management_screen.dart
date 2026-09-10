@@ -46,7 +46,7 @@ class _StaffManagementScreenState
 
     final departmentRepo = ref.read(departmentRepositoryProvider);
     final byId = <int, Department>{};
-    for (final siteId in loaded.map((u) => u.siteId).toSet()) {
+    for (final siteId in loaded.map((u) => u.siteId).whereType<int>().toSet()) {
       final departments = await departmentRepo.getForSite(siteId);
       for (final department in departments) {
         byId[department.id!] = department;
@@ -152,7 +152,7 @@ class _StaffManagementScreenState
 
   Future<void> _changeDepartment(User user) async {
     final departmentRepo = ref.read(departmentRepositoryProvider);
-    final siteDepartments = await departmentRepo.getForSite(user.siteId);
+    final siteDepartments = await departmentRepo.getForSite(user.siteId!);
 
     // If the user's current department was since deactivated, it still
     // needs to appear as a selectable option so the dialog can show the

@@ -63,7 +63,10 @@ final activeSiteProvider = StateProvider<Site?>((ref) => null);
 // is homed, and that's the specific name this screen needs.
 final currentUserSiteProvider = FutureProvider<Site?>((ref) async {
   final user = ref.watch(currentUserProvider);
-  if (user == null) return null;
+  // siteId is null for a freshly signed-up executive (Phase C1b) who
+  // hasn't created a branch yet — TierHomeScreen already handles a null
+  // site here (shows no branch name rather than crashing).
+  if (user?.siteId == null) return null;
   final repository = ref.watch(siteRepositoryProvider);
-  return repository.getById(user.siteId);
+  return repository.getById(user!.siteId!);
 });

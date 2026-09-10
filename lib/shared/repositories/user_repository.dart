@@ -277,7 +277,7 @@ class DriftUserRepository implements UserRepository {
       preferredTemperatureUnit: TemperatureUnit.values.byName(
         row.preferredTemperatureUnit,
       ),
-      siteId: row.siteId!,
+      siteId: row.siteId,
       active: row.active,
       deactivatedAt: row.deactivatedAt,
       deactivatedByUserId: row.deactivatedByUserId,

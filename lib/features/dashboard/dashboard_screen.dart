@@ -71,7 +71,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
       setState(() => _loading = false);
       return;
     }
-    final siteId = currentUser.siteId;
+    final siteId = currentUser.siteId!; // operational screen, current user always has a site here
 
     final reliabilityService = ref.read(reliabilityServiceProvider);
     final overdueService = ref.read(overdueSummaryServiceProvider);

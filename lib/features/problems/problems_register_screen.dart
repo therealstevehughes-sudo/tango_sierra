@@ -76,7 +76,7 @@ class _ProblemsRegisterScreenState
                 Expanded(
                   child: StreamBuilder<List<TaskSubmission>>(
                     stream: repository.watchForSite(
-                      currentUser.siteId,
+                      currentUser.siteId!,
                       filter: _filter,
                     ),
                     builder: (context, snapshot) {

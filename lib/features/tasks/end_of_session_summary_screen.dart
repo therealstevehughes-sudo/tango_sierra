@@ -97,7 +97,7 @@ class _EndOfSessionSummaryScreenState
       note: summaryNoteController.text.trim().isEmpty
           ? null
           : summaryNoteController.text.trim(),
-      siteId: currentUser.siteId,
+      siteId: currentUser.siteId!,
     );
 
     if (!mounted) return;
@@ -112,7 +112,7 @@ class _EndOfSessionSummaryScreenState
       await repo.create(
         authorUserId: currentUser.id,
         note: note,
-        siteId: currentUser.siteId,
+        siteId: currentUser.siteId!,
       );
     }
 

@@ -1192,6 +1192,50 @@ added across sub-parts:
 real build (`--dart-define=SEED_DEMO_DATA=false`) opens empty. Recorded
 here so the sub-part is accounted for; detail in DECISIONS_LOG.md.
 
+### C1b (tenant signup) — built and PROVEN 2026-09-10
+
+**`tenant-signup` Edge Function** deployed
+(`~/tango-sierra/supabase/docker/volumes/functions/tenant-signup/index.ts`,
+service-role, `apikey` = anon check like `pin-login`). Body:
+`{company_name, director_name, email, password, primary_color_argb?}`.
+Creates, with best-effort rollback: `organisations` row → GoTrue account
+(`app_metadata: {role_tier: 'executive', organisation_id}` → stored as
+`raw_app_meta_data`, so claims resolve on first sign-in; a Director has no
+site so the B1 hook leaves this explicit value alone) → `public.users`
+row (executive, `organisation_id` set, `supabase_user_id` linked) →
+optional `branding_configs` row. Returns `{organisation_id, local_user_id,
+email}`. Open endpoint (abuse gate is a logged pre-real-public-launch
+item).
+
+**Schema change — `public.users` gained `organisation_id`** (integer, FK
+to organisations). B3's `users` had no org column, so a site-less
+executive couldn't be RLS-scoped at all. The `tenant_isolation` policy is
+now tier-aware:
+```sql
+using (
+  (site_id is not null and can_access_site(site_id))
+  or (site_id is null and can_access_organisation(organisation_id))
+)
+-- with check identical
+```
+B3's proven branch/regional behaviour is unchanged (their rows all carry a
+`site_id`); only the site-less executive path is new. Going forward every
+`public.users` insert (from any of the C1 Edge Functions) sets
+`organisation_id`.
+
+**Proof (direct curl, 6 tests):** fresh signup → org+Director+branding all
+created and linked (`role_tier=executive`, `organisation_id` set,
+`supabase_user_id` linked); GoTrue password sign-in resolves claims
+(`{organisation_id, role_tier: executive}`); the Director's session sees
+ONLY its own org (`[{"id":20,"name":"C1B-PROOF-COMPANY"}]`); the new
+tenant starts empty (`sites: []`, `users: [Director only]`,
+`task_submissions: []`); duplicate email → `409` with rollback verified
+(no orphan org). Plus a Dart integration test
+(`phase_c1b_tenant_signup_test.dart`) exercising the real client path
+(`SupabaseTenantProvisioningRepository` → sign-in → `findBySupabaseUserId`
+→ isolation checks). All throwaway companies + GoTrue accounts deleted
+afterward, verified.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.
