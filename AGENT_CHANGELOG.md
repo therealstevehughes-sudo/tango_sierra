@@ -71,6 +71,8 @@ Updated these screens to use the active site, falling back to the default site:
 - Setup checklist counts.
 - Overdue summary supporting user and equipment reads.
 
+Added explicit `getForSite(siteId)` reads to the TaskSchedule repository paths and changed `OverdueSummaryService` to use them. This removes the final all-schedule load from that site-specific overdue path while preserving its existing active-schedule filtering.
+
 Maintenance contacts preserve organisation-wide records (`siteId == null`) while also showing contacts specific to the selected site.
 
 This prevents local multi-site screens from mixing staff, areas, and equipment from different venues. Backend reads remain additionally protected by RLS.

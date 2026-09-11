@@ -68,8 +68,8 @@ class OverdueSummaryService {
   // cases are already correctly excluded by the existing per-schedule
   // check reused here.
   Future<List<OverdueSummaryEntry>> getSummaryForSite(int siteId) async {
-    final allSchedules = await _scheduleRepository.getAll();
-    final schedules = allSchedules.where((s) => s.active && s.siteId == siteId);
+    final schedules = (await _scheduleRepository.getForSite(siteId))
+      .where((s) => s.active);
     final users = await _userRepository.getForSite(siteId);
     final templates = await _templateRepository.getAllCurrentVersions();
     final equipmentInstances = await _equipmentRepository.getForSite(siteId);

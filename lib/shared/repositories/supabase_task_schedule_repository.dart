@@ -22,6 +22,15 @@ class SupabaseTaskScheduleRepository implements TaskScheduleRepository {
   }
 
   @override
+  Future<List<TaskSchedule>> getForSite(int siteId) async {
+    final rows = await _client.select(
+      'task_schedules',
+      query: 'site_id=eq.$siteId',
+    );
+    return rows.map(_toModel).toList();
+  }
+
+  @override
   Future<List<TaskSchedule>> getForStaffMember(int userId) async {
     final rows = await _client.select(
       'task_schedules',
