@@ -102,6 +102,12 @@ Validation:
 - Focused dashboard analysis passed.
 - Full `flutter analyze` passed.
 
+Follow-up completed:
+
+- Leadership venue summary cards are now expandable.
+- Expanding a venue shows its own alphabetised team metrics.
+- No per-person FAIL counts or score-based ordering were introduced.
+
 Maintenance contacts preserve organisation-wide records (`siteId == null`) while also showing contacts specific to the selected site.
 
 This prevents local multi-site screens from mixing staff, areas, and equipment from different venues. Backend reads remain additionally protected by RLS.

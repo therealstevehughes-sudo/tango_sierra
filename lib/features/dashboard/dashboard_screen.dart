@@ -19,10 +19,9 @@ import 'reliability_service.dart';
 // shared by supervisor and venueManager, per the confirmed decision that
 // supervisor sees the same venue-wide view rather than an undermodeled
 // "team/shift" scope. Sub-sprint C (regional/executive) reuses `DashboardBody`
-// directly inside TopScreen rather than duplicating it — same venue-scoped
-// view, cross-venue comparison stays deferred until multi-site is actually
-// usable (see the "Multi-site is only partially usable" entry in
-// DECISIONS_LOG.md).
+// directly inside TopScreen rather than duplicating it. Leadership receives
+// a clearly venue-labelled aggregate with each venue expandable to its own
+// team metrics.
 //
 // Display extends the anti-gaming principle from the scoring math itself
 // (see reliability_service.dart's own doc comment) into how this screen
@@ -256,8 +255,12 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
 
   Widget _buildSiteSummary(_SiteDashboardSummary summary) {
     final overall = summary.reliability.overall;
+    final staff = [...summary.reliability.staff]
+      ..sort(
+        (a, b) => a.userName.toLowerCase().compareTo(b.userName.toLowerCase()),
+      );
     return Card(
-      child: ListTile(
+      child: ExpansionTile(
         title: Text(summary.site.name),
         subtitle: Wrap(
           spacing: 8,
@@ -279,6 +282,35 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
             ),
           ],
         ),
+        children: [
+          if (staff.isEmpty)
+            const ListTile(title: Text('No staff at this venue yet.'))
+          else
+            ...staff.map(
+              (member) => ListTile(
+                dense: true,
+                title: Text(member.userName),
+                subtitle: member.reliability.totalPeriods == 0
+                    ? const Text('Not enough data yet')
+                    : Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        children: [
+                          MetricChip(
+                            icon: Icons.check_circle_outline,
+                            label:
+                                '${(member.reliability.completionRate! * 100).round()}% completed',
+                          ),
+                          MetricChip(
+                            icon: Icons.schedule,
+                            label:
+                                '${(member.reliability.onTimeRate! * 100).round()}% on time',
+                          ),
+                        ],
+                      ),
+              ),
+            ),
+        ],
       ),
     );
   }
