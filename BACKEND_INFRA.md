@@ -1336,6 +1336,78 @@ via the real repositories). All passed live, no mocks. All throwaway
 companies, regions, sites, and accounts deleted and verified gone
 afterward.
 
+### C1d (provision-staff-pin + staff onboarding + checklist) — built and PROVEN 2026-09-11
+
+**`provision-staff-pin` Edge Function** deployed
+(`~/tango-sierra/supabase/docker/volumes/functions/provision-staff-pin/index.ts`).
+Not open: the caller's own bearer token — PIN or GoTrue, both HS256
+signed with the same `JWT_SECRET` — is verified directly via
+`jose.jwtVerify(token, secretKey, {issuer})` rather than
+`admin.auth.getUser()` (which only recognises real GoTrue sessions and
+would reject a legitimate PIN-tier caller, e.g. a venueManager creating a
+supervisor). Authorization: `TIER_RANK[targetTier] + 1 <=
+TIER_RANK[callerTier]` (a target can only be created by someone at least
+one full tier above), plus an explicit check that the target `site_id` is
+actually in the caller's reach (executive: same org; regional: same
+region; branch: their own site) — a clean error on top of the RLS
+backstop. Creates a synthetic-email `auth.users` row (PIN accounts have
+no real email — the address is never delivered to, only exists to
+satisfy `staff_pins`' FK), the linked `public.users` row, and a
+`staff_pins` row with a fresh random 4-digit PIN, hashed with the exact
+same `sha256(salt:pin)` scheme `verify_staff_pin()` expects. Returns
+`{local_user_id, name, role_tier, site_id, pin}` for the creating manager
+to pass on.
+
+**Three more real findings, in a chain** — the first two only surfaced
+because C1d's Dart-layer test actually tried to log a purely
+backend-provisioned person in, not because curl alone would have caught
+them:
+
+1. **`SupabaseUserRepository.authenticate()` delegated to Drift, unconditionally.** A real (backend-first) tenant's staff have no local row to delegate to — `PinAuthNotFound`, always, for every account this whole cluster exists to create. Fixed: `authenticate()` now calls the already-proven `pin-login` Edge Function directly (Phase 2's verification logic, byte-for-byte unchanged) instead of the local path.
+2. **That fix's first draft tried to resolve `supabase_user_id` via a plain client-side REST read on `users`** — RLS-gated, and at login time there is no session yet to satisfy it. The same chicken-and-egg problem `pin-login` already solves for the PIN hash check itself. Fixed by extending `pin-login` to accept `local_user_id` (int) as an alternative to `user_id` (uuid), resolved server-side, service-role, before calling `verify_staff_pin()`:
+   ```ts
+   // pin-login/index.ts — additive, existing user_id callers untouched
+   let user_id = body.user_id
+   if (!user_id && body.local_user_id) {
+     const { data: userRow } = await supabaseAdmin
+       .from("users").select("supabase_user_id")
+       .eq("id", body.local_user_id).eq("active", true).single()
+     if (!userRow?.supabase_user_id) return Response.json({ error: "incorrect pin" }, { status: 401 })
+     user_id = userRow.supabase_user_id
+   }
+   ```
+3. **A real isolation gap**, found by the Dart test's own isolation assertion (branch manager saw 4 users, not 2): the C1b `users` policy's site-less branch (`site_id is null and can_access_organisation(organisation_id)`) checks only "same org" — `can_access_organisation()` doesn't look at the caller's own tier, so ANY tier with a matching `organisation_id` claim (even base) could read every executive/regional row in the company. Fixed:
+   ```sql
+   -- users tenant_isolation policy, site-less branch, corrected
+   or (
+     site_id is null
+     and can_access_organisation(organisation_id)
+     and (claims ->> 'site_id') is null   -- NEW: caller must also be site-less
+   )
+   ```
+   Branch tiers always carry a `site_id` claim, so this excludes them cleanly. Re-verified: branch manager now sees exactly its own 2 site-scoped users; executive and regional (both site-less) still correctly see each other and their reachable site-scoped staff — nothing legitimate lost.
+
+**Known, deliberately unsolved gap**: the walk-up "Who are you?" staff list (`staffDirectoryProvider`) is itself RLS-gated once `backendDataEnabledProvider` is on, and a shared kitchen tablet has no session before anyone taps a name. Every test in this cluster already had a session by the time it read a roster, so this didn't block C1d's own proof — but a real shared tablet's walk-up screen needs its own pre-auth scoping mechanism (a device/kiosk-scoped credential established at branch setup is the likely shape) before it can use the backend flags for real. Logged as a required follow-on, not solved here.
+
+**App-layer**: `TenantProvisioningRepository.provisionStaffPin()`; new `StaffProvisioningScreen` (venueManager) and "Add branch manager" on `BranchManagementScreen` (regional); new `SetupChecklistCard` on `TierHomeScreen` — per-tier, derived live from the same RLS-scoped repositories, guide-don't-block.
+
+**Proof (direct curl, 8 tests, full chain):** regional provisions a
+venueManager for a branch → that branch manager's real `pin-login` call
+returns correct claims → provisions a base staff member → that person's
+real `pin-login` also works → (pre-fix) branch manager incorrectly saw
+4 users company-wide, (post-fix) exactly its own 2 → a base session
+cannot provision anyone (`403`) → a branch manager cannot create another
+venueManager (`403`) → a branch manager cannot provision staff at a site
+that isn't its own (`403`). Plus a Dart integration test
+(`phase_c1d_staff_provisioning_test.dart`) running the entire chain
+through real repository code end to end — signup → region → invite
+regional → branch → provision branch manager → **real PIN login via
+`userRepositoryProvider.authenticate()`** (the fixed path) → wrong PIN
+still rejected → provision base staff → their real PIN login too →
+isolation confirmed. All passed live, no mocks. All throwaway data
+deleted and verified gone (except the permanent B3 placeholder row and
+the unrelated pre-existing Phase 2 test row, both confirmed untouched).
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

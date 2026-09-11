@@ -7,13 +7,16 @@ import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/site.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../../shared/providers/tenant_provisioning_providers.dart';
+import '../../shared/repositories/tenant_provisioning_repository.dart';
 
-/// Phase C1c — regional-tier. Builds branches (Sites) within the
+/// Phase C1c/C1d — regional-tier. Builds branches (Sites) within the
 /// manager's OWN region — RLS scopes `siteRepositoryProvider.getAll()` to
 /// exactly that region already (proven B2), so this screen never needs to
-/// filter by region itself. Inviting a branch (venueManager) is a PIN
-/// account, provisioned in C1d via provision-staff-pin — not built here
-/// yet; per the cascade rule, this screen stops at "create the branch."
+/// filter by region itself. Each branch can have a branch manager (PIN
+/// account) provisioned via `provision-staff-pin` — the credential is a
+/// generated PIN shown once for the regional to pass on, same "copyable
+/// thing, not a real email" pattern as the senior invite.
 class BranchManagementScreen extends ConsumerStatefulWidget {
   const BranchManagementScreen({super.key});
 
@@ -70,6 +73,56 @@ class _BranchManagementScreenState
     await _load();
   }
 
+  Future<void> _inviteBranchManager(Site site) async {
+    final token = ref.read(currentBackendAccessTokenProvider);
+    if (token == null) return;
+    final name = await _promptText(
+      context,
+      title: 'Branch manager\'s name',
+    );
+    if (name == null || name.trim().isEmpty) return;
+    try {
+      final result = await ref.read(tenantProvisioningRepositoryProvider).provisionStaffPin(
+            callerAccessToken: token,
+            name: name.trim(),
+            jobTitle: 'Branch Manager',
+            roleTier: 'venueManager',
+            siteId: site.id,
+          );
+      if (!mounted) return;
+      await showDialog<void>(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Account created'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Give this person their name (to tap on the login screen) '
+                'and this PIN.',
+              ),
+              const SizedBox(height: 16),
+              SelectableText('Name: ${result.name}'),
+              SelectableText('PIN: ${result.pin}'),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Done'),
+            ),
+          ],
+        ),
+      );
+    } on StaffPinProvisionException catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.message)),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserProvider);
@@ -112,9 +165,24 @@ class _BranchManagementScreenState
                                 subtitle: site.address == null
                                     ? null
                                     : Text(site.address!),
-                                trailing: IconButton(
-                                  icon: const Icon(Icons.edit_outlined),
-                                  onPressed: () => _renameBranch(site),
+                                trailing: PopupMenuButton<String>(
+                                  onSelected: (value) {
+                                    if (value == 'invite') {
+                                      _inviteBranchManager(site);
+                                    } else if (value == 'rename') {
+                                      _renameBranch(site);
+                                    }
+                                  },
+                                  itemBuilder: (_) => const [
+                                    PopupMenuItem(
+                                      value: 'invite',
+                                      child: Text('Add branch manager'),
+                                    ),
+                                    PopupMenuItem(
+                                      value: 'rename',
+                                      child: Text('Rename'),
+                                    ),
+                                  ],
                                 ),
                               );
                             },

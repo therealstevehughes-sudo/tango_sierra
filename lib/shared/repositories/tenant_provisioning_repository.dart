@@ -43,6 +43,25 @@ class SeniorInviteException implements Exception {
   String toString() => message;
 }
 
+class StaffPinProvisionResult {
+  const StaffPinProvisionResult({
+    required this.localUserId,
+    required this.name,
+    required this.pin,
+  });
+
+  final int localUserId;
+  final String name;
+  final String pin;
+}
+
+class StaffPinProvisionException implements Exception {
+  StaffPinProvisionException(this.message);
+  final String message;
+  @override
+  String toString() => message;
+}
+
 abstract class TenantProvisioningRepository {
   /// Creates a brand-new isolated tenant: an Organisation, its first
   /// executive (a real email+password account, claims baked in so sign-in
@@ -68,6 +87,21 @@ abstract class TenantProvisioningRepository {
     required String roleTier,
     required int organisationId,
     int? regionId,
+  });
+
+  /// Phase C1d — creates a PIN-tier account (venueManager/supervisor/base)
+  /// at [siteId]. Must be called by a session at least one full tier above
+  /// [roleTier] (enforced server-side, matching the cascade rule). Unlike
+  /// [inviteSenior], the caller here may be a PIN session (a venueManager
+  /// has no GoTrue session at all), so [callerAccessToken] is passed
+  /// explicitly rather than relying on an ambient GoTrue session.
+  Future<StaffPinProvisionResult> provisionStaffPin({
+    required String callerAccessToken,
+    required String name,
+    required String jobTitle,
+    required String roleTier,
+    required int siteId,
+    String? jobRole,
   });
 }
 
@@ -150,6 +184,44 @@ class SupabaseTenantProvisioningRepository
       throw SeniorInviteException(message);
     } catch (_) {
       throw SeniorInviteException('Could not reach the server');
+    }
+  }
+
+  @override
+  Future<StaffPinProvisionResult> provisionStaffPin({
+    required String callerAccessToken,
+    required String name,
+    required String jobTitle,
+    required String roleTier,
+    required int siteId,
+    String? jobRole,
+  }) async {
+    try {
+      final response = await _client.functions.invoke(
+        'provision-staff-pin',
+        headers: {'Authorization': 'Bearer $callerAccessToken'},
+        body: {
+          'name': name,
+          'job_title': jobTitle,
+          'role_tier': roleTier,
+          'site_id': siteId,
+          'job_role': ?jobRole,
+        },
+      );
+      final data = response.data as Map<String, dynamic>;
+      return StaffPinProvisionResult(
+        localUserId: data['local_user_id'] as int,
+        name: data['name'] as String,
+        pin: data['pin'] as String,
+      );
+    } on FunctionException catch (e) {
+      final details = e.details;
+      final message = details is Map && details['error'] is String
+          ? details['error'] as String
+          : 'Could not create the account (${e.status})';
+      throw StaffPinProvisionException(message);
+    } catch (_) {
+      throw StaffPinProvisionException('Could not reach the server');
     }
   }
 }

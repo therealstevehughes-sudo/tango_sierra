@@ -6,6 +6,7 @@ import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/home/tier_home_screen.dart';
 import '../../features/notifications/notification_rules_screen.dart';
 import '../../features/onboarding/staff_assignment_screen.dart';
+import '../../features/onboarding/staff_provisioning_screen.dart';
 import '../../features/problems/problems_register_screen.dart';
 import '../../features/regions/branch_management_screen.dart';
 import '../../features/regions/region_management_screen.dart';
@@ -71,6 +72,15 @@ final List<_DrawerItemDef> _managementItems = [
     label: 'Staff Management',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const StaffManagementScreen(),
+  ),
+  // Phase C1d — backend-first staff creation (a real, tenant-isolated PIN
+  // account from the start), distinct from Assign Tasks above (which
+  // assumes the person already exists).
+  _DrawerItemDef(
+    icon: Icons.person_add_alt,
+    label: 'Add Team Member',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const StaffProvisioningScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.notifications,

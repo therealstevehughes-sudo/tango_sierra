@@ -13,6 +13,7 @@ import '../../shared/providers/branding_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../dashboard/top_screen.dart';
 import '../manager/manager_screen.dart';
+import '../onboarding/setup_checklist_card.dart';
 import '../tasks/task_screen.dart';
 
 // Tier home screen (Sprint 031, Build Order item 5, Sub-sprint A) — closes
@@ -78,13 +79,18 @@ class TierHomeScreen extends ConsumerWidget {
       // is "apply where content would otherwise stretch," not "apply
       // everywhere unconditionally."
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: AppCard(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                AppCard(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
                 // Branding inheritance (Part E): the company logo (set once,
                 // Organisation-wide, by a Director) and this specific
                 // branch's own name — same live-reactive mechanism as the
@@ -135,6 +141,10 @@ class TierHomeScreen extends ConsumerWidget {
                           ),
                         ),
                 ),
+                    ],
+                  ),
+                ),
+                if (currentUser != null) const SetupChecklistCard(),
               ],
             ),
           ),

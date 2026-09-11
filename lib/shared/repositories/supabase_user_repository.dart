@@ -1,3 +1,5 @@
+import 'package:supabase_flutter/supabase_flutter.dart' hide User;
+
 import '../../core/network/backend_rest_client.dart';
 import '../models/job_role.dart';
 import '../models/pin_auth_outcome.dart';
@@ -5,16 +7,25 @@ import '../models/user.dart';
 import 'user_repository.dart';
 
 // Phase B3 — only the profile-data methods move to the backend this
-// cluster. authenticate()/resetPin()/createStaffMember() all touch PIN
-// credentials directly (hashing, staff_pins), which live in a deliberately
-// separate table with its own zero-grant security model (Phase 2) and
-// their own already-proven flow via the pin-login Edge Function — moving
-// THOSE is not what "Users onto the backend with RLS" means, and touching
-// auth behaviour deserves its own explicit decision, not a side effect of
-// this migration. All three are delegated unchanged to a wrapped
-// DriftUserRepository, which is exactly what guarantees auth is literally
-// untouched regardless of whether backendDataEnabledProvider is on — see
-// the Dart integration test proving this round-trips correctly.
+// cluster. resetPin()/createStaffMember() still touch PIN credentials
+// directly (hashing, staff_pins) via the deliberately separate,
+// zero-grant Phase 2 table — delegated unchanged to a wrapped
+// DriftUserRepository, since changing those wasn't what "Users onto the
+// backend with RLS" meant, and touching them deserves its own explicit
+// decision.
+//
+// authenticate() is the one exception, added in Phase C1d: a real
+// (backend-first) tenant's staff have NO local Drift row to delegate
+// to at all — they were created directly on the backend via
+// provision-staff-pin. Delegating to Drift here would always return
+// PinAuthNotFound for them, breaking login entirely for exactly the
+// accounts this phase exists to onboard. So this looks the user up on
+// the backend by id, then calls the SAME already-proven pin-login Edge
+// Function directly (Phase 2's real backend auth, unchanged) — no new
+// verification logic, just a backend-native way to reach it. The
+// Dart integration test proves the Drift-delegated methods still work
+// unchanged (resetPin/createStaffMember), and that this backend-native
+// authenticate() path round-trips a real PIN login.
 //
 // RLS on public.users reuses can_access_site(site_id) — the same function
 // proven on sites/departments/areas/training_records. Isolation only, not
@@ -23,10 +34,15 @@ import 'user_repository.dart';
 // written — this cluster draws the tenant boundary, not the who-can-see-
 // what-within-a-tenant boundary (that stays app-layer, unchanged).
 class SupabaseUserRepository implements UserRepository {
-  SupabaseUserRepository(this._client, this._localCredentialDelegate);
+  SupabaseUserRepository(
+    this._client,
+    this._localCredentialDelegate, [
+    SupabaseClient? functionsClient,
+  ]) : _functionsClient = functionsClient ?? Supabase.instance.client;
 
   final BackendRestClient _client;
   final UserRepository _localCredentialDelegate;
+  final SupabaseClient _functionsClient;
 
   @override
   Future<List<User>> getAll() async {
@@ -49,11 +65,52 @@ class SupabaseUserRepository implements UserRepository {
     required int userId,
     required String pin,
     bool useBackendAuth = false,
-  }) => _localCredentialDelegate.authenticate(
-    userId: userId,
-    pin: pin,
-    useBackendAuth: useBackendAuth,
-  );
+  }) async {
+    // userId here is a backend users.id (this repository's getAll()/the
+    // login screen's staff list both come from the backend). Resolving
+    // it to a supabase_user_id client-side would need an authenticated
+    // read under RLS — which doesn't exist yet at login time (a genuine
+    // finding: the walk-up staff list itself needing its own pre-auth
+    // scoping is a separate, larger question, logged as a follow-on, not
+    // solved here). So pin-login resolves local_user_id -> supabase_user_id
+    // itself, service-role, the same privileged way it already resolves
+    // staff_pins/verify_staff_pin — never a client-side lookup.
+    try {
+      final response = await _functionsClient.functions.invoke(
+        'pin-login',
+        body: {'local_user_id': userId, 'pin': pin},
+      );
+      final data = response.data as Map<String, dynamic>;
+      final accessToken = data['access_token'] as String;
+
+      // The token is real now, so fetch the full profile the normal
+      // RLS-protected way (a person can always read their own row) —
+      // via a one-off client carrying this brand-new token directly,
+      // since currentSessionTokenProvider (what _client's ambient token
+      // reads) isn't set until the caller processes this very outcome.
+      final freshClient = BackendRestClient(() => accessToken);
+      final rows = await freshClient.select('users', query: 'id=eq.$userId');
+      if (rows.isEmpty) {
+        return const PinAuthError('Signed in, but the profile could not be loaded');
+      }
+      return PinAuthSuccess(_toModel(rows.first), accessToken: accessToken);
+    } on FunctionException catch (e) {
+      if (e.status == 423) {
+        final details = e.details;
+        final lockedUntilStr =
+            details is Map ? details['locked_until'] as String? : null;
+        return PinAuthLocked(
+          lockedUntilStr != null
+              ? DateTime.parse(lockedUntilStr)
+              : DateTime.now().add(const Duration(minutes: 15)),
+        );
+      }
+      if (e.status == 401) return const PinAuthIncorrect();
+      return PinAuthError('Could not reach the server (${e.status})');
+    } catch (_) {
+      return const PinAuthError('Could not reach the server');
+    }
+  }
 
   @override
   Future<User> createStaffMember({
