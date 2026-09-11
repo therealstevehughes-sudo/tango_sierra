@@ -1,0 +1,7 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "omnicopilot.baseUrl": "http://localhost:20128",
+    "omnicopilot.dashboardOpen": "editor",
+    "omnicopilot.statusBar": true,
+    "omnicopilot.cliPath": "omniroute"
+}

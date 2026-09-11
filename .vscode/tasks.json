@@ -1,0 +1,48 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "OmniRoute: Start",
+            "type": "shell",
+            "command": "omniroute serve --daemon --no-open",
+            "options": {
+                "env": {
+                    "OMNIROUTE_SERVER_HOST": "127.0.0.1"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "OmniRoute: Stop",
+            "type": "shell",
+            "command": "omniroute stop",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "OmniRoute: Copy VS Code API Key",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-Command",
+                "$key = [Environment]::GetEnvironmentVariable('OMNIROUTE_API_KEY', 'User'); if (-not $key) { throw 'OMNIROUTE_API_KEY is not set.' }; Set-Clipboard -Value $key; Write-Host 'OmniRoute API key copied to clipboard.'"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        }
+    ]
+}

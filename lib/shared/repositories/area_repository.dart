@@ -5,6 +5,7 @@ import '../models/area.dart';
 
 abstract class AreaRepository {
   Future<List<Area>> getAll();
+  Future<List<Area>> getForSite(int siteId);
   Future<Area> create(String name, int siteId);
   Future<void> rename(int id, String newName);
 }
@@ -17,6 +18,14 @@ class DriftAreaRepository implements AreaRepository {
   @override
   Future<List<Area>> getAll() async {
     final rows = await _db.select(_db.areas).get();
+    return rows.map(_toModel).toList();
+  }
+
+  @override
+  Future<List<Area>> getForSite(int siteId) async {
+    final query = _db.select(_db.areas)
+      ..where((area) => area.siteId.equals(siteId));
+    final rows = await query.get();
     return rows.map(_toModel).toList();
   }
 

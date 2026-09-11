@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -19,8 +20,7 @@ class SetupChecklistCard extends ConsumerStatefulWidget {
   const SetupChecklistCard({super.key});
 
   @override
-  ConsumerState<SetupChecklistCard> createState() =>
-      _SetupChecklistCardState();
+  ConsumerState<SetupChecklistCard> createState() => _SetupChecklistCardState();
 }
 
 class _ChecklistItem {
@@ -48,7 +48,9 @@ class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
         final orgId = ref.read(currentBackendOrganisationIdProvider);
         final regions = orgId == null
             ? const []
-            : await ref.read(regionRepositoryProvider).getForOrganisation(orgId);
+            : await ref
+                  .read(regionRepositoryProvider)
+                  .getForOrganisation(orgId);
         final sites = await ref.read(siteRepositoryProvider).getAll();
         items = [
           _ChecklistItem('Add at least one region', regions.isNotEmpty),
@@ -64,8 +66,12 @@ class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
           _ChecklistItem('Add a branch manager', hasManager),
         ];
       case RoleTier.venueManager:
-        final equipment = await ref.read(equipmentRepositoryProvider).getAll();
-        final staff = await ref.read(userRepositoryProvider).getAll();
+        final siteId =
+            user.siteId ?? (await ref.read(currentSiteProvider.future)).id;
+        final equipment = await ref
+            .read(equipmentRepositoryProvider)
+            .getForSite(siteId);
+        final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
         items = [
           _ChecklistItem('Add your equipment', equipment.isNotEmpty),
           _ChecklistItem(
@@ -120,7 +126,7 @@ class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
                           ? Icons.check_circle
                           : Icons.radio_button_unchecked,
                       size: 18,
-                      color: item.done ? Colors.green : Colors.grey,
+                      color: item.done ? AppColors.pass : AppColors.muted,
                     ),
                     const SizedBox(width: 8),
                     Expanded(child: Text(item.label)),

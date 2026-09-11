@@ -9,6 +9,7 @@ abstract class EquipmentRepository {
   Future<List<EquipmentType>> getEquipmentTypes();
   Future<EquipmentType> createEquipmentType(String name);
   Future<List<Equipment>> getAll();
+  Future<List<Equipment>> getForSite(int siteId);
   Future<Equipment> create({
     required String name,
     required int equipmentTypeId,
@@ -61,6 +62,14 @@ class DriftEquipmentRepository implements EquipmentRepository {
   }
 
   @override
+  Future<List<Equipment>> getForSite(int siteId) async {
+    final query = _db.select(_db.equipmentInstances)
+      ..where((equipment) => equipment.siteId.equals(siteId));
+    final rows = await query.get();
+    return rows.map(_toModel).toList();
+  }
+
+  @override
   Future<Equipment> create({
     required String name,
     required int equipmentTypeId,
@@ -105,11 +114,8 @@ class DriftEquipmentRepository implements EquipmentRepository {
       );
     }
 
-    await (_db.update(
-      _db.equipmentInstances,
-    )..where((e) => e.id.equals(id))).write(
-      EquipmentInstancesCompanion(name: Value(trimmedName)),
-    );
+    await (_db.update(_db.equipmentInstances)..where((e) => e.id.equals(id)))
+        .write(EquipmentInstancesCompanion(name: Value(trimmedName)));
   }
 
   // Same-venue uniqueness (2026-09-06) — case-insensitive and trimmed, so
@@ -138,11 +144,8 @@ class DriftEquipmentRepository implements EquipmentRepository {
 
   @override
   Future<void> setActive(int id, bool active) async {
-    await (_db.update(
-      _db.equipmentInstances,
-    )..where((e) => e.id.equals(id))).write(
-      EquipmentInstancesCompanion(active: Value(active)),
-    );
+    await (_db.update(_db.equipmentInstances)..where((e) => e.id.equals(id)))
+        .write(EquipmentInstancesCompanion(active: Value(active)));
 
     if (!active) {
       await (_db.update(_db.taskSchedules)..where(
@@ -154,9 +157,9 @@ class DriftEquipmentRepository implements EquipmentRepository {
 
   @override
   Future<List<int>> getVenueTypeIds(int equipmentTypeId) async {
-    final rows = await (_db.select(_db.equipmentTypeVenueTypes)
-          ..where((j) => j.equipmentTypeId.equals(equipmentTypeId)))
-        .get();
+    final rows = await (_db.select(
+      _db.equipmentTypeVenueTypes,
+    )..where((j) => j.equipmentTypeId.equals(equipmentTypeId))).get();
     return rows.map((row) => row.venueTypeId).toList();
   }
 
@@ -166,9 +169,9 @@ class DriftEquipmentRepository implements EquipmentRepository {
     List<int> venueTypeIds,
   ) async {
     await _db.transaction(() async {
-      await (_db.delete(_db.equipmentTypeVenueTypes)
-            ..where((j) => j.equipmentTypeId.equals(equipmentTypeId)))
-          .go();
+      await (_db.delete(
+        _db.equipmentTypeVenueTypes,
+      )..where((j) => j.equipmentTypeId.equals(equipmentTypeId))).go();
       for (final venueTypeId in venueTypeIds) {
         await _db
             .into(_db.equipmentTypeVenueTypes)

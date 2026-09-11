@@ -35,8 +35,7 @@ class _VenueSetupWizardScreenState
   List<User> staff = [];
 
   final TextEditingController areaNameController = TextEditingController();
-  final TextEditingController equipmentNameController =
-      TextEditingController();
+  final TextEditingController equipmentNameController = TextEditingController();
   int? selectedEquipmentTypeId;
   int? selectedAreaId;
   bool addingNewEquipmentType = false;
@@ -44,8 +43,7 @@ class _VenueSetupWizardScreenState
       TextEditingController();
 
   final TextEditingController staffNameController = TextEditingController();
-  final TextEditingController staffJobTitleController =
-      TextEditingController();
+  final TextEditingController staffJobTitleController = TextEditingController();
   final TextEditingController staffPinController = TextEditingController();
   RoleTier selectedRoleTier = RoleTier.base;
   // JobRole.everyone is deliberately excluded from selection here — it's a
@@ -74,11 +72,12 @@ class _VenueSetupWizardScreenState
     final areaRepo = ref.read(areaRepositoryProvider);
     final equipmentRepo = ref.read(equipmentRepositoryProvider);
     final userRepo = ref.read(userRepositoryProvider);
+    final site = await _resolveActiveSite();
 
-    final loadedAreas = await areaRepo.getAll();
+    final loadedAreas = await areaRepo.getForSite(site.id);
     final loadedTypes = await equipmentRepo.getEquipmentTypes();
-    final loadedEquipment = await equipmentRepo.getAll();
-    final loadedStaff = await userRepo.getAll();
+    final loadedEquipment = await equipmentRepo.getForSite(site.id);
+    final loadedStaff = await userRepo.getForSite(site.id);
 
     if (!mounted) return;
     setState(() {
@@ -221,7 +220,11 @@ class _VenueSetupWizardScreenState
     if (!mounted) return;
     setState(() {
       areas = areas
-          .map((a) => a.id == area.id ? Area(id: a.id, name: newName, siteId: a.siteId) : a)
+          .map(
+            (a) => a.id == area.id
+                ? Area(id: a.id, name: newName, siteId: a.siteId)
+                : a,
+          )
           .toList();
     });
   }
@@ -347,43 +350,41 @@ class _VenueSetupWizardScreenState
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Venue Setup — Step ${currentStep + 1} of 3'),
-      ),
+      appBar: AppBar(title: Text('Venue Setup — Step ${currentStep + 1} of 3')),
       drawer: const ManagementDrawer(title: 'Venue Setup'),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: ResponsiveContent(
             child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(child: SingleChildScrollView(child: _buildStep())),
-              const SizedBox(height: 12),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (currentStep > 0)
-                    TextButton(
-                      onPressed: () => setState(() => currentStep -= 1),
-                      child: const Text('Back'),
-                    )
-                  else
-                    const SizedBox.shrink(),
-                  PrimaryActionButton(
-                    label: currentStep < 2 ? 'Next' : 'Finish Setup',
-                    onPressed: () {
-                      if (currentStep < 2) {
-                        setState(() => currentStep += 1);
-                      } else {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: SingleChildScrollView(child: _buildStep())),
+                const SizedBox(height: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    if (currentStep > 0)
+                      TextButton(
+                        onPressed: () => setState(() => currentStep -= 1),
+                        child: const Text('Back'),
+                      )
+                    else
+                      const SizedBox.shrink(),
+                    PrimaryActionButton(
+                      label: currentStep < 2 ? 'Next' : 'Finish Setup',
+                      onPressed: () {
+                        if (currentStep < 2) {
+                          setState(() => currentStep += 1);
+                        } else {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -415,7 +416,9 @@ class _VenueSetupWizardScreenState
           spacing: 8,
           runSpacing: 8,
           children: suggestions
-              .map((s) => ActionChip(label: Text(s), onPressed: () => _addArea(s)))
+              .map(
+                (s) => ActionChip(label: Text(s), onPressed: () => _addArea(s)),
+              )
               .toList(),
         ),
         const SizedBox(height: 16),
@@ -457,7 +460,9 @@ class _VenueSetupWizardScreenState
       children: [
         Text('Equipment', style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
-        const Text('Add named equipment instances, e.g. "Fridge 1", "Fridge 2".'),
+        const Text(
+          'Add named equipment instances, e.g. "Fridge 1", "Fridge 2".',
+        ),
         const SizedBox(height: 16),
         DropdownButtonFormField<int>(
           initialValue: selectedEquipmentTypeId,
@@ -466,10 +471,7 @@ class _VenueSetupWizardScreenState
             ...equipmentTypes.map(
               (t) => DropdownMenuItem(value: t.id, child: Text(t.name)),
             ),
-            const DropdownMenuItem(
-              value: -1,
-              child: Text('Something else...'),
-            ),
+            const DropdownMenuItem(value: -1, child: Text('Something else...')),
           ],
           onChanged: (value) {
             if (value == -1) {
@@ -515,9 +517,7 @@ class _VenueSetupWizardScreenState
             initialValue: selectedAreaId,
             decoration: const InputDecoration(labelText: 'Area'),
             items: areas
-                .map(
-                  (a) => DropdownMenuItem(value: a.id, child: Text(a.name)),
-                )
+                .map((a) => DropdownMenuItem(value: a.id, child: Text(a.name)))
                 .toList(),
             onChanged: (value) => setState(() => selectedAreaId = value),
           ),

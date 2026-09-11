@@ -51,6 +51,12 @@ class SupabaseUserRepository implements UserRepository {
   }
 
   @override
+  Future<List<User>> getForSite(int siteId) async {
+    final rows = await _client.select('users', query: 'site_id=eq.$siteId');
+    return rows.map(_toModel).toList();
+  }
+
+  @override
   Future<User?> findBySupabaseUserId(String supabaseUserId) async {
     final rows = await _client.select(
       'users',
@@ -91,14 +97,17 @@ class SupabaseUserRepository implements UserRepository {
       final freshClient = BackendRestClient(() => accessToken);
       final rows = await freshClient.select('users', query: 'id=eq.$userId');
       if (rows.isEmpty) {
-        return const PinAuthError('Signed in, but the profile could not be loaded');
+        return const PinAuthError(
+          'Signed in, but the profile could not be loaded',
+        );
       }
       return PinAuthSuccess(_toModel(rows.first), accessToken: accessToken);
     } on FunctionException catch (e) {
       if (e.status == 423) {
         final details = e.details;
-        final lockedUntilStr =
-            details is Map ? details['locked_until'] as String? : null;
+        final lockedUntilStr = details is Map
+            ? details['locked_until'] as String?
+            : null;
         return PinAuthLocked(
           lockedUntilStr != null
               ? DateTime.parse(lockedUntilStr)

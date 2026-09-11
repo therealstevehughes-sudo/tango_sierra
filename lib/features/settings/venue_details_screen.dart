@@ -17,8 +17,7 @@ class VenueDetailsScreen extends ConsumerStatefulWidget {
   const VenueDetailsScreen({super.key});
 
   @override
-  ConsumerState<VenueDetailsScreen> createState() =>
-      _VenueDetailsScreenState();
+  ConsumerState<VenueDetailsScreen> createState() => _VenueDetailsScreenState();
 }
 
 class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
@@ -171,14 +170,14 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
+            Text(
               'Multi-site support is partial: equipment, staff, and task '
               'lists are not yet filtered by venue, so day-to-day use of a '
               'second venue is not fully supported yet. Creating one is '
               'safe, but you\'ll see this venue\'s and the original '
               'venue\'s data mixed together in shared lists until that\'s '
               'built.',
-              style: TextStyle(fontSize: 13),
+              style: Theme.of(context).textTheme.bodySmall,
             ),
             const SizedBox(height: 16),
             TextField(
@@ -245,103 +244,103 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
           padding: const EdgeInsets.all(16),
           child: ResponsiveContent(
             child: ListView(
-            children: [
-              Card(
-                child: ListTile(
-                  title: const Text('Organisation'),
-                  subtitle: Text(organisation?.name ?? ''),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.edit),
-                    tooltip: 'Rename',
-                    onPressed: _renameOrganisation,
+              children: [
+                Card(
+                  child: ListTile(
+                    title: const Text('Organisation'),
+                    subtitle: Text(organisation?.name ?? ''),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.edit),
+                      tooltip: 'Rename',
+                      onPressed: _renameOrganisation,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              const SectionHeader(title: 'Venues'),
-              ...sites.map((site) {
-                final isActive = site.id == effectiveActiveId;
-                final taggedIds = siteVenueTypeIds[site.id] ?? const {};
-                return Card(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListTile(
-                        title: Text(site.name),
-                        // Visual/UX audit: the Active indicator and "Set as
-                        // Active" action used to share `trailing` with the
-                        // rename icon in a Row — the same "trailing eats the
-                        // title's width" pattern that broke Staff
-                        // Management's name wrap. Moved into `subtitle` so a
-                        // long venue name isn't squeezed at narrow widths.
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(site.address ?? ''),
-                            const SizedBox(height: 4),
-                            if (isActive)
-                              const Align(
-                                alignment: Alignment.centerLeft,
-                                child: Chip(label: Text('Active')),
-                              )
-                            else
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: TextButton(
-                                  onPressed: () => _setActive(site),
-                                  child: const Text('Set as Active'),
-                                ),
-                              ),
-                          ],
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.edit),
-                          tooltip: 'Rename',
-                          onPressed: () => _renameSite(site),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SectionHeader(title: 'Venue type'),
-                            Wrap(
-                              spacing: 8,
-                              runSpacing: 4,
-                              children: [
-                                ...venueTypes.map(
-                                  (type) => FilterChip(
-                                    label: Text(type.name),
-                                    selected: taggedIds.contains(type.id),
-                                    onSelected: (_) =>
-                                        _toggleVenueType(site, type.id),
+                const SizedBox(height: 12),
+                const SectionHeader(title: 'Venues'),
+                ...sites.map((site) {
+                  final isActive = site.id == effectiveActiveId;
+                  final taggedIds = siteVenueTypeIds[site.id] ?? const {};
+                  return Card(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          title: Text(site.name),
+                          // Visual/UX audit: the Active indicator and "Set as
+                          // Active" action used to share `trailing` with the
+                          // rename icon in a Row — the same "trailing eats the
+                          // title's width" pattern that broke Staff
+                          // Management's name wrap. Moved into `subtitle` so a
+                          // long venue name isn't squeezed at narrow widths.
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(site.address ?? ''),
+                              const SizedBox(height: 4),
+                              if (isActive)
+                                const Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Chip(label: Text('Active')),
+                                )
+                              else
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: TextButton(
+                                    onPressed: () => _setActive(site),
+                                    child: const Text('Set as Active'),
                                   ),
                                 ),
-                                ActionChip(
-                                  avatar: const Icon(Icons.add, size: 18),
-                                  label: const Text('Something else...'),
-                                  onPressed: () => _addCustomVenueType(site),
-                                ),
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.edit),
+                            tooltip: 'Rename',
+                            onPressed: () => _renameSite(site),
+                          ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SectionHeader(title: 'Venue type'),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 4,
+                                children: [
+                                  ...venueTypes.map(
+                                    (type) => FilterChip(
+                                      label: Text(type.name),
+                                      selected: taggedIds.contains(type.id),
+                                      onSelected: (_) =>
+                                          _toggleVenueType(site, type.id),
+                                    ),
+                                  ),
+                                  ActionChip(
+                                    avatar: const Icon(Icons.add, size: 18),
+                                    label: const Text('Something else...'),
+                                    onPressed: () => _addCustomVenueType(site),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+                if (currentUser?.roleTier == RoleTier.executive) ...[
+                  const SizedBox(height: 12),
+                  PrimaryActionButton(
+                    label: 'Create New Venue',
+                    onPressed: _createVenue,
                   ),
-                );
-              }),
-              if (currentUser?.roleTier == RoleTier.executive) ...[
-                const SizedBox(height: 12),
-                PrimaryActionButton(
-                  label: 'Create New Venue',
-                  onPressed: _createVenue,
-                ),
+                ],
               ],
-            ],
-          ),
+            ),
           ),
         ),
       ),

@@ -5,6 +5,7 @@ import '../models/third_party_contact.dart';
 
 abstract class ThirdPartyContactRepository {
   Future<List<ThirdPartyContact>> getAll();
+  Future<List<ThirdPartyContact>> getForSite(int siteId);
   Future<ThirdPartyContact> create({
     required String name,
     String? company,
@@ -26,6 +27,16 @@ class DriftThirdPartyContactRepository implements ThirdPartyContactRepository {
   @override
   Future<List<ThirdPartyContact>> getAll() async {
     final rows = await _db.select(_db.thirdPartyContacts).get();
+    return rows.map(_toModel).toList();
+  }
+
+  @override
+  Future<List<ThirdPartyContact>> getForSite(int siteId) async {
+    final query = _db.select(_db.thirdPartyContacts)
+      ..where(
+        (contact) => contact.siteId.equals(siteId) | contact.siteId.isNull(),
+      );
+    final rows = await query.get();
     return rows.map(_toModel).toList();
   }
 
@@ -69,11 +80,8 @@ class DriftThirdPartyContactRepository implements ThirdPartyContactRepository {
 
   @override
   Future<void> setActive(int id, bool active) async {
-    await (_db.update(
-      _db.thirdPartyContacts,
-    )..where((t) => t.id.equals(id))).write(
-      ThirdPartyContactsCompanion(active: Value(active)),
-    );
+    await (_db.update(_db.thirdPartyContacts)..where((t) => t.id.equals(id)))
+        .write(ThirdPartyContactsCompanion(active: Value(active)));
   }
 
   ThirdPartyContact _toModel(ThirdPartyContactEntity row) {

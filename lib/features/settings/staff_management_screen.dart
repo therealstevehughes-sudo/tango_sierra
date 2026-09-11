@@ -7,6 +7,7 @@ import '../../shared/models/department.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/department_providers.dart';
+import '../../shared/providers/site_providers.dart';
 import 'training_records_screen.dart';
 
 enum _StaffAction {
@@ -25,8 +26,7 @@ class StaffManagementScreen extends ConsumerStatefulWidget {
       _StaffManagementScreenState();
 }
 
-class _StaffManagementScreenState
-    extends ConsumerState<StaffManagementScreen> {
+class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   bool loading = true;
   List<User> staff = [];
   // Keyed by department id, populated from every site any loaded staff
@@ -42,7 +42,13 @@ class _StaffManagementScreenState
 
   Future<void> _loadData() async {
     final repo = ref.read(userRepositoryProvider);
-    final loaded = await repo.getAll();
+    final activeSite = ref.read(activeSiteProvider);
+    final currentUser = ref.read(currentUserProvider);
+    final siteId =
+        activeSite?.id ??
+        currentUser?.siteId ??
+        (await ref.read(currentSiteProvider.future)).id;
+    final loaded = await repo.getForSite(siteId);
 
     final departmentRepo = ref.read(departmentRepositoryProvider);
     final byId = <int, Department>{};

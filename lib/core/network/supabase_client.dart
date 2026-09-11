@@ -15,9 +15,10 @@ Future<void> initSupabase() async {
   // publishable/secret key format isn't configured on this self-hosted
   // stack yet (still blank in its .env); the legacy anon/service_role JWT
   // keys are what every other part of this backend actually uses today.
-  // ignore: deprecated_member_use
   await Supabase.initialize(
     url: BackendConfig.supabaseUrl,
+    // The self-hosted stack currently uses the legacy anon JWT key.
+    // ignore: deprecated_member_use
     anonKey: BackendConfig.supabaseAnonKey,
   );
 }

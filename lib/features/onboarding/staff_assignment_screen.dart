@@ -13,6 +13,7 @@ import '../../shared/models/task_schedule.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_preset_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
@@ -26,8 +27,7 @@ class StaffAssignmentScreen extends ConsumerStatefulWidget {
       _StaffAssignmentScreenState();
 }
 
-class _StaffAssignmentScreenState
-    extends ConsumerState<StaffAssignmentScreen> {
+class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   bool loading = true;
 
   List<User> staffList = [];
@@ -84,11 +84,15 @@ class _StaffAssignmentScreenState
     final templateRepo = ref.read(taskTemplateRepositoryProvider);
     final equipmentRepo = ref.read(equipmentRepositoryProvider);
     final presetRepo = ref.read(taskPresetRepositoryProvider);
+    final site =
+        ref.read(activeSiteProvider) ??
+        await ref.read(currentSiteProvider.future);
+    if (site == null) return;
 
-    final loadedStaff = await userRepo.getAll();
+    final loadedStaff = await userRepo.getForSite(site.id);
     final loadedTemplates = await templateRepo.getAllCurrentVersions();
     final loadedTypes = await equipmentRepo.getEquipmentTypes();
-    final loadedInstances = await equipmentRepo.getAll();
+    final loadedInstances = await equipmentRepo.getForSite(site.id);
     final loadedPresets = await presetRepo.getAll();
 
     if (!mounted) return;
@@ -220,7 +224,8 @@ class _StaffAssignmentScreenState
         'Section: ${preset.segment}',
     ];
     final context = parts.join(' · ');
-    final count = '${preset.items.length} task'
+    final count =
+        '${preset.items.length} task'
         '${preset.items.length == 1 ? '' : 's'}';
     return context.isEmpty ? count : '$context · $count';
   }
@@ -461,9 +466,7 @@ class _StaffAssignmentScreenState
     }
 
     final matchingInstances = equipmentInstances
-        .where(
-          (e) => e.equipmentTypeId == template.equipmentTypeId && e.active,
-        )
+        .where((e) => e.equipmentTypeId == template.equipmentTypeId && e.active)
         .toList();
 
     if (matchingInstances.isEmpty) {
@@ -478,7 +481,10 @@ class _StaffAssignmentScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(template.title, style: const TextStyle(fontWeight: FontWeight.w600)),
+          Text(
+            template.title,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
           for (final instance in matchingInstances)
             _buildEquipmentAssignmentTile(template, instance),
         ],
@@ -577,7 +583,9 @@ class _StaffAssignmentScreenState
         const SizedBox(height: 12),
         DropdownButtonFormField<int?>(
           initialValue: customEquipmentTypeId,
-          decoration: const InputDecoration(labelText: 'Equipment type (optional)'),
+          decoration: const InputDecoration(
+            labelText: 'Equipment type (optional)',
+          ),
           items: [
             const DropdownMenuItem<int?>(value: null, child: Text('None')),
             ...equipmentTypes.map(
@@ -618,7 +626,9 @@ class _StaffAssignmentScreenState
         const SizedBox(height: 12),
         TextField(
           controller: customFieldsJsonController,
-          decoration: const InputDecoration(labelText: 'Custom fields (JSON, optional)'),
+          decoration: const InputDecoration(
+            labelText: 'Custom fields (JSON, optional)',
+          ),
         ),
         const SizedBox(height: 16),
         Row(
@@ -694,7 +704,9 @@ class _AssignmentTileState extends State<_AssignmentTile> {
       frequency != ScheduleFrequency.threeXDaily;
 
   void _notifyChanged(bool assign) {
-    final hasWindow = windowEnabled && _windowSupported &&
+    final hasWindow =
+        windowEnabled &&
+        _windowSupported &&
         windowStart != null &&
         windowEnd != null;
     widget.onChanged(
@@ -762,7 +774,8 @@ class _AssignmentTileState extends State<_AssignmentTile> {
                     onPressed: () async {
                       final picked = await showTimePicker(
                         context: context,
-                        initialTime: windowStart ?? const TimeOfDay(hour: 21, minute: 0),
+                        initialTime:
+                            windowStart ?? const TimeOfDay(hour: 21, minute: 0),
                       );
                       if (picked == null) return;
                       setState(() => windowStart = picked);
@@ -778,7 +791,8 @@ class _AssignmentTileState extends State<_AssignmentTile> {
                     onPressed: () async {
                       final picked = await showTimePicker(
                         context: context,
-                        initialTime: windowEnd ?? const TimeOfDay(hour: 23, minute: 59),
+                        initialTime:
+                            windowEnd ?? const TimeOfDay(hour: 23, minute: 59),
                       );
                       if (picked == null) return;
                       setState(() => windowEnd = picked);

@@ -7,6 +7,7 @@ import '../../core/widgets/status_badge.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/supplier_category.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
 
 enum _SupplierAction { editDetails, changeApprovalStatus, toggleActive }
@@ -34,7 +35,11 @@ class _SupplierManagementScreenState
     final currentUser = ref.read(currentUserProvider);
     if (currentUser == null) return;
     final repo = ref.read(supplierRepositoryProvider);
-    final loaded = await repo.getForSite(currentUser.siteId!);
+    final siteId =
+        ref.read(activeSiteProvider)?.id ??
+        currentUser.siteId ??
+        (await ref.read(currentSiteProvider.future)).id;
+    final loaded = await repo.getForSite(siteId);
 
     if (!mounted) return;
     setState(() {
@@ -278,9 +283,7 @@ class _SupplierManagementScreenState
             children: [
               DropdownButtonFormField<SupplierApprovalStatus>(
                 initialValue: status,
-                decoration: const InputDecoration(
-                  labelText: 'Approval status',
-                ),
+                decoration: const InputDecoration(labelText: 'Approval status'),
                 items: SupplierApprovalStatus.values
                     .map(
                       (s) => DropdownMenuItem(

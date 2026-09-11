@@ -10,6 +10,7 @@ import '../../shared/models/task_template.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
+import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 
 enum _TargetMode { tier, user }
@@ -47,10 +48,15 @@ class _NotificationRulesScreenState
     final ruleRepo = ref.read(notificationRuleRepositoryProvider);
     final templateRepo = ref.read(taskTemplateRepositoryProvider);
     final userRepo = ref.read(userRepositoryProvider);
+    final currentUser = ref.read(currentUserProvider);
+    final siteId =
+        ref.read(activeSiteProvider)?.id ??
+        currentUser?.siteId ??
+        (await ref.read(currentSiteProvider.future)).id;
 
     final loadedRules = await ruleRepo.getAllCurrentVersions();
     final loadedTemplates = await templateRepo.getAllCurrentVersions();
-    final loadedUsers = await userRepo.getAll();
+    final loadedUsers = await userRepo.getForSite(siteId);
 
     if (!mounted) return;
     setState(() {
@@ -228,28 +234,28 @@ class _NotificationRulesScreenState
           child: ResponsiveContent(
             maxWidth: 560,
             child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _buildQuickSetupSection(),
-                const Divider(),
-                if (rules.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16),
-                    child: Text('No notification rules set up yet.'),
-                  )
-                else
-                  ...rules.map(_buildRuleTile),
-                const Divider(),
-                if (!showForm)
-                  PrimaryActionButton(
-                    label: 'Add Rule',
-                    onPressed: () => setState(() => showForm = true),
-                  )
-                else
-                  _buildForm(),
-              ],
-            ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildQuickSetupSection(),
+                  const Divider(),
+                  if (rules.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      child: Text('No notification rules set up yet.'),
+                    )
+                  else
+                    ...rules.map(_buildRuleTile),
+                  const Divider(),
+                  if (!showForm)
+                    PrimaryActionButton(
+                      label: 'Add Rule',
+                      onPressed: () => setState(() => showForm = true),
+                    )
+                  else
+                    _buildForm(),
+                ],
+              ),
             ),
           ),
         ),
@@ -366,8 +372,7 @@ class _NotificationRulesScreenState
               ),
             ),
           ],
-          onChanged: (value) =>
-              setState(() => formTaskTemplateGroupId = value),
+          onChanged: (value) => setState(() => formTaskTemplateGroupId = value),
         ),
         const SizedBox(height: 12),
         DropdownButtonFormField<_TargetMode>(
@@ -447,8 +452,7 @@ class _NotificationRulesScreenState
             PrimaryActionButton(
               label: 'Save Rule',
               onPressed:
-                  formTargetMode == _TargetMode.user &&
-                      formTargetUserId == null
+                  formTargetMode == _TargetMode.user && formTargetUserId == null
                   ? null
                   : _saveRule,
             ),

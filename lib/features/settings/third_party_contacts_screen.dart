@@ -7,6 +7,7 @@ import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/third_party_contact.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/third_party_contact_providers.dart';
 
 class ThirdPartyContactsScreen extends ConsumerStatefulWidget {
@@ -49,7 +50,12 @@ class _ThirdPartyContactsScreenState
 
   Future<void> _loadData() async {
     final repo = ref.read(thirdPartyContactRepositoryProvider);
-    final loaded = await repo.getAll();
+    final currentUser = ref.read(currentUserProvider);
+    final siteId =
+        ref.read(activeSiteProvider)?.id ??
+        currentUser?.siteId ??
+        (await ref.read(currentSiteProvider.future)).id;
+    final loaded = await repo.getForSite(siteId);
 
     if (!mounted) return;
     setState(() {
@@ -224,10 +230,7 @@ class _ThirdPartyContactsScreenState
               onPressed: () => setState(() => showForm = false),
               child: const Text('Cancel'),
             ),
-            PrimaryActionButton(
-              label: 'Save Contact',
-              onPressed: _saveContact,
-            ),
+            PrimaryActionButton(label: 'Save Contact', onPressed: _saveContact),
           ],
         ),
       ],

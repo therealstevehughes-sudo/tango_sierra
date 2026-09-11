@@ -5,7 +5,8 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
-import '../../shared/providers/venue_setup_providers.dart' show equipmentRepositoryProvider;
+import '../../shared/providers/venue_setup_providers.dart'
+    show equipmentRepositoryProvider;
 import '../../shared/repositories/equipment_repository.dart';
 import '../../shared/repositories/task_schedule_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
@@ -45,8 +46,8 @@ class OverdueSummaryService {
     this._equipmentRepository,
     TaskSubmissionRepository submissionRepository, [
     DueStatusService? dueStatusService,
-  ]) : _dueStatusService = dueStatusService ??
-            DueStatusService(submissionRepository);
+  ]) : _dueStatusService =
+           dueStatusService ?? DueStatusService(submissionRepository);
 
   final TaskScheduleRepository _scheduleRepository;
   final UserRepository _userRepository;
@@ -68,12 +69,10 @@ class OverdueSummaryService {
   // check reused here.
   Future<List<OverdueSummaryEntry>> getSummaryForSite(int siteId) async {
     final allSchedules = await _scheduleRepository.getAll();
-    final schedules = allSchedules.where(
-      (s) => s.active && s.siteId == siteId,
-    );
-    final users = await _userRepository.getAll();
+    final schedules = allSchedules.where((s) => s.active && s.siteId == siteId);
+    final users = await _userRepository.getForSite(siteId);
     final templates = await _templateRepository.getAllCurrentVersions();
-    final equipmentInstances = await _equipmentRepository.getAll();
+    final equipmentInstances = await _equipmentRepository.getForSite(siteId);
 
     final entries = <OverdueSummaryEntry>[];
     for (final schedule in schedules) {

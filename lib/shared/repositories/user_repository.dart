@@ -9,6 +9,7 @@ import '../models/user.dart';
 
 abstract class UserRepository {
   Future<List<User>> getAll();
+  Future<List<User>> getForSite(int siteId);
   // Phase 2 (real backend auth) — Leadership Access uses this to map a
   // real Supabase auth session (email+password) back to the local staff
   // profile it belongs to. Null if no local row has been linked to that
@@ -50,10 +51,7 @@ abstract class UserRepository {
   // three-to-five-tier migration, since the automatic mid/top remap default
   // (mid->venueManager, top->executive) is a lossy guess for real users who
   // were actually supervisor- or regional-flavored.
-  Future<void> changeRoleTier({
-    required int userId,
-    required RoleTier newTier,
-  });
+  Future<void> changeRoleTier({required int userId, required RoleTier newTier});
   // Departments (Sprint 031, Build Order item 5, Sub-sprint B). departmentId
   // null clears the assignment — explicit, not silently omitted, mirrors
   // how a "No department" dropdown option is always shown, never hidden.
@@ -65,10 +63,7 @@ abstract class UserRepository {
   // region a regional-tier account oversees. Not tier-checked here — the
   // caller (an admin screen, not built yet) is responsible for only
   // offering this to regional-tier accounts; this method just records it.
-  Future<void> assignRegion({
-    required int userId,
-    required int? regionId,
-  });
+  Future<void> assignRegion({required int userId, required int? regionId});
   // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — a
   // self-serve personal preference, not an admin action on someone else.
   // Display-only: canonical storage (Celsius) is never touched, conversion
@@ -87,6 +82,14 @@ class DriftUserRepository implements UserRepository {
   @override
   Future<List<User>> getAll() async {
     final rows = await _db.select(_db.users).get();
+    return rows.map(_toModel).toList();
+  }
+
+  @override
+  Future<List<User>> getForSite(int siteId) async {
+    final query = _db.select(_db.users)
+      ..where((user) => user.siteId.equals(siteId));
+    final rows = await query.get();
     return rows.map(_toModel).toList();
   }
 
@@ -140,7 +143,9 @@ class DriftUserRepository implements UserRepository {
     } on FunctionException catch (e) {
       if (e.status == 423) {
         final details = e.details;
-        final lockedUntilStr = details is Map ? details['locked_until'] as String? : null;
+        final lockedUntilStr = details is Map
+            ? details['locked_until'] as String?
+            : null;
         return PinAuthLocked(
           lockedUntilStr != null
               ? DateTime.parse(lockedUntilStr)
@@ -188,10 +193,7 @@ class DriftUserRepository implements UserRepository {
   }
 
   @override
-  Future<void> resetPin({
-    required int userId,
-    required String newPin,
-  }) async {
+  Future<void> resetPin({required int userId, required String newPin}) async {
     final salt = generateSalt();
     await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
       UsersCompanion(

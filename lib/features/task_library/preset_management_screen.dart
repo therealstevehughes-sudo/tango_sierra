@@ -195,7 +195,9 @@ class _PresetManagementScreenState
               const SizedBox(height: 12),
               DropdownButtonFormField<ScheduleFrequency>(
                 initialValue: selectedFrequency,
-                decoration: const InputDecoration(labelText: 'Default frequency'),
+                decoration: const InputDecoration(
+                  labelText: 'Default frequency',
+                ),
                 isExpanded: true,
                 items: ScheduleFrequency.values
                     .map(
@@ -281,14 +283,14 @@ class _PresetManagementScreenState
   // been signed off by a qualified food-safety professional yet — this
   // banner keeps that visible wherever a manager browses the library.
   Widget _buildVerificationBanner() {
-    return const AppBanner(
+    return AppBanner(
       kind: BannerKind.caution,
       child: Text(
         'Task limits are researched and sourced (tagged [LAW]/[FSA]/'
         '[BEST] in each task\'s instructions) but not yet signed off '
         'by a qualified food-safety professional. Do not treat them '
         'as legally authoritative until verified.',
-        style: TextStyle(fontSize: 13),
+        style: Theme.of(context).textTheme.bodySmall,
       ),
     );
   }

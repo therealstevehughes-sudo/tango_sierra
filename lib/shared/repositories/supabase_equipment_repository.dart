@@ -52,6 +52,15 @@ class SupabaseEquipmentRepository implements EquipmentRepository {
   }
 
   @override
+  Future<List<Equipment>> getForSite(int siteId) async {
+    final rows = await _client.select(
+      'equipment_instances',
+      query: 'site_id=eq.$siteId',
+    );
+    return rows.map(_toModel).toList();
+  }
+
+  @override
   Future<Equipment> create({
     required String name,
     required int equipmentTypeId,
