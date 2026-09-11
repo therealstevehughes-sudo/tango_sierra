@@ -7,6 +7,8 @@ import '../../features/home/tier_home_screen.dart';
 import '../../features/notifications/notification_rules_screen.dart';
 import '../../features/onboarding/staff_assignment_screen.dart';
 import '../../features/problems/problems_register_screen.dart';
+import '../../features/regions/branch_management_screen.dart';
+import '../../features/regions/region_management_screen.dart';
 import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/settings/staff_management_screen.dart';
@@ -93,6 +95,23 @@ final List<_DrawerItemDef> _managementItems = [
     label: 'Department Management',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const DepartmentManagementScreen(),
+  ),
+  // Phase C1c — cascading tenant setup. Regions is executive-only (top
+  // tier, so `atLeast` limits it to exactly that tier in practice);
+  // Branches is regional and above (a Director can also review branches).
+  // RLS is what actually enforces "nobody sets up more than one level
+  // below them," not this gating alone.
+  _DrawerItemDef(
+    icon: Icons.map_outlined,
+    label: 'Regions',
+    minTier: RoleTier.executive,
+    screenBuilder: (_) => const RegionManagementScreen(),
+  ),
+  _DrawerItemDef(
+    icon: Icons.storefront_outlined,
+    label: 'Branches',
+    minTier: RoleTier.regional,
+    screenBuilder: (_) => const BranchManagementScreen(),
   ),
 ];
 

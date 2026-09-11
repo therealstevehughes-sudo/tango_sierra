@@ -57,11 +57,13 @@ class SupabaseSiteRepository implements SiteRepository {
     required String name,
     String? address,
     required int organisationId,
+    int? regionId,
   }) async {
     final row = await _client.insertOne('sites', {
       'name': name,
       'address': address,
       'organisation_id': organisationId,
+      'region_id': regionId,
     });
     return _toModel(row);
   }

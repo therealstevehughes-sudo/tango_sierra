@@ -1236,6 +1236,106 @@ tenant starts empty (`sites: []`, `users: [Director only]`,
 → isolation checks). All throwaway companies + GoTrue accounts deleted
 afterward, verified.
 
+### C1c (invite-senior + Region/Branch management) — built and PROVEN 2026-09-11
+
+**`invite-senior` Edge Function** deployed
+(`~/tango-sierra/supabase/docker/volumes/functions/invite-senior/index.ts`).
+Unlike `tenant-signup`, this is **not** open: the caller's own bearer
+token is verified via `admin.auth.getUser(callerToken)`, and the request
+is rejected (`403`) unless `caller.app_metadata.role_tier === 'executive'`
+and `organisation_id` matches the target. Body:
+`{email, name, role_tier: 'regional'|'executive', organisation_id, region_id?}`.
+Creates the invitee's GoTrue account (`app_metadata` claims baked in —
+`region_id` too for regional) and the linked `public.users` row. SMTP
+still isn't configured, so this returns `{email, temporary_password,
+local_user_id}` for the inviting Director to pass on, not a real emailed
+invite (logged upgrade).
+
+**Real finding — a genuine RLS bug, not a config typo.** `sites`/`regions`'
+B2 policies used `can_access_site(id)`/`can_access_region(id)` for both
+`USING` and `WITH CHECK`. Those functions' executive branch (and, for
+`sites`, the regional branch too) resolve the target row's org/region by
+**querying the same table the policy protects** — self-referential RLS.
+`INSERT ... RETURNING` re-checks the new row against `USING` (PostgREST
+always requests `Prefer: return=representation`), and that self-lookup
+fails to see the just-inserted row even though `WITH CHECK` alone passed.
+Confirmed by direct isolation, in a transaction, role `authenticated`,
+identical claims:
+```
+insert into regions (...) values (...) returning id;              -- ERROR: RLS violation
+insert into regions (...) values (...);                            -- INSERT 0 1 (succeeds)
+```
+Every prior B1/B2 proof of `sites`/`regions` created its throwaway rows
+via direct superuser SQL and only ever exercised an *authenticated*
+INSERT for the cross-tenant **rejection** case — a legitimate authenticated
+create was never actually proven working until C1c's real
+Director-creates-a-region step hit it.
+
+**Fix** — rewrote both tables' own policies to use their row's own
+columns directly, no table self-lookup, for the branches that were
+self-referential:
+```sql
+-- sites
+using (
+  case (claims->>'role_tier')
+    when 'executive' then organisation_id = claim.organisation_id
+    when 'regional'  then region_id = claim.region_id
+    else id = claim.site_id
+  end
+)
+-- with check identical, plus organisation_id match on the regional branch
+
+-- regions
+using (
+  case (claims->>'role_tier')
+    when 'executive' then organisation_id = claim.organisation_id
+    when 'regional'  then id = claim.region_id
+    else exists (select 1 from sites s where s.id = claim.site_id and s.region_id = regions.id)
+  end
+)
+with check (organisation_id = claim.organisation_id)
+```
+The branch-tier case in `regions` still looks up `sites` — a *different*
+table, not itself, so it's safe. Every other table that merely has a
+`site_id`/`region_id` **column** (`task_submissions`, `departments`,
+`users`, ...) is unaffected — those call `can_access_site()`/
+`can_access_region()` to look up `sites`/`regions`, never their own table.
+
+**Re-proof after the fix** — the full original B1/B2 `sites`/`regions`
+matrix (14 tests: branch/regional/executive read scoping, cross-tenant
+and sibling-region write rejection) re-run in full against fresh
+throwaway data: **all 14 passed unchanged**. Plus the two newly-fixed
+cases, both now succeeding with `RETURNING`:
+```
+executive creates a site with RETURNING  -> 201, row returned
+regional creates a site in own region    -> 201, row returned
+regional creates a site in sibling region -> still 403 (unaffected)
+executive creates a region with RETURNING -> 201, row returned
+```
+
+**App-layer**: `SiteRepository.create()` gained an optional `regionId`
+parameter (default `null`, every existing call site unchanged) — needed
+because a regional's own `WITH CHECK` requires `region_id` to already
+match their claim *at insert time*; a follow-up `setRegion()` call would
+be a second write and risks the same self-reference class of issue.
+`RegionManagementScreen` (executive) and `BranchManagementScreen`
+(regional) — both read/write through the existing RLS-scoped
+repositories, no new client-side scoping logic.
+
+**Proof (direct curl, 9 tests, full chain):** Director creates a region
+→ invites a regional manager → the regional's token carries
+`organisation_id`+`region_id` → Director creates one in-region site and
+one org-wide site → the regional sees only the in-region site and only
+its own region, and its linked profile resolves; a non-executive cannot
+invite (`403`); a Director cannot invite into another org (`403`). Plus
+a Dart integration test (`phase_c1c_region_branch_test.dart`) exercising
+the real client path end to end (`signUpCompany` → `RegionRepository
+.create()` → `inviteSenior()` → `SiteRepository.create()` ×2 → sign in as
+the regional → confirm exactly one visible site and one visible region
+via the real repositories). All passed live, no mocks. All throwaway
+companies, regions, sites, and accounts deleted and verified gone
+afterward.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

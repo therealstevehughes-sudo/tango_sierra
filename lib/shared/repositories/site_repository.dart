@@ -16,10 +16,17 @@ abstract class SiteRepository {
   // Department assignment elsewhere in this app.
   Future<void> setRegion(int siteId, int? regionId);
   Future<void> rename(int id, String newName);
+  // Phase C1c — regionId lets a regional manager's own "add branch" write
+  // pass RLS in one step (their WITH CHECK requires region_id to already
+  // equal their own claim at insert time — setRegion() afterward would be
+  // a second write). Null (the default) keeps every existing call site's
+  // behaviour: an executive-created site attaches directly to the
+  // Organisation, same as before this parameter existed.
   Future<Site> create({
     required String name,
     String? address,
     required int organisationId,
+    int? regionId,
   });
 
   /// The venue type ids currently tagged on a site (Sprint 029). A site can
@@ -77,6 +84,7 @@ class DriftSiteRepository implements SiteRepository {
     required String name,
     String? address,
     required int organisationId,
+    int? regionId,
   }) async {
     final createdAt = DateTime.now();
     final id = await _db
@@ -87,6 +95,7 @@ class DriftSiteRepository implements SiteRepository {
             name: name,
             address: Value(address),
             createdAt: createdAt,
+            regionId: Value(regionId),
           ),
         );
     return Site(
@@ -95,7 +104,7 @@ class DriftSiteRepository implements SiteRepository {
       name: name,
       address: address,
       createdAt: createdAt,
-      regionId: null,
+      regionId: regionId,
     );
   }
 
