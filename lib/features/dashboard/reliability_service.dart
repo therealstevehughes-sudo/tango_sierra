@@ -93,9 +93,9 @@ class ReliabilityService {
     final reference = now ?? DateTime.now();
     final rangeStart = reference.subtract(lookback);
 
-    final schedules = (await _scheduleRepository.getForStaffMember(userId))
-        .where((s) => isClockBasedFrequency(s.frequency))
-        .toList();
+    final schedules = (await _scheduleRepository.getForStaffMember(
+      userId,
+    )).where((s) => isClockBasedFrequency(s.frequency)).toList();
     if (schedules.isEmpty) {
       return const ReliabilitySummary(
         totalPeriods: 0,
@@ -136,7 +136,10 @@ class ReliabilityService {
           schedule.windowEndMinutesExclusive != null;
 
       var cursor = periodStart(schedule.frequency, rangeStart);
-      final scheduleStart = periodStart(schedule.frequency, schedule.assignedAt);
+      final scheduleStart = periodStart(
+        schedule.frequency,
+        schedule.assignedAt,
+      );
       if (cursor.isBefore(scheduleStart)) cursor = scheduleStart;
 
       while (cursor.isBefore(reference)) {
@@ -193,9 +196,9 @@ class ReliabilityService {
     DateTime? now,
     Duration lookback = const Duration(days: 30),
   }) async {
-    final users = (await _userRepository.getForSite(siteId))
-      .where((u) => u.active)
-        .toList();
+    final users = (await _userRepository.getForSite(
+      siteId,
+    )).where((u) => u.active).toList();
 
     var totalPeriods = 0;
     var completedPeriods = 0;
@@ -203,7 +206,11 @@ class ReliabilityService {
     final staff = <StaffReliabilitySummary>[];
 
     for (final user in users) {
-      final summary = await computeForUser(user.id, now: now, lookback: lookback);
+      final summary = await computeForUser(
+        user.id,
+        now: now,
+        lookback: lookback,
+      );
       staff.add(
         StaffReliabilitySummary(
           userId: user.id,

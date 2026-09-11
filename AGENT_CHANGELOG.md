@@ -85,6 +85,23 @@ Finished the remaining site-known operational reads:
 
 Sprint 1 is complete for the unambiguous site-scoping work. Regional/director cross-site aggregation remains deliberately unchanged pending a product decision about site selection versus permitted-site aggregation.
 
+## Leadership dashboard aggregation
+
+Decision confirmed: Regional Managers and Directors receive a combined overview of their permitted venues by default, with venue drill-down information clearly labelled. Managers retain the existing single-venue dashboard.
+
+Implemented:
+
+- TopScreen now requests all sites permitted by the current backend/local repository path.
+- Dashboard metrics aggregate completion, on-time, FAIL, and overdue totals across those sites.
+- A venue summary section shows each permitted venue separately.
+- Combined team rows include the venue name so staff data cannot be ambiguous.
+- Existing anti-gaming rules remain unchanged: no per-person FAIL counts and no score-based ordering.
+
+Validation:
+
+- Focused dashboard analysis passed.
+- Full `flutter analyze` passed.
+
 Maintenance contacts preserve organisation-wide records (`siteId == null`) while also showing contacts specific to the selected site.
 
 This prevents local multi-site screens from mixing staff, areas, and equipment from different venues. Backend reads remain additionally protected by RLS.

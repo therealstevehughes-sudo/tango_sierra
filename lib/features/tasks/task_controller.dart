@@ -29,8 +29,8 @@ class TaskController {
     this._userRepository,
     this._problemRegisterRepository, [
     DueStatusService? dueStatusService,
-  ]) : _dueStatusService = dueStatusService ??
-            DueStatusService(_submissionRepository);
+  ]) : _dueStatusService =
+           dueStatusService ?? DueStatusService(_submissionRepository);
 
   final TaskSubmissionRepository _submissionRepository;
   final TaskScheduleRepository _scheduleRepository;
@@ -55,8 +55,8 @@ class TaskController {
     );
     final templates = await _templateRepository.getAllCurrentVersions();
     final equipmentInstances = _currentUser.siteId == null
-      ? const <Equipment>[]
-      : await _equipmentRepository.getForSite(_currentUser.siteId!);
+        ? const <Equipment>[]
+        : await _equipmentRepository.getForSite(_currentUser.siteId!);
 
     final resolved = <ResolvedTask>[];
 
@@ -103,7 +103,8 @@ class TaskController {
           maxLimit: template.maxLimit,
           unit: template.unit,
           isCritical: template.isCritical,
-          requiresCorrectiveActionOnFail: template.requiresCorrectiveActionOnFail,
+          requiresCorrectiveActionOnFail:
+              template.requiresCorrectiveActionOnFail,
           fixInstructions: template.fixInstructions,
           guidanceText: template.guidanceText,
           choiceOptions: _parseChoiceOptions(template.customFieldsJson),
@@ -287,7 +288,8 @@ class TaskController {
     required ResolvedTask task,
     String? correctiveActionOutcome,
   }) async {
-    final siteId = _currentUser.siteId!; // base/supervisor/venueManager only reach task submission
+    final siteId = _currentUser
+        .siteId!; // base/supervisor/venueManager only reach task submission
     final allRules = await _notificationRuleRepository.getAllCurrentVersions();
 
     final matchingRules = allRules.where((rule) {

@@ -9,7 +9,9 @@ import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
+import '../../shared/models/site.dart';
 import '../tasks/overdue_summary_service.dart';
 import 'reliability_service.dart';
 
@@ -47,7 +49,9 @@ class DashboardScreen extends ConsumerWidget {
 }
 
 class DashboardBody extends ConsumerStatefulWidget {
-  const DashboardBody({super.key});
+  const DashboardBody({super.key, this.aggregatePermittedSites = false});
+
+  final bool aggregatePermittedSites;
 
   @override
   ConsumerState<DashboardBody> createState() => _DashboardBodyState();
@@ -58,6 +62,8 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
   SiteReliabilitySummary? _reliability;
   int _failCount = 0;
   int _overdueCount = 0;
+  List<_SiteDashboardSummary> _siteSummaries = [];
+  Map<int, String> _siteNameByUserId = {};
 
   @override
   void initState() {
@@ -71,28 +77,56 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
       setState(() => _loading = false);
       return;
     }
-    final siteId = currentUser.siteId!; // operational screen, current user always has a site here
-
     final reliabilityService = ref.read(reliabilityServiceProvider);
     final overdueService = ref.read(overdueSummaryServiceProvider);
     final submissionRepo = ref.read(taskSubmissionRepositoryProvider);
+    final siteRepo = ref.read(siteRepositoryProvider);
+
+    final sites = widget.aggregatePermittedSites
+        ? await siteRepo.getAll()
+        : currentUser.siteId == null
+        ? const <Site>[]
+        : [
+            await siteRepo.getById(currentUser.siteId!),
+          ].whereType<Site>().toList();
 
     final now = DateTime.now();
     final rangeStart = now.subtract(const Duration(days: 30));
 
-    final reliability = await reliabilityService.computeForSite(siteId);
-    final overdue = await overdueService.getSummaryForSite(siteId);
-    final submissions = await submissionRepo.getForSiteAndDateRange(
-      siteId: siteId,
-      start: rangeStart,
-      end: now,
-    );
+    final summaries = <_SiteDashboardSummary>[];
+    for (final site in sites) {
+      final reliability = await reliabilityService.computeForSite(site.id);
+      final overdue = await overdueService.getSummaryForSite(site.id);
+      final submissions = await submissionRepo.getForSiteAndDateRange(
+        siteId: site.id,
+        start: rangeStart,
+        end: now,
+      );
+      summaries.add(
+        _SiteDashboardSummary(
+          site: site,
+          reliability: reliability,
+          failCount: submissions.where((s) => s.status == 'FAIL').length,
+          overdueCount: overdue.length,
+        ),
+      );
+    }
+
+    final combined = _combineSummaries(summaries);
+    final siteNameByUserId = <int, String>{};
+    for (final summary in summaries) {
+      for (final member in summary.reliability.staff) {
+        siteNameByUserId[member.userId] = summary.site.name;
+      }
+    }
 
     if (!mounted) return;
     setState(() {
-      _reliability = reliability;
-      _overdueCount = overdue.length;
-      _failCount = submissions.where((s) => s.status == 'FAIL').length;
+      _reliability = combined.reliability;
+      _overdueCount = combined.overdueCount;
+      _failCount = combined.failCount;
+      _siteSummaries = summaries;
+      _siteNameByUserId = siteNameByUserId;
       _loading = false;
     });
   }
@@ -110,8 +144,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
     // Alphabetical, never by score — a roster, not a leaderboard.
     final staff = [..._reliability!.staff]
       ..sort(
-        (a, b) =>
-            a.userName.toLowerCase().compareTo(b.userName.toLowerCase()),
+        (a, b) => a.userName.toLowerCase().compareTo(b.userName.toLowerCase()),
       );
 
     // Responsive foundation: wrapped here (not at each call site) since
@@ -119,93 +152,188 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
     // TopScreen — one fix covers both.
     return ResponsiveContent(
       child: SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          AppCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Last 30 days',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 12),
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    if (overall.completionRate != null)
-                      MetricChip(
-                        icon: Icons.check_circle_outline,
-                        label:
-                            '${(overall.completionRate! * 100).round()}% completed',
-                      ),
-                    if (overall.onTimeRate != null)
-                      MetricChip(
-                        icon: Icons.schedule,
-                        label:
-                            '${(overall.onTimeRate! * 100).round()}% on time',
-                      ),
-                    StatusBadge(
-                      kind: StatusKind.critical,
-                      label:
-                          '$_failCount FAIL${_failCount == 1 ? '' : 's'} (30 days)',
-                    ),
-                    StatusBadge(
-                      kind: StatusKind.overdue,
-                      label: '$_overdueCount overdue',
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
-          const SectionHeader(title: 'Team'),
-          const SizedBox(height: 8),
-          if (staff.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              child: Text('No staff at this venue yet.'),
-            )
-          else
-            ...staff.map(
-              (member) => Card(
-                child: ListTile(
-                  title: Text(member.userName),
-                  subtitle: member.reliability.totalPeriods == 0
-                      ? Text(
-                          'Not enough data yet',
-                          style: Theme.of(context).textTheme.bodySmall
-                              ?.copyWith(color: AppColors.muted),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Wrap(
-                            spacing: 8,
-                            runSpacing: 4,
-                            children: [
-                              MetricChip(
-                                icon: Icons.check_circle_outline,
-                                label:
-                                    '${(member.reliability.completionRate! * 100).round()}% completed',
-                              ),
-                              MetricChip(
-                                icon: Icons.schedule,
-                                label:
-                                    '${(member.reliability.onTimeRate! * 100).round()}% on time',
-                              ),
-                            ],
-                          ),
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.aggregatePermittedSites
+                        ? 'All permitted venues · last 30 days'
+                        : 'Last 30 days',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      if (overall.completionRate != null)
+                        MetricChip(
+                          icon: Icons.check_circle_outline,
+                          label:
+                              '${(overall.completionRate! * 100).round()}% completed',
                         ),
-                ),
+                      if (overall.onTimeRate != null)
+                        MetricChip(
+                          icon: Icons.schedule,
+                          label:
+                              '${(overall.onTimeRate! * 100).round()}% on time',
+                        ),
+                      StatusBadge(
+                        kind: StatusKind.critical,
+                        label:
+                            '$_failCount FAIL${_failCount == 1 ? '' : 's'} (30 days)',
+                      ),
+                      StatusBadge(
+                        kind: StatusKind.overdue,
+                        label: '$_overdueCount overdue',
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-        ],
-      ),
+            const SizedBox(height: 24),
+            if (widget.aggregatePermittedSites) ...[
+              const SectionHeader(title: 'Venues'),
+              const SizedBox(height: 8),
+              ..._siteSummaries.map(_buildSiteSummary),
+              const SizedBox(height: 16),
+            ],
+            const SectionHeader(title: 'Team'),
+            const SizedBox(height: 8),
+            if (staff.isEmpty)
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: Text('No staff at this venue yet.'),
+              )
+            else
+              ...staff.map(
+                (member) => Card(
+                  child: ListTile(
+                    title: Text(
+                      widget.aggregatePermittedSites
+                          ? '${member.userName} · ${_siteNameByUserId[member.userId] ?? 'Venue'}'
+                          : member.userName,
+                    ),
+                    subtitle: member.reliability.totalPeriods == 0
+                        ? Text(
+                            'Not enough data yet',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: AppColors.muted),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Wrap(
+                              spacing: 8,
+                              runSpacing: 4,
+                              children: [
+                                MetricChip(
+                                  icon: Icons.check_circle_outline,
+                                  label:
+                                      '${(member.reliability.completionRate! * 100).round()}% completed',
+                                ),
+                                MetricChip(
+                                  icon: Icons.schedule,
+                                  label:
+                                      '${(member.reliability.onTimeRate! * 100).round()}% on time',
+                                ),
+                              ],
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
+
+  Widget _buildSiteSummary(_SiteDashboardSummary summary) {
+    final overall = summary.reliability.overall;
+    return Card(
+      child: ListTile(
+        title: Text(summary.site.name),
+        subtitle: Wrap(
+          spacing: 8,
+          runSpacing: 4,
+          children: [
+            if (overall.completionRate != null)
+              MetricChip(
+                icon: Icons.check_circle_outline,
+                label: '${(overall.completionRate! * 100).round()}% completed',
+              ),
+            StatusBadge(
+              kind: StatusKind.critical,
+              label:
+                  '${summary.failCount} FAIL${summary.failCount == 1 ? '' : 's'}',
+            ),
+            StatusBadge(
+              kind: StatusKind.overdue,
+              label: '${summary.overdueCount} overdue',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SiteDashboardSummary {
+  const _SiteDashboardSummary({
+    required this.site,
+    required this.reliability,
+    required this.failCount,
+    required this.overdueCount,
+  });
+
+  final Site site;
+  final SiteReliabilitySummary reliability;
+  final int failCount;
+  final int overdueCount;
+}
+
+_SiteDashboardSummary _combineSummaries(List<_SiteDashboardSummary> summaries) {
+  var totalPeriods = 0;
+  var completedPeriods = 0;
+  var onTimePeriods = 0;
+  var failCount = 0;
+  var overdueCount = 0;
+  final staff = <StaffReliabilitySummary>[];
+
+  for (final summary in summaries) {
+    final reliability = summary.reliability.overall;
+    totalPeriods += reliability.totalPeriods;
+    completedPeriods += reliability.completedPeriods;
+    onTimePeriods += reliability.onTimePeriods;
+    failCount += summary.failCount;
+    overdueCount += summary.overdueCount;
+    staff.addAll(summary.reliability.staff);
+  }
+
+  return _SiteDashboardSummary(
+    site: summaries.isEmpty
+        ? Site(
+            id: 0,
+            organisationId: 0,
+            name: '',
+            createdAt: DateTime.fromMillisecondsSinceEpoch(0),
+          )
+        : summaries.first.site,
+    reliability: SiteReliabilitySummary(
+      overall: ReliabilitySummary(
+        totalPeriods: totalPeriods,
+        completedPeriods: completedPeriods,
+        onTimePeriods: onTimePeriods,
+      ),
+      staff: staff,
+    ),
+    failCount: failCount,
+    overdueCount: overdueCount,
+  );
 }

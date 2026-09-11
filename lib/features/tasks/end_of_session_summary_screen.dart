@@ -35,8 +35,7 @@ class _EndOfSessionSummaryScreenState
   ReliabilitySummary? reliability;
 
   final TextEditingController summaryNoteController = TextEditingController();
-  final TextEditingController handoverNoteController =
-      TextEditingController();
+  final TextEditingController handoverNoteController = TextEditingController();
 
   @override
   void initState() {
@@ -56,11 +55,9 @@ class _EndOfSessionSummaryScreenState
     final userRepo = ref.read(userRepositoryProvider);
     final currentUser = ref.read(currentUserProvider);
     final all = currentUser?.siteId == null
-      ? const <User>[]
-      : await userRepo.getForSite(currentUser!.siteId!);
-    final managerList = all
-        .where((u) => u.roleTier != RoleTier.base)
-        .toList();
+        ? const <User>[]
+        : await userRepo.getForSite(currentUser!.siteId!);
+    final managerList = all.where((u) => u.roleTier != RoleTier.base).toList();
 
     if (!mounted) return;
     setState(() {
@@ -135,149 +132,156 @@ class _EndOfSessionSummaryScreenState
           child: ResponsiveContent(
             maxWidth: 560,
             child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // Visual/UX pass, Sub-sprint 3: the glanceable pass/fail
-                // summary — the one thing this screen must communicate at a
-                // glance — grouped in an AppCard; colour is never the only
-                // signal (StatusBadge pairs it with an icon and a word).
-                AppCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Tasks completed: $total',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 12),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: [
-                          StatusBadge(
-                            kind: StatusKind.pass,
-                            label: 'Pass: ${widget.stats.passCount}',
-                          ),
-                          StatusBadge(
-                            kind: StatusKind.critical,
-                            label: 'Fail: ${widget.stats.failCount}',
-                          ),
-                        ],
-                      ),
-                      if (widget.stats.failedTaskTitles.isNotEmpty) ...[
-                        const SizedBox(height: 16),
-                        const SectionHeader(title: 'Triggers / Failed tasks'),
-                        ...widget.stats.failedTaskTitles.map(
-                          (title) => Padding(
-                            padding: const EdgeInsets.only(bottom: 4),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const Icon(
-                                  Icons.cancel_outlined,
-                                  size: 16,
-                                  color: AppColors.critical,
-                                ),
-                                const SizedBox(width: 6),
-                                Expanded(child: Text(title)),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                ),
-                if (!loadingReliability &&
-                    reliability != null &&
-                    reliability!.totalPeriods > 0) ...[
-                  const SizedBox(height: 24),
-                  const SectionHeader(title: 'Your reliability'),
-                  const SizedBox(height: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Visual/UX pass, Sub-sprint 3: the glanceable pass/fail
+                  // summary — the one thing this screen must communicate at a
+                  // glance — grouped in an AppCard; colour is never the only
+                  // signal (StatusBadge pairs it with an icon and a word).
                   AppCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Last 30 days — checks completed and logged on time.'
-                          ' A logged fail counts the same as a logged pass:'
-                          ' this only measures whether you checked and when.',
-                          style: Theme.of(context).textTheme.bodySmall,
+                          'Tasks completed: $total',
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 12),
                         Wrap(
                           spacing: 8,
                           runSpacing: 8,
                           children: [
-                            MetricChip(
-                              icon: Icons.check_circle_outline,
-                              label:
-                                  '${(reliability!.completionRate! * 100).round()}% completed',
+                            StatusBadge(
+                              kind: StatusKind.pass,
+                              label: 'Pass: ${widget.stats.passCount}',
                             ),
-                            MetricChip(
-                              icon: Icons.schedule,
-                              label:
-                                  '${(reliability!.onTimeRate! * 100).round()}% on time',
+                            StatusBadge(
+                              kind: StatusKind.critical,
+                              label: 'Fail: ${widget.stats.failCount}',
                             ),
                           ],
                         ),
+                        if (widget.stats.failedTaskTitles.isNotEmpty) ...[
+                          const SizedBox(height: 16),
+                          const SectionHeader(title: 'Triggers / Failed tasks'),
+                          ...widget.stats.failedTaskTitles.map(
+                            (title) => Padding(
+                              padding: const EdgeInsets.only(bottom: 4),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Icon(
+                                    Icons.cancel_outlined,
+                                    size: 16,
+                                    color: AppColors.critical,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Expanded(child: Text(title)),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                   ),
-                ],
-                const SizedBox(height: 24),
-                const SectionHeader(title: 'Send this summary to a manager (optional)'),
-                const SizedBox(height: 8),
-                if (loadingManagers)
-                  const Center(child: CircularProgressIndicator())
-                else if (managers.isEmpty)
-                  const Text('No managers set up yet.')
-                else ...[
-                  DropdownButtonFormField<int>(
-                    initialValue: selectedManagerId,
-                    decoration: const InputDecoration(labelText: 'Manager'),
-                    items: managers
-                        .map(
-                          (m) => DropdownMenuItem(
-                            value: m.id,
-                            child: Text('${m.name} (${m.jobTitle})'),
+                  if (!loadingReliability &&
+                      reliability != null &&
+                      reliability!.totalPeriods > 0) ...[
+                    const SizedBox(height: 24),
+                    const SectionHeader(title: 'Your reliability'),
+                    const SizedBox(height: 8),
+                    AppCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Last 30 days — checks completed and logged on time.'
+                            ' A logged fail counts the same as a logged pass:'
+                            ' this only measures whether you checked and when.',
+                            style: Theme.of(context).textTheme.bodySmall,
                           ),
-                        )
-                        .toList(),
-                    onChanged: sent
-                        ? null
-                        : (value) => setState(() => selectedManagerId = value),
+                          const SizedBox(height: 12),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              MetricChip(
+                                icon: Icons.check_circle_outline,
+                                label:
+                                    '${(reliability!.completionRate! * 100).round()}% completed',
+                              ),
+                              MetricChip(
+                                icon: Icons.schedule,
+                                label:
+                                    '${(reliability!.onTimeRate! * 100).round()}% on time',
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 24),
+                  const SectionHeader(
+                    title: 'Send this summary to a manager (optional)',
+                  ),
+                  const SizedBox(height: 8),
+                  if (loadingManagers)
+                    const Center(child: CircularProgressIndicator())
+                  else if (managers.isEmpty)
+                    const Text('No managers set up yet.')
+                  else ...[
+                    DropdownButtonFormField<int>(
+                      initialValue: selectedManagerId,
+                      decoration: const InputDecoration(labelText: 'Manager'),
+                      items: managers
+                          .map(
+                            (m) => DropdownMenuItem(
+                              value: m.id,
+                              child: Text('${m.name} (${m.jobTitle})'),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: sent
+                          ? null
+                          : (value) =>
+                                setState(() => selectedManagerId = value),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: summaryNoteController,
+                      enabled: !sent,
+                      decoration: const InputDecoration(
+                        labelText: 'Note (optional)',
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ElevatedButton(
+                      onPressed: (sent || selectedManagerId == null)
+                          ? null
+                          : _sendToManager,
+                      child: Text(sent ? 'Sent' : 'Send'),
+                    ),
+                  ],
+                  const SizedBox(height: 24),
+                  const SectionHeader(
+                    title: 'Leave a note for the next shift (optional)',
                   ),
                   const SizedBox(height: 8),
                   TextField(
-                    controller: summaryNoteController,
-                    enabled: !sent,
+                    controller: handoverNoteController,
+                    maxLines: 3,
                     decoration: const InputDecoration(
-                      labelText: 'Note (optional)',
+                      labelText: 'Handover note',
                     ),
                   ),
-                  const SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: (sent || selectedManagerId == null)
-                        ? null
-                        : _sendToManager,
-                    child: Text(sent ? 'Sent' : 'Send'),
-                  ),
+                  const SizedBox(height: 24),
+                  PrimaryActionButton(label: 'Done', onPressed: _finish),
                 ],
-                const SizedBox(height: 24),
-                const SectionHeader(title: 'Leave a note for the next shift (optional)'),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: handoverNoteController,
-                  maxLines: 3,
-                  decoration: const InputDecoration(labelText: 'Handover note'),
-                ),
-                const SizedBox(height: 24),
-                PrimaryActionButton(label: 'Done', onPressed: _finish),
-              ],
+              ),
             ),
-          ),
           ),
         ),
       ),

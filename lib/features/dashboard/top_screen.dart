@@ -162,7 +162,7 @@ class _TopScreenState extends ConsumerState<TopScreen> {
           // display rules (alphabetical roster, neutral chips, no per-person
           // FAIL counts). Cross-venue comparison stays deferred until
           // multi-site is actually usable — see DECISIONS_LOG.md.
-          const Expanded(child: DashboardBody()),
+          const Expanded(child: DashboardBody(aggregatePermittedSites: true)),
         ],
       ),
     );
