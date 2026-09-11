@@ -115,7 +115,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     setState(() => loading = false);
 
     final handoverRepo = ref.read(shiftHandoverRepositoryProvider);
-    final latestNote = await handoverRepo.getLatest();
+    final latestNote = currentUser?.siteId == null
+      ? null
+      : await handoverRepo.getLatestForSite(currentUser!.siteId!);
     if (!mounted || latestNote == null) return;
 
     await showDialog(

@@ -21,6 +21,16 @@ class SupabaseShiftHandoverRepository implements ShiftHandoverRepository {
   }
 
   @override
+  Future<ShiftHandoverNote?> getLatestForSite(int siteId) async {
+    final rows = await _client.select(
+      'shift_handover_notes',
+      query: 'site_id=eq.$siteId&order=created_at.desc&limit=1',
+    );
+    if (rows.isEmpty) return null;
+    return _toModel(rows.first);
+  }
+
+  @override
   Future<ShiftHandoverNote> create({
     required int authorUserId,
     required String note,

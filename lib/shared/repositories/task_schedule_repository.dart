@@ -84,11 +84,8 @@ class DriftTaskScheduleRepository implements TaskScheduleRepository {
 
   @override
   Future<void> deactivate(int scheduleId) async {
-    await (_db.update(
-      _db.taskSchedules,
-    )..where((s) => s.id.equals(scheduleId))).write(
-      const TaskSchedulesCompanion(active: Value(false)),
-    );
+    await (_db.update(_db.taskSchedules)..where((s) => s.id.equals(scheduleId)))
+        .write(const TaskSchedulesCompanion(active: Value(false)));
   }
 
   TaskSchedule _toModel(TaskScheduleEntity row) => TaskSchedule(

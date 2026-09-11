@@ -54,7 +54,10 @@ class _EndOfSessionSummaryScreenState
 
   Future<void> _loadManagers() async {
     final userRepo = ref.read(userRepositoryProvider);
-    final all = await userRepo.getAll();
+    final currentUser = ref.read(currentUserProvider);
+    final all = currentUser?.siteId == null
+      ? const <User>[]
+      : await userRepo.getForSite(currentUser!.siteId!);
     final managerList = all
         .where((u) => u.roleTier != RoleTier.base)
         .toList();

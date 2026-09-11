@@ -73,6 +73,18 @@ Updated these screens to use the active site, falling back to the default site:
 
 Added explicit `getForSite(siteId)` reads to the TaskSchedule repository paths and changed `OverdueSummaryService` to use them. This removes the final all-schedule load from that site-specific overdue path while preserving its existing active-schedule filtering.
 
+### Sprint 1 completion checkpoint
+
+Finished the remaining site-known operational reads:
+
+- Shift handover latest note now supports site-scoped lookup in local and backend repositories.
+- The task carousel resolves equipment instances from the current user's site.
+- End-of-session manager choices are limited to managers at the current user's site.
+- Reliability dashboard staff lookup uses the site-scoped user repository method.
+- Problems, training records, task submissions, suppliers, and EHO export paths were confirmed already site-scoped at their consuming boundaries.
+
+Sprint 1 is complete for the unambiguous site-scoping work. Regional/director cross-site aggregation remains deliberately unchanged pending a product decision about site selection versus permitted-site aggregation.
+
 Maintenance contacts preserve organisation-wide records (`siteId == null`) while also showing contacts specific to the selected site.
 
 This prevents local multi-site screens from mixing staff, areas, and equipment from different venues. Backend reads remain additionally protected by RLS.

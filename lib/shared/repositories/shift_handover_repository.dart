@@ -5,6 +5,7 @@ import '../models/shift_handover_note.dart';
 
 abstract class ShiftHandoverRepository {
   Future<ShiftHandoverNote?> getLatest();
+  Future<ShiftHandoverNote?> getLatestForSite(int siteId);
   Future<ShiftHandoverNote> create({
     required int authorUserId,
     required String note,
@@ -21,6 +22,16 @@ class DriftShiftHandoverRepository implements ShiftHandoverRepository {
   Future<ShiftHandoverNote?> getLatest() async {
     final query = _db.select(_db.shiftHandoverNotes)
       ..orderBy([(t) => OrderingTerm.desc(t.createdAt)])
+      ..limit(1);
+    final row = await query.getSingleOrNull();
+    return row == null ? null : _toModel(row);
+  }
+
+  @override
+  Future<ShiftHandoverNote?> getLatestForSite(int siteId) async {
+    final query = _db.select(_db.shiftHandoverNotes)
+      ..where((note) => note.siteId.equals(siteId))
+      ..orderBy([(note) => OrderingTerm.desc(note.createdAt)])
       ..limit(1);
     final row = await query.getSingleOrNull();
     return row == null ? null : _toModel(row);

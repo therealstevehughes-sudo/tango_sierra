@@ -193,8 +193,8 @@ class ReliabilityService {
     DateTime? now,
     Duration lookback = const Duration(days: 30),
   }) async {
-    final users = (await _userRepository.getAll())
-        .where((u) => u.active && u.siteId == siteId)
+    final users = (await _userRepository.getForSite(siteId))
+      .where((u) => u.active)
         .toList();
 
     var totalPeriods = 0;

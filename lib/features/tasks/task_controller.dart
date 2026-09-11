@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import '../../shared/models/notification_rule.dart';
 import '../../shared/models/problem_status_event.dart';
+import '../../shared/models/equipment.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/user.dart';
@@ -53,7 +54,9 @@ class TaskController {
       _currentUser.id,
     );
     final templates = await _templateRepository.getAllCurrentVersions();
-    final equipmentInstances = await _equipmentRepository.getAll();
+    final equipmentInstances = _currentUser.siteId == null
+      ? const <Equipment>[]
+      : await _equipmentRepository.getForSite(_currentUser.siteId!);
 
     final resolved = <ResolvedTask>[];
 
