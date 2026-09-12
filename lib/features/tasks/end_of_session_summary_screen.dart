@@ -7,7 +7,6 @@ import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
-import '../../core/widgets/status_badge.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
@@ -148,17 +147,31 @@ class _EndOfSessionSummaryScreenState
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 12),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
+                        // Improvement (2026-09-12): the pass/fail summary is
+                        // now glanceable — a large icon + number pair in the
+                        // status colour, with the smallest possible word
+                        // label. A tired worker at the end of a shift reads
+                        // "big green check, big number" without parsing
+                        // prose. Colour is still never the only signal
+                        // (icon + word always present).
+                        Row(
                           children: [
-                            StatusBadge(
-                              kind: StatusKind.pass,
-                              label: 'Pass: ${widget.stats.passCount}',
+                            Expanded(
+                              child: _BigCount(
+                                icon: Icons.check_circle,
+                                color: AppColors.pass,
+                                count: widget.stats.passCount,
+                                label: 'Passed',
+                              ),
                             ),
-                            StatusBadge(
-                              kind: StatusKind.critical,
-                              label: 'Fail: ${widget.stats.failCount}',
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _BigCount(
+                                icon: Icons.cancel,
+                                color: AppColors.critical,
+                                count: widget.stats.failCount,
+                                label: 'Failed',
+                              ),
                             ),
                           ],
                         ),
@@ -284,6 +297,59 @@ class _EndOfSessionSummaryScreenState
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+// Improvement (2026-09-12): a large, glanceable count for the session
+// summary — icon + big number + a minimal word. Colour is never the only
+// signal (DESIGN_SYSTEM_LOCK's Accessibility Rule); the number carries the
+// meaning, the word disambiguates, the colour reinforces. This is the
+// at-a-glance "how did my shift go" display.
+class _BigCount extends StatelessWidget {
+  const _BigCount({
+    required this.icon,
+    required this.color,
+    required this.count,
+    required this.label,
+  });
+
+  final IconData icon;
+  final Color color;
+  final int count;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withValues(alpha: 0.35)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: color, size: 34),
+          const SizedBox(height: 4),
+          Text(
+            '$count',
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+              color: color,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            label,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: color,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }

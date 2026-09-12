@@ -49,8 +49,7 @@ class TaskSubmissions extends Table {
   // supplier delivers each time). Nullable and optional: the worker can
   // submit without picking one, same "never block the kitchen running"
   // principle as the approval-status warning elsewhere in this feature.
-  IntColumn get supplierId =>
-      integer().nullable().references(Suppliers, #id)();
+  IntColumn get supplierId => integer().nullable().references(Suppliers, #id)();
   // Fails & Problems Register (Part A, 2026-09-03) — denormalized "current"
   // status for fast filtering/display, same pattern as
   // SessionSummaries.staffName. 'open'/'resolved', null for PASS rows where
@@ -230,14 +229,18 @@ class Areas extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  // Task-reorder (2026-09-12): the manager-controlled order of the
+  // venue's zones/areas — "walk-in fridge" sits above "prep". Nullable,
+  // null = no explicit order yet, and the Reorder Tasks screen shows the
+  // zones in this order (unset zones fall back to creation order).
+  IntColumn get sortOrder => integer().nullable()();
 }
 
 @DataClassName('EquipmentInstanceEntity')
 class EquipmentInstances extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
-  IntColumn get equipmentTypeId =>
-      integer().references(EquipmentTypes, #id)();
+  IntColumn get equipmentTypeId => integer().references(EquipmentTypes, #id)();
   IntColumn get areaId => integer().nullable().references(Areas, #id)();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
@@ -258,6 +261,14 @@ class TaskSchedules extends Table {
   IntColumn get assignedByUserId => integer().references(Users, #id)();
   DateTimeColumn get assignedAt => dateTime()();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
+  // Task-reorder (2026-09-12): a manager-controlled execution order for
+  // this venue's schedules — "the daily checks run walk-in → prep → cook
+  // line", not whichever order they happened to be created in. Nullable:
+  // null = "no explicit order yet" (falls back to natural order), so
+  // existing installs and newly-assigned-but-not-yet-ordered tasks keep
+  // working unchanged. Dragged in the Reorder Tasks screen; the worker
+  // carousel sorts by it.
+  IntColumn get sortOrder => integer().nullable()();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
   // Time-windowed tasks (Sprint 031, Build Order item 5, Sub-sprint C) —
   // anti-cheating: fixed-clock windows only for now (relative-to-shift
@@ -338,8 +349,7 @@ class SessionSummaries extends Table {
   TextColumn get failedTaskTitlesJson => text()();
   TextColumn get note => text().nullable()();
   DateTimeColumn get sentAt => dateTime()();
-  BoolColumn get acknowledged =>
-      boolean().withDefault(const Constant(false))();
+  BoolColumn get acknowledged => boolean().withDefault(const Constant(false))();
   DateTimeColumn get acknowledgedAt => dateTime().nullable()();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
@@ -357,10 +367,8 @@ class NotificationRules extends Table {
   IntColumn get taskTemplateGroupId => integer().nullable()();
   TextColumn get targetRoleTier => text().nullable()();
   IntColumn get targetUserId => integer().nullable().references(Users, #id)();
-  BoolColumn get channelPush =>
-      boolean().withDefault(const Constant(false))();
-  BoolColumn get channelEmail =>
-      boolean().withDefault(const Constant(false))();
+  BoolColumn get channelPush => boolean().withDefault(const Constant(false))();
+  BoolColumn get channelEmail => boolean().withDefault(const Constant(false))();
   IntColumn get setByUserId => integer().references(Users, #id)();
   TextColumn get setByTier => text()();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
@@ -389,8 +397,7 @@ class TriggerNotifications extends Table {
   TextColumn get message => text()();
   IntColumn get siteId => integer().references(Sites, #id)();
   DateTimeColumn get createdAt => dateTime()();
-  BoolColumn get acknowledged =>
-      boolean().withDefault(const Constant(false))();
+  BoolColumn get acknowledged => boolean().withDefault(const Constant(false))();
   DateTimeColumn get acknowledgedAt => dateTime().nullable()();
   // Denormalized from the firing rule at creation time (Sprint 022) — null
   // means the firing rule targeted a specific person, non-null means it
@@ -444,8 +451,7 @@ class Organisations extends Table {
 @DataClassName('RegionEntity')
 class Regions extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get organisationId =>
-      integer().references(Organisations, #id)();
+  IntColumn get organisationId => integer().references(Organisations, #id)();
   TextColumn get name => text()();
   DateTimeColumn get createdAt => dateTime()();
 }
@@ -453,8 +459,7 @@ class Regions extends Table {
 @DataClassName('SiteEntity')
 class Sites extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get organisationId =>
-      integer().references(Organisations, #id)();
+  IntColumn get organisationId => integer().references(Organisations, #id)();
   TextColumn get name => text()();
   TextColumn get address => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
@@ -568,8 +573,7 @@ class SiteVenueTypes extends Table {
 @DataClassName('EquipmentTypeVenueTypeEntity')
 class EquipmentTypeVenueTypes extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get equipmentTypeId =>
-      integer().references(EquipmentTypes, #id)();
+  IntColumn get equipmentTypeId => integer().references(EquipmentTypes, #id)();
   IntColumn get venueTypeId => integer().references(VenueTypes, #id)();
 }
 
@@ -689,7 +693,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 36;
+  int get schemaVersion => 37;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -700,14 +704,10 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 3) {
         // Two-tier (staff/manager) -> three-tier (top/mid/base) role rename.
-        await (update(
-          users,
-        )..where((u) => u.roleTier.equals('staff'))).write(
+        await (update(users)..where((u) => u.roleTier.equals('staff'))).write(
           const UsersCompanion(roleTier: Value('base')),
         );
-        await (update(
-          users,
-        )..where((u) => u.roleTier.equals('manager'))).write(
+        await (update(users)..where((u) => u.roleTier.equals('manager'))).write(
           const UsersCompanion(roleTier: Value('mid')),
         );
       }
@@ -725,14 +725,8 @@ class AppDatabase extends _$AppDatabase {
       }
       if (from < 7) {
         await m.addColumn(taskSubmissions, taskSubmissions.taskScheduleId);
-        await m.addColumn(
-          taskSubmissions,
-          taskSubmissions.taskTemplateGroupId,
-        );
-        await m.addColumn(
-          taskSubmissions,
-          taskSubmissions.equipmentInstanceId,
-        );
+        await m.addColumn(taskSubmissions, taskSubmissions.taskTemplateGroupId);
+        await m.addColumn(taskSubmissions, taskSubmissions.equipmentInstanceId);
         await m.addColumn(
           taskSubmissions,
           taskSubmissions.customFieldValuesJson,
@@ -740,10 +734,7 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(users, users.preferredTemperatureUnit);
       }
       if (from < 8) {
-        await m.addColumn(
-          taskSubmissions,
-          taskSubmissions.completedByUserId,
-        );
+        await m.addColumn(taskSubmissions, taskSubmissions.completedByUserId);
         await m.createTable(shiftHandoverNotes);
         await m.createTable(sessionSummaries);
       }
@@ -824,9 +815,7 @@ class AppDatabase extends _$AppDatabase {
         await (update(
           notificationRules,
         )..where((r) => r.targetRoleTier.equals('top'))).write(
-          const NotificationRulesCompanion(
-            targetRoleTier: Value('executive'),
-          ),
+          const NotificationRulesCompanion(targetRoleTier: Value('executive')),
         );
         await (update(
           notificationRules,
@@ -896,21 +885,15 @@ class AppDatabase extends _$AppDatabase {
         // rather than leaving fridge/hot-hold mislabelled as guidance when
         // they're actually law. Matches HORECA_TASK_LIBRARY.md's sourcing
         // note exactly.
-        await (update(
-          legalLimitReferences,
-        )..where((r) => r.category.equals('fridge_temp'))).write(
-          const LegalLimitReferencesCompanion(basis: Value('law')),
-        );
-        await (update(
-          legalLimitReferences,
-        )..where((r) => r.category.equals('freezer_temp'))).write(
-          const LegalLimitReferencesCompanion(basis: Value('fsa')),
-        );
-        await (update(
-          legalLimitReferences,
-        )..where((r) => r.category.equals('hot_hold_temp'))).write(
-          const LegalLimitReferencesCompanion(basis: Value('law')),
-        );
+        await (update(legalLimitReferences)
+              ..where((r) => r.category.equals('fridge_temp')))
+            .write(const LegalLimitReferencesCompanion(basis: Value('law')));
+        await (update(legalLimitReferences)
+              ..where((r) => r.category.equals('freezer_temp')))
+            .write(const LegalLimitReferencesCompanion(basis: Value('fsa')));
+        await (update(legalLimitReferences)
+              ..where((r) => r.category.equals('hot_hold_temp')))
+            .write(const LegalLimitReferencesCompanion(basis: Value('law')));
       }
       if (from < 24) {
         await m.addColumn(
@@ -1027,6 +1010,13 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(regions);
         await m.addColumn(sites, sites.regionId);
         await m.addColumn(users, users.regionId);
+      }
+      if (from < 37) {
+        // Task-reorder (2026-09-12). Nullable, no backfill needed: null
+        // means "no explicit order set yet" (falls back to natural order),
+        // which is the correct meaning for every existing schedule.
+        await m.addColumn(taskSchedules, taskSchedules.sortOrder);
+        await m.addColumn(areas, areas.sortOrder);
       }
     },
     beforeOpen: (details) async {
@@ -1243,9 +1233,7 @@ class AppDatabase extends _$AppDatabase {
   // database) needs this separate pass. Only touches rows where jobRole is
   // still null, so it never overwrites a value set some other way.
   Future<void> _ensureSeedUserJobRoles() async {
-    final rows = await (select(
-      users,
-    )..where((u) => u.jobRole.isNull())).get();
+    final rows = await (select(users)..where((u) => u.jobRole.isNull())).get();
     for (final row in rows) {
       final jobRole = _seedUserJobRoles[row.name];
       if (jobRole == null) continue;
@@ -1471,9 +1459,7 @@ class AppDatabase extends _$AppDatabase {
         createdAt: DateTime.now(),
       ),
     );
-    await (update(
-      taskTemplates,
-    )..where((t) => t.id.equals(templateId))).write(
+    await (update(taskTemplates)..where((t) => t.id.equals(templateId))).write(
       TaskTemplatesCompanion(templateGroupId: Value(templateId)),
     );
   }
@@ -1489,9 +1475,10 @@ class AppDatabase extends _$AppDatabase {
     )..where((t) => t.name.equals('Fridge'))).getSingleOrNull();
     if (fridgeType == null) return;
 
-    final fridgeTemplate = await (select(
-      taskTemplates,
-    )..where((t) => t.title.equals('Check Fridge Temperature'))).getSingleOrNull();
+    final fridgeTemplate =
+        await (select(taskTemplates)
+              ..where((t) => t.title.equals('Check Fridge Temperature')))
+            .getSingleOrNull();
     if (fridgeTemplate == null) return;
 
     final presetId = await into(taskPresets).insert(
@@ -2193,8 +2180,7 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> _seedTaskLibraryClusterA() async {
     final equipmentTypeIdByName = {
-      for (final row in await select(equipmentTypes).get())
-        row.name: row.id,
+      for (final row in await select(equipmentTypes).get()) row.name: row.id,
     };
     final venueTypeIdByName = {
       for (final row in await select(venueTypes).get()) row.name: row.id,
@@ -2258,11 +2244,8 @@ class AppDatabase extends _$AppDatabase {
           createdAt: DateTime.now(),
         ),
       );
-      await (update(
-        taskTemplates,
-      )..where((t) => t.id.equals(insertedId))).write(
-        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
-      );
+      await (update(taskTemplates)..where((t) => t.id.equals(insertedId)))
+          .write(TaskTemplatesCompanion(templateGroupId: Value(insertedId)));
 
       final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
       for (final vtName in venueTypeNames) {
@@ -2671,14 +2654,16 @@ class AppDatabase extends _$AppDatabase {
     _LibraryPreset(
       name: 'Wash-up Tasks',
       segment: 'washup_dishwash',
-      itemTitles: ['Pot-wash sanitiser strength', 'Air-dry (no tea-towel drying)'],
+      itemTitles: [
+        'Pot-wash sanitiser strength',
+        'Air-dry (no tea-towel drying)',
+      ],
     ),
   ];
 
   Future<void> _seedTaskLibraryClusterB() async {
     final equipmentTypeIdByName = {
-      for (final row in await select(equipmentTypes).get())
-        row.name: row.id,
+      for (final row in await select(equipmentTypes).get()) row.name: row.id,
     };
     final venueTypeIdByName = {
       for (final row in await select(venueTypes).get()) row.name: row.id,
@@ -2743,11 +2728,8 @@ class AppDatabase extends _$AppDatabase {
           createdAt: DateTime.now(),
         ),
       );
-      await (update(
-        taskTemplates,
-      )..where((t) => t.id.equals(insertedId))).write(
-        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
-      );
+      await (update(taskTemplates)..where((t) => t.id.equals(insertedId)))
+          .write(TaskTemplatesCompanion(templateGroupId: Value(insertedId)));
 
       final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
       for (final vtName in venueTypeNames) {
@@ -3177,8 +3159,7 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> _seedTaskLibraryClusterC() async {
     final equipmentTypeIdByName = {
-      for (final row in await select(equipmentTypes).get())
-        row.name: row.id,
+      for (final row in await select(equipmentTypes).get()) row.name: row.id,
     };
     final venueTypeIdByName = {
       for (final row in await select(venueTypes).get()) row.name: row.id,
@@ -3230,11 +3211,8 @@ class AppDatabase extends _$AppDatabase {
           createdAt: DateTime.now(),
         ),
       );
-      await (update(
-        taskTemplates,
-      )..where((t) => t.id.equals(insertedId))).write(
-        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
-      );
+      await (update(taskTemplates)..where((t) => t.id.equals(insertedId)))
+          .write(TaskTemplatesCompanion(templateGroupId: Value(insertedId)));
 
       final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
       for (final vtName in venueTypeNames) {
@@ -3614,8 +3592,7 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> _seedTaskLibraryClusterD() async {
     final equipmentTypeIdByName = {
-      for (final row in await select(equipmentTypes).get())
-        row.name: row.id,
+      for (final row in await select(equipmentTypes).get()) row.name: row.id,
     };
     final venueTypeIdByName = {
       for (final row in await select(venueTypes).get()) row.name: row.id,
@@ -3654,11 +3631,8 @@ class AppDatabase extends _$AppDatabase {
           createdAt: DateTime.now(),
         ),
       );
-      await (update(
-        taskTemplates,
-      )..where((t) => t.id.equals(insertedId))).write(
-        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
-      );
+      await (update(taskTemplates)..where((t) => t.id.equals(insertedId)))
+          .write(TaskTemplatesCompanion(templateGroupId: Value(insertedId)));
 
       final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
       for (final vtName in venueTypeNames) {
@@ -3709,11 +3683,12 @@ class AppDatabase extends _$AppDatabase {
         );
       }
 
-      final existingItemGroupIds = (await (select(
-        taskPresetItems,
-      )..where((i) => i.presetId.equals(presetId))).get())
-          .map((i) => i.taskTemplateGroupId)
-          .toSet();
+      final existingItemGroupIds =
+          (await (select(
+                taskPresetItems,
+              )..where((i) => i.presetId.equals(presetId))).get())
+              .map((i) => i.taskTemplateGroupId)
+              .toSet();
 
       final memberVenueTypeIds = <int>{};
       for (final title in preset.itemTitles) {
@@ -3737,11 +3712,12 @@ class AppDatabase extends _$AppDatabase {
         memberVenueTypeIds.addAll(taggedRows.map((r) => r.venueTypeId));
       }
 
-      final existingPresetVenueTypeIds = (await (select(
-        taskPresetVenueTypes,
-      )..where((j) => j.presetId.equals(presetId))).get())
-          .map((j) => j.venueTypeId)
-          .toSet();
+      final existingPresetVenueTypeIds =
+          (await (select(
+                taskPresetVenueTypes,
+              )..where((j) => j.presetId.equals(presetId))).get())
+              .map((j) => j.venueTypeId)
+              .toSet();
       for (final vtId in memberVenueTypeIds) {
         if (existingPresetVenueTypeIds.contains(vtId)) continue;
         await into(taskPresetVenueTypes).insert(
@@ -3935,8 +3911,7 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> _seedTaskLibraryClusterE() async {
     final equipmentTypeIdByName = {
-      for (final row in await select(equipmentTypes).get())
-        row.name: row.id,
+      for (final row in await select(equipmentTypes).get()) row.name: row.id,
     };
     final venueTypeIdByName = {
       for (final row in await select(venueTypes).get()) row.name: row.id,
@@ -3975,11 +3950,8 @@ class AppDatabase extends _$AppDatabase {
           createdAt: DateTime.now(),
         ),
       );
-      await (update(
-        taskTemplates,
-      )..where((t) => t.id.equals(insertedId))).write(
-        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
-      );
+      await (update(taskTemplates)..where((t) => t.id.equals(insertedId)))
+          .write(TaskTemplatesCompanion(templateGroupId: Value(insertedId)));
 
       final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
       for (final vtName in venueTypeNames) {
@@ -4027,11 +3999,12 @@ class AppDatabase extends _$AppDatabase {
         );
       }
 
-      final existingItemGroupIds = (await (select(
-        taskPresetItems,
-      )..where((i) => i.presetId.equals(presetId))).get())
-          .map((i) => i.taskTemplateGroupId)
-          .toSet();
+      final existingItemGroupIds =
+          (await (select(
+                taskPresetItems,
+              )..where((i) => i.presetId.equals(presetId))).get())
+              .map((i) => i.taskTemplateGroupId)
+              .toSet();
 
       final memberVenueTypeIds = <int>{};
       for (final title in preset.itemTitles) {
@@ -4055,11 +4028,12 @@ class AppDatabase extends _$AppDatabase {
         memberVenueTypeIds.addAll(taggedRows.map((r) => r.venueTypeId));
       }
 
-      final existingPresetVenueTypeIds = (await (select(
-        taskPresetVenueTypes,
-      )..where((j) => j.presetId.equals(presetId))).get())
-          .map((j) => j.venueTypeId)
-          .toSet();
+      final existingPresetVenueTypeIds =
+          (await (select(
+                taskPresetVenueTypes,
+              )..where((j) => j.presetId.equals(presetId))).get())
+              .map((j) => j.venueTypeId)
+              .toSet();
       for (final vtId in memberVenueTypeIds) {
         if (existingPresetVenueTypeIds.contains(vtId)) continue;
         await into(taskPresetVenueTypes).insert(
@@ -4477,8 +4451,7 @@ class AppDatabase extends _$AppDatabase {
 
   Future<void> _seedTaskLibraryClusterF() async {
     final equipmentTypeIdByName = {
-      for (final row in await select(equipmentTypes).get())
-        row.name: row.id,
+      for (final row in await select(equipmentTypes).get()) row.name: row.id,
     };
     final venueTypeIdByName = {
       for (final row in await select(venueTypes).get()) row.name: row.id,
@@ -4531,11 +4504,8 @@ class AppDatabase extends _$AppDatabase {
           createdAt: DateTime.now(),
         ),
       );
-      await (update(
-        taskTemplates,
-      )..where((t) => t.id.equals(insertedId))).write(
-        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
-      );
+      await (update(taskTemplates)..where((t) => t.id.equals(insertedId)))
+          .write(TaskTemplatesCompanion(templateGroupId: Value(insertedId)));
 
       final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
       for (final vtName in venueTypeNames) {
@@ -4582,11 +4552,12 @@ class AppDatabase extends _$AppDatabase {
         );
       }
 
-      final existingItemGroupIds = (await (select(
-        taskPresetItems,
-      )..where((i) => i.presetId.equals(presetId))).get())
-          .map((i) => i.taskTemplateGroupId)
-          .toSet();
+      final existingItemGroupIds =
+          (await (select(
+                taskPresetItems,
+              )..where((i) => i.presetId.equals(presetId))).get())
+              .map((i) => i.taskTemplateGroupId)
+              .toSet();
 
       final memberVenueTypeIds = <int>{};
       for (final title in preset.itemTitles) {
@@ -4610,11 +4581,12 @@ class AppDatabase extends _$AppDatabase {
         memberVenueTypeIds.addAll(taggedRows.map((r) => r.venueTypeId));
       }
 
-      final existingPresetVenueTypeIds = (await (select(
-        taskPresetVenueTypes,
-      )..where((j) => j.presetId.equals(presetId))).get())
-          .map((j) => j.venueTypeId)
-          .toSet();
+      final existingPresetVenueTypeIds =
+          (await (select(
+                taskPresetVenueTypes,
+              )..where((j) => j.presetId.equals(presetId))).get())
+              .map((j) => j.venueTypeId)
+              .toSet();
       for (final vtId in memberVenueTypeIds) {
         if (existingPresetVenueTypeIds.contains(vtId)) continue;
         await into(taskPresetVenueTypes).insert(
@@ -4794,29 +4766,19 @@ class AppDatabase extends _$AppDatabase {
     await (update(areas)..where((a) => a.siteId.isNull())).write(
       AreasCompanion(siteId: Value(siteId)),
     );
-    await (update(
-      equipmentInstances,
-    )..where((e) => e.siteId.isNull())).write(
+    await (update(equipmentInstances)..where((e) => e.siteId.isNull())).write(
       EquipmentInstancesCompanion(siteId: Value(siteId)),
     );
-    await (update(
-      taskSchedules,
-    )..where((s) => s.siteId.isNull())).write(
+    await (update(taskSchedules)..where((s) => s.siteId.isNull())).write(
       TaskSchedulesCompanion(siteId: Value(siteId)),
     );
-    await (update(
-      taskSubmissions,
-    )..where((t) => t.siteId.isNull())).write(
+    await (update(taskSubmissions)..where((t) => t.siteId.isNull())).write(
       TaskSubmissionsCompanion(siteId: Value(siteId)),
     );
-    await (update(
-      shiftHandoverNotes,
-    )..where((n) => n.siteId.isNull())).write(
+    await (update(shiftHandoverNotes)..where((n) => n.siteId.isNull())).write(
       ShiftHandoverNotesCompanion(siteId: Value(siteId)),
     );
-    await (update(
-      sessionSummaries,
-    )..where((s) => s.siteId.isNull())).write(
+    await (update(sessionSummaries)..where((s) => s.siteId.isNull())).write(
       SessionSummariesCompanion(siteId: Value(siteId)),
     );
     // notificationRules is deliberately excluded — see that column's doc
@@ -4886,9 +4848,7 @@ class AppDatabase extends _$AppDatabase {
           ? row.taskTitle.substring(0, row.taskTitle.length - suffix.length)
           : row.taskTitle;
 
-      await (update(
-        taskSubmissions,
-      )..where((t) => t.id.equals(row.id))).write(
+      await (update(taskSubmissions)..where((t) => t.id.equals(row.id))).write(
         TaskSubmissionsCompanion(
           taskTitle: Value(cleanedTitle),
           equipmentInstanceName: Value(name),

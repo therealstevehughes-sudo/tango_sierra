@@ -5,6 +5,16 @@ import '../models/site.dart';
 
 abstract class SiteRepository {
   Future<List<Site>> getAll();
+
+  /// Phase B0-scoped read: the sites in one Region (a Regional Manager's
+  /// permitted set). No global getAll() for Regions — this is the
+  /// authoritative "which venues can this regional see" query. RLS on the
+  /// backend (`can_access_site`) enforces the same boundary server-side.
+  Future<List<Site>> getForRegion(int regionId);
+
+  /// Organisation-scoped read: every site a Director/Executive owns. Same
+  /// RLS boundary as getForRegion, one level up.
+  Future<List<Site>> getForOrganisation(int organisationId);
   Future<Site> getDefault();
   // Branding inheritance (Part E): the branch home screen needs its own
   // site's name specifically, not "the default site" — a regional/
@@ -46,6 +56,22 @@ class DriftSiteRepository implements SiteRepository {
   @override
   Future<List<Site>> getAll() async {
     final rows = await _db.select(_db.sites).get();
+    return rows.map(_toModel).toList();
+  }
+
+  @override
+  Future<List<Site>> getForRegion(int regionId) async {
+    final query = _db.select(_db.sites)
+      ..where((s) => s.regionId.equals(regionId));
+    final rows = await query.get();
+    return rows.map(_toModel).toList();
+  }
+
+  @override
+  Future<List<Site>> getForOrganisation(int organisationId) async {
+    final query = _db.select(_db.sites)
+      ..where((s) => s.organisationId.equals(organisationId));
+    final rows = await query.get();
     return rows.map(_toModel).toList();
   }
 

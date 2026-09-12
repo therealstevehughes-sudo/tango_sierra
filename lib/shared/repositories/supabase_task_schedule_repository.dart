@@ -75,6 +75,15 @@ class SupabaseTaskScheduleRepository implements TaskScheduleRepository {
     );
   }
 
+  @override
+  Future<void> setSortOrder(int scheduleId, int? sortOrder) async {
+    throw UnimplementedError(
+      'TaskSchedule.sortOrder is not yet on the backend schema — '
+      'the column will be added in a later cluster migration. '
+      'Local/Drift path is fully functional.',
+    );
+  }
+
   TaskSchedule _toModel(Map<String, dynamic> row) => TaskSchedule(
     id: row['id'] as int,
     taskTemplateGroupId: row['task_template_group_id'] as int,
@@ -88,5 +97,6 @@ class SupabaseTaskScheduleRepository implements TaskScheduleRepository {
     siteId: row['site_id'] as int,
     windowStartMinutes: row['window_start_minutes'] as int?,
     windowEndMinutesExclusive: row['window_end_minutes_exclusive'] as int?,
+    sortOrder: row['sort_order'] as int?,
   );
 }

@@ -1198,8 +1198,19 @@ class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
       'REFERENCES sites (id)',
     ),
   );
+  static const VerificationMeta _sortOrderMeta = const VerificationMeta(
+    'sortOrder',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, name, siteId];
+  late final GeneratedColumn<int> sortOrder = GeneratedColumn<int>(
+    'sort_order',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, name, siteId, sortOrder];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1229,6 +1240,12 @@ class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
         siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
       );
     }
+    if (data.containsKey('sort_order')) {
+      context.handle(
+        _sortOrderMeta,
+        sortOrder.isAcceptableOrUnknown(data['sort_order']!, _sortOrderMeta),
+      );
+    }
     return context;
   }
 
@@ -1250,6 +1267,10 @@ class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}site_id'],
       ),
+      sortOrder: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sort_order'],
+      ),
     );
   }
 
@@ -1263,7 +1284,13 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
   final int id;
   final String name;
   final int? siteId;
-  const AreaEntity({required this.id, required this.name, this.siteId});
+  final int? sortOrder;
+  const AreaEntity({
+    required this.id,
+    required this.name,
+    this.siteId,
+    this.sortOrder,
+  });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1271,6 +1298,9 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
     map['name'] = Variable<String>(name);
     if (!nullToAbsent || siteId != null) {
       map['site_id'] = Variable<int>(siteId);
+    }
+    if (!nullToAbsent || sortOrder != null) {
+      map['sort_order'] = Variable<int>(sortOrder);
     }
     return map;
   }
@@ -1282,6 +1312,9 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
       siteId: siteId == null && nullToAbsent
           ? const Value.absent()
           : Value(siteId),
+      sortOrder: sortOrder == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sortOrder),
     );
   }
 
@@ -1294,6 +1327,7 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       siteId: serializer.fromJson<int?>(json['siteId']),
+      sortOrder: serializer.fromJson<int?>(json['sortOrder']),
     );
   }
   @override
@@ -1303,6 +1337,7 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'siteId': serializer.toJson<int?>(siteId),
+      'sortOrder': serializer.toJson<int?>(sortOrder),
     };
   }
 
@@ -1310,16 +1345,19 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
     int? id,
     String? name,
     Value<int?> siteId = const Value.absent(),
+    Value<int?> sortOrder = const Value.absent(),
   }) => AreaEntity(
     id: id ?? this.id,
     name: name ?? this.name,
     siteId: siteId.present ? siteId.value : this.siteId,
+    sortOrder: sortOrder.present ? sortOrder.value : this.sortOrder,
   );
   AreaEntity copyWithCompanion(AreasCompanion data) {
     return AreaEntity(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      sortOrder: data.sortOrder.present ? data.sortOrder.value : this.sortOrder,
     );
   }
 
@@ -1328,45 +1366,52 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
     return (StringBuffer('AreaEntity(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('siteId: $siteId')
+          ..write('siteId: $siteId, ')
+          ..write('sortOrder: $sortOrder')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, siteId);
+  int get hashCode => Object.hash(id, name, siteId, sortOrder);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is AreaEntity &&
           other.id == this.id &&
           other.name == this.name &&
-          other.siteId == this.siteId);
+          other.siteId == this.siteId &&
+          other.sortOrder == this.sortOrder);
 }
 
 class AreasCompanion extends UpdateCompanion<AreaEntity> {
   final Value<int> id;
   final Value<String> name;
   final Value<int?> siteId;
+  final Value<int?> sortOrder;
   const AreasCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.siteId = const Value.absent(),
+    this.sortOrder = const Value.absent(),
   });
   AreasCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     this.siteId = const Value.absent(),
+    this.sortOrder = const Value.absent(),
   }) : name = Value(name);
   static Insertable<AreaEntity> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<int>? siteId,
+    Expression<int>? sortOrder,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (siteId != null) 'site_id': siteId,
+      if (sortOrder != null) 'sort_order': sortOrder,
     });
   }
 
@@ -1374,11 +1419,13 @@ class AreasCompanion extends UpdateCompanion<AreaEntity> {
     Value<int>? id,
     Value<String>? name,
     Value<int?>? siteId,
+    Value<int?>? sortOrder,
   }) {
     return AreasCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       siteId: siteId ?? this.siteId,
+      sortOrder: sortOrder ?? this.sortOrder,
     );
   }
 
@@ -1394,6 +1441,9 @@ class AreasCompanion extends UpdateCompanion<AreaEntity> {
     if (siteId.present) {
       map['site_id'] = Variable<int>(siteId.value);
     }
+    if (sortOrder.present) {
+      map['sort_order'] = Variable<int>(sortOrder.value);
+    }
     return map;
   }
 
@@ -1402,7 +1452,8 @@ class AreasCompanion extends UpdateCompanion<AreaEntity> {
     return (StringBuffer('AreasCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
-          ..write('siteId: $siteId')
+          ..write('siteId: $siteId, ')
+          ..write('sortOrder: $sortOrder')
           ..write(')'))
         .toString();
   }
@@ -6996,6 +7047,17 @@ class $TaskSchedulesTable extends TaskSchedules
     ),
     defaultValue: const Constant(true),
   );
+  static const VerificationMeta _sortOrderMeta = const VerificationMeta(
+    'sortOrder',
+  );
+  @override
+  late final GeneratedColumn<int> sortOrder = GeneratedColumn<int>(
+    'sort_order',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
   @override
   late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
@@ -7040,6 +7102,7 @@ class $TaskSchedulesTable extends TaskSchedules
     assignedByUserId,
     assignedAt,
     active,
+    sortOrder,
     siteId,
     windowStartMinutes,
     windowEndMinutesExclusive,
@@ -7132,6 +7195,12 @@ class $TaskSchedulesTable extends TaskSchedules
         active.isAcceptableOrUnknown(data['active']!, _activeMeta),
       );
     }
+    if (data.containsKey('sort_order')) {
+      context.handle(
+        _sortOrderMeta,
+        sortOrder.isAcceptableOrUnknown(data['sort_order']!, _sortOrderMeta),
+      );
+    }
     if (data.containsKey('site_id')) {
       context.handle(
         _siteIdMeta,
@@ -7201,6 +7270,10 @@ class $TaskSchedulesTable extends TaskSchedules
         DriftSqlType.bool,
         data['${effectivePrefix}active'],
       )!,
+      sortOrder: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sort_order'],
+      ),
       siteId: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}site_id'],
@@ -7233,6 +7306,7 @@ class TaskScheduleEntity extends DataClass
   final int assignedByUserId;
   final DateTime assignedAt;
   final bool active;
+  final int? sortOrder;
   final int? siteId;
   final int? windowStartMinutes;
   final int? windowEndMinutesExclusive;
@@ -7246,6 +7320,7 @@ class TaskScheduleEntity extends DataClass
     required this.assignedByUserId,
     required this.assignedAt,
     required this.active,
+    this.sortOrder,
     this.siteId,
     this.windowStartMinutes,
     this.windowEndMinutesExclusive,
@@ -7266,6 +7341,9 @@ class TaskScheduleEntity extends DataClass
     map['assigned_by_user_id'] = Variable<int>(assignedByUserId);
     map['assigned_at'] = Variable<DateTime>(assignedAt);
     map['active'] = Variable<bool>(active);
+    if (!nullToAbsent || sortOrder != null) {
+      map['sort_order'] = Variable<int>(sortOrder);
+    }
     if (!nullToAbsent || siteId != null) {
       map['site_id'] = Variable<int>(siteId);
     }
@@ -7295,6 +7373,9 @@ class TaskScheduleEntity extends DataClass
       assignedByUserId: Value(assignedByUserId),
       assignedAt: Value(assignedAt),
       active: Value(active),
+      sortOrder: sortOrder == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sortOrder),
       siteId: siteId == null && nullToAbsent
           ? const Value.absent()
           : Value(siteId),
@@ -7329,6 +7410,7 @@ class TaskScheduleEntity extends DataClass
       assignedByUserId: serializer.fromJson<int>(json['assignedByUserId']),
       assignedAt: serializer.fromJson<DateTime>(json['assignedAt']),
       active: serializer.fromJson<bool>(json['active']),
+      sortOrder: serializer.fromJson<int?>(json['sortOrder']),
       siteId: serializer.fromJson<int?>(json['siteId']),
       windowStartMinutes: serializer.fromJson<int?>(json['windowStartMinutes']),
       windowEndMinutesExclusive: serializer.fromJson<int?>(
@@ -7351,6 +7433,7 @@ class TaskScheduleEntity extends DataClass
       'assignedByUserId': serializer.toJson<int>(assignedByUserId),
       'assignedAt': serializer.toJson<DateTime>(assignedAt),
       'active': serializer.toJson<bool>(active),
+      'sortOrder': serializer.toJson<int?>(sortOrder),
       'siteId': serializer.toJson<int?>(siteId),
       'windowStartMinutes': serializer.toJson<int?>(windowStartMinutes),
       'windowEndMinutesExclusive': serializer.toJson<int?>(
@@ -7369,6 +7452,7 @@ class TaskScheduleEntity extends DataClass
     int? assignedByUserId,
     DateTime? assignedAt,
     bool? active,
+    Value<int?> sortOrder = const Value.absent(),
     Value<int?> siteId = const Value.absent(),
     Value<int?> windowStartMinutes = const Value.absent(),
     Value<int?> windowEndMinutesExclusive = const Value.absent(),
@@ -7386,6 +7470,7 @@ class TaskScheduleEntity extends DataClass
     assignedByUserId: assignedByUserId ?? this.assignedByUserId,
     assignedAt: assignedAt ?? this.assignedAt,
     active: active ?? this.active,
+    sortOrder: sortOrder.present ? sortOrder.value : this.sortOrder,
     siteId: siteId.present ? siteId.value : this.siteId,
     windowStartMinutes: windowStartMinutes.present
         ? windowStartMinutes.value
@@ -7417,6 +7502,7 @@ class TaskScheduleEntity extends DataClass
           ? data.assignedAt.value
           : this.assignedAt,
       active: data.active.present ? data.active.value : this.active,
+      sortOrder: data.sortOrder.present ? data.sortOrder.value : this.sortOrder,
       siteId: data.siteId.present ? data.siteId.value : this.siteId,
       windowStartMinutes: data.windowStartMinutes.present
           ? data.windowStartMinutes.value
@@ -7439,6 +7525,7 @@ class TaskScheduleEntity extends DataClass
           ..write('assignedByUserId: $assignedByUserId, ')
           ..write('assignedAt: $assignedAt, ')
           ..write('active: $active, ')
+          ..write('sortOrder: $sortOrder, ')
           ..write('siteId: $siteId, ')
           ..write('windowStartMinutes: $windowStartMinutes, ')
           ..write('windowEndMinutesExclusive: $windowEndMinutesExclusive')
@@ -7457,6 +7544,7 @@ class TaskScheduleEntity extends DataClass
     assignedByUserId,
     assignedAt,
     active,
+    sortOrder,
     siteId,
     windowStartMinutes,
     windowEndMinutesExclusive,
@@ -7474,6 +7562,7 @@ class TaskScheduleEntity extends DataClass
           other.assignedByUserId == this.assignedByUserId &&
           other.assignedAt == this.assignedAt &&
           other.active == this.active &&
+          other.sortOrder == this.sortOrder &&
           other.siteId == this.siteId &&
           other.windowStartMinutes == this.windowStartMinutes &&
           other.windowEndMinutesExclusive == this.windowEndMinutesExclusive);
@@ -7489,6 +7578,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
   final Value<int> assignedByUserId;
   final Value<DateTime> assignedAt;
   final Value<bool> active;
+  final Value<int?> sortOrder;
   final Value<int?> siteId;
   final Value<int?> windowStartMinutes;
   final Value<int?> windowEndMinutesExclusive;
@@ -7502,6 +7592,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     this.assignedByUserId = const Value.absent(),
     this.assignedAt = const Value.absent(),
     this.active = const Value.absent(),
+    this.sortOrder = const Value.absent(),
     this.siteId = const Value.absent(),
     this.windowStartMinutes = const Value.absent(),
     this.windowEndMinutesExclusive = const Value.absent(),
@@ -7516,6 +7607,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     required int assignedByUserId,
     required DateTime assignedAt,
     this.active = const Value.absent(),
+    this.sortOrder = const Value.absent(),
     this.siteId = const Value.absent(),
     this.windowStartMinutes = const Value.absent(),
     this.windowEndMinutesExclusive = const Value.absent(),
@@ -7534,6 +7626,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     Expression<int>? assignedByUserId,
     Expression<DateTime>? assignedAt,
     Expression<bool>? active,
+    Expression<int>? sortOrder,
     Expression<int>? siteId,
     Expression<int>? windowStartMinutes,
     Expression<int>? windowEndMinutesExclusive,
@@ -7551,6 +7644,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
       if (assignedByUserId != null) 'assigned_by_user_id': assignedByUserId,
       if (assignedAt != null) 'assigned_at': assignedAt,
       if (active != null) 'active': active,
+      if (sortOrder != null) 'sort_order': sortOrder,
       if (siteId != null) 'site_id': siteId,
       if (windowStartMinutes != null)
         'window_start_minutes': windowStartMinutes,
@@ -7569,6 +7663,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     Value<int>? assignedByUserId,
     Value<DateTime>? assignedAt,
     Value<bool>? active,
+    Value<int?>? sortOrder,
     Value<int?>? siteId,
     Value<int?>? windowStartMinutes,
     Value<int?>? windowEndMinutesExclusive,
@@ -7584,6 +7679,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
       assignedByUserId: assignedByUserId ?? this.assignedByUserId,
       assignedAt: assignedAt ?? this.assignedAt,
       active: active ?? this.active,
+      sortOrder: sortOrder ?? this.sortOrder,
       siteId: siteId ?? this.siteId,
       windowStartMinutes: windowStartMinutes ?? this.windowStartMinutes,
       windowEndMinutesExclusive:
@@ -7623,6 +7719,9 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     if (active.present) {
       map['active'] = Variable<bool>(active.value);
     }
+    if (sortOrder.present) {
+      map['sort_order'] = Variable<int>(sortOrder.value);
+    }
     if (siteId.present) {
       map['site_id'] = Variable<int>(siteId.value);
     }
@@ -7649,6 +7748,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
           ..write('assignedByUserId: $assignedByUserId, ')
           ..write('assignedAt: $assignedAt, ')
           ..write('active: $active, ')
+          ..write('sortOrder: $sortOrder, ')
           ..write('siteId: $siteId, ')
           ..write('windowStartMinutes: $windowStartMinutes, ')
           ..write('windowEndMinutesExclusive: $windowEndMinutesExclusive')
@@ -18354,12 +18454,14 @@ typedef $$AreasTableCreateCompanionBuilder =
       Value<int> id,
       required String name,
       Value<int?> siteId,
+      Value<int?> sortOrder,
     });
 typedef $$AreasTableUpdateCompanionBuilder =
     AreasCompanion Function({
       Value<int> id,
       Value<String> name,
       Value<int?> siteId,
+      Value<int?> sortOrder,
     });
 
 final class $$AreasTableReferences
@@ -18423,6 +18525,11 @@ class $$AreasTableFilterComposer extends Composer<_$AppDatabase, $AreasTable> {
 
   ColumnFilters<String> get name => $composableBuilder(
     column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -18494,6 +18601,11 @@ class $$AreasTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$SitesTableOrderingComposer get siteId {
     final $$SitesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -18532,6 +18644,9 @@ class $$AreasTableAnnotationComposer
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<int> get sortOrder =>
+      $composableBuilder(column: $table.sortOrder, builder: (column) => column);
 
   $$SitesTableAnnotationComposer get siteId {
     final $$SitesTableAnnotationComposer composer = $composerBuilder(
@@ -18614,13 +18729,25 @@ class $$AreasTableTableManager
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
-              }) => AreasCompanion(id: id, name: name, siteId: siteId),
+                Value<int?> sortOrder = const Value.absent(),
+              }) => AreasCompanion(
+                id: id,
+                name: name,
+                siteId: siteId,
+                sortOrder: sortOrder,
+              ),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required String name,
                 Value<int?> siteId = const Value.absent(),
-              }) => AreasCompanion.insert(id: id, name: name, siteId: siteId),
+                Value<int?> sortOrder = const Value.absent(),
+              }) => AreasCompanion.insert(
+                id: id,
+                name: name,
+                siteId: siteId,
+                sortOrder: sortOrder,
+              ),
           withReferenceMapper: (p0) => p0
               .map(
                 (e) =>
@@ -24438,6 +24565,7 @@ typedef $$TaskSchedulesTableCreateCompanionBuilder =
       required int assignedByUserId,
       required DateTime assignedAt,
       Value<bool> active,
+      Value<int?> sortOrder,
       Value<int?> siteId,
       Value<int?> windowStartMinutes,
       Value<int?> windowEndMinutesExclusive,
@@ -24453,6 +24581,7 @@ typedef $$TaskSchedulesTableUpdateCompanionBuilder =
       Value<int> assignedByUserId,
       Value<DateTime> assignedAt,
       Value<bool> active,
+      Value<int?> sortOrder,
       Value<int?> siteId,
       Value<int?> windowStartMinutes,
       Value<int?> windowEndMinutesExclusive,
@@ -24574,6 +24703,11 @@ class $$TaskSchedulesTableFilterComposer
 
   ColumnFilters<bool> get active => $composableBuilder(
     column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -24719,6 +24853,11 @@ class $$TaskSchedulesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get windowStartMinutes => $composableBuilder(
     column: $table.windowStartMinutes,
     builder: (column) => ColumnOrderings(column),
@@ -24854,6 +24993,9 @@ class $$TaskSchedulesTableAnnotationComposer
 
   GeneratedColumn<bool> get active =>
       $composableBuilder(column: $table.active, builder: (column) => column);
+
+  GeneratedColumn<int> get sortOrder =>
+      $composableBuilder(column: $table.sortOrder, builder: (column) => column);
 
   GeneratedColumn<int> get windowStartMinutes => $composableBuilder(
     column: $table.windowStartMinutes,
@@ -25001,6 +25143,7 @@ class $$TaskSchedulesTableTableManager
                 Value<int> assignedByUserId = const Value.absent(),
                 Value<DateTime> assignedAt = const Value.absent(),
                 Value<bool> active = const Value.absent(),
+                Value<int?> sortOrder = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
                 Value<int?> windowStartMinutes = const Value.absent(),
                 Value<int?> windowEndMinutesExclusive = const Value.absent(),
@@ -25014,6 +25157,7 @@ class $$TaskSchedulesTableTableManager
                 assignedByUserId: assignedByUserId,
                 assignedAt: assignedAt,
                 active: active,
+                sortOrder: sortOrder,
                 siteId: siteId,
                 windowStartMinutes: windowStartMinutes,
                 windowEndMinutesExclusive: windowEndMinutesExclusive,
@@ -25029,6 +25173,7 @@ class $$TaskSchedulesTableTableManager
                 required int assignedByUserId,
                 required DateTime assignedAt,
                 Value<bool> active = const Value.absent(),
+                Value<int?> sortOrder = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
                 Value<int?> windowStartMinutes = const Value.absent(),
                 Value<int?> windowEndMinutesExclusive = const Value.absent(),
@@ -25042,6 +25187,7 @@ class $$TaskSchedulesTableTableManager
                 assignedByUserId: assignedByUserId,
                 assignedAt: assignedAt,
                 active: active,
+                sortOrder: sortOrder,
                 siteId: siteId,
                 windowStartMinutes: windowStartMinutes,
                 windowEndMinutesExclusive: windowEndMinutesExclusive,

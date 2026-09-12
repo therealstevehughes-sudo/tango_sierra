@@ -19,6 +19,9 @@ abstract class TaskScheduleRepository {
     int? windowEndMinutesExclusive,
   });
   Future<void> deactivate(int scheduleId);
+  // Task-reorder (2026-09-12): sets the manager-controlled execution order
+  // of one schedule within its venue.
+  Future<void> setSortOrder(int scheduleId, int? sortOrder);
 }
 
 class DriftTaskScheduleRepository implements TaskScheduleRepository {
@@ -35,7 +38,14 @@ class DriftTaskScheduleRepository implements TaskScheduleRepository {
   @override
   Future<List<TaskSchedule>> getForSite(int siteId) async {
     final query = _db.select(_db.taskSchedules)
-      ..where((schedule) => schedule.siteId.equals(siteId));
+      ..where((schedule) => schedule.siteId.equals(siteId))
+      // Task-reorder (2026-09-12): explicit sortOrder first (nulls last —
+      // schedules without an order yet fall behind ordered ones), then
+      // assignedAt for stable, predictable sequence without a backfill.
+      ..orderBy([
+        (s) => OrderingTerm.asc(s.sortOrder, nulls: NullsOrder.last),
+        (s) => OrderingTerm.asc(s.assignedAt),
+      ]);
     final rows = await query.get();
     return rows.map(_toModel).toList();
   }
@@ -88,6 +98,12 @@ class DriftTaskScheduleRepository implements TaskScheduleRepository {
         .write(const TaskSchedulesCompanion(active: Value(false)));
   }
 
+  @override
+  Future<void> setSortOrder(int scheduleId, int? sortOrder) async {
+    await (_db.update(_db.taskSchedules)..where((s) => s.id.equals(scheduleId)))
+        .write(TaskSchedulesCompanion(sortOrder: Value(sortOrder)));
+  }
+
   TaskSchedule _toModel(TaskScheduleEntity row) => TaskSchedule(
     id: row.id,
     taskTemplateGroupId: row.taskTemplateGroupId,
@@ -101,5 +117,6 @@ class DriftTaskScheduleRepository implements TaskScheduleRepository {
     siteId: row.siteId!,
     windowStartMinutes: row.windowStartMinutes,
     windowEndMinutesExclusive: row.windowEndMinutesExclusive,
+    sortOrder: row.sortOrder,
   );
 }

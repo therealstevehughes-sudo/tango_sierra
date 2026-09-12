@@ -239,9 +239,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
         ? ' — NOT COMPLETED (session ended)'
         : '';
     spans.add(
-      TextSpan(
-        text: '$statusSuffix${entry.photoAttached ? ' 📷' : ''}',
-      ),
+      TextSpan(text: '$statusSuffix${entry.photoAttached ? ' 📷' : ''}'),
     );
 
     return Padding(
@@ -331,56 +329,61 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
 
           return ResponsiveContent(
             child: ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              if (currentUser != null)
-                StreamBuilder<List<TriggerNotification>>(
-                  stream: triggerNotificationRepo.watchForUser(
-                    currentUser.id,
+              padding: const EdgeInsets.all(16),
+              children: [
+                if (currentUser != null)
+                  StreamBuilder<List<TriggerNotification>>(
+                    stream: triggerNotificationRepo.watchForUser(
+                      currentUser.id,
+                    ),
+                    builder: (context, snapshot) {
+                      final notifications = snapshot.data ?? [];
+                      if (notifications.isEmpty) return const SizedBox.shrink();
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _TriggerNotificationsBanner(
+                          notifications: notifications,
+                          onAcknowledge: triggerNotificationRepo.acknowledge,
+                          // Alert → task drill-down (2026-09-12): the
+                          // already-loaded submissions let an alert row
+                          // resolve its failed task in-place for a detail
+                          // dialog — no extra fetch, no navigation.
+                          submissions: entries,
+                        ),
+                      );
+                    },
                   ),
-                  builder: (context, snapshot) {
-                    final notifications = snapshot.data ?? [];
-                    if (notifications.isEmpty) return const SizedBox.shrink();
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: _TriggerNotificationsBanner(
-                        notifications: notifications,
-                        onAcknowledge: triggerNotificationRepo.acknowledge,
-                      ),
-                    );
-                  },
+                if (currentUser != null)
+                  StreamBuilder<List<SessionSummary>>(
+                    stream: sessionSummaryRepo.watchForManager(currentUser.id),
+                    builder: (context, snapshot) {
+                      final summaries = snapshot.data ?? [];
+                      if (summaries.isEmpty) return const SizedBox.shrink();
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: _SessionSummariesBanner(
+                          summaries: summaries,
+                          onAcknowledge: sessionSummaryRepo.acknowledge,
+                        ),
+                      );
+                    },
+                  ),
+                if (_overdueEntries.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: OverdueSummaryCard(entries: _overdueEntries),
+                  ),
+                _SubmissionLogSection(
+                  entries: entries,
+                  groupedEntries: groupedEntries,
+                  groupKeys: groupKeys,
+                  axis: _filter.axis,
+                  buildLogLine: _buildLogLine,
+                  onFilterChanged: (selection) =>
+                      setState(() => _filter = selection),
                 ),
-              if (currentUser != null)
-                StreamBuilder<List<SessionSummary>>(
-                  stream: sessionSummaryRepo.watchForManager(currentUser.id),
-                  builder: (context, snapshot) {
-                    final summaries = snapshot.data ?? [];
-                    if (summaries.isEmpty) return const SizedBox.shrink();
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
-                      child: _SessionSummariesBanner(
-                        summaries: summaries,
-                        onAcknowledge: sessionSummaryRepo.acknowledge,
-                      ),
-                    );
-                  },
-                ),
-              if (_overdueEntries.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: OverdueSummaryCard(entries: _overdueEntries),
-                ),
-              _SubmissionLogSection(
-                entries: entries,
-                groupedEntries: groupedEntries,
-                groupKeys: groupKeys,
-                axis: _filter.axis,
-                buildLogLine: _buildLogLine,
-                onFilterChanged: (selection) =>
-                    setState(() => _filter = selection),
-              ),
-            ],
-          ),
+              ],
+            ),
           );
         },
       ),
@@ -494,7 +497,10 @@ class _SessionSummariesBanner extends StatelessWidget {
 
     return Card(
       child: ExpansionTile(
-        leading: const Icon(Icons.assignment_turned_in, color: AppColors.caution),
+        leading: const Icon(
+          Icons.assignment_turned_in,
+          color: AppColors.caution,
+        ),
         title: Text(
           '${summaries.length} session '
           'summar${summaries.length == 1 ? 'y' : 'ies'}',
@@ -551,10 +557,93 @@ class _TriggerNotificationsBanner extends StatelessWidget {
   const _TriggerNotificationsBanner({
     required this.notifications,
     required this.onAcknowledge,
+    this.submissions = const [],
   });
 
   final List<TriggerNotification> notifications;
   final void Function(int id) onAcknowledge;
+  // Alert → task drill-down (2026-09-12): the already-loaded submissions
+  // this screen watches, so an alert row can resolve its failed task for
+  // the detail dialog below.
+  final List<TaskSubmission> submissions;
+
+  // Resolves the failed submission an alert points at. Falls back to a
+  // lightweight detail when the submission isn't in the currently-watched
+  // set (e.g. an old FAIL that's filtered out of the default view).
+  TaskSubmission? _submissionFor(TriggerNotification notification) {
+    for (final submission in submissions) {
+      if (submission.id == notification.taskSubmissionId) {
+        return submission;
+      }
+    }
+    return null;
+  }
+
+  void _showDetail(BuildContext context, TriggerNotification notification) {
+    final submission = _submissionFor(notification);
+    final correctiveLabel = switch (submission?.correctiveActionOutcome) {
+      'fixed' => 'Worker fixed it',
+      'reported' => 'Reported to manager',
+      _ => 'No corrective action recorded',
+    };
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(submission?.taskTitle ?? 'Task alert'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (submission?.equipmentInstanceName != null)
+              Text(
+                submission!.equipmentInstanceName!,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.teal,
+                ),
+              ),
+            const SizedBox(height: 8),
+            Text(notification.message),
+            const SizedBox(height: 12),
+            if (submission != null) ...[
+              _DetailRow(
+                label: 'Logged by',
+                value:
+                    '${submission.completedBy} (${formatDateTime(submission.completedAt)})',
+              ),
+              const SizedBox(height: 4),
+              _DetailRow(label: 'Result', value: submission.status),
+              const SizedBox(height: 4),
+              _DetailRow(label: 'Corrective action', value: correctiveLabel),
+              if (submission.correctiveActionNote != null) ...[
+                const SizedBox(height: 4),
+                _DetailRow(
+                  label: 'Note',
+                  value: submission.correctiveActionNote!,
+                ),
+              ],
+            ] else
+              _DetailRow(label: 'Corrective action', value: correctiveLabel),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Close'),
+          ),
+          if (!notification.acknowledged)
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                onAcknowledge(notification.id);
+              },
+              child: const Text('Acknowledge'),
+            ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -585,69 +674,109 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                 now.difference(notification.createdAt) >= escalationThreshold;
             return Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Instance-name prominence (2026-09-06): leads on
-                        // its own bold line, same principle as every other
-                        // surface — "which fridge" shouldn't require
-                        // reading the whole alert sentence.
-                        if (notification.equipmentInstanceName != null)
-                          Text(
-                            notification.equipmentInstanceName!,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.teal,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(8),
+                // Improvement (2026-09-12): the row is tappable to open the
+                // specific failed task. "There's an alert" becomes "which
+                // task, which equipment, who, is it handled" in one tap —
+                // control, not just visibility.
+                onTap: () => _showDetail(context, notification),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (notification.equipmentInstanceName != null)
+                            Text(
+                              notification.equipmentInstanceName!,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.teal,
+                              ),
                             ),
-                          ),
-                        Text(
-                          notification.message,
-                          style: isOverdue
-                              ? const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.critical,
-                                )
-                              : null,
-                        ),
-                        if (isOverdue)
                           Text(
-                            'OVERDUE — unacknowledged for '
-                            '${now.difference(notification.createdAt).inMinutes} min',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.critical,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            notification.message,
+                            style: isOverdue
+                                ? const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.critical,
+                                  )
+                                : null,
                           ),
-                        if (notification.escalatedAt != null)
-                          Text(
-                            'Escalated to top tier',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontStyle: FontStyle.italic,
-                              color: AppColors.muted,
+                          if (isOverdue)
+                            Text(
+                              'OVERDUE — unacknowledged for '
+                              '${now.difference(notification.createdAt).inMinutes} min',
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    color: AppColors.critical,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
-                          ),
-                      ],
+                          if (notification.escalatedAt != null)
+                            Text(
+                              'Escalated to top tier',
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(
+                                    fontStyle: FontStyle.italic,
+                                    color: AppColors.muted,
+                                  ),
+                            ),
+                        ],
+                      ),
                     ),
-                  ),
-                  if (!notification.acknowledged)
-                    TextButton(
-                      onPressed: () => onAcknowledge(notification.id),
-                      child: const Text('Acknowledge'),
-                    )
-                  else
-                    const Icon(Icons.check, color: AppColors.pass),
-                ],
+                    if (!notification.acknowledged)
+                      TextButton(
+                        onPressed: () => onAcknowledge(notification.id),
+                        child: const Text('Acknowledge'),
+                      )
+                    else
+                      const Icon(Icons.check, color: AppColors.pass),
+                  ],
+                ),
               ),
             );
           }),
         ],
       ),
+    );
+  }
+}
+
+// Alert → task drill-down (2026-09-12): a small labelled value row used by
+// the alert detail dialog — label in muted text, value strong. Keeps the
+// dialog scannable without prose.
+class _DetailRow extends StatelessWidget {
+  const _DetailRow({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 130,
+          child: Text(
+            label,
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            style: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+          ),
+        ),
+      ],
     );
   }
 }

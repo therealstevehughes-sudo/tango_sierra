@@ -140,6 +140,11 @@ class TaskSchedule {
   // set. Minutes since midnight, end exclusive.
   final int? windowStartMinutes;
   final int? windowEndMinutesExclusive;
+  // Task-reorder (2026-09-12): the manager-controlled execution order for
+  // this venue's schedules. Nullable; null = no explicit order yet (falls
+  // back to natural/creation order), so existing installs and newly-
+  // assigned-but-not-yet-ordered tasks keep working unchanged.
+  final int? sortOrder;
 
   const TaskSchedule({
     required this.id,
@@ -154,5 +159,6 @@ class TaskSchedule {
     required this.siteId,
     this.windowStartMinutes,
     this.windowEndMinutesExclusive,
+    this.sortOrder,
   });
 }

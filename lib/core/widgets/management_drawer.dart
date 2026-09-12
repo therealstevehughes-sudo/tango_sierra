@@ -17,6 +17,7 @@ import '../../features/settings/supplier_management_screen.dart';
 import '../../features/settings/third_party_contacts_screen.dart';
 import '../../features/settings/venue_details_screen.dart';
 import '../../features/task_library/preset_management_screen.dart';
+import '../../features/tasks/reorder_tasks_screen.dart';
 import '../../features/tasks/task_screen.dart';
 import '../../features/venue_setup/venue_setup_wizard_screen.dart';
 import '../../shared/models/user.dart';
@@ -60,6 +61,16 @@ final List<_DrawerItemDef> _managementItems = [
     label: 'Assign Tasks',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const StaffAssignmentScreen(),
+  ),
+  // Task-reorder (2026-09-12): manager-configured execution order — the
+  // manager sets the venue's daily flow; the worker's carousel then runs
+  // in that order. Same tier as Assign Tasks (it edits the same recurring
+  // TaskSchedule rows, a setup responsibility).
+  _DrawerItemDef(
+    icon: Icons.swap_vert,
+    label: 'Reorder Tasks',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const ReorderTasksScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.checklist,

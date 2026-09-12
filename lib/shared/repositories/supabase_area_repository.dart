@@ -39,6 +39,20 @@ class SupabaseAreaRepository implements AreaRepository {
     await _client.update('areas', filter: 'id=eq.$id', body: {'name': newName});
   }
 
+  // Task-reorder (2026-09-12): the backend Areas table has no sort_order
+  // column yet — deliberately stubbed like every other reorder write, so
+  // the local/Drift path stays fully functional while the column waits for
+  // a later cluster migration. Mirrors
+  // SupabaseTaskScheduleRepository.setSortOrder.
+  @override
+  Future<void> setSortOrder(int areaId, int? sortOrder) async {
+    throw UnimplementedError(
+      'Area.sortOrder is not yet on the backend schema — '
+      'the column will be added in a later cluster migration. '
+      'Local/Drift path is fully functional.',
+    );
+  }
+
   Area _toModel(Map<String, dynamic> row) => Area(
     id: row['id'] as int,
     name: row['name'] as String,

@@ -115,6 +115,7 @@ class TaskController {
           overdueSince: dueResult.overdueSince,
           windowStartMinutes: schedule.windowStartMinutes,
           windowEndMinutesExclusive: schedule.windowEndMinutesExclusive,
+          sortOrder: schedule.sortOrder,
           requiresSupplierSelection: template.requiresSupplierSelection,
         ),
       );
@@ -124,9 +125,17 @@ class TaskController {
     // never hidden (same principle as overdue/FAILs), but it also can't
     // be the one blocking everything else — sorting locked tasks to the
     // end means the worker naturally reaches every actionable task first.
-    // stable sort — doesn't reorder within either group.
+    // Task-reorder (2026-09-12): within each locked/unlocked group, sort by
+    // the manager's explicit sortOrder (nulls last, then by order), so the
+    // daily checks run in the venue's configured flow (walk-in → prep →
+    // cook line) rather than creation order. Stable sort — doesn't reorder
+    // equal sortOrder values.
     resolved.sort((a, b) {
-      if (a.isLocked == b.isLocked) return 0;
+      if (a.isLocked == b.isLocked) {
+        final aOrder = a.sortOrder ?? 999999;
+        final bOrder = b.sortOrder ?? 999999;
+        return aOrder.compareTo(bOrder);
+      }
       return a.isLocked ? 1 : -1;
     });
 

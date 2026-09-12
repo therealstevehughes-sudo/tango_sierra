@@ -85,46 +85,73 @@ Finished the remaining site-known operational reads:
 
 Sprint 1 is complete for the unambiguous site-scoping work. Regional/director cross-site aggregation remains deliberately unchanged pending a product decision about site selection versus permitted-site aggregation.
 
-## Leadership dashboard aggregation
+## Session: 2026-09-12 (continued)
 
-Decision confirmed: Regional Managers and Directors receive a combined overview of their permitted venues by default, with venue drill-down information clearly labelled. Managers retain the existing single-venue dashboard.
+### Task-reorder feature — completed end to end
 
-Implemented:
+Building on the uncommitted working tree (schema 36→37, `sortOrder` on
+`TaskSchedule` + `Area`), this session:
 
-- TopScreen now requests all sites permitted by the current backend/local repository path.
-- Dashboard metrics aggregate completion, on-time, FAIL, and overdue totals across those sites.
-- A venue summary section shows each permitted venue separately.
-- Combined team rows include the venue name so staff data cannot be ambiguous.
-- Existing anti-gaming rules remain unchanged: no per-person FAIL counts and no score-based ordering.
+1. `lib/features/tasks/reorder_tasks_screen.dart` (new — the manager UI)
+   - One screen, grouped by Area (venue zones), "Ungrouped" last.
+   - Rows show the template title + equipment name + frequency.
+   - Move up / down per row; the displayed order is the saved order.
+   - Save writes one venue-wide contiguous `sortOrder` sequence (1..n in
+     display order), NOT 1..n per group — the worker carousel sorts by a
+     single global sortOrder, so per-group restarts would collide across
+     areas and produce arbitrary tie-breaks.
+   - Site-scoped: operates on the active site (falling back to the
+     current user's home / default site). Never mixes venues.
 
-Validation:
+2. `lib/core/widgets/management_drawer.dart`
+   - New "Reorder Tasks" drawer item (`swap_vert` icon), venueManager+,
+     placed directly after "Assign Tasks" (same tier, edits the same
+     recurring TaskSchedule rows).
 
-- Focused dashboard analysis passed.
-- Full `flutter analyze` passed.
+3. Fixes to the pre-existing uncommitted change set (found via
+   `flutter analyze`, which had never been run on it):
+   - `area_repository.dart` / `task_schedule_repository.dart`: replaced
+     the invalid `OrderingTerm(x.isNull(), mode: ...)` positional calls
+     with `OrderingTerm.asc(col, nulls: NullsOrder.last)` — the correct
+     drift 2.34 API for "nulls last".
+   - `supabase_area_repository.dart`: added the missing
+     `setSortOrder` stub (throws `UnimplementedError` — backend column
+     deferred, matching `SupabaseTaskScheduleRepository.setSortOrder`).
+   - `task_model.dart` + `task_controller.dart`: `ResolvedTask` now carries
+     `sortOrder` (threaded from `TaskSchedule`), and the carousel sort
+     uses it (locked tasks last, then sortOrder within each group).
+   - `dashboard_screen.dart`: removed an unused `_organisationId` field.
+   - `end_of_session_summary_screen.dart`: removed an unused import.
 
-Follow-up completed:
+### Validation
 
-- Leadership venue summary cards are now expandable.
-- Expanding a venue shows its own alphabetised team metrics.
-- No per-person FAIL counts or score-based ordering were introduced.
+- `flutter analyze` on the full change set: passed (No issues found).
+- `dart run build_runner build --delete-conflicting-outputs`: exited 0,
+  no drift schema drift.
 
-Maintenance contacts preserve organisation-wide records (`siteId == null`) while also showing contacts specific to the selected site.
+### Still open (unchanged)
 
-This prevents local multi-site screens from mixing staff, areas, and equipment from different venues. Backend reads remain additionally protected by RLS.
-
-Validation:
-
-- Focused analysis of all six repository/screen files passed after a null-safe site guard was added to Assign Tasks.
+- Backend `sort_order` columns on `task_schedules` / `areas` remain
+  deferred (Supabase stubs throw `UnimplementedError`).
+- `HANDOFF_NEXT_CHAT.md` in the repo root is a working artifact from the
+  handoff; it is not part of the app and was left uncommitted.
 
 ## Current known state
 
 - Guided Cards shared foundation already exists in the repository: theme tokens, shared cards, banners, status badges, metric chips, primary buttons, section headers, drawer navigation, user titles, and responsive content.
 - The current checkout is based on the C1d backend/onboarding save point, while the decision log documents later work. Verify current files before assuming every decision-log entry is present in this checkout.
 - Backend Phase B0-B5 and Phase C1a-C1d are documented as completed and proven in the project decision records.
+- Task reorder is complete end to end on the local/Drift path (schema, models, repos, worker-carousel sort, manager Reorder Tasks screen, drawer entry). Backend `sort_order` columns are intentionally deferred (Supabase stubs).
 - Multi-site operational reads still require a dedicated usability pass before multiple real venues are used day to day.
 - The human RLS security review and dedicated-server gate remain important before real customer data goes live.
 
 ## Next planned work
+
+### Task reorder — remaining items (mostly deferred by design)
+
+- The Reorder Tasks UI and local persistence are done. Backend
+  `sort_order` columns remain stubbed (`UnimplementedError`) pending a
+  later cluster migration.
 
 ### Guided Cards completion
 

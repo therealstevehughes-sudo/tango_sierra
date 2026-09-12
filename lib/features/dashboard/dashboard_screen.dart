@@ -63,6 +63,11 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
   int _overdueCount = 0;
   List<_SiteDashboardSummary> _siteSummaries = [];
   Map<int, String> _siteNameByUserId = {};
+  // Regional/executive aggregation: when the permitted venue set spans more
+  // than one Region (a multi-region/multi-country Director), the venue cards
+  // are grouped under their Region's name. The common single-region case
+  // stays a flat list — no header noise. Map: siteId -> region name.
+  Map<int, String> _regionNameBySiteId = {};
 
   @override
   void initState() {
@@ -80,14 +85,59 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
     final overdueService = ref.read(overdueSummaryServiceProvider);
     final submissionRepo = ref.read(taskSubmissionRepositoryProvider);
     final siteRepo = ref.read(siteRepositoryProvider);
+    final orgRepo = ref.read(organisationRepositoryProvider);
+    final regionRepo = ref.read(regionRepositoryProvider);
 
-    final sites = widget.aggregatePermittedSites
-        ? await siteRepo.getAll()
-        : currentUser.siteId == null
-        ? const <Site>[]
-        : [
-            await siteRepo.getById(currentUser.siteId!),
-          ].whereType<Site>().toList();
+    // Leadership aggregation (Sprint 2): the venue set for regional/
+    // executive is NOT `getAll()` — that is deliberately unfiltered (a
+    // cross-tenant leak once the backend flag flips and a second tenant
+    // exists). Instead we scope by the exact RLS boundary the backend
+    // enforces: a Regional sees their own region's sites; an Executive/
+    // Director sees every site in their organisation. Site-less
+    // supervisors/venue managers (Phase C1b edge case) keep the empty
+    // set, unchanged.
+    int? organisationId;
+    List<Site> sites;
+    if (!widget.aggregatePermittedSites) {
+      sites = currentUser.siteId == null
+          ? const <Site>[]
+          : [
+              await siteRepo.getById(currentUser.siteId!),
+            ].whereType<Site>().toList();
+    } else if (currentUser.regionId != null) {
+      // Regional: their own region is their permitted set. The organisation
+      // id used for the region-grouping lookup comes from the site rows
+      // themselves (same org), so resolve it from them.
+      sites = await siteRepo.getForRegion(currentUser.regionId!);
+      organisationId = sites.isNotEmpty ? sites.first.organisationId : null;
+    } else {
+      // Executive/Director: the whole organisation. The org id comes from
+      // the session's own claim on the backend path; on a Drift-only
+      // install there is exactly one org, so getDefault() resolves it the
+      // same way every other single-tenant read does.
+      organisationId =
+          ref.read(currentBackendOrganisationIdProvider) ??
+          (await orgRepo.getDefault()).id;
+      sites = await siteRepo.getForOrganisation(organisationId);
+    }
+
+    // Region-grouping data for the leadership view: the region name for
+    // each site in the permitted set. Only built when aggregating — a
+    // single-venue dashboard never needs it.
+    final regionNameBySiteId = <int, String>{};
+    if (widget.aggregatePermittedSites && organisationId != null) {
+      final regions = await regionRepo.getForOrganisation(organisationId);
+      final regionNameById = {
+        for (final region in regions) region.id: region.name,
+      };
+      for (final site in sites) {
+        final regionId = site.regionId;
+        if (regionId != null) {
+          regionNameBySiteId[site.id] =
+              regionNameById[regionId] ?? 'Region #$regionId';
+        }
+      }
+    }
 
     final now = DateTime.now();
     final rangeStart = now.subtract(const Duration(days: 30));
@@ -126,6 +176,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
       _failCount = combined.failCount;
       _siteSummaries = summaries;
       _siteNameByUserId = siteNameByUserId;
+      _regionNameBySiteId = regionNameBySiteId;
       _loading = false;
     });
   }
@@ -200,7 +251,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
             if (widget.aggregatePermittedSites) ...[
               const SectionHeader(title: 'Venues'),
               const SizedBox(height: 8),
-              ..._siteSummaries.map(_buildSiteSummary),
+              ..._buildVenueSection(),
               const SizedBox(height: 16),
             ],
             const SectionHeader(title: 'Team'),
@@ -241,6 +292,20 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
                                   label:
                                       '${(member.reliability.onTimeRate! * 100).round()}% on time',
                                 ),
+                                // Improvement (2026-09-12): leadership-only,
+                                // strictly NEUTRAL "needs a look" cue. Never
+                                // graded (uses the caution tone, not pass/
+                                // critical), never reorders the alphabetical
+                                // roster, never carries a per-person FAIL
+                                // count (the anti-gaming rule). Its only job
+                                // is to make a Director's scan show "this
+                                // person isn't logging" without turning the
+                                // roster into a report card.
+                                if (widget.aggregatePermittedSites &&
+                                    _lowLoggingFlag(member) != null)
+                                  _LowLoggingChip(
+                                    label: _lowLoggingFlag(member)!,
+                                  ),
                               ],
                             ),
                           ),
@@ -306,10 +371,138 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
                             label:
                                 '${(member.reliability.onTimeRate! * 100).round()}% on time',
                           ),
+                          // Same leadership-only neutral cue as the Team
+                          // list above — this venue's own staff drill-down.
+                          if (widget.aggregatePermittedSites &&
+                              _lowLoggingFlag(member) != null)
+                            _LowLoggingChip(label: _lowLoggingFlag(member)!),
                         ],
                       ),
               ),
             ),
+        ],
+      ),
+    );
+  }
+
+  // Leadership aggregation (Sprint 2): region-grouped venue cards. When the
+  // permitted set spans more than one Region (a multi-region/multi-country
+  // Director), the cards are grouped under each Region's name — the natural
+  // hierarchy for a large operator. A single region (or a mix where some
+  // sites attach directly to the org, regionId == null) stays flat.
+  List<Widget> _buildVenueSection() {
+    if (_siteSummaries.isEmpty) {
+      return const [Text('No venues yet.')];
+    }
+
+    // Only group when there are at least two DISTINCT region-labelled
+    // groups — otherwise the flat list reads better.
+    final regionNames = {
+      for (final summary in _siteSummaries)
+        _regionNameBySiteId[summary.site.id],
+    }.whereType<String>().toSet();
+    final groupable = regionNames.length > 1;
+
+    if (!groupable) {
+      return _siteSummaries.map(_buildSiteSummary).toList();
+    }
+
+    final widgets = <Widget>[];
+    final remaining = [..._siteSummaries];
+    // Preserve insertion order of first-seen region names for a stable,
+    // non-alphabetical hierarchy (a Director's configured region order).
+    final orderedRegions = <String>[];
+    for (final summary in _siteSummaries) {
+      final name = _regionNameBySiteId[summary.site.id];
+      if (name != null && !orderedRegions.contains(name)) {
+        orderedRegions.add(name);
+      }
+    }
+
+    for (final regionName in orderedRegions) {
+      widgets.add(
+        Padding(
+          padding: const EdgeInsets.only(top: 8, bottom: 4),
+          child: SectionHeader(title: regionName),
+        ),
+      );
+      final grouped = remaining
+          .where((s) => _regionNameBySiteId[s.site.id] == regionName)
+          .toList();
+      for (final summary in grouped) {
+        widgets.add(_buildSiteSummary(summary));
+        remaining.remove(summary);
+      }
+    }
+
+    // Sites that attach directly to the org (no region) always come last,
+    // under their own header — never silently dropped from a director's
+    // view.
+    if (remaining.isNotEmpty) {
+      widgets.add(
+        const Padding(
+          padding: EdgeInsets.only(top: 8, bottom: 4),
+          child: SectionHeader(title: 'Other venues'),
+        ),
+      );
+      widgets.addAll(remaining.map(_buildSiteSummary));
+    }
+
+    return widgets;
+  }
+
+  // Improvement (2026-09-12): the ONE leadership "needs a look" signal —
+  // deliberately tiny and deliberately neutral. A staff member is flagged
+  // only when (a) there's real data to judge (totalPeriods > 0) and (b)
+  // they've logged fewer than half of their scheduled checks. That's the
+  // "this person isn't logging" signal a Director scans for — without a
+  // pass/fail score, without a FAIL count, without reordering the roster,
+  // and never graded green/red. Returns null for everyone else.
+  String? _lowLoggingFlag(StaffReliabilitySummary member) {
+    final total = member.reliability.totalPeriods;
+    if (total == 0) return null;
+    final completed = member.reliability.completedPeriods;
+    if (completed >= total ~/ 2) return null;
+    return '$completed of $total checks logged';
+  }
+}
+
+// Improvement (2026-09-12): a strictly neutral "needs a look" cue. Uses the
+// caution (amber) tone — informational, never pass-green or critical-red —
+// and pairs an icon with a factual label. It is NOT a grade: it says "this
+// person is logging less than expected," nothing more. The roster stays
+// alphabetical and unrankable; this chip never reorders and never carries a
+// FAIL count (the existing anti-gaming structural rule).
+class _LowLoggingChip extends StatelessWidget {
+  const _LowLoggingChip({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: AppColors.cautionBg,
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.visibility_off_outlined,
+            size: 16,
+            color: AppColors.caution,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              color: AppColors.caution,
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+            ),
+          ),
         ],
       ),
     );

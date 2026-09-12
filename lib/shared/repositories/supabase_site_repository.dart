@@ -19,6 +19,21 @@ class SupabaseSiteRepository implements SiteRepository {
   }
 
   @override
+  Future<List<Site>> getForRegion(int regionId) async {
+    final rows = await _client.select('sites', query: 'region_id=eq.$regionId');
+    return rows.map(_toModel).toList();
+  }
+
+  @override
+  Future<List<Site>> getForOrganisation(int organisationId) async {
+    final rows = await _client.select(
+      'sites',
+      query: 'organisation_id=eq.$organisationId',
+    );
+    return rows.map(_toModel).toList();
+  }
+
+  @override
   Future<Site> getDefault() async {
     final rows = await _client.select('sites', query: 'order=id.asc&limit=1');
     if (rows.isEmpty) {
@@ -45,11 +60,7 @@ class SupabaseSiteRepository implements SiteRepository {
 
   @override
   Future<void> rename(int id, String newName) async {
-    await _client.update(
-      'sites',
-      filter: 'id=eq.$id',
-      body: {'name': newName},
-    );
+    await _client.update('sites', filter: 'id=eq.$id', body: {'name': newName});
   }
 
   @override

@@ -242,20 +242,20 @@ class _TriggerNotificationsBanner extends StatelessWidget {
                           Text(
                             'OVERDUE — unacknowledged for '
                             '${now.difference(notification.createdAt).inMinutes} min',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: AppColors.critical,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: AppColors.critical,
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                         if (notification.escalatedAt != null)
                           Text(
                             'Escalated to top tier',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontStyle: FontStyle.italic,
-                              color: AppColors.muted,
-                            ),
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  fontStyle: FontStyle.italic,
+                                  color: AppColors.muted,
+                                ),
                           ),
                       ],
                     ),

@@ -280,12 +280,35 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         'check will still be recorded.';
   }
 
-  String? get _rangeWarning {
+  // Improvement (2026-09-12): the safe range is shown at the point of
+  // entry, not after submission. A kitchen worker typing a number needs to
+  // know the safe window BEFORE committing — the derived PASS/FAIL alone is
+  // too late. e.g. "Safe: 0.0°C – 4.0°C". Null when the task has no range.
+  String? get _safeRangeLabel {
     final task = controller.getCurrentTask();
     if (!task.hasNumericRange) return null;
-    if (_derivedResultFromNumber != "FAIL") return null;
-    return task.fixInstructions ?? "Reading is outside the safe range.";
+    final unitLabel = _displayInFahrenheit ? '°F' : '°C';
+    final min = _displayInFahrenheit
+        ? celsiusToFahrenheit(task.minLimit!)
+        : task.minLimit!;
+    final max = _displayInFahrenheit
+        ? celsiusToFahrenheit(task.maxLimit!)
+        : task.maxLimit!;
+    final minLabel = _displayInFahrenheit && task.unit == 'celsius'
+        ? min.toStringAsFixed(1)
+        : _formatLimit(task.minLimit!);
+    final maxLabel = _displayInFahrenheit && task.unit == 'celsius'
+        ? max.toStringAsFixed(1)
+        : _formatLimit(task.maxLimit!);
+    return 'Safe: $minLabel$unitLabel – $maxLabel$unitLabel';
   }
+
+  // Fixed-decimal formatting for range labels — temperature limits almost
+  // always have one decimal (e.g. 4.0°C); a plain toString on a whole value
+  // would give "4" instead of the consistent "4.0" the label reads better
+  // with. toStringAsFixed(1) always yields one decimal, which keeps "4.0"
+  // and "4.5" reading as the same family.
+  static String _formatLimit(double value) => value.toStringAsFixed(1);
 
   bool get canSubmit {
     final task = controller.getCurrentTask();
@@ -547,6 +570,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                             ),
                             decoration: InputDecoration(
                               labelText: _numericFieldLabel,
+                              // Improvement (2026-09-12): the safe range
+                              // lives in the field's helper text so it's
+                              // visible the moment the task opens — never
+                              // "discovered" after an out-of-range entry.
+                              helperText: _safeRangeLabel,
                             ),
                           ),
                         if (task.hasNumericRange &&
@@ -661,10 +689,52 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                       ],
                     ),
                   const SizedBox(height: 20),
-                  if (_rangeWarning != null)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(_rangeWarning!, textAlign: TextAlign.center),
+                  // Improvement (2026-09-12): an out-of-range reading now
+                  // surfaces the consequence LIVE — a prominent
+                  // "Here's what to do" card the moment the number is typed,
+                  // not only after SUBMIT. Previously a ranged task that
+                  // didn't also require a corrective action showed only a
+                  // small centered line of text; a busy, tired, or
+                  // non-literate worker could miss that the reading failed.
+                  // This card is the same visual language as the
+                  // corrective-action block below, so the failure is
+                  // unmissable either way.
+                  if (task.hasNumericRange && effectiveResult == "FAIL")
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const StatusBadge(
+                          kind: StatusKind.critical,
+                          label: 'Reading is outside the safe range',
+                        ),
+                        if (task.fixInstructions != null) ...[
+                          const SizedBox(height: 12),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: AppColors.criticalBg,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(color: AppColors.critical),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Here's what to do:",
+                                  style: Theme.of(context).textTheme.titleLarge
+                                      ?.copyWith(color: AppColors.critical),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  task.fixInstructions!,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   // Corrective-action redesign (Sprint 031, Sub-sprint 4): fix
                   // instructions promoted to a prominent, unmissable card (not

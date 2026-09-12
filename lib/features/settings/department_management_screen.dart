@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/department.dart';
@@ -155,7 +156,7 @@ class _DepartmentManagementScreenState
   }
 
   Widget _buildDepartmentTile(Department department) {
-    return Card(
+    return AppCard(
       child: ListTile(
         title: Text(department.name),
         subtitle: department.active ? null : const Text('(inactive)'),

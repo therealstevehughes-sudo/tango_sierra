@@ -38,6 +38,10 @@ class ResolvedTask {
   // completedAt and due/overdue, not newly introduced here.
   final int? windowStartMinutes;
   final int? windowEndMinutesExclusive;
+  // Task-reorder (2026-09-12): the manager-configured execution order of
+  // the underlying schedule, passed through so the carousel can sort by it.
+  // Null = no explicit order yet; sorts after ordered tasks.
+  final int? sortOrder;
   // Supplier register + traceability (Sprint 031, finalized beta build
   // order item 4, Sub-sprint B) — true only on "Supplier traceability
   // captured"; task_screen.dart shows a supplier picker when set.
@@ -66,6 +70,7 @@ class ResolvedTask {
     this.overdueSince,
     this.windowStartMinutes,
     this.windowEndMinutesExclusive,
+    this.sortOrder,
     this.requiresSupplierSelection = false,
   });
 
