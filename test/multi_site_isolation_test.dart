@@ -36,15 +36,18 @@ void main() {
     await db.close();
   });
 
-  Future<int> seedOrganisation() => db.into(db.organisations).insert(
+  Future<int> seedOrganisation() => db
+      .into(db.organisations)
+      .insert(
         OrganisationsCompanion.insert(
           name: 'Test Org',
           createdAt: DateTime.now(),
         ),
       );
 
-  Future<int> seedSite(int organisationId, String name) =>
-      db.into(db.sites).insert(
+  Future<int> seedSite(int organisationId, String name) => db
+      .into(db.sites)
+      .insert(
         SitesCompanion.insert(
           organisationId: organisationId,
           name: name,
@@ -56,8 +59,9 @@ void main() {
     required String name,
     required int siteId,
     required RoleTier roleTier,
-  }) =>
-      db.into(db.users).insert(
+  }) => db
+      .into(db.users)
+      .insert(
         UsersCompanion.insert(
           name: name,
           jobTitle: 'Kitchen Assistant',
@@ -72,20 +76,19 @@ void main() {
       .into(db.areas)
       .insert(AreasCompanion.insert(name: name, siteId: Value(siteId)));
 
-  Future<int> seedEquipment({
-    required String name,
-    required int siteId,
-  }) async {
+  Future<int> seedEquipment({required String name, required int siteId}) async {
     final typeId = await db
         .into(db.equipmentTypes)
         .insert(EquipmentTypesCompanion.insert(name: 'Fridge'));
-    return db.into(db.equipmentInstances).insert(
-      EquipmentInstancesCompanion.insert(
-        name: name,
-        equipmentTypeId: typeId,
-        siteId: Value(siteId),
-      ),
-    );
+    return db
+        .into(db.equipmentInstances)
+        .insert(
+          EquipmentInstancesCompanion.insert(
+            name: name,
+            equipmentTypeId: typeId,
+            siteId: Value(siteId),
+          ),
+        );
   }
 
   Future<int> seedSchedule({
@@ -95,8 +98,9 @@ void main() {
     required int assignedByUserId,
     int? equipmentInstanceId,
     required ScheduleFrequency frequency,
-  }) =>
-      db.into(db.taskSchedules).insert(
+  }) => db
+      .into(db.taskSchedules)
+      .insert(
         TaskSchedulesCompanion.insert(
           taskTemplateGroupId: templateGroupId,
           assignedUserId: assignedUserId,
@@ -157,50 +161,52 @@ void main() {
     expect(b.map((e) => e.name), ['Fridge B1']);
   });
 
-  test('TaskSchedules: getForSite returns only that site\'s schedules',
-      () async {
-    final org = await seedOrganisation();
-    final siteA = await seedSite(org, 'Venue A');
-    final siteB = await seedSite(org, 'Venue B');
-    final manager = await seedUser(
-      name: 'Mgr',
-      siteId: siteA,
-      roleTier: RoleTier.venueManager,
-    );
-    final alice = await seedUser(
-      name: 'Alice',
-      siteId: siteA,
-      roleTier: RoleTier.base,
-    );
-    final bob = await seedUser(
-      name: 'Bob',
-      siteId: siteB,
-      roleTier: RoleTier.base,
-    );
-    // A template group per venue's task (groupId is a soft reference).
-    await seedSchedule(
-      templateGroupId: 1,
-      assignedUserId: alice,
-      assignedByUserId: manager,
-      siteId: siteA,
-      frequency: ScheduleFrequency.daily,
-    );
-    await seedSchedule(
-      templateGroupId: 2,
-      assignedUserId: bob,
-      assignedByUserId: manager,
-      siteId: siteB,
-      frequency: ScheduleFrequency.daily,
-    );
+  test(
+    'TaskSchedules: getForSite returns only that site\'s schedules',
+    () async {
+      final org = await seedOrganisation();
+      final siteA = await seedSite(org, 'Venue A');
+      final siteB = await seedSite(org, 'Venue B');
+      final manager = await seedUser(
+        name: 'Mgr',
+        siteId: siteA,
+        roleTier: RoleTier.venueManager,
+      );
+      final alice = await seedUser(
+        name: 'Alice',
+        siteId: siteA,
+        roleTier: RoleTier.base,
+      );
+      final bob = await seedUser(
+        name: 'Bob',
+        siteId: siteB,
+        roleTier: RoleTier.base,
+      );
+      // A template group per venue's task (groupId is a soft reference).
+      await seedSchedule(
+        templateGroupId: 1,
+        assignedUserId: alice,
+        assignedByUserId: manager,
+        siteId: siteA,
+        frequency: ScheduleFrequency.daily,
+      );
+      await seedSchedule(
+        templateGroupId: 2,
+        assignedUserId: bob,
+        assignedByUserId: manager,
+        siteId: siteB,
+        frequency: ScheduleFrequency.daily,
+      );
 
-    final repo = DriftTaskScheduleRepository(db);
-    final a = await repo.getForSite(siteA);
-    final b = await repo.getForSite(siteB);
+      final repo = DriftTaskScheduleRepository(db);
+      final a = await repo.getForSite(siteA);
+      final b = await repo.getForSite(siteB);
 
-    // One schedule per site: each sees exactly its own.
-    expect(a.length, 1);
-    expect(b.length, 1);
-    expect(a.single.taskTemplateGroupId, 1);
-    expect(b.single.taskTemplateGroupId, 2);
-  });
+      // One schedule per site: each sees exactly its own.
+      expect(a.length, 1);
+      expect(b.length, 1);
+      expect(a.single.taskTemplateGroupId, 1);
+      expect(b.single.taskTemplateGroupId, 2);
+    },
+  );
 }

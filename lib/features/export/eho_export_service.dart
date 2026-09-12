@@ -168,9 +168,7 @@ class EhoExportService {
         .where((s) => s.correctiveActionOutcome == 'reported')
         .length;
     final reviewEntries = submissions
-        .where(
-          (s) => segmentByGroupId[s.taskTemplateGroupId] == _reviewSegment,
-        )
+        .where((s) => segmentByGroupId[s.taskTemplateGroupId] == _reviewSegment)
         .toList();
 
     final totalDays = end.difference(start).inDays;
@@ -185,9 +183,7 @@ class EhoExportService {
         .toSet()
         .length;
 
-    final outstanding = await _overdueSummaryService.getSummaryForSite(
-      siteId,
-    );
+    final outstanding = await _overdueSummaryService.getSummaryForSite(siteId);
 
     // Training records (Sprint 031) — active staff only: a departed
     // member's lapsed training isn't a live "Confidence in Management"
@@ -199,9 +195,7 @@ class EhoExportService {
     final allUsers = await _userRepository.getForSite(siteId);
     final activeStaff = allUsers.where((u) => u.active).toList();
     final activeStaffIds = activeStaff.map((u) => u.id).toSet();
-    final trainingRecords = await _trainingRecordRepository.getForSite(
-      siteId,
-    );
+    final trainingRecords = await _trainingRecordRepository.getForSite(siteId);
     final trainingByUser = <int, List<TrainingRecord>>{};
     for (final record in trainingRecords) {
       if (!activeStaffIds.contains(record.userId)) continue;
@@ -354,7 +348,13 @@ class EhoExportService {
                 end,
                 generatedByName,
               )
-            : _buildCondensedHeader(companyName, accentColor, siteName, start, end),
+            : _buildCondensedHeader(
+                companyName,
+                accentColor,
+                siteName,
+                start,
+                end,
+              ),
         build: (context) => [
           _buildLimitationsNotice(),
           pw.SizedBox(height: 12),
@@ -389,7 +389,13 @@ class EhoExportService {
       ),
       () => pw.MultiPage(
         maxPages: maxPages,
-        header: (context) => _buildCondensedHeader(companyName, accentColor, siteName, start, end),
+        header: (context) => _buildCondensedHeader(
+          companyName,
+          accentColor,
+          siteName,
+          start,
+          end,
+        ),
         build: (context) => [
           pw.Text(
             'Export summary could not be generated for this date range — '
@@ -407,7 +413,13 @@ class EhoExportService {
           // Always condensed — this block is a continuation of Block A
           // above, never really "page 1" of the export, even though
           // MultiPage restarts its own internal page numbering here.
-          header: (context) => _buildCondensedHeader(companyName, accentColor, siteName, start, end),
+          header: (context) => _buildCondensedHeader(
+            companyName,
+            accentColor,
+            siteName,
+            start,
+            end,
+          ),
           build: (context) => [
             pw.Text(
               'Full Detailed Log',
@@ -427,7 +439,13 @@ class EhoExportService {
         ),
         () => pw.MultiPage(
           maxPages: maxPages,
-          header: (context) => _buildCondensedHeader(companyName, accentColor, siteName, start, end),
+          header: (context) => _buildCondensedHeader(
+            companyName,
+            accentColor,
+            siteName,
+            start,
+            end,
+          ),
           build: (context) => [
             pw.Text(
               'Full Detailed Log — omitted',
@@ -460,7 +478,8 @@ class EhoExportService {
       await exportsDir.create(recursive: true);
     }
     final timestamp = _formatFileTimestamp(DateTime.now());
-    final filename = 'eho_export_${_sanitizeForFilename(siteName)}_'
+    final filename =
+        'eho_export_${_sanitizeForFilename(siteName)}_'
         '$timestamp.pdf';
     final path = p.join(exportsDir.path, filename);
     await File(path).writeAsBytes(await doc.save());
@@ -493,9 +512,7 @@ class EhoExportService {
           ),
         ),
         pw.SizedBox(height: 4),
-        pw.Text(
-          siteAddress == null ? siteName : '$siteName — $siteAddress',
-        ),
+        pw.Text(siteAddress == null ? siteName : '$siteName — $siteAddress'),
         pw.Text('Records from ${formatDate(start)} to ${formatDate(end)}'),
         pw.Text(
           'Generated ${formatDateTime(DateTime.now())} by $generatedByName',
@@ -638,7 +655,8 @@ class EhoExportService {
                       style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                     ),
                   pw.TextSpan(
-                    text: '${entry.taskTitle} — '
+                    text:
+                        '${entry.taskTitle} — '
                         '${formatDateTime(entry.completedAt)}'
                         ' (${entry.completedBy})',
                   ),
@@ -884,7 +902,8 @@ class EhoExportService {
                         style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                       ),
                     pw.TextSpan(
-                      text: '${entry.taskTitle}'
+                      text:
+                          '${entry.taskTitle}'
                           '${entry.overdueSince == null ? '' : ' (overdue since ${formatDate(entry.overdueSince!)})'}',
                     ),
                   ],
@@ -959,7 +978,7 @@ class EhoExportService {
         submission.notes!,
       if (submission.correctiveActionOutcome != null)
         'Corrective action: ${submission.correctiveActionOutcome}'
-        '${submission.correctiveActionNote == null ? '' : ' — ${submission.correctiveActionNote}'}',
+            '${submission.correctiveActionNote == null ? '' : ' — ${submission.correctiveActionNote}'}',
     ];
     return parts.join(' | ');
   }
