@@ -9,7 +9,6 @@ import 'package:pdf/widgets.dart' as pw;
 
 import '../../core/utils/date_format.dart';
 import '../../shared/models/branding_config.dart';
-import '../../shared/models/site.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/training_record.dart';
@@ -125,14 +124,11 @@ class EhoExportService {
     required String generatedByName,
     required bool includeFullLog,
   }) async {
-    final sites = await _siteRepository.getAll();
-    Site? site;
-    for (final s in sites) {
-      if (s.id == siteId) {
-        site = s;
-        break;
-      }
-    }
+    // Site-scoped (Sprint 2, multi-site usability): the export is for ONE
+    // venue, so resolve exactly that venue instead of pulling every site
+    // into memory. getById also future-proofs the backend path (RLS
+    // permits only sites the caller can see).
+    final site = await _siteRepository.getById(siteId);
     final siteName = site?.name ?? 'Unknown site';
 
     // Branding (Sprint 031, finalized beta build order item 7) — a
@@ -198,10 +194,10 @@ class EhoExportService {
     // gap for this venue today. Each staff member's history is reduced to
     // their latest record per item (a renewal supersedes the status of an
     // earlier expired one, even though the old row itself stays on file).
-    final allUsers = await _userRepository.getAll();
-    final activeStaff = allUsers
-        .where((u) => u.siteId == siteId && u.active)
-        .toList();
+    // Site-scoped (Sprint 2, multi-site usability): only this venue's
+    // staff are loaded — no other venue's roster is pulled into memory.
+    final allUsers = await _userRepository.getForSite(siteId);
+    final activeStaff = allUsers.where((u) => u.active).toList();
     final activeStaffIds = activeStaff.map((u) => u.id).toSet();
     final trainingRecords = await _trainingRecordRepository.getForSite(
       siteId,

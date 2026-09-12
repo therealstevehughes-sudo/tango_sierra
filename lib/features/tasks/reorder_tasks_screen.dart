@@ -30,8 +30,7 @@ class ReorderTasksScreen extends ConsumerStatefulWidget {
   const ReorderTasksScreen({super.key});
 
   @override
-  ConsumerState<ReorderTasksScreen> createState() =>
-      _ReorderTasksScreenState();
+  ConsumerState<ReorderTasksScreen> createState() => _ReorderTasksScreenState();
 }
 
 class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
@@ -114,23 +113,23 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
     final byArea = <int?, List<TaskSchedule>>{};
     for (final schedule in schedules) {
       if (!schedule.active) continue;
-      final areaId =
-          schedule.equipmentInstanceId == null
-              ? null
-              : equipmentToArea[schedule.equipmentInstanceId];
+      final areaId = schedule.equipmentInstanceId == null
+          ? null
+          : equipmentToArea[schedule.equipmentInstanceId];
       (byArea[areaId] ??= []).add(schedule);
     }
 
     // Areas in the venue-setup display order: explicit sortOrder first
     // (nulls last), then id. Same rule as DriftAreaRepository.getForSite.
-    final orderedAreas = areaById.values.toList()..sort((a, b) {
-      final aNull = a.sortOrder == null ? 1 : 0;
-      final bNull = b.sortOrder == null ? 1 : 0;
-      if (aNull != bNull) return aNull - bNull;
-      final byOrder = (a.sortOrder ?? 0).compareTo(b.sortOrder ?? 0);
-      if (byOrder != 0) return byOrder;
-      return a.id.compareTo(b.id);
-    });
+    final orderedAreas = areaById.values.toList()
+      ..sort((a, b) {
+        final aNull = a.sortOrder == null ? 1 : 0;
+        final bNull = b.sortOrder == null ? 1 : 0;
+        if (aNull != bNull) return aNull - bNull;
+        final byOrder = (a.sortOrder ?? 0).compareTo(b.sortOrder ?? 0);
+        if (byOrder != 0) return byOrder;
+        return a.id.compareTo(b.id);
+      });
 
     final groups = <_OrderGroup>[];
     for (final area in orderedAreas) {
@@ -227,14 +226,14 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
         }
       }
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Task order saved.')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Task order saved.')));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not save task order: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Could not save task order: $e')));
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -353,8 +352,9 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
           IconButton(
             icon: const Icon(Icons.keyboard_arrow_up),
             tooltip: 'Move up',
-            onPressed:
-                itemIndex == 0 ? null : () => _move(groupIndex, itemIndex, -1),
+            onPressed: itemIndex == 0
+                ? null
+                : () => _move(groupIndex, itemIndex, -1),
           ),
           IconButton(
             icon: const Icon(Icons.keyboard_arrow_down),
@@ -388,9 +388,5 @@ class _OrderGroup {
   final String title;
   final List<_OrderRow> rows;
 
-  const _OrderGroup({
-    this.areaId,
-    required this.title,
-    required this.rows,
-  });
+  const _OrderGroup({this.areaId, required this.title, required this.rows});
 }

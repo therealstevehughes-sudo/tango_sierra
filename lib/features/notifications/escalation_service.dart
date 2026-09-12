@@ -11,10 +11,7 @@ import '../../shared/repositories/user_repository.dart';
 const escalationThreshold = Duration(minutes: 30);
 
 class EscalationService {
-  EscalationService(
-    this._triggerNotificationRepository,
-    this._userRepository,
-  );
+  EscalationService(this._triggerNotificationRepository, this._userRepository);
 
   final TriggerNotificationRepository _triggerNotificationRepository;
   final UserRepository _userRepository;

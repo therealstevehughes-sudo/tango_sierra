@@ -238,10 +238,8 @@ class ManagementDrawer extends ConsumerWidget {
             ListTile(
               leading: const Icon(Icons.visibility),
               title: const Text('Oversight'),
-              onTap: () => _navigate(
-                context,
-                TierHomeScreen.oversightScreenFor(tier),
-              ),
+              onTap: () =>
+                  _navigate(context, TierHomeScreen.oversightScreenFor(tier)),
             ),
           // Dashboard + worker recognition (Sprint 031, Sub-sprint B) —
           // supervisor and above, matching supervisor sharing venueManager's

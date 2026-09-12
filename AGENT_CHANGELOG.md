@@ -4,6 +4,30 @@
 
 This file records work completed by assisting coding agents so future agents can understand what changed, why, and what remains open.
 
+## Session: 2026-09-12 (second)
+
+### Multi-site isolation — audit and proof
+
+Audited every remaining `getAll()` call site that appeared to risk mixing venues:
+
+- `eho_export_service.dart` — **fixed** (the only genuine single-venue leak): resolve the export's one venue via `getById(siteId)` instead of scanning all sites, and load the venue's staff via `getForSite(siteId)` instead of the whole roster.
+- `task_controller.dart` (FAIL notification fan-out), `escalation_service.dart`, `setup_checklist_card.dart` (executive/regional branch counts), `venue_details_screen.dart`, `branch_management_screen.dart`, `staffDirectoryProvider` — **deliberately left unchanged**, each verified as intended cross-site/org-scoped behavior:
+  - Org-wide notification rules (siteId null) document *"fan out across every site"* — scoping that read to one site would be a regression.
+  - Escalation's person-targeted recipients can legitimately sit at a different site than the notification's own siteId.
+  - Executive/regional setup-checklist counts are org-level signals; the backend `getAll()` is already RLS-scoped to permitted sites.
+  - Venue Details / Branch Management are org/regional admin screens where seeing all permitted venues is the point.
+  - The walk-up "Who are you?" roster remains the logged, deliberate design question (kiosk credential), not a quick fix.
+
+### New: multi-site isolation proof test
+
+- `test/multi_site_isolation_test.dart` — headless, in-memory Drift (`AppDatabase.forTesting`, `NativeDatabase.memory()`), no device, no live backend. Four tests pin the Sprint-1 site-scoping guarantees for Users, Areas, Equipment, and TaskSchedules: two venues are seeded with overlapping names, and `getForSite` must return exactly its own rows. A regression to `getAll()` would fail these loudly.
+  Run: `flutter test test/multi_site_isolation_test.dart` (passing).
+
+### Validation
+
+- `flutter analyze`: No issues found.
+- Isolation test: 4/4 passing.
+
 ## Session: 2026-09-11
 
 ### Project context reviewed
