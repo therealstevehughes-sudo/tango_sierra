@@ -45,67 +45,67 @@ class _ProblemsRegisterScreenState
       body: currentUser == null
           ? const SizedBox.shrink()
           : ResponsiveContent(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                  child: SegmentedButton<ProblemFilter>(
-                    segments: const [
-                      ButtonSegment(
-                        value: ProblemFilter.all,
-                        label: Text('All'),
-                      ),
-                      ButtonSegment(
-                        value: ProblemFilter.fail,
-                        label: Text('Fail'),
-                      ),
-                      ButtonSegment(
-                        value: ProblemFilter.reported,
-                        label: Text('Reported'),
-                      ),
-                      ButtonSegment(
-                        value: ProblemFilter.notCompleted,
-                        label: Text('Not Completed'),
-                      ),
-                    ],
-                    selected: {_filter},
-                    onSelectionChanged: (selection) =>
-                        setState(() => _filter = selection.first),
-                  ),
-                ),
-                Expanded(
-                  child: StreamBuilder<List<TaskSubmission>>(
-                    stream: repository.watchForSite(
-                      currentUser.siteId!,
-                      filter: _filter,
-                    ),
-                    builder: (context, snapshot) {
-                      final entries = snapshot.data ?? [];
-                      if (!snapshot.hasData) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      if (entries.isEmpty) {
-                        return const Center(
-                          child: Text('Nothing here — that\'s a good sign.'),
-                        );
-                      }
-                      return ListView.separated(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: entries.length,
-                        separatorBuilder: (_, _) => const SizedBox(height: 8),
-                        itemBuilder: (context, index) => _ProblemTile(
-                          submission: entries[index],
-                          currentUserId: currentUser.id,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                    child: SegmentedButton<ProblemFilter>(
+                      segments: const [
+                        ButtonSegment(
+                          value: ProblemFilter.all,
+                          label: Text('All'),
                         ),
-                      );
-                    },
+                        ButtonSegment(
+                          value: ProblemFilter.fail,
+                          label: Text('Fail'),
+                        ),
+                        ButtonSegment(
+                          value: ProblemFilter.reported,
+                          label: Text('Reported'),
+                        ),
+                        ButtonSegment(
+                          value: ProblemFilter.notCompleted,
+                          label: Text('Not Completed'),
+                        ),
+                      ],
+                      selected: {_filter},
+                      onSelectionChanged: (selection) =>
+                          setState(() => _filter = selection.first),
+                    ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: StreamBuilder<List<TaskSubmission>>(
+                      stream: repository.watchForSite(
+                        currentUser.siteId!,
+                        filter: _filter,
+                      ),
+                      builder: (context, snapshot) {
+                        final entries = snapshot.data ?? [];
+                        if (!snapshot.hasData) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (entries.isEmpty) {
+                          return const Center(
+                            child: Text('Nothing here — that\'s a good sign.'),
+                          );
+                        }
+                        return ListView.separated(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: entries.length,
+                          separatorBuilder: (_, _) => const SizedBox(height: 8),
+                          itemBuilder: (context, index) => _ProblemTile(
+                            submission: entries[index],
+                            currentUserId: currentUser.id,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
     );
   }
 }
@@ -222,7 +222,12 @@ class _ProblemStatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (Color fg, Color bg, IconData icon, String label) = resolved
-        ? (AppColors.pass, AppColors.passBg, Icons.check_circle_outline, 'Resolved')
+        ? (
+            AppColors.pass,
+            AppColors.passBg,
+            Icons.check_circle_outline,
+            'Resolved',
+          )
         : (AppColors.ink, AppColors.line, Icons.radio_button_unchecked, 'Open');
 
     return Container(
@@ -238,7 +243,10 @@ class _ProblemStatusChip extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             label,
-            style: TextStyle(color: fg, fontWeight: FontWeight.w600, fontSize: 12),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: fg,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),

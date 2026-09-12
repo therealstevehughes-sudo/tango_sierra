@@ -49,7 +49,9 @@ class OverdueSummaryCard extends StatelessWidget {
                 children: [
                   Text(
                     staffName,
-                    style: const TextStyle(fontWeight: FontWeight.w700),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   for (final entry in byStaff[staffName]!)
                     Padding(
@@ -85,7 +87,7 @@ class OverdueSummaryCard extends StatelessWidget {
           if (remaining > 0)
             Text(
               '+$remaining more staff member${remaining == 1 ? '' : 's'}',
-              style: const TextStyle(color: AppColors.muted),
+              style: Theme.of(context).textTheme.bodySmall,
             ),
         ],
       ),

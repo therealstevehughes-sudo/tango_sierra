@@ -337,8 +337,7 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
         backgroundColor: AppColors.tealTint,
         child: Text(
           '${itemIndex + 1}',
-          style: const TextStyle(
-            fontSize: 12,
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w700,
             color: AppColors.tealInk,
           ),

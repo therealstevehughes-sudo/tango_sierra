@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../app/theme/app_colors.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../core/widgets/trigger_notifications_banner.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/trigger_notification.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -149,7 +149,7 @@ class _TopScreenState extends ConsumerState<TopScreen> {
                 // Expanded content below) since this banner has no flex
                 // layout of its own to disrupt.
                 return ResponsiveContent(
-                  child: _TriggerNotificationsBanner(
+                  child: TriggerNotificationsBanner(
                     notifications: notifications,
                     onAcknowledge: triggerNotificationRepo.acknowledge,
                   ),
@@ -163,114 +163,6 @@ class _TopScreenState extends ConsumerState<TopScreen> {
           // FAIL counts). Cross-venue comparison stays deferred until
           // multi-site is actually usable — see DECISIONS_LOG.md.
           const Expanded(child: DashboardBody(aggregatePermittedSites: true)),
-        ],
-      ),
-    );
-  }
-}
-
-// Busy-oversight declutter (Sprint 031): matches manager_screen.dart's
-// identical change — Card+ExpansionTile, initiallyExpanded: true (alerts
-// start open, since they're urgent, but stay tap-to-collapse once read
-// rather than permanently occupying space). Same duplicated-per-screen
-// pattern as everywhere else between ManagerScreen/TopScreen.
-class _TriggerNotificationsBanner extends StatelessWidget {
-  const _TriggerNotificationsBanner({
-    required this.notifications,
-    required this.onAcknowledge,
-  });
-
-  final List<TriggerNotification> notifications;
-  final void Function(int id) onAcknowledge;
-
-  @override
-  Widget build(BuildContext context) {
-    final now = DateTime.now();
-    final unacknowledged = notifications.where((n) => !n.acknowledged).length;
-
-    return Card(
-      child: ExpansionTile(
-        initiallyExpanded: true,
-        leading: const Icon(Icons.notifications, color: AppColors.critical),
-        title: Text(
-          '${notifications.length} alert${notifications.length == 1 ? '' : 's'}',
-        ),
-        subtitle: unacknowledged > 0
-            ? Text(
-                '$unacknowledged unacknowledged',
-                style: const TextStyle(
-                  color: AppColors.critical,
-                  fontWeight: FontWeight.w700,
-                ),
-              )
-            : const Text('All acknowledged'),
-        childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-        children: [
-          ...notifications.map((notification) {
-            final isOverdue =
-                !notification.acknowledged &&
-                now.difference(notification.createdAt) >= escalationThreshold;
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Instance-name prominence (2026-09-06): same fix
-                        // as manager_screen.dart's identical banner.
-                        if (notification.equipmentInstanceName != null)
-                          Text(
-                            notification.equipmentInstanceName!,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.teal,
-                            ),
-                          ),
-                        Text(
-                          notification.message,
-                          style: isOverdue
-                              ? const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.critical,
-                                )
-                              : null,
-                        ),
-                        if (isOverdue)
-                          Text(
-                            'OVERDUE — unacknowledged for '
-                            '${now.difference(notification.createdAt).inMinutes} min',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  color: AppColors.critical,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        if (notification.escalatedAt != null)
-                          Text(
-                            'Escalated to top tier',
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                  color: AppColors.muted,
-                                ),
-                          ),
-                      ],
-                    ),
-                  ),
-                  if (!notification.acknowledged)
-                    TextButton(
-                      onPressed: () => onAcknowledge(notification.id),
-                      child: const Text('Acknowledge'),
-                    )
-                  else
-                    const Icon(Icons.check, color: AppColors.pass),
-                ],
-              ),
-            );
-          }),
         ],
       ),
     );

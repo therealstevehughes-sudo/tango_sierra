@@ -497,10 +497,9 @@ class _LowLoggingChip extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             label,
-            style: const TextStyle(
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: AppColors.caution,
               fontWeight: FontWeight.w600,
-              fontSize: 14,
             ),
           ),
         ],

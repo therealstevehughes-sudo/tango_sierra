@@ -843,7 +843,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                       padding: const EdgeInsets.all(8),
                       child: Text(
                         error!,
-                        style: const TextStyle(color: Colors.red),
+                        style: const TextStyle(color: AppColors.critical),
                       ),
                     ),
                   const SizedBox(height: 24),
@@ -996,10 +996,9 @@ class _ResultOption extends StatelessWidget {
               // so that reads as intentional rather than accidentally
               // left-aligned within a centered icon column.
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: selected ? color : AppColors.muted,
                 fontWeight: FontWeight.w700,
-                fontSize: 16,
               ),
             ),
           ],

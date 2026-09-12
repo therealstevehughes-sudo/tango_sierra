@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
@@ -21,8 +20,7 @@ class TrainingRecordsScreen extends ConsumerStatefulWidget {
       _TrainingRecordsScreenState();
 }
 
-class _TrainingRecordsScreenState
-    extends ConsumerState<TrainingRecordsScreen> {
+class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
   bool loading = true;
   List<TrainingRecord> records = [];
 
@@ -263,7 +261,7 @@ class _TrainingRecordsScreenState
       title: Text(record.displayTitle),
       subtitle: Text(
         '${_subtitleFor(record)}\n(superseded)',
-        style: const TextStyle(color: AppColors.muted),
+        style: Theme.of(context).textTheme.bodySmall,
       ),
       isThreeLine: true,
     );
