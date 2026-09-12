@@ -4,6 +4,48 @@
 
 This file records work completed by assisting coding agents so future agents can understand what changed, why, and what remains open.
 
+## Session: 2026-09-12 (third)
+
+### Guided Cards — worker task header (first guided component)
+
+Built the first Guided Cards component on top of the existing shared
+foundation (theme tokens, AppCard, StatusBadge, AppBanner, SectionHeader):
+
+- `lib/core/widgets/guided_task_header.dart` (new) — the guided card header,
+  replacing the private `_TaskTitleHeader` in the worker task screen. Adds
+  two strictly-informational, anti-skip elements:
+  - **Progress line** ("Task 2 of 6") — reads the controller's own
+    `currentIndex`/`tasks.length`, so it can never disagree with the
+    carousel. Hidden for a single task ("Task 1 of 1" never prints).
+  - **Section pill** (segment — "Kitchen", "Dry store") — orients the
+    worker to the work area; reuses the neutral teal informational tone
+    (never a status colour). Blank segments (custom tasks) hide the pill.
+  - Instance-name line + title render exactly as before — the
+    compliance-critical "which physical unit" text is untouched.
+- `lib/features/tasks/task_screen.dart` — both the active-task card and the
+  locked-task card now use `GuidedTaskHeader`. Removed the private
+  `_TaskTitleHeader` (~18 net lines). No task logic, permissions, repos,
+  or backend behavior changed.
+- `test/guided_task_header_test.dart` (new) — 5 widget tests pinning:
+  progress/section/instance/title rendering; instance-leads-above-title;
+  no overflow on a 360px phone with a long title; identical rendering on
+  tablet (600) and desktop (1200) widths; blank-segment custom tasks show
+  no pill and no "Task 1 of 1".
+
+### Validation
+
+- `flutter analyze`: No issues found.
+- All unit/widget tests: 9/9 passing (5 guided header + 4 isolation).
+- `dart format`: clean (2 files auto-formatted).
+
+### Note
+
+This is the first Guided Cards piece, not the whole design: it upgrades the
+worker task card's header. The changelog's fuller "screen-by-screen visual
+consistency pass" remains — future passes should keep preserving logic,
+permissions, repositories, and backend behavior, and validate phone/
+tablet/desktop (the header test now pins the phone/tablet/desktop widths).
+
 ## Session: 2026-09-12 (second)
 
 ### Multi-site isolation — audit and proof

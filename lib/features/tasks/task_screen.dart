@@ -8,6 +8,7 @@ import '../../core/utils/date_format.dart';
 import '../../core/utils/unit_conversion.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/guided_task_header.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -538,11 +539,21 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   // one AppCard (Layout Rule's "consistent card structure"),
                   // scoped narrowly to the content itself — PASS/FAIL, warnings,
                   // and SUBMIT stay outside as the screen's action zone.
+                  //
+                  // Guided Cards (2026-09-12): the card now opens with a
+                  // guided header — step ("Task 2 of 6") + section pill — so
+                  // the worker knows where they are in the day and which work
+                  // area the check belongs to. Pure presentation: the form,
+                  // PASS/FAIL, and submit logic below are unchanged.
                   AppCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _TaskTitleHeader(task: task),
+                        GuidedTaskHeader(
+                          task: task,
+                          position: controller.currentIndex + 1,
+                          total: controller.tasks.length,
+                        ),
                         if (task.isOverdue) ...[
                           const SizedBox(height: 8),
                           StatusBadge(
@@ -891,7 +902,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _TaskTitleHeader(task: task),
+                        GuidedTaskHeader(
+                          task: task,
+                          position: controller.currentIndex + 1,
+                          total: controller.tasks.length,
+                        ),
                         // A task can be both overdue (an earlier period was
                         // missed) and locked (today's window hasn't opened
                         // yet) at the same time — shown here too rather than
@@ -929,39 +944,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-// Instance-name prominence (2026-09-06) — when a task is tied to a specific
-// piece of equipment, that instance's name leads as its own bold, accent-
-// coloured line above the task title, rather than trailing indistinctly
-// inside one plain string. Compliance-critical: with 2+ of the same
-// equipment type at a venue, this is the one piece of text that tells a
-// worker which physical unit they're looking at.
-class _TaskTitleHeader extends StatelessWidget {
-  const _TaskTitleHeader({required this.task});
-
-  final ResolvedTask task;
-
-  @override
-  Widget build(BuildContext context) {
-    final instanceName = task.equipmentInstanceName;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (instanceName != null) ...[
-          Text(
-            instanceName,
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              color: AppColors.teal,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(height: 2),
-        ],
-        Text(task.title, style: Theme.of(context).textTheme.headlineMedium),
-      ],
     );
   }
 }
