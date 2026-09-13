@@ -121,18 +121,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               BrandHeader(branding: defaultBranding),
               const SizedBox(height: 24),
               Expanded(
-                child: ResponsiveContent(
-                  child: selectedUser == null
-                      ? staffAsync.when(
-                          data: (staff) => staff.isEmpty
-                              ? const _FreshInstallEntry()
-                              : _StaffList(staff: staff, onSelect: selectUser),
-                          loading: () =>
-                              const Center(child: CircularProgressIndicator()),
-                          error: (err, stack) =>
-                              Center(child: Text('Error loading staff: $err')),
-                        )
-                      : PinEntry(
+                child: selectedUser == null
+                    ? staffAsync.when(
+                        data: (staff) => staff.isEmpty
+                            ? const _FreshInstallEntry()
+                            : ResponsiveContent(
+                                // Wider max so the staff grid has room for
+                                // multiple columns; the grid itself decides
+                                // column count from available width.
+                                maxWidth: 960,
+                                alignment: Alignment.topCenter,
+                                child: _StaffList(
+                                  staff: staff,
+                                  onSelect: selectUser,
+                                ),
+                              ),
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator()),
+                        error: (err, stack) =>
+                            Center(child: Text('Error loading staff: $err')),
+                      )
+                    : ResponsiveContent(
+                        // PIN entry stays the familiar narrow centered
+                        // width on every screen size (its own layout is a
+                        // single column by design).
+                        maxWidth: 480,
+                        alignment: Alignment.center,
+                        child: PinEntry(
                           user: selectedUser!,
                           controller: pinController,
                           error: error,
@@ -140,7 +155,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           onSubmit: submitPin,
                           onBack: backToStaffList,
                         ),
-                ),
+                      ),
               ),
             ],
           ),
@@ -312,12 +327,73 @@ class _StaffListState extends State<_StaffList> {
     );
   }
 
+  Widget _buildGroupedList(
+    List<User> kitchenStaff,
+    List<User> supervisorsAndManagers,
+  ) {
+    return ListView(
+      padding: const EdgeInsets.only(bottom: 24),
+      children: [
+        if (kitchenStaff.isNotEmpty) ...[
+          const SectionHeader(title: 'Kitchen Staff'),
+          const SizedBox(height: 8),
+          _sectionGrid(kitchenStaff),
+          const SizedBox(height: 20),
+        ],
+        if (supervisorsAndManagers.isNotEmpty) ...[
+          const SectionHeader(title: 'Supervisors & Managers'),
+          const SizedBox(height: 8),
+          _sectionGrid(supervisorsAndManagers),
+        ],
+      ],
+    );
+  }
+
+  // One section's tiles, either as a compact single column (phone) or an
+  // auto-adapting grid (2 columns at 600-959dp, 3 at 960dp+).
+  Widget _sectionGrid(List<User> users) {
+    if (!isCompactWidth(context)) {
+      return GridView.builder(
+        shrinkWrap: true, // inside the outer ListView — its own height
+        physics: const NeverScrollableScrollPhysics(), // is its content
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 280,
+          mainAxisExtent: 72,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+        ),
+        itemCount: users.length,
+        itemBuilder: (context, index) => _StaffTile(
+          user: users[index],
+          onTap: () => widget.onSelect(users[index]),
+        ),
+      );
+    }
+    return Column(children: _tilesWithDividers(users));
+  }
+
   Widget _buildSearchResults(List<User> results) {
     if (results.isEmpty) {
       return Center(
         child: Text(
           'No matches',
           style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      );
+    }
+    if (!isCompactWidth(context)) {
+      return GridView.builder(
+        padding: const EdgeInsets.only(bottom: 24),
+        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 280,
+          mainAxisExtent: 72,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+        ),
+        itemCount: results.length,
+        itemBuilder: (context, index) => _StaffTile(
+          user: results[index],
+          onTap: () => widget.onSelect(results[index]),
         ),
       );
     }
@@ -328,25 +404,6 @@ class _StaffListState extends State<_StaffList> {
         user: results[index],
         onTap: () => widget.onSelect(results[index]),
       ),
-    );
-  }
-
-  Widget _buildGroupedList(
-    List<User> kitchenStaff,
-    List<User> supervisorsAndManagers,
-  ) {
-    return ListView(
-      children: [
-        if (kitchenStaff.isNotEmpty) ...[
-          const SectionHeader(title: 'Kitchen Staff'),
-          ..._tilesWithDividers(kitchenStaff),
-          const SizedBox(height: 16),
-        ],
-        if (supervisorsAndManagers.isNotEmpty) ...[
-          const SectionHeader(title: 'Supervisors & Managers'),
-          ..._tilesWithDividers(supervisorsAndManagers),
-        ],
-      ],
     );
   }
 
