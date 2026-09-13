@@ -4,6 +4,38 @@
 
 This file records work completed by assisting coding agents so future agents can understand what changed, why, and what remains open.
 
+## Session: 2026-09-13 (tenth)
+
+### Login: responsive staff grid (`726d7dc`) — Phase A responsive foundation, final screen
+
+Closed the last screen in the Phase A responsive retrofit (the walk-up
+login staff list) with a width-adaptive grid:
+
+- **`lib/features/auth/login_screen.dart`** — the "Who are you?" roster
+  now renders as a **single compact column on phones**, and as an
+  **auto-adapting grid on wider screens** (2 columns at 600–959dp, 3 at
+  960dp+, 280dp max tile width) on both the grouped list and the search
+  results. The staff list container was widened (`ResponsiveContent
+  maxWidth: 960`) so the grid has room for multiple columns; PIN entry
+  keeps its narrow centred 480dp width by design (single-column flow).
+- **Why multi-column at all:** a 30+ person roster is very tall in one
+  column; scan-time drops with larger tiles on devices that have the
+  width. Single-column on phone preserves the walk-up mental model when
+  there's no width to spare.
+- **Column-count rule accepted by the user**: 2-column cap is fine, a
+  3rd column visually acceptable — implemented as 2 at 600–959dp, 3 at
+  960dp+ (tile `maxCrossAxisExtent` 280, `mainAxisExtent` 72).
+- **Preserved constraints:** senior tiers stay filtered out of the walk-up
+  list (lock-icon path unchanged); grouping (Kitchen Staff /
+  Supervisors & Managers) preserved; search behavior preserved; no
+  logic, permission, auth, schema, repository, or backend changes — pure
+  presentation.
+
+### Validation
+- `flutter analyze`: No issues found.
+- All tests: 14/14 passing.
+- Committed + pushed (`726d7dc`).
+
 ## Session: 2026-09-13 (ninth)
 
 ### Server-side `users.active` enforcement in `verify_staff_pin()` (B3 follow-on)

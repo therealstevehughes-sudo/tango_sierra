@@ -27,10 +27,12 @@ this file's creation. Verify it with `git status` / file reads, then continue.
 All work below is **COMMITTED** on `master` branch, pushed to
 `https://github.com/therealstevehughes-sudo/tango_sierra`.
 Latest commits (2026-09-13):
-- Server-side `users.active` enforcement in `verify_staff_pin()` (B3
-  follow-on, backend-only) — see `AGENT_CHANGELOG.md` session 9
-- Photo-evidence P1 + UX-polish pass (prune manager, wizard suppliers step,
-  A–Z quick-jump, EHO range picker) — see `AGENT_CHANGELOG.md` session 8
+- `726d7dc` — **Login: responsive staff grid** (single column on phone,
+  2–3 columns at 600dp+; last screen in the Phase A responsive retrofit)
+- `da266b2` — Server-side `users.active` enforcement in `verify_staff_pin()`
+  (B3 follow-on, backend-only) — see `AGENT_CHANGELOG.md` session 9
+- `2adf8c7` — Photo-evidence P1 + UX-polish pass (prune manager, wizard
+  suppliers step, A–Z quick-jump, EHO range picker) — session 8
 - `7bc5db4` — **VenuRite launcher icons** (Android/iOS/macOS/Windows)
 - `2696b12` — **Photo evidence P0** (real capture + persist + PDF embed)
 - `a83c747` — **VenuRite branding** (logos, splash, branded headers)
@@ -81,6 +83,18 @@ No uncommitted changes.
 - **New test**: `test/trigger_notifications_banner_test.dart` (5 tests: tally, instance lead, ack, OVERDUE, row-tap)
 - 14/14 tests total; analyze clean; zero logic/permission/repo/backend changes
 
+### Session 10: Login responsive staff grid (726d7dc, 2026-09-13)
+- **`lib/features/auth/login_screen.dart`** — walk-up "Who are you?" roster:
+  single compact column on phones; auto-adapting grid on wider screens
+  (2 columns at 600–959dp, 3 at 960dp+, 280dp max tile width) for both
+  the grouped list and search results. Staff list container widened
+  (`ResponsiveContent maxWidth: 960`); PIN entry keeps narrow centred
+  480dp width by design. Column-count rule accepted by user: 2-col cap
+  fine, 3-col acceptable. Senior-tier filtering / grouping / walk-up
+  mental model preserved. Pure presentation — no logic/permission/auth/
+  schema/backend changes. Analyze clean; 14/14 tests; committed + pushed.
+  Closes the **last screen in the Phase A responsive retrofit**.
+
 ### Session 5: VenuRite branding — logos, branded headers, native splash (2026-09-13)
 - **Assets**: user-supplied `assets/logos/` (VR_square 1024², VenueRite_favicon 1024², VenuRite_long 2000×500, VenuRite_long_white 2000×500) registered in `pubspec.yaml`
 - **Web branding**: `web/index.html` VenuRite title + favicon; `web/manifest.json` VenuRite-branded (teal #0E6B6C)
@@ -117,8 +131,9 @@ No uncommitted changes.
 ## Step 5 — Known gaps / open items (documented in changelog)
 
 - Backend `sort_order` columns on `task_schedules`/`areas` still stubbed (deferred to later cluster)
-- Guided Cards visual pass: **worker task header** + **alert banner/drill-down** done; the broader "screen-by-screen visual consistency pass" continues (theme-token sweep across other screens can continue)
+- Guided Cards visual pass: **worker task header** + **alert banner/drill-down** + **theme-token sweep** done; the broader "screen-by-screen visual consistency pass" can continue
 - Multi-site: walk-up "Who are you?" roster is a logged design question (kiosk credential), not a quick fix
+- UX research backlog (`UX_RESEARCH_REPORT.md`): staged venue-setup wizard (P0, partially built — wizard exists, suppliers step added; the exec/trend dashboard P0 still open), supervisor-scoped oversight, top-view split by tier, session-level "N remaining", first-run onboarding, per-task example helper — all proposals awaiting approval
 # Launcher icons now built (session 7, commit 7bc5db4): Android legacy + adaptive (teal bg + VR badge), iOS full AppIcon set, macOS set, Windows .ico — all VR badge on brand teal. Linux runner has no icon wiring (template) — left as-is.
 # Photo evidence is now real (session 6): camera-first capture, JPEGs in <documents>/evidence/, embedded in the EHO export's full detailed log. Deferred: evidence prune/"free space" P1 + cloud photo sync (v2)
 
@@ -126,23 +141,27 @@ No uncommitted changes.
 
 ## Step 6 — Next work bit (if you pick it up)
 
+**Login responsive grid** — DONE (session 10, `726d7dc`): the Phase A
+responsive retrofit is now complete (the walk-up staff roster was the
+last screen — single column on phone, 2–3 columns at 600dp+).
 **Launcher/app icons** — DONE (session 7, `7bc5db4`): Android legacy +
 adaptive (teal bg + VR badge), iOS full AppIcon set, macOS set, Windows
 .ico rebuilt. The remaining branding piece is minimal (Linux has no icon
 wiring in the Flutter template — optional).
 
 **Where the project actually is now** (verified 2026-09-13): photo
-evidence P0 (session 6) + launcher icons (session 7) are complete. The
-finalized beta build order (items 1–7) is done; the project pivots to
-backend work — Phase B0–B5 + C1a–C1d documented, with **human RLS review +
-dedicated-server gate still pending** before real customer data goes live
-(per `BACKEND_INFRA.md` / Step 7 constraints).
+evidence P0 (session 6) + launcher icons (session 7) + Phase A
+responsive (through session 10) are complete. The finalized beta build
+order (items 1–7) is done; the project pivots to backend work — Phase
+B0–B5 + C1a–C1d documented, with **human RLS review + dedicated-server
+gate still pending** before real customer data goes live (per
+`BACKEND_INFRA.md` / Step 7 constraints).
 
 **Candidate next activities** (not yet chosen):
-1. **Photo-evidence P1** — "back up evidence → free space" prune manager. Deliberately deferred in `PHOTO_EVIDENCE_PLAN.md`.
+1. **UX backlog P0s** (`UX_RESEARCH_REPORT.md`) — staged venue-setup wizard, exec trend dashboard (were P0 at research time).
 2. **Backend Phase 2/3 remaining** — the human RLS review / dedicated-server gate requires a human; not agent-work.
-3. **UX backlog P0s** (`UX_RESEARCH_REPORT.md`) — staged venue-setup wizard, exec trend dashboard (were P0 at research time).
-4. **A–Z quick-jump / calendar range-picker for EHO export** — small polish items from `DECISIONS_LOG.md`.
+3. **Photo-evidence P1** — "back up evidence → free space" prune manager. Deliberately deferred in `PHOTO_EVIDENCE_PLAN.md`. (Note: the prune UI itself shipped in session 8, `2adf8c7`; what remains is the "back up / free space" flow.)
+4. **A–Z quick-jump / calendar range-picker for EHO export** — small polish items from `DECISIONS_LOG.md`. (Both already shipped in session 8, `2adf8c7`.)
 
 ---
 
