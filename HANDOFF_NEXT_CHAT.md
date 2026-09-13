@@ -27,6 +27,8 @@ this file's creation. Verify it with `git status` / file reads, then continue.
 All work below is **COMMITTED** on `master` branch, pushed to
 `https://github.com/therealstevehughes-sudo/tango_sierra`.
 Latest commits (2026-09-13):
+- `7dff0e6` — **UX P0: deep-linkable setup checklist + exec/regional
+  trend dashboard** — see `AGENT_CHANGELOG.md` session 11
 - `726d7dc` — **Login: responsive staff grid** (single column on phone,
   2–3 columns at 600dp+; last screen in the Phase A responsive retrofit)
 - `da266b2` — Server-side `users.active` enforcement in `verify_staff_pin()`
@@ -37,7 +39,7 @@ Latest commits (2026-09-13):
 - `2696b12` — **Photo evidence P0** (real capture + persist + PDF embed)
 - `a83c747` — **VenuRite branding** (logos, splash, branded headers)
 No uncommitted changes.
-`flutter analyze`: No issues found. All tests: 14/14 passing.
+`flutter analyze`: No issues found. All tests: 17/17 passing.
 
 ⚠️ Verified 2026-09-13 (session 5): a ~14.9 GB disk cleanup was done first
 (emulator AVD + system images + NDK, `flutter clean`, stale Gradle, %TEMP%
@@ -95,6 +97,29 @@ No uncommitted changes.
   schema/backend changes. Analyze clean; 14/14 tests; committed + pushed.
   Closes the **last screen in the Phase A responsive retrofit**.
 
+### Session 11: UX P0 — deep-linkable checklist + trend dashboard (7dff0e6, 2026-09-13)
+- **`lib/features/onboarding/setup_checklist_card.dart`** — each
+  incomplete row now taps through to the exact completing screen:
+  venueManager → Venue Setup wizard at the right step (equipment 1 /
+  staff 2); regional/executive branch/region rows → Branch/Region
+  management screens. Done rows stay plain (no affordance); chevron on
+  tappable rows.
+- **`lib/features/venue_setup/venue_setup_wizard_screen.dart`** — new
+  optional `initialStep` (clamped 0–3, default 0).
+- **`lib/features/dashboard/reliability_service.dart`** —
+  `computeWeeklyTrendForSite` (12 closed weeks, most-recent-first,
+  Monday-anchored, current week excluded, anti-gaming preserved).
+- **`lib/features/dashboard/dashboard_screen.dart`** — leadership Trends
+  card (per-venue weekly completion bars + combined row, pure Flutter,
+  ≥4 weeks history required, empty weeks neutral). TopScreen inherits via
+  embedded DashboardBody.
+- **Tests**: `test/reliability_weekly_trend_test.dart` (3 new) — 17/17
+  passing; analyze clean; committed + pushed.
+- **Logged (not fixed):** Riverpod 3.3.2 crashes if the wizard's
+  initState reads `activeSiteProvider` as a first screen in a test
+  (StateProvider element lazily created mid-build). Safe in the app
+  (providers pre-exist); noted if the wizard ever becomes a first screen.
+
 ### Session 5: VenuRite branding — logos, branded headers, native splash (2026-09-13)
 - **Assets**: user-supplied `assets/logos/` (VR_square 1024², VenueRite_favicon 1024², VenuRite_long 2000×500, VenuRite_long_white 2000×500) registered in `pubspec.yaml`
 - **Web branding**: `web/index.html` VenuRite title + favicon; `web/manifest.json` VenuRite-branded (teal #0E6B6C)
@@ -133,9 +158,10 @@ No uncommitted changes.
 - Backend `sort_order` columns on `task_schedules`/`areas` still stubbed (deferred to later cluster)
 - Guided Cards visual pass: **worker task header** + **alert banner/drill-down** + **theme-token sweep** done; the broader "screen-by-screen visual consistency pass" can continue
 - Multi-site: walk-up "Who are you?" roster is a logged design question (kiosk credential), not a quick fix
-- UX research backlog (`UX_RESEARCH_REPORT.md`): staged venue-setup wizard (P0, partially built — wizard exists, suppliers step added; the exec/trend dashboard P0 still open), supervisor-scoped oversight, top-view split by tier, session-level "N remaining", first-run onboarding, per-task example helper — all proposals awaiting approval
+- UX research backlog (`UX_RESEARCH_REPORT.md`): **both P0s done (setup wizard + checklist deep-links + exec/trend dashboard, session 11)**; remaining proposals awaiting approval: supervisor-scoped oversight, top-view split by tier, session-level "N remaining", first-run onboarding, per-task example helper
+- Logged upstream concern (session 11): Riverpod 3.3.2 `ref.read(StateProvider)` inside a widget's `initState` is fragile when that widget is the FIRST screen of a test — safe in the app (providers pre-exist); revisit if the wizard ever becomes a first-run screen
 # Launcher icons now built (session 7, commit 7bc5db4): Android legacy + adaptive (teal bg + VR badge), iOS full AppIcon set, macOS set, Windows .ico — all VR badge on brand teal. Linux runner has no icon wiring (template) — left as-is.
-# Photo evidence is now real (session 6): camera-first capture, JPEGs in <documents>/evidence/, embedded in the EHO export's full detailed log. Deferred: evidence prune/"free space" P1 + cloud photo sync (v2)
+# Photo evidence is now real (session 6): camera-first capture, JPEGs in <documents>/evidence/, embedded in the EHO export's full detailed log. Prune manager shipped (session 8); deferred: "back up → free space" flow + cloud photo sync (v2)
 
 ---
 
@@ -150,18 +176,19 @@ adaptive (teal bg + VR badge), iOS full AppIcon set, macOS set, Windows
 wiring in the Flutter template — optional).
 
 **Where the project actually is now** (verified 2026-09-13): photo
-evidence P0 (session 6) + launcher icons (session 7) + Phase A
-responsive (through session 10) are complete. The finalized beta build
+evidence P0 + prune UI, launcher icons, Phase A responsive, and **both
+UX-research P0s** (setup wizard + checklist deep-links + exec/trend
+dashboard) are complete through session 11. The finalized beta build
 order (items 1–7) is done; the project pivots to backend work — Phase
 B0–B5 + C1a–C1d documented, with **human RLS review + dedicated-server
 gate still pending** before real customer data goes live (per
 `BACKEND_INFRA.md` / Step 7 constraints).
 
 **Candidate next activities** (not yet chosen):
-1. **UX backlog P0s** (`UX_RESEARCH_REPORT.md`) — staged venue-setup wizard, exec trend dashboard (were P0 at research time).
+1. **UX backlog — post-P0 proposals** (`UX_RESEARCH_REPORT.md`) — supervisor-scoped oversight, top-view split by tier (regional vs exec), session-level "N remaining", first-run onboarding, per-task example helper — all proposals awaiting approval.
 2. **Backend Phase 2/3 remaining** — the human RLS review / dedicated-server gate requires a human; not agent-work.
-3. **Photo-evidence P1** — "back up evidence → free space" prune manager. Deliberately deferred in `PHOTO_EVIDENCE_PLAN.md`. (Note: the prune UI itself shipped in session 8, `2adf8c7`; what remains is the "back up / free space" flow.)
-4. **A–Z quick-jump / calendar range-picker for EHO export** — small polish items from `DECISIONS_LOG.md`. (Both already shipped in session 8, `2adf8c7`.)
+3. **Photo-evidence "back up → free space" flow** — prune UI shipped (session 8); the remaining hook (back up then free space) is deferred per `PHOTO_EVIDENCE_PLAN.md`.
+4. **Guest/QA pass on the new P0 pieces** — login responsive grid, deep-linkable checklist, and trend dashboard are built but not yet visually reviewed on device.
 
 ---
 
@@ -179,4 +206,6 @@ gate still pending** before real customer data goes live (per
 
 ## Goal for this session (when you resume)
 
-Pick up the **branded launch/splash screen** work, or whichever item you prioritize. The tree is clean, tested, and backed up on GitHub.
+Pick up whichever candidate item you prioritize (see Step 6 — the UX
+post-P0 proposals remain approved-but-unbuilt; backend is human-gated).
+The tree is clean, tested (17/17), and backed up on GitHub.

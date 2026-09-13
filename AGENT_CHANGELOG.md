@@ -4,6 +4,62 @@
 
 This file records work completed by assisting coding agents so future agents can understand what changed, why, and what remains open.
 
+## Session: 2026-09-13 (eleventh)
+
+### UX P0 pass — deep-linkable setup checklist + exec/regional trend dashboard (`7dff0e6`)
+
+Closed the two remaining UX-research P0 items from `UX_RESEARCH_REPORT.md`
+(items A and B — the setup wizard was already built; the checklist was
+advisory-only, and the leadership dashboard was a 30-day snapshot with no
+trend). Both were partially built; this session finished them:
+
+**A — Setup Checklist deep-links** (was: plain advisory rows, no action):
+- `lib/features/onboarding/setup_checklist_card.dart` — each incomplete
+  row is now an `InkWell` that opens the **exact screen that completes
+  it**: venueManager "Add your equipment" → Venue Setup wizard at the
+  Equipment step; "Add your team" → wizard at the Staff step;
+  regional/executive "Add at least one branch"/"Add a branch manager" →
+  `BranchManagementScreen`; executive "Add at least one region" →
+  `RegionManagementScreen`. Done rows render plain (nothing to complete,
+  no affordance). A chevron signals tappability on incomplete rows.
+- `lib/features/venue_setup/venue_setup_wizard_screen.dart` — new optional
+  `initialStep` (clamped 0–3; default 0 keeps every existing call site
+  unchanged). Used by the checklist deep-links.
+
+**B — Executive/regional trend** (was: aggregate snapshot only):
+- `lib/features/dashboard/reliability_service.dart` — new
+  `computeWeeklyTrendForSite(siteId, {now, weeks: 12})`: one
+  `SiteReliabilitySummary` per **closed** week, most recent first,
+  Monday-anchored so windows never double-count across weeks, current
+  (in-progress) week excluded. Reuses `computeForSite` → `computeForUser`
+  per week, so the file's anti-gaming guarantees (PASS/FAIL never
+  distinguished, honesty rewarded) hold for every point in the series.
+- `lib/features/dashboard/dashboard_screen.dart` — new **Trends** card on
+  the leadership aggregate view (`aggregatePermittedSites`): per-venue
+  weekly completion-rate bars (12 weeks, oldest→newest left→right) + one
+  "All venues combined" row. Pure Flutter (no chart dep — pubspec
+  untouched). Empty-data weeks render as neutral faint stubs, never as
+  failing weeks; card demands ≥4 weeks of history before showing.
+  `TopScreen` embeds `DashboardBody`, so it inherits the card unchanged.
+- **Tests**: `test/reliability_weekly_trend_test.dart` (3 new, headless
+  in-memory Drift): weekly boundary isolation, most-recent-first closure
+  + current-week exclusion, empty-venue no-crash. 17/17 passing total.
+
+**Blocked-and-logged (not a code change):** a widget test for the
+checklist deep-links was attempted but dropped — Riverpod 3.3.2 throws
+(`_listenedElement` null) when the freshly-pushed wizard's `initState`
+reads `activeSiteProvider`, because StateProvider overrides need an
+internal `StateController` not exposed at the public API, and the read
+during first-build creates a lazy element. The wizard read is safe in the
+real app (all providers pre-exist from earlier screens). Worth an app-level
+note if the wizard is ever pushed as a first screen; not changed for a test.
+
+### Validation
+- `flutter analyze`: No issues found.
+- Tests: 17/17 passing (14 existing + 3 new trend).
+- `dart format`: clean.
+- Committed + pushed (`7dff0e6`).
+
 ## Session: 2026-09-13 (tenth)
 
 ### Login: responsive staff grid (`726d7dc`) — Phase A responsive foundation, final screen
