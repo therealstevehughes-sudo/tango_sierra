@@ -4,6 +4,41 @@
 
 This file records work completed by assisting coding agents so future agents can understand what changed, why, and what remains open.
 
+## Session: 2026-09-13 (sixth)
+
+### Photo evidence P0 — real capture, on-disk persistence, PDF embed (`2696b12`)
+
+Sprint 032 P0 (build order item 1, per `PHOTO_EVIDENCE_PLAN.md`): the
+anti-fraud promise is now real — `TaskSubmission.photoPath` is actually
+written by a real camera capture, not a boolean toggle.
+
+- **`pubspec.yaml`** — `image_picker: ^1.1.2` (the ONLY new dependency
+  this sprint; the earlier session's draft had it listed twice — deduped).
+- **`lib/core/services/evidence_store.dart`** (new) — `EvidenceStore`:
+  camera-first capture with explicit gallery fallback, copies JPEG bytes
+  into `<app documents>/evidence/`, returns a stable path; `readPhotoBytes`
+  is best-effort (null on missing/unreadable, never throws). Provider
+  `evidenceStoreProvider`. Files on disk, never BLOBs in Drift.
+- **`lib/features/tasks/task_screen.dart`** — "Add Photo" now runs a real
+  capture; disabled once taken; `photoPath` flows through
+  `logTaskSubmission`; reset between tasks.
+- **`lib/features/tasks/task_controller.dart`** — `logTaskSubmission`
+  accepts + forwards `photoPath`.
+- **`lib/features/export/eho_export_service.dart`** — preloads photo bytes
+  in `generate()` (async I/O kept out of the synchronous layout pass); the
+  full detailed log embeds the actual image (96px, BoxFit.cover) with the
+  task title as caption. Corrupt/missing bytes degrade to the
+  `[Photo attached]` marker — never breaks the export. Limitations notice
+  updated to state photos are now embedded when the full log is included.
+- **`ios/Runner/Info.plist`** — `NSCameraUsageDescription` +
+  `NSPhotoLibraryUsageDescription` keys (required by image_picker on iOS).
+
+No Drift migration needed (`photoPath` column already existed). Validation:
+`flutter analyze` clean; all 14/14 tests passing; committed + pushed.
+
+**Open / deferred (by design):** photo "Back up now → free space" prune
+manager is P1, deliberately not built this sprint.
+
 ## Session: 2026-09-13 (fifth)
 
 ### VenuRite branding — logo assets, branded entry screens, native splash
