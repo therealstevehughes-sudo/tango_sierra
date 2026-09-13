@@ -1496,3 +1496,21 @@ Files unchanged: web (already VenuRite-faviconed in session 5); Linux runner (Fl
 Verified: `flutter analyze` clean; `flutter build windows --debug` succeeded against the new .ico; all generated PNGs decode-verified (corner = opaque teal, center = badge at large sizes).
 Save point name: SPRINT_032_ICONS_LOCK
 Notes: Commit 7bc5db4, message "Branding: VenuRite launcher icons everywhere (Android/iOS/macOS/Windows)".
+
+---
+
+## Sprint 032 (P1 + UX backlog) — evidence prune, wizard suppliers step, A–Z quick-jump, EHO range picker
+Date: 2026-09-13
+Objective: Four follow-on items from PHOTO_EVIDENCE_PLAN.md (P1) and UX_RESEARCH_REPORT.md / DECISIONS_LOG.md (polish backlog), built in one pass after the P0 + icons committed.
+Files changed:
+- lib/core/services/evidence_store.dart — EvidenceStore gains listEvidenceFiles(), evidenceTotalBytes(), deleteEvidenceFiles() (never throws; returns counts).
+- lib/features/settings/evidence_prune_screen.dart (new) — per-device evidence housekeeping: lists evidence photos with capture-time names + byte sizes, lets a venueManager select any subset and delete with a confirm dialog showing reclaimed bytes. Honest scope: this device only, exported PDFs unaffected, no backend/sync semantics.
+- lib/core/widgets/management_drawer.dart — new venueManager-tier "Photo Evidence" drawer item (screenBuilder → EvidencePruneScreen).
+- lib/features/venue_setup/venue_setup_wizard_screen.dart — added a 4th "Suppliers" step (name/contact/category/approval), "of 3"→"of 4", Next/Finish boundaries shifted (currentStep<3), supplier add mirrors SupplierManagement's fields via supplierRepositoryProvider.
+- lib/features/settings/staff_management_screen.dart — A–Z quick-jump: right-side letter index column (only when >1 letter present), tap scrolls the list to the first staff member with that initial.
+- lib/features/export/eho_export_dialog.dart — replaced the two separate showDatePicker calls with a single showDateRangePicker ("Select date range"), replacing the logged "calendar range-picker for EHO export dates" polish item from DECISIONS_LOG.md.
+Files unchanged: no schema, no repositories beyond the additive EvidenceStore methods, no auth/tier/backend behaviour.
+Verified: `flutter analyze` clean; all 14/14 tests passing.
+Deferred: exec/trend dashboard was already built (DashboardScreen aggregates sites for regional/executive); no new work needed there.
+Save point name: SPRINT_032_P1_LOCK
+Notes: Commit pending.

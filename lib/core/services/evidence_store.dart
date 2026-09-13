@@ -92,6 +92,49 @@ class EvidenceStore {
       return null;
     }
   }
+
+  /// Lists this device's persisted evidence photos (a `List<FileSystemEntity>`)
+  /// in the app's evidence dir. Returns an empty list (never throws) if the
+  /// dir doesn't exist yet.
+  Future<List<FileSystemEntity>> listEvidenceFiles() async {
+    final dir = await _evidenceDir();
+    try {
+      return await dir.list().toList();
+    } catch (_) {
+      return const [];
+    }
+  }
+
+  /// The total size (bytes) of every file under the evidence dir, for the
+  /// "free up space" tally a prune manager needs before it deletes anything.
+  Future<int> evidenceTotalBytes() async {
+    final files = await listEvidenceFiles();
+    var total = 0;
+    for (final entity in files) {
+      if (entity is File) {
+        try {
+          total += await entity.length();
+        } catch (_) {}
+      }
+    }
+    return total;
+  }
+
+  /// Deletes persisted evidence photos. Returns the count actually deleted.
+  /// Never throws — a file already gone just isn't counted.
+  Future<int> deleteEvidenceFiles(List<FileSystemEntity> files) async {
+    var deleted = 0;
+    for (final entity in files) {
+      if (entity is! File) continue;
+      try {
+        if (await entity.exists()) {
+          await entity.delete();
+          deleted++;
+        }
+      } catch (_) {}
+    }
+    return deleted;
+  }
 }
 
 final evidenceStoreProvider = Provider<EvidenceStore>((ref) => EvidenceStore());

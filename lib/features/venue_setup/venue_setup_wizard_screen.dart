@@ -11,9 +11,12 @@ import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/job_role.dart';
 import '../../shared/models/site.dart';
+import '../../shared/models/supplier.dart';
+import '../../shared/models/supplier_category.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 
 class VenueSetupWizardScreen extends ConsumerStatefulWidget {
@@ -33,6 +36,14 @@ class _VenueSetupWizardScreenState
   List<EquipmentType> equipmentTypes = [];
   List<Equipment> equipmentInstances = [];
   List<User> staff = [];
+  List<Supplier> suppliers = [];
+
+  final TextEditingController supplierNameController = TextEditingController();
+  final TextEditingController supplierContactController =
+      TextEditingController();
+  SupplierCategory selectedSupplierCategory = SupplierCategory.freshProduce;
+  SupplierApprovalStatus selectedSupplierApproval =
+      SupplierApprovalStatus.approved;
 
   final TextEditingController areaNameController = TextEditingController();
   final TextEditingController equipmentNameController = TextEditingController();
@@ -65,6 +76,8 @@ class _VenueSetupWizardScreenState
     staffNameController.dispose();
     staffJobTitleController.dispose();
     staffPinController.dispose();
+    supplierNameController.dispose();
+    supplierContactController.dispose();
     super.dispose();
   }
 
@@ -72,12 +85,14 @@ class _VenueSetupWizardScreenState
     final areaRepo = ref.read(areaRepositoryProvider);
     final equipmentRepo = ref.read(equipmentRepositoryProvider);
     final userRepo = ref.read(userRepositoryProvider);
+    final supplierRepo = ref.read(supplierRepositoryProvider);
     final site = await _resolveActiveSite();
 
     final loadedAreas = await areaRepo.getForSite(site.id);
     final loadedTypes = await equipmentRepo.getEquipmentTypes();
     final loadedEquipment = await equipmentRepo.getForSite(site.id);
     final loadedStaff = await userRepo.getForSite(site.id);
+    final loadedSuppliers = await supplierRepo.getForSite(site.id);
 
     if (!mounted) return;
     setState(() {
@@ -85,6 +100,7 @@ class _VenueSetupWizardScreenState
       equipmentTypes = loadedTypes;
       equipmentInstances = loadedEquipment;
       staff = loadedStaff;
+      suppliers = loadedSuppliers;
       loading = false;
     });
   }
@@ -182,6 +198,37 @@ class _VenueSetupWizardScreenState
       staffNameController.clear();
       staffJobTitleController.clear();
       staffPinController.clear();
+    });
+  }
+
+  // Suppliers step (UX-research P0: "venue → staff → tasks → suppliers").
+  // Mirrors the supplier screen's add flow fields, but compact — name +
+  // optional contact + category + approval, the essentials a setup wizard
+  // needs; the full Supplier Management screen remains for editing
+  // after setup.
+  Future<void> _addSupplier() async {
+    final name = supplierNameController.text.trim();
+    if (name.isEmpty) return;
+
+    final site = await _resolveActiveSite();
+    final repo = ref.read(supplierRepositoryProvider);
+    final created = await repo.create(
+      name: name,
+      contact: supplierContactController.text.trim().isEmpty
+          ? null
+          : supplierContactController.text.trim(),
+      category: selectedSupplierCategory,
+      approvalStatus: selectedSupplierApproval,
+      siteId: site.id,
+    );
+
+    if (!mounted) return;
+    setState(() {
+      suppliers = [...suppliers, created];
+      supplierNameController.clear();
+      supplierContactController.clear();
+      selectedSupplierCategory = SupplierCategory.freshProduce;
+      selectedSupplierApproval = SupplierApprovalStatus.approved;
     });
   }
 
@@ -350,7 +397,7 @@ class _VenueSetupWizardScreenState
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Venue Setup — Step ${currentStep + 1} of 3')),
+      appBar: AppBar(title: Text('Venue Setup — Step ${currentStep + 1} of 4')),
       drawer: const ManagementDrawer(title: 'Venue Setup'),
       body: SafeArea(
         child: Padding(
@@ -372,9 +419,9 @@ class _VenueSetupWizardScreenState
                     else
                       const SizedBox.shrink(),
                     PrimaryActionButton(
-                      label: currentStep < 2 ? 'Next' : 'Finish Setup',
+                      label: currentStep < 3 ? 'Next' : 'Finish Setup',
                       onPressed: () {
-                        if (currentStep < 2) {
+                        if (currentStep < 3) {
                           setState(() => currentStep += 1);
                         } else {
                           Navigator.of(context).pop();
@@ -397,8 +444,10 @@ class _VenueSetupWizardScreenState
         return _buildAreasStep();
       case 1:
         return _buildEquipmentStep();
-      default:
+      case 2:
         return _buildStaffStep();
+      default:
+        return _buildSuppliersStep();
     }
   }
 
@@ -648,6 +697,83 @@ class _VenueSetupWizardScreenState
                 s.jobRole == null
                     ? roleTierDisplayName(s.roleTier)
                     : '${roleTierDisplayName(s.roleTier)} · ${jobRoleDisplayName(s.jobRole!)}',
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSuppliersStep() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text('Suppliers', style: Theme.of(context).textTheme.titleLarge),
+        const SizedBox(height: 8),
+        const Text(
+          'Add the suppliers this venue works with. Approval flags appear '
+          'on the EHO export — suspended suppliers are surfaced to '
+          'managers, not silently hidden.',
+        ),
+        const SizedBox(height: 16),
+        TextField(
+          controller: supplierNameController,
+          decoration: const InputDecoration(labelText: 'Supplier name'),
+        ),
+        const SizedBox(height: 12),
+        TextField(
+          controller: supplierContactController,
+          decoration: const InputDecoration(
+            labelText: 'Contact (optional)',
+            hintText: 'Phone or email',
+          ),
+        ),
+        const SizedBox(height: 12),
+        DropdownButtonFormField<SupplierCategory>(
+          initialValue: selectedSupplierCategory,
+          decoration: const InputDecoration(labelText: 'Category'),
+          items: SupplierCategory.values
+              .map(
+                (category) => DropdownMenuItem(
+                  value: category,
+                  child: Text(supplierCategoryLabel(category)),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {
+            if (value != null) setState(() => selectedSupplierCategory = value);
+          },
+        ),
+        const SizedBox(height: 12),
+        DropdownButtonFormField<SupplierApprovalStatus>(
+          initialValue: selectedSupplierApproval,
+          decoration: const InputDecoration(labelText: 'Approval status'),
+          items: SupplierApprovalStatus.values
+              .map(
+                (status) => DropdownMenuItem(
+                  value: status,
+                  child: Text(supplierApprovalStatusLabel(status)),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {
+            if (value != null) setState(() => selectedSupplierApproval = value);
+          },
+        ),
+        const SizedBox(height: 12),
+        PrimaryActionButton(label: 'Add Supplier', onPressed: _addSupplier),
+        const SizedBox(height: 16),
+        ...suppliers.map(
+          (supplier) => Card(
+            child: ListTile(
+              title: Text(supplier.name),
+              subtitle: Text(
+                '${supplier.displayCategory}'
+                '${supplier.contact == null ? '' : ' · ${supplier.contact}'}',
+              ),
+              trailing: Text(
+                supplierApprovalStatusLabel(supplier.approvalStatus),
               ),
             ),
           ),

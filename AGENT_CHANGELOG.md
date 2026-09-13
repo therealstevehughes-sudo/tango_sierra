@@ -4,6 +4,36 @@
 
 This file records work completed by assisting coding agents so future agents can understand what changed, why, and what remains open.
 
+## Session: 2026-09-13 (eighth)
+
+### Photo-evidence P1 + UX backlog — prune manager, wizard suppliers, A–Z jump, EHO range picker
+
+Four follow-on items built in one pass (after P0 `2696b12` + icons
+`7bc5db4`):
+
+- **Evidence prune manager (P1)** — `EvidenceStore` gains
+  `listEvidenceFiles()` / `evidenceTotalBytes()` / `deleteEvidenceFiles()`
+  (never throws, returns counts); new
+  `lib/features/settings/evidence_prune_screen.dart` lists per-device
+  evidence photos with capture-time names + sizes and lets a venueManager
+  delete a selected subset after a confirm dialog showing reclaimed bytes
+  (honest scope: this device only, exported PDFs unaffected). Wired into
+  `ManagementDrawer` as a venueManager-tier "Photo Evidence" item.
+- **Venue-setup wizard → 4 steps** — added a "Suppliers" step
+  (name/contact/category/approval), "of 3"→"of 4",
+  Next/Finish boundary shifted (`currentStep < 3`). Completes the
+  UX-research "venue → staff → tasks → suppliers" setup shape.
+- **A–Z quick-jump** — `staff_management_screen.dart` gets a right-side
+  letter index (only when >1 letter present) that scrolls the staff list
+  to the first member with that initial.
+- **EHO date-range picker** — `eho_export_dialog.dart` replaces the two
+  separate `showDatePicker` calls with a single `showDateRangePicker`
+  ("Select date range"), clearing the logged DECISIONS_LOG polish item.
+- **Exec/trend dashboard** — already built (DashboardScreen aggregates
+  sites for regional/executive); verified no new work needed.
+
+Validation: `flutter analyze` clean; 14/14 tests passing.
+
 ## Session: 2026-09-13 (seventh)
 
 ### VenuRite launcher icons — all platforms (`7bc5db4`)

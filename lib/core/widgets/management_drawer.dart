@@ -11,6 +11,7 @@ import '../../features/problems/problems_register_screen.dart';
 import '../../features/regions/branch_management_screen.dart';
 import '../../features/regions/region_management_screen.dart';
 import '../../features/settings/department_management_screen.dart';
+import '../../features/settings/evidence_prune_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/settings/staff_management_screen.dart';
 import '../../features/settings/supplier_management_screen.dart';
@@ -133,6 +134,16 @@ final List<_DrawerItemDef> _managementItems = [
     label: 'Branches',
     minTier: RoleTier.regional,
     screenBuilder: (_) => const BranchManagementScreen(),
+  ),
+  // Photo-evidence P1 (Sprint 032): the "back up to free space" flow
+  // PHOTO_EVIDENCE_PLAN.md deliberately deferred from P0. Venue manager
+  // tier and above, same as Back Up Now / EHO Export — evidence
+  // housekeeping is an operational tool, not a self-serve staff action.
+  _DrawerItemDef(
+    icon: Icons.photo_library_outlined,
+    label: 'Photo Evidence',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const EvidencePruneScreen(),
   ),
 ];
 

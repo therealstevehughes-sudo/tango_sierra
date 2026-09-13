@@ -27,10 +27,11 @@ this file's creation. Verify it with `git status` / file reads, then continue.
 All work below is **COMMITTED** on `master` branch, pushed to
 `https://github.com/therealstevehughes-sudo/tango_sierra`.
 Latest commits (2026-09-13):
-- `2696b12` — **Photo evidence P0** (real capture + persist + PDF embed; see
-  `AGENT_CHANGELOG.md` session 6 / `PHOTO_EVIDENCE_PLAN.md`) + changelog
-- `a83c747` — **VenuRite branding** (logos, splash, branded headers;
-  session 5)
+- Photo-evidence P1 + UX-polish pass (prune manager, wizard suppliers step,
+  A–Z quick-jump, EHO range picker) — see `AGENT_CHANGELOG.md` session 8
+- `7bc5db4` — **VenuRite launcher icons** (Android/iOS/macOS/Windows)
+- `2696b12` — **Photo evidence P0** (real capture + persist + PDF embed)
+- `a83c747` — **VenuRite branding** (logos, splash, branded headers)
 No uncommitted changes.
 `flutter analyze`: No issues found. All tests: 14/14 passing.
 

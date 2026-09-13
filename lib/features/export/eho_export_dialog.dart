@@ -32,30 +32,35 @@ Future<void> showEhoExportDialog(BuildContext context, WidgetRef ref) async {
             const SizedBox(height: 12),
             ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.calendar_today),
-              title: Text(start == null ? 'From date' : formatDate(start!)),
+              leading: const Icon(Icons.date_range),
+              title: Text(
+                start != null && end != null
+                    ? '${formatDate(start!)} — ${formatDate(end!)}'
+                    : 'Select date range',
+              ),
+              subtitle: start != null && end != null
+                  ? null
+                  : const Text('Tap to choose a start and end date.'),
               onTap: () async {
-                final picked = await showDatePicker(
+                final picked = await showDateRangePicker(
                   context: context,
                   firstDate: DateTime(2020),
                   lastDate: DateTime.now(),
-                  initialDate: start ?? DateTime.now(),
+                  initialDateRange: start != null && end != null
+                      ? DateTimeRange(start: start!, end: end!)
+                      : DateTimeRange(
+                          start: DateTime.now().subtract(
+                            const Duration(days: 7),
+                          ),
+                          end: DateTime.now(),
+                        ),
                 );
-                if (picked != null) setState(() => start = picked);
-              },
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.calendar_today),
-              title: Text(end == null ? 'To date' : formatDate(end!)),
-              onTap: () async {
-                final picked = await showDatePicker(
-                  context: context,
-                  firstDate: DateTime(2020),
-                  lastDate: DateTime.now(),
-                  initialDate: end ?? DateTime.now(),
-                );
-                if (picked != null) setState(() => end = picked);
+                if (picked != null) {
+                  setState(() {
+                    start = picked.start;
+                    end = picked.end;
+                  });
+                }
               },
             ),
             CheckboxListTile(

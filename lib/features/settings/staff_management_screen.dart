@@ -10,6 +10,11 @@ import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import 'training_records_screen.dart';
 
+// Approximate height of a single staff tile Card + padding, for the
+// A–Z quick-jump scroll target calculation. Not pixel-perfect (subtitle
+// lines vary) but close enough for a smooth scroll-to-letter experience.
+const _kStaffTileHeight = 88.0;
+
 enum _StaffAction {
   changeTier,
   changeDepartment,
@@ -29,6 +34,7 @@ class StaffManagementScreen extends ConsumerStatefulWidget {
 class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   bool loading = true;
   List<User> staff = [];
+  final ScrollController _scrollController = ScrollController();
   // Keyed by department id, populated from every site any loaded staff
   // member belongs to — Staff Management isn't itself site-filtered yet
   // (a pre-existing, separately logged gap), so this can't assume one site.
@@ -270,16 +276,71 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
+    // Alphabetical index for quick-jump: staff are already sorted by name
+    // from the repo, so we can compute which letters have at least one
+    // entry and create a fast-access index column on the right.
+    final staffByInitial = <String, int>{};
+    for (var i = 0; i < staff.length; i++) {
+      final initial = staff[i].name.isNotEmpty
+          ? staff[i].name[0].toUpperCase()
+          : '#';
+      staffByInitial.putIfAbsent(initial, () => i);
+    }
+    final indexLetters = staffByInitial.keys.toList()..sort();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Staff Management')),
       drawer: const ManagementDrawer(title: 'Staff Management'),
       body: SafeArea(
-        child: ResponsiveContent(
-          child: ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: staff.length,
-            itemBuilder: (context, index) => _buildStaffTile(staff[index]),
-          ),
+        child: Row(
+          children: [
+            Expanded(
+              child: ResponsiveContent(
+                child: ListView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.all(16),
+                  itemCount: staff.length,
+                  itemBuilder: (context, index) =>
+                      _buildStaffTile(staff[index]),
+                ),
+              ),
+            ),
+            if (indexLetters.length > 1)
+              SizedBox(
+                width: 28,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    for (final letter in indexLetters)
+                      GestureDetector(
+                        onTap: () {
+                          final idx = staffByInitial[letter];
+                          if (idx != null) {
+                            _scrollController.animateTo(
+                              idx * _kStaffTileHeight,
+                              duration: const Duration(milliseconds: 200),
+                              curve: Curves.easeOut,
+                            );
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 2,
+                          ),
+                          child: Text(
+                            letter,
+                            style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+          ],
         ),
       ),
     );
