@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/user_title.dart';
@@ -91,56 +90,42 @@ class TierHomeScreen extends ConsumerWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                // Branding inheritance (Part E): the company logo (set once,
-                // Organisation-wide, by a Director) and this specific
-                // branch's own name — same live-reactive mechanism as the
-                // accent-colour re-theme, no restart needed either.
-                if (branding?.logoPath != null) ...[
-                  Center(
-                    child: Image.file(
-                      File(branding!.logoPath!),
-                      height: 64,
-                      fit: BoxFit.contain,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                ],
-                if (site != null) ...[
-                  Text(
-                    site.name,
-                    style: Theme.of(context).textTheme.titleLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 4),
-                ],
-                Text(
-                  'What would you like to do?',
-                  style: Theme.of(context).textTheme.titleMedium,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
-                PrimaryActionButton(
-                  label: 'My Tasks',
-                  icon: Icons.checklist,
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const TaskScreen()),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                PrimaryActionButton(
-                  label: 'Oversight',
-                  icon: Icons.visibility,
-                  onPressed: currentUser == null
-                      ? null
-                      : () => Navigator.push(
+                      // Branding inheritance (Part E) + app logo (2026-09-13):
+                      // the shared BrandHeader renders the VenuRite lockup, the
+                      // client company logo (set once, Organisation-wide, by a
+                      // Director) and this specific branch's own name — same
+                      // live-reactive mechanism as the accent-colour re-theme,
+                      // no restart needed either.
+                      BrandHeader(branding: branding, siteName: site?.name),
+                      const SizedBox(height: 16),
+                      Text(
+                        'What would you like to do?',
+                        style: Theme.of(context).textTheme.titleMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 20),
+                      PrimaryActionButton(
+                        label: 'My Tasks',
+                        icon: Icons.checklist,
+                        onPressed: () => Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                oversightScreenFor(currentUser.roleTier),
-                          ),
+                          MaterialPageRoute(builder: (_) => const TaskScreen()),
                         ),
-                ),
+                      ),
+                      const SizedBox(height: 12),
+                      PrimaryActionButton(
+                        label: 'Oversight',
+                        icon: Icons.visibility,
+                        onPressed: currentUser == null
+                            ? null
+                            : () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      oversightScreenFor(currentUser.roleTier),
+                                ),
+                              ),
+                      ),
                     ],
                   ),
                 ),

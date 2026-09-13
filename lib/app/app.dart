@@ -22,10 +22,11 @@ class MyApp extends ConsumerWidget {
     // AppTheme.light's own default teal accent.
     final brandAccentArgb = ref
         .watch(brandingConfigProvider)
-        .maybeWhen(data: (config) => config?.primaryColorArgb, orElse: () => null);
-    final brandAccent = brandAccentArgb == null
-        ? null
-        : Color(brandAccentArgb);
+        .maybeWhen(
+          data: (config) => config?.primaryColorArgb,
+          orElse: () => null,
+        );
+    final brandAccent = brandAccentArgb == null ? null : Color(brandAccentArgb);
 
     // Tier home screen (Sprint 031, Build Order item 5, Sub-sprint A):
     // every non-base tier now lands on TierHomeScreen (My Tasks /
@@ -44,7 +45,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Kitchen Control',
+      title: 'VenuRite',
       theme: AppTheme.light(brandAccent: brandAccent),
       home: home,
     );

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12+ (API 31) SplashScreen API: brand teal background with the
+     square VR logo as the animated icon. The icon must be a drawable; the
+     transparent 1024x1024 VR square is placed in drawable-nodpi, so it
+     renders at natural size centered on the teal. -->
+<resources>
+    <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+        <item name="android:windowSplashScreenBackground">@color/venuerite_splash_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/venuerite_splash</item>
+        <item name="android:windowSplashScreenIconBackgroundColor">@android:color/transparent</item>
+    </style>
+</resources>

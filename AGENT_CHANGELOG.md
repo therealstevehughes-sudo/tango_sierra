@@ -4,6 +4,76 @@
 
 This file records work completed by assisting coding agents so future agents can understand what changed, why, and what remains open.
 
+## Session: 2026-09-13 (fifth)
+
+### VenuRite branding — logo assets, branded entry screens, native splash
+
+Wired the VenuRite logo set (square, favicon, long transparent, long
+white-bg — user-supplied, `assets/logos/`) into the app and platforms:
+
+- **Assets + web branding** — `assets/logos/` registered in `pubspec.yaml`; `web/index.html` now VenuRite-titled with the VenueRite favicon; `web/manifest.json` VenuRite-branded (teal `#0E6B6C`, favicon icon).
+- **App title** — `lib/app/app.dart` `MaterialApp.title` `'Kitchen Control'` → `'VenuRite'`; Windows runner window title `'flutter_application_1'` → `'VenuRite'`.
+- **Shared `BrandHeader`** (`lib/core/widgets/brand_header.dart`, new) — agreed layout (user review, 2026-09-13): the **VR square mark top-left (72px, full opacity)** as a "built with" signature; the **client branding centred as the dominant element** — client company logo (64px, sizing confirmed via a temporary brain-logo stand-in) + company name + branch name. Used by:
+  - `lib/features/auth/login_screen.dart` — branded header above the staff list / fresh-install entry (pre-auth: default org branding only, no branch name yet).
+  - `lib/features/home/tier_home_screen.dart` — replaced inline `Image.file(logoPath)` + branch-name block with the shared widget (post-auth: org branding + current branch name).
+- **Native splash (square VR logo)**:
+  - Android — teal `values/colors.xml` (`venuerite_splash_bg` #0E6B6C), `drawable-nodpi/venuerite_splash.png`, both `launch_background.xml` (drawable + drawable-v21) centered on teal, and Android 12+ `values-v31/styles.xml` SplashScreen API (teal bg + VR square icon).
+  - iOS — `LaunchImage` 1x/2x/3x regenerated from `VR_square.png` (320/640/960, bilinear-resized transparent), `LaunchScreen.storyboard` background → brand teal so the transparent logo sits cleanly.
+  - Windows — window title only (no native splash image on Windows Flutter runner; blank-window phase kept).
+- Pure presentation/asset changes: **no** logic, permissions, auth, repositories, migrations, or backend behavior touched.
+
+Validation: `flutter analyze` clean; all 14/14 widget/unit tests passing; `flutter build windows --debug` succeeded (574s, first full rebuild post `flutter clean`) and the app launches to the branded login screen.
+
+### Disk cleanup (continued)
+
+- Deleted Android emulator AVD (`Pixel7_API36`), both system images
+  (android-35/36.1), and the NDK — **~11.1 GB**; Android SDK now ~2.5 GB.
+  Earlier: `flutter clean` (~2.2 GB), stale Gradle dists (~1 GB), %TEMP%
+  (~0.6 GB). Total **~14.9 GB** freed this session.
+
+## Session: 2026-09-12 (fourth)
+
+### Visual-consistency pass — shared alert banner + drill-down + theme-token sweep
+
+Picked up and completed the in-progress Guided Cards visual-consistency pass
+found uncommitted in the working tree (the previous session ended mid-pass
+without committing; `HANDOFF_NEXT_CHAT.md` predates this work). Committed as
+`5b51367`:
+
+- `lib/core/widgets/trigger_notifications_banner.dart` (new) — the
+  duplicated `_TriggerNotificationsBanner` from `manager_screen.dart` +
+  `top_screen.dart` extracted into one shared widget. Two screens use it
+  with deliberately different row behavior via an optional `onRowTap`:
+  the manager screen wires the alert→task drill-down; the top-tier screen
+  leaves rows plain. The chrome (count, unacknowledged count, OVERDUE
+  treatment, escalation note, acknowledge action) is identical.
+- `lib/features/manager/manager_screen.dart` — alert rows are now tappable
+  (InkWell → `_showAlertDetail`): "There's an alert" becomes "which task,
+  which equipment, who, is it handled" in one tap. Resolves the failed
+  submission from the already-watched list; falls back to a lightweight
+  detail dialog for old FAILs filtered out of the default view.
+- `lib/features/dashboard/top_screen.dart` — now uses the shared banner
+  (rows remain non-tappable there).
+- **Theme-token sweep** across 9 screens — hardcoded `fontSize` /
+  `Colors.red` / `Colors.grey` replaced with `Theme.of(context).textTheme`
+  + `AppColors` (`critical`, `muted`, `tealInk`, `pass`): senior login,
+  dashboard low-logging chip, manager screen, overdue summary card,
+  problems register, training records, reorder tasks, task screen.
+  Translation-safe sizing; no logic/permissions/repo/backend changes.
+- `test/trigger_notifications_banner_test.dart` (new) — 5 widget tests:
+  tally + unacknowledged count; instance-name prominence lead; ack action;
+  OVERDUE past escalation threshold; row-tap only when `onRowTap` wired.
+
+Validation: `flutter analyze` clean; all 14/14 tests passing (5 guided
+header + 4 isolation + 5 banner); committed scoped files format-clean.
+
+### Note
+
+This completes the second Guided Cards visual piece (the alert banner +
+manager drill-down). The alert banner duplicate that previously lived in
+`manager_screen.dart`/`top_screen.dart` is now one widget with a tested
+behavioral contract.
+
 ## Session: 2026-09-12 (third)
 
 ### Guided Cards — worker task header (first guided component)

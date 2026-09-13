@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/branding_providers.dart';
 import '../onboarding/tenant_signup_screen.dart';
 import 'pin_entry.dart';
 import 'senior_login_screen.dart';
@@ -74,7 +76,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           submitting = false;
         });
       case PinAuthLocked(:final lockedUntil):
-        final minutesLeft = lockedUntil.difference(DateTime.now()).inMinutes + 1;
+        final minutesLeft =
+            lockedUntil.difference(DateTime.now()).inMinutes + 1;
         setState(() {
           error = "Too many wrong attempts. Try again in $minutesLeft min.";
           submitting = false;
@@ -95,30 +98,51 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final staffAsync = ref.watch(staffDirectoryProvider);
+    // Branding (2026-09-13): pre-auth, so there's no site/branch context
+    // yet — the app logo plus the default organisation's client branding
+    // (logo/name) when a Director has set it. The branch name appears
+    // post-login on tier-home instead.
+    final defaultBranding = ref
+        .watch(brandingConfigProvider)
+        .maybeWhen(data: (config) => config, orElse: () => null);
 
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: ResponsiveContent(
-            child: selectedUser == null
-              ? staffAsync.when(
-                  data: (staff) => staff.isEmpty
-                      ? const _FreshInstallEntry()
-                      : _StaffList(staff: staff, onSelect: selectUser),
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (err, stack) =>
-                      Center(child: Text('Error loading staff: $err')),
-                )
-              : PinEntry(
-                  user: selectedUser!,
-                  controller: pinController,
-                  error: error,
-                  submitting: submitting,
-                  onSubmit: submitPin,
-                  onBack: backToStaffList,
+          // Screen-level column: fills the full available height so the
+          // staff list below keeps bounded height (it uses Expanded). The
+          // header is a fixed-height top block; the content scroll area
+          // takes the rest — same bounded-height contract the child had
+          // as a direct ResponsiveContent child before branding.
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              BrandHeader(branding: defaultBranding),
+              const SizedBox(height: 24),
+              Expanded(
+                child: ResponsiveContent(
+                  child: selectedUser == null
+                      ? staffAsync.when(
+                          data: (staff) => staff.isEmpty
+                              ? const _FreshInstallEntry()
+                              : _StaffList(staff: staff, onSelect: selectUser),
+                          loading: () =>
+                              const Center(child: CircularProgressIndicator()),
+                          error: (err, stack) =>
+                              Center(child: Text('Error loading staff: $err')),
+                        )
+                      : PinEntry(
+                          user: selectedUser!,
+                          controller: pinController,
+                          error: error,
+                          submitting: submitting,
+                          onSubmit: submitPin,
+                          onBack: backToStaffList,
+                        ),
                 ),
+              ),
+            ],
           ),
         ),
       ),
@@ -160,9 +184,7 @@ class _FreshInstallEntry extends StatelessWidget {
             FilledButton(
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const TenantSignupScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const TenantSignupScreen()),
               ),
               child: const Text('Set up a new company'),
             ),
@@ -170,9 +192,7 @@ class _FreshInstallEntry extends StatelessWidget {
             OutlinedButton(
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const SeniorLoginScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
               ),
               child: const Text('Sign in'),
             ),
@@ -237,9 +257,10 @@ class _StaffListState extends State<_StaffList> {
 
     final isSearching = query.isNotEmpty;
     final searchResults = isSearching
-        ? [...kitchenStaff, ...supervisorsAndManagers]
-              .where((u) => u.name.toLowerCase().contains(query))
-              .toList()
+        ? [
+            ...kitchenStaff,
+            ...supervisorsAndManagers,
+          ].where((u) => u.name.toLowerCase().contains(query)).toList()
         : const <User>[];
 
     return Stack(

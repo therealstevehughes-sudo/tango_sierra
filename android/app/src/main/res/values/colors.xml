@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- VenuRite brand teal (matches AppColors teal family) — splash and
+         Android 12+ SplashScreen background. -->
+    <color name="venuerite_splash_bg">#0E6B6C</color>
+</resources>

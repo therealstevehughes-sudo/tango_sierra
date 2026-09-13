@@ -78,8 +78,13 @@ flutter:
   # EHO/audit export (Sprint 031) — Roboto (OFL-licensed, from Google's
   # official fonts repo), bundled so the PDF export can render real
   # Unicode text (names, notes) correctly. See assets/fonts/Roboto-OFL.txt.
+  #
+  # Branding (2026-09-13): VenuRite logo set — square mark, favicon, and
+  # both long lockups (white-background and transparent) for login, web,
+  # and any future native splash/launcher work.
   assets:
     - assets/fonts/Roboto-Regular.ttf
+    - assets/logos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
