@@ -1408,6 +1408,36 @@ isolation confirmed. All passed live, no mocks. All throwaway data
 deleted and verified gone (except the permanent B3 placeholder row and
 the unrelated pre-existing Phase 2 test row, both confirmed untouched).
 
+## Phase B3 follow-on — server-side `users.active` enforcement in `verify_staff_pin()` (built and PROVEN 2026-09-13)
+
+Closes the B3 follow-on ("a deactivated account could theoretically still
+get a backend token today"). The gap was confined to the **uuid path**:
+`pin-login` already filtered `.eq("active", true)` on its `local_user_id`
+resolution, but a caller sending a real `user_id` (the path local Drift
+installs use) reached `verify_staff_pin()` directly, and the function
+never checked `users.active` — so a deactivated Drift-backed account
+could still mint a session with a correct PIN.
+
+**Fix** (function-body only, no schema/Edge/app change): `verify_staff_pin()`
+now reads `users.active` via `staff_pins.local_user_id` immediately after
+loading the `staff_pins` row, and returns the same "not found" row shape
+(all nulls, `success=false`) for a missing or inactive linked user. Runs
+**before** the failure-counter/lockout logic, so deactivated accounts
+consume no guess-surface. The `RESERVED` placeholder (whose FK is
+`NOT VALID`, no linked active row) is correctly rejected by the same
+branch. Live function source in Postgres (`pg_get_functiondef`) has the
+`-- Server-side active enforcement (Phase B3 follow-on)` block in place.
+
+**Proof** (live, real GoTrue + real `staff_pins` row, throwaway account
+created via the actual admin API and deleted afterward — verified empty):
+active account → `200` + real signed session token via **both** the uuid
+and `local_user_id` paths; deactivated (`users.active=false`) → `401
+incorrect pin` via both paths even with the correct PIN; wrong PIN on the
+deactivated account → plain `401`, no lockout state. The pre-existing
+inactive `RESERVED` placeholder also confirms `401` on both paths.
+Cleanup verified: 1 users row (the placeholder), 1 `staff_pins` row, 2
+legit `auth.users` rows — exactly the pre-proof state.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

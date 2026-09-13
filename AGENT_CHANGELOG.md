@@ -4,6 +4,45 @@
 
 This file records work completed by assisting coding agents so future agents can understand what changed, why, and what remains open.
 
+## Session: 2026-09-13 (ninth)
+
+### Server-side `users.active` enforcement in `verify_staff_pin()` (B3 follow-on)
+
+Closed the logged B3 follow-on ("a deactivated account could
+theoretically still get a backend token today") at the single DB
+chokepoint, on the live server:
+
+- Read the live `verify_staff_pin()` (`pg_get_functiondef`), `users`/
+  `staff_pins` schemas, and `pin-login` Edge Function first, confirming
+  the gap: only the Edge's `local_user_id` path filtered
+  `.eq("active", true)`; the uuid path reached the DB function, which
+  never consulted `users.active`.
+- Updated `verify_staff_pin()` (function body only — no schema, no Edge
+  Function, no app change): after loading the `staff_pins` row, it looks
+  up `users.active` via `local_user_id` and returns the existing "not
+  found" row shape for a missing/inactive linked user — before the
+  failure-counter/lockout logic, so deactivated accounts burn no
+  guess-surface. Deactivated ⇄ nonexistent are indistinguishable at the
+  auth boundary, matching the local Drift `authenticate()` convention.
+  The `RESERVED` placeholder (missing FK target, inactive) is rejected by
+  the same branch.
+- **Proven live** against `api.venurite.com` with a throwaway account
+  (real GoTrue admin API + real `staff_pins` row, known PIN): active →
+  `200` + signed session token on both uuid and `local_user_id` paths;
+  deactivated (`users.active=false`) → `401 "incorrect pin"` on both
+  paths even with the correct PIN; wrong PIN on deactivated → plain 401,
+  no lockout state. Cleanup verified (only the `RESERVED` placeholder +
+  the 2 legit pre-existing auth rows remain — exactly the pre-proof
+  state).
+- Documented in `DECISIONS_LOG.md` (new entry) and `BACKEND_INFRA.md`
+  (new section); committed.
+
+One build-tooling note for future backend work: a proof script bug
+(psql's command-status tagline leaking into `$(...)` because `-t -A`
+doesn't suppress it — `-q` does) wasted two runs before the real proof
+passed. Local SQL/psql scripts should always use `-t -A -q` in command
+substitution.
+
 ## Session: 2026-09-13 (eighth)
 
 ### Photo-evidence P1 + UX backlog — prune manager, wizard suppliers, A–Z jump, EHO range picker

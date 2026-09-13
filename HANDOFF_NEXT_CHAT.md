@@ -10,7 +10,7 @@ this file's creation. Verify it with `git status` / file reads, then continue.
 
 ## Step 1 — Read these control documents first
 
-- `AGENT_CHANGELOG.md` — everything done up to 2026-09-13 (six sessions logged).
+- `AGENT_CHANGELOG.md` — everything done up to 2026-09-13 (nine sessions logged).
 - `DECISIONS_LOG.md` — latest project-state reference.
 - `BACKEND_INFRA.md` — backend/security state reference.
 - `ARCHITECTURE_LOCK.md`, `DESIGN_SYSTEM_LOCK.md`, `DRIFT_GUARD.md`,
@@ -27,6 +27,8 @@ this file's creation. Verify it with `git status` / file reads, then continue.
 All work below is **COMMITTED** on `master` branch, pushed to
 `https://github.com/therealstevehughes-sudo/tango_sierra`.
 Latest commits (2026-09-13):
+- Server-side `users.active` enforcement in `verify_staff_pin()` (B3
+  follow-on, backend-only) — see `AGENT_CHANGELOG.md` session 9
 - Photo-evidence P1 + UX-polish pass (prune manager, wizard suppliers step,
   A–Z quick-jump, EHO range picker) — see `AGENT_CHANGELOG.md` session 8
 - `7bc5db4` — **VenuRite launcher icons** (Android/iOS/macOS/Windows)

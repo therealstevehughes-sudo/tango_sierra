@@ -1513,4 +1513,16 @@ Files unchanged: no schema, no repositories beyond the additive EvidenceStore me
 Verified: `flutter analyze` clean; all 14/14 tests passing.
 Deferred: exec/trend dashboard was already built (DashboardScreen aggregates sites for regional/executive); no new work needed there.
 Save point name: SPRINT_032_P1_LOCK
-Notes: Commit pending.
+Notes: Commit `2adf8c7`, message "Photo evidence P1 + UX polish: prune manager, wizard suppliers step, A-Z quick-jump, EHO range picker".
+
+---
+
+## Backend follow-on — server-side `users.active` enforcement in `verify_staff_pin()` (B3 follow-on)
+Date: 2026-09-13 (backend work, not a Flutter sprint — recorded here for the save-point trail)
+Objective: close the B3 logged item ("a deactivated account could theoretically still get a backend token today") at the single DB chokepoint. The uuid (`user_id`) path of `pin-login` reached `verify_staff_pin()` without ever consulting `users.active`; only the Edge's `local_user_id` resolution filtered `.eq("active", true)`.
+Files changed (server-side only, no repo code):
+- Postgres function `verify_staff_pin()` — function-body update: after loading the `staff_pins` row, look up `users.active` via `staff_pins.local_user_id`; a missing or inactive linked user returns the existing "not found" row shape (all nulls, `success=false`), before the failure-counter/lockout logic. Deactivated ⇄ nonexistent indistinguishable at the auth boundary; the `RESERVED` placeholder row is rejected by the same branch.
+Files unchanged (explicitly): `pin-login` / `provision-staff-pin` / `tenant-signup` / `invite-senior` Edge Functions, all app code, schema, RLS policies.
+Verified: live proof against `https://api.venurite.com/functions/v1/pin-login` with a throwaway account (real GoTrue admin API + real `staff_pins` row, known PIN): active → 200 + signed session token on both uuid and local_user_id paths; deactivated (`users.active=false`) → 401 "incorrect pin" on both paths even with the correct PIN; wrong PIN on deactivated → plain 401, no lockout state. Cleanup verified back to the exact pre-proof state (placeholder user + 1 staff_pins row + 2 legit auth users).
+Save point name: BACKEND_B3_ACTIVE_FOLLOWON_LOCK
+Notes: Documented in `DECISIONS_LOG.md` and `BACKEND_INFRA.md`. Still outstanding on the partner-live path: walk-up "Who are you?" kiosk credential (C1d gap), SMTP for real invites, off-server backup copies + IONOS snapshot check (13b/13c), the human RLS security review, and the dedicated-server-before-real-data rule.
