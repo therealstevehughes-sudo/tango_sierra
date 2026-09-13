@@ -1020,7 +1020,7 @@ Objective, per `COMPETITIVE_ANALYSIS.md` (new file, researched Aug 2026 — UK +
   - **Exceptions** (always shown): Fails-with-corrective-action and Not-Completed-mid-shift kept as two visually distinct subsections (not merged) — separating "caught and corrected" from "never reached" is exactly how an EHO reads the two, per the user's research — plus Currently Outstanding.
   - **Full Detailed Log**: gated behind an explicit "Include full detailed log" checkbox in the export dialog, **default off**. The summary/exceptions view is what an inspector actually reviews; the full log is available on demand, not the default output.
   - **Space-efficiency fixes applied throughout**: a condensed one-line running header ("Kitchen Control — {site} — {start} to {end}") replaces the full header on page 2 onward instead of repeating it; the limitations notice box appears once (page 1 only), not on every page; table cell padding/font size tightened (4→2 / 9→8).
-  - **Honest limitations stated on the export document itself, not just in code comments**: timestamps are device-clock (fakeable until a backend provides trusted server time), and "photo attached" is a marker only — no real image is captured or stored yet, confirmed by reading `task_screen.dart` (photo capture is a boolean toggle; `TaskSubmission.photoPath` is never actually set). Claiming otherwise on an inspector-facing document would be actively misleading.
+  - **Honest limitations stated on the export document itself, not just in code comments**: timestamps are device-clock (fakeable until a backend provides trusted server time), and photo evidence was (at Sprint 031) a marker only — no real image was captured or stored yet, confirmed by reading `task_screen.dart` (photo capture was a boolean toggle; `TaskSubmission.photoPath` was never actually set). Claiming otherwise on an inspector-facing document would be actively misleading. *(2026-09-13: superseded — Sprint 032 P0 made the capture real and the full detailed log now embeds the actual photo bytes; the limitation notice on the export was updated to match.)*
 - `TaskSubmissionRepository` gains `getForSiteAndDateRange`, ordered ascending by `completedAt`, properly site-scoped via the real `siteId` column — same established real-column scoping as Sub-sprint D's `OverdueSummaryService`, not the older "reads aren't filtered by site" gap.
 - Verified: `flutter analyze` clean throughout. Multiple real Windows debug runs. The user live-tested the full flow repeatedly across all three build stages (initial, post-font-fix, post-restructure) — including generating with the real accumulated dev-database dataset (34 submissions, 19 pass/3 fail/12 not-completed, spanning 7–13 Aug 2026) with the full-log toggle both on and off, confirming: the toggle correctly gates the Full Detailed Log section (2 pages off / 3 pages on with the same range), multi-page pagination genuinely exercised (a segment table splits mid-table across pages 2→3), the condensed header and single limitations-box-on-page-1 both behave correctly, FAIL rows render in red and NOT_COMPLETED in grey in the full log, and the Currently Outstanding section correctly reflects live overdue state grouped by staff.
 - **Observation, not a defect, noted for later**: the Summary's day-coverage and "management review: none recorded" lines are exactly what an EHO reads first — on a real venue (rather than sparse dev test data) this makes the review/sign-off task type genuinely matter, not just a data field. No change made now.
@@ -1044,7 +1044,7 @@ This is the specific format decision referenced by name during the EHO/audit exp
 ## Finalized beta build order (Sprint 031)
 Supersedes any earlier partial/informal build-order references in this file (several earlier entries this sprint pointed at a "FINALIZED beta build order" section that didn't yet exist here — this is that section, written for real).
 - **Beta, in order**: 1. Due/overdue tracking — **done** (Build Order item 5, Sub-sprints A–D). 2. EHO/audit export — **done**. 3. Training records. 4. Supplier register. 5. Departments + settings (see both entries below — these are being built together since departments is one of the venue-level settings). 6. Dashboard. 7. Branding. 8. UX polish. 9. Multilingual.
-- **v2 (post-beta), not sequenced further yet**: IoT sensors, AI onboarding, backend (the trusted-server-time and real photo-storage work both depend on this — see "Real photo capture" entry below).
+- **v2 (post-beta), not sequenced further yet**: IoT sensors, AI onboarding, backend (trusted-server-time work depends on this; see "Real photo capture" entry below — the photo-storage side of that dependency is now **local** and built, not deferred).
 
 ## Settings layer (new concept, not yet built)
 - Two distinct levels, agreed as genuinely separate rather than one settings surface: **venue-level** settings (departments, login layout, branding, units) apply to everyone at that site and are set by Venue Manager tier and above; **personal-level** settings (dark mode, language, text size) are per-user and self-serve.
@@ -1064,9 +1064,26 @@ Three specific UX ideas raised this session, none built yet — recorded so they
 2. **A–Z alphabet quick-jump** — for jumping directly to a name in a long staff list, the same usability problem the departments-first login is also solving from a different angle.
 3. **Calendar range-picker for EHO export dates** — replacing the EHO export dialog's current two-separate-date-field picker (`showDatePicker` called twice, see `eho_export_dialog.dart`) with a single calendar-style range picker. A polish item, not a defect — the current two-tap version works correctly.
 
-## Real photo capture (deferred, backend-dependent)
-- Already disclosed on the EHO export document itself (see "EHO / audit export" above) and now formally logged as a decision, not just a caveat: real photo capture/storage is deferred to the backend phase (v2), consistent with the already-logged device-clock-timestamp limitation — both need a trusted, persistent server-side store to be meaningful, not just a local device write.
-- **Interim option, not committed to**: local-only photo capture (stored on-device, no server sync) was raised as a possible stopgap before the backend exists, but is optional and not scheduled in the finalized build order above — the photo-evidence boolean toggle stays as the interim behaviour unless/until this is explicitly picked up.
+## Real photo capture (Sprint 032 — BUILT locally; cloud sync still deferred)
+- **UPDATED 2026-09-13**: the local-only interim option below was **picked
+  up and built** as Sprint 032 P0 (`PHOTO_EVIDENCE_PLAN.md`,
+  `AGENT_CHANGELOG.md` session 6): real camera capture (camera-first with
+  gallery fallback), JPEG persisted into `<documents>/evidence/`, the
+  existing `photoPath` column now actually populated by
+  `EvidenceStore.pickAndPersistPhoto()`, and the EHO export's full
+  detailed log embeds the real bytes (degrading to the text marker when a
+  file is missing). This supersedes the previous "boolean toggle stays
+  until v2" decision — the on-device evidence store is real now.
+- **What remains deferred**: trusted server-side storage and photo sync to
+  the backend (v2). The device-clock timestamp limitation on the EHO
+  export also stands — the photo's embedded-at-submission reality is
+  local, exactly as the disclosure on the export document says.
+- Original entry, retained for context: real photo capture/storage was
+  deferred to the backend phase (v2), consistent with the
+  already-logged device-clock-timestamp limitation — both were judged to
+  need a trusted, persistent server-side store to be meaningful, not just
+  a local device write. The interim option (local-only capture, no server
+  sync) was logged as possible but unscheduled — now built.
 
 ## Training records — per-staff training/induction sign-off (Sprint 031, finalized beta build order item 3)
 Objective, per the finalized build order and competitive analysis: UK EHOs explicitly ask for staff training/induction evidence, every competitor bundles it as standard, and it's the missing half of the EHO export's "Confidence in Management" section (which previously only covered task compliance, not people). Plan proposed in full (six points) before building, all approved as recommended.

@@ -97,13 +97,14 @@ per-tier UX gaps below.
 
 **Gaps + recommendations:**
 
-1. **Photo evidence is a stub.** `task_screen.dart` sets `photoTaken =
-   true` (simulated capture — see `_photoTaken`/`photoTaken` in
-   `task_screen.dart`); there's no real camera/gallery flow. Photo is a
-   load-bearing compliance artifact and the name-branded head reuses it.
-   → **Recommend:** real camera capture (file → evidence record). Touches
-   `task_screen.dart` + photo/evidence model + export. (High value; this is
-   the single most security-relevant staff gap.)
+1. **Photo evidence is a stub (now BUILT — 2026-09-13).** At research
+   time, `task_screen.dart` set `photoTaken = true` (simulated capture)
+   with no real camera/gallery flow. **Resolved in Sprint 032 P0**:
+   `task_screen.dart` now runs a real camera-first capture (gallery
+   fallback) via `EvidenceStore`, persisting JPEGs into
+   `<documents>/evidence/`, and the EHO export's full detailed log embeds
+   the actual image bytes. See `PHOTO_EVIDENCE_PLAN.md` /
+   `AGENT_CHANGELOG.md` session 6.
 
 2. **No "what's left / light at end of tunnel" between tasks.** The header
    shows per-card progress but there's no session-level "3 of 8 remaining"
@@ -277,7 +278,7 @@ without your go-ahead.
 |---|---|---|---|---|---|
 | A | **P0** | Manager | **Staged "set up my venue" wizard** (venue → staff → tasks → suppliers) + deep-linkable setup checklist | new `onboarding/venue_setup_wizard_screen.dart`, `setup_checklist_card.dart`, `management_drawer.dart` | #1 adoption/onboarding barrier; our biggest differentiator is enforcement-heavy setup; competitors all excel here |
 | B | **P0** | Executive | **Executive/trend dashboard**: org-wide red flags, overdue/failed trends, site-vs-site comparison | `dashboard/`, `top_screen.dart`, `tier_home_screen.dart` | #11; matches market leaders (Checkit/FoodDocs/Lumiform) + Director Rule |
-| C | **P1** | Base | **Real camera/photo capture** (currently a stub), evidence stored + exported | `task_screen.dart`, photo/evidence model, export | Load-bearing compliance artifact; security-relevant |
+| C | ~~P1~~ **DONE** | Base | ~~Real camera/photo capture (currently a stub), evidence stored + exported~~ **Built 2026-09-13 (Sprint 032 P0)** | `task_screen.dart`, `evidence_store.dart`, EHO export | Load-bearing compliance artifact; security-relevant |
 | D | **P1** | Supervisor | **Supervisor-scoped oversight view** (hide admin drawer items; default to this shift's site) | `manager/manager_screen.dart`, `management_drawer.dart`, `tier_home_screen.dart` | #4; right cognitive load for a lesser-skill tier |
 | E | **P2** | Regional/Exec | **Split the top view by tier** (regional: region branch drill-in; executive: cross-region comparison) | `dashboard/top_screen.dart`, `tier_home_screen.dart` | #9/#11; progressive disclosure of scope |
 | F | **P2** | Base | Session-level "N remaining" feedback after each submit | `task_screen.dart`, `task_controller.dart` | #2; status visibility + motivation |

@@ -2,7 +2,8 @@
 
 Date: 2026-09-13  ·  Sprint 032  ·  P0, build order item 1
 Author: assistant (grounded in code reads 2026-09-13)
-Status: **PLAN — no code written yet. Awaiting "go".**
+Status: **DONE — built and committed 2026-09-13 (`2696b12`). Plan below
+retained as the record of what was agreed.**
 
 ---
 
@@ -16,7 +17,8 @@ in a capture path). The EHO/audit PDF already renders `' [Photo attached]'`
 as a marker but embeds **no image bytes**.
 
 This sprint makes the boolean **real**: capture an actual photo, persist it,
-and embed the real bytes in the inspector-facing PDF.
+and embed the real bytes in the inspector-facing PDF. *(2026-09-13: built —
+see `AGENT_CHANGELOG.md` session 6.)*
 
 ---
 

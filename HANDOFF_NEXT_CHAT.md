@@ -10,7 +10,7 @@ this file's creation. Verify it with `git status` / file reads, then continue.
 
 ## Step 1 — Read these control documents first
 
-- `AGENT_CHANGELOG.md` — everything done up to 2026-09-13 (five sessions logged).
+- `AGENT_CHANGELOG.md` — everything done up to 2026-09-13 (six sessions logged).
 - `DECISIONS_LOG.md` — latest project-state reference.
 - `BACKEND_INFRA.md` — backend/security state reference.
 - `ARCHITECTURE_LOCK.md`, `DESIGN_SYSTEM_LOCK.md`, `DRIFT_GUARD.md`,
@@ -26,9 +26,12 @@ this file's creation. Verify it with `git status` / file reads, then continue.
 
 All work below is **COMMITTED** on `master` branch, pushed to
 `https://github.com/therealstevehughes-sudo/tango_sierra`.
-Latest commit: the 2026-09-13 **VenuRite branding** build (logos, splash,
-branded headers; see `AGENT_CHANGELOG.md` session 5).
-No uncommitted changes except `HANDOFF_NEXT_CHAT.md` (this file).
+Latest commits (2026-09-13):
+- `2696b12` — **Photo evidence P0** (real capture + persist + PDF embed; see
+  `AGENT_CHANGELOG.md` session 6 / `PHOTO_EVIDENCE_PLAN.md`) + changelog
+- `a83c747` — **VenuRite branding** (logos, splash, branded headers;
+  session 5)
+No uncommitted changes.
 `flutter analyze`: No issues found. All tests: 14/14 passing.
 
 ⚠️ Verified 2026-09-13 (session 5): a ~14.9 GB disk cleanup was done first
@@ -37,7 +40,7 @@ No uncommitted changes except `HANDOFF_NEXT_CHAT.md` (this file).
 
 ---
 
-## Step 3 — What's done in this project (four sessions, all shipped)
+## Step 3 — What's done in this project (six sessions, all shipped)
 
 ### Session 1: Task Reorder + Live Safe-Range + Leadership Region Scoping (bf22ee1)
 - Schema 36→37: `sortOrder` on `TaskSchedule` + `Area`
@@ -85,6 +88,19 @@ No uncommitted changes except `HANDOFF_NEXT_CHAT.md` (this file).
 - Client-logo sizing confirmed with a temporary brain stand-in (64px)
 - Analyze clean; 14/14 tests passing; Windows debug build + launch verified
 
+### Session 6: Photo evidence P0 — real capture, persist, PDF embed (2696b12, 2026-09-13)
+- **`pubspec.yaml`**: `image_picker: ^1.1.2` (only new dep; deduped a doubled draft entry)
+- **`lib/core/services/evidence_store.dart`** (new): `EvidenceStore` — camera-first capture + gallery fallback,
+  JPEG copied into `<documents>/evidence/`, stable path; `readPhotoBytes` best-effort (null, never throws);
+  provider `evidenceStoreProvider`
+- **`task_screen.dart`**: "Add Photo" runs a real capture (`_capturePhoto`), disabled once taken;
+  `photoPath` now flows through `logTaskSubmission` (previously never set); reset between tasks
+- **`task_controller.dart`**: `logTaskSubmission` accepts + forwards `photoPath`
+- **`eho_export_service.dart`**: preloads bytes in `generate()`; full detailed log embeds the real image
+  (96px) with title caption; corrupt/missing bytes degrade to `[Photo attached]` marker; limitations notice updated
+- **`ios/Runner/Info.plist`**: `NSCameraUsageDescription` + `NSPhotoLibraryUsageDescription`
+- No Drift migration (photoPath column existed since schemaVersion 1); analyze clean; 14/14 tests; committed + pushed
+
 ---
 
 ## Step 4 — What's running
@@ -101,16 +117,19 @@ No uncommitted changes except `HANDOFF_NEXT_CHAT.md` (this file).
 - Guided Cards visual pass: **worker task header** + **alert banner/drill-down** done; the broader "screen-by-screen visual consistency pass" continues (theme-token sweep across other screens can continue)
 - Multi-site: walk-up "Who are you?" roster is a logged design question (kiosk credential), not a quick fix
 # Branding/logo is now built (session 5): branded headers (VR mark top-left, client logo + branch name centred), native splash (Android/iOS teal + VR square). Remaining polish: `flutter_native_splash`-style launcher icons on Android/iOS (app icon in mipmap/AppIcon is still the default Flutter icon) — deferred, not yet done
+# Photo evidence is now real (session 6): camera-first capture, JPEGs in <documents>/evidence/, embedded in the EHO export's full detailed log. Deferred: evidence prune/"free space" P1 + cloud photo sync (v2)
 
 ---
 
 ## Step 6 — Next work bit (if you pick it up)
 
-**Launcher/app icons** — the in-app branding + native splash are done; the
-Android launcher icon (`mipmap-*/ic_launcher.png`) and iOS AppIcon are still
-the default Flutter icon. Adding the VR square as the app icon (via
-`flutter_launcher_icons` or manual mipmap replacement + iOS AppIcon asset) is
-the natural next branding piece before customer launch.
+**Launcher/app icons** — the in-app branding + native splash + photo
+evidence are done; the Android launcher icon (`mipmap-*/ic_launcher.png`)
+and iOS AppIcon are still the default Flutter icon. Adding the VR square as
+the app icon (via `flutter_launcher_icons` or manual mipmap replacement +
+iOS AppIcon asset) is the natural next branding piece before customer
+launch. (Photo-evidence P1 — the "back up evidence → free space" prune
+manager — is deliberately deferred per `PHOTO_EVIDENCE_PLAN.md`.)
 
 ---
 
