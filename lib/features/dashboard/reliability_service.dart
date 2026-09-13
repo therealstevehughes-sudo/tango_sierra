@@ -232,6 +232,46 @@ class ReliabilityService {
       staff: staff,
     );
   }
+
+  // Executive/regional trend (UX-research P0 "exec trend dashboard"): the
+  // permitted-venue aggregate today is a single 30-day snapshot. This adds
+  // a per-week series — one SiteReliabilitySummary per closed week, most
+  // recent first — computed with the exact same per-user logic as the
+  // snapshot (so the anti-gaming guarantees in this file's doc hold for
+  // every point in the series, not just the headline number).
+  //
+  // Each week is `computeForSite(now: weekEnd, lookback: 7 days)`: the
+  // service already snaps to period boundaries and only judges closed
+  // periods, so a historical week evaluates exactly the periods that fall
+  // in it. `weeks` closed weeks are returned; the in-progress current week
+  // is never included (an unfinished week must not read as a failing week).
+  Future<List<SiteReliabilitySummary>> computeWeeklyTrendForSite(
+    int siteId, {
+    DateTime? now,
+    int weeks = 12,
+  }) async {
+    final reference = now ?? DateTime.now();
+    // Snap to the Monday of the current week so every trend window aligns
+    // to a proper Monday–Sunday calendar week. The most recent CLOSED week
+    // is currentMonday - 7d → currentMonday (exclusive end), so the first
+    // call below passes `now: currentMonday` — computeForUser treats now as
+    // the exclusive-period-end and includes every closed period up to it.
+    final currentMonday = periodStart(ScheduleFrequency.weekly, reference);
+    final trend = <SiteReliabilitySummary>[];
+    var weekEnd = currentMonday;
+
+    for (var i = 0; i < weeks; i++) {
+      trend.add(
+        await computeForSite(
+          siteId,
+          now: weekEnd,
+          lookback: const Duration(days: 7),
+        ),
+      );
+      weekEnd = weekEnd.subtract(const Duration(days: 7));
+    }
+    return trend;
+  }
 }
 
 final reliabilityServiceProvider = Provider<ReliabilityService>((ref) {

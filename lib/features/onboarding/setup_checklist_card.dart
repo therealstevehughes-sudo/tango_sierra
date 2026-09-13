@@ -7,6 +7,9 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import '../../features/regions/branch_management_screen.dart';
+import '../../features/regions/region_management_screen.dart';
+import '../../features/venue_setup/venue_setup_wizard_screen.dart';
 
 /// Phase C1d — per-tier setup completeness, guide-don't-block (Fail-safe
 /// #4 from the C1 plan). Every count comes from the same RLS-scoped
@@ -16,6 +19,13 @@ import '../../shared/providers/venue_setup_providers.dart';
 /// base (no setup responsibility). Purely advisory: every screen it
 /// points at is already reachable without this card, and nothing in the
 /// app is gated on completing it.
+///
+/// Setup Checklist deep-links (UX-research P0 "deep-linkable checklist"):
+/// each row opens the exact screen that completes it — the Venue Setup
+/// wizard at the matching step for manager-scope items (Areas 0 /
+/// Equipment 1 / Staff 2 / Suppliers 3), the Region/Branch management
+/// screens for leadership-scope items. Rows that are already done render
+/// non-tappable (nothing to complete).
 class SetupChecklistCard extends ConsumerStatefulWidget {
   const SetupChecklistCard({super.key});
 
@@ -24,9 +34,10 @@ class SetupChecklistCard extends ConsumerStatefulWidget {
 }
 
 class _ChecklistItem {
-  const _ChecklistItem(this.label, this.done);
+  const _ChecklistItem(this.label, this.done, {this.destination});
   final String label;
   final bool done;
+  final WidgetBuilder? destination;
 }
 
 class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
@@ -53,8 +64,16 @@ class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
                   .getForOrganisation(orgId);
         final sites = await ref.read(siteRepositoryProvider).getAll();
         items = [
-          _ChecklistItem('Add at least one region', regions.isNotEmpty),
-          _ChecklistItem('Add at least one branch', sites.isNotEmpty),
+          _ChecklistItem(
+            'Add at least one region',
+            regions.isNotEmpty,
+            destination: (_) => const RegionManagementScreen(),
+          ),
+          _ChecklistItem(
+            'Add at least one branch',
+            sites.isNotEmpty,
+            destination: (_) => const BranchManagementScreen(),
+          ),
         ];
       case RoleTier.regional:
         final sites = await ref.read(siteRepositoryProvider).getAll();
@@ -62,8 +81,16 @@ class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
         // need a per-site users query; branch count alone is a fair
         // first-cut signal and avoids N extra queries here.
         items = [
-          _ChecklistItem('Add at least one branch', sites.isNotEmpty),
-          _ChecklistItem('Add a branch manager', hasManager),
+          _ChecklistItem(
+            'Add at least one branch',
+            sites.isNotEmpty,
+            destination: (_) => const BranchManagementScreen(),
+          ),
+          _ChecklistItem(
+            'Add a branch manager',
+            hasManager,
+            destination: (_) => const BranchManagementScreen(),
+          ),
         ];
       case RoleTier.venueManager:
         final siteId =
@@ -73,10 +100,15 @@ class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
             .getForSite(siteId);
         final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
         items = [
-          _ChecklistItem('Add your equipment', equipment.isNotEmpty),
+          _ChecklistItem(
+            'Add your equipment',
+            equipment.isNotEmpty,
+            destination: (_) => const VenueSetupWizardScreen(initialStep: 1),
+          ),
           _ChecklistItem(
             'Add your team',
             staff.where((u) => u.id != user.id).isNotEmpty,
+            destination: (_) => const VenueSetupWizardScreen(initialStep: 2),
           ),
         ];
       case RoleTier.supervisor:
@@ -119,19 +151,56 @@ class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
             for (final item in items)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2),
-                child: Row(
-                  children: [
-                    Icon(
-                      item.done
-                          ? Icons.check_circle
-                          : Icons.radio_button_unchecked,
-                      size: 18,
-                      color: item.done ? AppColors.pass : AppColors.muted,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(child: Text(item.label)),
-                  ],
-                ),
+                child: item.done
+                    // Done rows are plain — nothing to complete, no affordance.
+                    ? Row(
+                        children: [
+                          const Icon(
+                            Icons.check_circle,
+                            size: 18,
+                            color: AppColors.pass,
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(child: Text(item.label)),
+                        ],
+                      )
+                    : InkWell(
+                        onTap: item.destination == null
+                            ? null
+                            : () => Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: item.destination!),
+                              ),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 6,
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.radio_button_unchecked,
+                                size: 18,
+                                color: AppColors.muted,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  item.label,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
+                              if (item.destination != null)
+                                const Icon(
+                                  Icons.chevron_right,
+                                  size: 18,
+                                  color: AppColors.muted,
+                                ),
+                            ],
+                          ),
+                        ),
+                      ),
               ),
           ],
         ),

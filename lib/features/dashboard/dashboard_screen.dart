@@ -68,6 +68,13 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
   // are grouped under their Region's name. The common single-region case
   // stays a flat list — no header noise. Map: siteId -> region name.
   Map<int, String> _regionNameBySiteId = {};
+  // Executive/regional trend (UX-research P0): per-site weekly completion
+  // series, most recent week first. Null until loaded — the Trends card
+  // only renders for the leadership aggregate view.
+  Map<int, List<SiteReliabilitySummary>> _weeklyTrendBySiteId = {};
+  // Combined org-wide weekly series (sum of every permitted site's week)
+  // so a Director sees one "all venues" trend line, not just per-venue.
+  List<SiteReliabilitySummary> _combinedWeeklyTrend = [];
 
   @override
   void initState() {
@@ -169,6 +176,49 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
       }
     }
 
+    // Executive/regional trend (UX-research P0): only for the leadership
+    // aggregate view (never the single-venue dashboard — a venue manager
+    // sees their own site's live numbers above; the trend's comparative
+    // value is cross-site). One query per site per week, reusing the same
+    // service method the live numbers use.
+    var weeklyTrendBySiteId = <int, List<SiteReliabilitySummary>>{};
+    var combinedWeeklyTrend = <SiteReliabilitySummary>[];
+    if (widget.aggregatePermittedSites && sites.isNotEmpty) {
+      weeklyTrendBySiteId = {};
+      final perSiteSeries = <List<SiteReliabilitySummary>>[];
+      for (final site in sites) {
+        final series = await reliabilityService.computeWeeklyTrendForSite(
+          site.id,
+        );
+        weeklyTrendBySiteId[site.id] = series;
+        perSiteSeries.add(series);
+      }
+      // Org-wide combined series: week by week (indices align), sum each
+      // permitted site's ReliabilitySummary into one org-wide figure.
+      combinedWeeklyTrend = [];
+      for (var week = 0; week < perSiteSeries.first.length; week++) {
+        var total = 0;
+        var completed = 0;
+        var onTime = 0;
+        for (final series in perSiteSeries) {
+          final overall = series[week].overall;
+          total += overall.totalPeriods;
+          completed += overall.completedPeriods;
+          onTime += overall.onTimePeriods;
+        }
+        combinedWeeklyTrend.add(
+          SiteReliabilitySummary(
+            overall: ReliabilitySummary(
+              totalPeriods: total,
+              completedPeriods: completed,
+              onTimePeriods: onTime,
+            ),
+            staff: const [],
+          ),
+        );
+      }
+    }
+
     if (!mounted) return;
     setState(() {
       _reliability = combined.reliability;
@@ -177,6 +227,8 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
       _siteSummaries = summaries;
       _siteNameByUserId = siteNameByUserId;
       _regionNameBySiteId = regionNameBySiteId;
+      _weeklyTrendBySiteId = weeklyTrendBySiteId;
+      _combinedWeeklyTrend = combinedWeeklyTrend;
       _loading = false;
     });
   }
@@ -248,6 +300,15 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
               ),
             ),
             const SizedBox(height: 24),
+            // Executive/regional trend (UX-research P0): a per-venue weekly
+            // completion-rate series + one combined org-wide line, only for
+            // the leadership aggregate view. Gives a Director the "trends
+            // over time" signal the 30-day snapshot can't.
+            if (widget.aggregatePermittedSites &&
+                _combinedWeeklyTrend.isNotEmpty) ...[
+              _buildTrendsCard(),
+              const SizedBox(height: 24),
+            ],
             if (widget.aggregatePermittedSites) ...[
               const SectionHeader(title: 'Venues'),
               const SizedBox(height: 8),
@@ -314,6 +375,72 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
               ),
           ],
         ),
+      ),
+    );
+  }
+
+  // Executive/regional trend (UX-research P0). Pure-Flutter lightweight
+  // weekly bars — no chart package (keeps pubspec untouched). One row per
+  // venue: a 12-week completion-rate bar series, most recent week right.
+  // Below it, one combined org-wide line. Anti-gaming guarantees carry
+  // over: the bars are built from the SAME ReliabilitySummary completion
+  // rates the live numbers use (PASS/FAIL never distinguished), and a week
+  // with no data renders as a blank slot ("Not enough data yet"), never as
+  // a failing week.
+  Widget _buildTrendsCard() {
+    final weeks = _combinedWeeklyTrend.length;
+    if (weeks < 4) {
+      // Needs history before a trend line is honest.
+      return AppCard(
+        child: Text(
+          'Trend data: need at least 4 weeks of history to show a trend.',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      );
+    }
+
+    // Label the most recent completed week (the series is most-recent-first).
+    final latestWeekly = _combinedWeeklyTrend.first;
+    final latestCompletion = latestWeekly.overall.completionRate;
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Text('Trends', style: Theme.of(context).textTheme.titleMedium),
+              const Spacer(),
+              if (latestCompletion != null)
+                Text(
+                  '${(latestCompletion * 100).round()}% completed',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Per-venue weekly completion · last $weeks weeks',
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+          ),
+          const SizedBox(height: 16),
+          for (final summary in _siteSummaries) ...[
+            _TrendRow(
+              venueName: summary.site.name,
+              series: _weeklyTrendBySiteId[summary.site.id] ?? const [],
+            ),
+            const SizedBox(height: 12),
+          ],
+          const Divider(),
+          const SizedBox(height: 8),
+          _TrendRow(
+            venueName: 'All venues combined',
+            series: _combinedWeeklyTrend,
+            emphasised: true,
+          ),
+        ],
       ),
     );
   }
@@ -503,6 +630,99 @@ class _LowLoggingChip extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// Executive/regional trend row (UX-research P0): venue name + a series of
+// small completion-rate bars (most recent week last — reads left-to-right
+// oldest → newest). Empty slots = weeks with no data (rendered as faint
+// marks, never as a failing week — the anti-gaming rule). `emphasised`
+// draws the combined org-wide row with a slightly taller bar for
+// scan-weight.
+class _TrendRow extends StatelessWidget {
+  const _TrendRow({
+    required this.venueName,
+    required this.series,
+    this.emphasised = false,
+  });
+
+  final String venueName;
+  final List<SiteReliabilitySummary> series;
+  final bool emphasised;
+
+  @override
+  Widget build(BuildContext context) {
+    // Most-recent-first is what the service returns; display oldest → newest
+    // left-to-right (reverse in place).
+    final chronological = [...series].reversed.toList();
+    const maxBars = 12;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Venue name: fixed enough width to align every row's bars.
+        SizedBox(
+          width: 140,
+          child: Text(
+            venueName,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontWeight: emphasised ? FontWeight.w700 : FontWeight.w500,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              for (var i = 0; i < maxBars; i++) ...[
+                if (i < chronological.length)
+                  _TrendBar(
+                    completionRate: chronological[i].overall.completionRate,
+                    emphasised: emphasised,
+                  )
+                else
+                  // Not enough history yet — neutral spacer, no bar.
+                  const _TrendBar(completionRate: null, emphasised: false),
+                if (i < maxBars - 1) const SizedBox(width: 4),
+              ],
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// One vertical bar in the trend row. Height = completion %. Null rate (no
+// data that week, or too little history) renders as a short faint stub —
+// never red, never a "failure" cue.
+class _TrendBar extends StatelessWidget {
+  const _TrendBar({required this.completionRate, required this.emphasised});
+
+  final double? completionRate;
+  final bool emphasised;
+
+  @override
+  Widget build(BuildContext context) {
+    final hasData = completionRate != null;
+    final fraction = hasData ? completionRate! : 0.0;
+    // Taller bars for the combined row only; base height 40 for per-venue.
+    final maxHeight = emphasised ? 56.0 : 40.0;
+    final barHeight = hasData
+        ? (8 + fraction * (maxHeight - 8)).clamp(8.0, maxHeight).toDouble()
+        : 6.0;
+
+    return Container(
+      width: 14,
+      height: barHeight,
+      decoration: BoxDecoration(
+        color: hasData ? AppColors.teal : AppColors.tealTint,
+        borderRadius: BorderRadius.circular(3),
       ),
     );
   }

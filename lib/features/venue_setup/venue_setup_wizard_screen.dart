@@ -20,7 +20,13 @@ import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 
 class VenueSetupWizardScreen extends ConsumerStatefulWidget {
-  const VenueSetupWizardScreen({super.key});
+  const VenueSetupWizardScreen({super.key, this.initialStep = 0});
+
+  /// The wizard step to open on (0 = Areas, 1 = Equipment, 2 = Staff,
+  /// 3 = Suppliers). Used by the Setup Checklist's deep-links so a
+  /// manager tapping "Add your equipment" lands on the Equipment step
+  /// instead of always starting from Areas. Clamped to 0..3.
+  final int initialStep;
 
   @override
   ConsumerState<VenueSetupWizardScreen> createState() =>
@@ -29,7 +35,7 @@ class VenueSetupWizardScreen extends ConsumerStatefulWidget {
 
 class _VenueSetupWizardScreenState
     extends ConsumerState<VenueSetupWizardScreen> {
-  int currentStep = 0;
+  late int currentStep;
   bool loading = true;
 
   List<Area> areas = [];
@@ -65,6 +71,7 @@ class _VenueSetupWizardScreenState
   @override
   void initState() {
     super.initState();
+    currentStep = widget.initialStep.clamp(0, 3);
     _loadData();
   }
 
