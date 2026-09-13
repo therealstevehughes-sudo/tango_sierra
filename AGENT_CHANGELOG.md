@@ -4,6 +4,33 @@
 
 This file records work completed by assisting coding agents so future agents can understand what changed, why, and what remains open.
 
+## Session: 2026-09-13 (seventh)
+
+### VenuRite launcher icons — all platforms (`7bc5db4`)
+
+Replaced the default Flutter app icon everywhere with the VR badge on
+brand teal `#0E6B6C`, matching the splash + in-app branding:
+
+- **Android** — legacy `mipmap-*/ic_launcher.png` regenerated at all 5
+  densities; new adaptive-icon pair (`mipmap-anydpi-v26/ic_launcher.xml` +
+  `ic_launcher_round.xml`: teal background + centered VR badge in the safe
+  zone via `drawable-nodpi/ic_launcher_foreground.png`).
+- **iOS** — full `AppIcon.appiconset` regenerated (all iphone/ipad/
+  marketing slots, 29–1024px).
+- **macOS** — `AppIcon.appiconset` regenerated (16–1024px).
+- **Windows** — `windows/runner/resources/app_icon.ico` rebuilt
+  (PNG-compressed multi-size 16–256); validated via
+  `flutter build windows --debug` (also fixed a locked-exe build hiccup by
+  killing the running dev instance).
+- Generated with a pure-Python PNG pipeline (decode VR_square with proper
+  scanline-filter reconstruction, bilinear resize of the badge bbox onto a
+  teal canvas, PNG encode, ICO container) — no new dependencies.
+
+Pure asset/branding changes: no Dart logic, schema, or behavior touched.
+`flutter analyze` clean; Windows debug build succeeds. Web was already
+faviconed (session 5); Linux runner has no icon wiring in the Flutter
+template (left as-is).
+
 ## Session: 2026-09-13 (sixth)
 
 ### Photo evidence P0 — real capture, on-disk persistence, PDF embed (`2696b12`)

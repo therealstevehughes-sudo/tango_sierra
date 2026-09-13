@@ -1479,3 +1479,20 @@ Verified: `flutter analyze` clean; all 14/14 tests passing; committed + pushed (
 Deferred items (by design, per PHOTO_EVIDENCE_PLAN.md): the "back up evidence → free space" prune/GB-reclaim manager is P1, not built this sprint — this sprint only ADDS evidence and never claims to reclaim space. Cloud/backend photo sync remains v2 (see DECISIONS_LOG.md "Real photo capture" entry update).
 Save point name: SPRINT_032_P0_LOCK
 Notes: Commit 2696b12, message "Photo evidence P0: real capture + persist + PDF embed".
+
+---
+
+## Sprint 032 (P0 follow-up) — VenuRite launcher icons, all platforms
+Date: 2026-09-13
+Objective: Replace the default Flutter app icon everywhere with the VR badge on brand teal (#0E6B6C), matching the splash + in-app branding — the final branding piece before customer launch.
+Files changed:
+- android/app/src/main/res/mipmap-{mdpi,hdpi,xhdpi,xxhdpi,xxxhdpi}/ic_launcher.png — regenerated (48/72/96/144/192) from VR_square composited on teal.
+- android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml + ic_launcher_round.xml (new) — adaptive icon: teal background (@color/venuerite_splash_bg) + centered foreground.
+- android/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png (new, 432px) — badge within the adaptive safe zone.
+- ios/Runner/Assets.xcassets/AppIcon.appiconset/* — all iphone/ipad/marketing slots regenerated (29–1024px).
+- macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_*.png — regenerated (16–1024px).
+- windows/runner/resources/app_icon.ico — rebuilt (PNG-compressed multi-size 16–256).
+Files unchanged: web (already VenuRite-faviconed in session 5); Linux runner (Flutter template wires no icon — left as-is). No Dart/schema/behavior changes.
+Verified: `flutter analyze` clean; `flutter build windows --debug` succeeded against the new .ico; all generated PNGs decode-verified (corner = opaque teal, center = badge at large sizes).
+Save point name: SPRINT_032_ICONS_LOCK
+Notes: Commit 7bc5db4, message "Branding: VenuRite launcher icons everywhere (Android/iOS/macOS/Windows)".

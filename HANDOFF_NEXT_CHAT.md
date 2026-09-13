@@ -116,20 +116,30 @@ No uncommitted changes.
 - Backend `sort_order` columns on `task_schedules`/`areas` still stubbed (deferred to later cluster)
 - Guided Cards visual pass: **worker task header** + **alert banner/drill-down** done; the broader "screen-by-screen visual consistency pass" continues (theme-token sweep across other screens can continue)
 - Multi-site: walk-up "Who are you?" roster is a logged design question (kiosk credential), not a quick fix
-# Branding/logo is now built (session 5): branded headers (VR mark top-left, client logo + branch name centred), native splash (Android/iOS teal + VR square). Remaining polish: `flutter_native_splash`-style launcher icons on Android/iOS (app icon in mipmap/AppIcon is still the default Flutter icon) — deferred, not yet done
+# Launcher icons now built (session 7, commit 7bc5db4): Android legacy + adaptive (teal bg + VR badge), iOS full AppIcon set, macOS set, Windows .ico — all VR badge on brand teal. Linux runner has no icon wiring (template) — left as-is.
 # Photo evidence is now real (session 6): camera-first capture, JPEGs in <documents>/evidence/, embedded in the EHO export's full detailed log. Deferred: evidence prune/"free space" P1 + cloud photo sync (v2)
 
 ---
 
 ## Step 6 — Next work bit (if you pick it up)
 
-**Launcher/app icons** — the in-app branding + native splash + photo
-evidence are done; the Android launcher icon (`mipmap-*/ic_launcher.png`)
-and iOS AppIcon are still the default Flutter icon. Adding the VR square as
-the app icon (via `flutter_launcher_icons` or manual mipmap replacement +
-iOS AppIcon asset) is the natural next branding piece before customer
-launch. (Photo-evidence P1 — the "back up evidence → free space" prune
-manager — is deliberately deferred per `PHOTO_EVIDENCE_PLAN.md`.)
+**Launcher/app icons** — DONE (session 7, `7bc5db4`): Android legacy +
+adaptive (teal bg + VR badge), iOS full AppIcon set, macOS set, Windows
+.ico rebuilt. The remaining branding piece is minimal (Linux has no icon
+wiring in the Flutter template — optional).
+
+**Where the project actually is now** (verified 2026-09-13): photo
+evidence P0 (session 6) + launcher icons (session 7) are complete. The
+finalized beta build order (items 1–7) is done; the project pivots to
+backend work — Phase B0–B5 + C1a–C1d documented, with **human RLS review +
+dedicated-server gate still pending** before real customer data goes live
+(per `BACKEND_INFRA.md` / Step 7 constraints).
+
+**Candidate next activities** (not yet chosen):
+1. **Photo-evidence P1** — "back up evidence → free space" prune manager. Deliberately deferred in `PHOTO_EVIDENCE_PLAN.md`.
+2. **Backend Phase 2/3 remaining** — the human RLS review / dedicated-server gate requires a human; not agent-work.
+3. **UX backlog P0s** (`UX_RESEARCH_REPORT.md`) — staged venue-setup wizard, exec trend dashboard (were P0 at research time).
+4. **A–Z quick-jump / calendar range-picker for EHO export** — small polish items from `DECISIONS_LOG.md`.
 
 ---
 
