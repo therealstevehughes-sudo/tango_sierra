@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
+import '../../core/services/evidence_store.dart';
 import '../../core/utils/date_format.dart';
 import '../../shared/models/branding_config.dart';
 import '../../shared/models/supplier.dart';
@@ -45,11 +47,11 @@ import '../tasks/overdue_summary_service.dart';
 //
 // HONEST LIMIT, stated on the export itself, not just in code: timestamps
 // are device-clock (fakeable until a backend provides trusted server
-// time), and "photo attached" is a marker only — no real image is
-// captured or stored yet (confirmed by reading task_screen.dart: photo
-// capture is still a boolean toggle, TaskSubmission.photoPath is never
-// actually set). Claiming otherwise on an inspector-facing document would
-// be actively misleading, not just an omission.
+// time), and photo evidence is a real captured JPEG embedded in the full
+// detailed log — but only when the worker actually captured one, and the
+// embed degrades to a text marker if the bytes are missing. The audit
+// trail never overclaims: "Photo attached" is only ever shown when a
+// submission really had a photo taken for it.
 const _reviewSegment = 'management_compliance_oversight';
 
 class _ExpiredTrainingEntry {
@@ -106,6 +108,7 @@ class EhoExportService {
     this._userRepository,
     this._supplierRepository,
     this._brandingConfigRepository,
+    this._evidenceStore,
   );
 
   final TaskSubmissionRepository _submissionRepository;
@@ -116,6 +119,7 @@ class EhoExportService {
   final TrainingRecordRepository _trainingRecordRepository;
   final UserRepository _userRepository;
   final BrandingConfigRepository _brandingConfigRepository;
+  final EvidenceStore _evidenceStore;
 
   Future<String> generate({
     required int siteId,
@@ -270,6 +274,19 @@ class EhoExportService {
       bySegment.putIfAbsent(segment, () => []).add(submission);
     }
     final sortedSegments = bySegment.keys.toList()..sort();
+
+    // Real photo evidence (Sprint 032 P0): eagerly load the bytes of every
+    // submission's evidence photo so the PDF builder never needs async I/O
+    // inside a layout pass (the pdf package's widget tree is synchronous).
+    // Missing / unreadable files degrade to the "marker only" fallback —
+    // this map is a best-effort cache, not a hard prerequisite.
+    final photoBytes = <String, List<int>>{};
+    for (final submission in submissions) {
+      final path = submission.photoPath;
+      if (path == null || photoBytes.containsKey(path)) continue;
+      final bytes = await _evidenceStore.readPhotoBytes(path);
+      if (bytes != null) photoBytes[path] = bytes;
+    }
 
     // Real Unicode text (accented names, curly quotes, em-dashes in a
     // corrective-action note) needs a font that actually covers it — the
@@ -432,7 +449,7 @@ class EhoExportService {
                 style: const pw.TextStyle(fontStyle: pw.FontStyle.italic),
               ),
             for (final segment in sortedSegments) ...[
-              _buildSegmentSection(segment, bySegment[segment]!),
+              _buildSegmentSection(segment, bySegment[segment]!, photoBytes),
               pw.SizedBox(height: 6),
             ],
           ],
@@ -562,9 +579,11 @@ class EhoExportService {
             'This app does not yet use a trusted server time source.',
           ),
           pw.Text(
-            '- "Photo attached" indicates a photo was marked as taken at '
-            'the time of the check. This beta does not yet store or embed '
-            'the actual photo image.',
+            '- "Photo attached" means a photo was captured at the time of '
+            'the check. When "Include full detailed log" is on, the actual '
+            'photo image is embedded in that log beside the check. A photo '
+            'whose stored file is missing or unreadable shows the marker '
+            'only.',
           ),
         ],
       ),
@@ -917,6 +936,7 @@ class EhoExportService {
   pw.Widget _buildSegmentSection(
     String segment,
     List<TaskSubmission> submissions,
+    Map<String, List<int>> photoBytes,
   ) {
     const columnWidths = {
       0: pw.FlexColumnWidth(2),
@@ -940,12 +960,13 @@ class EhoExportService {
         pw.TableRow(
           children: [
             _cell(formatDateTime(submission.completedAt)),
-            _cellWithInstance(
-              '${submission.taskTitle}'
-              '${submission.numericValue == null ? '' : ' (${submission.numericValue})'}'
-              '${submission.photoAttached ? ' [Photo attached]' : ''}',
-              submission.equipmentInstanceName,
-            ),
+            // Real photo evidence (Sprint 032 P0): a submission whose photo
+            // persisted gets its task-title cell swapped for a column that
+            // embeds the actual captured bytes — an inspector sees real
+            // evidence, not a text marker. Missing/unreadable bytes fall
+            // back to the '[Photo attached]' marker, so a vanished file
+            // never breaks the export.
+            _photoOrPlainCell(submission, photoBytes[submission.photoPath]),
             _cell(submission.completedBy),
             _cell(
               submission.status,
@@ -970,6 +991,40 @@ class EhoExportService {
         ..._chunkedTable(rows, headerRow, columnWidths),
       ],
     );
+  }
+
+  // A submission's Task cell: the plain title + optional instance name,
+  // PLUS its embedded evidence photo when real bytes are available. The
+  // image renders small (icon-of-evidence sized — this stays a record
+  // listing, not a gallery), with the title as its caption.
+  pw.Widget _photoOrPlainCell(TaskSubmission submission, List<int>? bytes) {
+    final titleCell = _cellWithInstance(
+      '${submission.taskTitle}'
+      '${submission.numericValue == null ? '' : ' (${submission.numericValue})'}'
+      '${submission.photoAttached ? ' [Photo attached]' : ''}',
+      submission.equipmentInstanceName,
+    );
+    if (bytes == null) return titleCell;
+
+    try {
+      final image = pw.MemoryImage(Uint8List.fromList(bytes));
+      return pw.Padding(
+        padding: const pw.EdgeInsets.all(2),
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Image(image, width: 96, height: 96, fit: pw.BoxFit.cover),
+            pw.SizedBox(height: 2),
+            titleCell,
+          ],
+        ),
+      );
+    } on Exception {
+      // Corrupt/non-image bytes: degrade to the plain marker cell rather
+      // than taking down the whole export — non-recoverable is worse than
+      // a text marker, and the audit trail still says the photo was taken.
+      return titleCell;
+    }
   }
 
   String _notesAndCorrectiveAction(TaskSubmission submission) {
@@ -1042,5 +1097,6 @@ final ehoExportServiceProvider = Provider<EhoExportService>((ref) {
     ref.watch(userRepositoryProvider),
     ref.watch(supplierRepositoryProvider),
     ref.watch(brandingConfigRepositoryProvider),
+    ref.watch(evidenceStoreProvider),
   );
 });

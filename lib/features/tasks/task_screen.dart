@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/services/evidence_store.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/utils/unit_conversion.dart';
 import '../../core/widgets/app_banner.dart';
@@ -61,6 +62,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // a worker to tick something they often couldn't actually do themselves.
   String? correctiveActionOutcome;
   bool photoTaken = false;
+  // Real photo evidence (Sprint 032 P0): the durable path in
+  // <documents>/evidence/ that `photoTaken = true` now refers to. Stays
+  // null until a capture actually persists — `canSubmit` gates on the
+  // boolean, but the submission carries the real path.
+  String? photoPath;
 
   // Supplier register + traceability (Sprint 031, finalized beta build
   // order item 4, Sub-sprint B). Optional — never blocks submission (same
@@ -148,6 +154,22 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
   void _onFormChanged() {
     setState(() {});
+  }
+
+  // Real photo evidence (Sprint 032 P0, PHOTO_EVIDENCE_PLAN.md) — replaces
+  // the old fake toggle: capture an actual photo via the EvidenceStore
+  // (camera first, gallery fallback), persist the JPEG into
+  // <documents>/evidence/, and only then mark the task's photo as taken.
+  // A cancel or failed capture leaves the task un-submittable (the same
+  // gate `canSubmit` already enforced on `photoTaken`) — never a fake
+  // "Photo Added" without a real file behind it.
+  Future<void> _capturePhoto() async {
+    final path = await ref.read(evidenceStoreProvider).pickAndPersistPhoto();
+    if (path == null || !mounted) return;
+    setState(() {
+      photoTaken = true;
+      photoPath = path;
+    });
   }
 
   // Visual/UX pass, Sub-sprint 3: Log Out is now always visible in the app
@@ -385,6 +407,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       status: effectiveResult,
       numericValue: numericValue?.toString(),
       photoAttached: photoTaken,
+      photoPath: photoPath,
       notes: notesController.text.trim().isEmpty
           ? null
           : notesController.text.trim(),
@@ -411,6 +434,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         selectedChoice = null;
         correctiveActionOutcome = null;
         photoTaken = false;
+        photoPath = null;
         selectedSupplierId = null;
         error = null;
       });
@@ -630,11 +654,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           Padding(
                             padding: const EdgeInsets.only(top: 12),
                             child: ElevatedButton(
-                              onPressed: () {
-                                setState(() => photoTaken = true);
-                              },
+                              onPressed: photoTaken
+                                  ? null
+                                  : () => _capturePhoto(),
                               child: Text(
-                                photoTaken ? "Photo Added" : "Add Photo",
+                                photoTaken ? 'Photo Added' : 'Add Photo',
                               ),
                             ),
                           ),

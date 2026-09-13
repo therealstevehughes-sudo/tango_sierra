@@ -45,5 +45,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>VenuRite uses the camera to capture photo evidence for compliance checks (Sprint 032 photo evidence).</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>VenuRite lets you attach an existing photo as evidence for a compliance check.</string>
 </dict>
 </plist>

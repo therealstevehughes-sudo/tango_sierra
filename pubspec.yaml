@@ -48,6 +48,14 @@ dependencies:
   # sessions never touch supabase_flutter's own auth/session state, so its
   # ambient client can't be used for these calls — see BackendRestClient).
   http: ^1.6.0
+  # Sprint 032 P0 photo evidence — the ONLY new dependency this sprint.
+  # image_picker: real camera/gallery capture; returns a stable file path
+  # to a JPEG we copy into <documents>/evidence/ (space-efficient bytes on
+  # disk, NOT BLOBs in Drift — see PHOTO_EVIDENCE_PLAN.md). image_picker
+  # ships its own runtime camera permission flow on Android; iOS needs the
+  # NSCameraUsageDescription / NSPhotoLibraryUsageDescription keys in
+  # ios/Runner/Info.plist (added with this sprint).
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
