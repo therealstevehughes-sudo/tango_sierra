@@ -27,8 +27,24 @@ class StaffAssignmentScreen extends ConsumerStatefulWidget {
       _StaffAssignmentScreenState();
 }
 
+// Built 2026-09-14 -- "Dual-mode assignment (by-staff AND by-task)" was
+// already a named v1.1 roadmap item (see the strategy-session roadmap
+// logged in DECISIONS_LOG.md); brought forward on explicit request. The
+// existing by-person flow (pick one staff member, tick their tasks) is
+// entirely unchanged -- this only adds a second, independent mode.
+enum _AssignMode { byPerson, byTask }
+
 class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   bool loading = true;
+  _AssignMode mode = _AssignMode.byPerson;
+
+  // "Assign by Task" mode's own state -- separate from the by-person
+  // fields below, which stay exactly as they were.
+  final Set<String> selectedTaskKeys = {};
+  final Set<String> expandedTaskKeys = {};
+
+  String _taskKey(int templateGroupId, int? equipmentId) =>
+      '$templateGroupId:${equipmentId ?? 'none'}';
 
   List<User> staffList = [];
   List<TaskTemplate> templates = [];
@@ -310,16 +326,18 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          selectedStaff == null
+          mode == _AssignMode.byTask
+              ? 'Assign Tasks'
+              : selectedStaff == null
               ? 'Assign Tasks'
               : 'Assign Tasks — ${selectedStaff!.name}',
         ),
-        leading: selectedStaff == null
-            ? null
-            : IconButton(
+        leading: mode == _AssignMode.byPerson && selectedStaff != null
+            ? IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () => setState(() => selectedStaff = null),
-              ),
+              )
+            : null,
       ),
       // Navigation-consistency pass (Sprint 031): while a staff member is
       // selected, this AppBar's `leading` is the "back to staff list"
@@ -331,10 +349,238 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: ResponsiveContent(
-            child: selectedStaff == null
-                ? _buildStaffList()
-                : _buildAssignmentList(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SegmentedButton<_AssignMode>(
+                  segments: const [
+                    ButtonSegment(
+                      value: _AssignMode.byPerson,
+                      label: Text('By Person'),
+                      icon: Icon(Icons.person_outline),
+                    ),
+                    ButtonSegment(
+                      value: _AssignMode.byTask,
+                      label: Text('By Task'),
+                      icon: Icon(Icons.checklist_outlined),
+                    ),
+                  ],
+                  selected: {mode},
+                  onSelectionChanged: (selection) => setState(() {
+                    mode = selection.first;
+                    selectedStaff = null;
+                    selectedTaskKeys.clear();
+                  }),
+                ),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: mode == _AssignMode.byTask
+                      ? _buildByTaskMode()
+                      : selectedStaff == null
+                      ? _buildStaffList()
+                      : _buildAssignmentList(),
+                ),
+              ],
+            ),
           ),
+        ),
+      ),
+    );
+  }
+
+  // "Assign by Task" mode — tick a set of (task, equipment instance)
+  // rows, then assign all of them to a chosen set of staff in one go.
+  // Grouped by equipment instance (e.g. "Walk-in Fridge") for
+  // equipment-linked tasks, falling back to the task's segment (e.g.
+  // "Dry Store") for tasks with no equipment — collapsible, since a real
+  // venue's full task library is long. Each row can expand to show its
+  // guidance text (the same instructions a worker sees on the task
+  // screen), so a manager can see exactly what they're assigning without
+  // leaving this screen.
+  Widget _buildByTaskMode() {
+    final groups = <String, List<_TaskRow>>{};
+    for (final template in templates) {
+      if (template.equipmentTypeId == null) {
+        groups
+            .putIfAbsent('Segment: ${template.segment}', () => [])
+            .add(_TaskRow(template: template, instance: null));
+        continue;
+      }
+      final matchingInstances = equipmentInstances
+          .where(
+            (e) => e.equipmentTypeId == template.equipmentTypeId && e.active,
+          )
+          .toList();
+      for (final instance in matchingInstances) {
+        groups
+            .putIfAbsent(instance.name, () => [])
+            .add(_TaskRow(template: template, instance: instance));
+      }
+    }
+    final sortedGroupNames = groups.keys.toList()..sort();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          child: ListView(
+            children: [
+              for (final groupName in sortedGroupNames)
+                ExpansionTile(
+                  title: Text(groupName),
+                  initiallyExpanded: false,
+                  children: [
+                    for (final row in groups[groupName]!)
+                      _buildByTaskRow(row),
+                  ],
+                ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        PrimaryActionButton(
+          label: selectedTaskKeys.isEmpty
+              ? 'Select tasks to assign'
+              : 'Assign ${selectedTaskKeys.length} task${selectedTaskKeys.length == 1 ? '' : 's'} to staff…',
+          onPressed: selectedTaskKeys.isEmpty ? null : _pickStaffAndAssign,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildByTaskRow(_TaskRow row) {
+    final key = _taskKey(row.template.templateGroupId, row.instance?.id);
+    final hasGuidance = (row.template.guidanceText ?? '').trim().isNotEmpty;
+    final expanded = expandedTaskKeys.contains(key);
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          CheckboxListTile(
+            value: selectedTaskKeys.contains(key),
+            onChanged: (checked) => setState(() {
+              if (checked ?? false) {
+                selectedTaskKeys.add(key);
+              } else {
+                selectedTaskKeys.remove(key);
+              }
+            }),
+            title: Text(row.template.title),
+            secondary: hasGuidance
+                ? IconButton(
+                    icon: Icon(
+                      expanded ? Icons.expand_less : Icons.expand_more,
+                    ),
+                    tooltip: 'Show instructions',
+                    onPressed: () => setState(() {
+                      if (expanded) {
+                        expandedTaskKeys.remove(key);
+                      } else {
+                        expandedTaskKeys.add(key);
+                      }
+                    }),
+                  )
+                : null,
+          ),
+          if (expanded && hasGuidance)
+            Padding(
+              padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+              child: Text(
+                row.template.guidanceText!,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _pickStaffAndAssign() async {
+    // The union of tiers the selected tasks actually apply to — staff
+    // outside that union couldn't be validly assigned any of them, so
+    // they're not offered as a confusing dead-end option.
+    final selectedTemplates = <TaskTemplate>{};
+    for (final template in templates) {
+      for (final instance in [
+        null,
+        ...equipmentInstances.where(
+          (e) => e.equipmentTypeId == template.equipmentTypeId,
+        ),
+      ]) {
+        if (selectedTaskKeys.contains(
+          _taskKey(template.templateGroupId, instance?.id),
+        )) {
+          selectedTemplates.add(template);
+        }
+      }
+    }
+    final eligibleTiers = selectedTemplates
+        .expand((t) => t.applicableRoleTiers)
+        .toSet();
+    final eligibleStaff = staffList
+        .where((u) => u.active && eligibleTiers.contains(u.roleTier))
+        .toList();
+
+    final chosen = await showDialog<List<User>>(
+      context: context,
+      builder: (_) => _StaffMultiSelectDialog(staff: eligibleStaff),
+    );
+    if (chosen == null || chosen.isEmpty || !mounted) return;
+
+    final manager = ref.read(currentUserProvider);
+    if (manager == null) return;
+    final scheduleRepo = ref.read(taskScheduleRepositoryProvider);
+
+    var created = 0;
+    var skipped = 0;
+    for (final staff in chosen) {
+      final existingForStaff = await scheduleRepo.getForStaffMember(
+        staff.id,
+      );
+      final existingKeys = existingForStaff
+          .map((s) => _taskKey(s.taskTemplateGroupId, s.equipmentInstanceId))
+          .toSet();
+
+      for (final row in <_TaskRow>[
+        for (final template in templates)
+          if (template.equipmentTypeId == null)
+            _TaskRow(template: template, instance: null)
+          else
+            for (final instance in equipmentInstances.where(
+              (e) => e.equipmentTypeId == template.equipmentTypeId,
+            ))
+              _TaskRow(template: template, instance: instance),
+      ]) {
+        final key = _taskKey(row.template.templateGroupId, row.instance?.id);
+        if (!selectedTaskKeys.contains(key)) continue;
+        if (!row.template.applicableRoleTiers.contains(staff.roleTier)) {
+          skipped++;
+          continue;
+        }
+        if (existingKeys.contains(key)) {
+          skipped++;
+          continue;
+        }
+        await scheduleRepo.assign(
+          taskTemplateGroupId: row.template.templateGroupId,
+          assignedUserId: staff.id,
+          equipmentInstanceId: row.instance?.id,
+          frequency: ScheduleFrequency.daily,
+          assignedByUserId: manager.id,
+          siteId: staff.siteId!,
+        );
+        created++;
+      }
+    }
+
+    if (!mounted) return;
+    setState(() => selectedTaskKeys.clear());
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          '$created assignment${created == 1 ? '' : 's'} created'
+          '${skipped > 0 ? ' ($skipped skipped — already assigned or role mismatch)' : ''}.',
         ),
       ),
     );
@@ -808,6 +1054,79 @@ class _AssignmentTileState extends State<_AssignmentTile> {
             ),
         ],
       ),
+    );
+  }
+}
+
+/// One row in "Assign by Task" mode — a task template, optionally paired
+/// with a specific equipment instance (null for non-equipment tasks).
+class _TaskRow {
+  const _TaskRow({required this.template, required this.instance});
+  final TaskTemplate template;
+  final Equipment? instance;
+}
+
+/// Multi-select staff picker for "Assign by Task" mode's second step.
+class _StaffMultiSelectDialog extends StatefulWidget {
+  const _StaffMultiSelectDialog({required this.staff});
+  final List<User> staff;
+
+  @override
+  State<_StaffMultiSelectDialog> createState() =>
+      _StaffMultiSelectDialogState();
+}
+
+class _StaffMultiSelectDialogState extends State<_StaffMultiSelectDialog> {
+  final Set<int> selectedIds = {};
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Assign to'),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: widget.staff.isEmpty
+            ? const Text(
+                'No staff match the tier(s) these tasks apply to.',
+              )
+            : ListView(
+                shrinkWrap: true,
+                children: [
+                  for (final user in widget.staff)
+                    CheckboxListTile(
+                      value: selectedIds.contains(user.id),
+                      onChanged: (checked) => setState(() {
+                        if (checked ?? false) {
+                          selectedIds.add(user.id);
+                        } else {
+                          selectedIds.remove(user.id);
+                        }
+                      }),
+                      title: Text(user.name),
+                      subtitle: Text(
+                        '${user.jobTitle} · ${roleTierDisplayName(user.roleTier)}',
+                      ),
+                    ),
+                ],
+              ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel'),
+        ),
+        FilledButton(
+          onPressed: selectedIds.isEmpty
+              ? null
+              : () => Navigator.pop(
+                  context,
+                  widget.staff
+                      .where((u) => selectedIds.contains(u.id))
+                      .toList(),
+                ),
+          child: const Text('Assign'),
+        ),
+      ],
     );
   }
 }
