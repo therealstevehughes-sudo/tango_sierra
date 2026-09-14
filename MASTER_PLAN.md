@@ -198,7 +198,7 @@ Not a planned phase — a full app walkthrough (prompted by several parallel cod
 ## Current Priority (updated 2026-09-14)
 Phases 1–8 (Sprints 000–032, including the 18-item expanded-vision sequence above) are delivered. Phase 9 (multi-tenant backend foundation, B0–B5) and Phase 10 (tenant onboarding, C1a–C1d) are delivered and proven. Phase 11 (today's app health-check fixes) is delivered.
 
-**Current priority: Sprint 033, Guided Cards visual refresh — reconciliation & completion** (see SPRINT.md). After that, in order:
+**Sprint 033, Guided Cards visual refresh, is now COMPLETE** (2026-09-14 — see SPRINT.md and DECISIONS_LOG.md for both build batches). Current priority, in order:
 1. Phase C2 — branded-per-branch home screen (not yet planned in detail).
 2. Phase C3 — interactive org-builder/organogram (not yet planned in detail).
 3. The new v1 roadmap features logged 2026-09-14 (detailed delivery records, per-food legal temp thresholds, AI compliance assistant, per-task AI help, central compliance knowledge base) — **logged only, not started**, and blocked on the v1 launch gates (food-safety professional sign-off is now on the critical path — see DECISIONS_LOG.md).

@@ -200,6 +200,43 @@ class ManagementDrawer extends ConsumerWidget {
     Navigator.push(context, MaterialPageRoute(builder: (_) => screen));
   }
 
+  // Guided Cards (2026-09-14): rounded (10px), tinted-when-active nav
+  // items, matching the mockup's sidebar nav pattern — this Drawer is a
+  // slide-out overlay rather than the mockup's persistent sidebar, but
+  // `title` already tells us which screen is currently open (every call
+  // site passes its own screen's title), so "active" maps onto "this
+  // item's label matches the screen you're already on" just as well.
+  Widget _navTile({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    final active = label == title;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      child: Material(
+        color: active ? AppColors.tealTint : Colors.transparent,
+        borderRadius: BorderRadius.circular(10),
+        child: ListTile(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          leading: Icon(icon, color: active ? AppColors.tealInk : null),
+          title: Text(
+            label,
+            style: active
+                ? const TextStyle(
+                    color: AppColors.tealInk,
+                    fontWeight: FontWeight.w600,
+                  )
+                : null,
+          ),
+          onTap: onTap,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
@@ -232,23 +269,23 @@ class ManagementDrawer extends ConsumerWidget {
           // oversight view for its tier, and Settings. Home pops to root
           // rather than pushing — TierHomeScreen is already MaterialApp.home
           // for every non-base tier, so this never stacks a duplicate copy.
-          ListTile(
-            leading: const Icon(Icons.home_outlined),
-            title: const Text('Home'),
+          _navTile(
+            icon: Icons.home_outlined,
+            label: 'Home',
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).popUntil((route) => route.isFirst);
             },
           ),
-          ListTile(
-            leading: const Icon(Icons.checklist),
-            title: const Text('My Tasks'),
+          _navTile(
+            icon: Icons.checklist,
+            label: 'My Tasks',
             onTap: () => _navigate(context, const TaskScreen()),
           ),
           if (tier != null)
-            ListTile(
-              leading: const Icon(Icons.visibility),
-              title: const Text('Oversight'),
+            _navTile(
+              icon: Icons.visibility,
+              label: 'Oversight',
               onTap: () =>
                   _navigate(context, TierHomeScreen.oversightScreenFor(tier)),
             ),
@@ -259,54 +296,54 @@ class ManagementDrawer extends ConsumerWidget {
           // no drawer at all), so `atLeast` is always true here — kept for
           // documentation clarity, not because it currently excludes anyone.
           if (tier != null && atLeast(RoleTier.supervisor))
-            ListTile(
-              leading: const Icon(Icons.insights),
-              title: const Text('Dashboard'),
+            _navTile(
+              icon: Icons.insights,
+              label: 'Dashboard',
               onTap: () => _navigate(context, const DashboardScreen()),
             ),
           // Fails & Problems Register (Part A) — same floor as Dashboard:
           // every leadership tier (supervisor and above), never base.
           if (tier != null && atLeast(RoleTier.supervisor))
-            ListTile(
-              leading: const Icon(Icons.report_problem_outlined),
-              title: const Text('Fails & Problems Register'),
+            _navTile(
+              icon: Icons.report_problem_outlined,
+              label: 'Fails & Problems Register',
               onTap: () => _navigate(context, const ProblemsRegisterScreen()),
             ),
-          ListTile(
-            leading: const Icon(Icons.settings),
-            title: const Text('Settings'),
+          _navTile(
+            icon: Icons.settings,
+            label: 'Settings',
             onTap: () => _navigate(context, const SettingsScreen()),
           ),
           const Divider(),
           for (final item in _managementItems)
             if (atLeast(item.minTier))
-              ListTile(
-                leading: Icon(item.icon),
-                title: Text(item.label),
+              _navTile(
+                icon: item.icon,
+                label: item.label,
                 onTap: () => _navigate(context, item.screenBuilder(context)),
               ),
           if (onBackUp != null && atLeast(_backUpMinTier))
-            ListTile(
-              leading: const Icon(Icons.backup),
-              title: const Text('Back Up Now'),
+            _navTile(
+              icon: Icons.backup,
+              label: 'Back Up Now',
               onTap: () {
                 Navigator.pop(context);
                 onBackUp!();
               },
             ),
           if (onEhoExport != null && atLeast(_ehoExportMinTier))
-            ListTile(
-              leading: const Icon(Icons.picture_as_pdf_outlined),
-              title: const Text('EHO / Audit Export'),
+            _navTile(
+              icon: Icons.picture_as_pdf_outlined,
+              label: 'EHO / Audit Export',
               onTap: () {
                 Navigator.pop(context);
                 onEhoExport!();
               },
             ),
           const Divider(),
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Log out'),
+          _navTile(
+            icon: Icons.logout,
+            label: 'Log out',
             onTap: () {
               Navigator.pop(context); // closes the drawer itself
               if (onLogout != null) {

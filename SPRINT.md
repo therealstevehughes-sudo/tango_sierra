@@ -36,11 +36,15 @@ Guided Cards was approved as a full-app visual refresh (see DECISIONS_LOG.md "UX
 Every screen in scope matches the Guided Cards spec, `flutter analyze` is clean, a real Windows build has been launched and visually checked (not just analyzed), and both DECISIONS_LOG.md and this file are updated to reflect the finished state.
 
 ## Progress
-- **Batch 1 (done, 2026-09-14)**: shared theme tokens (palette, card/button radii, warm shadows), staff task screen (main card + PASS/FAIL buttons), manager oversight and every other `AppCard`/`StatusBadge`-based screen (picked up automatically). Confirmed visually by the user on a real Windows build. See DECISIONS_LOG.md for full detail, including two deliberate spec deviations (PASS/FAIL kept equal-weight; type scale kept at its existing 14px accessibility floor rather than the mockup's smaller sizes).
-- **Remaining**: two raw `Card(...)` usages in `dashboard_screen.dart` not yet swapped to `AppCard`; `ManagementDrawer`'s nav items not yet given the rounded/tinted active-state treatment; login screen's staff picker not yet individually audited.
+- **Batch 1 (done, 2026-09-14)**: shared theme tokens (palette, card/button radii, warm shadows), staff task screen (main card + PASS/FAIL buttons), manager oversight and every other `AppCard`/`StatusBadge`-based screen (picked up automatically). Confirmed visually by the user on a real Windows build.
+- **Batch 2 (done, 2026-09-14)**: dashboard's two raw `Card` usages swapped to `AppCard`; `ManagementDrawer` nav items given the rounded/tinted active-state treatment; login screen's staff picker audited (already fully theme-driven, no change needed).
+- See DECISIONS_LOG.md for full detail on both batches, including two deliberate spec deviations (PASS/FAIL kept equal-weight, not the mockup's asymmetric styling; type scale kept at its existing 14px accessibility floor rather than the mockup's smaller sizes).
+
+## Status: COMPLETE (2026-09-14)
+Every screen built on the shared `AppCard`/`StatusBadge`/`AppTheme` foundation now reflects the Guided Cards direction. `flutter analyze` clean, all 17 tests passing, verified on a real Windows build.
 
 ## Save Point Name
-SPRINT_033_GUIDED_CARDS_LOCK (pending completion)
+SPRINT_033_GUIDED_CARDS_LOCK
 
 ## Standing status note (2026-09-14)
 This file previously said "Sprint 001" and had not been updated since the project's very first setup sprint — genuinely stale for over 30 sprints' worth of real work. `DECISIONS_LOG.md` has been the actual living record of decisions/status since; `CHANGELOG_LOCK.md` has the detailed per-sprint changelog through Sprint 032; `BACKEND_INFRA.md` covers the backend/Phase B-C work. This file is now being kept current going forward as the single "what's the current sprint" pointer.

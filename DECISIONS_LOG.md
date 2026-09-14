@@ -1379,11 +1379,17 @@ First implementation batch against the spec logged above, highest-traffic screen
 - **Type scale left unchanged, deliberately**: the mockup's Style B sizes (e.g. 12–12.5px pills/labels) fall below this app's own documented "14px floor, nothing smaller for real content" accessibility rule (`app_text_theme.dart`'s doc comment, written for a low-literacy/rushed/wet-hands kitchen-staff audience). Adopting the mockup's exact pixel sizes would have silently weakened an existing accessibility guarantee — kept the current type scale instead of shrinking it to match.
 - Verified: `flutter analyze` clean, all 17 tests still passing, a real `flutter run -d windows` launch checked visually — confirmed by the user ("it looks ok").
 
-**Known remaining gaps for the next batch** (not yet touched, so not accidentally left silently undone):
-- Two raw `Card(...)` usages in `dashboard_screen.dart` (lines ~327, ~454) still use Material's own `Card` directly rather than `AppCard` — they'll pick up the new 16px radius from `CardThemeData` but NOT the warm shadow (since that's `AppCard`-specific), so they'll look slightly flatter than everything else on the same screen until swapped over.
-- `ManagementDrawer`'s nav items are plain `ListTile`s — the mockup's Style B shows a distinct rounded (10px), tinted-background active-nav-item pattern that hasn't been applied anywhere yet.
-- The login screen's staff picker (`_StaffList`) hasn't been individually audited against the spec yet.
 Files: `lib/app/theme/app_colors.dart`, `lib/app/theme/app_theme.dart`, `lib/core/widgets/app_card.dart`, `lib/features/tasks/task_screen.dart`.
+
+## Guided Cards — Batch 2: dashboard cards, drawer nav styling, login screen audit (built 2026-09-14)
+Closes the three gaps flagged at the end of Batch 1.
+- **`dashboard_screen.dart`**: the two raw `Card(...)` usages (the per-staff roster row and the per-site `ExpansionTile` summary) swapped to `AppCard(padding: EdgeInsets.zero, ...)` — same layout as before, now with the correct warm shadow instead of a flat Material-elevation-zero look.
+- **`ManagementDrawer`**: every nav item now goes through a new `_navTile` helper — rounded (10px), and tinted with `AppColors.tealTint`/bold teal-ink text when that item's label matches the screen you're already on (`title`, which every call site already passes). This Drawer is a slide-out overlay, not the mockup's persistent sidebar, so "active" maps onto "you're currently on this screen" rather than a literal always-visible highlighted rail item — same underlying idea, adapted to how this app's navigation actually works.
+- **Login screen staff picker audited, no change needed**: `login_screen.dart` has zero hardcoded colours — it's fully theme-driven, so it already inherited the Batch 1 palette automatically. The mockup doesn't show a distinct card treatment for a walk-up staff roster (its two device frames are the manager dashboard and the staff task screen only), so there's no spec to apply here beyond what token inheritance already gave it.
+- Verified: `flutter analyze` clean, all 17 tests passing, a real `flutter run -d windows` launch succeeded.
+
+**This completes Sprint 033 (Guided Cards visual refresh)** — see SPRINT.md, updated to reflect completion.
+Files: `lib/features/dashboard/dashboard_screen.dart`, `lib/core/widgets/management_drawer.dart`.
 
 ## Open / Not yet decided
 - All three task-taxonomy gaps (priority, method, frequency) logged here since Sprint 012 are now resolved — see "Task-taxonomy reconciliation (Sprint 023)" above. The old "Full check list.docx" 132-task load this pointed to is superseded and now fully retired — see "Target market + library research": HORECA_TASK_LIBRARY.md was the library source for the complete load (Build Order item 4, DONE — see the six "Task library load" entries above, Clusters A-F), feeding the venue-type tagging structure Sprint 029 built (`TaskTemplateVenueTypes` is now populated for all ~150 loaded tasks).

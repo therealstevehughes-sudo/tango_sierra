@@ -324,7 +324,8 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
               )
             else
               ...staff.map(
-                (member) => Card(
+                (member) => AppCard(
+                  padding: EdgeInsets.zero,
                   child: ListTile(
                     title: Text(
                       widget.aggregatePermittedSites
@@ -451,7 +452,8 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
       ..sort(
         (a, b) => a.userName.toLowerCase().compareTo(b.userName.toLowerCase()),
       );
-    return Card(
+    return AppCard(
+      padding: EdgeInsets.zero,
       child: ExpansionTile(
         title: Text(summary.site.name),
         subtitle: Wrap(
