@@ -9,7 +9,7 @@ import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
-import '../onboarding/tenant_signup_screen.dart';
+import '../onboarding/company_onboarding_wizard_screen.dart';
 import 'pin_entry.dart';
 import 'senior_login_screen.dart';
 
@@ -199,7 +199,9 @@ class _FreshInstallEntry extends StatelessWidget {
             FilledButton(
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const TenantSignupScreen()),
+                MaterialPageRoute(
+                  builder: (_) => const CompanyOnboardingWizardScreen(),
+                ),
               ),
               child: const Text('Set up a new company'),
             ),

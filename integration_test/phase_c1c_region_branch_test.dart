@@ -49,7 +49,10 @@ void main() {
           .read(tenantProvisioningRepositoryProvider)
           .signUpCompany(
             companyName: 'C1C-IT-COMPANY-$_unique',
-            directorName: 'IT Director',
+            country: 'United Kingdom',
+            venueName: 'Main Site',
+            firstName: 'IT',
+            lastName: 'Director',
             email: _directorEmail,
             password: _directorPassword,
           );

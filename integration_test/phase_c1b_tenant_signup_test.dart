@@ -43,7 +43,10 @@ void main() {
           .read(tenantProvisioningRepositoryProvider)
           .signUpCompany(
             companyName: 'C1B-IT-COMPANY-$_unique',
-            directorName: 'IT Director',
+            country: 'United Kingdom',
+            venueName: 'Main Site',
+            firstName: 'IT',
+            lastName: 'Director',
             email: _email,
             password: _password,
           );
@@ -70,9 +73,13 @@ void main() {
       expect(orgs.single.id, result.organisationId);
       expect(orgs.single.name, 'C1B-IT-COMPANY-$_unique');
 
-      // 5. The tenant starts empty — no sites yet, only the Director.
+      // 5. Sprint 034: signup now creates the first venue in the same
+      // call (the onboarding wizard's Step 4), so exactly one site
+      // exists — not the pre-Sprint-034 "starts empty" behaviour.
       final sites = await container.read(siteRepositoryProvider).getAll();
-      expect(sites, isEmpty);
+      expect(sites.length, 1);
+      expect(sites.single.id, result.siteId);
+      expect(sites.single.name, 'Main Site');
       final users = await container.read(userRepositoryProvider).getAll();
       expect(users.length, 1);
       expect(users.single.id, result.localUserId);
@@ -92,7 +99,10 @@ void main() {
     try {
       await container.read(tenantProvisioningRepositoryProvider).signUpCompany(
             companyName: 'C1B-IT-DUPE-$_unique',
-            directorName: 'X',
+            country: 'United Kingdom',
+            venueName: 'Main Site',
+            firstName: 'X',
+            lastName: 'Y',
             email: _email, // same as the first test
             password: 'SomeOtherPassword123',
           );

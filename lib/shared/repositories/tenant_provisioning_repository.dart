@@ -9,12 +9,16 @@ class TenantSignupResult {
   const TenantSignupResult({
     required this.organisationId,
     required this.localUserId,
+    required this.siteId,
     required this.email,
+    required this.trialEndsAt,
   });
 
   final int organisationId;
   final int localUserId;
+  final int siteId;
   final String email;
+  final DateTime trialEndsAt;
 }
 
 class TenantSignupException implements Exception {
@@ -84,15 +88,29 @@ class StaffPinProvisionException implements Exception {
 }
 
 abstract class TenantProvisioningRepository {
-  /// Creates a brand-new isolated tenant: an Organisation, its first
-  /// executive (a real email+password account, claims baked in so sign-in
-  /// resolves), and optional initial branding. On success the caller signs
-  /// in through the normal Leadership Access screen.
+  /// Sprint 034 (Customer Onboarding & Billing Foundation) — creates a
+  /// brand-new isolated tenant in one call: an Organisation (with legal/
+  /// billing details), its first executive/owner (a real email+password
+  /// account, claims baked in so sign-in resolves), the first venue
+  /// (optionally under a named region, with an optional venue type), a
+  /// trialing subscription, and optional initial branding. On success the
+  /// caller signs in through the normal Leadership Access screen.
   Future<TenantSignupResult> signUpCompany({
-    required String companyName,
-    required String directorName,
+    required String firstName,
+    required String lastName,
     required String email,
     required String password,
+    required String companyName,
+    required String country,
+    required String venueName,
+    String? legalName,
+    String? registeredAddress,
+    String? vatNumber,
+    String? billingEmail,
+    String? venueAddress,
+    String? venueRegion,
+    String? venueType,
+    String? planName,
     int? primaryColorArgb,
   });
 
@@ -145,20 +163,42 @@ class SupabaseTenantProvisioningRepository
 
   @override
   Future<TenantSignupResult> signUpCompany({
-    required String companyName,
-    required String directorName,
+    required String firstName,
+    required String lastName,
     required String email,
     required String password,
+    required String companyName,
+    required String country,
+    required String venueName,
+    String? legalName,
+    String? registeredAddress,
+    String? vatNumber,
+    String? billingEmail,
+    String? venueAddress,
+    String? venueRegion,
+    String? venueType,
+    String? planName,
     int? primaryColorArgb,
   }) async {
     try {
       final response = await _client.functions.invoke(
         'tenant-signup',
         body: {
-          'company_name': companyName,
-          'director_name': directorName,
+          'first_name': firstName,
+          'last_name': lastName,
           'email': email,
           'password': password,
+          'company_name': companyName,
+          'country': country,
+          'venue_name': venueName,
+          'legal_name': ?legalName,
+          'registered_address': ?registeredAddress,
+          'vat_number': ?vatNumber,
+          'billing_email': ?billingEmail,
+          'venue_address': ?venueAddress,
+          'venue_region': ?venueRegion,
+          'venue_type': ?venueType,
+          'plan_name': ?planName,
           'primary_color_argb': ?primaryColorArgb,
         },
       );
@@ -166,7 +206,9 @@ class SupabaseTenantProvisioningRepository
       return TenantSignupResult(
         organisationId: data['organisation_id'] as int,
         localUserId: data['local_user_id'] as int,
+        siteId: data['site_id'] as int,
         email: data['email'] as String,
+        trialEndsAt: DateTime.parse(data['trial_ends_at'] as String),
       );
     } on FunctionException catch (e) {
       final details = e.details;
