@@ -24,10 +24,44 @@ class SupabaseShiftHandoverRepository implements ShiftHandoverRepository {
   Future<ShiftHandoverNote?> getLatestForSite(int siteId) async {
     final rows = await _client.select(
       'shift_handover_notes',
-      query: 'site_id=eq.$siteId&order=created_at.desc&limit=1',
+      query:
+          'site_id=eq.$siteId&resolved=eq.false&order=created_at.desc&limit=1',
     );
     if (rows.isEmpty) return null;
     return _toModel(rows.first);
+  }
+
+  @override
+  Future<bool> hasAcknowledged({
+    required int noteId,
+    required int userId,
+  }) async {
+    final rows = await _client.select(
+      'shift_handover_acknowledgements',
+      query: 'note_id=eq.$noteId&user_id=eq.$userId',
+    );
+    return rows.isNotEmpty;
+  }
+
+  @override
+  Future<void> acknowledge({
+    required int noteId,
+    required int userId,
+    required bool repeatForNextShift,
+  }) async {
+    if (!repeatForNextShift) {
+      await _client.update(
+        'shift_handover_notes',
+        filter: 'id=eq.$noteId',
+        body: {'resolved': true},
+      );
+      return;
+    }
+    await _client.insertOne('shift_handover_acknowledgements', {
+      'note_id': noteId,
+      'user_id': userId,
+      'acknowledged_at': DateTime.now().toIso8601String(),
+    });
   }
 
   @override

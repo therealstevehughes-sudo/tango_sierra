@@ -8459,6 +8459,21 @@ class $ShiftHandoverNotesTable extends ShiftHandoverNotes
       'REFERENCES sites (id)',
     ),
   );
+  static const VerificationMeta _resolvedMeta = const VerificationMeta(
+    'resolved',
+  );
+  @override
+  late final GeneratedColumn<bool> resolved = GeneratedColumn<bool>(
+    'resolved',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("resolved" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -8466,6 +8481,7 @@ class $ShiftHandoverNotesTable extends ShiftHandoverNotes
     note,
     createdAt,
     siteId,
+    resolved,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -8515,6 +8531,12 @@ class $ShiftHandoverNotesTable extends ShiftHandoverNotes
         siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
       );
     }
+    if (data.containsKey('resolved')) {
+      context.handle(
+        _resolvedMeta,
+        resolved.isAcceptableOrUnknown(data['resolved']!, _resolvedMeta),
+      );
+    }
     return context;
   }
 
@@ -8547,6 +8569,10 @@ class $ShiftHandoverNotesTable extends ShiftHandoverNotes
         DriftSqlType.int,
         data['${effectivePrefix}site_id'],
       ),
+      resolved: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}resolved'],
+      )!,
     );
   }
 
@@ -8563,12 +8589,14 @@ class ShiftHandoverNoteEntity extends DataClass
   final String note;
   final DateTime createdAt;
   final int? siteId;
+  final bool resolved;
   const ShiftHandoverNoteEntity({
     required this.id,
     required this.authorUserId,
     required this.note,
     required this.createdAt,
     this.siteId,
+    required this.resolved,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -8580,6 +8608,7 @@ class ShiftHandoverNoteEntity extends DataClass
     if (!nullToAbsent || siteId != null) {
       map['site_id'] = Variable<int>(siteId);
     }
+    map['resolved'] = Variable<bool>(resolved);
     return map;
   }
 
@@ -8592,6 +8621,7 @@ class ShiftHandoverNoteEntity extends DataClass
       siteId: siteId == null && nullToAbsent
           ? const Value.absent()
           : Value(siteId),
+      resolved: Value(resolved),
     );
   }
 
@@ -8606,6 +8636,7 @@ class ShiftHandoverNoteEntity extends DataClass
       note: serializer.fromJson<String>(json['note']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       siteId: serializer.fromJson<int?>(json['siteId']),
+      resolved: serializer.fromJson<bool>(json['resolved']),
     );
   }
   @override
@@ -8617,6 +8648,7 @@ class ShiftHandoverNoteEntity extends DataClass
       'note': serializer.toJson<String>(note),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'siteId': serializer.toJson<int?>(siteId),
+      'resolved': serializer.toJson<bool>(resolved),
     };
   }
 
@@ -8626,12 +8658,14 @@ class ShiftHandoverNoteEntity extends DataClass
     String? note,
     DateTime? createdAt,
     Value<int?> siteId = const Value.absent(),
+    bool? resolved,
   }) => ShiftHandoverNoteEntity(
     id: id ?? this.id,
     authorUserId: authorUserId ?? this.authorUserId,
     note: note ?? this.note,
     createdAt: createdAt ?? this.createdAt,
     siteId: siteId.present ? siteId.value : this.siteId,
+    resolved: resolved ?? this.resolved,
   );
   ShiftHandoverNoteEntity copyWithCompanion(ShiftHandoverNotesCompanion data) {
     return ShiftHandoverNoteEntity(
@@ -8642,6 +8676,7 @@ class ShiftHandoverNoteEntity extends DataClass
       note: data.note.present ? data.note.value : this.note,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      resolved: data.resolved.present ? data.resolved.value : this.resolved,
     );
   }
 
@@ -8652,13 +8687,15 @@ class ShiftHandoverNoteEntity extends DataClass
           ..write('authorUserId: $authorUserId, ')
           ..write('note: $note, ')
           ..write('createdAt: $createdAt, ')
-          ..write('siteId: $siteId')
+          ..write('siteId: $siteId, ')
+          ..write('resolved: $resolved')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, authorUserId, note, createdAt, siteId);
+  int get hashCode =>
+      Object.hash(id, authorUserId, note, createdAt, siteId, resolved);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -8667,7 +8704,8 @@ class ShiftHandoverNoteEntity extends DataClass
           other.authorUserId == this.authorUserId &&
           other.note == this.note &&
           other.createdAt == this.createdAt &&
-          other.siteId == this.siteId);
+          other.siteId == this.siteId &&
+          other.resolved == this.resolved);
 }
 
 class ShiftHandoverNotesCompanion
@@ -8677,12 +8715,14 @@ class ShiftHandoverNotesCompanion
   final Value<String> note;
   final Value<DateTime> createdAt;
   final Value<int?> siteId;
+  final Value<bool> resolved;
   const ShiftHandoverNotesCompanion({
     this.id = const Value.absent(),
     this.authorUserId = const Value.absent(),
     this.note = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.siteId = const Value.absent(),
+    this.resolved = const Value.absent(),
   });
   ShiftHandoverNotesCompanion.insert({
     this.id = const Value.absent(),
@@ -8690,6 +8730,7 @@ class ShiftHandoverNotesCompanion
     required String note,
     required DateTime createdAt,
     this.siteId = const Value.absent(),
+    this.resolved = const Value.absent(),
   }) : authorUserId = Value(authorUserId),
        note = Value(note),
        createdAt = Value(createdAt);
@@ -8699,6 +8740,7 @@ class ShiftHandoverNotesCompanion
     Expression<String>? note,
     Expression<DateTime>? createdAt,
     Expression<int>? siteId,
+    Expression<bool>? resolved,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -8706,6 +8748,7 @@ class ShiftHandoverNotesCompanion
       if (note != null) 'note': note,
       if (createdAt != null) 'created_at': createdAt,
       if (siteId != null) 'site_id': siteId,
+      if (resolved != null) 'resolved': resolved,
     });
   }
 
@@ -8715,6 +8758,7 @@ class ShiftHandoverNotesCompanion
     Value<String>? note,
     Value<DateTime>? createdAt,
     Value<int?>? siteId,
+    Value<bool>? resolved,
   }) {
     return ShiftHandoverNotesCompanion(
       id: id ?? this.id,
@@ -8722,6 +8766,7 @@ class ShiftHandoverNotesCompanion
       note: note ?? this.note,
       createdAt: createdAt ?? this.createdAt,
       siteId: siteId ?? this.siteId,
+      resolved: resolved ?? this.resolved,
     );
   }
 
@@ -8743,6 +8788,9 @@ class ShiftHandoverNotesCompanion
     if (siteId.present) {
       map['site_id'] = Variable<int>(siteId.value);
     }
+    if (resolved.present) {
+      map['resolved'] = Variable<bool>(resolved.value);
+    }
     return map;
   }
 
@@ -8753,7 +8801,8 @@ class ShiftHandoverNotesCompanion
           ..write('authorUserId: $authorUserId, ')
           ..write('note: $note, ')
           ..write('createdAt: $createdAt, ')
-          ..write('siteId: $siteId')
+          ..write('siteId: $siteId, ')
+          ..write('resolved: $resolved')
           ..write(')'))
         .toString();
   }
@@ -15114,6 +15163,325 @@ class ProblemStatusEventsCompanion
   }
 }
 
+class $ShiftHandoverAcknowledgementsTable extends ShiftHandoverAcknowledgements
+    with
+        TableInfo<
+          $ShiftHandoverAcknowledgementsTable,
+          ShiftHandoverAcknowledgementEntity
+        > {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ShiftHandoverAcknowledgementsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _noteIdMeta = const VerificationMeta('noteId');
+  @override
+  late final GeneratedColumn<int> noteId = GeneratedColumn<int>(
+    'note_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES shift_handover_notes (id)',
+    ),
+  );
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _acknowledgedAtMeta = const VerificationMeta(
+    'acknowledgedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> acknowledgedAt =
+      GeneratedColumn<DateTime>(
+        'acknowledged_at',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  @override
+  List<GeneratedColumn> get $columns => [id, noteId, userId, acknowledgedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'shift_handover_acknowledgements';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ShiftHandoverAcknowledgementEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('note_id')) {
+      context.handle(
+        _noteIdMeta,
+        noteId.isAcceptableOrUnknown(data['note_id']!, _noteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_noteIdMeta);
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('acknowledged_at')) {
+      context.handle(
+        _acknowledgedAtMeta,
+        acknowledgedAt.isAcceptableOrUnknown(
+          data['acknowledged_at']!,
+          _acknowledgedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_acknowledgedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ShiftHandoverAcknowledgementEntity map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ShiftHandoverAcknowledgementEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      noteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}note_id'],
+      )!,
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_id'],
+      )!,
+      acknowledgedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}acknowledged_at'],
+      )!,
+    );
+  }
+
+  @override
+  $ShiftHandoverAcknowledgementsTable createAlias(String alias) {
+    return $ShiftHandoverAcknowledgementsTable(attachedDatabase, alias);
+  }
+}
+
+class ShiftHandoverAcknowledgementEntity extends DataClass
+    implements Insertable<ShiftHandoverAcknowledgementEntity> {
+  final int id;
+  final int noteId;
+  final int userId;
+  final DateTime acknowledgedAt;
+  const ShiftHandoverAcknowledgementEntity({
+    required this.id,
+    required this.noteId,
+    required this.userId,
+    required this.acknowledgedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['note_id'] = Variable<int>(noteId);
+    map['user_id'] = Variable<int>(userId);
+    map['acknowledged_at'] = Variable<DateTime>(acknowledgedAt);
+    return map;
+  }
+
+  ShiftHandoverAcknowledgementsCompanion toCompanion(bool nullToAbsent) {
+    return ShiftHandoverAcknowledgementsCompanion(
+      id: Value(id),
+      noteId: Value(noteId),
+      userId: Value(userId),
+      acknowledgedAt: Value(acknowledgedAt),
+    );
+  }
+
+  factory ShiftHandoverAcknowledgementEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ShiftHandoverAcknowledgementEntity(
+      id: serializer.fromJson<int>(json['id']),
+      noteId: serializer.fromJson<int>(json['noteId']),
+      userId: serializer.fromJson<int>(json['userId']),
+      acknowledgedAt: serializer.fromJson<DateTime>(json['acknowledgedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'noteId': serializer.toJson<int>(noteId),
+      'userId': serializer.toJson<int>(userId),
+      'acknowledgedAt': serializer.toJson<DateTime>(acknowledgedAt),
+    };
+  }
+
+  ShiftHandoverAcknowledgementEntity copyWith({
+    int? id,
+    int? noteId,
+    int? userId,
+    DateTime? acknowledgedAt,
+  }) => ShiftHandoverAcknowledgementEntity(
+    id: id ?? this.id,
+    noteId: noteId ?? this.noteId,
+    userId: userId ?? this.userId,
+    acknowledgedAt: acknowledgedAt ?? this.acknowledgedAt,
+  );
+  ShiftHandoverAcknowledgementEntity copyWithCompanion(
+    ShiftHandoverAcknowledgementsCompanion data,
+  ) {
+    return ShiftHandoverAcknowledgementEntity(
+      id: data.id.present ? data.id.value : this.id,
+      noteId: data.noteId.present ? data.noteId.value : this.noteId,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      acknowledgedAt: data.acknowledgedAt.present
+          ? data.acknowledgedAt.value
+          : this.acknowledgedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ShiftHandoverAcknowledgementEntity(')
+          ..write('id: $id, ')
+          ..write('noteId: $noteId, ')
+          ..write('userId: $userId, ')
+          ..write('acknowledgedAt: $acknowledgedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, noteId, userId, acknowledgedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ShiftHandoverAcknowledgementEntity &&
+          other.id == this.id &&
+          other.noteId == this.noteId &&
+          other.userId == this.userId &&
+          other.acknowledgedAt == this.acknowledgedAt);
+}
+
+class ShiftHandoverAcknowledgementsCompanion
+    extends UpdateCompanion<ShiftHandoverAcknowledgementEntity> {
+  final Value<int> id;
+  final Value<int> noteId;
+  final Value<int> userId;
+  final Value<DateTime> acknowledgedAt;
+  const ShiftHandoverAcknowledgementsCompanion({
+    this.id = const Value.absent(),
+    this.noteId = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.acknowledgedAt = const Value.absent(),
+  });
+  ShiftHandoverAcknowledgementsCompanion.insert({
+    this.id = const Value.absent(),
+    required int noteId,
+    required int userId,
+    required DateTime acknowledgedAt,
+  }) : noteId = Value(noteId),
+       userId = Value(userId),
+       acknowledgedAt = Value(acknowledgedAt);
+  static Insertable<ShiftHandoverAcknowledgementEntity> custom({
+    Expression<int>? id,
+    Expression<int>? noteId,
+    Expression<int>? userId,
+    Expression<DateTime>? acknowledgedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (noteId != null) 'note_id': noteId,
+      if (userId != null) 'user_id': userId,
+      if (acknowledgedAt != null) 'acknowledged_at': acknowledgedAt,
+    });
+  }
+
+  ShiftHandoverAcknowledgementsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? noteId,
+    Value<int>? userId,
+    Value<DateTime>? acknowledgedAt,
+  }) {
+    return ShiftHandoverAcknowledgementsCompanion(
+      id: id ?? this.id,
+      noteId: noteId ?? this.noteId,
+      userId: userId ?? this.userId,
+      acknowledgedAt: acknowledgedAt ?? this.acknowledgedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (noteId.present) {
+      map['note_id'] = Variable<int>(noteId.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (acknowledgedAt.present) {
+      map['acknowledged_at'] = Variable<DateTime>(acknowledgedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ShiftHandoverAcknowledgementsCompanion(')
+          ..write('id: $id, ')
+          ..write('noteId: $noteId, ')
+          ..write('userId: $userId, ')
+          ..write('acknowledgedAt: $acknowledgedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -15165,6 +15533,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $ProblemStatusEventsTable problemStatusEvents =
       $ProblemStatusEventsTable(this);
+  late final $ShiftHandoverAcknowledgementsTable shiftHandoverAcknowledgements =
+      $ShiftHandoverAcknowledgementsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -15198,6 +15568,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     taskTemplateVenueTypes,
     brandingConfigs,
     problemStatusEvents,
+    shiftHandoverAcknowledgements,
   ];
 }
 
@@ -20270,6 +20641,31 @@ final class $$UsersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $ShiftHandoverAcknowledgementsTable,
+    List<ShiftHandoverAcknowledgementEntity>
+  >
+  _shiftHandoverAcknowledgementsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.shiftHandoverAcknowledgements,
+        aliasName: 'users__id__shift_handover_acknowledgements__user_id',
+      );
+
+  $$ShiftHandoverAcknowledgementsTableProcessedTableManager
+  get shiftHandoverAcknowledgementsRefs {
+    final manager = $$ShiftHandoverAcknowledgementsTableTableManager(
+      $_db,
+      $_db.shiftHandoverAcknowledgements,
+    ).filter((f) => f.userId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _shiftHandoverAcknowledgementsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
@@ -20649,6 +21045,35 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
                 $removeJoinBuilderFromRootComposer,
           ),
     );
+    return f(composer);
+  }
+
+  Expression<bool> shiftHandoverAcknowledgementsRefs(
+    Expression<bool> Function(
+      $$ShiftHandoverAcknowledgementsTableFilterComposer f,
+    )
+    f,
+  ) {
+    final $$ShiftHandoverAcknowledgementsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.shiftHandoverAcknowledgements,
+          getReferencedColumn: (t) => t.userId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ShiftHandoverAcknowledgementsTableFilterComposer(
+                $db: $db,
+                $table: $db.shiftHandoverAcknowledgements,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
@@ -21179,6 +21604,35 @@ class $$UsersTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> shiftHandoverAcknowledgementsRefs<T extends Object>(
+    Expression<T> Function(
+      $$ShiftHandoverAcknowledgementsTableAnnotationComposer a,
+    )
+    f,
+  ) {
+    final $$ShiftHandoverAcknowledgementsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.shiftHandoverAcknowledgements,
+          getReferencedColumn: (t) => t.userId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ShiftHandoverAcknowledgementsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.shiftHandoverAcknowledgements,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$UsersTableTableManager
@@ -21208,6 +21662,7 @@ class $$UsersTableTableManager
             bool taskPresetsRefs,
             bool brandingConfigsRefs,
             bool problemStatusEventsRefs,
+            bool shiftHandoverAcknowledgementsRefs,
           })
         > {
   $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
@@ -21310,6 +21765,7 @@ class $$UsersTableTableManager
                 taskPresetsRefs = false,
                 brandingConfigsRefs = false,
                 problemStatusEventsRefs = false,
+                shiftHandoverAcknowledgementsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -21323,6 +21779,8 @@ class $$UsersTableTableManager
                     if (taskPresetsRefs) db.taskPresets,
                     if (brandingConfigsRefs) db.brandingConfigs,
                     if (problemStatusEventsRefs) db.problemStatusEvents,
+                    if (shiftHandoverAcknowledgementsRefs)
+                      db.shiftHandoverAcknowledgements,
                   ],
                   addJoins:
                       <
@@ -21586,6 +22044,27 @@ class $$UsersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (shiftHandoverAcknowledgementsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          ShiftHandoverAcknowledgementEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._shiftHandoverAcknowledgementsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).shiftHandoverAcknowledgementsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.userId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -21620,6 +22099,7 @@ typedef $$UsersTableProcessedTableManager =
         bool taskPresetsRefs,
         bool brandingConfigsRefs,
         bool problemStatusEventsRefs,
+        bool shiftHandoverAcknowledgementsRefs,
       })
     >;
 typedef $$SuppliersTableCreateCompanionBuilder =
@@ -25930,6 +26410,7 @@ typedef $$ShiftHandoverNotesTableCreateCompanionBuilder =
       required String note,
       required DateTime createdAt,
       Value<int?> siteId,
+      Value<bool> resolved,
     });
 typedef $$ShiftHandoverNotesTableUpdateCompanionBuilder =
     ShiftHandoverNotesCompanion Function({
@@ -25938,6 +26419,7 @@ typedef $$ShiftHandoverNotesTableUpdateCompanionBuilder =
       Value<String> note,
       Value<DateTime> createdAt,
       Value<int?> siteId,
+      Value<bool> resolved,
     });
 
 final class $$ShiftHandoverNotesTableReferences
@@ -25986,6 +26468,33 @@ final class $$ShiftHandoverNotesTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
+
+  static MultiTypedResultKey<
+    $ShiftHandoverAcknowledgementsTable,
+    List<ShiftHandoverAcknowledgementEntity>
+  >
+  _shiftHandoverAcknowledgementsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.shiftHandoverAcknowledgements,
+    aliasName:
+        'shift_handover_notes__id__shift_handover_acknowledgements__note_id',
+  );
+
+  $$ShiftHandoverAcknowledgementsTableProcessedTableManager
+  get shiftHandoverAcknowledgementsRefs {
+    final manager = $$ShiftHandoverAcknowledgementsTableTableManager(
+      $_db,
+      $_db.shiftHandoverAcknowledgements,
+    ).filter((f) => f.noteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _shiftHandoverAcknowledgementsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$ShiftHandoverNotesTableFilterComposer
@@ -26009,6 +26518,11 @@ class $$ShiftHandoverNotesTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get resolved => $composableBuilder(
+    column: $table.resolved,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -26057,6 +26571,35 @@ class $$ShiftHandoverNotesTableFilterComposer
     );
     return composer;
   }
+
+  Expression<bool> shiftHandoverAcknowledgementsRefs(
+    Expression<bool> Function(
+      $$ShiftHandoverAcknowledgementsTableFilterComposer f,
+    )
+    f,
+  ) {
+    final $$ShiftHandoverAcknowledgementsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.shiftHandoverAcknowledgements,
+          getReferencedColumn: (t) => t.noteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ShiftHandoverAcknowledgementsTableFilterComposer(
+                $db: $db,
+                $table: $db.shiftHandoverAcknowledgements,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$ShiftHandoverNotesTableOrderingComposer
@@ -26080,6 +26623,11 @@ class $$ShiftHandoverNotesTableOrderingComposer
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get resolved => $composableBuilder(
+    column: $table.resolved,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -26148,6 +26696,9 @@ class $$ShiftHandoverNotesTableAnnotationComposer
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
+  GeneratedColumn<bool> get resolved =>
+      $composableBuilder(column: $table.resolved, builder: (column) => column);
+
   $$UsersTableAnnotationComposer get authorUserId {
     final $$UsersTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -26193,6 +26744,35 @@ class $$ShiftHandoverNotesTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> shiftHandoverAcknowledgementsRefs<T extends Object>(
+    Expression<T> Function(
+      $$ShiftHandoverAcknowledgementsTableAnnotationComposer a,
+    )
+    f,
+  ) {
+    final $$ShiftHandoverAcknowledgementsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.shiftHandoverAcknowledgements,
+          getReferencedColumn: (t) => t.noteId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ShiftHandoverAcknowledgementsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.shiftHandoverAcknowledgements,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$ShiftHandoverNotesTableTableManager
@@ -26208,7 +26788,11 @@ class $$ShiftHandoverNotesTableTableManager
           $$ShiftHandoverNotesTableUpdateCompanionBuilder,
           (ShiftHandoverNoteEntity, $$ShiftHandoverNotesTableReferences),
           ShiftHandoverNoteEntity,
-          PrefetchHooks Function({bool authorUserId, bool siteId})
+          PrefetchHooks Function({
+            bool authorUserId,
+            bool siteId,
+            bool shiftHandoverAcknowledgementsRefs,
+          })
         > {
   $$ShiftHandoverNotesTableTableManager(
     _$AppDatabase db,
@@ -26233,12 +26817,14 @@ class $$ShiftHandoverNotesTableTableManager
                 Value<String> note = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
+                Value<bool> resolved = const Value.absent(),
               }) => ShiftHandoverNotesCompanion(
                 id: id,
                 authorUserId: authorUserId,
                 note: note,
                 createdAt: createdAt,
                 siteId: siteId,
+                resolved: resolved,
               ),
           createCompanionCallback:
               ({
@@ -26247,12 +26833,14 @@ class $$ShiftHandoverNotesTableTableManager
                 required String note,
                 required DateTime createdAt,
                 Value<int?> siteId = const Value.absent(),
+                Value<bool> resolved = const Value.absent(),
               }) => ShiftHandoverNotesCompanion.insert(
                 id: id,
                 authorUserId: authorUserId,
                 note: note,
                 createdAt: createdAt,
                 siteId: siteId,
+                resolved: resolved,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -26262,64 +26850,94 @@ class $$ShiftHandoverNotesTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({authorUserId = false, siteId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (authorUserId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.authorUserId,
-                                referencedTable:
-                                    $$ShiftHandoverNotesTableReferences
-                                        ._authorUserIdTable(db),
-                                referencedColumn:
-                                    $$ShiftHandoverNotesTableReferences
-                                        ._authorUserIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
-                    if (siteId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.siteId,
-                                referencedTable:
-                                    $$ShiftHandoverNotesTableReferences
-                                        ._siteIdTable(db),
-                                referencedColumn:
-                                    $$ShiftHandoverNotesTableReferences
-                                        ._siteIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
+          prefetchHooksCallback:
+              ({
+                authorUserId = false,
+                siteId = false,
+                shiftHandoverAcknowledgementsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (shiftHandoverAcknowledgementsRefs)
+                      db.shiftHandoverAcknowledgements,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (authorUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.authorUserId,
+                                    referencedTable:
+                                        $$ShiftHandoverNotesTableReferences
+                                            ._authorUserIdTable(db),
+                                    referencedColumn:
+                                        $$ShiftHandoverNotesTableReferences
+                                            ._authorUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable:
+                                        $$ShiftHandoverNotesTableReferences
+                                            ._siteIdTable(db),
+                                    referencedColumn:
+                                        $$ShiftHandoverNotesTableReferences
+                                            ._siteIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
-                    return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (shiftHandoverAcknowledgementsRefs)
+                        await $_getPrefetchedData<
+                          ShiftHandoverNoteEntity,
+                          $ShiftHandoverNotesTable,
+                          ShiftHandoverAcknowledgementEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ShiftHandoverNotesTableReferences
+                              ._shiftHandoverAcknowledgementsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ShiftHandoverNotesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).shiftHandoverAcknowledgementsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.noteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
                   },
-              getPrefetchedDataCallback: (items) async {
-                return [];
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -26336,7 +26954,11 @@ typedef $$ShiftHandoverNotesTableProcessedTableManager =
       $$ShiftHandoverNotesTableUpdateCompanionBuilder,
       (ShiftHandoverNoteEntity, $$ShiftHandoverNotesTableReferences),
       ShiftHandoverNoteEntity,
-      PrefetchHooks Function({bool authorUserId, bool siteId})
+      PrefetchHooks Function({
+        bool authorUserId,
+        bool siteId,
+        bool shiftHandoverAcknowledgementsRefs,
+      })
     >;
 typedef $$SessionSummariesTableCreateCompanionBuilder =
     SessionSummariesCompanion Function({
@@ -33241,6 +33863,420 @@ typedef $$ProblemStatusEventsTableProcessedTableManager =
       ProblemStatusEventEntity,
       PrefetchHooks Function({bool taskSubmissionId, bool changedByUserId})
     >;
+typedef $$ShiftHandoverAcknowledgementsTableCreateCompanionBuilder =
+    ShiftHandoverAcknowledgementsCompanion Function({
+      Value<int> id,
+      required int noteId,
+      required int userId,
+      required DateTime acknowledgedAt,
+    });
+typedef $$ShiftHandoverAcknowledgementsTableUpdateCompanionBuilder =
+    ShiftHandoverAcknowledgementsCompanion Function({
+      Value<int> id,
+      Value<int> noteId,
+      Value<int> userId,
+      Value<DateTime> acknowledgedAt,
+    });
+
+final class $$ShiftHandoverAcknowledgementsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $ShiftHandoverAcknowledgementsTable,
+          ShiftHandoverAcknowledgementEntity
+        > {
+  $$ShiftHandoverAcknowledgementsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ShiftHandoverNotesTable _noteIdTable(_$AppDatabase db) =>
+      db.shiftHandoverNotes.createAlias(
+        'shift_handover_acknowledgements__note_id__shift_handover_notes__id',
+      );
+
+  $$ShiftHandoverNotesTableProcessedTableManager get noteId {
+    final $_column = $_itemColumn<int>('note_id')!;
+
+    final manager = $$ShiftHandoverNotesTableTableManager(
+      $_db,
+      $_db.shiftHandoverNotes,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_noteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _userIdTable(_$AppDatabase db) => db.users.createAlias(
+    'shift_handover_acknowledgements__user_id__users__id',
+  );
+
+  $$UsersTableProcessedTableManager get userId {
+    final $_column = $_itemColumn<int>('user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_userIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ShiftHandoverAcknowledgementsTableFilterComposer
+    extends Composer<_$AppDatabase, $ShiftHandoverAcknowledgementsTable> {
+  $$ShiftHandoverAcknowledgementsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get acknowledgedAt => $composableBuilder(
+    column: $table.acknowledgedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ShiftHandoverNotesTableFilterComposer get noteId {
+    final $$ShiftHandoverNotesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.noteId,
+      referencedTable: $db.shiftHandoverNotes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ShiftHandoverNotesTableFilterComposer(
+            $db: $db,
+            $table: $db.shiftHandoverNotes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get userId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ShiftHandoverAcknowledgementsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ShiftHandoverAcknowledgementsTable> {
+  $$ShiftHandoverAcknowledgementsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get acknowledgedAt => $composableBuilder(
+    column: $table.acknowledgedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ShiftHandoverNotesTableOrderingComposer get noteId {
+    final $$ShiftHandoverNotesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.noteId,
+      referencedTable: $db.shiftHandoverNotes,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ShiftHandoverNotesTableOrderingComposer(
+            $db: $db,
+            $table: $db.shiftHandoverNotes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get userId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ShiftHandoverAcknowledgementsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ShiftHandoverAcknowledgementsTable> {
+  $$ShiftHandoverAcknowledgementsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get acknowledgedAt => $composableBuilder(
+    column: $table.acknowledgedAt,
+    builder: (column) => column,
+  );
+
+  $$ShiftHandoverNotesTableAnnotationComposer get noteId {
+    final $$ShiftHandoverNotesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.noteId,
+          referencedTable: $db.shiftHandoverNotes,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ShiftHandoverNotesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.shiftHandoverNotes,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get userId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ShiftHandoverAcknowledgementsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ShiftHandoverAcknowledgementsTable,
+          ShiftHandoverAcknowledgementEntity,
+          $$ShiftHandoverAcknowledgementsTableFilterComposer,
+          $$ShiftHandoverAcknowledgementsTableOrderingComposer,
+          $$ShiftHandoverAcknowledgementsTableAnnotationComposer,
+          $$ShiftHandoverAcknowledgementsTableCreateCompanionBuilder,
+          $$ShiftHandoverAcknowledgementsTableUpdateCompanionBuilder,
+          (
+            ShiftHandoverAcknowledgementEntity,
+            $$ShiftHandoverAcknowledgementsTableReferences,
+          ),
+          ShiftHandoverAcknowledgementEntity,
+          PrefetchHooks Function({bool noteId, bool userId})
+        > {
+  $$ShiftHandoverAcknowledgementsTableTableManager(
+    _$AppDatabase db,
+    $ShiftHandoverAcknowledgementsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ShiftHandoverAcknowledgementsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$ShiftHandoverAcknowledgementsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$ShiftHandoverAcknowledgementsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> noteId = const Value.absent(),
+                Value<int> userId = const Value.absent(),
+                Value<DateTime> acknowledgedAt = const Value.absent(),
+              }) => ShiftHandoverAcknowledgementsCompanion(
+                id: id,
+                noteId: noteId,
+                userId: userId,
+                acknowledgedAt: acknowledgedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int noteId,
+                required int userId,
+                required DateTime acknowledgedAt,
+              }) => ShiftHandoverAcknowledgementsCompanion.insert(
+                id: id,
+                noteId: noteId,
+                userId: userId,
+                acknowledgedAt: acknowledgedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ShiftHandoverAcknowledgementsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({noteId = false, userId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (noteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.noteId,
+                                referencedTable:
+                                    $$ShiftHandoverAcknowledgementsTableReferences
+                                        ._noteIdTable(db),
+                                referencedColumn:
+                                    $$ShiftHandoverAcknowledgementsTableReferences
+                                        ._noteIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (userId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.userId,
+                                referencedTable:
+                                    $$ShiftHandoverAcknowledgementsTableReferences
+                                        ._userIdTable(db),
+                                referencedColumn:
+                                    $$ShiftHandoverAcknowledgementsTableReferences
+                                        ._userIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ShiftHandoverAcknowledgementsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ShiftHandoverAcknowledgementsTable,
+      ShiftHandoverAcknowledgementEntity,
+      $$ShiftHandoverAcknowledgementsTableFilterComposer,
+      $$ShiftHandoverAcknowledgementsTableOrderingComposer,
+      $$ShiftHandoverAcknowledgementsTableAnnotationComposer,
+      $$ShiftHandoverAcknowledgementsTableCreateCompanionBuilder,
+      $$ShiftHandoverAcknowledgementsTableUpdateCompanionBuilder,
+      (
+        ShiftHandoverAcknowledgementEntity,
+        $$ShiftHandoverAcknowledgementsTableReferences,
+      ),
+      ShiftHandoverAcknowledgementEntity,
+      PrefetchHooks Function({bool noteId, bool userId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -33307,4 +34343,10 @@ class $AppDatabaseManager {
       $$BrandingConfigsTableTableManager(_db, _db.brandingConfigs);
   $$ProblemStatusEventsTableTableManager get problemStatusEvents =>
       $$ProblemStatusEventsTableTableManager(_db, _db.problemStatusEvents);
+  $$ShiftHandoverAcknowledgementsTableTableManager
+  get shiftHandoverAcknowledgements =>
+      $$ShiftHandoverAcknowledgementsTableTableManager(
+        _db,
+        _db.shiftHandoverAcknowledgements,
+      );
 }

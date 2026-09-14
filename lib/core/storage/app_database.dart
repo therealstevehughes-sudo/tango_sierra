@@ -334,6 +334,27 @@ class ShiftHandoverNotes extends Table {
   TextColumn get note => text()();
   DateTimeColumn get createdAt => dateTime()();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  // Built 2026-09-14: previously a note showed to EVERY task-screen open
+  // forever, with no way to clear it — a real user-reported bug. `resolved`
+  // is the "done, don't show to anyone again" state; a note that's merely
+  // been read but still needs the next shift's attention stays
+  // unresolved and is tracked per-reader via ShiftHandoverAcknowledgements
+  // instead, so it naturally keeps surfacing to whoever hasn't seen it
+  // yet without nagging someone who already has.
+  BoolColumn get resolved => boolean().withDefault(const Constant(false))();
+}
+
+// Built 2026-09-14, alongside ShiftHandoverNotes.resolved — tracks which
+// users have already seen a given still-active note, so re-opening the
+// task screen doesn't re-show it to the same person while it's still
+// legitimately pending for someone else (e.g. the actual next shift).
+@DataClassName('ShiftHandoverAcknowledgementEntity')
+class ShiftHandoverAcknowledgements extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get noteId =>
+      integer().references(ShiftHandoverNotes, #id)();
+  IntColumn get userId => integer().references(Users, #id)();
+  DateTimeColumn get acknowledgedAt => dateTime()();
 }
 
 @DataClassName('SessionSummaryEntity')
@@ -682,6 +703,7 @@ class _LibraryPreset {
     BrandingConfigs,
     ProblemStatusEvents,
     Regions,
+    ShiftHandoverAcknowledgements,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -693,7 +715,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 37;
+  int get schemaVersion => 38;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1017,6 +1039,17 @@ class AppDatabase extends _$AppDatabase {
         // which is the correct meaning for every existing schedule.
         await m.addColumn(taskSchedules, taskSchedules.sortOrder);
         await m.addColumn(areas, areas.sortOrder);
+      }
+      if (from < 38) {
+        // Shift handover notes clearing (2026-09-14) — see
+        // ShiftHandoverNotes.resolved's doc comment. Existing notes
+        // default to resolved=false (unresolved), which is the correct
+        // meaning for a note nobody has explicitly cleared yet.
+        await m.addColumn(
+          shiftHandoverNotes,
+          shiftHandoverNotes.resolved,
+        );
+        await m.createTable(shiftHandoverAcknowledgements);
       }
     },
     beforeOpen: (details) async {
