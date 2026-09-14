@@ -4,17 +4,31 @@ import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../shared/models/pin_auth_outcome.dart';
+import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import 'pin_entry.dart';
 
 /// Leadership Access — the private entry point for regional/executive
 /// accounts, reached via the discreet lock icon on the main login screen
 /// (they're deliberately hidden from that shared, walk-up staff list).
 ///
-/// Phase 2: this used to reuse the same PIN-hash check every other account
-/// goes through, with a banner warning that it was interim. It's now real
-/// email + password sign-in via Supabase's own auth, replacing the PIN
-/// entirely for this tier. Two-factor (an authenticator app code) is a
-/// planned fast-follow, not built in this pass — see Phase 2 notes.
+/// Phase 2: real email + password sign-in via Supabase's own auth, once a
+/// real backend tenant is configured (`backendAuthEnabledProvider` true).
+/// Two-factor (an authenticator app code) is a planned fast-follow.
+///
+/// Found 2026-09-14 while checking a "no logo shows" report: this screen's
+/// GoTrue-only flow made Leadership Access completely unreachable in a
+/// local/demo build (`backendAuthEnabledProvider` false — the default) —
+/// there's no real GoTrue account for the seeded demo Director/Regional
+/// accounts, and they're deliberately hidden from the PIN-based staff
+/// list, so no executive-only screen (like Company branding) could ever
+/// be reached at all. Restored the ORIGINAL local PIN-check path (this
+/// screen's own doc comment already noted it "used to" work this way)
+/// as the demo-mode fallback: PIN-based sign-in, reusing the exact same
+/// `PinEntry` widget and `UserRepository.authenticate()` call the main
+/// staff login screen uses, so a real backend tenant is the only thing
+/// that switches this over to real email+password.
 class SeniorLoginScreen extends ConsumerStatefulWidget {
   const SeniorLoginScreen({super.key});
 
@@ -29,11 +43,79 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
   bool submitting = false;
   bool obscurePassword = true;
 
+  // Demo-mode (backendAuthEnabled false) PIN path.
+  User? selectedUser;
+  final pinController = TextEditingController();
+
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    pinController.dispose();
     super.dispose();
+  }
+
+  void selectUser(User user) {
+    setState(() {
+      selectedUser = user;
+      pinController.clear();
+      error = null;
+    });
+  }
+
+  void backToList() {
+    setState(() {
+      selectedUser = null;
+      pinController.clear();
+      error = null;
+    });
+  }
+
+  Future<void> submitPin() async {
+    final user = selectedUser;
+    if (user == null) return;
+
+    setState(() {
+      error = null;
+      submitting = true;
+    });
+
+    final repository = ref.read(userRepositoryProvider);
+    final outcome = await repository.authenticate(
+      userId: user.id,
+      pin: pinController.text.trim(),
+    );
+
+    if (!mounted) return;
+
+    switch (outcome) {
+      case PinAuthSuccess(:final user, :final accessToken):
+        ref.read(currentUserProvider.notifier).state = user;
+        ref.read(currentSessionTokenProvider.notifier).state = accessToken;
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      case PinAuthIncorrect():
+        setState(() {
+          error = 'Incorrect PIN';
+          submitting = false;
+        });
+      case PinAuthLocked(:final lockedUntil):
+        final minutesLeft =
+            lockedUntil.difference(DateTime.now()).inMinutes + 1;
+        setState(() {
+          error = 'Too many wrong attempts. Try again in $minutesLeft min.';
+          submitting = false;
+        });
+      case PinAuthNotFound():
+        setState(() {
+          error = 'Account not found';
+          submitting = false;
+        });
+      case PinAuthError(:final message):
+        setState(() {
+          error = message;
+          submitting = false;
+        });
+    }
   }
 
   Future<void> submit() async {
@@ -103,6 +185,9 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (!ref.watch(backendAuthEnabledProvider)) {
+      return _buildDemoPinMode(context);
+    }
     return Scaffold(
       appBar: AppBar(title: const Text('Leadership Access')),
       body: SafeArea(
@@ -172,6 +257,75 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDemoPinMode(BuildContext context) {
+    final staffAsync = ref.watch(staffDirectoryProvider);
+    final seniorStaff = staffAsync.maybeWhen(
+      data: (staff) => staff
+          .where(
+            (u) =>
+                u.roleTier == RoleTier.regional ||
+                u.roleTier == RoleTier.executive,
+          )
+          .toList(),
+      orElse: () => const <User>[],
+    );
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Leadership Access')),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ResponsiveContent(
+            maxWidth: 400,
+            alignment: Alignment.center,
+            child: selectedUser != null
+                ? PinEntry(
+                    user: selectedUser!,
+                    controller: pinController,
+                    error: error,
+                    submitting: submitting,
+                    onSubmit: submitPin,
+                    onBack: backToList,
+                  )
+                : staffAsync.isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const AppBanner(
+                        kind: BannerKind.info,
+                        child: Text(
+                          'No backend is configured for this install — '
+                          'sign in with a PIN, same as everyone else.',
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      if (seniorStaff.isEmpty)
+                        const Text(
+                          'No Director/Regional accounts on this device.',
+                        )
+                      else
+                        for (final user in seniorStaff)
+                          Card(
+                            child: ListTile(
+                              title: Text(user.name),
+                              subtitle: Text(
+                                user.roleTier == RoleTier.executive
+                                    ? 'Director'
+                                    : 'Regional Manager',
+                              ),
+                              onTap: () => selectUser(user),
+                            ),
+                          ),
+                    ],
+                  ),
           ),
         ),
       ),
