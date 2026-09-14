@@ -9,6 +9,7 @@ import '../../features/onboarding/staff_assignment_screen.dart';
 import '../../features/onboarding/staff_provisioning_screen.dart';
 import '../../features/problems/problems_register_screen.dart';
 import '../../features/regions/branch_management_screen.dart';
+import '../../features/regions/organisation_tree_screen.dart';
 import '../../features/regions/region_management_screen.dart';
 import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
@@ -117,6 +118,18 @@ final List<_DrawerItemDef> _managementItems = [
     label: 'Department Management',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const DepartmentManagementScreen(),
+  ),
+  // Phase C3 (2026-09-14) — the visual org hierarchy tree: an overview
+  // showing the whole Company -> Regions -> Venues structure at a
+  // glance, with add/invite actions right on it (including the
+  // previously-uncreatable "venue with no region" case). Executive-only,
+  // same floor as Regions below, which it complements rather than
+  // replaces -- both stay reachable.
+  _DrawerItemDef(
+    icon: Icons.account_tree_outlined,
+    label: 'Organisation',
+    minTier: RoleTier.executive,
+    screenBuilder: (_) => const OrganisationTreeScreen(),
   ),
   // Phase C1c — cascading tenant setup. Regions is executive-only (top
   // tier, so `atLeast` limits it to exactly that tier in practice);
