@@ -49,11 +49,30 @@ class EvidenceStore {
     return _persist(file);
   }
 
+  /// Persists a file already captured elsewhere on disk (e.g. by
+  /// `CameraCaptureScreen`'s live camera, built 2026-09-14 for Windows +
+  /// Android — image_picker's own camera option doesn't exist on Windows,
+  /// so that screen uses the `camera` package directly and hands its
+  /// captured file path here to go through the same copy-into-evidence-dir
+  /// path as every other evidence photo).
+  Future<String> persistCapturedFile(String sourcePath) =>
+      _persist(XFile(sourcePath));
+
   Future<XFile?> _pickFromSource(ImageSource source) async {
     try {
       final picker = ImagePicker();
-      return picker.pickImage(source: source, imageQuality: 62);
-    } on Exception {
+      // Must `await` here, not just return the Future: on desktop
+      // (image_picker_windows), ImageSource.camera throws an
+      // UnsupportedError — an Error, not an Exception — as soon as the
+      // Future resolves. Returning the un-awaited Future let that error
+      // escape this try/catch entirely (an async function's `return
+      // future;` does not route the future's error through its own
+      // catch), so the camera-first-then-gallery fallback below never
+      // ran on Windows and the caller saw an unhandled exception instead
+      // of a clean null. `catch (_)` (not `on Exception`) so it also
+      // catches UnsupportedError, not just Exception subtypes.
+      return await picker.pickImage(source: source, imageQuality: 62);
+    } catch (_) {
       return null;
     }
   }

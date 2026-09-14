@@ -56,6 +56,28 @@ dependencies:
   # NSCameraUsageDescription / NSPhotoLibraryUsageDescription keys in
   # ios/Runner/Info.plist (added with this sprint).
   image_picker: ^1.1.2
+  # Live camera capture for evidence photos, Windows + Android (built
+  # 2026-09-14). image_picker's own camera option is Android/iOS-only —
+  # image_picker_windows explicitly throws UnsupportedError for
+  # ImageSource.camera, so Windows tablets got no live-camera option at
+  # all, only a file-browser fallback. `camera` is a federated plugin with
+  # a real Windows implementation (camera_windows), giving one consistent
+  # live-preview-and-capture screen across both platforms rather than
+  # relying on each OS's own camera intent. image_picker's gallery/file
+  # path stays as the "Upload from Files" alternative on both platforms.
+  camera: ^0.11.0+2
+  # The `camera` federated plugin does not list a Windows implementation
+  # as its own default (only android/ios/web) — camera_windows exists as
+  # a real implementation but must be pulled in explicitly for Flutter's
+  # plugin resolution to pick it up on Windows.
+  camera_windows: ^0.2.6+5
+  # Persists the user's chosen camera on Windows (see CameraCaptureScreen)
+  # — camera_windows hardcodes lensDirection to `front` for every camera
+  # (a known unimplemented TODO in that plugin: no Windows API gives a
+  # real front/back distinction), so automatic back-camera detection is
+  # unreliable there. Was already a transitive dependency; promoted to
+  # direct so it can be imported.
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Live camera evidence capture (camera package, added 2026-09-14) —
+         unlike image_picker's intent-based camera launch, the `camera`
+         plugin opens the device camera directly and needs this declared
+         explicitly. -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <application
         android:label="flutter_application_1"
         android:name="${applicationName}"

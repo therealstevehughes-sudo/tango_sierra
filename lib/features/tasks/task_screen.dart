@@ -26,9 +26,12 @@ import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import 'camera_capture_screen.dart';
 import 'end_of_session_summary_screen.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
+
+enum _PhotoSource { camera, upload }
 
 class TaskScreen extends ConsumerStatefulWidget {
   const TaskScreen({super.key});
@@ -125,19 +128,58 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     final latestNote = currentUser?.siteId == null
         ? null
         : await handoverRepo.getLatestForSite(currentUser!.siteId!);
-    if (!mounted || latestNote == null) return;
+    if (!mounted || latestNote == null || currentUser == null) return;
 
-    await showDialog(
+    // Built 2026-09-14 — fixes a real reported bug: this note used to
+    // show on every task-screen open forever, with no way to clear it.
+    // getLatestForSite already only returns an unresolved note; this
+    // extra check stops re-nagging THIS person once they've seen it,
+    // while it keeps surfacing to whoever hasn't (the actual next shift).
+    final alreadySeen = await handoverRepo.hasAcknowledged(
+      noteId: latestNote.id,
+      userId: currentUser.id,
+    );
+    if (!mounted || alreadySeen) return;
+
+    var repeatForNextShift = false;
+    await showDialog<void>(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Handover Notes'),
-        content: Text(latestNote.note),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (dialogContext, setDialogState) => AlertDialog(
+          title: const Text('Handover Notes'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(latestNote.note),
+              const SizedBox(height: 12),
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                controlAffinity: ListTileControlAffinity.leading,
+                value: repeatForNextShift,
+                onChanged: (value) => setDialogState(
+                  () => repeatForNextShift = value ?? false,
+                ),
+                title: const Text(
+                  'This still needs the next shift\'s attention',
+                ),
+              ),
+            ],
           ),
-        ],
+          actions: [
+            FilledButton(
+              onPressed: () async {
+                await handoverRepo.acknowledge(
+                  noteId: latestNote.id,
+                  userId: currentUser.id,
+                  repeatForNextShift: repeatForNextShift,
+                );
+                if (dialogContext.mounted) Navigator.pop(dialogContext);
+              },
+              child: const Text('Got it'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -156,15 +198,49 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     setState(() {});
   }
 
-  // Real photo evidence (Sprint 032 P0, PHOTO_EVIDENCE_PLAN.md) — replaces
-  // the old fake toggle: capture an actual photo via the EvidenceStore
-  // (camera first, gallery fallback), persist the JPEG into
-  // <documents>/evidence/, and only then mark the task's photo as taken.
-  // A cancel or failed capture leaves the task un-submittable (the same
-  // gate `canSubmit` already enforced on `photoTaken`) — never a fake
-  // "Photo Added" without a real file behind it.
+  // Real photo evidence (Sprint 032 P0, PHOTO_EVIDENCE_PLAN.md; explicit
+  // Take Photo / Upload choice added 2026-09-14 for Windows + Android).
+  // Persists the JPEG into <documents>/evidence/ and only then marks the
+  // task's photo as taken. A cancel or failed capture leaves the task
+  // un-submittable (the same gate `canSubmit` already enforced on
+  // `photoTaken`) — never a fake "Photo Added" without a real file behind
+  // it.
   Future<void> _capturePhoto() async {
-    final path = await ref.read(evidenceStoreProvider).pickAndPersistPhoto();
+    final choice = await showModalBottomSheet<_PhotoSource>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt_outlined),
+              title: const Text('Take Photo'),
+              onTap: () => Navigator.pop(context, _PhotoSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.upload_file_outlined),
+              title: const Text('Upload from Files'),
+              onTap: () => Navigator.pop(context, _PhotoSource.upload),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (choice == null || !mounted) return;
+
+    String? path;
+    if (choice == _PhotoSource.camera) {
+      final capturedPath = await Navigator.push<String>(
+        context,
+        MaterialPageRoute(builder: (_) => const CameraCaptureScreen()),
+      );
+      if (capturedPath == null || !mounted) return;
+      path = await ref
+          .read(evidenceStoreProvider)
+          .persistCapturedFile(capturedPath);
+    } else {
+      path = await ref.read(evidenceStoreProvider).pickFromGallery();
+    }
     if (path == null || !mounted) return;
     setState(() {
       photoTaken = true;
