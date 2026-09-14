@@ -459,6 +459,67 @@ class Organisations extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   DateTimeColumn get createdAt => dateTime()();
+  // Sprint 034 (Customer Onboarding & Billing Foundation, 2026-09-14) —
+  // company legal/billing details, collected during the onboarding
+  // wizard's Company Details step. All nullable: every organisation
+  // created before this sprint (and every local demo org) simply has
+  // none of these set yet.
+  TextColumn get legalName => text().nullable()();
+  TextColumn get country => text().nullable()();
+  TextColumn get registeredAddress => text().nullable()();
+  TextColumn get vatNumber => text().nullable()();
+  TextColumn get billingEmail => text().nullable()();
+  // The executive who created this org (Sprint 034 decision #1) — a
+  // billing/legal distinction ("Owner"), not a 6th RoleTier. Nullable:
+  // an org created before this sprint has no recorded owner yet.
+  IntColumn get ownerUserId => integer().nullable().references(Users, #id)();
+}
+
+// Sprint 034 — one row per organisation, its single consolidated billing
+// account (per the agreed commercial model: one bill to head office,
+// never per-user). Real Stripe integration is a later, credential-gated
+// stage (decision #3) — stripe_customer_id/stripe_subscription_id sit
+// unused until then; billed_site_count is a snapshot the app updates,
+// not a live Stripe read.
+@DataClassName('SubscriptionEntity')
+class Subscriptions extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get organisationId =>
+      integer().references(Organisations, #id)();
+  // trialing | active | past_due | canceled
+  TextColumn get status => text().withDefault(const Constant('trialing'))();
+  TextColumn get planName => text().nullable()();
+  IntColumn get billedSiteCount => integer().withDefault(const Constant(0))();
+  DateTimeColumn get trialEndsAt => dateTime().nullable()();
+  DateTimeColumn get currentPeriodEnd => dateTime().nullable()();
+  TextColumn get stripeCustomerId => text().nullable()();
+  TextColumn get stripeSubscriptionId => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime()();
+}
+
+// Sprint 034 — a real single-use, expiring, random token (decision #2),
+// not a guessable code. Local Drift mirror of the backend table for
+// consistency; in practice invite creation/redemption for a real
+// multi-tenant install always goes through the backend Edge Functions
+// (create-invite/redeem-invite), same as every other C1-onward
+// privileged operation.
+@DataClassName('OrganisationInviteEntity')
+class OrganisationInvites extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get organisationId =>
+      integer().references(Organisations, #id)();
+  TextColumn get roleTier => text()();
+  IntColumn get regionId => integer().nullable().references(Regions, #id)();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  TextColumn get token => text().unique()();
+  TextColumn get email => text().nullable()();
+  IntColumn get createdByUserId => integer().references(Users, #id)();
+  DateTimeColumn get expiresAt => dateTime()();
+  DateTimeColumn get redeemedAt => dateTime().nullable()();
+  IntColumn get redeemedByUserId =>
+      integer().nullable().references(Users, #id)();
+  DateTimeColumn get createdAt => dateTime()();
 }
 
 // Phase B0 (2026-09-08) — an OPTIONAL grouping layer inside an
@@ -704,6 +765,8 @@ class _LibraryPreset {
     ProblemStatusEvents,
     Regions,
     ShiftHandoverAcknowledgements,
+    Subscriptions,
+    OrganisationInvites,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -715,7 +778,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 38;
+  int get schemaVersion => 39;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1050,6 +1113,19 @@ class AppDatabase extends _$AppDatabase {
           shiftHandoverNotes.resolved,
         );
         await m.createTable(shiftHandoverAcknowledgements);
+      }
+      if (from < 39) {
+        // Sprint 034 — Customer Onboarding & Billing Foundation. All new
+        // Organisations columns are nullable, so existing orgs (including
+        // every local demo install) simply have none of them set yet.
+        await m.addColumn(organisations, organisations.legalName);
+        await m.addColumn(organisations, organisations.country);
+        await m.addColumn(organisations, organisations.registeredAddress);
+        await m.addColumn(organisations, organisations.vatNumber);
+        await m.addColumn(organisations, organisations.billingEmail);
+        await m.addColumn(organisations, organisations.ownerUserId);
+        await m.createTable(subscriptions);
+        await m.createTable(organisationInvites);
       }
     },
     beforeOpen: (details) async {

@@ -47,9 +47,9 @@ class _BranchManagementScreenState
 
   Future<void> _addBranch() async {
     final currentUser = ref.read(currentUserProvider);
-    final orgId = ref.read(currentBackendOrganisationIdProvider);
+    final orgId = await ref.read(currentOrganisationIdProvider.future);
     final regionId = currentUser?.regionId;
-    if (orgId == null || regionId == null) return;
+    if (orgId == null || regionId == null || !mounted) return;
     final name = await _promptText(context, title: 'New branch name');
     if (name == null || name.trim().isEmpty) return;
     await ref.read(siteRepositoryProvider).create(

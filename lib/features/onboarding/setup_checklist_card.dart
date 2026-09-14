@@ -56,7 +56,7 @@ class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
     List<_ChecklistItem> items;
     switch (user.roleTier) {
       case RoleTier.executive:
-        final orgId = ref.read(currentBackendOrganisationIdProvider);
+        final orgId = await ref.read(currentOrganisationIdProvider.future);
         final regions = orgId == null
             ? const []
             : await ref

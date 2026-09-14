@@ -39,7 +39,7 @@ class _RegionManagementScreenState
   }
 
   Future<void> _load() async {
-    final orgId = ref.read(currentBackendOrganisationIdProvider);
+    final orgId = await ref.read(currentOrganisationIdProvider.future);
     if (orgId == null) {
       setState(() {
         _loading = false;
@@ -125,8 +125,8 @@ class _RegionManagementScreenState
   }
 
   Future<void> _addRegion() async {
-    final orgId = ref.read(currentBackendOrganisationIdProvider);
-    if (orgId == null) return;
+    final orgId = await ref.read(currentOrganisationIdProvider.future);
+    if (orgId == null || !mounted) return;
     final name = await _promptText(context, title: 'New region name');
     if (name == null || name.trim().isEmpty) return;
     await ref
@@ -149,8 +149,8 @@ class _RegionManagementScreenState
   }
 
   Future<void> _inviteRegionalManager(Region region) async {
-    final orgId = ref.read(currentBackendOrganisationIdProvider);
-    if (orgId == null) return;
+    final orgId = await ref.read(currentOrganisationIdProvider.future);
+    if (orgId == null || !mounted) return;
     final result = await showDialog<(String name, String email)>(
       context: context,
       builder: (_) => const _InviteDialog(roleLabel: 'Regional Manager'),

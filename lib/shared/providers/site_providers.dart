@@ -8,7 +8,11 @@ import '../repositories/site_repository.dart';
 import '../repositories/supabase_organisation_repository.dart';
 import '../repositories/supabase_region_repository.dart';
 import '../repositories/supabase_site_repository.dart';
-import 'auth_providers.dart' show backendDataEnabledProvider, currentUserProvider;
+import 'auth_providers.dart'
+    show
+        backendDataEnabledProvider,
+        currentBackendOrganisationIdProvider,
+        currentUserProvider;
 import 'backend_providers.dart' show backendRestClientProvider;
 import 'task_submission_providers.dart' show appDatabaseProvider;
 
@@ -20,6 +24,30 @@ final organisationRepositoryProvider = Provider<OrganisationRepository>((
   }
   final db = ref.watch(appDatabaseProvider);
   return DriftOrganisationRepository(db);
+});
+
+// Sprint 034 fix (2026-09-14): `currentBackendOrganisationIdProvider` only
+// resolves when there's a real backend JWT (Leadership Access via GoTrue,
+// or a server-verified PIN session) — it decodes organisation_id straight
+// out of the token. A LOCAL PIN-based executive/regional session
+// (backendAuthEnabled false — every local/demo install, including the PIN
+// fallback restored for Leadership Access) has no token at all, so every
+// screen that read organisation id ONLY from that provider (Regions,
+// Branches, the setup checklist, notification rules, task templates, venue
+// types) broke the instant local senior sign-in became possible again —
+// "No organisation on this session," even though a real local Organisation
+// obviously exists. This provider is the one place that adds the missing
+// fallback: the backend org id when a token exists, otherwise the local
+// install's one Organisation (the same single-tenant-locally assumption
+// `brandingConfigProvider` already makes via `getDefault()`), or null if
+// running in real backend mode with no session yet (nothing to fall back
+// to there — that's a genuine "not signed in").
+final currentOrganisationIdProvider = FutureProvider<int?>((ref) async {
+  final backendOrgId = ref.watch(currentBackendOrganisationIdProvider);
+  if (backendOrgId != null) return backendOrgId;
+  if (ref.watch(backendDataEnabledProvider)) return null;
+  final org = await ref.watch(organisationRepositoryProvider).getDefault();
+  return org.id;
 });
 
 final siteRepositoryProvider = Provider<SiteRepository>((ref) {
