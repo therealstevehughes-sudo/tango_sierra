@@ -262,8 +262,9 @@ class _CompanyOnboardingWizardScreenState
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const Text(
-          "Let's set up your account. You'll be the owner of this "
-          'company on VenuRite.',
+          "Let's set up your account. You'll be the administrator for "
+          'this company on VenuRite, and can invite your team once '
+          "you're in.",
         ),
         const SizedBox(height: 16),
         TextField(
