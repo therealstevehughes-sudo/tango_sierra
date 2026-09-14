@@ -43,6 +43,27 @@ class SeniorInviteException implements Exception {
   String toString() => message;
 }
 
+class SeniorPasswordResetResult {
+  const SeniorPasswordResetResult({
+    required this.localUserId,
+    required this.name,
+    required this.email,
+    required this.temporaryPassword,
+  });
+
+  final int localUserId;
+  final String name;
+  final String email;
+  final String temporaryPassword;
+}
+
+class SeniorPasswordResetException implements Exception {
+  SeniorPasswordResetException(this.message);
+  final String message;
+  @override
+  String toString() => message;
+}
+
 class StaffPinProvisionResult {
   const StaffPinProvisionResult({
     required this.localUserId,
@@ -87,6 +108,17 @@ abstract class TenantProvisioningRepository {
     required String roleTier,
     required int organisationId,
     int? regionId,
+  });
+
+  /// Built 2026-09-14 — resets a regional/executive account's password.
+  /// No SMTP is configured on this stack (same gap logged on
+  /// [inviteSenior]), so this is admin-mediated rather than a
+  /// self-service emailed link/code: the caller must be a signed-in
+  /// executive of the SAME organisation as [targetLocalUserId] (enforced
+  /// server-side), and gets back a freshly generated temporary password
+  /// to pass along out-of-band, mirroring [inviteSenior]'s exact pattern.
+  Future<SeniorPasswordResetResult> resetSeniorPassword({
+    required int targetLocalUserId,
   });
 
   /// Phase C1d — creates a PIN-tier account (venueManager/supervisor/base)
@@ -184,6 +216,33 @@ class SupabaseTenantProvisioningRepository
       throw SeniorInviteException(message);
     } catch (_) {
       throw SeniorInviteException('Could not reach the server');
+    }
+  }
+
+  @override
+  Future<SeniorPasswordResetResult> resetSeniorPassword({
+    required int targetLocalUserId,
+  }) async {
+    try {
+      final response = await _client.functions.invoke(
+        'reset-senior-password',
+        body: {'target_local_user_id': targetLocalUserId},
+      );
+      final data = response.data as Map<String, dynamic>;
+      return SeniorPasswordResetResult(
+        localUserId: data['local_user_id'] as int,
+        name: data['name'] as String,
+        email: data['email'] as String,
+        temporaryPassword: data['temporary_password'] as String,
+      );
+    } on FunctionException catch (e) {
+      final details = e.details;
+      final message = details is Map && details['error'] is String
+          ? details['error'] as String
+          : 'Password reset failed (${e.status})';
+      throw SeniorPasswordResetException(message);
+    } catch (_) {
+      throw SeniorPasswordResetException('Could not reach the server');
     }
   }
 

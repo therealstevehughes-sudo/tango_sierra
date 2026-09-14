@@ -5,6 +5,7 @@ import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/region.dart';
+import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
@@ -27,6 +28,7 @@ class RegionManagementScreen extends ConsumerStatefulWidget {
 class _RegionManagementScreenState
     extends ConsumerState<RegionManagementScreen> {
   List<Region>? _regions;
+  List<User>? _leadershipAccounts;
   bool _loading = true;
   String? _error;
 
@@ -48,11 +50,78 @@ class _RegionManagementScreenState
     final regions = await ref
         .read(regionRepositoryProvider)
         .getForOrganisation(orgId);
+    final leadershipAccounts = await ref
+        .read(userRepositoryProvider)
+        .getForOrganisation(orgId);
     if (!mounted) return;
     setState(() {
       _regions = regions;
+      _leadershipAccounts = leadershipAccounts;
       _loading = false;
     });
+  }
+
+  Future<void> _resetPassword(User account) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Reset password?'),
+        content: Text(
+          "This immediately invalidates ${account.name}'s current "
+          "password. You'll get a new temporary password to pass along "
+          'to them.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Reset'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    try {
+      final result = await ref
+          .read(tenantProvisioningRepositoryProvider)
+          .resetSeniorPassword(targetLocalUserId: account.id);
+      if (!mounted) return;
+      await showDialog<void>(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Password reset'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Give this person their new temporary password — they '
+                'sign in via Leadership Access with their existing email.',
+              ),
+              const SizedBox(height: 16),
+              SelectableText('Email: ${result.email}'),
+              SelectableText(
+                'Temporary password: ${result.temporaryPassword}',
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Done'),
+            ),
+          ],
+        ),
+      );
+    } on SeniorPasswordResetException catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.message)));
+    }
   }
 
   Future<void> _addRegion() async {
@@ -154,17 +223,18 @@ class _RegionManagementScreenState
                 ? const Center(child: CircularProgressIndicator())
                 : _error != null
                     ? AppBanner(kind: BannerKind.critical, child: Text(_error!))
-                    : (_regions ?? []).isEmpty
-                        ? const Center(
-                            child: Text(
-                              'No regions yet. Add one to invite a '
-                              'regional manager.',
-                            ),
-                          )
-                        : ListView.separated(
-                            itemCount: _regions!.length,
-                            separatorBuilder: (_, _) => const Divider(),
-                            itemBuilder: (context, index) {
+                    : ListView(
+                        children: [
+                          if ((_regions ?? []).isEmpty)
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16),
+                              child: Text(
+                                'No regions yet. Add one to invite a '
+                                'regional manager.',
+                              ),
+                            )
+                          else
+                            ...List.generate(_regions!.length, (index) {
                               final region = _regions![index];
                               return ListTile(
                                 title: Text(region.name),
@@ -188,8 +258,45 @@ class _RegionManagementScreenState
                                   ],
                                 ),
                               );
-                            },
-                          ),
+                            }),
+                          if ((_leadershipAccounts ?? []).isNotEmpty) ...[
+                            const Padding(
+                              padding: EdgeInsets.only(top: 24, bottom: 8),
+                              child: Text(
+                                'Leadership accounts',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            const Divider(height: 1),
+                            ...List.generate(_leadershipAccounts!.length, (
+                              index,
+                            ) {
+                              final account = _leadershipAccounts![index];
+                              return ListTile(
+                                title: Text(account.name),
+                                subtitle: Text(
+                                  account.roleTier == RoleTier.executive
+                                      ? 'Director'
+                                      : 'Regional Manager',
+                                ),
+                                trailing: PopupMenuButton<String>(
+                                  onSelected: (value) {
+                                    if (value == 'reset') {
+                                      _resetPassword(account);
+                                    }
+                                  },
+                                  itemBuilder: (_) => const [
+                                    PopupMenuItem(
+                                      value: 'reset',
+                                      child: Text('Reset password'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                          ],
+                        ],
+                      ),
           ),
         ),
       ),

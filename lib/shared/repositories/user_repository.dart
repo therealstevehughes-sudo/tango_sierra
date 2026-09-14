@@ -10,6 +10,13 @@ import '../models/user.dart';
 abstract class UserRepository {
   Future<List<User>> getAll();
   Future<List<User>> getForSite(int siteId);
+  // Leadership accounts (regional/executive, site-less) for an
+  // organisation — built 2026-09-14 so RegionManagementScreen can list
+  // who to reset a password for. Local Drift is always implicitly a
+  // single organisation (same assumption brandingConfigProvider already
+  // makes via organisationRepositoryProvider.getDefault()), so the Drift
+  // implementation ignores [organisationId] and just filters by tier.
+  Future<List<User>> getForOrganisation(int organisationId);
   // Phase 2 (real backend auth) — Leadership Access uses this to map a
   // real Supabase auth session (email+password) back to the local staff
   // profile it belongs to. Null if no local row has been linked to that
@@ -89,6 +96,17 @@ class DriftUserRepository implements UserRepository {
   Future<List<User>> getForSite(int siteId) async {
     final query = _db.select(_db.users)
       ..where((user) => user.siteId.equals(siteId));
+    final rows = await query.get();
+    return rows.map(_toModel).toList();
+  }
+
+  @override
+  Future<List<User>> getForOrganisation(int organisationId) async {
+    final query = _db.select(_db.users)
+      ..where(
+        (u) =>
+            u.roleTier.equals('regional') | u.roleTier.equals('executive'),
+      );
     final rows = await query.get();
     return rows.map(_toModel).toList();
   }

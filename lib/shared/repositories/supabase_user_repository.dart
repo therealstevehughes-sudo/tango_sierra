@@ -57,6 +57,16 @@ class SupabaseUserRepository implements UserRepository {
   }
 
   @override
+  Future<List<User>> getForOrganisation(int organisationId) async {
+    final rows = await _client.select(
+      'users',
+      query:
+          'organisation_id=eq.$organisationId&role_tier=in.(regional,executive)',
+    );
+    return rows.map(_toModel).toList();
+  }
+
+  @override
   Future<User?> findBySupabaseUserId(String supabaseUserId) async {
     final rows = await _client.select(
       'users',
