@@ -157,6 +157,35 @@ Goal: EHO/audit-ready PDF export of a venue's compliance records for a chosen da
 **018 — Visual/UX redesign**
 Goal: a dedicated pass on visual design/UX once the above functional scope is in place — not before, and not incrementally smuggled into earlier sprints.
 
+## Phase 9: Multi-tenant Backend Foundation (Phases B0-B5) — DELIVERED
+Goal: move from a single-device local database to a real, proven multi-tenant backend (self-hosted Supabase/Postgres on a shared VPS), so many separate companies can use the same deployed app with provable data isolation between them.
+
+Delivered (see DECISIONS_LOG.md and BACKEND_INFRA.md for full detail):
+- B0: Region schema (local, foundation for the cluster below).
+- B1: claims + Row-Level-Security foundation, cross-tenant isolation proven with real curl matrices and real Dart integration tests — the highest-risk build in the project, done first and proven before anything else was layered on.
+- B2: Foundation cluster (Organisations, Regions, Sites, VenueTypes, Departments, Areas, EquipmentTypes) on the backend, RLS proven.
+- B3: People cluster (Users, TrainingRecords) on the backend — the trickiest interaction, since Users underpins auth; proven auth kept working before/after.
+- B4: Operational config cluster (TaskTemplates, TaskSchedules, NotificationRules, BrandingConfigs) — RLS proven to correctly handle version-chained (append-only) data, not just flat rows.
+- B5: Live/transactional cluster (equipment instances, task submissions, trigger notifications, session summaries, shift handover notes, problem register) — the payoff cluster; real multi-device sync proven, not oversold.
+
+A genuine architectural finding was made and fixed during this phase: a self-referential RLS policy bug (a table's policy querying itself broke `INSERT ... RETURNING` for `sites`/`regions`) — found empirically, fixed, and the full B1/B2 proof matrix re-run to confirm no regression. See DECISIONS_LOG.md's C1c entry for detail.
+
+**Still pending before real customer data goes live on this foundation**: a human security review of the RLS design, and a dedicated server (currently shares a VPS with another app) — both logged as launch gates in the 2026-09-14 roadmap entry in DECISIONS_LOG.md.
+
+## Phase 10: Tenant Onboarding (Phase C1) — DELIVERED
+Goal: let a brand-new company sign up and become a fully isolated tenant on the Phase 9 foundation, with a cascading setup flow matching the role-tier cascade rule (nobody sets up more than one level below them).
+
+Delivered (see DECISIONS_LOG.md for full detail, including the real findings made along the way):
+- C1a: demo-seed gating — a real build (`SEED_DEMO_DATA=false`) opens genuinely empty, no fake company/staff.
+- C1b: tenant signup — a fresh company becomes an isolated tenant with its own first Director account. Found and fixed: `public.users` had no `organisation_id` (a site-less executive couldn't be RLS-scoped at all), and `User.siteId` had to become nullable app-wide (~22 call sites).
+- C1c: invite-senior (regional/executive accounts) + Region/Branch management screens. Found and fixed: the self-referential RLS bug noted under Phase 9 above.
+- C1d: provision-staff-pin (PIN-tier accounts) + staff onboarding + the per-tier setup checklist. Found and fixed a three-part chain: `SupabaseUserRepository.authenticate()` didn't work for backend-only accounts, the fix's first attempt hit a chicken-and-egg RLS problem at login time, and the `users` RLS policy's site-less branch let any tier read every executive's profile.
+
+**Explicitly scoped OUT of C1, logged as separate later phases**: the branded-per-branch home screen (Phase C2, not yet planned) and the interactive org-builder/organogram (Phase C3, not yet planned) — both named in the original Phase C vision but deliberately deferred so C1's onboarding scope stayed shippable.
+
+## Phase 11: App Health-Check Fixes (2026-09-14) — DELIVERED
+Not a planned phase — a full app walkthrough (prompted by several parallel coding-assistant sessions having worked on the codebase) surfaced and fixed a run of real, previously-undetected runtime bugs that neither `flutter analyze` nor the unit/widget test suite could catch (all are runtime-only failures): a `BrandHeader` crash that broke the login screen on every real launch, a broken photo-evidence capture flow (a genuine Dart async/catch gotcha combined with a Windows plugin gap), no live camera support on Windows at all, an illegible compiled app icon, no way to reset a Director/Regional password, shift handover notes that never cleared, and Leadership Access being completely unreachable in a local/demo build. Full detail in DECISIONS_LOG.md's dated entries. Also logged (not built) a major v1 product-scope update from a strategy session — see DECISIONS_LOG.md's "Major product-scope update" entry and `VENURITE_ROADMAP.md`.
+
 ## Standing Non-Negotiables
 - no feature creep
 - no generic app drift
@@ -166,5 +195,10 @@ Goal: a dedicated pass on visual design/UX once the above functional scope is in
 - no weakening of role-based visibility
 - no weakening of audit trail versioning (task configuration changes must never overwrite a prior version)
 
-## Current Priority
-Phases 1–4 (foundation, auth, staff task engine, manager control layer) are delivered as of Sprint 005. Current priority is Sprint 006: formalise the three-tier role model, as the foundation the rest of the expanded-vision sequence (007–018) builds on.
+## Current Priority (updated 2026-09-14)
+Phases 1–8 (Sprints 000–032, including the 18-item expanded-vision sequence above) are delivered. Phase 9 (multi-tenant backend foundation, B0–B5) and Phase 10 (tenant onboarding, C1a–C1d) are delivered and proven. Phase 11 (today's app health-check fixes) is delivered.
+
+**Current priority: Sprint 033, Guided Cards visual refresh — reconciliation & completion** (see SPRINT.md). After that, in order:
+1. Phase C2 — branded-per-branch home screen (not yet planned in detail).
+2. Phase C3 — interactive org-builder/organogram (not yet planned in detail).
+3. The new v1 roadmap features logged 2026-09-14 (detailed delivery records, per-food legal temp thresholds, AI compliance assistant, per-task AI help, central compliance knowledge base) — **logged only, not started**, and blocked on the v1 launch gates (food-safety professional sign-off is now on the critical path — see DECISIONS_LOG.md).

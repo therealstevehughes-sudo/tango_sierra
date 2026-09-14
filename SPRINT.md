@@ -1,45 +1,42 @@
 # SPRINT.md
 
 ## Current Sprint
-Sprint 001
+Sprint 033 — Guided Cards visual refresh: reconciliation & completion
 
 ## Objective
-Set up the project foundation so future sprints can build safely without drift.
+Finish rolling the approved "Guided Cards" visual design system out across the app, starting by reconciling which screens other sessions already converted against the original batch plan, then completing the remaining screens in the same order (highest-traffic first) — a visual/design-system pass only, no behavior or backend changes.
+
+## Context (why this sprint exists, not a fresh idea)
+Guided Cards was approved as a full-app visual refresh (see DECISIONS_LOG.md "UX DESIGN DIRECTIONS" and the "Guided Cards" plan). Before this sprint started, other coding-assistant sessions working on this codebase in parallel had already built parts of it independently: the worker task header (`guided_task_header.dart`), a shared alert banner + drill-down (`trigger_notifications_banner.dart`), and a theme-token sweep across 9 screens (see `HANDOFF_NEXT_CHAT.md` session log). This sprint's first job is reconciling that work against the original proposed batch plan before continuing, not re-doing it.
 
 ## This Sprint Includes
-- control documents locked
-- app structure agreement
-- architecture and design rules defined
-- master plan defined
-- sprint process defined
+- Audit: which screens already match the Guided Cards spec (palette, shape/spacing radii, type scale, the four key patterns including progressive disclosure), which are partially done, which haven't been touched.
+- Complete the remaining screens, highest-traffic first (staff task screen + manager oversight, per the original approved ordering), narrow-width/responsive safe.
+- Commit per batch; update DECISIONS_LOG.md and BACKEND_INFRA.md (if any backend-adjacent screen data shapes are touched — expected: none, this is UI-only) with each batch.
 
 ## Files In Scope
-- project_control/PROJECT_BIBLE.md
-- project_control/ARCHITECTURE_LOCK.md
-- project_control/DESIGN_SYSTEM_LOCK.md
-- project_control/SPRINT_RULES.md
-- project_control/DRIFT_GUARD.md
-- project_control/HANDOFF_PROMPT.md
-- project_control/CHANGELOG_LOCK.md
-- project_control/MASTER_PLAN.md
-- project_control/SPRINT.md
+- `lib/app/theme/*` (palette/shape/type tokens)
+- `lib/core/widgets/*` (shared card/header/banner widgets)
+- `lib/features/tasks/task_screen.dart`, `lib/features/manager/manager_screen.dart` (highest-traffic, first)
+- Remaining feature screens as the audit identifies them
 
 ## Files Out of Scope
-- lib/ feature code
-- auth implementation
-- task engine implementation
-- manager dashboard implementation
-- database implementation
+- Backend/Postgres (Phases B0-B5, C1a-C1d) — untouched, this is a pure visual pass
+- Auth, role model, task submission logic, repositories — behavior unchanged
+- Phase C2 (branded-per-branch home screen) and C3 (interactive org-builder) — separate, later sprints (see MASTER_PLAN.md)
 
 ## Lock Check
 - aligned to PROJECT_BIBLE: yes
-- aligned to ARCHITECTURE_LOCK: yes
-- aligned to DESIGN_SYSTEM_LOCK: yes
+- aligned to ARCHITECTURE_LOCK: yes (visual layer only, no repository/state-management changes)
+- aligned to DESIGN_SYSTEM_LOCK: this sprint's exact purpose is implementing the approved Guided Cards direction on top of it — see DECISIONS_LOG.md for the full spec as given
 - aligned to SPRINT_RULES: yes
-- aligned to DRIFT_GUARD: yes
+- aligned to DRIFT_GUARD: yes — no schema/backend changes
 
 ## Completion Criteria
-This sprint is complete when all control files exist and are saved in the project.
+Every screen in scope matches the Guided Cards spec, `flutter analyze` is clean, a real Windows build has been launched and visually checked (not just analyzed), and both DECISIONS_LOG.md and this file are updated to reflect the finished state.
 
 ## Save Point Name
-SPRINT_001_LOCK
+SPRINT_033_GUIDED_CARDS_LOCK (pending completion)
+
+## Standing status note (2026-09-14)
+This file previously said "Sprint 001" and had not been updated since the project's very first setup sprint — genuinely stale for over 30 sprints' worth of real work. `DECISIONS_LOG.md` has been the actual living record of decisions/status since; `CHANGELOG_LOCK.md` has the detailed per-sprint changelog through Sprint 032; `BACKEND_INFRA.md` covers the backend/Phase B-C work. This file is now being kept current going forward as the single "what's the current sprint" pointer.

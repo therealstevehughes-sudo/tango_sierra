@@ -1526,3 +1526,18 @@ Files unchanged (explicitly): `pin-login` / `provision-staff-pin` / `tenant-sign
 Verified: live proof against `https://api.venurite.com/functions/v1/pin-login` with a throwaway account (real GoTrue admin API + real `staff_pins` row, known PIN): active → 200 + signed session token on both uuid and local_user_id paths; deactivated (`users.active=false`) → 401 "incorrect pin" on both paths even with the correct PIN; wrong PIN on deactivated → plain 401, no lockout state. Cleanup verified back to the exact pre-proof state (placeholder user + 1 staff_pins row + 2 legit auth users).
 Save point name: BACKEND_B3_ACTIVE_FOLLOWON_LOCK
 Notes: Documented in `DECISIONS_LOG.md` and `BACKEND_INFRA.md`. Still outstanding on the partner-live path: walk-up "Who are you?" kiosk credential (C1d gap), SMTP for real invites, off-server backup copies + IONOS snapshot check (13b/13c), the human RLS security review, and the dedicated-server-before-real-data rule.
+
+---
+
+## Bridging entry (2026-09-14) — Phases B0–B5, C1a–C1d, and today's app health-check fixes
+This changelog's per-sprint entries above stop at Sprint 032 + its B3 follow-on. Work since then used Phase-based naming (B0–B5 for the multi-tenant backend foundation, C1a–C1d for tenant onboarding) rather than continuing the numbered-sprint sequence, and was documented in full detail in `DECISIONS_LOG.md` and `BACKEND_INFRA.md` rather than here — this entry is a pointer, not a duplicate, so nothing drifts out of sync between the two records.
+
+**Delivered since Sprint 032 (all proven, not just built — see DECISIONS_LOG.md for each phase's specific proof)**:
+- Phase B0–B5 — multi-tenant backend foundation (RLS-based tenant isolation), including a genuine self-referential RLS bug found and fixed (see the C1c entry in DECISIONS_LOG.md).
+- Phase C1a–C1d — tenant signup + cascading onboarding, including three real architectural findings (users.organisation_id, User.siteId nullability, an authenticate()/pin-login/RLS isolation chain) found and fixed along the way.
+- Server-side `users.active` enforcement in `verify_staff_pin()` (the B3 follow-on logged above).
+- 2026-09-14 app health-check fixes: a `BrandHeader` login-screen crash, a broken photo-evidence capture flow (async/catch bug + a Windows plugin gap), live camera capture added for Windows + Android, an illegible compiled app icon replaced, senior (Director/Regional) password reset added, shift handover notes that never cleared fixed, and Leadership Access restored to work in local/demo builds.
+- 2026-09-14: a major v1 product-scope update from a strategy session was **logged only** (new v1 features, v1 launch gates, v1.1/v2 backlog) — see DECISIONS_LOG.md and `VENURITE_ROADMAP.md`. Nothing in it has been built.
+
+**Current sprint** (see SPRINT.md, updated the same day): Sprint 033, Guided Cards visual refresh — reconciliation & completion.
+Notes: See MASTER_PLAN.md's Phase 9/10/11 entries for the roadmap-level summary of all of the above.
