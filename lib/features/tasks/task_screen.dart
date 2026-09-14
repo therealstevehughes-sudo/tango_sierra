@@ -645,7 +645,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   // the worker knows where they are in the day and which work
                   // area the check belongs to. Pure presentation: the form,
                   // PASS/FAIL, and submit logic below are unchanged.
+                  //
+                  // `elevated: true` (2026-09-14): this is THE screen's one
+                  // primary card — the mockup's "staff task card" gets the
+                  // stronger 18px-radius/deeper-shadow treatment, not the
+                  // standard 16px card used for secondary content.
                   AppCard(
+                    elevated: true,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -1073,12 +1079,17 @@ class _ResultOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(8),
+      // Guided Cards (2026-09-14): 16px, matching the mockup's primary
+      // action button radius — kept as an equal-weight toggle pair
+      // either way (see the "not two competing buttons" comment above),
+      // only the shape/colour language changed, not which option looks
+      // more prominent.
+      borderRadius: BorderRadius.circular(16),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
           color: selected ? bgColor : AppColors.card,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: selected ? color : AppColors.line,
             width: selected ? 2 : 1,

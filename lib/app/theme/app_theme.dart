@@ -56,12 +56,18 @@ class AppTheme {
         surfaceTintColor: Colors.transparent,
         titleTextStyle: textTheme.titleLarge,
       ),
+      // Guided Cards: 16px radius (was 10px), no Material elevation — the
+      // soft warm-tinted shadow (rgba(90,80,60,.06) in the source mockup)
+      // is applied by AppCard itself via a real BoxShadow, since Material
+      // elevation shadows can't reproduce a specific tinted, tightly
+      // blurred CSS box-shadow. `elevation: 0` here is deliberate, not a
+      // leftover — AppCard supplies its own shadow instead.
       cardTheme: CardThemeData(
         color: AppColors.card,
         elevation: 0,
         margin: const EdgeInsets.symmetric(vertical: 6),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(16),
           side: const BorderSide(color: AppColors.line),
         ),
       ),
@@ -81,8 +87,10 @@ class AppTheme {
           textStyle: textTheme.labelLarge,
           minimumSize: const Size(64, 56),
           padding: const EdgeInsets.symmetric(horizontal: 20),
+          // Guided Cards: 16px (was 8px), matching the mockup's primary
+          // action button radius.
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(16),
           ),
           elevation: 0,
         ),

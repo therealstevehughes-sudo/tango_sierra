@@ -1,27 +1,37 @@
 import 'package:flutter/material.dart';
 
-/// Visual/UX pass, Sub-sprint 1 — the signed-off visual-direction proposal,
-/// encoded as real tokens instead of per-screen literals. "Clinical but
-/// warm": a hygiene-teal accent used only where something is actionable,
-/// warm neutrals instead of clinical blue-white/cold grey, and three state
-/// colours kept strictly separate from the accent so colour never competes
-/// with itself.
+/// Guided Cards (2026-09-14) — replaces the Sprint 031 "Clinical but warm"
+/// neutral palette with the warmer, rounder direction extracted verbatim
+/// from the approved `VenuRite_Design_Mockups.html` (Style B). See
+/// DECISIONS_LOG.md's "Guided Cards visual design spec" entry for the full
+/// source values. The accent teal and all three state colours
+/// (pass/caution/critical) are UNCHANGED — confirmed pixel-identical to
+/// the mockup's own hex values — only the neutrals below moved.
 class AppColors {
   AppColors._();
 
   // Brand / accent — used sparingly: primary actions, active states.
   static const Color teal = Color(0xFF0E6E77);
   static const Color tealInk = Color(0xFF0A555C);
-  static const Color tealTint = Color(0xFFE4EFEF);
+  static const Color tealTint = Color(0xFFEEF4F5);
   static const Color onTeal = Color(0xFFFFFFFF);
 
-  // Neutrals — warm-biased, not cold/clinical grey.
-  static const Color ink = Color(0xFF211E1A);
-  static const Color paper = Color(0xFFFAF8F5);
+  // Neutrals — Guided Cards' warmer, softer set (was #211E1A/#FAF8F5/
+  // #E7E2DB/#D6CFC3/#6B6459 under the old "Clinical but warm" palette).
+  static const Color ink = Color(0xFF2D2A26);
+  static const Color paper = Color(0xFFF7F5F2);
   static const Color card = Color(0xFFFFFFFF);
-  static const Color line = Color(0xFFE7E2DB);
-  static const Color lineStrong = Color(0xFFD6CFC3);
-  static const Color muted = Color(0xFF6B6459);
+  static const Color line = Color(0xFFF0ECE6);
+  static const Color lineStrong = Color(0xFFECE8E2);
+  static const Color muted = Color(0xFF6A635A);
+  // New with Guided Cards — secondary/tertiary text tones the old palette
+  // didn't distinguish (subtitles vs. list-row timestamps vs. primary
+  // muted text all used the same `muted` before).
+  static const Color mutedLight = Color(0xFF8A8178);
+  static const Color mutedFaint = Color(0xFFA59C92);
+  // List-row divider — lighter than a card's own border (`line`), for
+  // rows *inside* a card rather than the card's outer edge.
+  static const Color divider = Color(0xFFF6F3EF);
 
   // State colours — deliberately separate from the teal accent above.
   // Never used alone: always paired with an icon and a short word (see

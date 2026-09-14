@@ -35,6 +35,10 @@ Guided Cards was approved as a full-app visual refresh (see DECISIONS_LOG.md "UX
 ## Completion Criteria
 Every screen in scope matches the Guided Cards spec, `flutter analyze` is clean, a real Windows build has been launched and visually checked (not just analyzed), and both DECISIONS_LOG.md and this file are updated to reflect the finished state.
 
+## Progress
+- **Batch 1 (done, 2026-09-14)**: shared theme tokens (palette, card/button radii, warm shadows), staff task screen (main card + PASS/FAIL buttons), manager oversight and every other `AppCard`/`StatusBadge`-based screen (picked up automatically). Confirmed visually by the user on a real Windows build. See DECISIONS_LOG.md for full detail, including two deliberate spec deviations (PASS/FAIL kept equal-weight; type scale kept at its existing 14px accessibility floor rather than the mockup's smaller sizes).
+- **Remaining**: two raw `Card(...)` usages in `dashboard_screen.dart` not yet swapped to `AppCard`; `ManagementDrawer`'s nav items not yet given the rounded/tinted active-state treatment; login screen's staff picker not yet individually audited.
+
 ## Save Point Name
 SPRINT_033_GUIDED_CARDS_LOCK (pending completion)
 
