@@ -1318,6 +1318,57 @@ Full detail lives in `VENURITE_ROADMAP.md` (Documents\AA Tango Sierra), written 
 
 **Status**: logged only. Continuing the already-approved current work — Guided Cards visual refresh (Batch 0 onward), then Phase C2/C3 — unchanged.
 
+## Guided Cards visual design spec (2026-09-14) — extracted from the approved HTML mockup, permanent reference
+Source: `VenuRite_Design_Mockups.html`, a three-way A/B/C style comparison the user built and shared (Style A "Calm Operational", **Style B "Guided Cards" — the approved direction**, Style C "Focus/Bold"). This entry exists because the spec previously only lived in conversation turns that got summarized away — writing the real CSS values here so this never has to be reconstructed from memory again. Style B's own caption: "Warmer, rounded, friendly, more hand-holding (the Notion route). Easiest for less tech-confident staff."
+
+**Safety colours are UNCHANGED, confirmed by direct comparison against the mockup's own hex values** — `AppColors.pass` (#1E7A4C), `caution` (#976008), `critical` (#B23A2E) are pixel-identical to the mockup's Style B good/amber/red. Guided Cards only changes the *neutral* palette, shape, and layout patterns around those locked colours — exactly the "brand colour can re-theme the app but can never touch pass/caution/critical" guarantee already built for Branding stays intact.
+
+**Palette (neutrals — these DO change from the current "Clinical but warm" Sprint 031 palette):**
+- Canvas/scaffold background: `#F7F5F2` (was `AppColors.paper` #FAF8F5 — warmer/greyer)
+- Card surface: `#FFFFFF` (unchanged)
+- Card/content border: `#F0ECE6` (was `AppColors.line` #E7E2DB)
+- Sidebar/drawer border: `#ECE8E2` (was `AppColors.lineStrong` #D6CFC3)
+- List-item divider (lighter than card border): `#F6F3EF` (new token)
+- Ink (primary text): `#2D2A26` (was `AppColors.ink` #211E1A — softer near-black)
+- Muted (nav links, card body text): `#6A635A` (near-identical to current `AppColors.muted` #6B6459 — effectively unchanged)
+- Muted-light (subtitles, secondary labels): `#8A8178` (new token)
+- Muted-faint (timestamps in list rows): `#A59C92` (new token)
+- Accent tint (active nav bg, instance pill bg): `#EEF4F5` (was `AppColors.tealTint` #E4EFEF — negligible difference, can keep existing token)
+- Accent teal itself: `#0E6E77` — **identical** to the existing `AppColors.teal`, no change.
+
+**Shape (new named radii, replacing the flatter Sprint 031 card style):**
+- Standard card radius: **16px** (nav items/logo stay smaller — see below)
+- Elevated/primary card radius (e.g. the staff task card): **18px**
+- Pill/badge radius: fully rounded (Stadium shape — no fixed px, always half the height)
+- Nav item radius: **10px**
+- Small logo/icon-badge radius: **9px**
+- Primary action button radius (e.g. staff PASS/FAIL): **16px**
+
+**Shadow (soft, warm-tinted — never a cold grey shadow):**
+- Standard card: `0 2px 8px rgba(90,80,60,0.06)` + 1px border in the card-border colour above
+- Elevated card (staff task): `0 4px 14px rgba(90,80,60,0.08)` + 1px border
+
+**Type scale (Style B specifically):**
+- Page heading (h2): 24px / 700
+- Subtitle under a heading: 14px / 400, muted-light
+- Big stat number (dashboard card): 30px / 700
+- Stat label: 13px / 400, muted-light
+- Nav link: 14px / 500 (600 + accent colour when active)
+- Pill/badge text: 12px / 600
+- Staff task title: 23px / 700
+- Staff guidance/instruction body: 14.5px / 400, line-height 1.55
+- Staff instance pill: 12.5px / 700
+- Staff progress label: 13px / 600
+- Staff PASS/FAIL button label: 17px / 700
+
+**Four key patterns (the actual behavioural/layout guidance, not just tokens):**
+1. **Warm canvas + floating white rounded cards** as the primary structural unit — replaces flat bordered rows/tables (Style A's look) everywhere a screen currently uses plain dividimg rows.
+2. **Fully-rounded pill badges** for status (Fail/Overdue/etc.) — replaces small rectangular tags, e.g. `.tag.f`/`.tag.o` in Style A become `.pill.f`/`.pill.o` in Style B.
+3. **Progressive disclosure via a prioritized "Needs your attention" card** — show only what needs action (fails/overdue), not a full data dump; same spirit as Style C's "5 things need you right now" but rendered in the warmer Style B card language, not Style C's dark focus mode.
+4. **Staff task card hierarchy**: the instance name is a small pill/tag (not a plain label), the guidance text is the visually dominant element, PASS is a solid filled prominent button and FAIL is a lighter/outlined secondary-weight button — nudging toward the expected case without hiding or de-emphasizing Fail as an option.
+
+Files this spec will be implemented through: `lib/app/theme/app_colors.dart` (new/updated neutral tokens), a new shape-constants file or extension of `app_theme.dart`, then screen-by-screen starting with `task_screen.dart` (staff, highest traffic) and `manager_screen.dart` (oversight), per the already-approved highest-traffic-first ordering (see SPRINT.md Sprint 033).
+
 ## Open / Not yet decided
 - All three task-taxonomy gaps (priority, method, frequency) logged here since Sprint 012 are now resolved — see "Task-taxonomy reconciliation (Sprint 023)" above. The old "Full check list.docx" 132-task load this pointed to is superseded and now fully retired — see "Target market + library research": HORECA_TASK_LIBRARY.md was the library source for the complete load (Build Order item 4, DONE — see the six "Task library load" entries above, Clusters A-F), feeding the venue-type tagging structure Sprint 029 built (`TaskTemplateVenueTypes` is now populated for all ~150 loaded tasks).
 - Multi-site is only partially usable: creating a second `Site` is safe (Sprint 025), but `Area`/`EquipmentInstance`/`TaskSchedule`/`User` reads are not yet filtered by site, so two venues' data currently displays mixed together in shared lists. Needs its own sprint before real day-to-day multi-site use is viable.
