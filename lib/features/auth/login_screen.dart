@@ -10,6 +10,7 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
 import '../onboarding/company_onboarding_wizard_screen.dart';
+import '../onboarding/contact_venurite_screen.dart';
 import '../onboarding/join_company_screen.dart';
 import 'pin_entry.dart';
 import 'senior_login_screen.dart';
@@ -190,15 +191,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 }
 
-/// Phase C1b, extended Sprint 034 — what a fresh (real) install shows: no
-/// staff yet, so the only ways forward are the three account-entry
-/// options. This is the effective "Sign in / Create company / Join
-/// company" choice screen the user asked for — no separate widget
-/// needed here, it's just what LoginScreen becomes when the staff list
-/// is empty. Shares `_AccountEntryOptions` with `_SignInAnotherWayScreen`
-/// below, reached via the persistent link on a device that already has
-/// staff (Sprint 034 decision #4 — added alongside the walk-up grid
-/// rather than replacing its gating).
+/// Phase C1b, redesigned 2026-09-14 (user's explicit first-launch spec) —
+/// what a fresh (real) install shows: no staff yet, so the only ways
+/// forward are the account-entry options below. Shares
+/// `_AccountEntryOptions` with `_SignInAnotherWayScreen`, reached via the
+/// persistent link on a device that already has staff (Sprint 034
+/// decision #4 — added alongside the walk-up grid rather than replacing
+/// its gating).
 class _FreshInstallEntry extends StatelessWidget {
   const _FreshInstallEntry();
 
@@ -212,17 +211,12 @@ class _FreshInstallEntry extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const Center(child: VenuRiteMark()),
+            const SizedBox(height: 24),
             Text(
               'Welcome to VenuRite',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Set up your company, join one you were invited to, or sign '
-              'in.',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 28),
             const _AccountEntryOptions(),
@@ -233,9 +227,13 @@ class _FreshInstallEntry extends StatelessWidget {
   }
 }
 
-/// The three account-entry actions, shared by `_FreshInstallEntry` (a
-/// brand new device) and `_SignInAnotherWayScreen` (a device that
-/// already has walk-up staff, reached via the persistent link).
+/// The first-launch account-entry actions, shared by `_FreshInstallEntry`
+/// (a brand new device) and `_SignInAnotherWayScreen` (a device that
+/// already has walk-up staff, reached via the persistent link). Three
+/// equal-weight primary choices per the user's explicit spec, plus
+/// "Sign in" demoted to a small secondary link underneath — for someone
+/// who already has an account and is just opening the app on another
+/// device, not someone joining or signing up fresh.
 class _AccountEntryOptions extends StatelessWidget {
   const _AccountEntryOptions();
 
@@ -252,7 +250,7 @@ class _AccountEntryOptions extends StatelessWidget {
               builder: (_) => const CompanyOnboardingWizardScreen(),
             ),
           ),
-          child: const Text('Create company account'),
+          child: const Text('Sign up to VenuRite'),
         ),
         const SizedBox(height: 12),
         OutlinedButton(
@@ -260,15 +258,25 @@ class _AccountEntryOptions extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (_) => const JoinCompanyScreen()),
           ),
-          child: const Text('Join existing company'),
+          child: const Text('Join an existing company'),
         ),
         const SizedBox(height: 12),
         OutlinedButton(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
+            MaterialPageRoute(builder: (_) => const ContactVenuRiteScreen()),
           ),
-          child: const Text('Sign in'),
+          child: const Text('Contact VenuRite'),
+        ),
+        const SizedBox(height: 20),
+        Center(
+          child: TextButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
+            ),
+            child: const Text('Already have an account? Sign in'),
+          ),
         ),
       ],
     );

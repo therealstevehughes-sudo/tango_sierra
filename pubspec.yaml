@@ -83,6 +83,10 @@ dependencies:
   # scanning it (WhatsApp/photo) instead of typing a long code by hand.
   # Pure-Dart CustomPainter, no native platform code.
   qr_flutter: ^4.1.0
+  # First-launch "Contact VenuRite" — opens the device's mail app via
+  # mailto:. Was already a transitive dependency; promoted to direct so
+  # it can be imported.
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
