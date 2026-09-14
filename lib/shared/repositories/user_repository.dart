@@ -59,6 +59,18 @@ abstract class UserRepository {
   // (mid->venueManager, top->executive) is a lossy guess for real users who
   // were actually supervisor- or regional-flavored.
   Future<void> changeRoleTier({required int userId, required RoleTier newTier});
+  // Built 2026-09-14 — editing a staff member's name/job title after
+  // creation (e.g. a promotion changing their title, or a typo fix) had
+  // no repository method at all before this; every other detail
+  // (tier/department/region/PIN/active) already had one, this was the
+  // one gap. jobTitle nullable-if-omitted here just means "don't touch
+  // it" (same convention as changeDepartment's departmentId), not "clear
+  // it" — job_title is NOT NULL in the schema.
+  Future<void> updateDetails({
+    required int userId,
+    String? name,
+    String? jobTitle,
+  });
   // Departments (Sprint 031, Build Order item 5, Sub-sprint B). departmentId
   // null clears the assignment — explicit, not silently omitted, mirrors
   // how a "No department" dropdown option is always shown, never hidden.
@@ -254,6 +266,20 @@ class DriftUserRepository implements UserRepository {
   }) async {
     await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
       UsersCompanion(roleTier: Value(newTier.name)),
+    );
+  }
+
+  @override
+  Future<void> updateDetails({
+    required int userId,
+    String? name,
+    String? jobTitle,
+  }) async {
+    await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+      UsersCompanion(
+        name: name == null ? const Value.absent() : Value(name),
+        jobTitle: jobTitle == null ? const Value.absent() : Value(jobTitle),
+      ),
     );
   }
 

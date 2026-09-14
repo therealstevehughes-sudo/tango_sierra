@@ -184,6 +184,20 @@ class SupabaseUserRepository implements UserRepository {
   }
 
   @override
+  Future<void> updateDetails({
+    required int userId,
+    String? name,
+    String? jobTitle,
+  }) async {
+    final body = <String, dynamic>{
+      'name': ?name,
+      'job_title': ?jobTitle,
+    };
+    if (body.isEmpty) return;
+    await _client.update('users', filter: 'id=eq.$userId', body: body);
+  }
+
+  @override
   Future<void> changeDepartment({
     required int userId,
     required int? departmentId,

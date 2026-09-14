@@ -16,6 +16,7 @@ import 'training_records_screen.dart';
 const _kStaffTileHeight = 88.0;
 
 enum _StaffAction {
+  editDetails,
   changeTier,
   changeDepartment,
   resetPin,
@@ -116,6 +117,63 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text('PIN reset for ${user.name}')));
+  }
+
+  // Built 2026-09-14 — the one staff-detail edit no prior action covered:
+  // fixing a typo or updating a title after a promotion. Mirrors
+  // _changeRoleTier's exact confirm/save-then-reload shape.
+  Future<void> _editDetails(User user) async {
+    final nameController = TextEditingController(text: user.name);
+    final jobTitleController = TextEditingController(text: user.jobTitle);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit Details'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Name'),
+              autofocus: true,
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: jobTitleController,
+              decoration: const InputDecoration(labelText: 'Job title'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+
+    final newName = nameController.text.trim();
+    final newJobTitle = jobTitleController.text.trim();
+    nameController.dispose();
+    jobTitleController.dispose();
+
+    if (confirmed != true || newName.isEmpty || newJobTitle.isEmpty) return;
+    if (newName == user.name && newJobTitle == user.jobTitle) return;
+
+    final repo = ref.read(userRepositoryProvider);
+    await repo.updateDetails(
+      userId: user.id,
+      name: newName == user.name ? null : newName,
+      jobTitle: newJobTitle == user.jobTitle ? null : newJobTitle,
+    );
+
+    if (!mounted) return;
+    await _loadData();
   }
 
   Future<void> _changeRoleTier(User user) async {
@@ -375,6 +433,8 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
           tooltip: 'More actions',
           onSelected: (action) {
             switch (action) {
+              case _StaffAction.editDetails:
+                _editDetails(user);
               case _StaffAction.changeTier:
                 _changeRoleTier(user);
               case _StaffAction.changeDepartment:
@@ -393,6 +453,10 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
             }
           },
           itemBuilder: (context) => [
+            const PopupMenuItem(
+              value: _StaffAction.editDetails,
+              child: Text('Edit Details'),
+            ),
             const PopupMenuItem(
               value: _StaffAction.changeTier,
               child: Text('Change Tier'),
