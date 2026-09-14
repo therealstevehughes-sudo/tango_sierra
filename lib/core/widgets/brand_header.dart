@@ -20,7 +20,12 @@ import '../../shared/models/branding_config.dart';
 /// (`BrandingConfig` + optional site/branch name); no auth, repo, or
 /// backend behavior here.
 class BrandHeader extends StatelessWidget {
-  const BrandHeader({super.key, required this.branding, this.siteName});
+  const BrandHeader({
+    super.key,
+    required this.branding,
+    this.siteName,
+    this.showAppMark = true,
+  });
 
   /// The organisation's current `BrandingConfig`, or null when none is set
   /// yet (falls back to the app mark alone).
@@ -29,6 +34,12 @@ class BrandHeader extends StatelessWidget {
   /// Optional branch (site) name rendered under the client branding — e.g.
   /// "Manchester Kitchen". Null on the pre-auth login screen.
   final String? siteName;
+
+  /// False when the caller places `VenuRiteMark` itself, elsewhere on the
+  /// screen (2026-09-14: tier-home now anchors it to the true top-left
+  /// corner of the screen rather than the branding card's own inset
+  /// corner — placing it here too would double it up).
+  final bool showAppMark;
 
   @override
   Widget build(BuildContext context) {
@@ -51,15 +62,8 @@ class BrandHeader extends StatelessWidget {
         // VenuRite app mark — top-left signature, now 72px (doubled from
         // 36px per user request, 2026-09-13) and full opacity so it stays
         // visible without dominating over the client's brand.
-        Positioned(
-          top: 0,
-          left: 0,
-          child: Image.asset(
-            'assets/logos/VR_square.png',
-            height: 72,
-            fit: BoxFit.contain,
-          ),
-        ),
+        if (showAppMark)
+          const Positioned(top: 0, left: 0, child: VenuRiteMark()),
         // Client branding — centred as the main header element. When a
         // Director has set branding, this shows the company name, client
         // logo (64px, sizing confirmed via brain stand-in 2026-09-13),
@@ -99,6 +103,23 @@ class BrandHeader extends StatelessWidget {
           ),
       ],
       ),
+    );
+  }
+}
+
+/// The VenuRite square mark alone — extracted from `BrandHeader`
+/// (2026-09-14) so a screen can anchor it independently of the client
+/// branding card (see `BrandHeader.showAppMark`). Same 72px/full-opacity
+/// treatment either way.
+class VenuRiteMark extends StatelessWidget {
+  const VenuRiteMark({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Image.asset(
+      'assets/logos/VR_square.png',
+      height: 72,
+      fit: BoxFit.contain,
     );
   }
 }
