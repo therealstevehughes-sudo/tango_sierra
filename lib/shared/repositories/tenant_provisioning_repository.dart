@@ -153,6 +153,10 @@ abstract class TenantProvisioningRepository {
     String? venueRegion,
     String? venueType,
     String? planName,
+    // 'stripe' | 'gocardless' | null ("decide later") -- captured now,
+    // not wired to any real payment API yet (DECISIONS_LOG.md decision
+    // #3).
+    String? paymentProvider,
     int? primaryColorArgb,
   });
 
@@ -246,6 +250,7 @@ class SupabaseTenantProvisioningRepository
     String? venueRegion,
     String? venueType,
     String? planName,
+    String? paymentProvider,
     int? primaryColorArgb,
   }) async {
     try {
@@ -267,6 +272,7 @@ class SupabaseTenantProvisioningRepository
           'venue_region': ?venueRegion,
           'venue_type': ?venueType,
           'plan_name': ?planName,
+          'payment_provider': ?paymentProvider,
           'primary_color_argb': ?primaryColorArgb,
         },
       );

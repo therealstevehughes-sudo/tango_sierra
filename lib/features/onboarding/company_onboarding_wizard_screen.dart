@@ -69,6 +69,12 @@ class _CompanyOnboardingWizardScreenState
   // agreed "don't hard-code pricing yet" instruction)
   String _planName = 'starter';
 
+  // Payment provider preference (2026-09-14) -- captured now, not wired
+  // to any real payment API yet (see decision #3 in DECISIONS_LOG.md).
+  // null is a valid, deliberate choice: "decide later" shouldn't block
+  // finishing sign-up.
+  String? _paymentProvider;
+
   @override
   void dispose() {
     _firstName.dispose();
@@ -147,6 +153,7 @@ class _CompanyOnboardingWizardScreenState
                 : _venueRegion.text.trim(),
             venueType: _venueType,
             planName: _planName,
+            paymentProvider: _paymentProvider,
           );
       if (!mounted) return;
       setState(() {
@@ -519,10 +526,66 @@ class _CompanyOnboardingWizardScreenState
         ),
         const SizedBox(height: 16),
         const Text(
-          "We'll ask you to add a payment method before your trial ends, "
-          'from Settings inside the app. Nothing is charged now.',
+          "We'll ask you to set up payment before your trial ends, from "
+          'Settings inside the app. Nothing is charged now — just tell '
+          "us how you'd prefer to pay.",
+        ),
+        const SizedBox(height: 16),
+        _PaymentProviderOption(
+          value: 'stripe',
+          groupValue: _paymentProvider,
+          title: 'Card payment (Stripe)',
+          subtitle: 'Debit/credit card, billed monthly or annually',
+          onChanged: (v) => setState(() => _paymentProvider = v),
+        ),
+        _PaymentProviderOption(
+          value: 'gocardless',
+          groupValue: _paymentProvider,
+          title: 'Direct Debit (GoCardless)',
+          subtitle: 'Bank-to-bank payment, no card required',
+          onChanged: (v) => setState(() => _paymentProvider = v),
+        ),
+        const SizedBox(height: 8),
+        Center(
+          child: TextButton(
+            onPressed: () => setState(() => _paymentProvider = null),
+            child: const Text("I'll decide later"),
+          ),
         ),
       ],
+    );
+  }
+}
+
+class _PaymentProviderOption extends StatelessWidget {
+  const _PaymentProviderOption({
+    required this.value,
+    required this.groupValue,
+    required this.title,
+    required this.subtitle,
+    required this.onChanged,
+  });
+
+  final String value;
+  final String? groupValue;
+  final String title;
+  final String subtitle;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: AppCard(
+        padding: EdgeInsets.zero,
+        child: RadioListTile<String>(
+          value: value,
+          groupValue: groupValue,
+          onChanged: (v) => onChanged(v!),
+          title: Text(title),
+          subtitle: Text(subtitle),
+        ),
+      ),
     );
   }
 }

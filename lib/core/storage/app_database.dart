@@ -477,10 +477,18 @@ class Organisations extends Table {
 
 // Sprint 034 — one row per organisation, its single consolidated billing
 // account (per the agreed commercial model: one bill to head office,
-// never per-user). Real Stripe integration is a later, credential-gated
-// stage (decision #3) — stripe_customer_id/stripe_subscription_id sit
-// unused until then; billed_site_count is a snapshot the app updates,
-// not a live Stripe read.
+// never per-user). Real payment-provider integration is a later,
+// credential-gated stage — paymentProvider/providerCustomerId/
+// providerSubscriptionId sit unused until then; billed_site_count is a
+// snapshot the app updates, not a live provider read.
+//
+// Provider-agnostic (2026-09-14): originally Stripe-only columns
+// (stripeCustomerId/stripeSubscriptionId), generalised the same day
+// after the user asked for GoCardless (Direct Debit) as a second option
+// alongside Stripe — an organisation picks ONE provider, so one pair of
+// generic columns plus a `paymentProvider` discriminator is the honest
+// shape, not a permanently-null second pair of provider-specific columns
+// sitting next to whichever one is actually in use.
 @DataClassName('SubscriptionEntity')
 class Subscriptions extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -492,8 +500,11 @@ class Subscriptions extends Table {
   IntColumn get billedSiteCount => integer().withDefault(const Constant(0))();
   DateTimeColumn get trialEndsAt => dateTime().nullable()();
   DateTimeColumn get currentPeriodEnd => dateTime().nullable()();
-  TextColumn get stripeCustomerId => text().nullable()();
-  TextColumn get stripeSubscriptionId => text().nullable()();
+  // null until the customer actually sets up billing (still on trial, or
+  // hasn't chosen yet) — 'stripe' | 'gocardless'.
+  TextColumn get paymentProvider => text().nullable()();
+  TextColumn get providerCustomerId => text().nullable()();
+  TextColumn get providerSubscriptionId => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
 }
@@ -778,7 +789,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 39;
+  int get schemaVersion => 40;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1126,6 +1137,29 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(organisations, organisations.ownerUserId);
         await m.createTable(subscriptions);
         await m.createTable(organisationInvites);
+      }
+      if (from < 40) {
+        // Provider-agnostic payment columns (2026-09-14) -- the
+        // `subscriptions` table was created in the migration just above,
+        // same session, with Stripe-only column names
+        // (stripe_customer_id/stripe_subscription_id). Generalised the
+        // same day after the user asked for GoCardless (Direct Debit) as
+        // a second option alongside Stripe, before any real customer
+        // data could exist in these columns -- raw SQL rather than
+        // m.dropColumn since the old Dart fields no longer exist to
+        // reference.
+        await m.database.customStatement(
+          'ALTER TABLE subscriptions DROP COLUMN stripe_customer_id',
+        );
+        await m.database.customStatement(
+          'ALTER TABLE subscriptions DROP COLUMN stripe_subscription_id',
+        );
+        await m.addColumn(subscriptions, subscriptions.paymentProvider);
+        await m.addColumn(subscriptions, subscriptions.providerCustomerId);
+        await m.addColumn(
+          subscriptions,
+          subscriptions.providerSubscriptionId,
+        );
       }
     },
     beforeOpen: (details) async {

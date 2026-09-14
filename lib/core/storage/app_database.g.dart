@@ -15890,23 +15890,34 @@ class $SubscriptionsTable extends Subscriptions
         type: DriftSqlType.dateTime,
         requiredDuringInsert: false,
       );
-  static const VerificationMeta _stripeCustomerIdMeta = const VerificationMeta(
-    'stripeCustomerId',
+  static const VerificationMeta _paymentProviderMeta = const VerificationMeta(
+    'paymentProvider',
   );
   @override
-  late final GeneratedColumn<String> stripeCustomerId = GeneratedColumn<String>(
-    'stripe_customer_id',
+  late final GeneratedColumn<String> paymentProvider = GeneratedColumn<String>(
+    'payment_provider',
     aliasedName,
     true,
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _stripeSubscriptionIdMeta =
-      const VerificationMeta('stripeSubscriptionId');
+  static const VerificationMeta _providerCustomerIdMeta =
+      const VerificationMeta('providerCustomerId');
   @override
-  late final GeneratedColumn<String> stripeSubscriptionId =
+  late final GeneratedColumn<String> providerCustomerId =
       GeneratedColumn<String>(
-        'stripe_subscription_id',
+        'provider_customer_id',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _providerSubscriptionIdMeta =
+      const VerificationMeta('providerSubscriptionId');
+  @override
+  late final GeneratedColumn<String> providerSubscriptionId =
+      GeneratedColumn<String>(
+        'provider_subscription_id',
         aliasedName,
         true,
         type: DriftSqlType.string,
@@ -15943,8 +15954,9 @@ class $SubscriptionsTable extends Subscriptions
     billedSiteCount,
     trialEndsAt,
     currentPeriodEnd,
-    stripeCustomerId,
-    stripeSubscriptionId,
+    paymentProvider,
+    providerCustomerId,
+    providerSubscriptionId,
     createdAt,
     updatedAt,
   ];
@@ -16013,21 +16025,30 @@ class $SubscriptionsTable extends Subscriptions
         ),
       );
     }
-    if (data.containsKey('stripe_customer_id')) {
+    if (data.containsKey('payment_provider')) {
       context.handle(
-        _stripeCustomerIdMeta,
-        stripeCustomerId.isAcceptableOrUnknown(
-          data['stripe_customer_id']!,
-          _stripeCustomerIdMeta,
+        _paymentProviderMeta,
+        paymentProvider.isAcceptableOrUnknown(
+          data['payment_provider']!,
+          _paymentProviderMeta,
         ),
       );
     }
-    if (data.containsKey('stripe_subscription_id')) {
+    if (data.containsKey('provider_customer_id')) {
       context.handle(
-        _stripeSubscriptionIdMeta,
-        stripeSubscriptionId.isAcceptableOrUnknown(
-          data['stripe_subscription_id']!,
-          _stripeSubscriptionIdMeta,
+        _providerCustomerIdMeta,
+        providerCustomerId.isAcceptableOrUnknown(
+          data['provider_customer_id']!,
+          _providerCustomerIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('provider_subscription_id')) {
+      context.handle(
+        _providerSubscriptionIdMeta,
+        providerSubscriptionId.isAcceptableOrUnknown(
+          data['provider_subscription_id']!,
+          _providerSubscriptionIdMeta,
         ),
       );
     }
@@ -16084,13 +16105,17 @@ class $SubscriptionsTable extends Subscriptions
         DriftSqlType.dateTime,
         data['${effectivePrefix}current_period_end'],
       ),
-      stripeCustomerId: attachedDatabase.typeMapping.read(
+      paymentProvider: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}stripe_customer_id'],
+        data['${effectivePrefix}payment_provider'],
       ),
-      stripeSubscriptionId: attachedDatabase.typeMapping.read(
+      providerCustomerId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
-        data['${effectivePrefix}stripe_subscription_id'],
+        data['${effectivePrefix}provider_customer_id'],
+      ),
+      providerSubscriptionId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}provider_subscription_id'],
       ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
@@ -16118,8 +16143,9 @@ class SubscriptionEntity extends DataClass
   final int billedSiteCount;
   final DateTime? trialEndsAt;
   final DateTime? currentPeriodEnd;
-  final String? stripeCustomerId;
-  final String? stripeSubscriptionId;
+  final String? paymentProvider;
+  final String? providerCustomerId;
+  final String? providerSubscriptionId;
   final DateTime createdAt;
   final DateTime updatedAt;
   const SubscriptionEntity({
@@ -16130,8 +16156,9 @@ class SubscriptionEntity extends DataClass
     required this.billedSiteCount,
     this.trialEndsAt,
     this.currentPeriodEnd,
-    this.stripeCustomerId,
-    this.stripeSubscriptionId,
+    this.paymentProvider,
+    this.providerCustomerId,
+    this.providerSubscriptionId,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -16151,11 +16178,16 @@ class SubscriptionEntity extends DataClass
     if (!nullToAbsent || currentPeriodEnd != null) {
       map['current_period_end'] = Variable<DateTime>(currentPeriodEnd);
     }
-    if (!nullToAbsent || stripeCustomerId != null) {
-      map['stripe_customer_id'] = Variable<String>(stripeCustomerId);
+    if (!nullToAbsent || paymentProvider != null) {
+      map['payment_provider'] = Variable<String>(paymentProvider);
     }
-    if (!nullToAbsent || stripeSubscriptionId != null) {
-      map['stripe_subscription_id'] = Variable<String>(stripeSubscriptionId);
+    if (!nullToAbsent || providerCustomerId != null) {
+      map['provider_customer_id'] = Variable<String>(providerCustomerId);
+    }
+    if (!nullToAbsent || providerSubscriptionId != null) {
+      map['provider_subscription_id'] = Variable<String>(
+        providerSubscriptionId,
+      );
     }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
@@ -16177,12 +16209,15 @@ class SubscriptionEntity extends DataClass
       currentPeriodEnd: currentPeriodEnd == null && nullToAbsent
           ? const Value.absent()
           : Value(currentPeriodEnd),
-      stripeCustomerId: stripeCustomerId == null && nullToAbsent
+      paymentProvider: paymentProvider == null && nullToAbsent
           ? const Value.absent()
-          : Value(stripeCustomerId),
-      stripeSubscriptionId: stripeSubscriptionId == null && nullToAbsent
+          : Value(paymentProvider),
+      providerCustomerId: providerCustomerId == null && nullToAbsent
           ? const Value.absent()
-          : Value(stripeSubscriptionId),
+          : Value(providerCustomerId),
+      providerSubscriptionId: providerSubscriptionId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(providerSubscriptionId),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
@@ -16203,9 +16238,12 @@ class SubscriptionEntity extends DataClass
       currentPeriodEnd: serializer.fromJson<DateTime?>(
         json['currentPeriodEnd'],
       ),
-      stripeCustomerId: serializer.fromJson<String?>(json['stripeCustomerId']),
-      stripeSubscriptionId: serializer.fromJson<String?>(
-        json['stripeSubscriptionId'],
+      paymentProvider: serializer.fromJson<String?>(json['paymentProvider']),
+      providerCustomerId: serializer.fromJson<String?>(
+        json['providerCustomerId'],
+      ),
+      providerSubscriptionId: serializer.fromJson<String?>(
+        json['providerSubscriptionId'],
       ),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
@@ -16222,8 +16260,11 @@ class SubscriptionEntity extends DataClass
       'billedSiteCount': serializer.toJson<int>(billedSiteCount),
       'trialEndsAt': serializer.toJson<DateTime?>(trialEndsAt),
       'currentPeriodEnd': serializer.toJson<DateTime?>(currentPeriodEnd),
-      'stripeCustomerId': serializer.toJson<String?>(stripeCustomerId),
-      'stripeSubscriptionId': serializer.toJson<String?>(stripeSubscriptionId),
+      'paymentProvider': serializer.toJson<String?>(paymentProvider),
+      'providerCustomerId': serializer.toJson<String?>(providerCustomerId),
+      'providerSubscriptionId': serializer.toJson<String?>(
+        providerSubscriptionId,
+      ),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
     };
@@ -16237,8 +16278,9 @@ class SubscriptionEntity extends DataClass
     int? billedSiteCount,
     Value<DateTime?> trialEndsAt = const Value.absent(),
     Value<DateTime?> currentPeriodEnd = const Value.absent(),
-    Value<String?> stripeCustomerId = const Value.absent(),
-    Value<String?> stripeSubscriptionId = const Value.absent(),
+    Value<String?> paymentProvider = const Value.absent(),
+    Value<String?> providerCustomerId = const Value.absent(),
+    Value<String?> providerSubscriptionId = const Value.absent(),
     DateTime? createdAt,
     DateTime? updatedAt,
   }) => SubscriptionEntity(
@@ -16251,12 +16293,15 @@ class SubscriptionEntity extends DataClass
     currentPeriodEnd: currentPeriodEnd.present
         ? currentPeriodEnd.value
         : this.currentPeriodEnd,
-    stripeCustomerId: stripeCustomerId.present
-        ? stripeCustomerId.value
-        : this.stripeCustomerId,
-    stripeSubscriptionId: stripeSubscriptionId.present
-        ? stripeSubscriptionId.value
-        : this.stripeSubscriptionId,
+    paymentProvider: paymentProvider.present
+        ? paymentProvider.value
+        : this.paymentProvider,
+    providerCustomerId: providerCustomerId.present
+        ? providerCustomerId.value
+        : this.providerCustomerId,
+    providerSubscriptionId: providerSubscriptionId.present
+        ? providerSubscriptionId.value
+        : this.providerSubscriptionId,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
   );
@@ -16277,12 +16322,15 @@ class SubscriptionEntity extends DataClass
       currentPeriodEnd: data.currentPeriodEnd.present
           ? data.currentPeriodEnd.value
           : this.currentPeriodEnd,
-      stripeCustomerId: data.stripeCustomerId.present
-          ? data.stripeCustomerId.value
-          : this.stripeCustomerId,
-      stripeSubscriptionId: data.stripeSubscriptionId.present
-          ? data.stripeSubscriptionId.value
-          : this.stripeSubscriptionId,
+      paymentProvider: data.paymentProvider.present
+          ? data.paymentProvider.value
+          : this.paymentProvider,
+      providerCustomerId: data.providerCustomerId.present
+          ? data.providerCustomerId.value
+          : this.providerCustomerId,
+      providerSubscriptionId: data.providerSubscriptionId.present
+          ? data.providerSubscriptionId.value
+          : this.providerSubscriptionId,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -16298,8 +16346,9 @@ class SubscriptionEntity extends DataClass
           ..write('billedSiteCount: $billedSiteCount, ')
           ..write('trialEndsAt: $trialEndsAt, ')
           ..write('currentPeriodEnd: $currentPeriodEnd, ')
-          ..write('stripeCustomerId: $stripeCustomerId, ')
-          ..write('stripeSubscriptionId: $stripeSubscriptionId, ')
+          ..write('paymentProvider: $paymentProvider, ')
+          ..write('providerCustomerId: $providerCustomerId, ')
+          ..write('providerSubscriptionId: $providerSubscriptionId, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -16315,8 +16364,9 @@ class SubscriptionEntity extends DataClass
     billedSiteCount,
     trialEndsAt,
     currentPeriodEnd,
-    stripeCustomerId,
-    stripeSubscriptionId,
+    paymentProvider,
+    providerCustomerId,
+    providerSubscriptionId,
     createdAt,
     updatedAt,
   );
@@ -16331,8 +16381,9 @@ class SubscriptionEntity extends DataClass
           other.billedSiteCount == this.billedSiteCount &&
           other.trialEndsAt == this.trialEndsAt &&
           other.currentPeriodEnd == this.currentPeriodEnd &&
-          other.stripeCustomerId == this.stripeCustomerId &&
-          other.stripeSubscriptionId == this.stripeSubscriptionId &&
+          other.paymentProvider == this.paymentProvider &&
+          other.providerCustomerId == this.providerCustomerId &&
+          other.providerSubscriptionId == this.providerSubscriptionId &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -16345,8 +16396,9 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntity> {
   final Value<int> billedSiteCount;
   final Value<DateTime?> trialEndsAt;
   final Value<DateTime?> currentPeriodEnd;
-  final Value<String?> stripeCustomerId;
-  final Value<String?> stripeSubscriptionId;
+  final Value<String?> paymentProvider;
+  final Value<String?> providerCustomerId;
+  final Value<String?> providerSubscriptionId;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   const SubscriptionsCompanion({
@@ -16357,8 +16409,9 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntity> {
     this.billedSiteCount = const Value.absent(),
     this.trialEndsAt = const Value.absent(),
     this.currentPeriodEnd = const Value.absent(),
-    this.stripeCustomerId = const Value.absent(),
-    this.stripeSubscriptionId = const Value.absent(),
+    this.paymentProvider = const Value.absent(),
+    this.providerCustomerId = const Value.absent(),
+    this.providerSubscriptionId = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -16370,8 +16423,9 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntity> {
     this.billedSiteCount = const Value.absent(),
     this.trialEndsAt = const Value.absent(),
     this.currentPeriodEnd = const Value.absent(),
-    this.stripeCustomerId = const Value.absent(),
-    this.stripeSubscriptionId = const Value.absent(),
+    this.paymentProvider = const Value.absent(),
+    this.providerCustomerId = const Value.absent(),
+    this.providerSubscriptionId = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
   }) : organisationId = Value(organisationId),
@@ -16385,8 +16439,9 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntity> {
     Expression<int>? billedSiteCount,
     Expression<DateTime>? trialEndsAt,
     Expression<DateTime>? currentPeriodEnd,
-    Expression<String>? stripeCustomerId,
-    Expression<String>? stripeSubscriptionId,
+    Expression<String>? paymentProvider,
+    Expression<String>? providerCustomerId,
+    Expression<String>? providerSubscriptionId,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
   }) {
@@ -16398,9 +16453,11 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntity> {
       if (billedSiteCount != null) 'billed_site_count': billedSiteCount,
       if (trialEndsAt != null) 'trial_ends_at': trialEndsAt,
       if (currentPeriodEnd != null) 'current_period_end': currentPeriodEnd,
-      if (stripeCustomerId != null) 'stripe_customer_id': stripeCustomerId,
-      if (stripeSubscriptionId != null)
-        'stripe_subscription_id': stripeSubscriptionId,
+      if (paymentProvider != null) 'payment_provider': paymentProvider,
+      if (providerCustomerId != null)
+        'provider_customer_id': providerCustomerId,
+      if (providerSubscriptionId != null)
+        'provider_subscription_id': providerSubscriptionId,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -16414,8 +16471,9 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntity> {
     Value<int>? billedSiteCount,
     Value<DateTime?>? trialEndsAt,
     Value<DateTime?>? currentPeriodEnd,
-    Value<String?>? stripeCustomerId,
-    Value<String?>? stripeSubscriptionId,
+    Value<String?>? paymentProvider,
+    Value<String?>? providerCustomerId,
+    Value<String?>? providerSubscriptionId,
     Value<DateTime>? createdAt,
     Value<DateTime>? updatedAt,
   }) {
@@ -16427,8 +16485,10 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntity> {
       billedSiteCount: billedSiteCount ?? this.billedSiteCount,
       trialEndsAt: trialEndsAt ?? this.trialEndsAt,
       currentPeriodEnd: currentPeriodEnd ?? this.currentPeriodEnd,
-      stripeCustomerId: stripeCustomerId ?? this.stripeCustomerId,
-      stripeSubscriptionId: stripeSubscriptionId ?? this.stripeSubscriptionId,
+      paymentProvider: paymentProvider ?? this.paymentProvider,
+      providerCustomerId: providerCustomerId ?? this.providerCustomerId,
+      providerSubscriptionId:
+          providerSubscriptionId ?? this.providerSubscriptionId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -16458,12 +16518,15 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntity> {
     if (currentPeriodEnd.present) {
       map['current_period_end'] = Variable<DateTime>(currentPeriodEnd.value);
     }
-    if (stripeCustomerId.present) {
-      map['stripe_customer_id'] = Variable<String>(stripeCustomerId.value);
+    if (paymentProvider.present) {
+      map['payment_provider'] = Variable<String>(paymentProvider.value);
     }
-    if (stripeSubscriptionId.present) {
-      map['stripe_subscription_id'] = Variable<String>(
-        stripeSubscriptionId.value,
+    if (providerCustomerId.present) {
+      map['provider_customer_id'] = Variable<String>(providerCustomerId.value);
+    }
+    if (providerSubscriptionId.present) {
+      map['provider_subscription_id'] = Variable<String>(
+        providerSubscriptionId.value,
       );
     }
     if (createdAt.present) {
@@ -16485,8 +16548,9 @@ class SubscriptionsCompanion extends UpdateCompanion<SubscriptionEntity> {
           ..write('billedSiteCount: $billedSiteCount, ')
           ..write('trialEndsAt: $trialEndsAt, ')
           ..write('currentPeriodEnd: $currentPeriodEnd, ')
-          ..write('stripeCustomerId: $stripeCustomerId, ')
-          ..write('stripeSubscriptionId: $stripeSubscriptionId, ')
+          ..write('paymentProvider: $paymentProvider, ')
+          ..write('providerCustomerId: $providerCustomerId, ')
+          ..write('providerSubscriptionId: $providerSubscriptionId, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -36180,8 +36244,9 @@ typedef $$SubscriptionsTableCreateCompanionBuilder =
       Value<int> billedSiteCount,
       Value<DateTime?> trialEndsAt,
       Value<DateTime?> currentPeriodEnd,
-      Value<String?> stripeCustomerId,
-      Value<String?> stripeSubscriptionId,
+      Value<String?> paymentProvider,
+      Value<String?> providerCustomerId,
+      Value<String?> providerSubscriptionId,
       required DateTime createdAt,
       required DateTime updatedAt,
     });
@@ -36194,8 +36259,9 @@ typedef $$SubscriptionsTableUpdateCompanionBuilder =
       Value<int> billedSiteCount,
       Value<DateTime?> trialEndsAt,
       Value<DateTime?> currentPeriodEnd,
-      Value<String?> stripeCustomerId,
-      Value<String?> stripeSubscriptionId,
+      Value<String?> paymentProvider,
+      Value<String?> providerCustomerId,
+      Value<String?> providerSubscriptionId,
       Value<DateTime> createdAt,
       Value<DateTime> updatedAt,
     });
@@ -36267,13 +36333,18 @@ class $$SubscriptionsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get stripeCustomerId => $composableBuilder(
-    column: $table.stripeCustomerId,
+  ColumnFilters<String> get paymentProvider => $composableBuilder(
+    column: $table.paymentProvider,
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get stripeSubscriptionId => $composableBuilder(
-    column: $table.stripeSubscriptionId,
+  ColumnFilters<String> get providerCustomerId => $composableBuilder(
+    column: $table.providerCustomerId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get providerSubscriptionId => $composableBuilder(
+    column: $table.providerSubscriptionId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -36350,13 +36421,18 @@ class $$SubscriptionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get stripeCustomerId => $composableBuilder(
-    column: $table.stripeCustomerId,
+  ColumnOrderings<String> get paymentProvider => $composableBuilder(
+    column: $table.paymentProvider,
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get stripeSubscriptionId => $composableBuilder(
-    column: $table.stripeSubscriptionId,
+  ColumnOrderings<String> get providerCustomerId => $composableBuilder(
+    column: $table.providerCustomerId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get providerSubscriptionId => $composableBuilder(
+    column: $table.providerSubscriptionId,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -36427,13 +36503,18 @@ class $$SubscriptionsTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<String> get stripeCustomerId => $composableBuilder(
-    column: $table.stripeCustomerId,
+  GeneratedColumn<String> get paymentProvider => $composableBuilder(
+    column: $table.paymentProvider,
     builder: (column) => column,
   );
 
-  GeneratedColumn<String> get stripeSubscriptionId => $composableBuilder(
-    column: $table.stripeSubscriptionId,
+  GeneratedColumn<String> get providerCustomerId => $composableBuilder(
+    column: $table.providerCustomerId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get providerSubscriptionId => $composableBuilder(
+    column: $table.providerSubscriptionId,
     builder: (column) => column,
   );
 
@@ -36502,8 +36583,9 @@ class $$SubscriptionsTableTableManager
                 Value<int> billedSiteCount = const Value.absent(),
                 Value<DateTime?> trialEndsAt = const Value.absent(),
                 Value<DateTime?> currentPeriodEnd = const Value.absent(),
-                Value<String?> stripeCustomerId = const Value.absent(),
-                Value<String?> stripeSubscriptionId = const Value.absent(),
+                Value<String?> paymentProvider = const Value.absent(),
+                Value<String?> providerCustomerId = const Value.absent(),
+                Value<String?> providerSubscriptionId = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
               }) => SubscriptionsCompanion(
@@ -36514,8 +36596,9 @@ class $$SubscriptionsTableTableManager
                 billedSiteCount: billedSiteCount,
                 trialEndsAt: trialEndsAt,
                 currentPeriodEnd: currentPeriodEnd,
-                stripeCustomerId: stripeCustomerId,
-                stripeSubscriptionId: stripeSubscriptionId,
+                paymentProvider: paymentProvider,
+                providerCustomerId: providerCustomerId,
+                providerSubscriptionId: providerSubscriptionId,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
               ),
@@ -36528,8 +36611,9 @@ class $$SubscriptionsTableTableManager
                 Value<int> billedSiteCount = const Value.absent(),
                 Value<DateTime?> trialEndsAt = const Value.absent(),
                 Value<DateTime?> currentPeriodEnd = const Value.absent(),
-                Value<String?> stripeCustomerId = const Value.absent(),
-                Value<String?> stripeSubscriptionId = const Value.absent(),
+                Value<String?> paymentProvider = const Value.absent(),
+                Value<String?> providerCustomerId = const Value.absent(),
+                Value<String?> providerSubscriptionId = const Value.absent(),
                 required DateTime createdAt,
                 required DateTime updatedAt,
               }) => SubscriptionsCompanion.insert(
@@ -36540,8 +36624,9 @@ class $$SubscriptionsTableTableManager
                 billedSiteCount: billedSiteCount,
                 trialEndsAt: trialEndsAt,
                 currentPeriodEnd: currentPeriodEnd,
-                stripeCustomerId: stripeCustomerId,
-                stripeSubscriptionId: stripeSubscriptionId,
+                paymentProvider: paymentProvider,
+                providerCustomerId: providerCustomerId,
+                providerSubscriptionId: providerSubscriptionId,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
               ),
