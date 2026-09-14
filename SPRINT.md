@@ -1,7 +1,7 @@
 # SPRINT.md
 
 ## Current Sprint
-Sprint 034 — Customer Onboarding & Billing Foundation
+Sprint 034 — Customer Onboarding & Billing Foundation — **COMPLETE (2026-09-14)**, all 6 stages built, proven live, and committed. See DECISIONS_LOG.md for full detail on each stage.
 
 ## Objective
 Build a proper multi-step company onboarding wizard (admin account → company details → org structure → first venue → subscription → payment placeholder), a token-based "Join existing company" invite-redeem flow, and the underlying schema (company legal details, subscriptions, invite tokens) — extending the existing Organisation/Region/Site/Users hierarchy and RoleTier model, not replacing them. See DECISIONS_LOG.md's "Phase D" entry for the full inspection findings and the four scoping decisions made.

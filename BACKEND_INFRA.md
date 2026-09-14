@@ -1514,6 +1514,27 @@ intent-based capture, which doesn't). iOS was explicitly deferred (user's
 choice) — `camera_avfoundation` resolves transitively but hasn't been
 added/tested for this app.
 
+## Sprint 034 — Customer Onboarding & Billing Foundation (built and PROVEN 2026-09-14)
+
+**Schema** (local Drift schemaVersion 38→39 + matching backend Postgres migration, both applied):
+- `organisations` gains `legal_name`, `country`, `registered_address`, `vat_number`, `billing_email` (all nullable), and `owner_user_id` (references `users`, nullable) — set to the founding executive by `tenant-signup`.
+- New `subscriptions` table: one row per organisation, `status` (trialing/active/past_due/canceled, default trialing), `plan_name`, `billed_site_count`, `trial_ends_at`, `current_period_end`, `stripe_customer_id`/`stripe_subscription_id` (unused columns until real Stripe integration — a later, credential-gated stage). RLS: executive-tier only, scoped via `can_access_organisation` — billing is an Owner/Admin concern, tighter than the generic reuse.
+- New `organisation_invites` table: `organisation_id`, `role_tier`, `region_id`/`site_id`, `token` (unique, real random single-use), `email`, `created_by_user_id`, `expires_at`, `redeemed_at`/`redeemed_by_user_id`. RLS scoped via `can_access_organisation` for an admin listing their own invites; creation/redemption both go through service-role Edge Functions, same as every other C1-onward privileged operation.
+
+**`tenant-signup` Edge Function, extended**: now collects `first_name`/`last_name` (replacing `director_name`), `country` (required), and creates the first venue (`venue_name` required, optional `venue_address`/`venue_region` — auto-creates a named Region if given/`venue_type` — looks up or creates an org-scoped `venue_types` row) plus a trialing `subscriptions` row (14-day default) in the same atomic, rollback-safe call. Proven live: legal fields, owner_user_id, region auto-create, venue-type linking, and the subscription row all verified via a throwaway tenant covering every field.
+
+**`create-invite` Edge Function** (new): caller's session (PIN or GoTrue — verified via `jose.jwtVerify` like `provision-staff-pin`, since callers here can be any tier) must pass the existing cascade rule (`TIER_RANK[target] + 1 <= TIER_RANK[caller]`) and own the target scope (site reachable, or region/organisation for senior tiers). Generates a token (`crypto.randomUUID()` x2, concatenated — real random, not a guessable code), 7-day expiry, inserts into `organisation_invites`.
+
+**`redeem-invite` Edge Function** (new): no caller session at all (the invitee has none yet — same shape `tenant-signup` already solves). Looks up the invite by token, rejects if missing/redeemed/expired, creates a real GoTrue account with the invite's `role_tier`/`organisation_id`/`region_id`/`site_id` baked into `app_metadata`, creates the matching `public.users` row, marks the invite redeemed.
+
+**Proof** (live, throwaway tenant, all cleaned up and verified empty afterward):
+- Full signup with every new field (legal name, country, address, VAT, billing email, venue, region, venue type, plan) — all verified saved correctly via direct REST reads.
+- Invite created for a venueManager at the new venue → redeemed with no session → new account signs in successfully with correct claims.
+- Reusing the same invite token → `409 already used`. A bogus token → `404 not valid`.
+- Cascade check: the new venueManager cannot invite an executive (`403`), but CAN invite a supervisor at their own site (`200`).
+
+**Deliberately deferred, logged not glossed over**: real Stripe API calls (schema is Stripe-shaped, but no live integration without a real Stripe account + API keys — Sprint 034 decision #3); real email delivery of invite tokens (SMTP still isn't configured on this VPS — same gap already logged against `invite-senior`; today the admin shares the code/QR manually, same relay-by-hand pattern as every other C1-onward invite).
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

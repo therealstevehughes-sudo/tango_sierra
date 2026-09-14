@@ -1402,7 +1402,15 @@ User's explicit request: design and build a proper customer/company onboarding s
 3. **Payment/Stripe**: building the full onboarding flow now with the payment step creating a `trialing` subscription row (no card, no real Stripe API call) — a Stripe-shaped schema from day one (stripe_customer_id/stripe_subscription_id columns, unused until real keys exist) so wiring in real Stripe later is additive. Reason: a company can fully onboard and use the app today; blocking the whole flow on getting a Stripe account first would serve nobody.
 4. **Landing screen**: adding a persistent "Sign in another way" link on the existing PIN walk-up screen (opening the new Sign in / Create company / Join company choice) rather than replacing the walk-up grid's gating logic. Reason: zero risk to the walk-up flow already proven and used daily on shared kitchen tablets — the highest-traffic screen in the app shouldn't gain a tap for every returning staff member.
 
-**Status**: plan approved, building in stages now. Each stage gets its own commit + doc update, per the "done means committed" rule. See BACKEND_INFRA.md for schema/Edge Function detail as each stage lands.
+**Status: COMPLETE (2026-09-14).** All 6 stages built, proven live, committed:
+1. Schema (organisations legal fields + owner_user_id; subscriptions; organisation_invites) — local Drift + backend Postgres.
+2. Extended `tenant-signup`: company legal details, first venue (optional named region + venue type), trialing subscription — proven end-to-end with a throwaway tenant.
+3. `create-invite`/`redeem-invite` Edge Functions — the real token-based join flow, proven live (redemption works, single-use enforced, bogus tokens rejected, cascade rule correctly blocks/permits by tier).
+4. `CompanyOnboardingWizardScreen` — the 6-step wizard replacing the old single-screen form, reusing `VenueSetupWizardScreen`'s proven step pattern.
+5. `JoinCompanyScreen` + `InviteCodeScreen` (QR code + copyable text, per the user's explicit request) — regional-manager invites now use this instead of the old immediate-temp-password relay.
+6. Landing screen: persistent "Sign in another way" link alongside the walk-up PIN grid, opening Create company / Join company / Sign in.
+
+See BACKEND_INFRA.md for full schema/Edge Function detail.
 
 ## Open / Not yet decided
 - All three task-taxonomy gaps (priority, method, frequency) logged here since Sprint 012 are now resolved — see "Task-taxonomy reconciliation (Sprint 023)" above. The old "Full check list.docx" 132-task load this pointed to is superseded and now fully retired — see "Target market + library research": HORECA_TASK_LIBRARY.md was the library source for the complete load (Build Order item 4, DONE — see the six "Task library load" entries above, Clusters A-F), feeding the venue-type tagging structure Sprint 029 built (`TaskTemplateVenueTypes` is now populated for all ~150 loaded tasks).
