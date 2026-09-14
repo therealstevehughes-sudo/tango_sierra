@@ -35,9 +35,19 @@ class BrandHeader extends StatelessWidget {
     final logo = branding;
     final clientLogoPath = logo?.logoPath;
 
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
+    // IntrinsicHeight forces the Stack below to take a real, finite height
+    // (derived from its content) instead of the infinite height a Column
+    // hands its children by default — without this, the Stack's `Center`
+    // child tries to expand to fill unbounded space and Flutter throws
+    // "A Stack requires bounded constraints from its parent" the instant
+    // this header is placed inside login_screen.dart's/tier_home_screen
+    // .dart's Column (a real crash on every launch, found while verifying
+    // the app runs, not caught by `flutter analyze` or the widget tests
+    // since it's a runtime layout failure, not a static or logic one).
+    return IntrinsicHeight(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
         // VenuRite app mark — top-left signature, now 72px (doubled from
         // 36px per user request, 2026-09-13) and full opacity so it stays
         // visible without dominating over the client's brand.
@@ -88,6 +98,7 @@ class BrandHeader extends StatelessWidget {
             ),
           ),
       ],
+      ),
     );
   }
 }
