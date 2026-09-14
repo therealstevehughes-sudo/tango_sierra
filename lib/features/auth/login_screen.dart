@@ -10,6 +10,7 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
 import '../onboarding/company_onboarding_wizard_screen.dart';
+import '../onboarding/join_company_screen.dart';
 import 'pin_entry.dart';
 import 'senior_login_screen.dart';
 
@@ -157,6 +158,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ),
               ),
+              // Sprint 034 decision #4 — a persistent, always-visible way
+              // into the 3-option account-entry screen (Create company /
+              // Join company / Sign in) on a device that already has
+              // walk-up staff, so it isn't only reachable when the local
+              // staff list happens to be empty. Only shown alongside the
+              // real staff grid (selectedUser == null, staff non-empty) —
+              // it would just duplicate _FreshInstallEntry's own buttons
+              // otherwise, and PIN entry has its own Back link already.
+              if (selectedUser == null &&
+                  staffAsync.maybeWhen(
+                    data: (staff) => staff.isNotEmpty,
+                    orElse: () => false,
+                  ))
+                Center(
+                  child: TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const _SignInAnotherWayScreen(),
+                      ),
+                    ),
+                    child: const Text('Not on this list? Sign in another way'),
+                  ),
+                ),
             ],
           ),
         ),
@@ -165,11 +190,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 }
 
-/// Phase C1b — what a fresh (real) install shows: no staff yet, so the
-/// only ways forward are creating a company or, if you were invited,
-/// signing in via Leadership Access. This is the effective "Sign in / Set
-/// up a company" choice screen (decision #1) — no separate widget needed,
-/// it's just what LoginScreen becomes when the staff list is empty.
+/// Phase C1b, extended Sprint 034 — what a fresh (real) install shows: no
+/// staff yet, so the only ways forward are the three account-entry
+/// options. This is the effective "Sign in / Create company / Join
+/// company" choice screen the user asked for — no separate widget
+/// needed here, it's just what LoginScreen becomes when the staff list
+/// is empty. Shares `_AccountEntryOptions` with `_SignInAnotherWayScreen`
+/// below, reached via the persistent link on a device that already has
+/// staff (Sprint 034 decision #4 — added alongside the walk-up grid
+/// rather than replacing its gating).
 class _FreshInstallEntry extends StatelessWidget {
   const _FreshInstallEntry();
 
@@ -190,30 +219,84 @@ class _FreshInstallEntry extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Set up your company to get started, or sign in if you were '
-              'invited.',
+              'Set up your company, join one you were invited to, or sign '
+              'in.',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 28),
-            FilledButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const CompanyOnboardingWizardScreen(),
-                ),
-              ),
-              child: const Text('Set up a new company'),
-            ),
-            const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
-              ),
-              child: const Text('Sign in'),
-            ),
+            const _AccountEntryOptions(),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The three account-entry actions, shared by `_FreshInstallEntry` (a
+/// brand new device) and `_SignInAnotherWayScreen` (a device that
+/// already has walk-up staff, reached via the persistent link).
+class _AccountEntryOptions extends StatelessWidget {
+  const _AccountEntryOptions();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        FilledButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const CompanyOnboardingWizardScreen(),
+            ),
+          ),
+          child: const Text('Create company account'),
+        ),
+        const SizedBox(height: 12),
+        OutlinedButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const JoinCompanyScreen()),
+          ),
+          child: const Text('Join existing company'),
+        ),
+        const SizedBox(height: 12),
+        OutlinedButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
+          ),
+          child: const Text('Sign in'),
+        ),
+      ],
+    );
+  }
+}
+
+/// Sprint 034 decision #4 — the persistent entry point on a device that
+/// already has walk-up staff (so the 3-option screen isn't only reachable
+/// when the local staff list happens to be empty). Reached via a small,
+/// always-visible link on the walk-up screen, not a disruptive
+/// first-thing-shown replacement — the walk-up grid stays the primary,
+/// zero-extra-tap experience for returning staff on a shared kitchen
+/// tablet.
+class _SignInAnotherWayScreen extends StatelessWidget {
+  const _SignInAnotherWayScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Sign in another way')),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ResponsiveContent(
+            maxWidth: 380,
+            alignment: Alignment.center,
+            child: const _AccountEntryOptions(),
+          ),
         ),
       ),
     );

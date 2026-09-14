@@ -28,6 +28,48 @@ class TenantSignupException implements Exception {
   String toString() => message;
 }
 
+class OrganisationInviteResult {
+  const OrganisationInviteResult({
+    required this.inviteId,
+    required this.token,
+    required this.roleTier,
+    required this.expiresAt,
+  });
+
+  final int inviteId;
+  final String token;
+  final String roleTier;
+  final DateTime expiresAt;
+}
+
+class OrganisationInviteException implements Exception {
+  OrganisationInviteException(this.message);
+  final String message;
+  @override
+  String toString() => message;
+}
+
+class InviteRedeemResult {
+  const InviteRedeemResult({
+    required this.organisationId,
+    required this.localUserId,
+    required this.roleTier,
+    required this.email,
+  });
+
+  final int organisationId;
+  final int localUserId;
+  final String roleTier;
+  final String email;
+}
+
+class InviteRedeemException implements Exception {
+  InviteRedeemException(this.message);
+  final String message;
+  @override
+  String toString() => message;
+}
+
 class SeniorInviteResult {
   const SeniorInviteResult({
     required this.email,
@@ -112,6 +154,32 @@ abstract class TenantProvisioningRepository {
     String? venueType,
     String? planName,
     int? primaryColorArgb,
+  });
+
+  /// Sprint 034 — "Join existing company" invite side. Generates a real
+  /// single-use, expiring, cryptographically-random token the caller
+  /// shares with whoever they're inviting (any tier at least one level
+  /// below the caller's own, enforced server-side via the same cascade
+  /// rule every other provisioning endpoint uses). Unlike [inviteSenior]/
+  /// staff-pin provisioning, this does NOT create the account — the
+  /// invitee creates it themselves via [redeemInvite], on their own
+  /// device.
+  Future<OrganisationInviteResult> createInvite({
+    required String roleTier,
+    int? regionId,
+    int? siteId,
+    String? email,
+  });
+
+  /// Sprint 034 — "Join existing company" redeem side. Called with no
+  /// session at all (the invitee has no account yet); creates a real
+  /// email+password GoTrue account with the invite's role/scope claims,
+  /// and marks the invite as used (single-use).
+  Future<InviteRedeemResult> redeemInvite({
+    required String token,
+    required String name,
+    required String email,
+    required String password,
   });
 
   /// Phase C1c — invites a regional or executive account. Must be called
@@ -218,6 +286,76 @@ class SupabaseTenantProvisioningRepository
       throw TenantSignupException(message);
     } catch (_) {
       throw TenantSignupException('Could not reach the server');
+    }
+  }
+
+  @override
+  Future<OrganisationInviteResult> createInvite({
+    required String roleTier,
+    int? regionId,
+    int? siteId,
+    String? email,
+  }) async {
+    try {
+      final response = await _client.functions.invoke(
+        'create-invite',
+        body: {
+          'role_tier': roleTier,
+          'region_id': ?regionId,
+          'site_id': ?siteId,
+          'email': ?email,
+        },
+      );
+      final data = response.data as Map<String, dynamic>;
+      return OrganisationInviteResult(
+        inviteId: data['invite_id'] as int,
+        token: data['token'] as String,
+        roleTier: data['role_tier'] as String,
+        expiresAt: DateTime.parse(data['expires_at'] as String),
+      );
+    } on FunctionException catch (e) {
+      final details = e.details;
+      final message = details is Map && details['error'] is String
+          ? details['error'] as String
+          : 'Could not create the invite (${e.status})';
+      throw OrganisationInviteException(message);
+    } catch (_) {
+      throw OrganisationInviteException('Could not reach the server');
+    }
+  }
+
+  @override
+  Future<InviteRedeemResult> redeemInvite({
+    required String token,
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await _client.functions.invoke(
+        'redeem-invite',
+        body: {
+          'token': token,
+          'name': name,
+          'email': email,
+          'password': password,
+        },
+      );
+      final data = response.data as Map<String, dynamic>;
+      return InviteRedeemResult(
+        organisationId: data['organisation_id'] as int,
+        localUserId: data['local_user_id'] as int,
+        roleTier: data['role_tier'] as String,
+        email: data['email'] as String,
+      );
+    } on FunctionException catch (e) {
+      final details = e.details;
+      final message = details is Map && details['error'] is String
+          ? details['error'] as String
+          : 'That invite could not be used (${e.status})';
+      throw InviteRedeemException(message);
+    } catch (_) {
+      throw InviteRedeemException('Could not reach the server');
     }
   }
 

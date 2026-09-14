@@ -10,6 +10,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
+import '../onboarding/invite_code_screen.dart';
 
 /// Phase C1c — executive-only. Builds the Organisation's Regions and
 /// invites a regional manager for each (email/temp-password, since SMTP
@@ -148,62 +149,29 @@ class _RegionManagementScreenState
     await _load();
   }
 
+  // Sprint 034: regional-manager invites now use the same real
+  // single-use token + QR flow as every other tier (see
+  // DECISIONS_LOG.md's Sprint 034 entry, decision #2), replacing the
+  // older immediate-temp-password relay — the invitee sets their own
+  // password on their own device via "Join existing company" rather
+  // than the Director choosing one for them.
   Future<void> _inviteRegionalManager(Region region) async {
-    final orgId = await ref.read(currentOrganisationIdProvider.future);
-    if (orgId == null || !mounted) return;
-    final result = await showDialog<(String name, String email)>(
-      context: context,
-      builder: (_) => const _InviteDialog(roleLabel: 'Regional Manager'),
-    );
-    if (result == null) return;
+    if (!mounted) return;
     try {
       final invite = await ref
           .read(tenantProvisioningRepositoryProvider)
-          .inviteSenior(
-            email: result.$2,
-            name: result.$1,
-            roleTier: 'regional',
-            organisationId: orgId,
-            regionId: region.id,
-          );
+          .createInvite(roleTier: 'regional', regionId: region.id);
       if (!mounted) return;
-      await _showCredentials(invite);
-    } on SeniorInviteException catch (e) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => InviteCodeScreen(invite: invite)),
+      );
+    } on OrganisationInviteException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(e.message)),
       );
     }
-  }
-
-  Future<void> _showCredentials(SeniorInviteResult invite) {
-    return showDialog<void>(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Account created'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Give this person these details — they sign in via '
-              'Leadership Access and can change the password after.',
-            ),
-            const SizedBox(height: 16),
-            SelectableText('Email: ${invite.email}'),
-            SelectableText(
-              'Temporary password: ${invite.temporaryPassword}',
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Done'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -329,59 +297,3 @@ Future<String?> _promptText(
   );
 }
 
-class _InviteDialog extends StatefulWidget {
-  const _InviteDialog({required this.roleLabel});
-  final String roleLabel;
-
-  @override
-  State<_InviteDialog> createState() => _InviteDialogState();
-}
-
-class _InviteDialogState extends State<_InviteDialog> {
-  final _name = TextEditingController();
-  final _email = TextEditingController();
-
-  @override
-  void dispose() {
-    _name.dispose();
-    _email.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Invite ${widget.roleLabel}'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: _name,
-            decoration: const InputDecoration(labelText: 'Name'),
-            autofocus: true,
-          ),
-          TextField(
-            controller: _email,
-            decoration: const InputDecoration(labelText: 'Email'),
-            keyboardType: TextInputType.emailAddress,
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(
-          onPressed: () {
-            if (_name.text.trim().isEmpty || _email.text.trim().isEmpty) {
-              return;
-            }
-            Navigator.pop(context, (_name.text.trim(), _email.text.trim()));
-          },
-          child: const Text('Invite'),
-        ),
-      ],
-    );
-  }
-}

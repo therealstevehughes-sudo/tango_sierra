@@ -78,6 +78,11 @@ dependencies:
   # unreliable there. Was already a transitive dependency; promoted to
   # direct so it can be imported.
   shared_preferences: ^2.5.5
+  # Sprint 034 (Customer Onboarding & Billing Foundation) — renders an
+  # invite token as a scannable QR code so a new staff member can join by
+  # scanning it (WhatsApp/photo) instead of typing a long code by hand.
+  # Pure-Dart CustomPainter, no native platform code.
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
