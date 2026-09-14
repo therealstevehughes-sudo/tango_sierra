@@ -42,6 +42,11 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   // fields below, which stay exactly as they were.
   final Set<String> selectedTaskKeys = {};
   final Set<String> expandedTaskKeys = {};
+  // Built 2026-09-14 -- Task Presets (the "By Person" mode's bundled
+  // task-set shortcuts) only ever showed a count ("7 tasks"), not which
+  // tasks -- a manager had to Apply blind to find out. Expandable, same
+  // affordance as "By Task" mode's per-task guidance expand.
+  final Set<int> expandedPresetIds = {};
 
   String _taskKey(int templateGroupId, int? equipmentId) =>
       '$templateGroupId:${equipmentId ?? 'none'}';
@@ -230,6 +235,23 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       customRequiresNotes = false;
       customEquipmentTypeId = null;
     });
+  }
+
+  // Resolves each item's taskTemplateGroupId to that template's current
+  // title, via the already-loaded `templates` list -- no extra query.
+  // Silently drops an item with no matching template (a stale reference)
+  // rather than guessing at a title for it.
+  List<String> _presetTaskTitles(TaskPreset preset) {
+    final titles = <String>[];
+    for (final item in preset.items) {
+      for (final template in templates) {
+        if (template.templateGroupId == item.taskTemplateGroupId) {
+          titles.add(template.title);
+          break;
+        }
+      }
+    }
+    return titles;
   }
 
   String _presetSubtitle(TaskPreset preset) {
@@ -650,13 +672,67 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
             const SectionHeader(title: 'Task Presets'),
             for (final preset in presets)
               Card(
-                child: ListTile(
-                  title: Text(preset.name),
-                  subtitle: Text(_presetSubtitle(preset)),
-                  trailing: TextButton(
-                    onPressed: () => _onApplyPreset(preset),
-                    child: const Text('Apply'),
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ListTile(
+                      title: Text(preset.name),
+                      subtitle: Text(_presetSubtitle(preset)),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              expandedPresetIds.contains(preset.id)
+                                  ? Icons.expand_less
+                                  : Icons.expand_more,
+                            ),
+                            tooltip: 'Show tasks in this group',
+                            onPressed: () => setState(() {
+                              if (expandedPresetIds.contains(preset.id)) {
+                                expandedPresetIds.remove(preset.id);
+                              } else {
+                                expandedPresetIds.add(preset.id);
+                              }
+                            }),
+                          ),
+                          TextButton(
+                            onPressed: () => _onApplyPreset(preset),
+                            child: const Text('Apply'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    if (expandedPresetIds.contains(preset.id))
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          bottom: 12,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            for (final title in _presetTaskTitles(preset))
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 2,
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.check_box_outline_blank,
+                                      size: 16,
+                                    ),
+                                    const SizedBox(width: 8),
+                                    Expanded(child: Text(title)),
+                                  ],
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                  ],
                 ),
               ),
             const SizedBox(height: 16),

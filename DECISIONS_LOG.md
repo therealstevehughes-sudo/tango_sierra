@@ -1420,6 +1420,10 @@ User's explicit request, brought forward from the v1.1 roadmap's already-named "
 - Verified: `flutter analyze` clean, all 17 tests passing, a real Windows build launched successfully.
 Files: `lib/features/onboarding/staff_assignment_screen.dart`.
 
+## Task Presets: expand to see which tasks are inside (built 2026-09-14)
+Follow-on to the task-assignment work above, spotted live: the pre-existing "Task Presets" list (the "By Person" mode's bundled task-set shortcuts, e.g. "Fridge Tasks · 7 tasks") only ever showed a count, never which tasks — a manager had to Apply blind to find out. Added the same expand affordance as "By Task" mode's per-task guidance expand: tapping it resolves each preset item's `taskTemplateGroupId` to its current template title (via the already-loaded template list, no extra query) and lists them.
+Files: `lib/features/onboarding/staff_assignment_screen.dart`.
+
 ## Open / Not yet decided
 - All three task-taxonomy gaps (priority, method, frequency) logged here since Sprint 012 are now resolved — see "Task-taxonomy reconciliation (Sprint 023)" above. The old "Full check list.docx" 132-task load this pointed to is superseded and now fully retired — see "Target market + library research": HORECA_TASK_LIBRARY.md was the library source for the complete load (Build Order item 4, DONE — see the six "Task library load" entries above, Clusters A-F), feeding the venue-type tagging structure Sprint 029 built (`TaskTemplateVenueTypes` is now populated for all ~150 loaded tasks).
 - Multi-site is only partially usable: creating a second `Site` is safe (Sprint 025), but `Area`/`EquipmentInstance`/`TaskSchedule`/`User` reads are not yet filtered by site, so two venues' data currently displays mixed together in shared lists. Needs its own sprint before real day-to-day multi-site use is viable.
