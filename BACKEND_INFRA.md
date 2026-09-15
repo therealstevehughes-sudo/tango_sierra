@@ -1561,6 +1561,20 @@ pattern as the Fails & Problems Register, generalised from 2 phases to 3.
 
 **Still to come**: raise/resolve/escalate UI, Issues & Incidents register tab (filter by date/shift/type/employee/status/branch), the pre-carousel branch hub ("My scheduled tasks" vs "Log something that just happened"), and the live-backend throwaway-tenant proof.
 
+## Chain of command: reports-to + free-choice escalation (built 2026-09-15)
+
+Follow-on to Issues & Incidents, requested once the user tried the flow live: "who does this escalate to" needed a real answer, and it varies by branch — a fixed role rule ("Kitchen Porters report to Head Chef") doesn't hold everywhere, so it has to be a per-individual assignment.
+
+**Schema** (local Drift schemaVersion 41→42 + matching backend Postgres migration, both applied):
+- `users.reports_to_user_id` (nullable, FK to `users`) — a specific named manager, not a tier/job-role rule. Set via Staff Management's new "Reports To" action, same shape as the existing "Change Department" action.
+- `issues.escalated_to_user_id` (nullable, FK to `users`) — denormalised "who this currently sits with," mirrors the `status` column's role.
+- `issue_events.target_user_id` (nullable, FK to `users`) — the same target recorded per-event, so history shows who it went to each time if escalated more than once.
+- Deployed live via SSH: `BEGIN`/`ALTER TABLE` x3/`COMMIT`, all succeeded.
+
+**Escalation is a free choice, not automatic** — explicit user requirement: the issue may be about the raiser's own direct manager, so `IssueRepository.escalate()` takes a required `escalateToUserId` rather than walking `reportsToUserId` automatically. `IssueDetailScreen`'s escalate picker pre-selects the raiser's manager as a sensible default but lets the caller pick anyone active at the site.
+
+**New `BranchOrgChartScreen`** (drawer, supervisor+): a branch-scoped organogram built from `reportsToUserId` edges, deliberately separate from the executive/regional-scoped Head Office/Region/Venue tree (Phase C3) — that one stops at a venue's manager, this one goes inside a single venue to show its own staff. Anyone with no manager set (or a stale/cross-site pointer) renders as their own root — expected and shown honestly until a manager fills it in via Staff Management, not backfilled or hidden.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.
