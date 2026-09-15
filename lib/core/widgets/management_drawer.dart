@@ -10,7 +10,6 @@ import '../../features/onboarding/staff_provisioning_screen.dart';
 import '../../features/problems/problems_register_screen.dart';
 import '../../features/regions/branch_management_screen.dart';
 import '../../features/regions/organisation_tree_screen.dart';
-import '../../features/regions/region_management_screen.dart';
 import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
 import '../../features/settings/settings_screen.dart';
@@ -119,28 +118,22 @@ final List<_DrawerItemDef> _managementItems = [
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const DepartmentManagementScreen(),
   ),
-  // Phase C3 (2026-09-14) — the visual org hierarchy tree: an overview
-  // showing the whole Company -> Regions -> Venues structure at a
-  // glance, with add/invite actions right on it (including the
-  // previously-uncreatable "venue with no region" case). Executive-only,
-  // same floor as Regions below, which it complements rather than
-  // replaces -- both stay reachable.
+  // Phase C3 (2026-09-14, redesigned same day after live feedback) — the
+  // visual org organogram: Head Office -> Regions -> Venues, each level
+  // showing its actual people (not just structure), expandable
+  // downward, add/invite/rename/reset-password actions right on it.
+  // Executive-only, and now REPLACES the old separate "Regions" drawer
+  // item below it (removed) -- that split across two screens was
+  // exactly the fragmentation the user asked to fix; this one screen
+  // covers everything "Regions" did, plus the people it never showed.
+  // "Branches" stays separate: it's a REGIONAL manager's own
+  // single-region view, a different tier this executive-only tree
+  // doesn't serve.
   _DrawerItemDef(
     icon: Icons.account_tree_outlined,
     label: 'Organisation',
     minTier: RoleTier.executive,
     screenBuilder: (_) => const OrganisationTreeScreen(),
-  ),
-  // Phase C1c — cascading tenant setup. Regions is executive-only (top
-  // tier, so `atLeast` limits it to exactly that tier in practice);
-  // Branches is regional and above (a Director can also review branches).
-  // RLS is what actually enforces "nobody sets up more than one level
-  // below them," not this gating alone.
-  _DrawerItemDef(
-    icon: Icons.map_outlined,
-    label: 'Regions',
-    minTier: RoleTier.executive,
-    screenBuilder: (_) => const RegionManagementScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.storefront_outlined,

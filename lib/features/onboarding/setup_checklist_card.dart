@@ -8,7 +8,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../../features/regions/branch_management_screen.dart';
-import '../../features/regions/region_management_screen.dart';
+import '../../features/regions/organisation_tree_screen.dart';
 import '../../features/venue_setup/venue_setup_wizard_screen.dart';
 
 /// Phase C1d — per-tier setup completeness, guide-don't-block (Fail-safe
@@ -67,7 +67,7 @@ class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
           _ChecklistItem(
             'Add at least one region',
             regions.isNotEmpty,
-            destination: (_) => const RegionManagementScreen(),
+            destination: (_) => const OrganisationTreeScreen(),
           ),
           _ChecklistItem(
             'Add at least one branch',
