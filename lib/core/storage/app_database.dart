@@ -87,6 +87,76 @@ class ProblemStatusEvents extends Table {
   TextColumn get note => text().nullable()();
 }
 
+// Issues & Incidents (built 2026-09-15) — freestanding problem capture,
+// deliberately SEPARATE from ProblemStatusEvents above: that one is an
+// audit trail auto-created only when a TaskSubmission fails, always
+// tied to one; this is for things that happen independent of any
+// scheduled task (a customer complaint, an accident, a supply
+// problem) — ANY staff member can raise one, not just the system on a
+// FAIL. Same append-only, nothing-silently-disappears philosophy,
+// applied to a genuinely different shape rather than forcing the two
+// into one schema.
+//
+// THE GOVERNING ANTI-GAMING RULE (confirmed explicitly with the user
+// before building, not assumed): an individual's own task-completion
+// colour/status must NEVER change because they raised an issue — that
+// reflects only whether a task was done, and on time. Raising an issue
+// is a neutral, separate signal; it must never read as a penalty on
+// the person who raised it. Aggregate leadership dashboards (Branch/
+// Region/Section/Month/Day/Shift totals, red-flag colouring at that
+// level) are legitimate and explicitly wanted — the rule is scoped to
+// individual attribution only. No dashboard/scoring UI is built in
+// this pass; this schema exists so that later work can be built on an
+// honest foundation, per the user's explicit sequencing.
+@DataClassName('IssueEntity')
+class Issues extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get siteId => integer().references(Sites, #id)();
+  // complaint | accident | incident | supplyProblem | venueProblem | other
+  TextColumn get type => text()();
+  // Varies by type — dish/employee/customer/equipment/other. Null where a
+  // type has no sub-category (venueProblem, other).
+  TextColumn get subtype => text().nullable()();
+  TextColumn get details => text()();
+  IntColumn get raisedByUserId => integer().references(Users, #id)();
+  DateTimeColumn get raisedAt => dateTime()();
+  // open | resolved | escalated
+  TextColumn get status => text().withDefault(const Constant('open'))();
+  // Supply-problem-only fields — null for every other type. Real columns,
+  // not a JSON blob, so filtering by supplier/problem-type stays a plain
+  // query (per the explicit "filter/search by ... type" requirement).
+  IntColumn get supplierId => integer().nullable().references(Suppliers, #id)();
+  // lateDelivery | shortDelivery | incorrectDelivery | damagedStock |
+  // driverProblem | other
+  TextColumn get deliveryProblemType => text().nullable()();
+  // A staff picker (confirmed with the user, not free text) — who
+  // actually took the delivery.
+  IntColumn get receivedByUserId =>
+      integer().nullable().references(Users, #id)();
+}
+
+// The Details -> Process -> Outcome lifecycle, as an append-only event
+// log — same shape as ProblemStatusEvents above, generalised to more
+// than two phases. Raising an issue writes the first row (phase=
+// 'details'); a manager adds further 'process' rows as they work it,
+// and a final 'outcome' row when it's done. resultingStatus mirrors
+// ProblemStatusEvents.status's role: what the issue's status became as
+// of this event, so the current status is always derivable by taking
+// the latest event, never inferred or recomputed differently in two
+// places.
+@DataClassName('IssueEventEntity')
+class IssueEvents extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get issueId => integer().references(Issues, #id)();
+  // details | process | outcome
+  TextColumn get phase => text()();
+  TextColumn get note => text()();
+  IntColumn get changedByUserId => integer().references(Users, #id)();
+  DateTimeColumn get changedAt => dateTime()();
+  // open | resolved | escalated
+  TextColumn get resultingStatus => text()();
+}
+
 @DataClassName('UserEntity')
 class Users extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -778,6 +848,8 @@ class _LibraryPreset {
     ShiftHandoverAcknowledgements,
     Subscriptions,
     OrganisationInvites,
+    Issues,
+    IssueEvents,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -789,7 +861,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 40;
+  int get schemaVersion => 41;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1160,6 +1232,13 @@ class AppDatabase extends _$AppDatabase {
           subscriptions,
           subscriptions.providerSubscriptionId,
         );
+      }
+      if (from < 41) {
+        // Issues & Incidents (2026-09-15) -- freestanding problem
+        // capture, deliberately separate from ProblemStatusEvents (see
+        // the Issues table's own doc comment for why).
+        await m.createTable(issues);
+        await m.createTable(issueEvents);
       }
     },
     beforeOpen: (details) async {

@@ -17293,6 +17293,1152 @@ class OrganisationInvitesCompanion
   }
 }
 
+class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $IssuesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _subtypeMeta = const VerificationMeta(
+    'subtype',
+  );
+  @override
+  late final GeneratedColumn<String> subtype = GeneratedColumn<String>(
+    'subtype',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _detailsMeta = const VerificationMeta(
+    'details',
+  );
+  @override
+  late final GeneratedColumn<String> details = GeneratedColumn<String>(
+    'details',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _raisedByUserIdMeta = const VerificationMeta(
+    'raisedByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> raisedByUserId = GeneratedColumn<int>(
+    'raised_by_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _raisedAtMeta = const VerificationMeta(
+    'raisedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> raisedAt = GeneratedColumn<DateTime>(
+    'raised_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('open'),
+  );
+  static const VerificationMeta _supplierIdMeta = const VerificationMeta(
+    'supplierId',
+  );
+  @override
+  late final GeneratedColumn<int> supplierId = GeneratedColumn<int>(
+    'supplier_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES suppliers (id)',
+    ),
+  );
+  static const VerificationMeta _deliveryProblemTypeMeta =
+      const VerificationMeta('deliveryProblemType');
+  @override
+  late final GeneratedColumn<String> deliveryProblemType =
+      GeneratedColumn<String>(
+        'delivery_problem_type',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _receivedByUserIdMeta = const VerificationMeta(
+    'receivedByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> receivedByUserId = GeneratedColumn<int>(
+    'received_by_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    siteId,
+    type,
+    subtype,
+    details,
+    raisedByUserId,
+    raisedAt,
+    status,
+    supplierId,
+    deliveryProblemType,
+    receivedByUserId,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'issues';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<IssueEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('subtype')) {
+      context.handle(
+        _subtypeMeta,
+        subtype.isAcceptableOrUnknown(data['subtype']!, _subtypeMeta),
+      );
+    }
+    if (data.containsKey('details')) {
+      context.handle(
+        _detailsMeta,
+        details.isAcceptableOrUnknown(data['details']!, _detailsMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_detailsMeta);
+    }
+    if (data.containsKey('raised_by_user_id')) {
+      context.handle(
+        _raisedByUserIdMeta,
+        raisedByUserId.isAcceptableOrUnknown(
+          data['raised_by_user_id']!,
+          _raisedByUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_raisedByUserIdMeta);
+    }
+    if (data.containsKey('raised_at')) {
+      context.handle(
+        _raisedAtMeta,
+        raisedAt.isAcceptableOrUnknown(data['raised_at']!, _raisedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_raisedAtMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('supplier_id')) {
+      context.handle(
+        _supplierIdMeta,
+        supplierId.isAcceptableOrUnknown(data['supplier_id']!, _supplierIdMeta),
+      );
+    }
+    if (data.containsKey('delivery_problem_type')) {
+      context.handle(
+        _deliveryProblemTypeMeta,
+        deliveryProblemType.isAcceptableOrUnknown(
+          data['delivery_problem_type']!,
+          _deliveryProblemTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('received_by_user_id')) {
+      context.handle(
+        _receivedByUserIdMeta,
+        receivedByUserId.isAcceptableOrUnknown(
+          data['received_by_user_id']!,
+          _receivedByUserIdMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  IssueEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return IssueEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      )!,
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      )!,
+      subtype: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}subtype'],
+      ),
+      details: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}details'],
+      )!,
+      raisedByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}raised_by_user_id'],
+      )!,
+      raisedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}raised_at'],
+      )!,
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      supplierId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}supplier_id'],
+      ),
+      deliveryProblemType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}delivery_problem_type'],
+      ),
+      receivedByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}received_by_user_id'],
+      ),
+    );
+  }
+
+  @override
+  $IssuesTable createAlias(String alias) {
+    return $IssuesTable(attachedDatabase, alias);
+  }
+}
+
+class IssueEntity extends DataClass implements Insertable<IssueEntity> {
+  final int id;
+  final int siteId;
+  final String type;
+  final String? subtype;
+  final String details;
+  final int raisedByUserId;
+  final DateTime raisedAt;
+  final String status;
+  final int? supplierId;
+  final String? deliveryProblemType;
+  final int? receivedByUserId;
+  const IssueEntity({
+    required this.id,
+    required this.siteId,
+    required this.type,
+    this.subtype,
+    required this.details,
+    required this.raisedByUserId,
+    required this.raisedAt,
+    required this.status,
+    this.supplierId,
+    this.deliveryProblemType,
+    this.receivedByUserId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['site_id'] = Variable<int>(siteId);
+    map['type'] = Variable<String>(type);
+    if (!nullToAbsent || subtype != null) {
+      map['subtype'] = Variable<String>(subtype);
+    }
+    map['details'] = Variable<String>(details);
+    map['raised_by_user_id'] = Variable<int>(raisedByUserId);
+    map['raised_at'] = Variable<DateTime>(raisedAt);
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || supplierId != null) {
+      map['supplier_id'] = Variable<int>(supplierId);
+    }
+    if (!nullToAbsent || deliveryProblemType != null) {
+      map['delivery_problem_type'] = Variable<String>(deliveryProblemType);
+    }
+    if (!nullToAbsent || receivedByUserId != null) {
+      map['received_by_user_id'] = Variable<int>(receivedByUserId);
+    }
+    return map;
+  }
+
+  IssuesCompanion toCompanion(bool nullToAbsent) {
+    return IssuesCompanion(
+      id: Value(id),
+      siteId: Value(siteId),
+      type: Value(type),
+      subtype: subtype == null && nullToAbsent
+          ? const Value.absent()
+          : Value(subtype),
+      details: Value(details),
+      raisedByUserId: Value(raisedByUserId),
+      raisedAt: Value(raisedAt),
+      status: Value(status),
+      supplierId: supplierId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(supplierId),
+      deliveryProblemType: deliveryProblemType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deliveryProblemType),
+      receivedByUserId: receivedByUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(receivedByUserId),
+    );
+  }
+
+  factory IssueEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return IssueEntity(
+      id: serializer.fromJson<int>(json['id']),
+      siteId: serializer.fromJson<int>(json['siteId']),
+      type: serializer.fromJson<String>(json['type']),
+      subtype: serializer.fromJson<String?>(json['subtype']),
+      details: serializer.fromJson<String>(json['details']),
+      raisedByUserId: serializer.fromJson<int>(json['raisedByUserId']),
+      raisedAt: serializer.fromJson<DateTime>(json['raisedAt']),
+      status: serializer.fromJson<String>(json['status']),
+      supplierId: serializer.fromJson<int?>(json['supplierId']),
+      deliveryProblemType: serializer.fromJson<String?>(
+        json['deliveryProblemType'],
+      ),
+      receivedByUserId: serializer.fromJson<int?>(json['receivedByUserId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'siteId': serializer.toJson<int>(siteId),
+      'type': serializer.toJson<String>(type),
+      'subtype': serializer.toJson<String?>(subtype),
+      'details': serializer.toJson<String>(details),
+      'raisedByUserId': serializer.toJson<int>(raisedByUserId),
+      'raisedAt': serializer.toJson<DateTime>(raisedAt),
+      'status': serializer.toJson<String>(status),
+      'supplierId': serializer.toJson<int?>(supplierId),
+      'deliveryProblemType': serializer.toJson<String?>(deliveryProblemType),
+      'receivedByUserId': serializer.toJson<int?>(receivedByUserId),
+    };
+  }
+
+  IssueEntity copyWith({
+    int? id,
+    int? siteId,
+    String? type,
+    Value<String?> subtype = const Value.absent(),
+    String? details,
+    int? raisedByUserId,
+    DateTime? raisedAt,
+    String? status,
+    Value<int?> supplierId = const Value.absent(),
+    Value<String?> deliveryProblemType = const Value.absent(),
+    Value<int?> receivedByUserId = const Value.absent(),
+  }) => IssueEntity(
+    id: id ?? this.id,
+    siteId: siteId ?? this.siteId,
+    type: type ?? this.type,
+    subtype: subtype.present ? subtype.value : this.subtype,
+    details: details ?? this.details,
+    raisedByUserId: raisedByUserId ?? this.raisedByUserId,
+    raisedAt: raisedAt ?? this.raisedAt,
+    status: status ?? this.status,
+    supplierId: supplierId.present ? supplierId.value : this.supplierId,
+    deliveryProblemType: deliveryProblemType.present
+        ? deliveryProblemType.value
+        : this.deliveryProblemType,
+    receivedByUserId: receivedByUserId.present
+        ? receivedByUserId.value
+        : this.receivedByUserId,
+  );
+  IssueEntity copyWithCompanion(IssuesCompanion data) {
+    return IssueEntity(
+      id: data.id.present ? data.id.value : this.id,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      type: data.type.present ? data.type.value : this.type,
+      subtype: data.subtype.present ? data.subtype.value : this.subtype,
+      details: data.details.present ? data.details.value : this.details,
+      raisedByUserId: data.raisedByUserId.present
+          ? data.raisedByUserId.value
+          : this.raisedByUserId,
+      raisedAt: data.raisedAt.present ? data.raisedAt.value : this.raisedAt,
+      status: data.status.present ? data.status.value : this.status,
+      supplierId: data.supplierId.present
+          ? data.supplierId.value
+          : this.supplierId,
+      deliveryProblemType: data.deliveryProblemType.present
+          ? data.deliveryProblemType.value
+          : this.deliveryProblemType,
+      receivedByUserId: data.receivedByUserId.present
+          ? data.receivedByUserId.value
+          : this.receivedByUserId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IssueEntity(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('type: $type, ')
+          ..write('subtype: $subtype, ')
+          ..write('details: $details, ')
+          ..write('raisedByUserId: $raisedByUserId, ')
+          ..write('raisedAt: $raisedAt, ')
+          ..write('status: $status, ')
+          ..write('supplierId: $supplierId, ')
+          ..write('deliveryProblemType: $deliveryProblemType, ')
+          ..write('receivedByUserId: $receivedByUserId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    siteId,
+    type,
+    subtype,
+    details,
+    raisedByUserId,
+    raisedAt,
+    status,
+    supplierId,
+    deliveryProblemType,
+    receivedByUserId,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is IssueEntity &&
+          other.id == this.id &&
+          other.siteId == this.siteId &&
+          other.type == this.type &&
+          other.subtype == this.subtype &&
+          other.details == this.details &&
+          other.raisedByUserId == this.raisedByUserId &&
+          other.raisedAt == this.raisedAt &&
+          other.status == this.status &&
+          other.supplierId == this.supplierId &&
+          other.deliveryProblemType == this.deliveryProblemType &&
+          other.receivedByUserId == this.receivedByUserId);
+}
+
+class IssuesCompanion extends UpdateCompanion<IssueEntity> {
+  final Value<int> id;
+  final Value<int> siteId;
+  final Value<String> type;
+  final Value<String?> subtype;
+  final Value<String> details;
+  final Value<int> raisedByUserId;
+  final Value<DateTime> raisedAt;
+  final Value<String> status;
+  final Value<int?> supplierId;
+  final Value<String?> deliveryProblemType;
+  final Value<int?> receivedByUserId;
+  const IssuesCompanion({
+    this.id = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.type = const Value.absent(),
+    this.subtype = const Value.absent(),
+    this.details = const Value.absent(),
+    this.raisedByUserId = const Value.absent(),
+    this.raisedAt = const Value.absent(),
+    this.status = const Value.absent(),
+    this.supplierId = const Value.absent(),
+    this.deliveryProblemType = const Value.absent(),
+    this.receivedByUserId = const Value.absent(),
+  });
+  IssuesCompanion.insert({
+    this.id = const Value.absent(),
+    required int siteId,
+    required String type,
+    this.subtype = const Value.absent(),
+    required String details,
+    required int raisedByUserId,
+    required DateTime raisedAt,
+    this.status = const Value.absent(),
+    this.supplierId = const Value.absent(),
+    this.deliveryProblemType = const Value.absent(),
+    this.receivedByUserId = const Value.absent(),
+  }) : siteId = Value(siteId),
+       type = Value(type),
+       details = Value(details),
+       raisedByUserId = Value(raisedByUserId),
+       raisedAt = Value(raisedAt);
+  static Insertable<IssueEntity> custom({
+    Expression<int>? id,
+    Expression<int>? siteId,
+    Expression<String>? type,
+    Expression<String>? subtype,
+    Expression<String>? details,
+    Expression<int>? raisedByUserId,
+    Expression<DateTime>? raisedAt,
+    Expression<String>? status,
+    Expression<int>? supplierId,
+    Expression<String>? deliveryProblemType,
+    Expression<int>? receivedByUserId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (siteId != null) 'site_id': siteId,
+      if (type != null) 'type': type,
+      if (subtype != null) 'subtype': subtype,
+      if (details != null) 'details': details,
+      if (raisedByUserId != null) 'raised_by_user_id': raisedByUserId,
+      if (raisedAt != null) 'raised_at': raisedAt,
+      if (status != null) 'status': status,
+      if (supplierId != null) 'supplier_id': supplierId,
+      if (deliveryProblemType != null)
+        'delivery_problem_type': deliveryProblemType,
+      if (receivedByUserId != null) 'received_by_user_id': receivedByUserId,
+    });
+  }
+
+  IssuesCompanion copyWith({
+    Value<int>? id,
+    Value<int>? siteId,
+    Value<String>? type,
+    Value<String?>? subtype,
+    Value<String>? details,
+    Value<int>? raisedByUserId,
+    Value<DateTime>? raisedAt,
+    Value<String>? status,
+    Value<int?>? supplierId,
+    Value<String?>? deliveryProblemType,
+    Value<int?>? receivedByUserId,
+  }) {
+    return IssuesCompanion(
+      id: id ?? this.id,
+      siteId: siteId ?? this.siteId,
+      type: type ?? this.type,
+      subtype: subtype ?? this.subtype,
+      details: details ?? this.details,
+      raisedByUserId: raisedByUserId ?? this.raisedByUserId,
+      raisedAt: raisedAt ?? this.raisedAt,
+      status: status ?? this.status,
+      supplierId: supplierId ?? this.supplierId,
+      deliveryProblemType: deliveryProblemType ?? this.deliveryProblemType,
+      receivedByUserId: receivedByUserId ?? this.receivedByUserId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (subtype.present) {
+      map['subtype'] = Variable<String>(subtype.value);
+    }
+    if (details.present) {
+      map['details'] = Variable<String>(details.value);
+    }
+    if (raisedByUserId.present) {
+      map['raised_by_user_id'] = Variable<int>(raisedByUserId.value);
+    }
+    if (raisedAt.present) {
+      map['raised_at'] = Variable<DateTime>(raisedAt.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (supplierId.present) {
+      map['supplier_id'] = Variable<int>(supplierId.value);
+    }
+    if (deliveryProblemType.present) {
+      map['delivery_problem_type'] = Variable<String>(
+        deliveryProblemType.value,
+      );
+    }
+    if (receivedByUserId.present) {
+      map['received_by_user_id'] = Variable<int>(receivedByUserId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IssuesCompanion(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('type: $type, ')
+          ..write('subtype: $subtype, ')
+          ..write('details: $details, ')
+          ..write('raisedByUserId: $raisedByUserId, ')
+          ..write('raisedAt: $raisedAt, ')
+          ..write('status: $status, ')
+          ..write('supplierId: $supplierId, ')
+          ..write('deliveryProblemType: $deliveryProblemType, ')
+          ..write('receivedByUserId: $receivedByUserId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $IssueEventsTable extends IssueEvents
+    with TableInfo<$IssueEventsTable, IssueEventEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $IssueEventsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _issueIdMeta = const VerificationMeta(
+    'issueId',
+  );
+  @override
+  late final GeneratedColumn<int> issueId = GeneratedColumn<int>(
+    'issue_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES issues (id)',
+    ),
+  );
+  static const VerificationMeta _phaseMeta = const VerificationMeta('phase');
+  @override
+  late final GeneratedColumn<String> phase = GeneratedColumn<String>(
+    'phase',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _changedByUserIdMeta = const VerificationMeta(
+    'changedByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> changedByUserId = GeneratedColumn<int>(
+    'changed_by_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _changedAtMeta = const VerificationMeta(
+    'changedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> changedAt = GeneratedColumn<DateTime>(
+    'changed_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _resultingStatusMeta = const VerificationMeta(
+    'resultingStatus',
+  );
+  @override
+  late final GeneratedColumn<String> resultingStatus = GeneratedColumn<String>(
+    'resulting_status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    issueId,
+    phase,
+    note,
+    changedByUserId,
+    changedAt,
+    resultingStatus,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'issue_events';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<IssueEventEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('issue_id')) {
+      context.handle(
+        _issueIdMeta,
+        issueId.isAcceptableOrUnknown(data['issue_id']!, _issueIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_issueIdMeta);
+    }
+    if (data.containsKey('phase')) {
+      context.handle(
+        _phaseMeta,
+        phase.isAcceptableOrUnknown(data['phase']!, _phaseMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_phaseMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_noteMeta);
+    }
+    if (data.containsKey('changed_by_user_id')) {
+      context.handle(
+        _changedByUserIdMeta,
+        changedByUserId.isAcceptableOrUnknown(
+          data['changed_by_user_id']!,
+          _changedByUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_changedByUserIdMeta);
+    }
+    if (data.containsKey('changed_at')) {
+      context.handle(
+        _changedAtMeta,
+        changedAt.isAcceptableOrUnknown(data['changed_at']!, _changedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_changedAtMeta);
+    }
+    if (data.containsKey('resulting_status')) {
+      context.handle(
+        _resultingStatusMeta,
+        resultingStatus.isAcceptableOrUnknown(
+          data['resulting_status']!,
+          _resultingStatusMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_resultingStatusMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  IssueEventEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return IssueEventEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      issueId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}issue_id'],
+      )!,
+      phase: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}phase'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      )!,
+      changedByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}changed_by_user_id'],
+      )!,
+      changedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}changed_at'],
+      )!,
+      resultingStatus: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}resulting_status'],
+      )!,
+    );
+  }
+
+  @override
+  $IssueEventsTable createAlias(String alias) {
+    return $IssueEventsTable(attachedDatabase, alias);
+  }
+}
+
+class IssueEventEntity extends DataClass
+    implements Insertable<IssueEventEntity> {
+  final int id;
+  final int issueId;
+  final String phase;
+  final String note;
+  final int changedByUserId;
+  final DateTime changedAt;
+  final String resultingStatus;
+  const IssueEventEntity({
+    required this.id,
+    required this.issueId,
+    required this.phase,
+    required this.note,
+    required this.changedByUserId,
+    required this.changedAt,
+    required this.resultingStatus,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['issue_id'] = Variable<int>(issueId);
+    map['phase'] = Variable<String>(phase);
+    map['note'] = Variable<String>(note);
+    map['changed_by_user_id'] = Variable<int>(changedByUserId);
+    map['changed_at'] = Variable<DateTime>(changedAt);
+    map['resulting_status'] = Variable<String>(resultingStatus);
+    return map;
+  }
+
+  IssueEventsCompanion toCompanion(bool nullToAbsent) {
+    return IssueEventsCompanion(
+      id: Value(id),
+      issueId: Value(issueId),
+      phase: Value(phase),
+      note: Value(note),
+      changedByUserId: Value(changedByUserId),
+      changedAt: Value(changedAt),
+      resultingStatus: Value(resultingStatus),
+    );
+  }
+
+  factory IssueEventEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return IssueEventEntity(
+      id: serializer.fromJson<int>(json['id']),
+      issueId: serializer.fromJson<int>(json['issueId']),
+      phase: serializer.fromJson<String>(json['phase']),
+      note: serializer.fromJson<String>(json['note']),
+      changedByUserId: serializer.fromJson<int>(json['changedByUserId']),
+      changedAt: serializer.fromJson<DateTime>(json['changedAt']),
+      resultingStatus: serializer.fromJson<String>(json['resultingStatus']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'issueId': serializer.toJson<int>(issueId),
+      'phase': serializer.toJson<String>(phase),
+      'note': serializer.toJson<String>(note),
+      'changedByUserId': serializer.toJson<int>(changedByUserId),
+      'changedAt': serializer.toJson<DateTime>(changedAt),
+      'resultingStatus': serializer.toJson<String>(resultingStatus),
+    };
+  }
+
+  IssueEventEntity copyWith({
+    int? id,
+    int? issueId,
+    String? phase,
+    String? note,
+    int? changedByUserId,
+    DateTime? changedAt,
+    String? resultingStatus,
+  }) => IssueEventEntity(
+    id: id ?? this.id,
+    issueId: issueId ?? this.issueId,
+    phase: phase ?? this.phase,
+    note: note ?? this.note,
+    changedByUserId: changedByUserId ?? this.changedByUserId,
+    changedAt: changedAt ?? this.changedAt,
+    resultingStatus: resultingStatus ?? this.resultingStatus,
+  );
+  IssueEventEntity copyWithCompanion(IssueEventsCompanion data) {
+    return IssueEventEntity(
+      id: data.id.present ? data.id.value : this.id,
+      issueId: data.issueId.present ? data.issueId.value : this.issueId,
+      phase: data.phase.present ? data.phase.value : this.phase,
+      note: data.note.present ? data.note.value : this.note,
+      changedByUserId: data.changedByUserId.present
+          ? data.changedByUserId.value
+          : this.changedByUserId,
+      changedAt: data.changedAt.present ? data.changedAt.value : this.changedAt,
+      resultingStatus: data.resultingStatus.present
+          ? data.resultingStatus.value
+          : this.resultingStatus,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IssueEventEntity(')
+          ..write('id: $id, ')
+          ..write('issueId: $issueId, ')
+          ..write('phase: $phase, ')
+          ..write('note: $note, ')
+          ..write('changedByUserId: $changedByUserId, ')
+          ..write('changedAt: $changedAt, ')
+          ..write('resultingStatus: $resultingStatus')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    issueId,
+    phase,
+    note,
+    changedByUserId,
+    changedAt,
+    resultingStatus,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is IssueEventEntity &&
+          other.id == this.id &&
+          other.issueId == this.issueId &&
+          other.phase == this.phase &&
+          other.note == this.note &&
+          other.changedByUserId == this.changedByUserId &&
+          other.changedAt == this.changedAt &&
+          other.resultingStatus == this.resultingStatus);
+}
+
+class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
+  final Value<int> id;
+  final Value<int> issueId;
+  final Value<String> phase;
+  final Value<String> note;
+  final Value<int> changedByUserId;
+  final Value<DateTime> changedAt;
+  final Value<String> resultingStatus;
+  const IssueEventsCompanion({
+    this.id = const Value.absent(),
+    this.issueId = const Value.absent(),
+    this.phase = const Value.absent(),
+    this.note = const Value.absent(),
+    this.changedByUserId = const Value.absent(),
+    this.changedAt = const Value.absent(),
+    this.resultingStatus = const Value.absent(),
+  });
+  IssueEventsCompanion.insert({
+    this.id = const Value.absent(),
+    required int issueId,
+    required String phase,
+    required String note,
+    required int changedByUserId,
+    required DateTime changedAt,
+    required String resultingStatus,
+  }) : issueId = Value(issueId),
+       phase = Value(phase),
+       note = Value(note),
+       changedByUserId = Value(changedByUserId),
+       changedAt = Value(changedAt),
+       resultingStatus = Value(resultingStatus);
+  static Insertable<IssueEventEntity> custom({
+    Expression<int>? id,
+    Expression<int>? issueId,
+    Expression<String>? phase,
+    Expression<String>? note,
+    Expression<int>? changedByUserId,
+    Expression<DateTime>? changedAt,
+    Expression<String>? resultingStatus,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (issueId != null) 'issue_id': issueId,
+      if (phase != null) 'phase': phase,
+      if (note != null) 'note': note,
+      if (changedByUserId != null) 'changed_by_user_id': changedByUserId,
+      if (changedAt != null) 'changed_at': changedAt,
+      if (resultingStatus != null) 'resulting_status': resultingStatus,
+    });
+  }
+
+  IssueEventsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? issueId,
+    Value<String>? phase,
+    Value<String>? note,
+    Value<int>? changedByUserId,
+    Value<DateTime>? changedAt,
+    Value<String>? resultingStatus,
+  }) {
+    return IssueEventsCompanion(
+      id: id ?? this.id,
+      issueId: issueId ?? this.issueId,
+      phase: phase ?? this.phase,
+      note: note ?? this.note,
+      changedByUserId: changedByUserId ?? this.changedByUserId,
+      changedAt: changedAt ?? this.changedAt,
+      resultingStatus: resultingStatus ?? this.resultingStatus,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (issueId.present) {
+      map['issue_id'] = Variable<int>(issueId.value);
+    }
+    if (phase.present) {
+      map['phase'] = Variable<String>(phase.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (changedByUserId.present) {
+      map['changed_by_user_id'] = Variable<int>(changedByUserId.value);
+    }
+    if (changedAt.present) {
+      map['changed_at'] = Variable<DateTime>(changedAt.value);
+    }
+    if (resultingStatus.present) {
+      map['resulting_status'] = Variable<String>(resultingStatus.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('IssueEventsCompanion(')
+          ..write('id: $id, ')
+          ..write('issueId: $issueId, ')
+          ..write('phase: $phase, ')
+          ..write('note: $note, ')
+          ..write('changedByUserId: $changedByUserId, ')
+          ..write('changedAt: $changedAt, ')
+          ..write('resultingStatus: $resultingStatus')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -17349,6 +18495,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $SubscriptionsTable subscriptions = $SubscriptionsTable(this);
   late final $OrganisationInvitesTable organisationInvites =
       $OrganisationInvitesTable(this);
+  late final $IssuesTable issues = $IssuesTable(this);
+  late final $IssueEventsTable issueEvents = $IssueEventsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -17385,6 +18533,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     shiftHandoverAcknowledgements,
     subscriptions,
     organisationInvites,
+    issues,
+    issueEvents,
   ];
 }
 
@@ -19035,6 +20185,24 @@ final class $$UsersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$IssueEventsTable, List<IssueEventEntity>>
+  _issueEventsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.issueEvents,
+    aliasName: 'users__id__issue_events__changed_by_user_id',
+  );
+
+  $$IssueEventsTableProcessedTableManager get issueEventsRefs {
+    final manager = $$IssueEventsTableTableManager(
+      $_db,
+      $_db.issueEvents,
+    ).filter((f) => f.changedByUserId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_issueEventsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
@@ -19450,6 +20618,31 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
                     $removeJoinBuilderFromRootComposer,
               ),
         );
+    return f(composer);
+  }
+
+  Expression<bool> issueEventsRefs(
+    Expression<bool> Function($$IssueEventsTableFilterComposer f) f,
+  ) {
+    final $$IssueEventsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issueEvents,
+      getReferencedColumn: (t) => t.changedByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssueEventsTableFilterComposer(
+            $db: $db,
+            $table: $db.issueEvents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
     return f(composer);
   }
 }
@@ -19996,6 +21189,31 @@ class $$UsersTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> issueEventsRefs<T extends Object>(
+    Expression<T> Function($$IssueEventsTableAnnotationComposer a) f,
+  ) {
+    final $$IssueEventsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issueEvents,
+      getReferencedColumn: (t) => t.changedByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssueEventsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.issueEvents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$UsersTableTableManager
@@ -20026,6 +21244,7 @@ class $$UsersTableTableManager
             bool brandingConfigsRefs,
             bool problemStatusEventsRefs,
             bool shiftHandoverAcknowledgementsRefs,
+            bool issueEventsRefs,
           })
         > {
   $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
@@ -20129,6 +21348,7 @@ class $$UsersTableTableManager
                 brandingConfigsRefs = false,
                 problemStatusEventsRefs = false,
                 shiftHandoverAcknowledgementsRefs = false,
+                issueEventsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -20145,6 +21365,7 @@ class $$UsersTableTableManager
                     if (problemStatusEventsRefs) db.problemStatusEvents,
                     if (shiftHandoverAcknowledgementsRefs)
                       db.shiftHandoverAcknowledgements,
+                    if (issueEventsRefs) db.issueEvents,
                   ],
                   addJoins:
                       <
@@ -20437,6 +21658,27 @@ class $$UsersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (issueEventsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          IssueEventEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._issueEventsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).issueEventsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.changedByUserId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -20472,6 +21714,7 @@ typedef $$UsersTableProcessedTableManager =
         bool brandingConfigsRefs,
         bool problemStatusEventsRefs,
         bool shiftHandoverAcknowledgementsRefs,
+        bool issueEventsRefs,
       })
     >;
 typedef $$OrganisationsTableCreateCompanionBuilder =
@@ -21597,6 +22840,25 @@ final class $$SitesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$IssuesTable, List<IssueEntity>> _issuesRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.issues,
+    aliasName: 'sites__id__issues__site_id',
+  );
+
+  $$IssuesTableProcessedTableManager get issuesRefs {
+    final manager = $$IssuesTableTableManager(
+      $_db,
+      $_db.issues,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_issuesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
@@ -21989,6 +23251,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$OrganisationInvitesTableFilterComposer(
             $db: $db,
             $table: $db.organisationInvites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> issuesRefs(
+    Expression<bool> Function($$IssuesTableFilterComposer f) f,
+  ) {
+    final $$IssuesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableFilterComposer(
+            $db: $db,
+            $table: $db.issues,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -22472,6 +23759,31 @@ class $$SitesTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> issuesRefs<T extends Object>(
+    Expression<T> Function($$IssuesTableAnnotationComposer a) f,
+  ) {
+    final $$IssuesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.issues,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SitesTableTableManager
@@ -22503,6 +23815,7 @@ class $$SitesTableTableManager
             bool thirdPartyContactsRefs,
             bool siteVenueTypesRefs,
             bool organisationInvitesRefs,
+            bool issuesRefs,
           })
         > {
   $$SitesTableTableManager(_$AppDatabase db, $SitesTable table)
@@ -22571,6 +23884,7 @@ class $$SitesTableTableManager
                 thirdPartyContactsRefs = false,
                 siteVenueTypesRefs = false,
                 organisationInvitesRefs = false,
+                issuesRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -22588,6 +23902,7 @@ class $$SitesTableTableManager
                     if (thirdPartyContactsRefs) db.thirdPartyContacts,
                     if (siteVenueTypesRefs) db.siteVenueTypes,
                     if (organisationInvitesRefs) db.organisationInvites,
+                    if (issuesRefs) db.issues,
                   ],
                   addJoins:
                       <
@@ -22905,6 +24220,23 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (issuesRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          IssueEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._issuesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(db, table, p0).issuesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -22941,6 +24273,7 @@ typedef $$SitesTableProcessedTableManager =
         bool thirdPartyContactsRefs,
         bool siteVenueTypesRefs,
         bool organisationInvitesRefs,
+        bool issuesRefs,
       })
     >;
 typedef $$AreasTableCreateCompanionBuilder =
@@ -24127,6 +25460,25 @@ final class $$SuppliersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$IssuesTable, List<IssueEntity>> _issuesRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.issues,
+    aliasName: 'suppliers__id__issues__supplier_id',
+  );
+
+  $$IssuesTableProcessedTableManager get issuesRefs {
+    final manager = $$IssuesTableTableManager(
+      $_db,
+      $_db.issues,
+    ).filter((f) => f.supplierId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_issuesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$SuppliersTableFilterComposer
@@ -24222,6 +25574,31 @@ class $$SuppliersTableFilterComposer
           }) => $$TaskSubmissionsTableFilterComposer(
             $db: $db,
             $table: $db.taskSubmissions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> issuesRefs(
+    Expression<bool> Function($$IssuesTableFilterComposer f) f,
+  ) {
+    final $$IssuesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.supplierId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableFilterComposer(
+            $db: $db,
+            $table: $db.issues,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -24399,6 +25776,31 @@ class $$SuppliersTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> issuesRefs<T extends Object>(
+    Expression<T> Function($$IssuesTableAnnotationComposer a) f,
+  ) {
+    final $$IssuesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.supplierId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.issues,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SuppliersTableTableManager
@@ -24414,7 +25816,11 @@ class $$SuppliersTableTableManager
           $$SuppliersTableUpdateCompanionBuilder,
           (SupplierEntity, $$SuppliersTableReferences),
           SupplierEntity,
-          PrefetchHooks Function({bool siteId, bool taskSubmissionsRefs})
+          PrefetchHooks Function({
+            bool siteId,
+            bool taskSubmissionsRefs,
+            bool issuesRefs,
+          })
         > {
   $$SuppliersTableTableManager(_$AppDatabase db, $SuppliersTable table)
     : super(
@@ -24484,11 +25890,16 @@ class $$SuppliersTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({siteId = false, taskSubmissionsRefs = false}) {
+              ({
+                siteId = false,
+                taskSubmissionsRefs = false,
+                issuesRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (taskSubmissionsRefs) db.taskSubmissions,
+                    if (issuesRefs) db.issues,
                   ],
                   addJoins:
                       <
@@ -24545,6 +25956,27 @@ class $$SuppliersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (issuesRefs)
+                        await $_getPrefetchedData<
+                          SupplierEntity,
+                          $SuppliersTable,
+                          IssueEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SuppliersTableReferences
+                              ._issuesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SuppliersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).issuesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.supplierId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -24565,7 +25997,11 @@ typedef $$SuppliersTableProcessedTableManager =
       $$SuppliersTableUpdateCompanionBuilder,
       (SupplierEntity, $$SuppliersTableReferences),
       SupplierEntity,
-      PrefetchHooks Function({bool siteId, bool taskSubmissionsRefs})
+      PrefetchHooks Function({
+        bool siteId,
+        bool taskSubmissionsRefs,
+        bool issuesRefs,
+      })
     >;
 typedef $$TaskSubmissionsTableCreateCompanionBuilder =
     TaskSubmissionsCompanion Function({
@@ -37534,6 +38970,1237 @@ typedef $$OrganisationInvitesTableProcessedTableManager =
         bool redeemedByUserId,
       })
     >;
+typedef $$IssuesTableCreateCompanionBuilder =
+    IssuesCompanion Function({
+      Value<int> id,
+      required int siteId,
+      required String type,
+      Value<String?> subtype,
+      required String details,
+      required int raisedByUserId,
+      required DateTime raisedAt,
+      Value<String> status,
+      Value<int?> supplierId,
+      Value<String?> deliveryProblemType,
+      Value<int?> receivedByUserId,
+    });
+typedef $$IssuesTableUpdateCompanionBuilder =
+    IssuesCompanion Function({
+      Value<int> id,
+      Value<int> siteId,
+      Value<String> type,
+      Value<String?> subtype,
+      Value<String> details,
+      Value<int> raisedByUserId,
+      Value<DateTime> raisedAt,
+      Value<String> status,
+      Value<int?> supplierId,
+      Value<String?> deliveryProblemType,
+      Value<int?> receivedByUserId,
+    });
+
+final class $$IssuesTableReferences
+    extends BaseReferences<_$AppDatabase, $IssuesTable, IssueEntity> {
+  $$IssuesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('issues__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<int>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _raisedByUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('issues__raised_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get raisedByUserId {
+    final $_column = $_itemColumn<int>('raised_by_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_raisedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SuppliersTable _supplierIdTable(_$AppDatabase db) =>
+      db.suppliers.createAlias('issues__supplier_id__suppliers__id');
+
+  $$SuppliersTableProcessedTableManager? get supplierId {
+    final $_column = $_itemColumn<int>('supplier_id');
+    if ($_column == null) return null;
+    final manager = $$SuppliersTableTableManager(
+      $_db,
+      $_db.suppliers,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_supplierIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _receivedByUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('issues__received_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager? get receivedByUserId {
+    final $_column = $_itemColumn<int>('received_by_user_id');
+    if ($_column == null) return null;
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_receivedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$IssueEventsTable, List<IssueEventEntity>>
+  _issueEventsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.issueEvents,
+    aliasName: 'issues__id__issue_events__issue_id',
+  );
+
+  $$IssueEventsTableProcessedTableManager get issueEventsRefs {
+    final manager = $$IssueEventsTableTableManager(
+      $_db,
+      $_db.issueEvents,
+    ).filter((f) => f.issueId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_issueEventsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$IssuesTableFilterComposer
+    extends Composer<_$AppDatabase, $IssuesTable> {
+  $$IssuesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get subtype => $composableBuilder(
+    column: $table.subtype,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get details => $composableBuilder(
+    column: $table.details,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get raisedAt => $composableBuilder(
+    column: $table.raisedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get deliveryProblemType => $composableBuilder(
+    column: $table.deliveryProblemType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get raisedByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.raisedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SuppliersTableFilterComposer get supplierId {
+    final $$SuppliersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.supplierId,
+      referencedTable: $db.suppliers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SuppliersTableFilterComposer(
+            $db: $db,
+            $table: $db.suppliers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get receivedByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.receivedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> issueEventsRefs(
+    Expression<bool> Function($$IssueEventsTableFilterComposer f) f,
+  ) {
+    final $$IssueEventsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issueEvents,
+      getReferencedColumn: (t) => t.issueId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssueEventsTableFilterComposer(
+            $db: $db,
+            $table: $db.issueEvents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$IssuesTableOrderingComposer
+    extends Composer<_$AppDatabase, $IssuesTable> {
+  $$IssuesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get subtype => $composableBuilder(
+    column: $table.subtype,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get details => $composableBuilder(
+    column: $table.details,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get raisedAt => $composableBuilder(
+    column: $table.raisedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get deliveryProblemType => $composableBuilder(
+    column: $table.deliveryProblemType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get raisedByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.raisedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SuppliersTableOrderingComposer get supplierId {
+    final $$SuppliersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.supplierId,
+      referencedTable: $db.suppliers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SuppliersTableOrderingComposer(
+            $db: $db,
+            $table: $db.suppliers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get receivedByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.receivedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$IssuesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $IssuesTable> {
+  $$IssuesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get subtype =>
+      $composableBuilder(column: $table.subtype, builder: (column) => column);
+
+  GeneratedColumn<String> get details =>
+      $composableBuilder(column: $table.details, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get raisedAt =>
+      $composableBuilder(column: $table.raisedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get deliveryProblemType => $composableBuilder(
+    column: $table.deliveryProblemType,
+    builder: (column) => column,
+  );
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get raisedByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.raisedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SuppliersTableAnnotationComposer get supplierId {
+    final $$SuppliersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.supplierId,
+      referencedTable: $db.suppliers,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SuppliersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.suppliers,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get receivedByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.receivedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> issueEventsRefs<T extends Object>(
+    Expression<T> Function($$IssueEventsTableAnnotationComposer a) f,
+  ) {
+    final $$IssueEventsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issueEvents,
+      getReferencedColumn: (t) => t.issueId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssueEventsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.issueEvents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$IssuesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $IssuesTable,
+          IssueEntity,
+          $$IssuesTableFilterComposer,
+          $$IssuesTableOrderingComposer,
+          $$IssuesTableAnnotationComposer,
+          $$IssuesTableCreateCompanionBuilder,
+          $$IssuesTableUpdateCompanionBuilder,
+          (IssueEntity, $$IssuesTableReferences),
+          IssueEntity,
+          PrefetchHooks Function({
+            bool siteId,
+            bool raisedByUserId,
+            bool supplierId,
+            bool receivedByUserId,
+            bool issueEventsRefs,
+          })
+        > {
+  $$IssuesTableTableManager(_$AppDatabase db, $IssuesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$IssuesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$IssuesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$IssuesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> siteId = const Value.absent(),
+                Value<String> type = const Value.absent(),
+                Value<String?> subtype = const Value.absent(),
+                Value<String> details = const Value.absent(),
+                Value<int> raisedByUserId = const Value.absent(),
+                Value<DateTime> raisedAt = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<int?> supplierId = const Value.absent(),
+                Value<String?> deliveryProblemType = const Value.absent(),
+                Value<int?> receivedByUserId = const Value.absent(),
+              }) => IssuesCompanion(
+                id: id,
+                siteId: siteId,
+                type: type,
+                subtype: subtype,
+                details: details,
+                raisedByUserId: raisedByUserId,
+                raisedAt: raisedAt,
+                status: status,
+                supplierId: supplierId,
+                deliveryProblemType: deliveryProblemType,
+                receivedByUserId: receivedByUserId,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int siteId,
+                required String type,
+                Value<String?> subtype = const Value.absent(),
+                required String details,
+                required int raisedByUserId,
+                required DateTime raisedAt,
+                Value<String> status = const Value.absent(),
+                Value<int?> supplierId = const Value.absent(),
+                Value<String?> deliveryProblemType = const Value.absent(),
+                Value<int?> receivedByUserId = const Value.absent(),
+              }) => IssuesCompanion.insert(
+                id: id,
+                siteId: siteId,
+                type: type,
+                subtype: subtype,
+                details: details,
+                raisedByUserId: raisedByUserId,
+                raisedAt: raisedAt,
+                status: status,
+                supplierId: supplierId,
+                deliveryProblemType: deliveryProblemType,
+                receivedByUserId: receivedByUserId,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$IssuesTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                siteId = false,
+                raisedByUserId = false,
+                supplierId = false,
+                receivedByUserId = false,
+                issueEventsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (issueEventsRefs) db.issueEvents,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable: $$IssuesTableReferences
+                                        ._siteIdTable(db),
+                                    referencedColumn: $$IssuesTableReferences
+                                        ._siteIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (raisedByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.raisedByUserId,
+                                    referencedTable: $$IssuesTableReferences
+                                        ._raisedByUserIdTable(db),
+                                    referencedColumn: $$IssuesTableReferences
+                                        ._raisedByUserIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (supplierId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.supplierId,
+                                    referencedTable: $$IssuesTableReferences
+                                        ._supplierIdTable(db),
+                                    referencedColumn: $$IssuesTableReferences
+                                        ._supplierIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (receivedByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.receivedByUserId,
+                                    referencedTable: $$IssuesTableReferences
+                                        ._receivedByUserIdTable(db),
+                                    referencedColumn: $$IssuesTableReferences
+                                        ._receivedByUserIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (issueEventsRefs)
+                        await $_getPrefetchedData<
+                          IssueEntity,
+                          $IssuesTable,
+                          IssueEventEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$IssuesTableReferences
+                              ._issueEventsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$IssuesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).issueEventsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.issueId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$IssuesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $IssuesTable,
+      IssueEntity,
+      $$IssuesTableFilterComposer,
+      $$IssuesTableOrderingComposer,
+      $$IssuesTableAnnotationComposer,
+      $$IssuesTableCreateCompanionBuilder,
+      $$IssuesTableUpdateCompanionBuilder,
+      (IssueEntity, $$IssuesTableReferences),
+      IssueEntity,
+      PrefetchHooks Function({
+        bool siteId,
+        bool raisedByUserId,
+        bool supplierId,
+        bool receivedByUserId,
+        bool issueEventsRefs,
+      })
+    >;
+typedef $$IssueEventsTableCreateCompanionBuilder =
+    IssueEventsCompanion Function({
+      Value<int> id,
+      required int issueId,
+      required String phase,
+      required String note,
+      required int changedByUserId,
+      required DateTime changedAt,
+      required String resultingStatus,
+    });
+typedef $$IssueEventsTableUpdateCompanionBuilder =
+    IssueEventsCompanion Function({
+      Value<int> id,
+      Value<int> issueId,
+      Value<String> phase,
+      Value<String> note,
+      Value<int> changedByUserId,
+      Value<DateTime> changedAt,
+      Value<String> resultingStatus,
+    });
+
+final class $$IssueEventsTableReferences
+    extends BaseReferences<_$AppDatabase, $IssueEventsTable, IssueEventEntity> {
+  $$IssueEventsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $IssuesTable _issueIdTable(_$AppDatabase db) =>
+      db.issues.createAlias('issue_events__issue_id__issues__id');
+
+  $$IssuesTableProcessedTableManager get issueId {
+    final $_column = $_itemColumn<int>('issue_id')!;
+
+    final manager = $$IssuesTableTableManager(
+      $_db,
+      $_db.issues,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_issueIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _changedByUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('issue_events__changed_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get changedByUserId {
+    final $_column = $_itemColumn<int>('changed_by_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_changedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$IssueEventsTableFilterComposer
+    extends Composer<_$AppDatabase, $IssueEventsTable> {
+  $$IssueEventsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get phase => $composableBuilder(
+    column: $table.phase,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get changedAt => $composableBuilder(
+    column: $table.changedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get resultingStatus => $composableBuilder(
+    column: $table.resultingStatus,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$IssuesTableFilterComposer get issueId {
+    final $$IssuesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.issueId,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableFilterComposer(
+            $db: $db,
+            $table: $db.issues,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get changedByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.changedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$IssueEventsTableOrderingComposer
+    extends Composer<_$AppDatabase, $IssueEventsTable> {
+  $$IssueEventsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get phase => $composableBuilder(
+    column: $table.phase,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get changedAt => $composableBuilder(
+    column: $table.changedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get resultingStatus => $composableBuilder(
+    column: $table.resultingStatus,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$IssuesTableOrderingComposer get issueId {
+    final $$IssuesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.issueId,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableOrderingComposer(
+            $db: $db,
+            $table: $db.issues,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get changedByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.changedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$IssueEventsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $IssueEventsTable> {
+  $$IssueEventsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get phase =>
+      $composableBuilder(column: $table.phase, builder: (column) => column);
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get changedAt =>
+      $composableBuilder(column: $table.changedAt, builder: (column) => column);
+
+  GeneratedColumn<String> get resultingStatus => $composableBuilder(
+    column: $table.resultingStatus,
+    builder: (column) => column,
+  );
+
+  $$IssuesTableAnnotationComposer get issueId {
+    final $$IssuesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.issueId,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.issues,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get changedByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.changedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$IssueEventsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $IssueEventsTable,
+          IssueEventEntity,
+          $$IssueEventsTableFilterComposer,
+          $$IssueEventsTableOrderingComposer,
+          $$IssueEventsTableAnnotationComposer,
+          $$IssueEventsTableCreateCompanionBuilder,
+          $$IssueEventsTableUpdateCompanionBuilder,
+          (IssueEventEntity, $$IssueEventsTableReferences),
+          IssueEventEntity,
+          PrefetchHooks Function({bool issueId, bool changedByUserId})
+        > {
+  $$IssueEventsTableTableManager(_$AppDatabase db, $IssueEventsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$IssueEventsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$IssueEventsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$IssueEventsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> issueId = const Value.absent(),
+                Value<String> phase = const Value.absent(),
+                Value<String> note = const Value.absent(),
+                Value<int> changedByUserId = const Value.absent(),
+                Value<DateTime> changedAt = const Value.absent(),
+                Value<String> resultingStatus = const Value.absent(),
+              }) => IssueEventsCompanion(
+                id: id,
+                issueId: issueId,
+                phase: phase,
+                note: note,
+                changedByUserId: changedByUserId,
+                changedAt: changedAt,
+                resultingStatus: resultingStatus,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int issueId,
+                required String phase,
+                required String note,
+                required int changedByUserId,
+                required DateTime changedAt,
+                required String resultingStatus,
+              }) => IssueEventsCompanion.insert(
+                id: id,
+                issueId: issueId,
+                phase: phase,
+                note: note,
+                changedByUserId: changedByUserId,
+                changedAt: changedAt,
+                resultingStatus: resultingStatus,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$IssueEventsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({issueId = false, changedByUserId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (issueId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.issueId,
+                                referencedTable: $$IssueEventsTableReferences
+                                    ._issueIdTable(db),
+                                referencedColumn: $$IssueEventsTableReferences
+                                    ._issueIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (changedByUserId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.changedByUserId,
+                                referencedTable: $$IssueEventsTableReferences
+                                    ._changedByUserIdTable(db),
+                                referencedColumn: $$IssueEventsTableReferences
+                                    ._changedByUserIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$IssueEventsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $IssueEventsTable,
+      IssueEventEntity,
+      $$IssueEventsTableFilterComposer,
+      $$IssueEventsTableOrderingComposer,
+      $$IssueEventsTableAnnotationComposer,
+      $$IssueEventsTableCreateCompanionBuilder,
+      $$IssueEventsTableUpdateCompanionBuilder,
+      (IssueEventEntity, $$IssueEventsTableReferences),
+      IssueEventEntity,
+      PrefetchHooks Function({bool issueId, bool changedByUserId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -37610,4 +40277,8 @@ class $AppDatabaseManager {
       $$SubscriptionsTableTableManager(_db, _db.subscriptions);
   $$OrganisationInvitesTableTableManager get organisationInvites =>
       $$OrganisationInvitesTableTableManager(_db, _db.organisationInvites);
+  $$IssuesTableTableManager get issues =>
+      $$IssuesTableTableManager(_db, _db.issues);
+  $$IssueEventsTableTableManager get issueEvents =>
+      $$IssueEventsTableTableManager(_db, _db.issueEvents);
 }
