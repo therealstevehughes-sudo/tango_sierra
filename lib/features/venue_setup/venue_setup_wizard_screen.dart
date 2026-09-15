@@ -44,6 +44,18 @@ class _VenueSetupWizardScreenState
   List<User> staff = [];
   List<Supplier> suppliers = [];
 
+  // Venue-type filtering (2026-09-15) — Sprint 029 built the tagging
+  // schema/repository layer only; this wires it into the one place the
+  // backlog specifically named: the equipment-type offering below. An
+  // equipment type with NO tags at all is universal/generic and always
+  // offered (e.g. "Thermometer" isn't specific to any venue type); a
+  // tagged one only shows when it matches one of the site's own tags.
+  // Never a hard lockout, matching this app's "defaults not lockouts"
+  // convention — "Show all equipment types" always escapes the filter.
+  List<int> siteVenueTypeIds = [];
+  Map<int, List<int>> venueTypeIdsByEquipmentTypeId = {};
+  bool showAllEquipmentTypes = false;
+
   final TextEditingController supplierNameController = TextEditingController();
   final TextEditingController supplierContactController =
       TextEditingController();
@@ -93,6 +105,7 @@ class _VenueSetupWizardScreenState
     final equipmentRepo = ref.read(equipmentRepositoryProvider);
     final userRepo = ref.read(userRepositoryProvider);
     final supplierRepo = ref.read(supplierRepositoryProvider);
+    final siteRepo = ref.read(siteRepositoryProvider);
     final site = await _resolveActiveSite();
 
     final loadedAreas = await areaRepo.getForSite(site.id);
@@ -100,6 +113,11 @@ class _VenueSetupWizardScreenState
     final loadedEquipment = await equipmentRepo.getForSite(site.id);
     final loadedStaff = await userRepo.getForSite(site.id);
     final loadedSuppliers = await supplierRepo.getForSite(site.id);
+    final loadedSiteVenueTypeIds = await siteRepo.getVenueTypeIds(site.id);
+    final venueTypeTags = <int, List<int>>{};
+    for (final type in loadedTypes) {
+      venueTypeTags[type.id] = await equipmentRepo.getVenueTypeIds(type.id);
+    }
 
     if (!mounted) return;
     setState(() {
@@ -108,8 +126,24 @@ class _VenueSetupWizardScreenState
       equipmentInstances = loadedEquipment;
       staff = loadedStaff;
       suppliers = loadedSuppliers;
+      siteVenueTypeIds = loadedSiteVenueTypeIds;
+      venueTypeIdsByEquipmentTypeId = venueTypeTags;
       loading = false;
     });
+  }
+
+  // An equipment type with no tags is universal; a tagged one needs to
+  // match one of the site's own venue-type tags. If the site itself has
+  // no venue types set, or the manager has explicitly asked to see
+  // everything, no filtering rule can apply — the full list shows.
+  List<EquipmentType> get _offeredEquipmentTypes {
+    if (showAllEquipmentTypes || siteVenueTypeIds.isEmpty) {
+      return equipmentTypes;
+    }
+    return equipmentTypes.where((t) {
+      final tags = venueTypeIdsByEquipmentTypeId[t.id] ?? const [];
+      return tags.isEmpty || tags.any(siteVenueTypeIds.contains);
+    }).toList();
   }
 
   // Falls back to the default site when no active site has been explicitly
@@ -520,11 +554,21 @@ class _VenueSetupWizardScreenState
           'Add named equipment instances, e.g. "Fridge 1", "Fridge 2".',
         ),
         const SizedBox(height: 16),
+        if (!showAllEquipmentTypes &&
+            siteVenueTypeIds.isNotEmpty &&
+            _offeredEquipmentTypes.length < equipmentTypes.length)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: TextButton(
+              onPressed: () => setState(() => showAllEquipmentTypes = true),
+              child: const Text('Show all equipment types'),
+            ),
+          ),
         DropdownButtonFormField<int>(
           initialValue: selectedEquipmentTypeId,
           decoration: const InputDecoration(labelText: 'Equipment type'),
           items: [
-            ...equipmentTypes.map(
+            ..._offeredEquipmentTypes.map(
               (t) => DropdownMenuItem(value: t.id, child: Text(t.name)),
             ),
             const DropdownMenuItem(value: -1, child: Text('Something else...')),

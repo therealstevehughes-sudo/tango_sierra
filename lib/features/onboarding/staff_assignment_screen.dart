@@ -48,6 +48,14 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   // affordance as "By Task" mode's per-task guidance expand.
   final Set<int> expandedPresetIds = {};
 
+  // Venue-type filtering for presets (2026-09-15) — same "tagged =
+  // filtered, untagged = universal, never a hard lockout" convention as
+  // the equipment-type offering in the venue setup wizard, and the
+  // existing jobRole narrowing just below (showAllJobRoles).
+  List<int> siteVenueTypeIds = [];
+  Map<int, List<int>> venueTypeIdsByPresetId = {};
+  bool showAllPresetVenueTypes = false;
+
   String _taskKey(int templateGroupId, int? equipmentId) =>
       '$templateGroupId:${equipmentId ?? 'none'}';
 
@@ -105,6 +113,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     final templateRepo = ref.read(taskTemplateRepositoryProvider);
     final equipmentRepo = ref.read(equipmentRepositoryProvider);
     final presetRepo = ref.read(taskPresetRepositoryProvider);
+    final siteRepo = ref.read(siteRepositoryProvider);
     final site =
         ref.read(activeSiteProvider) ??
         await ref.read(currentSiteProvider.future);
@@ -115,6 +124,12 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     final loadedTypes = await equipmentRepo.getEquipmentTypes();
     final loadedInstances = await equipmentRepo.getForSite(site.id);
     final loadedPresets = await presetRepo.getAll();
+    final activePresets = loadedPresets.where((p) => p.active).toList();
+    final loadedSiteVenueTypeIds = await siteRepo.getVenueTypeIds(site.id);
+    final venueTypeTags = <int, List<int>>{};
+    for (final preset in activePresets) {
+      venueTypeTags[preset.id] = await presetRepo.getVenueTypeIds(preset.id);
+    }
 
     if (!mounted) return;
     setState(() {
@@ -123,9 +138,21 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       equipmentTypes = loadedTypes;
       equipmentInstances = loadedInstances;
       // Only active presets are offered for application.
-      presets = loadedPresets.where((p) => p.active).toList();
+      presets = activePresets;
+      siteVenueTypeIds = loadedSiteVenueTypeIds;
+      venueTypeIdsByPresetId = venueTypeTags;
       loading = false;
     });
+  }
+
+  // A preset with no venue-type tags is universal (offered everywhere);
+  // a tagged one only shows when it matches one of the site's own tags.
+  List<TaskPreset> get _visiblePresets {
+    if (showAllPresetVenueTypes || siteVenueTypeIds.isEmpty) return presets;
+    return presets.where((p) {
+      final tags = venueTypeIdsByPresetId[p.id] ?? const [];
+      return tags.isEmpty || tags.any(siteVenueTypeIds.contains);
+    }).toList();
   }
 
   Future<void> _selectStaff(User user) async {
@@ -794,7 +821,15 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         children: [
           if (presets.isNotEmpty) ...[
             const SectionHeader(title: 'Task Presets'),
-            for (final preset in presets)
+            if (!showAllPresetVenueTypes &&
+                siteVenueTypeIds.isNotEmpty &&
+                _visiblePresets.length < presets.length)
+              TextButton(
+                onPressed: () =>
+                    setState(() => showAllPresetVenueTypes = true),
+                child: const Text('Show all presets'),
+              ),
+            for (final preset in _visiblePresets)
               Card(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
