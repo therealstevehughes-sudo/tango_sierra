@@ -43,6 +43,15 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
   bool submitting = false;
   bool obscurePassword = true;
 
+  // Two-factor (2026-09-15, "a planned fast-follow" per this screen's own
+  // doc comment) — set once signInWithPassword succeeds but the session's
+  // AAL shows a verified TOTP factor still needs to be challenged. Only
+  // meaningful for GoTrue accounts with 2FA actually enrolled (see
+  // TwoFactorSettingsScreen); an account with none skips straight through.
+  String? _pendingMfaFactorId;
+  final mfaCodeController = TextEditingController();
+  String? _pendingAuthUserId;
+
   // Demo-mode (backendAuthEnabled false) PIN path.
   User? selectedUser;
   final pinController = TextEditingController();
@@ -52,6 +61,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     emailController.dispose();
     passwordController.dispose();
     pinController.dispose();
+    mfaCodeController.dispose();
     super.dispose();
   }
 
@@ -142,32 +152,39 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
         return;
       }
 
-      final repository = ref.read(userRepositoryProvider);
-      final localUser = await repository.findBySupabaseUserId(authUserId);
-
-      if (!mounted) return;
-
-      if (localUser == null) {
+      // Two-factor (2026-09-15) — signInWithPassword alone only ever
+      // proves the password; if this account has a verified TOTP factor
+      // enrolled (via TwoFactorSettingsScreen), the session's AAL stays
+      // at aal1 until that factor is separately challenged. An account
+      // with no 2FA enrolled has nextLevel == currentLevel and skips
+      // straight through, unchanged from before this feature existed.
+      final aal = gotrue.Supabase.instance.client.auth.mfa
+          .getAuthenticatorAssuranceLevel();
+      if (aal.currentLevel != aal.nextLevel &&
+          aal.nextLevel == gotrue.AuthenticatorAssuranceLevels.aal2) {
+        final factors = await gotrue.Supabase.instance.client.auth.mfa
+            .listFactors();
+        final totpFactor = factors.totp.firstOrNull;
+        if (!mounted) return;
+        if (totpFactor == null) {
+          // Shouldn't happen (nextLevel==aal2 implies a verified factor
+          // exists) but fail closed rather than silently let the sign-in
+          // through if it somehow does.
+          setState(() {
+            error = 'Two-factor verification is required but no factor was found.';
+            submitting = false;
+          });
+          return;
+        }
         setState(() {
-          error =
-              "This account isn't linked to a staff profile yet — contact an admin.";
+          _pendingMfaFactorId = totpFactor.id;
+          _pendingAuthUserId = authUserId;
           submitting = false;
         });
         return;
       }
 
-      ref.read(currentUserProvider.notifier).state = localUser;
-      ref.read(currentSessionTokenProvider.notifier).state =
-          session.accessToken;
-
-      // This screen was reached via Navigator.push, so it sits on top of
-      // the nav stack — setting currentUserProvider only changes what
-      // MaterialApp.home *should* be, it doesn't retroactively unwind an
-      // already-pushed route. Without popping back to root, the app would
-      // silently stay on this now-inert screen instead of showing the
-      // rebuilt home.
-      if (!mounted) return;
-      Navigator.of(context).popUntil((route) => route.isFirst);
+      await _finishSignIn(authUserId, session.accessToken);
     } on gotrue.AuthException catch (e) {
       if (!mounted) return;
       setState(() {
@@ -183,10 +200,134 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     }
   }
 
+  Future<void> _submitMfaCode() async {
+    final factorId = _pendingMfaFactorId;
+    final authUserId = _pendingAuthUserId;
+    final code = mfaCodeController.text.trim();
+    if (factorId == null || authUserId == null || code.isEmpty) return;
+
+    setState(() {
+      error = null;
+      submitting = true;
+    });
+
+    try {
+      final response = await gotrue.Supabase.instance.client.auth.mfa
+          .challengeAndVerify(factorId: factorId, code: code);
+      if (!mounted) return;
+      await _finishSignIn(authUserId, response.accessToken);
+    } on gotrue.AuthException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        error = e.message;
+        submitting = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        error = 'Could not verify that code';
+        submitting = false;
+      });
+    }
+  }
+
+  Future<void> _finishSignIn(String authUserId, String accessToken) async {
+    final repository = ref.read(userRepositoryProvider);
+    final localUser = await repository.findBySupabaseUserId(authUserId);
+
+    if (!mounted) return;
+
+    if (localUser == null) {
+      setState(() {
+        error =
+            "This account isn't linked to a staff profile yet — contact an admin.";
+        submitting = false;
+      });
+      return;
+    }
+
+    ref.read(currentUserProvider.notifier).state = localUser;
+    ref.read(currentSessionTokenProvider.notifier).state = accessToken;
+
+    // This screen was reached via Navigator.push, so it sits on top of
+    // the nav stack — setting currentUserProvider only changes what
+    // MaterialApp.home *should* be, it doesn't retroactively unwind an
+    // already-pushed route. Without popping back to root, the app would
+    // silently stay on this now-inert screen instead of showing the
+    // rebuilt home.
+    if (!mounted) return;
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
+  Widget _buildMfaStep(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Two-Factor Verification')),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ResponsiveContent(
+            maxWidth: 400,
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const AppBanner(
+                  kind: BannerKind.info,
+                  child: Text('Enter the code from your authenticator app.'),
+                ),
+                const SizedBox(height: 24),
+                TextField(
+                  controller: mfaCodeController,
+                  keyboardType: TextInputType.number,
+                  autofocus: true,
+                  decoration: const InputDecoration(labelText: '6-digit code'),
+                  onSubmitted: (_) => _submitMfaCode(),
+                ),
+                if (error != null) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    error!,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                FilledButton(
+                  onPressed: submitting ? null : _submitMfaCode,
+                  child: submitting
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text('VERIFY'),
+                ),
+                TextButton(
+                  onPressed: () => setState(() {
+                    _pendingMfaFactorId = null;
+                    _pendingAuthUserId = null;
+                    mfaCodeController.clear();
+                    error = null;
+                  }),
+                  child: const Text('Back'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!ref.watch(backendAuthEnabledProvider)) {
       return _buildDemoPinMode(context);
+    }
+    if (_pendingMfaFactorId != null) {
+      return _buildMfaStep(context);
     }
     return Scaffold(
       appBar: AppBar(title: const Text('Leadership Access')),

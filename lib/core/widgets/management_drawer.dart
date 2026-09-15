@@ -19,6 +19,7 @@ import '../../features/settings/settings_screen.dart';
 import '../../features/settings/staff_management_screen.dart';
 import '../../features/settings/supplier_management_screen.dart';
 import '../../features/settings/third_party_contacts_screen.dart';
+import '../../features/settings/two_factor_settings_screen.dart';
 import '../../features/settings/venue_details_screen.dart';
 import '../../features/task_library/preset_management_screen.dart';
 import '../../features/tasks/reorder_tasks_screen.dart';
@@ -353,6 +354,20 @@ class ManagementDrawer extends ConsumerWidget {
             label: 'Settings',
             onTap: () => _navigate(context, const SettingsScreen()),
           ),
+          // Two-factor authentication (roadmap v1.1, 2026-09-15) — only
+          // meaningful for a real GoTrue session (regional/executive with
+          // backendAuthEnabled). A demo-mode PIN-based senior account has
+          // no GoTrue session to enroll MFA against at all, so this stays
+          // hidden rather than showing a screen that would error out.
+          if (tier != null &&
+              atLeast(RoleTier.regional) &&
+              ref.watch(backendAuthEnabledProvider))
+            _navTile(
+              icon: Icons.verified_user_outlined,
+              label: 'Two-Factor Authentication',
+              onTap: () =>
+                  _navigate(context, const TwoFactorSettingsScreen()),
+            ),
           const Divider(),
           for (final item in _managementItems)
             if (atLeast(item.minTier))
