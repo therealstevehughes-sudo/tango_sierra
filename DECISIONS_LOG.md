@@ -1310,7 +1310,7 @@ Full detail lives in `VENURITE_ROADMAP.md` (Documents\AA Tango Sierra), written 
 - ~~Document Centre (policies, certs, procedures, EHO reports) + a certificate/document expiry dashboard (valid/expiring/expired, per site).~~ **DELIVERED 2026-09-15** — see the "Document Centre" entry below.
 - Realtime push (manager's phone updates instantly, not just on refresh).
 - ~~2FA for senior logins.~~ **DELIVERED 2026-09-15** — see the "Two-factor authentication" entry below.
-- Hybrid task view (carousel + grouped-by-heading overview); dual-mode assignment (by-staff AND by-task); visual drag timeline for task windows.
+- ~~Hybrid task view (carousel + grouped-by-heading overview)~~ **DELIVERED 2026-09-15** — see the entry below. ~~dual-mode assignment (by-staff AND by-task)~~ **already delivered 2026-09-14**, see the correction logged above. Still open: visual drag timeline for task windows.
 
 **v2 / FUTURE — log only:** HACCP module + flow diagrams (visual food-process flow with CCPs, enterprise tier); Risk Assessment/COSHH modules; multi-country compliance content (mechanism built in, content verified + funded per country); IoT/Bluetooth temperature sensors (auto-logging, premium); multi-column tablet/desktop layouts; real photo/certificate capture + storage; dark mode, A-Z staff jump, multilingual; per-site branding override; AI onboarding (auto-suggest tasks from venue profile).
 
@@ -1538,6 +1538,13 @@ Files: `lib/features/venue_setup/venue_setup_wizard_screen.dart`, `lib/features/
 ## Two-factor authentication for senior accounts (built 2026-09-15)
 Next "Queued, no blocker" item — turned out genuinely no-blocker: Supabase's GoTrue backend already supports TOTP MFA natively, no external SMS/push service needed. Enroll/confirm via QR + manual secret, login-time challenge step for any account with a verified factor. Regional/executive only, and only when `backendAuthEnabledProvider` is on — PIN-tier and demo-mode senior accounts have no real GoTrue session to attach MFA to.
 Files: `lib/features/auth/senior_login_screen.dart`, `lib/features/settings/two_factor_settings_screen.dart`, `lib/core/widgets/management_drawer.dart`.
+
+## Hybrid task view: read-only "See all tasks" overview (built 2026-09-15)
+Last "Queued, no blocker" item that didn't need a design decision first. The carousel is completely unchanged — new `TaskOverviewScreen`, opened via an AppBar icon, lists every task in the session grouped by section (done/current/pending from `TaskController.tasks`/`currentIndex`, no new state). Deliberately read-only: no jump-to-task, no reordering — completion order wasn't part of what this item asked to change.
+
+**Everything else on the "Queued, no blocker" list is now either delivered, corrected as already-stale, or explicitly waiting on the user**: "Distinct dashboards for Supervisor vs. Venue Manager, and Regional vs. Executive" is the one item held back — asked the user what should actually differ between those tiers rather than inventing a split, since guessing here risks building the wrong thing. Live-backend proof test for Issues & Incidents also still pending, deferred by explicit user choice ("test later").
+
+Files: `lib/features/tasks/task_overview_screen.dart`, `lib/features/tasks/task_screen.dart`.
 
 ## Open / Not yet decided
 - All three task-taxonomy gaps (priority, method, frequency) logged here since Sprint 012 are now resolved — see "Task-taxonomy reconciliation (Sprint 023)" above. The old "Full check list.docx" 132-task load this pointed to is superseded and now fully retired — see "Target market + library research": HORECA_TASK_LIBRARY.md was the library source for the complete load (Build Order item 4, DONE — see the six "Task library load" entries above, Clusters A-F), feeding the venue-type tagging structure Sprint 029 built (`TaskTemplateVenueTypes` is now populated for all ~150 loaded tasks).
