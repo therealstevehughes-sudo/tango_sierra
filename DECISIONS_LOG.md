@@ -1307,7 +1307,7 @@ Full detail lives in `VENURITE_ROADMAP.md` (Documents\AA Tango Sierra), written 
 **v1.1 / NEXT (right after launch, funded by traction/raise) — log only:**
 - ~~Complaints log (supervisor/management: customer complaints / alleged food poisoning + investigation workflow).~~ **DELIVERED 2026-09-15** — see "Issues & Incidents" below: `IssueType.complaint` (dish/other) with the full Details→Process→Outcome workflow, raise/resolve/escalate, any staff member can raise, supervisor+ handles.
 - ~~Accidents & Incidents log (legal requirement).~~ **DELIVERED 2026-09-15** — same build: `IssueType.accident` (employee/customer/other) and `IssueType.incident` (employee/equipment/other).
-- Document Centre (policies, certs, procedures, EHO reports) + a certificate/document expiry dashboard (valid/expiring/expired, per site).
+- ~~Document Centre (policies, certs, procedures, EHO reports) + a certificate/document expiry dashboard (valid/expiring/expired, per site).~~ **DELIVERED 2026-09-15** — see the "Document Centre" entry below.
 - Realtime push (manager's phone updates instantly, not just on refresh).
 - 2FA for senior logins.
 - Hybrid task view (carousel + grouped-by-heading overview); dual-mode assignment (by-staff AND by-task); visual drag timeline for task windows.
@@ -1517,6 +1517,10 @@ User shared a visual mockup (`Visual idea.pdf`, 2026-09-15) for a branch/region/
 - Still open when this is actually scoped: how to keep an employee-level drill-down from functioning as a de facto ranking if multiple employees' bars are ever shown side by side — worth a real design pass at build time, not assumed away.
 
 Not scheduled — logged here as a guideline for whichever sprint eventually builds the leadership dashboards, per the user's explicit instruction to record it and continue with current work rather than build now.
+
+## Document Centre (built 2026-09-15) — roadmap v1.1
+Next item down the "Queued, no blocker" list after the Leadership Dashboard. New `documents` table (policy/certificate/procedure/ehoReport/other), files copied into the app's own storage via a new `DocumentStore` (reusing the already-present `file_picker` dependency, previously only wired to the branding logo picker), and an expiry summary strip (Valid/Expiring soon/Expired, 30-day warning window) at the top of a new `DocumentCentreScreen`. Drawer-gated venueManager+, same floor as Supplier Management.
+Files: `lib/core/storage/app_database.dart`, `lib/shared/models/document.dart`, `lib/shared/repositories/document_repository.dart`, `lib/shared/repositories/supabase_document_repository.dart`, `lib/shared/providers/document_providers.dart`, `lib/core/services/document_store.dart`, `lib/features/settings/document_centre_screen.dart`, `lib/core/widgets/management_drawer.dart`.
 
 ## Open / Not yet decided
 - All three task-taxonomy gaps (priority, method, frequency) logged here since Sprint 012 are now resolved — see "Task-taxonomy reconciliation (Sprint 023)" above. The old "Full check list.docx" 132-task load this pointed to is superseded and now fully retired — see "Target market + library research": HORECA_TASK_LIBRARY.md was the library source for the complete load (Build Order item 4, DONE — see the six "Task library load" entries above, Clusters A-F), feeding the venue-type tagging structure Sprint 029 built (`TaskTemplateVenueTypes` is now populated for all ~150 loaded tasks).

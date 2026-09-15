@@ -1598,6 +1598,18 @@ No schema changes — pure read model over data that already exists (`TaskSubmis
 
 Drawer-gated `venueManager` and above (`ManagementDrawer`, "Dashboard Overview") — one floor above the existing plain `DashboardScreen`, which supervisor already shares, per the user's explicit scoping ("branch Management, regional management, and director level users").
 
+## Document Centre (built 2026-09-15) — roadmap v1.1
+
+Policies, certs, procedures, EHO reports, plus an expiry dashboard.
+
+**Schema** (local Drift schemaVersion 43→44 + matching backend Postgres migration, both applied): new `documents` table — `site_id`, `title`, `category` (policy/certificate/procedure/ehoReport/other), `file_path`, `expiry_date` (nullable — most policies/procedures never expire), `uploaded_by_user_id`, `uploaded_at`, `active`. RLS via `can_access_site(site_id)`, same as every other site-scoped table. Editable/soft-delete shape (mirrors Suppliers/Departments), not TaskTemplate's append-only versioning — a document being retired or re-titled is live operational data.
+
+**File storage**: new `DocumentStore` (`lib/core/services/document_store.dart`) — `file_picker` (already a dependency, previously only used for the branding logo) picks any file, copies it into `<app documents>/documents/`, same "never reference the original pick location" reasoning as `EvidenceStore` and the logo picker (the source could be a USB drive, a network share, a Downloads folder that gets cleared).
+
+**Expiry dashboard**: `documentExpiryStatus()` in `lib/shared/models/document.dart` — Valid / Expiring soon (within a 30-day warning window, a plain constant, not a legal threshold) / Expired, computed live from each document's own `expiryDate`. Shown as a three-number strip at the top of `DocumentCentreScreen`.
+
+Drawer-gated `venueManager`+, same floor as Supplier Management / Maintenance Contacts.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.
