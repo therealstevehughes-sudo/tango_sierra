@@ -32,6 +32,16 @@ class TaskSubmission {
   // an indistinct suffix baked into one string. Null for tasks with no
   // linked equipment.
   final String? equipmentInstanceName;
+  // Detailed delivery-by-supplier records (roadmap v1 item #1, built
+  // 2026-09-15) — only meaningful when this submission's task had
+  // requiresSupplierSelection set; null/false for every other submission.
+  final double? deliveryTemperatureC;
+  final bool deliveryShortDelivery;
+  final bool deliveryDamagedStock;
+  final bool deliveryLateDelivery;
+  final bool deliveryQualityProblem;
+  // accepted | rejected | partial — null for non-delivery submissions.
+  final String? deliveryOutcome;
 
   const TaskSubmission({
     this.id,
@@ -54,6 +64,12 @@ class TaskSubmission {
     this.supplierId,
     this.problemStatus,
     this.equipmentInstanceName,
+    this.deliveryTemperatureC,
+    this.deliveryShortDelivery = false,
+    this.deliveryDamagedStock = false,
+    this.deliveryLateDelivery = false,
+    this.deliveryQualityProblem = false,
+    this.deliveryOutcome,
   });
 
   // Flat-string fallback for contexts that just want one combined display

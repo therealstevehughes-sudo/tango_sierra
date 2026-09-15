@@ -84,6 +84,12 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
             supplierId: Value(submission.supplierId),
             problemStatus: Value(submission.problemStatus),
             equipmentInstanceName: Value(submission.equipmentInstanceName),
+            deliveryTemperatureC: Value(submission.deliveryTemperatureC),
+            deliveryShortDelivery: Value(submission.deliveryShortDelivery),
+            deliveryDamagedStock: Value(submission.deliveryDamagedStock),
+            deliveryLateDelivery: Value(submission.deliveryLateDelivery),
+            deliveryQualityProblem: Value(submission.deliveryQualityProblem),
+            deliveryOutcome: Value(submission.deliveryOutcome),
           ),
         );
   }
@@ -323,6 +329,12 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
       supplierId: row.supplierId,
       problemStatus: row.problemStatus,
       equipmentInstanceName: row.equipmentInstanceName,
+      deliveryTemperatureC: row.deliveryTemperatureC,
+      deliveryShortDelivery: row.deliveryShortDelivery,
+      deliveryDamagedStock: row.deliveryDamagedStock,
+      deliveryLateDelivery: row.deliveryLateDelivery,
+      deliveryQualityProblem: row.deliveryQualityProblem,
+      deliveryOutcome: row.deliveryOutcome,
     );
   }
 }

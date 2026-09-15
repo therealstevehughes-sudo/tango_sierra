@@ -68,6 +68,28 @@ class TaskSubmissions extends Table {
   // this separately from taskTitle so it can render the instance name
   // bold/leading rather than as an indistinct suffix.
   TextColumn get equipmentInstanceName => text().nullable()();
+  // Detailed delivery-by-supplier records (roadmap v1 item #1, built
+  // 2026-09-15) — replaces a delivery task's plain pass/fail with real
+  // detail, but keeps the "one tap if all fine" fast path: every field
+  // below stays null/false unless the worker actually expands "Report a
+  // problem with this delivery" on the completion form. Only meaningful
+  // when `requiresSupplierSelection` is true on the task (the existing
+  // marker for "this is a delivery-related task"); left null for every
+  // other submission, same convention as supplierId above.
+  RealColumn get deliveryTemperatureC => real().nullable()();
+  BoolColumn get deliveryShortDelivery =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get deliveryDamagedStock =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get deliveryLateDelivery =>
+      boolean().withDefault(const Constant(false))();
+  BoolColumn get deliveryQualityProblem =>
+      boolean().withDefault(const Constant(false))();
+  // accepted | rejected | partial -- null for non-delivery submissions;
+  // defaults to 'accepted' at write time for a delivery submission with
+  // no reported problem, so this column is always meaningful once set
+  // rather than needing a "null means fine" special case downstream.
+  TextColumn get deliveryOutcome => text().nullable()();
 }
 
 // Fails & Problems Register (Part A) — every open/resolved transition is
@@ -889,7 +911,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 42;
+  int get schemaVersion => 43;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1277,6 +1299,25 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(users, users.reportsToUserId);
         await m.addColumn(issues, issues.escalatedToUserId);
         await m.addColumn(issueEvents, issueEvents.targetUserId);
+      }
+      if (from < 43) {
+        // Detailed delivery-by-supplier records (roadmap v1 item #1,
+        // 2026-09-15) -- replaces a delivery task's plain pass/fail with
+        // real detail (temperature, short/damaged/late/quality problem
+        // flags, accept/reject/partial outcome), gated behind the
+        // existing requiresSupplierSelection marker.
+        await m.addColumn(taskSubmissions, taskSubmissions.deliveryTemperatureC);
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.deliveryShortDelivery,
+        );
+        await m.addColumn(taskSubmissions, taskSubmissions.deliveryDamagedStock);
+        await m.addColumn(taskSubmissions, taskSubmissions.deliveryLateDelivery);
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.deliveryQualityProblem,
+        );
+        await m.addColumn(taskSubmissions, taskSubmissions.deliveryOutcome);
       }
     },
     beforeOpen: (details) async {

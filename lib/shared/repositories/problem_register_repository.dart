@@ -163,6 +163,12 @@ class DriftProblemRegisterRepository implements ProblemRegisterRepository {
       supplierId: row.supplierId,
       problemStatus: row.problemStatus,
       equipmentInstanceName: row.equipmentInstanceName,
+      deliveryTemperatureC: row.deliveryTemperatureC,
+      deliveryShortDelivery: row.deliveryShortDelivery,
+      deliveryDamagedStock: row.deliveryDamagedStock,
+      deliveryLateDelivery: row.deliveryLateDelivery,
+      deliveryQualityProblem: row.deliveryQualityProblem,
+      deliveryOutcome: row.deliveryOutcome,
     );
   }
 

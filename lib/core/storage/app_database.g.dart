@@ -4349,6 +4349,86 @@ class $TaskSubmissionsTable extends TaskSubmissions
         type: DriftSqlType.string,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _deliveryTemperatureCMeta =
+      const VerificationMeta('deliveryTemperatureC');
+  @override
+  late final GeneratedColumn<double> deliveryTemperatureC =
+      GeneratedColumn<double>(
+        'delivery_temperature_c',
+        aliasedName,
+        true,
+        type: DriftSqlType.double,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _deliveryShortDeliveryMeta =
+      const VerificationMeta('deliveryShortDelivery');
+  @override
+  late final GeneratedColumn<bool> deliveryShortDelivery =
+      GeneratedColumn<bool>(
+        'delivery_short_delivery',
+        aliasedName,
+        false,
+        type: DriftSqlType.bool,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("delivery_short_delivery" IN (0, 1))',
+        ),
+        defaultValue: const Constant(false),
+      );
+  static const VerificationMeta _deliveryDamagedStockMeta =
+      const VerificationMeta('deliveryDamagedStock');
+  @override
+  late final GeneratedColumn<bool> deliveryDamagedStock = GeneratedColumn<bool>(
+    'delivery_damaged_stock',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("delivery_damaged_stock" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _deliveryLateDeliveryMeta =
+      const VerificationMeta('deliveryLateDelivery');
+  @override
+  late final GeneratedColumn<bool> deliveryLateDelivery = GeneratedColumn<bool>(
+    'delivery_late_delivery',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("delivery_late_delivery" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _deliveryQualityProblemMeta =
+      const VerificationMeta('deliveryQualityProblem');
+  @override
+  late final GeneratedColumn<bool> deliveryQualityProblem =
+      GeneratedColumn<bool>(
+        'delivery_quality_problem',
+        aliasedName,
+        false,
+        type: DriftSqlType.bool,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("delivery_quality_problem" IN (0, 1))',
+        ),
+        defaultValue: const Constant(false),
+      );
+  static const VerificationMeta _deliveryOutcomeMeta = const VerificationMeta(
+    'deliveryOutcome',
+  );
+  @override
+  late final GeneratedColumn<String> deliveryOutcome = GeneratedColumn<String>(
+    'delivery_outcome',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4371,6 +4451,12 @@ class $TaskSubmissionsTable extends TaskSubmissions
     supplierId,
     problemStatus,
     equipmentInstanceName,
+    deliveryTemperatureC,
+    deliveryShortDelivery,
+    deliveryDamagedStock,
+    deliveryLateDelivery,
+    deliveryQualityProblem,
+    deliveryOutcome,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -4548,6 +4634,60 @@ class $TaskSubmissionsTable extends TaskSubmissions
         ),
       );
     }
+    if (data.containsKey('delivery_temperature_c')) {
+      context.handle(
+        _deliveryTemperatureCMeta,
+        deliveryTemperatureC.isAcceptableOrUnknown(
+          data['delivery_temperature_c']!,
+          _deliveryTemperatureCMeta,
+        ),
+      );
+    }
+    if (data.containsKey('delivery_short_delivery')) {
+      context.handle(
+        _deliveryShortDeliveryMeta,
+        deliveryShortDelivery.isAcceptableOrUnknown(
+          data['delivery_short_delivery']!,
+          _deliveryShortDeliveryMeta,
+        ),
+      );
+    }
+    if (data.containsKey('delivery_damaged_stock')) {
+      context.handle(
+        _deliveryDamagedStockMeta,
+        deliveryDamagedStock.isAcceptableOrUnknown(
+          data['delivery_damaged_stock']!,
+          _deliveryDamagedStockMeta,
+        ),
+      );
+    }
+    if (data.containsKey('delivery_late_delivery')) {
+      context.handle(
+        _deliveryLateDeliveryMeta,
+        deliveryLateDelivery.isAcceptableOrUnknown(
+          data['delivery_late_delivery']!,
+          _deliveryLateDeliveryMeta,
+        ),
+      );
+    }
+    if (data.containsKey('delivery_quality_problem')) {
+      context.handle(
+        _deliveryQualityProblemMeta,
+        deliveryQualityProblem.isAcceptableOrUnknown(
+          data['delivery_quality_problem']!,
+          _deliveryQualityProblemMeta,
+        ),
+      );
+    }
+    if (data.containsKey('delivery_outcome')) {
+      context.handle(
+        _deliveryOutcomeMeta,
+        deliveryOutcome.isAcceptableOrUnknown(
+          data['delivery_outcome']!,
+          _deliveryOutcomeMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -4637,6 +4777,30 @@ class $TaskSubmissionsTable extends TaskSubmissions
         DriftSqlType.string,
         data['${effectivePrefix}equipment_instance_name'],
       ),
+      deliveryTemperatureC: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}delivery_temperature_c'],
+      ),
+      deliveryShortDelivery: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}delivery_short_delivery'],
+      )!,
+      deliveryDamagedStock: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}delivery_damaged_stock'],
+      )!,
+      deliveryLateDelivery: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}delivery_late_delivery'],
+      )!,
+      deliveryQualityProblem: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}delivery_quality_problem'],
+      )!,
+      deliveryOutcome: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}delivery_outcome'],
+      ),
     );
   }
 
@@ -4668,6 +4832,12 @@ class TaskSubmissionEntity extends DataClass
   final int? supplierId;
   final String? problemStatus;
   final String? equipmentInstanceName;
+  final double? deliveryTemperatureC;
+  final bool deliveryShortDelivery;
+  final bool deliveryDamagedStock;
+  final bool deliveryLateDelivery;
+  final bool deliveryQualityProblem;
+  final String? deliveryOutcome;
   const TaskSubmissionEntity({
     required this.id,
     required this.taskTitle,
@@ -4689,6 +4859,12 @@ class TaskSubmissionEntity extends DataClass
     this.supplierId,
     this.problemStatus,
     this.equipmentInstanceName,
+    this.deliveryTemperatureC,
+    required this.deliveryShortDelivery,
+    required this.deliveryDamagedStock,
+    required this.deliveryLateDelivery,
+    required this.deliveryQualityProblem,
+    this.deliveryOutcome,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4743,6 +4919,16 @@ class TaskSubmissionEntity extends DataClass
     if (!nullToAbsent || equipmentInstanceName != null) {
       map['equipment_instance_name'] = Variable<String>(equipmentInstanceName);
     }
+    if (!nullToAbsent || deliveryTemperatureC != null) {
+      map['delivery_temperature_c'] = Variable<double>(deliveryTemperatureC);
+    }
+    map['delivery_short_delivery'] = Variable<bool>(deliveryShortDelivery);
+    map['delivery_damaged_stock'] = Variable<bool>(deliveryDamagedStock);
+    map['delivery_late_delivery'] = Variable<bool>(deliveryLateDelivery);
+    map['delivery_quality_problem'] = Variable<bool>(deliveryQualityProblem);
+    if (!nullToAbsent || deliveryOutcome != null) {
+      map['delivery_outcome'] = Variable<String>(deliveryOutcome);
+    }
     return map;
   }
 
@@ -4796,6 +4982,16 @@ class TaskSubmissionEntity extends DataClass
       equipmentInstanceName: equipmentInstanceName == null && nullToAbsent
           ? const Value.absent()
           : Value(equipmentInstanceName),
+      deliveryTemperatureC: deliveryTemperatureC == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deliveryTemperatureC),
+      deliveryShortDelivery: Value(deliveryShortDelivery),
+      deliveryDamagedStock: Value(deliveryDamagedStock),
+      deliveryLateDelivery: Value(deliveryLateDelivery),
+      deliveryQualityProblem: Value(deliveryQualityProblem),
+      deliveryOutcome: deliveryOutcome == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deliveryOutcome),
     );
   }
 
@@ -4837,6 +5033,22 @@ class TaskSubmissionEntity extends DataClass
       equipmentInstanceName: serializer.fromJson<String?>(
         json['equipmentInstanceName'],
       ),
+      deliveryTemperatureC: serializer.fromJson<double?>(
+        json['deliveryTemperatureC'],
+      ),
+      deliveryShortDelivery: serializer.fromJson<bool>(
+        json['deliveryShortDelivery'],
+      ),
+      deliveryDamagedStock: serializer.fromJson<bool>(
+        json['deliveryDamagedStock'],
+      ),
+      deliveryLateDelivery: serializer.fromJson<bool>(
+        json['deliveryLateDelivery'],
+      ),
+      deliveryQualityProblem: serializer.fromJson<bool>(
+        json['deliveryQualityProblem'],
+      ),
+      deliveryOutcome: serializer.fromJson<String?>(json['deliveryOutcome']),
     );
   }
   @override
@@ -4869,6 +5081,12 @@ class TaskSubmissionEntity extends DataClass
       'equipmentInstanceName': serializer.toJson<String?>(
         equipmentInstanceName,
       ),
+      'deliveryTemperatureC': serializer.toJson<double?>(deliveryTemperatureC),
+      'deliveryShortDelivery': serializer.toJson<bool>(deliveryShortDelivery),
+      'deliveryDamagedStock': serializer.toJson<bool>(deliveryDamagedStock),
+      'deliveryLateDelivery': serializer.toJson<bool>(deliveryLateDelivery),
+      'deliveryQualityProblem': serializer.toJson<bool>(deliveryQualityProblem),
+      'deliveryOutcome': serializer.toJson<String?>(deliveryOutcome),
     };
   }
 
@@ -4893,6 +5111,12 @@ class TaskSubmissionEntity extends DataClass
     Value<int?> supplierId = const Value.absent(),
     Value<String?> problemStatus = const Value.absent(),
     Value<String?> equipmentInstanceName = const Value.absent(),
+    Value<double?> deliveryTemperatureC = const Value.absent(),
+    bool? deliveryShortDelivery,
+    bool? deliveryDamagedStock,
+    bool? deliveryLateDelivery,
+    bool? deliveryQualityProblem,
+    Value<String?> deliveryOutcome = const Value.absent(),
   }) => TaskSubmissionEntity(
     id: id ?? this.id,
     taskTitle: taskTitle ?? this.taskTitle,
@@ -4932,6 +5156,17 @@ class TaskSubmissionEntity extends DataClass
     equipmentInstanceName: equipmentInstanceName.present
         ? equipmentInstanceName.value
         : this.equipmentInstanceName,
+    deliveryTemperatureC: deliveryTemperatureC.present
+        ? deliveryTemperatureC.value
+        : this.deliveryTemperatureC,
+    deliveryShortDelivery: deliveryShortDelivery ?? this.deliveryShortDelivery,
+    deliveryDamagedStock: deliveryDamagedStock ?? this.deliveryDamagedStock,
+    deliveryLateDelivery: deliveryLateDelivery ?? this.deliveryLateDelivery,
+    deliveryQualityProblem:
+        deliveryQualityProblem ?? this.deliveryQualityProblem,
+    deliveryOutcome: deliveryOutcome.present
+        ? deliveryOutcome.value
+        : this.deliveryOutcome,
   );
   TaskSubmissionEntity copyWithCompanion(TaskSubmissionsCompanion data) {
     return TaskSubmissionEntity(
@@ -4983,6 +5218,24 @@ class TaskSubmissionEntity extends DataClass
       equipmentInstanceName: data.equipmentInstanceName.present
           ? data.equipmentInstanceName.value
           : this.equipmentInstanceName,
+      deliveryTemperatureC: data.deliveryTemperatureC.present
+          ? data.deliveryTemperatureC.value
+          : this.deliveryTemperatureC,
+      deliveryShortDelivery: data.deliveryShortDelivery.present
+          ? data.deliveryShortDelivery.value
+          : this.deliveryShortDelivery,
+      deliveryDamagedStock: data.deliveryDamagedStock.present
+          ? data.deliveryDamagedStock.value
+          : this.deliveryDamagedStock,
+      deliveryLateDelivery: data.deliveryLateDelivery.present
+          ? data.deliveryLateDelivery.value
+          : this.deliveryLateDelivery,
+      deliveryQualityProblem: data.deliveryQualityProblem.present
+          ? data.deliveryQualityProblem.value
+          : this.deliveryQualityProblem,
+      deliveryOutcome: data.deliveryOutcome.present
+          ? data.deliveryOutcome.value
+          : this.deliveryOutcome,
     );
   }
 
@@ -5008,13 +5261,19 @@ class TaskSubmissionEntity extends DataClass
           ..write('correctiveActionNote: $correctiveActionNote, ')
           ..write('supplierId: $supplierId, ')
           ..write('problemStatus: $problemStatus, ')
-          ..write('equipmentInstanceName: $equipmentInstanceName')
+          ..write('equipmentInstanceName: $equipmentInstanceName, ')
+          ..write('deliveryTemperatureC: $deliveryTemperatureC, ')
+          ..write('deliveryShortDelivery: $deliveryShortDelivery, ')
+          ..write('deliveryDamagedStock: $deliveryDamagedStock, ')
+          ..write('deliveryLateDelivery: $deliveryLateDelivery, ')
+          ..write('deliveryQualityProblem: $deliveryQualityProblem, ')
+          ..write('deliveryOutcome: $deliveryOutcome')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     id,
     taskTitle,
     status,
@@ -5035,7 +5294,13 @@ class TaskSubmissionEntity extends DataClass
     supplierId,
     problemStatus,
     equipmentInstanceName,
-  );
+    deliveryTemperatureC,
+    deliveryShortDelivery,
+    deliveryDamagedStock,
+    deliveryLateDelivery,
+    deliveryQualityProblem,
+    deliveryOutcome,
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -5059,7 +5324,13 @@ class TaskSubmissionEntity extends DataClass
           other.correctiveActionNote == this.correctiveActionNote &&
           other.supplierId == this.supplierId &&
           other.problemStatus == this.problemStatus &&
-          other.equipmentInstanceName == this.equipmentInstanceName);
+          other.equipmentInstanceName == this.equipmentInstanceName &&
+          other.deliveryTemperatureC == this.deliveryTemperatureC &&
+          other.deliveryShortDelivery == this.deliveryShortDelivery &&
+          other.deliveryDamagedStock == this.deliveryDamagedStock &&
+          other.deliveryLateDelivery == this.deliveryLateDelivery &&
+          other.deliveryQualityProblem == this.deliveryQualityProblem &&
+          other.deliveryOutcome == this.deliveryOutcome);
 }
 
 class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
@@ -5083,6 +5354,12 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
   final Value<int?> supplierId;
   final Value<String?> problemStatus;
   final Value<String?> equipmentInstanceName;
+  final Value<double?> deliveryTemperatureC;
+  final Value<bool> deliveryShortDelivery;
+  final Value<bool> deliveryDamagedStock;
+  final Value<bool> deliveryLateDelivery;
+  final Value<bool> deliveryQualityProblem;
+  final Value<String?> deliveryOutcome;
   const TaskSubmissionsCompanion({
     this.id = const Value.absent(),
     this.taskTitle = const Value.absent(),
@@ -5104,6 +5381,12 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     this.supplierId = const Value.absent(),
     this.problemStatus = const Value.absent(),
     this.equipmentInstanceName = const Value.absent(),
+    this.deliveryTemperatureC = const Value.absent(),
+    this.deliveryShortDelivery = const Value.absent(),
+    this.deliveryDamagedStock = const Value.absent(),
+    this.deliveryLateDelivery = const Value.absent(),
+    this.deliveryQualityProblem = const Value.absent(),
+    this.deliveryOutcome = const Value.absent(),
   });
   TaskSubmissionsCompanion.insert({
     this.id = const Value.absent(),
@@ -5126,6 +5409,12 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     this.supplierId = const Value.absent(),
     this.problemStatus = const Value.absent(),
     this.equipmentInstanceName = const Value.absent(),
+    this.deliveryTemperatureC = const Value.absent(),
+    this.deliveryShortDelivery = const Value.absent(),
+    this.deliveryDamagedStock = const Value.absent(),
+    this.deliveryLateDelivery = const Value.absent(),
+    this.deliveryQualityProblem = const Value.absent(),
+    this.deliveryOutcome = const Value.absent(),
   }) : taskTitle = Value(taskTitle),
        status = Value(status),
        completedBy = Value(completedBy),
@@ -5151,6 +5440,12 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     Expression<int>? supplierId,
     Expression<String>? problemStatus,
     Expression<String>? equipmentInstanceName,
+    Expression<double>? deliveryTemperatureC,
+    Expression<bool>? deliveryShortDelivery,
+    Expression<bool>? deliveryDamagedStock,
+    Expression<bool>? deliveryLateDelivery,
+    Expression<bool>? deliveryQualityProblem,
+    Expression<String>? deliveryOutcome,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -5179,6 +5474,17 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
       if (problemStatus != null) 'problem_status': problemStatus,
       if (equipmentInstanceName != null)
         'equipment_instance_name': equipmentInstanceName,
+      if (deliveryTemperatureC != null)
+        'delivery_temperature_c': deliveryTemperatureC,
+      if (deliveryShortDelivery != null)
+        'delivery_short_delivery': deliveryShortDelivery,
+      if (deliveryDamagedStock != null)
+        'delivery_damaged_stock': deliveryDamagedStock,
+      if (deliveryLateDelivery != null)
+        'delivery_late_delivery': deliveryLateDelivery,
+      if (deliveryQualityProblem != null)
+        'delivery_quality_problem': deliveryQualityProblem,
+      if (deliveryOutcome != null) 'delivery_outcome': deliveryOutcome,
     });
   }
 
@@ -5203,6 +5509,12 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     Value<int?>? supplierId,
     Value<String?>? problemStatus,
     Value<String?>? equipmentInstanceName,
+    Value<double?>? deliveryTemperatureC,
+    Value<bool>? deliveryShortDelivery,
+    Value<bool>? deliveryDamagedStock,
+    Value<bool>? deliveryLateDelivery,
+    Value<bool>? deliveryQualityProblem,
+    Value<String?>? deliveryOutcome,
   }) {
     return TaskSubmissionsCompanion(
       id: id ?? this.id,
@@ -5228,6 +5540,14 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
       problemStatus: problemStatus ?? this.problemStatus,
       equipmentInstanceName:
           equipmentInstanceName ?? this.equipmentInstanceName,
+      deliveryTemperatureC: deliveryTemperatureC ?? this.deliveryTemperatureC,
+      deliveryShortDelivery:
+          deliveryShortDelivery ?? this.deliveryShortDelivery,
+      deliveryDamagedStock: deliveryDamagedStock ?? this.deliveryDamagedStock,
+      deliveryLateDelivery: deliveryLateDelivery ?? this.deliveryLateDelivery,
+      deliveryQualityProblem:
+          deliveryQualityProblem ?? this.deliveryQualityProblem,
+      deliveryOutcome: deliveryOutcome ?? this.deliveryOutcome,
     );
   }
 
@@ -5302,6 +5622,34 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
         equipmentInstanceName.value,
       );
     }
+    if (deliveryTemperatureC.present) {
+      map['delivery_temperature_c'] = Variable<double>(
+        deliveryTemperatureC.value,
+      );
+    }
+    if (deliveryShortDelivery.present) {
+      map['delivery_short_delivery'] = Variable<bool>(
+        deliveryShortDelivery.value,
+      );
+    }
+    if (deliveryDamagedStock.present) {
+      map['delivery_damaged_stock'] = Variable<bool>(
+        deliveryDamagedStock.value,
+      );
+    }
+    if (deliveryLateDelivery.present) {
+      map['delivery_late_delivery'] = Variable<bool>(
+        deliveryLateDelivery.value,
+      );
+    }
+    if (deliveryQualityProblem.present) {
+      map['delivery_quality_problem'] = Variable<bool>(
+        deliveryQualityProblem.value,
+      );
+    }
+    if (deliveryOutcome.present) {
+      map['delivery_outcome'] = Variable<String>(deliveryOutcome.value);
+    }
     return map;
   }
 
@@ -5327,7 +5675,13 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
           ..write('correctiveActionNote: $correctiveActionNote, ')
           ..write('supplierId: $supplierId, ')
           ..write('problemStatus: $problemStatus, ')
-          ..write('equipmentInstanceName: $equipmentInstanceName')
+          ..write('equipmentInstanceName: $equipmentInstanceName, ')
+          ..write('deliveryTemperatureC: $deliveryTemperatureC, ')
+          ..write('deliveryShortDelivery: $deliveryShortDelivery, ')
+          ..write('deliveryDamagedStock: $deliveryDamagedStock, ')
+          ..write('deliveryLateDelivery: $deliveryLateDelivery, ')
+          ..write('deliveryQualityProblem: $deliveryQualityProblem, ')
+          ..write('deliveryOutcome: $deliveryOutcome')
           ..write(')'))
         .toString();
   }
@@ -26215,6 +26569,12 @@ typedef $$TaskSubmissionsTableCreateCompanionBuilder =
       Value<int?> supplierId,
       Value<String?> problemStatus,
       Value<String?> equipmentInstanceName,
+      Value<double?> deliveryTemperatureC,
+      Value<bool> deliveryShortDelivery,
+      Value<bool> deliveryDamagedStock,
+      Value<bool> deliveryLateDelivery,
+      Value<bool> deliveryQualityProblem,
+      Value<String?> deliveryOutcome,
     });
 typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
     TaskSubmissionsCompanion Function({
@@ -26238,6 +26598,12 @@ typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
       Value<int?> supplierId,
       Value<String?> problemStatus,
       Value<String?> equipmentInstanceName,
+      Value<double?> deliveryTemperatureC,
+      Value<bool> deliveryShortDelivery,
+      Value<bool> deliveryDamagedStock,
+      Value<bool> deliveryLateDelivery,
+      Value<bool> deliveryQualityProblem,
+      Value<String?> deliveryOutcome,
     });
 
 final class $$TaskSubmissionsTableReferences
@@ -26461,6 +26827,36 @@ class $$TaskSubmissionsTableFilterComposer
 
   ColumnFilters<String> get equipmentInstanceName => $composableBuilder(
     column: $table.equipmentInstanceName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get deliveryTemperatureC => $composableBuilder(
+    column: $table.deliveryTemperatureC,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get deliveryShortDelivery => $composableBuilder(
+    column: $table.deliveryShortDelivery,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get deliveryDamagedStock => $composableBuilder(
+    column: $table.deliveryDamagedStock,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get deliveryLateDelivery => $composableBuilder(
+    column: $table.deliveryLateDelivery,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get deliveryQualityProblem => $composableBuilder(
+    column: $table.deliveryQualityProblem,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get deliveryOutcome => $composableBuilder(
+    column: $table.deliveryOutcome,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -26696,6 +27092,36 @@ class $$TaskSubmissionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<double> get deliveryTemperatureC => $composableBuilder(
+    column: $table.deliveryTemperatureC,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get deliveryShortDelivery => $composableBuilder(
+    column: $table.deliveryShortDelivery,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get deliveryDamagedStock => $composableBuilder(
+    column: $table.deliveryDamagedStock,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get deliveryLateDelivery => $composableBuilder(
+    column: $table.deliveryLateDelivery,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get deliveryQualityProblem => $composableBuilder(
+    column: $table.deliveryQualityProblem,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get deliveryOutcome => $composableBuilder(
+    column: $table.deliveryOutcome,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$EquipmentInstancesTableOrderingComposer get equipmentInstanceId {
     final $$EquipmentInstancesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -26865,6 +27291,36 @@ class $$TaskSubmissionsTableAnnotationComposer
 
   GeneratedColumn<String> get equipmentInstanceName => $composableBuilder(
     column: $table.equipmentInstanceName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get deliveryTemperatureC => $composableBuilder(
+    column: $table.deliveryTemperatureC,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get deliveryShortDelivery => $composableBuilder(
+    column: $table.deliveryShortDelivery,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get deliveryDamagedStock => $composableBuilder(
+    column: $table.deliveryDamagedStock,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get deliveryLateDelivery => $composableBuilder(
+    column: $table.deliveryLateDelivery,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get deliveryQualityProblem => $composableBuilder(
+    column: $table.deliveryQualityProblem,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get deliveryOutcome => $composableBuilder(
+    column: $table.deliveryOutcome,
     builder: (column) => column,
   );
 
@@ -27071,6 +27527,12 @@ class $$TaskSubmissionsTableTableManager
                 Value<int?> supplierId = const Value.absent(),
                 Value<String?> problemStatus = const Value.absent(),
                 Value<String?> equipmentInstanceName = const Value.absent(),
+                Value<double?> deliveryTemperatureC = const Value.absent(),
+                Value<bool> deliveryShortDelivery = const Value.absent(),
+                Value<bool> deliveryDamagedStock = const Value.absent(),
+                Value<bool> deliveryLateDelivery = const Value.absent(),
+                Value<bool> deliveryQualityProblem = const Value.absent(),
+                Value<String?> deliveryOutcome = const Value.absent(),
               }) => TaskSubmissionsCompanion(
                 id: id,
                 taskTitle: taskTitle,
@@ -27092,6 +27554,12 @@ class $$TaskSubmissionsTableTableManager
                 supplierId: supplierId,
                 problemStatus: problemStatus,
                 equipmentInstanceName: equipmentInstanceName,
+                deliveryTemperatureC: deliveryTemperatureC,
+                deliveryShortDelivery: deliveryShortDelivery,
+                deliveryDamagedStock: deliveryDamagedStock,
+                deliveryLateDelivery: deliveryLateDelivery,
+                deliveryQualityProblem: deliveryQualityProblem,
+                deliveryOutcome: deliveryOutcome,
               ),
           createCompanionCallback:
               ({
@@ -27115,6 +27583,12 @@ class $$TaskSubmissionsTableTableManager
                 Value<int?> supplierId = const Value.absent(),
                 Value<String?> problemStatus = const Value.absent(),
                 Value<String?> equipmentInstanceName = const Value.absent(),
+                Value<double?> deliveryTemperatureC = const Value.absent(),
+                Value<bool> deliveryShortDelivery = const Value.absent(),
+                Value<bool> deliveryDamagedStock = const Value.absent(),
+                Value<bool> deliveryLateDelivery = const Value.absent(),
+                Value<bool> deliveryQualityProblem = const Value.absent(),
+                Value<String?> deliveryOutcome = const Value.absent(),
               }) => TaskSubmissionsCompanion.insert(
                 id: id,
                 taskTitle: taskTitle,
@@ -27136,6 +27610,12 @@ class $$TaskSubmissionsTableTableManager
                 supplierId: supplierId,
                 problemStatus: problemStatus,
                 equipmentInstanceName: equipmentInstanceName,
+                deliveryTemperatureC: deliveryTemperatureC,
+                deliveryShortDelivery: deliveryShortDelivery,
+                deliveryDamagedStock: deliveryDamagedStock,
+                deliveryLateDelivery: deliveryLateDelivery,
+                deliveryQualityProblem: deliveryQualityProblem,
+                deliveryOutcome: deliveryOutcome,
               ),
           withReferenceMapper: (p0) => p0
               .map(

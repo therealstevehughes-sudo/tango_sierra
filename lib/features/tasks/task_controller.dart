@@ -250,6 +250,12 @@ class TaskController {
     String? correctiveActionOutcome,
     String? correctiveActionNote,
     int? supplierId,
+    double? deliveryTemperatureC,
+    bool deliveryShortDelivery = false,
+    bool deliveryDamagedStock = false,
+    bool deliveryLateDelivery = false,
+    bool deliveryQualityProblem = false,
+    String? deliveryOutcome,
   }) async {
     final submissionId = await _submissionRepository.submit(
       TaskSubmission(
@@ -271,6 +277,12 @@ class TaskController {
         correctiveActionNote: correctiveActionNote,
         supplierId: supplierId,
         equipmentInstanceName: task.equipmentInstanceName,
+        deliveryTemperatureC: deliveryTemperatureC,
+        deliveryShortDelivery: deliveryShortDelivery,
+        deliveryDamagedStock: deliveryDamagedStock,
+        deliveryLateDelivery: deliveryLateDelivery,
+        deliveryQualityProblem: deliveryQualityProblem,
+        deliveryOutcome: deliveryOutcome,
       ),
     );
 

@@ -49,6 +49,12 @@ class SupabaseTaskSubmissionRepository implements TaskSubmissionRepository {
       'supplier_id': submission.supplierId,
       'problem_status': submission.problemStatus,
       'equipment_instance_name': submission.equipmentInstanceName,
+      'delivery_temperature_c': submission.deliveryTemperatureC,
+      'delivery_short_delivery': submission.deliveryShortDelivery,
+      'delivery_damaged_stock': submission.deliveryDamagedStock,
+      'delivery_late_delivery': submission.deliveryLateDelivery,
+      'delivery_quality_problem': submission.deliveryQualityProblem,
+      'delivery_outcome': submission.deliveryOutcome,
     });
     return row['id'] as int;
   }
@@ -221,5 +227,11 @@ class SupabaseTaskSubmissionRepository implements TaskSubmissionRepository {
     supplierId: row['supplier_id'] as int?,
     problemStatus: row['problem_status'] as String?,
     equipmentInstanceName: row['equipment_instance_name'] as String?,
+    deliveryTemperatureC: (row['delivery_temperature_c'] as num?)?.toDouble(),
+    deliveryShortDelivery: row['delivery_short_delivery'] as bool? ?? false,
+    deliveryDamagedStock: row['delivery_damaged_stock'] as bool? ?? false,
+    deliveryLateDelivery: row['delivery_late_delivery'] as bool? ?? false,
+    deliveryQualityProblem: row['delivery_quality_problem'] as bool? ?? false,
+    deliveryOutcome: row['delivery_outcome'] as String?,
   );
 }
