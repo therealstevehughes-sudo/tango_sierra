@@ -1535,6 +1535,32 @@ added/tested for this app.
 
 **Deliberately deferred, logged not glossed over**: real Stripe API calls (schema is Stripe-shaped, but no live integration without a real Stripe account + API keys — Sprint 034 decision #3); real email delivery of invite tokens (SMTP still isn't configured on this VPS — same gap already logged against `invite-senior`; today the admin shares the code/QR manually, same relay-by-hand pattern as every other C1-onward invite).
 
+## Issues & Incidents: schema + data layer (built 2026-09-15)
+
+Freestanding problem capture, requested by the user from their own dashboard
+notes — deliberately a separate data model from `problem_status_events`
+(that one is task-fail-triggered; this is for anything raised independent
+of a scheduled task: complaints, accidents, incidents, supply problems,
+venue problems, other). Same Details → Process → Outcome event-sourced
+pattern as the Fails & Problems Register, generalised from 2 phases to 3.
+
+**Schema** (local Drift schemaVersion 40→41 + matching backend Postgres migration, both applied):
+- New `issues` table: `site_id`, `type` (complaint/accident/incident/supplyProblem/venueProblem/other), `subtype` (nullable — e.g. dish/employee/customer/equipment/other, empty for types with no sub-category), `details`, `raised_by_user_id`, `raised_at`, `status` (open/resolved/escalated, denormalised current state), plus supply-problem-only fields: `supplier_id` (nullable, **no FK** — see gap below), `delivery_problem_type`, `received_by_user_id` (a staff picker, not free text — confirmed requirement). RLS: `tenant_isolation` via `can_access_site(site_id)`, same as every other table.
+- New `issue_events` table: `issue_id`, `phase` (details/process/outcome), `note`, `changed_by_user_id`, `changed_at`, `resulting_status`. No `site_id` of its own — RLS scoped via a join to the parent issue's `site_id`, mirroring `shift_handover_acknowledgements`' policy exactly.
+- Both deployed live via SSH: `BEGIN`/`CREATE TABLE` x2/`ALTER TABLE` x4/`CREATE POLICY` x2/`GRANT` x4/`COMMIT`, all succeeded.
+
+**Known gap, logged not fixed here**: `public.suppliers` does not exist on the backend at all — confirmed via `\dt public.*` — Suppliers was apparently never migrated to the backend in any B-phase cluster (local Drift only). `issues.supplier_id` is a plain `integer` with no foreign key as a result. Fixing that is Suppliers' own backend migration, out of scope for this feature — not silently worked around by expanding scope.
+
+**Governing anti-gaming rule, confirmed with the user and baked into the model/repository layer** (this is the one that must never be bypassed anywhere UI is built on top of this data):
+1. Aggregate/leadership-level red-flag visibility (branch/region/section/month/day/shift counts, resolution rates, colour severity at those aggregate levels) is legitimate and wanted — it points leadership at a problem *area*, punishing no individual.
+2. "Employee" is a filter/lookup only, never a graded severity score or ranking for that person. An individual's task completion colour/status must never worsen because they honestly logged an issue — same rule as "a logged FAIL scores identically to a PASS". Any issue tag on a personal view is neutral, never a penalty.
+3. Any future "management score" measures management's *response* (resolved-without-escalation rate, time-to-resolve, % with a completed Outcome) — never issue volume. "Fewer issues raised = better score" must never exist at any level.
+4. Director/Region/Branch score *dashboards* themselves are explicitly deferred to a later, separate piece — this build only captures the underlying data correctly so those can later be built on honest foundations.
+
+**Data layer** (Drift + backend, both proven to compile clean, not yet exercised against the live backend with a throwaway tenant): `lib/shared/models/issue.dart`, `lib/shared/repositories/issue_repository.dart` (abstract `IssueRepository` + `DriftIssueRepository`, transactional dual-write mirroring `DriftProblemRegisterRepository._recordStatusChange`), `lib/shared/repositories/supabase_issue_repository.dart` (two-write pattern mirroring `SupabaseProblemRegisterRepository`, but simpler — no denormalised `site_id` lookup needed on `issue_events` since RLS there joins through the parent), `lib/shared/providers/issue_providers.dart`.
+
+**Still to come**: raise/resolve/escalate UI, Issues & Incidents register tab (filter by date/shift/type/employee/status/branch), the pre-carousel branch hub ("My scheduled tasks" vs "Log something that just happened"), and the live-backend throwaway-tenant proof.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.
