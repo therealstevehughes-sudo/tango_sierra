@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../features/dashboard/dashboard_screen.dart';
+import '../../features/dashboard/leadership_dashboard_screen.dart';
 import '../../features/home/tier_home_screen.dart';
 import '../../features/notifications/notification_rules_screen.dart';
 import '../../features/onboarding/staff_assignment_screen.dart';
@@ -307,6 +308,16 @@ class ManagementDrawer extends ConsumerWidget {
               icon: Icons.insights,
               label: 'Dashboard',
               onTap: () => _navigate(context, const DashboardScreen()),
+            ),
+          // Leadership dashboard overview (2026-09-15, from the user's own
+          // Visual idea.pdf mockup) — explicitly scoped by the user to
+          // branch/regional/director level, one floor above the plain
+          // Dashboard above (which supervisor already shares).
+          if (tier != null && atLeast(RoleTier.venueManager))
+            _navTile(
+              icon: Icons.bar_chart,
+              label: 'Dashboard Overview',
+              onTap: () => _navigate(context, const LeadershipDashboardScreen()),
             ),
           // Fails & Problems Register (Part A) — same floor as Dashboard:
           // every leadership tier (supervisor and above), never base.
