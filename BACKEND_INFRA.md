@@ -1610,6 +1610,14 @@ Policies, certs, procedures, EHO reports, plus an expiry dashboard.
 
 Drawer-gated `venueManager`+, same floor as Supplier Management / Maintenance Contacts.
 
+## Two-factor authentication for senior accounts (built 2026-09-15) — roadmap v1.1
+
+No schema changes — uses Supabase's own native TOTP MFA (`auth.mfa.*` on the GoTrue client), already available on this backend without any extra configuration. Only ever applies to real GoTrue sessions (regional/executive with `backendAuthEnabledProvider` true) — PIN-tier accounts and demo-mode senior accounts never touch GoTrue's own auth state at all (per `currentSessionTokenProvider`'s existing doc comment), so 2FA is architecturally out of scope for them, not just hidden.
+
+**Enrollment** (`TwoFactorSettingsScreen`): `auth.mfa.enroll(factorType: FactorType.totp)` returns an unverified factor id plus a `TOTPEnrollment` (secret + `otpauth://` uri). The uri is rendered as a scannable QR via `qr_flutter` (already a dependency, previously only used for invite codes) rather than GoTrue's own SVG QR code, which would need an SVG renderer this app doesn't otherwise depend on. Confirming with a 6-digit code calls `auth.mfa.challengeAndVerify(factorId, code)`, which promotes the session to `aal2` and is the point the factor becomes `verified`.
+
+**Login-time challenge** (`senior_login_screen.dart`): after `signInWithPassword` succeeds, `auth.mfa.getAuthenticatorAssuranceLevel()` is checked — if `nextLevel` (aal2, because a verified factor exists) differs from `currentLevel` (still aal1, this specific session hasn't cleared MFA yet), the sign-in pauses on a new "enter your 6-digit code" step before finishing. An account with no verified factor has `nextLevel == currentLevel` and skips straight through, byte-for-byte the same flow as before this feature existed.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

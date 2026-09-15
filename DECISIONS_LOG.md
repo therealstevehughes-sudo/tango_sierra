@@ -1309,7 +1309,7 @@ Full detail lives in `VENURITE_ROADMAP.md` (Documents\AA Tango Sierra), written 
 - ~~Accidents & Incidents log (legal requirement).~~ **DELIVERED 2026-09-15** — same build: `IssueType.accident` (employee/customer/other) and `IssueType.incident` (employee/equipment/other).
 - ~~Document Centre (policies, certs, procedures, EHO reports) + a certificate/document expiry dashboard (valid/expiring/expired, per site).~~ **DELIVERED 2026-09-15** — see the "Document Centre" entry below.
 - Realtime push (manager's phone updates instantly, not just on refresh).
-- 2FA for senior logins.
+- ~~2FA for senior logins.~~ **DELIVERED 2026-09-15** — see the "Two-factor authentication" entry below.
 - Hybrid task view (carousel + grouped-by-heading overview); dual-mode assignment (by-staff AND by-task); visual drag timeline for task windows.
 
 **v2 / FUTURE — log only:** HACCP module + flow diagrams (visual food-process flow with CCPs, enterprise tier); Risk Assessment/COSHH modules; multi-country compliance content (mechanism built in, content verified + funded per country); IoT/Bluetooth temperature sensors (auto-logging, premium); multi-column tablet/desktop layouts; real photo/certificate capture + storage; dark mode, A-Z staff jump, multilingual; per-site branding override; AI onboarding (auto-suggest tasks from venue profile).
@@ -1534,6 +1534,10 @@ Files: `lib/features/onboarding/staff_assignment_screen.dart`.
 ## Venue-type filtering wired into equipment offering + presets (built 2026-09-15)
 Next "Queued, no blocker" item. An untagged equipment type/preset is universal (always offered); a tagged one only shows when it matches one of the site's own venue-type tags (set via Venue Details). Both screens keep a "Show all" escape hatch — never a hard lockout, matching this app's existing convention everywhere else a default narrows a list. `TaskTemplateVenueTypes` intentionally left unwired (see the corrected backlog note above).
 Files: `lib/features/venue_setup/venue_setup_wizard_screen.dart`, `lib/features/onboarding/staff_assignment_screen.dart`.
+
+## Two-factor authentication for senior accounts (built 2026-09-15)
+Next "Queued, no blocker" item — turned out genuinely no-blocker: Supabase's GoTrue backend already supports TOTP MFA natively, no external SMS/push service needed. Enroll/confirm via QR + manual secret, login-time challenge step for any account with a verified factor. Regional/executive only, and only when `backendAuthEnabledProvider` is on — PIN-tier and demo-mode senior accounts have no real GoTrue session to attach MFA to.
+Files: `lib/features/auth/senior_login_screen.dart`, `lib/features/settings/two_factor_settings_screen.dart`, `lib/core/widgets/management_drawer.dart`.
 
 ## Open / Not yet decided
 - All three task-taxonomy gaps (priority, method, frequency) logged here since Sprint 012 are now resolved — see "Task-taxonomy reconciliation (Sprint 023)" above. The old "Full check list.docx" 132-task load this pointed to is superseded and now fully retired — see "Target market + library research": HORECA_TASK_LIBRARY.md was the library source for the complete load (Build Order item 4, DONE — see the six "Task library load" entries above, Clusters A-F), feeding the venue-type tagging structure Sprint 029 built (`TaskTemplateVenueTypes` is now populated for all ~150 loaded tasks).
