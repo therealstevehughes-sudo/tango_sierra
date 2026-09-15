@@ -9126,6 +9126,567 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
   }
 }
 
+class $DocumentsTable extends Documents
+    with TableInfo<$DocumentsTable, DocumentEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DocumentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _filePathMeta = const VerificationMeta(
+    'filePath',
+  );
+  @override
+  late final GeneratedColumn<String> filePath = GeneratedColumn<String>(
+    'file_path',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _expiryDateMeta = const VerificationMeta(
+    'expiryDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> expiryDate = GeneratedColumn<DateTime>(
+    'expiry_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _uploadedByUserIdMeta = const VerificationMeta(
+    'uploadedByUserId',
+  );
+  @override
+  late final GeneratedColumn<int> uploadedByUserId = GeneratedColumn<int>(
+    'uploaded_by_user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _uploadedAtMeta = const VerificationMeta(
+    'uploadedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> uploadedAt = GeneratedColumn<DateTime>(
+    'uploaded_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    siteId,
+    title,
+    category,
+    filePath,
+    expiryDate,
+    uploadedByUserId,
+    uploadedAt,
+    active,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'documents';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DocumentEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_siteIdMeta);
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('file_path')) {
+      context.handle(
+        _filePathMeta,
+        filePath.isAcceptableOrUnknown(data['file_path']!, _filePathMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_filePathMeta);
+    }
+    if (data.containsKey('expiry_date')) {
+      context.handle(
+        _expiryDateMeta,
+        expiryDate.isAcceptableOrUnknown(data['expiry_date']!, _expiryDateMeta),
+      );
+    }
+    if (data.containsKey('uploaded_by_user_id')) {
+      context.handle(
+        _uploadedByUserIdMeta,
+        uploadedByUserId.isAcceptableOrUnknown(
+          data['uploaded_by_user_id']!,
+          _uploadedByUserIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_uploadedByUserIdMeta);
+    }
+    if (data.containsKey('uploaded_at')) {
+      context.handle(
+        _uploadedAtMeta,
+        uploadedAt.isAcceptableOrUnknown(data['uploaded_at']!, _uploadedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_uploadedAtMeta);
+    }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DocumentEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DocumentEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      )!,
+      filePath: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}file_path'],
+      )!,
+      expiryDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}expiry_date'],
+      ),
+      uploadedByUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}uploaded_by_user_id'],
+      )!,
+      uploadedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}uploaded_at'],
+      )!,
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
+    );
+  }
+
+  @override
+  $DocumentsTable createAlias(String alias) {
+    return $DocumentsTable(attachedDatabase, alias);
+  }
+}
+
+class DocumentEntity extends DataClass implements Insertable<DocumentEntity> {
+  final int id;
+  final int siteId;
+  final String title;
+  final String category;
+  final String filePath;
+  final DateTime? expiryDate;
+  final int uploadedByUserId;
+  final DateTime uploadedAt;
+  final bool active;
+  const DocumentEntity({
+    required this.id,
+    required this.siteId,
+    required this.title,
+    required this.category,
+    required this.filePath,
+    this.expiryDate,
+    required this.uploadedByUserId,
+    required this.uploadedAt,
+    required this.active,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['site_id'] = Variable<int>(siteId);
+    map['title'] = Variable<String>(title);
+    map['category'] = Variable<String>(category);
+    map['file_path'] = Variable<String>(filePath);
+    if (!nullToAbsent || expiryDate != null) {
+      map['expiry_date'] = Variable<DateTime>(expiryDate);
+    }
+    map['uploaded_by_user_id'] = Variable<int>(uploadedByUserId);
+    map['uploaded_at'] = Variable<DateTime>(uploadedAt);
+    map['active'] = Variable<bool>(active);
+    return map;
+  }
+
+  DocumentsCompanion toCompanion(bool nullToAbsent) {
+    return DocumentsCompanion(
+      id: Value(id),
+      siteId: Value(siteId),
+      title: Value(title),
+      category: Value(category),
+      filePath: Value(filePath),
+      expiryDate: expiryDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(expiryDate),
+      uploadedByUserId: Value(uploadedByUserId),
+      uploadedAt: Value(uploadedAt),
+      active: Value(active),
+    );
+  }
+
+  factory DocumentEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DocumentEntity(
+      id: serializer.fromJson<int>(json['id']),
+      siteId: serializer.fromJson<int>(json['siteId']),
+      title: serializer.fromJson<String>(json['title']),
+      category: serializer.fromJson<String>(json['category']),
+      filePath: serializer.fromJson<String>(json['filePath']),
+      expiryDate: serializer.fromJson<DateTime?>(json['expiryDate']),
+      uploadedByUserId: serializer.fromJson<int>(json['uploadedByUserId']),
+      uploadedAt: serializer.fromJson<DateTime>(json['uploadedAt']),
+      active: serializer.fromJson<bool>(json['active']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'siteId': serializer.toJson<int>(siteId),
+      'title': serializer.toJson<String>(title),
+      'category': serializer.toJson<String>(category),
+      'filePath': serializer.toJson<String>(filePath),
+      'expiryDate': serializer.toJson<DateTime?>(expiryDate),
+      'uploadedByUserId': serializer.toJson<int>(uploadedByUserId),
+      'uploadedAt': serializer.toJson<DateTime>(uploadedAt),
+      'active': serializer.toJson<bool>(active),
+    };
+  }
+
+  DocumentEntity copyWith({
+    int? id,
+    int? siteId,
+    String? title,
+    String? category,
+    String? filePath,
+    Value<DateTime?> expiryDate = const Value.absent(),
+    int? uploadedByUserId,
+    DateTime? uploadedAt,
+    bool? active,
+  }) => DocumentEntity(
+    id: id ?? this.id,
+    siteId: siteId ?? this.siteId,
+    title: title ?? this.title,
+    category: category ?? this.category,
+    filePath: filePath ?? this.filePath,
+    expiryDate: expiryDate.present ? expiryDate.value : this.expiryDate,
+    uploadedByUserId: uploadedByUserId ?? this.uploadedByUserId,
+    uploadedAt: uploadedAt ?? this.uploadedAt,
+    active: active ?? this.active,
+  );
+  DocumentEntity copyWithCompanion(DocumentsCompanion data) {
+    return DocumentEntity(
+      id: data.id.present ? data.id.value : this.id,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      title: data.title.present ? data.title.value : this.title,
+      category: data.category.present ? data.category.value : this.category,
+      filePath: data.filePath.present ? data.filePath.value : this.filePath,
+      expiryDate: data.expiryDate.present
+          ? data.expiryDate.value
+          : this.expiryDate,
+      uploadedByUserId: data.uploadedByUserId.present
+          ? data.uploadedByUserId.value
+          : this.uploadedByUserId,
+      uploadedAt: data.uploadedAt.present
+          ? data.uploadedAt.value
+          : this.uploadedAt,
+      active: data.active.present ? data.active.value : this.active,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DocumentEntity(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('title: $title, ')
+          ..write('category: $category, ')
+          ..write('filePath: $filePath, ')
+          ..write('expiryDate: $expiryDate, ')
+          ..write('uploadedByUserId: $uploadedByUserId, ')
+          ..write('uploadedAt: $uploadedAt, ')
+          ..write('active: $active')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    siteId,
+    title,
+    category,
+    filePath,
+    expiryDate,
+    uploadedByUserId,
+    uploadedAt,
+    active,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DocumentEntity &&
+          other.id == this.id &&
+          other.siteId == this.siteId &&
+          other.title == this.title &&
+          other.category == this.category &&
+          other.filePath == this.filePath &&
+          other.expiryDate == this.expiryDate &&
+          other.uploadedByUserId == this.uploadedByUserId &&
+          other.uploadedAt == this.uploadedAt &&
+          other.active == this.active);
+}
+
+class DocumentsCompanion extends UpdateCompanion<DocumentEntity> {
+  final Value<int> id;
+  final Value<int> siteId;
+  final Value<String> title;
+  final Value<String> category;
+  final Value<String> filePath;
+  final Value<DateTime?> expiryDate;
+  final Value<int> uploadedByUserId;
+  final Value<DateTime> uploadedAt;
+  final Value<bool> active;
+  const DocumentsCompanion({
+    this.id = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.title = const Value.absent(),
+    this.category = const Value.absent(),
+    this.filePath = const Value.absent(),
+    this.expiryDate = const Value.absent(),
+    this.uploadedByUserId = const Value.absent(),
+    this.uploadedAt = const Value.absent(),
+    this.active = const Value.absent(),
+  });
+  DocumentsCompanion.insert({
+    this.id = const Value.absent(),
+    required int siteId,
+    required String title,
+    required String category,
+    required String filePath,
+    this.expiryDate = const Value.absent(),
+    required int uploadedByUserId,
+    required DateTime uploadedAt,
+    this.active = const Value.absent(),
+  }) : siteId = Value(siteId),
+       title = Value(title),
+       category = Value(category),
+       filePath = Value(filePath),
+       uploadedByUserId = Value(uploadedByUserId),
+       uploadedAt = Value(uploadedAt);
+  static Insertable<DocumentEntity> custom({
+    Expression<int>? id,
+    Expression<int>? siteId,
+    Expression<String>? title,
+    Expression<String>? category,
+    Expression<String>? filePath,
+    Expression<DateTime>? expiryDate,
+    Expression<int>? uploadedByUserId,
+    Expression<DateTime>? uploadedAt,
+    Expression<bool>? active,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (siteId != null) 'site_id': siteId,
+      if (title != null) 'title': title,
+      if (category != null) 'category': category,
+      if (filePath != null) 'file_path': filePath,
+      if (expiryDate != null) 'expiry_date': expiryDate,
+      if (uploadedByUserId != null) 'uploaded_by_user_id': uploadedByUserId,
+      if (uploadedAt != null) 'uploaded_at': uploadedAt,
+      if (active != null) 'active': active,
+    });
+  }
+
+  DocumentsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? siteId,
+    Value<String>? title,
+    Value<String>? category,
+    Value<String>? filePath,
+    Value<DateTime?>? expiryDate,
+    Value<int>? uploadedByUserId,
+    Value<DateTime>? uploadedAt,
+    Value<bool>? active,
+  }) {
+    return DocumentsCompanion(
+      id: id ?? this.id,
+      siteId: siteId ?? this.siteId,
+      title: title ?? this.title,
+      category: category ?? this.category,
+      filePath: filePath ?? this.filePath,
+      expiryDate: expiryDate ?? this.expiryDate,
+      uploadedByUserId: uploadedByUserId ?? this.uploadedByUserId,
+      uploadedAt: uploadedAt ?? this.uploadedAt,
+      active: active ?? this.active,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (filePath.present) {
+      map['file_path'] = Variable<String>(filePath.value);
+    }
+    if (expiryDate.present) {
+      map['expiry_date'] = Variable<DateTime>(expiryDate.value);
+    }
+    if (uploadedByUserId.present) {
+      map['uploaded_by_user_id'] = Variable<int>(uploadedByUserId.value);
+    }
+    if (uploadedAt.present) {
+      map['uploaded_at'] = Variable<DateTime>(uploadedAt.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DocumentsCompanion(')
+          ..write('id: $id, ')
+          ..write('siteId: $siteId, ')
+          ..write('title: $title, ')
+          ..write('category: $category, ')
+          ..write('filePath: $filePath, ')
+          ..write('expiryDate: $expiryDate, ')
+          ..write('uploadedByUserId: $uploadedByUserId, ')
+          ..write('uploadedAt: $uploadedAt, ')
+          ..write('active: $active')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $ShiftHandoverNotesTable extends ShiftHandoverNotes
     with TableInfo<$ShiftHandoverNotesTable, ShiftHandoverNoteEntity> {
   @override
@@ -18991,6 +19552,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TrainingRecordsTable trainingRecords = $TrainingRecordsTable(
     this,
   );
+  late final $DocumentsTable documents = $DocumentsTable(this);
   late final $ShiftHandoverNotesTable shiftHandoverNotes =
       $ShiftHandoverNotesTable(this);
   late final $SessionSummariesTable sessionSummaries = $SessionSummariesTable(
@@ -19045,6 +19607,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     taskTemplates,
     taskSchedules,
     trainingRecords,
+    documents,
     shiftHandoverNotes,
     sessionSummaries,
     notificationRules,
@@ -20574,6 +21137,24 @@ final class $$UsersTableReferences
     );
   }
 
+  static MultiTypedResultKey<$DocumentsTable, List<DocumentEntity>>
+  _documentsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.documents,
+    aliasName: 'users__id__documents__uploaded_by_user_id',
+  );
+
+  $$DocumentsTableProcessedTableManager get documentsRefs {
+    final manager = $$DocumentsTableTableManager(
+      $_db,
+      $_db.documents,
+    ).filter((f) => f.uploadedByUserId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_documentsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<
     $ShiftHandoverNotesTable,
     List<ShiftHandoverNoteEntity>
@@ -20986,6 +21567,31 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$TaskTemplatesTableFilterComposer(
             $db: $db,
             $table: $db.taskTemplates,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> documentsRefs(
+    Expression<bool> Function($$DocumentsTableFilterComposer f) f,
+  ) {
+    final $$DocumentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.documents,
+      getReferencedColumn: (t) => t.uploadedByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentsTableFilterComposer(
+            $db: $db,
+            $table: $db.documents,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -21581,6 +22187,31 @@ class $$UsersTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> documentsRefs<T extends Object>(
+    Expression<T> Function($$DocumentsTableAnnotationComposer a) f,
+  ) {
+    final $$DocumentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.documents,
+      getReferencedColumn: (t) => t.uploadedByUserId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.documents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> shiftHandoverNotesRefs<T extends Object>(
     Expression<T> Function($$ShiftHandoverNotesTableAnnotationComposer a) f,
   ) {
@@ -21787,6 +22418,7 @@ class $$UsersTableTableManager
             bool taskSubmissionsRefs,
             bool legalLimitReferencesRefs,
             bool taskTemplatesRefs,
+            bool documentsRefs,
             bool shiftHandoverNotesRefs,
             bool triggerNotificationsRefs,
             bool thirdPartyContactsRefs,
@@ -21895,6 +22527,7 @@ class $$UsersTableTableManager
                 taskSubmissionsRefs = false,
                 legalLimitReferencesRefs = false,
                 taskTemplatesRefs = false,
+                documentsRefs = false,
                 shiftHandoverNotesRefs = false,
                 triggerNotificationsRefs = false,
                 thirdPartyContactsRefs = false,
@@ -21910,6 +22543,7 @@ class $$UsersTableTableManager
                     if (taskSubmissionsRefs) db.taskSubmissions,
                     if (legalLimitReferencesRefs) db.legalLimitReferences,
                     if (taskTemplatesRefs) db.taskTemplates,
+                    if (documentsRefs) db.documents,
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
                     if (triggerNotificationsRefs) db.triggerNotifications,
                     if (thirdPartyContactsRefs) db.thirdPartyContacts,
@@ -22073,6 +22707,27 @@ class $$UsersTableTableManager
                           referencedItemsForCurrentItem:
                               (item, referencedItems) => referencedItems.where(
                                 (e) => e.createdByUserId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (documentsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          DocumentEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._documentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).documentsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.uploadedByUserId == item.id,
                               ),
                           typedResults: items,
                         ),
@@ -22252,6 +22907,7 @@ typedef $$UsersTableProcessedTableManager =
         bool taskSubmissionsRefs,
         bool legalLimitReferencesRefs,
         bool taskTemplatesRefs,
+        bool documentsRefs,
         bool shiftHandoverNotesRefs,
         bool triggerNotificationsRefs,
         bool thirdPartyContactsRefs,
@@ -23226,6 +23882,24 @@ final class $$SitesTableReferences
     );
   }
 
+  static MultiTypedResultKey<$DocumentsTable, List<DocumentEntity>>
+  _documentsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.documents,
+    aliasName: 'sites__id__documents__site_id',
+  );
+
+  $$DocumentsTableProcessedTableManager get documentsRefs {
+    final manager = $$DocumentsTableTableManager(
+      $_db,
+      $_db.documents,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_documentsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<
     $ShiftHandoverNotesTable,
     List<ShiftHandoverNoteEntity>
@@ -23620,6 +24294,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$TrainingRecordsTableFilterComposer(
             $db: $db,
             $table: $db.trainingRecords,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> documentsRefs(
+    Expression<bool> Function($$DocumentsTableFilterComposer f) f,
+  ) {
+    final $$DocumentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.documents,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentsTableFilterComposer(
+            $db: $db,
+            $table: $db.documents,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -24124,6 +24823,31 @@ class $$SitesTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> documentsRefs<T extends Object>(
+    Expression<T> Function($$DocumentsTableAnnotationComposer a) f,
+  ) {
+    final $$DocumentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.documents,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DocumentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.documents,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> shiftHandoverNotesRefs<T extends Object>(
     Expression<T> Function($$ShiftHandoverNotesTableAnnotationComposer a) f,
   ) {
@@ -24352,6 +25076,7 @@ class $$SitesTableTableManager
             bool taskSubmissionsRefs,
             bool taskSchedulesRefs,
             bool trainingRecordsRefs,
+            bool documentsRefs,
             bool shiftHandoverNotesRefs,
             bool sessionSummariesRefs,
             bool notificationRulesRefs,
@@ -24421,6 +25146,7 @@ class $$SitesTableTableManager
                 taskSubmissionsRefs = false,
                 taskSchedulesRefs = false,
                 trainingRecordsRefs = false,
+                documentsRefs = false,
                 shiftHandoverNotesRefs = false,
                 sessionSummariesRefs = false,
                 notificationRulesRefs = false,
@@ -24439,6 +25165,7 @@ class $$SitesTableTableManager
                     if (taskSubmissionsRefs) db.taskSubmissions,
                     if (taskSchedulesRefs) db.taskSchedules,
                     if (trainingRecordsRefs) db.trainingRecords,
+                    if (documentsRefs) db.documents,
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
                     if (sessionSummariesRefs) db.sessionSummaries,
                     if (notificationRulesRefs) db.notificationRules,
@@ -24611,6 +25338,27 @@ class $$SitesTableTableManager
                                 table,
                                 p0,
                               ).trainingRecordsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (documentsRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          DocumentEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._documentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).documentsRefs,
                           referencedItemsForCurrentItem:
                               (item, referencedItems) => referencedItems.where(
                                 (e) => e.siteId == item.id,
@@ -24810,6 +25558,7 @@ typedef $$SitesTableProcessedTableManager =
         bool taskSubmissionsRefs,
         bool taskSchedulesRefs,
         bool trainingRecordsRefs,
+        bool documentsRefs,
         bool shiftHandoverNotesRefs,
         bool sessionSummariesRefs,
         bool notificationRulesRefs,
@@ -30466,6 +31215,483 @@ typedef $$TrainingRecordsTableProcessedTableManager =
       (TrainingRecordEntity, $$TrainingRecordsTableReferences),
       TrainingRecordEntity,
       PrefetchHooks Function({bool userId, bool siteId, bool signedOffByUserId})
+    >;
+typedef $$DocumentsTableCreateCompanionBuilder =
+    DocumentsCompanion Function({
+      Value<int> id,
+      required int siteId,
+      required String title,
+      required String category,
+      required String filePath,
+      Value<DateTime?> expiryDate,
+      required int uploadedByUserId,
+      required DateTime uploadedAt,
+      Value<bool> active,
+    });
+typedef $$DocumentsTableUpdateCompanionBuilder =
+    DocumentsCompanion Function({
+      Value<int> id,
+      Value<int> siteId,
+      Value<String> title,
+      Value<String> category,
+      Value<String> filePath,
+      Value<DateTime?> expiryDate,
+      Value<int> uploadedByUserId,
+      Value<DateTime> uploadedAt,
+      Value<bool> active,
+    });
+
+final class $$DocumentsTableReferences
+    extends BaseReferences<_$AppDatabase, $DocumentsTable, DocumentEntity> {
+  $$DocumentsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('documents__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager get siteId {
+    final $_column = $_itemColumn<int>('site_id')!;
+
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _uploadedByUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('documents__uploaded_by_user_id__users__id');
+
+  $$UsersTableProcessedTableManager get uploadedByUserId {
+    final $_column = $_itemColumn<int>('uploaded_by_user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_uploadedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$DocumentsTableFilterComposer
+    extends Composer<_$AppDatabase, $DocumentsTable> {
+  $$DocumentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get filePath => $composableBuilder(
+    column: $table.filePath,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get expiryDate => $composableBuilder(
+    column: $table.expiryDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get uploadedAt => $composableBuilder(
+    column: $table.uploadedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get uploadedByUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.uploadedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DocumentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $DocumentsTable> {
+  $$DocumentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get filePath => $composableBuilder(
+    column: $table.filePath,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get expiryDate => $composableBuilder(
+    column: $table.expiryDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get uploadedAt => $composableBuilder(
+    column: $table.uploadedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableOrderingComposer get uploadedByUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.uploadedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DocumentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DocumentsTable> {
+  $$DocumentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<String> get filePath =>
+      $composableBuilder(column: $table.filePath, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get expiryDate => $composableBuilder(
+    column: $table.expiryDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get uploadedAt => $composableBuilder(
+    column: $table.uploadedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get uploadedByUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.uploadedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$DocumentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DocumentsTable,
+          DocumentEntity,
+          $$DocumentsTableFilterComposer,
+          $$DocumentsTableOrderingComposer,
+          $$DocumentsTableAnnotationComposer,
+          $$DocumentsTableCreateCompanionBuilder,
+          $$DocumentsTableUpdateCompanionBuilder,
+          (DocumentEntity, $$DocumentsTableReferences),
+          DocumentEntity,
+          PrefetchHooks Function({bool siteId, bool uploadedByUserId})
+        > {
+  $$DocumentsTableTableManager(_$AppDatabase db, $DocumentsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DocumentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DocumentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DocumentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> siteId = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String> category = const Value.absent(),
+                Value<String> filePath = const Value.absent(),
+                Value<DateTime?> expiryDate = const Value.absent(),
+                Value<int> uploadedByUserId = const Value.absent(),
+                Value<DateTime> uploadedAt = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+              }) => DocumentsCompanion(
+                id: id,
+                siteId: siteId,
+                title: title,
+                category: category,
+                filePath: filePath,
+                expiryDate: expiryDate,
+                uploadedByUserId: uploadedByUserId,
+                uploadedAt: uploadedAt,
+                active: active,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int siteId,
+                required String title,
+                required String category,
+                required String filePath,
+                Value<DateTime?> expiryDate = const Value.absent(),
+                required int uploadedByUserId,
+                required DateTime uploadedAt,
+                Value<bool> active = const Value.absent(),
+              }) => DocumentsCompanion.insert(
+                id: id,
+                siteId: siteId,
+                title: title,
+                category: category,
+                filePath: filePath,
+                expiryDate: expiryDate,
+                uploadedByUserId: uploadedByUserId,
+                uploadedAt: uploadedAt,
+                active: active,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$DocumentsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({siteId = false, uploadedByUserId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable: $$DocumentsTableReferences
+                                    ._siteIdTable(db),
+                                referencedColumn: $$DocumentsTableReferences
+                                    ._siteIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (uploadedByUserId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.uploadedByUserId,
+                                referencedTable: $$DocumentsTableReferences
+                                    ._uploadedByUserIdTable(db),
+                                referencedColumn: $$DocumentsTableReferences
+                                    ._uploadedByUserIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$DocumentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DocumentsTable,
+      DocumentEntity,
+      $$DocumentsTableFilterComposer,
+      $$DocumentsTableOrderingComposer,
+      $$DocumentsTableAnnotationComposer,
+      $$DocumentsTableCreateCompanionBuilder,
+      $$DocumentsTableUpdateCompanionBuilder,
+      (DocumentEntity, $$DocumentsTableReferences),
+      DocumentEntity,
+      PrefetchHooks Function({bool siteId, bool uploadedByUserId})
     >;
 typedef $$ShiftHandoverNotesTableCreateCompanionBuilder =
     ShiftHandoverNotesCompanion Function({
@@ -41135,6 +42361,8 @@ class $AppDatabaseManager {
       $$TaskSchedulesTableTableManager(_db, _db.taskSchedules);
   $$TrainingRecordsTableTableManager get trainingRecords =>
       $$TrainingRecordsTableTableManager(_db, _db.trainingRecords);
+  $$DocumentsTableTableManager get documents =>
+      $$DocumentsTableTableManager(_db, _db.documents);
   $$ShiftHandoverNotesTableTableManager get shiftHandoverNotes =>
       $$ShiftHandoverNotesTableTableManager(_db, _db.shiftHandoverNotes);
   $$SessionSummariesTableTableManager get sessionSummaries =>

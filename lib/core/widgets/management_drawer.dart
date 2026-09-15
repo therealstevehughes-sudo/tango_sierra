@@ -13,6 +13,7 @@ import '../../features/regions/branch_management_screen.dart';
 import '../../features/regions/branch_org_chart_screen.dart';
 import '../../features/regions/organisation_tree_screen.dart';
 import '../../features/settings/department_management_screen.dart';
+import '../../features/settings/document_centre_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/settings/staff_management_screen.dart';
@@ -119,6 +120,15 @@ final List<_DrawerItemDef> _managementItems = [
     label: 'Department Management',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const DepartmentManagementScreen(),
+  ),
+  // Document Centre (roadmap v1.1, built 2026-09-15) — same floor as
+  // Supplier Management/Maintenance Contacts: venue-configuration items,
+  // venueManager-minimum.
+  _DrawerItemDef(
+    icon: Icons.folder_copy_outlined,
+    label: 'Document Centre',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const DocumentCentreScreen(),
   ),
   // Phase C3 (2026-09-14, redesigned same day after live feedback) — the
   // visual org organogram: Head Office -> Regions -> Venues, each level

@@ -447,6 +447,29 @@ class Departments extends Table {
   DateTimeColumn get createdAt => dateTime()();
 }
 
+// Document Centre (roadmap v1.1, built 2026-09-15) — policies, certs,
+// procedures, EHO reports. Editable/soft-delete shape (siteId + active +
+// createdAt), same convention as Suppliers/Departments above — a
+// document being retired or re-titled is live operational data, not a
+// compliance record needing TaskTemplate's version-chain treatment.
+@DataClassName('DocumentEntity')
+class Documents extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get siteId => integer().references(Sites, #id)();
+  TextColumn get title => text()();
+  // policy | certificate | procedure | ehoReport | other
+  TextColumn get category => text()();
+  // Into this app's own local storage — the picked file is copied in at
+  // upload time (same "never reference the original pick location"
+  // reasoning as BrandingConfig.logoPath).
+  TextColumn get filePath => text()();
+  // Null for documents with no expiry (most policies/procedures).
+  DateTimeColumn get expiryDate => dateTime().nullable()();
+  IntColumn get uploadedByUserId => integer().references(Users, #id)();
+  DateTimeColumn get uploadedAt => dateTime()();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+}
+
 @DataClassName('ShiftHandoverNoteEntity')
 class ShiftHandoverNotes extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -878,6 +901,7 @@ class _LibraryPreset {
     TrainingRecords,
     Suppliers,
     Departments,
+    Documents,
     ShiftHandoverNotes,
     SessionSummaries,
     NotificationRules,
@@ -911,7 +935,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 43;
+  int get schemaVersion => 44;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1318,6 +1342,11 @@ class AppDatabase extends _$AppDatabase {
           taskSubmissions.deliveryQualityProblem,
         );
         await m.addColumn(taskSubmissions, taskSubmissions.deliveryOutcome);
+      }
+      if (from < 44) {
+        // Document Centre (roadmap v1.1, 2026-09-15) -- policies, certs,
+        // procedures, EHO reports, plus an expiry dashboard.
+        await m.createTable(documents);
       }
     },
     beforeOpen: (details) async {
