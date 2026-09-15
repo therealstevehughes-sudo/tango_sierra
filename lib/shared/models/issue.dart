@@ -29,6 +29,11 @@ class Issue {
   final int? supplierId;
   final DeliveryProblemType? deliveryProblemType;
   final int? receivedByUserId;
+  // Chain of command (2026-09-15) -- who this issue currently sits with,
+  // if it's been escalated. Free choice at escalation time, not
+  // automatically the raiser's own line manager (the issue may be about
+  // that manager) -- see the Issues table's own doc comment.
+  final int? escalatedToUserId;
 
   const Issue({
     required this.id,
@@ -42,6 +47,7 @@ class Issue {
     this.supplierId,
     this.deliveryProblemType,
     this.receivedByUserId,
+    this.escalatedToUserId,
   });
 }
 
@@ -58,6 +64,11 @@ class IssueEvent {
   final int changedByUserId;
   final DateTime changedAt;
   final IssueStatus resultingStatus;
+  // Only meaningful on an 'escalated' event -- who was chosen as the
+  // target at that moment. Kept per-event, not just on the parent Issue,
+  // so the history shows who it went to each time if escalated more than
+  // once.
+  final int? targetUserId;
 
   const IssueEvent({
     required this.id,
@@ -67,6 +78,7 @@ class IssueEvent {
     required this.changedByUserId,
     required this.changedAt,
     required this.resultingStatus,
+    this.targetUserId,
   });
 }
 

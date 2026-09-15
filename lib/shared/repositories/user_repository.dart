@@ -83,6 +83,15 @@ abstract class UserRepository {
   // caller (an admin screen, not built yet) is responsible for only
   // offering this to regional-tier accounts; this method just records it.
   Future<void> assignRegion({required int userId, required int? regionId});
+  // Chain of command (2026-09-15) — assigns (or clears, if null) the
+  // specific named person this user reports to. Per-individual by design
+  // (see User.reportsToUserId's own doc comment) — not tier-checked here,
+  // same convention as assignRegion above; the calling screen (Staff
+  // Management) is responsible for only offering staff at the same site.
+  Future<void> assignReportsTo({
+    required int userId,
+    required int? reportsToUserId,
+  });
   // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — a
   // self-serve personal preference, not an admin action on someone else.
   // Display-only: canonical storage (Celsius) is never touched, conversion
@@ -304,6 +313,16 @@ class DriftUserRepository implements UserRepository {
   }
 
   @override
+  Future<void> assignReportsTo({
+    required int userId,
+    required int? reportsToUserId,
+  }) async {
+    await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+      UsersCompanion(reportsToUserId: Value(reportsToUserId)),
+    );
+  }
+
+  @override
   Future<void> setPreferredTemperatureUnit({
     required int userId,
     required TemperatureUnit unit,
@@ -329,6 +348,7 @@ class DriftUserRepository implements UserRepository {
       deactivatedByUserId: row.deactivatedByUserId,
       departmentId: row.departmentId,
       regionId: row.regionId,
+      reportsToUserId: row.reportsToUserId,
     );
   }
 }

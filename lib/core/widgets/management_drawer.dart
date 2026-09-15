@@ -9,6 +9,7 @@ import '../../features/onboarding/staff_assignment_screen.dart';
 import '../../features/onboarding/staff_provisioning_screen.dart';
 import '../../features/problems/problems_register_screen.dart';
 import '../../features/regions/branch_management_screen.dart';
+import '../../features/regions/branch_org_chart_screen.dart';
 import '../../features/regions/organisation_tree_screen.dart';
 import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
@@ -314,6 +315,17 @@ class ManagementDrawer extends ConsumerWidget {
               icon: Icons.report_problem_outlined,
               label: 'Fails & Problems Register',
               onTap: () => _navigate(context, const ProblemsRegisterScreen()),
+            ),
+          // Chain of command / branch organogram (2026-09-15) — same floor
+          // as the register above (supervisor and above, never base):
+          // this is where "who does this escalate to" gets set up and
+          // seen, so anyone who can act on an escalated issue should be
+          // able to see the reporting lines too.
+          if (tier != null && atLeast(RoleTier.supervisor))
+            _navTile(
+              icon: Icons.account_tree_outlined,
+              label: 'Branch Team Structure',
+              onTap: () => _navigate(context, const BranchOrgChartScreen()),
             ),
           _navTile(
             icon: Icons.settings,

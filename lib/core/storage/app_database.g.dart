@@ -1019,6 +1019,20 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
       'REFERENCES regions (id)',
     ),
   );
+  static const VerificationMeta _reportsToUserIdMeta = const VerificationMeta(
+    'reportsToUserId',
+  );
+  @override
+  late final GeneratedColumn<int> reportsToUserId = GeneratedColumn<int>(
+    'reports_to_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1036,6 +1050,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     departmentId,
     supabaseUserId,
     regionId,
+    reportsToUserId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1161,6 +1176,15 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         regionId.isAcceptableOrUnknown(data['region_id']!, _regionIdMeta),
       );
     }
+    if (data.containsKey('reports_to_user_id')) {
+      context.handle(
+        _reportsToUserIdMeta,
+        reportsToUserId.isAcceptableOrUnknown(
+          data['reports_to_user_id']!,
+          _reportsToUserIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1230,6 +1254,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}region_id'],
       ),
+      reportsToUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}reports_to_user_id'],
+      ),
     );
   }
 
@@ -1255,6 +1283,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final int? departmentId;
   final String? supabaseUserId;
   final int? regionId;
+  final int? reportsToUserId;
   const UserEntity({
     required this.id,
     required this.name,
@@ -1271,6 +1300,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     this.departmentId,
     this.supabaseUserId,
     this.regionId,
+    this.reportsToUserId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1306,6 +1336,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     if (!nullToAbsent || regionId != null) {
       map['region_id'] = Variable<int>(regionId);
     }
+    if (!nullToAbsent || reportsToUserId != null) {
+      map['reports_to_user_id'] = Variable<int>(reportsToUserId);
+    }
     return map;
   }
 
@@ -1340,6 +1373,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       regionId: regionId == null && nullToAbsent
           ? const Value.absent()
           : Value(regionId),
+      reportsToUserId: reportsToUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reportsToUserId),
     );
   }
 
@@ -1368,6 +1404,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       departmentId: serializer.fromJson<int?>(json['departmentId']),
       supabaseUserId: serializer.fromJson<String?>(json['supabaseUserId']),
       regionId: serializer.fromJson<int?>(json['regionId']),
+      reportsToUserId: serializer.fromJson<int?>(json['reportsToUserId']),
     );
   }
   @override
@@ -1391,6 +1428,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'departmentId': serializer.toJson<int?>(departmentId),
       'supabaseUserId': serializer.toJson<String?>(supabaseUserId),
       'regionId': serializer.toJson<int?>(regionId),
+      'reportsToUserId': serializer.toJson<int?>(reportsToUserId),
     };
   }
 
@@ -1410,6 +1448,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     Value<int?> departmentId = const Value.absent(),
     Value<String?> supabaseUserId = const Value.absent(),
     Value<int?> regionId = const Value.absent(),
+    Value<int?> reportsToUserId = const Value.absent(),
   }) => UserEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -1433,6 +1472,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
         ? supabaseUserId.value
         : this.supabaseUserId,
     regionId: regionId.present ? regionId.value : this.regionId,
+    reportsToUserId: reportsToUserId.present
+        ? reportsToUserId.value
+        : this.reportsToUserId,
   );
   UserEntity copyWithCompanion(UsersCompanion data) {
     return UserEntity(
@@ -1461,6 +1503,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ? data.supabaseUserId.value
           : this.supabaseUserId,
       regionId: data.regionId.present ? data.regionId.value : this.regionId,
+      reportsToUserId: data.reportsToUserId.present
+          ? data.reportsToUserId.value
+          : this.reportsToUserId,
     );
   }
 
@@ -1481,7 +1526,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('jobRole: $jobRole, ')
           ..write('departmentId: $departmentId, ')
           ..write('supabaseUserId: $supabaseUserId, ')
-          ..write('regionId: $regionId')
+          ..write('regionId: $regionId, ')
+          ..write('reportsToUserId: $reportsToUserId')
           ..write(')'))
         .toString();
   }
@@ -1503,6 +1549,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     departmentId,
     supabaseUserId,
     regionId,
+    reportsToUserId,
   );
   @override
   bool operator ==(Object other) =>
@@ -1522,7 +1569,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.jobRole == this.jobRole &&
           other.departmentId == this.departmentId &&
           other.supabaseUserId == this.supabaseUserId &&
-          other.regionId == this.regionId);
+          other.regionId == this.regionId &&
+          other.reportsToUserId == this.reportsToUserId);
 }
 
 class UsersCompanion extends UpdateCompanion<UserEntity> {
@@ -1541,6 +1589,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   final Value<int?> departmentId;
   final Value<String?> supabaseUserId;
   final Value<int?> regionId;
+  final Value<int?> reportsToUserId;
   const UsersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -1557,6 +1606,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.departmentId = const Value.absent(),
     this.supabaseUserId = const Value.absent(),
     this.regionId = const Value.absent(),
+    this.reportsToUserId = const Value.absent(),
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
@@ -1574,6 +1624,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.departmentId = const Value.absent(),
     this.supabaseUserId = const Value.absent(),
     this.regionId = const Value.absent(),
+    this.reportsToUserId = const Value.absent(),
   }) : name = Value(name),
        jobTitle = Value(jobTitle),
        roleTier = Value(roleTier),
@@ -1595,6 +1646,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Expression<int>? departmentId,
     Expression<String>? supabaseUserId,
     Expression<int>? regionId,
+    Expression<int>? reportsToUserId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1614,6 +1666,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       if (departmentId != null) 'department_id': departmentId,
       if (supabaseUserId != null) 'supabase_user_id': supabaseUserId,
       if (regionId != null) 'region_id': regionId,
+      if (reportsToUserId != null) 'reports_to_user_id': reportsToUserId,
     });
   }
 
@@ -1633,6 +1686,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Value<int?>? departmentId,
     Value<String?>? supabaseUserId,
     Value<int?>? regionId,
+    Value<int?>? reportsToUserId,
   }) {
     return UsersCompanion(
       id: id ?? this.id,
@@ -1651,6 +1705,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       departmentId: departmentId ?? this.departmentId,
       supabaseUserId: supabaseUserId ?? this.supabaseUserId,
       regionId: regionId ?? this.regionId,
+      reportsToUserId: reportsToUserId ?? this.reportsToUserId,
     );
   }
 
@@ -1704,6 +1759,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     if (regionId.present) {
       map['region_id'] = Variable<int>(regionId.value);
     }
+    if (reportsToUserId.present) {
+      map['reports_to_user_id'] = Variable<int>(reportsToUserId.value);
+    }
     return map;
   }
 
@@ -1724,7 +1782,8 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('jobRole: $jobRole, ')
           ..write('departmentId: $departmentId, ')
           ..write('supabaseUserId: $supabaseUserId, ')
-          ..write('regionId: $regionId')
+          ..write('regionId: $regionId, ')
+          ..write('reportsToUserId: $reportsToUserId')
           ..write(')'))
         .toString();
   }
@@ -17428,6 +17487,20 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
       'REFERENCES users (id)',
     ),
   );
+  static const VerificationMeta _escalatedToUserIdMeta = const VerificationMeta(
+    'escalatedToUserId',
+  );
+  @override
+  late final GeneratedColumn<int> escalatedToUserId = GeneratedColumn<int>(
+    'escalated_to_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -17441,6 +17514,7 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
     supplierId,
     deliveryProblemType,
     receivedByUserId,
+    escalatedToUserId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -17536,6 +17610,15 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
         ),
       );
     }
+    if (data.containsKey('escalated_to_user_id')) {
+      context.handle(
+        _escalatedToUserIdMeta,
+        escalatedToUserId.isAcceptableOrUnknown(
+          data['escalated_to_user_id']!,
+          _escalatedToUserIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -17589,6 +17672,10 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}received_by_user_id'],
       ),
+      escalatedToUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}escalated_to_user_id'],
+      ),
     );
   }
 
@@ -17610,6 +17697,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
   final int? supplierId;
   final String? deliveryProblemType;
   final int? receivedByUserId;
+  final int? escalatedToUserId;
   const IssueEntity({
     required this.id,
     required this.siteId,
@@ -17622,6 +17710,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     this.supplierId,
     this.deliveryProblemType,
     this.receivedByUserId,
+    this.escalatedToUserId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -17644,6 +17733,9 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     }
     if (!nullToAbsent || receivedByUserId != null) {
       map['received_by_user_id'] = Variable<int>(receivedByUserId);
+    }
+    if (!nullToAbsent || escalatedToUserId != null) {
+      map['escalated_to_user_id'] = Variable<int>(escalatedToUserId);
     }
     return map;
   }
@@ -17669,6 +17761,9 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       receivedByUserId: receivedByUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(receivedByUserId),
+      escalatedToUserId: escalatedToUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(escalatedToUserId),
     );
   }
 
@@ -17691,6 +17786,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
         json['deliveryProblemType'],
       ),
       receivedByUserId: serializer.fromJson<int?>(json['receivedByUserId']),
+      escalatedToUserId: serializer.fromJson<int?>(json['escalatedToUserId']),
     );
   }
   @override
@@ -17708,6 +17804,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       'supplierId': serializer.toJson<int?>(supplierId),
       'deliveryProblemType': serializer.toJson<String?>(deliveryProblemType),
       'receivedByUserId': serializer.toJson<int?>(receivedByUserId),
+      'escalatedToUserId': serializer.toJson<int?>(escalatedToUserId),
     };
   }
 
@@ -17723,6 +17820,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     Value<int?> supplierId = const Value.absent(),
     Value<String?> deliveryProblemType = const Value.absent(),
     Value<int?> receivedByUserId = const Value.absent(),
+    Value<int?> escalatedToUserId = const Value.absent(),
   }) => IssueEntity(
     id: id ?? this.id,
     siteId: siteId ?? this.siteId,
@@ -17739,6 +17837,9 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     receivedByUserId: receivedByUserId.present
         ? receivedByUserId.value
         : this.receivedByUserId,
+    escalatedToUserId: escalatedToUserId.present
+        ? escalatedToUserId.value
+        : this.escalatedToUserId,
   );
   IssueEntity copyWithCompanion(IssuesCompanion data) {
     return IssueEntity(
@@ -17761,6 +17862,9 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       receivedByUserId: data.receivedByUserId.present
           ? data.receivedByUserId.value
           : this.receivedByUserId,
+      escalatedToUserId: data.escalatedToUserId.present
+          ? data.escalatedToUserId.value
+          : this.escalatedToUserId,
     );
   }
 
@@ -17777,7 +17881,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
           ..write('status: $status, ')
           ..write('supplierId: $supplierId, ')
           ..write('deliveryProblemType: $deliveryProblemType, ')
-          ..write('receivedByUserId: $receivedByUserId')
+          ..write('receivedByUserId: $receivedByUserId, ')
+          ..write('escalatedToUserId: $escalatedToUserId')
           ..write(')'))
         .toString();
   }
@@ -17795,6 +17900,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     supplierId,
     deliveryProblemType,
     receivedByUserId,
+    escalatedToUserId,
   );
   @override
   bool operator ==(Object other) =>
@@ -17810,7 +17916,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
           other.status == this.status &&
           other.supplierId == this.supplierId &&
           other.deliveryProblemType == this.deliveryProblemType &&
-          other.receivedByUserId == this.receivedByUserId);
+          other.receivedByUserId == this.receivedByUserId &&
+          other.escalatedToUserId == this.escalatedToUserId);
 }
 
 class IssuesCompanion extends UpdateCompanion<IssueEntity> {
@@ -17825,6 +17932,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
   final Value<int?> supplierId;
   final Value<String?> deliveryProblemType;
   final Value<int?> receivedByUserId;
+  final Value<int?> escalatedToUserId;
   const IssuesCompanion({
     this.id = const Value.absent(),
     this.siteId = const Value.absent(),
@@ -17837,6 +17945,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     this.supplierId = const Value.absent(),
     this.deliveryProblemType = const Value.absent(),
     this.receivedByUserId = const Value.absent(),
+    this.escalatedToUserId = const Value.absent(),
   });
   IssuesCompanion.insert({
     this.id = const Value.absent(),
@@ -17850,6 +17959,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     this.supplierId = const Value.absent(),
     this.deliveryProblemType = const Value.absent(),
     this.receivedByUserId = const Value.absent(),
+    this.escalatedToUserId = const Value.absent(),
   }) : siteId = Value(siteId),
        type = Value(type),
        details = Value(details),
@@ -17867,6 +17977,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     Expression<int>? supplierId,
     Expression<String>? deliveryProblemType,
     Expression<int>? receivedByUserId,
+    Expression<int>? escalatedToUserId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -17881,6 +17992,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
       if (deliveryProblemType != null)
         'delivery_problem_type': deliveryProblemType,
       if (receivedByUserId != null) 'received_by_user_id': receivedByUserId,
+      if (escalatedToUserId != null) 'escalated_to_user_id': escalatedToUserId,
     });
   }
 
@@ -17896,6 +18008,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     Value<int?>? supplierId,
     Value<String?>? deliveryProblemType,
     Value<int?>? receivedByUserId,
+    Value<int?>? escalatedToUserId,
   }) {
     return IssuesCompanion(
       id: id ?? this.id,
@@ -17909,6 +18022,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
       supplierId: supplierId ?? this.supplierId,
       deliveryProblemType: deliveryProblemType ?? this.deliveryProblemType,
       receivedByUserId: receivedByUserId ?? this.receivedByUserId,
+      escalatedToUserId: escalatedToUserId ?? this.escalatedToUserId,
     );
   }
 
@@ -17950,6 +18064,9 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     if (receivedByUserId.present) {
       map['received_by_user_id'] = Variable<int>(receivedByUserId.value);
     }
+    if (escalatedToUserId.present) {
+      map['escalated_to_user_id'] = Variable<int>(escalatedToUserId.value);
+    }
     return map;
   }
 
@@ -17966,7 +18083,8 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
           ..write('status: $status, ')
           ..write('supplierId: $supplierId, ')
           ..write('deliveryProblemType: $deliveryProblemType, ')
-          ..write('receivedByUserId: $receivedByUserId')
+          ..write('receivedByUserId: $receivedByUserId, ')
+          ..write('escalatedToUserId: $escalatedToUserId')
           ..write(')'))
         .toString();
   }
@@ -18059,6 +18177,20 @@ class $IssueEventsTable extends IssueEvents
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _targetUserIdMeta = const VerificationMeta(
+    'targetUserId',
+  );
+  @override
+  late final GeneratedColumn<int> targetUserId = GeneratedColumn<int>(
+    'target_user_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -18068,6 +18200,7 @@ class $IssueEventsTable extends IssueEvents
     changedByUserId,
     changedAt,
     resultingStatus,
+    targetUserId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -18138,6 +18271,15 @@ class $IssueEventsTable extends IssueEvents
     } else if (isInserting) {
       context.missing(_resultingStatusMeta);
     }
+    if (data.containsKey('target_user_id')) {
+      context.handle(
+        _targetUserIdMeta,
+        targetUserId.isAcceptableOrUnknown(
+          data['target_user_id']!,
+          _targetUserIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -18175,6 +18317,10 @@ class $IssueEventsTable extends IssueEvents
         DriftSqlType.string,
         data['${effectivePrefix}resulting_status'],
       )!,
+      targetUserId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}target_user_id'],
+      ),
     );
   }
 
@@ -18193,6 +18339,7 @@ class IssueEventEntity extends DataClass
   final int changedByUserId;
   final DateTime changedAt;
   final String resultingStatus;
+  final int? targetUserId;
   const IssueEventEntity({
     required this.id,
     required this.issueId,
@@ -18201,6 +18348,7 @@ class IssueEventEntity extends DataClass
     required this.changedByUserId,
     required this.changedAt,
     required this.resultingStatus,
+    this.targetUserId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -18212,6 +18360,9 @@ class IssueEventEntity extends DataClass
     map['changed_by_user_id'] = Variable<int>(changedByUserId);
     map['changed_at'] = Variable<DateTime>(changedAt);
     map['resulting_status'] = Variable<String>(resultingStatus);
+    if (!nullToAbsent || targetUserId != null) {
+      map['target_user_id'] = Variable<int>(targetUserId);
+    }
     return map;
   }
 
@@ -18224,6 +18375,9 @@ class IssueEventEntity extends DataClass
       changedByUserId: Value(changedByUserId),
       changedAt: Value(changedAt),
       resultingStatus: Value(resultingStatus),
+      targetUserId: targetUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetUserId),
     );
   }
 
@@ -18240,6 +18394,7 @@ class IssueEventEntity extends DataClass
       changedByUserId: serializer.fromJson<int>(json['changedByUserId']),
       changedAt: serializer.fromJson<DateTime>(json['changedAt']),
       resultingStatus: serializer.fromJson<String>(json['resultingStatus']),
+      targetUserId: serializer.fromJson<int?>(json['targetUserId']),
     );
   }
   @override
@@ -18253,6 +18408,7 @@ class IssueEventEntity extends DataClass
       'changedByUserId': serializer.toJson<int>(changedByUserId),
       'changedAt': serializer.toJson<DateTime>(changedAt),
       'resultingStatus': serializer.toJson<String>(resultingStatus),
+      'targetUserId': serializer.toJson<int?>(targetUserId),
     };
   }
 
@@ -18264,6 +18420,7 @@ class IssueEventEntity extends DataClass
     int? changedByUserId,
     DateTime? changedAt,
     String? resultingStatus,
+    Value<int?> targetUserId = const Value.absent(),
   }) => IssueEventEntity(
     id: id ?? this.id,
     issueId: issueId ?? this.issueId,
@@ -18272,6 +18429,7 @@ class IssueEventEntity extends DataClass
     changedByUserId: changedByUserId ?? this.changedByUserId,
     changedAt: changedAt ?? this.changedAt,
     resultingStatus: resultingStatus ?? this.resultingStatus,
+    targetUserId: targetUserId.present ? targetUserId.value : this.targetUserId,
   );
   IssueEventEntity copyWithCompanion(IssueEventsCompanion data) {
     return IssueEventEntity(
@@ -18286,6 +18444,9 @@ class IssueEventEntity extends DataClass
       resultingStatus: data.resultingStatus.present
           ? data.resultingStatus.value
           : this.resultingStatus,
+      targetUserId: data.targetUserId.present
+          ? data.targetUserId.value
+          : this.targetUserId,
     );
   }
 
@@ -18298,7 +18459,8 @@ class IssueEventEntity extends DataClass
           ..write('note: $note, ')
           ..write('changedByUserId: $changedByUserId, ')
           ..write('changedAt: $changedAt, ')
-          ..write('resultingStatus: $resultingStatus')
+          ..write('resultingStatus: $resultingStatus, ')
+          ..write('targetUserId: $targetUserId')
           ..write(')'))
         .toString();
   }
@@ -18312,6 +18474,7 @@ class IssueEventEntity extends DataClass
     changedByUserId,
     changedAt,
     resultingStatus,
+    targetUserId,
   );
   @override
   bool operator ==(Object other) =>
@@ -18323,7 +18486,8 @@ class IssueEventEntity extends DataClass
           other.note == this.note &&
           other.changedByUserId == this.changedByUserId &&
           other.changedAt == this.changedAt &&
-          other.resultingStatus == this.resultingStatus);
+          other.resultingStatus == this.resultingStatus &&
+          other.targetUserId == this.targetUserId);
 }
 
 class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
@@ -18334,6 +18498,7 @@ class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
   final Value<int> changedByUserId;
   final Value<DateTime> changedAt;
   final Value<String> resultingStatus;
+  final Value<int?> targetUserId;
   const IssueEventsCompanion({
     this.id = const Value.absent(),
     this.issueId = const Value.absent(),
@@ -18342,6 +18507,7 @@ class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
     this.changedByUserId = const Value.absent(),
     this.changedAt = const Value.absent(),
     this.resultingStatus = const Value.absent(),
+    this.targetUserId = const Value.absent(),
   });
   IssueEventsCompanion.insert({
     this.id = const Value.absent(),
@@ -18351,6 +18517,7 @@ class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
     required int changedByUserId,
     required DateTime changedAt,
     required String resultingStatus,
+    this.targetUserId = const Value.absent(),
   }) : issueId = Value(issueId),
        phase = Value(phase),
        note = Value(note),
@@ -18365,6 +18532,7 @@ class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
     Expression<int>? changedByUserId,
     Expression<DateTime>? changedAt,
     Expression<String>? resultingStatus,
+    Expression<int>? targetUserId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -18374,6 +18542,7 @@ class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
       if (changedByUserId != null) 'changed_by_user_id': changedByUserId,
       if (changedAt != null) 'changed_at': changedAt,
       if (resultingStatus != null) 'resulting_status': resultingStatus,
+      if (targetUserId != null) 'target_user_id': targetUserId,
     });
   }
 
@@ -18385,6 +18554,7 @@ class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
     Value<int>? changedByUserId,
     Value<DateTime>? changedAt,
     Value<String>? resultingStatus,
+    Value<int?>? targetUserId,
   }) {
     return IssueEventsCompanion(
       id: id ?? this.id,
@@ -18394,6 +18564,7 @@ class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
       changedByUserId: changedByUserId ?? this.changedByUserId,
       changedAt: changedAt ?? this.changedAt,
       resultingStatus: resultingStatus ?? this.resultingStatus,
+      targetUserId: targetUserId ?? this.targetUserId,
     );
   }
 
@@ -18421,6 +18592,9 @@ class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
     if (resultingStatus.present) {
       map['resulting_status'] = Variable<String>(resultingStatus.value);
     }
+    if (targetUserId.present) {
+      map['target_user_id'] = Variable<int>(targetUserId.value);
+    }
     return map;
   }
 
@@ -18433,7 +18607,8 @@ class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
           ..write('note: $note, ')
           ..write('changedByUserId: $changedByUserId, ')
           ..write('changedAt: $changedAt, ')
-          ..write('resultingStatus: $resultingStatus')
+          ..write('resultingStatus: $resultingStatus, ')
+          ..write('targetUserId: $targetUserId')
           ..write(')'))
         .toString();
   }
@@ -19870,6 +20045,7 @@ typedef $$UsersTableCreateCompanionBuilder =
       Value<int?> departmentId,
       Value<String?> supabaseUserId,
       Value<int?> regionId,
+      Value<int?> reportsToUserId,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
     UsersCompanion Function({
@@ -19888,6 +20064,7 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<int?> departmentId,
       Value<String?> supabaseUserId,
       Value<int?> regionId,
+      Value<int?> reportsToUserId,
     });
 
 final class $$UsersTableReferences
@@ -19939,6 +20116,23 @@ final class $$UsersTableReferences
       $_db.regions,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_regionIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _reportsToUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('users__reports_to_user_id__users__id');
+
+  $$UsersTableProcessedTableManager? get reportsToUserId {
+    final $_column = $_itemColumn<int>('reports_to_user_id');
+    if ($_column == null) return null;
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_reportsToUserIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -20185,24 +20379,6 @@ final class $$UsersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
-
-  static MultiTypedResultKey<$IssueEventsTable, List<IssueEventEntity>>
-  _issueEventsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.issueEvents,
-    aliasName: 'users__id__issue_events__changed_by_user_id',
-  );
-
-  $$IssueEventsTableProcessedTableManager get issueEventsRefs {
-    final manager = $$IssueEventsTableTableManager(
-      $_db,
-      $_db.issueEvents,
-    ).filter((f) => f.changedByUserId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_issueEventsRefsTable($_db));
-    return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
-  }
 }
 
 class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
@@ -20333,6 +20509,29 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$RegionsTableFilterComposer(
             $db: $db,
             $table: $db.regions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get reportsToUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.reportsToUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -20620,31 +20819,6 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
         );
     return f(composer);
   }
-
-  Expression<bool> issueEventsRefs(
-    Expression<bool> Function($$IssueEventsTableFilterComposer f) f,
-  ) {
-    final $$IssueEventsTableFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.issueEvents,
-      getReferencedColumn: (t) => t.changedByUserId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$IssueEventsTableFilterComposer(
-            $db: $db,
-            $table: $db.issueEvents,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
 }
 
 class $$UsersTableOrderingComposer
@@ -20784,6 +20958,29 @@ class $$UsersTableOrderingComposer
     );
     return composer;
   }
+
+  $$UsersTableOrderingComposer get reportsToUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.reportsToUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$UsersTableAnnotationComposer
@@ -20897,6 +21094,29 @@ class $$UsersTableAnnotationComposer
           }) => $$RegionsTableAnnotationComposer(
             $db: $db,
             $table: $db.regions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableAnnotationComposer get reportsToUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.reportsToUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -21189,31 +21409,6 @@ class $$UsersTableAnnotationComposer
         );
     return f(composer);
   }
-
-  Expression<T> issueEventsRefs<T extends Object>(
-    Expression<T> Function($$IssueEventsTableAnnotationComposer a) f,
-  ) {
-    final $$IssueEventsTableAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.issueEvents,
-      getReferencedColumn: (t) => t.changedByUserId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $$IssueEventsTableAnnotationComposer(
-            $db: $db,
-            $table: $db.issueEvents,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
-    return f(composer);
-  }
 }
 
 class $$UsersTableTableManager
@@ -21233,6 +21428,7 @@ class $$UsersTableTableManager
             bool deactivatedByUserId,
             bool departmentId,
             bool regionId,
+            bool reportsToUserId,
             bool organisationsRefs,
             bool taskSubmissionsRefs,
             bool legalLimitReferencesRefs,
@@ -21244,7 +21440,6 @@ class $$UsersTableTableManager
             bool brandingConfigsRefs,
             bool problemStatusEventsRefs,
             bool shiftHandoverAcknowledgementsRefs,
-            bool issueEventsRefs,
           })
         > {
   $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
@@ -21275,6 +21470,7 @@ class $$UsersTableTableManager
                 Value<int?> departmentId = const Value.absent(),
                 Value<String?> supabaseUserId = const Value.absent(),
                 Value<int?> regionId = const Value.absent(),
+                Value<int?> reportsToUserId = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
                 name: name,
@@ -21291,6 +21487,7 @@ class $$UsersTableTableManager
                 departmentId: departmentId,
                 supabaseUserId: supabaseUserId,
                 regionId: regionId,
+                reportsToUserId: reportsToUserId,
               ),
           createCompanionCallback:
               ({
@@ -21309,6 +21506,7 @@ class $$UsersTableTableManager
                 Value<int?> departmentId = const Value.absent(),
                 Value<String?> supabaseUserId = const Value.absent(),
                 Value<int?> regionId = const Value.absent(),
+                Value<int?> reportsToUserId = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
                 name: name,
@@ -21325,6 +21523,7 @@ class $$UsersTableTableManager
                 departmentId: departmentId,
                 supabaseUserId: supabaseUserId,
                 regionId: regionId,
+                reportsToUserId: reportsToUserId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -21337,6 +21536,7 @@ class $$UsersTableTableManager
                 deactivatedByUserId = false,
                 departmentId = false,
                 regionId = false,
+                reportsToUserId = false,
                 organisationsRefs = false,
                 taskSubmissionsRefs = false,
                 legalLimitReferencesRefs = false,
@@ -21348,7 +21548,6 @@ class $$UsersTableTableManager
                 brandingConfigsRefs = false,
                 problemStatusEventsRefs = false,
                 shiftHandoverAcknowledgementsRefs = false,
-                issueEventsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -21365,7 +21564,6 @@ class $$UsersTableTableManager
                     if (problemStatusEventsRefs) db.problemStatusEvents,
                     if (shiftHandoverAcknowledgementsRefs)
                       db.shiftHandoverAcknowledgements,
-                    if (issueEventsRefs) db.issueEvents,
                   ],
                   addJoins:
                       <
@@ -21418,6 +21616,19 @@ class $$UsersTableTableManager
                                         ._regionIdTable(db),
                                     referencedColumn: $$UsersTableReferences
                                         ._regionIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (reportsToUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.reportsToUserId,
+                                    referencedTable: $$UsersTableReferences
+                                        ._reportsToUserIdTable(db),
+                                    referencedColumn: $$UsersTableReferences
+                                        ._reportsToUserIdTable(db)
                                         .id,
                                   )
                                   as T;
@@ -21658,27 +21869,6 @@ class $$UsersTableTableManager
                               ),
                           typedResults: items,
                         ),
-                      if (issueEventsRefs)
-                        await $_getPrefetchedData<
-                          UserEntity,
-                          $UsersTable,
-                          IssueEventEntity
-                        >(
-                          currentTable: table,
-                          referencedTable: $$UsersTableReferences
-                              ._issueEventsRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $$UsersTableReferences(
-                                db,
-                                table,
-                                p0,
-                              ).issueEventsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.changedByUserId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
                     ];
                   },
                 );
@@ -21703,6 +21893,7 @@ typedef $$UsersTableProcessedTableManager =
         bool deactivatedByUserId,
         bool departmentId,
         bool regionId,
+        bool reportsToUserId,
         bool organisationsRefs,
         bool taskSubmissionsRefs,
         bool legalLimitReferencesRefs,
@@ -21714,7 +21905,6 @@ typedef $$UsersTableProcessedTableManager =
         bool brandingConfigsRefs,
         bool problemStatusEventsRefs,
         bool shiftHandoverAcknowledgementsRefs,
-        bool issueEventsRefs,
       })
     >;
 typedef $$OrganisationsTableCreateCompanionBuilder =
@@ -38983,6 +39173,7 @@ typedef $$IssuesTableCreateCompanionBuilder =
       Value<int?> supplierId,
       Value<String?> deliveryProblemType,
       Value<int?> receivedByUserId,
+      Value<int?> escalatedToUserId,
     });
 typedef $$IssuesTableUpdateCompanionBuilder =
     IssuesCompanion Function({
@@ -38997,6 +39188,7 @@ typedef $$IssuesTableUpdateCompanionBuilder =
       Value<int?> supplierId,
       Value<String?> deliveryProblemType,
       Value<int?> receivedByUserId,
+      Value<int?> escalatedToUserId,
     });
 
 final class $$IssuesTableReferences
@@ -39065,6 +39257,23 @@ final class $$IssuesTableReferences
       $_db.users,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_receivedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _escalatedToUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('issues__escalated_to_user_id__users__id');
+
+  $$UsersTableProcessedTableManager? get escalatedToUserId {
+    final $_column = $_itemColumn<int>('escalated_to_user_id');
+    if ($_column == null) return null;
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_escalatedToUserIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -39207,6 +39416,29 @@ class $$IssuesTableFilterComposer
     final $$UsersTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.receivedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get escalatedToUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.escalatedToUserId,
       referencedTable: $db.users,
       getReferencedColumn: (t) => t.id,
       builder:
@@ -39387,6 +39619,29 @@ class $$IssuesTableOrderingComposer
     );
     return composer;
   }
+
+  $$UsersTableOrderingComposer get escalatedToUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.escalatedToUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$IssuesTableAnnotationComposer
@@ -39513,6 +39768,29 @@ class $$IssuesTableAnnotationComposer
     return composer;
   }
 
+  $$UsersTableAnnotationComposer get escalatedToUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.escalatedToUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   Expression<T> issueEventsRefs<T extends Object>(
     Expression<T> Function($$IssueEventsTableAnnotationComposer a) f,
   ) {
@@ -39557,6 +39835,7 @@ class $$IssuesTableTableManager
             bool raisedByUserId,
             bool supplierId,
             bool receivedByUserId,
+            bool escalatedToUserId,
             bool issueEventsRefs,
           })
         > {
@@ -39584,6 +39863,7 @@ class $$IssuesTableTableManager
                 Value<int?> supplierId = const Value.absent(),
                 Value<String?> deliveryProblemType = const Value.absent(),
                 Value<int?> receivedByUserId = const Value.absent(),
+                Value<int?> escalatedToUserId = const Value.absent(),
               }) => IssuesCompanion(
                 id: id,
                 siteId: siteId,
@@ -39596,6 +39876,7 @@ class $$IssuesTableTableManager
                 supplierId: supplierId,
                 deliveryProblemType: deliveryProblemType,
                 receivedByUserId: receivedByUserId,
+                escalatedToUserId: escalatedToUserId,
               ),
           createCompanionCallback:
               ({
@@ -39610,6 +39891,7 @@ class $$IssuesTableTableManager
                 Value<int?> supplierId = const Value.absent(),
                 Value<String?> deliveryProblemType = const Value.absent(),
                 Value<int?> receivedByUserId = const Value.absent(),
+                Value<int?> escalatedToUserId = const Value.absent(),
               }) => IssuesCompanion.insert(
                 id: id,
                 siteId: siteId,
@@ -39622,6 +39904,7 @@ class $$IssuesTableTableManager
                 supplierId: supplierId,
                 deliveryProblemType: deliveryProblemType,
                 receivedByUserId: receivedByUserId,
+                escalatedToUserId: escalatedToUserId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -39635,6 +39918,7 @@ class $$IssuesTableTableManager
                 raisedByUserId = false,
                 supplierId = false,
                 receivedByUserId = false,
+                escalatedToUserId = false,
                 issueEventsRefs = false,
               }) {
                 return PrefetchHooks(
@@ -39710,6 +39994,19 @@ class $$IssuesTableTableManager
                                   )
                                   as T;
                         }
+                        if (escalatedToUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.escalatedToUserId,
+                                    referencedTable: $$IssuesTableReferences
+                                        ._escalatedToUserIdTable(db),
+                                    referencedColumn: $$IssuesTableReferences
+                                        ._escalatedToUserIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
 
                         return state;
                       },
@@ -39761,6 +40058,7 @@ typedef $$IssuesTableProcessedTableManager =
         bool raisedByUserId,
         bool supplierId,
         bool receivedByUserId,
+        bool escalatedToUserId,
         bool issueEventsRefs,
       })
     >;
@@ -39773,6 +40071,7 @@ typedef $$IssueEventsTableCreateCompanionBuilder =
       required int changedByUserId,
       required DateTime changedAt,
       required String resultingStatus,
+      Value<int?> targetUserId,
     });
 typedef $$IssueEventsTableUpdateCompanionBuilder =
     IssueEventsCompanion Function({
@@ -39783,6 +40082,7 @@ typedef $$IssueEventsTableUpdateCompanionBuilder =
       Value<int> changedByUserId,
       Value<DateTime> changedAt,
       Value<String> resultingStatus,
+      Value<int?> targetUserId,
     });
 
 final class $$IssueEventsTableReferences
@@ -39817,6 +40117,23 @@ final class $$IssueEventsTableReferences
       $_db.users,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_changedByUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $UsersTable _targetUserIdTable(_$AppDatabase db) =>
+      db.users.createAlias('issue_events__target_user_id__users__id');
+
+  $$UsersTableProcessedTableManager? get targetUserId {
+    final $_column = $_itemColumn<int>('target_user_id');
+    if ($_column == null) return null;
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_targetUserIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -39885,6 +40202,29 @@ class $$IssueEventsTableFilterComposer
     final $$UsersTableFilterComposer composer = $composerBuilder(
       composer: this,
       getCurrentColumn: (t) => t.changedByUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$UsersTableFilterComposer get targetUserId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.targetUserId,
       referencedTable: $db.users,
       getReferencedColumn: (t) => t.id,
       builder:
@@ -39984,6 +40324,29 @@ class $$IssueEventsTableOrderingComposer
     );
     return composer;
   }
+
+  $$UsersTableOrderingComposer get targetUserId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.targetUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$IssueEventsTableAnnotationComposer
@@ -40057,6 +40420,29 @@ class $$IssueEventsTableAnnotationComposer
     );
     return composer;
   }
+
+  $$UsersTableAnnotationComposer get targetUserId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.targetUserId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$IssueEventsTableTableManager
@@ -40072,7 +40458,11 @@ class $$IssueEventsTableTableManager
           $$IssueEventsTableUpdateCompanionBuilder,
           (IssueEventEntity, $$IssueEventsTableReferences),
           IssueEventEntity,
-          PrefetchHooks Function({bool issueId, bool changedByUserId})
+          PrefetchHooks Function({
+            bool issueId,
+            bool changedByUserId,
+            bool targetUserId,
+          })
         > {
   $$IssueEventsTableTableManager(_$AppDatabase db, $IssueEventsTable table)
     : super(
@@ -40094,6 +40484,7 @@ class $$IssueEventsTableTableManager
                 Value<int> changedByUserId = const Value.absent(),
                 Value<DateTime> changedAt = const Value.absent(),
                 Value<String> resultingStatus = const Value.absent(),
+                Value<int?> targetUserId = const Value.absent(),
               }) => IssueEventsCompanion(
                 id: id,
                 issueId: issueId,
@@ -40102,6 +40493,7 @@ class $$IssueEventsTableTableManager
                 changedByUserId: changedByUserId,
                 changedAt: changedAt,
                 resultingStatus: resultingStatus,
+                targetUserId: targetUserId,
               ),
           createCompanionCallback:
               ({
@@ -40112,6 +40504,7 @@ class $$IssueEventsTableTableManager
                 required int changedByUserId,
                 required DateTime changedAt,
                 required String resultingStatus,
+                Value<int?> targetUserId = const Value.absent(),
               }) => IssueEventsCompanion.insert(
                 id: id,
                 issueId: issueId,
@@ -40120,6 +40513,7 @@ class $$IssueEventsTableTableManager
                 changedByUserId: changedByUserId,
                 changedAt: changedAt,
                 resultingStatus: resultingStatus,
+                targetUserId: targetUserId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -40129,60 +40523,84 @@ class $$IssueEventsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({issueId = false, changedByUserId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (issueId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.issueId,
-                                referencedTable: $$IssueEventsTableReferences
-                                    ._issueIdTable(db),
-                                referencedColumn: $$IssueEventsTableReferences
-                                    ._issueIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
-                    if (changedByUserId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.changedByUserId,
-                                referencedTable: $$IssueEventsTableReferences
-                                    ._changedByUserIdTable(db),
-                                referencedColumn: $$IssueEventsTableReferences
-                                    ._changedByUserIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
+          prefetchHooksCallback:
+              ({
+                issueId = false,
+                changedByUserId = false,
+                targetUserId = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (issueId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.issueId,
+                                    referencedTable:
+                                        $$IssueEventsTableReferences
+                                            ._issueIdTable(db),
+                                    referencedColumn:
+                                        $$IssueEventsTableReferences
+                                            ._issueIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (changedByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.changedByUserId,
+                                    referencedTable:
+                                        $$IssueEventsTableReferences
+                                            ._changedByUserIdTable(db),
+                                    referencedColumn:
+                                        $$IssueEventsTableReferences
+                                            ._changedByUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (targetUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.targetUserId,
+                                    referencedTable:
+                                        $$IssueEventsTableReferences
+                                            ._targetUserIdTable(db),
+                                    referencedColumn:
+                                        $$IssueEventsTableReferences
+                                            ._targetUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
-                    return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [];
                   },
-              getPrefetchedDataCallback: (items) async {
-                return [];
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -40199,7 +40617,11 @@ typedef $$IssueEventsTableProcessedTableManager =
       $$IssueEventsTableUpdateCompanionBuilder,
       (IssueEventEntity, $$IssueEventsTableReferences),
       IssueEventEntity,
-      PrefetchHooks Function({bool issueId, bool changedByUserId})
+      PrefetchHooks Function({
+        bool issueId,
+        bool changedByUserId,
+        bool targetUserId,
+      })
     >;
 
 class $AppDatabaseManager {

@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
 import '../../shared/models/issue.dart';
+import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/issue_providers.dart';
 
@@ -34,6 +35,7 @@ class IssueDetailScreen extends ConsumerStatefulWidget {
 class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
   final _noteController = TextEditingController();
   List<IssueEvent> _history = [];
+  List<User> _staff = [];
   bool _loading = true;
   bool _submitting = false;
 
@@ -49,21 +51,77 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
     super.dispose();
   }
 
+  String _staffName(int userId) {
+    final match = _staff.where((u) => u.id == userId);
+    return match.isEmpty ? 'Staff #$userId' : match.first.name;
+  }
+
   Future<void> _load() async {
-    final history = await ref
-        .read(issueRepositoryProvider)
-        .getHistory(widget.issue.id);
+    final results = await Future.wait([
+      ref.read(issueRepositoryProvider).getHistory(widget.issue.id),
+      ref.read(userRepositoryProvider).getForSite(widget.issue.siteId),
+    ]);
     if (!mounted) return;
     setState(() {
-      _history = history;
+      _history = results[0] as List<IssueEvent>;
+      _staff = (results[1] as List<User>).where((u) => u.active).toList();
       _loading = false;
     });
+  }
+
+  // Chain of command (2026-09-15) — escalation target is a free choice,
+  // not automatically the raiser's own line manager, since the issue may
+  // be about that manager (confirmed with the user). The raiser's
+  // reportsToUserId is only used to PRE-SELECT a sensible default in the
+  // picker below, never to force the choice.
+  Future<int?> _pickEscalationTarget(int? defaultUserId) async {
+    var selected = defaultUserId != null &&
+            _staff.any((u) => u.id == defaultUserId)
+        ? defaultUserId
+        : null;
+    return showDialog<int>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: const Text('Escalate to'),
+          content: DropdownButtonFormField<int>(
+            initialValue: selected,
+            decoration: const InputDecoration(labelText: 'Send to'),
+            items: _staff
+                .map((u) => DropdownMenuItem(value: u.id, child: Text(u.name)))
+                .toList(),
+            onChanged: (v) => setDialogState(() => selected = v),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: selected == null
+                  ? null
+                  : () => Navigator.pop(context, selected),
+              child: const Text('Escalate'),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _act(_IssueAction action) async {
     final currentUser = ref.read(currentUserProvider);
     final note = _noteController.text.trim();
     if (currentUser == null || note.isEmpty) return;
+
+    int? escalateToUserId;
+    if (action == _IssueAction.escalate) {
+      final raiser = _staff.where((u) => u.id == widget.issue.raisedByUserId);
+      final defaultTarget = raiser.isEmpty ? null : raiser.first.reportsToUserId;
+      escalateToUserId = await _pickEscalationTarget(defaultTarget);
+      if (escalateToUserId == null) return;
+    }
+
     setState(() => _submitting = true);
     try {
       final repo = ref.read(issueRepositoryProvider);
@@ -79,6 +137,7 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
             issueId: widget.issue.id,
             note: note,
             byUserId: currentUser.id,
+            escalateToUserId: escalateToUserId!,
           );
         case _IssueAction.resolve:
           await repo.resolve(
@@ -134,6 +193,15 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                         ),
                         const SizedBox(height: 12),
                         Text(issue.details),
+                        if (issue.status == IssueStatus.escalated &&
+                            issue.escalatedToUserId != null) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            'Escalated to: ${_staffName(issue.escalatedToUserId!)}',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(fontWeight: FontWeight.w600),
+                          ),
+                        ],
                       ],
                     ),
                   ),
@@ -146,7 +214,14 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                   if (_loading)
                     const Center(child: CircularProgressIndicator())
                   else
-                    ..._history.map((e) => _EventTile(event: e)),
+                    ..._history.map(
+                      (e) => _EventTile(
+                        event: e,
+                        targetName: e.targetUserId == null
+                            ? null
+                            : _staffName(e.targetUserId!),
+                      ),
+                    ),
                   if (widget.canManage &&
                       issue.status != IssueStatus.resolved) ...[
                     const SizedBox(height: 16),
@@ -208,9 +283,10 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
 }
 
 class _EventTile extends StatelessWidget {
-  const _EventTile({required this.event});
+  const _EventTile({required this.event, this.targetName});
 
   final IssueEvent event;
+  final String? targetName;
 
   String get _phaseLabel => switch (event.phase) {
     IssueEventPhase.details => 'Raised',
@@ -242,6 +318,13 @@ class _EventTile extends StatelessWidget {
           ),
           const SizedBox(height: 2),
           Text(event.note),
+          if (targetName != null) ...[
+            const SizedBox(height: 2),
+            Text(
+              'Sent to $targetName',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
         ],
       ),
     );

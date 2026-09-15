@@ -222,6 +222,18 @@ class SupabaseUserRepository implements UserRepository {
   }
 
   @override
+  Future<void> assignReportsTo({
+    required int userId,
+    required int? reportsToUserId,
+  }) async {
+    await _client.update(
+      'users',
+      filter: 'id=eq.$userId',
+      body: {'reports_to_user_id': reportsToUserId},
+    );
+  }
+
+  @override
   Future<void> setPreferredTemperatureUnit({
     required int userId,
     required TemperatureUnit unit,
@@ -252,5 +264,6 @@ class SupabaseUserRepository implements UserRepository {
     deactivatedByUserId: row['deactivated_by_user_id'] as int?,
     departmentId: row['department_id'] as int?,
     regionId: row['region_id'] as int?,
+    reportsToUserId: row['reports_to_user_id'] as int?,
   );
 }

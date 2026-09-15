@@ -119,12 +119,14 @@ class SupabaseIssueRepository implements IssueRepository {
     required int issueId,
     required String note,
     required int byUserId,
+    required int escalateToUserId,
   }) => _recordEvent(
     issueId: issueId,
     phase: IssueEventPhase.process,
     note: note,
     byUserId: byUserId,
     resultingStatus: IssueStatus.escalated,
+    targetUserId: escalateToUserId,
   );
 
   Future<void> _recordEvent({
@@ -133,6 +135,7 @@ class SupabaseIssueRepository implements IssueRepository {
     required String note,
     required int byUserId,
     required IssueStatus? resultingStatus,
+    int? targetUserId,
   }) async {
     String newStatus;
     if (resultingStatus != null) {
@@ -157,12 +160,18 @@ class SupabaseIssueRepository implements IssueRepository {
       'changed_by_user_id': byUserId,
       'changed_at': DateTime.now().toUtc().toIso8601String(),
       'resulting_status': newStatus,
+      'target_user_id': targetUserId,
     });
     if (resultingStatus != null) {
       await _client.update(
         'issues',
         filter: 'id=eq.$issueId',
-        body: {'status': newStatus},
+        body: {
+          'status': newStatus,
+          'escalated_to_user_id': resultingStatus == IssueStatus.escalated
+              ? targetUserId
+              : null,
+        },
       );
     }
   }
@@ -183,6 +192,7 @@ class SupabaseIssueRepository implements IssueRepository {
             row['delivery_problem_type'] as String,
           ),
     receivedByUserId: row['received_by_user_id'] as int?,
+    escalatedToUserId: row['escalated_to_user_id'] as int?,
   );
 
   IssueEvent _toEventModel(Map<String, dynamic> row) => IssueEvent(
@@ -195,5 +205,6 @@ class SupabaseIssueRepository implements IssueRepository {
     resultingStatus: IssueStatus.values.byName(
       row['resulting_status'] as String,
     ),
+    targetUserId: row['target_user_id'] as int?,
   );
 }

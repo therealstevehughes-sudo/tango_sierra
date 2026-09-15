@@ -133,6 +133,16 @@ class Issues extends Table {
   // actually took the delivery.
   IntColumn get receivedByUserId =>
       integer().nullable().references(Users, #id)();
+  // Chain-of-command escalation (2026-09-15) — the user explicitly asked
+  // for free choice of WHO to escalate to, not an automatic route to the
+  // raiser's own direct line manager, since the issue may be about that
+  // manager. Denormalised here (mirrors `status` above) so "who does this
+  // currently sit with" is a plain column, not something recomputed from
+  // event history; the IssueEvents row for the escalate action also
+  // records the same target for the audit trail. Null until/unless the
+  // issue is actually escalated.
+  IntColumn get escalatedToUserId =>
+      integer().nullable().references(Users, #id)();
 }
 
 // The Details -> Process -> Outcome lifecycle, as an append-only event
@@ -155,6 +165,12 @@ class IssueEvents extends Table {
   DateTimeColumn get changedAt => dateTime()();
   // open | resolved | escalated
   TextColumn get resultingStatus => text()();
+  // Only meaningful on an 'escalated' event — who was chosen as the
+  // escalation target at that moment (see Issues.escalatedToUserId's own
+  // doc comment). Kept here too, not just on the parent row, so the
+  // history itself shows who it went to at each point if it's ever
+  // escalated more than once to different people.
+  IntColumn get targetUserId => integer().nullable().references(Users, #id)();
 }
 
 @DataClassName('UserEntity')
@@ -204,6 +220,18 @@ class Users extends Table {
   // tiers keep using siteId above unchanged, and executive's scope is the
   // whole Organisation, needing no region link at all.
   IntColumn get regionId => integer().nullable().references(Regions, #id)();
+  // Chain of command (2026-09-15) — a real named person, not a tier or
+  // job-role rule: the user explicitly wanted per-individual assignment
+  // (two Kitchen Porters at the same branch can report to different
+  // people; a fixed "KPs always report to Head Chef" rule doesn't hold
+  // everywhere). Nullable — existing staff have no value until a manager
+  // sets one via Staff Management; the branch organogram and issue
+  // escalation both treat "no value" as "unassigned", not an error.
+  // Deliberately not required to be a strictly senior RoleTier — nothing
+  // stops two same-tier peers with an informal reporting line, and this
+  // app doesn't need to police that.
+  IntColumn get reportsToUserId =>
+      integer().nullable().references(Users, #id)();
 }
 
 @DataClassName('EquipmentTypeEntity')
@@ -861,7 +889,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 41;
+  int get schemaVersion => 42;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1239,6 +1267,16 @@ class AppDatabase extends _$AppDatabase {
         // the Issues table's own doc comment for why).
         await m.createTable(issues);
         await m.createTable(issueEvents);
+      }
+      if (from < 42) {
+        // Chain of command (2026-09-15) -- per-individual "reports to"
+        // plus free-choice escalation target, both requested after
+        // Issues & Incidents shipped: an issue may be about the raiser's
+        // own direct manager, so escalation must let them pick anyone
+        // senior, not just walk straight up the reporting line.
+        await m.addColumn(users, users.reportsToUserId);
+        await m.addColumn(issues, issues.escalatedToUserId);
+        await m.addColumn(issueEvents, issueEvents.targetUserId);
       }
     },
     beforeOpen: (details) async {

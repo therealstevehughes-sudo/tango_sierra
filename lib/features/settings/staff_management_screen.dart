@@ -19,6 +19,7 @@ enum _StaffAction {
   editDetails,
   changeTier,
   changeDepartment,
+  changeReportsTo,
   resetPin,
   toggleActive,
   trainingRecords,
@@ -286,6 +287,56 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     await _loadData();
   }
 
+  // Chain of command (2026-09-15) — per-individual, mirrors
+  // _changeDepartment's exact shape. Excludes the user themselves (can't
+  // report to their own self) but otherwise offers everyone at the same
+  // site, deliberately not filtered by tier — an informal reporting line
+  // between peers isn't this app's business to police.
+  Future<void> _changeReportsTo(User user) async {
+    final options = staff.where((u) => u.id != user.id).toList();
+    var selected = user.reportsToUserId;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text('Reports To — ${user.name}'),
+          content: DropdownButtonFormField<int?>(
+            initialValue: selected,
+            decoration: const InputDecoration(labelText: 'Reports to'),
+            items: [
+              const DropdownMenuItem<int?>(
+                value: null,
+                child: Text('Not set'),
+              ),
+              ...options.map(
+                (u) => DropdownMenuItem<int?>(value: u.id, child: Text(u.name)),
+              ),
+            ],
+            onChanged: (value) => setDialogState(() => selected = value),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Save'),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (confirmed != true || selected == user.reportsToUserId) return;
+
+    final repo = ref.read(userRepositoryProvider);
+    await repo.assignReportsTo(userId: user.id, reportsToUserId: selected);
+
+    if (!mounted) return;
+    await _loadData();
+  }
+
   Future<void> _deactivate(User user) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -409,9 +460,13 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final department = user.departmentId == null
         ? null
         : departmentsById[user.departmentId];
+    final reportsTo = user.reportsToUserId == null
+        ? null
+        : staff.where((u) => u.id == user.reportsToUserId).firstOrNull;
     final subtitleParts = <String>[
       '${user.jobTitle} · ${roleTierDisplayName(user.roleTier)}',
       if (department != null) department.name,
+      if (reportsTo != null) 'Reports to ${reportsTo.name}',
       if (!user.active) '(deactivated)',
       if (!user.active && user.deactivatedAt != null && deactivatedBy != null)
         'on ${user.deactivatedAt!.toLocal().toString().split('.').first} '
@@ -439,6 +494,8 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
                 _changeRoleTier(user);
               case _StaffAction.changeDepartment:
                 _changeDepartment(user);
+              case _StaffAction.changeReportsTo:
+                _changeReportsTo(user);
               case _StaffAction.resetPin:
                 _resetPin(user);
               case _StaffAction.toggleActive:
@@ -464,6 +521,10 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
             const PopupMenuItem(
               value: _StaffAction.changeDepartment,
               child: Text('Change Department'),
+            ),
+            const PopupMenuItem(
+              value: _StaffAction.changeReportsTo,
+              child: Text('Reports To'),
             ),
             const PopupMenuItem(
               value: _StaffAction.resetPin,

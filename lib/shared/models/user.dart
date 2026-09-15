@@ -65,6 +65,13 @@ class User {
   // Phase B0 — set only for regional-tier accounts: which one region they
   // oversee (one region per manager). Null for every other tier.
   final int? regionId;
+  // Chain of command (2026-09-15) — a real named person this user reports
+  // to, set per-individual rather than derived from tier/job-role (the
+  // user explicitly wanted this, since a fixed role rule like "Kitchen
+  // Porters report to Head Chef" doesn't hold at every branch). Nullable
+  // — unassigned until a manager sets it via Staff Management; the branch
+  // organogram and issue escalation both treat null as "unassigned."
+  final int? reportsToUserId;
 
   const User({
     required this.id,
@@ -79,6 +86,7 @@ class User {
     this.deactivatedByUserId,
     this.departmentId,
     this.regionId,
+    this.reportsToUserId,
   });
 
   // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — needed
@@ -99,6 +107,7 @@ class User {
       deactivatedByUserId: deactivatedByUserId,
       departmentId: departmentId,
       regionId: regionId,
+      reportsToUserId: reportsToUserId,
     );
   }
 }

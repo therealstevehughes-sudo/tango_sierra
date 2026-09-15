@@ -54,11 +54,14 @@ abstract class IssueRepository {
   /// Manual escalation only in this build (confirmed with the user —
   /// automatic threshold-based escalation is deferred; issue types would
   /// need different SLAs decided first, e.g. an accident vs. a late
-  /// delivery).
+  /// delivery). [escalateToUserId] is a free choice, not automatically
+  /// the raiser's own line manager — the issue may be about that manager
+  /// (confirmed with the user).
   Future<void> escalate({
     required int issueId,
     required String note,
     required int byUserId,
+    required int escalateToUserId,
   });
 }
 
@@ -187,12 +190,14 @@ class DriftIssueRepository implements IssueRepository {
     required int issueId,
     required String note,
     required int byUserId,
+    required int escalateToUserId,
   }) => _recordEvent(
     issueId: issueId,
     phase: IssueEventPhase.process,
     note: note,
     byUserId: byUserId,
     resultingStatus: IssueStatus.escalated,
+    targetUserId: escalateToUserId,
   );
 
   Future<void> _recordEvent({
@@ -201,6 +206,7 @@ class DriftIssueRepository implements IssueRepository {
     required String note,
     required int byUserId,
     required IssueStatus? resultingStatus,
+    int? targetUserId,
   }) async {
     await _db.transaction(() async {
       final current = await (_db.select(
@@ -217,13 +223,19 @@ class DriftIssueRepository implements IssueRepository {
               changedByUserId: byUserId,
               changedAt: DateTime.now(),
               resultingStatus: newStatus,
+              targetUserId: Value(targetUserId),
             ),
           );
       if (resultingStatus != null) {
         await (_db.update(
           _db.issues,
         )..where((i) => i.id.equals(issueId))).write(
-          IssuesCompanion(status: Value(newStatus)),
+          IssuesCompanion(
+            status: Value(newStatus),
+            escalatedToUserId: resultingStatus == IssueStatus.escalated
+                ? Value(targetUserId)
+                : const Value(null),
+          ),
         );
       }
     });
@@ -243,6 +255,7 @@ class DriftIssueRepository implements IssueRepository {
         ? null
         : DeliveryProblemType.values.byName(row.deliveryProblemType!),
     receivedByUserId: row.receivedByUserId,
+    escalatedToUserId: row.escalatedToUserId,
   );
 
   IssueEvent _toEventModel(IssueEventEntity row) => IssueEvent(
@@ -253,5 +266,6 @@ class DriftIssueRepository implements IssueRepository {
     changedByUserId: row.changedByUserId,
     changedAt: row.changedAt,
     resultingStatus: IssueStatus.values.byName(row.resultingStatus),
+    targetUserId: row.targetUserId,
   );
 }

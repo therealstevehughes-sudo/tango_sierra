@@ -173,6 +173,9 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                       final issue = visible[index];
                       return _IssueTile(
                         issue: issue,
+                        escalatedToName: issue.escalatedToUserId == null
+                            ? null
+                            : _staffNames[issue.escalatedToUserId],
                         onTap: () async {
                           await Navigator.push(
                             context,
@@ -196,10 +199,15 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
 }
 
 class _IssueTile extends StatelessWidget {
-  const _IssueTile({required this.issue, required this.onTap});
+  const _IssueTile({
+    required this.issue,
+    required this.onTap,
+    this.escalatedToName,
+  });
 
   final Issue issue;
   final VoidCallback onTap;
+  final String? escalatedToName;
 
   @override
   Widget build(BuildContext context) {
@@ -234,6 +242,15 @@ class _IssueTile extends StatelessWidget {
                     formatDateTime(issue.raisedAt),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
+                  if (escalatedToName != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      'Escalated to $escalatedToName',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
