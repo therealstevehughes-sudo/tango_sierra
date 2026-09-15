@@ -107,11 +107,32 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
     }
   }
 
+  // Pop to root before nulling currentUserProvider — this screen is
+  // reachable via Navigator.push (WorkerHubScreen/TierHomeScreen both push
+  // it), so without this a pushed copy would stay mounted underneath after
+  // logout while MaterialApp.home reactively swapped to LoginScreen. Same
+  // fix already applied in TaskScreen._confirmLogOut, mirrored here since
+  // this screen had no logout affordance at all otherwise — base tier
+  // reaching it from WorkerHubScreen has no drawer to fall back on.
+  void _logOut() {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    ref.read(currentUserProvider.notifier).state = null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final subtypes = _type == null ? const <String>[] : issueSubtypesFor(_type!);
     return Scaffold(
-      appBar: AppBar(title: const Text('Log something that just happened')),
+      appBar: AppBar(
+        title: const Text('Log something that just happened'),
+        actions: [
+          TextButton.icon(
+            onPressed: _logOut,
+            icon: const Icon(Icons.logout, size: 18),
+            label: const Text('Log out'),
+          ),
+        ],
+      ),
       body: Center(
         child: SingleChildScrollView(
           child: ConstrainedBox(

@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
 import '../../shared/models/issue.dart';
+import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/issue_providers.dart';
 import 'issue_detail_screen.dart';
 
@@ -19,10 +20,27 @@ class MyRaisedIssuesScreen extends ConsumerWidget {
 
   final int userId;
 
+  // Same pop-to-root-before-null pattern as TaskScreen._confirmLogOut and
+  // ReportIssueScreen._logOut — this screen is reached via Navigator.push
+  // and had no logout affordance at all otherwise.
+  void _logOut(BuildContext context, WidgetRef ref) {
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    ref.read(currentUserProvider.notifier).state = null;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Things I\'ve reported')),
+      appBar: AppBar(
+        title: const Text('Things I\'ve reported'),
+        actions: [
+          TextButton.icon(
+            onPressed: () => _logOut(context, ref),
+            icon: const Icon(Icons.logout, size: 18),
+            label: const Text('Log out'),
+          ),
+        ],
+      ),
       body: FutureBuilder<List<Issue>>(
         future: ref.read(issueRepositoryProvider).getRaisedByUser(userId),
         builder: (context, snapshot) {
