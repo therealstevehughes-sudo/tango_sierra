@@ -5,7 +5,11 @@
 // level — case-insensitive, trimmed, scoped per site, on both create and
 // rename — not just something the UI happens not to expose.
 //
-// Run with: flutter test integration_test/equipment_instance_fixes_test.dart -d windows
+// Names are timestamp-suffixed so the test is idempotent against the real
+// dev database (a previous run's retired rows would otherwise collide with
+// the same hardcoded names — the repo's duplicate check correctly includes
+// inactive rows). Run with:
+// flutter test integration_test/equipment_instance_fixes_test.dart -d windows
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -28,13 +32,18 @@ void main() {
 
     // Use the real seed site (id 1, "Main Site" / Steve Hughes' venue).
     const siteId = 1;
+    // Unique per run so a stale (retired) row from a previous run can't
+    // collide — the duplicate check spans inactive rows by design.
+    final runTag = DateTime.now().millisecondsSinceEpoch;
     final type = await equipmentRepo.createEquipmentType(
-      'Test Fridge Type ${DateTime.now().millisecondsSinceEpoch}',
+      'Test Fridge Type $runTag',
     );
+    final firstName = 'Meat Walk-in $runTag';
+    final secondName = 'Dessert Fridge $runTag';
 
     // 1. Create the first instance — should succeed.
     final first = await equipmentRepo.create(
-      name: 'Meat Walk-in',
+      name: firstName,
       equipmentTypeId: type.id,
       siteId: siteId,
     );
@@ -44,7 +53,7 @@ void main() {
     Object? blockedError;
     try {
       await equipmentRepo.create(
-        name: '  meat walk-in  ',
+        name: '  ${firstName.toLowerCase()}  ',
         equipmentTypeId: type.id,
         siteId: siteId,
       );
@@ -56,7 +65,7 @@ void main() {
 
     // 3. A genuinely different name at the same site — must succeed.
     final second = await equipmentRepo.create(
-      name: 'Dessert Fridge',
+      name: secondName,
       equipmentTypeId: type.id,
       siteId: siteId,
     );
@@ -66,7 +75,7 @@ void main() {
     // blocked too, not just create().
     Object? renameBlockedError;
     try {
-      await equipmentRepo.rename(second.id, 'Meat Walk-in');
+      await equipmentRepo.rename(second.id, firstName);
     } catch (e) {
       renameBlockedError = e;
     }
@@ -95,7 +104,7 @@ void main() {
       'equipmentInstanceName: "${stored.equipmentInstanceName}"',
     );
     expect(stored.taskTitle, 'Temperature check');
-    expect(stored.equipmentInstanceName, 'Meat Walk-in');
+    expect(stored.equipmentInstanceName, firstName);
 
     // Cleanup — leave the real dev database as we found it.
     await equipmentRepo.setActive(first.id, false);
