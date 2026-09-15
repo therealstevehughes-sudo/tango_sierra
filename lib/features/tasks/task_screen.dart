@@ -30,6 +30,7 @@ import 'camera_capture_screen.dart';
 import 'end_of_session_summary_screen.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
+import 'task_overview_screen.dart';
 
 enum _PhotoSource { camera, upload }
 
@@ -284,6 +285,19 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // from every non-base screen instead of a TaskScreen-only shortcut.
   List<Widget> _appBarActions() {
     return [
+      // Hybrid task view (roadmap v1.1, 2026-09-15) — read-only, doesn't
+      // touch the exit-path discipline above (a normal push the worker
+      // backs out of, not a second way to leave the screen).
+      IconButton(
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => TaskOverviewScreen(controller: controller),
+          ),
+        ),
+        icon: const Icon(Icons.view_list_outlined),
+        tooltip: 'See all tasks',
+      ),
       TextButton.icon(
         onPressed: _confirmLogOut,
         icon: const Icon(Icons.logout, size: 18),
