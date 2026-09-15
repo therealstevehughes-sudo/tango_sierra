@@ -11,6 +11,7 @@ import '../../shared/models/task_submission.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/problem_register_providers.dart';
 import '../../shared/repositories/problem_register_repository.dart';
+import '../issues/issues_register_tab.dart';
 
 // Fails & Problems Register (Part A) — a first-class screen at every
 // leadership tier (drawer-gated at supervisor, same floor as Dashboard).
@@ -39,73 +40,92 @@ class _ProblemsRegisterScreenState
     final currentUser = ref.watch(currentUserProvider);
     final repository = ref.watch(problemRegisterRepositoryProvider);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Fails & Problems Register')),
-      drawer: const ManagementDrawer(title: 'Fails & Problems Register'),
-      body: currentUser == null
-          ? const SizedBox.shrink()
-          : ResponsiveContent(
-              child: Column(
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Fails & Problems Register'),
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Task Problems'),
+              Tab(text: 'Issues & Incidents'),
+            ],
+          ),
+        ),
+        drawer: const ManagementDrawer(title: 'Fails & Problems Register'),
+        body: currentUser == null
+            ? const SizedBox.shrink()
+            : TabBarView(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                    child: SegmentedButton<ProblemFilter>(
-                      segments: const [
-                        ButtonSegment(
-                          value: ProblemFilter.all,
-                          label: Text('All'),
+                  ResponsiveContent(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                          child: SegmentedButton<ProblemFilter>(
+                            segments: const [
+                              ButtonSegment(
+                                value: ProblemFilter.all,
+                                label: Text('All'),
+                              ),
+                              ButtonSegment(
+                                value: ProblemFilter.fail,
+                                label: Text('Fail'),
+                              ),
+                              ButtonSegment(
+                                value: ProblemFilter.reported,
+                                label: Text('Reported'),
+                              ),
+                              ButtonSegment(
+                                value: ProblemFilter.notCompleted,
+                                label: Text('Not Completed'),
+                              ),
+                            ],
+                            selected: {_filter},
+                            onSelectionChanged: (selection) =>
+                                setState(() => _filter = selection.first),
+                          ),
                         ),
-                        ButtonSegment(
-                          value: ProblemFilter.fail,
-                          label: Text('Fail'),
-                        ),
-                        ButtonSegment(
-                          value: ProblemFilter.reported,
-                          label: Text('Reported'),
-                        ),
-                        ButtonSegment(
-                          value: ProblemFilter.notCompleted,
-                          label: Text('Not Completed'),
+                        Expanded(
+                          child: StreamBuilder<List<TaskSubmission>>(
+                            stream: repository.watchForSite(
+                              currentUser.siteId!,
+                              filter: _filter,
+                            ),
+                            builder: (context, snapshot) {
+                              final entries = snapshot.data ?? [];
+                              if (!snapshot.hasData) {
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                              if (entries.isEmpty) {
+                                return const Center(
+                                  child: Text(
+                                    'Nothing here — that\'s a good sign.',
+                                  ),
+                                );
+                              }
+                              return ListView.separated(
+                                padding: const EdgeInsets.all(16),
+                                itemCount: entries.length,
+                                separatorBuilder: (_, _) =>
+                                    const SizedBox(height: 8),
+                                itemBuilder: (context, index) => _ProblemTile(
+                                  submission: entries[index],
+                                  currentUserId: currentUser.id,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
-                      selected: {_filter},
-                      onSelectionChanged: (selection) =>
-                          setState(() => _filter = selection.first),
                     ),
                   ),
-                  Expanded(
-                    child: StreamBuilder<List<TaskSubmission>>(
-                      stream: repository.watchForSite(
-                        currentUser.siteId!,
-                        filter: _filter,
-                      ),
-                      builder: (context, snapshot) {
-                        final entries = snapshot.data ?? [];
-                        if (!snapshot.hasData) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (entries.isEmpty) {
-                          return const Center(
-                            child: Text('Nothing here — that\'s a good sign.'),
-                          );
-                        }
-                        return ListView.separated(
-                          padding: const EdgeInsets.all(16),
-                          itemCount: entries.length,
-                          separatorBuilder: (_, _) => const SizedBox(height: 8),
-                          itemBuilder: (context, index) => _ProblemTile(
-                            submission: entries[index],
-                            currentUserId: currentUser.id,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  IssuesRegisterTab(currentUser: currentUser),
                 ],
               ),
-            ),
+      ),
     );
   }
 }

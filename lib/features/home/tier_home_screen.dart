@@ -16,6 +16,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../dashboard/reliability_service.dart';
 import '../dashboard/top_screen.dart';
+import '../issues/report_issue_screen.dart';
 import '../manager/manager_screen.dart';
 import '../onboarding/setup_checklist_card.dart';
 import '../tasks/overdue_summary_service.dart';
@@ -233,6 +234,38 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                                 ),
                               ),
                       ),
+                      // Branch-hub build (2026-09-15) — supervisor+ already
+                      // has a home hub, so the second "ad-hoc entry" option
+                      // is added here rather than a duplicate screen (base
+                      // tier gets its own fork via WorkerHubScreen). Needs a
+                      // single site to raise against, so it only shows for
+                      // site-having tiers, same condition as the branch
+                      // status card above.
+                      if (showBranchStatus) ...[
+                        const SizedBox(height: 12),
+                        OutlinedButton.icon(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ReportIssueScreen(
+                                siteId: site.id,
+                                raisedByUserId: currentUser.id,
+                              ),
+                            ),
+                          ),
+                          icon: const Icon(Icons.report_problem_outlined),
+                          label: const Text(
+                            'Log something that just happened',
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            minimumSize: const Size.fromHeight(48),
+                            foregroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),

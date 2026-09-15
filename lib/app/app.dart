@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../features/auth/login_screen.dart';
 import '../features/home/tier_home_screen.dart';
-import '../features/tasks/task_screen.dart';
+import '../features/tasks/worker_hub_screen.dart';
 import '../shared/models/user.dart';
 import '../shared/providers/auth_providers.dart';
 import '../shared/providers/branding_providers.dart';
@@ -32,13 +32,16 @@ class MyApp extends ConsumerWidget {
     // every non-base tier now lands on TierHomeScreen (My Tasks /
     // Oversight), not straight on ManagerScreen/TopScreen — closes the
     // gap where a task tiered above base could be assigned but never
-    // reached. base is unchanged: straight to the carousel, no home menu,
-    // per the Staff Task Screen Rule's minimalism.
+    // reached. base tier now lands on WorkerHubScreen (branch-hub build,
+    // 2026-09-15) instead of straight on the carousel — a single fork
+    // ("My scheduled tasks" vs. "Log something that just happened")
+    // before TaskScreen, not a new nav surface; "My scheduled tasks"
+    // leads to the exact same, unchanged TaskScreen base tier always had.
     Widget home;
     if (currentUser == null) {
       home = const LoginScreen();
     } else if (currentUser.roleTier == RoleTier.base) {
-      home = const TaskScreen();
+      home = const WorkerHubScreen();
     } else {
       home = const TierHomeScreen();
     }
