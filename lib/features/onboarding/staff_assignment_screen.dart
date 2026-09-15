@@ -339,6 +339,130 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     );
   }
 
+  // Apply a preset to multiple staff at once (2026-09-15) — the per-staff
+  // mechanism above (Sprint 026) already does the real work; this is
+  // that same call looped once per person picked in the multi-select
+  // dialog below, per the roadmap's own framing ("a natural loop, not a
+  // rework"). An equipment-type preset still needs exactly one target
+  // instance, prompted for once up front and applied to everyone chosen
+  // — the realistic case is several people all needing, say, the
+  // fridge-check preset for the same fridge.
+  Future<void> _onApplyPresetToMultiple(TaskPreset preset) async {
+    int? equipmentInstanceId;
+    if (preset.equipmentTypeId != null) {
+      final matching = equipmentInstances
+          .where((e) => e.equipmentTypeId == preset.equipmentTypeId && e.active)
+          .toList();
+      if (matching.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No equipment of this type set up yet.')),
+        );
+        return;
+      }
+      final chosen = await showDialog<Equipment>(
+        context: context,
+        builder: (context) => SimpleDialog(
+          title: Text('Apply "${preset.name}" to which one?'),
+          children: matching
+              .map(
+                (e) => SimpleDialogOption(
+                  onPressed: () => Navigator.pop(context, e),
+                  child: Text(e.name),
+                ),
+              )
+              .toList(),
+        ),
+      );
+      if (chosen == null) return;
+      equipmentInstanceId = chosen.id;
+    }
+    if (!mounted) return;
+
+    final selected = <int>{};
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text('Apply "${preset.name}" to'),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView(
+              shrinkWrap: true,
+              children: staffList
+                  .map(
+                    (u) => CheckboxListTile(
+                      value: selected.contains(u.id),
+                      title: Text(u.name),
+                      subtitle: Text(u.jobTitle),
+                      onChanged: (checked) => setDialogState(() {
+                        if (checked ?? false) {
+                          selected.add(u.id);
+                        } else {
+                          selected.remove(u.id);
+                        }
+                      }),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: selected.isEmpty
+                  ? null
+                  : () => Navigator.pop(context, true),
+              child: const Text('Apply'),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (confirmed != true || selected.isEmpty) return;
+
+    final manager = ref.read(currentUserProvider);
+    if (manager == null) return;
+    final presetRepo = ref.read(taskPresetRepositoryProvider);
+
+    var totalAdded = 0;
+    for (final staffId in selected) {
+      final staff = staffList.where((u) => u.id == staffId).firstOrNull;
+      if (staff?.siteId == null) continue;
+      totalAdded += await presetRepo.applyPresetToStaff(
+        presetId: preset.id,
+        staffUserId: staffId,
+        equipmentInstanceId: equipmentInstanceId,
+        assignedByUserId: manager.id,
+        siteId: staff!.siteId!,
+      );
+    }
+
+    if (!mounted) return;
+    // Refresh the currently-selected staff member's own schedule list too,
+    // in case they were one of the people just bulk-applied to.
+    final currentlySelected = selectedStaff;
+    if (currentlySelected != null && selected.contains(currentlySelected.id)) {
+      final scheduleRepo = ref.read(taskScheduleRepositoryProvider);
+      final refreshed = await scheduleRepo.getForStaffMember(
+        currentlySelected.id,
+      );
+      if (!mounted) return;
+      setState(() => schedulesForSelectedStaff = refreshed);
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Added $totalAdded task${totalAdded == 1 ? '' : 's'} across '
+          '${selected.length} staff member${selected.length == 1 ? '' : 's'}',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (loading) {
@@ -699,6 +823,10 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
                           TextButton(
                             onPressed: () => _onApplyPreset(preset),
                             child: const Text('Apply'),
+                          ),
+                          TextButton(
+                            onPressed: () => _onApplyPresetToMultiple(preset),
+                            child: const Text('Apply to Multiple'),
                           ),
                         ],
                       ),
