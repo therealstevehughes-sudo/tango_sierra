@@ -1503,6 +1503,10 @@ Deliberately NOT linked into Issues & Incidents — a delivery problem is task d
 
 Files: `lib/core/storage/app_database.dart`, `lib/shared/models/task_submission.dart`, `lib/shared/repositories/task_submission_repository.dart`, `lib/shared/repositories/supabase_task_submission_repository.dart`, `lib/shared/repositories/problem_register_repository.dart`, `lib/features/tasks/task_controller.dart`, `lib/features/tasks/task_screen.dart`.
 
+## Leadership dashboard overview — BUILT 2026-09-15 (see guideline entry directly below for the design background)
+Built per the guideline logged just below, once the user said to proceed through the "Queued, no blocker" list. Kept to the guideline's own resolution: aggregate-only Task overview + Incidents bars (Branch/Section/Period filters), Employee filter deliberately switched to a plain ungraded list rather than a colour bar for one named person. "Urgent" from the mockup left unmodelled — logged as a genuinely open question (no existing data honestly backs it) rather than guessed at.
+Files: `lib/features/dashboard/leadership_dashboard_service.dart`, `lib/features/dashboard/leadership_dashboard_screen.dart`, `lib/core/widgets/management_drawer.dart`.
+
 ## DEFERRED SPRINT: Leadership dashboard overview (guideline only, not built yet)
 User shared a visual mockup (`Visual idea.pdf`, 2026-09-15) for a branch/region/director-level dashboard: Branch/Section/Employee filters, Month/Week/Day period toggle, a 5-colour Task overview bar (Done on time no-issues / Done on time issues-logged / Done early-late no-issues / Done early-late issues-logged / Not done), and a 4-colour Incidents bar (Resolved/Unresolved/Escalated/Urgent), both click-to-drill-down. Executive level also needs a Region dropdown (not in the mockup).
 
@@ -1520,3 +1524,5 @@ Not scheduled — logged here as a guideline for whichever sprint eventually bui
 - Follow-up: apply a preset to multiple staff at once (Sprint 026 built the per-staff mechanism so this is a natural loop, not a rework) — not yet scheduled.
 - Follow-up: distinct dashboards for Supervisor vs. Venue Manager, and Regional vs. Executive — currently share identical UI per tier-pair (Sprint 027) — not yet scheduled.
 - Follow-up: wire `EquipmentTypeVenueTypes`/`TaskPresetVenueTypes`/`TaskTemplateVenueTypes` into actual filtering UI (venue setup wizard's equipment offering, presets section, and the future task-library-driven assignment flow) once each has real tag data to filter with — Sprint 029 built the schema/repository layer only.
+- The Leadership Dashboard's Incidents bar has no "Urgent" category, though the user's mockup shows one — `IssueStatus` (open/resolved/escalated) has nothing that honestly means "urgent" yet. Needs a product decision (a 4th status? a severity flag independent of resolution state? derived from issue type, e.g. accidents always urgent?) before it can be built, not guessed at.
+- The Leadership Dashboard's Section filter only covers task submissions linked to a piece of equipment (via `equipmentInstanceId → Area`) — a task with no linked equipment (e.g. a plain cleaning checklist item) can't currently be attributed to a section and is excluded from that filter rather than miscounted.

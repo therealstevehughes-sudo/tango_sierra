@@ -1587,6 +1587,17 @@ Plumbed straight through the existing pipeline: `TaskSubmission` model → `Task
 
 **Deliberately not linked to Issues & Incidents** — a rejected/problem delivery is captured here as task detail, not auto-escalated as an Issue. A worker who wants managers notified still uses the separate "Log something that just happened" flow. Not entangling the two keeps each system's semantics clean (task completion status vs. an ad-hoc raised issue).
 
+## Leadership dashboard overview (built 2026-09-15) — from Visual idea.pdf
+
+No schema changes — pure read model over data that already exists (`TaskSubmission`, the Issues table). New `LeadershipDashboardService` (`lib/features/dashboard/leadership_dashboard_service.dart`) computes two aggregate breakdowns:
+
+- **`TaskOverviewBreakdown`**: 5-way split (on-time/off-window × issues-logged/no-issues, plus Not done) over a site's submissions in a date range, optionally filtered to one Section (Area) via the `equipmentInstanceId → Equipment.areaId` chain — submissions with no linked equipment can't be attributed to a section and are excluded from that filter, a logged gap for non-equipment tasks, not a silent miscount. "On time" reuses `ReliabilitySummary`'s own convention: a schedule with no window counts as on-time by default. "Issues logged" = `status == 'FAIL'` or any delivery-problem flag/non-accepted outcome from the delivery-detail build above.
+- **`IncidentsBreakdown`**: Resolved/Unresolved/Escalated counts from the Issues table for a site + date range. The mockup's fourth "Urgent" category is NOT modelled — `IssueStatus` has no such state and there's no existing signal that would honestly mean "urgent" without inventing one; left as an open product question rather than mapped onto something arbitrary.
+
+**Anti-gaming boundary, enforced structurally, not just by convention**: `LeadershipDashboardScreen`'s Employee filter does not reuse either breakdown class. Selecting a named person switches the screen to a plain list of their own task completions and raised issues (unstyled, ungraded) instead of computing a colour bar for that individual — the two computation classes above are aggregate-only by construction, and the doc comment on both warns against ever adding a per-user variant without revisiting the guideline logged in DECISIONS_LOG.md first.
+
+Drawer-gated `venueManager` and above (`ManagementDrawer`, "Dashboard Overview") — one floor above the existing plain `DashboardScreen`, which supervisor already shares, per the user's explicit scoping ("branch Management, regional management, and director level users").
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.
