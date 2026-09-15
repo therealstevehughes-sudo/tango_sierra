@@ -14,13 +14,12 @@ import '../../shared/repositories/issue_repository.dart';
 import 'issue_detail_screen.dart';
 
 // PART 2 of the branch-hub build (2026-09-15) — second tab of the Fails &
-// Problems Register. Filterable by type/status here; date/employee/branch
-// per the user's spec are covered by: this register already being
+// Problems Register. Filterable by date/type/status/employee here; branch
+// per the user's spec is covered by this register already being
 // site-scoped (branch = site, same single-site-per-user limitation the
-// Task Problems tab next to it already documents), the newest-first list
-// showing raise date on every card, and an employee filter (raised-by)
-// below. No "shift" concept exists anywhere in this app yet — a real gap,
-// not silently invented here.
+// Task Problems tab next to it already documents). No "shift" concept
+// exists anywhere in this app yet — a real gap, not silently invented
+// here.
 //
 // Any staff member can see this register (raising and viewing are both
 // open); adding a Process/Outcome note or resolving/escalating is gated
@@ -38,6 +37,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
   IssueFilter _statusFilter = IssueFilter.all;
   IssueType? _typeFilter;
   int? _employeeFilter;
+  DateTimeRange? _dateRange;
   List<Issue> _issues = [];
   Map<int, String> _staffNames = {};
   bool _loading = true;
@@ -71,10 +71,21 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
         roleTierRank(widget.currentUser.roleTier) >=
         roleTierRank(RoleTier.supervisor);
 
+    final range = _dateRange;
     final visible = _issues.where((i) {
       if (_typeFilter != null && i.type != _typeFilter) return false;
       if (_employeeFilter != null && i.raisedByUserId != _employeeFilter) {
         return false;
+      }
+      if (range != null) {
+        final raisedDate = DateTime(
+          i.raisedAt.year,
+          i.raisedAt.month,
+          i.raisedAt.day,
+        );
+        if (raisedDate.isBefore(range.start) || raisedDate.isAfter(range.end)) {
+          return false;
+        }
       }
       return true;
     }).toList();
@@ -107,6 +118,38 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                 setState(() => _statusFilter = selection.first);
                 _load();
               },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: InkWell(
+              onTap: () async {
+                final now = DateTime.now();
+                final picked = await showDateRangePicker(
+                  context: context,
+                  firstDate: DateTime(now.year - 2),
+                  lastDate: now,
+                  initialDateRange: _dateRange,
+                );
+                if (picked != null) setState(() => _dateRange = picked);
+              },
+              child: InputDecorator(
+                decoration: InputDecoration(
+                  labelText: 'Date range',
+                  isDense: true,
+                  suffixIcon: _dateRange == null
+                      ? const Icon(Icons.date_range)
+                      : IconButton(
+                          icon: const Icon(Icons.clear),
+                          onPressed: () => setState(() => _dateRange = null),
+                        ),
+                ),
+                child: Text(
+                  _dateRange == null
+                      ? 'All dates'
+                      : '${formatDate(_dateRange!.start)} — ${formatDate(_dateRange!.end)}',
+                ),
+              ),
             ),
           ),
           Padding(
