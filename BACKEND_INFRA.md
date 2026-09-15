@@ -1575,6 +1575,18 @@ Follow-on to Issues & Incidents, requested once the user tried the flow live: "w
 
 **New `BranchOrgChartScreen`** (drawer, supervisor+): a branch-scoped organogram built from `reportsToUserId` edges, deliberately separate from the executive/regional-scoped Head Office/Region/Venue tree (Phase C3) — that one stops at a venue's manager, this one goes inside a single venue to show its own staff. Anyone with no manager set (or a stale/cross-site pointer) renders as their own root — expected and shown honestly until a manager fills it in via Staff Management, not backfilled or hidden.
 
+## Detailed delivery-by-supplier records (roadmap v1 item #1, built 2026-09-15)
+
+Replaces a delivery task's plain pass/fail with real detail, per the strategy-session roadmap: temperature on arrival, short delivery, damaged stock, late delivery, quality problems, accept/reject/partial outcome. Gated behind the existing `requiresSupplierSelection` marker on a task template — the same flag that already shows the supplier picker on the completion form.
+
+**Schema** (local Drift schemaVersion 42→43 + matching backend Postgres migration, both applied): six new columns on `task_submissions` — `delivery_temperature_c` (nullable real), `delivery_short_delivery`/`delivery_damaged_stock`/`delivery_late_delivery`/`delivery_quality_problem` (bool, default false), `delivery_outcome` (nullable text: accepted/rejected/partial). Deployed live via SSH: `BEGIN`/`ALTER TABLE`/`COMMIT`, succeeded.
+
+**Worker flow stays fast** (explicit roadmap requirement: "one tap if all fine, expand only to record a problem") — `TaskScreen` shows one unticked checkbox ("Report a problem with this delivery") when `requiresSupplierSelection` is true; leaving it unticked writes `deliveryOutcome: 'accepted'` and nothing else. Ticking it reveals the temperature field, four problem `FilterChip`s, and the outcome dropdown.
+
+Plumbed straight through the existing pipeline: `TaskSubmission` model → `TaskController.logTaskSubmission` → `DriftTaskSubmissionRepository`/`SupabaseTaskSubmissionRepository`.submit() → same six columns. `ProblemRegisterRepository`'s own `TaskSubmission` mapping updated too, so a delivery task that FAILs still carries its delivery detail into the Fails & Problems Register.
+
+**Deliberately not linked to Issues & Incidents** — a rejected/problem delivery is captured here as task detail, not auto-escalated as an Issue. A worker who wants managers notified still uses the separate "Log something that just happened" flow. Not entangling the two keeps each system's semantics clean (task completion status vs. an ad-hoc raised issue).
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

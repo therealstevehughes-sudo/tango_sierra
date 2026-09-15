@@ -1291,7 +1291,7 @@ Files: `lib/core/storage/app_database.dart` (schema/migration), `lib/shared/repo
 Full detail lives in `VENURITE_ROADMAP.md` (Documents\AA Tango Sierra), written as a "what ships when" artifact for the Tom conversation and as an investor artifact. This entry captures it for the codebase; nothing below has been started — current work (Guided Cards visual refresh, then Phase C2/C3) continues unchanged.
 
 **NEW v1 features (agreed this session, to be planned individually before any build):**
-1. **Detailed delivery-by-supplier records** — replaces the single pass/fail on deliveries with: temperature on arrival, short delivery, damaged stock, late delivery, quality problems, accept/reject/partial outcome. Worker flow must stay fast: one tap if all fine, expand only to record a problem.
+1. ~~**Detailed delivery-by-supplier records** — replaces the single pass/fail on deliveries with: temperature on arrival, short delivery, damaged stock, late delivery, quality problems, accept/reject/partial outcome. Worker flow must stay fast: one tap if all fine, expand only to record a problem.~~ **DELIVERED 2026-09-15** — see the "Detailed delivery-by-supplier records" entry below.
 2. **Food temps with per-food legal thresholds** — a temp task shows the required minimum for that specific food, records the actual reading, flags pass/fail against the real legal threshold for that food type. **Depends on the legal-figures professional sign-off** (see gates below) — cannot ship correct thresholds without it.
 3. **AI assistant (v1)** — app-usage help AND food-safety compliance advice. **Hard safety rule, non-negotiable**: answers food-safety questions ONLY from VenuRite's verified/signed-off data, sourced, and says "ask your manager" when unsure — NEVER from the underlying model's general knowledge. Guides, never decides. Needs backend + legal sign-off first.
 4. **Per-task AI help button** — a subtle "?" on each task carousel frame giving context-aware answers for that specific task, grounded only in that task's verified requirement (same hard safety rule as #3).
@@ -1305,8 +1305,8 @@ Full detail lives in `VENURITE_ROADMAP.md` (Documents\AA Tango Sierra), written 
 - 🔴 A real SMTP email provider (invites, resets, notifications) — the same gap already logged against `invite-senior`/`reset-senior-password` above, now explicitly a launch blocker, not just a nice-to-have.
 
 **v1.1 / NEXT (right after launch, funded by traction/raise) — log only:**
-- Complaints log (supervisor/management: customer complaints / alleged food poisoning + investigation workflow).
-- Accidents & Incidents log (legal requirement).
+- ~~Complaints log (supervisor/management: customer complaints / alleged food poisoning + investigation workflow).~~ **DELIVERED 2026-09-15** — see "Issues & Incidents" below: `IssueType.complaint` (dish/other) with the full Details→Process→Outcome workflow, raise/resolve/escalate, any staff member can raise, supervisor+ handles.
+- ~~Accidents & Incidents log (legal requirement).~~ **DELIVERED 2026-09-15** — same build: `IssueType.accident` (employee/customer/other) and `IssueType.incident` (employee/equipment/other).
 - Document Centre (policies, certs, procedures, EHO reports) + a certificate/document expiry dashboard (valid/expiring/expired, per site).
 - Realtime push (manager's phone updates instantly, not just on refresh).
 - 2FA for senior logins.
@@ -1495,6 +1495,13 @@ User's framing: "Does KP report to head chef, or duty manager, or who?" — vari
 Mid-build, the user gave direct feedback on communication style: verbose plan-proposal prose was causing real distress ("I hit a wall of anxiety every fucking message of yours"). Saved as a standing feedback memory (`feedback_short_bullet_responses`) — short bullets by default in every response from here on, not just plan proposals.
 
 Files: `lib/core/storage/app_database.dart`, `lib/shared/models/user.dart`, `lib/shared/models/issue.dart`, `lib/shared/repositories/user_repository.dart`, `lib/shared/repositories/supabase_user_repository.dart`, `lib/shared/repositories/issue_repository.dart`, `lib/shared/repositories/supabase_issue_repository.dart`, `lib/features/issues/issue_detail_screen.dart`, `lib/features/issues/issues_register_tab.dart`, `lib/features/settings/staff_management_screen.dart`, `lib/features/regions/branch_org_chart_screen.dart`, `lib/core/widgets/management_drawer.dart`.
+
+## Detailed delivery-by-supplier records (built 2026-09-15) — roadmap v1 item #1
+User asked to "do them all" — this plus confirming Complaints/Accidents & Incidents logs (roadmap v1.1 items) were already delivered by the Issues & Incidents build. This one needed real building: replaced a delivery task's plain pass/fail with temperature-on-arrival, short/damaged/late/quality-problem flags, and an accept/reject/partial outcome, gated behind the existing `requiresSupplierSelection` marker. Worker flow stays a single tap for a fine delivery — an unticked "Report a problem" checkbox reveals the extra fields only when needed, per the roadmap's explicit speed requirement.
+
+Deliberately NOT linked into Issues & Incidents — a delivery problem is task detail, not an auto-raised Issue; a worker who wants it escalated still uses "Log something that just happened" separately, keeping the two systems' semantics distinct.
+
+Files: `lib/core/storage/app_database.dart`, `lib/shared/models/task_submission.dart`, `lib/shared/repositories/task_submission_repository.dart`, `lib/shared/repositories/supabase_task_submission_repository.dart`, `lib/shared/repositories/problem_register_repository.dart`, `lib/features/tasks/task_controller.dart`, `lib/features/tasks/task_screen.dart`.
 
 ## DEFERRED SPRINT: Leadership dashboard overview (guideline only, not built yet)
 User shared a visual mockup (`Visual idea.pdf`, 2026-09-15) for a branch/region/director-level dashboard: Branch/Section/Employee filters, Month/Week/Day period toggle, a 5-colour Task overview bar (Done on time no-issues / Done on time issues-logged / Done early-late no-issues / Done early-late issues-logged / Not done), and a 4-colour Incidents bar (Resolved/Unresolved/Escalated/Urgent), both click-to-drill-down. Executive level also needs a Region dropdown (not in the mockup).
