@@ -1564,3 +1564,15 @@ Config-only wiring done: `google-services.json` placed and verified against the 
 
 Deliberately not done yet: device token registration, and the actual server-side send logic (needs a Firebase service account key plus a decision on which events trigger a push). See BACKEND_INFRA.md's matching entry for full detail.
 Files: `android/app/build.gradle.kts`, `android/settings.gradle.kts`, `android/app/google-services.json`, `lib/main.dart`, `pubspec.yaml`.
+
+## Realtime push: which events, device-token registration, and a Windows build regression (2026-09-16)
+**Push-vs-end-of-shift split, confirmed with the user**: push immediately for an Accident/Incident raised, an issue escalated to you specifically, or a damaged-stock Supply Problem — everything else (task FAILs, Not Completed, ordinary Complaints, other/venue issues) batches into an end-of-shift summary instead. Reasoning discussed and agreed: push is for "can't wait until the app is next checked," not routine activity.
+
+Built the device-token half: `users.fcm_token` (schema), `PushTokenService` registering the current device via one choke point in `app.dart` (any login path), Android-only, fire-and-forget.
+
+**Found and fixed a real regression via a full two-platform build proof**: adding the Firebase packages broke `flutter build windows` outright (their vendored C++ SDK's CMakeLists.txt is incompatible with CMake 4+, unrelated to whether the Dart code actually calls Firebase on that platform). Fixed in `windows/CMakeLists.txt`; both `flutter build apk --debug` and `flutter build windows --debug` now produce real, working builds again.
+
+**Also noticed, deliberately deferred**: the Windows build still carries the same "never renamed from the Flutter scaffold default" issue as the Android package name did (`windows/CMakeLists.txt`'s project name and `BINARY_NAME` are still `flutter_application_1`) — not fixed in this pass since it touches more files (the runner project, resource files) and deserves its own careful pass rather than a rushed bundle-in.
+
+Still not built: the actual server-side send logic — needs a Firebase service account key (the user will need to generate this in the Firebase console; it's a real secret, never committed to git) and a new `send-push` Edge Function.
+Files: `lib/core/storage/app_database.dart`, `lib/shared/models/user.dart`, `lib/shared/repositories/user_repository.dart`, `lib/shared/repositories/supabase_user_repository.dart`, `lib/core/services/push_token_service.dart`, `lib/app/app.dart`, `windows/CMakeLists.txt`.
