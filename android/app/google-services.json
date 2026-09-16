@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "597966732790",
+    "project_id": "venurite-a6f64",
+    "storage_bucket": "venurite-a6f64.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597966732790:android:7eb3d5b89d4e5590055bd7",
+        "android_client_info": {
+          "package_name": "com.venurite.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUCDm4RQJDSvimzZbATJxax_Cyvj9ClOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

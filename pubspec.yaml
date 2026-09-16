@@ -87,6 +87,15 @@ dependencies:
   # mailto:. Was already a transitive dependency; promoted to direct so
   # it can be imported.
   url_launcher: ^6.3.2
+  # Realtime push to a manager's phone (2026-09-16) -- Firebase project
+  # "venurite-a6f64" (Spark/free plan, no cost for FCM). firebase_core
+  # initializes the app; firebase_messaging registers this device for
+  # push and receives incoming messages. Android only for now (the
+  # Firebase app just registered is Android; iOS/web registration and
+  # the server-side "who gets pushed for which event" logic are a
+  # separate follow-up, not part of this wiring step).
+  firebase_core: ^3.8.0
+  firebase_messaging: ^15.1.6
 
 dev_dependencies:
   flutter_test:
