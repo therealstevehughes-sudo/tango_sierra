@@ -1618,6 +1618,24 @@ No schema changes — uses Supabase's own native TOTP MFA (`auth.mfa.*` on the G
 
 **Login-time challenge** (`senior_login_screen.dart`): after `signInWithPassword` succeeds, `auth.mfa.getAuthenticatorAssuranceLevel()` is checked — if `nextLevel` (aal2, because a verified factor exists) differs from `currentLevel` (still aal1, this specific session hasn't cleared MFA yet), the sign-in pauses on a new "enter your 6-digit code" step before finishing. An account with no verified factor has `nextLevel == currentLevel` and skips straight through, byte-for-byte the same flow as before this feature existed.
 
+## Realtime push to a manager's phone — Firebase wiring started (2026-09-16)
+
+Roadmap v1.1 item, the one thing on the "Queued, no blocker" list that actually had a real blocker (an external Firebase/FCM project). User created one (project id `venurite-a6f64`, Spark/free plan — confirmed no cost for FCM at this scale) and registered an Android app under package `com.venurite.app`.
+
+**Found and fixed along the way**: the Android app was still shipping under the Flutter scaffold's default package name (`com.example.flutter_application_1`), never renamed since the project was created. Renamed to `com.venurite.app` across `android/app/build.gradle.kts` (namespace + applicationId) and the `MainActivity.kt` package/folder, before registering with Firebase (so the registration didn't have to be redone against a mismatched package).
+
+**Wired so far** (config-only, no send logic yet):
+- `android/app/google-services.json` — the real config downloaded from the Firebase console, verified to carry `com.venurite.app` before being placed.
+- `com.google.gms.google-services` Gradle plugin declared in `android/settings.gradle.kts` and applied in `android/app/build.gradle.kts`.
+- `firebase_core` + `firebase_messaging` added to `pubspec.yaml`.
+- `Firebase.initializeApp()` added to `main.dart`, gated to Android only — Windows (this app's primary desktop target) has no Firebase app registered at all yet, so it's skipped outright rather than calling init and catching the guaranteed failure (same "don't block startup" shape as the existing Supabase try/catch).
+
+**Not yet done, deliberately** — this was config wiring only, not the feature:
+- A real Android build proof — the local machine's cached NDK (`28.2.13676358`) was corrupted; deleting it to force a re-download was interrupted by the machine sleeping mid-download and needs a retry.
+- Device token registration (saving each manager's FCM token somewhere queryable, e.g. a column on `users`).
+- The actual server-side "who gets pushed for which event" sending logic — needs a Firebase service account key (a real secret, unlike `google-services.json`) used from a backend Edge Function, and a design decision on which events fire a push (new Issue raised? escalated? a FAIL?) before that gets built.
+- iOS/Web Firebase app registration — Android only for now, matching "manager's phone."
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.
