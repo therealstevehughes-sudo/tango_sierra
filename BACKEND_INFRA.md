@@ -1630,8 +1630,9 @@ Roadmap v1.1 item, the one thing on the "Queued, no blocker" list that actually 
 - `firebase_core` + `firebase_messaging` added to `pubspec.yaml`.
 - `Firebase.initializeApp()` added to `main.dart`, gated to Android only — Windows (this app's primary desktop target) has no Firebase app registered at all yet, so it's skipped outright rather than calling init and catching the guaranteed failure (same "don't block startup" shape as the existing Supabase try/catch).
 
+**Build proof (2026-09-16)**: `flutter build apk --debug` succeeded after the corrupted NDK cache was cleared and re-downloaded (a machine-state issue unrelated to Firebase — the NDK is actually required by `sqlite3_flutter_libs`, a transitive `drift` dependency, not by this feature; any Android build of this app needs it once). Produced a real ~178MB `app-debug.apk`. Only warnings, both pre-existing and unrelated to Firebase (a future-Flutter Kotlin-Gradle-Plugin deprecation notice from `camera_android_camerax`). `flutter analyze` stayed clean across the whole app.
+
 **Not yet done, deliberately** — this was config wiring only, not the feature:
-- A real Android build proof — the local machine's cached NDK (`28.2.13676358`) was corrupted; deleting it to force a re-download was interrupted by the machine sleeping mid-download and needs a retry.
 - Device token registration (saving each manager's FCM token somewhere queryable, e.g. a column on `users`).
 - The actual server-side "who gets pushed for which event" sending logic — needs a Firebase service account key (a real secret, unlike `google-services.json`) used from a backend Edge Function, and a design decision on which events fire a push (new Issue raised? escalated? a FAIL?) before that gets built.
 - iOS/Web Firebase app registration — Android only for now, matching "manager's phone."

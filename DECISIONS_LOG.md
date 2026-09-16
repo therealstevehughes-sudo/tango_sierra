@@ -1560,5 +1560,7 @@ The one "Queued, no blocker" item that turned out to have a real blocker — nee
 
 Config-only wiring done: `google-services.json` placed and verified against the right package, Gradle plugin applied, `firebase_core`/`firebase_messaging` added, `Firebase.initializeApp()` called in `main.dart` on Android only (Windows has no Firebase app registered).
 
-Deliberately not done yet: a real Android build proof (local NDK cache was corrupted; re-download got interrupted by the machine sleeping, needs a retry), device token registration, and the actual server-side send logic (needs a Firebase service account key plus a decision on which events trigger a push). See BACKEND_INFRA.md's matching entry for full detail.
+**Build proof PASSED 2026-09-16**: `flutter build apk --debug` succeeded after the corrupted NDK cache re-downloaded cleanly — real ~178MB APK produced, `flutter analyze` clean across the whole app.
+
+Deliberately not done yet: device token registration, and the actual server-side send logic (needs a Firebase service account key plus a decision on which events trigger a push). See BACKEND_INFRA.md's matching entry for full detail.
 Files: `android/app/build.gradle.kts`, `android/settings.gradle.kts`, `android/app/google-services.json`, `lib/main.dart`, `pubspec.yaml`.
