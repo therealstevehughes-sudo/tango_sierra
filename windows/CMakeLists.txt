@@ -2,6 +2,16 @@
 cmake_minimum_required(VERSION 3.14)
 project(flutter_application_1 LANGUAGES CXX)
 
+# Firebase's vendored C++ SDK (pulled in transitively via firebase_core/
+# firebase_messaging, added 2026-09-16 for Android push) ships a
+# CMakeLists.txt with a cmake_minimum_required() below 3.5 -- CMake 4+
+# removed compatibility with that outright. This project doesn't use
+# Firebase on Windows at all (main.dart gates Firebase.initializeApp() to
+# Android only), but the plugin's Windows build target still gets
+# configured regardless, so the policy floor has to be set here, before
+# that subdirectory is ever added, for the Windows build to keep working.
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
 set(BINARY_NAME "flutter_application_1")

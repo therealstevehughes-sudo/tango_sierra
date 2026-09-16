@@ -234,6 +234,18 @@ class SupabaseUserRepository implements UserRepository {
   }
 
   @override
+  Future<void> setFcmToken({
+    required int userId,
+    required String? token,
+  }) async {
+    await _client.update(
+      'users',
+      filter: 'id=eq.$userId',
+      body: {'fcm_token': token},
+    );
+  }
+
+  @override
   Future<void> setPreferredTemperatureUnit({
     required int userId,
     required TemperatureUnit unit,
@@ -265,5 +277,6 @@ class SupabaseUserRepository implements UserRepository {
     departmentId: row['department_id'] as int?,
     regionId: row['region_id'] as int?,
     reportsToUserId: row['reports_to_user_id'] as int?,
+    fcmToken: row['fcm_token'] as String?,
   );
 }

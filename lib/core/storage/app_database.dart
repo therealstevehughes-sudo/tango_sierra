@@ -254,6 +254,15 @@ class Users extends Table {
   // app doesn't need to police that.
   IntColumn get reportsToUserId =>
       integer().nullable().references(Users, #id)();
+  // Realtime push (2026-09-16) — this device's current FCM registration
+  // token, so the backend knows where to send a push for this person.
+  // Nullable: most rows predate this feature, and a local-Drift-only
+  // install (no backend configured) never has anywhere to send a push
+  // anyway. Overwritten whenever the token refreshes or a different
+  // device logs in as this person — deliberately "last device wins," not
+  // a list of devices; this app has no concept of a person having
+  // multiple registered devices to push to at once.
+  TextColumn get fcmToken => text().nullable()();
 }
 
 @DataClassName('EquipmentTypeEntity')
@@ -935,7 +944,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 44;
+  int get schemaVersion => 45;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1347,6 +1356,10 @@ class AppDatabase extends _$AppDatabase {
         // Document Centre (roadmap v1.1, 2026-09-15) -- policies, certs,
         // procedures, EHO reports, plus an expiry dashboard.
         await m.createTable(documents);
+      }
+      if (from < 45) {
+        // Realtime push (2026-09-16) -- this device's current FCM token.
+        await m.addColumn(users, users.fcmToken);
       }
     },
     beforeOpen: (details) async {

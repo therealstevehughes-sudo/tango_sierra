@@ -92,6 +92,11 @@ abstract class UserRepository {
     required int userId,
     required int? reportsToUserId,
   });
+  // Realtime push (2026-09-16) — records this device's current FCM
+  // token against the account, overwriting whatever was there ("last
+  // device wins" — see User.fcmToken's own doc comment). Called after
+  // login and whenever the token refreshes.
+  Future<void> setFcmToken({required int userId, required String? token});
   // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — a
   // self-serve personal preference, not an admin action on someone else.
   // Display-only: canonical storage (Celsius) is never touched, conversion
@@ -323,6 +328,16 @@ class DriftUserRepository implements UserRepository {
   }
 
   @override
+  Future<void> setFcmToken({
+    required int userId,
+    required String? token,
+  }) async {
+    await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+      UsersCompanion(fcmToken: Value(token)),
+    );
+  }
+
+  @override
   Future<void> setPreferredTemperatureUnit({
     required int userId,
     required TemperatureUnit unit,
@@ -349,6 +364,7 @@ class DriftUserRepository implements UserRepository {
       departmentId: row.departmentId,
       regionId: row.regionId,
       reportsToUserId: row.reportsToUserId,
+      fcmToken: row.fcmToken,
     );
   }
 }

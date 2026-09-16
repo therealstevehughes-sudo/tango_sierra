@@ -1033,6 +1033,17 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
       'REFERENCES users (id)',
     ),
   );
+  static const VerificationMeta _fcmTokenMeta = const VerificationMeta(
+    'fcmToken',
+  );
+  @override
+  late final GeneratedColumn<String> fcmToken = GeneratedColumn<String>(
+    'fcm_token',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1051,6 +1062,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     supabaseUserId,
     regionId,
     reportsToUserId,
+    fcmToken,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1185,6 +1197,12 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         ),
       );
     }
+    if (data.containsKey('fcm_token')) {
+      context.handle(
+        _fcmTokenMeta,
+        fcmToken.isAcceptableOrUnknown(data['fcm_token']!, _fcmTokenMeta),
+      );
+    }
     return context;
   }
 
@@ -1258,6 +1276,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}reports_to_user_id'],
       ),
+      fcmToken: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}fcm_token'],
+      ),
     );
   }
 
@@ -1284,6 +1306,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final String? supabaseUserId;
   final int? regionId;
   final int? reportsToUserId;
+  final String? fcmToken;
   const UserEntity({
     required this.id,
     required this.name,
@@ -1301,6 +1324,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     this.supabaseUserId,
     this.regionId,
     this.reportsToUserId,
+    this.fcmToken,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1339,6 +1363,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     if (!nullToAbsent || reportsToUserId != null) {
       map['reports_to_user_id'] = Variable<int>(reportsToUserId);
     }
+    if (!nullToAbsent || fcmToken != null) {
+      map['fcm_token'] = Variable<String>(fcmToken);
+    }
     return map;
   }
 
@@ -1376,6 +1403,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       reportsToUserId: reportsToUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(reportsToUserId),
+      fcmToken: fcmToken == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fcmToken),
     );
   }
 
@@ -1405,6 +1435,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       supabaseUserId: serializer.fromJson<String?>(json['supabaseUserId']),
       regionId: serializer.fromJson<int?>(json['regionId']),
       reportsToUserId: serializer.fromJson<int?>(json['reportsToUserId']),
+      fcmToken: serializer.fromJson<String?>(json['fcmToken']),
     );
   }
   @override
@@ -1429,6 +1460,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'supabaseUserId': serializer.toJson<String?>(supabaseUserId),
       'regionId': serializer.toJson<int?>(regionId),
       'reportsToUserId': serializer.toJson<int?>(reportsToUserId),
+      'fcmToken': serializer.toJson<String?>(fcmToken),
     };
   }
 
@@ -1449,6 +1481,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     Value<String?> supabaseUserId = const Value.absent(),
     Value<int?> regionId = const Value.absent(),
     Value<int?> reportsToUserId = const Value.absent(),
+    Value<String?> fcmToken = const Value.absent(),
   }) => UserEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -1475,6 +1508,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     reportsToUserId: reportsToUserId.present
         ? reportsToUserId.value
         : this.reportsToUserId,
+    fcmToken: fcmToken.present ? fcmToken.value : this.fcmToken,
   );
   UserEntity copyWithCompanion(UsersCompanion data) {
     return UserEntity(
@@ -1506,6 +1540,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       reportsToUserId: data.reportsToUserId.present
           ? data.reportsToUserId.value
           : this.reportsToUserId,
+      fcmToken: data.fcmToken.present ? data.fcmToken.value : this.fcmToken,
     );
   }
 
@@ -1527,7 +1562,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('departmentId: $departmentId, ')
           ..write('supabaseUserId: $supabaseUserId, ')
           ..write('regionId: $regionId, ')
-          ..write('reportsToUserId: $reportsToUserId')
+          ..write('reportsToUserId: $reportsToUserId, ')
+          ..write('fcmToken: $fcmToken')
           ..write(')'))
         .toString();
   }
@@ -1550,6 +1586,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     supabaseUserId,
     regionId,
     reportsToUserId,
+    fcmToken,
   );
   @override
   bool operator ==(Object other) =>
@@ -1570,7 +1607,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.departmentId == this.departmentId &&
           other.supabaseUserId == this.supabaseUserId &&
           other.regionId == this.regionId &&
-          other.reportsToUserId == this.reportsToUserId);
+          other.reportsToUserId == this.reportsToUserId &&
+          other.fcmToken == this.fcmToken);
 }
 
 class UsersCompanion extends UpdateCompanion<UserEntity> {
@@ -1590,6 +1628,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   final Value<String?> supabaseUserId;
   final Value<int?> regionId;
   final Value<int?> reportsToUserId;
+  final Value<String?> fcmToken;
   const UsersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -1607,6 +1646,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.supabaseUserId = const Value.absent(),
     this.regionId = const Value.absent(),
     this.reportsToUserId = const Value.absent(),
+    this.fcmToken = const Value.absent(),
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
@@ -1625,6 +1665,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.supabaseUserId = const Value.absent(),
     this.regionId = const Value.absent(),
     this.reportsToUserId = const Value.absent(),
+    this.fcmToken = const Value.absent(),
   }) : name = Value(name),
        jobTitle = Value(jobTitle),
        roleTier = Value(roleTier),
@@ -1647,6 +1688,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Expression<String>? supabaseUserId,
     Expression<int>? regionId,
     Expression<int>? reportsToUserId,
+    Expression<String>? fcmToken,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1667,6 +1709,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       if (supabaseUserId != null) 'supabase_user_id': supabaseUserId,
       if (regionId != null) 'region_id': regionId,
       if (reportsToUserId != null) 'reports_to_user_id': reportsToUserId,
+      if (fcmToken != null) 'fcm_token': fcmToken,
     });
   }
 
@@ -1687,6 +1730,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Value<String?>? supabaseUserId,
     Value<int?>? regionId,
     Value<int?>? reportsToUserId,
+    Value<String?>? fcmToken,
   }) {
     return UsersCompanion(
       id: id ?? this.id,
@@ -1706,6 +1750,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       supabaseUserId: supabaseUserId ?? this.supabaseUserId,
       regionId: regionId ?? this.regionId,
       reportsToUserId: reportsToUserId ?? this.reportsToUserId,
+      fcmToken: fcmToken ?? this.fcmToken,
     );
   }
 
@@ -1762,6 +1807,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     if (reportsToUserId.present) {
       map['reports_to_user_id'] = Variable<int>(reportsToUserId.value);
     }
+    if (fcmToken.present) {
+      map['fcm_token'] = Variable<String>(fcmToken.value);
+    }
     return map;
   }
 
@@ -1783,7 +1831,8 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('departmentId: $departmentId, ')
           ..write('supabaseUserId: $supabaseUserId, ')
           ..write('regionId: $regionId, ')
-          ..write('reportsToUserId: $reportsToUserId')
+          ..write('reportsToUserId: $reportsToUserId, ')
+          ..write('fcmToken: $fcmToken')
           ..write(')'))
         .toString();
   }
@@ -20963,6 +21012,7 @@ typedef $$UsersTableCreateCompanionBuilder =
       Value<String?> supabaseUserId,
       Value<int?> regionId,
       Value<int?> reportsToUserId,
+      Value<String?> fcmToken,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
     UsersCompanion Function({
@@ -20982,6 +21032,7 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<String?> supabaseUserId,
       Value<int?> regionId,
       Value<int?> reportsToUserId,
+      Value<String?> fcmToken,
     });
 
 final class $$UsersTableReferences
@@ -21381,6 +21432,11 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
 
   ColumnFilters<String> get supabaseUserId => $composableBuilder(
     column: $table.supabaseUserId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get fcmToken => $composableBuilder(
+    column: $table.fcmToken,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -21850,6 +21906,11 @@ class $$UsersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get fcmToken => $composableBuilder(
+    column: $table.fcmToken,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$UsersTableOrderingComposer get deactivatedByUserId {
     final $$UsersTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -21993,6 +22054,9 @@ class $$UsersTableAnnotationComposer
     column: $table.supabaseUserId,
     builder: (column) => column,
   );
+
+  GeneratedColumn<String> get fcmToken =>
+      $composableBuilder(column: $table.fcmToken, builder: (column) => column);
 
   $$UsersTableAnnotationComposer get deactivatedByUserId {
     final $$UsersTableAnnotationComposer composer = $composerBuilder(
@@ -22457,6 +22521,7 @@ class $$UsersTableTableManager
                 Value<String?> supabaseUserId = const Value.absent(),
                 Value<int?> regionId = const Value.absent(),
                 Value<int?> reportsToUserId = const Value.absent(),
+                Value<String?> fcmToken = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
                 name: name,
@@ -22474,6 +22539,7 @@ class $$UsersTableTableManager
                 supabaseUserId: supabaseUserId,
                 regionId: regionId,
                 reportsToUserId: reportsToUserId,
+                fcmToken: fcmToken,
               ),
           createCompanionCallback:
               ({
@@ -22493,6 +22559,7 @@ class $$UsersTableTableManager
                 Value<String?> supabaseUserId = const Value.absent(),
                 Value<int?> regionId = const Value.absent(),
                 Value<int?> reportsToUserId = const Value.absent(),
+                Value<String?> fcmToken = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
                 name: name,
@@ -22510,6 +22577,7 @@ class $$UsersTableTableManager
                 supabaseUserId: supabaseUserId,
                 regionId: regionId,
                 reportsToUserId: reportsToUserId,
+                fcmToken: fcmToken,
               ),
           withReferenceMapper: (p0) => p0
               .map(

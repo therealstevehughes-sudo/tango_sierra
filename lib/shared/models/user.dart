@@ -72,6 +72,11 @@ class User {
   // — unassigned until a manager sets it via Staff Management; the branch
   // organogram and issue escalation both treat null as "unassigned."
   final int? reportsToUserId;
+  // Realtime push (2026-09-16) — this device's current FCM token, so the
+  // backend knows where to send a push for this person. Nullable — most
+  // rows predate this feature, and a local-only install has nowhere to
+  // send a push anyway. "Last device wins," not a device list.
+  final String? fcmToken;
 
   const User({
     required this.id,
@@ -87,6 +92,7 @@ class User {
     this.departmentId,
     this.regionId,
     this.reportsToUserId,
+    this.fcmToken,
   });
 
   // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — needed
@@ -108,6 +114,7 @@ class User {
       departmentId: departmentId,
       regionId: regionId,
       reportsToUserId: reportsToUserId,
+      fcmToken: fcmToken,
     );
   }
 }
