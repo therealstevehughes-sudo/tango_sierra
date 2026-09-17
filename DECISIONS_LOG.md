@@ -1686,3 +1686,13 @@ Confirms `repository.raise()` against a foreign site throws a real `BackendReque
 
 **Gap closed.** Issues & Incidents is now proven to the same standard as every other backend cluster in this project — nothing further pending on this feature.
 Files: `integration_test/issues_incidents_cross_tenant_test.dart` (new).
+
+## Leadership Dashboard: click-to-drill-down (built 2026-09-17)
+Noticed live while the user was viewing the running app: the original `Visual idea.pdf` mockup said "Click on colour band for detailed breakdown" under both bars, but that was never actually wired up when the dashboard was built 2026-09-15. Fixed: both bar segments and their legend entries now open a bottom sheet listing the real underlying rows for that category — no new queries, `TaskOverviewBreakdown`/`IncidentsBreakdown` just keep the matching rows they were already computing counts from, instead of discarding them.
+Files: `lib/features/dashboard/leadership_dashboard_service.dart`, `lib/features/dashboard/leadership_dashboard_screen.dart`.
+
+## Fix: "Invite Regional Manager" used the wrong mechanism entirely (2026-09-17)
+User asked for a simple relabel ("Assign" not "Invite," Director should take the action). Investigating surfaced a real, previously-unnoticed bug: the button called `createInvite`/`create-invite` — the token-based "join existing company" flow (Sprint 034) where the invitee redeems the code themselves, on their own device, later. The CORRECT direct-creation function for this (`inviteSenior`/`invite-senior`, built in Phase C1c, creates the GoTrue account immediately and returns a temporary password for the Director to relay right now) already existed and was fully proven at the time — it just had no UI call site anywhere in the app.
+
+Renamed "Invite Regional Manager"/"Invite Replacement Manager" → "Assign Regional Manager"/"Reassign Regional Manager" and rewired the action: collects name+email in a small dialog, calls `inviteSenior`, shows the resulting temporary password — mirroring `_resetPassword`'s existing dialog pattern in the same file. Verified: `flutter analyze` clean, all 17 tests passing.
+Files: `lib/features/regions/organisation_tree_screen.dart`.
