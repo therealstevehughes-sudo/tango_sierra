@@ -140,12 +140,26 @@ class LeadershipDashboardService {
     required DateTime start,
     required DateTime end,
     int? areaId,
+    // Employee drill-down (2026-09-17) — confirmed with the user this is
+    // the one case the governing anti-gaming rule's own guideline
+    // refinement allows: a single named person's bar, reached only by
+    // deliberately selecting them, framed as "who needs help," never a
+    // side-by-side ranking of several employees. Filters the SAME rows
+    // this method already computes from; not a new query shape, not a
+    // separate leaderboard-style view.
+    int? employeeId,
   }) async {
     var submissions = await _submissionRepository.getForSiteAndDateRange(
       siteId: siteId,
       start: start,
       end: end,
     );
+
+    if (employeeId != null) {
+      submissions = submissions
+          .where((s) => s.completedByUserId == employeeId)
+          .toList();
+    }
 
     if (areaId != null) {
       // Section filter: only reachable for submissions tied to a piece of
@@ -206,10 +220,14 @@ class LeadershipDashboardService {
     required int siteId,
     required DateTime start,
     required DateTime end,
+    int? employeeId,
   }) async {
     final issues = await _issueRepository.getForSite(siteId);
     final inRange = issues.where(
-      (i) => !i.raisedAt.isBefore(start) && i.raisedAt.isBefore(end),
+      (i) =>
+          !i.raisedAt.isBefore(start) &&
+          i.raisedAt.isBefore(end) &&
+          (employeeId == null || i.raisedByUserId == employeeId),
     );
 
     final resolved = <Issue>[];

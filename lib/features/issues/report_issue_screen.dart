@@ -39,6 +39,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
   IssueType? _type;
   String? _subtype;
   bool _submitting = false;
+  bool _manualUrgent = false;
 
   // Supply Problem-only fields.
   List<Supplier> _suppliers = [];
@@ -96,6 +97,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
         supplierId: _supplierId,
         deliveryProblemType: _deliveryProblemType,
         receivedByUserId: _receivedByUserId,
+        manualUrgent: _manualUrgent,
       );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
@@ -256,7 +258,24 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                       maxLines: 4,
                       onChanged: (_) => setState(() {}),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 4),
+                    // Manual urgency override (2026-09-17) — additive only:
+                    // ticking this always shows the issue as urgent
+                    // regardless of age, but leaving it unticked never
+                    // suppresses the automatic time-based urgency grading
+                    // the register applies later.
+                    CheckboxListTile(
+                      value: _manualUrgent,
+                      onChanged: (v) =>
+                          setState(() => _manualUrgent = v ?? false),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text('Mark as urgent'),
+                      subtitle: const Text(
+                        'Needs attention right away, regardless of how long it sits unresolved',
+                      ),
+                    ),
+                    const SizedBox(height: 8),
                     ElevatedButton(
                       onPressed: _submitting || !_canSubmit ? null : _submit,
                       child: _submitting

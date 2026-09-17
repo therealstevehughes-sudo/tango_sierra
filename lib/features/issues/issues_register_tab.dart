@@ -5,10 +5,10 @@ import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../core/widgets/urgency.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/models/user.dart';
-import '../../shared/providers/auth_providers.dart'
-    show userRepositoryProvider;
+import '../../shared/providers/auth_providers.dart' show userRepositoryProvider;
 import '../../shared/providers/issue_providers.dart';
 import '../../shared/repositories/issue_repository.dart';
 import 'issue_detail_screen.dart';
@@ -52,7 +52,9 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
     setState(() => _loading = true);
     final siteId = widget.currentUser.siteId!;
     final results = await Future.wait([
-      ref.read(issueRepositoryProvider).getForSite(siteId, filter: _statusFilter),
+      ref
+          .read(issueRepositoryProvider)
+          .getForSite(siteId, filter: _statusFilter),
       ref.read(userRepositoryProvider).getForSite(siteId),
     ]);
     if (!mounted) return;
@@ -164,7 +166,10 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                       isDense: true,
                     ),
                     items: [
-                      const DropdownMenuItem(value: null, child: Text('Any type')),
+                      const DropdownMenuItem(
+                        value: null,
+                        child: Text('Any type'),
+                      ),
                       ...IssueType.values.map(
                         (t) => DropdownMenuItem(
                           value: t,
@@ -254,52 +259,75 @@ class _IssueTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final urgency = computeUrgency(
+      since: issue.raisedAt,
+      escalated: issue.status == IssueStatus.escalated,
+      manualUrgent: issue.manualUrgent,
+    );
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
-      child: AppCard(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    issue.subtype != null
-                        ? '${issueTypeDisplayName(issue.type)} · ${issue.subtype}'
-                        : issueTypeDisplayName(issue.type),
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    issue.details,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    formatDateTime(issue.raisedAt),
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  if (escalatedToName != null) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      'Escalated to $escalatedToName',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+      child: UrgencyStripe(
+        level: urgency,
+        child: AppCard(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            issue.subtype != null
+                                ? '${issueTypeDisplayName(issue.type)} · ${issue.subtype}'
+                                : issueTypeDisplayName(issue.type),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.bodyLarge
+                                ?.copyWith(fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        if (urgency == UrgencyLevel.high) ...[
+                          const SizedBox(width: 6),
+                          UrgencyChip(level: urgency),
+                        ],
+                      ],
                     ),
+                    const SizedBox(height: 4),
+                    Text(
+                      issue.details,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      formatDateTime(issue.raisedAt),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    if (escalatedToName != null) ...[
+                      const SizedBox(height: 2),
+                      Text(
+                        'Escalated to $escalatedToName',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
-            const SizedBox(width: 8),
-            _StatusPill(status: issue.status),
-          ],
+              const SizedBox(width: 8),
+              _StatusPill(status: issue.status),
+            ],
+          ),
         ),
       ),
     );
@@ -320,7 +348,10 @@ class _StatusPill extends StatelessWidget {
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(999),
+      ),
       child: Text(
         issueStatusDisplayName(status),
         style: Theme.of(

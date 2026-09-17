@@ -165,6 +165,14 @@ class Issues extends Table {
   // issue is actually escalated.
   IntColumn get escalatedToUserId =>
       integer().nullable().references(Users, #id)();
+  // Manual urgency override (2026-09-17) — the reporter/supervisor can flag
+  // an issue urgent at raise time (e.g. a hazard that's dangerous now, not
+  // just old). Only ever ADDS urgency on top of the automatic time-based
+  // grading in the UI layer; there is deliberately no way to mark an issue
+  // down from urgent, matching the same anti-gaming rule as everywhere
+  // else in this table.
+  BoolColumn get manualUrgent =>
+      boolean().withDefault(const Constant(false))();
 }
 
 // The Details -> Process -> Outcome lifecycle, as an append-only event
@@ -944,7 +952,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 45;
+  int get schemaVersion => 46;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1360,6 +1368,11 @@ class AppDatabase extends _$AppDatabase {
       if (from < 45) {
         // Realtime push (2026-09-16) -- this device's current FCM token.
         await m.addColumn(users, users.fcmToken);
+      }
+      if (from < 46) {
+        // Urgency colour-coding (2026-09-17) -- manual override flag,
+        // additive only to the automatic time-based grading.
+        await m.addColumn(issues, issues.manualUrgent);
       }
     },
     beforeOpen: (details) async {

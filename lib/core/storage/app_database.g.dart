@@ -18465,6 +18465,21 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
       'REFERENCES users (id)',
     ),
   );
+  static const VerificationMeta _manualUrgentMeta = const VerificationMeta(
+    'manualUrgent',
+  );
+  @override
+  late final GeneratedColumn<bool> manualUrgent = GeneratedColumn<bool>(
+    'manual_urgent',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("manual_urgent" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -18479,6 +18494,7 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
     deliveryProblemType,
     receivedByUserId,
     escalatedToUserId,
+    manualUrgent,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -18583,6 +18599,15 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
         ),
       );
     }
+    if (data.containsKey('manual_urgent')) {
+      context.handle(
+        _manualUrgentMeta,
+        manualUrgent.isAcceptableOrUnknown(
+          data['manual_urgent']!,
+          _manualUrgentMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -18640,6 +18665,10 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}escalated_to_user_id'],
       ),
+      manualUrgent: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}manual_urgent'],
+      )!,
     );
   }
 
@@ -18662,6 +18691,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
   final String? deliveryProblemType;
   final int? receivedByUserId;
   final int? escalatedToUserId;
+  final bool manualUrgent;
   const IssueEntity({
     required this.id,
     required this.siteId,
@@ -18675,6 +18705,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     this.deliveryProblemType,
     this.receivedByUserId,
     this.escalatedToUserId,
+    required this.manualUrgent,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -18701,6 +18732,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     if (!nullToAbsent || escalatedToUserId != null) {
       map['escalated_to_user_id'] = Variable<int>(escalatedToUserId);
     }
+    map['manual_urgent'] = Variable<bool>(manualUrgent);
     return map;
   }
 
@@ -18728,6 +18760,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       escalatedToUserId: escalatedToUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(escalatedToUserId),
+      manualUrgent: Value(manualUrgent),
     );
   }
 
@@ -18751,6 +18784,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       ),
       receivedByUserId: serializer.fromJson<int?>(json['receivedByUserId']),
       escalatedToUserId: serializer.fromJson<int?>(json['escalatedToUserId']),
+      manualUrgent: serializer.fromJson<bool>(json['manualUrgent']),
     );
   }
   @override
@@ -18769,6 +18803,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       'deliveryProblemType': serializer.toJson<String?>(deliveryProblemType),
       'receivedByUserId': serializer.toJson<int?>(receivedByUserId),
       'escalatedToUserId': serializer.toJson<int?>(escalatedToUserId),
+      'manualUrgent': serializer.toJson<bool>(manualUrgent),
     };
   }
 
@@ -18785,6 +18820,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     Value<String?> deliveryProblemType = const Value.absent(),
     Value<int?> receivedByUserId = const Value.absent(),
     Value<int?> escalatedToUserId = const Value.absent(),
+    bool? manualUrgent,
   }) => IssueEntity(
     id: id ?? this.id,
     siteId: siteId ?? this.siteId,
@@ -18804,6 +18840,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     escalatedToUserId: escalatedToUserId.present
         ? escalatedToUserId.value
         : this.escalatedToUserId,
+    manualUrgent: manualUrgent ?? this.manualUrgent,
   );
   IssueEntity copyWithCompanion(IssuesCompanion data) {
     return IssueEntity(
@@ -18829,6 +18866,9 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       escalatedToUserId: data.escalatedToUserId.present
           ? data.escalatedToUserId.value
           : this.escalatedToUserId,
+      manualUrgent: data.manualUrgent.present
+          ? data.manualUrgent.value
+          : this.manualUrgent,
     );
   }
 
@@ -18846,7 +18886,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
           ..write('supplierId: $supplierId, ')
           ..write('deliveryProblemType: $deliveryProblemType, ')
           ..write('receivedByUserId: $receivedByUserId, ')
-          ..write('escalatedToUserId: $escalatedToUserId')
+          ..write('escalatedToUserId: $escalatedToUserId, ')
+          ..write('manualUrgent: $manualUrgent')
           ..write(')'))
         .toString();
   }
@@ -18865,6 +18906,7 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     deliveryProblemType,
     receivedByUserId,
     escalatedToUserId,
+    manualUrgent,
   );
   @override
   bool operator ==(Object other) =>
@@ -18881,7 +18923,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
           other.supplierId == this.supplierId &&
           other.deliveryProblemType == this.deliveryProblemType &&
           other.receivedByUserId == this.receivedByUserId &&
-          other.escalatedToUserId == this.escalatedToUserId);
+          other.escalatedToUserId == this.escalatedToUserId &&
+          other.manualUrgent == this.manualUrgent);
 }
 
 class IssuesCompanion extends UpdateCompanion<IssueEntity> {
@@ -18897,6 +18940,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
   final Value<String?> deliveryProblemType;
   final Value<int?> receivedByUserId;
   final Value<int?> escalatedToUserId;
+  final Value<bool> manualUrgent;
   const IssuesCompanion({
     this.id = const Value.absent(),
     this.siteId = const Value.absent(),
@@ -18910,6 +18954,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     this.deliveryProblemType = const Value.absent(),
     this.receivedByUserId = const Value.absent(),
     this.escalatedToUserId = const Value.absent(),
+    this.manualUrgent = const Value.absent(),
   });
   IssuesCompanion.insert({
     this.id = const Value.absent(),
@@ -18924,6 +18969,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     this.deliveryProblemType = const Value.absent(),
     this.receivedByUserId = const Value.absent(),
     this.escalatedToUserId = const Value.absent(),
+    this.manualUrgent = const Value.absent(),
   }) : siteId = Value(siteId),
        type = Value(type),
        details = Value(details),
@@ -18942,6 +18988,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     Expression<String>? deliveryProblemType,
     Expression<int>? receivedByUserId,
     Expression<int>? escalatedToUserId,
+    Expression<bool>? manualUrgent,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -18957,6 +19004,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
         'delivery_problem_type': deliveryProblemType,
       if (receivedByUserId != null) 'received_by_user_id': receivedByUserId,
       if (escalatedToUserId != null) 'escalated_to_user_id': escalatedToUserId,
+      if (manualUrgent != null) 'manual_urgent': manualUrgent,
     });
   }
 
@@ -18973,6 +19021,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     Value<String?>? deliveryProblemType,
     Value<int?>? receivedByUserId,
     Value<int?>? escalatedToUserId,
+    Value<bool>? manualUrgent,
   }) {
     return IssuesCompanion(
       id: id ?? this.id,
@@ -18987,6 +19036,7 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
       deliveryProblemType: deliveryProblemType ?? this.deliveryProblemType,
       receivedByUserId: receivedByUserId ?? this.receivedByUserId,
       escalatedToUserId: escalatedToUserId ?? this.escalatedToUserId,
+      manualUrgent: manualUrgent ?? this.manualUrgent,
     );
   }
 
@@ -19031,6 +19081,9 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     if (escalatedToUserId.present) {
       map['escalated_to_user_id'] = Variable<int>(escalatedToUserId.value);
     }
+    if (manualUrgent.present) {
+      map['manual_urgent'] = Variable<bool>(manualUrgent.value);
+    }
     return map;
   }
 
@@ -19048,7 +19101,8 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
           ..write('supplierId: $supplierId, ')
           ..write('deliveryProblemType: $deliveryProblemType, ')
           ..write('receivedByUserId: $receivedByUserId, ')
-          ..write('escalatedToUserId: $escalatedToUserId')
+          ..write('escalatedToUserId: $escalatedToUserId, ')
+          ..write('manualUrgent: $manualUrgent')
           ..write(')'))
         .toString();
   }
@@ -40948,6 +41002,7 @@ typedef $$IssuesTableCreateCompanionBuilder =
       Value<String?> deliveryProblemType,
       Value<int?> receivedByUserId,
       Value<int?> escalatedToUserId,
+      Value<bool> manualUrgent,
     });
 typedef $$IssuesTableUpdateCompanionBuilder =
     IssuesCompanion Function({
@@ -40963,6 +41018,7 @@ typedef $$IssuesTableUpdateCompanionBuilder =
       Value<String?> deliveryProblemType,
       Value<int?> receivedByUserId,
       Value<int?> escalatedToUserId,
+      Value<bool> manualUrgent,
     });
 
 final class $$IssuesTableReferences
@@ -41114,6 +41170,11 @@ class $$IssuesTableFilterComposer
 
   ColumnFilters<String> get deliveryProblemType => $composableBuilder(
     column: $table.deliveryProblemType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get manualUrgent => $composableBuilder(
+    column: $table.manualUrgent,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -41302,6 +41363,11 @@ class $$IssuesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get manualUrgent => $composableBuilder(
+    column: $table.manualUrgent,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$SitesTableOrderingComposer get siteId {
     final $$SitesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -41447,6 +41513,11 @@ class $$IssuesTableAnnotationComposer
 
   GeneratedColumn<String> get deliveryProblemType => $composableBuilder(
     column: $table.deliveryProblemType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get manualUrgent => $composableBuilder(
+    column: $table.manualUrgent,
     builder: (column) => column,
   );
 
@@ -41638,6 +41709,7 @@ class $$IssuesTableTableManager
                 Value<String?> deliveryProblemType = const Value.absent(),
                 Value<int?> receivedByUserId = const Value.absent(),
                 Value<int?> escalatedToUserId = const Value.absent(),
+                Value<bool> manualUrgent = const Value.absent(),
               }) => IssuesCompanion(
                 id: id,
                 siteId: siteId,
@@ -41651,6 +41723,7 @@ class $$IssuesTableTableManager
                 deliveryProblemType: deliveryProblemType,
                 receivedByUserId: receivedByUserId,
                 escalatedToUserId: escalatedToUserId,
+                manualUrgent: manualUrgent,
               ),
           createCompanionCallback:
               ({
@@ -41666,6 +41739,7 @@ class $$IssuesTableTableManager
                 Value<String?> deliveryProblemType = const Value.absent(),
                 Value<int?> receivedByUserId = const Value.absent(),
                 Value<int?> escalatedToUserId = const Value.absent(),
+                Value<bool> manualUrgent = const Value.absent(),
               }) => IssuesCompanion.insert(
                 id: id,
                 siteId: siteId,
@@ -41679,6 +41753,7 @@ class $$IssuesTableTableManager
                 deliveryProblemType: deliveryProblemType,
                 receivedByUserId: receivedByUserId,
                 escalatedToUserId: escalatedToUserId,
+                manualUrgent: manualUrgent,
               ),
           withReferenceMapper: (p0) => p0
               .map(

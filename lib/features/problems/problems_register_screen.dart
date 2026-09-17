@@ -7,6 +7,7 @@ import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
+import '../../core/widgets/urgency.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/problem_register_providers.dart';
@@ -146,85 +147,119 @@ class _ProblemTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isResolved = submission.problemStatus == 'resolved';
     final repository = ref.read(problemRegisterRepositoryProvider);
+    // Urgency (2026-09-17): a Not Completed task is treated as urgent the
+    // moment it's flagged, not on the age clock — it's a compliance gap
+    // the instant it exists. Once resolved, staleness stops mattering.
+    final urgency = isResolved
+        ? UrgencyLevel.none
+        : computeUrgency(
+            since: submission.completedAt,
+            immediateUrgent: submission.status == 'NOT_COMPLETED',
+          );
 
-    return AppCard(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (submission.status == 'NOT_COMPLETED')
-            const StatusBadge(kind: StatusKind.overdue, label: 'Not Completed')
-          else
-            const StatusBadge(kind: StatusKind.critical, label: 'Fail'),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Instance-name prominence (2026-09-06): leads on its own
-                // bold line — this register exists precisely to make a
-                // problem unmissable, so "which fridge" can't be the part
-                // that's easy to skim past.
-                if (submission.equipmentInstanceName != null)
-                  Text(
-                    submission.equipmentInstanceName!,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.teal,
+    return UrgencyStripe(
+      level: urgency,
+      child: AppCard(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (submission.status == 'NOT_COMPLETED')
+              const StatusBadge(
+                kind: StatusKind.overdue,
+                label: 'Not Completed',
+              )
+            else
+              const StatusBadge(kind: StatusKind.critical, label: 'Fail'),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Instance-name prominence (2026-09-06): leads on its own
+                  // bold line — this register exists precisely to make a
+                  // problem unmissable, so "which fridge" can't be the part
+                  // that's easy to skim past.
+                  if (submission.equipmentInstanceName != null)
+                    Text(
+                      submission.equipmentInstanceName!,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.teal,
+                      ),
                     ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          submission.taskTitle,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      if (urgency == UrgencyLevel.high) ...[
+                        const SizedBox(width: 6),
+                        UrgencyChip(level: urgency),
+                      ],
+                    ],
                   ),
-                Text(
-                  submission.taskTitle,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  '${submission.completedBy} · '
-                  '${formatDateTime(submission.completedAt)}',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  _correctiveLabel,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                if (submission.correctiveActionNote != null) ...[
                   const SizedBox(height: 2),
                   Text(
-                    submission.correctiveActionNote!,
+                    '${submission.completedBy} · '
+                    '${formatDateTime(submission.completedAt)}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
+                  const SizedBox(height: 4),
+                  Text(
+                    _correctiveLabel,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  if (submission.correctiveActionNote != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      submission.correctiveActionNote!,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
                 ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                _ProblemStatusChip(resolved: isResolved),
+                const SizedBox(height: 8),
+                TextButton(
+                  onPressed: () async {
+                    if (submission.id == null) return;
+                    if (isResolved) {
+                      await repository.reopen(
+                        taskSubmissionId: submission.id!,
+                        byUserId: currentUserId,
+                      );
+                    } else {
+                      await repository.resolve(
+                        taskSubmissionId: submission.id!,
+                        byUserId: currentUserId,
+                      );
+                    }
+                  },
+                  child: Text(isResolved ? 'Reopen' : 'Mark Resolved'),
+                ),
               ],
             ),
-          ),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              _ProblemStatusChip(resolved: isResolved),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: () async {
-                  if (submission.id == null) return;
-                  if (isResolved) {
-                    await repository.reopen(
-                      taskSubmissionId: submission.id!,
-                      byUserId: currentUserId,
-                    );
-                  } else {
-                    await repository.resolve(
-                      taskSubmissionId: submission.id!,
-                      byUserId: currentUserId,
-                    );
-                  }
-                },
-                child: Text(isResolved ? 'Reopen' : 'Mark Resolved'),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

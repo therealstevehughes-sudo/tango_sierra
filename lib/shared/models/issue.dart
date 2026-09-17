@@ -34,6 +34,10 @@ class Issue {
   // automatically the raiser's own line manager (the issue may be about
   // that manager) -- see the Issues table's own doc comment.
   final int? escalatedToUserId;
+  // Manual urgency override (2026-09-17) -- set at raise time by the
+  // reporter/supervisor. Additive only: the UI's automatic time-based
+  // urgency grading never lets this take an issue DOWN from urgent.
+  final bool manualUrgent;
 
   const Issue({
     required this.id,
@@ -48,6 +52,7 @@ class Issue {
     this.deliveryProblemType,
     this.receivedByUserId,
     this.escalatedToUserId,
+    this.manualUrgent = false,
   });
 }
 
