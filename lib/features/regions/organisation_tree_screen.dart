@@ -12,7 +12,6 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
-import '../onboarding/invite_code_screen.dart';
 
 /// Phase C3 (2026-09-14, redesigned same day after live feedback) — the
 /// "interactive org-builder/organogram." First pass showed structure
@@ -30,9 +29,12 @@ import '../onboarding/invite_code_screen.dart';
 ///
 /// Reuses every existing piece, no duplicate logic: `regionRepository`/
 /// `siteRepository`/`userRepository`'s `getForOrganisation()` calls,
-/// `createInvite`/`InviteCodeScreen` (Sprint 034's token+QR flow), and
-/// `resetSeniorPassword` (already built for RegionManagementScreen) for
-/// resetting a regional manager's password directly from the tree.
+/// `inviteSenior` (direct account creation — fixed 2026-09-17 from a
+/// wrongly-wired `createInvite`/`InviteCodeScreen` redeemable-code flow,
+/// see `_assignRegionalManager`'s own doc comment) for assigning a
+/// regional manager, and `resetSeniorPassword` (already built for
+/// RegionManagementScreen) for resetting one's password directly from the
+/// tree.
 class OrganisationTreeScreen extends ConsumerStatefulWidget {
   const OrganisationTreeScreen({super.key});
 
@@ -154,17 +156,102 @@ class _OrganisationTreeScreenState
     await _load();
   }
 
-  Future<void> _inviteRegionalManager(Region region) async {
+  // Assign Regional Manager (2026-09-17, fixed from "Invite Regional
+  // Manager") — this used to call createInvite/redeem-invite, the
+  // token-based "join existing company" flow where the invitee creates
+  // their own account later on their own device. That's the wrong
+  // mechanism for a Director assigning a regional manager: the correct,
+  // already-built direct-creation path is inviteSenior/invite-senior,
+  // which creates the account immediately and hands back a temporary
+  // password for the Director to relay — the same "the Director takes
+  // the action now" pattern _resetPassword below already uses. That
+  // function existed and was fully proven but had no UI call site at all
+  // until this fix.
+  Future<void> _assignRegionalManager(Region region) async {
+    final orgId = _orgId;
+    if (orgId == null) return;
+
+    final nameController = TextEditingController();
+    final emailController = TextEditingController();
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Assign Regional Manager — ${region.name}'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Name'),
+              autofocus: true,
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(labelText: 'Email'),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Assign'),
+          ),
+        ],
+      ),
+    );
+    final name = nameController.text.trim();
+    final email = emailController.text.trim();
+    nameController.dispose();
+    emailController.dispose();
+    if (confirmed != true || name.isEmpty || email.isEmpty || !mounted) return;
+
     try {
-      final invite = await ref
+      final result = await ref
           .read(tenantProvisioningRepositoryProvider)
-          .createInvite(roleTier: 'regional', regionId: region.id);
+          .inviteSenior(
+            email: email,
+            name: name,
+            roleTier: 'regional',
+            organisationId: orgId,
+            regionId: region.id,
+          );
       if (!mounted) return;
-      await Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => InviteCodeScreen(invite: invite)),
+      await showDialog<void>(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Regional Manager assigned'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'The account is live now. Give $name their sign-in details '
+                '— they use Leadership Access.',
+              ),
+              const SizedBox(height: 16),
+              SelectableText('Email: ${result.email}'),
+              SelectableText(
+                'Temporary password: ${result.temporaryPassword}',
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Done'),
+            ),
+          ],
+        ),
       );
-    } on OrganisationInviteException catch (e) {
+      await _load();
+    } on SeniorInviteException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
@@ -410,7 +497,7 @@ class _OrganisationTreeScreenState
                     onSelected: (value) {
                       if (value == 'venue') _addVenue(regionId: region.id);
                       if (value == 'rename') _renameRegion(region);
-                      if (value == 'invite') _inviteRegionalManager(region);
+                      if (value == 'assign') _assignRegionalManager(region);
                     },
                     itemBuilder: (_) => [
                       const PopupMenuItem(
@@ -422,11 +509,11 @@ class _OrganisationTreeScreenState
                         child: Text('Rename Region'),
                       ),
                       PopupMenuItem(
-                        value: 'invite',
+                        value: 'assign',
                         child: Text(
                           manager == null
-                              ? 'Invite Regional Manager'
-                              : 'Invite Replacement Manager',
+                              ? 'Assign Regional Manager'
+                              : 'Reassign Regional Manager',
                         ),
                       ),
                     ],
