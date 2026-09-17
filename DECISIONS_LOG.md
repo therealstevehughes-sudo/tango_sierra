@@ -1576,3 +1576,15 @@ Built the device-token half: `users.fcm_token` (schema), `PushTokenService` regi
 
 Still not built: the actual server-side send logic — needs a Firebase service account key (the user will need to generate this in the Firebase console; it's a real secret, never committed to git) and a new `send-push` Edge Function.
 Files: `lib/core/storage/app_database.dart`, `lib/shared/models/user.dart`, `lib/shared/repositories/user_repository.dart`, `lib/shared/repositories/supabase_user_repository.dart`, `lib/core/services/push_token_service.dart`, `lib/app/app.dart`, `windows/CMakeLists.txt`.
+
+## Realtime push: server-side send logic BUILT and PROVEN LIVE (2026-09-17)
+Closes out the whole realtime-push feature. User generated the Firebase service account key and handed it over via the IDE selection panel — grabbed straight off disk, never echoed into chat, base64-encoded and stored server-side only (`.env` + `docker-compose.yml`'s `functions` service). New `send-push` Edge Function verifies the caller's own session and same-site targeting (a real gap noticed mid-build — the anon key is public, so an unauthenticated version would have let anyone push to anyone) before calling FCM's HTTP v1 API with a Google OAuth2 JWT-bearer token signed from the service account.
+
+**Real debugging along the way, worth remembering**: adding a var to `.env` isn't enough when a service's `docker-compose.yml` block explicitly whitelists which env vars it receives — had to add it there too. And `docker compose restart` does NOT reload new `.env` values into a running container; `up -d --force-recreate` does. Diagnosed by checking `printenv NAME | wc -c` (length only, never content) rather than guessing.
+
+**Proven live** with real calls (no mocks): bad apikey rejected, no-session rejected, a user with no device gets a clean no-op, and a throwaway token round-tripped through real RS256 signing + Google's OAuth2 token exchange + an authenticated FCM API call, coming back with FCM's own genuine "invalid registration token" error — the only thing untestable without a real phone is final delivery.
+
+Wired into `SupabaseIssueRepository`: Accident/Incident and damaged-stock Supply Problem push to every supervisor+ at the site; escalation pushes to the specific chosen target. Both fire-and-forget — never block the underlying issue write.
+
+Not yet built: the end-of-shift summary for everything that doesn't push immediately (task FAILs, Complaints, Venue/Other issues, non-damaged supply problems).
+Files: `send-push` Edge Function (server-only, not in this git repo — see BACKEND_INFRA.md), `lib/core/network/backend_rest_client.dart`, `lib/shared/repositories/supabase_issue_repository.dart`.
