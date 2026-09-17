@@ -1819,3 +1819,11 @@ Gap the user identified: "Log something that just happened" on `WorkerHubScreen`
 
 Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
 Files: `lib/features/tasks/ad_hoc_task_kind.dart` (new), `lib/features/tasks/ad_hoc_task_screen.dart` (new), `lib/features/tasks/delivery_detail_form.dart` (new), `lib/features/tasks/verified_threshold_judgment.dart` (new), `lib/features/tasks/task_model.dart`, `lib/features/tasks/task_screen.dart`, `lib/features/tasks/worker_hub_screen.dart`.
+
+## Login screen proportion fix (built 2026-09-17)
+User confirmed the warmth pass itself worked (greeting, staff cards, branding card all read as intentional) but flagged the proportions as backwards: the "Who are you?" + search card had grown into the screen's dominant element, pushing the staff cards — the thing people actually tap — down into a small strip at the bottom. A sizing/rebalancing fix only, not a redesign; the same warm card styling stayed, just shrunk.
+
+Changed in `_StaffList`'s heading card: `AppCard`'s default padding (16px all sides) reduced to a tighter `EdgeInsets.symmetric(horizontal: 16, vertical: 10)`; the greeting text dropped from `bodyMedium` to `bodySmall`; the "Who are you?" heading dropped from `headlineMedium` to `titleLarge`; the gap between heading and search reduced 16→8px; the search `TextField` given `isDense: true` and a tighter `contentPadding` (14px vertical → 10px) scoped to this one field only (not a global `InputDecorationTheme` change — this screen's search box was the one called out as unnecessarily tall, not every input app-wide); the gap between the card and the staff list reduced 12→8px. Net effect: the heading+search block is now a slim secondary element, and the staff cards below get the visual weight.
+
+Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
+Files: `lib/features/auth/login_screen.dart`.

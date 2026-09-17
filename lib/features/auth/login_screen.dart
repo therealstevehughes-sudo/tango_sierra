@@ -403,11 +403,16 @@ class _StaffListState extends State<_StaffList> {
             ),
           ),
         ),
-        // Login-screen warmth pass (2026-09-17) — greeting + heading +
-        // search recomposed into one bounded card (was three loosely
-        // spaced, uncontained pieces floating on the page background),
-        // plus a small time-aware human touch above the question.
+        // Login-screen warmth pass (2026-09-17), rebalanced (2026-09-17
+        // follow-up) — this block was reading as the screen's main event
+        // (a tall, generously padded card) when the staff cards below are
+        // what people actually came here to tap. Kept the same card
+        // styling (still warm, still bounded) but shrunk it to a slim,
+        // secondary top element: tighter padding, a smaller heading style,
+        // a denser search field, and a smaller gap to the staff list —
+        // proportion fix only, nothing removed.
         AppCard(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -416,26 +421,31 @@ class _StaffListState extends State<_StaffList> {
                 textAlign: TextAlign.center,
                 style: Theme.of(
                   context,
-                ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
+                ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 2),
               Text(
                 "Who are you?",
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineMedium,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 8),
               TextField(
                 controller: searchController,
                 decoration: const InputDecoration(
                   labelText: 'Search',
                   prefixIcon: Icon(Icons.search),
+                  isDense: true,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                 ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         Expanded(
           child: isSearching
               ? _buildSearchResults(searchResults)
