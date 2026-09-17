@@ -75,7 +75,25 @@ class WorkerHubScreen extends ConsumerWidget {
                   PrimaryActionButton(
                     label: 'My scheduled tasks',
                     icon: Icons.checklist,
-                    onPressed: () => Navigator.pushReplacement(
+                    // Logout bug fix (2026-09-17): this was pushReplacement,
+                    // which destroys WorkerHubScreen's route entirely rather
+                    // than stacking on top of it. WorkerHubScreen IS
+                    // MaterialApp.home for base tier (see app.dart) — the
+                    // one route whose builder reactively re-reads
+                    // currentUserProvider on every rebuild. Replacing it
+                    // meant TaskScreen's logout (`popUntil(isFirst)` then
+                    // nulling currentUserProvider) had nothing reactive left
+                    // to pop back down to: the route AT position 0 was now a
+                    // plain, static `(_) => const TaskScreen()` closure that
+                    // never re-evaluates against currentUser, so the screen
+                    // never navigated to LoginScreen even though the user
+                    // was, internally, already logged out — a real "worker
+                    // trapped" bug. Plain push (matching TierHomeScreen's
+                    // own push to TaskScreen for every non-base tier, which
+                    // never had this bug) keeps WorkerHubScreen alive
+                    // underneath, so popUntil(isFirst) correctly reveals it
+                    // again for the reactive swap to work.
+                    onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const TaskScreen()),
                     ),
