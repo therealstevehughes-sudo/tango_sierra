@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/breakdown_sheet.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/area.dart';
@@ -89,7 +90,9 @@ class _LeadershipDashboardScreenState
     } else {
       sites = currentUser.siteId == null
           ? const <Site>[]
-          : [await siteRepo.getById(currentUser.siteId!)].whereType<Site>().toList();
+          : [
+              await siteRepo.getById(currentUser.siteId!),
+            ].whereType<Site>().toList();
     }
 
     if (!mounted) return;
@@ -130,10 +133,12 @@ class _LeadershipDashboardScreenState
       // class doc comment.
       final submissions = await ref
           .read(taskSubmissionRepositoryProvider)
-          .getForSiteAndDateRange(siteId: siteId, start: range.start, end: range.end);
-      final issues = await ref
-          .read(issueRepositoryProvider)
-          .getForSite(siteId);
+          .getForSiteAndDateRange(
+            siteId: siteId,
+            start: range.start,
+            end: range.end,
+          );
+      final issues = await ref.read(issueRepositoryProvider).getForSite(siteId);
       if (!mounted) return;
       setState(() {
         _employeeSubmissions = submissions
@@ -218,7 +223,9 @@ class _LeadershipDashboardScreenState
             DropdownButtonFormField<int>(
               initialValue: _selectedSiteId,
               items: _sites
-                  .map((s) => DropdownMenuItem(value: s.id, child: Text(s.name)))
+                  .map(
+                    (s) => DropdownMenuItem(value: s.id, child: Text(s.name)),
+                  )
                   .toList(),
               onChanged: (v) {
                 setState(() => _selectedSiteId = v);
@@ -444,12 +451,12 @@ class _LeadershipDashboardScreenState
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      builder: (context) => _BreakdownSheet(
+      builder: (context) => BreakdownSheet(
         title: title,
         count: items.length,
         rows: [
           for (final s in items)
-            _BreakdownRow(
+            BreakdownRow(
               title: s.displayTitle,
               subtitle: formatDateTime(s.completedAt),
             ),
@@ -462,12 +469,12 @@ class _LeadershipDashboardScreenState
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
-      builder: (context) => _BreakdownSheet(
+      builder: (context) => BreakdownSheet(
         title: title,
         count: items.length,
         rows: [
           for (final i in items)
-            _BreakdownRow(
+            BreakdownRow(
               title: issueTypeDisplayName(i.type),
               subtitle: '${i.details} — ${formatDateTime(i.raisedAt)}',
             ),
@@ -477,7 +484,9 @@ class _LeadershipDashboardScreenState
   }
 
   Widget _buildEmployeeLookup() {
-    final employee = _staff.where((u) => u.id == _selectedEmployeeId).firstOrNull;
+    final employee = _staff
+        .where((u) => u.id == _selectedEmployeeId)
+        .firstOrNull;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -607,64 +616,6 @@ class _ProportionBar extends StatelessWidget {
   }
 }
 
-// Click-to-drill-down (2026-09-17) — a plain bottom sheet, the real rows
-// behind whichever category was tapped. Deliberately no colour-grading or
-// per-person framing inside it (see leadership_dashboard_service.dart's
-// governing anti-gaming rule) — it's the same aggregate data the bar
-// already summarised, just uncollapsed.
-class _BreakdownSheet extends StatelessWidget {
-  const _BreakdownSheet({
-    required this.title,
-    required this.count,
-    required this.rows,
-  });
-
-  final String title;
-  final int count;
-  final List<_BreakdownRow> rows;
-
-  @override
-  Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 0.6,
-      minChildSize: 0.3,
-      maxChildSize: 0.9,
-      expand: false,
-      builder: (context, scrollController) => Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '$title ($count)',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: rows.isEmpty
-                  ? const Center(child: Text('Nothing in this category.'))
-                  : ListView.separated(
-                      controller: scrollController,
-                      itemCount: rows.length,
-                      separatorBuilder: (_, _) => const Divider(height: 1),
-                      itemBuilder: (context, index) {
-                        final row = rows[index];
-                        return ListTile(
-                          title: Text(row.title),
-                          subtitle: Text(row.subtitle),
-                        );
-                      },
-                    ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _BreakdownRow {
-  const _BreakdownRow({required this.title, required this.subtitle});
-  final String title;
-  final String subtitle;
-}
+// BreakdownSheet/BreakdownRow (the drill-down list itself) now live in
+// core/widgets/breakdown_sheet.dart, shared with Sprint 038's Supplier
+// Scorecard.

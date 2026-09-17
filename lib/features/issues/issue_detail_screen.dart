@@ -8,6 +8,8 @@ import '../../shared/models/issue.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/issue_providers.dart';
+import '../../shared/providers/supplier_providers.dart';
+import '../suppliers/supplier_detail_screen.dart';
 
 // PART 2 of the branch-hub build (2026-09-15) — where Process/Outcome
 // handling happens. Any staff member can OPEN this (to see the full
@@ -69,14 +71,34 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
     });
   }
 
+  // Suppliers has no getById (local-Drift-only, no backend cluster yet —
+  // see BACKEND_INFRA.md), so resolving the id on this issue means loading
+  // the site's supplier list, same lookup pattern used elsewhere in this
+  // app for un-indexed local tables.
+  Future<void> _openSupplierScorecard() async {
+    final supplierId = widget.issue.supplierId;
+    if (supplierId == null) return;
+    final suppliers = await ref
+        .read(supplierRepositoryProvider)
+        .getForSite(widget.issue.siteId);
+    final supplier = suppliers.where((s) => s.id == supplierId).firstOrNull;
+    if (!mounted || supplier == null) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => SupplierDetailScreen(supplier: supplier),
+      ),
+    );
+  }
+
   // Chain of command (2026-09-15) — escalation target is a free choice,
   // not automatically the raiser's own line manager, since the issue may
   // be about that manager (confirmed with the user). The raiser's
   // reportsToUserId is only used to PRE-SELECT a sensible default in the
   // picker below, never to force the choice.
   Future<int?> _pickEscalationTarget(int? defaultUserId) async {
-    var selected = defaultUserId != null &&
-            _staff.any((u) => u.id == defaultUserId)
+    var selected =
+        defaultUserId != null && _staff.any((u) => u.id == defaultUserId)
         ? defaultUserId
         : null;
     return showDialog<int>(
@@ -117,7 +139,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
     int? escalateToUserId;
     if (action == _IssueAction.escalate) {
       final raiser = _staff.where((u) => u.id == widget.issue.raisedByUserId);
-      final defaultTarget = raiser.isEmpty ? null : raiser.first.reportsToUserId;
+      final defaultTarget = raiser.isEmpty
+          ? null
+          : raiser.first.reportsToUserId;
       escalateToUserId = await _pickEscalationTarget(defaultTarget);
       if (escalateToUserId == null) return;
     }
@@ -179,7 +203,8 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                issue.subtype ?? issueTypeDisplayName(issue.type),
+                                issue.subtype ??
+                                    issueTypeDisplayName(issue.type),
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ),
@@ -200,6 +225,15 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                             'Escalated to: ${_staffName(issue.escalatedToUserId!)}',
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(fontWeight: FontWeight.w600),
+                          ),
+                        ],
+                        if (issue.type == IssueType.supplyProblem &&
+                            issue.supplierId != null) ...[
+                          const SizedBox(height: 8),
+                          OutlinedButton.icon(
+                            onPressed: _openSupplierScorecard,
+                            icon: const Icon(Icons.storefront, size: 18),
+                            label: const Text('View supplier scorecard'),
                           ),
                         ],
                       ],
@@ -349,7 +383,10 @@ class _StatusChip extends StatelessWidget {
     };
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: BorderRadius.circular(999)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(999),
+      ),
       child: Text(
         issueStatusDisplayName(status),
         style: Theme.of(

@@ -1719,3 +1719,25 @@ ALTER TABLE public.issues ADD COLUMN IF NOT EXISTS manual_urgent boolean NOT NUL
 ```
 Verified: `flutter analyze` clean, all 17 tests passing.
 Files: `lib/core/widgets/urgency.dart` (new), `lib/core/storage/app_database.dart`, `lib/shared/models/issue.dart`, `lib/shared/repositories/issue_repository.dart`, `lib/shared/repositories/supabase_issue_repository.dart`, `lib/features/issues/report_issue_screen.dart`, `lib/features/issues/issues_register_tab.dart`, `lib/features/problems/problems_register_screen.dart`.
+
+**Update**: the pending VPS migration is now closed — the user ran the `ALTER TABLE` directly on the VPS (the agent's attempt was blocked by the auto-mode "Production Deploy" classifier), verified present via `\d public.issues`. See `BACKEND_INFRA.md`.
+
+## Sprint 038: Supplier/Delivery Scorecard (built 2026-09-17)
+Per the user's earlier two-part directive ("close the cross-tenant proof, THEN build Sprint 038" — the proof closed first, this got interleaved behind several live-app fixes raised in the meantime). Scores SUPPLIERS (external businesses), never staff — confirmed with the user before building, and the anti-gaming reasoning is written directly into `supplier_scorecard_service.dart`'s own doc comment so a future reviewer sees it was deliberately considered against the existing "never grade an individual" rule, not overlooked: grading a supplier is the explicit point of this feature; nothing in it reads or displays which staff member logged any delivery/issue, and a supplier's score can only worsen from real problems, never from someone honestly flagging one.
+
+**No new data model** — confirmed via research before building: `TaskSubmission`'s six `delivery_*` columns (built 2026-09-15, already backend-hosted) and `Issue.supplierId`/`deliveryProblemType` (type `supplyProblem`) already carry everything needed.
+
+**User's design calls, all built as specified**:
+- Date range: a picker (same pattern as the Issues & Incidents tab), not a fixed lookback.
+- No single composite score — the category breakdown (late/short/damaged/quality-problem/rejected/partial) is shown as separate counted rows, each independently click-to-drill-down (reusing the same bottom-sheet pattern from the Leadership Dashboard). Reasoning: a flattened percentage would hide severity — one temperature failure is far worse than one late delivery.
+- The two delivery-problem sources (`TaskSubmission` delivery flags vs. raised `supplyProblem` Issues) are kept as two SEPARATE sections, never merged — they're structurally unlinked in this codebase (no shared key between a specific Issue and a specific TaskSubmission) and merging them would misrepresent what happened.
+- Reachable from BOTH: tapping a supplier row in Supplier Management, and a "View supplier scorecard" button on a `supplyProblem` Issue's detail screen (resolves the supplier via `SupplierRepository.getForSite` + id lookup, since Suppliers has no `getById`).
+
+**Known limitation, inherited not introduced, noted per the user's instruction**: `Supplier` data is local-Drift-only — there is no backend/Supabase-hosted `suppliers` table at all (confirmed in `BACKEND_INFRA.md`: `public.suppliers` does not exist on the VPS). The scorecard therefore reads device-local supplier records; on a multi-device site this could show stale or device-specific data. This is a pre-existing gap the whole app already has (every other supplier-touching feature has the same limitation) — not something this feature silently worked around. Revisit if/when Suppliers gets its own backend migration cluster.
+
+**No live-backend proof needed for this feature**: it is purely client-side read/aggregation logic over two tables (`task_submissions`, `issues`) whose RLS tenant isolation was already proven to the full curl+integration-test standard in earlier phases (B-series and the Issues & Incidents cross-tenant proof this session). This feature adds no new write path, no new table, and no new RLS policy — there is nothing new here that proof methodology would be validating.
+
+Built new `lib/core/widgets/breakdown_sheet.dart` (public `BreakdownSheet`/`BreakdownRow`, extracted from the Leadership Dashboard's private drill-down sheet so both features share one implementation instead of duplicating it — `leadership_dashboard_screen.dart` now imports it too).
+
+Verified: `flutter analyze` clean, all 17 tests passing.
+Files: `lib/features/suppliers/supplier_scorecard_service.dart` (new), `lib/features/suppliers/supplier_detail_screen.dart` (new), `lib/core/widgets/breakdown_sheet.dart` (new), `lib/features/dashboard/leadership_dashboard_screen.dart`, `lib/features/settings/supplier_management_screen.dart`, `lib/features/issues/issue_detail_screen.dart`.

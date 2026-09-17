@@ -10,6 +10,7 @@ import '../../shared/models/supplier_category.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
+import '../suppliers/supplier_detail_screen.dart';
 
 enum _SupplierAction { editDetails, changeApprovalStatus, toggleActive }
 
@@ -389,6 +390,12 @@ class _SupplierManagementScreenState
         title: Text(supplier.name),
         subtitle: Text(subtitleParts.join(' · ')),
         isThreeLine: subtitleParts.length > 2,
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => SupplierDetailScreen(supplier: supplier),
+          ),
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

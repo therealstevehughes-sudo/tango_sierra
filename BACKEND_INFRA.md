@@ -1669,6 +1669,12 @@ Result: `ALTER TABLE`. Verified present via `\d public.issues`:
 ```
 Local and backend schemas now match. Not yet re-tested live end-to-end via the Report Issue screen against the real backend — the column existing is confirmed, a live `raise()` round-trip with `manualUrgent: true` is not.
 
+### Supplier/Delivery Scorecard (Sprint 038, 2026-09-17) — no schema change, no new backend surface
+
+Pure client-side read/aggregation over two already-proven, already-backend-hosted tables: `task_submissions` (its `delivery_*` columns, added in the 2026-09-15 delivery-detail migration) and `issues` (`supplier_id`, `delivery_problem_type`, filtered to `type = 'supplyProblem'`). No new table, column, RLS policy, or write path — both tables' `tenant_isolation` RLS was already proven to the full curl+integration-test standard in earlier work, so no new live-backend proof was run for this feature; there is nothing new here that proof methodology would validate.
+
+**Re-confirms the existing `Suppliers`-not-backend-hosted gap** (see line ~1552 above) rather than introducing a new one: the scorecard reads `Supplier` names/categories via the local-Drift-only `SupplierRepository.getForSite()`, since `public.suppliers` still does not exist on the VPS. On a site with more than one device, supplier records could differ or be stale between devices — a pre-existing limitation every supplier-touching feature in this app already has. Flagged to the user rather than silently worked around; revisit if/when Suppliers gets its own backend migration cluster.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.
