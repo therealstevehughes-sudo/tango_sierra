@@ -85,7 +85,49 @@ class SupabaseIssueRepository implements IssueRepository {
       'changed_at': now,
       'resulting_status': 'open',
     });
-    return _toModel(issueRow);
+    final issue = _toModel(issueRow);
+
+    // Realtime push (2026-09-16/17), user-agreed criteria: Accident/
+    // Incident and a damaged-stock Supply Problem push immediately to
+    // every supervisor+ at the site — everything else (Complaints,
+    // Venue/Other, undamaged supply problems) batches into an
+    // end-of-shift summary instead (not yet built). Fire-and-forget: a
+    // push failure must never surface as a failure to raise the issue.
+    final isUrgent =
+        type == IssueType.accident ||
+        type == IssueType.incident ||
+        (type == IssueType.supplyProblem &&
+            deliveryProblemType == DeliveryProblemType.damagedStock);
+    if (isUrgent) {
+      _pushToManagers(siteId: siteId, issue: issue);
+    }
+    return issue;
+  }
+
+  Future<void> _pushToManagers({
+    required int siteId,
+    required Issue issue,
+  }) async {
+    try {
+      final managers = await _client.select(
+        'users',
+        query:
+            'site_id=eq.$siteId'
+            '&role_tier=in.(supervisor,venueManager,regional,executive)'
+            '&active=eq.true&select=id',
+      );
+      for (final manager in managers) {
+        await _client.invokeFunction('send-push', {
+          'user_id': manager['id'],
+          'title': issueTypeDisplayName(issue.type),
+          'body': issue.details,
+        });
+      }
+    } catch (_) {
+      // No network, no managers with a registered device, or the
+      // function itself is unreachable — the issue is already raised
+      // and visible in the register regardless.
+    }
   }
 
   @override
@@ -120,14 +162,29 @@ class SupabaseIssueRepository implements IssueRepository {
     required String note,
     required int byUserId,
     required int escalateToUserId,
-  }) => _recordEvent(
-    issueId: issueId,
-    phase: IssueEventPhase.process,
-    note: note,
-    byUserId: byUserId,
-    resultingStatus: IssueStatus.escalated,
-    targetUserId: escalateToUserId,
-  );
+  }) async {
+    await _recordEvent(
+      issueId: issueId,
+      phase: IssueEventPhase.process,
+      note: note,
+      byUserId: byUserId,
+      resultingStatus: IssueStatus.escalated,
+      targetUserId: escalateToUserId,
+    );
+    // Realtime push — an escalation always pushes to the one person it
+    // was actually sent to, not the site's whole management (that
+    // person specifically chose to hand it to someone; that's who needs
+    // to know right away).
+    try {
+      await _client.invokeFunction('send-push', {
+        'user_id': escalateToUserId,
+        'title': 'An issue was escalated to you',
+        'body': note,
+      });
+    } catch (_) {
+      // Same fire-and-forget reasoning as _pushToManagers above.
+    }
+  }
 
   Future<void> _recordEvent({
     required int issueId,

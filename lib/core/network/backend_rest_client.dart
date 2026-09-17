@@ -107,4 +107,23 @@ class BackendRestClient {
     );
     _checkOk(response);
   }
+
+  // Realtime push (2026-09-17) — Edge Functions live under a different
+  // path than PostgREST tables, but need the exact same headers (apikey +
+  // whichever bearer token this session currently holds), so this reuses
+  // _headers() rather than duplicating that logic. Returns the decoded
+  // JSON body regardless of status — callers that need fire-and-forget
+  // behaviour (send-push) read the body to decide what happened rather
+  // than treating a non-200 as an exception.
+  Future<Map<String, dynamic>> invokeFunction(
+    String name,
+    Map<String, dynamic> body,
+  ) async {
+    final response = await http.post(
+      Uri.parse('${BackendConfig.supabaseUrl}/functions/v1/$name'),
+      headers: _headers(json: true),
+      body: jsonEncode(body),
+    );
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
 }
