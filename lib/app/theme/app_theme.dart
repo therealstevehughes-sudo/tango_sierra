@@ -112,8 +112,26 @@ class AppTheme {
       ),
       chipTheme: ChipThemeData(
         backgroundColor: accentTint,
+        // Selected-pill legibility fix (2026-09-17): a selected chip's
+        // fill switches to a dark accent colour (FilterChip's own default
+        // selectedColor, unset here so untouched), but this labelStyle
+        // used to give every chip the same fixed dark `accent` text
+        // regardless of state — invisible against that dark selected
+        // fill (a selected chip read as a blank pill with only a
+        // checkmark). WidgetStateColor lets Chip's own state resolution
+        // (chip.dart resolves labelStyle.color via
+        // WidgetStateProperty.resolveAs) pick `onAccent` — the same
+        // brand-aware contrast helper already used for onPrimary/
+        // onSecondary above — only when selected; unselected chips keep
+        // the exact same `accent` text they always had. Selected fill
+        // colour, shape, padding, and every other chip property are
+        // unchanged.
         labelStyle: textTheme.bodySmall?.copyWith(
-          color: accent,
+          color: WidgetStateColor.resolveWith(
+            (states) => states.contains(WidgetState.selected)
+                ? onAccent
+                : accent,
+          ),
           fontWeight: FontWeight.w600,
         ),
         side: BorderSide.none,
