@@ -186,6 +186,33 @@ Delivered (see DECISIONS_LOG.md for full detail, including the real findings mad
 ## Phase 11: App Health-Check Fixes (2026-09-14) — DELIVERED
 Not a planned phase — a full app walkthrough (prompted by several parallel coding-assistant sessions having worked on the codebase) surfaced and fixed a run of real, previously-undetected runtime bugs that neither `flutter analyze` nor the unit/widget test suite could catch (all are runtime-only failures): a `BrandHeader` crash that broke the login screen on every real launch, a broken photo-evidence capture flow (a genuine Dart async/catch gotcha combined with a Windows plugin gap), no live camera support on Windows at all, an illegible compiled app icon, no way to reset a Director/Regional password, shift handover notes that never cleared, and Leadership Access being completely unreachable in a local/demo build. Full detail in DECISIONS_LOG.md's dated entries. Also logged (not built) a major v1 product-scope update from a strategy session — see DECISIONS_LOG.md's "Major product-scope update" entry and `VENURITE_ROADMAP.md`.
 
+## Phase 12: Priority Positioning Features (v1.1/near-term) — LOGGED, NOT STARTED
+Recorded 2026-09-17 from a user planning session — see DECISIONS_LOG.md's "Major roadmap expansion" entry for full detail, tiers, and dependencies. Explicitly planning-only: nothing in this phase has been started.
+
+**Sprint 035 — Inspection Readiness Score + mock-inspection mode**
+Goal: an always-visible "you are X% EHO-ready" score computed from the venue's real compliance data, showing exactly what to fix to improve it, plus a mock-inspection walkthrough of what an EHO actually checks. Governed by the same anti-gaming principle as Issues & Incidents: the score must reflect genuine readiness, never reward hiding problems. Depends on the central compliance knowledge base (Phase 13/Sprint 041 area) being real before the score's underlying rules can be trusted.
+
+**Sprint 036 — Due Diligence Pack**
+Goal: one-tap export producing a timestamped, tamper-evident legal record proving the venue took all reasonable precautions (UK due-diligence defence). Builds on already-logged data plus the existing EHO export (Sprint 017). Depends on the pending human security review of the RLS design (existing launch gate) before this can be positioned as legally reliable.
+
+## Phase 13: Powerful Adds (v2/later) — LOGGED, NOT STARTED
+Recorded 2026-09-17, same planning session as Phase 12 — see DECISIONS_LOG.md for full detail. Order below is not a priority order, just the order the ideas were recorded in.
+
+**Sprint 037 — Predictive/early-warning intelligence**
+Goal: detect patterns in a venue's own data (temperature drift, recurring missed checks) and warn before a breach. Binding constraint: detection is cheap computation on the venue's own data; live AI phrases the warning only, never computes it. Depends on enough historical data per venue and the AI cost architecture below.
+
+**Sprint 038 — Supplier/Delivery Scorecard**
+Goal: aggregate the detailed delivery-by-supplier records (built 2026-09-15) into per-supplier performance over time — late/short/damaged/temp-fail counts. No new data needed; a pure read/aggregation feature on top of what's already built.
+
+**Sprint 039 — Shift Handover Intelligence**
+Goal: auto-generate a shift-handover summary (open issues, flagged equipment, pending prep) so the next shift starts informed. Builds on the existing `ShiftHandoverNotes` feature and Issues & Incidents data.
+
+**Sprint 040 — Corrective-Action Knowledge Base**
+Goal: capture how each FAIL was resolved, build a venue-specific playbook, suggest previously-successful fixes. A retention feature — the longer a venue stays, the more useful its own playbook gets. Depends on enough resolved-FAIL history to have anything to suggest from.
+
+**Sprint 041 — AI-driven task lists + the AI cost architecture**
+Goal: AI-suggested task additions on top of a legally-mandated baseline the AI may never subtract from (reconfirmed guardrail, already logged 2026-09-14). This sprint is also where the **binding three-layer AI cost architecture** must be built before any live-AI feature ships: Layer 1 (free — the verified central compliance database answers most questions via plain lookup, no AI call), Layer 2 (free after first time — cached AI answers keyed by question+context, shared across every venue), Layer 3 (small cost, last resort — only genuinely novel questions reach a live model, routed to the cheapest capable one). Plus: static pre-generated "?" help content by default (live AI only on a follow-up question), and a per-venue monthly AI-usage cap with graceful fallback to Layers 1/2 rather than unlimited live calls. Every other AI-touching item in this phase (037, 040) depends on this sprint's architecture being in place first, not built ad hoc per feature.
+
 ## Standing Non-Negotiables
 - no feature creep
 - no generic app drift
@@ -198,7 +225,9 @@ Not a planned phase — a full app walkthrough (prompted by several parallel cod
 ## Current Priority (updated 2026-09-14)
 Phases 1–8 (Sprints 000–032, including the 18-item expanded-vision sequence above) are delivered. Phase 9 (multi-tenant backend foundation, B0–B5) and Phase 10 (tenant onboarding, C1a–C1d) are delivered and proven. Phase 11 (today's app health-check fixes) is delivered.
 
-**Sprint 033 (Guided Cards), Phase C2 (branded-per-branch home screen), Phase C3 (org-builder/organogram tree), Sprint 034 (Customer Onboarding & Billing Foundation), and the task-assignment grouping/bulk-assign build are all COMPLETE** (2026-09-14 — see DECISIONS_LOG.md for each). Current priority:
-1. The new v1 roadmap features logged 2026-09-14 (detailed delivery records, per-food legal temp thresholds, AI compliance assistant, per-task AI help, central compliance knowledge base) — **logged only, not started**, and blocked on the v1 launch gates (food-safety professional sign-off is now on the critical path — see DECISIONS_LOG.md).
-2. Real Stripe billing integration — schema is ready (Sprint 034), needs a real Stripe account + API keys from the user.
-3. Real SMTP — needed for real emailed invites/resets; a provider choice + credentials from the user.
+**Sprint 033 (Guided Cards), Phase C2 (branded-per-branch home screen), Phase C3 (org-builder/organogram tree), Sprint 034 (Customer Onboarding & Billing Foundation), the task-assignment grouping/bulk-assign build, Issues & Incidents + chain of command + delivery-detail capture + the Leadership Dashboard + Document Centre + 2FA + the hybrid task view + realtime push (device registration, send logic, and the end-of-shift digest) are all COMPLETE** (2026-09-14 through 2026-09-17 — see DECISIONS_LOG.md for each). Current priority:
+1. The new v1 roadmap features logged 2026-09-14 (detailed delivery records — DELIVERED 2026-09-15, per-food legal temp thresholds, AI compliance assistant, per-task AI help, central compliance knowledge base) — **logged only, not started** except the one item delivered, blocked on the v1 launch gates (food-safety professional sign-off is now on the critical path — see DECISIONS_LOG.md).
+2. Phase 12 (Sprints 035–036, Inspection Readiness Score + Due Diligence Pack) and Phase 13 (Sprints 037–041, predictive intelligence through the AI cost architecture) — **logged 2026-09-17, not started**, see DECISIONS_LOG.md's "Major roadmap expansion" entry for tiers and dependencies.
+3. Real Stripe billing integration — schema is ready (Sprint 034), needs a real Stripe account + API keys from the user.
+4. Real SMTP — needed for real emailed invites/resets; a provider choice + credentials from the user.
+5. Distinct dashboards for Supervisor vs. Venue Manager, and Regional vs. Executive — waiting on the user's own call on what should actually differ between those tier pairs before building (asked, not yet answered).
