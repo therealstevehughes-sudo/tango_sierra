@@ -1655,6 +1655,18 @@ Roadmap v1.1 item, the one thing on the "Queued, no blocker" list that actually 
 - **Client wiring**: `SupabaseIssueRepository.raise()` pushes to every active supervisor+ at the site when the type is Accident/Incident or a damaged-stock Supply Problem; `.escalate()` pushes to the specific chosen target. New `BackendRestClient.invokeFunction()` reuses the client's existing header/token logic. Both call sites are fire-and-forget (try/catch) — a push failure never blocks raising or escalating an issue.
 - **End-of-shift summary — BUILT (2026-09-17)**: new `EndOfShiftDigestService` (`lib/features/tasks/end_of_shift_digest_service.dart`) sends one push per site manager when a worker's session ends (natural completion or early exit), summarising fail count / not-completed count / routine (non-urgent) issues raised since the session started — the exact inverse of the immediate-push "urgent" set, so nothing is double-reported. Sends nothing when there's genuinely nothing to report. No new schema — reuses `IssueRepository.getRaisedByUser()` and the same `send-push` function/`invokeFunction()` plumbing as the immediate-push path.
 
+### Urgency colour-coding — `issues.manual_urgent` — SCHEMA GAP, NOT YET APPLIED ON THE VPS (2026-09-17)
+
+Client-side urgency colour-grading (green/amber/red by age, escalated/manual-flag/Not-Completed always red — see DECISIONS_LOG.md for the full design) added a new column, `Issue.manualUrgent`, set by a "Mark as urgent" checkbox on Report Issue. Local Drift: fully migrated (`schemaVersion` 45→46, `addColumn(issues, issues.manualUrgent)`, `boolean` default `false`). Both `DriftIssueRepository` and `SupabaseIssueRepository` are coded and analyzed against a `manual_urgent` column.
+
+**The actual Postgres column does not exist yet.** The migration command was blocked by the Claude Code auto-mode classifier as a "Production Deploy" action (direct SSH `ALTER TABLE` against the live VPS), so it was never run. Until it is, `SupabaseIssueRepository.raise()` will send `manual_urgent` in its insert payload and PostgREST will reject the row (unknown column) — this affects ANY live-backend issue-raise attempt, not just the urgent checkbox, until fixed. Local/offline Drift usage (demo data, integration tests using the local DB) is unaffected.
+
+**To close this gap**, run on the VPS (`ssh -i ~/.ssh/tango_sierra_vps root@217.160.174.119`):
+```sql
+docker exec supabase-db psql -U postgres -d postgres -c "ALTER TABLE public.issues ADD COLUMN IF NOT EXISTS manual_urgent boolean NOT NULL DEFAULT false;"
+```
+Then verify with `\d public.issues` that the column exists, and re-run the live Report Issue flow once to confirm `raise()` succeeds end to end.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

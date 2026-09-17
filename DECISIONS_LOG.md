@@ -1696,3 +1696,26 @@ User asked for a simple relabel ("Assign" not "Invite," Director should take the
 
 Renamed "Invite Regional Manager"/"Invite Replacement Manager" → "Assign Regional Manager"/"Reassign Regional Manager" and rewired the action: collects name+email in a small dialog, calls `inviteSenior`, shows the resulting temporary password — mirroring `_resetPassword`'s existing dialog pattern in the same file. Verified: `flutter analyze` clean, all 17 tests passing.
 Files: `lib/features/regions/organisation_tree_screen.dart`.
+
+## Fix: catastrophic text-wrap bug (built 2026-09-17)
+User reported (with a screenshot) a task title rendering one character per line in the Problems Register — caused by a `Row → Expanded → Column → Text` with no `maxLines`/`overflow` set: when the app window is squeezed narrow enough that no single word fits, Flutter falls back to per-character wrapping instead of truncating. Fixed every vulnerable `Text` in `_ProblemTile` (Problems Register) and `_IssueTile` (Issues & Incidents) with `maxLines`+`overflow: TextOverflow.ellipsis`.
+
+Scope note given to the user: this fixes the two concrete screens with this exact pattern (both built earlier this session); a full app-wide audit of every similarly-shaped card/row layout was NOT done and would be a separate, larger task — offered, not assumed done everywhere.
+Files: `lib/features/problems/problems_register_screen.dart`, `lib/features/issues/issues_register_tab.dart`.
+
+## Urgency colour-coding for Issues & Problems (built 2026-09-17)
+User asked, while reviewing the same screens, whether unresolved items should be colour-graded by urgency (green→amber→red) separately from the existing outcome-status colours (Fail/Resolved/Escalated already own red/green/grey there), plus whether users should be able to manually flag something urgent. Agreed approach, confirmed with the user before building:
+- One universal threshold set to start (not per-issue-type): <24h unresolved = green, 24-72h = amber, >72h = red/"URGENT" label.
+- Escalated status and a manual "Mark as urgent" flag always show red immediately, regardless of age.
+- A Problems Register "Not Completed" task is urgent immediately (it's a compliance gap the moment it exists), not on the age clock.
+- **Additive only, matching the standing anti-gaming rule**: manual flag / escalation / age can only push urgency UP, never down. There is deliberately no way to mark something down from urgent.
+- Manual override scoped to Issues only for now (raised via a form) — the Problems Register has no "raise" step (auto-created on fail/not-completed), so a manual override there isn't applicable without adding one to the corrective-action step; flagged to the user rather than assumed.
+
+Built: `computeUrgency()`/`UrgencyChip`/`UrgencyStripe` in new `lib/core/widgets/urgency.dart`, applied to `_IssueTile` and `_ProblemTile` alongside (not replacing) their existing status pills. Added `Issue.manualUrgent` (schema v46, local Drift migration `addColumn`) plus a "Mark as urgent" checkbox on Report Issue.
+
+**Backend gap, not yet closed**: the local Drift schema and both repository classes (`DriftIssueRepository`, `SupabaseIssueRepository`) are fully wired for `manual_urgent`, but the actual Postgres `issues.manual_urgent` column has NOT yet been added on the VPS — the migration command was blocked by the Claude Code auto-mode classifier as a "Production Deploy" action. Until that column exists, `SupabaseIssueRepository.raise()` will fail to write `manual_urgent` against the live backend (local/offline Drift usage is unaffected). Needs the user (or an explicitly-approved run) to execute:
+```sql
+ALTER TABLE public.issues ADD COLUMN IF NOT EXISTS manual_urgent boolean NOT NULL DEFAULT false;
+```
+Verified: `flutter analyze` clean, all 17 tests passing.
+Files: `lib/core/widgets/urgency.dart` (new), `lib/core/storage/app_database.dart`, `lib/shared/models/issue.dart`, `lib/shared/repositories/issue_repository.dart`, `lib/shared/repositories/supabase_issue_repository.dart`, `lib/features/issues/report_issue_screen.dart`, `lib/features/issues/issues_register_tab.dart`, `lib/features/problems/problems_register_screen.dart`.
