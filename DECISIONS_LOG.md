@@ -1640,3 +1640,49 @@ User asked for a factual, code-only audit of the flat 27-item `ManagementDrawer`
 - No backend/schema involvement — client-only restructuring, so no `BACKEND_INFRA.md` entry.
 
 Files: `lib/core/widgets/management_drawer.dart` (rewritten), `lib/app/navigator_key.dart` (new), `lib/features/manager/backup_dialog.dart` (new, extracted), `lib/features/export/eho_export_dialog.dart`, `lib/features/manager/manager_screen.dart`, `lib/features/dashboard/top_screen.dart`, `lib/app/app.dart`.
+
+## Issues & Incidents: deferred cross-tenant proof CLOSED, PROVEN (2026-09-17)
+Closes the one loose end left open since the feature was built (2026-09-15/16): the live-backend throwaway-tenant cross-tenant isolation proof, run to the exact same standard as B1–B5 — real curl from outside the app AND a real Dart integration test, verbatim results below. Given extra weight because `issues` carries genuinely sensitive data (complaints, accidents) — a leak here would be worse than most.
+
+**Fixture**: two real throwaway tenants created live via `tenant-signup` (never hand-inserted): Tenant A — org 42 / site 47 / director user 44 (`issuesproof.a@example.com`); Tenant B — org 43 / site 48 / director user 45 (`issuesproof.b@example.com`). Real GoTrue password sign-in tokens obtained for each (not hand-crafted JWTs) — an executive's own token, since `can_access_site` resolves via the site's organisation for an org-scoped tier, no `site_id` claim needed.
+
+**Curl proof (verbatim), against `public.issues`:**
+```
+1. Director A POST issue at own site (47)              -> HTTP 201, id=1
+2. Director B POST issue at own site (48)               -> HTTP 201, id=2
+3. Director A SELECT own issues                         -> [{id:1, site_id:47, ...}]  (exactly 1 row)
+4. Director A SELECT ?site_id=eq.48 (tenant B's site)    -> []
+5. Director A SELECT ?id=eq.2 (tenant B's issue)         -> []
+6. Director A POST issue AT site_id:48 (tenant B)        -> 403 {"code":"42501", "message":"new row violates row-level security policy for table \"issues\""}
+7. Director A PATCH tenant B's issue (id=2)              -> HTTP 200, [] (0 rows affected)
+8. Director A DELETE tenant B's issue (id=2)             -> HTTP 200, [] (0 rows affected)
+9. Director B SELECT own issue (id=2) after 7+8          -> status:"open", details unchanged -- provably untouched
+```
+
+**Curl proof (verbatim), against `public.issue_events`** (RLS scoped via a join to the parent issue's site, not its own `site_id` column):
+```
+10. Director A POST event on own issue (issue_id=1)      -> HTTP 201, id=1
+11. Director A POST event on tenant B's issue (issue_id=2) -> 403 {"code":"42501", "message":"new row violates row-level security policy for table \"issue_events\""}
+12. Director A SELECT ?issue_id=eq.2                     -> []
+13. Director B POST outcome event on own issue (id=2)    -> HTTP 201, id=3
+14. Director B PATCH own issue to resolved               -> HTTP 200, 1 row, status:"resolved"
+15. Director B SELECT all issues                         -> only id=2, never A's id=1
+16. Director B SELECT all issue_events                   -> only id=3 (tied to issue 2), never A's event on issue 1
+```
+All 16 calls behaved exactly as required: own read/write works, cross-tenant read returns empty, cross-tenant INSERT is rejected with a real `42501` RLS error, cross-tenant UPDATE/DELETE silently affects 0 rows (never an error that would confirm the row's existence), and the targeted row was independently re-read by its real owner afterward and confirmed unchanged — the same rigor as the B5 proof for `task_submissions`/`problem_status_events`.
+
+**Dart integration test** (`integration_test/issues_incidents_cross_tenant_test.dart`, run live against the backend, distinct from the curl proof per this project's standing convention): 5 tests, all passing, exercising the actual `IssueRepository`/`SupabaseIssueRepository` code path (not raw HTTP) —
+```
+00:00 +0: Issues: getForSite never returns the other tenant's issue, even when explicitly asked for the other tenant's own site id
+00:01 +1: Issues: getHistory on the other tenant's issue id returns nothing, never leaks their event notes
+00:01 +2: Issues: raise() at the other tenant's site is rejected by the server, not silently accepted by the client
+00:01 +3: Issues: escalate()/resolve() on the other tenant's issue id is rejected, and the target issue is provably untouched afterward
+00:02 +4: Issues: getRaisedByUser never crosses tenants for a shared-looking user id space
+00:02 +5: All tests passed!
+```
+Confirms `repository.raise()` against a foreign site throws a real `BackendRequestException` (the server's rejection surfaces as a real exception the app can catch, not a silent success or a crash), and every read method (`getForSite`, `getHistory`, `getRaisedByUser`) independently confirmed empty against the other tenant's data — including deliberately asking for tenant B's own site id or user id from tenant A's session, not just the "obvious" query shape.
+
+**Cleanup verified empty**: `issues`, `issue_events`, `sites`, `organisations`, `users`, `subscriptions`, and `auth.users` all re-queried immediately after — 0 rows everywhere for both throwaway tenants.
+
+**Gap closed.** Issues & Incidents is now proven to the same standard as every other backend cluster in this project — nothing further pending on this feature.
+Files: `integration_test/issues_incidents_cross_tenant_test.dart` (new).
