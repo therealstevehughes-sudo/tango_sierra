@@ -10,6 +10,7 @@ import '../../shared/providers/branding_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../issues/my_raised_issues_screen.dart';
 import '../issues/report_issue_screen.dart';
+import 'ad_hoc_task_screen.dart';
 import 'task_screen.dart';
 
 // PART 3 of the branch-hub build (2026-09-15) — a pre-carousel choice
@@ -96,6 +97,29 @@ class WorkerHubScreen extends ConsumerWidget {
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(builder: (_) => const TaskScreen()),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  // Ad-hoc task path (2026-09-17) — a third fork, distinct
+                  // from "Log something that just happened": that option is
+                  // for PROBLEMS (something wrong), this one is for a TASK
+                  // that needs doing but was never scheduled (an unplanned
+                  // delivery to check, an off-schedule temperature reading).
+                  // Conflating the two would misfile a routine ad-hoc check
+                  // as if it were a problem being reported.
+                  OutlinedButton.icon(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const AdHocTaskScreen(),
+                      ),
+                    ),
+                    icon: const Icon(Icons.add_task),
+                    label: const Text('Do an ad-hoc task'),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      minimumSize: const Size.fromHeight(48),
+                      foregroundColor: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   const SizedBox(height: 12),

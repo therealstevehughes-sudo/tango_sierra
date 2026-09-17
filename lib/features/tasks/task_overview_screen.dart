@@ -71,7 +71,10 @@ class _TaskRow extends StatelessWidget {
     final (IconData icon, Color color) = switch (status) {
       _RowStatus.done => (Icons.check_circle, AppColors.pass),
       _RowStatus.current => (Icons.arrow_circle_right, AppColors.teal),
-      _RowStatus.pending => (Icons.radio_button_unchecked, AppColors.mutedLight),
+      _RowStatus.pending => (
+        Icons.radio_button_unchecked,
+        AppColors.mutedLight,
+      ),
     };
     return AppCard(
       child: Row(
@@ -83,9 +86,9 @@ class _TaskRow extends StatelessWidget {
               task.displayTitle,
               style: status == _RowStatus.pending
                   ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                  : Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
             ),
           ),
         ],

@@ -28,6 +28,7 @@ import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import 'camera_capture_screen.dart';
+import 'delivery_detail_form.dart';
 import 'end_of_session_summary_screen.dart';
 import 'end_of_shift_digest_service.dart';
 import 'shift_handover_summary_service.dart';
@@ -83,13 +84,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   int? selectedSupplierId;
 
   // Detailed delivery-by-supplier records (roadmap v1 item #1, built
-  // 2026-09-15) — collapsed by default so the fast "one tap if all fine"
-  // path is unchanged; expanding reveals temperature + problem flags +
-  // outcome. _deliveryHasProblem gates visibility only, not what gets
-  // saved — submitTask() below always writes an outcome.
-  bool _deliveryHasProblem = false;
-  final TextEditingController deliveryTemperatureController =
-      TextEditingController();
+  // 2026-09-15) — the actual form UI now lives in the shared
+  // DeliveryDetailForm widget (extracted 2026-09-17 so the ad-hoc task
+  // path can reuse it); these fields just cache its latest reported value
+  // for submitTask() to read.
+  double? _deliveryTemperatureC;
   bool _deliveryShortDelivery = false;
   bool _deliveryDamagedStock = false;
   bool _deliveryLateDelivery = false;
@@ -278,7 +277,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     numberController.dispose();
     notesController.dispose();
     correctiveNoteController.dispose();
-    deliveryTemperatureController.dispose();
     super.dispose();
   }
 
@@ -479,28 +477,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     return result;
   }
 
-  // Flags, never blocks (Sprint 031, finalized beta build order item 4,
-  // Sub-sprint B) — a worker can't refuse a delivery already at the door,
-  // so an unapproved supplier is surfaced for manager visibility, not
-  // gated behind it.
-  String? get _selectedSupplierWarning {
-    if (selectedSupplierId == null) return null;
-    Supplier? selected;
-    for (final s in suppliers) {
-      if (s.id == selectedSupplierId) {
-        selected = s;
-        break;
-      }
-    }
-    if (selected == null ||
-        selected.approvalStatus == SupplierApprovalStatus.approved) {
-      return null;
-    }
-    return 'This supplier is marked '
-        '${supplierApprovalStatusLabel(selected.approvalStatus)} — the '
-        'check will still be recorded.';
-  }
-
   // Improvement (2026-09-12): the safe range is shown at the point of
   // entry, not after submission. A kitchen worker typing a number needs to
   // know the safe window BEFORE committing — the derived PASS/FAIL alone is
@@ -617,30 +593,23 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           ? null
           : correctiveNoteController.text.trim(),
       supplierId: selectedSupplierId,
+      // DeliveryDetailForm (2026-09-17) already gates every field below on
+      // its own internal "report a problem" checkbox before reporting a
+      // non-default value via onChanged, so these caches are already
+      // correctly false/accepted/null whenever there's no real problem —
+      // no need to re-check that here.
       deliveryTemperatureC: task.requiresSupplierSelection
-          ? double.tryParse(deliveryTemperatureController.text.trim())
+          ? _deliveryTemperatureC
           : null,
       deliveryShortDelivery:
-          task.requiresSupplierSelection && _deliveryHasProblem
-          ? _deliveryShortDelivery
-          : false,
+          task.requiresSupplierSelection && _deliveryShortDelivery,
       deliveryDamagedStock:
-          task.requiresSupplierSelection && _deliveryHasProblem
-          ? _deliveryDamagedStock
-          : false,
+          task.requiresSupplierSelection && _deliveryDamagedStock,
       deliveryLateDelivery:
-          task.requiresSupplierSelection && _deliveryHasProblem
-          ? _deliveryLateDelivery
-          : false,
+          task.requiresSupplierSelection && _deliveryLateDelivery,
       deliveryQualityProblem:
-          task.requiresSupplierSelection && _deliveryHasProblem
-          ? _deliveryQualityProblem
-          : false,
-      // Always 'accepted' unless a problem was actually reported — the
-      // fast path never forces a choice, per "one tap if all fine."
-      deliveryOutcome: task.requiresSupplierSelection
-          ? (_deliveryHasProblem ? _deliveryOutcome : 'accepted')
-          : null,
+          task.requiresSupplierSelection && _deliveryQualityProblem,
+      deliveryOutcome: task.requiresSupplierSelection ? _deliveryOutcome : null,
     );
 
     if (!mounted) return;
@@ -658,8 +627,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         photoTaken = false;
         photoPath = null;
         selectedSupplierId = null;
-        deliveryTemperatureController.clear();
-        _deliveryHasProblem = false;
+        _deliveryTemperatureC = null;
         _deliveryShortDelivery = false;
         _deliveryDamagedStock = false;
         _deliveryLateDelivery = false;
@@ -913,121 +881,21 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               ),
                             ),
                           ),
-                        if (task.requiresSupplierSelection) ...[
-                          const SizedBox(height: 12),
-                          DropdownButtonFormField<int>(
-                            initialValue: selectedSupplierId,
-                            decoration: const InputDecoration(
-                              labelText: 'Supplier (optional)',
-                            ),
-                            items: suppliers
-                                .map(
-                                  (s) => DropdownMenuItem(
-                                    value: s.id,
-                                    child: Text(s.name),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) {
-                              setState(() => selectedSupplierId = value);
-                            },
+                        if (task.requiresSupplierSelection)
+                          DeliveryDetailForm(
+                            key: ValueKey(controller.currentIndex),
+                            suppliers: suppliers,
+                            initialSupplierId: selectedSupplierId,
+                            onChanged: (v) => setState(() {
+                              selectedSupplierId = v.supplierId;
+                              _deliveryTemperatureC = v.temperatureC;
+                              _deliveryShortDelivery = v.shortDelivery;
+                              _deliveryDamagedStock = v.damagedStock;
+                              _deliveryLateDelivery = v.lateDelivery;
+                              _deliveryQualityProblem = v.qualityProblem;
+                              _deliveryOutcome = v.outcome;
+                            }),
                           ),
-                          if (_selectedSupplierWarning != null)
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8),
-                              child: AppBanner(
-                                kind: BannerKind.caution,
-                                child: Text(_selectedSupplierWarning!),
-                              ),
-                            ),
-                          const SizedBox(height: 8),
-                          // Detailed delivery-by-supplier records: the fast
-                          // path is this one checkbox, unchecked by
-                          // default — ticking it is the only way to see
-                          // the extra fields below, so a fine delivery
-                          // costs nothing extra.
-                          CheckboxListTile(
-                            value: _deliveryHasProblem,
-                            onChanged: (checked) => setState(
-                              () => _deliveryHasProblem = checked ?? false,
-                            ),
-                            controlAffinity: ListTileControlAffinity.leading,
-                            contentPadding: EdgeInsets.zero,
-                            title: const Text(
-                              'Report a problem with this delivery',
-                            ),
-                          ),
-                          if (_deliveryHasProblem) ...[
-                            TextField(
-                              controller: deliveryTemperatureController,
-                              keyboardType:
-                                  const TextInputType.numberWithOptions(
-                                    decimal: true,
-                                    signed: true,
-                                  ),
-                              decoration: const InputDecoration(
-                                labelText:
-                                    'Temperature on arrival (°C, optional)',
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Wrap(
-                              spacing: 4,
-                              children: [
-                                FilterChip(
-                                  label: const Text('Short delivery'),
-                                  selected: _deliveryShortDelivery,
-                                  onSelected: (v) => setState(
-                                    () => _deliveryShortDelivery = v,
-                                  ),
-                                ),
-                                FilterChip(
-                                  label: const Text('Damaged stock'),
-                                  selected: _deliveryDamagedStock,
-                                  onSelected: (v) =>
-                                      setState(() => _deliveryDamagedStock = v),
-                                ),
-                                FilterChip(
-                                  label: const Text('Late delivery'),
-                                  selected: _deliveryLateDelivery,
-                                  onSelected: (v) =>
-                                      setState(() => _deliveryLateDelivery = v),
-                                ),
-                                FilterChip(
-                                  label: const Text('Quality problem'),
-                                  selected: _deliveryQualityProblem,
-                                  onSelected: (v) => setState(
-                                    () => _deliveryQualityProblem = v,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            DropdownButtonFormField<String>(
-                              initialValue: _deliveryOutcome,
-                              decoration: const InputDecoration(
-                                labelText: 'Outcome',
-                              ),
-                              items: const [
-                                DropdownMenuItem(
-                                  value: 'accepted',
-                                  child: Text('Accepted'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'rejected',
-                                  child: Text('Rejected'),
-                                ),
-                                DropdownMenuItem(
-                                  value: 'partial',
-                                  child: Text('Partially accepted'),
-                                ),
-                              ],
-                              onChanged: (v) => setState(
-                                () => _deliveryOutcome = v ?? _deliveryOutcome,
-                              ),
-                            ),
-                          ],
-                        ],
                       ],
                     ),
                   ),

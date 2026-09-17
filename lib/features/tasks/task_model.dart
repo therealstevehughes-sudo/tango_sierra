@@ -1,5 +1,11 @@
 class ResolvedTask {
-  final int scheduleId;
+  // Nullable (2026-09-17, ad-hoc task path build) — a schedule-less ad-hoc
+  // submission (picked from the library directly, not assigned via a
+  // TaskSchedule) has no schedule to reference. TaskSubmission.taskScheduleId
+  // was already nullable for exactly this reason; this just lets a
+  // ResolvedTask represent that case too, so TaskController.logTaskSubmission
+  // can be reused unchanged for both paths.
+  final int? scheduleId;
   final int templateGroupId;
   final String title;
   final String segment;
@@ -48,7 +54,7 @@ class ResolvedTask {
   final bool requiresSupplierSelection;
 
   const ResolvedTask({
-    required this.scheduleId,
+    this.scheduleId,
     required this.templateGroupId,
     required this.title,
     required this.segment,

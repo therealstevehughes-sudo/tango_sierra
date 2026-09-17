@@ -1679,6 +1679,12 @@ Pure client-side read/aggregation over two already-proven, already-backend-hoste
 
 Pure client-side read/aggregation over `issues` and `task_submissions` — both already backend-hosted with RLS `tenant_isolation` proven to the full curl+integration-test standard in earlier work. No new table, column, RLS policy, or write path; no new live-backend proof was run, since there is nothing new here that proof methodology would validate. Reuses the existing `DueStatusService` (already client-side, already used by the Manager screen's Overdue tracker) for "not yet done today" rather than adding new due-date computation.
 
+### Ad-hoc task path (2026-09-17) — no schema change, no new backend surface
+
+A schedule-less `TaskSubmission` write (`taskScheduleId: null`, already a nullable column) over the same already-proven `task_submissions` table every scheduled submission uses — no new table, column, or RLS policy. `ResolvedTask.scheduleId` became nullable, but that's a Dart-side value object, not a schema change. No new live-backend proof needed for the same reason as Sprint 039 above: nothing here is a new write path or a new RLS boundary.
+
+Note for whenever the food-safety professional sign-off gate (`LegalLimitReferences.verifiedAt`/`verifiedByUserId`) closes: `lib/features/tasks/verified_threshold_judgment.dart`'s `verifiedJudgmentFor()` is the ONE place to wire in real verified thresholds for ad-hoc temperature checks — see DECISIONS_LOG.md's "Ad-hoc task path" entry for the full reasoning. It currently always returns `null`.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

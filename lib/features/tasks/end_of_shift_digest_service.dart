@@ -65,14 +65,10 @@ class EndOfShiftDigestService {
 
       final parts = <String>[];
       if (stats.failCount > 0) {
-        parts.add(
-          '${stats.failCount} fail${stats.failCount == 1 ? '' : 's'}',
-        );
+        parts.add('${stats.failCount} fail${stats.failCount == 1 ? '' : 's'}');
       }
       if (notCompletedCount > 0) {
-        parts.add(
-          '$notCompletedCount not completed',
-        );
+        parts.add('$notCompletedCount not completed');
       }
       if (routineIssues.isNotEmpty) {
         parts.add(
