@@ -1588,3 +1588,7 @@ Wired into `SupabaseIssueRepository`: Accident/Incident and damaged-stock Supply
 
 Not yet built: the end-of-shift summary for everything that doesn't push immediately (task FAILs, Complaints, Venue/Other issues, non-damaged supply problems).
 Files: `send-push` Edge Function (server-only, not in this git repo — see BACKEND_INFRA.md), `lib/core/network/backend_rest_client.dart`, `lib/shared/repositories/supabase_issue_repository.dart`.
+
+## End-of-shift digest — BUILT (2026-09-17): the realtime-push feature is now fully closed out
+The other half of the push-vs-digest split. One push per site manager when a worker's session ends (natural completion or early exit), summarising fails/not-completed/routine issues since the session started — deliberately the exact inverse set of what already pushes immediately, so nothing is reported twice. Sends nothing when there's nothing to report.
+Files: `lib/features/tasks/end_of_shift_digest_service.dart`, `lib/features/tasks/task_screen.dart`.
