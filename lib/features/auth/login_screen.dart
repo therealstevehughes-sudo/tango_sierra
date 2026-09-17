@@ -126,9 +126,48 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               // through PIN entry too (it sits above the branch in this
               // Column, outside the staffAsync.when below), giving the
               // header a real visual boundary on the page instead of
-              // floating text/logo directly on the background.
-              AppCard(child: BrandHeader(branding: defaultBranding)),
-              const SizedBox(height: 12),
+              // floating text/logo directly on the background. Padding
+              // tightened (2026-09-17 follow-up) — the branding block was
+              // still too prominent relative to the staff cards below.
+              AppCard(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    BrandHeader(branding: defaultBranding),
+                    // Discreet entry point for regional/executive sign-in
+                    // (Sprint 031) — deliberately unlabeled and muted so it
+                    // doesn't read as an action worth noticing on a shared
+                    // store device. Moved here (2026-09-17 follow-up) from
+                    // its own row above the search card, to the right of
+                    // the branding — there's real spare room in this card's
+                    // corner, and removing its own row lets everything
+                    // below move up.
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.lock_outline,
+                          color: AppColors.muted,
+                        ),
+                        iconSize: 20,
+                        tooltip: 'Leadership Access',
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SeniorLoginScreen(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 8),
               Expanded(
                 child: selectedUser == null
                     ? staffAsync.when(
@@ -381,28 +420,6 @@ class _StaffListState extends State<_StaffList> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Discreet entry point for regional/executive sign-in (Sprint 031)
-        // — deliberately unlabeled (no visible text, just the glyph) and
-        // muted so it doesn't read as an action worth noticing on a shared
-        // store device. A tooltip is fine since tooltips don't surface on
-        // touch anyway, which is exactly who this needs to be invisible to.
-        // Moved out of a Stack/Positioned (2026-09-17 warmth pass) — with
-        // the greeting+heading+search now inside a bordered AppCard below,
-        // a corner-Positioned icon would visually collide with the card's
-        // own edge; a plain right-aligned row above the card keeps it just
-        // as discreet with no overlap.
-        Align(
-          alignment: Alignment.topRight,
-          child: IconButton(
-            icon: const Icon(Icons.lock_outline, color: AppColors.muted),
-            iconSize: 20,
-            tooltip: 'Leadership Access',
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
-            ),
-          ),
-        ),
         // Login-screen warmth pass (2026-09-17), rebalanced (2026-09-17
         // follow-up) — this block was reading as the screen's main event
         // (a tall, generously padded card) when the staff cards below are

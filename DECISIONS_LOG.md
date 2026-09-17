@@ -1827,3 +1827,11 @@ Changed in `_StaffList`'s heading card: `AppCard`'s default padding (16px all si
 
 Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
 Files: `lib/features/auth/login_screen.dart`.
+
+## Login screen: second proportion follow-up (built 2026-09-17)
+User asked for the Leadership Access lock icon to move off its own row (freeing vertical space above the search card) and into the spare corner of the branding card, next to the client logo, and for the branding card itself to be less prominent.
+
+Moved the lock `IconButton` from its standalone `Align(topRight)` row (removed entirely) into the branding `AppCard` itself, via a `Stack` (`BrandHeader` + `Positioned(top:0, right:0)` icon) — same discreet, unlabeled treatment, just relocated to the real spare space in that card's corner. Branding `AppCard` padding tightened to match the search card's treatment (`horizontal: 16, vertical: 8`, down from the default 16px all round), and the gap below it reduced 12→8px. Net effect: one fewer row, a smaller branding card, everything shifts up — the staff cards get more of the screen.
+
+Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
+Files: `lib/features/auth/login_screen.dart`.
