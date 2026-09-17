@@ -128,9 +128,8 @@ class AppTheme {
         // unchanged.
         labelStyle: textTheme.bodySmall?.copyWith(
           color: WidgetStateColor.resolveWith(
-            (states) => states.contains(WidgetState.selected)
-                ? onAccent
-                : accent,
+            (states) =>
+                states.contains(WidgetState.selected) ? onAccent : accent,
           ),
           fontWeight: FontWeight.w600,
         ),
@@ -145,7 +144,16 @@ class AppTheme {
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.paper,
+        // Login-screen warmth pass (2026-09-17) — this was AppColors.paper,
+        // the exact page background colour, so every text field/dropdown
+        // app-wide filled with the SAME colour as the page behind it and
+        // only a thin border kept it visible at all. AppCard already uses
+        // AppColors.card (white) as its "raised surface on the warm page"
+        // colour; inputs should read the same way, not blend into the
+        // page. One token fix, app-wide — not scoped per-screen, since a
+        // per-screen override would just be inconsistent patching of a
+        // shared default.
+        fillColor: AppColors.card,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(color: AppColors.line),

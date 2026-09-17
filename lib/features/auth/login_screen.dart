@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/utils/greeting.dart';
+import '../../core/widgets/app_card.dart';
 import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
@@ -120,8 +122,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              BrandHeader(branding: defaultBranding),
-              const SizedBox(height: 24),
+              // Login-screen warmth pass (2026-09-17) — this card persists
+              // through PIN entry too (it sits above the branch in this
+              // Column, outside the staffAsync.when below), giving the
+              // header a real visual boundary on the page instead of
+              // floating text/logo directly on the background.
+              AppCard(child: BrandHeader(branding: defaultBranding)),
+              const SizedBox(height: 12),
               Expanded(
                 child: selectedUser == null
                     ? staffAsync.when(
@@ -371,41 +378,21 @@ class _StaffListState extends State<_StaffList> {
           ].where((u) => u.name.toLowerCase().contains(query)).toList()
         : const <User>[];
 
-    return Stack(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 20),
-            Text(
-              "Who are you?",
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: searchController,
-              decoration: const InputDecoration(
-                labelText: 'Search',
-                prefixIcon: Icon(Icons.search),
-              ),
-            ),
-            const SizedBox(height: 12),
-            Expanded(
-              child: isSearching
-                  ? _buildSearchResults(searchResults)
-                  : _buildGroupedList(kitchenStaff, supervisorsAndManagers),
-            ),
-          ],
-        ),
         // Discreet entry point for regional/executive sign-in (Sprint 031)
         // — deliberately unlabeled (no visible text, just the glyph) and
         // muted so it doesn't read as an action worth noticing on a shared
         // store device. A tooltip is fine since tooltips don't surface on
         // touch anyway, which is exactly who this needs to be invisible to.
-        Positioned(
-          top: 0,
-          right: 0,
+        // Moved out of a Stack/Positioned (2026-09-17 warmth pass) — with
+        // the greeting+heading+search now inside a bordered AppCard below,
+        // a corner-Positioned icon would visually collide with the card's
+        // own edge; a plain right-aligned row above the card keeps it just
+        // as discreet with no overlap.
+        Align(
+          alignment: Alignment.topRight,
           child: IconButton(
             icon: const Icon(Icons.lock_outline, color: AppColors.muted),
             iconSize: 20,
@@ -415,6 +402,44 @@ class _StaffListState extends State<_StaffList> {
               MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
             ),
           ),
+        ),
+        // Login-screen warmth pass (2026-09-17) — greeting + heading +
+        // search recomposed into one bounded card (was three loosely
+        // spaced, uncontained pieces floating on the page background),
+        // plus a small time-aware human touch above the question.
+        AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                timeAwareGreeting(),
+                textAlign: TextAlign.center,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                "Who are you?",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: searchController,
+                decoration: const InputDecoration(
+                  labelText: 'Search',
+                  prefixIcon: Icon(Icons.search),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 12),
+        Expanded(
+          child: isSearching
+              ? _buildSearchResults(searchResults)
+              : _buildGroupedList(kitchenStaff, supervisorsAndManagers),
         ),
       ],
     );
@@ -451,7 +476,7 @@ class _StaffListState extends State<_StaffList> {
         physics: const NeverScrollableScrollPhysics(), // is its content
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 280,
-          mainAxisExtent: 72,
+          mainAxisExtent: 80,
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
         ),
@@ -479,7 +504,7 @@ class _StaffListState extends State<_StaffList> {
         padding: const EdgeInsets.only(bottom: 24),
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 280,
-          mainAxisExtent: 72,
+          mainAxisExtent: 80,
           crossAxisSpacing: 12,
           mainAxisSpacing: 12,
         ),
@@ -490,9 +515,12 @@ class _StaffListState extends State<_StaffList> {
         ),
       );
     }
+    // Login-screen warmth pass (2026-09-17) — spacing, not a Divider: each
+    // tile is now its own bordered card, so a line between them would just
+    // double up on the tile's own border.
     return ListView.separated(
       itemCount: results.length,
-      separatorBuilder: (_, _) => const Divider(),
+      separatorBuilder: (_, _) => const SizedBox(height: 8),
       itemBuilder: (context, index) => _StaffTile(
         user: results[index],
         onTap: () => widget.onSelect(results[index]),
@@ -506,7 +534,7 @@ class _StaffListState extends State<_StaffList> {
       tiles.add(
         _StaffTile(user: users[i], onTap: () => widget.onSelect(users[i])),
       );
-      if (i != users.length - 1) tiles.add(const Divider());
+      if (i != users.length - 1) tiles.add(const SizedBox(height: 8));
     }
     return tiles;
   }
@@ -526,24 +554,44 @@ class _StaffTile extends StatelessWidget {
     // 56dp+-tall button-per-person layout, for scanning a 30+ person roster.
     // The teal initial-avatar restores the accent colour on the actual
     // tappable element after the plain grouped list read as undesigned.
-    return ListTile(
-      dense: true,
-      onTap: onTap,
-      leading: CircleAvatar(
-        backgroundColor: AppColors.tealTint,
-        foregroundColor: AppColors.tealInk,
-        child: Text(
-          user.name.isEmpty ? '?' : user.name[0].toUpperCase(),
-          style: const TextStyle(fontWeight: FontWeight.w700),
+    //
+    // Login-screen warmth pass (2026-09-17) — wrapped in the app's warm
+    // card visual language (white fill, soft warm border, rounded corners
+    // — same DNA as AppCard) instead of a bare ListTile sitting directly
+    // on the page, which read as a plain contact list. Not AppCard itself:
+    // its page-level padding/margin defaults don't fit a compact grid
+    // tile — this reuses the same tokens at a tighter scale.
+    return Material(
+      color: AppColors.card,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.line),
+          ),
+          child: ListTile(
+            dense: true,
+            leading: CircleAvatar(
+              backgroundColor: AppColors.tealTint,
+              foregroundColor: AppColors.tealInk,
+              child: Text(
+                user.name.isEmpty ? '?' : user.name[0].toUpperCase(),
+                style: const TextStyle(fontWeight: FontWeight.w700),
+              ),
+            ),
+            title: Text(
+              user.name,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+            ),
+            subtitle: Text(user.jobTitle),
+          ),
         ),
       ),
-      title: Text(
-        user.name,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
-      ),
-      subtitle: Text(user.jobTitle),
     );
   }
 }

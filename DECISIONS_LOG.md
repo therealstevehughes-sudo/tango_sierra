@@ -1772,3 +1772,21 @@ User reported, live: a base-tier kitchen porter had no working way to log out of
 
 Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
 Files: `lib/features/tasks/worker_hub_screen.dart`.
+
+## Login screen warmth pass (built 2026-09-17)
+User flagged the login/"Who are you?" screen as feeling sterile and unfinished, not intentionally minimal — asked for investigation and a proposal before any build. Investigated and confirmed:
+- The warm `#F7F5F2` page background WAS already applied app-wide (`AppTheme.light().scaffoldBackgroundColor`) — not the cause.
+- **Real cause #1**: `BrandHeader` only renders its centred logo/name block when custom branding is set. Unbranded (the common/demo case), the header collapsed to just the tiny 72px VenuRite mark pinned top-left with nothing to balance it.
+- **Real cause #2**: `_StaffTile` was a bare `ListTile` with only a `CircleAvatar` — no card, border, or fill, sitting directly on the page. Read as a plain contact list.
+- **Real cause #3, found during investigation, not originally flagged by the user**: `AppTheme`'s global `inputDecorationTheme.fillColor` was `AppColors.paper` — the EXACT page background colour. Every text field/dropdown app-wide (not just this screen) filled with the same colour as the page behind it, with only a thin border keeping it visible at all. This alone explains the Report Issue "What kind of thing happened?" dropdown feeling equally sterile, without needing any change to that screen itself.
+
+**Built exactly as approved**:
+- `AppTheme`: `inputDecorationTheme.fillColor` changed from `AppColors.paper` to `AppColors.card` (white) — the same "raised surface on a warm page" colour `AppCard` already uses. One token, app-wide, consistent — not a per-screen patch.
+- `BrandHeader`: added a fallback centred "Welcome to VenuRite" wordmark (same wording `_FreshInstallEntry` already used, for one consistent voice) when no branding/site name is set, so the header always has a real centred anchor.
+- New `lib/core/utils/greeting.dart`: `timeAwareGreeting()` — Good morning/afternoon/evening from the device clock, no new data.
+- `login_screen.dart`: `BrandHeader` wrapped in an `AppCard` (persists through PIN entry too, since it sits above that branch in the Column). Greeting + "Who are you?" + search recomposed into one bordered `AppCard` (previously three loosely spaced pieces floating on the page). The discreet Leadership Access lock icon moved from a `Positioned` corner overlay (would have visually collided with the new card's edge) to a plain right-aligned row above the card — same discretion, no overlap. `_StaffTile` rewritten from a bare `ListTile` to a `Material`+`InkWell`+bordered-`Container` card using the same warm tokens as `AppCard` (white fill, `AppColors.line` border, 12px radius) at a tighter scale suited to a grid tile — not `AppCard` itself, since its page-level padding/margin defaults didn't fit a 72-80px tile. Grid `mainAxisExtent` bumped 72→80 to fit the bordered tile without clipping; `Divider`s between tiles replaced with plain spacing (a card's own border made an adjacent divider line redundant).
+- Report Issue's dropdown needed no separate change — the theme token fix above already resolves it.
+- Deliberately did NOT add anything beyond this list — no extra icons, no new copy blocks, no additional cards — per the explicit "crafted and welcoming, not more stuff" instruction.
+
+Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched. No backend/schema involvement — client-only.
+Files: `lib/app/theme/app_theme.dart`, `lib/core/widgets/brand_header.dart`, `lib/core/utils/greeting.dart` (new), `lib/features/auth/login_screen.dart`.

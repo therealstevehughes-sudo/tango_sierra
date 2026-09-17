@@ -59,49 +59,63 @@ class BrandHeader extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-        // VenuRite app mark — top-left signature, now 72px (doubled from
-        // 36px per user request, 2026-09-13) and full opacity so it stays
-        // visible without dominating over the client's brand.
-        if (showAppMark)
-          const Positioned(top: 0, left: 0, child: VenuRiteMark()),
-        // Client branding — centred as the main header element. When a
-        // Director has set branding, this shows the company name, client
-        // logo (64px, sizing confirmed via brain stand-in 2026-09-13),
-        // and branch name. Without branding, nothing renders (the login
-        // screen's own "Welcome to VenuRite" text handles that case).
-        if (logo != null || siteName != null)
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (clientLogoPath != null) ...[
-                  Image.file(
-                    File(clientLogoPath),
-                    height: 64,
-                    fit: BoxFit.contain,
-                  ),
-                  const SizedBox(height: 8),
+          // VenuRite app mark — top-left signature, now 72px (doubled from
+          // 36px per user request, 2026-09-13) and full opacity so it stays
+          // visible without dominating over the client's brand.
+          if (showAppMark)
+            const Positioned(top: 0, left: 0, child: VenuRiteMark()),
+          // Client branding — centred as the main header element. When a
+          // Director has set branding, this shows the company name, client
+          // logo (64px, sizing confirmed via brain stand-in 2026-09-13),
+          // and branch name.
+          if (logo != null || siteName != null)
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if (clientLogoPath != null) ...[
+                    Image.file(
+                      File(clientLogoPath),
+                      height: 64,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                  if (logo?.companyName != null) ...[
+                    Text(
+                      logo!.companyName!,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                  ],
+                  if (siteName != null) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      siteName!,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ],
                 ],
-                if (logo?.companyName != null) ...[
-                  Text(
-                    logo!.companyName!,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ],
-                if (siteName != null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    siteName!,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ],
-              ],
+              ),
+            )
+          else
+            // Login-screen warmth pass (2026-09-17) — without this, an
+            // unbranded install (the common/demo case) showed nothing but
+            // the small top-left app mark, with no centred anchor at all:
+            // the sparse, off-balance "floating small and high" look the
+            // user reported. Same wording _FreshInstallEntry already uses
+            // for the zero-staff case, so the fallback reads as one
+            // consistent voice rather than a second, different message.
+            Center(
+              child: Text(
+                'Welcome to VenuRite',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
             ),
-          ),
-      ],
+        ],
       ),
     );
   }
