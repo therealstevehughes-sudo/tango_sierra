@@ -28,6 +28,7 @@ import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import 'camera_capture_screen.dart';
 import 'end_of_session_summary_screen.dart';
+import 'end_of_shift_digest_service.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
 import 'task_overview_screen.dart';
@@ -333,7 +334,28 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       );
       if (leave != true) return;
 
+      final notCompletedCount =
+          controller.tasks.length - controller.currentIndex;
       await controller.logRemainingAsNotCompleted();
+
+      // End-of-shift digest (2026-09-17) — same fire-and-forget reasoning
+      // as the natural-completion trigger in submitTask() below; this is
+      // the early-exit trigger, the other of the two places a session
+      // actually ends.
+      final currentUser = ref.read(currentUserProvider);
+      if (currentUser?.siteId != null) {
+        final stats = await controller.buildSessionStats();
+        ref
+            .read(endOfShiftDigestServiceProvider)
+            .sendDigest(
+              siteId: currentUser!.siteId!,
+              workerId: currentUser.id,
+              workerName: currentUser.name,
+              sessionStartedAt: controller.sessionStartedAt,
+              stats: stats,
+              notCompletedCount: notCompletedCount,
+            );
+      }
     }
 
     if (!mounted) return;
@@ -577,6 +599,22 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     } else {
       final stats = await controller.buildSessionStats();
       if (!mounted) return;
+
+      // End-of-shift digest (2026-09-17) — fire-and-forget, not awaited:
+      // this is a background push send, must never delay the summary
+      // screen the worker is already waiting on.
+      final currentUser = ref.read(currentUserProvider);
+      if (currentUser?.siteId != null) {
+        ref
+            .read(endOfShiftDigestServiceProvider)
+            .sendDigest(
+              siteId: currentUser!.siteId!,
+              workerId: currentUser.id,
+              workerName: currentUser.name,
+              sessionStartedAt: controller.sessionStartedAt,
+              stats: stats,
+            );
+      }
 
       await Navigator.push(
         context,
