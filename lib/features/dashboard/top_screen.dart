@@ -9,75 +9,9 @@ import '../../core/widgets/trigger_notifications_banner.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/trigger_notification.dart';
 import '../../shared/providers/auth_providers.dart';
-import '../../shared/providers/backup_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
-import '../export/eho_export_dialog.dart';
 import '../notifications/escalation_service.dart';
 import 'dashboard_screen.dart';
-
-Future<void> _showBackupDialog(BuildContext context, WidgetRef ref) async {
-  final nameController = TextEditingController();
-
-  final confirmed = await showDialog<bool>(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Back Up Now'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'This creates a complete copy of the local database in your '
-            'Documents folder. Moving it to a USB drive or cloud-synced '
-            'folder afterward is a separate manual step.',
-          ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: nameController,
-            decoration: const InputDecoration(
-              labelText: 'Backup name (optional)',
-              hintText: 'e.g. Pre-inspection backup',
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: const Text('Back Up Now'),
-        ),
-      ],
-    ),
-  );
-
-  if (confirmed != true) return;
-
-  final repo = ref.read(backupRepositoryProvider);
-  final path = await repo.createBackup(
-    customName: nameController.text.trim().isEmpty
-        ? null
-        : nameController.text.trim(),
-  );
-
-  if (!context.mounted) return;
-  await showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Backup Created'),
-      content: Text('Saved to:\n$path'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('OK'),
-        ),
-      ],
-    ),
-  );
-}
 
 class TopScreen extends ConsumerStatefulWidget {
   const TopScreen({super.key});
@@ -130,11 +64,7 @@ class _TopScreenState extends ConsumerState<TopScreen> {
       // Sub-sprint 2 (visual/UX pass): see manager_screen.dart's identical
       // change for the rationale — replaces the previous 9-icon,
       // tooltip-only AppBar action row.
-      drawer: ManagementDrawer(
-        title: 'Top-Tier View',
-        onBackUp: () => _showBackupDialog(context, ref),
-        onEhoExport: () => showEhoExportDialog(context, ref),
-      ),
+      drawer: const ManagementDrawer(title: 'Top-Tier View'),
       body: Column(
         children: [
           if (currentUser != null)

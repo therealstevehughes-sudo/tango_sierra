@@ -14,79 +14,13 @@ import '../../shared/models/session_summary.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/trigger_notification.dart';
 import '../../shared/providers/auth_providers.dart';
-import '../../shared/providers/backup_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
-import '../export/eho_export_dialog.dart';
 import '../notifications/escalation_service.dart';
 import '../tasks/overdue_summary_service.dart';
 import 'manager_log_filter.dart';
 import 'overdue_summary_card.dart';
-
-Future<void> _showBackupDialog(BuildContext context, WidgetRef ref) async {
-  final nameController = TextEditingController();
-
-  final confirmed = await showDialog<bool>(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Back Up Now'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'This creates a complete copy of the local database in your '
-            'Documents folder. Moving it to a USB drive or cloud-synced '
-            'folder afterward is a separate manual step.',
-          ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: nameController,
-            decoration: const InputDecoration(
-              labelText: 'Backup name (optional)',
-              hintText: 'e.g. Pre-inspection backup',
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: const Text('Back Up Now'),
-        ),
-      ],
-    ),
-  );
-
-  if (confirmed != true) return;
-
-  final repo = ref.read(backupRepositoryProvider);
-  final path = await repo.createBackup(
-    customName: nameController.text.trim().isEmpty
-        ? null
-        : nameController.text.trim(),
-  );
-
-  if (!context.mounted) return;
-  await showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Backup Created'),
-      content: Text('Saved to:\n$path'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('OK'),
-        ),
-      ],
-    ),
-  );
-}
 
 class ManagerScreen extends ConsumerStatefulWidget {
   const ManagerScreen({super.key});
@@ -287,11 +221,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
       // devices, so a user unfamiliar with the glyphs had no way to tell
       // what a button did before pressing it. A drawer with a visible icon
       // + label per row fixes that without crowding the app bar.
-      drawer: ManagementDrawer(
-        title: 'Manager View',
-        onBackUp: () => _showBackupDialog(context, ref),
-        onEhoExport: () => showEhoExportDialog(context, ref),
-      ),
+      drawer: const ManagementDrawer(title: 'Manager View'),
       // Layout fix (Sprint 031): the banners and the filter used to sit
       // outside the scrollable area (only the log itself was Expanded),
       // so their combined height was a fixed tax on the viewport — with

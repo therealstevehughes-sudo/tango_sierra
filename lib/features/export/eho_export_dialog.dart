@@ -6,9 +6,19 @@ import '../../shared/providers/auth_providers.dart';
 import 'eho_export_service.dart';
 
 // EHO/audit export (Sprint 031) — same minimal "generate, then show where
-// it saved" shape as _showBackupDialog in manager_screen.dart/
-// top_screen.dart, not a new UI pattern.
-Future<void> showEhoExportDialog(BuildContext context, WidgetRef ref) async {
+// it saved" shape as showBackupDialog, not a new UI pattern.
+//
+// Menu redesign (2026-09-17): takes a ProviderContainer, not a WidgetRef —
+// this function only ever calls .read(), never .watch()/.listen(), so the
+// two are interchangeable here. Lets ManagementDrawer invoke this
+// directly from a stable root-navigator context instead of requiring
+// every hosting screen to wire its own callback (see ManagementDrawer's
+// own doc comment for why a plain WidgetRef from the Drawer itself
+// wouldn't survive the Drawer closing).
+Future<void> showEhoExportDialog(
+  BuildContext context,
+  ProviderContainer container,
+) async {
   DateTime? start;
   DateTime? end;
   // Default off: per the researched export-format decision, the common
@@ -96,7 +106,7 @@ Future<void> showEhoExportDialog(BuildContext context, WidgetRef ref) async {
 
   if (confirmed != true || start == null || end == null) return;
 
-  final currentUser = ref.read(currentUserProvider);
+  final currentUser = container.read(currentUserProvider);
   if (currentUser == null) return;
 
   final rangeStart = DateTime(start!.year, start!.month, start!.day);
@@ -106,7 +116,7 @@ Future<void> showEhoExportDialog(BuildContext context, WidgetRef ref) async {
     end!.day,
   ).add(const Duration(days: 1));
 
-  final service = ref.read(ehoExportServiceProvider);
+  final service = container.read(ehoExportServiceProvider);
 
   // Never fail silently (found live-testing: an unhandled exception here
   // used to just close the dialog with no PDF, no file, and no indication

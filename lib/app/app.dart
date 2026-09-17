@@ -8,6 +8,7 @@ import '../features/tasks/worker_hub_screen.dart';
 import '../shared/models/user.dart';
 import '../shared/providers/auth_providers.dart';
 import '../shared/providers/branding_providers.dart';
+import 'navigator_key.dart';
 import 'theme/app_theme.dart';
 
 class MyApp extends ConsumerWidget {
@@ -61,6 +62,7 @@ class MyApp extends ConsumerWidget {
     }
 
     return MaterialApp(
+      navigatorKey: rootNavigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'VenuRite',
       theme: AppTheme.light(brandAccent: brandAccent),

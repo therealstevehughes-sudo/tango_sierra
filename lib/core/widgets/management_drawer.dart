@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/navigator_key.dart';
 import '../../app/theme/app_colors.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/dashboard/leadership_dashboard_screen.dart';
+import '../../features/export/eho_export_dialog.dart';
 import '../../features/home/tier_home_screen.dart';
+import '../../features/manager/backup_dialog.dart';
 import '../../features/notifications/notification_rules_screen.dart';
 import '../../features/onboarding/staff_assignment_screen.dart';
 import '../../features/onboarding/staff_provisioning_screen.dart';
@@ -42,19 +45,75 @@ class _DrawerItemDef {
   final WidgetBuilder screenBuilder;
 }
 
-// Sprint 031: single source of truth for management-drawer visibility, per
-// "Tier feature access" — venue-configuration items are venueManager-
-// minimum (Assign Tasks included: it creates recurring TaskSchedule rows,
-// a setup responsibility, not shift-floor work, so supervisor doesn't get
-// it). Regional/executive inherit this same set via roleTierRank, plus
-// whatever their own tier-specific items add once those are built.
-final List<_DrawerItemDef> _managementItems = [
+// Menu redesign (2026-09-17) — grouped by purpose into 6 collapsible
+// sections (see ManagementDrawer.build() for the section shells and the
+// hand-written items — Home, Oversight, Back Up Now, EHO Export, Log out
+// — that don't fit this simple "push a screen" shape). Every item here
+// keeps EXACTLY the tier gate it had before this redesign; only which
+// section it lives in changed, per the user's explicit list. Two renames
+// also happened in this pass: "Fails & Problems Register" -> "Problems &
+// Issues" (the screen gained an Issues & Incidents tab 2026-09-15, the
+// old name was stale) and "Venue Setup" -> "Setup Wizard" (to read
+// distinctly from "Venue Details" next to it).
+final List<_DrawerItemDef> _insightsItems = [
   _DrawerItemDef(
-    icon: Icons.store,
-    label: 'Venue Setup',
+    icon: Icons.bar_chart,
+    label: 'Dashboard Overview',
     minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const VenueSetupWizardScreen(),
+    screenBuilder: (_) => const LeadershipDashboardScreen(),
   ),
+  // EHO Export is a dialog action, not a screen push — handled by hand in
+  // the INSIGHTS section body below, not this list (WidgetBuilder can't
+  // express "run a dialog" cleanly). Kept here in the doc comment only so
+  // the section's full item order is legible in one place: Dashboard
+  // Overview, EHO / Audit Export, Photo Evidence, Document Centre.
+  _DrawerItemDef(
+    icon: Icons.photo_library_outlined,
+    label: 'Photo Evidence',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const EvidencePruneScreen(),
+  ),
+  _DrawerItemDef(
+    icon: Icons.folder_copy_outlined,
+    label: 'Document Centre',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const DocumentCentreScreen(),
+  ),
+];
+
+final List<_DrawerItemDef> _peopleItems = [
+  _DrawerItemDef(
+    icon: Icons.badge,
+    label: 'Staff Management',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const StaffManagementScreen(),
+  ),
+  _DrawerItemDef(
+    icon: Icons.person_add_alt,
+    label: 'Add Team Member',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const StaffProvisioningScreen(),
+  ),
+  // Chain of command / branch organogram (2026-09-15) — kept at its
+  // original supervisor+ gate (unchanged by this redesign, only its
+  // section moved): this is where "who does this escalate to" gets set
+  // up and seen, so anyone who can act on an escalated issue should be
+  // able to see the reporting lines, not just venueManager+.
+  _DrawerItemDef(
+    icon: Icons.account_tree_outlined,
+    label: 'Branch Team Structure',
+    minTier: RoleTier.supervisor,
+    screenBuilder: (_) => const BranchOrgChartScreen(),
+  ),
+  _DrawerItemDef(
+    icon: Icons.groups,
+    label: 'Department Management',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const DepartmentManagementScreen(),
+  ),
+];
+
+final List<_DrawerItemDef> _venueSetupItems = [
   _DrawerItemDef(
     icon: Icons.location_city,
     label: 'Venue Details',
@@ -67,10 +126,6 @@ final List<_DrawerItemDef> _managementItems = [
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const StaffAssignmentScreen(),
   ),
-  // Task-reorder (2026-09-12): manager-configured execution order — the
-  // manager sets the venue's daily flow; the worker's carousel then runs
-  // in that order. Same tier as Assign Tasks (it edits the same recurring
-  // TaskSchedule rows, a setup responsibility).
   _DrawerItemDef(
     icon: Icons.swap_vert,
     label: 'Reorder Tasks',
@@ -84,25 +139,10 @@ final List<_DrawerItemDef> _managementItems = [
     screenBuilder: (_) => const PresetManagementScreen(),
   ),
   _DrawerItemDef(
-    icon: Icons.badge,
-    label: 'Staff Management',
+    icon: Icons.local_shipping,
+    label: 'Supplier Management',
     minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const StaffManagementScreen(),
-  ),
-  // Phase C1d — backend-first staff creation (a real, tenant-isolated PIN
-  // account from the start), distinct from Assign Tasks above (which
-  // assumes the person already exists).
-  _DrawerItemDef(
-    icon: Icons.person_add_alt,
-    label: 'Add Team Member',
-    minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const StaffProvisioningScreen(),
-  ),
-  _DrawerItemDef(
-    icon: Icons.notifications,
-    label: 'Notification Rules',
-    minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const NotificationRulesScreen(),
+    screenBuilder: (_) => const SupplierManagementScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.contact_phone,
@@ -111,58 +151,39 @@ final List<_DrawerItemDef> _managementItems = [
     screenBuilder: (_) => const ThirdPartyContactsScreen(),
   ),
   _DrawerItemDef(
-    icon: Icons.local_shipping,
-    label: 'Supplier Management',
+    icon: Icons.notifications,
+    label: 'Notification Rules',
     minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const SupplierManagementScreen(),
+    screenBuilder: (_) => const NotificationRulesScreen(),
   ),
+  // Renamed from "Venue Setup" (2026-09-17) — reads distinctly from
+  // "Venue Details" above rather than the two sounding like the same
+  // screen.
   _DrawerItemDef(
-    icon: Icons.groups,
-    label: 'Department Management',
+    icon: Icons.store,
+    label: 'Setup Wizard',
     minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const DepartmentManagementScreen(),
+    screenBuilder: (_) => const VenueSetupWizardScreen(),
   ),
-  // Document Centre (roadmap v1.1, built 2026-09-15) — same floor as
-  // Supplier Management/Maintenance Contacts: venue-configuration items,
-  // venueManager-minimum.
-  _DrawerItemDef(
-    icon: Icons.folder_copy_outlined,
-    label: 'Document Centre',
-    minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const DocumentCentreScreen(),
-  ),
-  // Phase C3 (2026-09-14, redesigned same day after live feedback) — the
-  // visual org organogram: Head Office -> Regions -> Venues, each level
-  // showing its actual people (not just structure), expandable
-  // downward, add/invite/rename/reset-password actions right on it.
-  // Executive-only, and now REPLACES the old separate "Regions" drawer
-  // item below it (removed) -- that split across two screens was
-  // exactly the fragmentation the user asked to fix; this one screen
-  // covers everything "Regions" did, plus the people it never showed.
-  // "Branches" stays separate: it's a REGIONAL manager's own
-  // single-region view, a different tier this executive-only tree
-  // doesn't serve.
+];
+
+final List<_DrawerItemDef> _companyItems = [
+  // Phase C3 — the visual org organogram: Head Office -> Regions ->
+  // Venues, each level showing its actual people, expandable downward,
+  // add/invite/rename/reset-password actions right on it. Executive-only.
   _DrawerItemDef(
     icon: Icons.account_tree_outlined,
     label: 'Organisation',
     minTier: RoleTier.executive,
     screenBuilder: (_) => const OrganisationTreeScreen(),
   ),
+  // A REGIONAL manager's own single-region view, a different tier than
+  // the executive-only Organisation tree above.
   _DrawerItemDef(
     icon: Icons.storefront_outlined,
     label: 'Branches',
     minTier: RoleTier.regional,
     screenBuilder: (_) => const BranchManagementScreen(),
-  ),
-  // Photo-evidence P1 (Sprint 032): the "back up to free space" flow
-  // PHOTO_EVIDENCE_PLAN.md deliberately deferred from P0. Venue manager
-  // tier and above, same as Back Up Now / EHO Export — evidence
-  // housekeeping is an operational tool, not a self-serve staff action.
-  _DrawerItemDef(
-    icon: Icons.photo_library_outlined,
-    label: 'Photo Evidence',
-    minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const EvidencePruneScreen(),
   ),
 ];
 
@@ -181,32 +202,32 @@ const _ehoExportMinTier = RoleTier.venueManager;
 /// silently went stale after manager_screen.dart was fixed in Sub-sprint 5.
 /// One shared widget, tier-filtered via `roleTierRank`, removes that class
 /// of drift for good — same rationale as the `PinEntry` extraction.
+///
+/// Menu redesign (2026-09-17): restructured from a flat 27-item list with
+/// two unlabelled dividers into 6 labelled, collapsible sections (Daily,
+/// Insights, People, Venue Setup, Company, Account) grouped by purpose —
+/// see DECISIONS_LOG.md's "Menu/navigation audit + redesign" entry for the
+/// full before/after. Also fixed a real inconsistency found during that
+/// redesign: Back Up Now / EHO Export used to only appear on
+/// ManagerScreen/TopScreen specifically, because they needed a `ref` that
+/// outlives this Drawer's own closing (this Drawer's own `context`/`ref`
+/// are disposed the instant `Navigator.pop` closes it — a real,
+/// previously-hit crash, which is why those two actions were originally
+/// wired as callbacks captured from the CALLER's own longer-lived `ref`
+/// rather than run directly from here). Fixed at the root cause instead of
+/// re-patching the same workaround: `rootNavigatorKey` (app/navigator_key.dart)
+/// gives this Drawer a context that belongs to the app's root Navigator,
+/// which is never disposed by a Drawer closing, and `showBackupDialog`/
+/// `showEhoExportDialog` now take a `ProviderContainer` (resolved from
+/// that same stable context) instead of a `WidgetRef` — safe because both
+/// functions only ever call `.read()`, never `.watch()`/`.listen()`. Both
+/// actions now appear consistently for venueManager+ from ANY screen this
+/// Drawer is used on, and the `onBackUp`/`onEhoExport` constructor
+/// parameters that used to carry the per-caller workaround are gone.
 class ManagementDrawer extends ConsumerWidget {
-  const ManagementDrawer({
-    super.key,
-    required this.title,
-    this.onBackUp,
-    this.onEhoExport,
-    this.onLogout,
-  });
+  const ManagementDrawer({super.key, required this.title, this.onLogout});
 
   final String title;
-  // Nullable (Sprint 031, navigation-consistency pass) — Back Up Now / EHO
-  // Export only appear when the caller supplies these, since only
-  // ManagerScreen/TopScreen wire them; every other screen this drawer is
-  // now on (TierHomeScreen, TaskScreen, Settings, the 9 tool screens) omits
-  // them rather than duplicating the callback wiring everywhere. Home is
-  // always one tap away from any of those two actions regardless.
-  //
-  // A callback captured from the calling screen's own long-lived `ref`,
-  // not a call made directly with this widget's own `ref` — found via a
-  // real runtime crash (Sprint 031): the export dialog awaits a date
-  // picker before its first `ref.read`, and by then this Drawer had
-  // already been disposed by the Navigator.pop() that closed it, making
-  // its own `ref` unsafe to use. Back Up Now already avoided this by
-  // using a callback; this now matches that same pattern.
-  final VoidCallback? onBackUp;
-  final VoidCallback? onEhoExport;
   // Nullable — only TaskScreen supplies this (its own confirmation-aware
   // _confirmLogOut, which checks hasRemainingTasks first). Every other
   // screen falls back to the drawer's own default: pop to root, then null
@@ -225,6 +246,8 @@ class ManagementDrawer extends ConsumerWidget {
   // `title` already tells us which screen is currently open (every call
   // site passes its own screen's title), so "active" maps onto "this
   // item's label matches the screen you're already on" just as well.
+  // Unchanged by the menu redesign — only which section wraps each tile
+  // changed, never this widget itself.
   Widget _navTile({
     required IconData icon,
     required String label,
@@ -256,6 +279,43 @@ class ManagementDrawer extends ConsumerWidget {
     );
   }
 
+  // Menu redesign (2026-09-17) — one section shell for all 6 groups:
+  // returns null (renders nothing) when [children] ends up empty for the
+  // current tier, so a tier that can't see anything in a section never
+  // gets shown that section's header at all. `initiallyExpanded` is true
+  // only for Daily; every other section collapses by default, matching
+  // the ExpansionTile pattern manager_screen.dart already uses for
+  // Alerts/Overdue/Log grouping.
+  Widget? _section({
+    required String label,
+    required List<Widget> children,
+    bool initiallyExpanded = false,
+  }) {
+    if (children.isEmpty) return null;
+    return ExpansionTile(
+      initiallyExpanded: initiallyExpanded,
+      title: Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
+      childrenPadding: EdgeInsets.zero,
+      children: children,
+    );
+  }
+
+  List<Widget> _itemTiles(
+    BuildContext context,
+    List<_DrawerItemDef> items,
+    bool Function(RoleTier) atLeast,
+  ) {
+    return [
+      for (final item in items)
+        if (atLeast(item.minTier))
+          _navTile(
+            icon: item.icon,
+            label: item.label,
+            onTap: () => _navigate(context, item.screenBuilder(context)),
+          ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
@@ -264,30 +324,14 @@ class ManagementDrawer extends ConsumerWidget {
     bool atLeast(RoleTier minTier) =>
         tier != null && roleTierRank(tier) >= roleTierRank(minTier);
 
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+    final sections = <Widget?>[
+      // DAILY — always non-empty for any tier that reaches this Drawer at
+      // all (Home/My Tasks/Oversight are unconditional), expanded by
+      // default: the items a supervisor+ actually touches every shift.
+      _section(
+        label: 'Daily',
+        initiallyExpanded: true,
         children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(color: AppColors.tealTint),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.tealInk,
-                ),
-              ),
-            ),
-          ),
-          // Universal navigation (Sprint 031, navigation-consistency pass)
-          // — present on every screen this drawer is used on, ungated,
-          // since every non-base tier can always reach its own tasks, the
-          // oversight view for its tier, and Settings. Home pops to root
-          // rather than pushing — TierHomeScreen is already MaterialApp.home
-          // for every non-base tier, so this never stacks a duplicate copy.
           _navTile(
             icon: Icons.home_outlined,
             label: 'Home',
@@ -305,62 +349,89 @@ class ManagementDrawer extends ConsumerWidget {
             _navTile(
               icon: Icons.visibility,
               label: 'Oversight',
-              onTap: () =>
-                  _navigate(context, TierHomeScreen.oversightScreenFor(tier)),
+              onTap: () => _navigate(
+                context,
+                TierHomeScreen.oversightScreenFor(tier),
+              ),
             ),
-          // Dashboard + worker recognition (Sprint 031, Sub-sprint B) —
-          // supervisor and above, matching supervisor sharing venueManager's
-          // venue-wide dashboard (confirmed before building). This drawer
-          // only ever renders for supervisor+ in the first place (base has
-          // no drawer at all), so `atLeast` is always true here — kept for
-          // documentation clarity, not because it currently excludes anyone.
-          if (tier != null && atLeast(RoleTier.supervisor))
+          // Renamed from "Fails & Problems Register" (2026-09-17) — the
+          // screen gained an Issues & Incidents tab 2026-09-15; the old
+          // name only reflected half of what's actually in there now.
+          if (atLeast(RoleTier.supervisor))
+            _navTile(
+              icon: Icons.report_problem_outlined,
+              label: 'Problems & Issues',
+              onTap: () => _navigate(context, const ProblemsRegisterScreen()),
+            ),
+          if (atLeast(RoleTier.supervisor))
             _navTile(
               icon: Icons.insights,
               label: 'Dashboard',
               onTap: () => _navigate(context, const DashboardScreen()),
             ),
-          // Leadership dashboard overview (2026-09-15, from the user's own
-          // Visual idea.pdf mockup) — explicitly scoped by the user to
-          // branch/regional/director level, one floor above the plain
-          // Dashboard above (which supervisor already shares).
-          if (tier != null && atLeast(RoleTier.venueManager))
+        ],
+      ),
+      // INSIGHTS — venueManager+ reporting/monitoring, collapsed by
+      // default (checked occasionally, not every shift).
+      _section(
+        label: 'Insights',
+        children: [
+          ..._itemTiles(context, [_insightsItems[0]], atLeast),
+          if (atLeast(_ehoExportMinTier))
             _navTile(
-              icon: Icons.bar_chart,
-              label: 'Dashboard Overview',
-              onTap: () => _navigate(context, const LeadershipDashboardScreen()),
+              icon: Icons.picture_as_pdf_outlined,
+              label: 'EHO / Audit Export',
+              onTap: () {
+                Navigator.pop(context);
+                showEhoExportDialog(
+                  rootNavigatorKey.currentContext!,
+                  ProviderScope.containerOf(
+                    rootNavigatorKey.currentContext!,
+                    listen: false,
+                  ),
+                );
+              },
             ),
-          // Fails & Problems Register (Part A) — same floor as Dashboard:
-          // every leadership tier (supervisor and above), never base.
-          if (tier != null && atLeast(RoleTier.supervisor))
-            _navTile(
-              icon: Icons.report_problem_outlined,
-              label: 'Fails & Problems Register',
-              onTap: () => _navigate(context, const ProblemsRegisterScreen()),
-            ),
-          // Chain of command / branch organogram (2026-09-15) — same floor
-          // as the register above (supervisor and above, never base):
-          // this is where "who does this escalate to" gets set up and
-          // seen, so anyone who can act on an escalated issue should be
-          // able to see the reporting lines too.
-          if (tier != null && atLeast(RoleTier.supervisor))
-            _navTile(
-              icon: Icons.account_tree_outlined,
-              label: 'Branch Team Structure',
-              onTap: () => _navigate(context, const BranchOrgChartScreen()),
-            ),
+          ..._itemTiles(context, _insightsItems.sublist(1), atLeast),
+        ],
+      ),
+      // PEOPLE — staff/team structure. Branch Team Structure keeps its
+      // original supervisor+ gate (moved here from the top nav cluster,
+      // gate unchanged), so a supervisor sees this section with just that
+      // one item — a harmless, deliberately-accepted one-item section
+      // rather than complicating the tier-gating rule to avoid it.
+      _section(
+        label: 'People',
+        children: _itemTiles(context, _peopleItems, atLeast),
+      ),
+      // VENUE SETUP — venueManager+ configuration, all one tier floor.
+      _section(
+        label: 'Venue Setup',
+        children: _itemTiles(context, _venueSetupItems, atLeast),
+      ),
+      // COMPANY — org-structure viewers grouped together (previously sat
+      // apart, mid-list, among unrelated config items). Invisible to
+      // supervisor/venueManager (neither item's gate reaches that low).
+      _section(
+        label: 'Company',
+        children: _itemTiles(context, _companyItems, atLeast),
+      ),
+      // ACCOUNT — collapsed by default like every non-Daily section, per
+      // the approved spec, even though Log out is used every session.
+      _section(
+        label: 'Account',
+        children: [
           _navTile(
             icon: Icons.settings,
             label: 'Settings',
             onTap: () => _navigate(context, const SettingsScreen()),
           ),
-          // Two-factor authentication (roadmap v1.1, 2026-09-15) — only
-          // meaningful for a real GoTrue session (regional/executive with
-          // backendAuthEnabled). A demo-mode PIN-based senior account has
-          // no GoTrue session to enroll MFA against at all, so this stays
-          // hidden rather than showing a screen that would error out.
-          if (tier != null &&
-              atLeast(RoleTier.regional) &&
+          // Two-factor authentication — only meaningful for a real GoTrue
+          // session (regional/executive with backendAuthEnabled). A
+          // demo-mode PIN-based senior account has no GoTrue session to
+          // enroll MFA against at all, so this stays hidden rather than
+          // showing a screen that would error out. Gate unchanged.
+          if (atLeast(RoleTier.regional) &&
               ref.watch(backendAuthEnabledProvider))
             _navTile(
               icon: Icons.verified_user_outlined,
@@ -368,33 +439,21 @@ class ManagementDrawer extends ConsumerWidget {
               onTap: () =>
                   _navigate(context, const TwoFactorSettingsScreen()),
             ),
-          const Divider(),
-          for (final item in _managementItems)
-            if (atLeast(item.minTier))
-              _navTile(
-                icon: item.icon,
-                label: item.label,
-                onTap: () => _navigate(context, item.screenBuilder(context)),
-              ),
-          if (onBackUp != null && atLeast(_backUpMinTier))
+          if (atLeast(_backUpMinTier))
             _navTile(
               icon: Icons.backup,
               label: 'Back Up Now',
               onTap: () {
                 Navigator.pop(context);
-                onBackUp!();
+                showBackupDialog(
+                  rootNavigatorKey.currentContext!,
+                  ProviderScope.containerOf(
+                    rootNavigatorKey.currentContext!,
+                    listen: false,
+                  ),
+                );
               },
             ),
-          if (onEhoExport != null && atLeast(_ehoExportMinTier))
-            _navTile(
-              icon: Icons.picture_as_pdf_outlined,
-              label: 'EHO / Audit Export',
-              onTap: () {
-                Navigator.pop(context);
-                onEhoExport!();
-              },
-            ),
-          const Divider(),
           _navTile(
             icon: Icons.logout,
             label: 'Log out',
@@ -414,6 +473,29 @@ class ManagementDrawer extends ConsumerWidget {
               ref.read(currentUserProvider.notifier).state = null;
             },
           ),
+        ],
+      ),
+    ].whereType<Widget>().toList();
+
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: const BoxDecoration(color: AppColors.tealTint),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.tealInk,
+                ),
+              ),
+            ),
+          ),
+          ...sections,
         ],
       ),
     );
