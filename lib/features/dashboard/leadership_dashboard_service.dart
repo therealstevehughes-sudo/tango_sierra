@@ -30,6 +30,12 @@ import '../../shared/repositories/task_submission_repository.dart';
 // from without inventing one. Logged as an open question in
 // DECISIONS_LOG.md, not silently mapped onto something that doesn't
 // mean what "Urgent" implies.
+// Click-to-drill-down (2026-09-17) — the original Visual idea.pdf mockup
+// said "Click on colour band for detailed breakdown" under both bars;
+// this was never wired up. Each category now keeps its actual matching
+// rows, not just a count, so the dashboard screen can show the real list
+// behind a tap on either the bar segment or its legend entry — no new
+// queries, the same data already being fetched.
 class TaskOverviewBreakdown {
   const TaskOverviewBreakdown({
     required this.onTimeNoIssues,
@@ -39,25 +45,25 @@ class TaskOverviewBreakdown {
     required this.notDone,
   });
 
-  final int onTimeNoIssues;
-  final int onTimeIssuesLogged;
-  final int offWindowNoIssues;
-  final int offWindowIssuesLogged;
-  final int notDone;
+  final List<TaskSubmission> onTimeNoIssues;
+  final List<TaskSubmission> onTimeIssuesLogged;
+  final List<TaskSubmission> offWindowNoIssues;
+  final List<TaskSubmission> offWindowIssuesLogged;
+  final List<TaskSubmission> notDone;
 
   int get total =>
-      onTimeNoIssues +
-      onTimeIssuesLogged +
-      offWindowNoIssues +
-      offWindowIssuesLogged +
-      notDone;
+      onTimeNoIssues.length +
+      onTimeIssuesLogged.length +
+      offWindowNoIssues.length +
+      offWindowIssuesLogged.length +
+      notDone.length;
 
   double _rate(int n) => total == 0 ? 0 : n / total;
-  double get onTimeNoIssuesRate => _rate(onTimeNoIssues);
-  double get onTimeIssuesLoggedRate => _rate(onTimeIssuesLogged);
-  double get offWindowNoIssuesRate => _rate(offWindowNoIssues);
-  double get offWindowIssuesLoggedRate => _rate(offWindowIssuesLogged);
-  double get notDoneRate => _rate(notDone);
+  double get onTimeNoIssuesRate => _rate(onTimeNoIssues.length);
+  double get onTimeIssuesLoggedRate => _rate(onTimeIssuesLogged.length);
+  double get offWindowNoIssuesRate => _rate(offWindowNoIssues.length);
+  double get offWindowIssuesLoggedRate => _rate(offWindowIssuesLogged.length);
+  double get notDoneRate => _rate(notDone.length);
 }
 
 class IncidentsBreakdown {
@@ -67,16 +73,16 @@ class IncidentsBreakdown {
     required this.escalated,
   });
 
-  final int resolved;
-  final int unresolved;
-  final int escalated;
+  final List<Issue> resolved;
+  final List<Issue> unresolved;
+  final List<Issue> escalated;
 
-  int get total => resolved + unresolved + escalated;
+  int get total => resolved.length + unresolved.length + escalated.length;
 
   double _rate(int n) => total == 0 ? 0 : n / total;
-  double get resolvedRate => _rate(resolved);
-  double get unresolvedRate => _rate(unresolved);
-  double get escalatedRate => _rate(escalated);
+  double get resolvedRate => _rate(resolved.length);
+  double get unresolvedRate => _rate(unresolved.length);
+  double get escalatedRate => _rate(escalated.length);
 }
 
 class LeadershipDashboardService {
@@ -162,28 +168,28 @@ class LeadershipDashboardService {
     final schedules = await _scheduleRepository.getForSite(siteId);
     final schedulesById = {for (final sch in schedules) sch.id: sch};
 
-    var onTimeNoIssues = 0;
-    var onTimeIssuesLogged = 0;
-    var offWindowNoIssues = 0;
-    var offWindowIssuesLogged = 0;
-    var notDone = 0;
+    final onTimeNoIssues = <TaskSubmission>[];
+    final onTimeIssuesLogged = <TaskSubmission>[];
+    final offWindowNoIssues = <TaskSubmission>[];
+    final offWindowIssuesLogged = <TaskSubmission>[];
+    final notDone = <TaskSubmission>[];
 
     for (final s in submissions) {
       if (s.status == 'NOT_COMPLETED') {
-        notDone++;
+        notDone.add(s);
         continue;
       }
       if (s.status != 'PASS' && s.status != 'FAIL') continue;
       final onTime = _isOnTime(s, schedulesById);
       final hasIssue = _hasIssue(s);
       if (onTime && !hasIssue) {
-        onTimeNoIssues++;
+        onTimeNoIssues.add(s);
       } else if (onTime && hasIssue) {
-        onTimeIssuesLogged++;
+        onTimeIssuesLogged.add(s);
       } else if (!onTime && !hasIssue) {
-        offWindowNoIssues++;
+        offWindowNoIssues.add(s);
       } else {
-        offWindowIssuesLogged++;
+        offWindowIssuesLogged.add(s);
       }
     }
 
@@ -206,17 +212,17 @@ class LeadershipDashboardService {
       (i) => !i.raisedAt.isBefore(start) && i.raisedAt.isBefore(end),
     );
 
-    var resolved = 0;
-    var unresolved = 0;
-    var escalated = 0;
+    final resolved = <Issue>[];
+    final unresolved = <Issue>[];
+    final escalated = <Issue>[];
     for (final i in inRange) {
       switch (i.status) {
         case IssueStatus.resolved:
-          resolved++;
+          resolved.add(i);
         case IssueStatus.open:
-          unresolved++;
+          unresolved.add(i);
         case IssueStatus.escalated:
-          escalated++;
+          escalated.add(i);
       }
     }
 

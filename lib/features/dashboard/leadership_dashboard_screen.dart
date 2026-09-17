@@ -289,20 +289,89 @@ class _LeadershipDashboardScreenState
           const SizedBox(height: 12),
           _ProportionBar(
             segments: [
-              _BarSegment(overview.onTimeNoIssuesRate, AppColors.pass, '${overview.onTimeNoIssues}'),
-              _BarSegment(overview.onTimeIssuesLoggedRate, const Color(0xFFE8C547), '${overview.onTimeIssuesLogged}'),
-              _BarSegment(overview.offWindowNoIssuesRate, const Color(0xFFE8873D), '${overview.offWindowNoIssues}'),
-              _BarSegment(overview.offWindowIssuesLoggedRate, const Color(0xFF8E5FD9), '${overview.offWindowIssuesLogged}'),
-              _BarSegment(overview.notDoneRate, AppColors.critical, '${overview.notDone}'),
+              _BarSegment(
+                overview.onTimeNoIssuesRate,
+                AppColors.pass,
+                '${overview.onTimeNoIssues.length}',
+                () => _showSubmissionBreakdown(
+                  'Done on time (no issues)',
+                  overview.onTimeNoIssues,
+                ),
+              ),
+              _BarSegment(
+                overview.onTimeIssuesLoggedRate,
+                const Color(0xFFE8C547),
+                '${overview.onTimeIssuesLogged.length}',
+                () => _showSubmissionBreakdown(
+                  'Done on time (issues logged)',
+                  overview.onTimeIssuesLogged,
+                ),
+              ),
+              _BarSegment(
+                overview.offWindowNoIssuesRate,
+                const Color(0xFFE8873D),
+                '${overview.offWindowNoIssues.length}',
+                () => _showSubmissionBreakdown(
+                  'Done early/late (no issues)',
+                  overview.offWindowNoIssues,
+                ),
+              ),
+              _BarSegment(
+                overview.offWindowIssuesLoggedRate,
+                const Color(0xFF8E5FD9),
+                '${overview.offWindowIssuesLogged.length}',
+                () => _showSubmissionBreakdown(
+                  'Done early/late (issues logged)',
+                  overview.offWindowIssuesLogged,
+                ),
+              ),
+              _BarSegment(
+                overview.notDoneRate,
+                AppColors.critical,
+                '${overview.notDone.length}',
+                () => _showSubmissionBreakdown('Not done', overview.notDone),
+              ),
             ],
           ),
           const SizedBox(height: 12),
           _legendRow([
-            (AppColors.pass, 'Done on time (no issues)'),
-            (const Color(0xFFE8C547), 'Done on time (issues logged)'),
-            (const Color(0xFFE8873D), 'Done early/late (no issues)'),
-            (const Color(0xFF8E5FD9), 'Done early/late (issues logged)'),
-            (AppColors.critical, 'Not done'),
+            (
+              AppColors.pass,
+              'Done on time (no issues)',
+              () => _showSubmissionBreakdown(
+                'Done on time (no issues)',
+                overview.onTimeNoIssues,
+              ),
+            ),
+            (
+              const Color(0xFFE8C547),
+              'Done on time (issues logged)',
+              () => _showSubmissionBreakdown(
+                'Done on time (issues logged)',
+                overview.onTimeIssuesLogged,
+              ),
+            ),
+            (
+              const Color(0xFFE8873D),
+              'Done early/late (no issues)',
+              () => _showSubmissionBreakdown(
+                'Done early/late (no issues)',
+                overview.offWindowNoIssues,
+              ),
+            ),
+            (
+              const Color(0xFF8E5FD9),
+              'Done early/late (issues logged)',
+              () => _showSubmissionBreakdown(
+                'Done early/late (issues logged)',
+                overview.offWindowIssuesLogged,
+              ),
+            ),
+            (
+              AppColors.critical,
+              'Not done',
+              () => _showSubmissionBreakdown('Not done', overview.notDone),
+            ),
           ]),
         ],
       ),
@@ -322,17 +391,86 @@ class _LeadershipDashboardScreenState
           const SizedBox(height: 12),
           _ProportionBar(
             segments: [
-              _BarSegment(incidents.resolvedRate, AppColors.pass, '${incidents.resolved}'),
-              _BarSegment(incidents.unresolvedRate, const Color(0xFFE8C547), '${incidents.unresolved}'),
-              _BarSegment(incidents.escalatedRate, const Color(0xFFE8873D), '${incidents.escalated}'),
+              _BarSegment(
+                incidents.resolvedRate,
+                AppColors.pass,
+                '${incidents.resolved.length}',
+                () => _showIssueBreakdown('Resolved', incidents.resolved),
+              ),
+              _BarSegment(
+                incidents.unresolvedRate,
+                const Color(0xFFE8C547),
+                '${incidents.unresolved.length}',
+                () => _showIssueBreakdown('Unresolved', incidents.unresolved),
+              ),
+              _BarSegment(
+                incidents.escalatedRate,
+                const Color(0xFFE8873D),
+                '${incidents.escalated.length}',
+                () => _showIssueBreakdown('Escalated', incidents.escalated),
+              ),
             ],
           ),
           const SizedBox(height: 12),
           _legendRow([
-            (AppColors.pass, 'Resolved'),
-            (const Color(0xFFE8C547), 'Unresolved'),
-            (const Color(0xFFE8873D), 'Escalated'),
+            (
+              AppColors.pass,
+              'Resolved',
+              () => _showIssueBreakdown('Resolved', incidents.resolved),
+            ),
+            (
+              const Color(0xFFE8C547),
+              'Unresolved',
+              () => _showIssueBreakdown('Unresolved', incidents.unresolved),
+            ),
+            (
+              const Color(0xFFE8873D),
+              'Escalated',
+              () => _showIssueBreakdown('Escalated', incidents.escalated),
+            ),
           ]),
+        ],
+      ),
+    );
+  }
+
+  // Click-to-drill-down (2026-09-17) — from the original mockup's own
+  // "Click on colour band for detailed breakdown" text under both bars.
+  // A plain bottom sheet listing the actual rows behind whichever
+  // category was tapped (bar segment or legend entry, either way in) —
+  // no new queries, these are the same lists the bars were already built
+  // from.
+  void _showSubmissionBreakdown(String title, List<TaskSubmission> items) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => _BreakdownSheet(
+        title: title,
+        count: items.length,
+        rows: [
+          for (final s in items)
+            _BreakdownRow(
+              title: s.displayTitle,
+              subtitle: formatDateTime(s.completedAt),
+            ),
+        ],
+      ),
+    );
+  }
+
+  void _showIssueBreakdown(String title, List<Issue> items) {
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => _BreakdownSheet(
+        title: title,
+        count: items.length,
+        rows: [
+          for (final i in items)
+            _BreakdownRow(
+              title: issueTypeDisplayName(i.type),
+              subtitle: '${i.details} — ${formatDateTime(i.raisedAt)}',
+            ),
         ],
       ),
     );
@@ -382,26 +520,37 @@ class _LeadershipDashboardScreenState
     );
   }
 
-  Widget _legendRow(List<(Color, String)> entries) {
+  // Click-to-drill-down (2026-09-17): each legend entry is now the same
+  // tap target as its matching bar segment — two ways into the same
+  // breakdown, per the original mockup's own "Click on colour band" text
+  // (a legend swatch reads as part of the same affordance).
+  Widget _legendRow(List<(Color, String, VoidCallback)> entries) {
     return Wrap(
       spacing: 12,
       runSpacing: 6,
       children: entries
           .map(
-            (e) => Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 12,
-                  height: 12,
-                  decoration: BoxDecoration(
-                    color: e.$1,
-                    borderRadius: BorderRadius.circular(3),
-                  ),
+            (e) => InkWell(
+              onTap: e.$3,
+              borderRadius: BorderRadius.circular(6),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        color: e.$1,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    Text(e.$2, style: Theme.of(context).textTheme.bodySmall),
+                  ],
                 ),
-                const SizedBox(width: 6),
-                Text(e.$2, style: Theme.of(context).textTheme.bodySmall),
-              ],
+              ),
             ),
           )
           .toList(),
@@ -410,10 +559,11 @@ class _LeadershipDashboardScreenState
 }
 
 class _BarSegment {
-  const _BarSegment(this.rate, this.color, this.label);
+  const _BarSegment(this.rate, this.color, this.label, this.onTap);
   final double rate;
   final Color color;
   final String label;
+  final VoidCallback onTap;
 }
 
 class _ProportionBar extends StatelessWidget {
@@ -433,15 +583,18 @@ class _ProportionBar extends StatelessWidget {
               .map(
                 (s) => Expanded(
                   flex: (s.rate * 1000).round().clamp(1, 1000),
-                  child: Container(
-                    color: s.color,
-                    alignment: Alignment.center,
-                    child: Text(
-                      '${(s.rate * 100).round()}%',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 12,
+                  child: InkWell(
+                    onTap: s.onTap,
+                    child: Container(
+                      color: s.color,
+                      alignment: Alignment.center,
+                      child: Text(
+                        '${(s.rate * 100).round()}%',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),
@@ -452,4 +605,66 @@ class _ProportionBar extends StatelessWidget {
       ),
     );
   }
+}
+
+// Click-to-drill-down (2026-09-17) — a plain bottom sheet, the real rows
+// behind whichever category was tapped. Deliberately no colour-grading or
+// per-person framing inside it (see leadership_dashboard_service.dart's
+// governing anti-gaming rule) — it's the same aggregate data the bar
+// already summarised, just uncollapsed.
+class _BreakdownSheet extends StatelessWidget {
+  const _BreakdownSheet({
+    required this.title,
+    required this.count,
+    required this.rows,
+  });
+
+  final String title;
+  final int count;
+  final List<_BreakdownRow> rows;
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.3,
+      maxChildSize: 0.9,
+      expand: false,
+      builder: (context, scrollController) => Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$title ($count)',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: rows.isEmpty
+                  ? const Center(child: Text('Nothing in this category.'))
+                  : ListView.separated(
+                      controller: scrollController,
+                      itemCount: rows.length,
+                      separatorBuilder: (_, _) => const Divider(height: 1),
+                      itemBuilder: (context, index) {
+                        final row = rows[index];
+                        return ListTile(
+                          title: Text(row.title),
+                          subtitle: Text(row.subtitle),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BreakdownRow {
+  const _BreakdownRow({required this.title, required this.subtitle});
+  final String title;
+  final String subtitle;
 }
