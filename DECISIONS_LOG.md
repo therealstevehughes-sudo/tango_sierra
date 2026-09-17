@@ -1741,3 +1741,22 @@ Built new `lib/core/widgets/breakdown_sheet.dart` (public `BreakdownSheet`/`Brea
 
 Verified: `flutter analyze` clean, all 17 tests passing.
 Files: `lib/features/suppliers/supplier_scorecard_service.dart` (new), `lib/features/suppliers/supplier_detail_screen.dart` (new), `lib/core/widgets/breakdown_sheet.dart` (new), `lib/features/dashboard/leadership_dashboard_screen.dart`, `lib/features/settings/supplier_management_screen.dart`, `lib/features/issues/issue_detail_screen.dart`.
+
+## Sprint 039: Shift Handover Intelligence (built 2026-09-17)
+Per MASTER_PLAN Phase 13: auto-generate a shift-handover summary (open issues, flagged equipment, pending prep) so the next shift starts informed, augmenting the existing manual `ShiftHandoverNotes` feature — not replacing it, per the roadmap's own framing.
+
+**User's three design calls, all built as specified:**
+1. **Honest naming over "pending prep"**: the app has no real prep-list concept, so calling this "pending prep" would promise something the data can't back. Renamed to **"Not yet done today"** — today's daily/2x-daily/3x-daily scheduled tasks with no submission yet for the current period (reusing the existing `DueStatusService`/`isClockBasedFrequency` exactly, not reinventing due-tracking). Weekly/monthly schedules are deliberately excluded — their period isn't "today," so including them would be dishonest under this label.
+2. **Shown once per new session**, matching the existing manual note's trigger exactly — both are computed in `TaskScreen._load()`, which runs once per screen instantiation (session start), not on every task-screen visit.
+3. **Silent when clean**: if there's no manual note to show AND the auto-summary is empty, nothing appears at all — no "nothing outstanding" dialog. Reasoning (the user's own): a dismiss-every-shift habit trains people to dismiss it even on the shift that actually matters.
+
+**No new data model** — reuses `IssueRepository.getForSite` (open + escalated), the Problems Register's existing open/equipment-linked submissions ("flagged equipment" = equipment with an outstanding unresolved fail, not a separate equipment-status field — none exists), and `TaskScheduleRepository` + the existing `DueStatusService`.
+
+**Anti-gaming, confirmed before building — nothing to guard, but the reasoning is written into `shift_handover_summary_service.dart`'s own doc comment**: every list is site-level operational fact, never attributed to which staff member raised/logged/is-assigned-to it. Deliberately narrower than the Manager screen's own `OverdueSummaryService` (which DOES name a staff member, on an existing manager-facing surface) — a shift-handover note is read by whoever's coming ON next, not used to judge whoever just left, so no name belongs here.
+
+**UI**: the existing manual-note dialog in `task_screen.dart` now shows the manual note (if any, unchanged behavior) followed by up to three auto-generated sections (Open issues / Flagged equipment / Not yet done today), each only rendered when non-empty. One combined "Got it" dismiss; the "still needs next shift's attention" checkbox stays tied only to the manual note's own lifecycle (unchanged).
+
+**No live-backend proof needed**: pure client-side read/aggregation over `issues` and `task_submissions`, both already RLS-proven; no new table, column, or write path.
+
+Verified: `flutter analyze` clean, all 17 tests passing.
+Files: `lib/features/tasks/shift_handover_summary_service.dart` (new), `lib/features/tasks/task_screen.dart`.

@@ -1675,6 +1675,10 @@ Pure client-side read/aggregation over two already-proven, already-backend-hoste
 
 **Re-confirms the existing `Suppliers`-not-backend-hosted gap** (see line ~1552 above) rather than introducing a new one: the scorecard reads `Supplier` names/categories via the local-Drift-only `SupplierRepository.getForSite()`, since `public.suppliers` still does not exist on the VPS. On a site with more than one device, supplier records could differ or be stale between devices — a pre-existing limitation every supplier-touching feature in this app already has. Flagged to the user rather than silently worked around; revisit if/when Suppliers gets its own backend migration cluster.
 
+### Shift Handover Intelligence (Sprint 039, 2026-09-17) — no schema change, no new backend surface
+
+Pure client-side read/aggregation over `issues` and `task_submissions` — both already backend-hosted with RLS `tenant_isolation` proven to the full curl+integration-test standard in earlier work. No new table, column, RLS policy, or write path; no new live-backend proof was run, since there is nothing new here that proof methodology would validate. Reuses the existing `DueStatusService` (already client-side, already used by the Manager screen's Overdue tracker) for "not yet done today" rather than adding new due-date computation.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

@@ -15,6 +15,7 @@ import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../core/widgets/user_title.dart';
+import '../../shared/models/issue.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -29,6 +30,7 @@ import '../../shared/providers/venue_setup_providers.dart';
 import 'camera_capture_screen.dart';
 import 'end_of_session_summary_screen.dart';
 import 'end_of_shift_digest_service.dart';
+import 'shift_handover_summary_service.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
 import 'task_overview_screen.dart';
@@ -141,55 +143,81 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     setState(() => loading = false);
 
     final handoverRepo = ref.read(shiftHandoverRepositoryProvider);
-    final latestNote = currentUser?.siteId == null
+    final siteId = currentUser?.siteId;
+    final latestNote = siteId == null
         ? null
-        : await handoverRepo.getLatestForSite(currentUser!.siteId!);
-    if (!mounted || latestNote == null || currentUser == null) return;
+        : await handoverRepo.getLatestForSite(siteId);
+    if (!mounted || currentUser == null) return;
 
     // Built 2026-09-14 — fixes a real reported bug: this note used to
     // show on every task-screen open forever, with no way to clear it.
     // getLatestForSite already only returns an unresolved note; this
     // extra check stops re-nagging THIS person once they've seen it,
     // while it keeps surfacing to whoever hasn't (the actual next shift).
-    final alreadySeen = await handoverRepo.hasAcknowledged(
-      noteId: latestNote.id,
-      userId: currentUser.id,
-    );
-    if (!mounted || alreadySeen) return;
+    final alreadySeen = latestNote == null
+        ? false
+        : await handoverRepo.hasAcknowledged(
+            noteId: latestNote.id,
+            userId: currentUser.id,
+          );
+    final noteToShow = alreadySeen ? null : latestNote;
+
+    // Shift Handover Intelligence (Sprint 039, 2026-09-17) — auto-generated
+    // summary, augmenting the manual note above rather than replacing it.
+    // "Silent when clean" per the user's explicit call: shown only when
+    // there's a real handover (a note to show, or a non-empty summary) —
+    // never a "nothing outstanding" popup, which would train people to
+    // dismiss it out of habit even on the shifts that matter.
+    final summary = siteId == null
+        ? null
+        : await ref
+              .read(shiftHandoverSummaryServiceProvider)
+              .computeSummary(siteId);
+    if (!mounted) return;
+    if (noteToShow == null && (summary == null || summary.isEmpty)) return;
 
     var repeatForNextShift = false;
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => StatefulBuilder(
         builder: (dialogContext, setDialogState) => AlertDialog(
-          title: const Text('Handover Notes'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(latestNote.note),
-              const SizedBox(height: 12),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                controlAffinity: ListTileControlAffinity.leading,
-                value: repeatForNextShift,
-                onChanged: (value) => setDialogState(
-                  () => repeatForNextShift = value ?? false,
-                ),
-                title: const Text(
-                  'This still needs the next shift\'s attention',
-                ),
-              ),
-            ],
+          title: const Text('Shift Handover'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (noteToShow != null) ...[
+                  Text(noteToShow.note),
+                  const SizedBox(height: 12),
+                  CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    controlAffinity: ListTileControlAffinity.leading,
+                    value: repeatForNextShift,
+                    onChanged: (value) => setDialogState(
+                      () => repeatForNextShift = value ?? false,
+                    ),
+                    title: const Text(
+                      'This still needs the next shift\'s attention',
+                    ),
+                  ),
+                  if (summary != null && !summary.isEmpty)
+                    const Divider(height: 24),
+                ],
+                if (summary != null) ..._buildHandoverSummarySections(summary),
+              ],
+            ),
           ),
           actions: [
             FilledButton(
               onPressed: () async {
-                await handoverRepo.acknowledge(
-                  noteId: latestNote.id,
-                  userId: currentUser.id,
-                  repeatForNextShift: repeatForNextShift,
-                );
+                if (noteToShow != null) {
+                  await handoverRepo.acknowledge(
+                    noteId: noteToShow.id,
+                    userId: currentUser.id,
+                    repeatForNextShift: repeatForNextShift,
+                  );
+                }
                 if (dialogContext.mounted) Navigator.pop(dialogContext);
               },
               child: const Text('Got it'),
@@ -198,6 +226,49 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         ),
       ),
     );
+  }
+
+  List<Widget> _buildHandoverSummarySections(ShiftHandoverSummary summary) {
+    Widget section(String title, List<String> lines) {
+      if (lines.isEmpty) return const SizedBox.shrink();
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$title (${lines.length})',
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: 4),
+            for (final line in lines)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 2),
+                child: Text('• $line'),
+              ),
+          ],
+        ),
+      );
+    }
+
+    return [
+      section('Open issues', [
+        for (final i in summary.openIssues)
+          i.subtype != null
+              ? '${issueTypeDisplayName(i.type)} · ${i.subtype}'
+              : issueTypeDisplayName(i.type),
+      ]),
+      section('Flagged equipment', [
+        for (final s in summary.flaggedEquipment)
+          s.equipmentInstanceName ?? s.taskTitle,
+      ]),
+      section('Not yet done today', [
+        for (final t in summary.outstandingTasks)
+          t.equipmentInstanceName != null
+              ? '${t.taskTitle} — ${t.equipmentInstanceName}'
+              : t.taskTitle,
+      ]),
+    ];
   }
 
   @override
@@ -551,20 +622,20 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           : null,
       deliveryShortDelivery:
           task.requiresSupplierSelection && _deliveryHasProblem
-              ? _deliveryShortDelivery
-              : false,
+          ? _deliveryShortDelivery
+          : false,
       deliveryDamagedStock:
           task.requiresSupplierSelection && _deliveryHasProblem
-              ? _deliveryDamagedStock
-              : false,
+          ? _deliveryDamagedStock
+          : false,
       deliveryLateDelivery:
           task.requiresSupplierSelection && _deliveryHasProblem
-              ? _deliveryLateDelivery
-              : false,
+          ? _deliveryLateDelivery
+          : false,
       deliveryQualityProblem:
           task.requiresSupplierSelection && _deliveryHasProblem
-              ? _deliveryQualityProblem
-              : false,
+          ? _deliveryQualityProblem
+          : false,
       // Always 'accepted' unless a problem was actually reported — the
       // fast path never forces a choice, per "one tap if all fine."
       deliveryOutcome: task.requiresSupplierSelection
@@ -889,12 +960,14 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           if (_deliveryHasProblem) ...[
                             TextField(
                               controller: deliveryTemperatureController,
-                              keyboardType: const TextInputType.numberWithOptions(
-                                decimal: true,
-                                signed: true,
-                              ),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                    decimal: true,
+                                    signed: true,
+                                  ),
                               decoration: const InputDecoration(
-                                labelText: 'Temperature on arrival (°C, optional)',
+                                labelText:
+                                    'Temperature on arrival (°C, optional)',
                               ),
                             ),
                             const SizedBox(height: 8),
@@ -904,8 +977,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 FilterChip(
                                   label: const Text('Short delivery'),
                                   selected: _deliveryShortDelivery,
-                                  onSelected: (v) =>
-                                      setState(() => _deliveryShortDelivery = v),
+                                  onSelected: (v) => setState(
+                                    () => _deliveryShortDelivery = v,
+                                  ),
                                 ),
                                 FilterChip(
                                   label: const Text('Damaged stock'),
