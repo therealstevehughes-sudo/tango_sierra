@@ -56,10 +56,15 @@ class _DrawerItemDef {
 // old name was stale) and "Venue Setup" -> "Setup Wizard" (to read
 // distinctly from "Venue Details" next to it).
 final List<_DrawerItemDef> _insightsItems = [
+  // Sections/Teams scoping (2026-09-18) — lowered from venueManager so a
+  // Supervisor can reach their own section/team-scoped view (see
+  // leadership_dashboard_screen.dart). This is the one gate this build
+  // deliberately changes, for a stated reason — every other item's gate
+  // stays byte-for-byte as it was.
   _DrawerItemDef(
     icon: Icons.bar_chart,
     label: 'Dashboard Overview',
-    minTier: RoleTier.venueManager,
+    minTier: RoleTier.supervisor,
     screenBuilder: (_) => const LeadershipDashboardScreen(),
   ),
   // EHO Export is a dialog action, not a screen push — handled by hand in

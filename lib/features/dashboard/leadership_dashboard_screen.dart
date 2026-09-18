@@ -13,9 +13,12 @@ import '../../shared/models/site.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/issue_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../../shared/providers/supervision_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
+import '../../shared/providers/team_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import 'leadership_dashboard_service.dart';
 
@@ -52,6 +55,18 @@ class _LeadershipDashboardScreenState
   IncidentsBreakdown? _incidents;
   List<TaskSubmission> _employeeSubmissions = [];
   List<Issue> _employeeIssues = [];
+
+  // Sections/Teams scoping (2026-09-18) — a Supervisor's dashboard is
+  // locked to their own supervised section(s)/team(s), never their free
+  // choice like Venue Manager+ gets. Null for every other tier (no
+  // scoping applied). Empty-but-non-null means "a Supervisor with nothing
+  // assigned yet" — a real state, shown as its own message, not an
+  // all-zero dashboard that looks like a bug.
+  Set<int>? _allowedUserIds;
+  List<String> _scopeLabels = [];
+
+  bool get _isSupervisor =>
+      ref.read(currentUserProvider)?.roleTier == RoleTier.supervisor;
 
   @override
   void initState() {
@@ -110,13 +125,54 @@ class _LeadershipDashboardScreenState
 
     final areas = await ref.read(areaRepositoryProvider).getForSite(siteId);
     final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
+    final activeStaff = staff.where((u) => u.active).toList();
+
+    Set<int>? allowedUserIds;
+    var scopeLabels = <String>[];
+    final currentUser = ref.read(currentUserProvider);
+    if (currentUser != null && currentUser.roleTier == RoleTier.supervisor) {
+      final supervisionRepo = ref.read(supervisionRepositoryProvider);
+      final departmentIds = (await supervisionRepo.getSupervisedDepartmentIds(
+        currentUser.id,
+      )).toSet();
+      final teamIds = (await supervisionRepo.getSupervisedTeamIds(
+        currentUser.id,
+      )).toSet();
+
+      allowedUserIds = activeStaff
+          .where(
+            (u) =>
+                (u.departmentId != null &&
+                    departmentIds.contains(u.departmentId)) ||
+                (u.teamId != null && teamIds.contains(u.teamId)),
+          )
+          .map((u) => u.id)
+          .toSet();
+
+      final departments = await ref
+          .read(departmentRepositoryProvider)
+          .getForSite(siteId);
+      scopeLabels = departments
+          .where((d) => departmentIds.contains(d.id))
+          .map((d) => d.name)
+          .toList();
+      final teamRepo = ref.read(teamRepositoryProvider);
+      for (final d in departments) {
+        final teams = await teamRepo.getForDepartment(d.id!);
+        scopeLabels.addAll(
+          teams.where((t) => teamIds.contains(t.id)).map((t) => t.name),
+        );
+      }
+    }
 
     if (!mounted) return;
     setState(() {
       _areas = areas;
-      _staff = staff.where((u) => u.active).toList();
+      _staff = activeStaff;
       _selectedAreaId = null;
       _selectedEmployeeId = null;
+      _allowedUserIds = allowedUserIds;
+      _scopeLabels = scopeLabels;
     });
     await _loadBreakdowns();
   }
@@ -162,11 +218,13 @@ class _LeadershipDashboardScreenState
       start: range.start,
       end: range.end,
       areaId: _selectedAreaId,
+      allowedUserIds: _allowedUserIds,
     );
     final incidents = await service.computeIncidents(
       siteId: siteId,
       start: range.start,
       end: range.end,
+      allowedUserIds: _allowedUserIds,
     );
     if (!mounted) return;
     setState(() {
@@ -178,6 +236,8 @@ class _LeadershipDashboardScreenState
 
   @override
   Widget build(BuildContext context) {
+    final supervisorHasNoScope =
+        _isSupervisor && !_loading && (_allowedUserIds?.isEmpty ?? false);
     return Scaffold(
       appBar: AppBar(title: const Text('Dashboard Overview')),
       drawer: const ManagementDrawer(title: 'Dashboard Overview'),
@@ -196,6 +256,15 @@ class _LeadershipDashboardScreenState
                         child: Padding(
                           padding: EdgeInsets.all(24),
                           child: CircularProgressIndicator(),
+                        ),
+                      )
+                    else if (supervisorHasNoScope)
+                      const AppCard(
+                        child: Text(
+                          "You haven't been assigned to a section or team "
+                          'yet — ask a manager to set this up in Staff '
+                          'Management before this dashboard has anything '
+                          'to show.',
                         ),
                       )
                     else if (_selectedEmployeeId != null)
@@ -234,38 +303,63 @@ class _LeadershipDashboardScreenState
             ),
             const SizedBox(height: 12),
           ],
-          const Text('Section'),
-          const SizedBox(height: 4),
-          DropdownButtonFormField<int?>(
-            initialValue: _selectedAreaId,
-            items: [
-              const DropdownMenuItem(value: null, child: Text('All sections')),
-              ..._areas.map(
-                (a) => DropdownMenuItem(value: a.id, child: Text(a.name)),
-              ),
-            ],
-            onChanged: (v) {
-              setState(() => _selectedAreaId = v);
-              _loadBreakdowns();
-            },
-          ),
-          const SizedBox(height: 12),
-          const Text('Employee'),
-          const SizedBox(height: 4),
-          DropdownButtonFormField<int?>(
-            initialValue: _selectedEmployeeId,
-            items: [
-              const DropdownMenuItem(value: null, child: Text('All employees')),
-              ..._staff.map(
-                (u) => DropdownMenuItem(value: u.id, child: Text(u.name)),
-              ),
-            ],
-            onChanged: (v) {
-              setState(() => _selectedEmployeeId = v);
-              _loadBreakdowns();
-            },
-          ),
-          const SizedBox(height: 12),
+          // Sections/Teams scoping (2026-09-18) — a Supervisor gets a
+          // locked read-out of their own supervised section(s)/team(s)
+          // instead of the free Area/Employee dropdowns Venue Manager+
+          // gets: their whole point is to see only their own scope, not
+          // to be handed the same free-roam filters as branch leadership.
+          if (_isSupervisor) ...[
+            const Text('Your section'),
+            const SizedBox(height: 4),
+            Text(
+              _scopeLabels.isEmpty ? 'None assigned' : _scopeLabels.join(', '),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 12),
+          ] else ...[
+            // "Area" — a physical/equipment location grouping, a
+            // deliberately different concept from the Department-based
+            // "section" a Supervisor is scoped by above (renamed from
+            // "Section" 2026-09-18 to stop the two ideas colliding under
+            // one word).
+            const Text('Area'),
+            const SizedBox(height: 4),
+            DropdownButtonFormField<int?>(
+              initialValue: _selectedAreaId,
+              items: [
+                const DropdownMenuItem(value: null, child: Text('All areas')),
+                ..._areas.map(
+                  (a) => DropdownMenuItem(value: a.id, child: Text(a.name)),
+                ),
+              ],
+              onChanged: (v) {
+                setState(() => _selectedAreaId = v);
+                _loadBreakdowns();
+              },
+            ),
+            const SizedBox(height: 12),
+            const Text('Employee'),
+            const SizedBox(height: 4),
+            DropdownButtonFormField<int?>(
+              initialValue: _selectedEmployeeId,
+              items: [
+                const DropdownMenuItem(
+                  value: null,
+                  child: Text('All employees'),
+                ),
+                ..._staff.map(
+                  (u) => DropdownMenuItem(value: u.id, child: Text(u.name)),
+                ),
+              ],
+              onChanged: (v) {
+                setState(() => _selectedEmployeeId = v);
+                _loadBreakdowns();
+              },
+            ),
+            const SizedBox(height: 12),
+          ],
           SegmentedButton<_Period>(
             segments: const [
               ButtonSegment(value: _Period.month, label: Text('Month')),

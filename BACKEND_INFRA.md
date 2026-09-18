@@ -1703,6 +1703,10 @@ CREATE POLICY tenant_isolation ON public.teams FOR ALL
 
 **Not yet done**: no live-backend cross-tenant proof (curl + Dart integration test) has been run for `teams`/`supervised_departments`/`supervised_teams` yet — logged as an open item, same standard every other backend-hosted table eventually gets. Low urgency: these three tables only ever hold internal admin-configured scoping data, not directly reachable by an unprivileged caller in a way the existing `issues`/`users` proofs don't already substantially cover via the same `can_access_site()` function.
 
+### Supervisor-scoped Dashboard Overview (2026-09-18) — no schema change, confirms an existing capability
+
+Pure client-side feature (see DECISIONS_LOG.md's own entry) — no new table, column, or policy. Worth recording the one thing confirmed while building it: `can_access_site()` **already** lets a Regional session read any site in their own region, and an Executive session any site in their organisation — this was proven true back in the B-phase work, not newly added. So "Regional sees their region's branches" / "Executive sees everything" are NOT blocked by RLS at all; the only missing piece for those two tiers is client-side aggregation code that actually rolls multiple sites' data into one dashboard view, which nothing has built yet (deliberately out of scope for this pass — Supervisor-only).
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

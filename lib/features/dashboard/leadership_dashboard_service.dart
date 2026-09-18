@@ -36,6 +36,15 @@ import '../../shared/repositories/task_submission_repository.dart';
 // rows, not just a count, so the dashboard screen can show the real list
 // behind a tap on either the bar segment or its legend entry — no new
 // queries, the same data already being fetched.
+//
+// Sections/Teams scoping (2026-09-18) — `allowedUserIds` locks a
+// Supervisor's dashboard to their own supervised section(s)/team(s) (a
+// GROUP of people, resolved by the screen from SupervisionRepository +
+// site staff). This does not violate the anti-gaming rule above: the rule
+// protects individuals from being singled out, and a section/team is
+// still an aggregate of multiple people, graded exactly the same way a
+// whole branch already is — narrowing WHICH group, not shrinking the
+// group down to one named person.
 class TaskOverviewBreakdown {
   const TaskOverviewBreakdown({
     required this.onTimeNoIssues,
@@ -148,12 +157,26 @@ class LeadershipDashboardService {
     // this method already computes from; not a new query shape, not a
     // separate leaderboard-style view.
     int? employeeId,
+    // Sections/Teams scoping (2026-09-18) — when set, only submissions
+    // completed by someone in this set count at all. Used to lock a
+    // Supervisor's dashboard to their own supervised section(s)/team(s),
+    // computed by the caller from SupervisionRepository + site staff (this
+    // service has no opinion on what "section" means — that resolution
+    // stays in the screen, same separation as the areaId/employeeId
+    // filters above).
+    Set<int>? allowedUserIds,
   }) async {
     var submissions = await _submissionRepository.getForSiteAndDateRange(
       siteId: siteId,
       start: start,
       end: end,
     );
+
+    if (allowedUserIds != null) {
+      submissions = submissions
+          .where((s) => allowedUserIds.contains(s.completedByUserId))
+          .toList();
+    }
 
     if (employeeId != null) {
       submissions = submissions
@@ -167,9 +190,7 @@ class LeadershipDashboardService {
       // (e.g. a plain cleaning checklist item), logged not hidden. Such
       // submissions are excluded rather than guessed into a section.
       final equipment = await _equipmentRepository.getForSite(siteId);
-      final areaByEquipmentId = {
-        for (final e in equipment) e.id: e.areaId,
-      };
+      final areaByEquipmentId = {for (final e in equipment) e.id: e.areaId};
       submissions = submissions
           .where(
             (s) =>
@@ -221,13 +242,15 @@ class LeadershipDashboardService {
     required DateTime start,
     required DateTime end,
     int? employeeId,
+    Set<int>? allowedUserIds,
   }) async {
     final issues = await _issueRepository.getForSite(siteId);
     final inRange = issues.where(
       (i) =>
           !i.raisedAt.isBefore(start) &&
           i.raisedAt.isBefore(end) &&
-          (employeeId == null || i.raisedByUserId == employeeId),
+          (employeeId == null || i.raisedByUserId == employeeId) &&
+          (allowedUserIds == null || allowedUserIds.contains(i.raisedByUserId)),
     );
 
     final resolved = <Issue>[];
@@ -252,12 +275,13 @@ class LeadershipDashboardService {
   }
 }
 
-final leadershipDashboardServiceProvider =
-    Provider<LeadershipDashboardService>((ref) {
-      return LeadershipDashboardService(
-        ref.watch(taskSubmissionRepositoryProvider),
-        ref.watch(taskScheduleRepositoryProvider),
-        ref.watch(equipmentRepositoryProvider),
-        ref.watch(issueRepositoryProvider),
-      );
-    });
+final leadershipDashboardServiceProvider = Provider<LeadershipDashboardService>(
+  (ref) {
+    return LeadershipDashboardService(
+      ref.watch(taskSubmissionRepositoryProvider),
+      ref.watch(taskScheduleRepositoryProvider),
+      ref.watch(equipmentRepositoryProvider),
+      ref.watch(issueRepositoryProvider),
+    );
+  },
+);
