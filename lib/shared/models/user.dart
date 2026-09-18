@@ -62,6 +62,10 @@ class User {
   // assigned. Distinct from jobRole ("what you do") and roleTier ("how much
   // you can see/escalate to") — this is "which part of the venue."
   final int? departmentId;
+  // Teams (2026-09-18) — a finer subdivision within departmentId, e.g.
+  // "Night Team" inside "Kitchen". Nullable and independent of
+  // departmentId — a person can be in a department with no specific team.
+  final int? teamId;
   // Phase B0 — set only for regional-tier accounts: which one region they
   // oversee (one region per manager). Null for every other tier.
   final int? regionId;
@@ -90,6 +94,7 @@ class User {
     this.deactivatedAt,
     this.deactivatedByUserId,
     this.departmentId,
+    this.teamId,
     this.regionId,
     this.reportsToUserId,
     this.fcmToken,
@@ -112,6 +117,7 @@ class User {
       deactivatedAt: deactivatedAt,
       deactivatedByUserId: deactivatedByUserId,
       departmentId: departmentId,
+      teamId: teamId,
       regionId: regionId,
       reportsToUserId: reportsToUserId,
       fcmToken: fcmToken,

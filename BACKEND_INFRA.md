@@ -1685,6 +1685,24 @@ A schedule-less `TaskSubmission` write (`taskScheduleId: null`, already a nullab
 
 Note for whenever the food-safety professional sign-off gate (`LegalLimitReferences.verifiedAt`/`verifiedByUserId`) closes: `lib/features/tasks/verified_threshold_judgment.dart`'s `verifiedJudgmentFor()` is the ONE place to wire in real verified thresholds for ad-hoc temperature checks — see DECISIONS_LOG.md's "Ad-hoc task path" entry for the full reasoning. It currently always returns `null`.
 
+### Sections/Teams: new tables + RLS (2026-09-18) — CLOSED
+
+Foundation for Supervisor section/team scoping and Issue section tagging — see DECISIONS_LOG.md's "Sections/Teams" entry for the full design. New tables: `public.teams`, `public.supervised_departments`, `public.supervised_teams`; new columns: `public.users.team_id`, `public.issues.department_id`, `public.issues.team_id`.
+
+**RLS shape, matching `issue_events`' existing pattern**: none of the three new tables have their own `site_id` column, so each policy scopes via a join to the parent `Department`'s `site_id` (for `supervised_teams`, via `teams` → `departments`):
+```sql
+CREATE POLICY tenant_isolation ON public.teams FOR ALL
+  USING (EXISTS (SELECT 1 FROM public.departments d WHERE d.id = teams.department_id AND can_access_site(d.site_id)))
+  WITH CHECK (EXISTS (SELECT 1 FROM public.departments d WHERE d.id = teams.department_id AND can_access_site(d.site_id)));
+```
+(`supervised_departments` and `supervised_teams` follow the identical shape — see the full migration in DECISIONS_LOG.md's entry, or re-derive from `\d+ public.teams` etc. on the server.)
+
+**Migration was blocked for the agent by the auto-mode classifier** ("Production Deploy", same restriction as the `manual_urgent` migration earlier) — the user ran it themselves on the VPS via a heredoc-created SQL file, one transaction (`BEGIN`...`COMMIT`), verified verbatim: every `CREATE TABLE`/`ALTER TABLE`/`CREATE POLICY`/`GRANT` line printed with no errors.
+
+**`BackendRestClient` gained a real `delete()` method** (`DELETE /rest/v1/<table>?<filter>`) — every prior `Supabase*Repository` used a soft `active` flag instead of real deletion, so this primitive didn't exist until `SupervisionRepository`'s replace-the-whole-set semantics needed one.
+
+**Not yet done**: no live-backend cross-tenant proof (curl + Dart integration test) has been run for `teams`/`supervised_departments`/`supervised_teams` yet — logged as an open item, same standard every other backend-hosted table eventually gets. Low urgency: these three tables only ever hold internal admin-configured scoping data, not directly reachable by an unprivileged caller in a way the existing `issues`/`users` proofs don't already substantially cover via the same `can_access_site()` function.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

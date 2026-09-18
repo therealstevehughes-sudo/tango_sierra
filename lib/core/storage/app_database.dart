@@ -165,6 +165,17 @@ class Issues extends Table {
   // issue is actually escalated.
   IntColumn get escalatedToUserId =>
       integer().nullable().references(Users, #id)();
+  // Section tagging (2026-09-18) — which section/team this issue is about,
+  // nominated by whoever raises it (defaults to their own section/team on
+  // the Report Issue screen, but changeable — a Reception worker can flag a
+  // Kitchen equipment problem without it misfiling under Reception). Both
+  // nullable: an issue with no section picked stays untagged, same "never
+  // blocks submission" principle as every other optional field here.
+  // teamId narrows within departmentId when both are set; a department-only
+  // tag (teamId null) means "this section generally," not any specific team.
+  IntColumn get departmentId =>
+      integer().nullable().references(Departments, #id)();
+  IntColumn get teamId => integer().nullable().references(Teams, #id)();
   // Manual urgency override (2026-09-17) — the reporter/supervisor can flag
   // an issue urgent at raise time (e.g. a hazard that's dangerous now, not
   // just old). Only ever ADDS urgency on top of the automatic time-based
@@ -238,6 +249,10 @@ class Users extends Table {
   // staff member needs one assigned), distinct from jobRole/roleTier above.
   IntColumn get departmentId =>
       integer().nullable().references(Departments, #id)();
+  // Teams (2026-09-18) — a worker's specific team within their department,
+  // finer-grained than departmentId above. Nullable and independent: a
+  // person can belong to a department with no specific team assigned yet.
+  IntColumn get teamId => integer().nullable().references(Teams, #id)();
   // Phase 2 (real backend auth): links a local staff row to its Supabase
   // auth.users identity, once provisioned. Null means "not yet synced to
   // the backend" — the local PIN check still works as a fallback in that
@@ -462,6 +477,47 @@ class Departments extends Table {
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
   DateTimeColumn get createdAt => dateTime()();
+}
+
+// Teams (2026-09-18) — a finer subdivision within a Department, e.g. "Night
+// Team"/"Day Team" inside "Kitchen". Same editable/soft-delete shape as
+// Departments above, not TaskTemplate's version-chain rule — a team being
+// renamed or retired is live operational data. Deliberately a distinct
+// concept from the existing "Branch Team Structure" screen (the reporting-
+// line org chart) — that's about WHO reports to whom, this is WHICH part of
+// a section someone belongs to/supervises.
+@DataClassName('TeamEntity')
+class Teams extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  IntColumn get departmentId => integer().references(Departments, #id)();
+  BoolColumn get active => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get createdAt => dateTime()();
+}
+
+// Supervision scope (2026-09-18) — which sections/teams a Supervisor is
+// responsible for. A many-to-many join, not a single field on Users, since
+// a Supervisor can cover more than one section (confirmed with the user).
+// Supervising a Department implicitly covers every Team inside it — a row
+// here is never also duplicated into SupervisedTeams for that department's
+// teams.
+@DataClassName('SupervisedDepartmentEntity')
+class SupervisedDepartments extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get userId => integer().references(Users, #id)();
+  IntColumn get departmentId => integer().references(Departments, #id)();
+  DateTimeColumn get assignedAt => dateTime()();
+}
+
+// Team-level supervision — narrower than SupervisedDepartments above, for a
+// Supervisor responsible for one specific team within a section rather than
+// the whole section.
+@DataClassName('SupervisedTeamEntity')
+class SupervisedTeams extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get userId => integer().references(Users, #id)();
+  IntColumn get teamId => integer().references(Teams, #id)();
+  DateTimeColumn get assignedAt => dateTime()();
 }
 
 // Document Centre (roadmap v1.1, built 2026-09-15) — policies, certs,
@@ -941,6 +997,9 @@ class _LibraryPreset {
     OrganisationInvites,
     Issues,
     IssueEvents,
+    Teams,
+    SupervisedDepartments,
+    SupervisedTeams,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -952,7 +1011,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 46;
+  int get schemaVersion => 47;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1373,6 +1432,16 @@ class AppDatabase extends _$AppDatabase {
         // Urgency colour-coding (2026-09-17) -- manual override flag,
         // additive only to the automatic time-based grading.
         await m.addColumn(issues, issues.manualUrgent);
+      }
+      if (from < 47) {
+        // Sections/Teams (2026-09-18) -- Supervisor section/team assignment
+        // + Issue section tagging.
+        await m.createTable(teams);
+        await m.addColumn(users, users.teamId);
+        await m.createTable(supervisedDepartments);
+        await m.createTable(supervisedTeams);
+        await m.addColumn(issues, issues.departmentId);
+        await m.addColumn(issues, issues.teamId);
       }
     },
     beforeOpen: (details) async {

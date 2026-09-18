@@ -1835,3 +1835,29 @@ Moved the lock `IconButton` from its standalone `Align(topRight)` row (removed e
 
 Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
 Files: `lib/features/auth/login_screen.dart`.
+
+## Sections/Teams: Supervisor section/team assignment + Issue section tagging (built 2026-09-18)
+Foundation for the deferred "distinct dashboards per tier" work — the user's own framing: Supervisor = a section (and/or a specific team within it, since a section can have multiple teams e.g. Night/Day), Venue Manager+ = the whole branch, Regional = their region's branches, Executive = everything. This piece builds the ASSIGNMENT mechanism and Issue tagging; the actual differentiated dashboards are the next, separate piece on top of this foundation.
+
+**Key finding before building anything**: `User.departmentId` already existed (Sprint 031) and was already fully wired up in Staff Management ("Change Department") — the section-assignment mechanism the user asked to have "researched and built if not in place" was already half-built. Confirmed `Department` (not `Area`, which is about equipment location, not people) was the right existing concept to extend.
+
+**New, confirmed with the user before building**: a Supervisor can cover more than one section, and sections can have multiple Teams (e.g. Night/Day within Kitchen) — so supervision needed real many-to-many join tables, not a single field.
+
+**Data model** (local Drift schemaVersion 46→47 + matching backend Postgres migration, both applied):
+- `Team` (new): `id`, `name`, `departmentId`, `active`, `createdAt` — same editable shape as `Department`, backend-hosted from day one (unlike Suppliers' local-only gap) since `Department` already has its own Supabase repository to mirror.
+- `User.teamId` (new, nullable) — a worker's specific team within their department, independent of it.
+- `SupervisedDepartments` / `SupervisedTeams` (new join tables) — which sections/teams a Supervisor is responsible for. "Set" (replace-the-whole-list) semantics, matching a multi-select checklist UI. Supervising a Department implicitly covers every Team inside it (never double-recorded into `SupervisedTeams`).
+- `Issue.departmentId` / `Issue.teamId` (new, nullable) — the "nominate a section" field, two-level so a worker can tag just the section or narrow to a specific team.
+- `BackendRestClient` gained a `delete()` method — every prior Supabase*Repository used soft `active` flags instead, so a real DELETE was never needed until `SupervisionRepository`'s replace-the-set semantics required one.
+
+**UI, built for intuitive coverage of every base**:
+- **Department Management** — each section is now an `ExpansionTile` showing its Teams, with the same add/rename/deactivate pattern Department already had, nested rather than a separate screen (a Team only makes sense in its parent section's context).
+- **Staff Management** — "Change Department" renamed "Change Section" and extended with a cascading Team dropdown (clears itself if the newly-picked section doesn't contain the previously-picked team). New "Assign Supervision" action, shown only for Supervisor-tier staff (Venue Manager+ already sees the whole branch by construction) — a checklist of every section, with that section's Teams nested and independently checkable underneath; ticking the section visually disables its teams' checkboxes (already covered) rather than force-ticking them.
+- **Report Issue** — an optional Section/Team pair, defaulting to the raiser's own section/team (only when they're the one actually raising it — never assumed on someone's behalf) but changeable, so a Reception worker reporting a Kitchen equipment problem doesn't misfile it under Reception.
+
+**Naming note, flagged not silently decided**: "Team" here is a new, distinct concept from the existing "Branch Team Structure" screen (the reporting-line org chart) — kept the word since the user used it explicitly ("night and day teams"), not changed to avoid the overlap.
+
+**Backend migration** — blocked for the agent by the auto-mode classifier (same "Production Deploy" restriction as the `manual_urgent` migration and the git push both earlier this session); the user ran it themselves on the VPS. Verbatim result: every statement succeeded in order (`BEGIN` → 3× `CREATE TABLE` → 4× `ALTER TABLE` → 3× `CREATE POLICY` (each RLS-scoped via a join to the parent Department's `site_id`, mirroring `issue_events`' existing join-through-parent pattern, since none of these three new tables have a `site_id` of their own) → 4× `GRANT` → `COMMIT`). No errors, nothing rolled back.
+
+Verified: `flutter analyze` clean, all 17 tests passing, a fresh Windows build launched and the migration confirmed applying cleanly against the real dev database (schemaVersion 46→47) before the backend migration was even run. No live-backend cross-tenant proof run for these three new tables yet — logged as an open item, same standard as every other backend-hosted table eventually needs (see BACKEND_INFRA.md).
+Files: `lib/core/storage/app_database.dart`, `lib/core/network/backend_rest_client.dart`, `lib/shared/models/team.dart` (new), `lib/shared/models/user.dart`, `lib/shared/models/issue.dart`, `lib/shared/repositories/team_repository.dart` (new), `lib/shared/repositories/supabase_team_repository.dart` (new), `lib/shared/repositories/supervision_repository.dart` (new), `lib/shared/repositories/user_repository.dart`, `lib/shared/repositories/supabase_user_repository.dart`, `lib/shared/repositories/issue_repository.dart`, `lib/shared/repositories/supabase_issue_repository.dart`, `lib/shared/providers/team_providers.dart` (new), `lib/shared/providers/supervision_providers.dart` (new), `lib/features/settings/department_management_screen.dart`, `lib/features/settings/staff_management_screen.dart`, `lib/features/issues/report_issue_screen.dart`.

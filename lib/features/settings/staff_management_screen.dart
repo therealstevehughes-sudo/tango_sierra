@@ -4,10 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/department.dart';
+import '../../shared/models/team.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../../shared/providers/supervision_providers.dart';
+import '../../shared/providers/team_providers.dart';
 import 'training_records_screen.dart';
 
 // Approximate height of a single staff tile Card + padding, for the
@@ -19,6 +22,7 @@ enum _StaffAction {
   editDetails,
   changeTier,
   changeDepartment,
+  assignSupervision,
   changeReportsTo,
   resetPin,
   toggleActive,
@@ -41,6 +45,9 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   // member belongs to — Staff Management isn't itself site-filtered yet
   // (a pre-existing, separately logged gap), so this can't assume one site.
   Map<int, Department> departmentsById = {};
+  // Same reasoning, for Teams (2026-09-18) — keyed by team id across every
+  // department of every site represented in the loaded staff list.
+  Map<int, Team> teamsById = {};
 
   @override
   void initState() {
@@ -59,11 +66,17 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final loaded = await repo.getForSite(siteId);
 
     final departmentRepo = ref.read(departmentRepositoryProvider);
+    final teamRepo = ref.read(teamRepositoryProvider);
     final byId = <int, Department>{};
+    final teamById = <int, Team>{};
     for (final siteId in loaded.map((u) => u.siteId).whereType<int>().toSet()) {
       final departments = await departmentRepo.getForSite(siteId);
       for (final department in departments) {
         byId[department.id!] = department;
+        final teams = await teamRepo.getForDepartment(department.id!);
+        for (final team in teams) {
+          teamById[team.id!] = team;
+        }
       }
     }
 
@@ -71,6 +84,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     setState(() {
       staff = loaded;
       departmentsById = byId;
+      teamsById = teamById;
       loading = false;
     });
   }
@@ -221,8 +235,16 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     await _loadData();
   }
 
+  // Sections/Teams (2026-09-18) — extended to also pick a Team within the
+  // chosen Department, cascading: the Team field only shows options
+  // belonging to whichever Department is currently selected, and clears
+  // itself if the Department changes to one that doesn't contain the
+  // previously-picked Team. All teams for the site's departments are
+  // loaded up front so switching Department in the dialog is instant, not
+  // a re-fetch.
   Future<void> _changeDepartment(User user) async {
     final departmentRepo = ref.read(departmentRepositoryProvider);
+    final teamRepo = ref.read(teamRepositoryProvider);
     final siteDepartments = await departmentRepo.getForSite(user.siteId!);
 
     // If the user's current department was since deactivated, it still
@@ -232,37 +254,210 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final currentDepartment = user.departmentId == null
         ? null
         : departmentsById[user.departmentId];
-    final options = [
+    final departmentOptions = [
       ...siteDepartments,
       if (currentDepartment != null &&
           !siteDepartments.any((d) => d.id == currentDepartment.id))
         currentDepartment,
     ];
 
+    final teamsByDept = <int, List<Team>>{};
+    for (final d in departmentOptions) {
+      teamsByDept[d.id!] = await teamRepo.getForDepartment(d.id!);
+    }
+
     if (!mounted) return;
 
-    var selected = user.departmentId;
+    var selectedDepartment = user.departmentId;
+    var selectedTeam = user.teamId;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) {
+          final teamOptions = selectedDepartment == null
+              ? const <Team>[]
+              : (teamsByDept[selectedDepartment] ?? const <Team>[]);
+          return AlertDialog(
+            title: Text('Change Section — ${user.name}'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                DropdownButtonFormField<int?>(
+                  initialValue: selectedDepartment,
+                  decoration: const InputDecoration(labelText: 'Section'),
+                  items: [
+                    const DropdownMenuItem<int?>(
+                      value: null,
+                      child: Text('No section'),
+                    ),
+                    ...departmentOptions.map(
+                      (d) => DropdownMenuItem<int?>(
+                        value: d.id,
+                        child: Text(d.active ? d.name : '${d.name} (inactive)'),
+                      ),
+                    ),
+                  ],
+                  onChanged: (value) => setDialogState(() {
+                    selectedDepartment = value;
+                    // Clear the team if it doesn't belong to the newly
+                    // picked section.
+                    if (value == null ||
+                        !(teamsByDept[value] ?? const <Team>[]).any(
+                          (t) => t.id == selectedTeam,
+                        )) {
+                      selectedTeam = null;
+                    }
+                  }),
+                ),
+                const SizedBox(height: 12),
+                DropdownButtonFormField<int?>(
+                  initialValue: selectedTeam,
+                  decoration: const InputDecoration(
+                    labelText: 'Team (optional)',
+                  ),
+                  items: [
+                    const DropdownMenuItem<int?>(
+                      value: null,
+                      child: Text('No specific team'),
+                    ),
+                    ...teamOptions.map(
+                      (t) => DropdownMenuItem<int?>(
+                        value: t.id,
+                        child: Text(t.active ? t.name : '${t.name} (inactive)'),
+                      ),
+                    ),
+                  ],
+                  onChanged: selectedDepartment == null
+                      ? null
+                      : (value) => setDialogState(() => selectedTeam = value),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('Cancel'),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text('Save'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    if (confirmed != true) return;
+    if (selectedDepartment == user.departmentId &&
+        selectedTeam == user.teamId) {
+      return;
+    }
+
+    final repo = ref.read(userRepositoryProvider);
+    if (selectedDepartment != user.departmentId) {
+      await repo.changeDepartment(
+        userId: user.id,
+        departmentId: selectedDepartment,
+      );
+    }
+    if (selectedTeam != user.teamId) {
+      await repo.assignTeam(userId: user.id, teamId: selectedTeam);
+    }
+
+    if (!mounted) return;
+    await _loadData();
+  }
+
+  // Supervision scope (2026-09-18) — which Sections and/or Teams a
+  // Supervisor is responsible for. Only offered for Supervisor-tier staff
+  // (see the trailing menu's own gating) — Venue Manager+ already sees the
+  // whole branch by construction, nothing to scope for them here.
+  // Supervising a whole Section is shown as one checkbox; its Teams are
+  // listed underneath, each independently checkable so a Supervisor can
+  // instead (or additionally) cover just specific teams across sections —
+  // ticking the Section's own box doesn't force-tick every team checkbox
+  // (supervising the section already implicitly covers all its teams), it
+  // just visually disables them to show they're already covered.
+  Future<void> _assignSupervision(User user) async {
+    final departmentRepo = ref.read(departmentRepositoryProvider);
+    final teamRepo = ref.read(teamRepositoryProvider);
+    final supervisionRepo = ref.read(supervisionRepositoryProvider);
+
+    final siteDepartments = await departmentRepo.getForSite(user.siteId!);
+    final teamsByDept = <int, List<Team>>{};
+    for (final d in siteDepartments) {
+      teamsByDept[d.id!] = await teamRepo.getForDepartment(d.id!);
+    }
+    final currentDepartmentIds = await supervisionRepo
+        .getSupervisedDepartmentIds(user.id);
+    final currentTeamIds = await supervisionRepo.getSupervisedTeamIds(user.id);
+
+    if (!mounted) return;
+
+    final selectedDepartments = currentDepartmentIds.toSet();
+    final selectedTeams = currentTeamIds.toSet();
+
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: Text('Change Department — ${user.name}'),
-          content: DropdownButtonFormField<int?>(
-            initialValue: selected,
-            decoration: const InputDecoration(labelText: 'Department'),
-            items: [
-              const DropdownMenuItem<int?>(
-                value: null,
-                child: Text('No department'),
-              ),
-              ...options.map(
-                (d) => DropdownMenuItem<int?>(
-                  value: d.id,
-                  child: Text(d.active ? d.name : '${d.name} (inactive)'),
-                ),
-              ),
-            ],
-            onChanged: (value) => setDialogState(() => selected = value),
+          title: Text('Assign Supervision — ${user.name}'),
+          content: SizedBox(
+            width: 360,
+            child: siteDepartments.isEmpty
+                ? const Text(
+                    'No sections set up at this venue yet — add one under '
+                    'Department Management first.',
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (final d in siteDepartments) ...[
+                          CheckboxListTile(
+                            dense: true,
+                            contentPadding: EdgeInsets.zero,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            value: selectedDepartments.contains(d.id),
+                            title: Text(d.name),
+                            onChanged: (checked) => setDialogState(() {
+                              if (checked ?? false) {
+                                selectedDepartments.add(d.id!);
+                              } else {
+                                selectedDepartments.remove(d.id);
+                              }
+                            }),
+                          ),
+                          for (final t in teamsByDept[d.id!] ?? const <Team>[])
+                            Padding(
+                              padding: const EdgeInsets.only(left: 24),
+                              child: CheckboxListTile(
+                                dense: true,
+                                contentPadding: EdgeInsets.zero,
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                value:
+                                    selectedDepartments.contains(d.id) ||
+                                    selectedTeams.contains(t.id),
+                                onChanged: selectedDepartments.contains(d.id)
+                                    ? null
+                                    : (checked) => setDialogState(() {
+                                        if (checked ?? false) {
+                                          selectedTeams.add(t.id!);
+                                        } else {
+                                          selectedTeams.remove(t.id);
+                                        }
+                                      }),
+                                title: Text(t.name),
+                              ),
+                            ),
+                        ],
+                      ],
+                    ),
+                  ),
           ),
           actions: [
             TextButton(
@@ -278,13 +473,21 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       ),
     );
 
-    if (confirmed != true || selected == user.departmentId) return;
+    if (confirmed != true) return;
 
-    final repo = ref.read(userRepositoryProvider);
-    await repo.changeDepartment(userId: user.id, departmentId: selected);
+    await supervisionRepo.setSupervisedDepartments(
+      userId: user.id,
+      departmentIds: selectedDepartments.toList(),
+    );
+    await supervisionRepo.setSupervisedTeams(
+      userId: user.id,
+      teamIds: selectedTeams.toList(),
+    );
 
     if (!mounted) return;
-    await _loadData();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Supervision scope updated for ${user.name}')),
+    );
   }
 
   // Chain of command (2026-09-15) — per-individual, mirrors
@@ -304,10 +507,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
             initialValue: selected,
             decoration: const InputDecoration(labelText: 'Reports to'),
             items: [
-              const DropdownMenuItem<int?>(
-                value: null,
-                child: Text('Not set'),
-              ),
+              const DropdownMenuItem<int?>(value: null, child: Text('Not set')),
               ...options.map(
                 (u) => DropdownMenuItem<int?>(value: u.id, child: Text(u.name)),
               ),
@@ -460,12 +660,14 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final department = user.departmentId == null
         ? null
         : departmentsById[user.departmentId];
+    final team = user.teamId == null ? null : teamsById[user.teamId];
     final reportsTo = user.reportsToUserId == null
         ? null
         : staff.where((u) => u.id == user.reportsToUserId).firstOrNull;
     final subtitleParts = <String>[
       '${user.jobTitle} · ${roleTierDisplayName(user.roleTier)}',
-      if (department != null) department.name,
+      if (department != null)
+        team != null ? '${department.name} · ${team.name}' : department.name,
       if (reportsTo != null) 'Reports to ${reportsTo.name}',
       if (!user.active) '(deactivated)',
       if (!user.active && user.deactivatedAt != null && deactivatedBy != null)
@@ -494,6 +696,8 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
                 _changeRoleTier(user);
               case _StaffAction.changeDepartment:
                 _changeDepartment(user);
+              case _StaffAction.assignSupervision:
+                _assignSupervision(user);
               case _StaffAction.changeReportsTo:
                 _changeReportsTo(user);
               case _StaffAction.resetPin:
@@ -520,8 +724,15 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
             ),
             const PopupMenuItem(
               value: _StaffAction.changeDepartment,
-              child: Text('Change Department'),
+              child: Text('Change Section'),
             ),
+            // Supervision scope only applies to Supervisor tier — Venue
+            // Manager+ already sees the whole branch by construction.
+            if (user.roleTier == RoleTier.supervisor)
+              const PopupMenuItem(
+                value: _StaffAction.assignSupervision,
+                child: Text('Assign Supervision'),
+              ),
             const PopupMenuItem(
               value: _StaffAction.changeReportsTo,
               child: Text('Reports To'),

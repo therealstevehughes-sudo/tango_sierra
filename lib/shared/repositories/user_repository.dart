@@ -78,6 +78,9 @@ abstract class UserRepository {
     required int userId,
     required int? departmentId,
   });
+  // Teams (2026-09-18) — a worker's specific team within their department.
+  // Same "null clears it" convention as changeDepartment above.
+  Future<void> assignTeam({required int userId, required int? teamId});
   // Phase B0 — one region per manager: assigns (or clears, if null) which
   // region a regional-tier account oversees. Not tier-checked here — the
   // caller (an admin screen, not built yet) is responsible for only
@@ -308,6 +311,16 @@ class DriftUserRepository implements UserRepository {
   }
 
   @override
+  Future<void> assignTeam({
+    required int userId,
+    required int? teamId,
+  }) async {
+    await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+      UsersCompanion(teamId: Value(teamId)),
+    );
+  }
+
+  @override
   Future<void> assignRegion({
     required int userId,
     required int? regionId,
@@ -362,6 +375,7 @@ class DriftUserRepository implements UserRepository {
       deactivatedAt: row.deactivatedAt,
       deactivatedByUserId: row.deactivatedByUserId,
       departmentId: row.departmentId,
+      teamId: row.teamId,
       regionId: row.regionId,
       reportsToUserId: row.reportsToUserId,
       fcmToken: row.fcmToken,

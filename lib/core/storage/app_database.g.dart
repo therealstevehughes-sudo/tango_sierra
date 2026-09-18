@@ -536,6 +536,362 @@ class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
   }
 }
 
+class $TeamsTable extends Teams with TableInfo<$TeamsTable, TeamEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TeamsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _departmentIdMeta = const VerificationMeta(
+    'departmentId',
+  );
+  @override
+  late final GeneratedColumn<int> departmentId = GeneratedColumn<int>(
+    'department_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES departments (id)',
+    ),
+  );
+  static const VerificationMeta _activeMeta = const VerificationMeta('active');
+  @override
+  late final GeneratedColumn<bool> active = GeneratedColumn<bool>(
+    'active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    departmentId,
+    active,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'teams';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TeamEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('department_id')) {
+      context.handle(
+        _departmentIdMeta,
+        departmentId.isAcceptableOrUnknown(
+          data['department_id']!,
+          _departmentIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_departmentIdMeta);
+    }
+    if (data.containsKey('active')) {
+      context.handle(
+        _activeMeta,
+        active.isAcceptableOrUnknown(data['active']!, _activeMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TeamEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TeamEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      departmentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}department_id'],
+      )!,
+      active: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}active'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $TeamsTable createAlias(String alias) {
+    return $TeamsTable(attachedDatabase, alias);
+  }
+}
+
+class TeamEntity extends DataClass implements Insertable<TeamEntity> {
+  final int id;
+  final String name;
+  final int departmentId;
+  final bool active;
+  final DateTime createdAt;
+  const TeamEntity({
+    required this.id,
+    required this.name,
+    required this.departmentId,
+    required this.active,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['department_id'] = Variable<int>(departmentId);
+    map['active'] = Variable<bool>(active);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  TeamsCompanion toCompanion(bool nullToAbsent) {
+    return TeamsCompanion(
+      id: Value(id),
+      name: Value(name),
+      departmentId: Value(departmentId),
+      active: Value(active),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory TeamEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TeamEntity(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      departmentId: serializer.fromJson<int>(json['departmentId']),
+      active: serializer.fromJson<bool>(json['active']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'departmentId': serializer.toJson<int>(departmentId),
+      'active': serializer.toJson<bool>(active),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  TeamEntity copyWith({
+    int? id,
+    String? name,
+    int? departmentId,
+    bool? active,
+    DateTime? createdAt,
+  }) => TeamEntity(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    departmentId: departmentId ?? this.departmentId,
+    active: active ?? this.active,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  TeamEntity copyWithCompanion(TeamsCompanion data) {
+    return TeamEntity(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      departmentId: data.departmentId.present
+          ? data.departmentId.value
+          : this.departmentId,
+      active: data.active.present ? data.active.value : this.active,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TeamEntity(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('departmentId: $departmentId, ')
+          ..write('active: $active, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, departmentId, active, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TeamEntity &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.departmentId == this.departmentId &&
+          other.active == this.active &&
+          other.createdAt == this.createdAt);
+}
+
+class TeamsCompanion extends UpdateCompanion<TeamEntity> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<int> departmentId;
+  final Value<bool> active;
+  final Value<DateTime> createdAt;
+  const TeamsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.departmentId = const Value.absent(),
+    this.active = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  TeamsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required int departmentId,
+    this.active = const Value.absent(),
+    required DateTime createdAt,
+  }) : name = Value(name),
+       departmentId = Value(departmentId),
+       createdAt = Value(createdAt);
+  static Insertable<TeamEntity> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<int>? departmentId,
+    Expression<bool>? active,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (departmentId != null) 'department_id': departmentId,
+      if (active != null) 'active': active,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  TeamsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<int>? departmentId,
+    Value<bool>? active,
+    Value<DateTime>? createdAt,
+  }) {
+    return TeamsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      departmentId: departmentId ?? this.departmentId,
+      active: active ?? this.active,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (departmentId.present) {
+      map['department_id'] = Variable<int>(departmentId.value);
+    }
+    if (active.present) {
+      map['active'] = Variable<bool>(active.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TeamsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('departmentId: $departmentId, ')
+          ..write('active: $active, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $RegionsTable extends Regions
     with TableInfo<$RegionsTable, RegionEntity> {
   @override
@@ -994,6 +1350,18 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
       'REFERENCES departments (id)',
     ),
   );
+  static const VerificationMeta _teamIdMeta = const VerificationMeta('teamId');
+  @override
+  late final GeneratedColumn<int> teamId = GeneratedColumn<int>(
+    'team_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES teams (id)',
+    ),
+  );
   static const VerificationMeta _supabaseUserIdMeta = const VerificationMeta(
     'supabaseUserId',
   );
@@ -1059,6 +1427,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     deactivatedByUserId,
     jobRole,
     departmentId,
+    teamId,
     supabaseUserId,
     regionId,
     reportsToUserId,
@@ -1173,6 +1542,12 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         ),
       );
     }
+    if (data.containsKey('team_id')) {
+      context.handle(
+        _teamIdMeta,
+        teamId.isAcceptableOrUnknown(data['team_id']!, _teamIdMeta),
+      );
+    }
     if (data.containsKey('supabase_user_id')) {
       context.handle(
         _supabaseUserIdMeta,
@@ -1264,6 +1639,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}department_id'],
       ),
+      teamId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}team_id'],
+      ),
       supabaseUserId: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}supabase_user_id'],
@@ -1303,6 +1682,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final int? deactivatedByUserId;
   final String? jobRole;
   final int? departmentId;
+  final int? teamId;
   final String? supabaseUserId;
   final int? regionId;
   final int? reportsToUserId;
@@ -1321,6 +1701,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     this.deactivatedByUserId,
     this.jobRole,
     this.departmentId,
+    this.teamId,
     this.supabaseUserId,
     this.regionId,
     this.reportsToUserId,
@@ -1353,6 +1734,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     }
     if (!nullToAbsent || departmentId != null) {
       map['department_id'] = Variable<int>(departmentId);
+    }
+    if (!nullToAbsent || teamId != null) {
+      map['team_id'] = Variable<int>(teamId);
     }
     if (!nullToAbsent || supabaseUserId != null) {
       map['supabase_user_id'] = Variable<String>(supabaseUserId);
@@ -1394,6 +1778,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       departmentId: departmentId == null && nullToAbsent
           ? const Value.absent()
           : Value(departmentId),
+      teamId: teamId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(teamId),
       supabaseUserId: supabaseUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(supabaseUserId),
@@ -1432,6 +1819,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       ),
       jobRole: serializer.fromJson<String?>(json['jobRole']),
       departmentId: serializer.fromJson<int?>(json['departmentId']),
+      teamId: serializer.fromJson<int?>(json['teamId']),
       supabaseUserId: serializer.fromJson<String?>(json['supabaseUserId']),
       regionId: serializer.fromJson<int?>(json['regionId']),
       reportsToUserId: serializer.fromJson<int?>(json['reportsToUserId']),
@@ -1457,6 +1845,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'deactivatedByUserId': serializer.toJson<int?>(deactivatedByUserId),
       'jobRole': serializer.toJson<String?>(jobRole),
       'departmentId': serializer.toJson<int?>(departmentId),
+      'teamId': serializer.toJson<int?>(teamId),
       'supabaseUserId': serializer.toJson<String?>(supabaseUserId),
       'regionId': serializer.toJson<int?>(regionId),
       'reportsToUserId': serializer.toJson<int?>(reportsToUserId),
@@ -1478,6 +1867,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     Value<int?> deactivatedByUserId = const Value.absent(),
     Value<String?> jobRole = const Value.absent(),
     Value<int?> departmentId = const Value.absent(),
+    Value<int?> teamId = const Value.absent(),
     Value<String?> supabaseUserId = const Value.absent(),
     Value<int?> regionId = const Value.absent(),
     Value<int?> reportsToUserId = const Value.absent(),
@@ -1501,6 +1891,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
         : this.deactivatedByUserId,
     jobRole: jobRole.present ? jobRole.value : this.jobRole,
     departmentId: departmentId.present ? departmentId.value : this.departmentId,
+    teamId: teamId.present ? teamId.value : this.teamId,
     supabaseUserId: supabaseUserId.present
         ? supabaseUserId.value
         : this.supabaseUserId,
@@ -1533,6 +1924,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       departmentId: data.departmentId.present
           ? data.departmentId.value
           : this.departmentId,
+      teamId: data.teamId.present ? data.teamId.value : this.teamId,
       supabaseUserId: data.supabaseUserId.present
           ? data.supabaseUserId.value
           : this.supabaseUserId,
@@ -1560,6 +1952,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('deactivatedByUserId: $deactivatedByUserId, ')
           ..write('jobRole: $jobRole, ')
           ..write('departmentId: $departmentId, ')
+          ..write('teamId: $teamId, ')
           ..write('supabaseUserId: $supabaseUserId, ')
           ..write('regionId: $regionId, ')
           ..write('reportsToUserId: $reportsToUserId, ')
@@ -1583,6 +1976,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     deactivatedByUserId,
     jobRole,
     departmentId,
+    teamId,
     supabaseUserId,
     regionId,
     reportsToUserId,
@@ -1605,6 +1999,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.deactivatedByUserId == this.deactivatedByUserId &&
           other.jobRole == this.jobRole &&
           other.departmentId == this.departmentId &&
+          other.teamId == this.teamId &&
           other.supabaseUserId == this.supabaseUserId &&
           other.regionId == this.regionId &&
           other.reportsToUserId == this.reportsToUserId &&
@@ -1625,6 +2020,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   final Value<int?> deactivatedByUserId;
   final Value<String?> jobRole;
   final Value<int?> departmentId;
+  final Value<int?> teamId;
   final Value<String?> supabaseUserId;
   final Value<int?> regionId;
   final Value<int?> reportsToUserId;
@@ -1643,6 +2039,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.deactivatedByUserId = const Value.absent(),
     this.jobRole = const Value.absent(),
     this.departmentId = const Value.absent(),
+    this.teamId = const Value.absent(),
     this.supabaseUserId = const Value.absent(),
     this.regionId = const Value.absent(),
     this.reportsToUserId = const Value.absent(),
@@ -1662,6 +2059,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.deactivatedByUserId = const Value.absent(),
     this.jobRole = const Value.absent(),
     this.departmentId = const Value.absent(),
+    this.teamId = const Value.absent(),
     this.supabaseUserId = const Value.absent(),
     this.regionId = const Value.absent(),
     this.reportsToUserId = const Value.absent(),
@@ -1685,6 +2083,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Expression<int>? deactivatedByUserId,
     Expression<String>? jobRole,
     Expression<int>? departmentId,
+    Expression<int>? teamId,
     Expression<String>? supabaseUserId,
     Expression<int>? regionId,
     Expression<int>? reportsToUserId,
@@ -1706,6 +2105,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
         'deactivated_by_user_id': deactivatedByUserId,
       if (jobRole != null) 'job_role': jobRole,
       if (departmentId != null) 'department_id': departmentId,
+      if (teamId != null) 'team_id': teamId,
       if (supabaseUserId != null) 'supabase_user_id': supabaseUserId,
       if (regionId != null) 'region_id': regionId,
       if (reportsToUserId != null) 'reports_to_user_id': reportsToUserId,
@@ -1727,6 +2127,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Value<int?>? deactivatedByUserId,
     Value<String?>? jobRole,
     Value<int?>? departmentId,
+    Value<int?>? teamId,
     Value<String?>? supabaseUserId,
     Value<int?>? regionId,
     Value<int?>? reportsToUserId,
@@ -1747,6 +2148,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       deactivatedByUserId: deactivatedByUserId ?? this.deactivatedByUserId,
       jobRole: jobRole ?? this.jobRole,
       departmentId: departmentId ?? this.departmentId,
+      teamId: teamId ?? this.teamId,
       supabaseUserId: supabaseUserId ?? this.supabaseUserId,
       regionId: regionId ?? this.regionId,
       reportsToUserId: reportsToUserId ?? this.reportsToUserId,
@@ -1798,6 +2200,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     if (departmentId.present) {
       map['department_id'] = Variable<int>(departmentId.value);
     }
+    if (teamId.present) {
+      map['team_id'] = Variable<int>(teamId.value);
+    }
     if (supabaseUserId.present) {
       map['supabase_user_id'] = Variable<String>(supabaseUserId.value);
     }
@@ -1829,6 +2234,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('deactivatedByUserId: $deactivatedByUserId, ')
           ..write('jobRole: $jobRole, ')
           ..write('departmentId: $departmentId, ')
+          ..write('teamId: $teamId, ')
           ..write('supabaseUserId: $supabaseUserId, ')
           ..write('regionId: $regionId, ')
           ..write('reportsToUserId: $reportsToUserId, ')
@@ -18465,6 +18871,32 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
       'REFERENCES users (id)',
     ),
   );
+  static const VerificationMeta _departmentIdMeta = const VerificationMeta(
+    'departmentId',
+  );
+  @override
+  late final GeneratedColumn<int> departmentId = GeneratedColumn<int>(
+    'department_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES departments (id)',
+    ),
+  );
+  static const VerificationMeta _teamIdMeta = const VerificationMeta('teamId');
+  @override
+  late final GeneratedColumn<int> teamId = GeneratedColumn<int>(
+    'team_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES teams (id)',
+    ),
+  );
   static const VerificationMeta _manualUrgentMeta = const VerificationMeta(
     'manualUrgent',
   );
@@ -18494,6 +18926,8 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
     deliveryProblemType,
     receivedByUserId,
     escalatedToUserId,
+    departmentId,
+    teamId,
     manualUrgent,
   ];
   @override
@@ -18599,6 +19033,21 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
         ),
       );
     }
+    if (data.containsKey('department_id')) {
+      context.handle(
+        _departmentIdMeta,
+        departmentId.isAcceptableOrUnknown(
+          data['department_id']!,
+          _departmentIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('team_id')) {
+      context.handle(
+        _teamIdMeta,
+        teamId.isAcceptableOrUnknown(data['team_id']!, _teamIdMeta),
+      );
+    }
     if (data.containsKey('manual_urgent')) {
       context.handle(
         _manualUrgentMeta,
@@ -18665,6 +19114,14 @@ class $IssuesTable extends Issues with TableInfo<$IssuesTable, IssueEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}escalated_to_user_id'],
       ),
+      departmentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}department_id'],
+      ),
+      teamId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}team_id'],
+      ),
       manualUrgent: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}manual_urgent'],
@@ -18691,6 +19148,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
   final String? deliveryProblemType;
   final int? receivedByUserId;
   final int? escalatedToUserId;
+  final int? departmentId;
+  final int? teamId;
   final bool manualUrgent;
   const IssueEntity({
     required this.id,
@@ -18705,6 +19164,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     this.deliveryProblemType,
     this.receivedByUserId,
     this.escalatedToUserId,
+    this.departmentId,
+    this.teamId,
     required this.manualUrgent,
   });
   @override
@@ -18731,6 +19192,12 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     }
     if (!nullToAbsent || escalatedToUserId != null) {
       map['escalated_to_user_id'] = Variable<int>(escalatedToUserId);
+    }
+    if (!nullToAbsent || departmentId != null) {
+      map['department_id'] = Variable<int>(departmentId);
+    }
+    if (!nullToAbsent || teamId != null) {
+      map['team_id'] = Variable<int>(teamId);
     }
     map['manual_urgent'] = Variable<bool>(manualUrgent);
     return map;
@@ -18760,6 +19227,12 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       escalatedToUserId: escalatedToUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(escalatedToUserId),
+      departmentId: departmentId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(departmentId),
+      teamId: teamId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(teamId),
       manualUrgent: Value(manualUrgent),
     );
   }
@@ -18784,6 +19257,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       ),
       receivedByUserId: serializer.fromJson<int?>(json['receivedByUserId']),
       escalatedToUserId: serializer.fromJson<int?>(json['escalatedToUserId']),
+      departmentId: serializer.fromJson<int?>(json['departmentId']),
+      teamId: serializer.fromJson<int?>(json['teamId']),
       manualUrgent: serializer.fromJson<bool>(json['manualUrgent']),
     );
   }
@@ -18803,6 +19278,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       'deliveryProblemType': serializer.toJson<String?>(deliveryProblemType),
       'receivedByUserId': serializer.toJson<int?>(receivedByUserId),
       'escalatedToUserId': serializer.toJson<int?>(escalatedToUserId),
+      'departmentId': serializer.toJson<int?>(departmentId),
+      'teamId': serializer.toJson<int?>(teamId),
       'manualUrgent': serializer.toJson<bool>(manualUrgent),
     };
   }
@@ -18820,6 +19297,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     Value<String?> deliveryProblemType = const Value.absent(),
     Value<int?> receivedByUserId = const Value.absent(),
     Value<int?> escalatedToUserId = const Value.absent(),
+    Value<int?> departmentId = const Value.absent(),
+    Value<int?> teamId = const Value.absent(),
     bool? manualUrgent,
   }) => IssueEntity(
     id: id ?? this.id,
@@ -18840,6 +19319,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     escalatedToUserId: escalatedToUserId.present
         ? escalatedToUserId.value
         : this.escalatedToUserId,
+    departmentId: departmentId.present ? departmentId.value : this.departmentId,
+    teamId: teamId.present ? teamId.value : this.teamId,
     manualUrgent: manualUrgent ?? this.manualUrgent,
   );
   IssueEntity copyWithCompanion(IssuesCompanion data) {
@@ -18866,6 +19347,10 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
       escalatedToUserId: data.escalatedToUserId.present
           ? data.escalatedToUserId.value
           : this.escalatedToUserId,
+      departmentId: data.departmentId.present
+          ? data.departmentId.value
+          : this.departmentId,
+      teamId: data.teamId.present ? data.teamId.value : this.teamId,
       manualUrgent: data.manualUrgent.present
           ? data.manualUrgent.value
           : this.manualUrgent,
@@ -18887,6 +19372,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
           ..write('deliveryProblemType: $deliveryProblemType, ')
           ..write('receivedByUserId: $receivedByUserId, ')
           ..write('escalatedToUserId: $escalatedToUserId, ')
+          ..write('departmentId: $departmentId, ')
+          ..write('teamId: $teamId, ')
           ..write('manualUrgent: $manualUrgent')
           ..write(')'))
         .toString();
@@ -18906,6 +19393,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
     deliveryProblemType,
     receivedByUserId,
     escalatedToUserId,
+    departmentId,
+    teamId,
     manualUrgent,
   );
   @override
@@ -18924,6 +19413,8 @@ class IssueEntity extends DataClass implements Insertable<IssueEntity> {
           other.deliveryProblemType == this.deliveryProblemType &&
           other.receivedByUserId == this.receivedByUserId &&
           other.escalatedToUserId == this.escalatedToUserId &&
+          other.departmentId == this.departmentId &&
+          other.teamId == this.teamId &&
           other.manualUrgent == this.manualUrgent);
 }
 
@@ -18940,6 +19431,8 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
   final Value<String?> deliveryProblemType;
   final Value<int?> receivedByUserId;
   final Value<int?> escalatedToUserId;
+  final Value<int?> departmentId;
+  final Value<int?> teamId;
   final Value<bool> manualUrgent;
   const IssuesCompanion({
     this.id = const Value.absent(),
@@ -18954,6 +19447,8 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     this.deliveryProblemType = const Value.absent(),
     this.receivedByUserId = const Value.absent(),
     this.escalatedToUserId = const Value.absent(),
+    this.departmentId = const Value.absent(),
+    this.teamId = const Value.absent(),
     this.manualUrgent = const Value.absent(),
   });
   IssuesCompanion.insert({
@@ -18969,6 +19464,8 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     this.deliveryProblemType = const Value.absent(),
     this.receivedByUserId = const Value.absent(),
     this.escalatedToUserId = const Value.absent(),
+    this.departmentId = const Value.absent(),
+    this.teamId = const Value.absent(),
     this.manualUrgent = const Value.absent(),
   }) : siteId = Value(siteId),
        type = Value(type),
@@ -18988,6 +19485,8 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     Expression<String>? deliveryProblemType,
     Expression<int>? receivedByUserId,
     Expression<int>? escalatedToUserId,
+    Expression<int>? departmentId,
+    Expression<int>? teamId,
     Expression<bool>? manualUrgent,
   }) {
     return RawValuesInsertable({
@@ -19004,6 +19503,8 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
         'delivery_problem_type': deliveryProblemType,
       if (receivedByUserId != null) 'received_by_user_id': receivedByUserId,
       if (escalatedToUserId != null) 'escalated_to_user_id': escalatedToUserId,
+      if (departmentId != null) 'department_id': departmentId,
+      if (teamId != null) 'team_id': teamId,
       if (manualUrgent != null) 'manual_urgent': manualUrgent,
     });
   }
@@ -19021,6 +19522,8 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     Value<String?>? deliveryProblemType,
     Value<int?>? receivedByUserId,
     Value<int?>? escalatedToUserId,
+    Value<int?>? departmentId,
+    Value<int?>? teamId,
     Value<bool>? manualUrgent,
   }) {
     return IssuesCompanion(
@@ -19036,6 +19539,8 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
       deliveryProblemType: deliveryProblemType ?? this.deliveryProblemType,
       receivedByUserId: receivedByUserId ?? this.receivedByUserId,
       escalatedToUserId: escalatedToUserId ?? this.escalatedToUserId,
+      departmentId: departmentId ?? this.departmentId,
+      teamId: teamId ?? this.teamId,
       manualUrgent: manualUrgent ?? this.manualUrgent,
     );
   }
@@ -19081,6 +19586,12 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
     if (escalatedToUserId.present) {
       map['escalated_to_user_id'] = Variable<int>(escalatedToUserId.value);
     }
+    if (departmentId.present) {
+      map['department_id'] = Variable<int>(departmentId.value);
+    }
+    if (teamId.present) {
+      map['team_id'] = Variable<int>(teamId.value);
+    }
     if (manualUrgent.present) {
       map['manual_urgent'] = Variable<bool>(manualUrgent.value);
     }
@@ -19102,6 +19613,8 @@ class IssuesCompanion extends UpdateCompanion<IssueEntity> {
           ..write('deliveryProblemType: $deliveryProblemType, ')
           ..write('receivedByUserId: $receivedByUserId, ')
           ..write('escalatedToUserId: $escalatedToUserId, ')
+          ..write('departmentId: $departmentId, ')
+          ..write('teamId: $teamId, ')
           ..write('manualUrgent: $manualUrgent')
           ..write(')'))
         .toString();
@@ -19632,11 +20145,635 @@ class IssueEventsCompanion extends UpdateCompanion<IssueEventEntity> {
   }
 }
 
+class $SupervisedDepartmentsTable extends SupervisedDepartments
+    with TableInfo<$SupervisedDepartmentsTable, SupervisedDepartmentEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SupervisedDepartmentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _departmentIdMeta = const VerificationMeta(
+    'departmentId',
+  );
+  @override
+  late final GeneratedColumn<int> departmentId = GeneratedColumn<int>(
+    'department_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES departments (id)',
+    ),
+  );
+  static const VerificationMeta _assignedAtMeta = const VerificationMeta(
+    'assignedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> assignedAt = GeneratedColumn<DateTime>(
+    'assigned_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, userId, departmentId, assignedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'supervised_departments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SupervisedDepartmentEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('department_id')) {
+      context.handle(
+        _departmentIdMeta,
+        departmentId.isAcceptableOrUnknown(
+          data['department_id']!,
+          _departmentIdMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_departmentIdMeta);
+    }
+    if (data.containsKey('assigned_at')) {
+      context.handle(
+        _assignedAtMeta,
+        assignedAt.isAcceptableOrUnknown(data['assigned_at']!, _assignedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_assignedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SupervisedDepartmentEntity map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SupervisedDepartmentEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_id'],
+      )!,
+      departmentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}department_id'],
+      )!,
+      assignedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}assigned_at'],
+      )!,
+    );
+  }
+
+  @override
+  $SupervisedDepartmentsTable createAlias(String alias) {
+    return $SupervisedDepartmentsTable(attachedDatabase, alias);
+  }
+}
+
+class SupervisedDepartmentEntity extends DataClass
+    implements Insertable<SupervisedDepartmentEntity> {
+  final int id;
+  final int userId;
+  final int departmentId;
+  final DateTime assignedAt;
+  const SupervisedDepartmentEntity({
+    required this.id,
+    required this.userId,
+    required this.departmentId,
+    required this.assignedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_id'] = Variable<int>(userId);
+    map['department_id'] = Variable<int>(departmentId);
+    map['assigned_at'] = Variable<DateTime>(assignedAt);
+    return map;
+  }
+
+  SupervisedDepartmentsCompanion toCompanion(bool nullToAbsent) {
+    return SupervisedDepartmentsCompanion(
+      id: Value(id),
+      userId: Value(userId),
+      departmentId: Value(departmentId),
+      assignedAt: Value(assignedAt),
+    );
+  }
+
+  factory SupervisedDepartmentEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SupervisedDepartmentEntity(
+      id: serializer.fromJson<int>(json['id']),
+      userId: serializer.fromJson<int>(json['userId']),
+      departmentId: serializer.fromJson<int>(json['departmentId']),
+      assignedAt: serializer.fromJson<DateTime>(json['assignedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userId': serializer.toJson<int>(userId),
+      'departmentId': serializer.toJson<int>(departmentId),
+      'assignedAt': serializer.toJson<DateTime>(assignedAt),
+    };
+  }
+
+  SupervisedDepartmentEntity copyWith({
+    int? id,
+    int? userId,
+    int? departmentId,
+    DateTime? assignedAt,
+  }) => SupervisedDepartmentEntity(
+    id: id ?? this.id,
+    userId: userId ?? this.userId,
+    departmentId: departmentId ?? this.departmentId,
+    assignedAt: assignedAt ?? this.assignedAt,
+  );
+  SupervisedDepartmentEntity copyWithCompanion(
+    SupervisedDepartmentsCompanion data,
+  ) {
+    return SupervisedDepartmentEntity(
+      id: data.id.present ? data.id.value : this.id,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      departmentId: data.departmentId.present
+          ? data.departmentId.value
+          : this.departmentId,
+      assignedAt: data.assignedAt.present
+          ? data.assignedAt.value
+          : this.assignedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SupervisedDepartmentEntity(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('departmentId: $departmentId, ')
+          ..write('assignedAt: $assignedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, userId, departmentId, assignedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SupervisedDepartmentEntity &&
+          other.id == this.id &&
+          other.userId == this.userId &&
+          other.departmentId == this.departmentId &&
+          other.assignedAt == this.assignedAt);
+}
+
+class SupervisedDepartmentsCompanion
+    extends UpdateCompanion<SupervisedDepartmentEntity> {
+  final Value<int> id;
+  final Value<int> userId;
+  final Value<int> departmentId;
+  final Value<DateTime> assignedAt;
+  const SupervisedDepartmentsCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.departmentId = const Value.absent(),
+    this.assignedAt = const Value.absent(),
+  });
+  SupervisedDepartmentsCompanion.insert({
+    this.id = const Value.absent(),
+    required int userId,
+    required int departmentId,
+    required DateTime assignedAt,
+  }) : userId = Value(userId),
+       departmentId = Value(departmentId),
+       assignedAt = Value(assignedAt);
+  static Insertable<SupervisedDepartmentEntity> custom({
+    Expression<int>? id,
+    Expression<int>? userId,
+    Expression<int>? departmentId,
+    Expression<DateTime>? assignedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+      if (departmentId != null) 'department_id': departmentId,
+      if (assignedAt != null) 'assigned_at': assignedAt,
+    });
+  }
+
+  SupervisedDepartmentsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? userId,
+    Value<int>? departmentId,
+    Value<DateTime>? assignedAt,
+  }) {
+    return SupervisedDepartmentsCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      departmentId: departmentId ?? this.departmentId,
+      assignedAt: assignedAt ?? this.assignedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (departmentId.present) {
+      map['department_id'] = Variable<int>(departmentId.value);
+    }
+    if (assignedAt.present) {
+      map['assigned_at'] = Variable<DateTime>(assignedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SupervisedDepartmentsCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('departmentId: $departmentId, ')
+          ..write('assignedAt: $assignedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SupervisedTeamsTable extends SupervisedTeams
+    with TableInfo<$SupervisedTeamsTable, SupervisedTeamEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SupervisedTeamsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _teamIdMeta = const VerificationMeta('teamId');
+  @override
+  late final GeneratedColumn<int> teamId = GeneratedColumn<int>(
+    'team_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES teams (id)',
+    ),
+  );
+  static const VerificationMeta _assignedAtMeta = const VerificationMeta(
+    'assignedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> assignedAt = GeneratedColumn<DateTime>(
+    'assigned_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, userId, teamId, assignedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'supervised_teams';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SupervisedTeamEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('team_id')) {
+      context.handle(
+        _teamIdMeta,
+        teamId.isAcceptableOrUnknown(data['team_id']!, _teamIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_teamIdMeta);
+    }
+    if (data.containsKey('assigned_at')) {
+      context.handle(
+        _assignedAtMeta,
+        assignedAt.isAcceptableOrUnknown(data['assigned_at']!, _assignedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_assignedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SupervisedTeamEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SupervisedTeamEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_id'],
+      )!,
+      teamId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}team_id'],
+      )!,
+      assignedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}assigned_at'],
+      )!,
+    );
+  }
+
+  @override
+  $SupervisedTeamsTable createAlias(String alias) {
+    return $SupervisedTeamsTable(attachedDatabase, alias);
+  }
+}
+
+class SupervisedTeamEntity extends DataClass
+    implements Insertable<SupervisedTeamEntity> {
+  final int id;
+  final int userId;
+  final int teamId;
+  final DateTime assignedAt;
+  const SupervisedTeamEntity({
+    required this.id,
+    required this.userId,
+    required this.teamId,
+    required this.assignedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_id'] = Variable<int>(userId);
+    map['team_id'] = Variable<int>(teamId);
+    map['assigned_at'] = Variable<DateTime>(assignedAt);
+    return map;
+  }
+
+  SupervisedTeamsCompanion toCompanion(bool nullToAbsent) {
+    return SupervisedTeamsCompanion(
+      id: Value(id),
+      userId: Value(userId),
+      teamId: Value(teamId),
+      assignedAt: Value(assignedAt),
+    );
+  }
+
+  factory SupervisedTeamEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SupervisedTeamEntity(
+      id: serializer.fromJson<int>(json['id']),
+      userId: serializer.fromJson<int>(json['userId']),
+      teamId: serializer.fromJson<int>(json['teamId']),
+      assignedAt: serializer.fromJson<DateTime>(json['assignedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userId': serializer.toJson<int>(userId),
+      'teamId': serializer.toJson<int>(teamId),
+      'assignedAt': serializer.toJson<DateTime>(assignedAt),
+    };
+  }
+
+  SupervisedTeamEntity copyWith({
+    int? id,
+    int? userId,
+    int? teamId,
+    DateTime? assignedAt,
+  }) => SupervisedTeamEntity(
+    id: id ?? this.id,
+    userId: userId ?? this.userId,
+    teamId: teamId ?? this.teamId,
+    assignedAt: assignedAt ?? this.assignedAt,
+  );
+  SupervisedTeamEntity copyWithCompanion(SupervisedTeamsCompanion data) {
+    return SupervisedTeamEntity(
+      id: data.id.present ? data.id.value : this.id,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      teamId: data.teamId.present ? data.teamId.value : this.teamId,
+      assignedAt: data.assignedAt.present
+          ? data.assignedAt.value
+          : this.assignedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SupervisedTeamEntity(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('teamId: $teamId, ')
+          ..write('assignedAt: $assignedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, userId, teamId, assignedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SupervisedTeamEntity &&
+          other.id == this.id &&
+          other.userId == this.userId &&
+          other.teamId == this.teamId &&
+          other.assignedAt == this.assignedAt);
+}
+
+class SupervisedTeamsCompanion extends UpdateCompanion<SupervisedTeamEntity> {
+  final Value<int> id;
+  final Value<int> userId;
+  final Value<int> teamId;
+  final Value<DateTime> assignedAt;
+  const SupervisedTeamsCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.teamId = const Value.absent(),
+    this.assignedAt = const Value.absent(),
+  });
+  SupervisedTeamsCompanion.insert({
+    this.id = const Value.absent(),
+    required int userId,
+    required int teamId,
+    required DateTime assignedAt,
+  }) : userId = Value(userId),
+       teamId = Value(teamId),
+       assignedAt = Value(assignedAt);
+  static Insertable<SupervisedTeamEntity> custom({
+    Expression<int>? id,
+    Expression<int>? userId,
+    Expression<int>? teamId,
+    Expression<DateTime>? assignedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+      if (teamId != null) 'team_id': teamId,
+      if (assignedAt != null) 'assigned_at': assignedAt,
+    });
+  }
+
+  SupervisedTeamsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? userId,
+    Value<int>? teamId,
+    Value<DateTime>? assignedAt,
+  }) {
+    return SupervisedTeamsCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      teamId: teamId ?? this.teamId,
+      assignedAt: assignedAt ?? this.assignedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (teamId.present) {
+      map['team_id'] = Variable<int>(teamId.value);
+    }
+    if (assignedAt.present) {
+      map['assigned_at'] = Variable<DateTime>(assignedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SupervisedTeamsCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('teamId: $teamId, ')
+          ..write('assignedAt: $assignedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $EquipmentTypesTable equipmentTypes = $EquipmentTypesTable(this);
   late final $DepartmentsTable departments = $DepartmentsTable(this);
+  late final $TeamsTable teams = $TeamsTable(this);
   late final $RegionsTable regions = $RegionsTable(this);
   late final $UsersTable users = $UsersTable(this);
   late final $OrganisationsTable organisations = $OrganisationsTable(this);
@@ -19691,6 +20828,11 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $OrganisationInvitesTable(this);
   late final $IssuesTable issues = $IssuesTable(this);
   late final $IssueEventsTable issueEvents = $IssueEventsTable(this);
+  late final $SupervisedDepartmentsTable supervisedDepartments =
+      $SupervisedDepartmentsTable(this);
+  late final $SupervisedTeamsTable supervisedTeams = $SupervisedTeamsTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -19698,6 +20840,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     equipmentTypes,
     departments,
+    teams,
     regions,
     users,
     organisations,
@@ -19730,6 +20873,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     organisationInvites,
     issues,
     issueEvents,
+    supervisedDepartments,
+    supervisedTeams,
   ];
 }
 
@@ -20299,6 +21444,25 @@ final class $$DepartmentsTableReferences
     extends BaseReferences<_$AppDatabase, $DepartmentsTable, DepartmentEntity> {
   $$DepartmentsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
+  static MultiTypedResultKey<$TeamsTable, List<TeamEntity>> _teamsRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.teams,
+    aliasName: 'departments__id__teams__department_id',
+  );
+
+  $$TeamsTableProcessedTableManager get teamsRefs {
+    final manager = $$TeamsTableTableManager(
+      $_db,
+      $_db.teams,
+    ).filter((f) => f.departmentId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_teamsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<$UsersTable, List<UserEntity>> _usersRefsTable(
     _$AppDatabase db,
   ) => MultiTypedResultKey.fromTable(
@@ -20313,6 +21477,50 @@ final class $$DepartmentsTableReferences
     ).filter((f) => f.departmentId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_usersRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$IssuesTable, List<IssueEntity>> _issuesRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.issues,
+    aliasName: 'departments__id__issues__department_id',
+  );
+
+  $$IssuesTableProcessedTableManager get issuesRefs {
+    final manager = $$IssuesTableTableManager(
+      $_db,
+      $_db.issues,
+    ).filter((f) => f.departmentId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_issuesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $SupervisedDepartmentsTable,
+    List<SupervisedDepartmentEntity>
+  >
+  _supervisedDepartmentsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.supervisedDepartments,
+        aliasName: 'departments__id__supervised_departments__department_id',
+      );
+
+  $$SupervisedDepartmentsTableProcessedTableManager
+  get supervisedDepartmentsRefs {
+    final manager = $$SupervisedDepartmentsTableTableManager(
+      $_db,
+      $_db.supervisedDepartments,
+    ).filter((f) => f.departmentId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _supervisedDepartmentsRefsTable($_db),
+    );
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -20353,6 +21561,31 @@ class $$DepartmentsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  Expression<bool> teamsRefs(
+    Expression<bool> Function($$TeamsTableFilterComposer f) f,
+  ) {
+    final $$TeamsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.departmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableFilterComposer(
+            $db: $db,
+            $table: $db.teams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<bool> usersRefs(
     Expression<bool> Function($$UsersTableFilterComposer f) f,
   ) {
@@ -20375,6 +21608,57 @@ class $$DepartmentsTableFilterComposer
                 $removeJoinBuilderFromRootComposer,
           ),
     );
+    return f(composer);
+  }
+
+  Expression<bool> issuesRefs(
+    Expression<bool> Function($$IssuesTableFilterComposer f) f,
+  ) {
+    final $$IssuesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.departmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableFilterComposer(
+            $db: $db,
+            $table: $db.issues,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> supervisedDepartmentsRefs(
+    Expression<bool> Function($$SupervisedDepartmentsTableFilterComposer f) f,
+  ) {
+    final $$SupervisedDepartmentsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.supervisedDepartments,
+          getReferencedColumn: (t) => t.departmentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SupervisedDepartmentsTableFilterComposer(
+                $db: $db,
+                $table: $db.supervisedDepartments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
     return f(composer);
   }
 }
@@ -20438,6 +21722,31 @@ class $$DepartmentsTableAnnotationComposer
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
+  Expression<T> teamsRefs<T extends Object>(
+    Expression<T> Function($$TeamsTableAnnotationComposer a) f,
+  ) {
+    final $$TeamsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.departmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.teams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> usersRefs<T extends Object>(
     Expression<T> Function($$UsersTableAnnotationComposer a) f,
   ) {
@@ -20462,6 +21771,57 @@ class $$DepartmentsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> issuesRefs<T extends Object>(
+    Expression<T> Function($$IssuesTableAnnotationComposer a) f,
+  ) {
+    final $$IssuesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.departmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.issues,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> supervisedDepartmentsRefs<T extends Object>(
+    Expression<T> Function($$SupervisedDepartmentsTableAnnotationComposer a) f,
+  ) {
+    final $$SupervisedDepartmentsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.supervisedDepartments,
+          getReferencedColumn: (t) => t.departmentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SupervisedDepartmentsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.supervisedDepartments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$DepartmentsTableTableManager
@@ -20477,7 +21837,12 @@ class $$DepartmentsTableTableManager
           $$DepartmentsTableUpdateCompanionBuilder,
           (DepartmentEntity, $$DepartmentsTableReferences),
           DepartmentEntity,
-          PrefetchHooks Function({bool usersRefs})
+          PrefetchHooks Function({
+            bool teamsRefs,
+            bool usersRefs,
+            bool issuesRefs,
+            bool supervisedDepartmentsRefs,
+          })
         > {
   $$DepartmentsTableTableManager(_$AppDatabase db, $DepartmentsTable table)
     : super(
@@ -20526,34 +21891,112 @@ class $$DepartmentsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({usersRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (usersRefs) db.users],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (usersRefs)
-                    await $_getPrefetchedData<
-                      DepartmentEntity,
-                      $DepartmentsTable,
-                      UserEntity
-                    >(
-                      currentTable: table,
-                      referencedTable: $$DepartmentsTableReferences
-                          ._usersRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $$DepartmentsTableReferences(db, table, p0).usersRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where(
-                            (e) => e.departmentId == item.id,
-                          ),
-                      typedResults: items,
-                    ),
-                ];
+          prefetchHooksCallback:
+              ({
+                teamsRefs = false,
+                usersRefs = false,
+                issuesRefs = false,
+                supervisedDepartmentsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (teamsRefs) db.teams,
+                    if (usersRefs) db.users,
+                    if (issuesRefs) db.issues,
+                    if (supervisedDepartmentsRefs) db.supervisedDepartments,
+                  ],
+                  addJoins: null,
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (teamsRefs)
+                        await $_getPrefetchedData<
+                          DepartmentEntity,
+                          $DepartmentsTable,
+                          TeamEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DepartmentsTableReferences
+                              ._teamsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DepartmentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).teamsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.departmentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (usersRefs)
+                        await $_getPrefetchedData<
+                          DepartmentEntity,
+                          $DepartmentsTable,
+                          UserEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DepartmentsTableReferences
+                              ._usersRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DepartmentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).usersRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.departmentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (issuesRefs)
+                        await $_getPrefetchedData<
+                          DepartmentEntity,
+                          $DepartmentsTable,
+                          IssueEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DepartmentsTableReferences
+                              ._issuesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DepartmentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).issuesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.departmentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (supervisedDepartmentsRefs)
+                        await $_getPrefetchedData<
+                          DepartmentEntity,
+                          $DepartmentsTable,
+                          SupervisedDepartmentEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DepartmentsTableReferences
+                              ._supervisedDepartmentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DepartmentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).supervisedDepartmentsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.departmentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -20570,7 +22013,604 @@ typedef $$DepartmentsTableProcessedTableManager =
       $$DepartmentsTableUpdateCompanionBuilder,
       (DepartmentEntity, $$DepartmentsTableReferences),
       DepartmentEntity,
-      PrefetchHooks Function({bool usersRefs})
+      PrefetchHooks Function({
+        bool teamsRefs,
+        bool usersRefs,
+        bool issuesRefs,
+        bool supervisedDepartmentsRefs,
+      })
+    >;
+typedef $$TeamsTableCreateCompanionBuilder =
+    TeamsCompanion Function({
+      Value<int> id,
+      required String name,
+      required int departmentId,
+      Value<bool> active,
+      required DateTime createdAt,
+    });
+typedef $$TeamsTableUpdateCompanionBuilder =
+    TeamsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<int> departmentId,
+      Value<bool> active,
+      Value<DateTime> createdAt,
+    });
+
+final class $$TeamsTableReferences
+    extends BaseReferences<_$AppDatabase, $TeamsTable, TeamEntity> {
+  $$TeamsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $DepartmentsTable _departmentIdTable(_$AppDatabase db) =>
+      db.departments.createAlias('teams__department_id__departments__id');
+
+  $$DepartmentsTableProcessedTableManager get departmentId {
+    final $_column = $_itemColumn<int>('department_id')!;
+
+    final manager = $$DepartmentsTableTableManager(
+      $_db,
+      $_db.departments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_departmentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$UsersTable, List<UserEntity>> _usersRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.users,
+    aliasName: 'teams__id__users__team_id',
+  );
+
+  $$UsersTableProcessedTableManager get usersRefs {
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.teamId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_usersRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$IssuesTable, List<IssueEntity>> _issuesRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.issues,
+    aliasName: 'teams__id__issues__team_id',
+  );
+
+  $$IssuesTableProcessedTableManager get issuesRefs {
+    final manager = $$IssuesTableTableManager(
+      $_db,
+      $_db.issues,
+    ).filter((f) => f.teamId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_issuesRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$SupervisedTeamsTable, List<SupervisedTeamEntity>>
+  _supervisedTeamsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.supervisedTeams,
+    aliasName: 'teams__id__supervised_teams__team_id',
+  );
+
+  $$SupervisedTeamsTableProcessedTableManager get supervisedTeamsRefs {
+    final manager = $$SupervisedTeamsTableTableManager(
+      $_db,
+      $_db.supervisedTeams,
+    ).filter((f) => f.teamId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _supervisedTeamsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$TeamsTableFilterComposer extends Composer<_$AppDatabase, $TeamsTable> {
+  $$TeamsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$DepartmentsTableFilterComposer get departmentId {
+    final $$DepartmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> usersRefs(
+    Expression<bool> Function($$UsersTableFilterComposer f) f,
+  ) {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.teamId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> issuesRefs(
+    Expression<bool> Function($$IssuesTableFilterComposer f) f,
+  ) {
+    final $$IssuesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.teamId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableFilterComposer(
+            $db: $db,
+            $table: $db.issues,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> supervisedTeamsRefs(
+    Expression<bool> Function($$SupervisedTeamsTableFilterComposer f) f,
+  ) {
+    final $$SupervisedTeamsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.supervisedTeams,
+      getReferencedColumn: (t) => t.teamId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupervisedTeamsTableFilterComposer(
+            $db: $db,
+            $table: $db.supervisedTeams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$TeamsTableOrderingComposer
+    extends Composer<_$AppDatabase, $TeamsTable> {
+  $$TeamsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get active => $composableBuilder(
+    column: $table.active,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$DepartmentsTableOrderingComposer get departmentId {
+    final $$DepartmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TeamsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TeamsTable> {
+  $$TeamsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<bool> get active =>
+      $composableBuilder(column: $table.active, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$DepartmentsTableAnnotationComposer get departmentId {
+    final $$DepartmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> usersRefs<T extends Object>(
+    Expression<T> Function($$UsersTableAnnotationComposer a) f,
+  ) {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.teamId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> issuesRefs<T extends Object>(
+    Expression<T> Function($$IssuesTableAnnotationComposer a) f,
+  ) {
+    final $$IssuesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.issues,
+      getReferencedColumn: (t) => t.teamId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$IssuesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.issues,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> supervisedTeamsRefs<T extends Object>(
+    Expression<T> Function($$SupervisedTeamsTableAnnotationComposer a) f,
+  ) {
+    final $$SupervisedTeamsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.supervisedTeams,
+      getReferencedColumn: (t) => t.teamId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupervisedTeamsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.supervisedTeams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$TeamsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TeamsTable,
+          TeamEntity,
+          $$TeamsTableFilterComposer,
+          $$TeamsTableOrderingComposer,
+          $$TeamsTableAnnotationComposer,
+          $$TeamsTableCreateCompanionBuilder,
+          $$TeamsTableUpdateCompanionBuilder,
+          (TeamEntity, $$TeamsTableReferences),
+          TeamEntity,
+          PrefetchHooks Function({
+            bool departmentId,
+            bool usersRefs,
+            bool issuesRefs,
+            bool supervisedTeamsRefs,
+          })
+        > {
+  $$TeamsTableTableManager(_$AppDatabase db, $TeamsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TeamsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TeamsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TeamsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<int> departmentId = const Value.absent(),
+                Value<bool> active = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => TeamsCompanion(
+                id: id,
+                name: name,
+                departmentId: departmentId,
+                active: active,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                required int departmentId,
+                Value<bool> active = const Value.absent(),
+                required DateTime createdAt,
+              }) => TeamsCompanion.insert(
+                id: id,
+                name: name,
+                departmentId: departmentId,
+                active: active,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$TeamsTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({
+                departmentId = false,
+                usersRefs = false,
+                issuesRefs = false,
+                supervisedTeamsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (usersRefs) db.users,
+                    if (issuesRefs) db.issues,
+                    if (supervisedTeamsRefs) db.supervisedTeams,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (departmentId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.departmentId,
+                                    referencedTable: $$TeamsTableReferences
+                                        ._departmentIdTable(db),
+                                    referencedColumn: $$TeamsTableReferences
+                                        ._departmentIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (usersRefs)
+                        await $_getPrefetchedData<
+                          TeamEntity,
+                          $TeamsTable,
+                          UserEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TeamsTableReferences
+                              ._usersRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TeamsTableReferences(db, table, p0).usersRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.teamId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (issuesRefs)
+                        await $_getPrefetchedData<
+                          TeamEntity,
+                          $TeamsTable,
+                          IssueEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TeamsTableReferences
+                              ._issuesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TeamsTableReferences(db, table, p0).issuesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.teamId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (supervisedTeamsRefs)
+                        await $_getPrefetchedData<
+                          TeamEntity,
+                          $TeamsTable,
+                          SupervisedTeamEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TeamsTableReferences
+                              ._supervisedTeamsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TeamsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).supervisedTeamsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.teamId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$TeamsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TeamsTable,
+      TeamEntity,
+      $$TeamsTableFilterComposer,
+      $$TeamsTableOrderingComposer,
+      $$TeamsTableAnnotationComposer,
+      $$TeamsTableCreateCompanionBuilder,
+      $$TeamsTableUpdateCompanionBuilder,
+      (TeamEntity, $$TeamsTableReferences),
+      TeamEntity,
+      PrefetchHooks Function({
+        bool departmentId,
+        bool usersRefs,
+        bool issuesRefs,
+        bool supervisedTeamsRefs,
+      })
     >;
 typedef $$RegionsTableCreateCompanionBuilder =
     RegionsCompanion Function({
@@ -21063,6 +23103,7 @@ typedef $$UsersTableCreateCompanionBuilder =
       Value<int?> deactivatedByUserId,
       Value<String?> jobRole,
       Value<int?> departmentId,
+      Value<int?> teamId,
       Value<String?> supabaseUserId,
       Value<int?> regionId,
       Value<int?> reportsToUserId,
@@ -21083,6 +23124,7 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<int?> deactivatedByUserId,
       Value<String?> jobRole,
       Value<int?> departmentId,
+      Value<int?> teamId,
       Value<String?> supabaseUserId,
       Value<int?> regionId,
       Value<int?> reportsToUserId,
@@ -21121,6 +23163,23 @@ final class $$UsersTableReferences
       $_db.departments,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_departmentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $TeamsTable _teamIdTable(_$AppDatabase db) =>
+      db.teams.createAlias('users__team_id__teams__id');
+
+  $$TeamsTableProcessedTableManager? get teamId {
+    final $_column = $_itemColumn<int>('team_id');
+    if ($_column == null) return null;
+    final manager = $$TeamsTableTableManager(
+      $_db,
+      $_db.teams,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_teamIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -21419,6 +23478,51 @@ final class $$UsersTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $SupervisedDepartmentsTable,
+    List<SupervisedDepartmentEntity>
+  >
+  _supervisedDepartmentsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.supervisedDepartments,
+        aliasName: 'users__id__supervised_departments__user_id',
+      );
+
+  $$SupervisedDepartmentsTableProcessedTableManager
+  get supervisedDepartmentsRefs {
+    final manager = $$SupervisedDepartmentsTableTableManager(
+      $_db,
+      $_db.supervisedDepartments,
+    ).filter((f) => f.userId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _supervisedDepartmentsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$SupervisedTeamsTable, List<SupervisedTeamEntity>>
+  _supervisedTeamsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.supervisedTeams,
+    aliasName: 'users__id__supervised_teams__user_id',
+  );
+
+  $$SupervisedTeamsTableProcessedTableManager get supervisedTeamsRefs {
+    final manager = $$SupervisedTeamsTableTableManager(
+      $_db,
+      $_db.supervisedTeams,
+    ).filter((f) => f.userId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _supervisedTeamsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
@@ -21531,6 +23635,29 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$DepartmentsTableFilterComposer(
             $db: $db,
             $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TeamsTableFilterComposer get teamId {
+    final $$TeamsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.teamId,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableFilterComposer(
+            $db: $db,
+            $table: $db.teams,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -21889,6 +24016,57 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
         );
     return f(composer);
   }
+
+  Expression<bool> supervisedDepartmentsRefs(
+    Expression<bool> Function($$SupervisedDepartmentsTableFilterComposer f) f,
+  ) {
+    final $$SupervisedDepartmentsTableFilterComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.supervisedDepartments,
+          getReferencedColumn: (t) => t.userId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SupervisedDepartmentsTableFilterComposer(
+                $db: $db,
+                $table: $db.supervisedDepartments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<bool> supervisedTeamsRefs(
+    Expression<bool> Function($$SupervisedTeamsTableFilterComposer f) f,
+  ) {
+    final $$SupervisedTeamsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.supervisedTeams,
+      getReferencedColumn: (t) => t.userId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupervisedTeamsTableFilterComposer(
+            $db: $db,
+            $table: $db.supervisedTeams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$UsersTableOrderingComposer
@@ -22002,6 +24180,29 @@ class $$UsersTableOrderingComposer
           }) => $$DepartmentsTableOrderingComposer(
             $db: $db,
             $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TeamsTableOrderingComposer get teamId {
+    final $$TeamsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.teamId,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableOrderingComposer(
+            $db: $db,
+            $table: $db.teams,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -22149,6 +24350,29 @@ class $$UsersTableAnnotationComposer
           }) => $$DepartmentsTableAnnotationComposer(
             $db: $db,
             $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TeamsTableAnnotationComposer get teamId {
+    final $$TeamsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.teamId,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.teams,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -22512,6 +24736,57 @@ class $$UsersTableAnnotationComposer
         );
     return f(composer);
   }
+
+  Expression<T> supervisedDepartmentsRefs<T extends Object>(
+    Expression<T> Function($$SupervisedDepartmentsTableAnnotationComposer a) f,
+  ) {
+    final $$SupervisedDepartmentsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.supervisedDepartments,
+          getReferencedColumn: (t) => t.userId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SupervisedDepartmentsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.supervisedDepartments,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
+  Expression<T> supervisedTeamsRefs<T extends Object>(
+    Expression<T> Function($$SupervisedTeamsTableAnnotationComposer a) f,
+  ) {
+    final $$SupervisedTeamsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.supervisedTeams,
+      getReferencedColumn: (t) => t.userId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SupervisedTeamsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.supervisedTeams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$UsersTableTableManager
@@ -22530,6 +24805,7 @@ class $$UsersTableTableManager
           PrefetchHooks Function({
             bool deactivatedByUserId,
             bool departmentId,
+            bool teamId,
             bool regionId,
             bool reportsToUserId,
             bool organisationsRefs,
@@ -22544,6 +24820,8 @@ class $$UsersTableTableManager
             bool brandingConfigsRefs,
             bool problemStatusEventsRefs,
             bool shiftHandoverAcknowledgementsRefs,
+            bool supervisedDepartmentsRefs,
+            bool supervisedTeamsRefs,
           })
         > {
   $$UsersTableTableManager(_$AppDatabase db, $UsersTable table)
@@ -22572,6 +24850,7 @@ class $$UsersTableTableManager
                 Value<int?> deactivatedByUserId = const Value.absent(),
                 Value<String?> jobRole = const Value.absent(),
                 Value<int?> departmentId = const Value.absent(),
+                Value<int?> teamId = const Value.absent(),
                 Value<String?> supabaseUserId = const Value.absent(),
                 Value<int?> regionId = const Value.absent(),
                 Value<int?> reportsToUserId = const Value.absent(),
@@ -22590,6 +24869,7 @@ class $$UsersTableTableManager
                 deactivatedByUserId: deactivatedByUserId,
                 jobRole: jobRole,
                 departmentId: departmentId,
+                teamId: teamId,
                 supabaseUserId: supabaseUserId,
                 regionId: regionId,
                 reportsToUserId: reportsToUserId,
@@ -22610,6 +24890,7 @@ class $$UsersTableTableManager
                 Value<int?> deactivatedByUserId = const Value.absent(),
                 Value<String?> jobRole = const Value.absent(),
                 Value<int?> departmentId = const Value.absent(),
+                Value<int?> teamId = const Value.absent(),
                 Value<String?> supabaseUserId = const Value.absent(),
                 Value<int?> regionId = const Value.absent(),
                 Value<int?> reportsToUserId = const Value.absent(),
@@ -22628,6 +24909,7 @@ class $$UsersTableTableManager
                 deactivatedByUserId: deactivatedByUserId,
                 jobRole: jobRole,
                 departmentId: departmentId,
+                teamId: teamId,
                 supabaseUserId: supabaseUserId,
                 regionId: regionId,
                 reportsToUserId: reportsToUserId,
@@ -22643,6 +24925,7 @@ class $$UsersTableTableManager
               ({
                 deactivatedByUserId = false,
                 departmentId = false,
+                teamId = false,
                 regionId = false,
                 reportsToUserId = false,
                 organisationsRefs = false,
@@ -22657,6 +24940,8 @@ class $$UsersTableTableManager
                 brandingConfigsRefs = false,
                 problemStatusEventsRefs = false,
                 shiftHandoverAcknowledgementsRefs = false,
+                supervisedDepartmentsRefs = false,
+                supervisedTeamsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -22674,6 +24959,8 @@ class $$UsersTableTableManager
                     if (problemStatusEventsRefs) db.problemStatusEvents,
                     if (shiftHandoverAcknowledgementsRefs)
                       db.shiftHandoverAcknowledgements,
+                    if (supervisedDepartmentsRefs) db.supervisedDepartments,
+                    if (supervisedTeamsRefs) db.supervisedTeams,
                   ],
                   addJoins:
                       <
@@ -22713,6 +25000,19 @@ class $$UsersTableTableManager
                                         ._departmentIdTable(db),
                                     referencedColumn: $$UsersTableReferences
                                         ._departmentIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (teamId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.teamId,
+                                    referencedTable: $$UsersTableReferences
+                                        ._teamIdTable(db),
+                                    referencedColumn: $$UsersTableReferences
+                                        ._teamIdTable(db)
                                         .id,
                                   )
                                   as T;
@@ -23000,6 +25300,48 @@ class $$UsersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (supervisedDepartmentsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          SupervisedDepartmentEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._supervisedDepartmentsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).supervisedDepartmentsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.userId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (supervisedTeamsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          SupervisedTeamEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._supervisedTeamsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).supervisedTeamsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.userId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -23023,6 +25365,7 @@ typedef $$UsersTableProcessedTableManager =
       PrefetchHooks Function({
         bool deactivatedByUserId,
         bool departmentId,
+        bool teamId,
         bool regionId,
         bool reportsToUserId,
         bool organisationsRefs,
@@ -23037,6 +25380,8 @@ typedef $$UsersTableProcessedTableManager =
         bool brandingConfigsRefs,
         bool problemStatusEventsRefs,
         bool shiftHandoverAcknowledgementsRefs,
+        bool supervisedDepartmentsRefs,
+        bool supervisedTeamsRefs,
       })
     >;
 typedef $$OrganisationsTableCreateCompanionBuilder =
@@ -41002,6 +43347,8 @@ typedef $$IssuesTableCreateCompanionBuilder =
       Value<String?> deliveryProblemType,
       Value<int?> receivedByUserId,
       Value<int?> escalatedToUserId,
+      Value<int?> departmentId,
+      Value<int?> teamId,
       Value<bool> manualUrgent,
     });
 typedef $$IssuesTableUpdateCompanionBuilder =
@@ -41018,6 +43365,8 @@ typedef $$IssuesTableUpdateCompanionBuilder =
       Value<String?> deliveryProblemType,
       Value<int?> receivedByUserId,
       Value<int?> escalatedToUserId,
+      Value<int?> departmentId,
+      Value<int?> teamId,
       Value<bool> manualUrgent,
     });
 
@@ -41104,6 +43453,40 @@ final class $$IssuesTableReferences
       $_db.users,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_escalatedToUserIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $DepartmentsTable _departmentIdTable(_$AppDatabase db) =>
+      db.departments.createAlias('issues__department_id__departments__id');
+
+  $$DepartmentsTableProcessedTableManager? get departmentId {
+    final $_column = $_itemColumn<int>('department_id');
+    if ($_column == null) return null;
+    final manager = $$DepartmentsTableTableManager(
+      $_db,
+      $_db.departments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_departmentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $TeamsTable _teamIdTable(_$AppDatabase db) =>
+      db.teams.createAlias('issues__team_id__teams__id');
+
+  $$TeamsTableProcessedTableManager? get teamId {
+    final $_column = $_itemColumn<int>('team_id');
+    if ($_column == null) return null;
+    final manager = $$TeamsTableTableManager(
+      $_db,
+      $_db.teams,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_teamIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -41284,6 +43667,52 @@ class $$IssuesTableFilterComposer
           }) => $$UsersTableFilterComposer(
             $db: $db,
             $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DepartmentsTableFilterComposer get departmentId {
+    final $$DepartmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TeamsTableFilterComposer get teamId {
+    final $$TeamsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.teamId,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableFilterComposer(
+            $db: $db,
+            $table: $db.teams,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -41482,6 +43911,52 @@ class $$IssuesTableOrderingComposer
     );
     return composer;
   }
+
+  $$DepartmentsTableOrderingComposer get departmentId {
+    final $$DepartmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TeamsTableOrderingComposer get teamId {
+    final $$TeamsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.teamId,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableOrderingComposer(
+            $db: $db,
+            $table: $db.teams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$IssuesTableAnnotationComposer
@@ -41636,6 +44111,52 @@ class $$IssuesTableAnnotationComposer
     return composer;
   }
 
+  $$DepartmentsTableAnnotationComposer get departmentId {
+    final $$DepartmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TeamsTableAnnotationComposer get teamId {
+    final $$TeamsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.teamId,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.teams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   Expression<T> issueEventsRefs<T extends Object>(
     Expression<T> Function($$IssueEventsTableAnnotationComposer a) f,
   ) {
@@ -41681,6 +44202,8 @@ class $$IssuesTableTableManager
             bool supplierId,
             bool receivedByUserId,
             bool escalatedToUserId,
+            bool departmentId,
+            bool teamId,
             bool issueEventsRefs,
           })
         > {
@@ -41709,6 +44232,8 @@ class $$IssuesTableTableManager
                 Value<String?> deliveryProblemType = const Value.absent(),
                 Value<int?> receivedByUserId = const Value.absent(),
                 Value<int?> escalatedToUserId = const Value.absent(),
+                Value<int?> departmentId = const Value.absent(),
+                Value<int?> teamId = const Value.absent(),
                 Value<bool> manualUrgent = const Value.absent(),
               }) => IssuesCompanion(
                 id: id,
@@ -41723,6 +44248,8 @@ class $$IssuesTableTableManager
                 deliveryProblemType: deliveryProblemType,
                 receivedByUserId: receivedByUserId,
                 escalatedToUserId: escalatedToUserId,
+                departmentId: departmentId,
+                teamId: teamId,
                 manualUrgent: manualUrgent,
               ),
           createCompanionCallback:
@@ -41739,6 +44266,8 @@ class $$IssuesTableTableManager
                 Value<String?> deliveryProblemType = const Value.absent(),
                 Value<int?> receivedByUserId = const Value.absent(),
                 Value<int?> escalatedToUserId = const Value.absent(),
+                Value<int?> departmentId = const Value.absent(),
+                Value<int?> teamId = const Value.absent(),
                 Value<bool> manualUrgent = const Value.absent(),
               }) => IssuesCompanion.insert(
                 id: id,
@@ -41753,6 +44282,8 @@ class $$IssuesTableTableManager
                 deliveryProblemType: deliveryProblemType,
                 receivedByUserId: receivedByUserId,
                 escalatedToUserId: escalatedToUserId,
+                departmentId: departmentId,
+                teamId: teamId,
                 manualUrgent: manualUrgent,
               ),
           withReferenceMapper: (p0) => p0
@@ -41768,6 +44299,8 @@ class $$IssuesTableTableManager
                 supplierId = false,
                 receivedByUserId = false,
                 escalatedToUserId = false,
+                departmentId = false,
+                teamId = false,
                 issueEventsRefs = false,
               }) {
                 return PrefetchHooks(
@@ -41856,6 +44389,32 @@ class $$IssuesTableTableManager
                                   )
                                   as T;
                         }
+                        if (departmentId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.departmentId,
+                                    referencedTable: $$IssuesTableReferences
+                                        ._departmentIdTable(db),
+                                    referencedColumn: $$IssuesTableReferences
+                                        ._departmentIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (teamId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.teamId,
+                                    referencedTable: $$IssuesTableReferences
+                                        ._teamIdTable(db),
+                                    referencedColumn: $$IssuesTableReferences
+                                        ._teamIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
 
                         return state;
                       },
@@ -41908,6 +44467,8 @@ typedef $$IssuesTableProcessedTableManager =
         bool supplierId,
         bool receivedByUserId,
         bool escalatedToUserId,
+        bool departmentId,
+        bool teamId,
         bool issueEventsRefs,
       })
     >;
@@ -42472,6 +45033,806 @@ typedef $$IssueEventsTableProcessedTableManager =
         bool targetUserId,
       })
     >;
+typedef $$SupervisedDepartmentsTableCreateCompanionBuilder =
+    SupervisedDepartmentsCompanion Function({
+      Value<int> id,
+      required int userId,
+      required int departmentId,
+      required DateTime assignedAt,
+    });
+typedef $$SupervisedDepartmentsTableUpdateCompanionBuilder =
+    SupervisedDepartmentsCompanion Function({
+      Value<int> id,
+      Value<int> userId,
+      Value<int> departmentId,
+      Value<DateTime> assignedAt,
+    });
+
+final class $$SupervisedDepartmentsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $SupervisedDepartmentsTable,
+          SupervisedDepartmentEntity
+        > {
+  $$SupervisedDepartmentsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $UsersTable _userIdTable(_$AppDatabase db) =>
+      db.users.createAlias('supervised_departments__user_id__users__id');
+
+  $$UsersTableProcessedTableManager get userId {
+    final $_column = $_itemColumn<int>('user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_userIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $DepartmentsTable _departmentIdTable(_$AppDatabase db) => db
+      .departments
+      .createAlias('supervised_departments__department_id__departments__id');
+
+  $$DepartmentsTableProcessedTableManager get departmentId {
+    final $_column = $_itemColumn<int>('department_id')!;
+
+    final manager = $$DepartmentsTableTableManager(
+      $_db,
+      $_db.departments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_departmentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SupervisedDepartmentsTableFilterComposer
+    extends Composer<_$AppDatabase, $SupervisedDepartmentsTable> {
+  $$SupervisedDepartmentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get assignedAt => $composableBuilder(
+    column: $table.assignedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UsersTableFilterComposer get userId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DepartmentsTableFilterComposer get departmentId {
+    final $$DepartmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SupervisedDepartmentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $SupervisedDepartmentsTable> {
+  $$SupervisedDepartmentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get assignedAt => $composableBuilder(
+    column: $table.assignedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UsersTableOrderingComposer get userId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DepartmentsTableOrderingComposer get departmentId {
+    final $$DepartmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SupervisedDepartmentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SupervisedDepartmentsTable> {
+  $$SupervisedDepartmentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get assignedAt => $composableBuilder(
+    column: $table.assignedAt,
+    builder: (column) => column,
+  );
+
+  $$UsersTableAnnotationComposer get userId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DepartmentsTableAnnotationComposer get departmentId {
+    final $$DepartmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SupervisedDepartmentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SupervisedDepartmentsTable,
+          SupervisedDepartmentEntity,
+          $$SupervisedDepartmentsTableFilterComposer,
+          $$SupervisedDepartmentsTableOrderingComposer,
+          $$SupervisedDepartmentsTableAnnotationComposer,
+          $$SupervisedDepartmentsTableCreateCompanionBuilder,
+          $$SupervisedDepartmentsTableUpdateCompanionBuilder,
+          (SupervisedDepartmentEntity, $$SupervisedDepartmentsTableReferences),
+          SupervisedDepartmentEntity,
+          PrefetchHooks Function({bool userId, bool departmentId})
+        > {
+  $$SupervisedDepartmentsTableTableManager(
+    _$AppDatabase db,
+    $SupervisedDepartmentsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SupervisedDepartmentsTableFilterComposer(
+                $db: db,
+                $table: table,
+              ),
+          createOrderingComposer: () =>
+              $$SupervisedDepartmentsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$SupervisedDepartmentsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> userId = const Value.absent(),
+                Value<int> departmentId = const Value.absent(),
+                Value<DateTime> assignedAt = const Value.absent(),
+              }) => SupervisedDepartmentsCompanion(
+                id: id,
+                userId: userId,
+                departmentId: departmentId,
+                assignedAt: assignedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int userId,
+                required int departmentId,
+                required DateTime assignedAt,
+              }) => SupervisedDepartmentsCompanion.insert(
+                id: id,
+                userId: userId,
+                departmentId: departmentId,
+                assignedAt: assignedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SupervisedDepartmentsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({userId = false, departmentId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (userId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.userId,
+                                referencedTable:
+                                    $$SupervisedDepartmentsTableReferences
+                                        ._userIdTable(db),
+                                referencedColumn:
+                                    $$SupervisedDepartmentsTableReferences
+                                        ._userIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (departmentId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.departmentId,
+                                referencedTable:
+                                    $$SupervisedDepartmentsTableReferences
+                                        ._departmentIdTable(db),
+                                referencedColumn:
+                                    $$SupervisedDepartmentsTableReferences
+                                        ._departmentIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$SupervisedDepartmentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SupervisedDepartmentsTable,
+      SupervisedDepartmentEntity,
+      $$SupervisedDepartmentsTableFilterComposer,
+      $$SupervisedDepartmentsTableOrderingComposer,
+      $$SupervisedDepartmentsTableAnnotationComposer,
+      $$SupervisedDepartmentsTableCreateCompanionBuilder,
+      $$SupervisedDepartmentsTableUpdateCompanionBuilder,
+      (SupervisedDepartmentEntity, $$SupervisedDepartmentsTableReferences),
+      SupervisedDepartmentEntity,
+      PrefetchHooks Function({bool userId, bool departmentId})
+    >;
+typedef $$SupervisedTeamsTableCreateCompanionBuilder =
+    SupervisedTeamsCompanion Function({
+      Value<int> id,
+      required int userId,
+      required int teamId,
+      required DateTime assignedAt,
+    });
+typedef $$SupervisedTeamsTableUpdateCompanionBuilder =
+    SupervisedTeamsCompanion Function({
+      Value<int> id,
+      Value<int> userId,
+      Value<int> teamId,
+      Value<DateTime> assignedAt,
+    });
+
+final class $$SupervisedTeamsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $SupervisedTeamsTable,
+          SupervisedTeamEntity
+        > {
+  $$SupervisedTeamsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $UsersTable _userIdTable(_$AppDatabase db) =>
+      db.users.createAlias('supervised_teams__user_id__users__id');
+
+  $$UsersTableProcessedTableManager get userId {
+    final $_column = $_itemColumn<int>('user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_userIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $TeamsTable _teamIdTable(_$AppDatabase db) =>
+      db.teams.createAlias('supervised_teams__team_id__teams__id');
+
+  $$TeamsTableProcessedTableManager get teamId {
+    final $_column = $_itemColumn<int>('team_id')!;
+
+    final manager = $$TeamsTableTableManager(
+      $_db,
+      $_db.teams,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_teamIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SupervisedTeamsTableFilterComposer
+    extends Composer<_$AppDatabase, $SupervisedTeamsTable> {
+  $$SupervisedTeamsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get assignedAt => $composableBuilder(
+    column: $table.assignedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UsersTableFilterComposer get userId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TeamsTableFilterComposer get teamId {
+    final $$TeamsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.teamId,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableFilterComposer(
+            $db: $db,
+            $table: $db.teams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SupervisedTeamsTableOrderingComposer
+    extends Composer<_$AppDatabase, $SupervisedTeamsTable> {
+  $$SupervisedTeamsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get assignedAt => $composableBuilder(
+    column: $table.assignedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UsersTableOrderingComposer get userId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TeamsTableOrderingComposer get teamId {
+    final $$TeamsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.teamId,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableOrderingComposer(
+            $db: $db,
+            $table: $db.teams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SupervisedTeamsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SupervisedTeamsTable> {
+  $$SupervisedTeamsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get assignedAt => $composableBuilder(
+    column: $table.assignedAt,
+    builder: (column) => column,
+  );
+
+  $$UsersTableAnnotationComposer get userId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$TeamsTableAnnotationComposer get teamId {
+    final $$TeamsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.teamId,
+      referencedTable: $db.teams,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TeamsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.teams,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SupervisedTeamsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SupervisedTeamsTable,
+          SupervisedTeamEntity,
+          $$SupervisedTeamsTableFilterComposer,
+          $$SupervisedTeamsTableOrderingComposer,
+          $$SupervisedTeamsTableAnnotationComposer,
+          $$SupervisedTeamsTableCreateCompanionBuilder,
+          $$SupervisedTeamsTableUpdateCompanionBuilder,
+          (SupervisedTeamEntity, $$SupervisedTeamsTableReferences),
+          SupervisedTeamEntity,
+          PrefetchHooks Function({bool userId, bool teamId})
+        > {
+  $$SupervisedTeamsTableTableManager(
+    _$AppDatabase db,
+    $SupervisedTeamsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SupervisedTeamsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SupervisedTeamsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SupervisedTeamsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> userId = const Value.absent(),
+                Value<int> teamId = const Value.absent(),
+                Value<DateTime> assignedAt = const Value.absent(),
+              }) => SupervisedTeamsCompanion(
+                id: id,
+                userId: userId,
+                teamId: teamId,
+                assignedAt: assignedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int userId,
+                required int teamId,
+                required DateTime assignedAt,
+              }) => SupervisedTeamsCompanion.insert(
+                id: id,
+                userId: userId,
+                teamId: teamId,
+                assignedAt: assignedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SupervisedTeamsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({userId = false, teamId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (userId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.userId,
+                                referencedTable:
+                                    $$SupervisedTeamsTableReferences
+                                        ._userIdTable(db),
+                                referencedColumn:
+                                    $$SupervisedTeamsTableReferences
+                                        ._userIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (teamId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.teamId,
+                                referencedTable:
+                                    $$SupervisedTeamsTableReferences
+                                        ._teamIdTable(db),
+                                referencedColumn:
+                                    $$SupervisedTeamsTableReferences
+                                        ._teamIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$SupervisedTeamsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SupervisedTeamsTable,
+      SupervisedTeamEntity,
+      $$SupervisedTeamsTableFilterComposer,
+      $$SupervisedTeamsTableOrderingComposer,
+      $$SupervisedTeamsTableAnnotationComposer,
+      $$SupervisedTeamsTableCreateCompanionBuilder,
+      $$SupervisedTeamsTableUpdateCompanionBuilder,
+      (SupervisedTeamEntity, $$SupervisedTeamsTableReferences),
+      SupervisedTeamEntity,
+      PrefetchHooks Function({bool userId, bool teamId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -42480,6 +45841,8 @@ class $AppDatabaseManager {
       $$EquipmentTypesTableTableManager(_db, _db.equipmentTypes);
   $$DepartmentsTableTableManager get departments =>
       $$DepartmentsTableTableManager(_db, _db.departments);
+  $$TeamsTableTableManager get teams =>
+      $$TeamsTableTableManager(_db, _db.teams);
   $$RegionsTableTableManager get regions =>
       $$RegionsTableTableManager(_db, _db.regions);
   $$UsersTableTableManager get users =>
@@ -42554,4 +45917,8 @@ class $AppDatabaseManager {
       $$IssuesTableTableManager(_db, _db.issues);
   $$IssueEventsTableTableManager get issueEvents =>
       $$IssueEventsTableTableManager(_db, _db.issueEvents);
+  $$SupervisedDepartmentsTableTableManager get supervisedDepartments =>
+      $$SupervisedDepartmentsTableTableManager(_db, _db.supervisedDepartments);
+  $$SupervisedTeamsTableTableManager get supervisedTeams =>
+      $$SupervisedTeamsTableTableManager(_db, _db.supervisedTeams);
 }

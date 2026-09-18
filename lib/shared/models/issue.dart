@@ -38,6 +38,11 @@ class Issue {
   // reporter/supervisor. Additive only: the UI's automatic time-based
   // urgency grading never lets this take an issue DOWN from urgent.
   final bool manualUrgent;
+  // Section tagging (2026-09-18) -- which section/team this issue is about,
+  // nominated by whoever raised it (defaults to their own section/team,
+  // changeable). Both nullable: an untagged issue just has no section.
+  final int? departmentId;
+  final int? teamId;
 
   const Issue({
     required this.id,
@@ -53,6 +58,8 @@ class Issue {
     this.receivedByUserId,
     this.escalatedToUserId,
     this.manualUrgent = false,
+    this.departmentId,
+    this.teamId,
   });
 }
 

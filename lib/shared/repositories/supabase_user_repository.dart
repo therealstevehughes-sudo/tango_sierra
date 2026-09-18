@@ -210,6 +210,18 @@ class SupabaseUserRepository implements UserRepository {
   }
 
   @override
+  Future<void> assignTeam({
+    required int userId,
+    required int? teamId,
+  }) async {
+    await _client.update(
+      'users',
+      filter: 'id=eq.$userId',
+      body: {'team_id': teamId},
+    );
+  }
+
+  @override
   Future<void> assignRegion({
     required int userId,
     required int? regionId,
@@ -275,6 +287,7 @@ class SupabaseUserRepository implements UserRepository {
         : DateTime.parse(row['deactivated_at'] as String),
     deactivatedByUserId: row['deactivated_by_user_id'] as int?,
     departmentId: row['department_id'] as int?,
+    teamId: row['team_id'] as int?,
     regionId: row['region_id'] as int?,
     reportsToUserId: row['reports_to_user_id'] as int?,
     fcmToken: row['fcm_token'] as String?,

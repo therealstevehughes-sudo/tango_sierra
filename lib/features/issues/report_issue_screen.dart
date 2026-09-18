@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_card.dart';
+import '../../shared/models/department.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/models/supplier.dart';
+import '../../shared/models/team.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/issue_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
+import '../../shared/providers/team_providers.dart';
 
 // PART 2 of the branch-hub build (2026-09-15) — the "Log something that
 // just happened" destination from WorkerHubScreen (base) and
@@ -49,6 +53,47 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
   DeliveryProblemType? _deliveryProblemType;
   int? _receivedByUserId;
 
+  // Section tagging (2026-09-18) — optional, defaults to the raiser's own
+  // section/team but changeable (e.g. a Reception worker flagging a
+  // Kitchen equipment problem shouldn't have it misfile under Reception).
+  List<Department> _departments = [];
+  Map<int, List<Team>> _teamsByDepartment = {};
+  int? _departmentId;
+  int? _teamId;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSections();
+  }
+
+  Future<void> _loadSections() async {
+    final departments = await ref
+        .read(departmentRepositoryProvider)
+        .getForSite(widget.siteId);
+    final teamRepo = ref.read(teamRepositoryProvider);
+    final teamsByDept = <int, List<Team>>{};
+    for (final d in departments) {
+      teamsByDept[d.id!] = await teamRepo.getForDepartment(d.id!);
+    }
+
+    if (!mounted) return;
+    final currentUser = ref.read(currentUserProvider);
+    setState(() {
+      _departments = departments;
+      _teamsByDepartment = teamsByDept;
+      // Default to the raiser's own section/team, only when they're the
+      // one actually raising this (currentUser == the logged-in worker) —
+      // never assumed for someone raising on someone else's behalf, which
+      // this screen doesn't support anyway (raisedByUserId is always the
+      // current session's own id at every call site).
+      if (currentUser?.id == widget.raisedByUserId) {
+        _departmentId = currentUser?.departmentId;
+        _teamId = currentUser?.teamId;
+      }
+    });
+  }
+
   @override
   void dispose() {
     _detailsController.dispose();
@@ -62,9 +107,9 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
     final suppliers = await ref
         .read(supplierRepositoryProvider)
         .getForSite(widget.siteId);
-    final staff = await ref.read(userRepositoryProvider).getForSite(
-      widget.siteId,
-    );
+    final staff = await ref
+        .read(userRepositoryProvider)
+        .getForSite(widget.siteId);
     if (!mounted) return;
     setState(() {
       _suppliers = suppliers.where((s) => s.active).toList();
@@ -88,17 +133,21 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
     if (type == null || !_canSubmit) return;
     setState(() => _submitting = true);
     try {
-      await ref.read(issueRepositoryProvider).raise(
-        siteId: widget.siteId,
-        type: type,
-        subtype: _subtype,
-        details: _detailsController.text.trim(),
-        raisedByUserId: widget.raisedByUserId,
-        supplierId: _supplierId,
-        deliveryProblemType: _deliveryProblemType,
-        receivedByUserId: _receivedByUserId,
-        manualUrgent: _manualUrgent,
-      );
+      await ref
+          .read(issueRepositoryProvider)
+          .raise(
+            siteId: widget.siteId,
+            type: type,
+            subtype: _subtype,
+            details: _detailsController.text.trim(),
+            raisedByUserId: widget.raisedByUserId,
+            supplierId: _supplierId,
+            deliveryProblemType: _deliveryProblemType,
+            receivedByUserId: _receivedByUserId,
+            manualUrgent: _manualUrgent,
+            departmentId: _departmentId,
+            teamId: _teamId,
+          );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Logged. Thanks for reporting this.')),
@@ -123,7 +172,9 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final subtypes = _type == null ? const <String>[] : issueSubtypesFor(_type!);
+    final subtypes = _type == null
+        ? const <String>[]
+        : issueSubtypesFor(_type!);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Log something that just happened'),
@@ -176,7 +227,9 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                       const SizedBox(height: 12),
                       DropdownButtonFormField<String>(
                         initialValue: _subtype,
-                        decoration: const InputDecoration(labelText: 'Which one?'),
+                        decoration: const InputDecoration(
+                          labelText: 'Which one?',
+                        ),
                         items: subtypes
                             .map(
                               (s) => DropdownMenuItem(value: s, child: Text(s)),
@@ -201,7 +254,9 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                       else ...[
                         DropdownButtonFormField<int>(
                           initialValue: _supplierId,
-                          decoration: const InputDecoration(labelText: 'Supplier'),
+                          decoration: const InputDecoration(
+                            labelText: 'Supplier',
+                          ),
                           items: _suppliers
                               .map(
                                 (s) => DropdownMenuItem(
@@ -222,7 +277,9 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                               .map(
                                 (d) => DropdownMenuItem(
                                   value: d,
-                                  child: Text(deliveryProblemTypeDisplayName(d)),
+                                  child: Text(
+                                    deliveryProblemTypeDisplayName(d),
+                                  ),
                                 ),
                               )
                               .toList(),
@@ -245,6 +302,66 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                               .toList(),
                           onChanged: (v) =>
                               setState(() => _receivedByUserId = v),
+                        ),
+                      ],
+                    ],
+                    // Section tagging (2026-09-18) — optional, defaults to
+                    // the raiser's own section/team, changeable so a
+                    // problem about a different section isn't misfiled.
+                    if (_departments.isNotEmpty) ...[
+                      const SizedBox(height: 12),
+                      DropdownButtonFormField<int?>(
+                        initialValue: _departmentId,
+                        decoration: const InputDecoration(
+                          labelText: 'Which section is this about? (optional)',
+                        ),
+                        items: [
+                          const DropdownMenuItem<int?>(
+                            value: null,
+                            child: Text('No section'),
+                          ),
+                          ..._departments.map(
+                            (d) => DropdownMenuItem<int?>(
+                              value: d.id,
+                              child: Text(d.name),
+                            ),
+                          ),
+                        ],
+                        onChanged: (v) => setState(() {
+                          _departmentId = v;
+                          // Clear the team if it doesn't belong to the
+                          // newly picked section.
+                          if (v == null ||
+                              !(_teamsByDepartment[v] ?? const <Team>[]).any(
+                                (t) => t.id == _teamId,
+                              )) {
+                            _teamId = null;
+                          }
+                        }),
+                      ),
+                      if (_departmentId != null &&
+                          (_teamsByDepartment[_departmentId] ?? const [])
+                              .isNotEmpty) ...[
+                        const SizedBox(height: 12),
+                        DropdownButtonFormField<int?>(
+                          initialValue: _teamId,
+                          decoration: const InputDecoration(
+                            labelText: 'Team (optional)',
+                          ),
+                          items: [
+                            const DropdownMenuItem<int?>(
+                              value: null,
+                              child: Text('No specific team'),
+                            ),
+                            ...(_teamsByDepartment[_departmentId] ?? const [])
+                                .map(
+                                  (t) => DropdownMenuItem<int?>(
+                                    value: t.id,
+                                    child: Text(t.name),
+                                  ),
+                                ),
+                          ],
+                          onChanged: (v) => setState(() => _teamId = v),
                         ),
                       ],
                     ],

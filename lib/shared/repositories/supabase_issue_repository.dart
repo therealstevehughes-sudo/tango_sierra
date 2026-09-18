@@ -59,6 +59,8 @@ class SupabaseIssueRepository implements IssueRepository {
     DeliveryProblemType? deliveryProblemType,
     int? receivedByUserId,
     bool manualUrgent = false,
+    int? departmentId,
+    int? teamId,
   }) async {
     final now = DateTime.now().toUtc().toIso8601String();
     final issueRow = await _client.insertOne('issues', {
@@ -73,6 +75,8 @@ class SupabaseIssueRepository implements IssueRepository {
       'delivery_problem_type': deliveryProblemType?.name,
       'received_by_user_id': receivedByUserId,
       'manual_urgent': manualUrgent,
+      'department_id': departmentId,
+      'team_id': teamId,
     });
     final issueId = issueRow['id'] as int;
     // Two writes, not a transaction (PostgREST has no multi-statement
@@ -253,6 +257,8 @@ class SupabaseIssueRepository implements IssueRepository {
     receivedByUserId: row['received_by_user_id'] as int?,
     escalatedToUserId: row['escalated_to_user_id'] as int?,
     manualUrgent: row['manual_urgent'] as bool? ?? false,
+    departmentId: row['department_id'] as int?,
+    teamId: row['team_id'] as int?,
   );
 
   IssueEvent _toEventModel(Map<String, dynamic> row) => IssueEvent(

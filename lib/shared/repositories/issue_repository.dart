@@ -35,6 +35,8 @@ abstract class IssueRepository {
     DeliveryProblemType? deliveryProblemType,
     int? receivedByUserId,
     bool manualUrgent = false,
+    int? departmentId,
+    int? teamId,
   });
 
   /// Adds a process update — the issue stays open (or escalated, if it
@@ -122,6 +124,8 @@ class DriftIssueRepository implements IssueRepository {
     DeliveryProblemType? deliveryProblemType,
     int? receivedByUserId,
     bool manualUrgent = false,
+    int? departmentId,
+    int? teamId,
   }) async {
     final now = DateTime.now();
     late int issueId;
@@ -141,6 +145,8 @@ class DriftIssueRepository implements IssueRepository {
               deliveryProblemType: Value(deliveryProblemType?.name),
               receivedByUserId: Value(receivedByUserId),
               manualUrgent: Value(manualUrgent),
+              departmentId: Value(departmentId),
+              teamId: Value(teamId),
             ),
           );
       await _db
@@ -260,6 +266,8 @@ class DriftIssueRepository implements IssueRepository {
     receivedByUserId: row.receivedByUserId,
     escalatedToUserId: row.escalatedToUserId,
     manualUrgent: row.manualUrgent,
+    departmentId: row.departmentId,
+    teamId: row.teamId,
   );
 
   IssueEvent _toEventModel(IssueEventEntity row) => IssueEvent(

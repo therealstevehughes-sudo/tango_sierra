@@ -108,6 +108,18 @@ class BackendRestClient {
     _checkOk(response);
   }
 
+  // Real deletion (2026-09-18) — every existing Supabase*Repository so far
+  // used a soft `active` flag instead, so this was never needed until a
+  // genuine many-to-many join table (SupervisionRepository) needed a
+  // real "replace this set" operation, not a status flip.
+  Future<void> delete(
+    String table, {
+    required String filter,
+  }) async {
+    final response = await http.delete(_uri(table, filter), headers: _headers());
+    _checkOk(response);
+  }
+
   // Realtime push (2026-09-17) — Edge Functions live under a different
   // path than PostgREST tables, but need the exact same headers (apikey +
   // whichever bearer token this session currently holds), so this reuses
