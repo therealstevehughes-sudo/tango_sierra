@@ -24,6 +24,13 @@ import 'leadership_dashboard_service.dart';
 
 enum _Period { month, week, day }
 
+// Cross-venue rollup (2026-09-18) — a sentinel Branch-dropdown value
+// meaning "All branches" (aggregate every permitted site), distinct from
+// any real site id (autoincrement ids never start at 0 in this schema).
+// Only ever offered when `_sites.length > 1` — Supervisor/Venue Manager
+// always have exactly one permitted site, so this never applies to them.
+const _allBranchesSentinel = 0;
+
 // Leadership dashboard overview (2026-09-15) — from the user's own
 // `Visual idea.pdf` mockup. Branch/Section filters plus Month/Week/Day
 // drive two aggregate colour bars (Task overview, Incidents). Employee
@@ -113,7 +120,15 @@ class _LeadershipDashboardScreenState
     if (!mounted) return;
     setState(() {
       _sites = sites;
-      _selectedSiteId = sites.isEmpty ? null : sites.first.id;
+      // Cross-venue rollup (2026-09-18) — a genuinely multi-site tier
+      // (Regional/Executive) defaults to the aggregate "All branches"
+      // view, matching the user's own framing ("Regional = their region's
+      // branches, Executive = everything") rather than an arbitrary first
+      // branch. Single-site tiers (Supervisor/Venue Manager) are
+      // unaffected — they only ever have one site to begin with.
+      _selectedSiteId = sites.isEmpty
+          ? null
+          : (sites.length > 1 ? _allBranchesSentinel : sites.first.id);
     });
     if (_selectedSiteId != null) await _loadForSite();
   }
@@ -122,6 +137,22 @@ class _LeadershipDashboardScreenState
     final siteId = _selectedSiteId;
     if (siteId == null) return;
     setState(() => _loading = true);
+
+    if (siteId == _allBranchesSentinel) {
+      // Area/Employee/section-scope don't generalise across multiple
+      // sites without much more work than this pass is scoped for — see
+      // _buildFilters(), which hides those controls in this mode.
+      setState(() {
+        _areas = [];
+        _staff = [];
+        _selectedAreaId = null;
+        _selectedEmployeeId = null;
+        _allowedUserIds = null;
+        _scopeLabels = [];
+      });
+      await _loadBreakdowns();
+      return;
+    }
 
     final areas = await ref.read(areaRepositoryProvider).getForSite(siteId);
     final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
@@ -183,6 +214,39 @@ class _LeadershipDashboardScreenState
     setState(() => _loading = true);
     final range = _range;
     final service = ref.read(leadershipDashboardServiceProvider);
+
+    if (siteId == _allBranchesSentinel) {
+      // Cross-venue rollup (2026-09-18) — one computation per permitted
+      // site, then a plain concatenation merge (see
+      // TaskOverviewBreakdown.merge/IncidentsBreakdown.merge). Each site's
+      // own numbers are exactly what its own single-site dashboard would
+      // show; nothing here recomputes or reinterprets them.
+      final overviews = <TaskOverviewBreakdown>[];
+      final incidentsList = <IncidentsBreakdown>[];
+      for (final site in _sites) {
+        overviews.add(
+          await service.computeTaskOverview(
+            siteId: site.id,
+            start: range.start,
+            end: range.end,
+          ),
+        );
+        incidentsList.add(
+          await service.computeIncidents(
+            siteId: site.id,
+            start: range.start,
+            end: range.end,
+          ),
+        );
+      }
+      if (!mounted) return;
+      setState(() {
+        _taskOverview = TaskOverviewBreakdown.merge(overviews);
+        _incidents = IncidentsBreakdown.merge(incidentsList);
+        _loading = false;
+      });
+      return;
+    }
 
     if (_selectedEmployeeId != null) {
       // Employee lookup path — a plain list, never a colour bar. See the
@@ -291,11 +355,18 @@ class _LeadershipDashboardScreenState
             const SizedBox(height: 4),
             DropdownButtonFormField<int>(
               initialValue: _selectedSiteId,
-              items: _sites
-                  .map(
-                    (s) => DropdownMenuItem(value: s.id, child: Text(s.name)),
-                  )
-                  .toList(),
+              items: [
+                // Cross-venue rollup (2026-09-18) — combines every
+                // permitted site's own numbers via plain concatenation
+                // (TaskOverviewBreakdown.merge/IncidentsBreakdown.merge).
+                const DropdownMenuItem(
+                  value: _allBranchesSentinel,
+                  child: Text('All branches'),
+                ),
+                ..._sites.map(
+                  (s) => DropdownMenuItem(value: s.id, child: Text(s.name)),
+                ),
+              ],
               onChanged: (v) {
                 setState(() => _selectedSiteId = v);
                 _loadForSite();
@@ -318,7 +389,7 @@ class _LeadershipDashboardScreenState
               ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 12),
-          ] else ...[
+          ] else if (_selectedSiteId != _allBranchesSentinel) ...[
             // "Area" — a physical/equipment location grouping, a
             // deliberately different concept from the Department-based
             // "section" a Supervisor is scoped by above (renamed from

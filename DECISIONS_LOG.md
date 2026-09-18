@@ -1877,3 +1877,15 @@ The actual differentiated-dashboard piece the Sections/Teams foundation (above) 
 
 Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
 Files: `lib/core/widgets/management_drawer.dart`, `lib/features/dashboard/leadership_dashboard_screen.dart`, `lib/features/dashboard/leadership_dashboard_service.dart`.
+
+## Cross-venue rollup: Regional/Executive "All branches" dashboard (built 2026-09-18)
+Closes the deferred piece flagged in the previous entry: Regional's "their region's branches" and Executive's "everything" now actually roll multiple sites' data into one view, not just a single-site picker over a wider permitted list.
+
+**No new query shape, no schema** — `TaskOverviewBreakdown.merge()`/`IncidentsBreakdown.merge()` (new static factories) concatenate the same per-category row lists a single-site computation already produces, one call per permitted site. Every row is exactly what its own site's dashboard would already show; nothing is recomputed or reinterpreted by merging.
+
+**Branch dropdown gains an "All branches" option** (a `0` sentinel — real site ids are always ≥1) for any tier with more than one permitted site (Regional/Executive only — Supervisor/Venue Manager always have exactly one). **Set as the default** for those tiers, replacing the previous "arbitrary first branch" default — matches the user's own framing directly ("Regional = their region's branches, Executive = everything") rather than defaulting to one site and making the rollup something they'd have to discover.
+
+**Area and Employee filters are hidden in "All branches" mode** — neither generalises cleanly across multiple sites without materially more work (Areas are per-site; an "all employees across every branch" list would need a new picker/lookup shape) than this pass is scoped for. Picking one specific branch still shows both, unchanged. Single-branch users (Supervisor/Venue Manager) are entirely unaffected by this whole piece.
+
+Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
+Files: `lib/features/dashboard/leadership_dashboard_screen.dart`, `lib/features/dashboard/leadership_dashboard_service.dart`.

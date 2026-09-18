@@ -73,6 +73,23 @@ class TaskOverviewBreakdown {
   double get offWindowNoIssuesRate => _rate(offWindowNoIssues.length);
   double get offWindowIssuesLoggedRate => _rate(offWindowIssuesLogged.length);
   double get notDoneRate => _rate(notDone.length);
+
+  // Cross-venue rollup (2026-09-18) — Regional/Executive aggregation:
+  // concatenates the same category lists a single-site computation
+  // already produces, from several sites' worth of them. Plain
+  // concatenation, not a recomputation — every row already carries its
+  // own real data, nothing here re-derives on-time/issue status.
+  static TaskOverviewBreakdown merge(List<TaskOverviewBreakdown> parts) {
+    return TaskOverviewBreakdown(
+      onTimeNoIssues: [for (final p in parts) ...p.onTimeNoIssues],
+      onTimeIssuesLogged: [for (final p in parts) ...p.onTimeIssuesLogged],
+      offWindowNoIssues: [for (final p in parts) ...p.offWindowNoIssues],
+      offWindowIssuesLogged: [
+        for (final p in parts) ...p.offWindowIssuesLogged,
+      ],
+      notDone: [for (final p in parts) ...p.notDone],
+    );
+  }
 }
 
 class IncidentsBreakdown {
@@ -92,6 +109,16 @@ class IncidentsBreakdown {
   double get resolvedRate => _rate(resolved.length);
   double get unresolvedRate => _rate(unresolved.length);
   double get escalatedRate => _rate(escalated.length);
+
+  // Cross-venue rollup (2026-09-18) — see TaskOverviewBreakdown.merge's own
+  // doc comment; identical reasoning.
+  static IncidentsBreakdown merge(List<IncidentsBreakdown> parts) {
+    return IncidentsBreakdown(
+      resolved: [for (final p in parts) ...p.resolved],
+      unresolved: [for (final p in parts) ...p.unresolved],
+      escalated: [for (final p in parts) ...p.escalated],
+    );
+  }
 }
 
 class LeadershipDashboardService {
