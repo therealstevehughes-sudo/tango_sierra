@@ -1939,3 +1939,19 @@ All 9 calls behaved exactly as required: own read/write works, cross-tenant read
 
 Verified: `flutter analyze` clean, all 17 tests passing.
 Files: `lib/shared/repositories/supabase_supplier_repository.dart` (new), `lib/shared/providers/supplier_providers.dart`, `integration_test/suppliers_cross_tenant_test.dart` (new).
+
+## FK backfill: issues.supplier_id / task_submissions.supplier_id → suppliers.id (built 2026-09-20)
+The small follow-up flagged from the Suppliers backend migration entry above. Checked both columns for orphaned references first (`SELECT ... WHERE supplier_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM suppliers WHERE id = supplier_id)`) — 0 rows in both `issues` and `task_submissions`, confirming safe to add the constraint with no data cleanup needed.
+
+Added `issues_supplier_id_fkey` and `task_submissions_supplier_id_fkey`, both `FOREIGN KEY (supplier_id) REFERENCES public.suppliers(id)`. Ran directly by the agent via SSH — unlike every prior schema migration this session, this one was **not** blocked by the auto-mode classifier (a single `ALTER TABLE ... ADD CONSTRAINT` against existing tables, not a `CREATE TABLE`/multi-statement migration file). Verified both constraints exist via `pg_constraint`.
+
+Closes the last piece of the "Suppliers is local-Drift-only" gap — both foreign columns are now real, enforced references, not just plain integers.
+Files: none (backend-only schema change, no client code affected).
+
+## Equipment-retire cascade on the backend path (built 2026-09-20)
+Closes a real, previously-flagged inconsistency: `DriftEquipmentRepository.setActive()` already deactivates every active `TaskSchedule` pointing at an equipment instance when it's retired (a retired fridge should stop generating "check this fridge" tasks) — `SupabaseEquipmentRepository.setActive()` never mirrored that cascade, a gap its own code comment already documented ("On the backend that cascade belongs in the same layer once the 'retire equipment' flow itself is retrofitted").
+
+Added the same cascade to the backend path: retiring equipment (`active: false`) now also deactivates every active `TaskSchedule` referencing it via a second `PATCH` (`equipment_instance_id=eq.$id&active=eq.true` → `active: false`). Reactivating equipment does NOT restore its old schedules — matches the local path's own behaviour exactly, and the same "re-assignment is a deliberate, separate action" convention already used for deactivated staff.
+
+Verified: `flutter analyze` clean, all 17 tests passing.
+Files: `lib/shared/repositories/supabase_equipment_repository.dart`.

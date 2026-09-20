@@ -124,11 +124,22 @@ class SupabaseEquipmentRepository implements EquipmentRepository {
       filter: 'id=eq.$id',
       body: {'active': active},
     );
-    // NOTE: the local path also deactivates any TaskSchedules pointing at
-    // this instance. On the backend that cascade belongs in the same
-    // layer once the "retire equipment" flow itself is retrofitted — for
-    // now this mirrors only the instance's own active flag. Logged in
-    // BACKEND_INFRA.md's B5 section.
+    // Equipment-retire cascade (2026-09-20) — closes the gap this method's
+    // own comment used to flag: DriftEquipmentRepository already
+    // deactivates every active TaskSchedule pointing at this instance when
+    // it's retired (a retired fridge should stop generating "check this
+    // fridge" tasks); the backend path never mirrored that. Only fires on
+    // retirement (active: false) — reactivating equipment does NOT
+    // restore its old schedules, matching the local path's own behaviour
+    // and the same "re-assignment is a deliberate, separate action"
+    // convention already used for deactivated staff (user_repository.dart).
+    if (!active) {
+      await _client.update(
+        'task_schedules',
+        filter: 'equipment_instance_id=eq.$id&active=eq.true',
+        body: {'active': false},
+      );
+    }
   }
 
   @override

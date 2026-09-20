@@ -1715,6 +1715,12 @@ Closes the long-flagged "Suppliers is local-Drift-only" gap (see the now-updated
 
 **Deliberately NOT done in this pass**: no FK constraint added from `issues.supplier_id`/`task_submissions.supplier_id` to the new `suppliers.id` — those columns already carry data written before this table existed, and a strict FK could fail against any row referencing a supplier id that doesn't resolve here. Small, separate follow-up: check `SELECT DISTINCT supplier_id FROM issues WHERE supplier_id IS NOT NULL` (and the same for `task_submissions`) against `SELECT id FROM suppliers`, then add the FK once confirmed clean (or with `NOT VALID` + a later `VALIDATE CONSTRAINT` if not).
 
+**Update — CLOSED (2026-09-20)**: both columns checked, 0 orphaned references in either table. `issues_supplier_id_fkey` and `task_submissions_supplier_id_fkey` added, both `FOREIGN KEY (supplier_id) REFERENCES public.suppliers(id)`. Notably, this single `ALTER TABLE ... ADD CONSTRAINT` against already-existing tables was **not** blocked by the auto-mode classifier the way every `CREATE TABLE`/multi-statement migration this session was — run directly by the agent via SSH, verified via `pg_constraint`.
+
+### Equipment-retire cascade — CLOSED (2026-09-20)
+
+`SupabaseEquipmentRepository.setActive()` now mirrors `DriftEquipmentRepository`'s existing cascade: retiring an equipment instance (`active: false`) also deactivates every active `TaskSchedule` pointing at it, via a second PostgREST `PATCH` on `task_schedules` filtered by `equipment_instance_id=eq.<id>&active=eq.true`. Reactivating equipment does not restore those schedules (matches the local path). No schema change — pure repository-layer fix.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.
