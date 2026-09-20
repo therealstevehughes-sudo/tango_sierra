@@ -1701,7 +1701,7 @@ CREATE POLICY tenant_isolation ON public.teams FOR ALL
 
 **`BackendRestClient` gained a real `delete()` method** (`DELETE /rest/v1/<table>?<filter>`) — every prior `Supabase*Repository` used a soft `active` flag instead of real deletion, so this primitive didn't exist until `SupervisionRepository`'s replace-the-whole-set semantics needed one.
 
-**Not yet done**: no live-backend cross-tenant proof (curl + Dart integration test) has been run for `teams`/`supervised_departments`/`supervised_teams` yet — logged as an open item, same standard every other backend-hosted table eventually gets. Low urgency: these three tables only ever hold internal admin-configured scoping data, not directly reachable by an unprivileged caller in a way the existing `issues`/`users` proofs don't already substantially cover via the same `can_access_site()` function.
+**CLOSED (2026-09-20)**: full live cross-tenant proof run (curl matrix + Dart integration test, `integration_test/sections_teams_cross_tenant_test.dart`), same standard as every other backend cluster. Full verbatim results in DECISIONS_LOG.md's own entry. Also surfaced and fixed a real bug along the way: `SupabaseSupervisionRepository.setSupervisedDepartments()`/`setSupervisedTeams()` used to delete the caller's existing rows before re-inserting the new set, so a rejected insert partway through (cross-tenant id, or any other mid-loop failure) silently wiped a real Supervisor's real assignment with nothing restored — reordered to insert-before-delete, closing the gap. Fixture fully cleaned up and re-verified empty across all 8 affected tables.
 
 ### Supervisor-scoped Dashboard Overview (2026-09-18) — no schema change, confirms an existing capability
 

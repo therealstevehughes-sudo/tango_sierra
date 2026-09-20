@@ -113,17 +113,34 @@ class SupabaseSupervisionRepository implements SupervisionRepository {
     return rows.map((r) => r['team_id'] as int).toList();
   }
 
+  // Insert-before-delete (2026-09-20 fix): a real bug found while running
+  // the cross-tenant proof — the original delete-then-insert order meant a
+  // rejected insert (RLS `WITH CHECK` failure, or any other mid-loop
+  // error) left the caller's real, legitimate rows already deleted with
+  // nothing put back, since PostgREST has no client-side transaction here.
+  // Inserting the new rows first means a failure leaves the OLD rows
+  // fully intact (worst case: briefly duplicated, never lost) — only once
+  // every new row is confirmed written do the now-superseded old ones get
+  // removed.
   @override
   Future<void> setSupervisedDepartments({
     required int userId,
     required List<int> departmentIds,
   }) async {
-    await _client.delete('supervised_departments', filter: 'user_id=eq.$userId');
-    for (final departmentId in departmentIds) {
+    final existing = await getSupervisedDepartmentIds(userId);
+    final toAdd = departmentIds.where((id) => !existing.contains(id));
+    final toRemove = existing.where((id) => !departmentIds.contains(id));
+    for (final departmentId in toAdd) {
       await _client.insertOne('supervised_departments', {
         'user_id': userId,
         'department_id': departmentId,
       });
+    }
+    for (final departmentId in toRemove) {
+      await _client.delete(
+        'supervised_departments',
+        filter: 'user_id=eq.$userId&department_id=eq.$departmentId',
+      );
     }
   }
 
@@ -132,12 +149,20 @@ class SupabaseSupervisionRepository implements SupervisionRepository {
     required int userId,
     required List<int> teamIds,
   }) async {
-    await _client.delete('supervised_teams', filter: 'user_id=eq.$userId');
-    for (final teamId in teamIds) {
+    final existing = await getSupervisedTeamIds(userId);
+    final toAdd = teamIds.where((id) => !existing.contains(id));
+    final toRemove = existing.where((id) => !teamIds.contains(id));
+    for (final teamId in toAdd) {
       await _client.insertOne('supervised_teams', {
         'user_id': userId,
         'team_id': teamId,
       });
+    }
+    for (final teamId in toRemove) {
+      await _client.delete(
+        'supervised_teams',
+        filter: 'user_id=eq.$userId&team_id=eq.$teamId',
+      );
     }
   }
 }

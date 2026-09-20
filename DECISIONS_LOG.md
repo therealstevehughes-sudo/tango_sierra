@@ -1977,3 +1977,17 @@ Items 1 and 2 from the user's ordered list, both confirmed by the user going wit
 
 Verified client-side only so far: `flutter analyze` clean, all 17 unit tests passing, fresh Windows build succeeds. The full live cross-tenant proof for `device-login`/the invite gate is a follow-on once the user deploys.
 Files: `lib/shared/models/site.dart`, `lib/shared/repositories/site_repository.dart`, `lib/shared/repositories/supabase_site_repository.dart`, `lib/shared/providers/auth_providers.dart`, `lib/features/auth/login_screen.dart`, `lib/features/settings/venue_details_screen.dart`, `lib/features/onboarding/company_onboarding_wizard_screen.dart`, `lib/shared/repositories/tenant_provisioning_repository.dart`, three `integration_test/phase_c1*.dart` files.
+
+## Sections/Teams backend cluster — live cross-tenant proof, CLOSED (built 2026-09-20)
+Closes the last open item from the Sections/Teams build: `teams`/`supervised_departments`/`supervised_teams` had the schema and RLS proven only by inspection, never put through the full live curl + Dart integration test standard every other backend cluster gets.
+
+**Real throwaway tenants**: Org A (id 46, site 51, director user 48) with Department "Kitchen A" (id 5) and Team "Night Team A" (id 1); Org B (id 47, site 52, director user 49) with Department "Kitchen B" (id 6) and Team "Night Team B" (id 2). One `supervised_departments`/`supervised_teams` row per tenant, each director supervising their own section/team.
+
+**Full curl matrix, all three tables** — own read works; cross-tenant read by id → `[]`; cross-tenant INSERT → `403`/`42501`; cross-tenant UPDATE/DELETE → `200`/`204` with 0 rows affected; owner re-read confirms untouched throughout. All verbatim, matching every prior B1-B3/Suppliers proof shape exactly.
+
+**Real bug found and fixed by the Dart integration test** (`integration_test/sections_teams_cross_tenant_test.dart`): `SupabaseSupervisionRepository.setSupervisedDepartments()`/`setSupervisedTeams()` deleted the caller's existing rows FIRST, then re-inserted the new set one at a time. A rejected insert partway through (proven here via a cross-tenant department/team id, but the same failure mode applies to any mid-loop error) left the caller's real, legitimate supervision assignment already wiped, with nothing restored — no client-side transaction exists over plain PostgREST calls. **Not just a security nicety** — this could have silently deleted a real Supervisor's real section assignment on any ordinary failed save. Fixed by reordering to insert-before-delete: new rows are added first, and only once every one of them is confirmed written are the now-superseded old rows removed — a rejection at the insert stage now leaves the existing rows completely untouched (worst case on a partial insert failure elsewhere: briefly duplicated, never lost).
+
+**Cleanup verified empty**: `teams`, `supervised_departments`, `supervised_teams`, `departments`, `sites`, `users`, `organisations`, `auth.users` — 0 rows everywhere for both throwaway tenants, re-queried immediately after.
+
+Verified: `flutter analyze` clean, all 17 unit tests passing, all 5 live integration tests passing.
+Files: `lib/shared/repositories/supervision_repository.dart`, `integration_test/sections_teams_cross_tenant_test.dart` (new).
