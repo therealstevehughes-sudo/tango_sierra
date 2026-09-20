@@ -1899,3 +1899,43 @@ User spotted a "brown/burgundy line behind the left-hand side of the blocks" on 
 
 Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
 Files: `lib/core/widgets/app_card.dart`, `lib/core/widgets/urgency.dart`, `lib/features/problems/problems_register_screen.dart`, `lib/features/issues/issues_register_tab.dart`.
+
+## Suppliers backend migration — CLOSED, PROVEN (2026-09-20)
+Closes the longest-standing flagged gap this session: `Suppliers` was local-Drift-only from the day it was built, never given its own backend cluster in any B-phase — confirmed repeatedly (Sprint 038's Supplier Scorecard, Report Issue's supplier picker) as a real, load-bearing limitation several already-shipped features were quietly depending on.
+
+**Backend migration**: new `public.suppliers` table (same shape as the local Drift table — `id`, `name`, `contact`, `category`, `custom_category_title`, `approval_status`, `approval_note`, `site_id`, `active`, `created_at`), RLS `tenant_isolation` via `can_access_site(site_id)` directly (Suppliers has its own `site_id` column, no join needed — same shape as `Departments`/`Sites`, not the join-through-parent shape `issue_events`/`teams` needed). Deliberately did **not** retroactively add FK constraints from `issues.supplier_id`/`task_submissions.supplier_id` to this new table in the same pass — those columns already carry pre-existing data from before this table existed, and a strict FK could fail the whole migration if any row references a supplier id that doesn't resolve here; logged as a small, separate follow-up once that data is checked, not conflated with this migration's own risk.
+
+**Migration blocked for the agent by the auto-mode classifier** (same "Production Deploy" restriction as every prior schema-touching migration this session) — the user ran it themselves on the VPS via the same heredoc-file method, one transaction, verified clean: `CREATE TABLE` → `ALTER TABLE` → `CREATE POLICY` → `GRANT` ×2 → `COMMIT`, no errors.
+
+**Client-side**: new `SupabaseSupplierRepository` (mirrors `SupabaseDepartmentRepository`'s exact shape), `supplier_providers.dart` now switches Drift/Supabase the same way every other repository provider does.
+
+**Full live-backend cross-tenant proof run, to the same standard as every other backend cluster** — two real throwaway tenants created live via `tenant-signup` (never hand-inserted): Tenant A — org 44 / site 49 / director user 46 (`suppliersproof.a@example.com`); Tenant B — org 45 / site 50 / director user 47 (`suppliersproof.b@example.com`). Real GoTrue password sign-in tokens obtained for each.
+
+**Curl proof (verbatim), against `public.suppliers`:**
+```
+1. Director A POST supplier at own site (49)            -> HTTP 201, id=1 "Supplier A1"
+2. Director B POST supplier at own site (50)             -> HTTP 201, id=2 "Supplier B1"
+3. Director A SELECT own suppliers                       -> [{id:1, site_id:49, ...}]  (exactly 1 row)
+4. Director A SELECT ?site_id=eq.50 (tenant B's site)    -> []
+5. Director A SELECT ?id=eq.2 (tenant B's supplier)      -> []
+6. Director A POST supplier AT site_id:50 (tenant B)     -> 403 {"code":"42501", "message":"new row violates row-level security policy for table \"suppliers\""}
+7. Director A PATCH tenant B's supplier (id=2)           -> HTTP 200, [] (0 rows affected)
+8. Director A DELETE tenant B's supplier (id=2)          -> HTTP 200, [] (0 rows affected)
+9. Director B SELECT own supplier (id=2) after 7+8       -> name:"Supplier B1", unchanged -- provably untouched
+```
+All 9 calls behaved exactly as required: own read/write works, cross-tenant read returns empty, cross-tenant INSERT is rejected with a real `42501` RLS error, cross-tenant UPDATE/DELETE silently affects 0 rows, and the targeted row was independently re-read by its real owner afterward and confirmed unchanged.
+
+**Dart integration test** (`integration_test/suppliers_cross_tenant_test.dart`, run live against the backend): 3 tests, all passing, exercising the actual `SupplierRepository`/`SupabaseSupplierRepository` code path (not raw HTTP) —
+```
+00:00 +0: Suppliers: getForSite never returns the other tenant's supplier, even when explicitly asked for the other tenant's own site id
+00:01 +1: Suppliers: create() at the other tenant's site is rejected by the server, not silently accepted by the client
+00:01 +2: Suppliers: updateDetails()/setApprovalStatus()/setActive() on the other tenant's supplier id silently affect nothing, and the target supplier is provably untouched afterward
+00:01 +3: All tests passed!
+```
+
+**Cleanup verified empty**: `suppliers`, `sites`, `organisations`, `users`, `subscriptions`, and `auth.users` all re-queried immediately after — 0 rows everywhere for both throwaway tenants.
+
+**Gap closed.** Suppliers is now proven to the same standard as every other backend cluster in this project — the local-Drift-only limitation flagged against the Supplier Scorecard and Report Issue's supplier picker no longer applies once a venue enables backend data.
+
+Verified: `flutter analyze` clean, all 17 tests passing.
+Files: `lib/shared/repositories/supabase_supplier_repository.dart` (new), `lib/shared/providers/supplier_providers.dart`, `integration_test/suppliers_cross_tenant_test.dart` (new).
