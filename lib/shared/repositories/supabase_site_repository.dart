@@ -81,24 +81,43 @@ class SupabaseSiteRepository implements SiteRepository {
     return _toModel(row);
   }
 
-  // Venue-type tagging (SiteVenueTypes) is proven in B2's RLS/proof but not
-  // yet wired to a backend repository call here — Venue Details' tagging UI
-  // stays on the Drift path until that screen is retrofitted, matching the
-  // "capability built, app wiring incremental" approach agreed for B2.
+  // Venue-type tagging (SiteVenueTypes) — wired 2026-09-20. Was left as an
+  // UnimplementedError stub since B2 ("app wiring incremental"), but
+  // `venue_details_screen.dart` calls `getVenueTypeIds()` unconditionally
+  // for every site on screen load via the same `siteRepositoryProvider`
+  // that switches to this class in backend mode — meaning Venue Details
+  // was actually broken (a thrown exception on open, not just a disclosed
+  // deferred gap) for any backend-hosted venue. RLS/schema already proven
+  // in B2; this was purely a missing repository implementation.
   @override
-  Future<List<int>> getVenueTypeIds(int siteId) {
-    throw UnimplementedError(
-      'Site venue-type tagging is not yet wired to the backend path — '
-      'still Drift-only pending the Venue Details screen retrofit.',
+  Future<List<int>> getVenueTypeIds(int siteId) async {
+    final rows = await _client.select(
+      'site_venue_types',
+      query: 'site_id=eq.$siteId',
     );
+    return rows.map((row) => row['venue_type_id'] as int).toList();
   }
 
+  // Insert-before-delete (same fix as SupabaseSupervisionRepository, this
+  // session): a rejected/failed insert partway through must never have
+  // already deleted the site's real existing tags.
   @override
-  Future<void> setVenueTypeIds(int siteId, List<int> venueTypeIds) {
-    throw UnimplementedError(
-      'Site venue-type tagging is not yet wired to the backend path — '
-      'still Drift-only pending the Venue Details screen retrofit.',
-    );
+  Future<void> setVenueTypeIds(int siteId, List<int> venueTypeIds) async {
+    final existing = await getVenueTypeIds(siteId);
+    final toAdd = venueTypeIds.where((id) => !existing.contains(id));
+    final toRemove = existing.where((id) => !venueTypeIds.contains(id));
+    for (final venueTypeId in toAdd) {
+      await _client.insertOne('site_venue_types', {
+        'site_id': siteId,
+        'venue_type_id': venueTypeId,
+      });
+    }
+    for (final venueTypeId in toRemove) {
+      await _client.delete(
+        'site_venue_types',
+        filter: 'site_id=eq.$siteId&venue_type_id=eq.$venueTypeId',
+      );
+    }
   }
 
   // Not crypto-grade — this is a shared, human-typed-off-a-screen setup

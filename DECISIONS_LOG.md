@@ -2013,3 +2013,13 @@ Closes an item that had been explicitly logged as "not modelled, needs a real co
 
 Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build succeeds.
 Files: `lib/features/dashboard/leadership_dashboard_service.dart`, `lib/features/dashboard/leadership_dashboard_screen.dart`.
+
+## Fixed: Venue Details crashed outright in backend mode (site venue-type tagging) (built 2026-09-20)
+Found while auditing every `UnimplementedError` stub left in the codebase for genuinely closeable gaps. `SupabaseSiteRepository.getVenueTypeIds()`/`setVenueTypeIds()` had been left as stubs since Phase B2, documented as a deferred "app wiring incremental" item — but `venue_details_screen.dart`'s `_loadData()` calls `getVenueTypeIds()` **unconditionally for every site on screen load**, through the same `siteRepositoryProvider` that switches to this class in backend mode. That means Venue Details was not just missing a feature — it threw an uncaught `UnimplementedError` the instant it opened for any backend-hosted venue. A real, live bug, not a disclosed deferred gap as the old comment implied.
+
+RLS/schema for `site_venue_types` was already fully proven in Phase B2's own cross-tenant proof (same `can_access_site(site_id)` shape as `Departments`/`Sites`) — this was purely a missing repository implementation, no new backend work needed. Implemented both methods as plain REST calls, using the same insert-before-delete ordering as the `SupabaseSupervisionRepository` fix earlier this session (a rejected/failed insert must never have already deleted the site's real existing tags).
+
+**Verified live** (not just by inspection): a throwaway tenant, two throwaway venue types, and the exact operation sequence the new code performs — empty read, add two, read back both, remove one via the diff-based `setVenueTypeIds` path, read back the remaining one. All matched expectations. Fixture (site, venue types, tags, org, user, auth user) fully cleaned up and re-verified empty.
+
+Verified: `flutter analyze` clean, all 17 unit tests passing, fresh Windows build succeeds.
+Files: `lib/shared/repositories/supabase_site_repository.dart`.

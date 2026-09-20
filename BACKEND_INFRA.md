@@ -1721,6 +1721,10 @@ Closes the long-flagged "Suppliers is local-Drift-only" gap (see the now-updated
 
 `SupabaseEquipmentRepository.setActive()` now mirrors `DriftEquipmentRepository`'s existing cascade: retiring an equipment instance (`active: false`) also deactivates every active `TaskSchedule` pointing at it, via a second PostgREST `PATCH` on `task_schedules` filtered by `equipment_instance_id=eq.<id>&active=eq.true`. Reactivating equipment does not restore those schedules (matches the local path). No schema change — pure repository-layer fix.
 
+### Fixed: Venue Details crashed in backend mode — site venue-type tagging wired (2026-09-20)
+
+`SupabaseSiteRepository.getVenueTypeIds()`/`setVenueTypeIds()` were left as `UnimplementedError` stubs since Phase B2. Found while auditing the codebase for stale stubs: `venue_details_screen.dart` calls `getVenueTypeIds()` unconditionally for every site on screen load, so this was a live crash on open for any backend-hosted venue, not a merely-deferred feature. No schema/RLS change needed — `site_venue_types`'s `can_access_site(site_id)` policy was already proven in B2. Verified live with a throwaway tenant (empty read, add two, remove one via the diff-based update, read back correctly); fixture cleaned up and re-verified empty. Full detail in DECISIONS_LOG.md's own entry.
+
 ### Device pairing + sign-up invite gate — CLIENT DONE, DEPLOYMENT PENDING (2026-09-20)
 
 Full design/build recorded in DECISIONS_LOG.md's own entry. Staged for deployment, **blocked for the agent by the auto-mode classifier** (schema change + new/edited Edge Functions = "Production Deploy") — user to run via the same heredoc-SSH method as every prior migration this session. Three pieces, in order:
