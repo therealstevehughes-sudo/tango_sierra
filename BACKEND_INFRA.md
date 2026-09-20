@@ -1721,6 +1721,42 @@ Closes the long-flagged "Suppliers is local-Drift-only" gap (see the now-updated
 
 `SupabaseEquipmentRepository.setActive()` now mirrors `DriftEquipmentRepository`'s existing cascade: retiring an equipment instance (`active: false`) also deactivates every active `TaskSchedule` pointing at it, via a second PostgREST `PATCH` on `task_schedules` filtered by `equipment_instance_id=eq.<id>&active=eq.true`. Reactivating equipment does not restore those schedules (matches the local path). No schema change — pure repository-layer fix.
 
+### Device pairing + sign-up invite gate — CLIENT DONE, DEPLOYMENT PENDING (2026-09-20)
+
+Full design/build recorded in DECISIONS_LOG.md's own entry. Staged for deployment, **blocked for the agent by the auto-mode classifier** (schema change + new/edited Edge Functions = "Production Deploy") — user to run via the same heredoc-SSH method as every prior migration this session. Three pieces, in order:
+
+**1. Schema migration** (`device_pairing_migration.sql`, staged in the agent's scratchpad):
+```sql
+BEGIN;
+ALTER TABLE public.sites ADD COLUMN device_credential text;
+UPDATE public.sites SET device_credential = upper(substr(md5(random()::text || id::text || clock_timestamp()::text), 1, 8)) WHERE device_credential IS NULL;
+ALTER TABLE public.sites ALTER COLUMN device_credential SET NOT NULL;
+ALTER TABLE public.sites ADD CONSTRAINT sites_device_credential_key UNIQUE (device_credential);
+CREATE TABLE public.invite_codes (
+  code text PRIMARY KEY,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  used_at timestamptz,
+  used_by_org_id integer REFERENCES public.organisations(id)
+);
+ALTER TABLE public.invite_codes ENABLE ROW LEVEL SECURITY;
+COMMIT;
+```
+No RLS policies on `invite_codes` — deny-all to anon/authenticated by default (RLS enabled, zero policies, same as B1's Test 0), only ever touched by service-role Edge Functions. `sites.device_credential` reuses the existing `tenant_isolation` policy on `sites` (`can_access_site(id)`) — a manager can read/regenerate their own site's code the normal authenticated way, no new policy needed.
+
+**2. New `device-login` Edge Function** — staged at `device-login_index.ts` in the agent's scratchpad, needs `mkdir -p ~/tango-sierra/supabase/docker/volumes/functions/device-login` then the file placed at `.../device-login/index.ts`, then `docker compose restart functions` (this one doesn't touch `.env`, so `restart` — not `--force-recreate` — is enough, unlike the Firebase push-notification gotcha logged in Phase 2 above). Service-role, unauthenticated caller (anon-key-checked only, same as `pin-login`/`tenant-signup`): takes `{device_credential}`, looks up `sites` by that credential, returns `{site_id, staff: [...]}` (active base/supervisor/venueManager users at that site). No session, no RLS involved — this is the intentional pre-auth path that was missing.
+
+**3. `tenant-signup` edit** — staged at `tenant-signup_index.ts` in the agent's scratchpad (full file, ready to overwrite the existing one at `~/tango-sierra/supabase/docker/volumes/functions/tenant-signup/index.ts`), then `docker compose restart functions`. Adds a required `invite_code` field, checked against `invite_codes` before any other field validation; the code is marked used only after the entire signup succeeds (steps 1-9 all complete), so a failed/duplicate-email attempt doesn't burn a valid code.
+
+**After deployment, before real use**: generate a starter batch of invite codes directly via SQL, e.g.:
+```sql
+INSERT INTO invite_codes (code) VALUES ('CODE1'), ('CODE2'), ('CODE3');
+```
+Keep the plain list of unused codes somewhere handy (per the user's own decision — no admin UI for this) to hand out during sales conversations.
+
+**Also needed before the three `integration_test/phase_c1*.dart` proof suites will pass again**: each now documents, at its own `_inviteCode`/`_inviteCodeA`/`_inviteCodeB` declaration, the exact `INSERT` needed first (they use real, timestamp-derived codes so re-running the suite doesn't collide with a previous run's already-used code).
+
+**Not yet done**: the full live cross-tenant proof (curl matrix + Dart integration test) for `device-login` and the invite gate, to the same standard as every other backend cluster — logged as the immediate follow-on once deployment lands.
+
 ## Notes
 
 - Update this file's checklist and server table as each step completes.

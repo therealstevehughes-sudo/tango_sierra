@@ -186,8 +186,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               ),
                         loading: () =>
                             const Center(child: CircularProgressIndicator()),
-                        error: (err, stack) =>
-                            Center(child: Text('Error loading staff: $err')),
+                        error: (err, stack) => err is DeviceNotPairedException
+                            ? const _DevicePairingPrompt()
+                            : Center(child: Text('Error loading staff: $err')),
                       )
                     : ResponsiveContent(
                         // PIN entry stays the familiar narrow centered
@@ -350,6 +351,132 @@ class _SignInAnotherWayScreen extends StatelessWidget {
             maxWidth: 380,
             alignment: Alignment.center,
             child: const _AccountEntryOptions(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Device pairing (2026-09-20) — shown in place of the walk-up staff grid
+/// when this tablet hasn't yet been given its venue's setup code (backend
+/// mode only; see `staffDirectoryProvider`'s doc comment for why the
+/// roster genuinely can't load without it). Deliberately its own full-
+/// screen state, not a small inline box on top of an empty list — a blank
+/// staff grid reads as "broken," not "needs setup," to someone who has
+/// never seen this before.
+class _DevicePairingPrompt extends ConsumerStatefulWidget {
+  const _DevicePairingPrompt();
+
+  @override
+  ConsumerState<_DevicePairingPrompt> createState() =>
+      _DevicePairingPromptState();
+}
+
+class _DevicePairingPromptState extends ConsumerState<_DevicePairingPrompt> {
+  final _controller = TextEditingController();
+  String? _error;
+  bool _submitting = false;
+  int _failedAttempts = 0;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _connect() async {
+    final code = _controller.text.trim();
+    if (code.isEmpty) return;
+    setState(() {
+      _submitting = true;
+      _error = null;
+    });
+    try {
+      await pairDevice(ref, code);
+      // No further action needed — invalidating staffDirectoryProvider
+      // inside pairDevice() re-triggers this same build with the roster
+      // now loading successfully.
+    } on DevicePairingException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.message;
+        _submitting = false;
+        _failedAttempts++;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _error = 'Could not reach the server';
+        _submitting = false;
+        _failedAttempts++;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ResponsiveContent(
+        maxWidth: 380,
+        alignment: Alignment.center,
+        child: AppCard(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Icon(Icons.tablet_mac, size: 40, color: AppColors.muted),
+              const SizedBox(height: 16),
+              Text(
+                "This tablet isn't set up yet",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                "Ask a manager for this venue's setup code.",
+                textAlign: TextAlign.center,
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: AppColors.muted),
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: _controller,
+                autofocus: true,
+                textCapitalization: TextCapitalization.characters,
+                textAlign: TextAlign.center,
+                enabled: !_submitting,
+                onSubmitted: (_) => _connect(),
+                decoration: InputDecoration(
+                  labelText: 'Setup code',
+                  errorText: _error,
+                ),
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 16),
+              FilledButton(
+                onPressed: _submitting ? null : _connect,
+                child: _submitting
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Text('Connect this tablet'),
+              ),
+              if (_failedAttempts >= 3) ...[
+                const SizedBox(height: 16),
+                Text(
+                  'Still stuck? A manager can find this in '
+                  'Settings → Venue Details.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+                ),
+              ],
+            ],
           ),
         ),
       ),

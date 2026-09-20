@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import '../../core/network/backend_rest_client.dart';
 import '../models/site.dart';
 import 'site_repository.dart';
@@ -99,6 +101,29 @@ class SupabaseSiteRepository implements SiteRepository {
     );
   }
 
+  // Not crypto-grade — this is a shared, human-typed-off-a-screen setup
+  // code (same trust level as a wifi password taped to a shared device),
+  // not a security boundary on its own. 8 chars from a 32-symbol alphabet
+  // (no 0/O/1/I, easy to read aloud/off a screen) keeps false-collision
+  // risk negligible at this app's scale while staying quick to type.
+  static const _codeAlphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+
+  @override
+  Future<Site> regenerateDeviceCredential(int siteId) async {
+    final random = Random.secure();
+    final code = List.generate(
+      8,
+      (_) => _codeAlphabet[random.nextInt(_codeAlphabet.length)],
+    ).join();
+    await _client.update(
+      'sites',
+      filter: 'id=eq.$siteId',
+      body: {'device_credential': code},
+    );
+    final rows = await _client.select('sites', query: 'id=eq.$siteId');
+    return _toModel(rows.first);
+  }
+
   Site _toModel(Map<String, dynamic> row) => Site(
     id: row['id'] as int,
     organisationId: row['organisation_id'] as int,
@@ -106,5 +131,6 @@ class SupabaseSiteRepository implements SiteRepository {
     address: row['address'] as String?,
     createdAt: DateTime.parse(row['created_at'] as String),
     regionId: row['region_id'] as int?,
+    deviceCredential: row['device_credential'] as String?,
   );
 }

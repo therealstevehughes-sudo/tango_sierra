@@ -19,6 +19,14 @@ import 'package:flutter_application_1/shared/providers/tenant_provisioning_provi
 final _unique = DateTime.now().millisecondsSinceEpoch;
 final _email = 'c1b-it-$_unique@venurite.invalid';
 const _password = 'ThrowawayC1bIntegration!2026';
+// Sign-up gate (2026-09-20) — each signUpCompany call now needs a real,
+// unused row in public.invite_codes (single-use). Insert two matching
+// rows before running this suite:
+//   INSERT INTO invite_codes (code) VALUES ('$_unique-A'), ('$_unique-B');
+// (substitute the actual millisecond value printed by a dry run, or
+// insert a batch of throwaway codes ahead of time and hardcode two here).
+final _inviteCodeA = 'IT-$_unique-A';
+final _inviteCodeB = 'IT-$_unique-B';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +50,7 @@ void main() {
       final result = await container
           .read(tenantProvisioningRepositoryProvider)
           .signUpCompany(
+            inviteCode: _inviteCodeA,
             companyName: 'C1B-IT-COMPANY-$_unique',
             country: 'United Kingdom',
             venueName: 'Main Site',
@@ -98,6 +107,7 @@ void main() {
     Object? thrown;
     try {
       await container.read(tenantProvisioningRepositoryProvider).signUpCompany(
+            inviteCode: _inviteCodeB,
             companyName: 'C1B-IT-DUPE-$_unique',
             country: 'United Kingdom',
             venueName: 'Main Site',

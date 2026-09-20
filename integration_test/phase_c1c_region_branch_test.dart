@@ -24,6 +24,10 @@ final _unique = DateTime.now().millisecondsSinceEpoch;
 final _directorEmail = 'c1c-it-director-$_unique@venurite.invalid';
 final _regionalEmail = 'c1c-it-regional-$_unique@venurite.invalid';
 const _directorPassword = 'ThrowawayC1cDirector!2026';
+// Sign-up gate (2026-09-20) — signUpCompany now needs a real, unused row
+// in public.invite_codes; insert one before running this suite:
+//   INSERT INTO invite_codes (code) VALUES ('IT-$_unique');
+final _inviteCode = 'IT-$_unique';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +52,7 @@ void main() {
       final signup = await director
           .read(tenantProvisioningRepositoryProvider)
           .signUpCompany(
+            inviteCode: _inviteCode,
             companyName: 'C1C-IT-COMPANY-$_unique',
             country: 'United Kingdom',
             venueName: 'Main Site',

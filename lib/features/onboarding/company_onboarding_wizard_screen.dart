@@ -45,6 +45,7 @@ class _CompanyOnboardingWizardScreenState
   TenantSignupResult? _done;
 
   // Step 1 — admin account
+  final _inviteCode = TextEditingController();
   final _firstName = TextEditingController();
   final _lastName = TextEditingController();
   final _email = TextEditingController();
@@ -77,6 +78,7 @@ class _CompanyOnboardingWizardScreenState
 
   @override
   void dispose() {
+    _inviteCode.dispose();
     _firstName.dispose();
     _lastName.dispose();
     _email.dispose();
@@ -94,6 +96,7 @@ class _CompanyOnboardingWizardScreenState
   }
 
   bool get _step0Valid =>
+      _inviteCode.text.trim().isNotEmpty &&
       _firstName.text.trim().isNotEmpty &&
       _lastName.text.trim().isNotEmpty &&
       _email.text.trim().contains('@') &&
@@ -126,6 +129,7 @@ class _CompanyOnboardingWizardScreenState
       final result = await ref
           .read(tenantProvisioningRepositoryProvider)
           .signUpCompany(
+            inviteCode: _inviteCode.text.trim(),
             firstName: _firstName.text.trim(),
             lastName: _lastName.text.trim(),
             email: _email.text.trim(),
@@ -274,6 +278,17 @@ class _CompanyOnboardingWizardScreenState
           "you're in.",
         ),
         const SizedBox(height: 16),
+        TextField(
+          controller: _inviteCode,
+          decoration: const InputDecoration(
+            labelText: 'Invite code',
+            helperText:
+                "Don't have one? Contact us to get started.",
+          ),
+          textCapitalization: TextCapitalization.characters,
+          onChanged: (_) => setState(() {}),
+        ),
+        const SizedBox(height: 12),
         TextField(
           controller: _firstName,
           decoration: const InputDecoration(labelText: 'First name'),

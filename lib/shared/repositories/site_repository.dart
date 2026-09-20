@@ -46,6 +46,15 @@ abstract class SiteRepository {
   /// Replaces the full set of venue types tagged on a site with exactly
   /// [venueTypeIds].
   Future<void> setVenueTypeIds(int siteId, List<int> venueTypeIds);
+
+  /// Device pairing (2026-09-20) — generates a brand-new setup code for
+  /// this site and returns the updated Site. Regenerating deliberately
+  /// invalidates every tablet already paired on the old code (it's a
+  /// shared-per-venue secret, not per-device) — the UI must warn about
+  /// that before calling this. Not meaningful for a local-only install
+  /// (see Site.deviceCredential's doc comment) — DriftSiteRepository
+  /// throws UnimplementedError.
+  Future<Site> regenerateDeviceCredential(int siteId);
 }
 
 class DriftSiteRepository implements SiteRepository {
@@ -159,6 +168,14 @@ class DriftSiteRepository implements SiteRepository {
             );
       }
     });
+  }
+
+  @override
+  Future<Site> regenerateDeviceCredential(int siteId) {
+    throw UnimplementedError(
+      'Device pairing codes only apply to backend-hosted venues — a '
+      'local-only install has no separate device to pair.',
+    );
   }
 
   Site _toModel(SiteEntity row) {

@@ -138,6 +138,11 @@ abstract class TenantProvisioningRepository {
   /// trialing subscription, and optional initial branding. On success the
   /// caller signs in through the normal Leadership Access screen.
   Future<TenantSignupResult> signUpCompany({
+    // Sign-up gate (2026-09-20) — a pre-shared, single-use code handed out
+    // by VenuRite before going public; `tenant-signup` rejects the call
+    // outright without a valid, unused one. No admin UI for issuing these
+    // yet (DECISIONS_LOG.md) — generated in batches directly via SQL.
+    required String inviteCode,
     required String firstName,
     required String lastName,
     required String email,
@@ -235,6 +240,7 @@ class SupabaseTenantProvisioningRepository
 
   @override
   Future<TenantSignupResult> signUpCompany({
+    required String inviteCode,
     required String firstName,
     required String lastName,
     required String email,
@@ -257,6 +263,7 @@ class SupabaseTenantProvisioningRepository
       final response = await _client.functions.invoke(
         'tenant-signup',
         body: {
+          'invite_code': inviteCode,
           'first_name': firstName,
           'last_name': lastName,
           'email': email,

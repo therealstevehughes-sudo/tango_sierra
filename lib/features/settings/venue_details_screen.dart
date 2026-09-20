@@ -158,6 +158,43 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
     setState(() {});
   }
 
+  // Device pairing (2026-09-20) — regenerating disconnects every tablet
+  // currently using this venue's old code (it's a shared-per-venue secret,
+  // not per-device), so this is a real, warned-about action rather than a
+  // casual "Reset" button.
+  Future<void> _regenerateDeviceCode(Site site) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Reset setup code?'),
+        content: const Text(
+          'This will disconnect every tablet currently using this venue '
+          "until they're given the new code. Continue?",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Reset code'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    final repo = ref.read(siteRepositoryProvider);
+    final updated = await repo.regenerateDeviceCredential(site.id);
+    if (!mounted) return;
+    setState(() {
+      sites = [
+        for (final s in sites) if (s.id == updated.id) updated else s,
+      ];
+    });
+  }
+
   Future<void> _createVenue() async {
     final org = organisation;
     if (org == null) return;
@@ -233,6 +270,7 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
     }
 
     final currentUser = ref.watch(currentUserProvider);
+    final backendDataEnabled = ref.watch(backendDataEnabledProvider);
     final activeSite = ref.watch(activeSiteProvider);
     final effectiveActiveId = activeSite?.id ?? _defaultSiteId;
 
@@ -300,6 +338,50 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                             onPressed: () => _renameSite(site),
                           ),
                         ),
+                        if (backendDataEnabled &&
+                            currentUser != null &&
+                            roleTierRank(currentUser.roleTier) >=
+                                roleTierRank(RoleTier.venueManager))
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SectionHeader(title: 'Tablet setup code'),
+                                const SizedBox(height: 4),
+                                Text(
+                                  'Enter this once on a new tablet so it can '
+                                  'show this venue\'s staff list.',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    Text(
+                                      site.deviceCredential ?? '—',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall
+                                          ?.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            letterSpacing: 2,
+                                          ),
+                                    ),
+                                    const SizedBox(width: 12),
+                                    TextButton(
+                                      onPressed: () =>
+                                          _regenerateDeviceCode(site),
+                                      child: Text(
+                                        site.deviceCredential == null
+                                            ? 'Generate code'
+                                            : 'Reset code',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
                           child: Column(
