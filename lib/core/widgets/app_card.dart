@@ -16,16 +16,35 @@ import '../../app/theme/app_colors.dart';
 /// shadow — e.g. the staff task card, the one card on a screen that
 /// should read as the main event.
 class AppCard extends StatelessWidget {
-  const AppCard({super.key, required this.child, this.padding, this.elevated = false});
+  const AppCard({
+    super.key,
+    required this.child,
+    this.padding,
+    this.elevated = false,
+    this.accentColor,
+  });
 
   final Widget child;
   final EdgeInsetsGeometry? padding;
   final bool elevated;
+  // Urgency stripe fix (2026-09-18) — when set, a coloured band runs down
+  // the card's left edge, drawn INSIDE this Container and clipped to the
+  // same borderRadius as the card itself, so it's part of the card's own
+  // rounded frame rather than a separate rectangle painted behind it. The
+  // previous approach (a plain rectangular border on a wrapper OUTSIDE
+  // this Container) sat behind this Container's own opaque rounded
+  // background, which is why it only ever showed as a short, broken
+  // sliver in the rounded-corner gap instead of a continuous edge.
+  final Color? accentColor;
 
   @override
   Widget build(BuildContext context) {
     final cardTheme = Theme.of(context).cardTheme;
     final radius = elevated ? 18.0 : 16.0;
+    final content = Padding(
+      padding: padding ?? const EdgeInsets.all(16),
+      child: child,
+    );
     return Container(
       decoration: BoxDecoration(
         color: cardTheme.color ?? AppColors.card,
@@ -43,7 +62,18 @@ class AppCard extends StatelessWidget {
         ],
       ),
       margin: cardTheme.margin ?? const EdgeInsets.symmetric(vertical: 6),
-      child: Padding(padding: padding ?? const EdgeInsets.all(16), child: child),
+      child: accentColor == null
+          ? content
+          : ClipRRect(
+              borderRadius: BorderRadius.circular(radius),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(width: 4, color: accentColor),
+                  Expanded(child: content),
+                ],
+              ),
+            ),
     );
   }
 }

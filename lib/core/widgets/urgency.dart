@@ -70,22 +70,18 @@ class UrgencyChip extends StatelessWidget {
   }
 }
 
-/// A thin coloured left edge on a tile, indicating urgency at a glance
-/// without needing to read any text.
-class UrgencyStripe extends StatelessWidget {
-  const UrgencyStripe({super.key, required this.level, required this.child});
-
-  final UrgencyLevel level;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    final (fg, _, _) = urgencyColors(level);
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        border: Border(left: BorderSide(color: fg, width: 4)),
-      ),
-      child: child,
-    );
-  }
+/// The colour for AppCard's `accentColor` left-edge stripe — null for
+/// [UrgencyLevel.none] so a resolved/non-urgent card gets no stripe at all,
+/// rather than a dark neutral-coloured one nobody needs to see.
+///
+/// Previously its own `UrgencyStripe` wrapper widget, drawn as a plain
+/// rectangular border OUTSIDE AppCard — removed 2026-09-18 because it sat
+/// behind AppCard's own opaque rounded background and only ever showed as
+/// a short, broken sliver in the rounded-corner gap, not a continuous
+/// edge. AppCard now draws this stripe itself, clipped to its own
+/// borderRadius, so it reads as part of the card's frame.
+Color? urgencyStripeColor(UrgencyLevel level) {
+  if (level == UrgencyLevel.none) return null;
+  final (fg, _, _) = urgencyColors(level);
+  return fg;
 }

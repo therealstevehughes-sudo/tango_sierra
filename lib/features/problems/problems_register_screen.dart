@@ -157,109 +157,105 @@ class _ProblemTile extends ConsumerWidget {
             immediateUrgent: submission.status == 'NOT_COMPLETED',
           );
 
-    return UrgencyStripe(
-      level: urgency,
-      child: AppCard(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (submission.status == 'NOT_COMPLETED')
-              const StatusBadge(
-                kind: StatusKind.overdue,
-                label: 'Not Completed',
-              )
-            else
-              const StatusBadge(kind: StatusKind.critical, label: 'Fail'),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Instance-name prominence (2026-09-06): leads on its own
-                  // bold line — this register exists precisely to make a
-                  // problem unmissable, so "which fridge" can't be the part
-                  // that's easy to skim past.
-                  if (submission.equipmentInstanceName != null)
-                    Text(
-                      submission.equipmentInstanceName!,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.teal,
-                      ),
+    return AppCard(
+      accentColor: urgencyStripeColor(urgency),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (submission.status == 'NOT_COMPLETED')
+            const StatusBadge(kind: StatusKind.overdue, label: 'Not Completed')
+          else
+            const StatusBadge(kind: StatusKind.critical, label: 'Fail'),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Instance-name prominence (2026-09-06): leads on its own
+                // bold line — this register exists precisely to make a
+                // problem unmissable, so "which fridge" can't be the part
+                // that's easy to skim past.
+                if (submission.equipmentInstanceName != null)
+                  Text(
+                    submission.equipmentInstanceName!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.teal,
                     ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          submission.taskTitle,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.bodyLarge
-                              ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        submission.taskTitle,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      if (urgency == UrgencyLevel.high) ...[
-                        const SizedBox(width: 6),
-                        UrgencyChip(level: urgency),
-                      ],
+                    ),
+                    if (urgency == UrgencyLevel.high) ...[
+                      const SizedBox(width: 6),
+                      UrgencyChip(level: urgency),
                     ],
-                  ),
+                  ],
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '${submission.completedBy} · '
+                  '${formatDateTime(submission.completedAt)}',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  _correctiveLabel,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                if (submission.correctiveActionNote != null) ...[
                   const SizedBox(height: 2),
                   Text(
-                    '${submission.completedBy} · '
-                    '${formatDateTime(submission.completedAt)}',
-                    maxLines: 2,
+                    submission.correctiveActionNote!,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _correctiveLabel,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  if (submission.correctiveActionNote != null) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      submission.correctiveActionNote!,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
                 ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                _ProblemStatusChip(resolved: isResolved),
-                const SizedBox(height: 8),
-                TextButton(
-                  onPressed: () async {
-                    if (submission.id == null) return;
-                    if (isResolved) {
-                      await repository.reopen(
-                        taskSubmissionId: submission.id!,
-                        byUserId: currentUserId,
-                      );
-                    } else {
-                      await repository.resolve(
-                        taskSubmissionId: submission.id!,
-                        byUserId: currentUserId,
-                      );
-                    }
-                  },
-                  child: Text(isResolved ? 'Reopen' : 'Mark Resolved'),
-                ),
               ],
             ),
-          ],
-        ),
+          ),
+          const SizedBox(width: 8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              _ProblemStatusChip(resolved: isResolved),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () async {
+                  if (submission.id == null) return;
+                  if (isResolved) {
+                    await repository.reopen(
+                      taskSubmissionId: submission.id!,
+                      byUserId: currentUserId,
+                    );
+                  } else {
+                    await repository.resolve(
+                      taskSubmissionId: submission.id!,
+                      byUserId: currentUserId,
+                    );
+                  }
+                },
+                child: Text(isResolved ? 'Reopen' : 'Mark Resolved'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

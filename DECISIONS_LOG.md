@@ -1889,3 +1889,13 @@ Closes the deferred piece flagged in the previous entry: Regional's "their regio
 
 Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
 Files: `lib/features/dashboard/leadership_dashboard_screen.dart`, `lib/features/dashboard/leadership_dashboard_service.dart`.
+
+## Fix: urgency stripe rendered as a broken sliver instead of a continuous edge (built 2026-09-18)
+User spotted a "brown/burgundy line behind the left-hand side of the blocks" on the Problems Register and asked what it was. It was the urgency stripe from the earlier "Urgency colour-coding" build — working as designed in principle, but rendered wrong: `UrgencyStripe` drew a plain rectangular `Border(left: ...)` on a `DecoratedBox` WRAPPING `AppCard` from the outside. Since `AppCard` itself paints an opaque, rounded, full-width background at the same x-origin, that background covered the straight-edged border along its entire flat left edge — the border only ever peeked through in the small gap where the card's rounded corner curves away from x=0, which is exactly the short, broken-looking sliver the user saw, not a bug report about something invisible.
+
+**Root-caused, not patched**: moved the stripe INSIDE `AppCard` itself. Added an optional `accentColor` parameter — when set, `AppCard` clips its own content (a `Row` of a 4px coloured `Container` + the card's normal padded content) to the SAME `borderRadius` the card's outer decoration already uses, so the stripe is part of the card's own rounded frame instead of a separate rectangle drawn behind it. Confirmed with the user this was the right direction ("keep it, but have it run down the side of the frame/cell as it looks part of it, rather than being covered by it").
+
+`UrgencyStripe` (the external wrapper widget) removed; replaced with a plain `Color? urgencyStripeColor(UrgencyLevel level)` helper (null for `UrgencyLevel.none`, so a resolved/non-urgent card gets no stripe rather than a dark neutral one) passed directly as `AppCard(accentColor: ...)` at both call sites (`_ProblemTile`, `_IssueTile`).
+
+Verified: `flutter analyze` clean, all 17 tests passing, fresh Windows build launched.
+Files: `lib/core/widgets/app_card.dart`, `lib/core/widgets/urgency.dart`, `lib/features/problems/problems_register_screen.dart`, `lib/features/issues/issues_register_tab.dart`.

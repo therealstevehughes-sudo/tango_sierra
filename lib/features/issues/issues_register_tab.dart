@@ -267,67 +267,65 @@ class _IssueTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
-      child: UrgencyStripe(
-        level: urgency,
-        child: AppCard(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            issue.subtype != null
-                                ? '${issueTypeDisplayName(issue.type)} · ${issue.subtype}'
-                                : issueTypeDisplayName(issue.type),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodyLarge
-                                ?.copyWith(fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        if (urgency == UrgencyLevel.high) ...[
-                          const SizedBox(width: 6),
-                          UrgencyChip(level: urgency),
-                        ],
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      issue.details,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      formatDateTime(issue.raisedAt),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    if (escalatedToName != null) ...[
-                      const SizedBox(height: 2),
-                      Text(
-                        'Escalated to $escalatedToName',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w600,
+      child: AppCard(
+        accentColor: urgencyStripeColor(urgency),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          issue.subtype != null
+                              ? '${issueTypeDisplayName(issue.type)} · ${issue.subtype}'
+                              : issueTypeDisplayName(issue.type),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                       ),
+                      if (urgency == UrgencyLevel.high) ...[
+                        const SizedBox(width: 6),
+                        UrgencyChip(level: urgency),
+                      ],
                     ],
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    issue.details,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    formatDateTime(issue.raisedAt),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  if (escalatedToName != null) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      'Escalated to $escalatedToName',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ],
-                ),
+                ],
               ),
-              const SizedBox(width: 8),
-              _StatusPill(status: issue.status),
-            ],
-          ),
+            ),
+            const SizedBox(width: 8),
+            _StatusPill(status: issue.status),
+          ],
         ),
       ),
     );
