@@ -528,7 +528,45 @@ class _LeadershipDashboardScreenState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Incidents', style: Theme.of(context).textTheme.titleMedium),
+          Row(
+            children: [
+              Text(
+                'Incidents',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              // "Urgent" badge (2026-09-20) — additive, not part of the
+              // bar below (see IncidentsBreakdown.urgent's own doc
+              // comment for why it can't be a mutually-exclusive
+              // segment). Only shown when non-zero, same "never a
+              // permanent zero-value fixture" convention as every other
+              // conditional badge in this app.
+              if (incidents.urgent.isNotEmpty) ...[
+                const SizedBox(width: 8),
+                InkWell(
+                  borderRadius: BorderRadius.circular(999),
+                  onTap: () =>
+                      _showIssueBreakdown('Urgent', incidents.urgent),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.criticalBg,
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text(
+                      '${incidents.urgent.length} urgent',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: AppColors.critical,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
           const SizedBox(height: 12),
           _ProportionBar(
             segments: [

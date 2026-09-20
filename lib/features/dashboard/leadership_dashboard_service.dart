@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/urgency.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/models/task_schedule.dart';
 import '../../shared/models/task_submission.dart';
@@ -24,12 +25,18 @@ import '../../shared/repositories/task_submission_repository.dart';
 // variant of TaskOverviewBreakdown/IncidentsBreakdown without going back
 // to that guideline first.
 //
-// "Urgent" from the mockup's Incidents legend is deliberately NOT
-// modelled here — IssueStatus only has open/resolved/escalated, and
-// there's no existing concept an "Urgent" bucket could honestly draw
-// from without inventing one. Logged as an open question in
-// DECISIONS_LOG.md, not silently mapped onto something that doesn't
-// mean what "Urgent" implies.
+// "Urgent" from the mockup's Incidents legend, added 2026-09-20: the
+// original objection (IssueStatus only has open/resolved/escalated, no
+// concept "Urgent" could honestly draw from) is resolved now that
+// computeUrgency() exists (age-based + escalated/manualUrgent, additive-
+// only, same rule already governing Problems/Issues register colouring).
+// Deliberately NOT a 4th mutually-exclusive bar segment, since urgency is
+// orthogonal to resolution status (an unresolved issue can be urgent or
+// not; every escalated issue already counts as urgent by computeUrgency's
+// own rule, so "escalated" and "urgent" overlap, not partition) — modelled
+// instead as `urgentCount`, an additive count of currently-OPEN issues
+// (unresolved or escalated) that are also urgent, surfaced as a separate
+// badge alongside the existing bar rather than folded into its segments.
 // Click-to-drill-down (2026-09-17) — the original Visual idea.pdf mockup
 // said "Click on colour band for detailed breakdown" under both bars;
 // this was never wired up. Each category now keeps its actual matching
@@ -109,6 +116,25 @@ class IncidentsBreakdown {
   double get resolvedRate => _rate(resolved.length);
   double get unresolvedRate => _rate(unresolved.length);
   double get escalatedRate => _rate(escalated.length);
+
+  // "Urgent" (2026-09-20) — see this class's own doc comment for why this
+  // is a separate additive count, not a bar segment. Only ever computed
+  // over currently-open issues (unresolved + escalated) — a resolved
+  // issue doesn't need anyone's attention right now regardless of how
+  // urgent it once was.
+  List<Issue> get urgent {
+    return [
+      ...unresolved,
+      ...escalated,
+    ].where((i) {
+      final level = computeUrgency(
+        since: i.raisedAt,
+        escalated: i.status == IssueStatus.escalated,
+        manualUrgent: i.manualUrgent,
+      );
+      return level == UrgencyLevel.high;
+    }).toList();
+  }
 
   // Cross-venue rollup (2026-09-18) — see TaskOverviewBreakdown.merge's own
   // doc comment; identical reasoning.
