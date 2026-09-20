@@ -17,6 +17,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
+import '../../shared/services/supervisor_scope_service.dart';
 import '../notifications/escalation_service.dart';
 import '../tasks/overdue_summary_service.dart';
 import 'manager_log_filter.dart';
@@ -33,6 +34,14 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
   Timer? _escalationTimer;
   LogFilterSelection _filter = const LogFilterSelection();
   List<OverdueSummaryEntry> _overdueEntries = [];
+  // Sections/Teams scoping (2026-09-20) — a Supervisor's Oversight view was
+  // still showing the whole branch's log/overdue list, unlike the
+  // Leadership Dashboard (already scoped this session). null means "no
+  // restriction" (every tier except Supervisor, or a Supervisor whose
+  // scope hasn't loaded yet) — never treated the same as "empty scope."
+  Set<int>? _allowedUserIds;
+  List<String> _scopeLabels = [];
+  int? _scopedForSiteId;
 
   @override
   void initState() {
@@ -63,9 +72,30 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
 
     final currentUser = ref.read(currentUserProvider);
     if (currentUser != null) {
-      final overdue = await ref
+      final siteId = currentUser.siteId!;
+      if (_scopedForSiteId != siteId) {
+        final scope = await computeSupervisorScope(
+          ref,
+          currentUser: currentUser,
+          siteId: siteId,
+        );
+        if (!mounted) return;
+        setState(() {
+          _allowedUserIds = scope?.allowedUserIds;
+          _scopeLabels = scope?.scopeLabels ?? [];
+          _scopedForSiteId = siteId;
+        });
+      }
+
+      var overdue = await ref
           .read(overdueSummaryServiceProvider)
-          .getSummaryForSite(currentUser.siteId!);
+          .getSummaryForSite(siteId);
+      final allowedUserIds = _allowedUserIds;
+      if (allowedUserIds != null) {
+        overdue = overdue
+            .where((e) => allowedUserIds.contains(e.assignedUserId))
+            .toList();
+      }
       if (mounted) setState(() => _overdueEntries = overdue);
     } else if (mounted) {
       setState(() {});
@@ -253,7 +283,16 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final entries = snapshot.data!;
+          // Sections/Teams scoping (2026-09-20) — a Supervisor only ever
+          // sees their own section/team's entries here, matching the
+          // Leadership Dashboard's already-approved scoping rule. null
+          // means no restriction (every other tier).
+          final allowedUserIds = _allowedUserIds;
+          final entries = allowedUserIds == null
+              ? snapshot.data!
+              : snapshot.data!
+                    .where((e) => allowedUserIds.contains(e.completedByUserId))
+                    .toList();
           final groupedEntries = _groupEntries(entries, _filter.axis);
           final groupKeys = groupedEntries.keys.toList();
 
@@ -308,15 +347,34 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
                     padding: const EdgeInsets.only(bottom: 12),
                     child: OverdueSummaryCard(entries: _overdueEntries),
                   ),
-                _SubmissionLogSection(
-                  entries: entries,
-                  groupedEntries: groupedEntries,
-                  groupKeys: groupKeys,
-                  axis: _filter.axis,
-                  buildLogLine: _buildLogLine,
-                  onFilterChanged: (selection) =>
-                      setState(() => _filter = selection),
-                ),
+                if (allowedUserIds != null && _scopeLabels.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Text(
+                      'Showing: ${_scopeLabels.join(', ')}',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+                    ),
+                  ),
+                if (allowedUserIds != null && allowedUserIds.isEmpty)
+                  const AppCard(
+                    child: Text(
+                      "You haven't been assigned to a section or team "
+                      'yet — ask a manager to set this up in Staff '
+                      'Management before this log has anything to show.',
+                    ),
+                  )
+                else
+                  _SubmissionLogSection(
+                    entries: entries,
+                    groupedEntries: groupedEntries,
+                    groupKeys: groupKeys,
+                    axis: _filter.axis,
+                    buildLogLine: _buildLogLine,
+                    onFilterChanged: (selection) =>
+                        setState(() => _filter = selection),
+                  ),
               ],
             ),
           );

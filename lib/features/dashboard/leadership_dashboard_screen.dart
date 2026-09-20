@@ -13,13 +13,11 @@ import '../../shared/models/site.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
-import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/issue_providers.dart';
 import '../../shared/providers/site_providers.dart';
-import '../../shared/providers/supervision_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
-import '../../shared/providers/team_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import '../../shared/services/supervisor_scope_service.dart';
 import 'leadership_dashboard_service.dart';
 
 enum _Period { month, week, day }
@@ -158,43 +156,14 @@ class _LeadershipDashboardScreenState
     final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
     final activeStaff = staff.where((u) => u.active).toList();
 
-    Set<int>? allowedUserIds;
-    var scopeLabels = <String>[];
     final currentUser = ref.read(currentUserProvider);
-    if (currentUser != null && currentUser.roleTier == RoleTier.supervisor) {
-      final supervisionRepo = ref.read(supervisionRepositoryProvider);
-      final departmentIds = (await supervisionRepo.getSupervisedDepartmentIds(
-        currentUser.id,
-      )).toSet();
-      final teamIds = (await supervisionRepo.getSupervisedTeamIds(
-        currentUser.id,
-      )).toSet();
-
-      allowedUserIds = activeStaff
-          .where(
-            (u) =>
-                (u.departmentId != null &&
-                    departmentIds.contains(u.departmentId)) ||
-                (u.teamId != null && teamIds.contains(u.teamId)),
-          )
-          .map((u) => u.id)
-          .toSet();
-
-      final departments = await ref
-          .read(departmentRepositoryProvider)
-          .getForSite(siteId);
-      scopeLabels = departments
-          .where((d) => departmentIds.contains(d.id))
-          .map((d) => d.name)
-          .toList();
-      final teamRepo = ref.read(teamRepositoryProvider);
-      for (final d in departments) {
-        final teams = await teamRepo.getForDepartment(d.id!);
-        scopeLabels.addAll(
-          teams.where((t) => teamIds.contains(t.id)).map((t) => t.name),
-        );
-      }
-    }
+    final scope = await computeSupervisorScope(
+      ref,
+      currentUser: currentUser,
+      siteId: siteId,
+    );
+    final allowedUserIds = scope?.allowedUserIds;
+    final scopeLabels = scope?.scopeLabels ?? <String>[];
 
     if (!mounted) return;
     setState(() {

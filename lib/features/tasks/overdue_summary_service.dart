@@ -22,12 +22,18 @@ import 'due_status_service.dart';
 class OverdueSummaryEntry {
   const OverdueSummaryEntry({
     required this.staffName,
+    required this.assignedUserId,
     required this.taskTitle,
     this.overdueSince,
     this.equipmentInstanceName,
   });
 
   final String staffName;
+  // Sections/Teams scoping (2026-09-20) — lets a caller (ManagerScreen)
+  // filter this list down to a Supervisor's own section/team without
+  // matching on the display name, which is fragile (two staff can share
+  // a name) and wasn't meant to double as an identifier.
+  final int assignedUserId;
   final String taskTitle;
   final DateTime? overdueSince;
   // Instance-name prominence (2026-09-06) — this list previously showed
@@ -111,6 +117,7 @@ class OverdueSummaryService {
       entries.add(
         OverdueSummaryEntry(
           staffName: staffName,
+          assignedUserId: schedule.assignedUserId,
           taskTitle: template.title,
           overdueSince: result.overdueSince,
           equipmentInstanceName: equipmentInstanceName,
