@@ -1302,7 +1302,7 @@ Full detail lives in `VENURITE_ROADMAP.md` (Documents\AA Tango Sierra), written 
 - 🔴 Human security review of the RLS design (the B0-B5 foundation this project already built and proved needs an outside second opinion before real customer data rides on it).
 - 🔴 Dedicated UK server + off-server backups (needs a business bank account first — currently shares a VPS with another app, per BACKEND_INFRA.md's "shared VPS" decision).
 - 🔴 Shared-tablet walk-up login (device/kiosk credential) — distinct from the per-person PIN model already built.
-- 🔴 A real SMTP email provider (invites, resets, notifications) — the same gap already logged against `invite-senior`/`reset-senior-password` above, now explicitly a launch blocker, not just a nice-to-have.
+- ~~🔴 A real SMTP email provider (invites, resets, notifications) — the same gap already logged against `invite-senior`/`reset-senior-password` above, now explicitly a launch blocker, not just a nice-to-have.~~ **CLOSED 2026-09-21** — real Postmark SMTP configured and proven live with a real signup-confirmation send; see BACKEND_INFRA.md's matching entry. `invite-senior`/`reset-senior-password` themselves still hand out temp passwords rather than real emailed links/codes — upgrading those flows to use this is a separate, not-yet-built follow-on.
 
 **v1.1 / NEXT (right after launch, funded by traction/raise) — log only:**
 - ~~Complaints log (supervisor/management: customer complaints / alleged food poisoning + investigation workflow).~~ **DELIVERED 2026-09-15** — see "Issues & Incidents" below: `IssueType.complaint` (dish/other) with the full Details→Process→Outcome workflow, raise/resolve/escalate, any staff member can raise, supervisor+ handles.

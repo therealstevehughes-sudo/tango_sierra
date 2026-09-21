@@ -336,12 +336,12 @@ existing seed users, since their PINs are already known plaintext.
   sign-in mechanics (bypassing email delivery, see gap below).
 
 **Known gaps, not yet closed:**
-- **Email delivery isn't configured** — the self-hosted stack still has
+- ~~**Email delivery isn't configured** — the self-hosted stack still has
   the example/placeholder SMTP settings, so a real "invite by email" (per
   Steve's decision 5) won't actually reach anyone yet. Needs a real SMTP
   provider (e.g. SendGrid, Postmark, AWS SES) configured in `.env` before
   any real leadership person can be invited. Logged as must-fix-before-
-  real-leadership-onboarding.
+  real-leadership-onboarding.~~ **CLOSED 2026-09-21** — real Postmark SMTP configured and proven live; see the "Real SMTP configured — Postmark" entry further down this file. `invite-senior`/`reset-senior-password` still hand out temp passwords rather than real emailed links — that app-layer upgrade is a separate, not-yet-built follow-on.
 - **Bulk/lazy sync for real staff isn't built** — this pass manually
   linked two known test accounts. Rolling this out to a venue's real
   staff needs either a one-time migration script (copying each person's
@@ -1764,3 +1764,24 @@ Keep the plain list of unused codes somewhere handy (per the user's own decision
 ## Notes
 
 - Update this file's checklist and server table as each step completes.
+
+## Real SMTP configured — Postmark (2026-09-21)
+
+Closes the "SMTP isn't configured" gap logged multiple times (Phase 2, `invite-senior`, `reset-senior-password`, launch-blocker list) — self-hosted GoTrue's mailer was still pointed at the placeholder `supabase-mail`/`fake_mail_user` config from the example `.env`, which never actually sends.
+
+User signed up for Postmark, created a Server ("My First Server"), and confirmed a single-address Sender Signature for `steve@venurite.com` (no full domain/DNS verification done yet — that's a follow-up if a `noreply@venurite.com`-style sender is wanted later; for now all mail sends from `steve@venurite.com`).
+
+`.env` updated directly (not blocked by the auto-mode classifier — a plain key=value edit to an existing file, not a schema/function deploy):
+```
+SMTP_ADMIN_EMAIL=steve@venurite.com
+SMTP_HOST=smtp.postmarkapp.com
+SMTP_PORT=587
+SMTP_USER=<Postmark Server API Token>
+SMTP_PASS=<same token — Postmark uses the Server API Token as both SMTP username and password>
+SMTP_SENDER_NAME=VenuRite
+```
+`docker-compose.yml`'s `auth` service already had `GOTRUE_SMTP_*` wired to these exact `.env` names since the stack was first stood up — no compose file change needed. Applied via `docker compose up -d --force-recreate auth` (a plain `restart` would NOT have picked up the new values — same gotcha logged against the Firebase key earlier).
+
+**Proven live**: a real `/auth/v1/signup` call for a throwaway address (`steve+postmarktest@venurite.com`, a real alias into the user's own inbox) returned a populated `confirmation_sent_at` with no SMTP error in the auth container's logs — a genuine send attempt, not a silent no-op. Throwaway account deleted immediately after.
+
+**Unlocks, no longer blocked**: `invite-senior`'s temp-password approach could now be upgraded to a real emailed invite; `reset-senior-password` similarly; any future self-service password-reset flow. None of those upgrades are built yet — this closes the infrastructure gap only, not the app-layer follow-ons.
