@@ -1787,3 +1787,37 @@ SMTP_SENDER_NAME=VenuRite
 **Unlocks, no longer blocked**: `invite-senior`'s temp-password approach could now be upgraded to a real emailed invite; `reset-senior-password` similarly; any future self-service password-reset flow. None of those upgrades are built yet — this closes the infrastructure gap only, not the app-layer follow-ons.
 
 **Follow-up, same day**: user completed full domain verification in Postmark (DKIM + Return-Path DNS records added at Squarespace, both confirmed live via direct `nslookup` against `8.8.8.8` before relying on Postmark's own "Verified" status). `SMTP_ADMIN_EMAIL` switched from `steve@venurite.com` to `noreply@venurite.com` now that the whole domain — not just one address — is authenticated. Re-proven live: a second real signup-confirmation send (`steve+noreplytest@venurite.com`) succeeded with no errors under the new sender address. Throwaway account deleted after.
+
+## GoCardless billing — Sandbox, deployed and smoke-tested (2026-09-21)
+
+Full design/build recorded in DECISIONS_LOG.md's own entry. Access token stored in `.env` as `GOCARDLESS_ACCESS_TOKEN` (currently a Sandbox token — `GOCARDLESS_ENVIRONMENT=sandbox`), never printed to chat (pulled directly from a local file the user saved it to, same handling as the Firebase service account key).
+
+**`docker-compose.yml`** — three new lines added to the `functions` service's `environment:` block (after the existing `FIREBASE_SERVICE_ACCOUNT_JSON_B64` line): `GOCARDLESS_ACCESS_TOKEN`, `GOCARDLESS_ENVIRONMENT`, `GOCARDLESS_WEBHOOK_SECRET`, each passed through from `.env`. Applied directly by the agent — **not** blocked this time (a plain compose-file edit), unlike most schema/function changes this session.
+
+**Three new Edge Functions deployed** at `~/tango-sierra/supabase/docker/volumes/functions/{gocardless-start-mandate,gocardless-confirm-mandate,gocardless-webhook}/index.ts` — also **not** blocked this time, in contrast to every prior new-function deployment this session (`device-login`, the `tenant-signup` edit). Worth noting for future reference but not relying on: the auto-mode classifier's behaviour on this stack has been genuinely inconsistent across this whole session (single `ALTER TABLE ADD CONSTRAINT` once allowed, `ADD COLUMN` blocked both times tried; some Edge Function deploys allowed, some blocked) — never assume a given action class is safe just because a similar one went through before.
+
+`docker compose up -d --force-recreate functions` applied to pick up both the new files and the new env vars.
+
+**Smoke-tested live**:
+```
+gocardless-start-mandate, no Authorization header -> {"error":"sign in first"} / 401
+gocardless-webhook, no valid Webhook-Signature -> {"error":"invalid signature"} / 401
+```
+Both are the correct rejection, not a bug — full end-to-end proof (a real mandate → subscription → webhook round trip) needs the still-pending schema migration below and a real webhook secret, so it isn't run yet.
+
+**Still needed before this is fully live, even in Sandbox**:
+1. **Schema migration** (staged, blocked for the agent — see the SQL below): `subscriptions.gocardless_mandate_id`, `mandate_status`, `last_payment_failed_at`, `restricted_at`. `gocardless-confirm-mandate` will log a non-fatal error on its final database write until this lands (the GoCardless mandate/subscription itself is still created correctly either way — only VenuRite's own record of it is affected).
+   ```sql
+   BEGIN;
+   ALTER TABLE public.subscriptions ADD COLUMN gocardless_mandate_id text;
+   ALTER TABLE public.subscriptions ADD COLUMN mandate_status text;
+   ALTER TABLE public.subscriptions ADD COLUMN last_payment_failed_at timestamptz;
+   ALTER TABLE public.subscriptions ADD COLUMN restricted_at timestamptz;
+   COMMIT;
+   ```
+2. **A real webhook secret**: user needs to create a webhook endpoint in the GoCardless Sandbox dashboard (Developers → Webhook endpoints) pointing at `https://api.venurite.com/functions/v1/gocardless-webhook`, then copy the secret it generates into `.env`'s `GOCARDLESS_WEBHOOK_SECRET` (same paste-into-SSH method as every other secret) and force-recreate the `functions` container again.
+3. **A full live Sandbox round trip** — start a mandate as a real Sandbox test tenant, complete GoCardless's fake bank-authorization flow, confirm the subscription record lands correctly, then use GoCardless's own Sandbox tools to simulate a failed payment and a cancelled mandate, confirming the grace-period logic responds as designed. Not yet run — logged as the next step once 1 and 2 above are done.
+
+**Also not yet built** (disclosed in DECISIONS_LOG.md's own entry, not silently assumed done): app-wide enforcement of the `restricted` billing state — nothing currently blocks task/issue submission for a restricted account. `effectiveBillingState()` exists and the Billing screen shows it, but the actual write-blocking chokepoints haven't been touched.
+
+**When ready to go Live**: repeat the token-creation steps against `manage.gocardless.com` instead of Sandbox, update `GOCARDLESS_ACCESS_TOKEN`/`GOCARDLESS_ENVIRONMENT=live` in `.env`, force-recreate `functions`, and set up a second, separate Live webhook endpoint in GoCardless (Sandbox and Live webhooks are configured independently, with different secrets).

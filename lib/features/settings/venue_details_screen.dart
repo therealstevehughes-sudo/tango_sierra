@@ -12,6 +12,7 @@ import '../../shared/models/venue_type.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/venue_type_providers.dart';
+import 'billing_screen.dart';
 
 class VenueDetailsScreen extends ConsumerStatefulWidget {
   const VenueDetailsScreen({super.key});
@@ -294,6 +295,22 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                     ),
                   ),
                 ),
+                // GoCardless billing (2026-09-21) -- executive-only, backend
+                // mode only (a local-only install has no subscription
+                // concept at all, see Subscription's own doc comment).
+                if (backendDataEnabled &&
+                    currentUser?.roleTier == RoleTier.executive)
+                  Card(
+                    child: ListTile(
+                      title: const Text('Billing'),
+                      subtitle: const Text('Plan, status, Direct Debit'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const BillingScreen()),
+                      ),
+                    ),
+                  ),
                 const SizedBox(height: 12),
                 const SectionHeader(title: 'Venues'),
                 ...sites.map((site) {
