@@ -1839,3 +1839,9 @@ User created a webhook endpoint in the GoCardless Sandbox dashboard (`Developers
 **Proven live, not just configured**: GoCardless's Sandbox dashboard has no built-in "send test event" button on this page, so verification was done directly — constructed a validly HMAC-SHA256-signed fake payment-confirmed event using the real secret and posted it straight to the function. Response: `{"received":true}` / `200`. This proves the full signature-verification chain works correctly end to end, independent of waiting for a real GoCardless-triggered event.
 
 **Still outstanding**: a full real Sandbox round trip (start a mandate as a test tenant, complete GoCardless's fake bank-authorization page, confirm the subscription record lands, then use GoCardless's own Sandbox payment-simulation tools to trigger a REAL failed-payment/cancelled-mandate event through this same webhook) hasn't been run yet — the check above proves the webhook's signature verification and event-handling logic works, not that GoCardless's own systems are correctly configured to reach it for every event type. Logged as the next step.
+
+## Sprint 043: founding-offer columns + redeployed functions (2026-09-21)
+
+`invite_codes.founding_offer` and `subscriptions.founding_offer` (both boolean, default false) added directly — neither blocked by the auto-mode classifier this time (plain `ADD COLUMN` on existing tables). `tenant-signup` and `gocardless-confirm-mandate` redeployed with the founding-offer logic. Full detail and live proof (verified against GoCardless's own API, not just VenuRite's database) in DECISIONS_LOG.md's own entry.
+
+To hand out a founding-offer code: `INSERT INTO invite_codes (code, founding_offer) VALUES ('YOUR-CODE', true);` — same direct-SQL method as every other invite code, no admin UI.
