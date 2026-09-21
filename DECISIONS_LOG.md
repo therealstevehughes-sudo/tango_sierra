@@ -2105,3 +2105,13 @@ Second sprint of Phase 14. Two problems closed together.
 
 Verified: `flutter analyze` clean, all 32 tests passing.
 Files: `lib/shared/models/subscription.dart`, `lib/shared/repositories/subscription_repository.dart`, `lib/features/settings/billing_screen.dart`, `lib/features/onboarding/company_onboarding_wizard_screen.dart`. Backend: `tenant-signup` and `gocardless-confirm-mandate` Edge Functions redeployed with the founding-offer logic (not in this git repo — see BACKEND_INFRA.md).
+
+## Sprint 044 — The Payoff Moment (built 2026-09-21)
+Third sprint of Phase 14. Confirmed with the user first: no section/team choice at this step — a brand-new sign-up has no staff yet to assign anything to, so this is venue-type-driven only, fully automatic, zero extra clicks.
+
+**A real bug found building this, fixed in the same pass**: the venue-type dropdown (step 4) offered 5 hand-typed values (`Restaurant`/`Bar`/`Cafe`/`Hotel`/`Catering`) that matched none of the 12 real seeded venue types except `Hotel` — `Café` (with the accent) never matched `Cafe`, and `Restaurant`/`Catering` don't exist as venue types at all (the real library has `Casual Dining`, `Fine Dining`, `Gastropub`, `Contract / Institutional Catering`, etc.). **Every sign-up choosing anything but Hotel has been silently getting zero task/equipment tagging this whole time.** Fixed by loading the dropdown from the real local library (`VenueTypeRepository.getAll()`) instead of a hand-typed list that could drift out of sync — same fix shape as the `AreaVenueTypes`/etc. tagging drift this project has hit before.
+
+**New step, "Your starter setup", inserted between First Venue and Subscription**: reads the local task-template and equipment-type library directly via `DriftTaskTemplateRepository`/`DriftEquipmentRepository` (bypassing the usual backend/local Provider switching on purpose — this is universal reference data seeded into every install, not tenant data, and there's no backend session yet at this point in sign-up even if it were). Filters to whatever's tagged to the chosen venue type, groups tasks by their `segment` field (Kitchen/Bar/Front of House/etc. — display grouping only, not a configuration step), and shows a capped preview (first 5 per section + "+N more") so the moment reads as a real, specific list rather than a wall of text. Honest empty state if the org picked a venue type with no starter tagging yet, or skipped the field entirely — never fabricates content to fill the space.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched — visual walkthrough with the user pending.
+Files: `lib/features/onboarding/company_onboarding_wizard_screen.dart`.

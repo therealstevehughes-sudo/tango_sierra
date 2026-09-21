@@ -5,8 +5,15 @@ import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../shared/models/equipment_type.dart';
+import '../../shared/models/task_template.dart';
+import '../../shared/models/venue_type.dart';
+import '../../shared/providers/task_submission_providers.dart' show appDatabaseProvider;
 import '../../shared/providers/tenant_provisioning_providers.dart';
+import '../../shared/repositories/equipment_repository.dart';
+import '../../shared/repositories/task_template_repository.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
+import '../../shared/repositories/venue_type_repository.dart';
 import '../auth/senior_login_screen.dart';
 
 /// Sprint 034 (Customer Onboarding & Billing Foundation) — replaces the
@@ -27,12 +34,13 @@ class CompanyOnboardingWizardScreen extends ConsumerStatefulWidget {
       _CompanyOnboardingWizardScreenState();
 }
 
-const _stepCount = 6;
+const _stepCount = 7;
 const _stepTitles = [
   'Your account',
   'Company details',
   'Organisation structure',
   'First venue',
+  'Your starter setup',
   'Subscription',
   'Payment',
 ];
@@ -64,7 +72,18 @@ class _CompanyOnboardingWizardScreenState
   final _venueName = TextEditingController();
   final _venueAddress = TextEditingController();
   final _venueRegion = TextEditingController();
+  // Sprint 044 (2026-09-21) fix, found building the payoff step: this
+  // used to be a hand-typed dropdown with 5 made-up values
+  // ('Restaurant'/'Bar'/'Cafe'/'Hotel'/'Catering') that matched none of
+  // the real 12 seeded venue types except 'Hotel' — every other choice
+  // silently failed to tag anything, all the way back to whenever this
+  // step was first built. Now loaded from the real local library so it
+  // can never drift out of sync again. `_venueType` (the name, sent to
+  // tenant-signup unchanged) and `_venueTypeId` (used locally by the
+  // payoff step below) are set together from the same selection.
+  List<VenueType> _venueTypes = [];
   String? _venueType;
+  int? _venueTypeId;
 
   // Step 5 — subscription. Sprint 043 (2026-09-21) — reconciled to the
   // real plan keys GoCardless billing actually charges against
@@ -78,6 +97,19 @@ class _CompanyOnboardingWizardScreenState
   // null is a valid, deliberate choice: "decide later" shouldn't block
   // finishing sign-up.
   String? _paymentProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadVenueTypes();
+  }
+
+  Future<void> _loadVenueTypes() async {
+    final db = ref.read(appDatabaseProvider);
+    final types = await DriftVenueTypeRepository(db).getAll();
+    if (!mounted) return;
+    setState(() => _venueTypes = types);
+  }
 
   @override
   void dispose() {
@@ -263,8 +295,10 @@ class _CompanyOnboardingWizardScreenState
       case 3:
         return _buildVenueStep();
       case 4:
-        return _buildSubscriptionStep();
+        return _buildPayoffStep();
       case 5:
+        return _buildSubscriptionStep();
+      case 6:
         return _buildPaymentStep();
       default:
         return const SizedBox.shrink();
@@ -474,22 +508,130 @@ class _CompanyOnboardingWizardScreenState
           textCapitalization: TextCapitalization.words,
         ),
         const SizedBox(height: 12),
-        DropdownButtonFormField<String>(
-          initialValue: _venueType,
-          decoration: const InputDecoration(labelText: 'Venue type (optional)'),
-          items: const [
-            DropdownMenuItem(value: 'Restaurant', child: Text('Restaurant')),
-            DropdownMenuItem(value: 'Bar', child: Text('Bar')),
-            DropdownMenuItem(value: 'Cafe', child: Text('Café')),
-            DropdownMenuItem(value: 'Hotel', child: Text('Hotel')),
-            DropdownMenuItem(
-              value: 'Catering',
-              child: Text('Catering / central kitchen'),
-            ),
-          ],
-          onChanged: (v) => setState(() => _venueType = v),
+        DropdownButtonFormField<int>(
+          initialValue: _venueTypeId,
+          decoration: const InputDecoration(
+            labelText: 'Venue type (optional)',
+            helperText: "Picking one shows you a ready-made starter set "
+                'next — for tasks and equipment you already know you need.',
+          ),
+          items: _venueTypes
+              .map(
+                (t) => DropdownMenuItem(value: t.id, child: Text(t.name)),
+              )
+              .toList(),
+          onChanged: (v) => setState(() {
+            _venueTypeId = v;
+            _venueType = _venueTypes
+                .firstWhere((t) => t.id == v)
+                .name;
+          }),
         ),
       ],
+    );
+  }
+
+  // Sprint 044 (The Payoff Moment, 2026-09-21) — shown before the plan/
+  // payment steps, per the user's own spec: "here's your compliance,
+  // ready to go," using ONLY venue type (already chosen, above) — no
+  // section/team choice at this point, since no staff exist yet to
+  // assign anything to (confirmed with the user; see DECISIONS_LOG.md).
+  // Reads the local task/equipment TYPE library directly via
+  // Drift*Repository, bypassing the usual Provider switching on purpose:
+  // this is universal reference data seeded into every install
+  // (HORECA_TASK_LIBRARY.md), not tenant data, and there is no backend
+  // session yet to read it through even if it were.
+  Future<_PayoffData>? _payoffFuture;
+  int? _payoffLoadedForVenueTypeId;
+
+  Future<_PayoffData> _loadPayoffData(int venueTypeId) async {
+    final db = ref.read(appDatabaseProvider);
+    final templateRepo = DriftTaskTemplateRepository(db);
+    final equipmentRepo = DriftEquipmentRepository(db);
+
+    final allTemplates = await templateRepo.getAllCurrentVersions();
+    final matchingTasks = <TaskTemplate>[];
+    for (final template in allTemplates) {
+      final venueTypeIds = await templateRepo.getVenueTypeIds(
+        template.templateGroupId,
+      );
+      if (venueTypeIds.contains(venueTypeId)) matchingTasks.add(template);
+    }
+
+    final allEquipmentTypes = await equipmentRepo.getEquipmentTypes();
+    final matchingEquipment = <EquipmentType>[];
+    for (final type in allEquipmentTypes) {
+      final venueTypeIds = await equipmentRepo.getVenueTypeIds(type.id);
+      if (venueTypeIds.contains(venueTypeId)) matchingEquipment.add(type);
+    }
+
+    final bySegment = <String, List<TaskTemplate>>{};
+    for (final task in matchingTasks) {
+      bySegment.putIfAbsent(task.segment, () => []).add(task);
+    }
+
+    return _PayoffData(tasksBySegment: bySegment, equipment: matchingEquipment);
+  }
+
+  Widget _buildPayoffStep() {
+    final venueTypeId = _venueTypeId;
+    if (venueTypeId == null) {
+      return const Text(
+        "You skipped choosing a venue type, so there's no starter set "
+        "to show yet — you can add tasks and equipment yourself once "
+        "you're in.",
+      );
+    }
+    if (_payoffLoadedForVenueTypeId != venueTypeId) {
+      _payoffLoadedForVenueTypeId = venueTypeId;
+      _payoffFuture = _loadPayoffData(venueTypeId);
+    }
+    return FutureBuilder<_PayoffData>(
+      future: _payoffFuture,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(vertical: 40),
+            child: Center(child: CircularProgressIndicator()),
+          );
+        }
+        final data = snapshot.data!;
+        final totalTasks = data.tasksBySegment.values.fold(
+          0,
+          (sum, tasks) => sum + tasks.length,
+        );
+        if (totalTasks == 0 && data.equipment.isEmpty) {
+          return Text(
+            "We don't have a pre-built starter set for $_venueType yet — "
+            "you can add tasks and equipment yourself once you're in.",
+          );
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            AppBanner(
+              kind: BannerKind.info,
+              child: Text(
+                "Here's your compliance, ready to go — $totalTasks tasks "
+                'across ${data.tasksBySegment.length} sections'
+                '${data.equipment.isNotEmpty ? ' and ${data.equipment.length} equipment types' : ''} '
+                'already set up for a $_venueType.',
+              ),
+            ),
+            const SizedBox(height: 16),
+            for (final entry in data.tasksBySegment.entries)
+              _PayoffSection(
+                title: entry.key,
+                items: entry.value.map((t) => t.title).toList(),
+              ),
+            if (data.equipment.isNotEmpty)
+              _PayoffSection(
+                title: 'Equipment',
+                items: data.equipment.map((e) => e.name).toList(),
+              ),
+          ],
+        );
+      },
     );
   }
 
@@ -714,6 +856,69 @@ class _SuccessView extends StatelessWidget {
           child: const Text('Go to sign in'),
         ),
       ],
+    );
+  }
+}
+
+// Sprint 044 — a plain data holder, not a model (this is a one-screen
+// preview computed from the local library, never persisted or sent
+// anywhere).
+class _PayoffData {
+  const _PayoffData({required this.tasksBySegment, required this.equipment});
+
+  final Map<String, List<TaskTemplate>> tasksBySegment;
+  final List<EquipmentType> equipment;
+}
+
+// Capped display (2026-09-21) — a real venue type can tag 20-40+ tasks;
+// showing every single one mid-wizard would turn the "aha moment" into a
+// wall of text. Shows the first few plus a plain count of the rest —
+// enough to feel real and specific without demanding to be read in full.
+class _PayoffSection extends StatelessWidget {
+  const _PayoffSection({required this.title, required this.items});
+
+  final String title;
+  final List<String> items;
+
+  static const _previewCount = 5;
+
+  @override
+  Widget build(BuildContext context) {
+    final shown = items.take(_previewCount).toList();
+    final remaining = items.length - shown.length;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: AppCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$title (${items.length})',
+              style: Theme.of(
+                context,
+              ).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(height: 8),
+            for (final item in shown)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Icon(Icons.check_circle_outline, size: 16),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text(item)),
+                  ],
+                ),
+              ),
+            if (remaining > 0)
+              Text(
+                '+ $remaining more',
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+          ],
+        ),
+      ),
     );
   }
 }
