@@ -95,6 +95,42 @@ class AppTheme {
           elevation: 0,
         ),
       ),
+      // Found 2026-09-21 (user's own report, screenshot of the sign-up
+      // fork screen): FilledButton/OutlinedButton had no theme at all
+      // here, so every one of them fell back to Material's smaller
+      // stock sizing everywhere they're used (onboarding, dialogs,
+      // settings) — visibly thinner than ElevatedButton's own strong
+      // primary style right next to it. Same "Layout Rule" size/shape,
+      // just applied to the two button kinds that were missed when this
+      // theme was first written.
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: accent,
+          foregroundColor: onAccent,
+          disabledBackgroundColor: AppColors.lineStrong,
+          disabledForegroundColor: AppColors.muted,
+          textStyle: textTheme.labelLarge,
+          minimumSize: const Size(64, 56),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          elevation: 0,
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: accent,
+          disabledForegroundColor: AppColors.muted,
+          textStyle: textTheme.labelLarge,
+          minimumSize: const Size(64, 56),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          side: BorderSide(color: accent, width: 1.5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+      ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: accent,

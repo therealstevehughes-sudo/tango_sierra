@@ -2137,3 +2137,11 @@ Two user requests from a live click-through of the sign-up wizard.
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build succeeds. Confirmed directly afterward: zero em/en dashes remain outside comment lines anywhere in `lib/`.
 Files: `lib/core/data/countries.dart` (new), `lib/features/onboarding/company_onboarding_wizard_screen.dart`, plus 48 other files touched only for the dash replacement (no logic changes) — see `git show` for the full list rather than enumerating here.
+
+## Fixed: FilledButton/OutlinedButton looked thin app-wide (2026-09-21)
+Found from the user's own screenshot of the sign-up fork screen ("the buttons are a bit thin"). Real cause: `app_theme.dart` only ever themed `ElevatedButton` with the documented "Layout Rule" (64x56 minimum size, 16px rounded corners, generous horizontal padding) — `FilledButton` and `OutlinedButton` had no theme entry at all, so every use of either anywhere in the app (the sign-up fork, onboarding, dialogs, settings) fell back to Material's smaller stock sizing, visibly thinner than an `ElevatedButton` sitting right next to one.
+
+Added matching `filledButtonTheme`/`outlinedButtonTheme` entries with the identical size/shape, so all three button kinds now look like one consistent design language everywhere in the app, not just wherever `ElevatedButton` happened to be used.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched — visual confirmation with the user pending.
+Files: `lib/app/theme/app_theme.dart`.
