@@ -66,7 +66,7 @@ class OverdueSummaryCard extends StatelessWidget {
                             // at all, so two overdue fridges were identical.
                             if (entry.equipmentInstanceName != null)
                               TextSpan(
-                                text: '${entry.equipmentInstanceName} — ',
+                                text: '${entry.equipmentInstanceName} - ',
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -74,7 +74,7 @@ class OverdueSummaryCard extends StatelessWidget {
                             TextSpan(
                               text: entry.overdueSince == null
                                   ? entry.taskTitle
-                                  : '${entry.taskTitle} — overdue since '
+                                  : '${entry.taskTitle} - overdue since '
                                         '${formatDate(entry.overdueSince!)}',
                             ),
                           ],

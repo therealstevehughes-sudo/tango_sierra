@@ -36,7 +36,7 @@ class ContactVenuRiteScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 const Text(
                   "Whether you're a large group wanting a hand setting up, "
-                  "or just have a question — we're happy to help.",
+                  "or just have a question - we're happy to help.",
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),

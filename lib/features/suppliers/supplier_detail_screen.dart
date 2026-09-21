@@ -118,7 +118,7 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
               title: i.deliveryProblemType != null
                   ? deliveryProblemTypeDisplayName(i.deliveryProblemType!)
                   : issueTypeDisplayName(i.type),
-              subtitle: '${i.details} — ${formatDateTime(i.raisedAt)}',
+              subtitle: '${i.details} - ${formatDateTime(i.raisedAt)}',
             ),
         ],
       ),
@@ -200,7 +200,7 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
           isDense: true,
           suffixIcon: Icon(Icons.date_range),
         ),
-        child: Text('${formatDate(_range.start)} — ${formatDate(_range.end)}'),
+        child: Text('${formatDate(_range.start)} - ${formatDate(_range.end)}'),
       ),
     );
   }
@@ -224,7 +224,7 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Each category below counts independently — a delivery can '
+            'Each category below counts independently - a delivery can '
             'appear in more than one row (e.g. late AND damaged).',
             style: Theme.of(context).textTheme.bodySmall,
           ),
@@ -322,7 +322,7 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Supply-problem issues raised against this supplier — a '
+                    'Supply-problem issues raised against this supplier - a '
                     'separate log from the delivery scorecard above, not '
                     'merged into it.',
                     style: Theme.of(context).textTheme.bodySmall,

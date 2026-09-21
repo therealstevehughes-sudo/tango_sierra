@@ -166,7 +166,7 @@ class _ThirdPartyContactsScreenState
       child: ListTile(
         title: Text(contact.name),
         subtitle: Text(
-          '${_detailsLabel(contact)}${contact.active ? '' : ' — inactive'}',
+          '${_detailsLabel(contact)}${contact.active ? '' : ' - inactive'}',
         ),
         trailing: TextButton(
           onPressed: () => _setActive(contact, !contact.active),

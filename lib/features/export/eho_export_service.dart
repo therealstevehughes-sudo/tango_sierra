@@ -415,7 +415,7 @@ class EhoExportService {
         ),
         build: (context) => [
           pw.Text(
-            'Export summary could not be generated for this date range — '
+            'Export summary could not be generated for this date range - '
             'narrow the date range and try again.',
           ),
         ],
@@ -465,7 +465,7 @@ class EhoExportService {
           ),
           build: (context) => [
             pw.Text(
-              'Full Detailed Log — omitted',
+              'Full Detailed Log - omitted',
               style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
             ),
             pw.SizedBox(height: 4),
@@ -521,7 +521,7 @@ class EhoExportService {
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       children: [
         pw.Text(
-          '$companyName — Compliance Export',
+          '$companyName - Compliance Export',
           style: pw.TextStyle(
             fontSize: 20,
             fontWeight: pw.FontWeight.bold,
@@ -529,7 +529,7 @@ class EhoExportService {
           ),
         ),
         pw.SizedBox(height: 4),
-        pw.Text(siteAddress == null ? siteName : '$siteName — $siteAddress'),
+        pw.Text(siteAddress == null ? siteName : '$siteName - $siteAddress'),
         pw.Text('Records from ${formatDate(start)} to ${formatDate(end)}'),
         pw.Text(
           'Generated ${formatDateTime(DateTime.now())} by $generatedByName',
@@ -550,7 +550,7 @@ class EhoExportService {
     return pw.Column(
       children: [
         pw.Text(
-          '$companyName — $siteName — ${formatDate(start)} to '
+          '$companyName - $siteName - ${formatDate(start)} to '
           '${formatDate(end)}',
           style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700),
         ),
@@ -670,12 +670,12 @@ class EhoExportService {
                   const pw.TextSpan(text: '  - '),
                   if (entry.equipmentInstanceName != null)
                     pw.TextSpan(
-                      text: '${entry.equipmentInstanceName} — ',
+                      text: '${entry.equipmentInstanceName} - ',
                       style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                     ),
                   pw.TextSpan(
                     text:
-                        '${entry.taskTitle} — '
+                        '${entry.taskTitle} - '
                         '${formatDateTime(entry.completedAt)}'
                         ' (${entry.completedBy})',
                   ),
@@ -740,7 +740,7 @@ class EhoExportService {
           for (final group in _groupNotCompleted(notCompletedEntries))
             pw.Text(
               '  - ${group.staffName}: session ended '
-              '${formatDateTime(group.sessionEndedAt)} — '
+              '${formatDateTime(group.sessionEndedAt)} - '
               '${group.taskCount} task${group.taskCount == 1 ? '' : 's'} '
               'not completed',
               style: const pw.TextStyle(color: PdfColors.grey700),
@@ -776,7 +776,7 @@ class EhoExportService {
           for (final entry in flaggedDeliveries)
             pw.Text(
               '  - ${formatDateTime(entry.completedAt)}: ${entry.taskTitle} '
-              '(${entry.staffName}) — ${entry.supplierName} '
+              '(${entry.staffName}) - ${entry.supplierName} '
               '(${supplierApprovalStatusLabel(entry.approvalStatus)})',
               style: const pw.TextStyle(color: PdfColors.red800),
             ),
@@ -917,7 +917,7 @@ class EhoExportService {
                     // instances apart at all.
                     if (entry.equipmentInstanceName != null)
                       pw.TextSpan(
-                        text: '${entry.equipmentInstanceName} — ',
+                        text: '${entry.equipmentInstanceName} - ',
                         style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
                       ),
                     pw.TextSpan(
@@ -1033,7 +1033,7 @@ class EhoExportService {
         submission.notes!,
       if (submission.correctiveActionOutcome != null)
         'Corrective action: ${submission.correctiveActionOutcome}'
-            '${submission.correctiveActionNote == null ? '' : ' — ${submission.correctiveActionNote}'}',
+            '${submission.correctiveActionNote == null ? '' : ' - ${submission.correctiveActionNote}'}',
     ];
     return parts.join(' | ');
   }

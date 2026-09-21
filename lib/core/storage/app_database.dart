@@ -2157,7 +2157,7 @@ class AppDatabase extends _$AppDatabase {
       equipmentTypeName: 'Blast Chiller',
       roleTiers: ['base'],
       fixInstructions:
-          'Part of the cooked-to-chilled cooling process — see the Cooling '
+          'Part of the cooked-to-chilled cooling process - see the Cooling '
           'log task for the 90-minute rule [FSA].',
       frequency: 'perUse',
     ),
@@ -2190,7 +2190,7 @@ class AppDatabase extends _$AppDatabase {
           'Core must reach 70°C for 2 min, or equivalent e.g. 75°C for 30s '
           '[FSA]. Scotland: 75°C/30s required by law for high-risk foods '
           '[LAW]. This app records a single reading, not time-at-'
-          'temperature — use a calibrated probe and confirm the hold time '
+          'temperature - use a calibrated probe and confirm the hold time '
           'manually.',
       frequency: 'perBatch',
     ),
@@ -2246,7 +2246,7 @@ class AppDatabase extends _$AppDatabase {
       priority: 'high',
       roleTiers: ['base'],
       fixInstructions:
-          '[FSA] guidance: reheat food once only — do not reheat leftovers '
+          '[FSA] guidance: reheat food once only - do not reheat leftovers '
           'a second time.',
       frequency: 'perBatch',
     ),
@@ -2258,7 +2258,7 @@ class AppDatabase extends _$AppDatabase {
       roleTiers: ['base'],
       fixInstructions:
           '[BEST] Check probe reads 0°C in melting ice and 100°C in '
-          'boiling water, both within ±1°C. No UK legal figure — an '
+          'boiling water, both within ±1°C. No UK legal figure - an '
           'industry best-practice calibration check.',
       frequency: 'weekly',
     ),
@@ -2786,7 +2786,7 @@ class AppDatabase extends _$AppDatabase {
       legalLimitCategory: 'fryer_oil_temp',
       fixInstructions:
           '[BEST] Typical fryer oil operating temperature is up to 180°C. '
-          'No UK legal limit — industry best practice.',
+          'No UK legal limit - industry best practice.',
       frequency: 'perService',
     ),
     _LibraryTask(
@@ -2801,7 +2801,7 @@ class AppDatabase extends _$AppDatabase {
       legalLimitCategory: 'fryer_oil_tpm',
       fixInstructions:
           '[BEST] No UK legal limit. Discard oil at approximately 24-27% '
-          'TPM (total polar materials) — an industry best-practice '
+          'TPM (total polar materials) - an industry best-practice '
           'benchmark, not a legal figure.',
       frequency: 'daily',
     ),
@@ -2905,7 +2905,7 @@ class AppDatabase extends _$AppDatabase {
       roleTiers: ['base'],
       fixInstructions:
           '[BEST] Grease build-up in extraction ductwork is a significant '
-          'fire risk — clean on schedule regardless of visible soiling.',
+          'fire risk - clean on schedule regardless of visible soiling.',
       frequency: 'weekly',
     ),
     // 5.3 Mechanical & safety
@@ -2940,7 +2940,7 @@ class AppDatabase extends _$AppDatabase {
       legalLimitCategory: 'dishwasher_wash_temp',
       fixInstructions:
           '[BEST] Typical dishwasher wash temperature is 55-65°C. No UK '
-          'legal limit — industry best practice for effective washing.',
+          'legal limit - industry best practice for effective washing.',
       frequency: 'perShift',
     ),
     _LibraryTask(
@@ -2955,7 +2955,7 @@ class AppDatabase extends _$AppDatabase {
       legalLimitCategory: 'dishwasher_rinse_temp',
       fixInstructions:
           '[BEST] Rinse at 82°C or above for a sanitising effect. No UK '
-          'legal limit — industry best practice.',
+          'legal limit - industry best practice.',
       frequency: 'perShift',
     ),
     _LibraryTask(
@@ -3265,7 +3265,7 @@ class AppDatabase extends _$AppDatabase {
       priority: 'critical',
       roleTiers: ['base'],
       fixInstructions:
-          "[BEST] Contact/dwell time varies per product and sanitiser — "
+          "[BEST] Contact/dwell time varies per product and sanitiser - "
           "follow the product label's stated contact time. No single UK "
           "legal figure.",
       frequency: 'perShift',
@@ -3362,7 +3362,7 @@ class AppDatabase extends _$AppDatabase {
       roleTiers: ['base'],
       fixInstructions:
           '[BEST] Sanitiser should be BS EN 1276/13697 compliant '
-          '(bactericidal/fungicidal standards). No UK legal limit — a '
+          '(bactericidal/fungicidal standards). No UK legal limit - a '
           'recognised industry standard, not statute.',
       frequency: 'daily',
     ),
@@ -3390,7 +3390,7 @@ class AppDatabase extends _$AppDatabase {
       roleTiers: ['supervisor', 'venueManager'],
       fixInstructions:
           '[LAW] COSHH (Control of Substances Hazardous to Health) data '
-          'sheets must be present and chemicals correctly labelled — a '
+          'sheets must be present and chemicals correctly labelled - a '
           'legal requirement.',
       frequency: 'weekly',
     ),
@@ -4608,7 +4608,7 @@ class AppDatabase extends _$AppDatabase {
       legalLimitCategory: 'cellar_temp',
       fixInstructions:
           '[BEST] Cask ale cellar temperature target 11-13°C. No UK legal '
-          'limit — industry best practice.',
+          'limit - industry best practice.',
       frequency: 'daily',
     ),
     _LibraryTask(
@@ -4619,7 +4619,7 @@ class AppDatabase extends _$AppDatabase {
       equipmentTypeName: 'Keg System',
       roleTiers: ['base'],
       fixInstructions:
-          '[BEST] Clean beer lines every 7 days. No UK legal requirement — '
+          '[BEST] Clean beer lines every 7 days. No UK legal requirement - '
           'industry best practice.',
       frequency: 'weekly',
     ),
@@ -5268,7 +5268,7 @@ class AppDatabase extends _$AppDatabase {
       final name = nameById[row.equipmentInstanceId];
       if (name == null) continue;
 
-      final suffix = ' — $name';
+      final suffix = ' - $name';
       final cleanedTitle = row.taskTitle.endsWith(suffix)
           ? row.taskTitle.substring(0, row.taskTitle.length - suffix.length)
           : row.taskTitle;

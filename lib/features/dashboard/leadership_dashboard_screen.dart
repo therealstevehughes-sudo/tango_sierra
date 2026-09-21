@@ -295,7 +295,7 @@ class _LeadershipDashboardScreenState
                       const AppCard(
                         child: Text(
                           "You haven't been assigned to a section or team "
-                          'yet — ask a manager to set this up in Staff '
+                          'yet - ask a manager to set this up in Staff '
                           'Management before this dashboard has anything '
                           'to show.',
                         ),
@@ -648,7 +648,7 @@ class _LeadershipDashboardScreenState
           for (final i in items)
             BreakdownRow(
               title: issueTypeDisplayName(i.type),
-              subtitle: '${i.details} — ${formatDateTime(i.raisedAt)}',
+              subtitle: '${i.details} - ${formatDateTime(i.raisedAt)}',
             ),
         ],
       ),
@@ -669,7 +669,7 @@ class _LeadershipDashboardScreenState
           ),
           const SizedBox(height: 4),
           Text(
-            'A plain lookup, not a score — completion colour and issue tags '
+            'A plain lookup, not a score - completion colour and issue tags '
             'here are never graded per person.',
             style: Theme.of(context).textTheme.bodySmall,
           ),
@@ -681,7 +681,7 @@ class _LeadershipDashboardScreenState
           for (final s in _employeeSubmissions.take(20))
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
-              child: Text('${s.taskTitle} — ${formatDateTime(s.completedAt)}'),
+              child: Text('${s.taskTitle} - ${formatDateTime(s.completedAt)}'),
             ),
           const SizedBox(height: 12),
           Text(
@@ -692,7 +692,7 @@ class _LeadershipDashboardScreenState
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: Text(
-                '${issueTypeDisplayName(i.type)} — ${issueStatusDisplayName(i.status)} '
+                '${issueTypeDisplayName(i.type)} - ${issueStatusDisplayName(i.status)} '
                 '(${formatDateTime(i.raisedAt)})',
               ),
             ),

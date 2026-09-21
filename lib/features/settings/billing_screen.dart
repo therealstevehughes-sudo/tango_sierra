@@ -156,7 +156,7 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
           else ...[
             const Text(
               "You haven't set up Direct Debit yet. You'll be taken to "
-              'GoCardless — VenuRite never sees your bank details directly.',
+              'GoCardless - VenuRite never sees your bank details directly.',
             ),
             const SizedBox(height: 12),
             FilledButton(
@@ -198,7 +198,7 @@ class _StatusBanner extends StatelessWidget {
         ),
       BillingState.normal => ('Active', AppColors.pass),
       BillingState.pastDueGrace => (
-        'A recent payment failed. Please update your Direct Debit — '
+        'A recent payment failed. Please update your Direct Debit - '
         'access continues during this grace period.',
         AppColors.caution,
       ),

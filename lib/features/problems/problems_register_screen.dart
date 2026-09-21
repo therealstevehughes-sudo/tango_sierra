@@ -103,7 +103,7 @@ class _ProblemsRegisterScreenState
                               if (entries.isEmpty) {
                                 return const Center(
                                   child: Text(
-                                    'Nothing here — that\'s a good sign.',
+                                    'Nothing here - that\'s a good sign.',
                                   ),
                                 );
                               }

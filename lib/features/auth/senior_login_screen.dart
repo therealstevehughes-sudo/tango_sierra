@@ -240,7 +240,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     if (localUser == null) {
       setState(() {
         error =
-            "This account isn't linked to a staff profile yet — contact an admin.";
+            "This account isn't linked to a staff profile yet - contact an admin.";
         submitting = false;
       });
       return;
@@ -443,7 +443,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                       const AppBanner(
                         kind: BannerKind.info,
                         child: Text(
-                          'No backend is configured for this install — '
+                          'No backend is configured for this install - '
                           'sign in with a PIN, same as everyone else.',
                         ),
                       ),

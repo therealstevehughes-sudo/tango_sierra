@@ -2127,3 +2127,13 @@ Fourth sprint of Phase 14. Wires the real GoCardless mandate flow (built and pro
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build succeeds. The underlying signup → sign-in → start-mandate → browser-authorization chain was already proven live twice earlier this session (the plain and founding-offer tests) — what's new here is the client-side auto-triggering, verified by code review and a live click-through.
 Files: `lib/features/onboarding/company_onboarding_wizard_screen.dart`.
+
+## Country search field + app-wide dash cleanup (2026-09-21)
+Two user requests from a live click-through of the sign-up wizard.
+
+**Country is now a real searchable field**, not free text. New `lib/core/data/countries.dart` (a plain alphabetical list of country names, no codes needed since `organisations.country` is a plain text column). The wizard's Country field is now an `Autocomplete<String>` — type to filter, pick from the list, or still type freely (the underlying `_country` controller stays in sync either way, so nothing that read from it needed to change).
+
+**Every em dash (—) and en dash (–) in user-facing app text replaced with a plain hyphen (-)**, per explicit user instruction ("I hate them"). Scoped deliberately to what the app actually displays — `Text`/`labelText`/`helperText`/error messages/PDF export strings — not source-code comments, which this codebase's own writing style uses constantly and which no user of the app ever sees. Found and preserved exactly one line where the distinction mattered: a trailing inline `//` comment on an otherwise-live code line (`login_screen.dart`), left untouched since it's a comment, not UI text. 132 replacements across 49 files.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build succeeds. Confirmed directly afterward: zero em/en dashes remain outside comment lines anywhere in `lib/`.
+Files: `lib/core/data/countries.dart` (new), `lib/features/onboarding/company_onboarding_wizard_screen.dart`, plus 48 other files touched only for the dash replacement (no logic changes) — see `git show` for the full list rather than enumerating here.

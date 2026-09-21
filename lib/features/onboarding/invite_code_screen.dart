@@ -35,7 +35,7 @@ class InviteCodeScreen extends StatelessWidget {
                 AppBanner(
                   kind: BannerKind.info,
                   child: Text(
-                    'Share this with the person joining — it works once '
+                    'Share this with the person joining - it works once '
                     'and expires in $daysLeft day${daysLeft == 1 ? '' : 's'}.',
                   ),
                 ),
@@ -56,7 +56,7 @@ class InviteCodeScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 const Text(
-                  'Or share this code — they enter it on the "Join '
+                  'Or share this code - they enter it on the "Join '
                   'existing company" screen:',
                 ),
                 const SizedBox(height: 8),

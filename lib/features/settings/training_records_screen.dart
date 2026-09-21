@@ -52,7 +52,7 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: Text('Add Training Record — ${widget.staffMember.name}'),
+          title: Text('Add Training Record - ${widget.staffMember.name}'),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -201,7 +201,7 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Training Records — ${widget.staffMember.name}'),
+        title: Text('Training Records - ${widget.staffMember.name}'),
       ),
       body: SafeArea(
         child: ResponsiveContent(

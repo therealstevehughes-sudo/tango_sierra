@@ -113,7 +113,7 @@ class SupabaseProblemRegisterRepository implements ProblemRegisterRepository {
     if (parentRows.isEmpty) {
       throw StateError(
         'Task submission $taskSubmissionId is not visible to this session '
-        '— cannot record a problem status change against it.',
+        '- cannot record a problem status change against it.',
       );
     }
     final siteId = parentRows.first['site_id'] as int;

@@ -86,7 +86,7 @@ class EndOfShiftDigestService {
       for (final manager in managers) {
         await _client.invokeFunction('send-push', {
           'user_id': manager['id'],
-          'title': 'Shift summary — $workerName',
+          'title': 'Shift summary - $workerName',
           'body': parts.join(', '),
         });
       }

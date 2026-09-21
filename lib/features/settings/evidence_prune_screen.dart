@@ -84,7 +84,7 @@ class _EvidencePruneScreenState extends ConsumerState<EvidencePruneScreen> {
           isUtc: true,
         ).toLocal().toString().split('.').first;
         parts.removeAt(0);
-        return '$time — ${parts.join('_')}';
+        return '$time - ${parts.join('_')}';
       }
     }
     return base;

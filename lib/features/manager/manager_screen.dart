@@ -176,14 +176,14 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
       if (instanceName == null) return [TextSpan(text: entry.taskTitle)];
       return [
         TextSpan(text: instanceName, style: boldInstance),
-        TextSpan(text: ' — ${entry.taskTitle}'),
+        TextSpan(text: ' - ${entry.taskTitle}'),
       ];
     }
 
     final List<InlineSpan> spans;
     switch (groupBy) {
       case LogFilterAxis.date:
-        spans = [TextSpan(text: '${entry.completedBy} — '), ...titleSpans()];
+        spans = [TextSpan(text: '${entry.completedBy} - '), ...titleSpans()];
         break;
       case LogFilterAxis.task:
         spans = [
@@ -201,7 +201,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
         break;
     }
     final statusSuffix = isNotCompleted
-        ? ' — NOT COMPLETED (session ended)'
+        ? ' - NOT COMPLETED (session ended)'
         : '';
     spans.add(
       TextSpan(text: '$statusSuffix${entry.photoAttached ? ' 📷' : ''}'),
@@ -361,7 +361,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
                   const AppCard(
                     child: Text(
                       "You haven't been assigned to a section or team "
-                      'yet — ask a manager to set this up in Staff '
+                      'yet - ask a manager to set this up in Staff '
                       'Management before this log has anything to show.',
                     ),
                   )
@@ -516,7 +516,7 @@ class _SessionSummariesBanner extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      '${summary.staffName} — ${summary.passCount} pass / '
+                      '${summary.staffName} - ${summary.passCount} pass / '
                       '${summary.failCount} fail'
                       '${summary.note != null ? '\n"${summary.note}"' : ''}',
                     ),

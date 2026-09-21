@@ -88,7 +88,7 @@ class TriggerNotificationsBanner extends StatelessWidget {
                       ),
                       if (isOverdue)
                         Text(
-                          'OVERDUE — unacknowledged for '
+                          'OVERDUE - unacknowledged for '
                           '${now.difference(notification.createdAt).inMinutes} min',
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(

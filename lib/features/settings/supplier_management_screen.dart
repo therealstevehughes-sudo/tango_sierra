@@ -189,7 +189,7 @@ class _SupplierManagementScreenState
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: Text('Edit Details — ${supplier.name}'),
+          title: Text('Edit Details - ${supplier.name}'),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -278,7 +278,7 @@ class _SupplierManagementScreenState
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: Text('Change Approval Status — ${supplier.name}'),
+          title: Text('Change Approval Status - ${supplier.name}'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

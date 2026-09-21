@@ -29,7 +29,7 @@ final equipmentRepositoryProvider = Provider<EquipmentRepository>((ref) {
       ref.watch(backendRestClientProvider),
       () => ref.read(currentBackendOrganisationIdProvider) ??
           (throw StateError(
-            'No organisation_id claim on the current session — cannot '
+            'No organisation_id claim on the current session - cannot '
             'create a tenant-scoped equipment type.',
           )),
       driftRepository,

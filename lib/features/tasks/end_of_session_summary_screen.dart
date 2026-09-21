@@ -210,7 +210,7 @@ class _EndOfSessionSummaryScreenState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Last 30 days — checks completed and logged on time.'
+                            'Last 30 days - checks completed and logged on time.'
                             ' A logged fail counts the same as a logged pass:'
                             ' this only measures whether you checked and when.',
                             style: Theme.of(context).textTheme.bodySmall,

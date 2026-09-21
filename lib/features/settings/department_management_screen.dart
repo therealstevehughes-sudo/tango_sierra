@@ -113,7 +113,7 @@ class _DepartmentManagementScreenState
 
   Future<void> _renameDepartment(Department department) async {
     final name = await _promptForName(
-      title: 'Rename — ${department.name}',
+      title: 'Rename - ${department.name}',
       initial: department.name,
     );
     if (name == null) return;
@@ -134,7 +134,7 @@ class _DepartmentManagementScreenState
   }
 
   Future<void> _addTeam(Department department) async {
-    final name = await _promptForName(title: 'Add Team — ${department.name}');
+    final name = await _promptForName(title: 'Add Team - ${department.name}');
     if (name == null) return;
 
     final repo = ref.read(teamRepositoryProvider);
@@ -146,7 +146,7 @@ class _DepartmentManagementScreenState
 
   Future<void> _renameTeam(Team team) async {
     final name = await _promptForName(
-      title: 'Rename — ${team.name}',
+      title: 'Rename - ${team.name}',
       initial: team.name,
     );
     if (name == null) return;

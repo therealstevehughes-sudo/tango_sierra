@@ -270,19 +270,19 @@ class _FreshInstallEntry extends StatelessWidget {
             const SizedBox(height: 20),
             const _ValuePoint(
               icon: Icons.verified_outlined,
-              text: 'Always EHO-ready — real-time compliance, not a '
+              text: 'Always EHO-ready - real-time compliance, not a '
                   'once-a-year scramble',
             ),
             const SizedBox(height: 12),
             const _ValuePoint(
               icon: Icons.shield_outlined,
-              text: "Built so results can't be gamed — every check is "
+              text: "Built so results can't be gamed - every check is "
                   'honest, every record stands up',
             ),
             const SizedBox(height: 12),
             const _ValuePoint(
               icon: Icons.picture_as_pdf_outlined,
-              text: 'One-tap audit export — hand an inspector a real '
+              text: 'One-tap audit export - hand an inspector a real '
                   'record, instantly',
             ),
             const SizedBox(height: 28),

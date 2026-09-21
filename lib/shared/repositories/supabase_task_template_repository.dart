@@ -153,7 +153,7 @@ class SupabaseTaskTemplateRepository implements TaskTemplateRepository {
   Future<List<int>> getVenueTypeIds(int templateGroupId) {
     throw UnimplementedError(
       'Task-template venue-type tagging is not yet wired to the backend '
-      'path — still Drift-only, matching the same "capability built, app '
+      'path - still Drift-only, matching the same "capability built, app '
       'wiring incremental" state it already has locally (unpopulated, no '
       'filtering UI yet).',
     );
@@ -163,7 +163,7 @@ class SupabaseTaskTemplateRepository implements TaskTemplateRepository {
   Future<void> setVenueTypeIds(int templateGroupId, List<int> venueTypeIds) {
     throw UnimplementedError(
       'Task-template venue-type tagging is not yet wired to the backend '
-      'path — see getVenueTypeIds.',
+      'path - see getVenueTypeIds.',
     );
   }
 

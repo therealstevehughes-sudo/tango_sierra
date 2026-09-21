@@ -271,7 +271,7 @@ class _CompanyBrandingSectionState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'One brand identity, shared company-wide — applies to every '
+            'One brand identity, shared company-wide - applies to every '
             'venue, not per-site.',
             style: Theme.of(context).textTheme.bodySmall,
           ),

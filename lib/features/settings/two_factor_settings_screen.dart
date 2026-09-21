@@ -195,7 +195,7 @@ class _TwoFactorSettingsScreenState extends State<TwoFactorSettingsScreen> {
           child: Text(
             on
                 ? 'Two-factor authentication is ON for this account.'
-                : 'Two-factor authentication is OFF — add it for an extra '
+                : 'Two-factor authentication is OFF - add it for an extra '
                       'layer of protection on this senior account.',
           ),
         ),

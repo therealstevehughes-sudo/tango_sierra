@@ -145,7 +145,7 @@ class _BranchManagementScreenState
                 ? const AppBanner(
                     kind: BannerKind.info,
                     child: Text(
-                      'Your account has no region set — contact your '
+                      'Your account has no region set - contact your '
                       'Director.',
                     ),
                   )

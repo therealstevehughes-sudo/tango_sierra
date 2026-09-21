@@ -47,7 +47,7 @@ class SupabaseAreaRepository implements AreaRepository {
   @override
   Future<void> setSortOrder(int areaId, int? sortOrder) async {
     throw UnimplementedError(
-      'Area.sortOrder is not yet on the backend schema — '
+      'Area.sortOrder is not yet on the backend schema - '
       'the column will be added in a later cluster migration. '
       'Local/Drift path is fully functional.',
     );

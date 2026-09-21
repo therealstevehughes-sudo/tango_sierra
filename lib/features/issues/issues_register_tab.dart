@@ -149,7 +149,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                 child: Text(
                   _dateRange == null
                       ? 'All dates'
-                      : '${formatDate(_dateRange!.start)} — ${formatDate(_dateRange!.end)}',
+                      : '${formatDate(_dateRange!.start)} - ${formatDate(_dateRange!.end)}',
                 ),
               ),
             ),
@@ -211,7 +211,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                 ? const Center(child: CircularProgressIndicator())
                 : visible.isEmpty
                 ? const Center(
-                    child: Text('Nothing here — that\'s a good sign.'),
+                    child: Text('Nothing here - that\'s a good sign.'),
                   )
                 : ListView.separated(
                     padding: const EdgeInsets.all(16),

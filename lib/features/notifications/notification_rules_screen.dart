@@ -340,7 +340,7 @@ class _NotificationRulesScreenState
         subtitle: Text(
           'Notify: ${_targetLabel(rule)} (${_channelsLabel(rule)})\n'
           'Set by ${roleTierDisplayName(rule.setByTier)} tier'
-          '${rule.active ? '' : ' — inactive'}',
+          '${rule.active ? '' : ' - inactive'}',
         ),
         isThreeLine: true,
         trailing: TextButton(

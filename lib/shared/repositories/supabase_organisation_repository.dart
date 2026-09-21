@@ -26,7 +26,7 @@ class SupabaseOrganisationRepository implements OrganisationRepository {
     );
     if (rows.isEmpty) {
       throw StateError(
-        'No organisation visible to this session — check the session has '
+        'No organisation visible to this session - check the session has '
         'a valid organisation_id claim.',
       );
     }

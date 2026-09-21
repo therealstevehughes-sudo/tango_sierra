@@ -99,7 +99,7 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
       return null;
     }
     return 'This supplier is marked '
-        '${supplierApprovalStatusLabel(selected.first.approvalStatus)} — the '
+        '${supplierApprovalStatusLabel(selected.first.approvalStatus)} - the '
         'check will still be recorded.';
   }
 

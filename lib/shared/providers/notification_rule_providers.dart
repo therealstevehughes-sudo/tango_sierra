@@ -16,7 +16,7 @@ final notificationRuleRepositoryProvider =
           ref.watch(backendRestClientProvider),
           () => ref.read(currentBackendOrganisationIdProvider) ??
               (throw StateError(
-                'No organisation_id claim on the current session — cannot '
+                'No organisation_id claim on the current session - cannot '
                 'save a tenant-scoped notification rule.',
               )),
         );

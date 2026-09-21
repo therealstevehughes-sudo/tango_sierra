@@ -210,7 +210,7 @@ class SupabaseIssueRepository implements IssueRepository {
       );
       if (parentRows.isEmpty) {
         throw StateError(
-          'Issue $issueId is not visible to this session — cannot record '
+          'Issue $issueId is not visible to this session - cannot record '
           'an event against it.',
         );
       }

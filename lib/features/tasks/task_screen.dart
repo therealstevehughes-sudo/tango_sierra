@@ -264,7 +264,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       section('Not yet done today', [
         for (final t in summary.outstandingTasks)
           t.equipmentInstanceName != null
-              ? '${t.taskTitle} — ${t.equipmentInstanceName}'
+              ? '${t.taskTitle} - ${t.equipmentInstanceName}'
               : t.taskTitle,
       ]),
     ];
@@ -497,7 +497,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     final maxLabel = _displayInFahrenheit && task.unit == 'celsius'
         ? max.toStringAsFixed(1)
         : _formatLimit(task.maxLimit!);
-    return 'Safe: $minLabel$unitLabel – $maxLabel$unitLabel';
+    return 'Safe: $minLabel$unitLabel - $maxLabel$unitLabel';
   }
 
   // Fixed-decimal formatting for range labels — temperature limits almost
@@ -840,8 +840,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                   ? StatusKind.pass
                                   : StatusKind.critical,
                               label: _derivedResultFromNumber == "PASS"
-                                  ? "Within range — PASS"
-                                  : "Outside range — FAIL",
+                                  ? "Within range - PASS"
+                                  : "Outside range - FAIL",
                             ),
                           ),
                         if (task.hasChoice)
@@ -1162,7 +1162,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: PrimaryActionButton(
-                      label: 'Skip — comes back later',
+                      label: 'Skip - comes back later',
                       icon: Icons.skip_next,
                       onPressed: () =>
                           setState(() => controller.skipLockedTask()),

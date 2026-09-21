@@ -78,7 +78,7 @@ class SupabaseTaskScheduleRepository implements TaskScheduleRepository {
   @override
   Future<void> setSortOrder(int scheduleId, int? sortOrder) async {
     throw UnimplementedError(
-      'TaskSchedule.sortOrder is not yet on the backend schema — '
+      'TaskSchedule.sortOrder is not yet on the backend schema - '
       'the column will be added in a later cluster migration. '
       'Local/Drift path is fully functional.',
     );

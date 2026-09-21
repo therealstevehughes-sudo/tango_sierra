@@ -85,7 +85,7 @@ class ResolvedTask {
   bool get hasChoice => choiceOptions != null && choiceOptions!.isNotEmpty;
 
   String get displayTitle =>
-      equipmentInstanceName == null ? title : '$title — $equipmentInstanceName';
+      equipmentInstanceName == null ? title : '$title - $equipmentInstanceName';
 
   bool get isLocked {
     if (windowStartMinutes == null || windowEndMinutesExclusive == null) {

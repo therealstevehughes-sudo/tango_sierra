@@ -176,7 +176,7 @@ class _OrganisationTreeScreenState
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text('Assign Regional Manager — ${region.name}'),
+        title: Text('Assign Regional Manager - ${region.name}'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,7 +233,7 @@ class _OrganisationTreeScreenState
             children: [
               Text(
                 'The account is live now. Give $name their sign-in details '
-                '— they use Leadership Access.',
+                '- they use Leadership Access.',
               ),
               const SizedBox(height: 16),
               SelectableText('Email: ${result.email}'),

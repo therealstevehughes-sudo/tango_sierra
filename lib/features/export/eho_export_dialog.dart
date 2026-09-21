@@ -45,7 +45,7 @@ Future<void> showEhoExportDialog(
               leading: const Icon(Icons.date_range),
               title: Text(
                 start != null && end != null
-                    ? '${formatDate(start!)} — ${formatDate(end!)}'
+                    ? '${formatDate(start!)} - ${formatDate(end!)}'
                     : 'Select date range',
               ),
               subtitle: start != null && end != null
@@ -79,7 +79,7 @@ Future<void> showEhoExportDialog(
               value: includeFullLog,
               title: const Text('Include full detailed log'),
               subtitle: const Text(
-                'Off by default — the summary and exceptions above are '
+                'Off by default - the summary and exceptions above are '
                 "what an inspector actually reviews; this adds every "
                 'individual check on top.',
               ),

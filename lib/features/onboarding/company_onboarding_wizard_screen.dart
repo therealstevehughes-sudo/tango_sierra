@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/data/countries.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/primary_action_button.dart';
@@ -258,7 +259,7 @@ class _CompanyOnboardingWizardScreenState
       if (!mounted) return;
       setState(() {
         _directDebitError =
-            "We couldn't start Direct Debit setup automatically — "
+            "We couldn't start Direct Debit setup automatically - "
             "you can do this any time from Settings once you're signed in.";
         _startingDirectDebit = false;
       });
@@ -292,7 +293,7 @@ class _CompanyOnboardingWizardScreenState
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '${_stepTitles[currentStep]} — Step ${currentStep + 1} of $_stepCount',
+          '${_stepTitles[currentStep]} - Step ${currentStep + 1} of $_stepCount',
         ),
       ),
       body: SafeArea(
@@ -454,11 +455,34 @@ class _CompanyOnboardingWizardScreenState
           textCapitalization: TextCapitalization.words,
         ),
         const SizedBox(height: 12),
-        TextField(
-          controller: _country,
-          decoration: const InputDecoration(labelText: 'Country'),
-          textCapitalization: TextCapitalization.words,
-          onChanged: (_) => setState(() {}),
+        Autocomplete<String>(
+          initialValue: TextEditingValue(text: _country.text),
+          optionsBuilder: (value) {
+            if (value.text.isEmpty) return const Iterable<String>.empty();
+            final query = value.text.toLowerCase();
+            return countryNames.where((c) => c.toLowerCase().contains(query));
+          },
+          onSelected: (selected) {
+            _country.text = selected;
+            setState(() {});
+          },
+          fieldViewBuilder: (context, controller, focusNode, onSubmitted) {
+            // Keep _country (the field this screen actually reads from
+            // and validates on) in sync with whatever's typed, not just a
+            // selected suggestion — picking from the list is the
+            // expected path, but free text still works exactly like the
+            // plain TextField this replaces.
+            controller.addListener(() {
+              _country.text = controller.text;
+            });
+            return TextField(
+              controller: controller,
+              focusNode: focusNode,
+              decoration: const InputDecoration(labelText: 'Country'),
+              textCapitalization: TextCapitalization.words,
+              onChanged: (_) => setState(() {}),
+            );
+          },
         ),
         const SizedBox(height: 12),
         TextField(
@@ -494,7 +518,7 @@ class _CompanyOnboardingWizardScreenState
       children: [
         const Text(
           "Here's how VenuRite organises your company. You don't need to "
-          'set anything up now — this is just so the next step makes sense.',
+          'set anything up now - this is just so the next step makes sense.',
         ),
         const SizedBox(height: 20),
         AppCard(
@@ -509,14 +533,14 @@ class _CompanyOnboardingWizardScreenState
               _StructureRow(
                 icon: Icons.map_outlined,
                 label: 'Regions (optional)',
-                sublabel: 'Group venues by country or area — skip if you '
+                sublabel: 'Group venues by country or area - skip if you '
                     "don't need it",
                 indent: 1,
               ),
               _StructureRow(
                 icon: Icons.storefront_outlined,
                 label: 'Venues',
-                sublabel: 'One venue today, hundreds later — add more any '
+                sublabel: 'One venue today, hundreds later - add more any '
                     'time',
                 indent: 2,
               ),
@@ -531,7 +555,7 @@ class _CompanyOnboardingWizardScreenState
         ),
         const SizedBox(height: 16),
         const Text(
-          "We'll set up your first venue next — you can add regions and "
+          "We'll set up your first venue next - you can add regions and "
           'more venues later from inside the app.',
         ),
       ],
@@ -565,7 +589,7 @@ class _CompanyOnboardingWizardScreenState
           controller: _venueRegion,
           decoration: const InputDecoration(
             labelText: 'Region / area (optional)',
-            helperText: 'e.g. "London" — only needed if you have (or will '
+            helperText: 'e.g. "London" - only needed if you have (or will '
                 'have) more than one venue',
           ),
           textCapitalization: TextCapitalization.words,
@@ -576,7 +600,7 @@ class _CompanyOnboardingWizardScreenState
           decoration: const InputDecoration(
             labelText: 'Venue type (optional)',
             helperText: "Picking one shows you a ready-made starter set "
-                'next — for tasks and equipment you already know you need.',
+                'next - for tasks and equipment you already know you need.',
           ),
           items: _venueTypes
               .map(
@@ -641,7 +665,7 @@ class _CompanyOnboardingWizardScreenState
     if (venueTypeId == null) {
       return const Text(
         "You skipped choosing a venue type, so there's no starter set "
-        "to show yet — you can add tasks and equipment yourself once "
+        "to show yet - you can add tasks and equipment yourself once "
         "you're in.",
       );
     }
@@ -665,7 +689,7 @@ class _CompanyOnboardingWizardScreenState
         );
         if (totalTasks == 0 && data.equipment.isEmpty) {
           return Text(
-            "We don't have a pre-built starter set for $_venueType yet — "
+            "We don't have a pre-built starter set for $_venueType yet - "
             "you can add tasks and equipment yourself once you're in.",
           );
         }
@@ -675,7 +699,7 @@ class _CompanyOnboardingWizardScreenState
             AppBanner(
               kind: BannerKind.info,
               child: Text(
-                "Here's your compliance, ready to go — $totalTasks tasks "
+                "Here's your compliance, ready to go - $totalTasks tasks "
                 'across ${data.tasksBySegment.length} sections'
                 '${data.equipment.isNotEmpty ? ' and ${data.equipment.length} equipment types' : ''} '
                 'already set up for a $_venueType.',
@@ -705,32 +729,32 @@ class _CompanyOnboardingWizardScreenState
         const AppBanner(
           kind: BannerKind.info,
           child: Text(
-            'One company account, one consolidated bill — priced per '
+            'One company account, one consolidated bill - priced per '
             'active venue, never per person.',
           ),
         ),
         const SizedBox(height: 16),
-        const Text('Choose a starting plan — you can change this any time.'),
+        const Text('Choose a starting plan - you can change this any time.'),
         const SizedBox(height: 12),
         _PlanOption(
           value: 'friends',
           groupValue: _planName,
-          title: 'Friends — £19/month',
+          title: 'Friends - £19/month',
           subtitle: 'For a single small venue',
           onChanged: (v) => setState(() => _planName = v),
         ),
         _PlanOption(
           value: 'standard',
           groupValue: _planName,
-          title: 'Standard — £39/month',
+          title: 'Standard - £39/month',
           subtitle: 'The right plan for most venues',
           onChanged: (v) => setState(() => _planName = v),
         ),
         _PlanOption(
           value: 'premier',
           groupValue: _planName,
-          title: 'Premier — coming soon',
-          subtitle: 'Larger or multi-venue groups — pricing not set yet',
+          title: 'Premier - coming soon',
+          subtitle: 'Larger or multi-venue groups - pricing not set yet',
           enabled: false,
           onChanged: (v) => setState(() => _planName = v),
         ),
@@ -745,13 +769,13 @@ class _CompanyOnboardingWizardScreenState
         const AppBanner(
           kind: BannerKind.info,
           child: Text(
-            "You're starting a 14-day free trial — no card needed today.",
+            "You're starting a 14-day free trial - no card needed today.",
           ),
         ),
         const SizedBox(height: 16),
         const Text(
           "We'll ask you to set up payment before your trial ends, from "
-          'Settings inside the app. Nothing is charged now — just tell '
+          'Settings inside the app. Nothing is charged now - just tell '
           "us how you'd prefer to pay.",
         ),
         const SizedBox(height: 16),

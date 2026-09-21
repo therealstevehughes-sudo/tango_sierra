@@ -78,5 +78,5 @@ class TaskSubmission {
   // shouldn't lose the instance name either now that taskTitle is plain.
   String get displayTitle => equipmentInstanceName == null
       ? taskTitle
-      : '$taskTitle — $equipmentInstanceName';
+      : '$taskTitle - $equipmentInstanceName';
 }

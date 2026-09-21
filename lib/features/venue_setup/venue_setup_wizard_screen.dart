@@ -428,7 +428,7 @@ class _VenueSetupWizardScreenState
       (a) => a.id == equipment.areaId,
       orElse: () => const Area(id: -1, name: 'Unknown area', siteId: -1),
     );
-    return '${type.name} — ${area.name}';
+    return '${type.name} - ${area.name}';
   }
 
   @override
@@ -438,7 +438,7 @@ class _VenueSetupWizardScreenState
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Venue Setup — Step ${currentStep + 1} of 4')),
+      appBar: AppBar(title: Text('Venue Setup - Step ${currentStep + 1} of 4')),
       drawer: const ManagementDrawer(title: 'Venue Setup'),
       body: SafeArea(
         child: Padding(
@@ -611,7 +611,7 @@ class _VenueSetupWizardScreenState
           ),
         const SizedBox(height: 12),
         if (areas.isEmpty)
-          const Text('No areas added yet — go back to add one.')
+          const Text('No areas added yet - go back to add one.')
         else
           DropdownButtonFormField<int>(
             initialValue: selectedAreaId,
@@ -764,7 +764,7 @@ class _VenueSetupWizardScreenState
         const SizedBox(height: 8),
         const Text(
           'Add the suppliers this venue works with. Approval flags appear '
-          'on the EHO export — suspended suppliers are surfaced to '
+          'on the EHO export - suspended suppliers are surfaced to '
           'managers, not silently hidden.',
         ),
         const SizedBox(height: 16),

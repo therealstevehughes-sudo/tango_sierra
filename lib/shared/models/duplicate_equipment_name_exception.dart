@@ -10,7 +10,7 @@ class DuplicateEquipmentNameException implements Exception {
   final String name;
 
   String get message =>
-      'This venue already has equipment named "$name" — give this one a '
+      'This venue already has equipment named "$name" - give this one a '
       'more specific name so staff can tell them apart, e.g. Meat Walk-in, '
       'Dessert Fridge, Bar Fryer.';
 

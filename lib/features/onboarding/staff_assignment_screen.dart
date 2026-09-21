@@ -503,7 +503,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
               ? 'Assign Tasks'
               : selectedStaff == null
               ? 'Assign Tasks'
-              : 'Assign Tasks — ${selectedStaff!.name}',
+              : 'Assign Tasks - ${selectedStaff!.name}',
         ),
         leading: mode == _AssignMode.byPerson && selectedStaff != null
             ? IconButton(
@@ -753,7 +753,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       SnackBar(
         content: Text(
           '$created assignment${created == 1 ? '' : 's'} created'
-          '${skipped > 0 ? ' ($skipped skipped — already assigned or role mismatch)' : ''}.',
+          '${skipped > 0 ? ' ($skipped skipped - already assigned or role mismatch)' : ''}.',
         ),
       ),
     );
@@ -957,7 +957,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     if (matchingInstances.isEmpty) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 8),
-        child: Text('${template.title} — no equipment set up for this yet'),
+        child: Text('${template.title} - no equipment set up for this yet'),
       );
     }
 
@@ -1271,7 +1271,7 @@ class _AssignmentTileState extends State<_AssignmentTile> {
                           : 'From ${windowStart!.format(context)}',
                     ),
                   ),
-                  const Text('–'),
+                  const Text('-'),
                   TextButton(
                     onPressed: () async {
                       final picked = await showTimePicker(

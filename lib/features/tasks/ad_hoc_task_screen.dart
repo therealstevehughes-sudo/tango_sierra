@@ -228,7 +228,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
     if (_templatesByKind.isEmpty) {
       return const AppCard(
         child: Text(
-          'No ad-hoc task types are set up at this site yet — ask a '
+          'No ad-hoc task types are set up at this site yet - ask a '
           'manager to assign a delivery-check or temperature-check task '
           'template first.',
         ),

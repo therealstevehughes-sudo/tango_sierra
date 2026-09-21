@@ -173,7 +173,7 @@ class DriftSiteRepository implements SiteRepository {
   @override
   Future<Site> regenerateDeviceCredential(int siteId) {
     throw UnimplementedError(
-      'Device pairing codes only apply to backend-hosted venues — a '
+      'Device pairing codes only apply to backend-hosted venues - a '
       'local-only install has no separate device to pair.',
     );
   }

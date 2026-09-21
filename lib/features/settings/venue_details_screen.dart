@@ -375,7 +375,7 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                                 Row(
                                   children: [
                                     Text(
-                                      site.deviceCredential ?? '—',
+                                      site.deviceCredential ?? '-',
                                       style: Theme.of(context)
                                           .textTheme
                                           .headlineSmall

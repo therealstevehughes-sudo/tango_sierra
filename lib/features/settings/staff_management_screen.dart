@@ -102,7 +102,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final newPin = await showDialog<String>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Reset PIN — ${user.name}'),
+        title: Text('Reset PIN - ${user.name}'),
         content: TextField(
           controller: controller,
           keyboardType: TextInputType.number,
@@ -197,7 +197,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: Text('Change Role Tier — ${user.name}'),
+          title: Text('Change Role Tier - ${user.name}'),
           content: DropdownButtonFormField<RoleTier>(
             initialValue: selected,
             decoration: const InputDecoration(labelText: 'Role tier'),
@@ -278,7 +278,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
               ? const <Team>[]
               : (teamsByDept[selectedDepartment] ?? const <Team>[]);
           return AlertDialog(
-            title: Text('Change Section — ${user.name}'),
+            title: Text('Change Section - ${user.name}'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -403,12 +403,12 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: Text('Assign Supervision — ${user.name}'),
+          title: Text('Assign Supervision - ${user.name}'),
           content: SizedBox(
             width: 360,
             child: siteDepartments.isEmpty
                 ? const Text(
-                    'No sections set up at this venue yet — add one under '
+                    'No sections set up at this venue yet - add one under '
                     'Department Management first.',
                   )
                 : SingleChildScrollView(
@@ -502,7 +502,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: Text('Reports To — ${user.name}'),
+          title: Text('Reports To - ${user.name}'),
           content: DropdownButtonFormField<int?>(
             initialValue: selected,
             decoration: const InputDecoration(labelText: 'Reports to'),
