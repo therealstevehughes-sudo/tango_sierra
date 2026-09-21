@@ -80,5 +80,6 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
     restrictedAt: row['restricted_at'] == null
         ? null
         : DateTime.parse(row['restricted_at'] as String),
+    foundingOffer: row['founding_offer'] as bool? ?? false,
   );
 }

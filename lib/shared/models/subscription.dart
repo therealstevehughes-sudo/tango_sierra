@@ -23,6 +23,11 @@ class Subscription {
   final String? mandateStatus;
   final DateTime? lastPaymentFailedAt;
   final DateTime? restrictedAt;
+  // Founding offer (Sprint 043) — £29/mo instead of £39/mo on the
+  // standard plan, carried from whichever invite code the organisation
+  // signed up with (see tenant-signup's own doc comment) — not a
+  // separate coupon system.
+  final bool foundingOffer;
 
   const Subscription({
     required this.id,
@@ -38,6 +43,7 @@ class Subscription {
     this.mandateStatus,
     this.lastPaymentFailedAt,
     this.restrictedAt,
+    this.foundingOffer = false,
   });
 }
 
@@ -60,7 +66,10 @@ String planDisplayName(String? planName) {
 // Function actually charges (BACKEND_INFRA.md) -- shown to the user
 // before they authorize anything, never guessed at or left blank. null
 // means "no price set yet" (currently true only for 'premier').
-int? planMonthlyPricePence(String? planName) {
+// [foundingOffer] only ever discounts 'standard' -- 'friends' is already
+// the cheap tier, and 'premier' has no price to discount yet.
+int? planMonthlyPricePence(String? planName, {bool foundingOffer = false}) {
+  if (foundingOffer && planName == 'standard') return 2900;
   switch (planName) {
     case 'friends':
       return 1900;

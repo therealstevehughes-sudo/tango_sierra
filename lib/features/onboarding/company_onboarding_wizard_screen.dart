@@ -66,9 +66,12 @@ class _CompanyOnboardingWizardScreenState
   final _venueRegion = TextEditingController();
   String? _venueType;
 
-  // Step 5 — subscription (no pricing hard-coded; a name only, per the
-  // agreed "don't hard-code pricing yet" instruction)
-  String _planName = 'starter';
+  // Step 5 — subscription. Sprint 043 (2026-09-21) — reconciled to the
+  // real plan keys GoCardless billing actually charges against
+  // ('friends'/'standard'/'premier', see subscription.dart's own doc
+  // comment) — this used to offer 'starter'/'growth'/'enterprise', which
+  // didn't correspond to anything the billing side understood.
+  String _planName = 'standard';
 
   // Payment provider preference (2026-09-14) -- captured now, not wired
   // to any real payment API yet (see decision #3 in DECISIONS_LOG.md).
@@ -505,24 +508,25 @@ class _CompanyOnboardingWizardScreenState
         const Text('Choose a starting plan — you can change this any time.'),
         const SizedBox(height: 12),
         _PlanOption(
-          value: 'starter',
+          value: 'friends',
           groupValue: _planName,
-          title: 'Starter',
-          subtitle: 'For a single venue getting going',
+          title: 'Friends — £19/month',
+          subtitle: 'For a single small venue',
           onChanged: (v) => setState(() => _planName = v),
         ),
         _PlanOption(
-          value: 'growth',
+          value: 'standard',
           groupValue: _planName,
-          title: 'Growth',
-          subtitle: 'For a handful of venues, with room to add more',
+          title: 'Standard — £39/month',
+          subtitle: 'The right plan for most venues',
           onChanged: (v) => setState(() => _planName = v),
         ),
         _PlanOption(
-          value: 'enterprise',
+          value: 'premier',
           groupValue: _planName,
-          title: 'Enterprise',
-          subtitle: 'Large or multi-country groups — negotiated pricing',
+          title: 'Premier — coming soon',
+          subtitle: 'Larger or multi-venue groups — pricing not set yet',
+          enabled: false,
           onChanged: (v) => setState(() => _planName = v),
         ),
       ],
@@ -652,6 +656,7 @@ class _PlanOption extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.onChanged,
+    this.enabled = true,
   });
 
   final String value;
@@ -659,6 +664,9 @@ class _PlanOption extends StatelessWidget {
   final String title;
   final String subtitle;
   final ValueChanged<String> onChanged;
+  // Sprint 043 — 'premier' has no price yet, so it's shown (not hidden —
+  // people should know it's coming) but not selectable.
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -669,7 +677,7 @@ class _PlanOption extends StatelessWidget {
         child: RadioListTile<String>(
           value: value,
           groupValue: groupValue,
-          onChanged: (v) => onChanged(v!),
+          onChanged: enabled ? (v) => onChanged(v!) : null,
           title: Text(title),
           subtitle: Text(subtitle),
         ),

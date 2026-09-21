@@ -2091,3 +2091,17 @@ First sprint of Phase 14 (MASTER_PLAN.md). Three pieces, per the approved plan:
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/features/onboarding/splash_screen.dart` (new), `lib/app/app.dart`, `lib/features/auth/login_screen.dart`.
+
+## Sprint 043 — Plan Names & Pricing Reconciliation (built and PROVEN live 2026-09-21)
+Second sprint of Phase 14. Two problems closed together.
+
+**Plan name mismatch fixed**: the onboarding wizard's plan step offered `starter`/`growth`/`enterprise` — names that meant nothing to the GoCardless billing built the same day, which is priced around `friends`/`standard`/`premier`. The wizard now offers exactly those three, with real prices shown (`Friends — £19/month`, `Standard — £39/month`) and `Premier` shown but disabled ("coming soon, pricing not set yet") rather than hidden or silently selectable with no real price behind it.
+
+**Founding £29/mo offer, mechanism decided without a further answer from the user**: rather than build a separate coupon/discount-code system, the founding price is carried by the SAME invite code already gating every sign-up (`invite_codes.founding_offer`, new boolean column) — whoever hands out a code marked `founding_offer` decides who gets it, no new infrastructure needed. `tenant-signup` copies the flag onto the new `subscriptions.founding_offer` column at sign-up time; `gocardless-confirm-mandate` charges £29 instead of £39 when the org's plan is `standard` and this flag is set (never touches `friends`, already the cheap tier, or `premier`, which has no price to discount). Client-side `planMonthlyPricePence()` takes the same flag so the Billing screen shows the correct price and a "Founding member price" badge.
+
+**Proven live, twice** — a normal `standard` signup still charges the full £39 (unaffected by this change), and a real throwaway tenant signed up with a `founding_offer: true` invite code produced a GoCardless subscription **verified by reading it back directly from GoCardless's own API**: `amount: 2900, currency: GBP` — not just trusting VenuRite's own database record. Both fixtures fully cleaned up and re-verified empty.
+
+**Real, disclosed cost of live-testing sign-up flows now that the invite gate is live**: this is the second real invite code consumed by a proof this session (`VENURITE-FOUNDING-1`, seeded specifically for this test). Worth remembering for any future live proof of a sign-up path — it will always spend a real code, same as it would for an actual customer.
+
+Verified: `flutter analyze` clean, all 32 tests passing.
+Files: `lib/shared/models/subscription.dart`, `lib/shared/repositories/subscription_repository.dart`, `lib/features/settings/billing_screen.dart`, `lib/features/onboarding/company_onboarding_wizard_screen.dart`. Backend: `tenant-signup` and `gocardless-confirm-mandate` Edge Functions redeployed with the founding-offer logic (not in this git repo — see BACKEND_INFRA.md).

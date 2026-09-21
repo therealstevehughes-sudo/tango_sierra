@@ -90,7 +90,10 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
   }
 
   Widget _buildStatusCard(Subscription subscription) {
-    final pricePence = planMonthlyPricePence(subscription.planName);
+    final pricePence = planMonthlyPricePence(
+      subscription.planName,
+      foundingOffer: subscription.foundingOffer,
+    );
     final priceLabel = pricePence == null
         ? 'Price not set yet'
         : '£${(pricePence / 100).toStringAsFixed(2)}/month';
@@ -100,9 +103,33 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            planDisplayName(subscription.planName),
-            style: Theme.of(context).textTheme.titleLarge,
+          Row(
+            children: [
+              Text(
+                planDisplayName(subscription.planName),
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              if (subscription.foundingOffer) ...[
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 3,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.tealTint,
+                    borderRadius: BorderRadius.circular(999),
+                  ),
+                  child: Text(
+                    'Founding member price',
+                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                      color: AppColors.tealInk,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ],
           ),
           const SizedBox(height: 4),
           Text(priceLabel, style: Theme.of(context).textTheme.bodyMedium),
