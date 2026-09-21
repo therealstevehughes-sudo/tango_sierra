@@ -1821,3 +1821,13 @@ Both are the correct rejection, not a bug — full end-to-end proof (a real mand
 **Also not yet built** (disclosed in DECISIONS_LOG.md's own entry, not silently assumed done): app-wide enforcement of the `restricted` billing state — nothing currently blocks task/issue submission for a restricted account. `effectiveBillingState()` exists and the Billing screen shows it, but the actual write-blocking chokepoints haven't been touched.
 
 **When ready to go Live**: repeat the token-creation steps against `manage.gocardless.com` instead of Sandbox, update `GOCARDLESS_ACCESS_TOKEN`/`GOCARDLESS_ENVIRONMENT=live` in `.env`, force-recreate `functions`, and set up a second, separate Live webhook endpoint in GoCardless (Sandbox and Live webhooks are configured independently, with different secrets).
+
+## Device pairing + invite gate + GoCardless columns — ALL DEPLOYED LIVE (2026-09-21)
+
+Closes out every "staged, deployment pending" item logged above in one walkthrough session with the user (SSH via PowerShell, heredoc-file method): the device-pairing/invite-gate schema (`sites.device_credential`, `public.invite_codes`), the GoCardless subscription columns (`gocardless_mandate_id`, `mandate_status`, `last_payment_failed_at`, `restricted_at`), the `device-login` Edge Function, and the invite-gated `tenant-signup` update.
+
+**Verified live, not just by inspection**: `\d` on all three tables confirmed via a second, independent SSH check (not just trusting the migration's own `COMMIT` output); `device-login` correctly rejects an invalid setup code (`401`); `tenant-signup` correctly rejects a signup attempt with no `invite_code` (`400`).
+
+**Three starter invite codes seeded** for real use: `VENURITE-2026-A`, `VENURITE-2026-B`, `VENURITE-2026-C` (each single-use, per the invite-gate design — used up as they're handed out; the user generates more via the same direct-SQL method whenever needed, no admin UI exists for this by design).
+
+**Not yet done, unaffected by this deployment**: the full live cross-tenant proof (curl matrix + Dart integration test) for `device-login`/the invite gate still hasn't been run — same standard as every other backend cluster, logged as the next follow-on. GoCardless's webhook secret and a full Sandbox mandate round-trip also remain outstanding (see the GoCardless entry above).
