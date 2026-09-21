@@ -2079,3 +2079,15 @@ User gave a full step-by-step spec of a prospective client's first open (splash 
 - **A real inconsistency found along the way**: the wizard's plan names (`starter`/`growth`/`enterprise`) don't match the real GoCardless pricing built earlier today (`friends`/`standard`/`premier`) — these have to be reconciled before the wizard's payment step can drive real billing.
 
 Confirmed with the user this isn't already covered by any planned future work (checked Phase 12/13 — both unrelated, AI/compliance-score features) — genuinely new. Broken into 5 sprints (042–046), logged in MASTER_PLAN.md's new Phase 14, in dependency order: 042 (first-open UI, no dependencies) → 043 (plan/pricing reconciliation, blocks 044/045) → 044 (the payoff moment) → 045 (real in-wizard activation) → 046 (team invite + live landing). User approved starting immediately — Sprint 042 is next.
+
+## Sprint 042 — First-Open Experience (built 2026-09-21)
+First sprint of Phase 14 (MASTER_PLAN.md). Three pieces, per the approved plan:
+
+**Splash screen**: new `SplashScreen` (teal ground, the real VenuRite mark on a white rounded card — the plain PNG looked muddy directly on solid teal), shown for 1.5s. Wired into `app.dart` via a `_showSplash` flag living on `MyApp`'s own `State` (converted from `ConsumerWidget` to `ConsumerStatefulWidget`) — deliberately NOT tied to `currentUserProvider`, so a later logout back to the login screen within the same running session never re-triggers it. It fires exactly once per real app process launch.
+
+**Value screen**: replaces the old plain "Welcome to VenuRite" text with a real pitch — headline "Kitchen compliance, done right" plus three short proof points (always EHO-ready, built so results can't be gamed, one-tap audit export) and a single "Get started" button. Shown only on a genuinely fresh install (`_FreshInstallEntry`, unchanged trigger condition) — a device with existing staff still goes straight to its walk-up grid, this was never meant to interrupt that.
+
+**The fork, reworked**: the old 3-equal-button `_AccountEntryOptions` ("Sign up to VenuRite" / "Join an existing company" / "Contact VenuRite", plus a demoted "Sign in" link) is now `_ForkContent` — a clean 2-way split ("Set up my business" / "My team already uses VenuRite"), with "Contact VenuRite" demoted to a small text link alongside "Already have an account? Sign in", matching the demotion pattern that link already had. Reached either via the new value screen's "Get started" button, or (unchanged) via the persistent "Not on this list? Sign in another way" link on a device that already has staff — that path skips the value screen entirely, since a returning device has already seen the pitch.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/features/onboarding/splash_screen.dart` (new), `lib/app/app.dart`, `lib/features/auth/login_screen.dart`.

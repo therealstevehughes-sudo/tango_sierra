@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/services/push_token_service.dart';
 import '../features/auth/login_screen.dart';
 import '../features/home/tier_home_screen.dart';
+import '../features/onboarding/splash_screen.dart';
 import '../features/tasks/worker_hub_screen.dart';
 import '../shared/models/user.dart';
 import '../shared/providers/auth_providers.dart';
@@ -11,11 +14,33 @@ import '../shared/providers/branding_providers.dart';
 import 'navigator_key.dart';
 import 'theme/app_theme.dart';
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  // Sprint 042 (First-Open Experience) — lives on this State object, which
+  // is created exactly once per real app process launch (MyApp itself
+  // sits at the MaterialApp root and is never recreated by a login/logout
+  // rebuild, only rebuilt via ref.watch inside build()). A later logout
+  // back to LoginScreen within the same running session must NOT
+  // re-trigger the splash — this flag, not currentUser, is what decides
+  // that.
+  bool _showSplash = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(const Duration(milliseconds: 1500), () {
+      if (mounted) setState(() => _showSplash = false);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserProvider);
 
     // Realtime push (2026-09-16) — one choke point for every login path
@@ -53,7 +78,9 @@ class MyApp extends ConsumerWidget {
     // before TaskScreen, not a new nav surface; "My scheduled tasks"
     // leads to the exact same, unchanged TaskScreen base tier always had.
     Widget home;
-    if (currentUser == null) {
+    if (_showSplash) {
+      home = const SplashScreen();
+    } else if (currentUser == null) {
       home = const LoginScreen();
     } else if (currentUser.roleTier == RoleTier.base) {
       home = const WorkerHubScreen();

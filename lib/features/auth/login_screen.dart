@@ -238,13 +238,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 }
 
-/// Phase C1b, redesigned 2026-09-14 (user's explicit first-launch spec) —
-/// what a fresh (real) install shows: no staff yet, so the only ways
-/// forward are the account-entry options below. Shares
-/// `_AccountEntryOptions` with `_SignInAnotherWayScreen`, reached via the
-/// persistent link on a device that already has staff (Sprint 034
-/// decision #4 — added alongside the walk-up grid rather than replacing
-/// its gating).
+/// Sprint 042 (First-Open Experience, 2026-09-21) — replaces the old
+/// plain "Welcome to VenuRite" screen. A brand new device's very first
+/// impression should re-affirm the pitch, not just name the product —
+/// per the user's own spec: one value screen (not a carousel), three
+/// short proof points, one "Get started" button leading to the fork
+/// below. Shares nothing with `_SignInAnotherWayScreen` (reached via the
+/// persistent link on a device that already has staff, Sprint 034
+/// decision #4) — that path skips straight to `_ForkScreen`, since a
+/// returning user reaching it via that link has already seen the pitch.
 class _FreshInstallEntry extends StatelessWidget {
   const _FreshInstallEntry();
 
@@ -252,7 +254,7 @@ class _FreshInstallEntry extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: ResponsiveContent(
-        maxWidth: 380,
+        maxWidth: 420,
         alignment: Alignment.center,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -261,12 +263,36 @@ class _FreshInstallEntry extends StatelessWidget {
             const Center(child: VenuRiteMark()),
             const SizedBox(height: 24),
             Text(
-              'Welcome to VenuRite',
+              'Kitchen compliance, done right',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
+            const SizedBox(height: 20),
+            const _ValuePoint(
+              icon: Icons.verified_outlined,
+              text: 'Always EHO-ready — real-time compliance, not a '
+                  'once-a-year scramble',
+            ),
+            const SizedBox(height: 12),
+            const _ValuePoint(
+              icon: Icons.shield_outlined,
+              text: "Built so results can't be gamed — every check is "
+                  'honest, every record stands up',
+            ),
+            const SizedBox(height: 12),
+            const _ValuePoint(
+              icon: Icons.picture_as_pdf_outlined,
+              text: 'One-tap audit export — hand an inspector a real '
+                  'record, instantly',
+            ),
             const SizedBox(height: 28),
-            const _AccountEntryOptions(),
+            FilledButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const _ForkScreen()),
+              ),
+              child: const Text('Get started'),
+            ),
           ],
         ),
       ),
@@ -274,15 +300,58 @@ class _FreshInstallEntry extends StatelessWidget {
   }
 }
 
-/// The first-launch account-entry actions, shared by `_FreshInstallEntry`
-/// (a brand new device) and `_SignInAnotherWayScreen` (a device that
-/// already has walk-up staff, reached via the persistent link). Three
-/// equal-weight primary choices per the user's explicit spec, plus
-/// "Sign in" demoted to a small secondary link underneath — for someone
-/// who already has an account and is just opening the app on another
-/// device, not someone joining or signing up fresh.
-class _AccountEntryOptions extends StatelessWidget {
-  const _AccountEntryOptions();
+class _ValuePoint extends StatelessWidget {
+  const _ValuePoint({required this.icon, required this.text});
+
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(icon, color: AppColors.teal, size: 22),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(text, style: Theme.of(context).textTheme.bodyMedium),
+        ),
+      ],
+    );
+  }
+}
+
+/// Sprint 042 — the 2-way split the user asked for, replacing the old
+/// 3-equal-button `_AccountEntryOptions`: "Set up my business" (a buyer
+/// starting fresh) vs. "My team already uses VenuRite" (staff joining an
+/// existing company). "Contact VenuRite" and "Sign in" are both real,
+/// necessary paths but not first-choice ones — demoted to small text
+/// links underneath so they don't compete with the two primary buttons,
+/// same demotion "Already have an account? Sign in" already had before
+/// this pass.
+class _ForkScreen extends StatelessWidget {
+  const _ForkScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Get started')),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ResponsiveContent(
+            maxWidth: 380,
+            alignment: Alignment.center,
+            child: const _ForkContent(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ForkContent extends StatelessWidget {
+  const _ForkContent();
 
   @override
   Widget build(BuildContext context) {
@@ -297,7 +366,7 @@ class _AccountEntryOptions extends StatelessWidget {
               builder: (_) => const CompanyOnboardingWizardScreen(),
             ),
           ),
-          child: const Text('Sign up to VenuRite'),
+          child: const Text('Set up my business'),
         ),
         const SizedBox(height: 12),
         OutlinedButton(
@@ -305,17 +374,9 @@ class _AccountEntryOptions extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (_) => const JoinCompanyScreen()),
           ),
-          child: const Text('Join an existing company'),
+          child: const Text('My team already uses VenuRite'),
         ),
-        const SizedBox(height: 12),
-        OutlinedButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ContactVenuRiteScreen()),
-          ),
-          child: const Text('Contact VenuRite'),
-        ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 24),
         Center(
           child: TextButton(
             onPressed: () => Navigator.push(
@@ -325,18 +386,28 @@ class _AccountEntryOptions extends StatelessWidget {
             child: const Text('Already have an account? Sign in'),
           ),
         ),
+        Center(
+          child: TextButton(
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const ContactVenuRiteScreen()),
+            ),
+            child: const Text('Need help? Contact VenuRite'),
+          ),
+        ),
       ],
     );
   }
 }
 
 /// Sprint 034 decision #4 — the persistent entry point on a device that
-/// already has walk-up staff (so the 3-option screen isn't only reachable
-/// when the local staff list happens to be empty). Reached via a small,
+/// already has walk-up staff (so the fork isn't only reachable when the
+/// local staff list happens to be empty). Reached via a small,
 /// always-visible link on the walk-up screen, not a disruptive
 /// first-thing-shown replacement — the walk-up grid stays the primary,
 /// zero-extra-tap experience for returning staff on a shared kitchen
-/// tablet.
+/// tablet. Goes straight to the fork, skipping the value screen — a
+/// returning device has already seen the pitch.
 class _SignInAnotherWayScreen extends StatelessWidget {
   const _SignInAnotherWayScreen();
 
@@ -350,7 +421,7 @@ class _SignInAnotherWayScreen extends StatelessWidget {
           child: ResponsiveContent(
             maxWidth: 380,
             alignment: Alignment.center,
-            child: const _AccountEntryOptions(),
+            child: const _ForkContent(),
           ),
         ),
       ),
