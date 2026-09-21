@@ -2051,3 +2051,22 @@ Computed at read time from `status`/`last_payment_failed_at`, not a separately-m
 
 Verified: `flutter analyze` clean, all 23+9=32 tests passing (`test/billing_service_test.dart`, new), fresh Windows build succeeds.
 Files: `lib/shared/models/subscription.dart`, `lib/shared/services/billing_service.dart`, `lib/shared/repositories/subscription_repository.dart`, `lib/shared/providers/subscription_providers.dart`, `lib/features/settings/billing_screen.dart`, `lib/features/settings/venue_details_screen.dart`, `test/billing_service_test.dart` (new). Three Edge Functions deployed server-side (not in this git repo — see BACKEND_INFRA.md).
+
+## GoCardless: full live Sandbox round trip PROVEN, plus a real bug found and fixed (2026-09-21)
+Ran the entire mandate-setup flow live, start to finish, using a real throwaway tenant: `tenant-signup` (with `plan_name: "standard"`) → sign-in → `gocardless-start-mandate` → the user completed GoCardless's real Sandbox bank-authorization page (test sort code `200000`/account `55779911`, GoCardless's own published Sandbox test values) → landed on `gocardless-confirm-mandate`'s "You're all set!" page.
+
+**Real bug found by this very test, fixed immediately**: the first attempt failed at `tenant-signup` with "could not create the first venue" — the `sites.device_credential` column (added this same session for device pairing) is `NOT NULL` with no column default, but neither `tenant-signup`'s own site-insert nor `SupabaseSiteRepository.create()` (the client's own "Create New Venue" path) ever set it. **Every new venue creation, anywhere in the app, in backend mode, was silently broken** the moment that migration landed — a real, live-breaking gap, not a hypothetical. Fixed both: each now generates its own random 8-character setup code at creation time (same alphabet/shape as `regenerateDeviceCredential`), redeployed `tenant-signup`, re-ran the test — succeeded.
+
+**Verified directly in the database afterward** — a real GoCardless customer, mandate, and recurring subscription were created and correctly linked:
+```
+status: trialing | plan_name: standard | payment_provider: gocardless
+provider_customer_id: CU01M31FB19KB621NVYTFXTRH9M8
+provider_subscription_id: SB01M31FET6DYZK0FY90R3Q813B3
+gocardless_mandate_id: MD01M31FESTA0FRA1X3N5TZENJEF | mandate_status: active
+trial_ends_at: 2026-10-05 (the subscription's own first-payment date matches this exactly, confirming the "billing starts after the trial" deferral works)
+```
+
+**Cleanup, with one real side effect worth recording**: fixture rows all deleted and re-verified at 0 across `subscriptions`/`sites`/`users`/`organisations`/`auth.users`. Deleting the org hit `invite_codes`' own FK (`used_by_org_id`) — nulled that reference before deleting rather than deleting the `invite_codes` row itself, since the code was genuinely used for a real (if throwaway) signup. **Net effect: `VENURITE-2026-A` is now permanently spent** — this test consumed one of the three starter codes, same as it would for a real customer. Only `VENURITE-2026-B`/`-C` remain; more can be generated the same direct-SQL way whenever needed.
+
+Verified: `flutter analyze` clean on the fix.
+Files: `lib/shared/repositories/supabase_site_repository.dart` (bug fix). Backend: `tenant-signup` Edge Function redeployed with the same fix (not in this git repo — see BACKEND_INFRA.md).

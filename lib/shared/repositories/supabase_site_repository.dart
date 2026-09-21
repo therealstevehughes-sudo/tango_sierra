@@ -72,11 +72,21 @@ class SupabaseSiteRepository implements SiteRepository {
     required int organisationId,
     int? regionId,
   }) async {
+    // device_credential (2026-09-21) is NOT NULL with no column default —
+    // a real bug found live-testing GoCardless signup: tenant-signup's own
+    // first-venue insert hit this exact same gap. Every new site needs one
+    // generated at creation time, same as regenerateDeviceCredential below.
+    final random = Random.secure();
+    final deviceCredential = List.generate(
+      8,
+      (_) => _codeAlphabet[random.nextInt(_codeAlphabet.length)],
+    ).join();
     final row = await _client.insertOne('sites', {
       'name': name,
       'address': address,
       'organisation_id': organisationId,
       'region_id': regionId,
+      'device_credential': deviceCredential,
     });
     return _toModel(row);
   }
