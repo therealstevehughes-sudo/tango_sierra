@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
@@ -8,6 +10,7 @@ import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/venue_type.dart';
+import '../../shared/providers/subscription_providers.dart';
 import '../../shared/providers/task_submission_providers.dart' show appDatabaseProvider;
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/equipment_repository.dart';
@@ -51,6 +54,14 @@ class _CompanyOnboardingWizardScreenState
   bool _submitting = false;
   String? _error;
   TenantSignupResult? _done;
+
+  // Sprint 045 — set only when payment_provider == 'gocardless' was
+  // chosen; shown on the success screen instead of the plain "sign in"
+  // message. null/null/false means "not attempted" (a different payment
+  // choice), not "failed".
+  bool _startingDirectDebit = false;
+  String? _directDebitRedirectUrl;
+  String? _directDebitError;
 
   // Step 1 — admin account
   final _inviteCode = TextEditingController();
@@ -199,11 +210,57 @@ class _CompanyOnboardingWizardScreenState
         _submitting = false;
         _done = result;
       });
+      // Sprint 045 (Real Activation Inside the Wizard, 2026-09-21) —
+      // only when the customer actually chose Direct Debit as their
+      // payment preference (never for 'stripe', which isn't built, and
+      // never for "I'll decide later" — both correctly still defer to
+      // Settings, unchanged). Best-effort: any failure here is shown as
+      // a plain message on the success screen, never blocks it — the
+      // company and venue are already real and created either way.
+      if (_paymentProvider == 'gocardless') {
+        await _startDirectDebitAfterSignup();
+      }
     } on TenantSignupException catch (e) {
       if (!mounted) return;
       setState(() {
         _error = e.message;
         _submitting = false;
+      });
+    }
+  }
+
+  // Sprint 045 — the account was just created but this app has no
+  // session yet (tenant-signup never mints one, and the wizard doesn't
+  // "log in" as part of finishing sign-up — full auto sign-in onto the
+  // live dashboard is Sprint 046's job, not this one). A plain
+  // signInWithPassword using the credentials the user just typed a few
+  // seconds ago is enough to get the one real token
+  // gocardless-start-mandate needs — no 2FA check needed here (a brand
+  // new account has no factor enrolled yet).
+  Future<void> _startDirectDebitAfterSignup() async {
+    setState(() => _startingDirectDebit = true);
+    try {
+      final response = await gotrue.Supabase.instance.client.auth
+          .signInWithPassword(email: _email.text.trim(), password: _password.text);
+      if (response.session == null) {
+        throw Exception('sign-in failed');
+      }
+      final redirectUrl = await ref
+          .read(subscriptionRepositoryProvider)
+          .startDirectDebitSetup();
+      if (!mounted) return;
+      setState(() {
+        _directDebitRedirectUrl = redirectUrl;
+        _startingDirectDebit = false;
+      });
+      await launchUrl(Uri.parse(redirectUrl), mode: LaunchMode.externalApplication);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _directDebitError =
+            "We couldn't start Direct Debit setup automatically — "
+            "you can do this any time from Settings once you're signed in.";
+        _startingDirectDebit = false;
       });
     }
   }
@@ -219,7 +276,13 @@ class _CompanyOnboardingWizardScreenState
             child: ResponsiveContent(
               maxWidth: 440,
               alignment: Alignment.center,
-              child: _SuccessView(result: _done!),
+              child: _SuccessView(
+                result: _done!,
+                paymentProvider: _paymentProvider,
+                startingDirectDebit: _startingDirectDebit,
+                directDebitRedirectUrl: _directDebitRedirectUrl,
+                directDebitError: _directDebitError,
+              ),
             ),
           ),
         ),
@@ -829,9 +892,19 @@ class _PlanOption extends StatelessWidget {
 }
 
 class _SuccessView extends StatelessWidget {
-  const _SuccessView({required this.result});
+  const _SuccessView({
+    required this.result,
+    this.paymentProvider,
+    this.startingDirectDebit = false,
+    this.directDebitRedirectUrl,
+    this.directDebitError,
+  });
 
   final TenantSignupResult result;
+  final String? paymentProvider;
+  final bool startingDirectDebit;
+  final String? directDebitRedirectUrl;
+  final String? directDebitError;
 
   @override
   Widget build(BuildContext context) {
@@ -846,6 +919,27 @@ class _SuccessView extends StatelessWidget {
             'email and the password you just chose.',
           ),
         ),
+        // Sprint 045 — only shown when 'gocardless' was actually chosen
+        // as the payment preference; 'stripe'/"decide later" show nothing
+        // extra here, same as before this sprint.
+        if (paymentProvider == 'gocardless') ...[
+          const SizedBox(height: 16),
+          if (startingDirectDebit)
+            const AppBanner(
+              kind: BannerKind.info,
+              child: Text('Setting up Direct Debit...'),
+            )
+          else if (directDebitRedirectUrl != null)
+            const AppBanner(
+              kind: BannerKind.info,
+              child: Text(
+                "We've opened your browser to finish setting up Direct "
+                "Debit. Once that's done, come back here and sign in.",
+              ),
+            )
+          else if (directDebitError != null)
+            AppBanner(kind: BannerKind.caution, child: Text(directDebitError!)),
+        ],
         const SizedBox(height: 24),
         FilledButton(
           onPressed: () {

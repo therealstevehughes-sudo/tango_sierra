@@ -2115,3 +2115,15 @@ Third sprint of Phase 14. Confirmed with the user first: no section/team choice 
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched — visual walkthrough with the user pending.
 Files: `lib/features/onboarding/company_onboarding_wizard_screen.dart`.
+
+## Sprint 045 — Real Activation Inside the Wizard (built 2026-09-21)
+Fourth sprint of Phase 14. Wires the real GoCardless mandate flow (built and proven live earlier the same day) into the sign-up wizard itself, replacing the old blanket "we'll ask you later, from Settings" deferral — but only when it's actually meaningful to do so.
+
+**Only triggers when genuinely applicable**: the payment step still offers 'Card payment (Stripe)' / 'Direct Debit (GoCardless)' / "I'll decide later" — choosing anything other than 'gocardless' behaves exactly as before this sprint (Stripe isn't built, and "decide later" is an explicit, honoured opt-out). Only a `gocardless` choice triggers the new behaviour.
+
+**The mechanism**: `tenant-signup` never mints a session (by design — it's an unauthenticated bootstrap call), and full auto-sign-in onto the live dashboard is deliberately Sprint 046's job, not this one. So immediately after a successful sign-up, if Direct Debit was chosen, this pass does a plain `signInWithPassword` using the credentials just typed a few seconds earlier (no 2FA check needed — a brand-new account has no factor enrolled yet), then calls the same `SubscriptionRepository.startDirectDebitSetup()` the Billing screen already uses, then opens the system browser to GoCardless's hosted authorization page automatically — no extra click, no hunting for Settings later.
+
+**Best-effort, never blocks the success screen**: if sign-in or mandate-start fails for any reason, the success screen still shows (the company and venue are already real either way) with a plain "you can do this any time from Settings" message instead of a hard error — the company/venue's real existence never depends on Direct Debit setup succeeding.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build succeeds. The underlying signup → sign-in → start-mandate → browser-authorization chain was already proven live twice earlier this session (the plain and founding-offer tests) — what's new here is the client-side auto-triggering, verified by code review and a live click-through.
+Files: `lib/features/onboarding/company_onboarding_wizard_screen.dart`.
