@@ -213,6 +213,24 @@ Goal: capture how each FAIL was resolved, build a venue-specific playbook, sugge
 **Sprint 041 — AI-driven task lists + the AI cost architecture**
 Goal: AI-suggested task additions on top of a legally-mandated baseline the AI may never subtract from (reconfirmed guardrail, already logged 2026-09-14). This sprint is also where the **binding three-layer AI cost architecture** must be built before any live-AI feature ships: Layer 1 (free — the verified central compliance database answers most questions via plain lookup, no AI call), Layer 2 (free after first time — cached AI answers keyed by question+context, shared across every venue), Layer 3 (small cost, last resort — only genuinely novel questions reach a live model, routed to the cheapest capable one). Plus: static pre-generated "?" help content by default (live AI only on a follow-up question), and a per-venue monthly AI-usage cap with graceful fallback to Layers 1/2 rather than unlimited live calls. Every other AI-touching item in this phase (037, 040) depends on this sprint's architecture being in place first, not built ad hoc per feature.
 
+## Phase 14: First-Open Experience / Conversion Onboarding — LOGGED, NOT STARTED
+Recorded 2026-09-21 from the user's own step-by-step spec of a prospective client's first open (splash → value screen → fork → account → business setup → payoff → activate → invite team → live dashboard). Checked against the existing sign-up flow first: Sprint 034's onboarding wizard already covers account creation, company details, first venue + venue type, and a plan step — this phase is specifically the gaps found against that spec, not a rebuild of what already works. Order below is the build order, since later sprints depend on earlier ones.
+
+**Sprint 042 — First-Open Experience**
+Goal: a real splash screen (VenuRite logo, ~1.5s), a single value screen (EHO-ready / anti-gaming / audit PDF export, one "Get started" button) replacing the current plain "Welcome to VenuRite" screen, and reworking today's 3-button fork (Sign up / Join existing company / Contact VenuRite) into the cleaner 2-way split ("Set up my business" vs "My team already uses VenuRite"). Pure UI, no backend dependency.
+
+**Sprint 043 — Plan Names & Pricing Reconciliation**
+Goal: today's onboarding wizard offers plans named `starter`/`growth`/`enterprise`; the real GoCardless billing built 2026-09-21 is priced around `friends` (£19/mo) / `standard` (£39/mo) / `premier` (TBD) — these must become one consistent set before the wizard's plan step can drive real billing. Also where the founding £29/venue offer gets designed — open decision, not yet made: a permanent lower tier, a time-limited discount code, or a "first N customers" flag.
+
+**Sprint 044 — The Payoff Moment**
+Goal: immediately after first-venue creation, auto-populate a starter set of tasks/equipment for the chosen venue type and show it on screen *before* the paywall ("here's your compliance, ready to go"). The tagging data already exists (`TaskTemplateVenueTypes`, ~150 tasks loaded, Sprint 029) — this sprint builds the seeding logic and the payoff screen itself, not the underlying task library. Open decision: every tagged task for the venue type, or a curated smaller starter subset. Depends on Sprint 043 (plan/venue creation order) being settled first.
+
+**Sprint 045 — Real Activation Inside the Wizard**
+Goal: wire the actual GoCardless mandate flow (built and proven live 2026-09-21 — `gocardless-start-mandate`/`gocardless-confirm-mandate`) into the sign-up wizard's own payment step, replacing today's "we'll ask you later, from Settings" deferral. Depends on Sprint 043 (plan names must match what GoCardless actually charges).
+
+**Sprint 046 — Team Invite + Live Landing**
+Goal: add a real "invite your team" step into the wizard, reusing the existing `provision-staff-pin`/per-tier setup checklist (Phase 10, C1d) rather than building new invite mechanics; and fix the end of sign-up to sign the Director straight in and land them on their dashboard, instead of today's "Company created — sign in with your email and password" manual handoff to Leadership Access.
+
 ## Standing Non-Negotiables
 - no feature creep
 - no generic app drift
@@ -228,6 +246,7 @@ Phases 1–8 (Sprints 000–032, including the 18-item expanded-vision sequence 
 **Sprint 033 (Guided Cards), Phase C2 (branded-per-branch home screen), Phase C3 (org-builder/organogram tree), Sprint 034 (Customer Onboarding & Billing Foundation), the task-assignment grouping/bulk-assign build, Issues & Incidents + chain of command + delivery-detail capture + the Leadership Dashboard + Document Centre + 2FA + the hybrid task view + realtime push (device registration, send logic, and the end-of-shift digest) are all COMPLETE** (2026-09-14 through 2026-09-17 — see DECISIONS_LOG.md for each). Current priority:
 1. The new v1 roadmap features logged 2026-09-14 (detailed delivery records — DELIVERED 2026-09-15, per-food legal temp thresholds, AI compliance assistant, per-task AI help, central compliance knowledge base) — **logged only, not started** except the one item delivered, blocked on the v1 launch gates (food-safety professional sign-off is now on the critical path — see DECISIONS_LOG.md).
 2. Phase 12 (Sprints 035–036, Inspection Readiness Score + Due Diligence Pack) and Phase 13 (Sprints 037–041, predictive intelligence through the AI cost architecture) — **logged 2026-09-17, not started**, see DECISIONS_LOG.md's "Major roadmap expansion" entry for tiers and dependencies.
+3. **Phase 14 (Sprints 042–046, First-Open Experience / Conversion Onboarding) — logged 2026-09-21, approved to start now.** Build order: Sprint 042 first (no dependencies), then 043 (blocks 044/045), then 044/045/046.
 3. Real Stripe billing integration — schema is ready (Sprint 034), needs a real Stripe account + API keys from the user.
 4. Real SMTP — needed for real emailed invites/resets; a provider choice + credentials from the user.
 5. Distinct dashboards for Supervisor vs. Venue Manager, and Regional vs. Executive — waiting on the user's own call on what should actually differ between those tier pairs before building (asked, not yet answered).

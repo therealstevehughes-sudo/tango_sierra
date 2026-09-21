@@ -2070,3 +2070,12 @@ trial_ends_at: 2026-10-05 (the subscription's own first-payment date matches thi
 
 Verified: `flutter analyze` clean on the fix.
 Files: `lib/shared/repositories/supabase_site_repository.dart` (bug fix). Backend: `tenant-signup` Edge Function redeployed with the same fix (not in this git repo — see BACKEND_INFRA.md).
+
+## Phase 14 planning: First-Open Experience / Conversion Onboarding (2026-09-21) — LOGGED, APPROVED TO START
+User gave a full step-by-step spec of a prospective client's first open (splash → single value screen → 2-way fork → Leadership account → business setup wizard → a pre-paywall "payoff" screen showing pre-populated compliance for their venue type → activate/pay with a founding £29/venue offer → invite team → land on live dashboard). Checked against the actual current onboarding flow before planning anything, not assumed:
+
+- **Already built** (Sprint 034): Leadership account creation, the company-details/org-structure/first-venue/venue-type steps, a plan-selection step.
+- **Genuinely missing**: no splash screen anywhere in the app; the first screen is a plain "Welcome to VenuRite" with 3 buttons (not the described single value screen + 2-way fork); no pre-paywall payoff moment — a new venue starts completely empty, with equipment/task setup deferred to a separate, manual, post-login "Venue Setup Wizard"; the wizard's own "Payment" step is deliberately a preference-only placeholder that defers real billing to Settings, not a real paywall; no founding-offer pricing concept exists; team invite isn't part of the wizard at all; sign-up ends with a manual "go sign in yourself" handoff rather than landing straight on the dashboard.
+- **A real inconsistency found along the way**: the wizard's plan names (`starter`/`growth`/`enterprise`) don't match the real GoCardless pricing built earlier today (`friends`/`standard`/`premier`) — these have to be reconciled before the wizard's payment step can drive real billing.
+
+Confirmed with the user this isn't already covered by any planned future work (checked Phase 12/13 — both unrelated, AI/compliance-score features) — genuinely new. Broken into 5 sprints (042–046), logged in MASTER_PLAN.md's new Phase 14, in dependency order: 042 (first-open UI, no dependencies) → 043 (plan/pricing reconciliation, blocks 044/045) → 044 (the payoff moment) → 045 (real in-wizard activation) → 046 (team invite + live landing). User approved starting immediately — Sprint 042 is next.
