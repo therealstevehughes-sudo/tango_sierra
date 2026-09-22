@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
 import '../core/services/push_token_service.dart';
 import '../features/auth/login_screen.dart';
@@ -37,6 +38,48 @@ class _MyAppState extends ConsumerState<MyApp> {
     Timer(const Duration(milliseconds: 1500), () {
       if (mounted) setState(() => _showSplash = false);
     });
+    _restoreBackendSession();
+  }
+
+  // Pressure-test audit fix (2026-09-22) — found a real severe gap:
+  // backendAuthEnabledProvider/backendDataEnabledProvider were only ever
+  // flipped on in-memory by the sign-up wizard's own _activateBackendSession
+  // (Sprint 046). Nothing restored them on a later app relaunch, even
+  // though supabase_flutter itself persists the GoTrue session to disk —
+  // so a real paying customer who closed and reopened the app silently
+  // lost 2FA, Billing, and real email+password Leadership sign-in (it fell
+  // back to demo PIN mode instead), despite still holding a valid session
+  // server-side. Mirrors the wizard's own activation logic exactly, just
+  // triggered by a persisted session instead of a fresh sign-up. PIN-based
+  // walk-up sessions are completely unaffected — they never touch GoTrue's
+  // session storage at all (currentSessionTokenProvider, deliberately not
+  // persisted, is a different mechanism entirely).
+  Future<void> _restoreBackendSession() async {
+    try {
+      final session = gotrue.Supabase.instance.client.auth.currentSession;
+      if (session == null) return;
+
+      ref.read(backendDataEnabledProvider.notifier).state = true;
+      final localUser = await ref
+          .read(userRepositoryProvider)
+          .findBySupabaseUserId(session.user.id);
+      if (localUser == null) {
+        if (mounted) {
+          ref.read(backendDataEnabledProvider.notifier).state = false;
+        }
+        return;
+      }
+      if (!mounted) return;
+      ref.read(backendAuthEnabledProvider.notifier).state = true;
+      ref.read(currentUserProvider.notifier).state = localUser;
+    } catch (_) {
+      // No persisted session, or the backend is unreachable at launch --
+      // same "don't block startup" principle as main()'s own initSupabase
+      // try/catch. Local/demo experience continues exactly as before.
+      if (mounted) {
+        ref.read(backendDataEnabledProvider.notifier).state = false;
+      }
+    }
   }
 
   @override

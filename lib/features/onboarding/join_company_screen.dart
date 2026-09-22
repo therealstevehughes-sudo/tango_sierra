@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
 import '../auth/senior_login_screen.dart';
@@ -56,6 +58,21 @@ class _JoinCompanyScreenState extends ConsumerState<JoinCompanyScreen> {
             password: _password.text,
           );
       if (!mounted) return;
+      // Pressure-test audit fix (2026-09-22) — this call creates a real
+      // GoTrue account, but nothing used to sign it in: backendAuthEnabled
+      // Provider/backendDataEnabledProvider stayed false for this session,
+      // so SeniorLoginScreen (reachable via the fallback button below)
+      // would only ever show its demo PIN mode, not the real email+
+      // password form -- the person who just joined could never actually
+      // sign in with the credentials they were just given. Same activation
+      // pattern as CompanyOnboardingWizardScreen's own
+      // _activateBackendSession, applied to this second real sign-up path.
+      final activated = await _activateBackendSession();
+      if (!mounted) return;
+      if (activated) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        return;
+      }
       setState(() {
         _submitting = false;
         _done = _email.text.trim();
@@ -66,6 +83,32 @@ class _JoinCompanyScreenState extends ConsumerState<JoinCompanyScreen> {
         _error = e.message;
         _submitting = false;
       });
+    }
+  }
+
+  Future<bool> _activateBackendSession() async {
+    try {
+      final response = await gotrue.Supabase.instance.client.auth
+          .signInWithPassword(
+            email: _email.text.trim(),
+            password: _password.text,
+          );
+      final user = response.user;
+      if (response.session == null || user == null) return false;
+
+      ref.read(backendAuthEnabledProvider.notifier).state = true;
+      ref.read(backendDataEnabledProvider.notifier).state = true;
+
+      final localUser = await ref
+          .read(userRepositoryProvider)
+          .findBySupabaseUserId(user.id);
+      if (localUser == null) return false;
+      ref.read(currentUserProvider.notifier).state = localUser;
+      return true;
+    } catch (_) {
+      // Best-effort -- the account is already real regardless. Falls back
+      // to the "Go to sign in" success view if this doesn't work.
+      return false;
     }
   }
 

@@ -10,7 +10,9 @@ import '../../core/widgets/app_card.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/equipment_type.dart';
+import '../../shared/models/subscription.dart';
 import '../../shared/models/task_template.dart';
+import '../../shared/models/user.dart';
 import '../../shared/models/venue_type.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/subscription_providers.dart';
@@ -796,7 +798,14 @@ class _CompanyOnboardingWizardScreenState
   Widget _buildSubscriptionStep() {
     final headOfficeIncluded = _branchCount >= _headOfficeThreshold;
     final billedUnits = _branchCount + (headOfficeIncluded ? 1 : 0);
-    final totalPoundsPerMonth = billedUnits * 39;
+    // Pressure-test audit fix (2026-09-22) — this used to restate the
+    // £39/branch figure as a bare literal, a second hand-written copy of
+    // the same constant `totalMonthlyPricePence` already owns (and which
+    // gocardless-confirm-mandate actually charges). No discount code
+    // exists yet at this step (never entered at sign-up), so this is
+    // always the undiscounted rate.
+    final totalPoundsPerMonth = (totalMonthlyPricePence(billedUnits) / 100)
+        .toStringAsFixed(0);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -1154,20 +1163,28 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
                   textCapitalization: TextCapitalization.words,
                 ),
                 const SizedBox(height: 12),
+                // Pressure-test audit fix (2026-09-22) — this used to
+                // hand-type 'base'/'Team Member' etc., a second copy of the
+                // labels roleTierDisplayName() already owns (same
+                // hardcoded-list pattern that caused the venue-type
+                // dropdown bug). Only the first 3 of 5 tiers are offered —
+                // someone provisioning staff from their own fresh sign-up
+                // can't hand out regional/executive access at this step.
                 DropdownButtonFormField<String>(
                   initialValue: _staffRoleTier,
                   decoration: const InputDecoration(labelText: 'Tier'),
-                  items: const [
-                    DropdownMenuItem(value: 'base', child: Text('Team Member')),
-                    DropdownMenuItem(
-                      value: 'supervisor',
-                      child: Text('Supervisor'),
-                    ),
-                    DropdownMenuItem(
-                      value: 'venueManager',
-                      child: Text('Manager'),
-                    ),
-                  ],
+                  items: [
+                    RoleTier.base,
+                    RoleTier.supervisor,
+                    RoleTier.venueManager,
+                  ]
+                      .map(
+                        (tier) => DropdownMenuItem(
+                          value: tier.name,
+                          child: Text(roleTierDisplayName(tier)),
+                        ),
+                      )
+                      .toList(),
                   onChanged: (v) => setState(() => _staffRoleTier = v!),
                 ),
                 if (_inviteError != null) ...[

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
@@ -139,16 +140,22 @@ class _StaffProvisioningScreenState
                         (v ?? '').trim().isEmpty ? 'Required' : null,
                   ),
                   const SizedBox(height: 12),
+                  // Pressure-test audit fix (2026-09-22) — hand-typed
+                  // labels replaced with the canonical roleTierDisplayName()
+                  // helper, same fix as the wizard's own staff-invite
+                  // dropdown (same hardcoded-list pattern as the venue-type
+                  // dropdown bug that triggered this audit).
                   DropdownButtonFormField<String>(
                     initialValue: _roleTier,
                     decoration: const InputDecoration(labelText: 'Tier'),
-                    items: const [
-                      DropdownMenuItem(value: 'base', child: Text('Team Member')),
-                      DropdownMenuItem(
-                        value: 'supervisor',
-                        child: Text('Supervisor'),
-                      ),
-                    ],
+                    items: [RoleTier.base, RoleTier.supervisor]
+                        .map(
+                          (tier) => DropdownMenuItem(
+                            value: tier.name,
+                            child: Text(roleTierDisplayName(tier)),
+                          ),
+                        )
+                        .toList(),
                     onChanged: (value) {
                       if (value != null) setState(() => _roleTier = value);
                     },
