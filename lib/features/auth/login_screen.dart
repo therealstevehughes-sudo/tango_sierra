@@ -252,48 +252,90 @@ class _FreshInstallEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ResponsiveContent(
-        maxWidth: 420,
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Center(child: VenuRiteMark()),
-            const SizedBox(height: 24),
-            Text(
-              'Kitchen compliance, done right',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.headlineSmall,
-            ),
-            const SizedBox(height: 20),
-            const _ValuePoint(
-              icon: Icons.verified_outlined,
-              text: 'Always EHO-ready - real-time compliance, not a '
-                  'once-a-year scramble',
-            ),
-            const SizedBox(height: 12),
-            const _ValuePoint(
-              icon: Icons.shield_outlined,
-              text: "Built so results can't be gamed - every check is "
-                  'honest, every record stands up',
-            ),
-            const SizedBox(height: 12),
-            const _ValuePoint(
-              icon: Icons.picture_as_pdf_outlined,
-              text: 'One-tap audit export - hand an inspector a real '
-                  'record, instantly',
-            ),
-            const SizedBox(height: 28),
-            FilledButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const _ForkScreen()),
+    return SingleChildScrollView(
+      child: Center(
+        child: ResponsiveContent(
+          maxWidth: 440,
+          alignment: Alignment.center,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Visual pass (2026-09-22) — a flat headline + plain icon
+              // rows read as sterile per direct user feedback. This hero
+              // photo + Fraunces headline card is the same treatment used
+              // on the splash screen and the sign-up wizard, so a fresh
+              // install's first three screens now feel like one considered
+              // moment instead of a plain form.
+              ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: SizedBox(
+                  height: 200,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.asset('assets/images/kitchen.png', fit: BoxFit.cover),
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              AppColors.tealInk.withValues(alpha: 0.15),
+                              AppColors.tealInk.withValues(alpha: 0.82),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                            'Kitchen compliance, done right',
+                            style: const TextStyle(
+                              fontFamily: 'Fraunces',
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24,
+                              height: 1.15,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: const Text('Get started'),
-            ),
-          ],
+              const SizedBox(height: 24),
+              const _ValuePoint(
+                icon: Icons.verified_outlined,
+                text: 'Always EHO-ready - real-time compliance, not a '
+                    'once-a-year scramble',
+              ),
+              const SizedBox(height: 12),
+              const _ValuePoint(
+                icon: Icons.shield_outlined,
+                text: "Built so results can't be gamed - every check is "
+                    'honest, every record stands up',
+              ),
+              const SizedBox(height: 12),
+              const _ValuePoint(
+                icon: Icons.picture_as_pdf_outlined,
+                text: 'One-tap audit export - hand an inspector a real '
+                    'record, instantly',
+              ),
+              const SizedBox(height: 28),
+              FilledButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const _ForkScreen()),
+                ),
+                child: const Text('Get started'),
+              ),
+              const SizedBox(height: 12),
+            ],
+          ),
         ),
       ),
     );
@@ -311,10 +353,21 @@ class _ValuePoint extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: AppColors.teal, size: 22),
-        const SizedBox(width: 10),
+        Container(
+          width: 36,
+          height: 36,
+          decoration: const BoxDecoration(
+            color: AppColors.tealTint,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon, color: AppColors.teal, size: 20),
+        ),
+        const SizedBox(width: 12),
         Expanded(
-          child: Text(text, style: Theme.of(context).textTheme.bodyMedium),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 7),
+            child: Text(text, style: Theme.of(context).textTheme.bodyMedium),
+          ),
         ),
       ],
     );
@@ -359,6 +412,17 @@ class _ForkContent extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Text(
+          'How would you like to get started?',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontFamily: 'Fraunces',
+            fontWeight: FontWeight.w600,
+            fontSize: 22,
+            color: AppColors.ink,
+          ),
+        ),
+        const SizedBox(height: 24),
         FilledButton(
           onPressed: () => Navigator.push(
             context,

@@ -19,7 +19,11 @@ class AppColors {
   // Neutrals — Guided Cards' warmer, softer set (was #211E1A/#FAF8F5/
   // #E7E2DB/#D6CFC3/#6B6459 under the old "Clinical but warm" palette).
   static const Color ink = Color(0xFF2D2A26);
-  static const Color paper = Color(0xFFF7F5F2);
+  // Darkened slightly (2026-09-22, direct user feedback on the staff
+  // walk-up screen) — the previous #F7F5F2 read as too close to white,
+  // making white AppCards barely lift off the page. Still warm/light,
+  // just enough contrast for cards to read as raised.
+  static const Color paper = Color(0xFFEFEAE2);
   static const Color card = Color(0xFFFFFFFF);
   static const Color line = Color(0xFFF0ECE6);
   static const Color lineStrong = Color(0xFFECE8E2);

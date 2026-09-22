@@ -133,6 +133,27 @@ flutter:
   assets:
     - assets/fonts/Roboto-Regular.ttf
     - assets/logos/
+    - assets/images/
+
+  # First-Open Experience visual pass (2026-09-22) — Fraunces (SIL OFL,
+  # see assets/fonts/Fraunces-OFL.txt), a display serif used ONLY for
+  # headlines on the onboarding/marketing screens (splash, value screen,
+  # sign-up wizard, billing). Bundled as a real asset — not fetched over
+  # the network at runtime (google_fonts' default behaviour) — for the
+  # same reason AppTextTheme's own doc comment gives for the rest of the
+  # app: a font that can never fail to load. Every other screen's text
+  # (including this same wizard's own body copy/labels) stays on the
+  # existing device-agnostic system font — this is additive, not a
+  # replacement of that decision.
+  fonts:
+    - family: Fraunces
+      fonts:
+        - asset: assets/fonts/Fraunces-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Fraunces-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Fraunces-Bold.ttf
+          weight: 700
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

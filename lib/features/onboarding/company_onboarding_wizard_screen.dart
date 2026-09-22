@@ -348,7 +348,27 @@ class _CompanyOnboardingWizardScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(child: SingleChildScrollView(child: _buildStep())),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 250),
+                      transitionBuilder: (child, animation) => FadeTransition(
+                        opacity: animation,
+                        child: SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0.03, 0),
+                            end: Offset.zero,
+                          ).animate(animation),
+                          child: child,
+                        ),
+                      ),
+                      child: KeyedSubtree(
+                        key: ValueKey(currentStep),
+                        child: _buildStep(),
+                      ),
+                    ),
+                  ),
+                ),
                 if (_error != null) ...[
                   const SizedBox(height: 12),
                   AppBanner(kind: BannerKind.critical, child: Text(_error!)),
@@ -599,9 +619,12 @@ class _CompanyOnboardingWizardScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          "Let's add your first venue. You can add more later.",
+        const _WizardHeroBanner(
+          image: 'assets/images/kitchen.png',
+          title: "Let's add your first venue",
         ),
+        const SizedBox(height: 16),
+        const Text('You can add more venues later.'),
         const SizedBox(height: 16),
         TextField(
           controller: _venueName,
@@ -729,11 +752,16 @@ class _CompanyOnboardingWizardScreenState
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const _WizardHeroBanner(
+              image: 'assets/images/front_of_house.png',
+              title: "Here's your compliance, ready to go",
+            ),
+            const SizedBox(height: 16),
             AppBanner(
               kind: BannerKind.info,
               child: Text(
-                "Here's your compliance, ready to go - $totalTasks tasks "
-                'across ${data.tasksBySegment.length} sections'
+                '$totalTasks tasks across ${data.tasksBySegment.length} '
+                'sections'
                 '${data.equipment.isNotEmpty ? ' and ${data.equipment.length} equipment types' : ''} '
                 'already set up for a $_venueType.',
               ),
@@ -1176,6 +1204,61 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
           child: Text(activated ? 'Go to dashboard' : 'Go to sign in'),
         ),
       ],
+    );
+  }
+}
+
+// Visual pass (2026-09-22, "considered lift" onboarding redesign) — a
+// small compact hero banner used at the top of a couple of wizard steps
+// (first venue, payoff) so the wizard doesn't read as a flat sequence of
+// plain forms. Same photo + gradient + Fraunces headline treatment as the
+// splash screen and the fresh-install value screen, just shorter.
+class _WizardHeroBanner extends StatelessWidget {
+  const _WizardHeroBanner({required this.image, required this.title});
+
+  final String image;
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: SizedBox(
+        height: 120,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(image, fit: BoxFit.cover),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.tealInk.withValues(alpha: 0.1),
+                    AppColors.tealInk.withValues(alpha: 0.8),
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    fontFamily: 'Fraunces',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 19,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
