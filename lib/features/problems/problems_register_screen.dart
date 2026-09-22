@@ -79,7 +79,17 @@ class _ProblemsRegisterScreenState
                               ),
                               ButtonSegment(
                                 value: ProblemFilter.notCompleted,
-                                label: Text('Not Completed'),
+                                // A forced line break, not left to the
+                                // layout to guess (2026-09-22, user's own
+                                // report) — at this segment's narrow
+                                // width, letting it wrap on its own broke
+                                // "Completed" mid-word rather than
+                                // wrapping at the space between the two
+                                // whole words.
+                                label: Text(
+                                  'Not\nCompleted',
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ],
                             selected: {_filter},

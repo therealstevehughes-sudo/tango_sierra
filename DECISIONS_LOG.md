@@ -2145,3 +2145,13 @@ Added matching `filledButtonTheme`/`outlinedButtonTheme` entries with the identi
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched — visual confirmation with the user pending.
 Files: `lib/app/theme/app_theme.dart`.
+
+## Fixed: "Not Completed" filter label broke mid-word (2026-09-22)
+Found from the user's own screenshot of the Fails & Problems Register's Task Problems filter — at the segment's narrow width, Flutter's default wrapping had nowhere to break except mid-character ("Not Co" / "mpleted"), since "Completed" alone still didn't fit on one line and there's no space within it to wrap at.
+
+**Best practice applied**: never leave a word-break to the layout's last resort — force the break at an actual word boundary you control. Changed the label from a plain `'Not Completed'` string to an explicit `'Not\nCompleted'` with centered text, so it always wraps as two whole words on two lines, never splits a word.
+
+Checked for the same risk elsewhere (`grep` across every `ButtonSegment`/`SegmentedButton` label in the app) — the only other multi-word segment labels are "By Person"/"By Task" (staff assignment screen), both short enough that this hasn't been reported as an issue; left unchanged unless it turns out to be a problem too.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/features/problems/problems_register_screen.dart`.
