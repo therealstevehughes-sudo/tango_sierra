@@ -41,6 +41,11 @@ class TaskTemplate {
   // order item 4, Sub-sprint B) — true only on "Supplier traceability
   // captured"; task_screen.dart shows a supplier picker when set.
   final bool requiresSupplierSelection;
+  // Randomised photo-check (2026-09-22) — marks a normally Tick-only task
+  // (PPE/hygiene basics) as eligible for an unpredictable photo-proof
+  // spot-check, computed per schedule/day by TaskController.loadTasks.
+  // See app_database.dart's TaskTemplates table for the full reasoning.
+  final bool randomPhotoCheckEnabled;
 
   // Null on rows created before Sprint 023 (can't be reconstructed from
   // isCritical without guessing high vs. standard); falls back to the
@@ -74,5 +79,6 @@ class TaskTemplate {
     this.jobRole,
     this.guidanceText,
     this.requiresSupplierSelection = false,
+    this.randomPhotoCheckEnabled = false,
   });
 }

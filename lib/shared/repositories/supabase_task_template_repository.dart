@@ -213,5 +213,7 @@ class SupabaseTaskTemplateRepository implements TaskTemplateRepository {
         : JobRole.values.byName(row['job_role'] as String),
     guidanceText: row['guidance_text'] as String?,
     requiresSupplierSelection: row['requires_supplier_selection'] as bool,
+    randomPhotoCheckEnabled:
+        row['random_photo_check_enabled'] as bool? ?? false,
   );
 }

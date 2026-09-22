@@ -374,6 +374,17 @@ class TaskTemplates extends Table {
   // append-only pattern `_ensureTaskEnrichment` already established above.
   BoolColumn get requiresSupplierSelection =>
       boolean().withDefault(const Constant(false))();
+  // Randomised photo-check (2026-09-22, direct user request) — marks a
+  // normally Tick-only task (PPE/hygiene basics: hairnet, apron, gloves,
+  // handwashing) as eligible for an unpredictable photo-proof spot-check.
+  // Doesn't change requiresPhoto itself (still false, so it behaves as a
+  // plain tick on every ordinary day) — TaskController.loadTasks computes
+  // whether TODAY is a spot-check day, per schedule, deterministically
+  // seeded from (scheduleId, date) so it can't be predicted or gamed by
+  // opening/closing the app, but isn't visible anywhere before that day
+  // arrives either. See ResolvedTask.isRandomPhotoCheck.
+  BoolColumn get randomPhotoCheckEnabled =>
+      boolean().withDefault(const Constant(false))();
 }
 
 @DataClassName('AreaEntity')
@@ -1011,7 +1022,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 47;
+  int get schemaVersion => 48;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1443,6 +1454,11 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(issues, issues.departmentId);
         await m.addColumn(issues, issues.teamId);
       }
+      if (from < 48) {
+        // Randomised photo-check (2026-09-22) -- opt-in per template,
+        // starts false on every existing row.
+        await m.addColumn(taskTemplates, taskTemplates.randomPhotoCheckEnabled);
+      }
     },
     beforeOpen: (details) async {
       // Phase C1a — the fake company / venue / people are demo scaffolding
@@ -1536,6 +1552,9 @@ class AppDatabase extends _$AppDatabase {
       // register + traceability (Sprint 031, finalized beta build order
       // item 4, Sub-sprint B).
       await _ensureSupplierTraceabilityFlag();
+
+      // Idempotent, same pattern again. Randomised photo-check (2026-09-22).
+      await _ensureRandomPhotoCheckFlag();
 
       // Idempotent — safe on every open. Only touches rows left over from
       // before siteId existed. A real (non-demo) install has no such rows
@@ -5182,6 +5201,72 @@ class AppDatabase extends _$AppDatabase {
         requiresSupplierSelection: const Value(true),
       ),
     );
+  }
+
+  // Randomised photo-check (2026-09-22, direct user request) — mirrors
+  // _ensureSupplierTraceabilityFlag exactly: applies the new flag to a
+  // fixed set of existing PPE/hygiene-basics templates (Tick-only tasks,
+  // done every shift, easiest to tap without actually checking) as a NEW
+  // VERSION each, never an in-place UPDATE, per this table's append-only
+  // versioning rule. Deliberately NOT every hygiene task — "Fitness-to-
+  // work" is a declaration a photo can't verify, "No jewellery/false
+  // nails" is lower-risk — scoped to the ones a photo genuinely proves.
+  static const _randomPhotoCheckTitles = [
+    'Handwashing on entry / between tasks',
+    'Clean uniform / apron',
+    'Hair covering / beard net',
+    'Cuts covered (blue plaster)',
+    'Gloves available & changed appropriately',
+  ];
+
+  Future<void> _ensureRandomPhotoCheckFlag() async {
+    final allRows = await select(taskTemplates).get();
+    final referencedAsPrevious = allRows
+        .map((r) => r.previousVersionId)
+        .whereType<int>()
+        .toSet();
+    final currentByTitle = {
+      for (final row in allRows)
+        if (!referencedAsPrevious.contains(row.id)) row.title: row,
+    };
+
+    for (final title in _randomPhotoCheckTitles) {
+      final current = currentByTitle[title];
+      if (current == null) continue;
+      if (current.randomPhotoCheckEnabled) continue;
+
+      await into(taskTemplates).insert(
+        TaskTemplatesCompanion.insert(
+          templateGroupId: current.templateGroupId,
+          versionNumber: current.versionNumber + 1,
+          previousVersionId: Value(current.id),
+          title: current.title,
+          segment: current.segment,
+          applicableRoleTiers: current.applicableRoleTiers,
+          method: current.method,
+          requiresPhoto: Value(current.requiresPhoto),
+          requiresNotes: Value(current.requiresNotes),
+          customFieldsJson: Value(current.customFieldsJson),
+          minLimit: Value(current.minLimit),
+          maxLimit: Value(current.maxLimit),
+          unit: Value(current.unit),
+          legalLimitCategory: Value(current.legalLimitCategory),
+          isCritical: Value(current.isCritical),
+          priority: Value(current.priority),
+          requiresCorrectiveActionOnFail: Value(
+            current.requiresCorrectiveActionOnFail,
+          ),
+          fixInstructions: Value(current.fixInstructions),
+          equipmentTypeId: Value(current.equipmentTypeId),
+          createdAt: DateTime.now(),
+          createdByUserId: Value(current.createdByUserId),
+          jobRole: Value(current.jobRole),
+          guidanceText: Value(current.guidanceText),
+          requiresSupplierSelection: Value(current.requiresSupplierSelection),
+          randomPhotoCheckEnabled: const Value(true),
+        ),
+      );
+    }
   }
 
   Future<void> _backfillSiteIds(int siteId) async {

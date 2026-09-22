@@ -52,6 +52,12 @@ class ResolvedTask {
   // order item 4, Sub-sprint B) — true only on "Supplier traceability
   // captured"; task_screen.dart shows a supplier picker when set.
   final bool requiresSupplierSelection;
+  // Randomised photo-check (2026-09-22) — true only when TaskController
+  // rolled a spot-check for THIS schedule, TODAY (see its own doc comment
+  // for how). requiresPhoto is already true whenever this is, so nothing
+  // else needs to check both — this exists purely so the UI can show a
+  // distinct "today's spot-check" note instead of a generic photo prompt.
+  final bool isRandomPhotoCheck;
 
   const ResolvedTask({
     this.scheduleId,
@@ -78,6 +84,7 @@ class ResolvedTask {
     this.windowEndMinutesExclusive,
     this.sortOrder,
     this.requiresSupplierSelection = false,
+    this.isRandomPhotoCheck = false,
   });
 
   bool get hasNumericRange => minLimit != null && maxLimit != null;

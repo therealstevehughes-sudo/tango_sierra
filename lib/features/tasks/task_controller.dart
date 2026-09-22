@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import '../../shared/models/notification_rule.dart';
 import '../../shared/models/problem_status_event.dart';
@@ -49,6 +50,25 @@ class TaskController {
 
   bool get hasTasks => tasks.isNotEmpty;
 
+  // Randomised photo-check (2026-09-22, direct user request) — roughly
+  // this fraction of eligible days get upgraded to a photo-proof spot
+  // check. Deliberately a plain constant, not manager-configurable yet
+  // (no UI for it was asked for) -- revisit if real usage shows it needs
+  // tuning per venue.
+  static const _randomPhotoCheckProbability = 0.2;
+
+  // Seeded from (scheduleId, today's date), not a fresh Random() every
+  // call -- staff can't predict which day is a spot-check day (the seed
+  // is opaque without recomputing this exact hash), but re-opening the
+  // task list five times in the same day always gives the same answer
+  // instead of re-rolling and creating a photo requirement that
+  // flickers on and off mid-shift.
+  bool _isRandomPhotoCheckToday(int scheduleId) {
+    final now = DateTime.now();
+    final seed = Object.hash(scheduleId, now.year, now.month, now.day);
+    return Random(seed).nextDouble() < _randomPhotoCheckProbability;
+  }
+
   Future<void> loadTasks() async {
     final schedules = await _scheduleRepository.getForStaffMember(
       _currentUser.id,
@@ -90,6 +110,11 @@ class TaskController {
         }
       }
 
+      final isRandomPhotoCheck =
+          template.randomPhotoCheckEnabled &&
+          !template.requiresPhoto &&
+          _isRandomPhotoCheckToday(schedule.id);
+
       resolved.add(
         ResolvedTask(
           scheduleId: schedule.id,
@@ -97,7 +122,8 @@ class TaskController {
           title: template.title,
           segment: template.segment,
           method: template.method,
-          requiresPhoto: template.requiresPhoto,
+          requiresPhoto: template.requiresPhoto || isRandomPhotoCheck,
+          isRandomPhotoCheck: isRandomPhotoCheck,
           requiresNotes: template.requiresNotes,
           minLimit: template.minLimit,
           maxLimit: template.maxLimit,

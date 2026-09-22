@@ -869,7 +869,25 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               labelText: "Notes",
                             ),
                           ),
-                        if (task.requiresPhoto)
+                        if (task.requiresPhoto) ...[
+                          // Randomised photo-check (2026-09-22) — a
+                          // distinct note, not a generic photo prompt, so
+                          // staff understand WHY a normally tick-only task
+                          // needs a photo today (transparency about the
+                          // mechanism existing, without ever revealing
+                          // which future days will be checked).
+                          if (task.isRandomPhotoCheck)
+                            const Padding(
+                              padding: EdgeInsets.only(top: 12),
+                              child: AppBanner(
+                                kind: BannerKind.info,
+                                child: Text(
+                                  "Today's spot-check - a photo is needed "
+                                  'this time to confirm this was actually '
+                                  'done.',
+                                ),
+                              ),
+                            ),
                           Padding(
                             padding: const EdgeInsets.only(top: 12),
                             child: ElevatedButton(
@@ -881,6 +899,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               ),
                             ),
                           ),
+                        ],
                         if (task.requiresSupplierSelection)
                           DeliveryDetailForm(
                             key: ValueKey(controller.currentIndex),

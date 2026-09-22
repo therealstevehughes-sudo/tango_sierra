@@ -6967,6 +6967,21 @@ class $TaskTemplatesTable extends TaskTemplates
         ),
         defaultValue: const Constant(false),
       );
+  static const VerificationMeta _randomPhotoCheckEnabledMeta =
+      const VerificationMeta('randomPhotoCheckEnabled');
+  @override
+  late final GeneratedColumn<bool> randomPhotoCheckEnabled =
+      GeneratedColumn<bool>(
+        'random_photo_check_enabled',
+        aliasedName,
+        false,
+        type: DriftSqlType.bool,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("random_photo_check_enabled" IN (0, 1))',
+        ),
+        defaultValue: const Constant(false),
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -6994,6 +7009,7 @@ class $TaskTemplatesTable extends TaskTemplates
     jobRole,
     guidanceText,
     requiresSupplierSelection,
+    randomPhotoCheckEnabled,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -7210,6 +7226,15 @@ class $TaskTemplatesTable extends TaskTemplates
         ),
       );
     }
+    if (data.containsKey('random_photo_check_enabled')) {
+      context.handle(
+        _randomPhotoCheckEnabledMeta,
+        randomPhotoCheckEnabled.isAcceptableOrUnknown(
+          data['random_photo_check_enabled']!,
+          _randomPhotoCheckEnabledMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -7319,6 +7344,10 @@ class $TaskTemplatesTable extends TaskTemplates
         DriftSqlType.bool,
         data['${effectivePrefix}requires_supplier_selection'],
       )!,
+      randomPhotoCheckEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}random_photo_check_enabled'],
+      )!,
     );
   }
 
@@ -7355,6 +7384,7 @@ class TaskTemplateEntity extends DataClass
   final String? jobRole;
   final String? guidanceText;
   final bool requiresSupplierSelection;
+  final bool randomPhotoCheckEnabled;
   const TaskTemplateEntity({
     required this.id,
     required this.templateGroupId,
@@ -7381,6 +7411,7 @@ class TaskTemplateEntity extends DataClass
     this.jobRole,
     this.guidanceText,
     required this.requiresSupplierSelection,
+    required this.randomPhotoCheckEnabled,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -7438,6 +7469,7 @@ class TaskTemplateEntity extends DataClass
     map['requires_supplier_selection'] = Variable<bool>(
       requiresSupplierSelection,
     );
+    map['random_photo_check_enabled'] = Variable<bool>(randomPhotoCheckEnabled);
     return map;
   }
 
@@ -7490,6 +7522,7 @@ class TaskTemplateEntity extends DataClass
           ? const Value.absent()
           : Value(guidanceText),
       requiresSupplierSelection: Value(requiresSupplierSelection),
+      randomPhotoCheckEnabled: Value(randomPhotoCheckEnabled),
     );
   }
 
@@ -7532,6 +7565,9 @@ class TaskTemplateEntity extends DataClass
       requiresSupplierSelection: serializer.fromJson<bool>(
         json['requiresSupplierSelection'],
       ),
+      randomPhotoCheckEnabled: serializer.fromJson<bool>(
+        json['randomPhotoCheckEnabled'],
+      ),
     );
   }
   @override
@@ -7567,6 +7603,9 @@ class TaskTemplateEntity extends DataClass
       'requiresSupplierSelection': serializer.toJson<bool>(
         requiresSupplierSelection,
       ),
+      'randomPhotoCheckEnabled': serializer.toJson<bool>(
+        randomPhotoCheckEnabled,
+      ),
     };
   }
 
@@ -7596,6 +7635,7 @@ class TaskTemplateEntity extends DataClass
     Value<String?> jobRole = const Value.absent(),
     Value<String?> guidanceText = const Value.absent(),
     bool? requiresSupplierSelection,
+    bool? randomPhotoCheckEnabled,
   }) => TaskTemplateEntity(
     id: id ?? this.id,
     templateGroupId: templateGroupId ?? this.templateGroupId,
@@ -7636,6 +7676,8 @@ class TaskTemplateEntity extends DataClass
     guidanceText: guidanceText.present ? guidanceText.value : this.guidanceText,
     requiresSupplierSelection:
         requiresSupplierSelection ?? this.requiresSupplierSelection,
+    randomPhotoCheckEnabled:
+        randomPhotoCheckEnabled ?? this.randomPhotoCheckEnabled,
   );
   TaskTemplateEntity copyWithCompanion(TaskTemplatesCompanion data) {
     return TaskTemplateEntity(
@@ -7695,6 +7737,9 @@ class TaskTemplateEntity extends DataClass
       requiresSupplierSelection: data.requiresSupplierSelection.present
           ? data.requiresSupplierSelection.value
           : this.requiresSupplierSelection,
+      randomPhotoCheckEnabled: data.randomPhotoCheckEnabled.present
+          ? data.randomPhotoCheckEnabled.value
+          : this.randomPhotoCheckEnabled,
     );
   }
 
@@ -7727,7 +7772,8 @@ class TaskTemplateEntity extends DataClass
           ..write('priority: $priority, ')
           ..write('jobRole: $jobRole, ')
           ..write('guidanceText: $guidanceText, ')
-          ..write('requiresSupplierSelection: $requiresSupplierSelection')
+          ..write('requiresSupplierSelection: $requiresSupplierSelection, ')
+          ..write('randomPhotoCheckEnabled: $randomPhotoCheckEnabled')
           ..write(')'))
         .toString();
   }
@@ -7759,6 +7805,7 @@ class TaskTemplateEntity extends DataClass
     jobRole,
     guidanceText,
     requiresSupplierSelection,
+    randomPhotoCheckEnabled,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -7789,7 +7836,8 @@ class TaskTemplateEntity extends DataClass
           other.priority == this.priority &&
           other.jobRole == this.jobRole &&
           other.guidanceText == this.guidanceText &&
-          other.requiresSupplierSelection == this.requiresSupplierSelection);
+          other.requiresSupplierSelection == this.requiresSupplierSelection &&
+          other.randomPhotoCheckEnabled == this.randomPhotoCheckEnabled);
 }
 
 class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
@@ -7818,6 +7866,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
   final Value<String?> jobRole;
   final Value<String?> guidanceText;
   final Value<bool> requiresSupplierSelection;
+  final Value<bool> randomPhotoCheckEnabled;
   const TaskTemplatesCompanion({
     this.id = const Value.absent(),
     this.templateGroupId = const Value.absent(),
@@ -7844,6 +7893,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     this.jobRole = const Value.absent(),
     this.guidanceText = const Value.absent(),
     this.requiresSupplierSelection = const Value.absent(),
+    this.randomPhotoCheckEnabled = const Value.absent(),
   });
   TaskTemplatesCompanion.insert({
     this.id = const Value.absent(),
@@ -7871,6 +7921,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     this.jobRole = const Value.absent(),
     this.guidanceText = const Value.absent(),
     this.requiresSupplierSelection = const Value.absent(),
+    this.randomPhotoCheckEnabled = const Value.absent(),
   }) : templateGroupId = Value(templateGroupId),
        versionNumber = Value(versionNumber),
        title = Value(title),
@@ -7904,6 +7955,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     Expression<String>? jobRole,
     Expression<String>? guidanceText,
     Expression<bool>? requiresSupplierSelection,
+    Expression<bool>? randomPhotoCheckEnabled,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -7935,6 +7987,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
       if (guidanceText != null) 'guidance_text': guidanceText,
       if (requiresSupplierSelection != null)
         'requires_supplier_selection': requiresSupplierSelection,
+      if (randomPhotoCheckEnabled != null)
+        'random_photo_check_enabled': randomPhotoCheckEnabled,
     });
   }
 
@@ -7964,6 +8018,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     Value<String?>? jobRole,
     Value<String?>? guidanceText,
     Value<bool>? requiresSupplierSelection,
+    Value<bool>? randomPhotoCheckEnabled,
   }) {
     return TaskTemplatesCompanion(
       id: id ?? this.id,
@@ -7993,6 +8048,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
       guidanceText: guidanceText ?? this.guidanceText,
       requiresSupplierSelection:
           requiresSupplierSelection ?? this.requiresSupplierSelection,
+      randomPhotoCheckEnabled:
+          randomPhotoCheckEnabled ?? this.randomPhotoCheckEnabled,
     );
   }
 
@@ -8080,6 +8137,11 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
         requiresSupplierSelection.value,
       );
     }
+    if (randomPhotoCheckEnabled.present) {
+      map['random_photo_check_enabled'] = Variable<bool>(
+        randomPhotoCheckEnabled.value,
+      );
+    }
     return map;
   }
 
@@ -8112,7 +8174,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
           ..write('priority: $priority, ')
           ..write('jobRole: $jobRole, ')
           ..write('guidanceText: $guidanceText, ')
-          ..write('requiresSupplierSelection: $requiresSupplierSelection')
+          ..write('requiresSupplierSelection: $requiresSupplierSelection, ')
+          ..write('randomPhotoCheckEnabled: $randomPhotoCheckEnabled')
           ..write(')'))
         .toString();
   }
@@ -31424,6 +31487,7 @@ typedef $$TaskTemplatesTableCreateCompanionBuilder =
       Value<String?> jobRole,
       Value<String?> guidanceText,
       Value<bool> requiresSupplierSelection,
+      Value<bool> randomPhotoCheckEnabled,
     });
 typedef $$TaskTemplatesTableUpdateCompanionBuilder =
     TaskTemplatesCompanion Function({
@@ -31452,6 +31516,7 @@ typedef $$TaskTemplatesTableUpdateCompanionBuilder =
       Value<String?> jobRole,
       Value<String?> guidanceText,
       Value<bool> requiresSupplierSelection,
+      Value<bool> randomPhotoCheckEnabled,
     });
 
 final class $$TaskTemplatesTableReferences
@@ -31633,6 +31698,11 @@ class $$TaskTemplatesTableFilterComposer
 
   ColumnFilters<bool> get requiresSupplierSelection => $composableBuilder(
     column: $table.requiresSupplierSelection,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get randomPhotoCheckEnabled => $composableBuilder(
+    column: $table.randomPhotoCheckEnabled,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -31826,6 +31896,11 @@ class $$TaskTemplatesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get randomPhotoCheckEnabled => $composableBuilder(
+    column: $table.randomPhotoCheckEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$TaskTemplatesTableOrderingComposer get previousVersionId {
     final $$TaskTemplatesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -31996,6 +32071,11 @@ class $$TaskTemplatesTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<bool> get randomPhotoCheckEnabled => $composableBuilder(
+    column: $table.randomPhotoCheckEnabled,
+    builder: (column) => column,
+  );
+
   $$TaskTemplatesTableAnnotationComposer get previousVersionId {
     final $$TaskTemplatesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -32124,6 +32204,7 @@ class $$TaskTemplatesTableTableManager
                 Value<String?> jobRole = const Value.absent(),
                 Value<String?> guidanceText = const Value.absent(),
                 Value<bool> requiresSupplierSelection = const Value.absent(),
+                Value<bool> randomPhotoCheckEnabled = const Value.absent(),
               }) => TaskTemplatesCompanion(
                 id: id,
                 templateGroupId: templateGroupId,
@@ -32150,6 +32231,7 @@ class $$TaskTemplatesTableTableManager
                 jobRole: jobRole,
                 guidanceText: guidanceText,
                 requiresSupplierSelection: requiresSupplierSelection,
+                randomPhotoCheckEnabled: randomPhotoCheckEnabled,
               ),
           createCompanionCallback:
               ({
@@ -32179,6 +32261,7 @@ class $$TaskTemplatesTableTableManager
                 Value<String?> jobRole = const Value.absent(),
                 Value<String?> guidanceText = const Value.absent(),
                 Value<bool> requiresSupplierSelection = const Value.absent(),
+                Value<bool> randomPhotoCheckEnabled = const Value.absent(),
               }) => TaskTemplatesCompanion.insert(
                 id: id,
                 templateGroupId: templateGroupId,
@@ -32205,6 +32288,7 @@ class $$TaskTemplatesTableTableManager
                 jobRole: jobRole,
                 guidanceText: guidanceText,
                 requiresSupplierSelection: requiresSupplierSelection,
+                randomPhotoCheckEnabled: randomPhotoCheckEnabled,
               ),
           withReferenceMapper: (p0) => p0
               .map(
