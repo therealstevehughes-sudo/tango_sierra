@@ -2226,3 +2226,27 @@ Confirmed clean by the same audit (no action needed): founding-offer/plan-name w
 
 Verified: `flutter analyze` clean, all 32 unit tests passing, fresh Windows build.
 Files: `lib/app/app.dart`, `lib/features/onboarding/join_company_screen.dart`, `lib/features/onboarding/company_onboarding_wizard_screen.dart`, `lib/features/onboarding/staff_provisioning_screen.dart`.
+
+## App-wide design follow-up, round 1 (2026-09-22)
+Extended the onboarding visual pass to the two screens every tier lands on multiple times a shift (`WorkerHubScreen`, `TierHomeScreen`): Fraunces headline on "What would you like to do?", deliberately NO hero photo (unlike onboarding) — reached too often for a repeated image to read as anything but clutter.
+
+**Faint section-background experiment, user-driven end to end**: user asked to try a very faint (started 5%) full-bleed department photo behind screen content (never behind buttons/cards) on those two hub screens. Reaction: "it's not bad... maybe also the 'log in screens'" → added to the staff-picker `LoginScreen` too → "I think 10% may be manageable" → bumped to 10% → on the rebuilt result: "I really like it." New `SectionBackground` widget (`lib/core/widgets/section_background.dart`), image chosen from the signed-in user's `JobRole` (defaults to kitchen photo — there's no real per-screen "section" concept yet). **10% is now the confirmed working opacity for this pattern**, not still-experimental.
+
+**Border follow-up**: direct feedback "the buttons need a darker border" (staff-picker cards specifically), then "thicker border on the buttons and maybe darker" after the color-only fix wasn't enough. Two rounds: (1) darkened `AppColors.line`/`lineStrong`, (2) bumped `AppCard`'s and the Material `CardThemeData`'s border to 1.5px using `lineStrong`, and fixed the staff-picker tile's separate hand-rolled border (doesn't route through `AppCard`) to match.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows builds at each step, each confirmed live by the user before moving on.
+Files: `lib/features/tasks/worker_hub_screen.dart`, `lib/features/home/tier_home_screen.dart`, `lib/features/auth/login_screen.dart`, `lib/core/widgets/section_background.dart` (new), `lib/app/theme/app_colors.dart`, `lib/app/theme/app_theme.dart`, `lib/core/widgets/app_card.dart`.
+
+## Randomised photo-check spot checks (2026-09-22)
+User's own question, turned into a build: "some tasks may become mundane and easily skipped without actually being given the correct level of attention (hair net, apron, etc.) — should [they] have randomised photo proof requirements, on random days, in no order or predictable way?" Agreed this directly serves the app's own "built so results can't be gamed" identity — PPE/hygiene-basics tasks are Tick-only and done every shift, the shape of task most vulnerable to being tapped without actually being checked.
+
+**Design**: opt-in per-template flag (`TaskTemplates.randomPhotoCheckEnabled`, schema v48), applied to 5 existing hygiene/PPE templates (Handwashing, Clean uniform/apron, Hair covering/beard net, Cuts covered, Gloves) as new versions — same append-only pattern as the earlier supplier-traceability flag. Deliberately excludes "Fitness-to-work" (a declaration, not something a photo proves) and "No jewellery/false nails" (lower risk) — scoped to tasks a photo genuinely verifies.
+
+`TaskController.loadTasks` computes whether today is a spot-check day per schedule, seeded deterministically from `(scheduleId, date)` — ~20% chance per eligible day. Deterministic seeding means it can't flicker mid-shift across repeated app opens, but staff can't predict or compute it without knowing the exact hash. When it lands, the task upgrades from a plain tick to a real photo requirement, with a distinct on-screen banner explaining why ("today's spot-check") — transparent that the mechanism exists, without ever revealing which future days will be checked.
+
+Backend (Supabase) repository mapping added for parity, gracefully defaulting `false` if the column doesn't exist there yet (PostgREST omits unknown keys, no crash) — the server-side column/migration is a follow-up, not blocking, since this is fully functional for local/demo installs today.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched and the schema migration confirmed running cleanly against the real local dev database (not just a fresh install).
+Files: `lib/core/storage/app_database.dart` (+ generated `.g.dart`), `lib/shared/models/task_template.dart`, `lib/shared/repositories/task_template_repository.dart`, `lib/shared/repositories/supabase_task_template_repository.dart`, `lib/features/tasks/task_model.dart`, `lib/features/tasks/task_controller.dart`, `lib/features/tasks/task_screen.dart`.
+
+**Not yet done**: backend `task_templates` table doesn't have the `random_photo_check_enabled` column yet (no SSH migration run this session) — a backend-hosted org won't get this feature until that lands and an equivalent one-off flag-seeding step runs server-side.
