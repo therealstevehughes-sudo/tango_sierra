@@ -282,3 +282,110 @@ Key confirmed facts:
 - Does the Base/Mid/Top split match how your target venues actually operate?
 - Any equipment types missing from your 18 seeded ones that tasks here need?
 - Anything specific to your ICP's venue types that a generic HoReCa list wouldn't catch?
+
+---
+
+## BAR & CELLAR GAP-CHECK *(added 2026-09-22, pending review)*
+
+Segment 19 covers day-to-day bar hygiene well but is genuinely thin on **cellar plant safety**, which has real legal weight (COSHH 2002 + Confined Spaces Regulations 1997) that a bar-hygiene lens doesn't surface. Three specific gaps found and drafted into Segment 19 additions below rather than a new segment, since they're a natural extension of 19's existing cellar line:
+
+- **CO2 leak detection** — cellars storing/dispensing CO2 (or mixed gas) require a written COSHH risk assessment for the gas hazard; CO2 is heavier than air, colourless and odourless, and pools at floor level in poorly ventilated cellars — a documented UK cause of fatalities in the trade [LAW — COSHH 2002; Confined Spaces Regulations 1997]. Fixed CO2 monitors/alarms and forced ventilation (industry rule of thumb: ~20 air changes/hour) are the standard control [BEST].
+- **Keg/cylinder changing procedure** — physical safe-lifting and correct connection procedure to avoid gas-line/cylinder incidents; no single statutory figure, sits under general COSHH + manual handling duty of care [LAW — general duty, no fixed standard].
+- **Cellar as confined space** — if the cellar has poor natural ventilation/limited access, it may need formal confined-space entry controls (gas-test before entry, no lone working) under the Confined Spaces Regulations 1997 [LAW].
+
+### Segment 19 additions (cellar plant safety)
+- CO2/gas monitor check & alarm test — Tick — Daily — Critical — Base — COSHH 2002; Confined Spaces Regs 1997 [LAW]
+- Cellar CO2 written risk assessment current — Tick+Note — Annually / on change — Critical — Mid — COSHH 2002 [LAW]
+- Cellar ventilation (forced extraction) running — Tick — Daily — High — Base — ~20 air changes/hr [BEST]
+- Keg/cylinder change follows safe procedure (no lone working if confined) — Tick — Per change — High — Base — Confined Spaces Regs 1997 [LAW]
+- Cellar access restricted / signed as gas hazard — Tick — Weekly — Standard — Mid
+
+No further gap found beyond this — the rest of Segment 19 (line cleaning, optics, glassware, ice hygiene) is adequately covered already.
+
+---
+
+## SEGMENT 22 — MAINTENANCE *(new, drafted 2026-09-22, pending review)*
+*(building/plant maintenance — distinct from Segment 13 "Preventive Maintenance," which stays kitchen-equipment-focused; this segment is the full building-maintenance department and cross-references rather than duplicates Segment 13. Applies to: all venue types with a building to maintain — hotels need the full segment, a small café/restaurant typically only needs the electrical/gas/fire subset, not the room-by-room water hygiene load.)*
+
+### 22.1 Electrical & gas safety
+- Fixed wiring inspection (EICR) in date — Tick+Note — 5-yearly (or per risk assessment) — Critical — Top — Electricity at Work Regs 1989 [LAW]; EICR interval is risk-based, not fixed by statute
+- Portable appliance (PAT) programme up to date — Tick+Note — Per schedule (risk-based, typically annual for handheld kitchen/bar equipment) — High — Mid — Electricity at Work Regs 1989 [LAW] duty to maintain; PAT itself is best-practice evidence, no HSE-mandated interval [BEST]
+- Emergency lighting test — Tick — Monthly (function) / Annual (3hr duration) — High — Mid — BS 5266-1 [BEST]
+- Commercial gas appliance safety check — Tick+Note — Annually (recommended; no blanket statutory interval for non-let commercial premises) — Critical — Top — Gas Safety (Installation and Use) Regs 1998 [LAW] duty to keep safe; Gas Safe registered engineer required
+- Gas appliance interlock / ventilation not obstructed — Tick — Weekly — High — Base — cross-ref Segment 5.3
+
+### 22.2 Water hygiene (Legionella)
+- Legionella risk assessment current — Tick+Note — Every 2 years or on system change — Critical — Top — HSE ACOP L8 / L8 Approved Code of Practice [LAW]
+- Sentinel outlet temperature check (hot ≥50°C at tap within 1 min, cold <20°C) — Data — Monthly — High — Mid — ACOP L8 [FSA-equivalent guidance, non-statutory figures but expected by HSE/EHO]
+- Little-used outlet flushing (unoccupied rooms/areas) — Tick — Weekly — High — Base — ACOP L8 guidance: flush weekly minimum where not in regular use [BEST/HSE guidance]
+- Calorifier / tank temperature check — Data — Monthly — High — Mid — ACOP L8: stored hot water ≥60°C, cold storage <20°C
+- Shower heads/hoses descaled & inspected for biofilm — Tick+Photo — Quarterly — Standard — Base — ACOP L8
+- Water system log book (L8 record) up to date — Tick — Monthly — High — Mid — ACOP L8 [LAW] — record-keeping is a legal duty even where specific figures are guidance
+
+### 22.3 Fire safety equipment
+- Fire extinguisher/blanket service — Tick — Annually (professional) / Monthly (visual) — High — Mid — cross-ref Segment 11; BS 5306-3
+- Fire alarm system test (call point) — Tick — Weekly — Critical — Mid — BS 5839-1 [BEST]; general duty under Regulatory Reform (Fire Safety) Order 2005 [LAW]
+- Fire door self-closes & seals intact — Tick+Note — Monthly — Critical — Base — Fire Safety Order 2005 [LAW]
+- Fire risk assessment reviewed/current — Tick+Note — Annually or on material change — Critical — Top — Fire Safety Order 2005 [LAW]
+- Sprinkler/suppression system service — Tick — Per manufacturer/insurer schedule — High — Mid
+
+### 22.4 General fabric & plant
+- Building fault/repair log reviewed & actioned — Note — Weekly — Standard — Mid
+- HVAC/plant room filters & condition — Tick — Monthly — Standard — Base
+- Lift/escalator service certificate in date — Tick — Per LOLER schedule — High — Top — LOLER 1998 [LAW] (where lifts present)
+- Roof/gutters/external fabric inspected — Tick+Photo — Quarterly — Standard — Mid
+- Water ingress / damp check — Tick+Note — Monthly — Standard — Base
+
+---
+
+## SEGMENT 23 — HOUSEKEEPING *(new, drafted 2026-09-22, pending review)* — hotels; guest-house/B&B with rooms
+- Room turnover cleaning checklist complete — Multi — Per checkout — Standard — Base
+- Room inspection sign-off (post-clean) — Tick+Note — Per checkout — Standard — Mid
+- Linen change frequency followed — Tick — Per stay/policy — Standard — Base
+- Laundry wash temperature for hygiene (linen) — Data — Per load — High — Base — ≥60°C sustained for effective microbial kill [BICSc/BEST]; higher (≥71°C) for soiled/contaminated linen [BEST]
+- Soiled/contaminated linen handled separately & bagged — Tick — Per incident — High — Base — cross-ref bloodborne pathogen handling, HSE guidance [BEST]
+- Cleaning chemical dilution & COSHH compliance (housekeeping trolley) — Data+Tick — Daily — High — Base — COSHH 2002 [LAW]
+- COSHH data sheets available for housekeeping chemicals — Tick — Weekly — High — Mid — COSHH 2002 [LAW]
+- Minibar restocking cross-checked against guest charge — Tick+Note — Per checkout — Standard — Base — cross-ref Segment 20 minibar task
+- Unoccupied room water outlet flushing — Tick — Weekly — High — Base — ACOP L8 [BEST/HSE guidance]; cross-ref Segment 22.2 — housekeeping is typically the team executing this even though it's logged under Maintenance's Legionella programme
+- Lost property logged & stored securely — Note — Per item — Standard — Base
+- Room safety check (smoke alarm present/working, fire notice visible) — Tick — Per checkout — High — Base — Fire Safety Order 2005 [LAW]
+- Housekeeping trolley/chemical storage secured when unattended — Tick — Per shift — Standard — Base — COSHH 2002 [LAW]
+
+---
+
+## SEGMENT 24 — RECEPTION *(new, drafted 2026-09-22, pending review)* — hotels; distinct from Segment 18 (restaurant front-of-house)
+- Fire register / in-house guest list accuracy — Tick — Per shift change — Critical — Base — Fire Safety Order 2005 [LAW] — an accurate real-time guest list is essential for the Responsible Person's evacuation duty
+- Key/access control (room key issue & return log) — Tick+Note — Per shift — High — Base
+- Lost key / access card deactivation — Tick — Per incident — High — Base
+- Cash handling reconciliation (till/float) — Data+Tick — Per shift — High — Base
+- Guest ID/data handling per policy at check-in — Tick — Per check-in — Standard — Base — UK GDPR / Data Protection Act 2018 [LAW] — minimise retained ID copies, secure storage
+- Guest data disposal/retention policy followed — Tick — Weekly — Standard — Mid — UK GDPR [LAW]
+- Incident/complaint log completed & escalated — Note — Per incident — High — Base
+- Guest with access/mobility needs — evacuation plan (PEEP) noted — Note — Per relevant booking — Critical — Mid — Fire Safety Order 2005 [LAW] — Personal Emergency Evacuation Plan expected for known additional needs
+- Emergency contact/next-of-kin info accessible in emergency — Tick — Per shift — Standard — Base
+
+---
+
+## SEGMENT 25 — SECURITY *(new, drafted 2026-09-22, pending review)* — hotels and any venue with licensed door staff/CCTV; standalone restaurant/cafe without door staff may only need CCTV + keyholder tasks
+- Door supervisor SIA licence checked & valid — Tick+Photo — Per shift start — Critical — Mid — Private Security Industry Act 2001 [LAW] — operating licensed premises door security without a valid SIA licence is a criminal offence
+- Challenge 25 / age verification applied — Tick — Per sale — Critical — Base — mandatory licensing condition since 2010 (England & Wales); Challenge 25 itself is best-practice threshold, ID-on-suspected-under-18 is the legal minimum [LAW/BEST]
+- CCTV system operational & recording — Tick — Daily — High — Base — often a specific premises licence condition [LAW where conditioned]
+- CCTV footage retention period met — Tick — Weekly — Standard — Mid — typically 28–31 days per licensing condition [LAW where conditioned]
+- Incident log (refusals, ejections, disorder) completed — Note — Per incident — Critical — Base — supports licensing due-diligence and Challenge 25 evidence
+- Keyholder/alarm call-out procedure current — Tick+Note — Monthly — High — Mid
+- Alarm system test — Tick — Weekly — High — Base
+- Emergency/duress alarm (till, reception) tested — Tick — Weekly — High — Base
+- Perimeter/external door security check (fire exits secure but not blocking egress) — Tick — Per shift — Critical — Base — Fire Safety Order 2005 [LAW] — security lockdown must never compromise emergency egress
+- Licensing conditions register reviewed — Tick+Note — Monthly — Standard — Top — Licensing Act 2003 [LAW]
+
+---
+
+## OPEN QUESTIONS FOR PROFESSIONAL SIGN-OFF (Segments 22–25 + Bar/Cellar gap-check)
+- EICR and PAT intervals above are risk-based per HSE guidance, not fixed statutory periods — a competent person/qualified electrician should confirm the actual schedule for real properties rather than treating "5-yearly"/"annual" as hard law.
+- Commercial (non-domestic-let) premises have no single statutory annual gas-check interval the way domestic landlords do — annual is presented here as strong best practice under the general Gas Safety (Installation and Use) Regulations 1998 duty, but a Gas Safe engineer/H&S advisor should confirm what's appropriate for a given site.
+- ACOP L8 figures (weekly flushing, monthly sentinel temps, 2-yearly risk assessment review) are widely-cited HSE guidance rather than numbers written into statute — a legionella risk assessor should confirm cadence per property.
+- Housekeeping laundry temperatures are hospitality/BICSc best practice, not a UK statutory figure — should be checked against the app's actual laundry provider/in-house equipment specs.
+- CCTV retention period is asserted as "often 28–31 days" — this is a common licensing condition, not a universal legal minimum; must be checked against each premises' actual licence conditions, which vary by local authority.
+- Whether Reception's GDPR-related tasks belong in a compliance task library at all (vs. a separate data-protection module) is a product decision, not just a content one — flagging for the app owner's call, not just a food-safety professional's.
+- PEEP (Personal Emergency Evacuation Plan) task is standard fire-safety practice for known additional needs but should be reviewed by a fire safety professional for correct phrasing/scope before going live.
