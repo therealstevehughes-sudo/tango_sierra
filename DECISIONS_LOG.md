@@ -2155,3 +2155,11 @@ Checked for the same risk elsewhere (`grep` across every `ButtonSegment`/`Segmen
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/features/problems/problems_register_screen.dart`.
+
+## Real fix: filter rows switched from SegmentedButton to a Wrap of choice chips (2026-09-22)
+The previous "Not Completed" line-break fix (logged just above) turned out not to fix the actual problem — the user's screenshot showed the window itself unusually narrow, and at that width EVERY segment broke mid-word ("A"/"ll", "Repor"/"ted", "Not"/"Comp"/"leted"), not just the one label. Root cause: `SegmentedButton` divides its total width evenly across all segments regardless of each label's actual length, so at a narrow enough width there's no amount of manual line-breaking that saves it — some segment will always be squeezed into less space than its label needs.
+
+**Real fix**: replaced `SegmentedButton` with a `Wrap` of `ChoiceChip`s on both filter rows that had this shape (Task Problems tab, Issues & Incidents tab). A `Wrap` sizes each chip to its own label's natural width and flows chips that don't fit onto a new row — every label stays a single, whole, unbroken line at any window width, including this narrow one. The previous `'Not\nCompleted'` manual line break is no longer needed (each chip now wraps as a whole unit if it must, never mid-word) and was removed.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/features/problems/problems_register_screen.dart`, `lib/features/issues/issues_register_tab.dart`.

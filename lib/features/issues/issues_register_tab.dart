@@ -99,27 +99,50 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-            child: SegmentedButton<IssueFilter>(
-              segments: const [
-                ButtonSegment(value: IssueFilter.all, label: Text('All')),
-                ButtonSegment(
-                  value: IssueFilter.open,
-                  label: Text('Unresolved'),
+            // Choice chips in a Wrap, not SegmentedButton (2026-09-22,
+            // same fix as the Task Problems tab's own filter row) — a
+            // fixed 4-way segmented row divides its width evenly
+            // regardless of each label's length, so a narrow window
+            // could break "Unresolved"/"Escalated" mid-word with nowhere
+            // else to wrap. A Wrap sizes each chip to its own label and
+            // flows extra chips onto a new row instead.
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _IssueFilterChip(
+                  label: 'All',
+                  selected: _statusFilter == IssueFilter.all,
+                  onSelected: () {
+                    setState(() => _statusFilter = IssueFilter.all);
+                    _load();
+                  },
                 ),
-                ButtonSegment(
-                  value: IssueFilter.resolved,
-                  label: Text('Resolved'),
+                _IssueFilterChip(
+                  label: 'Unresolved',
+                  selected: _statusFilter == IssueFilter.open,
+                  onSelected: () {
+                    setState(() => _statusFilter = IssueFilter.open);
+                    _load();
+                  },
                 ),
-                ButtonSegment(
-                  value: IssueFilter.escalated,
-                  label: Text('Escalated'),
+                _IssueFilterChip(
+                  label: 'Resolved',
+                  selected: _statusFilter == IssueFilter.resolved,
+                  onSelected: () {
+                    setState(() => _statusFilter = IssueFilter.resolved);
+                    _load();
+                  },
+                ),
+                _IssueFilterChip(
+                  label: 'Escalated',
+                  selected: _statusFilter == IssueFilter.escalated,
+                  onSelected: () {
+                    setState(() => _statusFilter = IssueFilter.escalated);
+                    _load();
+                  },
                 ),
               ],
-              selected: {_statusFilter},
-              onSelectionChanged: (selection) {
-                setState(() => _statusFilter = selection.first);
-                _load();
-              },
             ),
           ),
           Padding(
@@ -356,6 +379,29 @@ class _StatusPill extends StatelessWidget {
           context,
         ).textTheme.bodySmall?.copyWith(color: fg, fontWeight: FontWeight.w600),
       ),
+    );
+  }
+}
+
+// 2026-09-22 — see the matching widget in problems_register_screen.dart
+// for the full reasoning; same fix, same shape.
+class _IssueFilterChip extends StatelessWidget {
+  const _IssueFilterChip({
+    required this.label,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChoiceChip(
+      label: Text(label),
+      selected: selected,
+      onSelected: (_) => onSelected(),
     );
   }
 }

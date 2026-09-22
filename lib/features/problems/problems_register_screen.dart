@@ -63,38 +63,48 @@ class _ProblemsRegisterScreenState
                       children: [
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                          child: SegmentedButton<ProblemFilter>(
-                            segments: const [
-                              ButtonSegment(
-                                value: ProblemFilter.all,
-                                label: Text('All'),
+                          // Choice chips in a Wrap, not SegmentedButton
+                          // (2026-09-22, user's own report) — a fixed
+                          // 4-way segmented row divides its width evenly
+                          // regardless of each label's actual length, so
+                          // at a narrow window width "Not Completed" (and
+                          // even "All"/"Reported") had no room to wrap at
+                          // a word boundary and broke mid-word instead. A
+                          // Wrap sizes each chip to its own label and
+                          // flows extra chips onto a new row — every
+                          // label stays a single, whole, unbroken line at
+                          // any width.
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              _ProblemFilterChip(
+                                label: 'All',
+                                selected: _filter == ProblemFilter.all,
+                                onSelected: () =>
+                                    setState(() => _filter = ProblemFilter.all),
                               ),
-                              ButtonSegment(
-                                value: ProblemFilter.fail,
-                                label: Text('Fail'),
+                              _ProblemFilterChip(
+                                label: 'Fail',
+                                selected: _filter == ProblemFilter.fail,
+                                onSelected: () =>
+                                    setState(() => _filter = ProblemFilter.fail),
                               ),
-                              ButtonSegment(
-                                value: ProblemFilter.reported,
-                                label: Text('Reported'),
+                              _ProblemFilterChip(
+                                label: 'Reported',
+                                selected: _filter == ProblemFilter.reported,
+                                onSelected: () => setState(
+                                  () => _filter = ProblemFilter.reported,
+                                ),
                               ),
-                              ButtonSegment(
-                                value: ProblemFilter.notCompleted,
-                                // A forced line break, not left to the
-                                // layout to guess (2026-09-22, user's own
-                                // report) — at this segment's narrow
-                                // width, letting it wrap on its own broke
-                                // "Completed" mid-word rather than
-                                // wrapping at the space between the two
-                                // whole words.
-                                label: Text(
-                                  'Not\nCompleted',
-                                  textAlign: TextAlign.center,
+                              _ProblemFilterChip(
+                                label: 'Not Completed',
+                                selected: _filter == ProblemFilter.notCompleted,
+                                onSelected: () => setState(
+                                  () => _filter = ProblemFilter.notCompleted,
                                 ),
                               ),
                             ],
-                            selected: {_filter},
-                            onSelectionChanged: (selection) =>
-                                setState(() => _filter = selection.first),
                           ),
                         ),
                         Expanded(
@@ -311,6 +321,32 @@ class _ProblemStatusChip extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+// 2026-09-22 — a single filter chip, sized to its own label (never a
+// fixed even-division width like SegmentedButton's), used in a Wrap so
+// the whole row degrades gracefully at any window width — extra chips
+// flow onto a new line instead of squeezing every label into less room
+// than it needs.
+class _ProblemFilterChip extends StatelessWidget {
+  const _ProblemFilterChip({
+    required this.label,
+    required this.selected,
+    required this.onSelected,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChoiceChip(
+      label: Text(label),
+      selected: selected,
+      onSelected: (_) => onSelected(),
     );
   }
 }
