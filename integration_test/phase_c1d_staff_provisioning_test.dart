@@ -25,10 +25,8 @@ final _unique = DateTime.now().millisecondsSinceEpoch;
 final _directorEmail = 'c1d-it-director-$_unique@venurite.invalid';
 final _regionalEmail = 'c1d-it-regional-$_unique@venurite.invalid';
 const _directorPassword = 'ThrowawayC1dDirector!2026';
-// Sign-up gate (2026-09-20) — signUpCompany now needs a real, unused row
-// in public.invite_codes; insert one before running this suite:
-//   INSERT INTO invite_codes (code) VALUES ('IT-$_unique');
-final _inviteCode = 'IT-$_unique';
+// Per-branch pricing pivot (2026-09-22) — signUpCompany no longer needs
+// an invite code (see tenant-signup's own doc comment).
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +50,7 @@ void main() {
       final signup = await director
           .read(tenantProvisioningRepositoryProvider)
           .signUpCompany(
-            inviteCode: _inviteCode,
+            branchCount: 1,
             companyName: 'C1D-IT-COMPANY-$_unique',
             country: 'United Kingdom',
             venueName: 'Main Site',

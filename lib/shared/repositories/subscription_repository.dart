@@ -16,7 +16,24 @@ abstract class SubscriptionRepository {
   /// in the system browser -- GoCardless's own hosted authorization page.
   /// Throws [DirectDebitSetupException] with a plain-English reason on
   /// failure (already has a mandate, no plan chosen, etc).
-  Future<String> startDirectDebitSetup();
+  ///
+  /// [discountCode] (2026-09-22) -- optional "Friends" discount code,
+  /// checked server-side; a valid one drops this organisation's rate to
+  /// £19/branch/month instead of £39. Never required at sign-up anymore
+  /// -- this is the one place it's entered.
+  Future<DirectDebitSetupResult> startDirectDebitSetup({String? discountCode});
+}
+
+class DirectDebitSetupResult {
+  const DirectDebitSetupResult({
+    required this.redirectUrl,
+    required this.discountApplied,
+    this.discountError,
+  });
+
+  final String redirectUrl;
+  final bool discountApplied;
+  final String? discountError;
 }
 
 class DirectDebitSetupException implements Exception {
@@ -42,8 +59,13 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
   }
 
   @override
-  Future<String> startDirectDebitSetup() async {
-    final data = await _client.invokeFunction('gocardless-start-mandate', {});
+  Future<DirectDebitSetupResult> startDirectDebitSetup({
+    String? discountCode,
+  }) async {
+    final data = await _client.invokeFunction('gocardless-start-mandate', {
+      if (discountCode != null && discountCode.trim().isNotEmpty)
+        'discount_code': discountCode.trim(),
+    });
     if (data['error'] != null) {
       throw DirectDebitSetupException(
         data['error'] is String
@@ -55,7 +77,11 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
     if (redirectUrl == null) {
       throw DirectDebitSetupException('Could not start Direct Debit setup');
     }
-    return redirectUrl;
+    return DirectDebitSetupResult(
+      redirectUrl: redirectUrl,
+      discountApplied: data['discount_applied'] as bool? ?? false,
+      discountError: data['discount_error'] as String?,
+    );
   }
 
   Subscription _toModel(Map<String, dynamic> row) => Subscription(
@@ -81,5 +107,6 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
         ? null
         : DateTime.parse(row['restricted_at'] as String),
     foundingOffer: row['founding_offer'] as bool? ?? false,
+    billedSiteCount: (row['billed_site_count'] as num?)?.toInt() ?? 1,
   );
 }

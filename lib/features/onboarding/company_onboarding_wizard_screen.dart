@@ -75,7 +75,6 @@ class _CompanyOnboardingWizardScreenState
   int? _activeSiteId;
 
   // Step 1 — admin account
-  final _inviteCode = TextEditingController();
   final _firstName = TextEditingController();
   final _lastName = TextEditingController();
   final _email = TextEditingController();
@@ -112,7 +111,15 @@ class _CompanyOnboardingWizardScreenState
   // ('friends'/'standard'/'premier', see subscription.dart's own doc
   // comment) — this used to offer 'starter'/'growth'/'enterprise', which
   // didn't correspond to anything the billing side understood.
-  String _planName = 'standard';
+  // Sprint 043 rework (2026-09-22) — plan_name is no longer user-chosen;
+  // always 'standard' now (per-branch pricing replaced the tier picker).
+  final String _planName = 'standard';
+
+  // How many branches the customer says they have today (including head
+  // office) — drives billed_site_count server-side. 4+ automatically
+  // adds one head-office unit; see tenant-signup's own doc comment.
+  int _branchCount = 1;
+  static const _headOfficeThreshold = 4;
 
   // Payment provider preference (2026-09-14) -- captured now, not wired
   // to any real payment API yet (see decision #3 in DECISIONS_LOG.md).
@@ -135,7 +142,6 @@ class _CompanyOnboardingWizardScreenState
 
   @override
   void dispose() {
-    _inviteCode.dispose();
     _firstName.dispose();
     _lastName.dispose();
     _email.dispose();
@@ -153,7 +159,6 @@ class _CompanyOnboardingWizardScreenState
   }
 
   bool get _step0Valid =>
-      _inviteCode.text.trim().isNotEmpty &&
       _firstName.text.trim().isNotEmpty &&
       _lastName.text.trim().isNotEmpty &&
       _email.text.trim().contains('@') &&
@@ -186,7 +191,7 @@ class _CompanyOnboardingWizardScreenState
       final result = await ref
           .read(tenantProvisioningRepositoryProvider)
           .signUpCompany(
-            inviteCode: _inviteCode.text.trim(),
+            branchCount: _branchCount,
             firstName: _firstName.text.trim(),
             lastName: _lastName.text.trim(),
             email: _email.text.trim(),
@@ -281,15 +286,18 @@ class _CompanyOnboardingWizardScreenState
   Future<void> _startDirectDebitAfterSignup() async {
     setState(() => _startingDirectDebit = true);
     try {
-      final redirectUrl = await ref
+      final result = await ref
           .read(subscriptionRepositoryProvider)
           .startDirectDebitSetup();
       if (!mounted) return;
       setState(() {
-        _directDebitRedirectUrl = redirectUrl;
+        _directDebitRedirectUrl = result.redirectUrl;
         _startingDirectDebit = false;
       });
-      await launchUrl(Uri.parse(redirectUrl), mode: LaunchMode.externalApplication);
+      await launchUrl(
+        Uri.parse(result.redirectUrl),
+        mode: LaunchMode.externalApplication,
+      );
     } catch (_) {
       if (!mounted) return;
       setState(() {
@@ -415,17 +423,6 @@ class _CompanyOnboardingWizardScreenState
           "you're in.",
         ),
         const SizedBox(height: 16),
-        TextField(
-          controller: _inviteCode,
-          decoration: const InputDecoration(
-            labelText: 'Invite code',
-            helperText:
-                "Don't have one? Contact us to get started.",
-          ),
-          textCapitalization: TextCapitalization.characters,
-          onChanged: (_) => setState(() {}),
-        ),
-        const SizedBox(height: 12),
         TextField(
           controller: _firstName,
           decoration: const InputDecoration(labelText: 'First name'),
@@ -758,7 +755,20 @@ class _CompanyOnboardingWizardScreenState
     );
   }
 
+  // Sprint 043 rework (2026-09-22, per the user's own agreed pricing) —
+  // replaces the old friends/standard/premier plan picker entirely.
+  // Pricing is now per branch: £39/branch/month standard, discounted to
+  // £19/branch/month only via a real code entered later at Direct Debit
+  // setup (never here, never at sign-up) — see gocardless-start-mandate's
+  // own doc comment. Only ONE real venue is created in this signup call
+  // regardless of the number given here (matches the payoff step above,
+  // which is scoped to the one venue being set up right now) — this
+  // number exists purely to calculate an honest price up front; the rest
+  // get added one at a time later, same as before this pricing model.
   Widget _buildSubscriptionStep() {
+    final headOfficeIncluded = _branchCount >= _headOfficeThreshold;
+    final billedUnits = _branchCount + (headOfficeIncluded ? 1 : 0);
+    final totalPoundsPerMonth = billedUnits * 39;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -766,33 +776,68 @@ class _CompanyOnboardingWizardScreenState
           kind: BannerKind.info,
           child: Text(
             'One company account, one consolidated bill - priced per '
-            'active venue, never per person.',
+            'branch, never per person.',
           ),
         ),
         const SizedBox(height: 16),
-        const Text('Choose a starting plan - you can change this any time.'),
-        const SizedBox(height: 12),
-        _PlanOption(
-          value: 'friends',
-          groupValue: _planName,
-          title: 'Friends - £19/month',
-          subtitle: 'For a single small venue',
-          onChanged: (v) => setState(() => _planName = v),
+        const Text(
+          'How many branches do you have today, including head office '
+          "if you have one? You'll only set up your first venue now — "
+          'add the rest any time from inside the app.',
         ),
-        _PlanOption(
-          value: 'standard',
-          groupValue: _planName,
-          title: 'Standard - £39/month',
-          subtitle: 'The right plan for most venues',
-          onChanged: (v) => setState(() => _planName = v),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            IconButton.outlined(
+              onPressed: _branchCount > 1
+                  ? () => setState(() => _branchCount -= 1)
+                  : null,
+              icon: const Icon(Icons.remove),
+            ),
+            const SizedBox(width: 16),
+            Text(
+              '$_branchCount',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(width: 16),
+            IconButton.outlined(
+              onPressed: () => setState(() => _branchCount += 1),
+              icon: const Icon(Icons.add),
+            ),
+          ],
         ),
-        _PlanOption(
-          value: 'premier',
-          groupValue: _planName,
-          title: 'Premier - coming soon',
-          subtitle: 'Larger or multi-venue groups - pricing not set yet',
-          enabled: false,
-          onChanged: (v) => setState(() => _planName = v),
+        const SizedBox(height: 16),
+        AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '£39/branch/month',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              if (headOfficeIncluded) ...[
+                const SizedBox(height: 4),
+                Text(
+                  '+ 1 head office branch (4+ branches)',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ],
+              const Divider(height: 24),
+              Text(
+                '£$totalPoundsPerMonth/month total ($billedUnits '
+                'branch${billedUnits == 1 ? '' : 'es'} billed)',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                'Have a discount code? You can enter it when you set up '
+                'Direct Debit.',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -914,42 +959,6 @@ class _StructureRow extends StatelessWidget {
   }
 }
 
-class _PlanOption extends StatelessWidget {
-  const _PlanOption({
-    required this.value,
-    required this.groupValue,
-    required this.title,
-    required this.subtitle,
-    required this.onChanged,
-    this.enabled = true,
-  });
-
-  final String value;
-  final String groupValue;
-  final String title;
-  final String subtitle;
-  final ValueChanged<String> onChanged;
-  // Sprint 043 — 'premier' has no price yet, so it's shown (not hidden —
-  // people should know it's coming) but not selectable.
-  final bool enabled;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: AppCard(
-        padding: EdgeInsets.zero,
-        child: RadioListTile<String>(
-          value: value,
-          groupValue: groupValue,
-          onChanged: enabled ? (v) => onChanged(v!) : null,
-          title: Text(title),
-          subtitle: Text(subtitle),
-        ),
-      ),
-    );
-  }
-}
 
 // Sprint 046 (Team Invite + Live Landing, 2026-09-22) — converted from a
 // StatelessWidget: now owns the "invite your team" mini-form's own state

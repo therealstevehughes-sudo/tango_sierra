@@ -138,11 +138,13 @@ abstract class TenantProvisioningRepository {
   /// trialing subscription, and optional initial branding. On success the
   /// caller signs in through the normal Leadership Access screen.
   Future<TenantSignupResult> signUpCompany({
-    // Sign-up gate (2026-09-20) — a pre-shared, single-use code handed out
-    // by VenuRite before going public; `tenant-signup` rejects the call
-    // outright without a valid, unused one. No admin UI for issuing these
-    // yet (DECISIONS_LOG.md) — generated in batches directly via SQL.
-    required String inviteCode,
+    // Per-branch pricing (2026-09-22) — replaces the earlier sign-up
+    // invite-code gate entirely (DECISIONS_LOG.md: "per-branch billing is
+    // now the real gate"). How many branches the customer says they have
+    // today, INCLUDING head office if any — only used to calculate an
+    // honest price up front; still only one real venue gets created in
+    // this same call (the one named below).
+    required int branchCount,
     required String firstName,
     required String lastName,
     required String email,
@@ -240,7 +242,7 @@ class SupabaseTenantProvisioningRepository
 
   @override
   Future<TenantSignupResult> signUpCompany({
-    required String inviteCode,
+    required int branchCount,
     required String firstName,
     required String lastName,
     required String email,
@@ -263,7 +265,7 @@ class SupabaseTenantProvisioningRepository
       final response = await _client.functions.invoke(
         'tenant-signup',
         body: {
-          'invite_code': inviteCode,
+          'branch_count': branchCount,
           'first_name': firstName,
           'last_name': lastName,
           'email': email,

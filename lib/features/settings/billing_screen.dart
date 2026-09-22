@@ -24,20 +24,35 @@ class BillingScreen extends ConsumerStatefulWidget {
 }
 
 class _BillingScreenState extends ConsumerState<BillingScreen> {
+  final _discountCodeController = TextEditingController();
   bool _startingSetup = false;
   String? _error;
+  String? _discountNote;
+
+  @override
+  void dispose() {
+    _discountCodeController.dispose();
+    super.dispose();
+  }
 
   Future<void> _startDirectDebitSetup() async {
     setState(() {
       _startingSetup = true;
       _error = null;
+      _discountNote = null;
     });
     try {
-      final url = await ref
+      final code = _discountCodeController.text.trim();
+      final result = await ref
           .read(subscriptionRepositoryProvider)
-          .startDirectDebitSetup();
+          .startDirectDebitSetup(discountCode: code.isEmpty ? null : code);
+      if (result.discountError != null && mounted) {
+        setState(() => _discountNote = result.discountError);
+      } else if (result.discountApplied && mounted) {
+        setState(() => _discountNote = 'Discount code applied.');
+      }
       final launched = await launchUrl(
-        Uri.parse(url),
+        Uri.parse(result.redirectUrl),
         mode: LaunchMode.externalApplication,
       );
       if (!launched && mounted) {
@@ -90,13 +105,14 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
   }
 
   Widget _buildStatusCard(Subscription subscription) {
-    final pricePence = planMonthlyPricePence(
-      subscription.planName,
+    final pricePence = totalMonthlyPricePence(
+      subscription.billedSiteCount,
       foundingOffer: subscription.foundingOffer,
     );
-    final priceLabel = pricePence == null
-        ? 'Price not set yet'
-        : '£${(pricePence / 100).toStringAsFixed(2)}/month';
+    final branches = subscription.billedSiteCount;
+    final priceLabel =
+        '£${(pricePence / 100).toStringAsFixed(2)}/month '
+        '($branches branch${branches == 1 ? '' : 'es'} billed)';
     final state = effectiveBillingState(subscription);
 
     return AppCard(
@@ -121,7 +137,7 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
-                    'Founding member price',
+                    'Discount applied',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: AppColors.tealInk,
                       fontWeight: FontWeight.w700,
@@ -159,6 +175,15 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
               'GoCardless - VenuRite never sees your bank details directly.',
             ),
             const SizedBox(height: 12),
+            TextField(
+              controller: _discountCodeController,
+              decoration: const InputDecoration(
+                labelText: 'Discount code (optional)',
+                hintText: "Have a 'Friends' code? Enter it here",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
             FilledButton(
               onPressed: _startingSetup ? null : _startDirectDebitSetup,
               child: _startingSetup
@@ -169,6 +194,10 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                     )
                   : const Text('Set up Direct Debit'),
             ),
+            if (_discountNote != null) ...[
+              const SizedBox(height: 8),
+              Text(_discountNote!),
+            ],
             if (_error != null) ...[
               const SizedBox(height: 8),
               Text(_error!, style: const TextStyle(color: AppColors.critical)),

@@ -2177,3 +2177,20 @@ Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build lau
 
 **This closes Phase 14 (Sprints 042–046) in full.**
 Files: `lib/shared/providers/auth_providers.dart`, `lib/features/onboarding/company_onboarding_wizard_screen.dart`, 10 `integration_test/*.dart` files (override syntax only, no logic change).
+
+## Pricing pivot — per-branch pricing, invite-gate removed, discount code moved to billing (2026-09-22)
+Steve rejected the sign-up gate this project had only just added (2026-09-20, "each signUpCompany call needs a real, unused invite code"). Reasoning given directly: a stranger signing up costs nothing until they pay, since the app is priced per branch — the real gate is billing, not a reference code. A reference/invite code is only meaningful for "join an existing company," which already has its own, completely separate mechanism (`redeemInvite`/`create-invite`) and is unaffected by this change.
+
+**Agreed pricing model** (Steve's own words, confirmed): £39/branch/month standard. A "Friends" rate of £19/branch/month exists ONLY via a discount code entered at Direct Debit setup — never at sign-up. At 4+ branches, one automatic extra "head office" branch-equivalent unit is billed (Claude's recommendation, confirmed by Steve) — reasoning: 1–3 branch businesses are typically one person wearing every hat; Regional/Executive oversight features only become genuinely used at 4+ branches. A higher IoT/sensor tier is in development but deliberately not mentioned anywhere in-app yet — revisit closer to launch.
+
+**What changed**:
+- `tenant-signup` no longer requires or checks an invite code at all. Sign-up now asks for a branch count instead (a plain questionnaire number, not a plan picker); `billed_site_count` = branchCount + 1 if branchCount >= 4.
+- `invite_codes` table (schema unchanged) is repurposed from "sign-up gate" to "Friends discount code, entered once, at Direct Debit setup" — checked and marked used by `gocardless-start-mandate`, which also flips `subscriptions.founding_offer` (kept as the column name; no longer means "founding member," now means "discount applied").
+- `gocardless-confirm-mandate` prices off `billed_site_count`, not `plan_name` (now always `'standard'`) — replaces the old flat per-plan price map entirely.
+- Client: wizard's old "Invite code" field and the friends/standard/premier plan-radio picker are both gone, replaced by a branch-count stepper with a live price breakdown. `BillingScreen` gained the discount-code text field instead (matches where the code now actually applies).
+- The old founding-£29-at-signup mechanism is fully retired in favour of this "Friends discount code at billing time" mechanism.
+
+**Caught by Steve directly**: after the three Edge Functions were rewritten and live-tested via curl, the client wizard was left showing the old invite-code field — "didn't you get rid of the 'invite code' for a new business set up?" Backend and frontend had silently drifted apart. Fixed same session; see BACKEND_INFRA.md for the live curl proof and the two throwaway test orgs (53, 54) created and cleaned up during that proof.
+
+Verified: `flutter analyze` clean project-wide, all 32 unit tests passing.
+Files: `lib/features/onboarding/company_onboarding_wizard_screen.dart`, `lib/features/settings/billing_screen.dart`, `lib/shared/models/subscription.dart`, `lib/shared/repositories/subscription_repository.dart`, `lib/shared/repositories/tenant_provisioning_repository.dart`, 3 `integration_test/*.dart` files (invite-code fixtures removed), backend: `tenant-signup`, `gocardless-start-mandate`, `gocardless-confirm-mandate`.

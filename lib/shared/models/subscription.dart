@@ -23,11 +23,18 @@ class Subscription {
   final String? mandateStatus;
   final DateTime? lastPaymentFailedAt;
   final DateTime? restrictedAt;
-  // Founding offer (Sprint 043) — £29/mo instead of £39/mo on the
-  // standard plan, carried from whichever invite code the organisation
-  // signed up with (see tenant-signup's own doc comment) — not a
-  // separate coupon system.
+  // Discount applied (Sprint 043 pivot, 2026-09-22) — a valid "Friends"
+  // code entered at Direct Debit setup drops the per-branch rate from
+  // £39 to £19 (see gocardless-start-mandate's own doc comment). No
+  // longer tied to sign-up at all -- the name is kept for the column,
+  // but it no longer means "founding member".
   final bool foundingOffer;
+  // Per-branch pricing (Sprint 043 pivot) -- how many branch-equivalent
+  // units this organisation is actually billed for, already including
+  // the automatic head-office unit at 4+ branches (see tenant-signup's
+  // own doc comment for that threshold). Drives price display here
+  // instead of planName, which is now always 'standard'.
+  final int billedSiteCount;
 
   const Subscription({
     required this.id,
@@ -44,6 +51,7 @@ class Subscription {
     this.lastPaymentFailedAt,
     this.restrictedAt,
     this.foundingOffer = false,
+    this.billedSiteCount = 1,
   });
 }
 
@@ -62,20 +70,12 @@ String planDisplayName(String? planName) {
   }
 }
 
-// Kept in sync with the price the gocardless-confirm-mandate Edge
-// Function actually charges (BACKEND_INFRA.md) -- shown to the user
-// before they authorize anything, never guessed at or left blank. null
-// means "no price set yet" (currently true only for 'premier').
-// [foundingOffer] only ever discounts 'standard' -- 'friends' is already
-// the cheap tier, and 'premier' has no price to discount yet.
-int? planMonthlyPricePence(String? planName, {bool foundingOffer = false}) {
-  if (foundingOffer && planName == 'standard') return 2900;
-  switch (planName) {
-    case 'friends':
-      return 1900;
-    case 'standard':
-      return 3900;
-    default:
-      return null;
-  }
+// Per-branch pricing (Sprint 043 pivot, 2026-09-22) -- kept in sync with
+// gocardless-confirm-mandate, the Edge Function that actually charges
+// (BACKEND_INFRA.md): £39/branch/month standard, £19/branch/month once a
+// valid discount code has been applied (subscriptions.founding_offer).
+// [billedSiteCount] already includes the automatic head-office unit.
+int totalMonthlyPricePence(int billedSiteCount, {bool foundingOffer = false}) {
+  final perBranch = foundingOffer ? 1900 : 3900;
+  return billedSiteCount * perBranch;
 }

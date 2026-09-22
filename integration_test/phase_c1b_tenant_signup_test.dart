@@ -19,14 +19,9 @@ import 'package:flutter_application_1/shared/providers/tenant_provisioning_provi
 final _unique = DateTime.now().millisecondsSinceEpoch;
 final _email = 'c1b-it-$_unique@venurite.invalid';
 const _password = 'ThrowawayC1bIntegration!2026';
-// Sign-up gate (2026-09-20) — each signUpCompany call now needs a real,
-// unused row in public.invite_codes (single-use). Insert two matching
-// rows before running this suite:
-//   INSERT INTO invite_codes (code) VALUES ('$_unique-A'), ('$_unique-B');
-// (substitute the actual millisecond value printed by a dry run, or
-// insert a batch of throwaway codes ahead of time and hardcode two here).
-final _inviteCodeA = 'IT-$_unique-A';
-final _inviteCodeB = 'IT-$_unique-B';
+// Per-branch pricing pivot (2026-09-22) — signUpCompany no longer needs
+// an invite code at all (see tenant-signup's own doc comment); it takes
+// a branch count instead, which drives billed_site_count server-side.
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -50,7 +45,7 @@ void main() {
       final result = await container
           .read(tenantProvisioningRepositoryProvider)
           .signUpCompany(
-            inviteCode: _inviteCodeA,
+            branchCount: 1,
             companyName: 'C1B-IT-COMPANY-$_unique',
             country: 'United Kingdom',
             venueName: 'Main Site',
@@ -107,7 +102,7 @@ void main() {
     Object? thrown;
     try {
       await container.read(tenantProvisioningRepositoryProvider).signUpCompany(
-            inviteCode: _inviteCodeB,
+            branchCount: 1,
             companyName: 'C1B-IT-DUPE-$_unique',
             country: 'United Kingdom',
             venueName: 'Main Site',
