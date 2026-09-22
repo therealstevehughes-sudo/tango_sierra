@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/primary_action_button.dart';
@@ -67,9 +68,20 @@ class WorkerHubScreen extends ConsumerWidget {
                     showAppMark: true,
                   ),
                   const SizedBox(height: 16),
+                  // Visual pass follow-up (2026-09-22) — same restraint the
+                  // onboarding pass used on dense screens: a Fraunces
+                  // headline for warmth, no hero photo, since this screen
+                  // is reached fresh every shift and a repeated image
+                  // would read as clutter, not polish, on a screen this
+                  // frequently used.
                   Text(
                     'What would you like to do?',
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: const TextStyle(
+                      fontFamily: 'Fraunces',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                      color: AppColors.ink,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 20),

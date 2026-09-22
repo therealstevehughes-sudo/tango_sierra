@@ -206,9 +206,19 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                         _BranchStatusCard(status: _status),
                       ],
                       const SizedBox(height: 16),
+                      // Visual pass follow-up (2026-09-22) — same treatment
+                      // as WorkerHubScreen's own headline: Fraunces for
+                      // warmth, no hero photo (this screen is reached
+                      // multiple times a shift; a repeated image would
+                      // read as clutter, not polish).
                       Text(
                         'What would you like to do?',
-                        style: Theme.of(context).textTheme.titleMedium,
+                        style: const TextStyle(
+                          fontFamily: 'Fraunces',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
+                          color: AppColors.ink,
+                        ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 20),
