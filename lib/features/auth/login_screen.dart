@@ -881,7 +881,10 @@ class _StaffTile extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.line),
+            // Thicker + darker (2026-09-22, direct user feedback) — same
+            // fix as AppCard's own border, applied here too since this
+            // tile hand-rolls its border rather than using AppCard.
+            border: Border.all(color: AppColors.lineStrong, width: 1.5),
           ),
           child: ListTile(
             dense: true,

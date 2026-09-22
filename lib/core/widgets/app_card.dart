@@ -49,7 +49,12 @@ class AppCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: cardTheme.color ?? AppColors.card,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: AppColors.line),
+        // Thicker + darker (2026-09-22, direct user follow-up: "thicker
+        // border on the buttons and maybe darker") — 1px was still too
+        // faint even after darkening the colour itself; bumped to 1.5px
+        // using lineStrong instead of line for a clearer edge on tappable
+        // cards/tiles (the staff picker cards, action tiles, etc.).
+        border: Border.all(color: AppColors.lineStrong, width: 1.5),
         boxShadow: [
           BoxShadow(
             // 90,80,60 in the source mockup's rgba() shadow == #5A503C.

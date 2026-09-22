@@ -68,7 +68,7 @@ class AppTheme {
         margin: const EdgeInsets.symmetric(vertical: 6),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: AppColors.line),
+          side: const BorderSide(color: AppColors.lineStrong, width: 1.5),
         ),
       ),
       // Strong primary button (Layout Rule) with a real touch-target floor
