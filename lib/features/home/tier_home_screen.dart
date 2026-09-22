@@ -7,6 +7,7 @@ import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/section_background.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../core/widgets/user_title.dart';
 import '../../shared/models/user.dart';
@@ -176,6 +177,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
       // of the centered card's padding/width.
       body: Stack(
         children: [
+          SectionBackground(jobRole: currentUser?.jobRole),
           Center(
             child: SingleChildScrollView(
               child: Padding(

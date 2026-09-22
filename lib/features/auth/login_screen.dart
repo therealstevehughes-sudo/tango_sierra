@@ -6,6 +6,7 @@ import '../../core/utils/greeting.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../core/widgets/section_background.dart';
 import '../../core/widgets/section_header.dart';
 import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
@@ -111,128 +112,143 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         .maybeWhen(data: (config) => config, orElse: () => null);
 
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          // Screen-level column: fills the full available height so the
-          // staff list below keeps bounded height (it uses Expanded). The
-          // header is a fixed-height top block; the content scroll area
-          // takes the rest — same bounded-height contract the child had
-          // as a direct ResponsiveContent child before branding.
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Login-screen warmth pass (2026-09-17) — this card persists
-              // through PIN entry too (it sits above the branch in this
-              // Column, outside the staffAsync.when below), giving the
-              // header a real visual boundary on the page instead of
-              // floating text/logo directly on the background. Padding
-              // tightened (2026-09-17 follow-up) — the branding block was
-              // still too prominent relative to the staff cards below.
-              AppCard(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    BrandHeader(branding: defaultBranding),
-                    // Discreet entry point for regional/executive sign-in
-                    // (Sprint 031) — deliberately unlabeled and muted so it
-                    // doesn't read as an action worth noticing on a shared
-                    // store device. Moved here (2026-09-17 follow-up) from
-                    // its own row above the search card, to the right of
-                    // the branding — there's real spare room in this card's
-                    // corner, and removing its own row lets everything
-                    // below move up.
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.lock_outline,
-                          color: AppColors.muted,
+      body: Stack(
+        children: [
+          // Visual pass follow-up (2026-09-22, direct user request after
+          // trying it on the two hub screens) — same faint (10%) section
+          // background, no jobRole context yet at this pre-login screen
+          // so it just defaults to the kitchen photo.
+          const SectionBackground(jobRole: null),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              // Screen-level column: fills the full available height so the
+              // staff list below keeps bounded height (it uses Expanded). The
+              // header is a fixed-height top block; the content scroll area
+              // takes the rest — same bounded-height contract the child had
+              // as a direct ResponsiveContent child before branding.
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Login-screen warmth pass (2026-09-17) — this card persists
+                  // through PIN entry too (it sits above the branch in this
+                  // Column, outside the staffAsync.when below), giving the
+                  // header a real visual boundary on the page instead of
+                  // floating text/logo directly on the background. Padding
+                  // tightened (2026-09-17 follow-up) — the branding block was
+                  // still too prominent relative to the staff cards below.
+                  AppCard(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        BrandHeader(branding: defaultBranding),
+                        // Discreet entry point for regional/executive sign-in
+                        // (Sprint 031) — deliberately unlabeled and muted so it
+                        // doesn't read as an action worth noticing on a shared
+                        // store device. Moved here (2026-09-17 follow-up) from
+                        // its own row above the search card, to the right of
+                        // the branding — there's real spare room in this card's
+                        // corner, and removing its own row lets everything
+                        // below move up.
+                        Positioned(
+                          top: 0,
+                          right: 0,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.lock_outline,
+                              color: AppColors.muted,
+                            ),
+                            iconSize: 20,
+                            tooltip: 'Leadership Access',
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const SeniorLoginScreen(),
+                              ),
+                            ),
+                          ),
                         ),
-                        iconSize: 20,
-                        tooltip: 'Leadership Access',
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Expanded(
+                    child: selectedUser == null
+                        ? staffAsync.when(
+                            data: (staff) => staff.isEmpty
+                                ? const _FreshInstallEntry()
+                                : ResponsiveContent(
+                                    // Wider max so the staff grid has room for
+                                    // multiple columns; the grid itself decides
+                                    // column count from available width.
+                                    maxWidth: 960,
+                                    alignment: Alignment.topCenter,
+                                    child: _StaffList(
+                                      staff: staff,
+                                      onSelect: selectUser,
+                                    ),
+                                  ),
+                            loading: () => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            error: (err, stack) =>
+                                err is DeviceNotPairedException
+                                ? const _DevicePairingPrompt()
+                                : Center(
+                                    child: Text('Error loading staff: $err'),
+                                  ),
+                          )
+                        : ResponsiveContent(
+                            // PIN entry stays the familiar narrow centered
+                            // width on every screen size (its own layout is a
+                            // single column by design).
+                            maxWidth: 480,
+                            alignment: Alignment.center,
+                            child: PinEntry(
+                              user: selectedUser!,
+                              controller: pinController,
+                              error: error,
+                              submitting: submitting,
+                              onSubmit: submitPin,
+                              onBack: backToStaffList,
+                            ),
+                          ),
+                  ),
+                  // Sprint 034 decision #4 — a persistent, always-visible way
+                  // into the 3-option account-entry screen (Create company /
+                  // Join company / Sign in) on a device that already has
+                  // walk-up staff, so it isn't only reachable when the local
+                  // staff list happens to be empty. Only shown alongside the
+                  // real staff grid (selectedUser == null, staff non-empty) —
+                  // it would just duplicate _FreshInstallEntry's own buttons
+                  // otherwise, and PIN entry has its own Back link already.
+                  if (selectedUser == null &&
+                      staffAsync.maybeWhen(
+                        data: (staff) => staff.isNotEmpty,
+                        orElse: () => false,
+                      ))
+                    Center(
+                      child: TextButton(
                         onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const SeniorLoginScreen(),
+                            builder: (_) => const _SignInAnotherWayScreen(),
                           ),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 8),
-              Expanded(
-                child: selectedUser == null
-                    ? staffAsync.when(
-                        data: (staff) => staff.isEmpty
-                            ? const _FreshInstallEntry()
-                            : ResponsiveContent(
-                                // Wider max so the staff grid has room for
-                                // multiple columns; the grid itself decides
-                                // column count from available width.
-                                maxWidth: 960,
-                                alignment: Alignment.topCenter,
-                                child: _StaffList(
-                                  staff: staff,
-                                  onSelect: selectUser,
-                                ),
-                              ),
-                        loading: () =>
-                            const Center(child: CircularProgressIndicator()),
-                        error: (err, stack) => err is DeviceNotPairedException
-                            ? const _DevicePairingPrompt()
-                            : Center(child: Text('Error loading staff: $err')),
-                      )
-                    : ResponsiveContent(
-                        // PIN entry stays the familiar narrow centered
-                        // width on every screen size (its own layout is a
-                        // single column by design).
-                        maxWidth: 480,
-                        alignment: Alignment.center,
-                        child: PinEntry(
-                          user: selectedUser!,
-                          controller: pinController,
-                          error: error,
-                          submitting: submitting,
-                          onSubmit: submitPin,
-                          onBack: backToStaffList,
+                        child: const Text(
+                          'Not on this list? Sign in another way',
                         ),
                       ),
-              ),
-              // Sprint 034 decision #4 — a persistent, always-visible way
-              // into the 3-option account-entry screen (Create company /
-              // Join company / Sign in) on a device that already has
-              // walk-up staff, so it isn't only reachable when the local
-              // staff list happens to be empty. Only shown alongside the
-              // real staff grid (selectedUser == null, staff non-empty) —
-              // it would just duplicate _FreshInstallEntry's own buttons
-              // otherwise, and PIN entry has its own Back link already.
-              if (selectedUser == null &&
-                  staffAsync.maybeWhen(
-                    data: (staff) => staff.isNotEmpty,
-                    orElse: () => false,
-                  ))
-                Center(
-                  child: TextButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const _SignInAnotherWayScreen(),
-                      ),
                     ),
-                    child: const Text('Not on this list? Sign in another way'),
-                  ),
-                ),
-            ],
+                ],
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -274,7 +290,10 @@ class _FreshInstallEntry extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      Image.asset('assets/images/kitchen.png', fit: BoxFit.cover),
+                      Image.asset(
+                        'assets/images/kitchen.png',
+                        fit: BoxFit.cover,
+                      ),
                       DecoratedBox(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
@@ -310,19 +329,22 @@ class _FreshInstallEntry extends StatelessWidget {
               const SizedBox(height: 24),
               const _ValuePoint(
                 icon: Icons.verified_outlined,
-                text: 'Always EHO-ready - real-time compliance, not a '
+                text:
+                    'Always EHO-ready - real-time compliance, not a '
                     'once-a-year scramble',
               ),
               const SizedBox(height: 12),
               const _ValuePoint(
                 icon: Icons.shield_outlined,
-                text: "Built so results can't be gamed - every check is "
+                text:
+                    "Built so results can't be gamed - every check is "
                     'honest, every record stands up',
               ),
               const SizedBox(height: 12),
               const _ValuePoint(
                 icon: Icons.picture_as_pdf_outlined,
-                text: 'One-tap audit export - hand an inspector a real '
+                text:
+                    'One-tap audit export - hand an inspector a real '
                     'record, instantly',
               ),
               const SizedBox(height: 28),
