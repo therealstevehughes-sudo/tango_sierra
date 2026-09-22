@@ -25,8 +25,15 @@ class AppColors {
   // just enough contrast for cards to read as raised.
   static const Color paper = Color(0xFFEFEAE2);
   static const Color card = Color(0xFFFFFFFF);
-  static const Color line = Color(0xFFF0ECE6);
-  static const Color lineStrong = Color(0xFFECE8E2);
+  // Darkened (2026-09-22, direct user feedback: "the buttons need a
+  // darker border") — `line` at #F0ECE6 was nearly invisible against
+  // both the paper background and white AppCard fill, especially once
+  // the darker paper (#EFEAE2, above) and faint SectionBackground photos
+  // landed — cards/tappable tiles read as edgeless. lineStrong bumped
+  // to stay visibly a step darker than line, not nearly identical to it
+  // as before.
+  static const Color line = Color(0xFFD9D2C5);
+  static const Color lineStrong = Color(0xFFC9C0B0);
   static const Color muted = Color(0xFF6A635A);
   // New with Guided Cards — secondary/tertiary text tones the old palette
   // didn't distinguish (subtitles vs. list-row timestamps vs. primary
