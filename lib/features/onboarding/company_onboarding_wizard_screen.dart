@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../app/theme/app_colors.dart';
 import '../../core/data/countries.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
@@ -11,6 +12,7 @@ import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/venue_type.dart';
+import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/subscription_providers.dart';
 import '../../shared/providers/task_submission_providers.dart' show appDatabaseProvider;
 import '../../shared/providers/tenant_provisioning_providers.dart';
@@ -19,6 +21,7 @@ import '../../shared/repositories/task_template_repository.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
 import '../../shared/repositories/venue_type_repository.dart';
 import '../auth/senior_login_screen.dart';
+import '../home/tier_home_screen.dart';
 
 /// Sprint 034 (Customer Onboarding & Billing Foundation) — replaces the
 /// old single-screen `TenantSignupScreen` with the full step-by-step
@@ -63,6 +66,13 @@ class _CompanyOnboardingWizardScreenState
   bool _startingDirectDebit = false;
   String? _directDebitRedirectUrl;
   String? _directDebitError;
+
+  // Sprint 046 — set once _activateBackendSession succeeds; drives both
+  // the "Invite your team" step (needs a real site + access token to
+  // call provisionStaffPin) and whether the success screen can offer
+  // "Go to dashboard" at all (falls back to "Go to sign in" if this
+  // never got set).
+  int? _activeSiteId;
 
   // Step 1 — admin account
   final _inviteCode = TextEditingController();
@@ -211,13 +221,18 @@ class _CompanyOnboardingWizardScreenState
         _submitting = false;
         _done = result;
       });
+      // Sprint 046 (Team Invite + Live Landing, 2026-09-22) — always
+      // sign the new Director in and switch this running session into
+      // real backend mode, regardless of payment choice. Best-effort:
+      // the company/venue/subscription are already real either way, so a
+      // failure here just falls back to the old "go to sign in manually"
+      // path rather than blocking anything.
+      await _activateBackendSession(result);
       // Sprint 045 (Real Activation Inside the Wizard, 2026-09-21) —
       // only when the customer actually chose Direct Debit as their
       // payment preference (never for 'stripe', which isn't built, and
       // never for "I'll decide later" — both correctly still defer to
-      // Settings, unchanged). Best-effort: any failure here is shown as
-      // a plain message on the success screen, never blocks it — the
-      // company and venue are already real and created either way.
+      // Settings, unchanged).
       if (_paymentProvider == 'gocardless') {
         await _startDirectDebitAfterSignup();
       }
@@ -230,22 +245,42 @@ class _CompanyOnboardingWizardScreenState
     }
   }
 
-  // Sprint 045 — the account was just created but this app has no
-  // session yet (tenant-signup never mints one, and the wizard doesn't
-  // "log in" as part of finishing sign-up — full auto sign-in onto the
-  // live dashboard is Sprint 046's job, not this one). A plain
-  // signInWithPassword using the credentials the user just typed a few
-  // seconds ago is enough to get the one real token
-  // gocardless-start-mandate needs — no 2FA check needed here (a brand
-  // new account has no factor enrolled yet).
-  Future<void> _startDirectDebitAfterSignup() async {
-    setState(() => _startingDirectDebit = true);
+  // Sprint 046 — the account was just created but this app has no real
+  // session yet (tenant-signup never mints one on purpose — it's an
+  // unauthenticated bootstrap call). A plain signInWithPassword using the
+  // credentials just typed a few seconds ago is enough (no 2FA check
+  // needed — a brand-new account has no factor enrolled yet). Once
+  // signed in, flips both backend flags — implements Phase C1's own
+  // decision #5 ("real installs = both backend flags forced ON"), which
+  // had been approved back then but never actually wired up (both were
+  // hardcoded `false` literals until this sprint) — and loads the real
+  // profile so `currentUserProvider` reflects who's actually signed in,
+  // the same thing every other login path in this app already does.
+  Future<void> _activateBackendSession(TenantSignupResult result) async {
     try {
       final response = await gotrue.Supabase.instance.client.auth
           .signInWithPassword(email: _email.text.trim(), password: _password.text);
-      if (response.session == null) {
-        throw Exception('sign-in failed');
-      }
+      if (response.session == null) return;
+
+      ref.read(backendAuthEnabledProvider.notifier).state = true;
+      ref.read(backendDataEnabledProvider.notifier).state = true;
+
+      final staff = await ref.read(userRepositoryProvider).getAll();
+      final self = staff.where((u) => u.id == result.localUserId).firstOrNull;
+      if (self == null) return;
+      ref.read(currentUserProvider.notifier).state = self;
+      if (!mounted) return;
+      setState(() => _activeSiteId = result.siteId);
+    } catch (_) {
+      // Best-effort — the company/venue are already real regardless.
+      // _SuccessView falls back to "Go to sign in" manually if this
+      // never set a current user.
+    }
+  }
+
+  Future<void> _startDirectDebitAfterSignup() async {
+    setState(() => _startingDirectDebit = true);
+    try {
       final redirectUrl = await ref
           .read(subscriptionRepositoryProvider)
           .startDirectDebitSetup();
@@ -279,6 +314,7 @@ class _CompanyOnboardingWizardScreenState
               alignment: Alignment.center,
               child: _SuccessView(
                 result: _done!,
+                activeSiteId: _activeSiteId,
                 paymentProvider: _paymentProvider,
                 startingDirectDebit: _startingDirectDebit,
                 directDebitRedirectUrl: _directDebitRedirectUrl,
@@ -915,9 +951,16 @@ class _PlanOption extends StatelessWidget {
   }
 }
 
-class _SuccessView extends StatelessWidget {
+// Sprint 046 (Team Invite + Live Landing, 2026-09-22) — converted from a
+// StatelessWidget: now owns the "invite your team" mini-form's own state
+// (the wizard screen above it is done, this is a genuinely separate
+// step). [activeSiteId] is null only if _activateBackendSession failed —
+// falls back to the old manual "Go to sign in" path rather than
+// offering a dashboard/invite flow with no real session behind it.
+class _SuccessView extends ConsumerStatefulWidget {
   const _SuccessView({
     required this.result,
+    required this.activeSiteId,
     this.paymentProvider,
     this.startingDirectDebit = false,
     this.directDebitRedirectUrl,
@@ -925,53 +968,203 @@ class _SuccessView extends StatelessWidget {
   });
 
   final TenantSignupResult result;
+  final int? activeSiteId;
   final String? paymentProvider;
   final bool startingDirectDebit;
   final String? directDebitRedirectUrl;
   final String? directDebitError;
 
   @override
+  ConsumerState<_SuccessView> createState() => _SuccessViewState();
+}
+
+class _SuccessViewState extends ConsumerState<_SuccessView> {
+  final _staffName = TextEditingController();
+  final _staffJobTitle = TextEditingController();
+  String _staffRoleTier = 'base';
+  bool _inviting = false;
+  String? _inviteError;
+  final List<StaffPinProvisionResult> _invited = [];
+
+  @override
+  void dispose() {
+    _staffName.dispose();
+    _staffJobTitle.dispose();
+    super.dispose();
+  }
+
+  Future<void> _inviteStaff() async {
+    final siteId = widget.activeSiteId;
+    final name = _staffName.text.trim();
+    final jobTitle = _staffJobTitle.text.trim();
+    if (siteId == null || name.isEmpty || jobTitle.isEmpty) return;
+    final accessToken = gotrue
+        .Supabase.instance.client.auth.currentSession?.accessToken;
+    if (accessToken == null) return;
+
+    setState(() {
+      _inviting = true;
+      _inviteError = null;
+    });
+    try {
+      final invited = await ref
+          .read(tenantProvisioningRepositoryProvider)
+          .provisionStaffPin(
+            callerAccessToken: accessToken,
+            name: name,
+            jobTitle: jobTitle,
+            roleTier: _staffRoleTier,
+            siteId: siteId,
+          );
+      if (!mounted) return;
+      setState(() {
+        _invited.add(invited);
+        _staffName.clear();
+        _staffJobTitle.clear();
+        _inviting = false;
+      });
+    } on StaffPinProvisionException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _inviteError = e.message;
+        _inviting = false;
+      });
+    }
+  }
+
+  void _goToDashboard() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const TierHomeScreen()),
+      (route) => false,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final activated = widget.activeSiteId != null;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const AppBanner(
+        AppBanner(
           kind: BannerKind.info,
           child: Text(
-            'Your company and first venue are set up. Sign in with your '
-            'email and the password you just chose.',
+            activated
+                ? "Your company and first venue are set up, and you're "
+                      'signed in.'
+                : 'Your company and first venue are set up. Sign in with '
+                      'your email and the password you just chose.',
           ),
         ),
         // Sprint 045 — only shown when 'gocardless' was actually chosen
         // as the payment preference; 'stripe'/"decide later" show nothing
         // extra here, same as before this sprint.
-        if (paymentProvider == 'gocardless') ...[
+        if (widget.paymentProvider == 'gocardless') ...[
           const SizedBox(height: 16),
-          if (startingDirectDebit)
+          if (widget.startingDirectDebit)
             const AppBanner(
               kind: BannerKind.info,
               child: Text('Setting up Direct Debit...'),
             )
-          else if (directDebitRedirectUrl != null)
+          else if (widget.directDebitRedirectUrl != null)
             const AppBanner(
               kind: BannerKind.info,
               child: Text(
                 "We've opened your browser to finish setting up Direct "
-                "Debit. Once that's done, come back here and sign in.",
+                'Debit.',
               ),
             )
-          else if (directDebitError != null)
-            AppBanner(kind: BannerKind.caution, child: Text(directDebitError!)),
+          else if (widget.directDebitError != null)
+            AppBanner(
+              kind: BannerKind.caution,
+              child: Text(widget.directDebitError!),
+            ),
+        ],
+        if (activated) ...[
+          const SizedBox(height: 24),
+          Text(
+            'Invite your team',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            "Optional — add whoever's on shift now, or skip and do this "
+            'later from Staff Management.',
+          ),
+          const SizedBox(height: 12),
+          for (final person in _invited)
+            AppCard(
+              child: ListTile(
+                title: Text(person.name),
+                subtitle: Text('PIN: ${person.pin}'),
+                dense: true,
+              ),
+            ),
+          if (_invited.isNotEmpty) const SizedBox(height: 8),
+          AppCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: _staffName,
+                  decoration: const InputDecoration(labelText: 'Name'),
+                  textCapitalization: TextCapitalization.words,
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _staffJobTitle,
+                  decoration: const InputDecoration(labelText: 'Job title'),
+                  textCapitalization: TextCapitalization.words,
+                ),
+                const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  initialValue: _staffRoleTier,
+                  decoration: const InputDecoration(labelText: 'Tier'),
+                  items: const [
+                    DropdownMenuItem(value: 'base', child: Text('Team Member')),
+                    DropdownMenuItem(
+                      value: 'supervisor',
+                      child: Text('Supervisor'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'venueManager',
+                      child: Text('Manager'),
+                    ),
+                  ],
+                  onChanged: (v) => setState(() => _staffRoleTier = v!),
+                ),
+                if (_inviteError != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    _inviteError!,
+                    style: const TextStyle(color: AppColors.critical),
+                  ),
+                ],
+                const SizedBox(height: 12),
+                OutlinedButton(
+                  onPressed: _inviting ? null : _inviteStaff,
+                  child: _inviting
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text('Add team member'),
+                ),
+              ],
+            ),
+          ),
         ],
         const SizedBox(height: 24),
         FilledButton(
-          onPressed: () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
-            );
-          },
-          child: const Text('Go to sign in'),
+          onPressed: activated
+              ? _goToDashboard
+              : () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
+                  );
+                },
+          child: Text(activated ? 'Go to dashboard' : 'Go to sign in'),
         ),
       ],
     );

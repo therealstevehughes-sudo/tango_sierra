@@ -41,7 +41,7 @@ void main() {
 
   setUp(() {
     container = ProviderContainer(
-      overrides: [backendDataEnabledProvider.overrideWithValue(true)],
+      overrides: [backendDataEnabledProvider.overrideWith((ref) => true)],
     );
     container.read(currentSessionTokenProvider.notifier).state =
         _branchC1Token;

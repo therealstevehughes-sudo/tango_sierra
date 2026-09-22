@@ -40,8 +40,8 @@ void main() {
     (tester) async {
       final container = ProviderContainer(
         overrides: [
-          backendDataEnabledProvider.overrideWithValue(true),
-          backendAuthEnabledProvider.overrideWithValue(true),
+          backendDataEnabledProvider.overrideWith((ref) => true),
+          backendAuthEnabledProvider.overrideWith((ref) => true),
         ],
       );
       addTearDown(container.dispose);
@@ -100,7 +100,7 @@ void main() {
   testWidgets('a duplicate email is rejected without leaving an orphan tenant',
       (tester) async {
     final container = ProviderContainer(
-      overrides: [backendDataEnabledProvider.overrideWithValue(true)],
+      overrides: [backendDataEnabledProvider.overrideWith((ref) => true)],
     );
     addTearDown(container.dispose);
 

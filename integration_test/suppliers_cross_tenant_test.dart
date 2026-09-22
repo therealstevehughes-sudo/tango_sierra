@@ -42,11 +42,11 @@ void main() {
 
   setUp(() {
     containerA = ProviderContainer(
-      overrides: [backendDataEnabledProvider.overrideWithValue(true)],
+      overrides: [backendDataEnabledProvider.overrideWith((ref) => true)],
     );
     containerA.read(currentSessionTokenProvider.notifier).state = _tokenA;
     containerB = ProviderContainer(
-      overrides: [backendDataEnabledProvider.overrideWithValue(true)],
+      overrides: [backendDataEnabledProvider.overrideWith((ref) => true)],
     );
     containerB.read(currentSessionTokenProvider.notifier).state = _tokenB;
   });

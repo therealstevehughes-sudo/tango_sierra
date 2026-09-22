@@ -41,7 +41,7 @@ void main() {
 
   ProviderContainer containerFor(String token) {
     final c = ProviderContainer(
-      overrides: [backendDataEnabledProvider.overrideWithValue(true)],
+      overrides: [backendDataEnabledProvider.overrideWith((ref) => true)],
     );
     c.read(currentSessionTokenProvider.notifier).state = token;
     return c;

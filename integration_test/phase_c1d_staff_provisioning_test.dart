@@ -43,8 +43,8 @@ void main() {
     (tester) async {
       final director = ProviderContainer(
         overrides: [
-          backendDataEnabledProvider.overrideWithValue(true),
-          backendAuthEnabledProvider.overrideWithValue(true),
+          backendDataEnabledProvider.overrideWith((ref) => true),
+          backendAuthEnabledProvider.overrideWith((ref) => true),
         ],
       );
       addTearDown(director.dispose);
@@ -84,8 +84,8 @@ void main() {
       // Regional: create a branch, provision a branch manager.
       final regional = ProviderContainer(
         overrides: [
-          backendDataEnabledProvider.overrideWithValue(true),
-          backendAuthEnabledProvider.overrideWithValue(true),
+          backendDataEnabledProvider.overrideWith((ref) => true),
+          backendAuthEnabledProvider.overrideWith((ref) => true),
         ],
       );
       addTearDown(regional.dispose);
@@ -117,7 +117,7 @@ void main() {
       // account that has no local Drift row at all, via the actual
       // userRepositoryProvider.authenticate() backend-native path.
       final vmContainer = ProviderContainer(
-        overrides: [backendDataEnabledProvider.overrideWithValue(true)],
+        overrides: [backendDataEnabledProvider.overrideWith((ref) => true)],
       );
       addTearDown(vmContainer.dispose);
       final vmOutcome = await vmContainer.read(userRepositoryProvider).authenticate(
@@ -153,7 +153,7 @@ void main() {
 
       // That new person's own real PIN login also works.
       final baseContainer = ProviderContainer(
-        overrides: [backendDataEnabledProvider.overrideWithValue(true)],
+        overrides: [backendDataEnabledProvider.overrideWith((ref) => true)],
       );
       addTearDown(baseContainer.dispose);
       final baseOutcome = await baseContainer.read(userRepositoryProvider).authenticate(

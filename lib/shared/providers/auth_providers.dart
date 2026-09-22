@@ -152,7 +152,20 @@ final currentUserProvider = StateProvider<User?>((ref) => null);
 // as it always has until this is flipped, and even once on, any staff
 // member not yet synced to the backend (no supabaseUserId) still falls
 // back to the local check automatically (see UserRepository.authenticate).
-final backendAuthEnabledProvider = Provider<bool>((ref) => false);
+//
+// A real StateProvider, not a constant (2026-09-22, Sprint 046) —
+// implements Phase C1's own decision #5 ("real installs = both backend
+// flags forced ON, no runtime toggle"), which had been approved but
+// never actually wired to anything: this and backendDataEnabledProvider
+// were both hardcoded `false` literals, meaning even the tenant-signup
+// wizard's own brand-new backend account would have landed on an empty
+// local Drift install with no way to see its own real data. The wizard
+// flips both to true right after a successful sign-up + sign-in — the
+// one place a running session actually KNOWS it just became a real
+// backend tenant, not a demo. Every other entry point (the local demo
+// flavour, PIN walk-up) is completely unaffected — both still start
+// false exactly as before, since nothing else in the app sets them.
+final backendAuthEnabledProvider = StateProvider<bool>((ref) => false);
 
 // Holds the real Supabase session token once a tap-name+PIN login has been
 // verified server-side. Null when signed out, or when the current session
@@ -170,7 +183,7 @@ final currentSessionTokenProvider = StateProvider<String?>((ref) => null);
 // RLS needs a real JWT with org/site/region claims to let anything through;
 // with only this flag on, every backend-scoped call comes back empty (the
 // same fail-closed behaviour Phase B1 proved for a missing/anon token).
-final backendDataEnabledProvider = Provider<bool>((ref) => false);
+final backendDataEnabledProvider = StateProvider<bool>((ref) => false);
 
 // The one access token every Supabase-backed Phase B2 repository actually
 // sends — unifies PIN sessions (their own HS256 token, minted by

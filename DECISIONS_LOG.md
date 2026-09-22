@@ -2163,3 +2163,17 @@ The previous "Not Completed" line-break fix (logged just above) turned out not t
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/features/problems/problems_register_screen.dart`, `lib/features/issues/issues_register_tab.dart`.
+
+## Sprint 046 — Team Invite + Live Landing (built 2026-09-22)
+Fifth and final sprint of Phase 14. Closes the sign-up wizard's last gap: it used to end with a plain "Company created — sign in with your email and password" message, dumping the new Director back onto a manual sign-in step for an account they just created seconds ago.
+
+**A real, previously-undiscovered foundation gap, found and fixed while scoping this sprint**: `backendAuthEnabledProvider`/`backendDataEnabledProvider` (the two flags every backend-hosted repository in this app checks) were hardcoded `Provider<bool>((ref) => false)` literals — permanently off, with no way to turn them on at runtime anywhere in the app. This directly contradicted an already-approved decision from Phase C1 (2026-09-10, decision #5): "real installs = both backend flags forced ON, no runtime toggle." That decision had never actually been wired to anything. Converted both to `StateProvider<bool>` (still defaulting `false` — the local/demo flavour and PIN walk-up are completely unaffected) so a real backend session can flip them on for itself. All 27 `integration_test/*.dart` call sites using `.overrideWithValue(...)` on these two providers updated to `.overrideWith((ref) => ...)`, the correct override method for a `StateProvider` — mechanical, no behaviour change, re-verified passing.
+
+**The actual sprint**: after a successful sign-up, `_activateBackendSession()` now always (regardless of payment choice) signs the new Director in via `signInWithPassword` (same credentials just typed), flips both backend flags on for this running session, loads the Director's own real profile row, and sets `currentUserProvider` — the same thing every other login path in this app already does. **Proven live**: a real throwaway tenant's self-profile lookup (`users` table, RLS-scoped) returned exactly the expected row, confirming the lookup-by-id logic will correctly find the just-created account.
+
+The success screen is now a real "Invite your team" step (optional — "Add whoever's on shift now, or skip and do this later from Staff Management"), reusing the existing `provisionStaffPin` Edge Function unchanged (no new invite mechanics built, per the approved plan) — add a name/job title/tier, get back a real PIN, shown inline. A "Go to dashboard" button replaces "Go to sign in", using `Navigator.pushAndRemoveUntil` to land cleanly on `TierHomeScreen` with no old wizard screens left on the stack. Falls back to the original "Go to sign in" manual path if `_activateBackendSession` failed for any reason (best-effort, never blocks — the company/venue are already real either way).
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched — full UI click-through (does it actually land on a working dashboard, does invite-a-team-member work end to end) pending with the user, since that's real navigation/UI behaviour I can't exercise myself.
+
+**This closes Phase 14 (Sprints 042–046) in full.**
+Files: `lib/shared/providers/auth_providers.dart`, `lib/features/onboarding/company_onboarding_wizard_screen.dart`, 10 `integration_test/*.dart` files (override syntax only, no logic change).

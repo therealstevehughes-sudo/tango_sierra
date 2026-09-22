@@ -42,8 +42,8 @@ void main() {
     (tester) async {
       final director = ProviderContainer(
         overrides: [
-          backendDataEnabledProvider.overrideWithValue(true),
-          backendAuthEnabledProvider.overrideWithValue(true),
+          backendDataEnabledProvider.overrideWith((ref) => true),
+          backendAuthEnabledProvider.overrideWith((ref) => true),
         ],
       );
       addTearDown(director.dispose);
@@ -104,8 +104,8 @@ void main() {
       // THIS layer too, not just curl.
       final regional = ProviderContainer(
         overrides: [
-          backendDataEnabledProvider.overrideWithValue(true),
-          backendAuthEnabledProvider.overrideWithValue(true),
+          backendDataEnabledProvider.overrideWith((ref) => true),
+          backendAuthEnabledProvider.overrideWith((ref) => true),
         ],
       );
       addTearDown(regional.dispose);
