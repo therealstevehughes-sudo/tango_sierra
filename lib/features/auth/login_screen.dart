@@ -8,6 +8,7 @@ import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_background.dart';
 import '../../core/widgets/section_header.dart';
+import '../../shared/models/department.dart';
 import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -103,6 +104,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final staffAsync = ref.watch(staffDirectoryProvider);
+    // Section picker (2026-09-23) — fails open: while loading or on error,
+    // this is just an empty list, meaning _StaffList falls back to today's
+    // single flat list. A missing/slow departments fetch should never
+    // block or break the walk-up screen a shared kitchen tablet depends
+    // on to work every single time.
+    final departments = ref
+        .watch(staffDirectoryDepartmentsProvider)
+        .maybeWhen(data: (d) => d, orElse: () => const <Department>[]);
     // Branding (2026-09-13): pre-auth, so there's no site/branch context
     // yet — the app logo plus the default organisation's client branding
     // (logo/name) when a Director has set it. The branch name appears
@@ -189,6 +198,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                     alignment: Alignment.topCenter,
                                     child: _StaffList(
                                       staff: staff,
+                                      departments: departments,
                                       onSelect: selectUser,
                                     ),
                                   ),
@@ -642,10 +652,19 @@ class _DevicePairingPromptState extends ConsumerState<_DevicePairingPrompt> {
 }
 
 class _StaffList extends StatefulWidget {
-  const _StaffList({required this.staff, required this.onSelect});
+  const _StaffList({
+    required this.staff,
+    required this.onSelect,
+    this.departments = const [],
+  });
 
   final List<User> staff;
   final ValueChanged<User> onSelect;
+  // Section picker (2026-09-23) — empty for a single-department venue
+  // (today's behaviour, unchanged) or when used to render a department's
+  // OWN staff inside _DepartmentStaffScreen (deliberately passed empty
+  // there so it never recurses into a second picker level).
+  final List<Department> departments;
 
   @override
   State<_StaffList> createState() => _StaffListState();
@@ -701,6 +720,38 @@ class _StaffListState extends State<_StaffList> {
           ].where((u) => u.name.toLowerCase().contains(query)).toList()
         : const <User>[];
 
+    // Section picker (2026-09-23, direct user request) — only kicks in for
+    // a genuinely multi-department venue; a single-department venue (the
+    // common case, and everything before this feature) sees exactly
+    // today's flat list, unchanged. Search always searches every
+    // department at once (isSearching branch above, untouched) — the
+    // picker only replaces the browse-by-scrolling view, never search.
+    final allVisibleStaff = [...kitchenStaff, ...supervisorsAndManagers];
+    final departmentGroups = <_DepartmentGroup>[];
+    for (final department in widget.departments) {
+      final members = allVisibleStaff
+          .where((u) => u.departmentId == department.id)
+          .toList();
+      if (members.isNotEmpty) {
+        departmentGroups.add(
+          _DepartmentGroup(name: department.name, staff: members),
+        );
+      }
+    }
+    final knownDepartmentIds = widget.departments.map((d) => d.id).toSet();
+    final unassigned = allVisibleStaff
+        .where(
+          (u) =>
+              u.departmentId == null ||
+              !knownDepartmentIds.contains(u.departmentId),
+        )
+        .toList();
+    if (unassigned.isNotEmpty && departmentGroups.isNotEmpty) {
+      departmentGroups.add(_DepartmentGroup(name: 'Other', staff: unassigned));
+    }
+    final showDepartmentPicker =
+        !isSearching && departmentGroups.length >= 2;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -750,6 +801,8 @@ class _StaffListState extends State<_StaffList> {
         Expanded(
           child: isSearching
               ? _buildSearchResults(searchResults)
+              : showDepartmentPicker
+              ? _buildDepartmentPicker(departmentGroups)
               : _buildGroupedList(kitchenStaff, supervisorsAndManagers),
         ),
       ],
@@ -775,6 +828,61 @@ class _StaffListState extends State<_StaffList> {
           _sectionGrid(supervisorsAndManagers),
         ],
       ],
+    );
+  }
+
+  // Section picker (2026-09-23) — a venue with 2+ departments that
+  // actually have staff sees this instead of _buildGroupedList: pick a
+  // department first, then see that department's own staff (still
+  // grouped by tier, on the next page — see _DepartmentStaffScreen).
+  Widget _buildDepartmentPicker(List<_DepartmentGroup> groups) {
+    return ListView(
+      padding: const EdgeInsets.only(bottom: 24),
+      children: [
+        const SectionHeader(title: 'Choose a section'),
+        const SizedBox(height: 8),
+        if (!isCompactWidth(context))
+          GridView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 280,
+              mainAxisExtent: 88,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+            ),
+            itemCount: groups.length,
+            itemBuilder: (context, index) => _DepartmentTile(
+              group: groups[index],
+              onTap: () => _openDepartment(groups[index]),
+            ),
+          )
+        else
+          Column(
+            children: [
+              for (final group in groups) ...[
+                _DepartmentTile(
+                  group: group,
+                  onTap: () => _openDepartment(group),
+                ),
+                const SizedBox(height: 8),
+              ],
+            ],
+          ),
+      ],
+    );
+  }
+
+  void _openDepartment(_DepartmentGroup group) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => _DepartmentStaffScreen(
+          title: group.name,
+          staff: group.staff,
+          onSelect: widget.onSelect,
+        ),
+      ),
     );
   }
 
@@ -848,6 +956,109 @@ class _StaffListState extends State<_StaffList> {
       if (i != users.length - 1) tiles.add(const SizedBox(height: 8));
     }
     return tiles;
+  }
+}
+
+// Section picker (2026-09-23) — a plain data holder, not a model: exists
+// only to carry a department's (or "Other"'s) name alongside the staff
+// subset that belongs to it, for exactly as long as it takes to render
+// the picker grid and open the matching drill-down page.
+class _DepartmentGroup {
+  const _DepartmentGroup({required this.name, required this.staff});
+
+  final String name;
+  final List<User> staff;
+}
+
+// One department button in the picker — same warm card language as
+// _StaffTile, but shows a department name + headcount instead of a
+// person, and a chevron instead of an avatar initial (this opens a page,
+// it doesn't sign anyone in directly).
+class _DepartmentTile extends StatelessWidget {
+  const _DepartmentTile({required this.group, required this.onTap});
+
+  final _DepartmentGroup group;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.card,
+      borderRadius: BorderRadius.circular(12),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(12),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: AppColors.lineStrong, width: 1.5),
+          ),
+          child: ListTile(
+            dense: true,
+            leading: const CircleAvatar(
+              backgroundColor: AppColors.tealTint,
+              foregroundColor: AppColors.tealInk,
+              child: Icon(Icons.groups_outlined),
+            ),
+            title: Text(
+              group.name,
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+            subtitle: Text(
+              '${group.staff.length} '
+              '${group.staff.length == 1 ? 'person' : 'people'}',
+            ),
+            trailing: const Icon(Icons.chevron_right, color: AppColors.muted),
+            onTap: onTap,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// Section picker (2026-09-23) — the "following page" the user asked for:
+// a plain second screen showing one department's own staff, reusing
+// _StaffList wholesale (with an empty departments list, so it renders
+// today's tier-grouped list/search and never recurses into a second
+// picker). Selecting someone here calls the SAME onSelect the parent
+// LoginScreen passed all the way down, then pops back to it — LoginScreen
+// reactively shows PinEntry once selectedUser is set, but that only
+// happens on the ROUTE UNDERNEATH this one, so popping first is what
+// actually reveals it (same reasoning SeniorLoginScreen's own
+// _finishSignIn documents for its own popUntil).
+class _DepartmentStaffScreen extends StatelessWidget {
+  const _DepartmentStaffScreen({
+    required this.title,
+    required this.staff,
+    required this.onSelect,
+  });
+
+  final String title;
+  final List<User> staff;
+  final ValueChanged<User> onSelect;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ResponsiveContent(
+            maxWidth: 960,
+            alignment: Alignment.topCenter,
+            child: _StaffList(
+              staff: staff,
+              onSelect: (user) {
+                onSelect(user);
+                Navigator.of(context).pop();
+              },
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
