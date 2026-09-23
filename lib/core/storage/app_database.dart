@@ -5211,8 +5211,11 @@ class AppDatabase extends _$AppDatabase {
   // versioning rule. Deliberately NOT every hygiene task — "Fitness-to-
   // work" is a declaration a photo can't verify, "No jewellery/false
   // nails" is lower-risk — scoped to the ones a photo genuinely proves.
+  // "Handwashing on entry / between tasks" deliberately excluded
+  // (2026-09-23, direct user feedback): wet hands right after washing
+  // make handling a phone camera impractical, and arguably undoes the
+  // hygiene point of the task itself.
   static const _randomPhotoCheckTitles = [
-    'Handwashing on entry / between tasks',
     'Clean uniform / apron',
     'Hair covering / beard net',
     'Cuts covered (blue plaster)',
@@ -5264,6 +5267,47 @@ class AppDatabase extends _$AppDatabase {
           guidanceText: Value(current.guidanceText),
           requiresSupplierSelection: Value(current.requiresSupplierSelection),
           randomPhotoCheckEnabled: const Value(true),
+        ),
+      );
+    }
+
+    // Correction (2026-09-23) — "Handwashing" was briefly on the list
+    // above before this fix; an install that already ran the old version
+    // of this function has it flagged true. Rolls it back the same
+    // append-only way rather than leaving it wrongly enabled forever.
+    final handwashing = currentByTitle['Handwashing on entry / between tasks'];
+    if (handwashing != null && handwashing.randomPhotoCheckEnabled) {
+      await into(taskTemplates).insert(
+        TaskTemplatesCompanion.insert(
+          templateGroupId: handwashing.templateGroupId,
+          versionNumber: handwashing.versionNumber + 1,
+          previousVersionId: Value(handwashing.id),
+          title: handwashing.title,
+          segment: handwashing.segment,
+          applicableRoleTiers: handwashing.applicableRoleTiers,
+          method: handwashing.method,
+          requiresPhoto: Value(handwashing.requiresPhoto),
+          requiresNotes: Value(handwashing.requiresNotes),
+          customFieldsJson: Value(handwashing.customFieldsJson),
+          minLimit: Value(handwashing.minLimit),
+          maxLimit: Value(handwashing.maxLimit),
+          unit: Value(handwashing.unit),
+          legalLimitCategory: Value(handwashing.legalLimitCategory),
+          isCritical: Value(handwashing.isCritical),
+          priority: Value(handwashing.priority),
+          requiresCorrectiveActionOnFail: Value(
+            handwashing.requiresCorrectiveActionOnFail,
+          ),
+          fixInstructions: Value(handwashing.fixInstructions),
+          equipmentTypeId: Value(handwashing.equipmentTypeId),
+          createdAt: DateTime.now(),
+          createdByUserId: Value(handwashing.createdByUserId),
+          jobRole: Value(handwashing.jobRole),
+          guidanceText: Value(handwashing.guidanceText),
+          requiresSupplierSelection: Value(
+            handwashing.requiresSupplierSelection,
+          ),
+          randomPhotoCheckEnabled: const Value(false),
         ),
       );
     }

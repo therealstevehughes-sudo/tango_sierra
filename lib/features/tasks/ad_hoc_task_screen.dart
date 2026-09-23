@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/supplier.dart';
@@ -279,11 +280,20 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
               ),
             ],
           ),
-          for (final template in templates)
+          // Visual pass follow-up (2026-09-23, direct user feedback) —
+          // bare ListTiles stacked with no divider read as one blurred
+          // block, not a list of distinct, tappable rows. A thin divider
+          // between rows (never after the last one) is the fix used
+          // everywhere else this pattern shows up in this app.
+          for (var i = 0; i < templates.length; i++) ...[
             ListTile(
-              title: Text(template.title),
-              onTap: () => setState(() => _selectedTemplate = template),
+              title: Text(templates[i].title),
+              trailing: const Icon(Icons.chevron_right, color: AppColors.muted),
+              onTap: () => setState(() => _selectedTemplate = templates[i]),
             ),
+            if (i != templates.length - 1)
+              const Divider(height: 1, color: AppColors.divider),
+          ],
         ],
       ),
     );

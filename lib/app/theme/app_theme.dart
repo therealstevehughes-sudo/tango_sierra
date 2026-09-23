@@ -78,6 +78,12 @@ class AppTheme {
       // forces an infinite width" the moment an ElevatedButton is placed
       // inside a Row (unconstrained main-axis width), found during the
       // full-app visual/UX audit on the task screen's PASS/FAIL buttons.
+      // Sized up again (2026-09-23, direct user feedback: "buttons need
+      // to be larger across the board") — 56dp read as too small once
+      // sat next to the staff-picker tiles' own ~72-88dp height (those
+      // are a separate ListTile-based widget, not themed here, and were
+      // explicitly called out as already the right size). 64dp height,
+      // wider minimum width and horizontal padding to match.
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: accent,
@@ -85,8 +91,8 @@ class AppTheme {
           disabledBackgroundColor: AppColors.lineStrong,
           disabledForegroundColor: AppColors.muted,
           textStyle: textTheme.labelLarge,
-          minimumSize: const Size(64, 56),
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          minimumSize: const Size(72, 64),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           // Guided Cards: 16px (was 8px), matching the mockup's primary
           // action button radius.
           shape: RoundedRectangleBorder(
@@ -110,8 +116,8 @@ class AppTheme {
           disabledBackgroundColor: AppColors.lineStrong,
           disabledForegroundColor: AppColors.muted,
           textStyle: textTheme.labelLarge,
-          minimumSize: const Size(64, 56),
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          minimumSize: const Size(72, 64),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -123,8 +129,8 @@ class AppTheme {
           foregroundColor: accent,
           disabledForegroundColor: AppColors.muted,
           textStyle: textTheme.labelLarge,
-          minimumSize: const Size(64, 56),
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          minimumSize: const Size(72, 64),
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           side: BorderSide(color: accent, width: 1.5),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),

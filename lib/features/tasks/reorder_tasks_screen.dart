@@ -309,13 +309,20 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Column(
               children: [
-                for (var i = 0; i < group.rows.length; i++)
+                // Visual pass follow-up (2026-09-23, direct user
+                // feedback) — same fix as the ad-hoc task picker: a
+                // divider between rows so this reads as a list of
+                // distinct tasks, not one blurred block.
+                for (var i = 0; i < group.rows.length; i++) ...[
                   _buildTaskRow(
                     groupIndex: index,
                     itemIndex: i,
                     count: group.rows.length,
                     row: group.rows[i],
                   ),
+                  if (i != group.rows.length - 1)
+                    const Divider(height: 1, color: AppColors.divider),
+                ],
               ],
             ),
           ),
