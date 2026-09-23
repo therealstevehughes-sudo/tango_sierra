@@ -1861,3 +1861,11 @@ Reverses the invite-gated `tenant-signup` from two days earlier (2026-09-20). Fu
 **Client-side** (no schema change needed — `subscriptions.billed_site_count` already existed): wizard's invite-code field removed, replaced with a branch-count stepper; old plan-radio picker removed. `SubscriptionRepository.startDirectDebitSetup()` now takes an optional `discountCode` and returns a `DirectDebitSetupResult` (`redirectUrl`, `discountApplied`, `discountError`) instead of a bare URL string. `BillingScreen` gained the actual discount-code text field (the wizard's own copy already said "enter it when you set up Direct Debit" — this is where that promise is now kept). `Subscription` model gained `billedSiteCount`; `planMonthlyPricePence` replaced by `totalMonthlyPricePence(billedSiteCount, {foundingOffer})`.
 
 Verified: `flutter analyze` clean project-wide, all 32 unit tests passing.
+
+## Section picker: device-login now returns departments (2026-09-23)
+
+`device-login` (`~/tango-sierra/supabase/docker/volumes/functions/device-login/index.ts`) extended: the staff query now selects `department_id` alongside the existing columns, and a second query fetches the site's own active departments (`id`, `name`, ordered by name). Response shape gained a `departments: [{id, name}, ...]` array; each staff row gained `department_id` (nullable, same as it already is client-side). No schema change — `departments` and `users.department_id` already existed on the backend.
+
+**Live-proven via curl before deploying to the client**: created a throwaway org (55) + site (60, with a `device_credential`) + two departments (Kitchen, Housekeeping) + one staff member assigned to Kitchen. Called `device-login` with the real setup code — response correctly returned `department_id: 7` on the staff row and both departments in the `departments` array. Cleaned up immediately after (staff, departments, site, org deleted in FK-safe order).
+
+Redeployed via `docker compose restart functions` (this function doesn't touch `.env`, matching the established "restart is enough, `--force-recreate` only needed for `.env` changes" rule from the Phase 2 push-notification gotcha).

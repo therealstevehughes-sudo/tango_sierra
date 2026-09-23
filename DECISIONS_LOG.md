@@ -2250,3 +2250,15 @@ Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build lau
 Files: `lib/core/storage/app_database.dart` (+ generated `.g.dart`), `lib/shared/models/task_template.dart`, `lib/shared/repositories/task_template_repository.dart`, `lib/shared/repositories/supabase_task_template_repository.dart`, `lib/features/tasks/task_model.dart`, `lib/features/tasks/task_controller.dart`, `lib/features/tasks/task_screen.dart`.
 
 **Not yet done**: backend `task_templates` table doesn't have the `random_photo_check_enabled` column yet (no SSH migration run this session) — a backend-hosted org won't get this feature until that lands and an equivalent one-off flag-seeding step runs server-side.
+
+## Department-first section picker (2026-09-23)
+User's own proposal on the staff walk-up screen: for a venue with 2+ departments/sections, show section buttons first, with that section's staff on the following page — rather than one flat list across the whole venue. Agreed with the caveat that it should only trigger once a venue actually HAS multiple departments with staff in them; a single-department venue (today's common case, and every venue until the departments-content sprint ships) keeps exactly today's flat list.
+
+Surfaced a real gap while scoping this: today's "Kitchen Staff"/"Supervisors & Managers" grouping isn't department-based at all — it's grouping by `RoleTier` (base vs. supervisor/manager). A real `Department` model already exists (Settings' Department Management screen), just never wired into this screen.
+
+**Built**: `staffDirectoryDepartmentsProvider` resolves the venue's active departments the same way `staffDirectoryProvider` already resolves staff (device-login response in backend mode, local Drift's default site otherwise — both pre-login, no session needed). `_StaffList` shows a department-button grid instead of today's tier-grouped list only when 2+ departments actually have staff; picking one pushes `_DepartmentStaffScreen`, which reuses `_StaffList` itself scoped to that department (passed an empty department list so it can't recurse into a second picker). Search is unaffected — it always searches every department at once, matching today's convenience. Staff with no department assigned (or one that's since been deactivated) land in an "Other" group instead of silently disappearing.
+
+**Backend parity, done in the same pass** (not deferred, unlike the randomised photo-check above) — the `device-login` Edge Function now also returns `department_id` per staff row and the site's own active departments. Proven live before any client change: a throwaway test site with two departments and one staff member, curled directly, confirmed the exact response shape the client expects — then cleaned up. This was a deliberate choice given the pressure-test audit's whole point was catching exactly this kind of client/backend drift.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/features/auth/login_screen.dart`, `lib/shared/providers/auth_providers.dart`, backend: `device-login`.
