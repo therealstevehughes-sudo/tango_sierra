@@ -2340,3 +2340,11 @@ Continued the app-wide sweep started with the delivery-problem form. Audited eve
 
 Verified: `flutter analyze` clean (only pre-existing `RadioListTile` deprecation infos), all 32 tests passing, fresh Windows build launched.
 Files: `lib/features/issues/report_issue_screen.dart`, `lib/features/manager/manager_log_filter.dart`, `lib/features/settings/supplier_management_screen.dart`, `lib/features/venue_setup/venue_setup_wizard_screen.dart`, `lib/features/settings/settings_screen.dart`.
+
+## Incident detail screen redesign (2026-09-24)
+User's own critique of this exact screen, approved to fix without a plan ("just correct, I trust you"): content read as "floating in space" (old layout used `Center(...)`, vertically centering everything on a tall window); History was a column of loose text with no visual structure; no per-event actions existed beyond the bottom form.
+
+Fixed all three: top-anchored via `ResponsiveContent` (same pattern every other detail screen already uses) instead of `Center`; History is now a real timeline (coloured dot per event — green resolved, red escalated, amber reopened, teal raised — connected by a line). Added two **real** per-event actions rather than decorative ones: `IssueRepository.reopen()` ("Appeal" — a resolved issue is no longer a dead end, requires a note, logs a real event) and `IssueRepository.remind()` (re-sends the escalation push without creating a new history row — a nudge, not a process step; backend-only, gated in the UI rather than erroring after tap). Deliberately did NOT duplicate Escalate/Resolve per row — those already have a real home in the "Add an update" card and duplicating them would be decoration, not function.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/features/issues/issue_detail_screen.dart`, `lib/shared/repositories/issue_repository.dart`, `lib/shared/repositories/supabase_issue_repository.dart`.
