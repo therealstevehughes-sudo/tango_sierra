@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
-import '../../core/data/motivational_quotes.dart';
+import '../../core/data/motivational_quote_service.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -41,7 +41,11 @@ class _ShiftWelcomeScreenState extends ConsumerState<ShiftWelcomeScreen> {
   int _startCount = 0;
   int _duringCount = 0;
   int _endCount = 0;
-  late final String _quote = randomMotivationalQuote();
+  // Per-person, non-repeating rotation (2026-09-24) — see
+  // MotivationalQuoteService's own doc comment. Falls back to the plain
+  // random picker if the lookup fails for any reason; the quote is a
+  // nice-to-have, never something that should block the welcome screen.
+  String _quote = '';
 
   @override
   void initState() {
@@ -51,7 +55,19 @@ class _ShiftWelcomeScreenState extends ConsumerState<ShiftWelcomeScreen> {
     // record. Fire-and-forget is fine here — worst case a missed clock-in
     // row, never something that blocks the person getting to work.
     _clockIn();
+    _loadQuote();
     _load();
+  }
+
+  Future<void> _loadQuote() async {
+    String quote;
+    try {
+      quote = await motivationalQuoteService.nextQuoteFor(widget.user.id);
+    } catch (_) {
+      quote = randomMotivationalQuote();
+    }
+    if (!mounted) return;
+    setState(() => _quote = quote);
   }
 
   Future<void> _clockIn() async {
