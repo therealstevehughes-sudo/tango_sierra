@@ -2278,3 +2278,29 @@ Direct user report: the app dropped from the splash straight into `LoginScreen`'
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/app/app.dart`.
+
+## Splash bumped to 3 seconds (2026-09-24)
+Direct follow-up: "can we keep it on screen for the full 3 seconds?" — bumped the minimum floor from 1.8s to 3s (top of the normal 1.5-3s splash range), still extended further if real data isn't ready.
+Files: `lib/app/app.dart`.
+
+## Tick-box sweep, round 1 + collapsible task groups (2026-09-24)
+User request: convert dropdowns/chips to vertical tick/radio lists app-wide "where it makes sense" (faster and easier on phones/tablets than a dropdown's extra tap or chips wrapping unpredictably), plus fix the "every task listed, could use a drop-down to save space" flat task browser.
+
+`DeliveryDetailForm`: 4 horizontal problem-flag chips (from the user's own screenshot) → vertical `CheckboxListTile` column; 3-option Outcome dropdown → `RadioListTile` group. Supplier dropdown left alone — a real per-venue list that can run long, where a dropdown stays more practical than a tall tick list (the judgment call: short fixed lists → tick/radio, long reference lists → stay dropdown).
+
+`StaffAssignmentScreen` had TWO separate flat-list code paths (By Person mode and By Task mode), both showing every task grouped by raw segment slug (e.g. "food_safety", or literally "Segment: reception" in By Task mode) with no way to collapse. New `segmentDisplayName()` helper (`lib/shared/models/task_segment.dart`, all 24 seeded segment slugs mapped to friendly names) used in both; By Person mode's groups are now real collapsible sections (first one open by default). By Task mode already had `ExpansionTile` collapsibility — just needed the friendly label fix.
+
+Also added a `_TapForDetailsHint` under the leadership dashboard's two proportion bars — they were already tappable (drill-down to a breakdown sheet), and the original mockup's own "Click on colour band for detailed breakdown" text was documented in a code comment but never actually rendered on screen.
+
+Verified: `flutter analyze` clean (only pre-existing RadioListTile deprecation infos), all 32 tests passing, fresh Windows builds at each step.
+Files: `lib/features/tasks/delivery_detail_form.dart`, `lib/features/onboarding/staff_assignment_screen.dart`, `lib/shared/models/task_segment.dart` (new), `lib/features/dashboard/leadership_dashboard_screen.dart`.
+
+## Shift welcome / End shift / Shift Log — clock-in/out habit tracker (2026-09-24)
+User's own question turned into a build, refined through real back-and-forth: "should every staff member log in at shift start to see their tasks, with a welcome/motivation message?" → agreed → "it also gives management valuable info on who's coming in/leaving when, this needs to be a feature — clock in, clock out, missed tasks highlighted at the end." I pushed back before building: (1) real clock-in/out data is normally payroll/Working Time Regulations territory, a much higher-stakes failure mode than a missed fridge check — worth checking whether the venue already uses a dedicated rota/attendance tool rather than duplicating one; (2) this is a sharper tool than anything built so far against the project's own "never turn compliance into staff surveillance/scoring" principle, so it should be a conscious call. User's resolution: build it as a **habit-tracking signal, not a payroll record** — valuable specifically for venues with no existing attendance tool, framed as "don't come late/leave early" reinforcement, not a formal record. Also agreed: no separate clock-in tap — the existing PIN login already is that moment; "Log out" becomes "End shift."
+
+**Built**: new `ShiftLogs` table (schema v49, local-only this pass — same disclosed backend-parity gap as the randomised photo-check and departments content). `ShiftWelcomeScreen` shown once after a real PIN login (gated by `justLoggedInForShiftProvider`, same simple bool-flag shape as the splash gate) — random motivational line (`lib/core/data/motivational_quotes.dart`, tasteful/non-corny per explicit instruction) plus today's tasks grouped into start/during/end of shift using the real seeded `opening_procedures`/`closing_procedures` segments (not an invented shift-phase concept). Records `clockInAt`. `WorkerHubScreen`'s "Log out" replaced with "End shift" — shows what's still not completed (via the same `TaskController.loadTasks()`/`isOverdue` mechanism the worker's own carousel uses) before actually signing out, records `clockOutAt`. New "Shift Log" screen (Settings drawer, venueManager+) — a plain list of clock-in/out times per person, same anti-gaming shape as the leadership dashboard's own per-person lookup (a list, never a graded score).
+
+**Deliberately scoped down**: only wired into `WorkerHubScreen` (base tier / "junior staff", matching the user's own framing) — `TierHomeScreen`'s logout is unchanged for now. No backend sync yet. Senior/exec login and `_restoreBackendSession`'s session-restore-on-relaunch do NOT trigger the welcome screen — this is a genuine walk-up shift-start moment, not something that should reappear just because the app was reopened.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched and the new migration confirmed running without error.
+Files: `lib/core/storage/app_database.dart` (+ generated `.g.dart`), `lib/shared/models/shift_log.dart`, `lib/shared/repositories/shift_log_repository.dart`, `lib/shared/providers/shift_handover_providers.dart`, `lib/shared/providers/auth_providers.dart`, `lib/core/data/motivational_quotes.dart`, `lib/features/auth/shift_welcome_screen.dart`, `lib/features/auth/end_shift.dart`, `lib/features/auth/login_screen.dart`, `lib/app/app.dart`, `lib/features/tasks/worker_hub_screen.dart`, `lib/features/settings/shift_log_screen.dart`, `lib/core/widgets/management_drawer.dart`.
