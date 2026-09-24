@@ -66,6 +66,26 @@ abstract class IssueRepository {
     required int byUserId,
     required int escalateToUserId,
   });
+
+  // "Appeal" (2026-09-24, direct user request: incident-screen redesign
+  // asked for real per-history actions, not decorative ones) — puts a
+  // resolved issue back to open with a note explaining why, the same
+  // shape as resolve/escalate (a real event row, not a silent status
+  // flip). Gated to supervisor+ by the calling screen, same as every
+  // other write here.
+  Future<void> reopen({
+    required int issueId,
+    required String note,
+    required int byUserId,
+  });
+
+  // "Remind" (2026-09-24) — re-sends the push notification for a past
+  // escalation without creating a new history event; a nudge, not a new
+  // process step. Local/Drift installs have no push infrastructure at
+  // all (see DriftIssueRepository's own doc comment on this method) --
+  // this is a backend-only capability, same shape as every other
+  // realtime-push feature in this app.
+  Future<void> remind({required int issueId, required int targetUserId});
 }
 
 class DriftIssueRepository implements IssueRepository {
@@ -208,6 +228,30 @@ class DriftIssueRepository implements IssueRepository {
     resultingStatus: IssueStatus.escalated,
     targetUserId: escalateToUserId,
   );
+
+  @override
+  Future<void> reopen({
+    required int issueId,
+    required String note,
+    required int byUserId,
+  }) => _recordEvent(
+    issueId: issueId,
+    phase: IssueEventPhase.process,
+    note: note,
+    byUserId: byUserId,
+    resultingStatus: IssueStatus.open,
+  );
+
+  @override
+  Future<void> remind({required int issueId, required int targetUserId}) {
+    // Local/Drift installs have no push infrastructure at all (see the
+    // interface's own doc comment) -- nothing to send, and nothing to
+    // silently pretend worked either.
+    throw UnimplementedError(
+      'Reminders need a backend-hosted install with push notifications '
+      'configured.',
+    );
+  }
 
   Future<void> _recordEvent({
     required int issueId,

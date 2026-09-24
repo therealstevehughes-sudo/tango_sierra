@@ -192,6 +192,34 @@ class SupabaseIssueRepository implements IssueRepository {
     }
   }
 
+  @override
+  Future<void> reopen({
+    required int issueId,
+    required String note,
+    required int byUserId,
+  }) => _recordEvent(
+    issueId: issueId,
+    phase: IssueEventPhase.process,
+    note: note,
+    byUserId: byUserId,
+    resultingStatus: IssueStatus.open,
+  );
+
+  @override
+  Future<void> remind({
+    required int issueId,
+    required int targetUserId,
+  }) async {
+    // A nudge, not a new process step -- deliberately doesn't call
+    // _recordEvent (no new history row, no status change), just re-sends
+    // the same push an escalation already sends once.
+    await _client.invokeFunction('send-push', {
+      'user_id': targetUserId,
+      'title': 'Reminder: an issue is waiting on you',
+      'body': 'Someone sent you a reminder about an open issue.',
+    });
+  }
+
   Future<void> _recordEvent({
     required int issueId,
     required IssueEventPhase phase,
