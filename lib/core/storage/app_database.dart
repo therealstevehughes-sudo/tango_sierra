@@ -1648,6 +1648,11 @@ class AppDatabase extends _$AppDatabase {
       // Idempotent, same pattern again. Randomised photo-check (2026-09-22).
       await _ensureRandomPhotoCheckFlag();
 
+      // Idempotent, same pattern again. Per-food cooking guidance
+      // (2026-09-24) — see _ensureCookedCoreTempGuidanceUpdate's own doc
+      // comment.
+      await _ensureCookedCoreTempGuidanceUpdate();
+
       // Idempotent — safe on every open. Only touches rows left over from
       // before siteId existed. A real (non-demo) install has no such rows
       // and no default site to backfill into, so it's skipped entirely.
@@ -6110,6 +6115,69 @@ class AppDatabase extends _$AppDatabase {
         ),
       );
     }
+  }
+
+  // Per-food cooking guidance (2026-09-24, v1 roadmap item, direct user
+  // request) — task_enrichment_data.dart's own guidanceText for "Cooked
+  // food core temperature" was updated to add the rare-beef/pork
+  // exception (sourced from the FSA's Safer Food Better Business
+  // caterers pack), but _ensureTaskEnrichment only ever WRITES
+  // guidanceText once (gated on jobRole == null) — an install that
+  // already ran enrichment has the OLD text permanently. This is the
+  // append-only correction for that case, same pattern as
+  // _ensureRandomPhotoCheckFlag's own Handwashing rollback: idempotent,
+  // gated on the new text not already being present, one new version.
+  Future<void> _ensureCookedCoreTempGuidanceUpdate() async {
+    final allRows = await select(taskTemplates).get();
+    final referencedAsPrevious = allRows
+        .map((r) => r.previousVersionId)
+        .whereType<int>()
+        .toSet();
+    final current = allRows
+        .where(
+          (r) =>
+              !referencedAsPrevious.contains(r.id) &&
+              r.title == 'Cooked food core temperature',
+        )
+        .firstOrNull;
+    if (current == null) return;
+    final newGuidance = taskEnrichmentData
+        .firstWhere((e) => e.title == 'Cooked food core temperature')
+        .guidanceText;
+    if (current.guidanceText == newGuidance) return;
+
+    await into(taskTemplates).insert(
+      TaskTemplatesCompanion.insert(
+        templateGroupId: current.templateGroupId,
+        versionNumber: current.versionNumber + 1,
+        previousVersionId: Value(current.id),
+        title: current.title,
+        segment: current.segment,
+        applicableRoleTiers: current.applicableRoleTiers,
+        method: current.method,
+        requiresPhoto: Value(current.requiresPhoto),
+        requiresNotes: Value(current.requiresNotes),
+        customFieldsJson: Value(current.customFieldsJson),
+        minLimit: Value(current.minLimit),
+        maxLimit: Value(current.maxLimit),
+        unit: Value(current.unit),
+        legalLimitCategory: Value(current.legalLimitCategory),
+        isCritical: Value(current.isCritical),
+        priority: Value(current.priority),
+        requiresCorrectiveActionOnFail: Value(
+          current.requiresCorrectiveActionOnFail,
+        ),
+        fixInstructions: Value(current.fixInstructions),
+        equipmentTypeId: Value(current.equipmentTypeId),
+        createdAt: DateTime.now(),
+        createdByUserId: Value(current.createdByUserId),
+        jobRole: Value(current.jobRole),
+        guidanceText: Value(newGuidance),
+        requiresSupplierSelection: Value(current.requiresSupplierSelection),
+        randomPhotoCheckEnabled: Value(current.randomPhotoCheckEnabled),
+        extraFieldsJson: Value(current.extraFieldsJson),
+      ),
+    );
   }
 
   Future<void> _backfillSiteIds(int siteId) async {

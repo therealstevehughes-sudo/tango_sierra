@@ -25,122 +25,153 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Fridge temperature",
     jobRole: JobRole.chefCook,
-    guidanceText: "Read the fridge's display or probe an item. Record the number. Photo the display. Flag if above 8°C.",
+    guidanceText:
+        "Read the fridge's display or probe an item. Record the number. Photo the display. Flag if above 8°C.",
   ),
   TaskEnrichmentRow(
     title: "Freezer temperature",
     jobRole: JobRole.chefCook,
-    guidanceText: "Read the display, record the number, photo it. Flag if warmer than -18°C.",
+    guidanceText:
+        "Read the display, record the number, photo it. Flag if warmer than -18°C.",
   ),
   TaskEnrichmentRow(
     title: "Walk-in cold room temperature",
     jobRole: JobRole.chefCook,
-    guidanceText: "Read the wall thermometer, record it, photo it. Flag if above 8°C.",
+    guidanceText:
+        "Read the wall thermometer, record it, photo it. Flag if above 8°C.",
   ),
   TaskEnrichmentRow(
     title: "Blast chiller cycle temperature",
     jobRole: JobRole.chefCook,
-    guidanceText: "Record start and end temperature of the cycle. Food should go from 70°C to below 3°C within 90 minutes.",
+    guidanceText:
+        "Record start and end temperature of the cycle. Food should go from 70°C to below 3°C within 90 minutes.",
   ),
   TaskEnrichmentRow(
     title: "Display/serve-over fridge temperature",
     jobRole: JobRole.chefCook,
-    guidanceText: "Check the chilled display holding food for service. Record the reading, photo it. Must stay at or below 8°C.",
+    guidanceText:
+        "Check the chilled display holding food for service. Record the reading, photo it. Must stay at or below 8°C.",
   ),
   TaskEnrichmentRow(
     title: "Cooked food core temperature",
     jobRole: JobRole.chefCook,
-    guidanceText: "Probe the thickest part of the food. Record the number, photo it. Must reach 70°C for 2 min (or 75°C).",
+    // Per-food exception added 2026-09-24 (v1 roadmap item, direct user
+    // request) — sourced from the FSA's own Safer Food Better Business
+    // caterers pack ("Cooking safely"/"Check it" sections;
+    // compliance_library/guidance/fsa_safer_food_better_business_
+    // caterers_pack.pdf), not guessed. A flat 70°C rule would wrongly
+    // fail a correctly-seared rare steak, and wrongly pass a rare pork
+    // joint that should never be served rare at all.
+    guidanceText:
+        "Probe the thickest part of the food. Record the number, photo it. Must reach 70°C for 2 min (or 75°C). Exception: whole beef/lamb cuts (steaks, joints) can be served rare if fully seared outside — pork and rolled joints must never be rare.",
   ),
   TaskEnrichmentRow(
     title: "Reheated food core temperature",
     jobRole: JobRole.chefCook,
-    guidanceText: "Probe the centre of the reheated item. Record it, photo it. Must be piping hot throughout (~70°C; Scotland 82°C).",
+    guidanceText:
+        "Probe the centre of the reheated item. Record it, photo it. Must be piping hot throughout (~70°C; Scotland 82°C).",
   ),
   TaskEnrichmentRow(
     title: "Hot-holding temperature",
     jobRole: JobRole.chefCook,
-    guidanceText: "Probe food held hot for service. Record it, photo it. Must stay at or above 63°C.",
+    guidanceText:
+        "Probe food held hot for service. Record it, photo it. Must stay at or above 63°C.",
   ),
   TaskEnrichmentRow(
     title: "Cooling log (cooked to chilled)",
     jobRole: JobRole.chefCook,
-    guidanceText: "Note the time cooking finished and the time it reached fridge-cold. Must be below 8°C within 90 minutes.",
+    guidanceText:
+        "Note the time cooking finished and the time it reached fridge-cold. Must be below 8°C within 90 minutes.",
   ),
   TaskEnrichmentRow(
     title: "Reheat-once verification",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm this item hasn't been reheated before. Food may only be reheated once, then discarded.",
+    guidanceText:
+        "Confirm this item hasn't been reheated before. Food may only be reheated once, then discarded.",
   ),
   TaskEnrichmentRow(
     title: "Probe calibration check",
     jobRole: JobRole.chefCook,
-    guidanceText: "Test the probe in iced water (should read ~0°C) and boiling water (~100°C). Record both. Flag if off by more than 1°C.",
+    guidanceText:
+        "Test the probe in iced water (should read ~0°C) and boiling water (~100°C). Record both. Flag if off by more than 1°C.",
   ),
   TaskEnrichmentRow(
     title: "Probe sanitised between uses",
     jobRole: JobRole.chefCook,
-    guidanceText: "Wipe the probe with a sanitiser wipe before and after each use.",
+    guidanceText:
+        "Wipe the probe with a sanitiser wipe before and after each use.",
   ),
   TaskEnrichmentRow(
     title: "Use-by / best-before date check",
     jobRole: JobRole.chefCook,
-    guidanceText: "Check opened and stored items for their dates. Note and remove anything past its use-by date.",
+    guidanceText:
+        "Check opened and stored items for their dates. Note and remove anything past its use-by date.",
   ),
   TaskEnrichmentRow(
     title: "FIFO stock rotation",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm older stock is in front / used first. Move newer deliveries behind existing stock.",
+    guidanceText:
+        "Confirm older stock is in front / used first. Move newer deliveries behind existing stock.",
   ),
   TaskEnrichmentRow(
     title: "Opened-product date labelling",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm opened items are labelled with the date opened. Label any that aren't.",
+    guidanceText:
+        "Confirm opened items are labelled with the date opened. Label any that aren't.",
   ),
   TaskEnrichmentRow(
     title: "Controlled defrost log",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm items are defrosting in the fridge (below 8°C), not at room temperature. Note what's defrosting.",
+    guidanceText:
+        "Confirm items are defrosting in the fridge (below 8°C), not at room temperature. Note what's defrosting.",
   ),
   TaskEnrichmentRow(
     title: "Allergen matrix current & accessible",
     jobRole: JobRole.management,
-    guidanceText: "Confirm the allergen chart matches the current menu and staff can find it. Update if the menu changed.",
+    guidanceText:
+        "Confirm the allergen chart matches the current menu and staff can find it. Update if the menu changed.",
   ),
   TaskEnrichmentRow(
     title: "Allergen review on new/changed dishes",
     jobRole: JobRole.management,
-    guidanceText: "For any new or changed dish, record which of the 14 allergens it contains.",
+    guidanceText:
+        "For any new or changed dish, record which of the 14 allergens it contains.",
   ),
   TaskEnrichmentRow(
     title: "PPDS labelling correct (Natasha's Law)",
     jobRole: JobRole.management,
-    guidanceText: "Check pre-packed-for-direct-sale items have a full ingredient list with allergens emphasised. Photo a sample label.",
+    guidanceText:
+        "Check pre-packed-for-direct-sale items have a full ingredient list with allergens emphasised. Photo a sample label.",
   ),
   TaskEnrichmentRow(
     title: "Separate allergen prep area/equipment",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm allergen-free orders are prepped with clean, separate equipment and surfaces.",
+    guidanceText:
+        "Confirm allergen-free orders are prepped with clean, separate equipment and surfaces.",
   ),
   TaskEnrichmentRow(
     title: "Allergen-free order verified end-to-end",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm the specific allergen-free order was kept separate from prep to plate. Note the order.",
+    guidanceText:
+        "Confirm the specific allergen-free order was kept separate from prep to plate. Note the order.",
   ),
   TaskEnrichmentRow(
     title: "Purple allergen boards/cloths used",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm the purple (allergen) boards and cloths are used for allergen-free prep.",
+    guidanceText:
+        "Confirm the purple (allergen) boards and cloths are used for allergen-free prep.",
   ),
   TaskEnrichmentRow(
     title: "Staff allergen briefing",
     jobRole: JobRole.management,
-    guidanceText: "Confirm staff on shift have been briefed on today's allergen info.",
+    guidanceText:
+        "Confirm staff on shift have been briefed on today's allergen info.",
   ),
   TaskEnrichmentRow(
     title: "Handwashing on entry / between tasks",
     jobRole: JobRole.everyone,
-    guidanceText: "Confirm hands washed on entering the kitchen and between tasks.",
+    guidanceText:
+        "Confirm hands washed on entering the kitchen and between tasks.",
   ),
   TaskEnrichmentRow(
     title: "Clean uniform / apron",
@@ -160,17 +191,20 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Fitness-to-work / illness declaration",
     jobRole: JobRole.management,
-    guidanceText: "Confirm each worker is fit to work and free of sickness/diarrhoea (48-hour rule). Note any exclusions.",
+    guidanceText:
+        "Confirm each worker is fit to work and free of sickness/diarrhoea (48-hour rule). Note any exclusions.",
   ),
   TaskEnrichmentRow(
     title: "Cuts covered (blue plaster)",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm any cuts/grazes are covered with a blue detectable plaster.",
+    guidanceText:
+        "Confirm any cuts/grazes are covered with a blue detectable plaster.",
   ),
   TaskEnrichmentRow(
     title: "Gloves available & changed appropriately",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm gloves are stocked and changed between different tasks.",
+    guidanceText:
+        "Confirm gloves are stocked and changed between different tasks.",
   ),
   TaskEnrichmentRow(
     title: "Fridge door seal intact",
@@ -190,7 +224,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Condenser / vents dust-free",
     jobRole: JobRole.kitchenPorter,
-    guidanceText: "Check the vents/grille are clear of dust. Photo. Clean if needed.",
+    guidanceText:
+        "Check the vents/grille are clear of dust. Photo. Clean if needed.",
   ),
   TaskEnrichmentRow(
     title: "Fridge/freezer alarm functioning",
@@ -205,12 +240,14 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Oil temperature",
     jobRole: JobRole.chefCook,
-    guidanceText: "Read the fryer's set temperature, record it, photo it. Typically at or below 180°C.",
+    guidanceText:
+        "Read the fryer's set temperature, record it, photo it. Typically at or below 180°C.",
   ),
   TaskEnrichmentRow(
     title: "Oil quality (TPM/colour)",
     jobRole: JobRole.chefCook,
-    guidanceText: "Check oil colour/smell or TPM reading. Record it. Discard if dark/foul or over the meter's limit.",
+    guidanceText:
+        "Check oil colour/smell or TPM reading. Record it. Discard if dark/foul or over the meter's limit.",
   ),
   TaskEnrichmentRow(
     title: "Oil filtering / polishing",
@@ -235,7 +272,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Oven working temperature",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm the oven reaches and holds its set temperature. Record.",
+    guidanceText:
+        "Confirm the oven reaches and holds its set temperature. Record.",
   ),
   TaskEnrichmentRow(
     title: "Combi self-clean run",
@@ -250,7 +288,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Hob / burner ignition & flame",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm all burners light and burn with a clean blue flame. Flag any that don't.",
+    guidanceText:
+        "Confirm all burners light and burn with a clean blue flame. Flag any that don't.",
   ),
   TaskEnrichmentRow(
     title: "Rotisserie / kebab machine temp & clean",
@@ -265,7 +304,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Extraction canopy filters clean",
     jobRole: JobRole.kitchenPorter,
-    guidanceText: "Check the extraction filters are grease-free. Photo. Grease build-up is a fire risk.",
+    guidanceText:
+        "Check the extraction filters are grease-free. Photo. Grease build-up is a fire risk.",
   ),
   TaskEnrichmentRow(
     title: "Gas interlock / emergency cut-off test",
@@ -275,17 +315,20 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Equipment guard / cut-out intact",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm safety guards and cut-outs are in place and working.",
+    guidanceText:
+        "Confirm safety guards and cut-outs are in place and working.",
   ),
   TaskEnrichmentRow(
     title: "Dishwasher wash temperature",
     jobRole: JobRole.kitchenPorter,
-    guidanceText: "Read the wash-cycle temperature, record it. Should be ~55-65°C.",
+    guidanceText:
+        "Read the wash-cycle temperature, record it. Should be ~55-65°C.",
   ),
   TaskEnrichmentRow(
     title: "Dishwasher rinse temperature",
     jobRole: JobRole.kitchenPorter,
-    guidanceText: "Read the rinse temperature, record it. Should reach ~82°C to sanitise.",
+    guidanceText:
+        "Read the rinse temperature, record it. Should reach ~82°C to sanitise.",
   ),
   TaskEnrichmentRow(
     title: "Detergent / rinse-aid levels",
@@ -305,7 +348,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Pot-wash sanitiser strength",
     jobRole: JobRole.kitchenPorter,
-    guidanceText: "Confirm the sanitiser sink is mixed to the right strength. Record.",
+    guidanceText:
+        "Confirm the sanitiser sink is mixed to the right strength. Record.",
   ),
   TaskEnrichmentRow(
     title: "Air-dry (no tea-towel drying)",
@@ -315,17 +359,20 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Prep surfaces cleaned & sanitised",
     jobRole: JobRole.chefCook,
-    guidanceText: "Clean then sanitise prep surfaces. Confirm the sanitiser's contact time was left before wiping.",
+    guidanceText:
+        "Clean then sanitise prep surfaces. Confirm the sanitiser's contact time was left before wiping.",
   ),
   TaskEnrichmentRow(
     title: "Chopping boards colour-coded & sound",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm the right colour board is used for each food type and none are deeply scored.",
+    guidanceText:
+        "Confirm the right colour board is used for each food type and none are deeply scored.",
   ),
   TaskEnrichmentRow(
     title: "Slicer / mincer strip-down clean",
     jobRole: JobRole.kitchenPorter,
-    guidanceText: "Strip down, clean, and sanitise the slicer/mincer. Photo. Mind the blade.",
+    guidanceText:
+        "Strip down, clean, and sanitise the slicer/mincer. Photo. Mind the blade.",
   ),
   TaskEnrichmentRow(
     title: "Can opener blade clean",
@@ -360,12 +407,14 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Deep clean checklist",
     jobRole: JobRole.kitchenPorter,
-    guidanceText: "Work through the deep-clean checklist items and confirm each done.",
+    guidanceText:
+        "Work through the deep-clean checklist items and confirm each done.",
   ),
   TaskEnrichmentRow(
     title: "Cleaning schedule signed off",
     jobRole: JobRole.management,
-    guidanceText: "Confirm the day's cleaning schedule is complete and sign it off (this is your EHO evidence).",
+    guidanceText:
+        "Confirm the day's cleaning schedule is complete and sign it off (this is your EHO evidence).",
   ),
   TaskEnrichmentRow(
     title: "Sanitiser in stock & in date",
@@ -385,12 +434,14 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "COSHH sheets present & chemicals labelled",
     jobRole: JobRole.management,
-    guidanceText: "Confirm COSHH data sheets are on file and chemicals correctly labelled.",
+    guidanceText:
+        "Confirm COSHH data sheets are on file and chemicals correctly labelled.",
   ),
   TaskEnrichmentRow(
     title: "Chemical dilution / dosing correct",
     jobRole: JobRole.kitchenPorter,
-    guidanceText: "Confirm chemicals are mixed/dosed to the right strength. Record.",
+    guidanceText:
+        "Confirm chemicals are mixed/dosed to the right strength. Record.",
   ),
   TaskEnrichmentRow(
     title: "Dry store temperature / humidity",
@@ -410,17 +461,20 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "No damaged / bloated / infested packaging",
     jobRole: JobRole.chefCook,
-    guidanceText: "Check for damaged, bloated, or pest-damaged packaging. Note and remove any.",
+    guidanceText:
+        "Check for damaged, bloated, or pest-damaged packaging. Note and remove any.",
   ),
   TaskEnrichmentRow(
     title: "Chilled goods temp on arrival",
     jobRole: JobRole.chefCook,
-    guidanceText: "Probe chilled items on delivery. Record, photo. Reject if above 8°C.",
+    guidanceText:
+        "Probe chilled items on delivery. Record, photo. Reject if above 8°C.",
   ),
   TaskEnrichmentRow(
     title: "Frozen goods temp on arrival",
     jobRole: JobRole.chefCook,
-    guidanceText: "Check frozen items are solid/frozen. Record, photo. Reject if soft.",
+    guidanceText:
+        "Check frozen items are solid/frozen. Record, photo. Reject if soft.",
   ),
   TaskEnrichmentRow(
     title: "Vehicle / driver hygiene",
@@ -435,12 +489,14 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Use-by dates acceptable",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm delivered items have acceptable dates (enough shelf life).",
+    guidanceText:
+        "Confirm delivered items have acceptable dates (enough shelf life).",
   ),
   TaskEnrichmentRow(
     title: "Reconciled to order/invoice",
     jobRole: JobRole.management,
-    guidanceText: "Confirm what arrived matches the order/invoice. Note discrepancies.",
+    guidanceText:
+        "Confirm what arrived matches the order/invoice. Note discrepancies.",
   ),
   TaskEnrichmentRow(
     title: "Rejected items logged",
@@ -450,7 +506,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Supplier traceability captured",
     jobRole: JobRole.management,
-    guidanceText: "Confirm delivery records kept (supplier, date) for traceability.",
+    guidanceText:
+        "Confirm delivery records kept (supplier, date) for traceability.",
   ),
   TaskEnrichmentRow(
     title: "Hot water at sinks",
@@ -505,7 +562,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Pest activity check (droppings/gnaw/nest)",
     jobRole: JobRole.kitchenPorter,
-    guidanceText: "Look for droppings, gnaw marks, nests, or flies. Note and report any signs.",
+    guidanceText:
+        "Look for droppings, gnaw marks, nests, or flies. Note and report any signs.",
   ),
   TaskEnrichmentRow(
     title: "Fly killer / bait stations working",
@@ -540,7 +598,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Extraction/duct professional clean in date",
     jobRole: JobRole.management,
-    guidanceText: "Confirm the extraction/duct deep-clean certificate is in date.",
+    guidanceText:
+        "Confirm the extraction/duct deep-clean certificate is in date.",
   ),
   TaskEnrichmentRow(
     title: "Gas safety certificate in date",
@@ -580,12 +639,14 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Equipment switched on & warmed",
     jobRole: JobRole.chefCook,
-    guidanceText: "Switch on and confirm cooking equipment is up to temperature.",
+    guidanceText:
+        "Switch on and confirm cooking equipment is up to temperature.",
   ),
   TaskEnrichmentRow(
     title: "No overnight pest / leak / fault",
     jobRole: JobRole.chefCook,
-    guidanceText: "Check for any overnight pest signs, leaks, or faults. Note any.",
+    guidanceText:
+        "Check for any overnight pest signs, leaks, or faults. Note any.",
   ),
   TaskEnrichmentRow(
     title: "Closing checklist complete",
@@ -600,7 +661,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Perishables stored / covered / dated",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm perishables are covered, dated, and stored correctly.",
+    guidanceText:
+        "Confirm perishables are covered, dated, and stored correctly.",
   ),
   TaskEnrichmentRow(
     title: "Final clean-down",
@@ -620,7 +682,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Hot-hold / bain-marie pre-heated",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm bain-marie is up to temperature (63°C+) before service. Record.",
+    guidanceText:
+        "Confirm bain-marie is up to temperature (63°C+) before service. Record.",
   ),
   TaskEnrichmentRow(
     title: "Specials / allergen info briefed",
@@ -650,7 +713,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Allergen requests relayed to kitchen",
     jobRole: JobRole.frontOfHouse,
-    guidanceText: "Confirm any customer allergen request was clearly passed to the kitchen. Note the order.",
+    guidanceText:
+        "Confirm any customer allergen request was clearly passed to the kitchen. Note the order.",
   ),
   TaskEnrichmentRow(
     title: "Coffee machine cleaned & backflushed",
@@ -660,32 +724,38 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Hot buffet display temperature",
     jobRole: JobRole.frontOfHouse,
-    guidanceText: "Probe hot buffet food. Record, photo. Must stay at or above 63°C.",
+    guidanceText:
+        "Probe hot buffet food. Record, photo. Must stay at or above 63°C.",
   ),
   TaskEnrichmentRow(
     title: "Cold buffet display temperature",
     jobRole: JobRole.frontOfHouse,
-    guidanceText: "Probe cold buffet food. Record, photo. Must stay at or below 8°C.",
+    guidanceText:
+        "Probe cold buffet food. Record, photo. Must stay at or below 8°C.",
   ),
   TaskEnrichmentRow(
     title: "Buffet out-of-temperature time log",
     jobRole: JobRole.frontOfHouse,
-    guidanceText: "Note when food went on display. Cold food out of temperature max 4 hours, then discard.",
+    guidanceText:
+        "Note when food went on display. Cold food out of temperature max 4 hours, then discard.",
   ),
   TaskEnrichmentRow(
     title: "Cellar / keg temperature",
     jobRole: JobRole.bar,
-    guidanceText: "Read and record the cellar/keg temperature. Cask usually 11-13°C.",
+    guidanceText:
+        "Read and record the cellar/keg temperature. Cask usually 11-13°C.",
   ),
   TaskEnrichmentRow(
     title: "Beer line cleaning",
     jobRole: JobRole.bar,
-    guidanceText: "Confirm beer lines cleaned (usually every 7 days). Note date.",
+    guidanceText:
+        "Confirm beer lines cleaned (usually every 7 days). Note date.",
   ),
   TaskEnrichmentRow(
     title: "Ice well / scoop hygiene",
     jobRole: JobRole.bar,
-    guidanceText: "Confirm ice well clean and scoop stored hygienically (not in the ice).",
+    guidanceText:
+        "Confirm ice well clean and scoop stored hygienically (not in the ice).",
   ),
   TaskEnrichmentRow(
     title: "Post-mix / soda gun cleaned",
@@ -710,22 +780,26 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Breakfast buffet temperatures",
     jobRole: JobRole.frontOfHouse,
-    guidanceText: "Probe hot and cold buffet items. Record, photo. Hot ≥63°C, cold ≤8°C.",
+    guidanceText:
+        "Probe hot and cold buffet items. Record, photo. Hot ≥63°C, cold ≤8°C.",
   ),
   TaskEnrichmentRow(
     title: "Room service tray temp on dispatch",
     jobRole: JobRole.chefCook,
-    guidanceText: "Confirm room service food is at the right temperature when it leaves. Record.",
+    guidanceText:
+        "Confirm room service food is at the right temperature when it leaves. Record.",
   ),
   TaskEnrichmentRow(
     title: "Minibar stock & date check",
     jobRole: JobRole.frontOfHouse,
-    guidanceText: "Check minibar stock and dates. Note and replace expired items.",
+    guidanceText:
+        "Check minibar stock and dates. Note and replace expired items.",
   ),
   TaskEnrichmentRow(
     title: "Banqueting / function hot-hold log",
     jobRole: JobRole.chefCook,
-    guidanceText: "Record hot-hold temperatures for function food. Must stay ≥63°C.",
+    guidanceText:
+        "Record hot-hold temperatures for function food. Must stay ≥63°C.",
   ),
   TaskEnrichmentRow(
     title: "Guest allergen request (rooms)",
@@ -755,7 +829,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "SFBB / HACCP diary reviewed",
     jobRole: JobRole.management,
-    guidanceText: "Review the food-safety diary (4-weekly cycle). Confirm complete.",
+    guidanceText:
+        "Review the food-safety diary (4-weekly cycle). Confirm complete.",
   ),
   TaskEnrichmentRow(
     title: "EHO / audit readiness check",
@@ -770,7 +845,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Supplier approval / due diligence",
     jobRole: JobRole.management,
-    guidanceText: "Confirm suppliers are approved and due-diligence records held.",
+    guidanceText:
+        "Confirm suppliers are approved and due-diligence records held.",
   ),
 
   // Departments content build (2026-09-23) — Segment 19 cellar additions
@@ -778,27 +854,32 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "CO2/gas monitor check & alarm test",
     jobRole: JobRole.bar,
-    guidanceText: "Check the monitor is powered and press the alarm test button. Flag if it doesn't sound.",
+    guidanceText:
+        "Check the monitor is powered and press the alarm test button. Flag if it doesn't sound.",
   ),
   TaskEnrichmentRow(
     title: "Cellar CO2 written risk assessment current",
     jobRole: JobRole.bar,
-    guidanceText: "Confirm the written CO2 risk assessment exists and is up to date.",
+    guidanceText:
+        "Confirm the written CO2 risk assessment exists and is up to date.",
   ),
   TaskEnrichmentRow(
     title: "Cellar ventilation (forced extraction) running",
     jobRole: JobRole.bar,
-    guidanceText: "Check the extraction fan is running before entering the cellar.",
+    guidanceText:
+        "Check the extraction fan is running before entering the cellar.",
   ),
   TaskEnrichmentRow(
     title: "Keg/cylinder change follows safe procedure",
     jobRole: JobRole.bar,
-    guidanceText: "Never lift alone; get help for cylinder changes and never work alone in a confined cellar.",
+    guidanceText:
+        "Never lift alone; get help for cylinder changes and never work alone in a confined cellar.",
   ),
   TaskEnrichmentRow(
     title: "Cellar access restricted / signed as gas hazard",
     jobRole: JobRole.bar,
-    guidanceText: "Confirm the cellar door is locked/restricted and the gas-hazard sign is visible.",
+    guidanceText:
+        "Confirm the cellar door is locked/restricted and the gas-hazard sign is visible.",
   ),
   TaskEnrichmentRow(
     title: "Fixed wiring inspection (EICR) in date",
@@ -808,32 +889,38 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Portable appliance (PAT) programme up to date",
     jobRole: JobRole.maintenance,
-    guidanceText: "Confirm PAT stickers/records are current for handheld kitchen/bar equipment.",
+    guidanceText:
+        "Confirm PAT stickers/records are current for handheld kitchen/bar equipment.",
   ),
   TaskEnrichmentRow(
     title: "Emergency lighting test",
     jobRole: JobRole.maintenance,
-    guidanceText: "Trigger the test switch and confirm every emergency light comes on.",
+    guidanceText:
+        "Trigger the test switch and confirm every emergency light comes on.",
   ),
   TaskEnrichmentRow(
     title: "Commercial gas appliance safety check",
     jobRole: JobRole.maintenance,
-    guidanceText: "Check the Gas Safe engineer's certificate is current for every gas appliance.",
+    guidanceText:
+        "Check the Gas Safe engineer's certificate is current for every gas appliance.",
   ),
   TaskEnrichmentRow(
     title: "Gas appliance interlock / ventilation not obstructed",
     jobRole: JobRole.maintenance,
-    guidanceText: "Confirm nothing is blocking gas interlock sensors or ventilation grilles.",
+    guidanceText:
+        "Confirm nothing is blocking gas interlock sensors or ventilation grilles.",
   ),
   TaskEnrichmentRow(
     title: "Legionella risk assessment current",
     jobRole: JobRole.maintenance,
-    guidanceText: "Confirm the Legionella risk assessment is within its 2-year review window.",
+    guidanceText:
+        "Confirm the Legionella risk assessment is within its 2-year review window.",
   ),
   TaskEnrichmentRow(
     title: "Sentinel outlet temperature check",
     jobRole: JobRole.maintenance,
-    guidanceText: "Run the tap for 1 minute, record hot and cold readings. Flag hot below 50°C or cold above 20°C.",
+    guidanceText:
+        "Run the tap for 1 minute, record hot and cold readings. Flag hot below 50°C or cold above 20°C.",
   ),
   TaskEnrichmentRow(
     title: "Little-used outlet flushing (unoccupied rooms/areas)",
@@ -858,27 +945,32 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Fire extinguisher/blanket service",
     jobRole: JobRole.maintenance,
-    guidanceText: "Check the service tag date and that the pressure gauge reads in range.",
+    guidanceText:
+        "Check the service tag date and that the pressure gauge reads in range.",
   ),
   TaskEnrichmentRow(
     title: "Fire alarm system test (call point)",
     jobRole: JobRole.maintenance,
-    guidanceText: "Trigger a call point and confirm the alarm sounds across the building.",
+    guidanceText:
+        "Trigger a call point and confirm the alarm sounds across the building.",
   ),
   TaskEnrichmentRow(
     title: "Fire door self-closes & seals intact",
     jobRole: JobRole.maintenance,
-    guidanceText: "Open each fire door and confirm it self-closes fully; check seals aren't damaged.",
+    guidanceText:
+        "Open each fire door and confirm it self-closes fully; check seals aren't damaged.",
   ),
   TaskEnrichmentRow(
     title: "Fire risk assessment reviewed/current",
     jobRole: JobRole.maintenance,
-    guidanceText: "Confirm the fire risk assessment has been reviewed this year or since the last material change.",
+    guidanceText:
+        "Confirm the fire risk assessment has been reviewed this year or since the last material change.",
   ),
   TaskEnrichmentRow(
     title: "Sprinkler/suppression system service",
     jobRole: JobRole.maintenance,
-    guidanceText: "Check the service certificate against the manufacturer/insurer schedule.",
+    guidanceText:
+        "Check the service certificate against the manufacturer/insurer schedule.",
   ),
   TaskEnrichmentRow(
     title: "Building fault/repair log reviewed & actioned",
@@ -898,7 +990,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Roof/gutters/external fabric inspected",
     jobRole: JobRole.maintenance,
-    guidanceText: "Photograph any visible damage, blocked gutters, or loose fabric.",
+    guidanceText:
+        "Photograph any visible damage, blocked gutters, or loose fabric.",
   ),
   TaskEnrichmentRow(
     title: "Water ingress / damp check",
@@ -908,7 +1001,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Room turnover cleaning checklist complete",
     jobRole: JobRole.housekeeping,
-    guidanceText: "Work through the full room-clean checklist before marking it ready.",
+    guidanceText:
+        "Work through the full room-clean checklist before marking it ready.",
   ),
   TaskEnrichmentRow(
     title: "Room inspection sign-off (post-clean)",
@@ -928,22 +1022,27 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Soiled/contaminated linen handled separately & bagged",
     jobRole: JobRole.housekeeping,
-    guidanceText: "Bag soiled linen separately, never mix with regular laundry.",
+    guidanceText:
+        "Bag soiled linen separately, never mix with regular laundry.",
   ),
   TaskEnrichmentRow(
-    title: "Cleaning chemical dilution & COSHH compliance (housekeeping trolley)",
+    title:
+        "Cleaning chemical dilution & COSHH compliance (housekeeping trolley)",
     jobRole: JobRole.housekeeping,
-    guidanceText: "Check chemicals are diluted per label instructions and stored correctly on the trolley.",
+    guidanceText:
+        "Check chemicals are diluted per label instructions and stored correctly on the trolley.",
   ),
   TaskEnrichmentRow(
     title: "COSHH data sheets available for housekeeping chemicals",
     jobRole: JobRole.housekeeping,
-    guidanceText: "Confirm data sheets for every chemical in use are accessible.",
+    guidanceText:
+        "Confirm data sheets for every chemical in use are accessible.",
   ),
   TaskEnrichmentRow(
     title: "Minibar restocking cross-checked against guest charge",
     jobRole: JobRole.housekeeping,
-    guidanceText: "Count what's missing from the minibar and confirm it matches the guest's bill.",
+    guidanceText:
+        "Count what's missing from the minibar and confirm it matches the guest's bill.",
   ),
   TaskEnrichmentRow(
     title: "Unoccupied room water outlet flushing (housekeeping)",
@@ -956,9 +1055,11 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
     guidanceText: "Log the item found, where, and store it securely.",
   ),
   TaskEnrichmentRow(
-    title: "Room safety check (smoke alarm present/working, fire notice visible)",
+    title:
+        "Room safety check (smoke alarm present/working, fire notice visible)",
     jobRole: JobRole.housekeeping,
-    guidanceText: "Test the smoke alarm and confirm the fire notice is on the door.",
+    guidanceText:
+        "Test the smoke alarm and confirm the fire notice is on the door.",
   ),
   TaskEnrichmentRow(
     title: "Housekeeping trolley/chemical storage secured when unattended",
@@ -968,7 +1069,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Fire register / in-house guest list accuracy",
     jobRole: JobRole.reception,
-    guidanceText: "Confirm the guest list matches who's actually checked in right now.",
+    guidanceText:
+        "Confirm the guest list matches who's actually checked in right now.",
   ),
   TaskEnrichmentRow(
     title: "Key/access control (room key issue & return log)",
@@ -988,7 +1090,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Guest ID/data handling per policy at check-in",
     jobRole: JobRole.reception,
-    guidanceText: "Follow policy on ID copies - minimise what's retained, store securely.",
+    guidanceText:
+        "Follow policy on ID copies - minimise what's retained, store securely.",
   ),
   TaskEnrichmentRow(
     title: "Guest data disposal/retention policy followed",
@@ -998,7 +1101,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Incident/complaint log completed & escalated (reception)",
     jobRole: JobRole.reception,
-    guidanceText: "Log the incident/complaint in full and escalate to a manager.",
+    guidanceText:
+        "Log the incident/complaint in full and escalate to a manager.",
   ),
   TaskEnrichmentRow(
     title: "Guest with access/mobility needs - evacuation plan (PEEP) noted",
@@ -1008,12 +1112,14 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Emergency contact/next-of-kin info accessible in emergency",
     jobRole: JobRole.reception,
-    guidanceText: "Confirm emergency contact info is accessible for on-duty guests/staff.",
+    guidanceText:
+        "Confirm emergency contact info is accessible for on-duty guests/staff.",
   ),
   TaskEnrichmentRow(
     title: "Door supervisor SIA licence checked & valid",
     jobRole: JobRole.security,
-    guidanceText: "Check the SIA licence card and photograph it at shift start.",
+    guidanceText:
+        "Check the SIA licence card and photograph it at shift start.",
   ),
   TaskEnrichmentRow(
     title: "Challenge 25 / age verification applied",
@@ -1028,7 +1134,8 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "CCTV footage retention period met",
     jobRole: JobRole.security,
-    guidanceText: "Confirm footage is being retained for the required period per the licence.",
+    guidanceText:
+        "Confirm footage is being retained for the required period per the licence.",
   ),
   TaskEnrichmentRow(
     title: "Incident log (refusals, ejections, disorder) completed",
@@ -1038,12 +1145,14 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Keyholder/alarm call-out procedure current",
     jobRole: JobRole.security,
-    guidanceText: "Confirm the keyholder list and call-out procedure are up to date.",
+    guidanceText:
+        "Confirm the keyholder list and call-out procedure are up to date.",
   ),
   TaskEnrichmentRow(
     title: "Alarm system test (security)",
     jobRole: JobRole.security,
-    guidanceText: "Test the intruder alarm and confirm it arms/disarms correctly.",
+    guidanceText:
+        "Test the intruder alarm and confirm it arms/disarms correctly.",
   ),
   TaskEnrichmentRow(
     title: "Emergency/duress alarm (till, reception) tested",
@@ -1053,11 +1162,13 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Perimeter/external door security check",
     jobRole: JobRole.security,
-    guidanceText: "Check external doors are secure but never blocking a fire exit route.",
+    guidanceText:
+        "Check external doors are secure but never blocking a fire exit route.",
   ),
   TaskEnrichmentRow(
     title: "Licensing conditions register reviewed",
     jobRole: JobRole.security,
-    guidanceText: "Go through the licensing conditions register and confirm compliance.",
+    guidanceText:
+        "Go through the licensing conditions register and confirm compliance.",
   ),
 ];
