@@ -2409,3 +2409,15 @@ Backend gap disclosed, same pattern as this session's other org-level toggles: `
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/core/storage/app_database.dart`/`.g.dart`, `lib/shared/models/organisation.dart`, `lib/shared/repositories/organisation_repository.dart`, `lib/shared/repositories/supabase_organisation_repository.dart`, `lib/features/dashboard/leadership_dashboard_screen.dart`, `lib/features/dashboard/leadership_dashboard_service.dart`, `lib/features/settings/settings_screen.dart`.
+
+## Generic extra fields on tasks (2026-09-24)
+Direct user request, prompted by noticing delivery/stock tasks have no way to capture a PO number, supplier invoice number, batch/lot number, or quantity received/ordered discrepancy — real gaps against the traceability requirement in Regulation (EC) 178/2002 (in the compliance library downloaded this session).
+
+Rather than one-off columns per task type, built a generic mechanism: `TaskTemplates.extraFieldsJson` (schema v52) holds a manager-defined list of `{key, label, type}` fields (text/number/date), editable from the existing custom-task form in Assign Tasks (add/remove rows, no JSON hand-editing needed). Rendered as extra inputs on both submission paths — the scheduled carousel (`TaskScreen`) and the ad-hoc library path (`AdHocTaskScreen`) — via one new shared `ExtraFieldsForm` widget, so the two screens can't drift apart on this. Captured values land in the new `TaskSubmissions.extraFieldValuesJson`.
+
+Deliberately NOT the same mechanism as the pre-existing `customFieldsJson` (narrowly used only for multi-choice dropdown options) — kept separate rather than overloading that field's meaning.
+
+Backend gap disclosed, two different failure modes for two different risk levels: `SupabaseTaskTemplateRepository.saveNewVersion()` throws `UnimplementedError` if a manager tries to set extra fields (an explicit config action, safe to block loudly); `SupabaseTaskSubmissionRepository.submit()` silently omits the column instead (the actual task-submission path — "fail open, never block the kitchen running" wins here; extra-field data entered on a backend-hosted install is lost until the migration lands, logged not hidden).
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/core/storage/app_database.dart`/`.g.dart`, `lib/shared/models/task_extra_field.dart` (new), `lib/shared/models/task_template.dart`, `lib/shared/models/task_submission.dart`, `lib/shared/repositories/task_template_repository.dart`, `lib/shared/repositories/supabase_task_template_repository.dart`, `lib/shared/repositories/task_submission_repository.dart`, `lib/shared/repositories/supabase_task_submission_repository.dart`, `lib/features/tasks/task_model.dart`, `lib/features/tasks/task_controller.dart`, `lib/features/tasks/task_screen.dart`, `lib/features/tasks/ad_hoc_task_screen.dart`, `lib/core/widgets/extra_fields_form.dart` (new), `lib/features/onboarding/staff_assignment_screen.dart`.
