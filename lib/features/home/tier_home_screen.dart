@@ -7,6 +7,7 @@ import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_background.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../core/widgets/user_title.dart';
@@ -162,15 +163,15 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
       // Log out, always reachable, never a dead end. TierHomeScreen keeps
       // its own AppBar Log out button too (unchanged, low-risk to leave).
       drawer: const ManagementDrawer(title: 'Home'),
-      // Responsive foundation: deliberately NOT wrapped in ResponsiveContent
-      // — the card already shrink-wraps to its own content width (a plain
-      // Column of short-label buttons, no child forces full width), so it
-      // never stretches uncomfortably wide on its own. Wrapping it would
-      // actually be a regression here: ResponsiveContent top-aligns on wide
-      // screens, which would lose this screen's existing vertical centering
-      // for no benefit. Confirmed, not skipped by oversight — the pattern
-      // is "apply where content would otherwise stretch," not "apply
-      // everywhere unconditionally."
+      // Visual pass follow-up (2026-09-24, direct user feedback) — the
+      // comment that used to be here claimed this card "shrink-wraps to
+      // its own content width," but that's not actually how
+      // CrossAxisAlignment.stretch behaves inside a Column given loose
+      // (unconstrained) width from Center: the buttons stretched edge to
+      // edge on a wide desktop window, same bug WorkerHubScreen had. Now
+      // capped the same way every other form-shaped screen in this app
+      // already is, via ResponsiveContent — Alignment.center (not the
+      // default topCenter) keeps this screen's own vertical centering.
       // Guided Cards (2026-09-14): the VenuRite mark now anchors to the
       // true top-left corner of the screen, not the branding card's own
       // inset corner — a Stack over the whole body so it sits independent
@@ -182,107 +183,117 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(24),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    AppCard(
-                  elevated: true,
+                child: ResponsiveContent(
+                  maxWidth: 420,
+                  alignment: Alignment.center,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Branding inheritance (Part E) + app logo (2026-09-13):
-                      // the shared BrandHeader renders the VenuRite lockup, the
-                      // client company logo (set once, Organisation-wide, by a
-                      // Director) and this specific branch's own name — same
-                      // live-reactive mechanism as the accent-colour re-theme,
-                      // no restart needed either.
-                      BrandHeader(
-                        branding: branding,
-                        siteName: site?.name,
-                        showAppMark: false,
-                      ),
-                      if (showBranchStatus) ...[
-                        const SizedBox(height: 16),
-                        _BranchStatusCard(status: _status),
-                      ],
-                      const SizedBox(height: 16),
-                      // Visual pass follow-up (2026-09-22) — same treatment
-                      // as WorkerHubScreen's own headline: Fraunces for
-                      // warmth, no hero photo (this screen is reached
-                      // multiple times a shift; a repeated image would
-                      // read as clutter, not polish).
-                      Text(
-                        'What would you like to do?',
-                        style: const TextStyle(
-                          fontFamily: 'Fraunces',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                          color: AppColors.ink,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 20),
-                      PrimaryActionButton(
-                        label: 'My Tasks',
-                        icon: Icons.checklist,
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => const TaskScreen()),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      PrimaryActionButton(
-                        label: 'Oversight',
-                        icon: Icons.visibility,
-                        onPressed: currentUser == null
-                            ? null
-                            : () => Navigator.push(
+                      AppCard(
+                        elevated: true,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            // Branding inheritance (Part E) + app logo (2026-09-13):
+                            // the shared BrandHeader renders the VenuRite lockup, the
+                            // client company logo (set once, Organisation-wide, by a
+                            // Director) and this specific branch's own name — same
+                            // live-reactive mechanism as the accent-colour re-theme,
+                            // no restart needed either.
+                            BrandHeader(
+                              branding: branding,
+                              siteName: site?.name,
+                              showAppMark: false,
+                            ),
+                            if (showBranchStatus) ...[
+                              const SizedBox(height: 16),
+                              _BranchStatusCard(status: _status),
+                            ],
+                            const SizedBox(height: 16),
+                            // Visual pass follow-up (2026-09-22) — same treatment
+                            // as WorkerHubScreen's own headline: Fraunces for
+                            // warmth, no hero photo (this screen is reached
+                            // multiple times a shift; a repeated image would
+                            // read as clutter, not polish).
+                            Text(
+                              'What would you like to do?',
+                              style: const TextStyle(
+                                fontFamily: 'Fraunces',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                                color: AppColors.ink,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: 20),
+                            PrimaryActionButton(
+                              label: 'My Tasks',
+                              icon: Icons.checklist,
+                              onPressed: () => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => TierHomeScreen
-                                      .oversightScreenFor(currentUser.roleTier),
+                                  builder: (_) => const TaskScreen(),
                                 ),
                               ),
-                      ),
-                      // Branch-hub build (2026-09-15) — supervisor+ already
-                      // has a home hub, so the second "ad-hoc entry" option
-                      // is added here rather than a duplicate screen (base
-                      // tier gets its own fork via WorkerHubScreen). Needs a
-                      // single site to raise against, so it only shows for
-                      // site-having tiers, same condition as the branch
-                      // status card above.
-                      if (showBranchStatus) ...[
-                        const SizedBox(height: 12),
-                        OutlinedButton.icon(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => ReportIssueScreen(
-                                siteId: site.id,
-                                raisedByUserId: currentUser.id,
-                              ),
                             ),
-                          ),
-                          icon: const Icon(Icons.report_problem_outlined),
-                          label: const Text(
-                            'Log something that just happened',
-                          ),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            minimumSize: const Size.fromHeight(48),
-                            foregroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
-                          ),
+                            const SizedBox(height: 12),
+                            PrimaryActionButton(
+                              label: 'Oversight',
+                              icon: Icons.visibility,
+                              onPressed: currentUser == null
+                                  ? null
+                                  : () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) =>
+                                            TierHomeScreen.oversightScreenFor(
+                                              currentUser.roleTier,
+                                            ),
+                                      ),
+                                    ),
+                            ),
+                            // Branch-hub build (2026-09-15) — supervisor+ already
+                            // has a home hub, so the second "ad-hoc entry" option
+                            // is added here rather than a duplicate screen (base
+                            // tier gets its own fork via WorkerHubScreen). Needs a
+                            // single site to raise against, so it only shows for
+                            // site-having tiers, same condition as the branch
+                            // status card above.
+                            if (showBranchStatus) ...[
+                              const SizedBox(height: 12),
+                              OutlinedButton.icon(
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ReportIssueScreen(
+                                      siteId: site.id,
+                                      raisedByUserId: currentUser.id,
+                                    ),
+                                  ),
+                                ),
+                                icon: const Icon(Icons.report_problem_outlined),
+                                label: const Text(
+                                  'Log something that just happened',
+                                ),
+                                style: OutlinedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                  ),
+                                  minimumSize: const Size.fromHeight(48),
+                                  foregroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.primary,
+                                ),
+                              ),
+                            ],
+                          ],
                         ),
-                      ],
+                      ),
+                      if (currentUser != null) const SetupChecklistCard(),
                     ],
                   ),
-                ),
-                    if (currentUser != null) const SetupChecklistCard(),
-                  ],
                 ),
               ),
             ),
@@ -353,8 +364,7 @@ class _BranchStatusCard extends StatelessWidget {
                   ),
                 MetricChip(
                   icon: Icons.groups_outlined,
-                  label:
-                      '${status.activeStaffCount} active staff',
+                  label: '${status.activeStaffCount} active staff',
                 ),
               ],
             ),
