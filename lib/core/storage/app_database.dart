@@ -182,8 +182,7 @@ class Issues extends Table {
   // grading in the UI layer; there is deliberately no way to mark an issue
   // down from urgent, matching the same anti-gaming rule as everywhere
   // else in this table.
-  BoolColumn get manualUrgent =>
-      boolean().withDefault(const Constant(false))();
+  BoolColumn get manualUrgent => boolean().withDefault(const Constant(false))();
 }
 
 // The Details -> Process -> Outcome lifecycle, as an append-only event
@@ -584,8 +583,7 @@ class ShiftHandoverNotes extends Table {
 @DataClassName('ShiftHandoverAcknowledgementEntity')
 class ShiftHandoverAcknowledgements extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get noteId =>
-      integer().references(ShiftHandoverNotes, #id)();
+  IntColumn get noteId => integer().references(ShiftHandoverNotes, #id)();
   IntColumn get userId => integer().references(Users, #id)();
   DateTimeColumn get acknowledgedAt => dateTime()();
 }
@@ -725,6 +723,19 @@ class Organisations extends Table {
   // billing/legal distinction ("Owner"), not a 6th RoleTier. Nullable:
   // an org created before this sprint has no recorded owner yet.
   IntColumn get ownerUserId => integer().nullable().references(Users, #id)();
+  // Per-employee graded dashboard bars (2026-09-24, direct user request,
+  // opt-in confirmed) — the leadership dashboard's Employee filter
+  // defaults to a plain, ungraded lookup list (the governing anti-gaming
+  // rule — see leadership_dashboard_service.dart's own doc comment).
+  // computeTaskOverview()/computeIncidents() already support an
+  // employeeId filter (added 2026-09-17, "confirmed with the user" per
+  // that doc comment, but never wired to the screen). This flag, off by
+  // default, lets an organisation switch a selected employee to the same
+  // colour-graded bar the branch/section view uses — reframed by the
+  // user as "work oversight for risk assessment," not grading — without
+  // changing the default for every other install.
+  BoolColumn get employeeGradedBarsEnabled =>
+      boolean().withDefault(const Constant(false))();
 }
 
 // Sprint 034 — one row per organisation, its single consolidated billing
@@ -744,8 +755,7 @@ class Organisations extends Table {
 @DataClassName('SubscriptionEntity')
 class Subscriptions extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get organisationId =>
-      integer().references(Organisations, #id)();
+  IntColumn get organisationId => integer().references(Organisations, #id)();
   // trialing | active | past_due | canceled
   TextColumn get status => text().withDefault(const Constant('trialing'))();
   TextColumn get planName => text().nullable()();
@@ -770,8 +780,7 @@ class Subscriptions extends Table {
 @DataClassName('OrganisationInviteEntity')
 class OrganisationInvites extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get organisationId =>
-      integer().references(Organisations, #id)();
+  IntColumn get organisationId => integer().references(Organisations, #id)();
   TextColumn get roleTier => text()();
   IntColumn get regionId => integer().nullable().references(Regions, #id)();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
@@ -1048,7 +1057,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 50;
+  int get schemaVersion => 51;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1378,10 +1387,7 @@ class AppDatabase extends _$AppDatabase {
         // ShiftHandoverNotes.resolved's doc comment. Existing notes
         // default to resolved=false (unresolved), which is the correct
         // meaning for a note nobody has explicitly cleared yet.
-        await m.addColumn(
-          shiftHandoverNotes,
-          shiftHandoverNotes.resolved,
-        );
+        await m.addColumn(shiftHandoverNotes, shiftHandoverNotes.resolved);
         await m.createTable(shiftHandoverAcknowledgements);
       }
       if (from < 39) {
@@ -1415,10 +1421,7 @@ class AppDatabase extends _$AppDatabase {
         );
         await m.addColumn(subscriptions, subscriptions.paymentProvider);
         await m.addColumn(subscriptions, subscriptions.providerCustomerId);
-        await m.addColumn(
-          subscriptions,
-          subscriptions.providerSubscriptionId,
-        );
+        await m.addColumn(subscriptions, subscriptions.providerSubscriptionId);
       }
       if (from < 41) {
         // Issues & Incidents (2026-09-15) -- freestanding problem
@@ -1443,13 +1446,22 @@ class AppDatabase extends _$AppDatabase {
         // real detail (temperature, short/damaged/late/quality problem
         // flags, accept/reject/partial outcome), gated behind the
         // existing requiresSupplierSelection marker.
-        await m.addColumn(taskSubmissions, taskSubmissions.deliveryTemperatureC);
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.deliveryTemperatureC,
+        );
         await m.addColumn(
           taskSubmissions,
           taskSubmissions.deliveryShortDelivery,
         );
-        await m.addColumn(taskSubmissions, taskSubmissions.deliveryDamagedStock);
-        await m.addColumn(taskSubmissions, taskSubmissions.deliveryLateDelivery);
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.deliveryDamagedStock,
+        );
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.deliveryLateDelivery,
+        );
         await m.addColumn(
           taskSubmissions,
           taskSubmissions.deliveryQualityProblem,
@@ -1494,6 +1506,13 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(
           taskSchedules,
           taskSchedules.windowStartsAtShiftStart,
+        );
+      }
+      if (from < 51) {
+        // Per-employee graded dashboard bars, opt-in (2026-09-24).
+        await m.addColumn(
+          organisations,
+          organisations.employeeGradedBarsEnabled,
         );
       }
     },
@@ -5187,7 +5206,8 @@ class AppDatabase extends _$AppDatabase {
       method: 'tick',
       priority: 'standard',
       roleTiers: ['supervisor', 'venueManager'],
-      fixInstructions: 'Cellar door locked/restricted and gas-hazard signage visible.',
+      fixInstructions:
+          'Cellar door locked/restricted and gas-hazard signage visible.',
       frequency: 'weekly',
     ),
 
@@ -5249,7 +5269,8 @@ class AppDatabase extends _$AppDatabase {
       method: 'tick',
       priority: 'high',
       roleTiers: ['base'],
-      fixInstructions: 'Cross-ref Segment 5.3 (cooking line gas interlock/emergency cut-off).',
+      fixInstructions:
+          'Cross-ref Segment 5.3 (cooking line gas interlock/emergency cut-off).',
       frequency: 'weekly',
     ),
 
@@ -5402,8 +5423,7 @@ class AppDatabase extends _$AppDatabase {
       method: 'tick',
       priority: 'high',
       roleTiers: ['regional', 'executive'],
-      fixInstructions:
-          'LOLER 1998 [LAW] - where lifts/escalators are present.',
+      fixInstructions: 'LOLER 1998 [LAW] - where lifts/escalators are present.',
       frequency: 'asNeeded',
     ),
     _LibraryTask(
@@ -5472,11 +5492,13 @@ class AppDatabase extends _$AppDatabase {
       method: 'tick',
       priority: 'high',
       roleTiers: ['base'],
-      fixInstructions: 'Cross-ref bloodborne pathogen handling, HSE guidance [BEST].',
+      fixInstructions:
+          'Cross-ref bloodborne pathogen handling, HSE guidance [BEST].',
       frequency: 'eventBased',
     ),
     _LibraryTask(
-      title: 'Cleaning chemical dilution & COSHH compliance (housekeeping trolley)',
+      title:
+          'Cleaning chemical dilution & COSHH compliance (housekeeping trolley)',
       segment: 'housekeeping',
       method: 'data_tick',
       priority: 'high',
@@ -5524,7 +5546,8 @@ class AppDatabase extends _$AppDatabase {
       frequency: 'eventBased',
     ),
     _LibraryTask(
-      title: 'Room safety check (smoke alarm present/working, fire notice visible)',
+      title:
+          'Room safety check (smoke alarm present/working, fire notice visible)',
       segment: 'housekeeping',
       method: 'tick',
       priority: 'high',
@@ -5663,7 +5686,8 @@ class AppDatabase extends _$AppDatabase {
       method: 'tick',
       priority: 'high',
       roleTiers: ['base'],
-      fixInstructions: 'Often a specific premises licence condition [LAW where conditioned].',
+      fixInstructions:
+          'Often a specific premises licence condition [LAW where conditioned].',
       frequency: 'daily',
     ),
     _LibraryTask(
@@ -5684,7 +5708,8 @@ class AppDatabase extends _$AppDatabase {
       method: 'note',
       priority: 'critical',
       roleTiers: ['base'],
-      fixInstructions: 'Supports licensing due-diligence and Challenge 25 evidence.',
+      fixInstructions:
+          'Supports licensing due-diligence and Challenge 25 evidence.',
       frequency: 'eventBased',
     ),
     _LibraryTask(

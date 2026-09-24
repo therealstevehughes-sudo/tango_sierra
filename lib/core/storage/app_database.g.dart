@@ -2353,6 +2353,21 @@ class $OrganisationsTable extends Organisations
       'REFERENCES users (id)',
     ),
   );
+  static const VerificationMeta _employeeGradedBarsEnabledMeta =
+      const VerificationMeta('employeeGradedBarsEnabled');
+  @override
+  late final GeneratedColumn<bool> employeeGradedBarsEnabled =
+      GeneratedColumn<bool>(
+        'employee_graded_bars_enabled',
+        aliasedName,
+        false,
+        type: DriftSqlType.bool,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("employee_graded_bars_enabled" IN (0, 1))',
+        ),
+        defaultValue: const Constant(false),
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2364,6 +2379,7 @@ class $OrganisationsTable extends Organisations
     vatNumber,
     billingEmail,
     ownerUserId,
+    employeeGradedBarsEnabled,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2441,6 +2457,15 @@ class $OrganisationsTable extends Organisations
         ),
       );
     }
+    if (data.containsKey('employee_graded_bars_enabled')) {
+      context.handle(
+        _employeeGradedBarsEnabledMeta,
+        employeeGradedBarsEnabled.isAcceptableOrUnknown(
+          data['employee_graded_bars_enabled']!,
+          _employeeGradedBarsEnabledMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2486,6 +2511,10 @@ class $OrganisationsTable extends Organisations
         DriftSqlType.int,
         data['${effectivePrefix}owner_user_id'],
       ),
+      employeeGradedBarsEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}employee_graded_bars_enabled'],
+      )!,
     );
   }
 
@@ -2506,6 +2535,7 @@ class OrganisationEntity extends DataClass
   final String? vatNumber;
   final String? billingEmail;
   final int? ownerUserId;
+  final bool employeeGradedBarsEnabled;
   const OrganisationEntity({
     required this.id,
     required this.name,
@@ -2516,6 +2546,7 @@ class OrganisationEntity extends DataClass
     this.vatNumber,
     this.billingEmail,
     this.ownerUserId,
+    required this.employeeGradedBarsEnabled,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2541,6 +2572,9 @@ class OrganisationEntity extends DataClass
     if (!nullToAbsent || ownerUserId != null) {
       map['owner_user_id'] = Variable<int>(ownerUserId);
     }
+    map['employee_graded_bars_enabled'] = Variable<bool>(
+      employeeGradedBarsEnabled,
+    );
     return map;
   }
 
@@ -2567,6 +2601,7 @@ class OrganisationEntity extends DataClass
       ownerUserId: ownerUserId == null && nullToAbsent
           ? const Value.absent()
           : Value(ownerUserId),
+      employeeGradedBarsEnabled: Value(employeeGradedBarsEnabled),
     );
   }
 
@@ -2587,6 +2622,9 @@ class OrganisationEntity extends DataClass
       vatNumber: serializer.fromJson<String?>(json['vatNumber']),
       billingEmail: serializer.fromJson<String?>(json['billingEmail']),
       ownerUserId: serializer.fromJson<int?>(json['ownerUserId']),
+      employeeGradedBarsEnabled: serializer.fromJson<bool>(
+        json['employeeGradedBarsEnabled'],
+      ),
     );
   }
   @override
@@ -2602,6 +2640,9 @@ class OrganisationEntity extends DataClass
       'vatNumber': serializer.toJson<String?>(vatNumber),
       'billingEmail': serializer.toJson<String?>(billingEmail),
       'ownerUserId': serializer.toJson<int?>(ownerUserId),
+      'employeeGradedBarsEnabled': serializer.toJson<bool>(
+        employeeGradedBarsEnabled,
+      ),
     };
   }
 
@@ -2615,6 +2656,7 @@ class OrganisationEntity extends DataClass
     Value<String?> vatNumber = const Value.absent(),
     Value<String?> billingEmail = const Value.absent(),
     Value<int?> ownerUserId = const Value.absent(),
+    bool? employeeGradedBarsEnabled,
   }) => OrganisationEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -2627,6 +2669,8 @@ class OrganisationEntity extends DataClass
     vatNumber: vatNumber.present ? vatNumber.value : this.vatNumber,
     billingEmail: billingEmail.present ? billingEmail.value : this.billingEmail,
     ownerUserId: ownerUserId.present ? ownerUserId.value : this.ownerUserId,
+    employeeGradedBarsEnabled:
+        employeeGradedBarsEnabled ?? this.employeeGradedBarsEnabled,
   );
   OrganisationEntity copyWithCompanion(OrganisationsCompanion data) {
     return OrganisationEntity(
@@ -2645,6 +2689,9 @@ class OrganisationEntity extends DataClass
       ownerUserId: data.ownerUserId.present
           ? data.ownerUserId.value
           : this.ownerUserId,
+      employeeGradedBarsEnabled: data.employeeGradedBarsEnabled.present
+          ? data.employeeGradedBarsEnabled.value
+          : this.employeeGradedBarsEnabled,
     );
   }
 
@@ -2659,7 +2706,8 @@ class OrganisationEntity extends DataClass
           ..write('registeredAddress: $registeredAddress, ')
           ..write('vatNumber: $vatNumber, ')
           ..write('billingEmail: $billingEmail, ')
-          ..write('ownerUserId: $ownerUserId')
+          ..write('ownerUserId: $ownerUserId, ')
+          ..write('employeeGradedBarsEnabled: $employeeGradedBarsEnabled')
           ..write(')'))
         .toString();
   }
@@ -2675,6 +2723,7 @@ class OrganisationEntity extends DataClass
     vatNumber,
     billingEmail,
     ownerUserId,
+    employeeGradedBarsEnabled,
   );
   @override
   bool operator ==(Object other) =>
@@ -2688,7 +2737,8 @@ class OrganisationEntity extends DataClass
           other.registeredAddress == this.registeredAddress &&
           other.vatNumber == this.vatNumber &&
           other.billingEmail == this.billingEmail &&
-          other.ownerUserId == this.ownerUserId);
+          other.ownerUserId == this.ownerUserId &&
+          other.employeeGradedBarsEnabled == this.employeeGradedBarsEnabled);
 }
 
 class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
@@ -2701,6 +2751,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
   final Value<String?> vatNumber;
   final Value<String?> billingEmail;
   final Value<int?> ownerUserId;
+  final Value<bool> employeeGradedBarsEnabled;
   const OrganisationsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -2711,6 +2762,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     this.vatNumber = const Value.absent(),
     this.billingEmail = const Value.absent(),
     this.ownerUserId = const Value.absent(),
+    this.employeeGradedBarsEnabled = const Value.absent(),
   });
   OrganisationsCompanion.insert({
     this.id = const Value.absent(),
@@ -2722,6 +2774,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     this.vatNumber = const Value.absent(),
     this.billingEmail = const Value.absent(),
     this.ownerUserId = const Value.absent(),
+    this.employeeGradedBarsEnabled = const Value.absent(),
   }) : name = Value(name),
        createdAt = Value(createdAt);
   static Insertable<OrganisationEntity> custom({
@@ -2734,6 +2787,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     Expression<String>? vatNumber,
     Expression<String>? billingEmail,
     Expression<int>? ownerUserId,
+    Expression<bool>? employeeGradedBarsEnabled,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2745,6 +2799,8 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
       if (vatNumber != null) 'vat_number': vatNumber,
       if (billingEmail != null) 'billing_email': billingEmail,
       if (ownerUserId != null) 'owner_user_id': ownerUserId,
+      if (employeeGradedBarsEnabled != null)
+        'employee_graded_bars_enabled': employeeGradedBarsEnabled,
     });
   }
 
@@ -2758,6 +2814,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     Value<String?>? vatNumber,
     Value<String?>? billingEmail,
     Value<int?>? ownerUserId,
+    Value<bool>? employeeGradedBarsEnabled,
   }) {
     return OrganisationsCompanion(
       id: id ?? this.id,
@@ -2769,6 +2826,8 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
       vatNumber: vatNumber ?? this.vatNumber,
       billingEmail: billingEmail ?? this.billingEmail,
       ownerUserId: ownerUserId ?? this.ownerUserId,
+      employeeGradedBarsEnabled:
+          employeeGradedBarsEnabled ?? this.employeeGradedBarsEnabled,
     );
   }
 
@@ -2802,6 +2861,11 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     if (ownerUserId.present) {
       map['owner_user_id'] = Variable<int>(ownerUserId.value);
     }
+    if (employeeGradedBarsEnabled.present) {
+      map['employee_graded_bars_enabled'] = Variable<bool>(
+        employeeGradedBarsEnabled.value,
+      );
+    }
     return map;
   }
 
@@ -2816,7 +2880,8 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
           ..write('registeredAddress: $registeredAddress, ')
           ..write('vatNumber: $vatNumber, ')
           ..write('billingEmail: $billingEmail, ')
-          ..write('ownerUserId: $ownerUserId')
+          ..write('ownerUserId: $ownerUserId, ')
+          ..write('employeeGradedBarsEnabled: $employeeGradedBarsEnabled')
           ..write(')'))
         .toString();
   }
@@ -25979,6 +26044,7 @@ typedef $$OrganisationsTableCreateCompanionBuilder =
       Value<String?> vatNumber,
       Value<String?> billingEmail,
       Value<int?> ownerUserId,
+      Value<bool> employeeGradedBarsEnabled,
     });
 typedef $$OrganisationsTableUpdateCompanionBuilder =
     OrganisationsCompanion Function({
@@ -25991,6 +26057,7 @@ typedef $$OrganisationsTableUpdateCompanionBuilder =
       Value<String?> vatNumber,
       Value<String?> billingEmail,
       Value<int?> ownerUserId,
+      Value<bool> employeeGradedBarsEnabled,
     });
 
 final class $$OrganisationsTableReferences
@@ -26147,6 +26214,11 @@ class $$OrganisationsTableFilterComposer
 
   ColumnFilters<String> get billingEmail => $composableBuilder(
     column: $table.billingEmail,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get employeeGradedBarsEnabled => $composableBuilder(
+    column: $table.employeeGradedBarsEnabled,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -26323,6 +26395,11 @@ class $$OrganisationsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get employeeGradedBarsEnabled => $composableBuilder(
+    column: $table.employeeGradedBarsEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$UsersTableOrderingComposer get ownerUserId {
     final $$UsersTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -26381,6 +26458,11 @@ class $$OrganisationsTableAnnotationComposer
 
   GeneratedColumn<String> get billingEmail => $composableBuilder(
     column: $table.billingEmail,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get employeeGradedBarsEnabled => $composableBuilder(
+    column: $table.employeeGradedBarsEnabled,
     builder: (column) => column,
   );
 
@@ -26552,6 +26634,7 @@ class $$OrganisationsTableTableManager
                 Value<String?> vatNumber = const Value.absent(),
                 Value<String?> billingEmail = const Value.absent(),
                 Value<int?> ownerUserId = const Value.absent(),
+                Value<bool> employeeGradedBarsEnabled = const Value.absent(),
               }) => OrganisationsCompanion(
                 id: id,
                 name: name,
@@ -26562,6 +26645,7 @@ class $$OrganisationsTableTableManager
                 vatNumber: vatNumber,
                 billingEmail: billingEmail,
                 ownerUserId: ownerUserId,
+                employeeGradedBarsEnabled: employeeGradedBarsEnabled,
               ),
           createCompanionCallback:
               ({
@@ -26574,6 +26658,7 @@ class $$OrganisationsTableTableManager
                 Value<String?> vatNumber = const Value.absent(),
                 Value<String?> billingEmail = const Value.absent(),
                 Value<int?> ownerUserId = const Value.absent(),
+                Value<bool> employeeGradedBarsEnabled = const Value.absent(),
               }) => OrganisationsCompanion.insert(
                 id: id,
                 name: name,
@@ -26584,6 +26669,7 @@ class $$OrganisationsTableTableManager
                 vatNumber: vatNumber,
                 billingEmail: billingEmail,
                 ownerUserId: ownerUserId,
+                employeeGradedBarsEnabled: employeeGradedBarsEnabled,
               ),
           withReferenceMapper: (p0) => p0
               .map(

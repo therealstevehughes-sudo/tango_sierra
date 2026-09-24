@@ -40,7 +40,8 @@ class SettingsScreen extends ConsumerWidget {
     final currentUser = ref.watch(currentUserProvider);
     final canSeeVenueSettings =
         currentUser != null &&
-        roleTierRank(currentUser.roleTier) >= roleTierRank(RoleTier.venueManager);
+        roleTierRank(currentUser.roleTier) >=
+            roleTierRank(RoleTier.venueManager);
     final canSeeCompanySettings =
         currentUser != null &&
         roleTierRank(currentUser.roleTier) >= roleTierRank(RoleTier.executive);
@@ -50,38 +51,40 @@ class SettingsScreen extends ConsumerWidget {
       drawer: const ManagementDrawer(title: 'Settings'),
       body: ResponsiveContent(
         child: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          const SectionHeader(title: 'Personal'),
-          AppCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (currentUser != null)
-                  _TemperatureUnitSetting(currentUser: currentUser),
-                const Divider(height: 24),
-                const _ComingSoonTile(label: 'Dark Mode'),
-                const _ComingSoonTile(label: 'Language'),
-              ],
-            ),
-          ),
-          if (canSeeVenueSettings) ...[
-            const SizedBox(height: 24),
-            const SectionHeader(title: 'Venue'),
-            const AppCard(
+          padding: const EdgeInsets.all(16),
+          children: [
+            const SectionHeader(title: 'Personal'),
+            AppCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [_ComingSoonTile(label: 'Login Layout')],
+                children: [
+                  if (currentUser != null)
+                    _TemperatureUnitSetting(currentUser: currentUser),
+                  const Divider(height: 24),
+                  const _ComingSoonTile(label: 'Dark Mode'),
+                  const _ComingSoonTile(label: 'Language'),
+                ],
               ),
             ),
+            if (canSeeVenueSettings) ...[
+              const SizedBox(height: 24),
+              const SectionHeader(title: 'Venue'),
+              const AppCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [_ComingSoonTile(label: 'Login Layout')],
+                ),
+              ),
+            ],
+            if (canSeeCompanySettings) ...[
+              const SizedBox(height: 24),
+              const SectionHeader(title: 'Company'),
+              _CompanyBrandingSection(currentUser: currentUser),
+              const SizedBox(height: 16),
+              const _EmployeeGradedBarsSetting(),
+            ],
           ],
-          if (canSeeCompanySettings) ...[
-            const SizedBox(height: 24),
-            const SectionHeader(title: 'Company'),
-            _CompanyBrandingSection(currentUser: currentUser),
-          ],
-        ],
-      ),
+        ),
       ),
     );
   }
@@ -178,9 +181,7 @@ class _CompanyBrandingSectionState
   // renamed, moved, or disconnected later, which would silently break the
   // logo. Same reasoning as TaskSubmissions.photoPath's design intent.
   Future<void> _pickLogo() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
+    final result = await FilePicker.platform.pickFiles(type: FileType.image);
     final pickedPath = result?.files.single.path;
     if (pickedPath == null) return;
 
@@ -247,9 +248,9 @@ class _CompanyBrandingSectionState
 
     if (!mounted) return;
     setState(() => _saving = false);
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Branding saved')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Branding saved')));
     await _load();
   }
 
@@ -264,7 +265,9 @@ class _CompanyBrandingSectionState
 
     final customHexArgb = _parseHex(_customHexController.text);
     final customHexInvalid =
-        _useCustomHex && _customHexController.text.isNotEmpty && customHexArgb == null;
+        _useCustomHex &&
+        _customHexController.text.isNotEmpty &&
+        customHexArgb == null;
 
     return AppCard(
       child: Column(
@@ -311,10 +314,7 @@ class _CompanyBrandingSectionState
                 child: Text(_logoPath == null ? 'Choose Logo' : 'Change Logo'),
               ),
               if (_logoPath != null)
-                TextButton(
-                  onPressed: _removeLogo,
-                  child: const Text('Remove'),
-                ),
+                TextButton(onPressed: _removeLogo, child: const Text('Remove')),
             ],
           ),
           const SizedBox(height: 12),
@@ -376,6 +376,77 @@ class _CompanyBrandingSectionState
   }
 }
 
+// Per-employee graded dashboard bars (2026-09-24, direct user request) —
+// off by default; see Organisation.employeeGradedBarsEnabled's own doc
+// comment. Executive-only, alongside company branding, since this
+// governs a company-wide dashboard behaviour, not a per-venue one.
+class _EmployeeGradedBarsSetting extends ConsumerStatefulWidget {
+  const _EmployeeGradedBarsSetting();
+
+  @override
+  ConsumerState<_EmployeeGradedBarsSetting> createState() =>
+      _EmployeeGradedBarsSettingState();
+}
+
+class _EmployeeGradedBarsSettingState
+    extends ConsumerState<_EmployeeGradedBarsSetting> {
+  bool _loaded = false;
+  bool _enabled = false;
+  int? _organisationId;
+  bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final org = await ref.read(organisationRepositoryProvider).getDefault();
+    if (!mounted) return;
+    setState(() {
+      _organisationId = org.id;
+      _enabled = org.employeeGradedBarsEnabled;
+      _loaded = true;
+    });
+  }
+
+  Future<void> _toggle(bool value) async {
+    final orgId = _organisationId;
+    if (orgId == null) return;
+    setState(() {
+      _enabled = value;
+      _saving = true;
+    });
+    await ref
+        .read(organisationRepositoryProvider)
+        .setEmployeeGradedBarsEnabled(orgId, value);
+    if (!mounted) return;
+    setState(() => _saving = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_loaded) {
+      return const AppCard(child: Center(child: CircularProgressIndicator()));
+    }
+    return AppCard(
+      child: SwitchListTile(
+        contentPadding: EdgeInsets.zero,
+        title: const Text('Per-employee dashboard bars'),
+        subtitle: const Text(
+          "When a manager selects a named person on the Dashboard "
+          "Overview, show the same colour-graded bar the branch/section "
+          "view uses, for work oversight and risk assessment - instead "
+          "of the default plain list of what they raised/completed.",
+        ),
+        value: _enabled,
+        onChanged: _saving ? null : _toggle,
+      ),
+    );
+  }
+}
+
 class _ColorSwatch extends StatelessWidget {
   const _ColorSwatch({
     required this.label,
@@ -403,7 +474,10 @@ class _ColorSwatch extends StatelessWidget {
             color: Color(argb),
             shape: BoxShape.circle,
             border: selected
-                ? Border.all(color: Theme.of(context).colorScheme.onSurface, width: 3)
+                ? Border.all(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    width: 3,
+                  )
                 : null,
           ),
           child: selected
@@ -437,7 +511,9 @@ class _CustomSwatch extends StatelessWidget {
           width: 44,
           height: 44,
           decoration: BoxDecoration(
-            color: previewArgb == null ? Colors.transparent : Color(previewArgb!),
+            color: previewArgb == null
+                ? Colors.transparent
+                : Color(previewArgb!),
             shape: BoxShape.circle,
             border: Border.all(
               color: selected
@@ -471,8 +547,9 @@ class _TemperatureUnitSetting extends ConsumerWidget {
         userId: currentUser.id,
         unit: unit,
       );
-      ref.read(currentUserProvider.notifier).state = currentUser
-          .copyWith(preferredTemperatureUnit: unit);
+      ref.read(currentUserProvider.notifier).state = currentUser.copyWith(
+        preferredTemperatureUnit: unit,
+      );
     }
 
     return Row(
@@ -516,9 +593,9 @@ class _ComingSoonTile extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(color: Theme.of(context).disabledColor),
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).disabledColor,
+              ),
             ),
           ),
           Text(

@@ -15,15 +15,18 @@ import '../../shared/repositories/task_schedule_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
 
 // Leadership dashboard overview (2026-09-15) — from the user's own
-// `Visual idea.pdf` mockup. Built ONLY at aggregate (branch/section)
-// level, per the governing anti-gaming rule (see app_database.dart's
-// `Issues` table doc comment and DECISIONS_LOG.md's "DEFERRED SPRINT:
-// Leadership dashboard overview" entry): a colour-graded breakdown of
-// this exact shape must never be computed for one named individual —
-// that's why `LeadershipDashboardScreen`'s Employee filter switches to a
-// plain list instead of reusing these classes. Never add a per-user
-// variant of TaskOverviewBreakdown/IncidentsBreakdown without going back
-// to that guideline first.
+// `Visual idea.pdf` mockup. Built primarily for aggregate (branch/
+// section) level, per the governing anti-gaming rule (see
+// app_database.dart's `Issues` table doc comment and DECISIONS_LOG.md's
+// "DEFERRED SPRINT: Leadership dashboard overview" entry): by default,
+// `LeadershipDashboardScreen`'s Employee filter shows a plain list
+// instead of reusing these classes, never a colour-graded breakdown for
+// one named individual. computeTaskOverview/computeIncidents DO accept
+// an employeeId (see that param's own doc comment below) — used only
+// when an organisation has explicitly opted into per-employee graded
+// bars (Organisation.employeeGradedBarsEnabled, 2026-09-24, off by
+// default), reframed by the user as risk-oversight, not a leaderboard.
+// Still never a side-by-side ranking of several employees at once.
 //
 // "Urgent" from the mockup's Incidents legend, added 2026-09-20: the
 // original objection (IssueStatus only has open/resolved/escalated, no
@@ -123,10 +126,7 @@ class IncidentsBreakdown {
   // issue doesn't need anyone's attention right now regardless of how
   // urgent it once was.
   List<Issue> get urgent {
-    return [
-      ...unresolved,
-      ...escalated,
-    ].where((i) {
+    return [...unresolved, ...escalated].where((i) {
       final level = computeUrgency(
         since: i.raisedAt,
         escalated: i.status == IssueStatus.escalated,

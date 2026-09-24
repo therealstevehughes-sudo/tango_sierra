@@ -7,6 +7,16 @@ abstract class OrganisationRepository {
   Future<List<Organisation>> getAll();
   Future<Organisation> getDefault();
   Future<void> rename(int id, String newName);
+  // Per-employee graded dashboard bars (2026-09-24, direct user request) —
+  // off by default. When enabled, the leadership dashboard's Employee
+  // filter shows the same colour-graded bar the branch/section view uses
+  // instead of a plain lookup list — reframed by the user as "work
+  // oversight for risk assessment," not grading. The underlying
+  // computation (LeadershipDashboardService.computeTaskOverview/
+  // computeIncidents with employeeId set) already existed and was already
+  // approved for this exact use; this flag only controls whether the
+  // screen is allowed to use it for a given organisation.
+  Future<void> setEmployeeGradedBarsEnabled(int id, bool enabled);
 }
 
 class DriftOrganisationRepository implements OrganisationRepository {
@@ -31,14 +41,24 @@ class DriftOrganisationRepository implements OrganisationRepository {
 
   @override
   Future<void> rename(int id, String newName) async {
-    await (_db.update(
-      _db.organisations,
-    )..where((o) => o.id.equals(id))).write(
+    await (_db.update(_db.organisations)..where((o) => o.id.equals(id))).write(
       OrganisationsCompanion(name: Value(newName)),
     );
   }
 
+  @override
+  Future<void> setEmployeeGradedBarsEnabled(int id, bool enabled) async {
+    await (_db.update(_db.organisations)..where((o) => o.id.equals(id))).write(
+      OrganisationsCompanion(employeeGradedBarsEnabled: Value(enabled)),
+    );
+  }
+
   Organisation _toModel(OrganisationEntity row) {
-    return Organisation(id: row.id, name: row.name, createdAt: row.createdAt);
+    return Organisation(
+      id: row.id,
+      name: row.name,
+      createdAt: row.createdAt,
+      employeeGradedBarsEnabled: row.employeeGradedBarsEnabled,
+    );
   }
 }

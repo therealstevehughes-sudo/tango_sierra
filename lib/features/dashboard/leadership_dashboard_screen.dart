@@ -32,11 +32,15 @@ const _allBranchesSentinel = 0;
 // Leadership dashboard overview (2026-09-15) — from the user's own
 // `Visual idea.pdf` mockup. Branch/Section filters plus Month/Week/Day
 // drive two aggregate colour bars (Task overview, Incidents). Employee
-// filter is DELIBERATELY different from the other two: per the governing
-// anti-gaming rule (see leadership_dashboard_service.dart's own doc
-// comment), picking a named person never produces a colour-graded bar —
-// it switches to a plain, ungraded list of what they raised/completed,
-// a lookup, not a score.
+// filter DEFAULTS to a plain, ungraded lookup list of what a named person
+// raised/completed, per the governing anti-gaming rule (see
+// leadership_dashboard_service.dart's own doc comment) — a lookup, not a
+// score. Per-employee graded bars (2026-09-24): an organisation can opt
+// into showing the same colour bar for a selected individual instead
+// (Organisation.employeeGradedBarsEnabled, off by default) — reframed by
+// the user as "work oversight for risk assessment," not grading. Off is
+// still the default for every install; this is a deliberate, confirmed
+// exception a Director switches on, not a reversal of the rule itself.
 class LeadershipDashboardScreen extends ConsumerStatefulWidget {
   const LeadershipDashboardScreen({super.key});
 
@@ -69,6 +73,10 @@ class _LeadershipDashboardScreenState
   // all-zero dashboard that looks like a bug.
   Set<int>? _allowedUserIds;
   List<String> _scopeLabels = [];
+  // Per-employee graded dashboard bars (2026-09-24) — off by default;
+  // see OrganisationRepository.setEmployeeGradedBarsEnabled's own doc
+  // comment. Loaded once in initState alongside sites.
+  bool _gradedBarsEnabled = false;
 
   bool get _isSupervisor =>
       ref.read(currentUserProvider)?.roleTier == RoleTier.supervisor;
@@ -76,7 +84,14 @@ class _LeadershipDashboardScreenState
   @override
   void initState() {
     super.initState();
+    _loadGradedBarsSetting();
     _loadSites();
+  }
+
+  Future<void> _loadGradedBarsSetting() async {
+    final org = await ref.read(organisationRepositoryProvider).getDefault();
+    if (!mounted) return;
+    setState(() => _gradedBarsEnabled = org.employeeGradedBarsEnabled);
   }
 
   DateTimeRange get _range {
@@ -218,8 +233,36 @@ class _LeadershipDashboardScreenState
     }
 
     if (_selectedEmployeeId != null) {
-      // Employee lookup path — a plain list, never a colour bar. See the
-      // class doc comment.
+      // Per-employee graded bars (2026-09-24, opt-in): when the org has
+      // switched this on, reuse the exact same bar the branch/section
+      // view renders, fed by computeTaskOverview/computeIncidents'
+      // pre-existing employeeId filter. Off (default): the plain,
+      // ungraded lookup list — see the class doc comment.
+      if (_gradedBarsEnabled) {
+        final taskOverview = await service.computeTaskOverview(
+          siteId: siteId,
+          start: range.start,
+          end: range.end,
+          areaId: _selectedAreaId,
+          employeeId: _selectedEmployeeId,
+          allowedUserIds: _allowedUserIds,
+        );
+        final incidents = await service.computeIncidents(
+          siteId: siteId,
+          start: range.start,
+          end: range.end,
+          employeeId: _selectedEmployeeId,
+          allowedUserIds: _allowedUserIds,
+        );
+        if (!mounted) return;
+        setState(() {
+          _taskOverview = taskOverview;
+          _incidents = incidents;
+          _loading = false;
+        });
+        return;
+      }
+
       final submissions = await ref
           .read(taskSubmissionRepositoryProvider)
           .getForSiteAndDateRange(
@@ -300,9 +343,19 @@ class _LeadershipDashboardScreenState
                           'to show.',
                         ),
                       )
-                    else if (_selectedEmployeeId != null)
+                    else if (_selectedEmployeeId != null && !_gradedBarsEnabled)
                       _buildEmployeeLookup()
                     else ...[
+                      if (_selectedEmployeeId != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Text(
+                            'Individual view - for risk oversight, not a '
+                            'league table.',
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: AppColors.muted),
+                          ),
+                        ),
                       _buildTaskOverviewCard(),
                       const SizedBox(height: 16),
                       _buildIncidentsCard(),
@@ -531,10 +584,7 @@ class _LeadershipDashboardScreenState
         children: [
           Row(
             children: [
-              Text(
-                'Incidents',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
+              Text('Incidents', style: Theme.of(context).textTheme.titleMedium),
               // "Urgent" badge (2026-09-20) — additive, not part of the
               // bar below (see IncidentsBreakdown.urgent's own doc
               // comment for why it can't be a mutually-exclusive
@@ -545,8 +595,7 @@ class _LeadershipDashboardScreenState
                 const SizedBox(width: 8),
                 InkWell(
                   borderRadius: BorderRadius.circular(999),
-                  onTap: () =>
-                      _showIssueBreakdown('Urgent', incidents.urgent),
+                  onTap: () => _showIssueBreakdown('Urgent', incidents.urgent),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
@@ -758,7 +807,11 @@ class _TapForDetailsHint extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.touch_app_outlined, size: 14, color: AppColors.muted),
+          const Icon(
+            Icons.touch_app_outlined,
+            size: 14,
+            color: AppColors.muted,
+          ),
           const SizedBox(width: 4),
           Text(
             'Tap a colour section or legend entry for details',
