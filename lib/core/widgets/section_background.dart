@@ -22,7 +22,14 @@ String sectionBackgroundImageFor(JobRole? jobRole) {
   switch (jobRole) {
     case JobRole.frontOfHouse:
     case JobRole.bar:
+    case JobRole.reception:
       return 'assets/images/front_of_house.png';
+    case JobRole.maintenance:
+      return 'assets/images/maintenance.png';
+    case JobRole.housekeeping:
+      return 'assets/images/housekeeping.png';
+    case JobRole.security:
+      return 'assets/images/security.png';
     case JobRole.chefCook:
     case JobRole.kitchenPorter:
     case JobRole.management:

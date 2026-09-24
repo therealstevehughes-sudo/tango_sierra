@@ -1539,6 +1539,12 @@ class AppDatabase extends _$AppDatabase {
       // Management & Compliance Oversight. Completes Build Order item 4.
       await _seedTaskLibraryClusterF();
 
+      // Cluster G (departments content build, 2026-09-23): Segments 22-25
+      // — Maintenance, Housekeeping, Reception, Security — plus the Bar &
+      // Cellar gap-check additions to Segment 19. Must run before
+      // _ensureTaskEnrichment below, same as every other cluster.
+      await _seedTaskLibraryClusterG();
+
       // Always ensured (checked per-title, per-current-version — see the
       // function doc). HORECA_TASK_ENRICHMENT.md load (Sprint 031): adds
       // jobRole + guidanceText to the templates loaded above, as new
@@ -2050,6 +2056,17 @@ class AppDatabase extends _$AppDatabase {
   // Mechanically unambiguous, not a judgment call. 1 of 12.
   static const _clusterFHotelSpecificVenueTypeNames = ['Hotel'];
 
+  // Departments content build (2026-09-23), Segment 25 — Security.
+  // Broader than hotel_specific: door supervisors/CCTV/Challenge 25 are
+  // realistic for licensed venues generally, not just hotels. A judgment
+  // call, disclosed: the three venue types most likely to run licensed
+  // door security or age-restricted sales in practice.
+  static const _clusterGSecurityVenueTypeNames = [
+    'Hotel',
+    'Bar / Pub',
+    'Gastropub',
+  ];
+
   static const _segmentVenueTypeNames = <String, List<String>>{
     'food_safety': _venueTypeNames,
     'allergen': _venueTypeNames,
@@ -2085,6 +2102,14 @@ class AppDatabase extends _$AppDatabase {
     // arguably more universal than the operational segments already
     // included. All 12.
     'management_compliance_oversight': _venueTypeNames,
+    // Departments content build (2026-09-23) — Segments 22-25. Maintenance
+    // applies to every venue type (all have a building to maintain);
+    // Housekeeping/Reception are hotel-specific (rooms/guest check-in
+    // don't exist elsewhere); Security uses its own broader list above.
+    'maintenance': _venueTypeNames,
+    'housekeeping': _clusterFHotelSpecificVenueTypeNames,
+    'reception': _clusterFHotelSpecificVenueTypeNames,
+    'security': _clusterGSecurityVenueTypeNames,
   };
 
   // Cluster A (Sprint 030): HORECA_TASK_LIBRARY.md Segments 1-4 — Food
@@ -5036,6 +5061,688 @@ class AppDatabase extends _$AppDatabase {
         await into(taskPresetVenueTypes).insert(
           TaskPresetVenueTypesCompanion.insert(
             presetId: presetId,
+            venueTypeId: vtId,
+          ),
+        );
+      }
+    }
+  }
+
+  // Cluster G (departments content build, 2026-09-23): HORECA_TASK_LIBRARY
+  // .md Segments 22-25 (Maintenance, Housekeeping, Reception, Security) plus
+  // the Bar & Cellar gap-check's 5 cellar-plant-safety additions to Segment
+  // 19. 57 tasks. Drafted and sourced by a research pass, reviewed by the
+  // app owner before this load (see DECISIONS_LOG.md).
+  //
+  // Deliberately NOT building TaskPresets for this cluster (unlike A/D/E/F)
+  // — presets are a manager-facing "quick add a starter bundle" convenience,
+  // not required for venue-type tagging or the onboarding payoff step
+  // (which reads TaskTemplateVenueTypes directly). Scoping decision to keep
+  // this already-large load bounded; can be added later without touching
+  // anything built here.
+  //
+  // No equipmentTypeId links — none of the 18 seeded equipment types
+  // (kitchen/bar-focused: Fridge, Fryer, Glasswasher, etc.) meaningfully
+  // match building-systems concepts like fire alarms or CCTV; inventing new
+  // equipment types for a handful of tasks each wasn't judged worth it.
+  //
+  // Numeric thresholds that exist (sentinel outlet temp, calorifier temp,
+  // laundry wash temp) are set directly as minLimit/maxLimit without a
+  // LegalLimitReferences row — same simplification Cluster A used for
+  // secondary/non-primary targets, folding the full picture into
+  // fixInstructions text instead.
+  //
+  // Role-tier mapping: Base -> [base], Mid -> [supervisor, venueManager],
+  // Top -> [regional, executive] — same convention every prior cluster uses.
+  static const _clusterGTasks = [
+    // Segment 19 addition — cellar plant safety (bar_beverage segment)
+    _LibraryTask(
+      title: 'CO2/gas monitor check & alarm test',
+      segment: 'bar_beverage',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['base'],
+      fixInstructions:
+          'Check the fixed CO2/gas monitor is powered and the alarm test '
+          'button works. CO2 is heavier than air, colourless and odourless '
+          '- pools at floor level in a poorly ventilated cellar [LAW - '
+          'COSHH 2002; Confined Spaces Regulations 1997].',
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Cellar CO2 written risk assessment current',
+      segment: 'bar_beverage',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'A written COSHH risk assessment for the CO2/gas hazard must '
+          'exist and be reviewed on any change to the cellar setup [LAW - '
+          'COSHH 2002].',
+      frequency: 'annually',
+    ),
+    _LibraryTask(
+      title: 'Cellar ventilation (forced extraction) running',
+      segment: 'bar_beverage',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions:
+          'Confirm forced extraction is running - industry rule of thumb '
+          'is around 20 air changes per hour [BEST].',
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'Keg/cylinder change follows safe procedure',
+      segment: 'bar_beverage',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions:
+          'Safe lifting and correct connection; never work alone if the '
+          'cellar counts as a confined space [LAW - Confined Spaces '
+          'Regulations 1997].',
+      frequency: 'perUse',
+    ),
+    _LibraryTask(
+      title: 'Cellar access restricted / signed as gas hazard',
+      segment: 'bar_beverage',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions: 'Cellar door locked/restricted and gas-hazard signage visible.',
+      frequency: 'weekly',
+    ),
+
+    // 22.1 Electrical & gas safety
+    _LibraryTask(
+      title: 'Fixed wiring inspection (EICR) in date',
+      segment: 'maintenance',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['regional', 'executive'],
+      fixInstructions:
+          'Electricity at Work Regulations 1989 [LAW] duty to maintain; '
+          'the EICR interval itself is risk-based, not fixed by statute - '
+          'confirm the real schedule with a qualified electrician, 5-yearly '
+          'is a common starting point.',
+      frequency: 'fiveYearly',
+    ),
+    _LibraryTask(
+      title: 'Portable appliance (PAT) programme up to date',
+      segment: 'maintenance',
+      method: 'tick_note',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'Electricity at Work Regulations 1989 [LAW] duty to maintain; '
+          'PAT itself is best-practice evidence with no HSE-mandated '
+          'interval [BEST] - typically annual for handheld kitchen/bar '
+          'equipment.',
+      frequency: 'asNeeded',
+    ),
+    _LibraryTask(
+      title: 'Emergency lighting test',
+      segment: 'maintenance',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'Monthly function test; a full 3-hour duration test is needed '
+          'annually [BEST - BS 5266-1].',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Commercial gas appliance safety check',
+      segment: 'maintenance',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['regional', 'executive'],
+      fixInstructions:
+          'Gas Safety (Installation and Use) Regulations 1998 [LAW] duty '
+          'to keep gas appliances safe - Gas Safe registered engineer '
+          'required. No blanket statutory interval for commercial '
+          '(non-let) premises the way domestic landlords have; annual is '
+          'strong best practice.',
+      frequency: 'annually',
+    ),
+    _LibraryTask(
+      title: 'Gas appliance interlock / ventilation not obstructed',
+      segment: 'maintenance',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: 'Cross-ref Segment 5.3 (cooking line gas interlock/emergency cut-off).',
+      frequency: 'weekly',
+    ),
+
+    // 22.2 Water hygiene (Legionella)
+    _LibraryTask(
+      title: 'Legionella risk assessment current',
+      segment: 'maintenance',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['regional', 'executive'],
+      fixInstructions:
+          'HSE ACOP L8 [LAW] - review every 2 years or on any system '
+          'change.',
+      frequency: 'twoYearly',
+    ),
+    _LibraryTask(
+      title: 'Sentinel outlet temperature check',
+      segment: 'maintenance',
+      method: 'data',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      minLimit: 50.0,
+      unit: 'celsius',
+      fixInstructions:
+          'ACOP L8 guidance (non-statutory figures, but expected by HSE/'
+          'EHO): hot water should reach at least 50°C at the tap within 1 '
+          'minute; cold outlets should read below 20°C.',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Little-used outlet flushing (unoccupied rooms/areas)',
+      segment: 'maintenance',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions:
+          'ACOP L8 guidance: flush weekly minimum where an outlet is not '
+          'in regular use [BEST/HSE guidance].',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Calorifier / tank temperature check',
+      segment: 'maintenance',
+      method: 'data',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      minLimit: 60.0,
+      unit: 'celsius',
+      fixInstructions:
+          'ACOP L8: stored hot water at least 60°C; cold storage below '
+          '20°C.',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Shower heads/hoses descaled & inspected for biofilm',
+      segment: 'maintenance',
+      method: 'tick_photo',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions: 'ACOP L8.',
+      frequency: 'quarterly',
+    ),
+    _LibraryTask(
+      title: 'Water system log book (L8 record) up to date',
+      segment: 'maintenance',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'ACOP L8 [LAW] - record-keeping is a legal duty even where the '
+          'specific figures are guidance rather than statute.',
+      frequency: 'monthly',
+    ),
+
+    // 22.3 Fire safety equipment
+    _LibraryTask(
+      title: 'Fire extinguisher/blanket service',
+      segment: 'maintenance',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'Cross-ref Segment 11. Professional service annually; visual '
+          'check monthly [BS 5306-3].',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Fire alarm system test (call point)',
+      segment: 'maintenance',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'Regulatory Reform (Fire Safety) Order 2005 [LAW] general duty; '
+          'weekly call-point test is standard practice [BEST - BS 5839-1].',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Fire door self-closes & seals intact',
+      segment: 'maintenance',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['base'],
+      fixInstructions: 'Fire Safety Order 2005 [LAW].',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Fire risk assessment reviewed/current',
+      segment: 'maintenance',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['regional', 'executive'],
+      fixInstructions:
+          'Fire Safety Order 2005 [LAW] - review annually or on any '
+          'material change to the building/use.',
+      frequency: 'annually',
+    ),
+    _LibraryTask(
+      title: 'Sprinkler/suppression system service',
+      segment: 'maintenance',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions: 'Per manufacturer/insurer schedule.',
+      frequency: 'asNeeded',
+    ),
+
+    // 22.4 General fabric & plant
+    _LibraryTask(
+      title: 'Building fault/repair log reviewed & actioned',
+      segment: 'maintenance',
+      method: 'note',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions: '',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'HVAC/plant room filters & condition',
+      segment: 'maintenance',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Lift/escalator service certificate in date',
+      segment: 'maintenance',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['regional', 'executive'],
+      fixInstructions:
+          'LOLER 1998 [LAW] - where lifts/escalators are present.',
+      frequency: 'asNeeded',
+    ),
+    _LibraryTask(
+      title: 'Roof/gutters/external fabric inspected',
+      segment: 'maintenance',
+      method: 'tick_photo',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions: '',
+      frequency: 'quarterly',
+    ),
+    _LibraryTask(
+      title: 'Water ingress / damp check',
+      segment: 'maintenance',
+      method: 'tick_note',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'monthly',
+    ),
+
+    // Segment 23 — Housekeeping
+    _LibraryTask(
+      title: 'Room turnover cleaning checklist complete',
+      segment: 'housekeeping',
+      method: 'multi',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'perCheckout',
+    ),
+    _LibraryTask(
+      title: 'Room inspection sign-off (post-clean)',
+      segment: 'housekeeping',
+      method: 'tick_note',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions: '',
+      frequency: 'perCheckout',
+    ),
+    _LibraryTask(
+      title: 'Linen change frequency followed',
+      segment: 'housekeeping',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'asNeeded',
+    ),
+    _LibraryTask(
+      title: 'Laundry wash temperature for hygiene (linen)',
+      segment: 'housekeeping',
+      method: 'data',
+      priority: 'high',
+      roleTiers: ['base'],
+      minLimit: 60.0,
+      unit: 'celsius',
+      fixInstructions:
+          'At least 60°C sustained for effective microbial kill [BICSc/'
+          'BEST]; higher (71°C+) for soiled/contaminated linen [BEST].',
+      frequency: 'perUse',
+    ),
+    _LibraryTask(
+      title: 'Soiled/contaminated linen handled separately & bagged',
+      segment: 'housekeeping',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: 'Cross-ref bloodborne pathogen handling, HSE guidance [BEST].',
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: 'Cleaning chemical dilution & COSHH compliance (housekeeping trolley)',
+      segment: 'housekeeping',
+      method: 'data_tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: 'COSHH 2002 [LAW].',
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'COSHH data sheets available for housekeeping chemicals',
+      segment: 'housekeeping',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions: 'COSHH 2002 [LAW].',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Minibar restocking cross-checked against guest charge',
+      segment: 'housekeeping',
+      method: 'tick_note',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions: 'Cross-ref Segment 20 minibar task.',
+      frequency: 'perCheckout',
+    ),
+    _LibraryTask(
+      title: 'Unoccupied room water outlet flushing (housekeeping)',
+      segment: 'housekeeping',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions:
+          'ACOP L8 [BEST/HSE guidance] - cross-ref Segment 22.2; '
+          'housekeeping is typically the team executing this even though '
+          "it's logged under Maintenance's own Legionella programme.",
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Lost property logged & stored securely',
+      segment: 'housekeeping',
+      method: 'note',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: 'Room safety check (smoke alarm present/working, fire notice visible)',
+      segment: 'housekeeping',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: 'Fire Safety Order 2005 [LAW].',
+      frequency: 'perCheckout',
+    ),
+    _LibraryTask(
+      title: 'Housekeeping trolley/chemical storage secured when unattended',
+      segment: 'housekeeping',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions: 'COSHH 2002 [LAW].',
+      frequency: 'perShift',
+    ),
+
+    // Segment 24 — Reception
+    _LibraryTask(
+      title: 'Fire register / in-house guest list accuracy',
+      segment: 'reception',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['base'],
+      fixInstructions:
+          "Fire Safety Order 2005 [LAW] - an accurate real-time guest "
+          "list is essential for the Responsible Person's evacuation duty.",
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Key/access control (room key issue & return log)',
+      segment: 'reception',
+      method: 'tick_note',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Lost key / access card deactivation',
+      segment: 'reception',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: 'Cash handling reconciliation (till/float)',
+      segment: 'reception',
+      method: 'data_tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Guest ID/data handling per policy at check-in',
+      segment: 'reception',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions:
+          'UK GDPR / Data Protection Act 2018 [LAW] - minimise retained '
+          'ID copies, secure storage.',
+      frequency: 'perCheckIn',
+    ),
+    _LibraryTask(
+      title: 'Guest data disposal/retention policy followed',
+      segment: 'reception',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions: 'UK GDPR [LAW].',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Incident/complaint log completed & escalated (reception)',
+      segment: 'reception',
+      method: 'note',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: 'Guest with access/mobility needs - evacuation plan (PEEP) noted',
+      segment: 'reception',
+      method: 'note',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'Fire Safety Order 2005 [LAW] - a Personal Emergency Evacuation '
+          'Plan is expected for known additional needs; review wording '
+          'with a fire safety professional before relying on it.',
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: 'Emergency contact/next-of-kin info accessible in emergency',
+      segment: 'reception',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'perShift',
+    ),
+
+    // Segment 25 — Security
+    _LibraryTask(
+      title: 'Door supervisor SIA licence checked & valid',
+      segment: 'security',
+      method: 'tick_photo',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'Private Security Industry Act 2001 [LAW] - operating licensed '
+          'premises door security without a valid SIA licence is a '
+          'criminal offence.',
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Challenge 25 / age verification applied',
+      segment: 'security',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['base'],
+      fixInstructions:
+          'Mandatory licensing condition since 2010 (England & Wales); '
+          'Challenge 25 itself is best-practice threshold, ID-on-'
+          'suspected-under-18 is the legal minimum [LAW/BEST].',
+      frequency: 'perSale',
+    ),
+    _LibraryTask(
+      title: 'CCTV system operational & recording',
+      segment: 'security',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: 'Often a specific premises licence condition [LAW where conditioned].',
+      frequency: 'daily',
+    ),
+    _LibraryTask(
+      title: 'CCTV footage retention period met',
+      segment: 'security',
+      method: 'tick',
+      priority: 'standard',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'Typically 28-31 days per licensing condition [LAW where '
+          'conditioned] - varies by local authority, check the actual '
+          'licence.',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Incident log (refusals, ejections, disorder) completed',
+      segment: 'security',
+      method: 'note',
+      priority: 'critical',
+      roleTiers: ['base'],
+      fixInstructions: 'Supports licensing due-diligence and Challenge 25 evidence.',
+      frequency: 'eventBased',
+    ),
+    _LibraryTask(
+      title: 'Keyholder/alarm call-out procedure current',
+      segment: 'security',
+      method: 'tick_note',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions: '',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Alarm system test (security)',
+      segment: 'security',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Emergency/duress alarm (till, reception) tested',
+      segment: 'security',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: '',
+      frequency: 'weekly',
+    ),
+    _LibraryTask(
+      title: 'Perimeter/external door security check',
+      segment: 'security',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['base'],
+      fixInstructions:
+          'Fire Safety Order 2005 [LAW] - security lockdown must never '
+          'compromise emergency egress.',
+      frequency: 'perShift',
+    ),
+    _LibraryTask(
+      title: 'Licensing conditions register reviewed',
+      segment: 'security',
+      method: 'tick_note',
+      priority: 'standard',
+      roleTiers: ['regional', 'executive'],
+      fixInstructions: 'Licensing Act 2003 [LAW].',
+      frequency: 'monthly',
+    ),
+  ];
+
+  Future<void> _seedTaskLibraryClusterG() async {
+    final venueTypeIdByName = {
+      for (final row in await select(venueTypes).get()) row.name: row.id,
+    };
+
+    final existingTitles = (await select(
+      taskTemplates,
+    ).get()).map((row) => row.title).toSet();
+
+    for (final task in _clusterGTasks) {
+      if (existingTitles.contains(task.title)) continue;
+
+      final insertedId = await into(taskTemplates).insert(
+        TaskTemplatesCompanion.insert(
+          templateGroupId: 0,
+          versionNumber: 1,
+          title: task.title,
+          segment: task.segment,
+          applicableRoleTiers: task.roleTiers.join(','),
+          method: task.method,
+          requiresPhoto: Value(task.method.contains('photo')),
+          requiresNotes: Value(task.method.contains('note')),
+          minLimit: Value(task.minLimit),
+          maxLimit: Value(task.maxLimit),
+          unit: Value(task.unit),
+          legalLimitCategory: Value(task.legalLimitCategory),
+          isCritical: Value(task.priority == 'critical'),
+          priority: Value(task.priority),
+          requiresCorrectiveActionOnFail: Value(task.priority == 'critical'),
+          fixInstructions: Value(task.fixInstructions),
+          equipmentTypeId: const Value(null),
+          createdAt: DateTime.now(),
+        ),
+      );
+      await (update(taskTemplates)..where((t) => t.id.equals(insertedId)))
+          .write(TaskTemplatesCompanion(templateGroupId: Value(insertedId)));
+
+      final venueTypeNames = _segmentVenueTypeNames[task.segment] ?? const [];
+      for (final vtName in venueTypeNames) {
+        final vtId = venueTypeIdByName[vtName];
+        if (vtId == null) continue;
+        await into(taskTemplateVenueTypes).insert(
+          TaskTemplateVenueTypesCompanion.insert(
+            taskTemplateGroupId: insertedId,
             venueTypeId: vtId,
           ),
         );

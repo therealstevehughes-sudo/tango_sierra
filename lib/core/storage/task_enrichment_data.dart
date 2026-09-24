@@ -772,4 +772,292 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
     jobRole: JobRole.management,
     guidanceText: "Confirm suppliers are approved and due-diligence records held.",
   ),
+
+  // Departments content build (2026-09-23) — Segment 19 cellar additions
+  // + Segments 22-25 (Maintenance/Housekeeping/Reception/Security).
+  TaskEnrichmentRow(
+    title: "CO2/gas monitor check & alarm test",
+    jobRole: JobRole.bar,
+    guidanceText: "Check the monitor is powered and press the alarm test button. Flag if it doesn't sound.",
+  ),
+  TaskEnrichmentRow(
+    title: "Cellar CO2 written risk assessment current",
+    jobRole: JobRole.bar,
+    guidanceText: "Confirm the written CO2 risk assessment exists and is up to date.",
+  ),
+  TaskEnrichmentRow(
+    title: "Cellar ventilation (forced extraction) running",
+    jobRole: JobRole.bar,
+    guidanceText: "Check the extraction fan is running before entering the cellar.",
+  ),
+  TaskEnrichmentRow(
+    title: "Keg/cylinder change follows safe procedure",
+    jobRole: JobRole.bar,
+    guidanceText: "Never lift alone; get help for cylinder changes and never work alone in a confined cellar.",
+  ),
+  TaskEnrichmentRow(
+    title: "Cellar access restricted / signed as gas hazard",
+    jobRole: JobRole.bar,
+    guidanceText: "Confirm the cellar door is locked/restricted and the gas-hazard sign is visible.",
+  ),
+  TaskEnrichmentRow(
+    title: "Fixed wiring inspection (EICR) in date",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Check the EICR certificate's expiry date against today.",
+  ),
+  TaskEnrichmentRow(
+    title: "Portable appliance (PAT) programme up to date",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Confirm PAT stickers/records are current for handheld kitchen/bar equipment.",
+  ),
+  TaskEnrichmentRow(
+    title: "Emergency lighting test",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Trigger the test switch and confirm every emergency light comes on.",
+  ),
+  TaskEnrichmentRow(
+    title: "Commercial gas appliance safety check",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Check the Gas Safe engineer's certificate is current for every gas appliance.",
+  ),
+  TaskEnrichmentRow(
+    title: "Gas appliance interlock / ventilation not obstructed",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Confirm nothing is blocking gas interlock sensors or ventilation grilles.",
+  ),
+  TaskEnrichmentRow(
+    title: "Legionella risk assessment current",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Confirm the Legionella risk assessment is within its 2-year review window.",
+  ),
+  TaskEnrichmentRow(
+    title: "Sentinel outlet temperature check",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Run the tap for 1 minute, record hot and cold readings. Flag hot below 50°C or cold above 20°C.",
+  ),
+  TaskEnrichmentRow(
+    title: "Little-used outlet flushing (unoccupied rooms/areas)",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Run every unused tap/shower for a couple of minutes.",
+  ),
+  TaskEnrichmentRow(
+    title: "Calorifier / tank temperature check",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Record the tank's stored temperature. Flag hot below 60°C.",
+  ),
+  TaskEnrichmentRow(
+    title: "Shower heads/hoses descaled & inspected for biofilm",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Remove limescale/residue, photograph the cleaned head.",
+  ),
+  TaskEnrichmentRow(
+    title: "Water system log book (L8 record) up to date",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Confirm this month's entries are filled in.",
+  ),
+  TaskEnrichmentRow(
+    title: "Fire extinguisher/blanket service",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Check the service tag date and that the pressure gauge reads in range.",
+  ),
+  TaskEnrichmentRow(
+    title: "Fire alarm system test (call point)",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Trigger a call point and confirm the alarm sounds across the building.",
+  ),
+  TaskEnrichmentRow(
+    title: "Fire door self-closes & seals intact",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Open each fire door and confirm it self-closes fully; check seals aren't damaged.",
+  ),
+  TaskEnrichmentRow(
+    title: "Fire risk assessment reviewed/current",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Confirm the fire risk assessment has been reviewed this year or since the last material change.",
+  ),
+  TaskEnrichmentRow(
+    title: "Sprinkler/suppression system service",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Check the service certificate against the manufacturer/insurer schedule.",
+  ),
+  TaskEnrichmentRow(
+    title: "Building fault/repair log reviewed & actioned",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Go through open faults, note what's been actioned.",
+  ),
+  TaskEnrichmentRow(
+    title: "HVAC/plant room filters & condition",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Check filters aren't clogged; note plant room condition.",
+  ),
+  TaskEnrichmentRow(
+    title: "Lift/escalator service certificate in date",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Check the LOLER certificate's expiry date.",
+  ),
+  TaskEnrichmentRow(
+    title: "Roof/gutters/external fabric inspected",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Photograph any visible damage, blocked gutters, or loose fabric.",
+  ),
+  TaskEnrichmentRow(
+    title: "Water ingress / damp check",
+    jobRole: JobRole.maintenance,
+    guidanceText: "Check known damp-risk areas for new staining or moisture.",
+  ),
+  TaskEnrichmentRow(
+    title: "Room turnover cleaning checklist complete",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Work through the full room-clean checklist before marking it ready.",
+  ),
+  TaskEnrichmentRow(
+    title: "Room inspection sign-off (post-clean)",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Inspect the cleaned room and sign it off as guest-ready.",
+  ),
+  TaskEnrichmentRow(
+    title: "Linen change frequency followed",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Confirm linen was changed per the stay-length policy.",
+  ),
+  TaskEnrichmentRow(
+    title: "Laundry wash temperature for hygiene (linen)",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Record the wash cycle's temperature. Flag below 60°C.",
+  ),
+  TaskEnrichmentRow(
+    title: "Soiled/contaminated linen handled separately & bagged",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Bag soiled linen separately, never mix with regular laundry.",
+  ),
+  TaskEnrichmentRow(
+    title: "Cleaning chemical dilution & COSHH compliance (housekeeping trolley)",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Check chemicals are diluted per label instructions and stored correctly on the trolley.",
+  ),
+  TaskEnrichmentRow(
+    title: "COSHH data sheets available for housekeeping chemicals",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Confirm data sheets for every chemical in use are accessible.",
+  ),
+  TaskEnrichmentRow(
+    title: "Minibar restocking cross-checked against guest charge",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Count what's missing from the minibar and confirm it matches the guest's bill.",
+  ),
+  TaskEnrichmentRow(
+    title: "Unoccupied room water outlet flushing (housekeeping)",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Run the taps/shower in any room that's been empty a while.",
+  ),
+  TaskEnrichmentRow(
+    title: "Lost property logged & stored securely",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Log the item found, where, and store it securely.",
+  ),
+  TaskEnrichmentRow(
+    title: "Room safety check (smoke alarm present/working, fire notice visible)",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Test the smoke alarm and confirm the fire notice is on the door.",
+  ),
+  TaskEnrichmentRow(
+    title: "Housekeeping trolley/chemical storage secured when unattended",
+    jobRole: JobRole.housekeeping,
+    guidanceText: "Lock or secure the trolley whenever you step away from it.",
+  ),
+  TaskEnrichmentRow(
+    title: "Fire register / in-house guest list accuracy",
+    jobRole: JobRole.reception,
+    guidanceText: "Confirm the guest list matches who's actually checked in right now.",
+  ),
+  TaskEnrichmentRow(
+    title: "Key/access control (room key issue & return log)",
+    jobRole: JobRole.reception,
+    guidanceText: "Log every key/card issued and returned this shift.",
+  ),
+  TaskEnrichmentRow(
+    title: "Lost key / access card deactivation",
+    jobRole: JobRole.reception,
+    guidanceText: "Deactivate the lost key/card immediately in the system.",
+  ),
+  TaskEnrichmentRow(
+    title: "Cash handling reconciliation (till/float)",
+    jobRole: JobRole.reception,
+    guidanceText: "Count the till/float and record any discrepancy.",
+  ),
+  TaskEnrichmentRow(
+    title: "Guest ID/data handling per policy at check-in",
+    jobRole: JobRole.reception,
+    guidanceText: "Follow policy on ID copies - minimise what's retained, store securely.",
+  ),
+  TaskEnrichmentRow(
+    title: "Guest data disposal/retention policy followed",
+    jobRole: JobRole.reception,
+    guidanceText: "Confirm old guest data has been disposed of per policy.",
+  ),
+  TaskEnrichmentRow(
+    title: "Incident/complaint log completed & escalated (reception)",
+    jobRole: JobRole.reception,
+    guidanceText: "Log the incident/complaint in full and escalate to a manager.",
+  ),
+  TaskEnrichmentRow(
+    title: "Guest with access/mobility needs - evacuation plan (PEEP) noted",
+    jobRole: JobRole.reception,
+    guidanceText: "Note the guest's evacuation needs against their booking.",
+  ),
+  TaskEnrichmentRow(
+    title: "Emergency contact/next-of-kin info accessible in emergency",
+    jobRole: JobRole.reception,
+    guidanceText: "Confirm emergency contact info is accessible for on-duty guests/staff.",
+  ),
+  TaskEnrichmentRow(
+    title: "Door supervisor SIA licence checked & valid",
+    jobRole: JobRole.security,
+    guidanceText: "Check the SIA licence card and photograph it at shift start.",
+  ),
+  TaskEnrichmentRow(
+    title: "Challenge 25 / age verification applied",
+    jobRole: JobRole.security,
+    guidanceText: "Ask for ID from anyone who looks under 25.",
+  ),
+  TaskEnrichmentRow(
+    title: "CCTV system operational & recording",
+    jobRole: JobRole.security,
+    guidanceText: "Confirm every camera is live and recording.",
+  ),
+  TaskEnrichmentRow(
+    title: "CCTV footage retention period met",
+    jobRole: JobRole.security,
+    guidanceText: "Confirm footage is being retained for the required period per the licence.",
+  ),
+  TaskEnrichmentRow(
+    title: "Incident log (refusals, ejections, disorder) completed",
+    jobRole: JobRole.security,
+    guidanceText: "Log refusals, ejections, or disorder in full detail.",
+  ),
+  TaskEnrichmentRow(
+    title: "Keyholder/alarm call-out procedure current",
+    jobRole: JobRole.security,
+    guidanceText: "Confirm the keyholder list and call-out procedure are up to date.",
+  ),
+  TaskEnrichmentRow(
+    title: "Alarm system test (security)",
+    jobRole: JobRole.security,
+    guidanceText: "Test the intruder alarm and confirm it arms/disarms correctly.",
+  ),
+  TaskEnrichmentRow(
+    title: "Emergency/duress alarm (till, reception) tested",
+    jobRole: JobRole.security,
+    guidanceText: "Trigger the duress alarm and confirm it alerts correctly.",
+  ),
+  TaskEnrichmentRow(
+    title: "Perimeter/external door security check",
+    jobRole: JobRole.security,
+    guidanceText: "Check external doors are secure but never blocking a fire exit route.",
+  ),
+  TaskEnrichmentRow(
+    title: "Licensing conditions register reviewed",
+    jobRole: JobRole.security,
+    guidanceText: "Go through the licensing conditions register and confirm compliance.",
+  ),
 ];

@@ -11,7 +11,23 @@
 // on a TaskTemplate (a handful of hygiene-basics tasks that apply
 // regardless of job — e.g. handwashing); it's never offered as a person's
 // own job role.
-enum JobRole { chefCook, kitchenPorter, frontOfHouse, bar, management, everyone }
+// Departments content build (2026-09-23) — four new values for the
+// Maintenance/Housekeeping/Reception/Security task content drafted in
+// HORECA_TASK_LIBRARY.md's Segments 22-25. Same "default, not a lockout"
+// meaning as every existing value — a manager can still assign any task
+// to anyone within that person's own RoleTier access.
+enum JobRole {
+  chefCook,
+  kitchenPorter,
+  frontOfHouse,
+  bar,
+  management,
+  everyone,
+  maintenance,
+  housekeeping,
+  reception,
+  security,
+}
 
 String jobRoleDisplayName(JobRole role) {
   switch (role) {
@@ -27,5 +43,13 @@ String jobRoleDisplayName(JobRole role) {
       return 'Management';
     case JobRole.everyone:
       return 'Everyone';
+    case JobRole.maintenance:
+      return 'Maintenance';
+    case JobRole.housekeeping:
+      return 'Housekeeping';
+    case JobRole.reception:
+      return 'Reception';
+    case JobRole.security:
+      return 'Security';
   }
 }
