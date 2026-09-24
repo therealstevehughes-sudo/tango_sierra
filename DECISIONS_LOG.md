@@ -2348,3 +2348,13 @@ Fixed all three: top-anchored via `ResponsiveContent` (same pattern every other 
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/features/issues/issue_detail_screen.dart`, `lib/shared/repositories/issue_repository.dart`, `lib/shared/repositories/supabase_issue_repository.dart`.
+
+## Billing enforcement: restricted accounts actually blocked (2026-09-24)
+Closed a gap disclosed by the pressure-test audit weeks earlier: `effectiveBillingState()` correctly computed a `restricted` state (cancelled mandate, or 14+ days past due) but nothing in the app actually acted on it — a non-paying org could keep using the app fully.
+
+New `isBillingRestrictedProvider` — local/demo installs are never restricted (no billing concept exists for them); fails open (never blocks) on any lookup error, since real enforcement already happened server-side and a transient network hiccup checking it must never be what stops kitchen staff recording a fridge temperature. New `canSubmitTask()` gate checked at all 3 places `TaskController.logTaskSubmission` is actually called. Shows a plain explanation naming who to contact rather than a silent failure — deliberately no "Go to Billing" shortcut, since Billing is exec-only and most people hitting this gate won't be executives.
+
+Scoped to task submission — the primary compliance write path. Issue-raising and other writes are a smaller possible follow-up, not covered here.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/features/tasks/billing_gate.dart` (new), `lib/features/tasks/task_screen.dart`, `lib/features/tasks/ad_hoc_task_screen.dart`, `lib/shared/providers/subscription_providers.dart`.
