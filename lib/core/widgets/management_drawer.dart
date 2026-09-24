@@ -6,6 +6,7 @@ import '../../app/theme/app_colors.dart';
 import '../../features/dashboard/dashboard_screen.dart';
 import '../../features/dashboard/leadership_dashboard_screen.dart';
 import '../../features/export/eho_export_dialog.dart';
+import '../../features/help/help_screen.dart';
 import '../../features/home/tier_home_screen.dart';
 import '../../features/manager/backup_dialog.dart';
 import '../../features/notifications/notification_rules_screen.dart';
@@ -363,10 +364,8 @@ class ManagementDrawer extends ConsumerWidget {
             _navTile(
               icon: Icons.visibility,
               label: 'Oversight',
-              onTap: () => _navigate(
-                context,
-                TierHomeScreen.oversightScreenFor(tier),
-              ),
+              onTap: () =>
+                  _navigate(context, TierHomeScreen.oversightScreenFor(tier)),
             ),
           // Renamed from "Fails & Problems Register" (2026-09-17) — the
           // screen gained an Issues & Incidents tab 2026-09-15; the old
@@ -440,6 +439,14 @@ class ManagementDrawer extends ConsumerWidget {
             label: 'Settings',
             onTap: () => _navigate(context, const SettingsScreen()),
           ),
+          // Help hub (2026-09-24) — Contact VenuRite/FAQ/Troubleshooting,
+          // the same destination base tier reaches via its own "?" icon
+          // (see WorkerHubScreen/TaskScreen).
+          _navTile(
+            icon: Icons.help_outline,
+            label: 'Help',
+            onTap: () => _navigate(context, const HelpScreen()),
+          ),
           // Two-factor authentication — only meaningful for a real GoTrue
           // session (regional/executive with backendAuthEnabled). A
           // demo-mode PIN-based senior account has no GoTrue session to
@@ -450,8 +457,7 @@ class ManagementDrawer extends ConsumerWidget {
             _navTile(
               icon: Icons.verified_user_outlined,
               label: 'Two-Factor Authentication',
-              onTap: () =>
-                  _navigate(context, const TwoFactorSettingsScreen()),
+              onTap: () => _navigate(context, const TwoFactorSettingsScreen()),
             ),
           if (atLeast(_backUpMinTier))
             _navTile(

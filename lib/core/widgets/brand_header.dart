@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../shared/models/branding_config.dart';
 
@@ -125,15 +126,36 @@ class BrandHeader extends StatelessWidget {
 /// (2026-09-14) so a screen can anchor it independently of the client
 /// branding card (see `BrandHeader.showAppMark`). Same 72px/full-opacity
 /// treatment either way.
+///
+/// Clickable (2026-09-24, direct user request): opens the VenuRite website.
+/// Silently does nothing if the platform can't launch a URL — a "built with"
+/// signature failing to open a browser is never worth surfacing an error
+/// over.
 class VenuRiteMark extends StatelessWidget {
   const VenuRiteMark({super.key});
 
+  static final Uri _websiteUri = Uri.parse('https://venurite.com');
+
+  Future<void> _openWebsite() async {
+    try {
+      await launchUrl(_websiteUri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      // Fail open — see class doc.
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      'assets/logos/VR_square.png',
-      height: 72,
-      fit: BoxFit.contain,
+    return Tooltip(
+      message: 'venurite.com',
+      child: InkWell(
+        onTap: _openWebsite,
+        child: Image.asset(
+          'assets/logos/VR_square.png',
+          height: 72,
+          fit: BoxFit.contain,
+        ),
+      ),
     );
   }
 }
