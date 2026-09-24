@@ -106,22 +106,23 @@ class _SupplierManagementScreenState
                   ),
                 ],
                 const SizedBox(height: 12),
-                DropdownButtonFormField<SupplierApprovalStatus>(
-                  initialValue: approvalStatus,
-                  decoration: const InputDecoration(
-                    labelText: 'Approval status',
-                  ),
-                  items: SupplierApprovalStatus.values
-                      .map(
-                        (s) => DropdownMenuItem(
-                          value: s,
-                          child: Text(supplierApprovalStatusLabel(s)),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) => setDialogState(
-                    () => approvalStatus = value ?? approvalStatus,
-                  ),
+                const Text('Approval status'),
+                const SizedBox(height: 4),
+                // Visual pass follow-up (2026-09-24, app-wide tick-box
+                // sweep) — 3 fixed options, converted from a dropdown to
+                // a compact chip row (not a vertical list, to keep this
+                // dialog's height sane).
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    for (final s in SupplierApprovalStatus.values)
+                      ChoiceChip(
+                        label: Text(supplierApprovalStatusLabel(s)),
+                        selected: approvalStatus == s,
+                        onSelected: (_) =>
+                            setDialogState(() => approvalStatus = s),
+                      ),
+                  ],
                 ),
                 const SizedBox(height: 12),
                 TextField(
@@ -283,19 +284,18 @@ class _SupplierManagementScreenState
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DropdownButtonFormField<SupplierApprovalStatus>(
-                initialValue: status,
-                decoration: const InputDecoration(labelText: 'Approval status'),
-                items: SupplierApprovalStatus.values
-                    .map(
-                      (s) => DropdownMenuItem(
-                        value: s,
-                        child: Text(supplierApprovalStatusLabel(s)),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) =>
-                    setDialogState(() => status = value ?? status),
+              const Text('Approval status'),
+              const SizedBox(height: 4),
+              Wrap(
+                spacing: 8,
+                children: [
+                  for (final s in SupplierApprovalStatus.values)
+                    ChoiceChip(
+                      label: Text(supplierApprovalStatusLabel(s)),
+                      selected: status == s,
+                      onSelected: (_) => setDialogState(() => status = s),
+                    ),
+                ],
               ),
               const SizedBox(height: 12),
               TextField(

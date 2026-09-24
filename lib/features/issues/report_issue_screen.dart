@@ -201,28 +201,29 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 12),
-                    DropdownButtonFormField<IssueType>(
-                      initialValue: _type,
-                      decoration: const InputDecoration(labelText: 'Type'),
-                      items: IssueType.values
-                          .map(
-                            (t) => DropdownMenuItem(
-                              value: t,
-                              child: Text(issueTypeDisplayName(t)),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (t) {
-                        setState(() {
-                          _type = t;
-                          _subtype = null;
-                          _supplierId = null;
-                          _deliveryProblemType = null;
-                          _receivedByUserId = null;
-                        });
-                        _loadPickersIfNeeded();
-                      },
-                    ),
+                    // Visual pass follow-up (2026-09-24, app-wide tick-box
+                    // sweep) — 6 fixed options, converted from a dropdown
+                    // to a vertical radio list per the standing "short
+                    // fixed lists -> tick/radio, long reference lists ->
+                    // stay dropdown" rule.
+                    for (final t in IssueType.values)
+                      RadioListTile<IssueType>(
+                        value: t,
+                        groupValue: _type,
+                        dense: true,
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(issueTypeDisplayName(t)),
+                        onChanged: (value) {
+                          setState(() {
+                            _type = value;
+                            _subtype = null;
+                            _supplierId = null;
+                            _deliveryProblemType = null;
+                            _receivedByUserId = null;
+                          });
+                          _loadPickersIfNeeded();
+                        },
+                      ),
                     if (subtypes.isNotEmpty) ...[
                       const SizedBox(height: 12),
                       DropdownButtonFormField<String>(
@@ -268,24 +269,17 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                           onChanged: (v) => setState(() => _supplierId = v),
                         ),
                         const SizedBox(height: 12),
-                        DropdownButtonFormField<DeliveryProblemType>(
-                          initialValue: _deliveryProblemType,
-                          decoration: const InputDecoration(
-                            labelText: 'What was wrong with the delivery?',
+                        const Text('What was wrong with the delivery?'),
+                        for (final d in DeliveryProblemType.values)
+                          RadioListTile<DeliveryProblemType>(
+                            value: d,
+                            groupValue: _deliveryProblemType,
+                            dense: true,
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(deliveryProblemTypeDisplayName(d)),
+                            onChanged: (v) =>
+                                setState(() => _deliveryProblemType = v),
                           ),
-                          items: DeliveryProblemType.values
-                              .map(
-                                (d) => DropdownMenuItem(
-                                  value: d,
-                                  child: Text(
-                                    deliveryProblemTypeDisplayName(d),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (v) =>
-                              setState(() => _deliveryProblemType = v),
-                        ),
                         const SizedBox(height: 12),
                         DropdownButtonFormField<int>(
                           initialValue: _receivedByUserId,

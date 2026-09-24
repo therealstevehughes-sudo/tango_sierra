@@ -229,28 +229,22 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
         subtitle: Text(_summary()),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         children: [
+          // Visual pass follow-up (2026-09-24, app-wide tick-box sweep) —
+          // 3 fixed options, converted from a dropdown to chips.
           Row(
             children: [
+              const Text('Filter by: '),
               Expanded(
-                child: DropdownButtonFormField<LogFilterAxis>(
-                  initialValue: axis,
-                  decoration: const InputDecoration(labelText: 'Filter by'),
-                  hint: const Text('Today + all fails'),
-                  items: const [
-                    DropdownMenuItem(
-                      value: LogFilterAxis.name,
-                      child: Text('Name'),
-                    ),
-                    DropdownMenuItem(
-                      value: LogFilterAxis.date,
-                      child: Text('Date'),
-                    ),
-                    DropdownMenuItem(
-                      value: LogFilterAxis.task,
-                      child: Text('Task'),
-                    ),
+                child: Wrap(
+                  spacing: 8,
+                  children: [
+                    for (final a in LogFilterAxis.values)
+                      ChoiceChip(
+                        label: Text(_axisLabel(a)),
+                        selected: axis == a,
+                        onSelected: (_) => _selectAxis(a),
+                      ),
                   ],
-                  onChanged: _selectAxis,
                 ),
               ),
               if (axis != null)

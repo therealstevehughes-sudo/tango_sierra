@@ -462,33 +462,40 @@ class _TemperatureUnitSetting extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Visual pass follow-up (2026-09-24, app-wide tick-box sweep) — a
+    // plain 2-way choice, converted from a dropdown to chips.
+    Future<void> select(TemperatureUnit unit) async {
+      if (unit == currentUser.preferredTemperatureUnit) return;
+      final repo = ref.read(userRepositoryProvider);
+      await repo.setPreferredTemperatureUnit(
+        userId: currentUser.id,
+        unit: unit,
+      );
+      ref.read(currentUserProvider.notifier).state = currentUser
+          .copyWith(preferredTemperatureUnit: unit);
+    }
+
     return Row(
       children: [
         const Expanded(child: Text('Temperature unit')),
-        DropdownButton<TemperatureUnit>(
-          value: currentUser.preferredTemperatureUnit,
-          items: const [
-            DropdownMenuItem(
-              value: TemperatureUnit.celsius,
-              child: Text('Celsius (°C)'),
+        Wrap(
+          spacing: 8,
+          children: [
+            ChoiceChip(
+              label: const Text('Celsius (°C)'),
+              selected:
+                  currentUser.preferredTemperatureUnit ==
+                  TemperatureUnit.celsius,
+              onSelected: (_) => select(TemperatureUnit.celsius),
             ),
-            DropdownMenuItem(
-              value: TemperatureUnit.fahrenheit,
-              child: Text('Fahrenheit (°F)'),
+            ChoiceChip(
+              label: const Text('Fahrenheit (°F)'),
+              selected:
+                  currentUser.preferredTemperatureUnit ==
+                  TemperatureUnit.fahrenheit,
+              onSelected: (_) => select(TemperatureUnit.fahrenheit),
             ),
           ],
-          onChanged: (unit) async {
-            if (unit == null || unit == currentUser.preferredTemperatureUnit) {
-              return;
-            }
-            final repo = ref.read(userRepositoryProvider);
-            await repo.setPreferredTemperatureUnit(
-              userId: currentUser.id,
-              unit: unit,
-            );
-            ref.read(currentUserProvider.notifier).state = currentUser
-                .copyWith(preferredTemperatureUnit: unit);
-          },
         ),
       ],
     );

@@ -797,20 +797,19 @@ class _VenueSetupWizardScreenState
           },
         ),
         const SizedBox(height: 12),
-        DropdownButtonFormField<SupplierApprovalStatus>(
-          initialValue: selectedSupplierApproval,
-          decoration: const InputDecoration(labelText: 'Approval status'),
-          items: SupplierApprovalStatus.values
-              .map(
-                (status) => DropdownMenuItem(
-                  value: status,
-                  child: Text(supplierApprovalStatusLabel(status)),
-                ),
-              )
-              .toList(),
-          onChanged: (value) {
-            if (value != null) setState(() => selectedSupplierApproval = value);
-          },
+        const Text('Approval status'),
+        const SizedBox(height: 4),
+        Wrap(
+          spacing: 8,
+          children: [
+            for (final status in SupplierApprovalStatus.values)
+              ChoiceChip(
+                label: Text(supplierApprovalStatusLabel(status)),
+                selected: selectedSupplierApproval == status,
+                onSelected: (_) =>
+                    setState(() => selectedSupplierApproval = status),
+              ),
+          ],
         ),
         const SizedBox(height: 12),
         PrimaryActionButton(label: 'Add Supplier', onPressed: _addSupplier),
