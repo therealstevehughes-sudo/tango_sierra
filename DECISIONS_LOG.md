@@ -2358,3 +2358,13 @@ Scoped to task submission — the primary compliance write path. Issue-raising a
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/features/tasks/billing_gate.dart` (new), `lib/features/tasks/task_screen.dart`, `lib/features/tasks/ad_hoc_task_screen.dart`, `lib/shared/providers/subscription_providers.dart`.
+
+## App-wide layout audit + report-issue screen fix (2026-09-24)
+Per "this screen (and all similar) need to be better designed" from the incident-detail-screen feedback, swept every `*_screen.dart` file for the two specific bugs found and fixed this session: `CrossAxisAlignment.stretch` columns with no width bound (the full-width-button bug) and vertically-centered forms (the "floating in space" bug).
+
+Stretch-without-a-width-bound: none found — every stretched column in the app already sits inside `ResponsiveContent` or an explicit `ConstrainedBox`.
+
+Floating-in-space: found one real match, `report_issue_screen.dart` — identical `Center(child: SingleChildScrollView(child: ConstrainedBox(...)))` shape as the pre-fix incident screen. Fixed the same way: dropped the outer `Center`, kept it scrollable, wrapped in `ResponsiveContent(maxWidth: 560)` so the heading anchors near the top instead of drifting to the vertical middle on tall windows. Manager, Regions (branch/org-tree), Settings, and Dashboard/Leadership/Top screens were all checked and already use `ResponsiveContent` correctly — no changes needed there.
+
+Verified: `flutter analyze` clean (only pre-existing deprecation info-notices), all 32 tests passing, fresh Windows build launched.
+Files: `lib/features/issues/report_issue_screen.dart`.
