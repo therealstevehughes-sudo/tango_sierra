@@ -42,6 +42,10 @@ class TaskSubmission {
   final bool deliveryQualityProblem;
   // accepted | rejected | partial — null for non-delivery submissions.
   final String? deliveryOutcome;
+  // Generic extra fields (2026-09-24) — see app_database.dart's
+  // TaskSubmissions.extraFieldValuesJson doc comment. Parse with
+  // parseExtraFieldValues (task_extra_field.dart).
+  final String? extraFieldValuesJson;
 
   const TaskSubmission({
     this.id,
@@ -70,6 +74,7 @@ class TaskSubmission {
     this.deliveryLateDelivery = false,
     this.deliveryQualityProblem = false,
     this.deliveryOutcome,
+    this.extraFieldValuesJson,
   });
 
   // Flat-string fallback for contexts that just want one combined display

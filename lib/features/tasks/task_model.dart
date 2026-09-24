@@ -1,3 +1,5 @@
+import '../../shared/models/task_extra_field.dart';
+
 class ResolvedTask {
   // Nullable (2026-09-17, ad-hoc task path build) — a schedule-less ad-hoc
   // submission (picked from the library directly, not assigned via a
@@ -58,6 +60,12 @@ class ResolvedTask {
   // else needs to check both — this exists purely so the UI can show a
   // distinct "today's spot-check" note instead of a generic photo prompt.
   final bool isRandomPhotoCheck;
+  // Generic extra fields (2026-09-24) — already-parsed field definitions
+  // from the task's own TaskTemplate.extraFieldsJson (task_extra_field.dart
+  // does the parsing; TaskController.loadTasks does it once per task, not
+  // the submission form on every rebuild). Empty for the overwhelming
+  // majority of tasks.
+  final List<TaskExtraFieldDef> extraFieldDefs;
 
   const ResolvedTask({
     this.scheduleId,
@@ -85,6 +93,7 @@ class ResolvedTask {
     this.sortOrder,
     this.requiresSupplierSelection = false,
     this.isRandomPhotoCheck = false,
+    this.extraFieldDefs = const [],
   });
 
   bool get hasNumericRange => minLimit != null && maxLimit != null;

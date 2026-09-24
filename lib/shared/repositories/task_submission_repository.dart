@@ -90,6 +90,7 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
             deliveryLateDelivery: Value(submission.deliveryLateDelivery),
             deliveryQualityProblem: Value(submission.deliveryQualityProblem),
             deliveryOutcome: Value(submission.deliveryOutcome),
+            extraFieldValuesJson: Value(submission.extraFieldValuesJson),
           ),
         );
   }
@@ -335,6 +336,7 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
       deliveryLateDelivery: row.deliveryLateDelivery,
       deliveryQualityProblem: row.deliveryQualityProblem,
       deliveryOutcome: row.deliveryOutcome,
+      extraFieldValuesJson: row.extraFieldValuesJson,
     );
   }
 }

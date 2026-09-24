@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/extra_fields_form.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/supplier.dart';
+import '../../shared/models/task_extra_field.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
@@ -53,6 +55,9 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
   final _noteController = TextEditingController();
   bool _submitting = false;
   bool _submitted = false;
+  // Generic extra fields (2026-09-24) — reset via _reset() alongside
+  // every other form field, same pattern as TaskScreen.
+  Map<String, String> _extraFieldValues = {};
 
   @override
   void initState() {
@@ -135,6 +140,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
       guidanceText: template.guidanceText,
       assignedByUserId: user.id,
       requiresSupplierSelection: template.requiresSupplierSelection,
+      extraFieldDefs: parseExtraFieldDefs(template.extraFieldsJson),
     );
   }
 
@@ -160,6 +166,9 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
       deliveryLateDelivery: _deliveryValue.lateDelivery,
       deliveryQualityProblem: _deliveryValue.qualityProblem,
       deliveryOutcome: _deliveryValue.outcome,
+      extraFieldValuesJson: _extraFieldValues.isEmpty
+          ? null
+          : encodeExtraFieldValues(_extraFieldValues),
     );
     if (!mounted) return;
     setState(() {
@@ -187,6 +196,9 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
           ? null
           : _noteController.text.trim(),
       photoAttached: false,
+      extraFieldValuesJson: _extraFieldValues.isEmpty
+          ? null
+          : encodeExtraFieldValues(_extraFieldValues),
     );
     if (!mounted) return;
     setState(() {
@@ -201,6 +213,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
       _selectedTemplate = null;
       _deliveryResult = 'PASS';
       _deliveryValue = const DeliveryDetailValue();
+      _extraFieldValues = {};
       _valueController.clear();
       _noteController.clear();
       _submitted = false;
@@ -345,6 +358,14 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
         decoration: const InputDecoration(labelText: 'Notes (optional)'),
         maxLines: 2,
       ),
+      ExtraFieldsForm(
+        key: ValueKey('extra_fields_${_selectedTemplate?.templateGroupId}'),
+        fields: _selectedTemplate == null
+            ? const []
+            : parseExtraFieldDefs(_selectedTemplate!.extraFieldsJson),
+        values: _extraFieldValues,
+        onChanged: () => setState(() {}),
+      ),
       const SizedBox(height: 12),
       Row(
         children: [
@@ -408,6 +429,14 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
         controller: _noteController,
         decoration: const InputDecoration(labelText: 'Note (optional)'),
         maxLines: 2,
+      ),
+      ExtraFieldsForm(
+        key: ValueKey('extra_fields_${_selectedTemplate?.templateGroupId}'),
+        fields: _selectedTemplate == null
+            ? const []
+            : parseExtraFieldDefs(_selectedTemplate!.extraFieldsJson),
+        values: _extraFieldValues,
+        onChanged: () => setState(() {}),
       ),
       const SizedBox(height: 16),
       ElevatedButton(

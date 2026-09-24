@@ -9,6 +9,7 @@ import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/job_role.dart';
 import '../../shared/models/task_preset.dart';
+import '../../shared/models/task_extra_field.dart';
 import '../../shared/models/task_schedule.dart';
 import '../../shared/models/task_segment.dart';
 import '../../shared/models/task_template.dart';
@@ -102,6 +103,13 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   String? customSegment;
   bool customRequiresCorrectiveActionOnFail = false;
   int? customEquipmentTypeId;
+  // Generic extra fields (2026-09-24, direct user request) — reference
+  // fields like "PO number"/"batch number"/"quantity received" a manager
+  // can attach to this custom task, beyond its normal PASS/FAIL/limits.
+  final List<TaskExtraFieldDef> customExtraFields = [];
+  final TextEditingController customExtraFieldLabelController =
+      TextEditingController();
+  TaskExtraFieldType customExtraFieldType = TaskExtraFieldType.text;
 
   @override
   void initState() {
@@ -117,6 +125,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     customUnitController.dispose();
     customFixInstructionsController.dispose();
     customFieldsJsonController.dispose();
+    customExtraFieldLabelController.dispose();
     super.dispose();
   }
 
@@ -261,6 +270,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
           : customFixInstructionsController.text.trim(),
       equipmentTypeId: customEquipmentTypeId,
       createdByUserId: manager.id,
+      extraFieldsJson: customExtraFields.isEmpty
+          ? null
+          : encodeExtraFieldDefs(customExtraFields),
     );
 
     if (!mounted) return;
@@ -273,6 +285,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       customUnitController.clear();
       customFixInstructionsController.clear();
       customFieldsJsonController.clear();
+      customExtraFields.clear();
+      customExtraFieldLabelController.clear();
+      customExtraFieldType = TaskExtraFieldType.text;
       customPriority = TaskPriority.standard;
       customRequiresCorrectiveActionOnFail = false;
       customRequiresPhoto = false;
@@ -1202,6 +1217,82 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
           decoration: const InputDecoration(
             labelText: 'Custom fields (JSON, optional)',
           ),
+        ),
+        const SizedBox(height: 16),
+        // Generic extra fields (2026-09-24, direct user request) —
+        // reference fields (PO number, batch/lot number, quantity
+        // received, etc.) a worker fills in alongside this task's normal
+        // PASS/FAIL/limits. A short, manager-built list rather than
+        // hardcoded per task type - see task_extra_field.dart.
+        const SectionHeader(title: 'Extra fields (optional)'),
+        for (final field in customExtraFields)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: Row(
+              children: [
+                Expanded(child: Text('${field.label} (${field.type.name})')),
+                IconButton(
+                  icon: const Icon(Icons.close, size: 18),
+                  tooltip: 'Remove',
+                  onPressed: () =>
+                      setState(() => customExtraFields.remove(field)),
+                ),
+              ],
+            ),
+          ),
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: customExtraFieldLabelController,
+                decoration: const InputDecoration(
+                  labelText: 'Field label (e.g. PO number)',
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            DropdownButton<TaskExtraFieldType>(
+              value: customExtraFieldType,
+              items: const [
+                DropdownMenuItem(
+                  value: TaskExtraFieldType.text,
+                  child: Text('Text'),
+                ),
+                DropdownMenuItem(
+                  value: TaskExtraFieldType.number,
+                  child: Text('Number'),
+                ),
+                DropdownMenuItem(
+                  value: TaskExtraFieldType.date,
+                  child: Text('Date'),
+                ),
+              ],
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() => customExtraFieldType = value);
+                }
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.add),
+              tooltip: 'Add field',
+              onPressed: () {
+                final label = customExtraFieldLabelController.text.trim();
+                if (label.isEmpty) return;
+                setState(() {
+                  customExtraFields.add(
+                    TaskExtraFieldDef(
+                      key: 'field_${DateTime.now().microsecondsSinceEpoch}',
+                      label: label,
+                      type: customExtraFieldType,
+                    ),
+                  );
+                  customExtraFieldLabelController.clear();
+                  customExtraFieldType = TaskExtraFieldType.text;
+                });
+              },
+            ),
+          ],
         ),
         const SizedBox(height: 16),
         Row(

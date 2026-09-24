@@ -65,7 +65,20 @@ class SupabaseTaskTemplateRepository implements TaskTemplateRepository {
     String? fixInstructions,
     int? equipmentTypeId,
     required int createdByUserId,
+    String? extraFieldsJson,
   }) async {
+    // Generic extra fields (2026-09-24) — backend schema gap, same
+    // disclosed pattern as windowStartsAtShiftStart in
+    // supabase_task_schedule_repository.dart: extra_fields_json doesn't
+    // exist on the live task_templates table yet.
+    if (extraFieldsJson != null) {
+      throw UnimplementedError(
+        'extraFieldsJson is not yet on the backend schema - needs a '
+        'migration adding task_templates.extra_fields_json (and '
+        'task_submissions.extra_field_values_json) before this can be set '
+        'for a backend-hosted organisation.',
+      );
+    }
     final myOrgId = _organisationId();
 
     int? previousVersionId;
@@ -215,5 +228,6 @@ class SupabaseTaskTemplateRepository implements TaskTemplateRepository {
     requiresSupplierSelection: row['requires_supplier_selection'] as bool,
     randomPhotoCheckEnabled:
         row['random_photo_check_enabled'] as bool? ?? false,
+    extraFieldsJson: row['extra_fields_json'] as String?,
   );
 }

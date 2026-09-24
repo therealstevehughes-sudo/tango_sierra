@@ -36,6 +36,10 @@ abstract class TaskTemplateRepository {
     String? fixInstructions,
     int? equipmentTypeId,
     required int createdByUserId,
+    // Generic extra fields (2026-09-24) — see app_database.dart's
+    // TaskTemplates.extraFieldsJson doc comment. Pass
+    // encodeExtraFieldDefs(...) from task_extra_field.dart.
+    String? extraFieldsJson,
   });
 
   /// The venue type ids a task template is tagged relevant to (Sprint 029),
@@ -94,6 +98,7 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
     String? fixInstructions,
     int? equipmentTypeId,
     required int createdByUserId,
+    String? extraFieldsJson,
   }) async {
     int? previousVersionId;
     var nextVersionNumber = 1;
@@ -136,15 +141,14 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
             equipmentTypeId: Value(equipmentTypeId),
             createdAt: DateTime.now(),
             createdByUserId: Value(createdByUserId),
+            extraFieldsJson: Value(extraFieldsJson),
           ),
         );
 
     if (templateGroupId == null) {
-      await (_db.update(
-        _db.taskTemplates,
-      )..where((t) => t.id.equals(insertedId))).write(
-        TaskTemplatesCompanion(templateGroupId: Value(insertedId)),
-      );
+      await (_db.update(_db.taskTemplates)
+            ..where((t) => t.id.equals(insertedId)))
+          .write(TaskTemplatesCompanion(templateGroupId: Value(insertedId)));
     }
 
     final savedRow = await (_db.select(
@@ -205,9 +209,9 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
 
   @override
   Future<List<int>> getVenueTypeIds(int templateGroupId) async {
-    final rows = await (_db.select(_db.taskTemplateVenueTypes)
-          ..where((j) => j.taskTemplateGroupId.equals(templateGroupId)))
-        .get();
+    final rows = await (_db.select(
+      _db.taskTemplateVenueTypes,
+    )..where((j) => j.taskTemplateGroupId.equals(templateGroupId))).get();
     return rows.map((row) => row.venueTypeId).toList();
   }
 
@@ -217,9 +221,9 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
     List<int> venueTypeIds,
   ) async {
     await _db.transaction(() async {
-      await (_db.delete(_db.taskTemplateVenueTypes)
-            ..where((j) => j.taskTemplateGroupId.equals(templateGroupId)))
-          .go();
+      await (_db.delete(
+        _db.taskTemplateVenueTypes,
+      )..where((j) => j.taskTemplateGroupId.equals(templateGroupId))).go();
       for (final venueTypeId in venueTypeIds) {
         await _db
             .into(_db.taskTemplateVenueTypes)
@@ -276,12 +280,11 @@ class DriftTaskTemplateRepository implements TaskTemplateRepository {
       priority: row.priority == null
           ? null
           : TaskPriority.values.byName(row.priority!),
-      jobRole: row.jobRole == null
-          ? null
-          : JobRole.values.byName(row.jobRole!),
+      jobRole: row.jobRole == null ? null : JobRole.values.byName(row.jobRole!),
       guidanceText: row.guidanceText,
       requiresSupplierSelection: row.requiresSupplierSelection,
       randomPhotoCheckEnabled: row.randomPhotoCheckEnabled,
+      extraFieldsJson: row.extraFieldsJson,
     );
   }
 }

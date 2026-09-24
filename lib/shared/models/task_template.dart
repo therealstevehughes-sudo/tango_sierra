@@ -46,6 +46,11 @@ class TaskTemplate {
   // spot-check, computed per schedule/day by TaskController.loadTasks.
   // See app_database.dart's TaskTemplates table for the full reasoning.
   final bool randomPhotoCheckEnabled;
+  // Generic extra fields (2026-09-24) — see app_database.dart's
+  // TaskTemplates.extraFieldsJson doc comment. Parse with
+  // parseExtraFieldDefs (task_extra_field.dart) rather than reading the
+  // raw JSON string directly.
+  final String? extraFieldsJson;
 
   // Null on rows created before Sprint 023 (can't be reconstructed from
   // isCritical without guessing high vs. standard); falls back to the
@@ -80,5 +85,6 @@ class TaskTemplate {
     this.guidanceText,
     this.requiresSupplierSelection = false,
     this.randomPhotoCheckEnabled = false,
+    this.extraFieldsJson,
   });
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import '../../shared/models/notification_rule.dart';
+import '../../shared/models/task_extra_field.dart';
 import '../../shared/models/problem_status_event.dart';
 import '../../shared/models/equipment.dart';
 import '../../shared/models/task_submission.dart';
@@ -180,6 +181,7 @@ class TaskController {
           windowEndMinutesExclusive: schedule.windowEndMinutesExclusive,
           sortOrder: schedule.sortOrder,
           requiresSupplierSelection: template.requiresSupplierSelection,
+          extraFieldDefs: parseExtraFieldDefs(template.extraFieldsJson),
         ),
       );
     }
@@ -319,6 +321,7 @@ class TaskController {
     bool deliveryLateDelivery = false,
     bool deliveryQualityProblem = false,
     String? deliveryOutcome,
+    String? extraFieldValuesJson,
   }) async {
     final submissionId = await _submissionRepository.submit(
       TaskSubmission(
@@ -346,6 +349,7 @@ class TaskController {
         deliveryLateDelivery: deliveryLateDelivery,
         deliveryQualityProblem: deliveryQualityProblem,
         deliveryOutcome: deliveryOutcome,
+        extraFieldValuesJson: extraFieldValuesJson,
       ),
     );
 

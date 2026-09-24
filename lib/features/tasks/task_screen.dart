@@ -9,6 +9,7 @@ import '../../core/utils/date_format.dart';
 import '../../core/utils/unit_conversion.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/extra_fields_form.dart';
 import '../../core/widgets/guided_task_header.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
@@ -26,6 +27,7 @@ import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
+import '../../shared/models/task_extra_field.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../help/help_screen.dart';
 import 'billing_gate.dart';
@@ -63,6 +65,14 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   final TextEditingController notesController = TextEditingController();
   final TextEditingController correctiveNoteController =
       TextEditingController();
+  // Generic extra fields (2026-09-24) — keyed by TaskExtraFieldDef.key,
+  // reset per submission alongside every other form field below. Plain
+  // map rather than a TextEditingController per field: field definitions
+  // change per task in the carousel, so controllers would need their own
+  // create/dispose dance on every task change for no real benefit -- a
+  // TextFormField's own initialValue already resets cleanly since this
+  // widget rebuilds fresh values into it each time.
+  Map<String, String> extraFieldValues = {};
 
   String result = "PASS";
   String? selectedChoice;
@@ -633,6 +643,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       deliveryQualityProblem:
           task.requiresSupplierSelection && _deliveryQualityProblem,
       deliveryOutcome: task.requiresSupplierSelection ? _deliveryOutcome : null,
+      extraFieldValuesJson: extraFieldValues.isEmpty
+          ? null
+          : encodeExtraFieldValues(extraFieldValues),
     );
 
     if (!mounted) return;
@@ -656,6 +669,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         _deliveryLateDelivery = false;
         _deliveryQualityProblem = false;
         _deliveryOutcome = 'accepted';
+        extraFieldValues = {};
         error = null;
       });
     } else {
@@ -892,6 +906,14 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               labelText: "Notes",
                             ),
                           ),
+                        ExtraFieldsForm(
+                          key: ValueKey(
+                            'extra_fields_${controller.currentIndex}',
+                          ),
+                          fields: task.extraFieldDefs,
+                          values: extraFieldValues,
+                          onChanged: () => setState(() {}),
+                        ),
                         if (task.requiresPhoto) ...[
                           // Randomised photo-check (2026-09-22) — a
                           // distinct note, not a generic photo prompt, so

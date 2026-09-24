@@ -90,6 +90,18 @@ class TaskSubmissions extends Table {
   // no reported problem, so this column is always meaningful once set
   // rather than needing a "null means fine" special case downstream.
   TextColumn get deliveryOutcome => text().nullable()();
+  // Generic extra fields (2026-09-24, direct user request) — captured
+  // values for whatever TaskTemplates.extraFieldsJson defines on this
+  // submission's own template (e.g. PO number, batch/lot number, quantity
+  // ordered vs received). A JSON object keyed by each field's `key`,
+  // values always strings (a number field's value is still text here --
+  // parsing to a number, if ever needed, is a display-time concern, not
+  // a storage one). Null when the template defines no extra fields, or
+  // the worker left all of them blank. Deliberately separate from
+  // customFieldValuesJson above, which only ever holds the multi-choice
+  // "selected" answer -- a different, narrower mechanism this doesn't
+  // replace.
+  TextColumn get extraFieldValuesJson => text().nullable()();
 }
 
 // Fails & Problems Register (Part A) — every open/resolved transition is
@@ -384,6 +396,16 @@ class TaskTemplates extends Table {
   // arrives either. See ResolvedTask.isRandomPhotoCheck.
   BoolColumn get randomPhotoCheckEnabled =>
       boolean().withDefault(const Constant(false))();
+  // Generic extra fields (2026-09-24, direct user request) — lets a
+  // manager attach a short list of reference fields to any task template
+  // (e.g. "PO number", "batch/lot number", "quantity received"), instead
+  // of one-off special-cased columns per task type. A JSON array of
+  // {key, label, type} objects, type one of 'text'/'number'/'date'.
+  // Rendered on the task submission form as extra inputs beneath the
+  // task's normal ones; captured into
+  // TaskSubmissions.extraFieldValuesJson. Null/empty means "no extra
+  // fields for this task," the overwhelming majority of templates.
+  TextColumn get extraFieldsJson => text().nullable()();
 }
 
 @DataClassName('AreaEntity')
@@ -1057,7 +1079,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 51;
+  int get schemaVersion => 52;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1513,6 +1535,14 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(
           organisations,
           organisations.employeeGradedBarsEnabled,
+        );
+      }
+      if (from < 52) {
+        // Generic extra fields on tasks (2026-09-24).
+        await m.addColumn(taskTemplates, taskTemplates.extraFieldsJson);
+        await m.addColumn(
+          taskSubmissions,
+          taskSubmissions.extraFieldValuesJson,
         );
       }
     },

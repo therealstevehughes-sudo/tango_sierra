@@ -4949,6 +4949,17 @@ class $TaskSubmissionsTable extends TaskSubmissions
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _extraFieldValuesJsonMeta =
+      const VerificationMeta('extraFieldValuesJson');
+  @override
+  late final GeneratedColumn<String> extraFieldValuesJson =
+      GeneratedColumn<String>(
+        'extra_field_values_json',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -4977,6 +4988,7 @@ class $TaskSubmissionsTable extends TaskSubmissions
     deliveryLateDelivery,
     deliveryQualityProblem,
     deliveryOutcome,
+    extraFieldValuesJson,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5208,6 +5220,15 @@ class $TaskSubmissionsTable extends TaskSubmissions
         ),
       );
     }
+    if (data.containsKey('extra_field_values_json')) {
+      context.handle(
+        _extraFieldValuesJsonMeta,
+        extraFieldValuesJson.isAcceptableOrUnknown(
+          data['extra_field_values_json']!,
+          _extraFieldValuesJsonMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -5321,6 +5342,10 @@ class $TaskSubmissionsTable extends TaskSubmissions
         DriftSqlType.string,
         data['${effectivePrefix}delivery_outcome'],
       ),
+      extraFieldValuesJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}extra_field_values_json'],
+      ),
     );
   }
 
@@ -5358,6 +5383,7 @@ class TaskSubmissionEntity extends DataClass
   final bool deliveryLateDelivery;
   final bool deliveryQualityProblem;
   final String? deliveryOutcome;
+  final String? extraFieldValuesJson;
   const TaskSubmissionEntity({
     required this.id,
     required this.taskTitle,
@@ -5385,6 +5411,7 @@ class TaskSubmissionEntity extends DataClass
     required this.deliveryLateDelivery,
     required this.deliveryQualityProblem,
     this.deliveryOutcome,
+    this.extraFieldValuesJson,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5449,6 +5476,9 @@ class TaskSubmissionEntity extends DataClass
     if (!nullToAbsent || deliveryOutcome != null) {
       map['delivery_outcome'] = Variable<String>(deliveryOutcome);
     }
+    if (!nullToAbsent || extraFieldValuesJson != null) {
+      map['extra_field_values_json'] = Variable<String>(extraFieldValuesJson);
+    }
     return map;
   }
 
@@ -5512,6 +5542,9 @@ class TaskSubmissionEntity extends DataClass
       deliveryOutcome: deliveryOutcome == null && nullToAbsent
           ? const Value.absent()
           : Value(deliveryOutcome),
+      extraFieldValuesJson: extraFieldValuesJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(extraFieldValuesJson),
     );
   }
 
@@ -5569,6 +5602,9 @@ class TaskSubmissionEntity extends DataClass
         json['deliveryQualityProblem'],
       ),
       deliveryOutcome: serializer.fromJson<String?>(json['deliveryOutcome']),
+      extraFieldValuesJson: serializer.fromJson<String?>(
+        json['extraFieldValuesJson'],
+      ),
     );
   }
   @override
@@ -5607,6 +5643,7 @@ class TaskSubmissionEntity extends DataClass
       'deliveryLateDelivery': serializer.toJson<bool>(deliveryLateDelivery),
       'deliveryQualityProblem': serializer.toJson<bool>(deliveryQualityProblem),
       'deliveryOutcome': serializer.toJson<String?>(deliveryOutcome),
+      'extraFieldValuesJson': serializer.toJson<String?>(extraFieldValuesJson),
     };
   }
 
@@ -5637,6 +5674,7 @@ class TaskSubmissionEntity extends DataClass
     bool? deliveryLateDelivery,
     bool? deliveryQualityProblem,
     Value<String?> deliveryOutcome = const Value.absent(),
+    Value<String?> extraFieldValuesJson = const Value.absent(),
   }) => TaskSubmissionEntity(
     id: id ?? this.id,
     taskTitle: taskTitle ?? this.taskTitle,
@@ -5687,6 +5725,9 @@ class TaskSubmissionEntity extends DataClass
     deliveryOutcome: deliveryOutcome.present
         ? deliveryOutcome.value
         : this.deliveryOutcome,
+    extraFieldValuesJson: extraFieldValuesJson.present
+        ? extraFieldValuesJson.value
+        : this.extraFieldValuesJson,
   );
   TaskSubmissionEntity copyWithCompanion(TaskSubmissionsCompanion data) {
     return TaskSubmissionEntity(
@@ -5756,6 +5797,9 @@ class TaskSubmissionEntity extends DataClass
       deliveryOutcome: data.deliveryOutcome.present
           ? data.deliveryOutcome.value
           : this.deliveryOutcome,
+      extraFieldValuesJson: data.extraFieldValuesJson.present
+          ? data.extraFieldValuesJson.value
+          : this.extraFieldValuesJson,
     );
   }
 
@@ -5787,7 +5831,8 @@ class TaskSubmissionEntity extends DataClass
           ..write('deliveryDamagedStock: $deliveryDamagedStock, ')
           ..write('deliveryLateDelivery: $deliveryLateDelivery, ')
           ..write('deliveryQualityProblem: $deliveryQualityProblem, ')
-          ..write('deliveryOutcome: $deliveryOutcome')
+          ..write('deliveryOutcome: $deliveryOutcome, ')
+          ..write('extraFieldValuesJson: $extraFieldValuesJson')
           ..write(')'))
         .toString();
   }
@@ -5820,6 +5865,7 @@ class TaskSubmissionEntity extends DataClass
     deliveryLateDelivery,
     deliveryQualityProblem,
     deliveryOutcome,
+    extraFieldValuesJson,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -5850,7 +5896,8 @@ class TaskSubmissionEntity extends DataClass
           other.deliveryDamagedStock == this.deliveryDamagedStock &&
           other.deliveryLateDelivery == this.deliveryLateDelivery &&
           other.deliveryQualityProblem == this.deliveryQualityProblem &&
-          other.deliveryOutcome == this.deliveryOutcome);
+          other.deliveryOutcome == this.deliveryOutcome &&
+          other.extraFieldValuesJson == this.extraFieldValuesJson);
 }
 
 class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
@@ -5880,6 +5927,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
   final Value<bool> deliveryLateDelivery;
   final Value<bool> deliveryQualityProblem;
   final Value<String?> deliveryOutcome;
+  final Value<String?> extraFieldValuesJson;
   const TaskSubmissionsCompanion({
     this.id = const Value.absent(),
     this.taskTitle = const Value.absent(),
@@ -5907,6 +5955,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     this.deliveryLateDelivery = const Value.absent(),
     this.deliveryQualityProblem = const Value.absent(),
     this.deliveryOutcome = const Value.absent(),
+    this.extraFieldValuesJson = const Value.absent(),
   });
   TaskSubmissionsCompanion.insert({
     this.id = const Value.absent(),
@@ -5935,6 +5984,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     this.deliveryLateDelivery = const Value.absent(),
     this.deliveryQualityProblem = const Value.absent(),
     this.deliveryOutcome = const Value.absent(),
+    this.extraFieldValuesJson = const Value.absent(),
   }) : taskTitle = Value(taskTitle),
        status = Value(status),
        completedBy = Value(completedBy),
@@ -5966,6 +6016,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     Expression<bool>? deliveryLateDelivery,
     Expression<bool>? deliveryQualityProblem,
     Expression<String>? deliveryOutcome,
+    Expression<String>? extraFieldValuesJson,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -6005,6 +6056,8 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
       if (deliveryQualityProblem != null)
         'delivery_quality_problem': deliveryQualityProblem,
       if (deliveryOutcome != null) 'delivery_outcome': deliveryOutcome,
+      if (extraFieldValuesJson != null)
+        'extra_field_values_json': extraFieldValuesJson,
     });
   }
 
@@ -6035,6 +6088,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     Value<bool>? deliveryLateDelivery,
     Value<bool>? deliveryQualityProblem,
     Value<String?>? deliveryOutcome,
+    Value<String?>? extraFieldValuesJson,
   }) {
     return TaskSubmissionsCompanion(
       id: id ?? this.id,
@@ -6068,6 +6122,7 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
       deliveryQualityProblem:
           deliveryQualityProblem ?? this.deliveryQualityProblem,
       deliveryOutcome: deliveryOutcome ?? this.deliveryOutcome,
+      extraFieldValuesJson: extraFieldValuesJson ?? this.extraFieldValuesJson,
     );
   }
 
@@ -6170,6 +6225,11 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
     if (deliveryOutcome.present) {
       map['delivery_outcome'] = Variable<String>(deliveryOutcome.value);
     }
+    if (extraFieldValuesJson.present) {
+      map['extra_field_values_json'] = Variable<String>(
+        extraFieldValuesJson.value,
+      );
+    }
     return map;
   }
 
@@ -6201,7 +6261,8 @@ class TaskSubmissionsCompanion extends UpdateCompanion<TaskSubmissionEntity> {
           ..write('deliveryDamagedStock: $deliveryDamagedStock, ')
           ..write('deliveryLateDelivery: $deliveryLateDelivery, ')
           ..write('deliveryQualityProblem: $deliveryQualityProblem, ')
-          ..write('deliveryOutcome: $deliveryOutcome')
+          ..write('deliveryOutcome: $deliveryOutcome, ')
+          ..write('extraFieldValuesJson: $extraFieldValuesJson')
           ..write(')'))
         .toString();
   }
@@ -7047,6 +7108,17 @@ class $TaskTemplatesTable extends TaskTemplates
         ),
         defaultValue: const Constant(false),
       );
+  static const VerificationMeta _extraFieldsJsonMeta = const VerificationMeta(
+    'extraFieldsJson',
+  );
+  @override
+  late final GeneratedColumn<String> extraFieldsJson = GeneratedColumn<String>(
+    'extra_fields_json',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -7075,6 +7147,7 @@ class $TaskTemplatesTable extends TaskTemplates
     guidanceText,
     requiresSupplierSelection,
     randomPhotoCheckEnabled,
+    extraFieldsJson,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -7300,6 +7373,15 @@ class $TaskTemplatesTable extends TaskTemplates
         ),
       );
     }
+    if (data.containsKey('extra_fields_json')) {
+      context.handle(
+        _extraFieldsJsonMeta,
+        extraFieldsJson.isAcceptableOrUnknown(
+          data['extra_fields_json']!,
+          _extraFieldsJsonMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -7413,6 +7495,10 @@ class $TaskTemplatesTable extends TaskTemplates
         DriftSqlType.bool,
         data['${effectivePrefix}random_photo_check_enabled'],
       )!,
+      extraFieldsJson: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}extra_fields_json'],
+      ),
     );
   }
 
@@ -7450,6 +7536,7 @@ class TaskTemplateEntity extends DataClass
   final String? guidanceText;
   final bool requiresSupplierSelection;
   final bool randomPhotoCheckEnabled;
+  final String? extraFieldsJson;
   const TaskTemplateEntity({
     required this.id,
     required this.templateGroupId,
@@ -7477,6 +7564,7 @@ class TaskTemplateEntity extends DataClass
     this.guidanceText,
     required this.requiresSupplierSelection,
     required this.randomPhotoCheckEnabled,
+    this.extraFieldsJson,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -7535,6 +7623,9 @@ class TaskTemplateEntity extends DataClass
       requiresSupplierSelection,
     );
     map['random_photo_check_enabled'] = Variable<bool>(randomPhotoCheckEnabled);
+    if (!nullToAbsent || extraFieldsJson != null) {
+      map['extra_fields_json'] = Variable<String>(extraFieldsJson);
+    }
     return map;
   }
 
@@ -7588,6 +7679,9 @@ class TaskTemplateEntity extends DataClass
           : Value(guidanceText),
       requiresSupplierSelection: Value(requiresSupplierSelection),
       randomPhotoCheckEnabled: Value(randomPhotoCheckEnabled),
+      extraFieldsJson: extraFieldsJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(extraFieldsJson),
     );
   }
 
@@ -7633,6 +7727,7 @@ class TaskTemplateEntity extends DataClass
       randomPhotoCheckEnabled: serializer.fromJson<bool>(
         json['randomPhotoCheckEnabled'],
       ),
+      extraFieldsJson: serializer.fromJson<String?>(json['extraFieldsJson']),
     );
   }
   @override
@@ -7671,6 +7766,7 @@ class TaskTemplateEntity extends DataClass
       'randomPhotoCheckEnabled': serializer.toJson<bool>(
         randomPhotoCheckEnabled,
       ),
+      'extraFieldsJson': serializer.toJson<String?>(extraFieldsJson),
     };
   }
 
@@ -7701,6 +7797,7 @@ class TaskTemplateEntity extends DataClass
     Value<String?> guidanceText = const Value.absent(),
     bool? requiresSupplierSelection,
     bool? randomPhotoCheckEnabled,
+    Value<String?> extraFieldsJson = const Value.absent(),
   }) => TaskTemplateEntity(
     id: id ?? this.id,
     templateGroupId: templateGroupId ?? this.templateGroupId,
@@ -7743,6 +7840,9 @@ class TaskTemplateEntity extends DataClass
         requiresSupplierSelection ?? this.requiresSupplierSelection,
     randomPhotoCheckEnabled:
         randomPhotoCheckEnabled ?? this.randomPhotoCheckEnabled,
+    extraFieldsJson: extraFieldsJson.present
+        ? extraFieldsJson.value
+        : this.extraFieldsJson,
   );
   TaskTemplateEntity copyWithCompanion(TaskTemplatesCompanion data) {
     return TaskTemplateEntity(
@@ -7805,6 +7905,9 @@ class TaskTemplateEntity extends DataClass
       randomPhotoCheckEnabled: data.randomPhotoCheckEnabled.present
           ? data.randomPhotoCheckEnabled.value
           : this.randomPhotoCheckEnabled,
+      extraFieldsJson: data.extraFieldsJson.present
+          ? data.extraFieldsJson.value
+          : this.extraFieldsJson,
     );
   }
 
@@ -7838,7 +7941,8 @@ class TaskTemplateEntity extends DataClass
           ..write('jobRole: $jobRole, ')
           ..write('guidanceText: $guidanceText, ')
           ..write('requiresSupplierSelection: $requiresSupplierSelection, ')
-          ..write('randomPhotoCheckEnabled: $randomPhotoCheckEnabled')
+          ..write('randomPhotoCheckEnabled: $randomPhotoCheckEnabled, ')
+          ..write('extraFieldsJson: $extraFieldsJson')
           ..write(')'))
         .toString();
   }
@@ -7871,6 +7975,7 @@ class TaskTemplateEntity extends DataClass
     guidanceText,
     requiresSupplierSelection,
     randomPhotoCheckEnabled,
+    extraFieldsJson,
   ]);
   @override
   bool operator ==(Object other) =>
@@ -7902,7 +8007,8 @@ class TaskTemplateEntity extends DataClass
           other.jobRole == this.jobRole &&
           other.guidanceText == this.guidanceText &&
           other.requiresSupplierSelection == this.requiresSupplierSelection &&
-          other.randomPhotoCheckEnabled == this.randomPhotoCheckEnabled);
+          other.randomPhotoCheckEnabled == this.randomPhotoCheckEnabled &&
+          other.extraFieldsJson == this.extraFieldsJson);
 }
 
 class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
@@ -7932,6 +8038,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
   final Value<String?> guidanceText;
   final Value<bool> requiresSupplierSelection;
   final Value<bool> randomPhotoCheckEnabled;
+  final Value<String?> extraFieldsJson;
   const TaskTemplatesCompanion({
     this.id = const Value.absent(),
     this.templateGroupId = const Value.absent(),
@@ -7959,6 +8066,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     this.guidanceText = const Value.absent(),
     this.requiresSupplierSelection = const Value.absent(),
     this.randomPhotoCheckEnabled = const Value.absent(),
+    this.extraFieldsJson = const Value.absent(),
   });
   TaskTemplatesCompanion.insert({
     this.id = const Value.absent(),
@@ -7987,6 +8095,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     this.guidanceText = const Value.absent(),
     this.requiresSupplierSelection = const Value.absent(),
     this.randomPhotoCheckEnabled = const Value.absent(),
+    this.extraFieldsJson = const Value.absent(),
   }) : templateGroupId = Value(templateGroupId),
        versionNumber = Value(versionNumber),
        title = Value(title),
@@ -8021,6 +8130,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     Expression<String>? guidanceText,
     Expression<bool>? requiresSupplierSelection,
     Expression<bool>? randomPhotoCheckEnabled,
+    Expression<String>? extraFieldsJson,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -8054,6 +8164,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
         'requires_supplier_selection': requiresSupplierSelection,
       if (randomPhotoCheckEnabled != null)
         'random_photo_check_enabled': randomPhotoCheckEnabled,
+      if (extraFieldsJson != null) 'extra_fields_json': extraFieldsJson,
     });
   }
 
@@ -8084,6 +8195,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
     Value<String?>? guidanceText,
     Value<bool>? requiresSupplierSelection,
     Value<bool>? randomPhotoCheckEnabled,
+    Value<String?>? extraFieldsJson,
   }) {
     return TaskTemplatesCompanion(
       id: id ?? this.id,
@@ -8115,6 +8227,7 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
           requiresSupplierSelection ?? this.requiresSupplierSelection,
       randomPhotoCheckEnabled:
           randomPhotoCheckEnabled ?? this.randomPhotoCheckEnabled,
+      extraFieldsJson: extraFieldsJson ?? this.extraFieldsJson,
     );
   }
 
@@ -8207,6 +8320,9 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
         randomPhotoCheckEnabled.value,
       );
     }
+    if (extraFieldsJson.present) {
+      map['extra_fields_json'] = Variable<String>(extraFieldsJson.value);
+    }
     return map;
   }
 
@@ -8240,7 +8356,8 @@ class TaskTemplatesCompanion extends UpdateCompanion<TaskTemplateEntity> {
           ..write('jobRole: $jobRole, ')
           ..write('guidanceText: $guidanceText, ')
           ..write('requiresSupplierSelection: $requiresSupplierSelection, ')
-          ..write('randomPhotoCheckEnabled: $randomPhotoCheckEnabled')
+          ..write('randomPhotoCheckEnabled: $randomPhotoCheckEnabled, ')
+          ..write('extraFieldsJson: $extraFieldsJson')
           ..write(')'))
         .toString();
   }
@@ -30554,6 +30671,7 @@ typedef $$TaskSubmissionsTableCreateCompanionBuilder =
       Value<bool> deliveryLateDelivery,
       Value<bool> deliveryQualityProblem,
       Value<String?> deliveryOutcome,
+      Value<String?> extraFieldValuesJson,
     });
 typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
     TaskSubmissionsCompanion Function({
@@ -30583,6 +30701,7 @@ typedef $$TaskSubmissionsTableUpdateCompanionBuilder =
       Value<bool> deliveryLateDelivery,
       Value<bool> deliveryQualityProblem,
       Value<String?> deliveryOutcome,
+      Value<String?> extraFieldValuesJson,
     });
 
 final class $$TaskSubmissionsTableReferences
@@ -30836,6 +30955,11 @@ class $$TaskSubmissionsTableFilterComposer
 
   ColumnFilters<String> get deliveryOutcome => $composableBuilder(
     column: $table.deliveryOutcome,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get extraFieldValuesJson => $composableBuilder(
+    column: $table.extraFieldValuesJson,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -31101,6 +31225,11 @@ class $$TaskSubmissionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get extraFieldValuesJson => $composableBuilder(
+    column: $table.extraFieldValuesJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$EquipmentInstancesTableOrderingComposer get equipmentInstanceId {
     final $$EquipmentInstancesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -31300,6 +31429,11 @@ class $$TaskSubmissionsTableAnnotationComposer
 
   GeneratedColumn<String> get deliveryOutcome => $composableBuilder(
     column: $table.deliveryOutcome,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get extraFieldValuesJson => $composableBuilder(
+    column: $table.extraFieldValuesJson,
     builder: (column) => column,
   );
 
@@ -31512,6 +31646,7 @@ class $$TaskSubmissionsTableTableManager
                 Value<bool> deliveryLateDelivery = const Value.absent(),
                 Value<bool> deliveryQualityProblem = const Value.absent(),
                 Value<String?> deliveryOutcome = const Value.absent(),
+                Value<String?> extraFieldValuesJson = const Value.absent(),
               }) => TaskSubmissionsCompanion(
                 id: id,
                 taskTitle: taskTitle,
@@ -31539,6 +31674,7 @@ class $$TaskSubmissionsTableTableManager
                 deliveryLateDelivery: deliveryLateDelivery,
                 deliveryQualityProblem: deliveryQualityProblem,
                 deliveryOutcome: deliveryOutcome,
+                extraFieldValuesJson: extraFieldValuesJson,
               ),
           createCompanionCallback:
               ({
@@ -31568,6 +31704,7 @@ class $$TaskSubmissionsTableTableManager
                 Value<bool> deliveryLateDelivery = const Value.absent(),
                 Value<bool> deliveryQualityProblem = const Value.absent(),
                 Value<String?> deliveryOutcome = const Value.absent(),
+                Value<String?> extraFieldValuesJson = const Value.absent(),
               }) => TaskSubmissionsCompanion.insert(
                 id: id,
                 taskTitle: taskTitle,
@@ -31595,6 +31732,7 @@ class $$TaskSubmissionsTableTableManager
                 deliveryLateDelivery: deliveryLateDelivery,
                 deliveryQualityProblem: deliveryQualityProblem,
                 deliveryOutcome: deliveryOutcome,
+                extraFieldValuesJson: extraFieldValuesJson,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -32188,6 +32326,7 @@ typedef $$TaskTemplatesTableCreateCompanionBuilder =
       Value<String?> guidanceText,
       Value<bool> requiresSupplierSelection,
       Value<bool> randomPhotoCheckEnabled,
+      Value<String?> extraFieldsJson,
     });
 typedef $$TaskTemplatesTableUpdateCompanionBuilder =
     TaskTemplatesCompanion Function({
@@ -32217,6 +32356,7 @@ typedef $$TaskTemplatesTableUpdateCompanionBuilder =
       Value<String?> guidanceText,
       Value<bool> requiresSupplierSelection,
       Value<bool> randomPhotoCheckEnabled,
+      Value<String?> extraFieldsJson,
     });
 
 final class $$TaskTemplatesTableReferences
@@ -32403,6 +32543,11 @@ class $$TaskTemplatesTableFilterComposer
 
   ColumnFilters<bool> get randomPhotoCheckEnabled => $composableBuilder(
     column: $table.randomPhotoCheckEnabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get extraFieldsJson => $composableBuilder(
+    column: $table.extraFieldsJson,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -32601,6 +32746,11 @@ class $$TaskTemplatesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get extraFieldsJson => $composableBuilder(
+    column: $table.extraFieldsJson,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$TaskTemplatesTableOrderingComposer get previousVersionId {
     final $$TaskTemplatesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -32776,6 +32926,11 @@ class $$TaskTemplatesTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<String> get extraFieldsJson => $composableBuilder(
+    column: $table.extraFieldsJson,
+    builder: (column) => column,
+  );
+
   $$TaskTemplatesTableAnnotationComposer get previousVersionId {
     final $$TaskTemplatesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -32905,6 +33060,7 @@ class $$TaskTemplatesTableTableManager
                 Value<String?> guidanceText = const Value.absent(),
                 Value<bool> requiresSupplierSelection = const Value.absent(),
                 Value<bool> randomPhotoCheckEnabled = const Value.absent(),
+                Value<String?> extraFieldsJson = const Value.absent(),
               }) => TaskTemplatesCompanion(
                 id: id,
                 templateGroupId: templateGroupId,
@@ -32932,6 +33088,7 @@ class $$TaskTemplatesTableTableManager
                 guidanceText: guidanceText,
                 requiresSupplierSelection: requiresSupplierSelection,
                 randomPhotoCheckEnabled: randomPhotoCheckEnabled,
+                extraFieldsJson: extraFieldsJson,
               ),
           createCompanionCallback:
               ({
@@ -32962,6 +33119,7 @@ class $$TaskTemplatesTableTableManager
                 Value<String?> guidanceText = const Value.absent(),
                 Value<bool> requiresSupplierSelection = const Value.absent(),
                 Value<bool> randomPhotoCheckEnabled = const Value.absent(),
+                Value<String?> extraFieldsJson = const Value.absent(),
               }) => TaskTemplatesCompanion.insert(
                 id: id,
                 templateGroupId: templateGroupId,
@@ -32989,6 +33147,7 @@ class $$TaskTemplatesTableTableManager
                 guidanceText: guidanceText,
                 requiresSupplierSelection: requiresSupplierSelection,
                 randomPhotoCheckEnabled: randomPhotoCheckEnabled,
+                extraFieldsJson: extraFieldsJson,
               ),
           withReferenceMapper: (p0) => p0
               .map(

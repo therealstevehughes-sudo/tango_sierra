@@ -55,6 +55,16 @@ class SupabaseTaskSubmissionRepository implements TaskSubmissionRepository {
       'delivery_late_delivery': submission.deliveryLateDelivery,
       'delivery_quality_problem': submission.deliveryQualityProblem,
       'delivery_outcome': submission.deliveryOutcome,
+      // Generic extra fields (2026-09-24) — backend schema gap:
+      // extra_field_values_json doesn't exist on the live
+      // task_submissions table yet, so the column is deliberately left
+      // out of this insert entirely (an unknown-column key would error
+      // PostgREST) rather than sent. Unlike the org-setting write's
+      // UnimplementedError in supabase_task_template_repository.dart,
+      // this is the actual task-submission path — "fail open, never
+      // block the kitchen running" wins over preserving these values
+      // until the migration lands; any extra-field data entered on a
+      // backend-hosted install is silently lost until then.
     });
     return row['id'] as int;
   }
@@ -65,8 +75,7 @@ class SupabaseTaskSubmissionRepository implements TaskSubmissionRepository {
   }
 
   @override
-  Future<List<TaskSubmission>> getAll() =>
-      _query('order=completed_at.desc');
+  Future<List<TaskSubmission>> getAll() => _query('order=completed_at.desc');
 
   @override
   Future<List<TaskSubmission>> getByStaff(String staffId) =>
@@ -97,8 +106,7 @@ class SupabaseTaskSubmissionRepository implements TaskSubmissionRepository {
       );
 
   @override
-  Stream<List<TaskSubmission>> watchAll() =>
-      _poll(() => getAll());
+  Stream<List<TaskSubmission>> watchAll() => _poll(() => getAll());
 
   @override
   Stream<List<TaskSubmission>> watchDefaultView() {
@@ -136,9 +144,8 @@ class SupabaseTaskSubmissionRepository implements TaskSubmissionRepository {
   ) {
     return backendPollingStream<List<TaskSubmission>>(
       fetch: fetch,
-      identity: (list) => listIdentity([
-        for (final s in list) '${s.id}:${s.problemStatus}',
-      ]),
+      identity: (list) =>
+          listIdentity([for (final s in list) '${s.id}:${s.problemStatus}']),
     );
   }
 
@@ -233,5 +240,6 @@ class SupabaseTaskSubmissionRepository implements TaskSubmissionRepository {
     deliveryLateDelivery: row['delivery_late_delivery'] as bool? ?? false,
     deliveryQualityProblem: row['delivery_quality_problem'] as bool? ?? false,
     deliveryOutcome: row['delivery_outcome'] as String?,
+    extraFieldValuesJson: row['extra_field_values_json'] as String?,
   );
 }
