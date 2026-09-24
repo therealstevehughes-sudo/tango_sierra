@@ -580,8 +580,11 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     final groups = <String, List<_TaskRow>>{};
     for (final template in templates) {
       if (template.equipmentTypeId == null) {
+        // Visual pass follow-up (2026-09-24) — was the raw segment slug
+        // prefixed with "Segment: " (e.g. "Segment: reception"); now the
+        // same friendly name used by the By Person tab's own grouping.
         groups
-            .putIfAbsent('Segment: ${template.segment}', () => [])
+            .putIfAbsent(segmentDisplayName(template.segment), () => [])
             .add(_TaskRow(template: template, instance: null));
         continue;
       }
