@@ -514,6 +514,7 @@ class _LeadershipDashboardScreenState
               () => _showSubmissionBreakdown('Not done', overview.notDone),
             ),
           ]),
+          const _TapForDetailsHint(),
         ],
       ),
     );
@@ -608,6 +609,7 @@ class _LeadershipDashboardScreenState
               () => _showIssueBreakdown('Escalated', incidents.escalated),
             ),
           ]),
+          const _TapForDetailsHint(),
         ],
       ),
     );
@@ -735,6 +737,37 @@ class _LeadershipDashboardScreenState
             ),
           )
           .toList(),
+    );
+  }
+}
+
+// Discoverability fix (2026-09-24, direct user feedback) — the bars and
+// legend were already tappable (see _showSubmissionBreakdown/
+// _showIssueBreakdown's own doc comment: this was literally in the
+// original mockup's own "Click on colour band for detailed breakdown"
+// text), but that hint text itself never actually made it onto the
+// screen — only the underlying tap behaviour was built. This closes
+// that gap.
+class _TapForDetailsHint extends StatelessWidget {
+  const _TapForDetailsHint();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.touch_app_outlined, size: 14, color: AppColors.muted),
+          const SizedBox(width: 4),
+          Text(
+            'Tap a colour section or legend entry for details',
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
+          ),
+        ],
+      ),
     );
   }
 }
