@@ -43,7 +43,32 @@ import 'task_overview_screen.dart';
 enum _PhotoSource { camera, upload }
 
 class TaskScreen extends ConsumerStatefulWidget {
-  const TaskScreen({super.key});
+  const TaskScreen({
+    super.key,
+    this.existingController,
+    this.returnToListAfterSubmit = false,
+  }) : assert(
+         existingController != null || !returnToListAfterSubmit,
+         'returnToListAfterSubmit only makes sense with an existingController '
+         '(see task_overview_screen.dart\'s complete-from-the-list flow)',
+       );
+
+  // Complete-from-the-list (2026-09-25) — when the All Tasks overview
+  // screen opens a specific task for completion out of carousel order, it
+  // passes ITS OWN (already-loaded) controller instance rather than
+  // letting this screen build a fresh one, so the submission lands in the
+  // exact same session (sessionStartedAt, completedTaskKeys) the carousel
+  // and list are both looking at. Null (the default): unchanged carousel
+  // behaviour, builds its own controller as always.
+  final TaskController? existingController;
+
+  // When true: skip this screen's own session-setup side effects (shift
+  // handover dialog, supplier reload — both already ran once for
+  // whichever screen opened this session) and, on successful submission,
+  // pop back to the caller instead of advancing the carousel or showing
+  // the end-of-session summary. Only ever true alongside
+  // existingController.
+  final bool returnToListAfterSubmit;
 
   @override
   ConsumerState<TaskScreen> createState() => _TaskScreenState();
@@ -73,6 +98,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // TextFormField's own initialValue already resets cleanly since this
   // widget rebuilds fresh values into it each time.
   Map<String, String> extraFieldValues = {};
+  // Complete-from-the-list (2026-09-25) — guards the rare "everything
+  // remaining was already done via the All Tasks list" build() path so
+  // its postFrameCallback only ever schedules _finishSession() once, not
+  // on every rebuild while it's pending.
+  bool _finishingFromList = false;
 
   String result = "PASS";
   String? selectedChoice;
@@ -123,28 +153,39 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       });
       return;
     }
-    controller = TaskController(
-      ref.read(taskSubmissionRepositoryProvider),
-      ref.read(taskScheduleRepositoryProvider),
-      ref.read(taskTemplateRepositoryProvider),
-      ref.read(equipmentRepositoryProvider),
-      user,
-      ref.read(notificationRuleRepositoryProvider),
-      ref.read(triggerNotificationRepositoryProvider),
-      ref.read(userRepositoryProvider),
-      ref.read(problemRegisterRepositoryProvider),
-      null,
-      // Shift-relative window start (2026-09-24) — this is the live
-      // worker carousel, the one place isLocked actually gates a task.
-      ref.read(shiftLogRepositoryProvider),
-    );
+    final existing = widget.existingController;
+    controller =
+        existing ??
+        TaskController(
+          ref.read(taskSubmissionRepositoryProvider),
+          ref.read(taskScheduleRepositoryProvider),
+          ref.read(taskTemplateRepositoryProvider),
+          ref.read(equipmentRepositoryProvider),
+          user,
+          ref.read(notificationRuleRepositoryProvider),
+          ref.read(triggerNotificationRepositoryProvider),
+          ref.read(userRepositoryProvider),
+          ref.read(problemRegisterRepositoryProvider),
+          null,
+          // Shift-relative window start (2026-09-24) — this is the live
+          // worker carousel, the one place isLocked actually gates a task.
+          ref.read(shiftLogRepositoryProvider),
+        );
     numberController.addListener(_onFormChanged);
     notesController.addListener(_onFormChanged);
     _load();
   }
 
   Future<void> _load() async {
-    await controller.loadTasks();
+    // Complete-from-the-list (2026-09-25): an existingController already
+    // has `tasks` loaded and `currentIndex` deliberately positioned by the
+    // caller (task_overview_screen.dart) at the task to complete —
+    // calling loadTasks() again would re-fetch from the repositories AND
+    // reset currentIndex back to 0, undoing exactly what the caller just
+    // set up.
+    if (widget.existingController == null) {
+      await controller.loadTasks();
+    }
 
     final currentUser = ref.read(currentUserProvider);
     if (currentUser != null) {
@@ -156,6 +197,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
     if (!mounted) return;
     setState(() => loading = false);
+
+    // Complete-from-the-list: the shift handover dialog already ran once
+    // for whichever screen opened this session — showing it again for a
+    // single out-of-order task completion would be a real, actively
+    // annoying regression, not a helpful re-reminder.
+    if (widget.returnToListAfterSubmit) return;
 
     final handoverRepo = ref.read(shiftHandoverRepositoryProvider);
     final siteId = currentUser?.siteId;
@@ -370,6 +417,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // ManagementDrawer item (see build()'s drawer:), reachable the same way
   // from every non-base screen instead of a TaskScreen-only shortcut.
   List<Widget> _appBarActions() {
+    // Complete-from-the-list (2026-09-25): none of these make sense for a
+    // single out-of-order task detour — "See all tasks" would push a
+    // second, confusing copy of the list on top of the one the worker
+    // just came from, and Log out has no place on a screen that isn't the
+    // actual session entry point.
+    if (widget.returnToListAfterSubmit) return const [];
     return [
       // Hybrid task view (roadmap v1.1, 2026-09-15) — read-only, doesn't
       // touch the exit-path discipline above (a normal push the worker
@@ -650,6 +703,18 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
     if (!mounted) return;
 
+    // Complete-from-the-list (2026-09-25): this controller is shared with
+    // whichever carousel screen is still underneath on the nav stack (see
+    // task_overview_screen.dart) — calling nextTask() here would advance
+    // ITS currentIndex too, which is wrong when the task just completed
+    // wasn't necessarily the carousel's own current one. Just report
+    // success back to the list; the list itself restores currentIndex to
+    // whatever it was before this detour.
+    if (widget.returnToListAfterSubmit) {
+      Navigator.of(context).pop(true);
+      return;
+    }
+
     final hasNext = controller.nextTask();
 
     if (hasNext) {
@@ -673,40 +738,49 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         error = null;
       });
     } else {
-      final stats = await controller.buildSessionStats();
-      if (!mounted) return;
-
-      // End-of-shift digest (2026-09-17) — fire-and-forget, not awaited:
-      // this is a background push send, must never delay the summary
-      // screen the worker is already waiting on.
-      final currentUser = ref.read(currentUserProvider);
-      if (currentUser?.siteId != null) {
-        ref
-            .read(endOfShiftDigestServiceProvider)
-            .sendDigest(
-              siteId: currentUser!.siteId!,
-              workerId: currentUser.id,
-              workerName: currentUser.name,
-              sessionStartedAt: controller.sessionStartedAt,
-              stats: stats,
-            );
-      }
-
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => EndOfSessionSummaryScreen(stats: stats),
-        ),
-      );
-
-      if (!mounted) return;
-
-      // Same pop-before-null fix as _confirmLogOut — this auto-logout on
-      // full session completion is reachable via this pushed TaskScreen
-      // too, since Sub-sprint A.
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      ref.read(currentUserProvider.notifier).state = null;
+      await _finishSession();
     }
+  }
+
+  // Extracted from submitTask()'s own "nothing left" branch (2026-09-25)
+  // so the complete-from-the-list safety net in build() — reaching this
+  // same "everything's done" state without a submit button ever being
+  // pressed on this screen — can trigger the identical end-of-session
+  // flow instead of duplicating it.
+  Future<void> _finishSession() async {
+    final stats = await controller.buildSessionStats();
+    if (!mounted) return;
+
+    // End-of-shift digest (2026-09-17) — fire-and-forget, not awaited:
+    // this is a background push send, must never delay the summary
+    // screen the worker is already waiting on.
+    final currentUser = ref.read(currentUserProvider);
+    if (currentUser?.siteId != null) {
+      ref
+          .read(endOfShiftDigestServiceProvider)
+          .sendDigest(
+            siteId: currentUser!.siteId!,
+            workerId: currentUser.id,
+            workerName: currentUser.name,
+            sessionStartedAt: controller.sessionStartedAt,
+            stats: stats,
+          );
+    }
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => EndOfSessionSummaryScreen(stats: stats),
+      ),
+    );
+
+    if (!mounted) return;
+
+    // Same pop-before-null fix as _confirmLogOut — this auto-logout on
+    // full session completion is reachable via this pushed TaskScreen
+    // too, since Sub-sprint A.
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    ref.read(currentUserProvider.notifier).state = null;
   }
 
   @override
@@ -724,13 +798,24 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     // Navigation-consistency pass (Sprint 031): the drawer is base-tier's
     // one deliberate exception — a Kitchen Porter still just sees tasks +
     // Log out, no menu, per the Staff Task Screen Rule's minimalism.
-    final drawer = currentUser != null && currentUser.roleTier != RoleTier.base
+    // Complete-from-the-list (2026-09-25): no drawer at all in this mode —
+    // it's a single-purpose detour from the list, not a new nav surface,
+    // same reasoning as base tier's own drawer-free screens.
+    final drawer =
+        currentUser != null &&
+            currentUser.roleTier != RoleTier.base &&
+            !widget.returnToListAfterSubmit
         ? ManagementDrawer(title: 'My Tasks', onLogout: _confirmLogOut)
         : null;
     // automaticallyImplyLeading: false (below, kept from Sub-sprint A's
     // back-arrow suppression) also hides the drawer's own auto-hamburger,
     // so it needs an explicit leading button whenever a drawer exists.
-    final drawerLeading = drawer == null
+    // Complete-from-the-list: a plain back button instead — this mode has
+    // no drawer, but still needs a way back to the list that isn't the
+    // carousel's own confirm-before-leaving logic (see the PopScope below).
+    final drawerLeading = widget.returnToListAfterSubmit
+        ? BackButton(onPressed: () => Navigator.of(context).pop(false))
+        : drawer == null
         ? null
         : Builder(
             builder: (context) => IconButton(
@@ -741,7 +826,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
     if (!controller.hasTasks) {
       return PopScope(
-        canPop: false,
+        // Complete-from-the-list (2026-09-25): a normal back gesture just
+        // cancels this single-task detour back to the list — the
+        // confirm-before-leaving logic below exists for the actual
+        // session's own exit path, not a one-off out-of-order completion.
+        canPop: !widget.returnToListAfterSubmit,
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -755,6 +844,36 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           body: const Center(child: Text("No tasks assigned yet.")),
         ),
       );
+    }
+
+    // Complete-from-the-list (2026-09-25): if the carousel's own current
+    // task was submitted out of order via the All Tasks list while this
+    // screen sat underneath it, currentIndex still points at it — Flutter
+    // rebuilds this screen when a route pushed on top of it is popped
+    // (the same guarantee every "await push then refresh" call in this
+    // app already relies on), so this check runs exactly when it needs
+    // to. Advances past anything already done, synchronously, before the
+    // rest of build() reads task — no separate frame, no flicker for the
+    // common case (a few tasks skipped ahead, most remain).
+    while (controller.hasTasks &&
+        controller.isCompleted(controller.getCurrentTask()) &&
+        controller.nextTask()) {}
+
+    if (!controller.hasTasks) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    // Every remaining task (including this last one) turned out to
+    // already be done via the list — the carousel has nothing left to
+    // show. Can't navigate synchronously mid-build, so this schedules the
+    // same end-of-session flow submitTask() would have shown, once, for
+    // this rare "finished everything from the list" case.
+    if (controller.isCompleted(controller.getCurrentTask())) {
+      if (!_finishingFromList) {
+        _finishingFromList = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) => _finishSession());
+      }
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     final task = controller.getCurrentTask();
@@ -1226,10 +1345,19 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: PrimaryActionButton(
-                      label: 'Skip - comes back later',
+                      label: widget.returnToListAfterSubmit
+                          ? 'Back to list'
+                          : 'Skip - comes back later',
                       icon: Icons.skip_next,
-                      onPressed: () =>
-                          setState(() => controller.skipLockedTask()),
+                      // Complete-from-the-list (2026-09-25): skipLockedTask
+                      // calls nextTask(), which would move the shared
+                      // controller's position — wrong here, since this
+                      // detour's whole point is to leave the carousel's
+                      // own currentIndex untouched. Just leave; the task
+                      // stays exactly as locked/pending as it was.
+                      onPressed: widget.returnToListAfterSubmit
+                          ? () => Navigator.of(context).pop(false)
+                          : () => setState(() => controller.skipLockedTask()),
                     ),
                   ),
                 ],

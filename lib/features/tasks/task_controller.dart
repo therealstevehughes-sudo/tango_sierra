@@ -57,6 +57,28 @@ class TaskController {
   List<ResolvedTask> tasks = [];
   final DateTime sessionStartedAt = DateTime.now();
 
+  // Complete-from-the-list (2026-09-25, direct user request) — the All
+  // Tasks overview screen shares this exact controller instance (see
+  // task_overview_screen.dart) and can now submit a task out of carousel
+  // order. currentIndex alone can no longer answer "has this task been
+  // done this session" once that's possible, since a future task can be
+  // completed while currentIndex still sits earlier. Tracked by identity
+  // (templateGroupId + equipmentInstanceId), not index, since index
+  // membership doesn't change but position in the sorted `tasks` list is
+  // never assumed stable across a reload. Every path that used to reason
+  // about "done" purely via currentIndex comparison (nextTask,
+  // hasRemainingTasks, logRemainingAsNotCompleted) is updated below to
+  // also check this set — the single, actual source of truth is "was
+  // logTaskSubmission ever called for this task this session," and
+  // currentIndex is only ever a position pointer, not a completion record.
+  final Set<String> completedTaskKeys = {};
+
+  String _keyFor(ResolvedTask task) =>
+      '${task.templateGroupId}:${task.equipmentInstanceId ?? 'none'}';
+
+  bool isCompleted(ResolvedTask task) =>
+      completedTaskKeys.contains(_keyFor(task));
+
   bool get hasTasks => tasks.isNotEmpty;
 
   // Randomised photo-check (2026-09-22, direct user request) — roughly
@@ -241,7 +263,15 @@ class TaskController {
   // leaving right now would abandon anything — everything from
   // currentIndex onward hasn't been submitted this session (nextTask()
   // only advances past a task once it's actually submitted).
-  bool get hasRemainingTasks => hasTasks && currentIndex < tasks.length;
+  // Complete-from-the-list (2026-09-25): currentIndex onward can now
+  // contain tasks already submitted out of order via the All Tasks list,
+  // so this checks actual completion, not just position — otherwise
+  // leaving after finishing everything via the list would still show a
+  // false "leave before finishing?" warning.
+  bool get hasRemainingTasks =>
+      hasTasks &&
+      currentIndex < tasks.length &&
+      tasks.sublist(currentIndex).any((t) => !isCompleted(t));
 
   // Logs each not-yet-submitted task as NOT_COMPLETED so leaving mid-shift
   // is recorded, not silent — never vanishes, stays outstanding (matching
@@ -253,7 +283,11 @@ class TaskController {
   // PASS/FAIL, so this correctly does not satisfy the task's period — it
   // reappears as due (or overdue) when the worker returns.
   Future<void> logRemainingAsNotCompleted() async {
-    for (final task in tasks.sublist(currentIndex)) {
+    // Complete-from-the-list (2026-09-25): skip anything already submitted
+    // out of order via the All Tasks list — logging it NOT_COMPLETED here
+    // too would silently duplicate/shadow its real PASS/FAIL submission.
+    for (final task
+        in tasks.sublist(currentIndex).where((t) => !isCompleted(t))) {
       final submissionId = await _submissionRepository.submit(
         TaskSubmission(
           taskTitle: task.title,
@@ -296,10 +330,16 @@ class TaskController {
     );
   }
 
+  // Complete-from-the-list (2026-09-25): skips forward past any task
+  // already submitted out of order via the All Tasks list — without this,
+  // the carousel would eventually reach it again in natural sequence and
+  // offer it for a second, duplicate submission. Returns false once
+  // nothing left from here on is still incomplete, same contract as
+  // before (caller shows the end-of-session summary in that case).
   bool nextTask() {
-    if (currentIndex < tasks.length - 1) {
+    while (currentIndex < tasks.length - 1) {
       currentIndex++;
-      return true;
+      if (!isCompleted(tasks[currentIndex])) return true;
     }
     return false;
   }
@@ -352,6 +392,10 @@ class TaskController {
         extraFieldValuesJson: extraFieldValuesJson,
       ),
     );
+
+    // Complete-from-the-list (2026-09-25) — the actual completion record,
+    // independent of currentIndex. See this set's own doc comment above.
+    completedTaskKeys.add(_keyFor(task));
 
     if (status == 'FAIL') {
       // Fails & Problems Register (Part A1): "I fixed it" auto-resolves
