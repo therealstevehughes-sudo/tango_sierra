@@ -35,7 +35,19 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(milliseconds: 1500), () {
+    // Visual pass follow-up (2026-09-24, direct user report) — a plain
+    // 1.5s timer, unrelated to whether the app was actually ready, meant
+    // a slow cold DB open (worse now that Cluster G added 57 more seed
+    // tasks) could drop straight from the splash into LoginScreen's own
+    // bare loading spinner mid-fetch — reads as broken, not "still
+    // loading." Now waits for the real staff-directory fetch AND a
+    // typical splash floor (1.8s -- within the normal 1.5-3s range),
+    // whichever is longer, so the splash covers real init work instead
+    // of guessing at a fixed duration.
+    Future.wait([
+      Future<void>.delayed(const Duration(milliseconds: 1800)),
+      ref.read(staffDirectoryProvider.future).catchError((_) => <User>[]),
+    ]).then((_) {
       if (mounted) setState(() => _showSplash = false);
     });
     _restoreBackendSession();
