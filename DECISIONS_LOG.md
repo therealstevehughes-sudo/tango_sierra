@@ -2368,3 +2368,13 @@ Floating-in-space: found one real match, `report_issue_screen.dart` — identica
 
 Verified: `flutter analyze` clean (only pre-existing deprecation info-notices), all 32 tests passing, fresh Windows build launched.
 Files: `lib/features/issues/report_issue_screen.dart`.
+
+## Help hub (FAQ/Troubleshooting/Contact) + clickable VenuRite logo (2026-09-24)
+Direct user request: a way to reach Contact Us/FAQ/Troubleshooting from inside the app (the existing `ContactVenuRiteScreen` only appeared during first-launch onboarding, unreachable once signed up), and the VenuRite mark made clickable through to the website.
+
+`VenuRiteMark` now opens `https://venurite.com` on tap (`url_launcher`, `LaunchMode.externalApplication`), fails silently if the platform can't launch a URL — a "built with" signature failing to open a browser was never worth surfacing an error over.
+
+New `HelpScreen` (FAQ / Troubleshooting / Contact VenuRite as three tiles) reachable two ways, respecting the existing "base tier has no drawer/menu at all" rule: a "?" icon added to the existing actions row on `WorkerHubScreen` and `TaskScreen` for base tier, and a "Help" entry in `ManagementDrawer`'s Account section for everyone else. FAQ/Troubleshooting content (`help_content.dart`) is a genuine first-pass draft based on the app's real features (not a "coming soon" placeholder) — flagged to the user as editable, same pattern as `motivational_quotes.dart`'s plain const list, no CMS needed for content that changes rarely.
+
+Verified: `flutter analyze` clean (only pre-existing deprecation info-notices), all 32 tests passing, fresh Windows build launched.
+Files: `lib/core/widgets/brand_header.dart`, `lib/core/widgets/management_drawer.dart`, `lib/features/tasks/worker_hub_screen.dart`, `lib/features/tasks/task_screen.dart`, `lib/features/help/help_screen.dart` (new), `lib/features/help/faq_screen.dart` (new), `lib/features/help/troubleshooting_screen.dart` (new), `lib/features/help/help_content.dart` (new).
