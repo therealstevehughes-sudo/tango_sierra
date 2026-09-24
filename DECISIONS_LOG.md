@@ -2378,3 +2378,22 @@ New `HelpScreen` (FAQ / Troubleshooting / Contact VenuRite as three tiles) reach
 
 Verified: `flutter analyze` clean (only pre-existing deprecation info-notices), all 32 tests passing, fresh Windows build launched.
 Files: `lib/core/widgets/brand_header.dart`, `lib/core/widgets/management_drawer.dart`, `lib/features/tasks/worker_hub_screen.dart`, `lib/features/tasks/task_screen.dart`, `lib/features/help/help_screen.dart` (new), `lib/features/help/faq_screen.dart` (new), `lib/features/help/troubleshooting_screen.dart` (new), `lib/features/help/help_content.dart` (new).
+
+## Custom tasks now file under a real department (2026-09-24)
+Direct user feedback on an Assign Tasks screenshot: each department/section's task list needs to be customisable, since a venue will have a lot of equipment-specific tasks it needs to add and allocate to a department/section/team/role.
+
+Investigated first: a custom-task creation form already existed (`_buildCustomTaskForm()` in `staff_assignment_screen.dart`) — fairly complete (method, photo/notes, min/max limits, equipment type, priority, corrective action, fix instructions) — but it hardcoded `segment: 'custom'`, filing every custom task into one hidden bucket separate from the real department groupings, rather than letting the venue choose where it belongs.
+
+Fixed: new `allTaskSegments` const list in `task_segment.dart` (the canonical set behind `segmentDisplayName`'s switch), used to populate a "Department / section" dropdown in the custom-task form. Save is disabled until a department is chosen — no silent default. Long, fixed reference list (25 segments) stays a dropdown per the app's own established "short lists → tick/radio, long lists → dropdown" rule from the tick-box sweep.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/features/onboarding/staff_assignment_screen.dart`, `lib/shared/models/task_segment.dart`.
+
+## AI compliance library — source documents downloaded (2026-09-24)
+Researched and downloaded the UK HoReCa compliance document set to `compliance_library/` — the source material for the planned AI helper's knowledge base. UK-only scope for launch (England/Scotland/Wales/Northern Ireland); other countries' equivalents to be added if/when the app expands there.
+
+14 pieces of primary legislation (`compliance_library/legislation/`, from legislation.gov.uk — the citation source, not the main retrieval corpus) plus 9 practical guidance documents (`compliance_library/guidance/`, from food.gov.uk/gov.uk/hse.gov.uk — SFBB pack, Food Law Code of Practice, FHRS Brand Standard, allergen guidance, PPDS/Natasha's Law, and three free HSE brief guides). Full list with source links and download provenance in `compliance_library/MANIFEST.md`. Three fuller HSE Approved Codes of Practice (L8 Legionella, L23 Manual Handling, L5 COSHH) are commercial paid publications, not freely downloadable — flagged as a known gap, free INDG brief-guide equivalents downloaded instead.
+
+Not yet embedded into anything — this is the raw source material only. AI helper architecture (RAG via pgvector on the existing self-hosted Supabase, semantic answer caching, usage cap + auto top-up) discussed and agreed with the user, not yet built; waiting on the new dedicated VenuRite IONOS server details before finalizing where the cold-storage master copy vs. the live embeddings pipeline each live.
+
+Files: `compliance_library/legislation/*.pdf` (14 files), `compliance_library/guidance/*` (9 files), `compliance_library/MANIFEST.md` (new). Not yet committed to git — pending a decision on repo size (~22MB of PDFs) vs. keeping this folder as a local/`.gitignore`d working cache.
