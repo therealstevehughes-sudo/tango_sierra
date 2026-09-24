@@ -94,6 +94,12 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   final TextEditingController customFieldsJsonController =
       TextEditingController();
   TaskPriority customPriority = TaskPriority.standard;
+  // Department/section picker (2026-09-24, direct user feedback) — was
+  // hardcoded to segment: 'custom', a hidden bucket separate from every
+  // real department, instead of filing under wherever the venue actually
+  // wants an equipment-specific task to live. Null forces an explicit
+  // choice rather than silently defaulting to the first segment.
+  String? customSegment;
   bool customRequiresCorrectiveActionOnFail = false;
   int? customEquipmentTypeId;
 
@@ -227,12 +233,15 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     final title = customTitleController.text.trim();
     final manager = ref.read(currentUserProvider);
     final staff = selectedStaff;
-    if (title.isEmpty || manager == null || staff == null) return;
+    final segment = customSegment;
+    if (title.isEmpty || manager == null || staff == null || segment == null) {
+      return;
+    }
 
     final templateRepo = ref.read(taskTemplateRepositoryProvider);
     final result = await templateRepo.saveNewVersion(
       title: title,
-      segment: 'custom',
+      segment: segment,
       applicableRoleTiers: [staff.roleTier],
       method: customMethod,
       requiresPhoto: customRequiresPhoto,
@@ -269,6 +278,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       customRequiresPhoto = false;
       customRequiresNotes = false;
       customEquipmentTypeId = null;
+      customSegment = null;
     });
   }
 
@@ -390,7 +400,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
           .toList();
       if (matching.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('No equipment of this type set up yet.')),
+          const SnackBar(
+            content: Text('No equipment of this type set up yet.'),
+          ),
         );
         return;
       }
@@ -614,8 +626,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
                   title: Text(groupName),
                   initiallyExpanded: false,
                   children: [
-                    for (final row in groups[groupName]!)
-                      _buildByTaskRow(row),
+                    for (final row in groups[groupName]!) _buildByTaskRow(row),
                   ],
                 ),
             ],
@@ -719,9 +730,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     var created = 0;
     var skipped = 0;
     for (final staff in chosen) {
-      final existingForStaff = await scheduleRepo.getForStaffMember(
-        staff.id,
-      );
+      final existingForStaff = await scheduleRepo.getForStaffMember(staff.id);
       final existingKeys = existingForStaff
           .map((s) => _taskKey(s.taskTemplateGroupId, s.equipmentInstanceId))
           .toSet();
@@ -841,8 +850,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
                 siteVenueTypeIds.isNotEmpty &&
                 _visiblePresets.length < presets.length)
               TextButton(
-                onPressed: () =>
-                    setState(() => showAllPresetVenueTypes = true),
+                onPressed: () => setState(() => showAllPresetVenueTypes = true),
                 child: const Text('Show all presets'),
               ),
             for (final preset in _visiblePresets)
@@ -964,9 +972,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
             subtitle: Text(
               '${templates.length} task${templates.length == 1 ? '' : 's'}',
             ),
-            trailing: Icon(
-              isExpanded ? Icons.expand_less : Icons.expand_more,
-            ),
+            trailing: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
             onTap: () => setState(() {
               if (isExpanded) {
                 expandedSegments.remove(segment);
@@ -979,7 +985,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: Column(
-                children: [for (final template in templates) _buildTemplateRow(template)],
+                children: [
+                  for (final template in templates) _buildTemplateRow(template),
+                ],
               ),
             ),
         ],
@@ -1071,6 +1079,25 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         TextField(
           controller: customTitleController,
           decoration: const InputDecoration(labelText: 'Title'),
+        ),
+        const SizedBox(height: 12),
+        // Department/section (2026-09-24, direct user feedback) — files
+        // this custom task under a real department alongside the built-in
+        // library, rather than a hidden separate bucket. A long, fixed
+        // reference list (25 segments) stays a dropdown per the app's own
+        // "short lists -> tick/radio, long lists -> dropdown" rule.
+        DropdownButtonFormField<String>(
+          initialValue: customSegment,
+          decoration: const InputDecoration(labelText: 'Department / section'),
+          items: allTaskSegments
+              .map(
+                (s) => DropdownMenuItem(
+                  value: s,
+                  child: Text(segmentDisplayName(s)),
+                ),
+              )
+              .toList(),
+          onChanged: (value) => setState(() => customSegment = value),
         ),
         const SizedBox(height: 12),
         DropdownButtonFormField<String>(
@@ -1186,7 +1213,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
             ),
             PrimaryActionButton(
               label: 'Save Custom Task',
-              onPressed: _saveCustomTask,
+              onPressed: customSegment == null ? null : _saveCustomTask,
             ),
           ],
         ),
@@ -1478,9 +1505,7 @@ class _StaffMultiSelectDialogState extends State<_StaffMultiSelectDialog> {
       content: SizedBox(
         width: double.maxFinite,
         child: widget.staff.isEmpty
-            ? const Text(
-                'No staff match the tier(s) these tasks apply to.',
-              )
+            ? const Text('No staff match the tier(s) these tasks apply to.')
             : ListView(
                 shrinkWrap: true,
                 children: [

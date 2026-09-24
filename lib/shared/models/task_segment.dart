@@ -60,3 +60,37 @@ String segmentDisplayName(String segment) {
       return segment;
   }
 }
+
+/// Every seeded segment slug (2026-09-24) — used to populate a department/
+/// section picker for a venue's own custom tasks, so a custom task files
+/// under a real department (e.g. 'maintenance') instead of a hidden,
+/// separate 'custom' bucket. Order matches `segmentDisplayName`'s own case
+/// order, which already reads as a sensible grouping (food-safety-adjacent
+/// first, front-of-house/hotel/management last).
+const List<String> allTaskSegments = [
+  'food_safety',
+  'allergen',
+  'personal_hygiene_ppe',
+  'refrigeration_cold_storage',
+  'cooking_line_equipment',
+  'washup_dishwash',
+  'cleaning_sanitation',
+  'cleaning_chemicals',
+  'dry_ambient_storage',
+  'deliveries_goods_in',
+  'utilities_safety',
+  'waste_pest_control',
+  'preventive_maintenance',
+  'stock_control',
+  'opening_procedures',
+  'closing_procedures',
+  'service_readiness',
+  'front_of_house',
+  'bar_beverage',
+  'hotel_specific',
+  'management_compliance_oversight',
+  'maintenance',
+  'housekeeping',
+  'reception',
+  'security',
+];
