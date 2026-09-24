@@ -17,6 +17,7 @@ abstract class TaskScheduleRepository {
     required int siteId,
     int? windowStartMinutes,
     int? windowEndMinutesExclusive,
+    bool windowStartsAtShiftStart = false,
   });
   Future<void> deactivate(int scheduleId);
   // Task-reorder (2026-09-12): sets the manager-controlled execution order
@@ -69,6 +70,7 @@ class DriftTaskScheduleRepository implements TaskScheduleRepository {
     required int siteId,
     int? windowStartMinutes,
     int? windowEndMinutesExclusive,
+    bool windowStartsAtShiftStart = false,
   }) async {
     final id = await _db
         .into(_db.taskSchedules)
@@ -84,6 +86,7 @@ class DriftTaskScheduleRepository implements TaskScheduleRepository {
             siteId: Value(siteId),
             windowStartMinutes: Value(windowStartMinutes),
             windowEndMinutesExclusive: Value(windowEndMinutesExclusive),
+            windowStartsAtShiftStart: Value(windowStartsAtShiftStart),
           ),
         );
     final row = await (_db.select(
@@ -117,6 +120,7 @@ class DriftTaskScheduleRepository implements TaskScheduleRepository {
     siteId: row.siteId!,
     windowStartMinutes: row.windowStartMinutes,
     windowEndMinutesExclusive: row.windowEndMinutesExclusive,
+    windowStartsAtShiftStart: row.windowStartsAtShiftStart,
     sortOrder: row.sortOrder,
   );
 }

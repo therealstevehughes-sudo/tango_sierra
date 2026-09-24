@@ -91,6 +91,8 @@ class _ShiftWelcomeScreenState extends ConsumerState<ShiftWelcomeScreen> {
       ref.read(triggerNotificationRepositoryProvider),
       ref.read(userRepositoryProvider),
       ref.read(problemRegisterRepositoryProvider),
+      null,
+      ref.read(shiftLogRepositoryProvider),
     );
     try {
       await controller.loadTasks();

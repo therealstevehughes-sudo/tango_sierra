@@ -121,6 +121,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       ref.read(triggerNotificationRepositoryProvider),
       ref.read(userRepositoryProvider),
       ref.read(problemRegisterRepositoryProvider),
+      null,
+      // Shift-relative window start (2026-09-24) — this is the live
+      // worker carousel, the one place isLocked actually gates a task.
+      ref.read(shiftLogRepositoryProvider),
     );
     numberController.addListener(_onFormChanged);
     notesController.addListener(_onFormChanged);

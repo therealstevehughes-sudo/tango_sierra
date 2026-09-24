@@ -50,7 +50,19 @@ class SupabaseTaskScheduleRepository implements TaskScheduleRepository {
     required int siteId,
     int? windowStartMinutes,
     int? windowEndMinutesExclusive,
+    bool windowStartsAtShiftStart = false,
   }) async {
+    // Shift-relative window start (2026-09-24) -- backend column not
+    // added yet (disclosed follow-up, same pattern as sortOrder above).
+    // Deliberately NOT sent in the insert body until that migration
+    // lands, so this never fails against the current live schema.
+    if (windowStartsAtShiftStart) {
+      throw UnimplementedError(
+        'windowStartsAtShiftStart is not yet on the backend schema - '
+        'the column will be added in a later migration. Local/Drift '
+        'path is fully functional.',
+      );
+    }
     final row = await _client.insertOne('task_schedules', {
       'task_template_group_id': taskTemplateGroupId,
       'assigned_user_id': assignedUserId,
@@ -97,6 +109,8 @@ class SupabaseTaskScheduleRepository implements TaskScheduleRepository {
     siteId: row['site_id'] as int,
     windowStartMinutes: row['window_start_minutes'] as int?,
     windowEndMinutesExclusive: row['window_end_minutes_exclusive'] as int?,
+    windowStartsAtShiftStart:
+        row['window_starts_at_shift_start'] as bool? ?? false,
     sortOrder: row['sort_order'] as int?,
   );
 }

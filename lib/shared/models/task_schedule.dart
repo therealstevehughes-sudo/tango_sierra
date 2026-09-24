@@ -140,6 +140,16 @@ class TaskSchedule {
   // set. Minutes since midnight, end exclusive.
   final int? windowStartMinutes;
   final int? windowEndMinutesExclusive;
+  // Shift-relative window start (2026-09-24, direct user request) — when
+  // true, windowStartMinutes is ignored and the effective start is
+  // whatever time the assigned person's ShiftLog says they clocked in
+  // today (resolved at read time by TaskController.loadTasks, not stored
+  // here — a schedule is set up once, but the actual clock-in time is
+  // different every day). Falls back to "always open" if that person has
+  // no shift log today (e.g. a tier that doesn't use the shift-welcome
+  // flow) rather than blocking them. windowEndMinutesExclusive is
+  // unaffected either way — still a plain time of day, if set at all.
+  final bool windowStartsAtShiftStart;
   // Task-reorder (2026-09-12): the manager-controlled execution order for
   // this venue's schedules. Nullable; null = no explicit order yet (falls
   // back to natural/creation order), so existing installs and newly-
@@ -159,6 +169,7 @@ class TaskSchedule {
     required this.siteId,
     this.windowStartMinutes,
     this.windowEndMinutesExclusive,
+    this.windowStartsAtShiftStart = false,
     this.sortOrder,
   });
 }

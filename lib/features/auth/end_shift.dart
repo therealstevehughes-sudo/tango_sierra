@@ -33,6 +33,8 @@ Future<void> endShift(
     ref.read(triggerNotificationRepositoryProvider),
     ref.read(userRepositoryProvider),
     ref.read(problemRegisterRepositoryProvider),
+    null,
+    ref.read(shiftLogRepositoryProvider),
   );
 
   List<String> missedTitles = [];

@@ -190,6 +190,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     required bool assign,
     int? windowStartMinutes,
     int? windowEndMinutesExclusive,
+    bool windowStartsAtShiftStart = false,
   }) async {
     final staff = selectedStaff;
     final manager = ref.read(currentUserProvider);
@@ -207,6 +208,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         siteId: staff.siteId!,
         windowStartMinutes: windowStartMinutes,
         windowEndMinutesExclusive: windowEndMinutesExclusive,
+        windowStartsAtShiftStart: windowStartsAtShiftStart,
       );
     } else {
       final existing = _existingSchedule(templateGroupId, equipmentId);
@@ -994,13 +996,15 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         assigned: existing != null,
         windowStartMinutes: existing?.windowStartMinutes,
         windowEndMinutesExclusive: existing?.windowEndMinutesExclusive,
-        onChanged: (assign, frequency, windowStart, windowEnd) =>
+        windowStartsAtShiftStart: existing?.windowStartsAtShiftStart ?? false,
+        onChanged: (assign, frequency, windowStart, windowEnd, startsAtShift) =>
             _toggleAssignment(
               templateGroupId: template.templateGroupId,
               frequency: frequency,
               assign: assign,
               windowStartMinutes: windowStart,
               windowEndMinutesExclusive: windowEnd,
+              windowStartsAtShiftStart: startsAtShift,
             ),
       );
     }
@@ -1044,7 +1048,8 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       assigned: existing != null,
       windowStartMinutes: existing?.windowStartMinutes,
       windowEndMinutesExclusive: existing?.windowEndMinutesExclusive,
-      onChanged: (assign, frequency, windowStart, windowEnd) =>
+      windowStartsAtShiftStart: existing?.windowStartsAtShiftStart ?? false,
+      onChanged: (assign, frequency, windowStart, windowEnd, startsAtShift) =>
           _toggleAssignment(
             templateGroupId: template.templateGroupId,
             equipmentId: instance.id,
@@ -1052,6 +1057,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
             assign: assign,
             windowStartMinutes: windowStart,
             windowEndMinutesExclusive: windowEnd,
+            windowStartsAtShiftStart: startsAtShift,
           ),
     );
   }
@@ -1189,6 +1195,8 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   }
 }
 
+enum _SchedulingMode { adHoc, timeAllocated }
+
 class _AssignmentTile extends StatefulWidget {
   const _AssignmentTile({
     required this.label,
@@ -1198,6 +1206,7 @@ class _AssignmentTile extends StatefulWidget {
     this.indent = false,
     this.windowStartMinutes,
     this.windowEndMinutesExclusive,
+    this.windowStartsAtShiftStart = false,
   });
 
   final String label;
@@ -1206,11 +1215,13 @@ class _AssignmentTile extends StatefulWidget {
   final bool indent;
   final int? windowStartMinutes;
   final int? windowEndMinutesExclusive;
+  final bool windowStartsAtShiftStart;
   final void Function(
     bool assign,
     ScheduleFrequency frequency,
     int? windowStartMinutes,
     int? windowEndMinutesExclusive,
+    bool windowStartsAtShiftStart,
   )
   onChanged;
 
@@ -1229,10 +1240,28 @@ class _AssignmentTileState extends State<_AssignmentTile> {
         ? null
         : widget.windowEndMinutesExclusive! - 1,
   );
+  // Shift-relative window start (2026-09-24) — when true, windowStart's
+  // own TimeOfDay is ignored entirely and the picker for it is hidden;
+  // the effective start is resolved at read time from that day's
+  // ShiftLog (see TaskController._todaysClockInMinutes).
+  late bool startsAtShiftStart = widget.windowStartsAtShiftStart;
 
   static TimeOfDay? _toTimeOfDay(int? minutes) => minutes == null
       ? null
       : TimeOfDay(hour: minutes ~/ 60, minute: minutes % 60);
+
+  // Ad hoc / Time allocated (2026-09-24, direct user request) — a plain
+  // binary framing over the same underlying frequency + time-window
+  // fields that already existed: "Ad hoc" simply means frequency ==
+  // asNeeded with no time window (do it whenever it's needed); "Time
+  // allocated" means a real cadence, and picking it now opens the time-
+  // of-day picker directly instead of requiring a separate "Restrict to
+  // a time window" checkbox tick on top. No new data — just a clearer
+  // choice up front.
+  late _SchedulingMode mode =
+      (frequency == ScheduleFrequency.asNeeded && !windowEnabled)
+      ? _SchedulingMode.adHoc
+      : _SchedulingMode.timeAllocated;
 
   // Time-windowed tasks (Sprint 031, Sub-sprint C) — a single window can't
   // sensibly represent 2/3 separate required check-ins in a day (which
@@ -1247,13 +1276,23 @@ class _AssignmentTileState extends State<_AssignmentTile> {
     final hasWindow =
         windowEnabled &&
         _windowSupported &&
-        windowStart != null &&
+        (startsAtShiftStart || windowStart != null) &&
         windowEnd != null;
+    final effectiveStartsAtShift = hasWindow && startsAtShiftStart;
     widget.onChanged(
       assign,
       frequency,
-      hasWindow ? windowStart!.hour * 60 + windowStart!.minute : null,
+      // The literal minute value is never read when
+      // effectiveStartsAtShift is true (TaskController resolves the real
+      // start from that day's ShiftLog instead) -- 0 is just a
+      // placeholder satisfying "both window fields set or neither."
+      hasWindow
+          ? (effectiveStartsAtShift
+                ? 0
+                : windowStart!.hour * 60 + windowStart!.minute)
+          : null,
       hasWindow ? windowEnd!.hour * 60 + windowEnd!.minute + 1 : null,
+      effectiveStartsAtShift,
     );
   }
 
@@ -1271,61 +1310,119 @@ class _AssignmentTileState extends State<_AssignmentTile> {
                 onChanged: (checked) => _notifyChanged(checked ?? false),
               ),
               Expanded(child: Text(widget.label)),
-              DropdownButton<ScheduleFrequency>(
-                value: frequency,
-                items: ScheduleFrequency.values
-                    .map(
-                      (f) => DropdownMenuItem(
-                        value: f,
-                        child: Text(frequencyLabel(f)),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  if (value == null) return;
-                  // Only takes effect the next time the checkbox is
-                  // (re-)ticked — changing frequency on an already-active
-                  // assignment would otherwise silently create a
-                  // duplicate schedule row.
-                  setState(() => frequency = value);
-                },
-              ),
             ],
           ),
-          if (_windowSupported)
-            Padding(
-              padding: const EdgeInsets.only(left: 40),
-              child: CheckboxListTile(
-                dense: true,
-                contentPadding: EdgeInsets.zero,
-                controlAffinity: ListTileControlAffinity.leading,
-                value: windowEnabled,
-                title: const Text('Restrict to a time window'),
-                onChanged: (checked) =>
-                    setState(() => windowEnabled = checked ?? false),
-              ),
+          Padding(
+            padding: const EdgeInsets.only(left: 40, bottom: 8),
+            child: Wrap(
+              spacing: 8,
+              children: [
+                ChoiceChip(
+                  label: const Text('Ad hoc'),
+                  selected: mode == _SchedulingMode.adHoc,
+                  onSelected: (_) => setState(() {
+                    mode = _SchedulingMode.adHoc;
+                    frequency = ScheduleFrequency.asNeeded;
+                    windowEnabled = false;
+                  }),
+                ),
+                ChoiceChip(
+                  label: const Text('Time allocated'),
+                  selected: mode == _SchedulingMode.timeAllocated,
+                  onSelected: (_) => setState(() {
+                    mode = _SchedulingMode.timeAllocated;
+                    if (frequency == ScheduleFrequency.asNeeded) {
+                      frequency = ScheduleFrequency.daily;
+                    }
+                    if (_windowSupported) windowEnabled = true;
+                  }),
+                ),
+              ],
             ),
-          if (_windowSupported && windowEnabled)
+          ),
+          if (mode == _SchedulingMode.timeAllocated)
             Padding(
               padding: const EdgeInsets.only(left: 40, bottom: 8),
               child: Row(
                 children: [
-                  TextButton(
-                    onPressed: () async {
-                      final picked = await showTimePicker(
-                        context: context,
-                        initialTime:
-                            windowStart ?? const TimeOfDay(hour: 21, minute: 0),
-                      );
-                      if (picked == null) return;
-                      setState(() => windowStart = picked);
+                  const Text('Frequency: '),
+                  DropdownButton<ScheduleFrequency>(
+                    value: frequency,
+                    items: ScheduleFrequency.values
+                        .where((f) => f != ScheduleFrequency.asNeeded)
+                        .map(
+                          (f) => DropdownMenuItem(
+                            value: f,
+                            child: Text(frequencyLabel(f)),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      if (value == null) return;
+                      // Only takes effect the next time the checkbox is
+                      // (re-)ticked — changing frequency on an already-
+                      // active assignment would otherwise silently create
+                      // a duplicate schedule row.
+                      setState(() => frequency = value);
                     },
-                    child: Text(
-                      windowStart == null
-                          ? 'Available from…'
-                          : 'From ${windowStart!.format(context)}',
-                    ),
                   ),
+                ],
+              ),
+            ),
+          if (mode == _SchedulingMode.timeAllocated && _windowSupported) ...[
+            // Shift-relative window start (2026-09-24, direct user
+            // request) — a real alternative to picking a fixed clock
+            // time: "From start of shift" resolves at read time against
+            // that day's actual clock-in, per person, per day, instead
+            // of a fixed hour that doesn't fit everyone's real start
+            // time.
+            Padding(
+              padding: const EdgeInsets.only(left: 40, bottom: 4),
+              child: Wrap(
+                spacing: 8,
+                children: [
+                  ChoiceChip(
+                    label: const Text('At a time'),
+                    selected: !startsAtShiftStart,
+                    onSelected: (_) =>
+                        setState(() => startsAtShiftStart = false),
+                  ),
+                  ChoiceChip(
+                    label: const Text('From start of shift'),
+                    selected: startsAtShiftStart,
+                    onSelected: (_) =>
+                        setState(() => startsAtShiftStart = true),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 40, bottom: 8),
+              child: Row(
+                children: [
+                  if (!startsAtShiftStart)
+                    TextButton(
+                      onPressed: () async {
+                        final picked = await showTimePicker(
+                          context: context,
+                          initialTime:
+                              windowStart ??
+                              const TimeOfDay(hour: 21, minute: 0),
+                        );
+                        if (picked == null) return;
+                        setState(() => windowStart = picked);
+                      },
+                      child: Text(
+                        windowStart == null
+                            ? 'Available from…'
+                            : 'From ${windowStart!.format(context)}',
+                      ),
+                    )
+                  else
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      child: Text('From clock-in'),
+                    ),
                   const Text('-'),
                   TextButton(
                     onPressed: () async {
@@ -1346,6 +1443,7 @@ class _AssignmentTileState extends State<_AssignmentTile> {
                 ],
               ),
             ),
+          ],
         ],
       ),
     );

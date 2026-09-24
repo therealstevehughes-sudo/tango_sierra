@@ -10,6 +10,7 @@ import '../../shared/models/user.dart';
 import '../../shared/repositories/equipment_repository.dart';
 import '../../shared/repositories/notification_rule_repository.dart';
 import '../../shared/repositories/problem_register_repository.dart';
+import '../../shared/repositories/shift_log_repository.dart';
 import '../../shared/repositories/task_schedule_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
 import '../../shared/repositories/task_template_repository.dart';
@@ -30,6 +31,12 @@ class TaskController {
     this._userRepository,
     this._problemRegisterRepository, [
     DueStatusService? dueStatusService,
+    // Shift-relative window start (2026-09-24) — optional so every
+    // existing call site (there are several across ad-hoc/end-shift/
+    // welcome screens) keeps compiling unchanged; null just means no
+    // schedule in this session can use windowStartsAtShiftStart (falls
+    // back to "no restriction", same as the no-shift-log-today case).
+    this._shiftLogRepository,
   ]) : _dueStatusService =
            dueStatusService ?? DueStatusService(_submissionRepository);
 
@@ -43,6 +50,7 @@ class TaskController {
   final UserRepository _userRepository;
   final ProblemRegisterRepository _problemRegisterRepository;
   final DueStatusService _dueStatusService;
+  final ShiftLogRepository? _shiftLogRepository;
 
   int currentIndex = 0;
   List<ResolvedTask> tasks = [];
@@ -69,11 +77,38 @@ class TaskController {
     return Random(seed).nextDouble() < _randomPhotoCheckProbability;
   }
 
+  // Shift-relative window start (2026-09-24) — resolved once per
+  // loadTasks() call, not per schedule: every schedule for this session
+  // belongs to the same _currentUser, so there's only ever one relevant
+  // shift log to look up. Returns null (meaning "no restriction, fall
+  // back to unlocked") if there's no shift-log repository wired in, no
+  // open shift, or that shift's clock-in wasn't today — e.g. an
+  // abandoned shift from a prior day the person never formally ended.
+  Future<int?> _todaysClockInMinutes() async {
+    final repo = _shiftLogRepository;
+    if (repo == null) return null;
+    try {
+      final open = await repo.getOpenShift(_currentUser.id);
+      final clockInAt = open?.clockInAt;
+      if (clockInAt == null) return null;
+      final now = DateTime.now();
+      final isToday =
+          clockInAt.year == now.year &&
+          clockInAt.month == now.month &&
+          clockInAt.day == now.day;
+      if (!isToday) return null;
+      return clockInAt.hour * 60 + clockInAt.minute;
+    } catch (_) {
+      return null;
+    }
+  }
+
   Future<void> loadTasks() async {
     final schedules = await _scheduleRepository.getForStaffMember(
       _currentUser.id,
     );
     final templates = await _templateRepository.getAllCurrentVersions();
+    final todaysClockInMinutes = await _todaysClockInMinutes();
     final equipmentInstances = _currentUser.siteId == null
         ? const <Equipment>[]
         : await _equipmentRepository.getForSite(_currentUser.siteId!);
@@ -139,7 +174,9 @@ class TaskController {
           assignedByUserId: schedule.assignedByUserId,
           isOverdue: dueResult.state == ScheduleDueState.overdue,
           overdueSince: dueResult.overdueSince,
-          windowStartMinutes: schedule.windowStartMinutes,
+          windowStartMinutes: schedule.windowStartsAtShiftStart
+              ? todaysClockInMinutes
+              : schedule.windowStartMinutes,
           windowEndMinutesExclusive: schedule.windowEndMinutesExclusive,
           sortOrder: schedule.sortOrder,
           requiresSupplierSelection: template.requiresSupplierSelection,

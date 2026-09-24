@@ -8341,6 +8341,21 @@ class $TaskSchedulesTable extends TaskSchedules
         type: DriftSqlType.int,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _windowStartsAtShiftStartMeta =
+      const VerificationMeta('windowStartsAtShiftStart');
+  @override
+  late final GeneratedColumn<bool> windowStartsAtShiftStart =
+      GeneratedColumn<bool>(
+        'window_starts_at_shift_start',
+        aliasedName,
+        false,
+        type: DriftSqlType.bool,
+        requiredDuringInsert: false,
+        defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("window_starts_at_shift_start" IN (0, 1))',
+        ),
+        defaultValue: const Constant(false),
+      );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -8356,6 +8371,7 @@ class $TaskSchedulesTable extends TaskSchedules
     siteId,
     windowStartMinutes,
     windowEndMinutesExclusive,
+    windowStartsAtShiftStart,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -8475,6 +8491,15 @@ class $TaskSchedulesTable extends TaskSchedules
         ),
       );
     }
+    if (data.containsKey('window_starts_at_shift_start')) {
+      context.handle(
+        _windowStartsAtShiftStartMeta,
+        windowStartsAtShiftStart.isAcceptableOrUnknown(
+          data['window_starts_at_shift_start']!,
+          _windowStartsAtShiftStartMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -8536,6 +8561,10 @@ class $TaskSchedulesTable extends TaskSchedules
         DriftSqlType.int,
         data['${effectivePrefix}window_end_minutes_exclusive'],
       ),
+      windowStartsAtShiftStart: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}window_starts_at_shift_start'],
+      )!,
     );
   }
 
@@ -8560,6 +8589,7 @@ class TaskScheduleEntity extends DataClass
   final int? siteId;
   final int? windowStartMinutes;
   final int? windowEndMinutesExclusive;
+  final bool windowStartsAtShiftStart;
   const TaskScheduleEntity({
     required this.id,
     required this.taskTemplateGroupId,
@@ -8574,6 +8604,7 @@ class TaskScheduleEntity extends DataClass
     this.siteId,
     this.windowStartMinutes,
     this.windowEndMinutesExclusive,
+    required this.windowStartsAtShiftStart,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -8605,6 +8636,9 @@ class TaskScheduleEntity extends DataClass
         windowEndMinutesExclusive,
       );
     }
+    map['window_starts_at_shift_start'] = Variable<bool>(
+      windowStartsAtShiftStart,
+    );
     return map;
   }
 
@@ -8636,6 +8670,7 @@ class TaskScheduleEntity extends DataClass
           windowEndMinutesExclusive == null && nullToAbsent
           ? const Value.absent()
           : Value(windowEndMinutesExclusive),
+      windowStartsAtShiftStart: Value(windowStartsAtShiftStart),
     );
   }
 
@@ -8666,6 +8701,9 @@ class TaskScheduleEntity extends DataClass
       windowEndMinutesExclusive: serializer.fromJson<int?>(
         json['windowEndMinutesExclusive'],
       ),
+      windowStartsAtShiftStart: serializer.fromJson<bool>(
+        json['windowStartsAtShiftStart'],
+      ),
     );
   }
   @override
@@ -8689,6 +8727,9 @@ class TaskScheduleEntity extends DataClass
       'windowEndMinutesExclusive': serializer.toJson<int?>(
         windowEndMinutesExclusive,
       ),
+      'windowStartsAtShiftStart': serializer.toJson<bool>(
+        windowStartsAtShiftStart,
+      ),
     };
   }
 
@@ -8706,6 +8747,7 @@ class TaskScheduleEntity extends DataClass
     Value<int?> siteId = const Value.absent(),
     Value<int?> windowStartMinutes = const Value.absent(),
     Value<int?> windowEndMinutesExclusive = const Value.absent(),
+    bool? windowStartsAtShiftStart,
   }) => TaskScheduleEntity(
     id: id ?? this.id,
     taskTemplateGroupId: taskTemplateGroupId ?? this.taskTemplateGroupId,
@@ -8728,6 +8770,8 @@ class TaskScheduleEntity extends DataClass
     windowEndMinutesExclusive: windowEndMinutesExclusive.present
         ? windowEndMinutesExclusive.value
         : this.windowEndMinutesExclusive,
+    windowStartsAtShiftStart:
+        windowStartsAtShiftStart ?? this.windowStartsAtShiftStart,
   );
   TaskScheduleEntity copyWithCompanion(TaskSchedulesCompanion data) {
     return TaskScheduleEntity(
@@ -8760,6 +8804,9 @@ class TaskScheduleEntity extends DataClass
       windowEndMinutesExclusive: data.windowEndMinutesExclusive.present
           ? data.windowEndMinutesExclusive.value
           : this.windowEndMinutesExclusive,
+      windowStartsAtShiftStart: data.windowStartsAtShiftStart.present
+          ? data.windowStartsAtShiftStart.value
+          : this.windowStartsAtShiftStart,
     );
   }
 
@@ -8778,7 +8825,8 @@ class TaskScheduleEntity extends DataClass
           ..write('sortOrder: $sortOrder, ')
           ..write('siteId: $siteId, ')
           ..write('windowStartMinutes: $windowStartMinutes, ')
-          ..write('windowEndMinutesExclusive: $windowEndMinutesExclusive')
+          ..write('windowEndMinutesExclusive: $windowEndMinutesExclusive, ')
+          ..write('windowStartsAtShiftStart: $windowStartsAtShiftStart')
           ..write(')'))
         .toString();
   }
@@ -8798,6 +8846,7 @@ class TaskScheduleEntity extends DataClass
     siteId,
     windowStartMinutes,
     windowEndMinutesExclusive,
+    windowStartsAtShiftStart,
   );
   @override
   bool operator ==(Object other) =>
@@ -8815,7 +8864,8 @@ class TaskScheduleEntity extends DataClass
           other.sortOrder == this.sortOrder &&
           other.siteId == this.siteId &&
           other.windowStartMinutes == this.windowStartMinutes &&
-          other.windowEndMinutesExclusive == this.windowEndMinutesExclusive);
+          other.windowEndMinutesExclusive == this.windowEndMinutesExclusive &&
+          other.windowStartsAtShiftStart == this.windowStartsAtShiftStart);
 }
 
 class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
@@ -8832,6 +8882,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
   final Value<int?> siteId;
   final Value<int?> windowStartMinutes;
   final Value<int?> windowEndMinutesExclusive;
+  final Value<bool> windowStartsAtShiftStart;
   const TaskSchedulesCompanion({
     this.id = const Value.absent(),
     this.taskTemplateGroupId = const Value.absent(),
@@ -8846,6 +8897,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     this.siteId = const Value.absent(),
     this.windowStartMinutes = const Value.absent(),
     this.windowEndMinutesExclusive = const Value.absent(),
+    this.windowStartsAtShiftStart = const Value.absent(),
   });
   TaskSchedulesCompanion.insert({
     this.id = const Value.absent(),
@@ -8861,6 +8913,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     this.siteId = const Value.absent(),
     this.windowStartMinutes = const Value.absent(),
     this.windowEndMinutesExclusive = const Value.absent(),
+    this.windowStartsAtShiftStart = const Value.absent(),
   }) : taskTemplateGroupId = Value(taskTemplateGroupId),
        assignedUserId = Value(assignedUserId),
        frequency = Value(frequency),
@@ -8880,6 +8933,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     Expression<int>? siteId,
     Expression<int>? windowStartMinutes,
     Expression<int>? windowEndMinutesExclusive,
+    Expression<bool>? windowStartsAtShiftStart,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -8900,6 +8954,8 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
         'window_start_minutes': windowStartMinutes,
       if (windowEndMinutesExclusive != null)
         'window_end_minutes_exclusive': windowEndMinutesExclusive,
+      if (windowStartsAtShiftStart != null)
+        'window_starts_at_shift_start': windowStartsAtShiftStart,
     });
   }
 
@@ -8917,6 +8973,7 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
     Value<int?>? siteId,
     Value<int?>? windowStartMinutes,
     Value<int?>? windowEndMinutesExclusive,
+    Value<bool>? windowStartsAtShiftStart,
   }) {
     return TaskSchedulesCompanion(
       id: id ?? this.id,
@@ -8934,6 +8991,8 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
       windowStartMinutes: windowStartMinutes ?? this.windowStartMinutes,
       windowEndMinutesExclusive:
           windowEndMinutesExclusive ?? this.windowEndMinutesExclusive,
+      windowStartsAtShiftStart:
+          windowStartsAtShiftStart ?? this.windowStartsAtShiftStart,
     );
   }
 
@@ -8983,6 +9042,11 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
         windowEndMinutesExclusive.value,
       );
     }
+    if (windowStartsAtShiftStart.present) {
+      map['window_starts_at_shift_start'] = Variable<bool>(
+        windowStartsAtShiftStart.value,
+      );
+    }
     return map;
   }
 
@@ -9001,7 +9065,8 @@ class TaskSchedulesCompanion extends UpdateCompanion<TaskScheduleEntity> {
           ..write('sortOrder: $sortOrder, ')
           ..write('siteId: $siteId, ')
           ..write('windowStartMinutes: $windowStartMinutes, ')
-          ..write('windowEndMinutesExclusive: $windowEndMinutesExclusive')
+          ..write('windowEndMinutesExclusive: $windowEndMinutesExclusive, ')
+          ..write('windowStartsAtShiftStart: $windowStartsAtShiftStart')
           ..write(')'))
         .toString();
   }
@@ -32962,6 +33027,7 @@ typedef $$TaskSchedulesTableCreateCompanionBuilder =
       Value<int?> siteId,
       Value<int?> windowStartMinutes,
       Value<int?> windowEndMinutesExclusive,
+      Value<bool> windowStartsAtShiftStart,
     });
 typedef $$TaskSchedulesTableUpdateCompanionBuilder =
     TaskSchedulesCompanion Function({
@@ -32978,6 +33044,7 @@ typedef $$TaskSchedulesTableUpdateCompanionBuilder =
       Value<int?> siteId,
       Value<int?> windowStartMinutes,
       Value<int?> windowEndMinutesExclusive,
+      Value<bool> windowStartsAtShiftStart,
     });
 
 final class $$TaskSchedulesTableReferences
@@ -33111,6 +33178,11 @@ class $$TaskSchedulesTableFilterComposer
 
   ColumnFilters<int> get windowEndMinutesExclusive => $composableBuilder(
     column: $table.windowEndMinutesExclusive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get windowStartsAtShiftStart => $composableBuilder(
+    column: $table.windowStartsAtShiftStart,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -33261,6 +33333,11 @@ class $$TaskSchedulesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get windowStartsAtShiftStart => $composableBuilder(
+    column: $table.windowStartsAtShiftStart,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$UsersTableOrderingComposer get assignedUserId {
     final $$UsersTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -33397,6 +33474,11 @@ class $$TaskSchedulesTableAnnotationComposer
 
   GeneratedColumn<int> get windowEndMinutesExclusive => $composableBuilder(
     column: $table.windowEndMinutesExclusive,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get windowStartsAtShiftStart => $composableBuilder(
+    column: $table.windowStartsAtShiftStart,
     builder: (column) => column,
   );
 
@@ -33540,6 +33622,7 @@ class $$TaskSchedulesTableTableManager
                 Value<int?> siteId = const Value.absent(),
                 Value<int?> windowStartMinutes = const Value.absent(),
                 Value<int?> windowEndMinutesExclusive = const Value.absent(),
+                Value<bool> windowStartsAtShiftStart = const Value.absent(),
               }) => TaskSchedulesCompanion(
                 id: id,
                 taskTemplateGroupId: taskTemplateGroupId,
@@ -33554,6 +33637,7 @@ class $$TaskSchedulesTableTableManager
                 siteId: siteId,
                 windowStartMinutes: windowStartMinutes,
                 windowEndMinutesExclusive: windowEndMinutesExclusive,
+                windowStartsAtShiftStart: windowStartsAtShiftStart,
               ),
           createCompanionCallback:
               ({
@@ -33570,6 +33654,7 @@ class $$TaskSchedulesTableTableManager
                 Value<int?> siteId = const Value.absent(),
                 Value<int?> windowStartMinutes = const Value.absent(),
                 Value<int?> windowEndMinutesExclusive = const Value.absent(),
+                Value<bool> windowStartsAtShiftStart = const Value.absent(),
               }) => TaskSchedulesCompanion.insert(
                 id: id,
                 taskTemplateGroupId: taskTemplateGroupId,
@@ -33584,6 +33669,7 @@ class $$TaskSchedulesTableTableManager
                 siteId: siteId,
                 windowStartMinutes: windowStartMinutes,
                 windowEndMinutesExclusive: windowEndMinutesExclusive,
+                windowStartsAtShiftStart: windowStartsAtShiftStart,
               ),
           withReferenceMapper: (p0) => p0
               .map(

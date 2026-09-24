@@ -443,6 +443,12 @@ class TaskSchedules extends Table {
   // configuration via frequency.
   IntColumn get windowStartMinutes => integer().nullable()();
   IntColumn get windowEndMinutesExclusive => integer().nullable()();
+  // Shift-relative window start (2026-09-24) — the "relative-to-shift
+  // deferred, no shift system yet" note above is no longer true now that
+  // ShiftLogs exists. See TaskSchedule.windowStartsAtShiftStart's own doc
+  // comment for exactly what this does and doesn't change.
+  BoolColumn get windowStartsAtShiftStart =>
+      boolean().withDefault(const Constant(false))();
 }
 
 @DataClassName('TrainingRecordEntity')
@@ -1042,7 +1048,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 49;
+  int get schemaVersion => 50;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1482,6 +1488,13 @@ class AppDatabase extends _$AppDatabase {
       if (from < 49) {
         // Shift log (2026-09-24) -- habit-tracking clock-in/out record.
         await m.createTable(shiftLogs);
+      }
+      if (from < 50) {
+        // Shift-relative window start (2026-09-24).
+        await m.addColumn(
+          taskSchedules,
+          taskSchedules.windowStartsAtShiftStart,
+        );
       }
     },
     beforeOpen: (details) async {
