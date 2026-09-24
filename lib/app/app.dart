@@ -41,11 +41,11 @@ class _MyAppState extends ConsumerState<MyApp> {
     // tasks) could drop straight from the splash into LoginScreen's own
     // bare loading spinner mid-fetch — reads as broken, not "still
     // loading." Now waits for the real staff-directory fetch AND a
-    // typical splash floor (1.8s -- within the normal 1.5-3s range),
-    // whichever is longer, so the splash covers real init work instead
-    // of guessing at a fixed duration.
+    // typical splash floor (3s -- the top of the normal 1.5-3s range,
+    // per direct user request), whichever is longer, so the splash
+    // covers real init work instead of guessing at a fixed duration.
     Future.wait([
-      Future<void>.delayed(const Duration(milliseconds: 1800)),
+      Future<void>.delayed(const Duration(milliseconds: 3000)),
       ref.read(staffDirectoryProvider.future).catchError((_) => <User>[]),
     ]).then((_) {
       if (mounted) setState(() => _showSplash = false);
