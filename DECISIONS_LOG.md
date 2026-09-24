@@ -2315,3 +2315,10 @@ Direct feedback with screenshot: `WorkerHubScreen`'s buttons ran edge to edge on
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/features/tasks/worker_hub_screen.dart`, `lib/features/home/tier_home_screen.dart`.
+
+## Decision: no automatic best-before-date tracking (2026-09-24)
+User asked directly: is BB-date automation needed, nice-to-have, or too far off the app's purpose — and would a separate stock app integrating later be better? Discussed and agreed: **out of scope, not built.**
+
+Reasoning: the compliance requirement is already met by the existing manual "use-by/best-before date check" task (Tick+Note, daily) — an EHO cares that dates are checked and rotated, not that the app tracks them electronically. Real automation would need a proper inventory ledger (SKUs, quantities, batches, barcode scanning) — a different category of software than task-based compliance logging, closer to building a second product than adding a feature. Mature dedicated stock platforms already exist (MarketMan, WISK, Apicbase). Decision: leave the existing manual task as-is; if a real customer wants this, integrate with an existing stock tool via API later rather than building inventory management into VenuRite itself. Distinct from the departments decision (keep Kitchen/Bar/Housekeeping in one app) — those are all the same kind of feature (task tracking); inventory is a genuinely different kind, so splitting it off doesn't fragment the core app the same way.
+
+No files changed — a scope decision, not a build.
