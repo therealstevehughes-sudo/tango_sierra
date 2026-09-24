@@ -2433,3 +2433,15 @@ Backend-parity note: `_ensureTaskEnrichment()` only ever writes `guidanceText` o
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/core/storage/app_database.dart`, `lib/core/storage/task_enrichment_data.dart`.
+
+## Complete-from-the-list on the All Tasks screen (2026-09-25)
+Item #2 from "build 1-4," deliberately left for its own dedicated pass since it touches `TaskScreen` — the most compliance-critical screen in the app. Confirmed approach with the user first: extend `TaskScreen` carefully to reuse its own tested input/camera/corrective-action logic, rather than duplicating it in a separate lighter widget.
+
+**Mechanism**: `TaskOverviewScreen` already shared the exact same `TaskController` instance as the carousel (an existing, unchanged fact this design leans on). Tapping an eligible (unlocked, not-yet-done) row temporarily repoints the shared controller's `currentIndex` at that task, pushes `TaskScreen` in a new mode (`existingController` + `returnToListAfterSubmit`) that skips session-setup side effects (shift handover dialog would otherwise re-fire), reuses the unchanged input/submit UI, pops back to the list instead of advancing the carousel or showing the end-of-session summary on success, then restores the original index regardless of outcome — the underlying carousel's own position is never disturbed by a detour.
+
+**The real risk, found and closed, not just reasoned about**: once a task can be completed out of the carousel's own strict order, `currentIndex` alone can no longer answer "is this task done" — three concrete correctness bugs would otherwise follow: (1) the carousel eventually reaching an already-completed task again and offering a duplicate submission, (2) `logRemainingAsNotCompleted()` logging a bogus NOT_COMPLETED on top of a real PASS/FAIL for anything done via the list, (3) `hasRemainingTasks` showing a false "leave before finishing?" warning once everything remaining was actually done via the list. Fixed with `TaskController.completedTaskKeys`/`isCompleted()` — completion tracked by task identity, not position — consulted by `nextTask()`, `hasRemainingTasks`, and `logRemainingAsNotCompleted()`; plus a `build()`-time safety net for the one edge case where the task completed via the list was the carousel's own current one.
+
+**Real regression test coverage added** (not just manual verification) — `test/task_controller_complete_from_list_test.dart`, 3 tests against real Drift repositories (same in-memory pattern as `multi_site_isolation_test.dart`), each proving one of the three failure modes above is actually closed.
+
+Verified: `flutter analyze` clean, all 35 tests passing (32 existing + 3 new), fresh Windows build launched.
+Files: `lib/features/tasks/task_screen.dart`, `lib/features/tasks/task_controller.dart`, `lib/features/tasks/task_overview_screen.dart`, `test/task_controller_complete_from_list_test.dart` (new).
