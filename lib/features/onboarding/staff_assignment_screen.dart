@@ -10,6 +10,7 @@ import '../../shared/models/equipment_type.dart';
 import '../../shared/models/job_role.dart';
 import '../../shared/models/task_preset.dart';
 import '../../shared/models/task_schedule.dart';
+import '../../shared/models/task_segment.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -47,6 +48,11 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   // tasks -- a manager had to Apply blind to find out. Expandable, same
   // affordance as "By Task" mode's per-task guidance expand.
   final Set<int> expandedPresetIds = {};
+  // Visual pass follow-up (2026-09-24, direct user feedback: "the sections/
+  // departments can have a drop down to save space") — every segment
+  // starts collapsed except the first, so a long "every task in the
+  // library" list doesn't dump 100+ rows on screen at once.
+  final Set<String> expandedSegments = {};
 
   // Venue-type filtering for presets (2026-09-15) — same "tagged =
   // filtered, untagged = universal, never a hard lockout" convention as
@@ -814,6 +820,11 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     for (final template in visible) {
       grouped.putIfAbsent(template.segment, () => []).add(template);
     }
+    // First segment open by default so the screen isn't a wall of
+    // collapsed rows on first open; every subsequent one starts closed.
+    if (expandedSegments.isEmpty && grouped.isNotEmpty) {
+      expandedSegments.add(grouped.keys.first);
+    }
 
     return SingleChildScrollView(
       child: Column(
@@ -912,10 +923,8 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
                   setState(() => showAllJobRoles = value ?? false),
             ),
           for (final segment in grouped.keys) ...[
-            SectionHeader(title: segment),
-            for (final template in grouped[segment]!)
-              _buildTemplateRow(template),
-            const SizedBox(height: 16),
+            _buildSegmentGroup(segment, grouped[segment]!),
+            const SizedBox(height: 8),
           ],
           const Divider(),
           if (!showCustomTaskForm)
@@ -925,6 +934,49 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
             )
           else
             _buildCustomTaskForm(),
+        ],
+      ),
+    );
+  }
+
+  // Visual pass follow-up (2026-09-24) — was a flat, always-expanded
+  // SectionHeader + every task beneath it; a venue with the full library
+  // loaded could dump 100+ rows on screen with no way to collapse any of
+  // it. Now a real collapsible group per segment (friendly name via
+  // segmentDisplayName, not the raw slug), first one open by default so
+  // the screen isn't empty-looking on first open.
+  Widget _buildSegmentGroup(String segment, List<TaskTemplate> templates) {
+    final isExpanded = expandedSegments.contains(segment);
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ListTile(
+            title: Text(
+              segmentDisplayName(segment),
+              style: const TextStyle(fontWeight: FontWeight.w600),
+            ),
+            subtitle: Text(
+              '${templates.length} task${templates.length == 1 ? '' : 's'}',
+            ),
+            trailing: Icon(
+              isExpanded ? Icons.expand_less : Icons.expand_more,
+            ),
+            onTap: () => setState(() {
+              if (isExpanded) {
+                expandedSegments.remove(segment);
+              } else {
+                expandedSegments.add(segment);
+              }
+            }),
+          ),
+          if (isExpanded)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Column(
+                children: [for (final template in templates) _buildTemplateRow(template)],
+              ),
+            ),
         ],
       ),
     );

@@ -155,55 +155,79 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
             onChanged: (_) => _notify(),
           ),
           const SizedBox(height: 8),
-          Wrap(
-            spacing: 4,
-            children: [
-              FilterChip(
-                label: const Text('Short delivery'),
-                selected: _shortDelivery,
-                onSelected: (v) {
-                  setState(() => _shortDelivery = v);
-                  _notify();
-                },
-              ),
-              FilterChip(
-                label: const Text('Damaged stock'),
-                selected: _damagedStock,
-                onSelected: (v) {
-                  setState(() => _damagedStock = v);
-                  _notify();
-                },
-              ),
-              FilterChip(
-                label: const Text('Late delivery'),
-                selected: _lateDelivery,
-                onSelected: (v) {
-                  setState(() => _lateDelivery = v);
-                  _notify();
-                },
-              ),
-              FilterChip(
-                label: const Text('Quality problem'),
-                selected: _qualityProblem,
-                onSelected: (v) {
-                  setState(() => _qualityProblem = v);
-                  _notify();
-                },
-              ),
-            ],
+          // Visual pass follow-up (2026-09-24, direct user feedback) —
+          // horizontal chips replaced with a vertical tick-box list: faster
+          // to scan and tap accurately than chips wrapping unpredictably,
+          // especially on a smaller phone. Same reasoning applied to the
+          // Outcome dropdown just below.
+          const Text('Problems (tick any that apply)'),
+          CheckboxListTile(
+            value: _shortDelivery,
+            controlAffinity: ListTileControlAffinity.leading,
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Short delivery'),
+            onChanged: (v) {
+              setState(() => _shortDelivery = v ?? false);
+              _notify();
+            },
+          ),
+          CheckboxListTile(
+            value: _damagedStock,
+            controlAffinity: ListTileControlAffinity.leading,
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Damaged stock'),
+            onChanged: (v) {
+              setState(() => _damagedStock = v ?? false);
+              _notify();
+            },
+          ),
+          CheckboxListTile(
+            value: _lateDelivery,
+            controlAffinity: ListTileControlAffinity.leading,
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Late delivery'),
+            onChanged: (v) {
+              setState(() => _lateDelivery = v ?? false);
+              _notify();
+            },
+          ),
+          CheckboxListTile(
+            value: _qualityProblem,
+            controlAffinity: ListTileControlAffinity.leading,
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Quality problem'),
+            onChanged: (v) {
+              setState(() => _qualityProblem = v ?? false);
+              _notify();
+            },
           ),
           const SizedBox(height: 8),
-          DropdownButtonFormField<String>(
-            initialValue: _outcome,
-            decoration: const InputDecoration(labelText: 'Outcome'),
-            items: const [
-              DropdownMenuItem(value: 'accepted', child: Text('Accepted')),
-              DropdownMenuItem(value: 'rejected', child: Text('Rejected')),
-              DropdownMenuItem(
-                value: 'partial',
-                child: Text('Partially accepted'),
-              ),
-            ],
+          const Text('Outcome'),
+          RadioListTile<String>(
+            value: 'accepted',
+            groupValue: _outcome,
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Accepted'),
+            onChanged: (v) {
+              setState(() => _outcome = v ?? _outcome);
+              _notify();
+            },
+          ),
+          RadioListTile<String>(
+            value: 'rejected',
+            groupValue: _outcome,
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Rejected'),
+            onChanged: (v) {
+              setState(() => _outcome = v ?? _outcome);
+              _notify();
+            },
+          ),
+          RadioListTile<String>(
+            value: 'partial',
+            groupValue: _outcome,
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Partially accepted'),
             onChanged: (v) {
               setState(() => _outcome = v ?? _outcome);
               _notify();
