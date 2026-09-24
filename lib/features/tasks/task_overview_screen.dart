@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../shared/models/task_segment.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
 
@@ -37,7 +38,7 @@ class TaskOverviewScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  entry.key.isEmpty ? 'Other' : entry.key,
+                  entry.key.isEmpty ? 'Other' : segmentDisplayName(entry.key),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
