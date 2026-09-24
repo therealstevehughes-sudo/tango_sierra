@@ -2396,4 +2396,16 @@ Researched and downloaded the UK HoReCa compliance document set to `compliance_l
 
 Not yet embedded into anything — this is the raw source material only. AI helper architecture (RAG via pgvector on the existing self-hosted Supabase, semantic answer caching, usage cap + auto top-up) discussed and agreed with the user, not yet built; waiting on the new dedicated VenuRite IONOS server details before finalizing where the cold-storage master copy vs. the live embeddings pipeline each live.
 
-Files: `compliance_library/legislation/*.pdf` (14 files), `compliance_library/guidance/*` (9 files), `compliance_library/MANIFEST.md` (new). Not yet committed to git — pending a decision on repo size (~22MB of PDFs) vs. keeping this folder as a local/`.gitignore`d working cache.
+Files: `compliance_library/legislation/*.pdf` (14 files), `compliance_library/guidance/*` (9 files), `compliance_library/MANIFEST.md` (new). Committed 2026-09-24 (user confirmed: worth having versioned).
+
+## Opt-in per-employee graded dashboard bars (2026-09-24)
+Direct user request with an explicit override of the governing anti-gaming rule, confirmed opt-in-per-organisation (off by default) rather than a global reversal. User's own framing: "This isn't grading. It is work oversight for risk assessment."
+
+Discovered during investigation: `LeadershipDashboardService.computeTaskOverview()`/`computeIncidents()` already accept an `employeeId` filter, added 2026-09-17 with a doc comment saying it was "confirmed with the user" for exactly this drill-down use — but the screen never actually used it, always falling back to a plain lookup list regardless. So the hard part (deciding this was ever acceptable, and building the filtered computation) was already done; this pass only had to wire it up behind a real toggle.
+
+New `Organisation.employeeGradedBarsEnabled` (schema v51, `Organisations` table), a `SwitchListTile` in Settings > Company (executive-only, since this is a company-wide dashboard behaviour), and `LeadershipDashboardScreen` branching on it: off → today's unchanged plain list; on → the same `_buildTaskOverviewCard()`/`_buildIncidentsCard()` bars the branch/section view renders, fed by the employee-filtered breakdown, with a small "Individual view - for risk oversight, not a league table" label above it. Still never a side-by-side ranking of multiple employees — only ever reached by deliberately selecting one named person.
+
+Backend gap disclosed, same pattern as this session's other org-level toggles: `SupabaseOrganisationRepository.setEmployeeGradedBarsEnabled()` throws `UnimplementedError` (no `employee_graded_bars_enabled` column on the live `organisations` table yet); reads default to `false`.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/core/storage/app_database.dart`/`.g.dart`, `lib/shared/models/organisation.dart`, `lib/shared/repositories/organisation_repository.dart`, `lib/shared/repositories/supabase_organisation_repository.dart`, `lib/features/dashboard/leadership_dashboard_screen.dart`, `lib/features/dashboard/leadership_dashboard_service.dart`, `lib/features/settings/settings_screen.dart`.
