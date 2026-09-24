@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/department.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/models/supplier.dart';
@@ -186,219 +187,221 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
           ),
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 560),
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: AppCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'What kind of thing happened?',
-                      style: Theme.of(context).textTheme.titleMedium,
+      // Layout fix (2026-09-24, matching the incident-detail-screen
+      // redesign): a vertically-centered form "floats in space" and pushes
+      // its own heading away from the top on anything taller than the
+      // content. Top-anchored + scrollable, same as every other rebuilt
+      // form screen this session.
+      body: SingleChildScrollView(
+        child: ResponsiveContent(
+          maxWidth: 560,
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: AppCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    'What kind of thing happened?',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 12),
+                  // Visual pass follow-up (2026-09-24, app-wide tick-box
+                  // sweep) — 6 fixed options, converted from a dropdown
+                  // to a vertical radio list per the standing "short
+                  // fixed lists -> tick/radio, long reference lists ->
+                  // stay dropdown" rule.
+                  for (final t in IssueType.values)
+                    RadioListTile<IssueType>(
+                      value: t,
+                      groupValue: _type,
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(issueTypeDisplayName(t)),
+                      onChanged: (value) {
+                        setState(() {
+                          _type = value;
+                          _subtype = null;
+                          _supplierId = null;
+                          _deliveryProblemType = null;
+                          _receivedByUserId = null;
+                        });
+                        _loadPickersIfNeeded();
+                      },
                     ),
+                  if (subtypes.isNotEmpty) ...[
                     const SizedBox(height: 12),
-                    // Visual pass follow-up (2026-09-24, app-wide tick-box
-                    // sweep) — 6 fixed options, converted from a dropdown
-                    // to a vertical radio list per the standing "short
-                    // fixed lists -> tick/radio, long reference lists ->
-                    // stay dropdown" rule.
-                    for (final t in IssueType.values)
-                      RadioListTile<IssueType>(
-                        value: t,
-                        groupValue: _type,
-                        dense: true,
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(issueTypeDisplayName(t)),
-                        onChanged: (value) {
-                          setState(() {
-                            _type = value;
-                            _subtype = null;
-                            _supplierId = null;
-                            _deliveryProblemType = null;
-                            _receivedByUserId = null;
-                          });
-                          _loadPickersIfNeeded();
-                        },
+                    DropdownButtonFormField<String>(
+                      initialValue: _subtype,
+                      decoration: const InputDecoration(
+                        labelText: 'Which one?',
                       ),
-                    if (subtypes.isNotEmpty) ...[
-                      const SizedBox(height: 12),
-                      DropdownButtonFormField<String>(
-                        initialValue: _subtype,
-                        decoration: const InputDecoration(
-                          labelText: 'Which one?',
+                      items: subtypes
+                          .map(
+                            (s) => DropdownMenuItem(value: s, child: Text(s)),
+                          )
+                          .toList(),
+                      onChanged: (s) => setState(() => _subtype = s),
+                    ),
+                  ],
+                  if (_type == IssueType.supplyProblem) ...[
+                    const SizedBox(height: 12),
+                    if (_loadingPickers)
+                      const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        child: Center(
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
                         ),
-                        items: subtypes
+                      )
+                    else ...[
+                      DropdownButtonFormField<int>(
+                        initialValue: _supplierId,
+                        decoration: const InputDecoration(
+                          labelText: 'Supplier',
+                        ),
+                        items: _suppliers
                             .map(
-                              (s) => DropdownMenuItem(value: s, child: Text(s)),
+                              (s) => DropdownMenuItem(
+                                value: s.id,
+                                child: Text(s.name),
+                              ),
                             )
                             .toList(),
-                        onChanged: (s) => setState(() => _subtype = s),
+                        onChanged: (v) => setState(() => _supplierId = v),
+                      ),
+                      const SizedBox(height: 12),
+                      const Text('What was wrong with the delivery?'),
+                      for (final d in DeliveryProblemType.values)
+                        RadioListTile<DeliveryProblemType>(
+                          value: d,
+                          groupValue: _deliveryProblemType,
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          title: Text(deliveryProblemTypeDisplayName(d)),
+                          onChanged: (v) =>
+                              setState(() => _deliveryProblemType = v),
+                        ),
+                      const SizedBox(height: 12),
+                      DropdownButtonFormField<int>(
+                        initialValue: _receivedByUserId,
+                        decoration: const InputDecoration(
+                          labelText: 'Received by',
+                        ),
+                        items: _staff
+                            .map(
+                              (u) => DropdownMenuItem(
+                                value: u.id,
+                                child: Text(u.name),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (v) => setState(() => _receivedByUserId = v),
                       ),
                     ],
-                    if (_type == IssueType.supplyProblem) ...[
-                      const SizedBox(height: 12),
-                      if (_loadingPickers)
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                          child: Center(
-                            child: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            ),
-                          ),
-                        )
-                      else ...[
-                        DropdownButtonFormField<int>(
-                          initialValue: _supplierId,
-                          decoration: const InputDecoration(
-                            labelText: 'Supplier',
-                          ),
-                          items: _suppliers
-                              .map(
-                                (s) => DropdownMenuItem(
-                                  value: s.id,
-                                  child: Text(s.name),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (v) => setState(() => _supplierId = v),
+                  ],
+                  // Section tagging (2026-09-18) — optional, defaults to
+                  // the raiser's own section/team, changeable so a
+                  // problem about a different section isn't misfiled.
+                  if (_departments.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    DropdownButtonFormField<int?>(
+                      initialValue: _departmentId,
+                      decoration: const InputDecoration(
+                        labelText: 'Which section is this about? (optional)',
+                      ),
+                      items: [
+                        const DropdownMenuItem<int?>(
+                          value: null,
+                          child: Text('No section'),
                         ),
-                        const SizedBox(height: 12),
-                        const Text('What was wrong with the delivery?'),
-                        for (final d in DeliveryProblemType.values)
-                          RadioListTile<DeliveryProblemType>(
-                            value: d,
-                            groupValue: _deliveryProblemType,
-                            dense: true,
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(deliveryProblemTypeDisplayName(d)),
-                            onChanged: (v) =>
-                                setState(() => _deliveryProblemType = v),
+                        ..._departments.map(
+                          (d) => DropdownMenuItem<int?>(
+                            value: d.id,
+                            child: Text(d.name),
                           ),
-                        const SizedBox(height: 12),
-                        DropdownButtonFormField<int>(
-                          initialValue: _receivedByUserId,
-                          decoration: const InputDecoration(
-                            labelText: 'Received by',
-                          ),
-                          items: _staff
-                              .map(
-                                (u) => DropdownMenuItem(
-                                  value: u.id,
-                                  child: Text(u.name),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (v) =>
-                              setState(() => _receivedByUserId = v),
                         ),
                       ],
-                    ],
-                    // Section tagging (2026-09-18) — optional, defaults to
-                    // the raiser's own section/team, changeable so a
-                    // problem about a different section isn't misfiled.
-                    if (_departments.isNotEmpty) ...[
+                      onChanged: (v) => setState(() {
+                        _departmentId = v;
+                        // Clear the team if it doesn't belong to the
+                        // newly picked section.
+                        if (v == null ||
+                            !(_teamsByDepartment[v] ?? const <Team>[]).any(
+                              (t) => t.id == _teamId,
+                            )) {
+                          _teamId = null;
+                        }
+                      }),
+                    ),
+                    if (_departmentId != null &&
+                        (_teamsByDepartment[_departmentId] ?? const [])
+                            .isNotEmpty) ...[
                       const SizedBox(height: 12),
                       DropdownButtonFormField<int?>(
-                        initialValue: _departmentId,
+                        initialValue: _teamId,
                         decoration: const InputDecoration(
-                          labelText: 'Which section is this about? (optional)',
+                          labelText: 'Team (optional)',
                         ),
                         items: [
                           const DropdownMenuItem<int?>(
                             value: null,
-                            child: Text('No section'),
+                            child: Text('No specific team'),
                           ),
-                          ..._departments.map(
-                            (d) => DropdownMenuItem<int?>(
-                              value: d.id,
-                              child: Text(d.name),
-                            ),
-                          ),
-                        ],
-                        onChanged: (v) => setState(() {
-                          _departmentId = v;
-                          // Clear the team if it doesn't belong to the
-                          // newly picked section.
-                          if (v == null ||
-                              !(_teamsByDepartment[v] ?? const <Team>[]).any(
-                                (t) => t.id == _teamId,
-                              )) {
-                            _teamId = null;
-                          }
-                        }),
-                      ),
-                      if (_departmentId != null &&
-                          (_teamsByDepartment[_departmentId] ?? const [])
-                              .isNotEmpty) ...[
-                        const SizedBox(height: 12),
-                        DropdownButtonFormField<int?>(
-                          initialValue: _teamId,
-                          decoration: const InputDecoration(
-                            labelText: 'Team (optional)',
-                          ),
-                          items: [
-                            const DropdownMenuItem<int?>(
-                              value: null,
-                              child: Text('No specific team'),
-                            ),
-                            ...(_teamsByDepartment[_departmentId] ?? const [])
-                                .map(
-                                  (t) => DropdownMenuItem<int?>(
-                                    value: t.id,
-                                    child: Text(t.name),
-                                  ),
+                          ...(_teamsByDepartment[_departmentId] ?? const [])
+                              .map(
+                                (t) => DropdownMenuItem<int?>(
+                                  value: t.id,
+                                  child: Text(t.name),
                                 ),
-                          ],
-                          onChanged: (v) => setState(() => _teamId = v),
-                        ),
-                      ],
+                              ),
+                        ],
+                        onChanged: (v) => setState(() => _teamId = v),
+                      ),
                     ],
-                    const SizedBox(height: 12),
-                    TextField(
-                      controller: _detailsController,
-                      decoration: const InputDecoration(
-                        labelText: 'What happened?',
-                        alignLabelWithHint: true,
-                      ),
-                      maxLines: 4,
-                      onChanged: (_) => setState(() {}),
-                    ),
-                    const SizedBox(height: 4),
-                    // Manual urgency override (2026-09-17) — additive only:
-                    // ticking this always shows the issue as urgent
-                    // regardless of age, but leaving it unticked never
-                    // suppresses the automatic time-based urgency grading
-                    // the register applies later.
-                    CheckboxListTile(
-                      value: _manualUrgent,
-                      onChanged: (v) =>
-                          setState(() => _manualUrgent = v ?? false),
-                      controlAffinity: ListTileControlAffinity.leading,
-                      contentPadding: EdgeInsets.zero,
-                      title: const Text('Mark as urgent'),
-                      subtitle: const Text(
-                        'Needs attention right away, regardless of how long it sits unresolved',
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    ElevatedButton(
-                      onPressed: _submitting || !_canSubmit ? null : _submit,
-                      child: _submitting
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Text('Log it'),
-                    ),
                   ],
-                ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _detailsController,
+                    decoration: const InputDecoration(
+                      labelText: 'What happened?',
+                      alignLabelWithHint: true,
+                    ),
+                    maxLines: 4,
+                    onChanged: (_) => setState(() {}),
+                  ),
+                  const SizedBox(height: 4),
+                  // Manual urgency override (2026-09-17) — additive only:
+                  // ticking this always shows the issue as urgent
+                  // regardless of age, but leaving it unticked never
+                  // suppresses the automatic time-based urgency grading
+                  // the register applies later.
+                  CheckboxListTile(
+                    value: _manualUrgent,
+                    onChanged: (v) =>
+                        setState(() => _manualUrgent = v ?? false),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text('Mark as urgent'),
+                    subtitle: const Text(
+                      'Needs attention right away, regardless of how long it sits unresolved',
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: _submitting || !_canSubmit ? null : _submit,
+                    child: _submitting
+                        ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : const Text('Log it'),
+                  ),
+                ],
               ),
             ),
           ),
