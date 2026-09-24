@@ -2304,3 +2304,14 @@ User's own question turned into a build, refined through real back-and-forth: "s
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched and the new migration confirmed running without error.
 Files: `lib/core/storage/app_database.dart` (+ generated `.g.dart`), `lib/shared/models/shift_log.dart`, `lib/shared/repositories/shift_log_repository.dart`, `lib/shared/providers/shift_handover_providers.dart`, `lib/shared/providers/auth_providers.dart`, `lib/core/data/motivational_quotes.dart`, `lib/features/auth/shift_welcome_screen.dart`, `lib/features/auth/end_shift.dart`, `lib/features/auth/login_screen.dart`, `lib/app/app.dart`, `lib/features/tasks/worker_hub_screen.dart`, `lib/features/settings/shift_log_screen.dart`, `lib/core/widgets/management_drawer.dart`.
+
+## Welcome quote library expanded to 200, non-repeating per person (2026-09-24)
+Direct follow-up on the shift welcome screen, which the user "really liked": "200 phrases, once one has been used it isn't shown again to that person until all others have been shown." `motivational_quotes.dart` expanded 10 → 200 distinct lines (checked for exact duplicates), same tone rule as before (no corny slogans, no performance-pressure language). New `MotivationalQuoteService`: a per-user shuffle-bag persisted in SharedPreferences — picks a random remaining index from that person's own pool, refills and reshuffles once empty. Defensive against the library size changing between app versions.
+
+Files: `lib/core/data/motivational_quotes.dart`, `lib/core/data/motivational_quote_service.dart` (new), `lib/features/auth/shift_welcome_screen.dart`.
+
+## Hub-screen buttons capped to a sane width (2026-09-24)
+Direct feedback with screenshot: `WorkerHubScreen`'s buttons ran edge to edge on a wide desktop window. Root cause: the card had no width constraint, and `CrossAxisAlignment.stretch` expands to fill whatever width its parent offers (not the widest child's natural width, as an existing code comment on `TierHomeScreen` incorrectly assumed). Found and fixed the identical latent bug in `TierHomeScreen` too — its own comment claimed the card "shrink-wraps to its own content width," which isn't actually true under loose constraints. Both now wrapped in `ResponsiveContent(maxWidth: 420)`, the same cap every other form-shaped screen in the app already uses.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/features/tasks/worker_hub_screen.dart`, `lib/features/home/tier_home_screen.dart`.
