@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
 import '../core/services/push_token_service.dart';
 import '../features/auth/login_screen.dart';
+import '../features/auth/shift_welcome_screen.dart';
 import '../features/home/tier_home_screen.dart';
 import '../features/onboarding/splash_screen.dart';
 import '../features/tasks/worker_hub_screen.dart';
@@ -132,11 +133,20 @@ class _MyAppState extends ConsumerState<MyApp> {
     // ("My scheduled tasks" vs. "Log something that just happened")
     // before TaskScreen, not a new nav surface; "My scheduled tasks"
     // leads to the exact same, unchanged TaskScreen base tier always had.
+    // Shift welcome screen (2026-09-24) — inserted between a real PIN
+    // login and the normal home screen, gated by the same simple
+    // "bool flag" shape _showSplash already uses above. See
+    // justLoggedInForShiftProvider's own doc comment for why this only
+    // fires on a genuine walk-up login, not a session restore.
+    final justLoggedInForShift = ref.watch(justLoggedInForShiftProvider);
+
     Widget home;
     if (_showSplash) {
       home = const SplashScreen();
     } else if (currentUser == null) {
       home = const LoginScreen();
+    } else if (justLoggedInForShift) {
+      home = ShiftWelcomeScreen(user: currentUser);
     } else if (currentUser.roleTier == RoleTier.base) {
       home = const WorkerHubScreen();
     } else {

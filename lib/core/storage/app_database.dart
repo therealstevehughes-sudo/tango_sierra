@@ -602,6 +602,25 @@ class SessionSummaries extends Table {
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
 }
 
+// Shift log (2026-09-24, direct user request) — a lightweight habit-
+// tracking record of when someone logged in/out for a shift, NOT a
+// payroll or Working Time Regulations record (explicitly disclosed
+// limitation, per the user's own framing: "doesn't have to be a
+// regulation burdened item, but rather a good habit builder"). clockInAt
+// is set the moment a PIN login succeeds; clockOutAt when "End shift" is
+// tapped (see WorkerHubScreen/TierHomeScreen). Null clockOutAt means the
+// shift is still open (or the app was closed without logging out --
+// a known, accepted gap given this is a habit signal, not a formal
+// record needing to reconcile perfectly).
+@DataClassName('ShiftLogEntity')
+class ShiftLogs extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get userId => integer().references(Users, #id)();
+  IntColumn get siteId => integer().nullable().references(Sites, #id)();
+  DateTimeColumn get clockInAt => dateTime()();
+  DateTimeColumn get clockOutAt => dateTime().nullable()();
+}
+
 @DataClassName('NotificationRuleEntity')
 class NotificationRules extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -988,6 +1007,7 @@ class _LibraryPreset {
     Documents,
     ShiftHandoverNotes,
     SessionSummaries,
+    ShiftLogs,
     NotificationRules,
     Organisations,
     Sites,
@@ -1022,7 +1042,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 48;
+  int get schemaVersion => 49;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1458,6 +1478,10 @@ class AppDatabase extends _$AppDatabase {
         // Randomised photo-check (2026-09-22) -- opt-in per template,
         // starts false on every existing row.
         await m.addColumn(taskTemplates, taskTemplates.randomPhotoCheckEnabled);
+      }
+      if (from < 49) {
+        // Shift log (2026-09-24) -- habit-tracking clock-in/out record.
+        await m.createTable(shiftLogs);
       }
     },
     beforeOpen: (details) async {

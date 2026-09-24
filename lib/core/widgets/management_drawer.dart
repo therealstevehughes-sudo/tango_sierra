@@ -19,6 +19,7 @@ import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/document_centre_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
 import '../../features/settings/settings_screen.dart';
+import '../../features/settings/shift_log_screen.dart';
 import '../../features/settings/staff_management_screen.dart';
 import '../../features/settings/supplier_management_screen.dart';
 import '../../features/settings/third_party_contacts_screen.dart';
@@ -98,6 +99,14 @@ final List<_DrawerItemDef> _peopleItems = [
     label: 'Add Team Member',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const StaffProvisioningScreen(),
+  ),
+  // Shift log (2026-09-24) — plain clock-in/out list, a habit-tracking
+  // signal per its own doc comment, not a graded score.
+  _DrawerItemDef(
+    icon: Icons.schedule_outlined,
+    label: 'Shift Log',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const ShiftLogScreen(),
   ),
   // Chain of command / branch organogram (2026-09-15) — kept at its
   // original supervisor+ gate (unchanged by this redesign, only its

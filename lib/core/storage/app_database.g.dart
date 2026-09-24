@@ -11352,6 +11352,367 @@ class SessionSummariesCompanion extends UpdateCompanion<SessionSummaryEntity> {
   }
 }
 
+class $ShiftLogsTable extends ShiftLogs
+    with TableInfo<$ShiftLogsTable, ShiftLogEntity> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ShiftLogsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+    'user_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES users (id)',
+    ),
+  );
+  static const VerificationMeta _siteIdMeta = const VerificationMeta('siteId');
+  @override
+  late final GeneratedColumn<int> siteId = GeneratedColumn<int>(
+    'site_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES sites (id)',
+    ),
+  );
+  static const VerificationMeta _clockInAtMeta = const VerificationMeta(
+    'clockInAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clockInAt = GeneratedColumn<DateTime>(
+    'clock_in_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _clockOutAtMeta = const VerificationMeta(
+    'clockOutAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> clockOutAt = GeneratedColumn<DateTime>(
+    'clock_out_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    userId,
+    siteId,
+    clockInAt,
+    clockOutAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'shift_logs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<ShiftLogEntity> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('user_id')) {
+      context.handle(
+        _userIdMeta,
+        userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_userIdMeta);
+    }
+    if (data.containsKey('site_id')) {
+      context.handle(
+        _siteIdMeta,
+        siteId.isAcceptableOrUnknown(data['site_id']!, _siteIdMeta),
+      );
+    }
+    if (data.containsKey('clock_in_at')) {
+      context.handle(
+        _clockInAtMeta,
+        clockInAt.isAcceptableOrUnknown(data['clock_in_at']!, _clockInAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_clockInAtMeta);
+    }
+    if (data.containsKey('clock_out_at')) {
+      context.handle(
+        _clockOutAtMeta,
+        clockOutAt.isAcceptableOrUnknown(
+          data['clock_out_at']!,
+          _clockOutAtMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ShiftLogEntity map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ShiftLogEntity(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      userId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}user_id'],
+      )!,
+      siteId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}site_id'],
+      ),
+      clockInAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}clock_in_at'],
+      )!,
+      clockOutAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}clock_out_at'],
+      ),
+    );
+  }
+
+  @override
+  $ShiftLogsTable createAlias(String alias) {
+    return $ShiftLogsTable(attachedDatabase, alias);
+  }
+}
+
+class ShiftLogEntity extends DataClass implements Insertable<ShiftLogEntity> {
+  final int id;
+  final int userId;
+  final int? siteId;
+  final DateTime clockInAt;
+  final DateTime? clockOutAt;
+  const ShiftLogEntity({
+    required this.id,
+    required this.userId,
+    this.siteId,
+    required this.clockInAt,
+    this.clockOutAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['user_id'] = Variable<int>(userId);
+    if (!nullToAbsent || siteId != null) {
+      map['site_id'] = Variable<int>(siteId);
+    }
+    map['clock_in_at'] = Variable<DateTime>(clockInAt);
+    if (!nullToAbsent || clockOutAt != null) {
+      map['clock_out_at'] = Variable<DateTime>(clockOutAt);
+    }
+    return map;
+  }
+
+  ShiftLogsCompanion toCompanion(bool nullToAbsent) {
+    return ShiftLogsCompanion(
+      id: Value(id),
+      userId: Value(userId),
+      siteId: siteId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(siteId),
+      clockInAt: Value(clockInAt),
+      clockOutAt: clockOutAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(clockOutAt),
+    );
+  }
+
+  factory ShiftLogEntity.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ShiftLogEntity(
+      id: serializer.fromJson<int>(json['id']),
+      userId: serializer.fromJson<int>(json['userId']),
+      siteId: serializer.fromJson<int?>(json['siteId']),
+      clockInAt: serializer.fromJson<DateTime>(json['clockInAt']),
+      clockOutAt: serializer.fromJson<DateTime?>(json['clockOutAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'userId': serializer.toJson<int>(userId),
+      'siteId': serializer.toJson<int?>(siteId),
+      'clockInAt': serializer.toJson<DateTime>(clockInAt),
+      'clockOutAt': serializer.toJson<DateTime?>(clockOutAt),
+    };
+  }
+
+  ShiftLogEntity copyWith({
+    int? id,
+    int? userId,
+    Value<int?> siteId = const Value.absent(),
+    DateTime? clockInAt,
+    Value<DateTime?> clockOutAt = const Value.absent(),
+  }) => ShiftLogEntity(
+    id: id ?? this.id,
+    userId: userId ?? this.userId,
+    siteId: siteId.present ? siteId.value : this.siteId,
+    clockInAt: clockInAt ?? this.clockInAt,
+    clockOutAt: clockOutAt.present ? clockOutAt.value : this.clockOutAt,
+  );
+  ShiftLogEntity copyWithCompanion(ShiftLogsCompanion data) {
+    return ShiftLogEntity(
+      id: data.id.present ? data.id.value : this.id,
+      userId: data.userId.present ? data.userId.value : this.userId,
+      siteId: data.siteId.present ? data.siteId.value : this.siteId,
+      clockInAt: data.clockInAt.present ? data.clockInAt.value : this.clockInAt,
+      clockOutAt: data.clockOutAt.present
+          ? data.clockOutAt.value
+          : this.clockOutAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ShiftLogEntity(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('siteId: $siteId, ')
+          ..write('clockInAt: $clockInAt, ')
+          ..write('clockOutAt: $clockOutAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, userId, siteId, clockInAt, clockOutAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ShiftLogEntity &&
+          other.id == this.id &&
+          other.userId == this.userId &&
+          other.siteId == this.siteId &&
+          other.clockInAt == this.clockInAt &&
+          other.clockOutAt == this.clockOutAt);
+}
+
+class ShiftLogsCompanion extends UpdateCompanion<ShiftLogEntity> {
+  final Value<int> id;
+  final Value<int> userId;
+  final Value<int?> siteId;
+  final Value<DateTime> clockInAt;
+  final Value<DateTime?> clockOutAt;
+  const ShiftLogsCompanion({
+    this.id = const Value.absent(),
+    this.userId = const Value.absent(),
+    this.siteId = const Value.absent(),
+    this.clockInAt = const Value.absent(),
+    this.clockOutAt = const Value.absent(),
+  });
+  ShiftLogsCompanion.insert({
+    this.id = const Value.absent(),
+    required int userId,
+    this.siteId = const Value.absent(),
+    required DateTime clockInAt,
+    this.clockOutAt = const Value.absent(),
+  }) : userId = Value(userId),
+       clockInAt = Value(clockInAt);
+  static Insertable<ShiftLogEntity> custom({
+    Expression<int>? id,
+    Expression<int>? userId,
+    Expression<int>? siteId,
+    Expression<DateTime>? clockInAt,
+    Expression<DateTime>? clockOutAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (userId != null) 'user_id': userId,
+      if (siteId != null) 'site_id': siteId,
+      if (clockInAt != null) 'clock_in_at': clockInAt,
+      if (clockOutAt != null) 'clock_out_at': clockOutAt,
+    });
+  }
+
+  ShiftLogsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? userId,
+    Value<int?>? siteId,
+    Value<DateTime>? clockInAt,
+    Value<DateTime?>? clockOutAt,
+  }) {
+    return ShiftLogsCompanion(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      siteId: siteId ?? this.siteId,
+      clockInAt: clockInAt ?? this.clockInAt,
+      clockOutAt: clockOutAt ?? this.clockOutAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (siteId.present) {
+      map['site_id'] = Variable<int>(siteId.value);
+    }
+    if (clockInAt.present) {
+      map['clock_in_at'] = Variable<DateTime>(clockInAt.value);
+    }
+    if (clockOutAt.present) {
+      map['clock_out_at'] = Variable<DateTime>(clockOutAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ShiftLogsCompanion(')
+          ..write('id: $id, ')
+          ..write('userId: $userId, ')
+          ..write('siteId: $siteId, ')
+          ..write('clockInAt: $clockInAt, ')
+          ..write('clockOutAt: $clockOutAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $NotificationRulesTable extends NotificationRules
     with TableInfo<$NotificationRulesTable, NotificationRuleEntity> {
   @override
@@ -20861,6 +21222,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $SessionSummariesTable sessionSummaries = $SessionSummariesTable(
     this,
   );
+  late final $ShiftLogsTable shiftLogs = $ShiftLogsTable(this);
   late final $NotificationRulesTable notificationRules =
       $NotificationRulesTable(this);
   late final $TriggerNotificationsTable triggerNotifications =
@@ -20919,6 +21281,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     documents,
     shiftHandoverNotes,
     sessionSummaries,
+    shiftLogs,
     notificationRules,
     triggerNotifications,
     thirdPartyContacts,
@@ -23406,6 +23769,24 @@ final class $$UsersTableReferences
     );
   }
 
+  static MultiTypedResultKey<$ShiftLogsTable, List<ShiftLogEntity>>
+  _shiftLogsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.shiftLogs,
+    aliasName: 'users__id__shift_logs__user_id',
+  );
+
+  $$ShiftLogsTableProcessedTableManager get shiftLogsRefs {
+    final manager = $$ShiftLogsTableTableManager(
+      $_db,
+      $_db.shiftLogs,
+    ).filter((f) => f.userId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_shiftLogsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<
     $TriggerNotificationsTable,
     List<TriggerNotificationEntity>
@@ -23917,6 +24298,31 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
           }) => $$ShiftHandoverNotesTableFilterComposer(
             $db: $db,
             $table: $db.shiftHandoverNotes,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> shiftLogsRefs(
+    Expression<bool> Function($$ShiftLogsTableFilterComposer f) f,
+  ) {
+    final $$ShiftLogsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.shiftLogs,
+      getReferencedColumn: (t) => t.userId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ShiftLogsTableFilterComposer(
+            $db: $db,
+            $table: $db.shiftLogs,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -24643,6 +25049,31 @@ class $$UsersTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> shiftLogsRefs<T extends Object>(
+    Expression<T> Function($$ShiftLogsTableAnnotationComposer a) f,
+  ) {
+    final $$ShiftLogsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.shiftLogs,
+      getReferencedColumn: (t) => t.userId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ShiftLogsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.shiftLogs,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> triggerNotificationsRefs<T extends Object>(
     Expression<T> Function($$TriggerNotificationsTableAnnotationComposer a) f,
   ) {
@@ -24877,6 +25308,7 @@ class $$UsersTableTableManager
             bool taskTemplatesRefs,
             bool documentsRefs,
             bool shiftHandoverNotesRefs,
+            bool shiftLogsRefs,
             bool triggerNotificationsRefs,
             bool thirdPartyContactsRefs,
             bool taskPresetsRefs,
@@ -24997,6 +25429,7 @@ class $$UsersTableTableManager
                 taskTemplatesRefs = false,
                 documentsRefs = false,
                 shiftHandoverNotesRefs = false,
+                shiftLogsRefs = false,
                 triggerNotificationsRefs = false,
                 thirdPartyContactsRefs = false,
                 taskPresetsRefs = false,
@@ -25015,6 +25448,7 @@ class $$UsersTableTableManager
                     if (taskTemplatesRefs) db.taskTemplates,
                     if (documentsRefs) db.documents,
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
+                    if (shiftLogsRefs) db.shiftLogs,
                     if (triggerNotificationsRefs) db.triggerNotifications,
                     if (thirdPartyContactsRefs) db.thirdPartyContacts,
                     if (taskPresetsRefs) db.taskPresets,
@@ -25237,6 +25671,27 @@ class $$UsersTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (shiftLogsRefs)
+                        await $_getPrefetchedData<
+                          UserEntity,
+                          $UsersTable,
+                          ShiftLogEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$UsersTableReferences
+                              ._shiftLogsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$UsersTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).shiftLogsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.userId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                       if (triggerNotificationsRefs)
                         await $_getPrefetchedData<
                           UserEntity,
@@ -25437,6 +25892,7 @@ typedef $$UsersTableProcessedTableManager =
         bool taskTemplatesRefs,
         bool documentsRefs,
         bool shiftHandoverNotesRefs,
+        bool shiftLogsRefs,
         bool triggerNotificationsRefs,
         bool thirdPartyContactsRefs,
         bool taskPresetsRefs,
@@ -26474,6 +26930,24 @@ final class $$SitesTableReferences
     );
   }
 
+  static MultiTypedResultKey<$ShiftLogsTable, List<ShiftLogEntity>>
+  _shiftLogsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.shiftLogs,
+    aliasName: 'sites__id__shift_logs__site_id',
+  );
+
+  $$ShiftLogsTableProcessedTableManager get shiftLogsRefs {
+    final manager = $$ShiftLogsTableTableManager(
+      $_db,
+      $_db.shiftLogs,
+    ).filter((f) => f.siteId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_shiftLogsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<
     $NotificationRulesTable,
     List<NotificationRuleEntity>
@@ -26899,6 +27373,31 @@ class $$SitesTableFilterComposer extends Composer<_$AppDatabase, $SitesTable> {
           }) => $$SessionSummariesTableFilterComposer(
             $db: $db,
             $table: $db.sessionSummaries,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> shiftLogsRefs(
+    Expression<bool> Function($$ShiftLogsTableFilterComposer f) f,
+  ) {
+    final $$ShiftLogsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.shiftLogs,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ShiftLogsTableFilterComposer(
+            $db: $db,
+            $table: $db.shiftLogs,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -27429,6 +27928,31 @@ class $$SitesTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> shiftLogsRefs<T extends Object>(
+    Expression<T> Function($$ShiftLogsTableAnnotationComposer a) f,
+  ) {
+    final $$ShiftLogsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.shiftLogs,
+      getReferencedColumn: (t) => t.siteId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ShiftLogsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.shiftLogs,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
   Expression<T> notificationRulesRefs<T extends Object>(
     Expression<T> Function($$NotificationRulesTableAnnotationComposer a) f,
   ) {
@@ -27609,6 +28133,7 @@ class $$SitesTableTableManager
             bool documentsRefs,
             bool shiftHandoverNotesRefs,
             bool sessionSummariesRefs,
+            bool shiftLogsRefs,
             bool notificationRulesRefs,
             bool triggerNotificationsRefs,
             bool thirdPartyContactsRefs,
@@ -27679,6 +28204,7 @@ class $$SitesTableTableManager
                 documentsRefs = false,
                 shiftHandoverNotesRefs = false,
                 sessionSummariesRefs = false,
+                shiftLogsRefs = false,
                 notificationRulesRefs = false,
                 triggerNotificationsRefs = false,
                 thirdPartyContactsRefs = false,
@@ -27698,6 +28224,7 @@ class $$SitesTableTableManager
                     if (documentsRefs) db.documents,
                     if (shiftHandoverNotesRefs) db.shiftHandoverNotes,
                     if (sessionSummariesRefs) db.sessionSummaries,
+                    if (shiftLogsRefs) db.shiftLogs,
                     if (notificationRulesRefs) db.notificationRules,
                     if (triggerNotificationsRefs) db.triggerNotifications,
                     if (thirdPartyContactsRefs) db.thirdPartyContacts,
@@ -27937,6 +28464,27 @@ class $$SitesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (shiftLogsRefs)
+                        await $_getPrefetchedData<
+                          SiteEntity,
+                          $SitesTable,
+                          ShiftLogEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SitesTableReferences
+                              ._shiftLogsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SitesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).shiftLogsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.siteId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                       if (notificationRulesRefs)
                         await $_getPrefetchedData<
                           SiteEntity,
@@ -28091,6 +28639,7 @@ typedef $$SitesTableProcessedTableManager =
         bool documentsRefs,
         bool shiftHandoverNotesRefs,
         bool sessionSummariesRefs,
+        bool shiftLogsRefs,
         bool notificationRulesRefs,
         bool triggerNotificationsRefs,
         bool thirdPartyContactsRefs,
@@ -35448,6 +35997,405 @@ typedef $$SessionSummariesTableProcessedTableManager =
         bool sentToManagerId,
         bool siteId,
       })
+    >;
+typedef $$ShiftLogsTableCreateCompanionBuilder =
+    ShiftLogsCompanion Function({
+      Value<int> id,
+      required int userId,
+      Value<int?> siteId,
+      required DateTime clockInAt,
+      Value<DateTime?> clockOutAt,
+    });
+typedef $$ShiftLogsTableUpdateCompanionBuilder =
+    ShiftLogsCompanion Function({
+      Value<int> id,
+      Value<int> userId,
+      Value<int?> siteId,
+      Value<DateTime> clockInAt,
+      Value<DateTime?> clockOutAt,
+    });
+
+final class $$ShiftLogsTableReferences
+    extends BaseReferences<_$AppDatabase, $ShiftLogsTable, ShiftLogEntity> {
+  $$ShiftLogsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $UsersTable _userIdTable(_$AppDatabase db) =>
+      db.users.createAlias('shift_logs__user_id__users__id');
+
+  $$UsersTableProcessedTableManager get userId {
+    final $_column = $_itemColumn<int>('user_id')!;
+
+    final manager = $$UsersTableTableManager(
+      $_db,
+      $_db.users,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_userIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SitesTable _siteIdTable(_$AppDatabase db) =>
+      db.sites.createAlias('shift_logs__site_id__sites__id');
+
+  $$SitesTableProcessedTableManager? get siteId {
+    final $_column = $_itemColumn<int>('site_id');
+    if ($_column == null) return null;
+    final manager = $$SitesTableTableManager(
+      $_db,
+      $_db.sites,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$ShiftLogsTableFilterComposer
+    extends Composer<_$AppDatabase, $ShiftLogsTable> {
+  $$ShiftLogsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clockInAt => $composableBuilder(
+    column: $table.clockInAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get clockOutAt => $composableBuilder(
+    column: $table.clockOutAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$UsersTableFilterComposer get userId {
+    final $$UsersTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableFilterComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableFilterComposer get siteId {
+    final $$SitesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableFilterComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ShiftLogsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ShiftLogsTable> {
+  $$ShiftLogsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clockInAt => $composableBuilder(
+    column: $table.clockInAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get clockOutAt => $composableBuilder(
+    column: $table.clockOutAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$UsersTableOrderingComposer get userId {
+    final $$UsersTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableOrderingComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableOrderingComposer get siteId {
+    final $$SitesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableOrderingComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ShiftLogsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ShiftLogsTable> {
+  $$ShiftLogsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clockInAt =>
+      $composableBuilder(column: $table.clockInAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get clockOutAt => $composableBuilder(
+    column: $table.clockOutAt,
+    builder: (column) => column,
+  );
+
+  $$UsersTableAnnotationComposer get userId {
+    final $$UsersTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.userId,
+      referencedTable: $db.users,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$UsersTableAnnotationComposer(
+            $db: $db,
+            $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SitesTableAnnotationComposer get siteId {
+    final $$SitesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.siteId,
+      referencedTable: $db.sites,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SitesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$ShiftLogsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $ShiftLogsTable,
+          ShiftLogEntity,
+          $$ShiftLogsTableFilterComposer,
+          $$ShiftLogsTableOrderingComposer,
+          $$ShiftLogsTableAnnotationComposer,
+          $$ShiftLogsTableCreateCompanionBuilder,
+          $$ShiftLogsTableUpdateCompanionBuilder,
+          (ShiftLogEntity, $$ShiftLogsTableReferences),
+          ShiftLogEntity,
+          PrefetchHooks Function({bool userId, bool siteId})
+        > {
+  $$ShiftLogsTableTableManager(_$AppDatabase db, $ShiftLogsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ShiftLogsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ShiftLogsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ShiftLogsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> userId = const Value.absent(),
+                Value<int?> siteId = const Value.absent(),
+                Value<DateTime> clockInAt = const Value.absent(),
+                Value<DateTime?> clockOutAt = const Value.absent(),
+              }) => ShiftLogsCompanion(
+                id: id,
+                userId: userId,
+                siteId: siteId,
+                clockInAt: clockInAt,
+                clockOutAt: clockOutAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int userId,
+                Value<int?> siteId = const Value.absent(),
+                required DateTime clockInAt,
+                Value<DateTime?> clockOutAt = const Value.absent(),
+              }) => ShiftLogsCompanion.insert(
+                id: id,
+                userId: userId,
+                siteId: siteId,
+                clockInAt: clockInAt,
+                clockOutAt: clockOutAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$ShiftLogsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({userId = false, siteId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (userId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.userId,
+                                referencedTable: $$ShiftLogsTableReferences
+                                    ._userIdTable(db),
+                                referencedColumn: $$ShiftLogsTableReferences
+                                    ._userIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (siteId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.siteId,
+                                referencedTable: $$ShiftLogsTableReferences
+                                    ._siteIdTable(db),
+                                referencedColumn: $$ShiftLogsTableReferences
+                                    ._siteIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$ShiftLogsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $ShiftLogsTable,
+      ShiftLogEntity,
+      $$ShiftLogsTableFilterComposer,
+      $$ShiftLogsTableOrderingComposer,
+      $$ShiftLogsTableAnnotationComposer,
+      $$ShiftLogsTableCreateCompanionBuilder,
+      $$ShiftLogsTableUpdateCompanionBuilder,
+      (ShiftLogEntity, $$ShiftLogsTableReferences),
+      ShiftLogEntity,
+      PrefetchHooks Function({bool userId, bool siteId})
     >;
 typedef $$NotificationRulesTableCreateCompanionBuilder =
     NotificationRulesCompanion Function({
@@ -45957,6 +46905,8 @@ class $AppDatabaseManager {
       $$ShiftHandoverNotesTableTableManager(_db, _db.shiftHandoverNotes);
   $$SessionSummariesTableTableManager get sessionSummaries =>
       $$SessionSummariesTableTableManager(_db, _db.sessionSummaries);
+  $$ShiftLogsTableTableManager get shiftLogs =>
+      $$ShiftLogsTableTableManager(_db, _db.shiftLogs);
   $$NotificationRulesTableTableManager get notificationRules =>
       $$NotificationRulesTableTableManager(_db, _db.notificationRules);
   $$TriggerNotificationsTableTableManager get triggerNotifications =>

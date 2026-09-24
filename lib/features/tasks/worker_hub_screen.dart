@@ -10,6 +10,7 @@ import '../../core/widgets/user_title.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../auth/end_shift.dart';
 import '../issues/my_raised_issues_screen.dart';
 import '../issues/report_issue_screen.dart';
 import 'ad_hoc_task_screen.dart';
@@ -45,11 +46,15 @@ class WorkerHubScreen extends ConsumerWidget {
             ? UserTitle(user: currentUser)
             : const Text('Home'),
         actions: [
+          // "End shift" (2026-09-24, direct user request) — replaces a
+          // plain logout with a "here's what's still not done" check,
+          // plus records the clock-out on today's ShiftLog.
           TextButton.icon(
-            onPressed: () =>
-                ref.read(currentUserProvider.notifier).state = null,
+            onPressed: currentUser == null
+                ? null
+                : () => endShift(context, ref, currentUser),
             icon: const Icon(Icons.logout, size: 18),
-            label: const Text('Log out'),
+            label: const Text('End shift'),
           ),
         ],
       ),

@@ -197,6 +197,16 @@ final staffDirectoryDepartmentsProvider = FutureProvider<List<Department>>((
 
 final currentUserProvider = StateProvider<User?>((ref) => null);
 
+// Shift welcome screen (2026-09-24) — set true by a real PIN login
+// (login_screen.dart's submitPin), gating MyApp's own routing (app.dart)
+// to show ShiftWelcomeScreen once before the normal home screen. Reset
+// to false by that screen's own "Get started" button. Deliberately NOT
+// set by senior/exec email+password login or by _restoreBackendSession's
+// session restore on app relaunch — this is a walk-up shift-start
+// moment, not something that should re-appear just because the app was
+// reopened mid-shift.
+final justLoggedInForShiftProvider = StateProvider<bool>((ref) => false);
+
 // Phase 2 (real backend auth) — the single switch that turns on
 // server-side PIN verification. Off by default: the app behaves exactly
 // as it always has until this is flipped, and even once on, any staff

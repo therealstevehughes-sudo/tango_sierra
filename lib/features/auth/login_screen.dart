@@ -76,6 +76,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       case PinAuthSuccess(:final user, :final accessToken):
         ref.read(currentUserProvider.notifier).state = user;
         ref.read(currentSessionTokenProvider.notifier).state = accessToken;
+        // Shift welcome screen (2026-09-24) — a real PIN walk-up login is
+        // exactly the "starting a shift" moment this was built for.
+        ref.read(justLoggedInForShiftProvider.notifier).state = true;
       case PinAuthIncorrect():
         setState(() {
           error = "Incorrect PIN";
