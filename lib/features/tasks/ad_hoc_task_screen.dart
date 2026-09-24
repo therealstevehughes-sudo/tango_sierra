@@ -15,6 +15,7 @@ import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import 'ad_hoc_task_kind.dart';
+import 'billing_gate.dart';
 import 'delivery_detail_form.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
@@ -140,6 +141,10 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
   Future<void> _submitDelivery() async {
     final template = _selectedTemplate;
     if (template == null) return;
+    // Billing enforcement (2026-09-24) — see canSubmitTask's own doc
+    // comment; checked before flipping _submitting, same as any other
+    // early return here.
+    if (!await canSubmitTask(context, ref)) return;
     setState(() => _submitting = true);
     await _controller.logTaskSubmission(
       task: _resolvedTaskFor(template),
@@ -167,6 +172,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
     final template = _selectedTemplate;
     final value = double.tryParse(_valueController.text.trim());
     if (template == null || value == null) return;
+    if (!await canSubmitTask(context, ref)) return;
     setState(() => _submitting = true);
     // The safety line: no judgment is asserted here beyond whatever
     // verifiedJudgmentFor() itself decides (null today) — see that file's

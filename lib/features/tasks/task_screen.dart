@@ -27,6 +27,7 @@ import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import 'billing_gate.dart';
 import 'camera_capture_screen.dart';
 import 'delivery_detail_form.dart';
 import 'end_of_session_summary_screen.dart';
@@ -577,6 +578,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   }
 
   Future<void> submitTask() async {
+    // Billing enforcement (2026-09-24) — the one gate every task
+    // submission call site checks first. See canSubmitTask's own doc
+    // comment.
+    if (!await canSubmitTask(context, ref)) return;
+
     final task = controller.getCurrentTask();
     final numericValue = _numberInTemplateUnit;
 
