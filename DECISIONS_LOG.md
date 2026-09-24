@@ -2262,3 +2262,19 @@ Surfaced a real gap while scoping this: today's "Kitchen Staff"/"Supervisors & M
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/features/auth/login_screen.dart`, `lib/shared/providers/auth_providers.dart`, backend: `device-login`.
+
+## Departments content loaded: Maintenance, Housekeeping, Reception, Security (2026-09-23)
+Loaded the previously-drafted `HORECA_TASK_LIBRARY.md` Segments 22-25 into the app, plus the Bar & Cellar gap-check's 5 cellar-safety additions to Segment 19 — 57 new task templates. `JobRole` gained 4 new values; the exhaustive switch in the brand-new `SectionBackground` widget (built earlier this session, after the pressure-test audit's own "only one switch to extend" finding) needed a matching fix — a live example of exactly the kind of drift that finding warned about.
+
+New Cluster G seed function, structured identically to Cluster A/F: inserts each template plus its venue-type tags (Maintenance -> all 12 venue types; Housekeeping/Reception -> Hotel only; Security -> a broader Hotel/Bar-Pub/Gastropub list, a disclosed judgment call beyond the source doc's own "hotels and any venue with licensed door staff" note). `jobRole`/`guidanceText` added via the existing `taskEnrichmentData` append-only mechanism.
+
+**Deliberately scoped out**: TaskPresets (a manager "quick-add starter bundle" convenience, not required for venue-type tagging or the onboarding payoff step) and equipment-type links (none of the 18 seeded types match building-systems concepts like fire alarms/CCTV). Backend `task_templates` doesn't have this content yet — same disclosed gap pattern as the randomised photo-check's backend parity; local/demo installs get it immediately.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched and the seed confirmed running without error against a real (already-migrated, not fresh-install) local dev database.
+Files: `lib/shared/models/job_role.dart`, `lib/core/widgets/section_background.dart`, `lib/core/storage/app_database.dart`, `lib/core/storage/task_enrichment_data.dart`.
+
+## Splash tied to real readiness, not a blind timer (2026-09-23)
+Direct user report: the app dropped from the splash straight into `LoginScreen`'s own bare loading spinner mid-fetch, looking broken rather than "still loading" — the splash's fixed 1.5s `Timer` had no relationship to whether the local database was actually ready, and today's Cluster G seed (57 new tasks) made cold-open slower, exposing the gap that was already there. Fixed: `_MyAppState.initState()` now waits for the real staff-directory fetch AND a normal splash floor (1.8s, inside the typical 1.5-3s range for a splash screen) via `Future.wait`, whichever is longer.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/app/app.dart`.
