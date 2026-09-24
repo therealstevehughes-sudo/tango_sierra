@@ -2421,3 +2421,15 @@ Backend gap disclosed, two different failure modes for two different risk levels
 
 Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
 Files: `lib/core/storage/app_database.dart`/`.g.dart`, `lib/shared/models/task_extra_field.dart` (new), `lib/shared/models/task_template.dart`, `lib/shared/models/task_submission.dart`, `lib/shared/repositories/task_template_repository.dart`, `lib/shared/repositories/supabase_task_template_repository.dart`, `lib/shared/repositories/task_submission_repository.dart`, `lib/shared/repositories/supabase_task_submission_repository.dart`, `lib/features/tasks/task_model.dart`, `lib/features/tasks/task_controller.dart`, `lib/features/tasks/task_screen.dart`, `lib/features/tasks/ad_hoc_task_screen.dart`, `lib/core/widgets/extra_fields_form.dart` (new), `lib/features/onboarding/staff_assignment_screen.dart`.
+
+## Per-food cooking guidance exception (2026-09-24)
+v1 roadmap item ("per-food legal temperature thresholds"), direct user request. Investigated the actual official source (FSA's Safer Food Better Business caterers pack, now in `compliance_library/`) via `pdftotext` before writing anything, rather than guessing numbers for a live compliance app — that would have been irresponsible given the real consequence of getting this wrong.
+
+Finding: the real per-food distinction FSA draws isn't different numeric core temperatures per food species — it's the same universal time/temperature equivalence table (70°C/2min, 75°C/30s, 80°C/6s, 65°C/10min, 60°C/45min — already correctly present in `fixInstructions`), applied differently by food CATEGORY. The gap was qualitative, not numeric: a flat "must reach 70°C" reading would wrongly fail a correctly-seared rare steak, and wrongly pass a rare pork joint that must never be served rare regardless of searing.
+
+Added the practically critical exception to "Cooked food core temperature"'s `guidanceText` in `task_enrichment_data.dart`, keeping the existing terse, instructional voice (not a long paragraph) rather than breaking the established style of this 150-row list. Left the fuller per-category detail (fish, liver/offal, eggs) out of this pass — deliberately scoped to the one change with real practical consequence, not a wholesale rewrite.
+
+Backend-parity note: `_ensureTaskEnrichment()` only ever writes `guidanceText` once (gated on `jobRole == null`), so an install that already ran enrichment would keep the old text forever without a dedicated fix — added `_ensureCookedCoreTempGuidanceUpdate()`, an append-only correction, same pattern as the existing Handwashing random-photo-check rollback.
+
+Verified: `flutter analyze` clean, all 32 tests passing, fresh Windows build launched.
+Files: `lib/core/storage/app_database.dart`, `lib/core/storage/task_enrichment_data.dart`.
