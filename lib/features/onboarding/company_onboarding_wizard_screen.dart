@@ -907,19 +907,26 @@ class _CompanyOnboardingWizardScreenState
           "us how you'd prefer to pay.",
         ),
         const SizedBox(height: 16),
-        _PaymentProviderOption(
-          value: 'stripe',
+        // Migrated off RadioListTile's own deprecated groupValue/onChanged
+        // (2026-09-25) to a RadioGroup ancestor, per Flutter's own
+        // deprecation guidance.
+        RadioGroup<String>(
           groupValue: _paymentProvider,
-          title: 'Card payment (Stripe)',
-          subtitle: 'Debit/credit card, billed monthly or annually',
           onChanged: (v) => setState(() => _paymentProvider = v),
-        ),
-        _PaymentProviderOption(
-          value: 'gocardless',
-          groupValue: _paymentProvider,
-          title: 'Direct Debit (GoCardless)',
-          subtitle: 'Bank-to-bank payment, no card required',
-          onChanged: (v) => setState(() => _paymentProvider = v),
+          child: const Column(
+            children: [
+              _PaymentProviderOption(
+                value: 'stripe',
+                title: 'Card payment (Stripe)',
+                subtitle: 'Debit/credit card, billed monthly or annually',
+              ),
+              _PaymentProviderOption(
+                value: 'gocardless',
+                title: 'Direct Debit (GoCardless)',
+                subtitle: 'Bank-to-bank payment, no card required',
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 8),
         Center(
@@ -948,20 +955,19 @@ class _CompanyOnboardingWizardScreenState
   }
 }
 
+// Migrated off RadioListTile's own deprecated groupValue/onChanged
+// (2026-09-25) — both are now owned by the RadioGroup ancestor its two call
+// sites are wrapped in, per Flutter's own deprecation guidance.
 class _PaymentProviderOption extends StatelessWidget {
   const _PaymentProviderOption({
     required this.value,
-    required this.groupValue,
     required this.title,
     required this.subtitle,
-    required this.onChanged,
   });
 
   final String value;
-  final String? groupValue;
   final String title;
   final String subtitle;
-  final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -971,8 +977,6 @@ class _PaymentProviderOption extends StatelessWidget {
         padding: EdgeInsets.zero,
         child: RadioListTile<String>(
           value: value,
-          groupValue: groupValue,
-          onChanged: (v) => onChanged(v!),
           title: Text(title),
           subtitle: Text(subtitle),
         ),

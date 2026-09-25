@@ -55,15 +55,18 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
   TaskEnrichmentRow(
     title: "Cooked food core temperature",
     jobRole: JobRole.chefCook,
-    // Per-food exception added 2026-09-24 (v1 roadmap item, direct user
-    // request) — sourced from the FSA's own Safer Food Better Business
-    // caterers pack ("Cooking safely"/"Check it" sections;
+    // Per-food exceptions (2026-09-24, extended 2026-09-25 to fish/eggs/
+    // liver — v1 roadmap item, direct user request) — sourced from the
+    // FSA's own Safer Food Better Business caterers pack ("Cooking
+    // safely"/"Foods that need extra care" sections;
     // compliance_library/guidance/fsa_safer_food_better_business_
     // caterers_pack.pdf), not guessed. A flat 70°C rule would wrongly
-    // fail a correctly-seared rare steak, and wrongly pass a rare pork
-    // joint that should never be served rare at all.
+    // fail a correctly-seared rare steak, wrongly pass a rare pork joint
+    // that should never be served rare, and miss that liver/offal needs
+    // a genuine centre reading unlike other whole cuts (bacteria can be
+    // found throughout it, not just the surface).
     guidanceText:
-        "Probe the thickest part of the food. Record the number, photo it. Must reach 70°C for 2 min (or 75°C). Exception: whole beef/lamb cuts (steaks, joints) can be served rare if fully seared outside — pork and rolled joints must never be rare.",
+        "Probe the thickest part of the food. Record the number, photo it. Must reach 70°C for 2 min (or 75°C). Beef/lamb whole cuts (steaks, joints) can be served rare if fully seared outside — pork and rolled joints must never be rare. Fish: cook through in the centre — some fish (e.g. tuna) may be served rare only if correctly frozen beforehand and fully seared outside. Liver/offal (pate, parfait): must reach a safe temperature in the centre, not just be seared. Eggs: cook until steaming hot, unless using pasteurised egg or a British Lion/equivalent assured scheme for a lightly-cooked dish.",
   ),
   TaskEnrichmentRow(
     title: "Reheated food core temperature",

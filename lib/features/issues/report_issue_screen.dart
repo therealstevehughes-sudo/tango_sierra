@@ -211,24 +211,33 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                   // to a vertical radio list per the standing "short
                   // fixed lists -> tick/radio, long reference lists ->
                   // stay dropdown" rule.
-                  for (final t in IssueType.values)
-                    RadioListTile<IssueType>(
-                      value: t,
-                      groupValue: _type,
-                      dense: true,
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(issueTypeDisplayName(t)),
-                      onChanged: (value) {
-                        setState(() {
-                          _type = value;
-                          _subtype = null;
-                          _supplierId = null;
-                          _deliveryProblemType = null;
-                          _receivedByUserId = null;
-                        });
-                        _loadPickersIfNeeded();
-                      },
+                  // Migrated off RadioListTile's own deprecated groupValue/
+                  // onChanged (2026-09-25) to a RadioGroup ancestor, per
+                  // Flutter's own deprecation guidance.
+                  RadioGroup<IssueType>(
+                    groupValue: _type,
+                    onChanged: (value) {
+                      setState(() {
+                        _type = value;
+                        _subtype = null;
+                        _supplierId = null;
+                        _deliveryProblemType = null;
+                        _receivedByUserId = null;
+                      });
+                      _loadPickersIfNeeded();
+                    },
+                    child: Column(
+                      children: [
+                        for (final t in IssueType.values)
+                          RadioListTile<IssueType>(
+                            value: t,
+                            dense: true,
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(issueTypeDisplayName(t)),
+                          ),
+                      ],
                     ),
+                  ),
                   if (subtypes.isNotEmpty) ...[
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(
@@ -275,16 +284,22 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                       ),
                       const SizedBox(height: 12),
                       const Text('What was wrong with the delivery?'),
-                      for (final d in DeliveryProblemType.values)
-                        RadioListTile<DeliveryProblemType>(
-                          value: d,
-                          groupValue: _deliveryProblemType,
-                          dense: true,
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(deliveryProblemTypeDisplayName(d)),
-                          onChanged: (v) =>
-                              setState(() => _deliveryProblemType = v),
+                      RadioGroup<DeliveryProblemType>(
+                        groupValue: _deliveryProblemType,
+                        onChanged: (v) =>
+                            setState(() => _deliveryProblemType = v),
+                        child: Column(
+                          children: [
+                            for (final d in DeliveryProblemType.values)
+                              RadioListTile<DeliveryProblemType>(
+                                value: d,
+                                dense: true,
+                                contentPadding: EdgeInsets.zero,
+                                title: Text(deliveryProblemTypeDisplayName(d)),
+                              ),
+                          ],
                         ),
+                      ),
                       const SizedBox(height: 12),
                       DropdownButtonFormField<int>(
                         initialValue: _receivedByUserId,

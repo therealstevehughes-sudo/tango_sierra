@@ -203,35 +203,34 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
           ),
           const SizedBox(height: 8),
           const Text('Outcome'),
-          RadioListTile<String>(
-            value: 'accepted',
+          // Migrated off RadioListTile's own deprecated groupValue/onChanged
+          // (2026-09-25) to a RadioGroup ancestor, per Flutter's own
+          // deprecation guidance.
+          RadioGroup<String>(
             groupValue: _outcome,
-            contentPadding: EdgeInsets.zero,
-            title: const Text('Accepted'),
             onChanged: (v) {
               setState(() => _outcome = v ?? _outcome);
               _notify();
             },
-          ),
-          RadioListTile<String>(
-            value: 'rejected',
-            groupValue: _outcome,
-            contentPadding: EdgeInsets.zero,
-            title: const Text('Rejected'),
-            onChanged: (v) {
-              setState(() => _outcome = v ?? _outcome);
-              _notify();
-            },
-          ),
-          RadioListTile<String>(
-            value: 'partial',
-            groupValue: _outcome,
-            contentPadding: EdgeInsets.zero,
-            title: const Text('Partially accepted'),
-            onChanged: (v) {
-              setState(() => _outcome = v ?? _outcome);
-              _notify();
-            },
+            child: const Column(
+              children: [
+                RadioListTile<String>(
+                  value: 'accepted',
+                  contentPadding: EdgeInsets.zero,
+                  title: Text('Accepted'),
+                ),
+                RadioListTile<String>(
+                  value: 'rejected',
+                  contentPadding: EdgeInsets.zero,
+                  title: Text('Rejected'),
+                ),
+                RadioListTile<String>(
+                  value: 'partial',
+                  contentPadding: EdgeInsets.zero,
+                  title: Text('Partially accepted'),
+                ),
+              ],
+            ),
           ),
         ],
       ],
