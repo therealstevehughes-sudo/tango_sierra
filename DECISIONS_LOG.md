@@ -2453,3 +2453,23 @@ Files: `lib/features/tasks/task_screen.dart`, `lib/features/tasks/task_controlle
 
 Verified: `flutter analyze` clean, all 35 tests passing, fresh Windows build launched.
 Files: `lib/features/onboarding/company_onboarding_wizard_screen.dart`, `lib/features/help/faq_screen.dart`, `lib/features/help/troubleshooting_screen.dart`, `lib/core/widgets/trigger_notifications_banner.dart`, `lib/features/dashboard/dashboard_screen.dart`, `lib/features/manager/manager_log_filter.dart`, `lib/features/manager/manager_screen.dart`, `lib/features/manager/overdue_summary_card.dart`, `lib/features/settings/department_management_screen.dart`, `lib/features/settings/training_records_screen.dart`, `lib/features/task_library/preset_management_screen.dart`.
+
+## Free-access code + drawer footer pin (2026-09-25)
+Direct user request: a code ("welovegreekosgyros") specific people can redeem to test the full app on a real backend-hosted organisation without a real GoCardless mandate. New `Subscription.freeAccessGranted`, checked first (before any real billing fact) in `effectiveBillingState()` — always `normal` once granted. Redeemable from a new card on the Billing screen (`SupabaseSubscriptionRepository.redeemFreeAccessCode`).
+
+Deliberately a plain client-side string match, not server-validated — this is a testing convenience for named people, not a revenue-protecting mechanism (that's the separate, already-server-validated "Friends" discount code). Flagged clearly in code so it's never mistaken for something needing stronger protection.
+
+Backend gap: the `free_access_granted` column doesn't exist on the live `subscriptions` table yet — confirmed via `SELECT ... FROM pg_policy` that RLS already permits an executive-tier session to UPDATE their own org's row directly (`polcmd = '*'`, no new Edge Function needed), but the `ALTER TABLE ADD COLUMN` itself was blocked for the agent by the auto-mode classifier (Production Deploy) — same pattern as every other live schema change this session. One command, needs the user to run it via SSH:
+```
+ALTER TABLE public.subscriptions ADD COLUMN IF NOT EXISTS free_access_granted boolean NOT NULL DEFAULT false;
+```
+
+Also: **Settings and Log out pinned always-visible at the bottom of `ManagementDrawer`**, outside the scrollable section list — direct user feedback that both are used every session and shouldn't be buried in a collapsed "Account" dropdown.
+
+Verified: `flutter analyze` clean, all 35 tests passing, fresh Windows build launched.
+Files: `lib/core/widgets/management_drawer.dart`, `lib/shared/models/subscription.dart`, `lib/shared/services/billing_service.dart`, `lib/shared/repositories/subscription_repository.dart`, `lib/features/settings/billing_screen.dart`.
+
+## Preview APK rebuilt with demo data off (2026-09-25)
+Root-caused a real user report ("logging into an existing account only shows the 2 existing staff members... nothing from my own signup seems to have saved") — not a bug. `kSeedDemoData` (build_flags.dart) already exists exactly for this: it defaults to `true` unless built with `--dart-define=SEED_DEMO_DATA=false`, and yesterday's `venurite-preview.apk` build used the plain default, auto-seeding the fake demo organisation/~40 staff on first launch and making it look like nothing the user signed up had persisted. Rebuilt with the flag set correctly and re-uploaded to get.venurite.com (same backup/checksum-verify/atomic-swap process as yesterday) — the app now opens genuinely empty, the only way forward being the real tenant-signup flow.
+
+User's own stated plan, not something built here: providing a separate document/video walkthrough of a well-configured company as a reference, once the app itself ships empty.
