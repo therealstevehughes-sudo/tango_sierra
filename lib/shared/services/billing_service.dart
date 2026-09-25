@@ -16,6 +16,10 @@ enum BillingState { normal, pastDueGrace, restricted }
 const _gracePeriod = Duration(days: 14);
 
 BillingState effectiveBillingState(Subscription subscription, {DateTime? now}) {
+  // Free-access override (2026-09-25) — see Subscription.freeAccessGranted's
+  // own doc comment. Checked first, before any real billing fact.
+  if (subscription.freeAccessGranted) return BillingState.normal;
+
   final at = now ?? DateTime.now();
   if (subscription.status == 'cancelled') return BillingState.restricted;
   if (subscription.status != 'past_due') return BillingState.normal;

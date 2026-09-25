@@ -29,10 +29,48 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
   String? _error;
   String? _discountNote;
 
+  // Free-access code (2026-09-25, direct user request) — separate from
+  // the Direct Debit discount code above: this one grants full access
+  // with no mandate at all, for testing. See Subscription
+  // .freeAccessGranted's own doc comment.
+  final _freeAccessCodeController = TextEditingController();
+  bool _redeemingFreeAccess = false;
+  String? _freeAccessError;
+
   @override
   void dispose() {
     _discountCodeController.dispose();
+    _freeAccessCodeController.dispose();
     super.dispose();
+  }
+
+  Future<void> _redeemFreeAccessCode(int organisationId) async {
+    final code = _freeAccessCodeController.text.trim();
+    if (code.isEmpty) return;
+    setState(() {
+      _redeemingFreeAccess = true;
+      _freeAccessError = null;
+    });
+    try {
+      final granted = await ref
+          .read(subscriptionRepositoryProvider)
+          .redeemFreeAccessCode(organisationId, code);
+      if (!mounted) return;
+      if (granted) {
+        _freeAccessCodeController.clear();
+        // The subscription provider watches this org's row — invalidate
+        // so the screen re-fetches and shows the granted state without
+        // needing a manual pull-to-refresh.
+        ref.invalidate(currentSubscriptionProvider);
+      } else {
+        setState(() => _freeAccessError = 'That code was not recognised.');
+      }
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => _freeAccessError = 'Could not reach the server.');
+    } finally {
+      if (mounted) setState(() => _redeemingFreeAccess = false);
+    }
   }
 
   Future<void> _startDirectDebitSetup() async {
@@ -94,6 +132,8 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                     _buildStatusCard(subscription),
                     const SizedBox(height: 16),
                     _buildDirectDebitCard(subscription),
+                    const SizedBox(height: 16),
+                    _buildFreeAccessCard(subscription),
                   ],
                 );
               },
@@ -207,6 +247,64 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
       ),
     );
   }
+
+  // Free-access code (2026-09-25, direct user request) — a separate,
+  // always-visible card (not folded into the Direct Debit one above,
+  // which is about a real mandate) so it's usable regardless of whether
+  // a mandate exists yet.
+  Widget _buildFreeAccessCard(Subscription subscription) {
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Free-access code',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const SizedBox(height: 8),
+          if (subscription.freeAccessGranted)
+            const Text(
+              'Free access is active for this organisation - no Direct '
+              'Debit or card payment required.',
+            )
+          else ...[
+            const Text(
+              'Have a free-access code? Enter it here to use the full app '
+              'without setting up payment.',
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: _freeAccessCodeController,
+              decoration: const InputDecoration(
+                labelText: 'Free-access code',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton(
+              onPressed: _redeemingFreeAccess
+                  ? null
+                  : () => _redeemFreeAccessCode(subscription.organisationId),
+              child: _redeemingFreeAccess
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Text('Redeem code'),
+            ),
+            if (_freeAccessError != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                _freeAccessError!,
+                style: const TextStyle(color: AppColors.critical),
+              ),
+            ],
+          ],
+        ],
+      ),
+    );
+  }
 }
 
 class _StatusBanner extends StatelessWidget {
@@ -218,27 +316,26 @@ class _StatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (String message, Color color) = switch (state) {
-      BillingState.normal when subscription.status == 'trialing' =>
-        (
-          subscription.trialEndsAt == null
-              ? 'On trial'
-              : 'On trial until ${_formatDate(subscription.trialEndsAt!)}',
-          AppColors.muted,
-        ),
+      BillingState.normal when subscription.status == 'trialing' => (
+        subscription.trialEndsAt == null
+            ? 'On trial'
+            : 'On trial until ${_formatDate(subscription.trialEndsAt!)}',
+        AppColors.muted,
+      ),
       BillingState.normal => ('Active', AppColors.pass),
       BillingState.pastDueGrace => (
         'A recent payment failed. Please update your Direct Debit - '
-        'access continues during this grace period.',
+            'access continues during this grace period.',
         AppColors.caution,
       ),
       BillingState.restricted when subscription.status == 'cancelled' => (
         'Your Direct Debit was cancelled. Access is restricted to '
-        'read-only until billing is set up again.',
+            'read-only until billing is set up again.',
         AppColors.critical,
       ),
       BillingState.restricted => (
         'Payment has been overdue too long. Access is restricted to '
-        'read-only until this is resolved.',
+            'read-only until this is resolved.',
         AppColors.critical,
       ),
     };
@@ -253,6 +350,5 @@ class _StatusBanner extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) =>
-      '${date.day}/${date.month}/${date.year}';
+  String _formatDate(DateTime date) => '${date.day}/${date.month}/${date.year}';
 }

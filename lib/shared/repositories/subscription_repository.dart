@@ -22,6 +22,12 @@ abstract class SubscriptionRepository {
   /// £19/branch/month instead of £39. Never required at sign-up anymore
   /// -- this is the one place it's entered.
   Future<DirectDebitSetupResult> startDirectDebitSetup({String? discountCode});
+
+  /// Free-access code (2026-09-25) — see Subscription.freeAccessGranted's
+  /// own doc comment. Returns true if [code] matched and access was
+  /// granted; false for a wrong code (never throws for a wrong guess —
+  /// this is a plain redemption box, not a security-sensitive login).
+  Future<bool> redeemFreeAccessCode(int organisationId, String code);
 }
 
 class DirectDebitSetupResult {
@@ -47,6 +53,16 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
   SupabaseSubscriptionRepository(this._client);
 
   final BackendRestClient _client;
+
+  // Free-access code (2026-09-25, direct user request) — deliberately a
+  // plain client-side string match, not a server-validated secret: this
+  // is a testing convenience for two named people, not a real discount
+  // mechanism protecting revenue (that's the server-validated "Friends"
+  // discount code in startDirectDebitSetup above). Anyone who found this
+  // string in the compiled app could grant themselves free access, which
+  // is an acceptable risk for what this exists to do — flagged here so
+  // it's never mistaken for something that needs stronger protection.
+  static const _freeAccessCode = 'welovegreekosgyros';
 
   @override
   Future<Subscription?> getForOrganisation(int organisationId) async {
@@ -84,6 +100,17 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
     );
   }
 
+  @override
+  Future<bool> redeemFreeAccessCode(int organisationId, String code) async {
+    if (code.trim().toLowerCase() != _freeAccessCode) return false;
+    await _client.update(
+      'subscriptions',
+      filter: 'organisation_id=eq.$organisationId',
+      body: {'free_access_granted': true},
+    );
+    return true;
+  }
+
   Subscription _toModel(Map<String, dynamic> row) => Subscription(
     id: (row['id'] as num).toInt(),
     organisationId: row['organisation_id'] as int,
@@ -108,5 +135,6 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
         : DateTime.parse(row['restricted_at'] as String),
     foundingOffer: row['founding_offer'] as bool? ?? false,
     billedSiteCount: (row['billed_site_count'] as num?)?.toInt() ?? 1,
+    freeAccessGranted: row['free_access_granted'] as bool? ?? false,
   );
 }

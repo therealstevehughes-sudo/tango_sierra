@@ -35,6 +35,15 @@ class Subscription {
   // own doc comment for that threshold). Drives price display here
   // instead of planName, which is now always 'standard'.
   final int billedSiteCount;
+  // Free-access code (2026-09-25, direct user request) — lets Steve/Tom
+  // test the full app on a real backend-hosted organisation without ever
+  // needing a real GoCardless mandate. Once set, effectiveBillingState()
+  // always returns `normal` regardless of status/payment-failure facts —
+  // this deliberately bypasses the billing decision entirely rather than
+  // faking a fully-paid status, so it's obviously a comp/override to
+  // anyone reading the data later, not indistinguishable from a real
+  // paying customer.
+  final bool freeAccessGranted;
 
   const Subscription({
     required this.id,
@@ -52,6 +61,7 @@ class Subscription {
     this.restrictedAt,
     this.foundingOffer = false,
     this.billedSiteCount = 1,
+    this.freeAccessGranted = false,
   });
 }
 

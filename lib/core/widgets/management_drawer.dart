@@ -429,16 +429,16 @@ class ManagementDrawer extends ConsumerWidget {
         label: 'Company',
         children: _itemTiles(context, _companyItems, atLeast),
       ),
-      // ACCOUNT — collapsed by default like every non-Daily section, per
-      // the approved spec, even though Log out is used every session.
+      // ACCOUNT — collapsed by default like every non-Daily section.
+      // Settings and Log out used to live here too, but per direct user
+      // feedback (2026-09-25) those two are used every single session and
+      // shouldn't be buried inside a collapsed dropdown — they're now
+      // pinned, always visible, at the very bottom of the drawer (see
+      // build()'s Column below). This section keeps only the genuinely
+      // occasional items.
       _section(
         label: 'Account',
         children: [
-          _navTile(
-            icon: Icons.settings,
-            label: 'Settings',
-            onTap: () => _navigate(context, const SettingsScreen()),
-          ),
           // Help hub (2026-09-24) — Contact VenuRite/FAQ/Troubleshooting,
           // the same destination base tier reaches via its own "?" icon
           // (see WorkerHubScreen/TaskScreen).
@@ -474,6 +474,45 @@ class ManagementDrawer extends ConsumerWidget {
                 );
               },
             ),
+        ],
+      ),
+    ].whereType<Widget>().toList();
+
+    // Pinned footer (2026-09-25, direct user feedback) — Settings and Log
+    // out are used every session; burying them in a collapsed "Account"
+    // dropdown made them harder to reach than the rarely-used items.
+    // Always visible at the bottom, outside the scrollable section list.
+    return Drawer(
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                DrawerHeader(
+                  decoration: const BoxDecoration(color: AppColors.tealTint),
+                  child: Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.tealInk,
+                      ),
+                    ),
+                  ),
+                ),
+                ...sections,
+              ],
+            ),
+          ),
+          const Divider(height: 1),
+          _navTile(
+            icon: Icons.settings,
+            label: 'Settings',
+            onTap: () => _navigate(context, const SettingsScreen()),
+          ),
           _navTile(
             icon: Icons.logout,
             label: 'Log out',
@@ -493,29 +532,7 @@ class ManagementDrawer extends ConsumerWidget {
               ref.read(currentUserProvider.notifier).state = null;
             },
           ),
-        ],
-      ),
-    ].whereType<Widget>().toList();
-
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(color: AppColors.tealTint),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.tealInk,
-                ),
-              ),
-            ),
-          ),
-          ...sections,
+          const SizedBox(height: 4),
         ],
       ),
     );
