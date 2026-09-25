@@ -2445,3 +2445,11 @@ Item #2 from "build 1-4," deliberately left for its own dedicated pass since it 
 
 Verified: `flutter analyze` clean, all 35 tests passing (32 existing + 3 new), fresh Windows build launched.
 Files: `lib/features/tasks/task_screen.dart`, `lib/features/tasks/task_controller.dart`, `lib/features/tasks/task_overview_screen.dart`, `test/task_controller_complete_from_list_test.dart` (new).
+
+## Three UI bugs from direct user testing (2026-09-25)
+- **"I'll decide later" (payment step)**: was `setState(() => _paymentProvider = null)` with no other feedback — when nothing was selected yet (the common case reaching this button), that's a zero-visible-change tap, reading as broken. Now confirms via SnackBar every time regardless of prior state.
+- **"Company created" screen overflow**: every other wizard step is wrapped in `Expanded(child: SingleChildScrollView(...))`; this one-off post-signup/invite-team screen never was — fine while the invited-staff list was empty, overflowed once it grew.
+- **ExpansionTile corner artifact**: Material's `ExpansionTile` draws its own plain rectangular border by default, visibly clashing with a wrapping `Card`'s rounded corners. Found in 10 places across the app (not just the 2 the user saw) via a codebase-wide grep; fixed all 10 with the same `shape`/`collapsedShape: RoundedRectangleBorder(side: BorderSide.none)` rather than patching only what was reported.
+
+Verified: `flutter analyze` clean, all 35 tests passing, fresh Windows build launched.
+Files: `lib/features/onboarding/company_onboarding_wizard_screen.dart`, `lib/features/help/faq_screen.dart`, `lib/features/help/troubleshooting_screen.dart`, `lib/core/widgets/trigger_notifications_banner.dart`, `lib/features/dashboard/dashboard_screen.dart`, `lib/features/manager/manager_log_filter.dart`, `lib/features/manager/manager_screen.dart`, `lib/features/manager/overdue_summary_card.dart`, `lib/features/settings/department_management_screen.dart`, `lib/features/settings/training_records_screen.dart`, `lib/features/task_library/preset_management_screen.dart`.
