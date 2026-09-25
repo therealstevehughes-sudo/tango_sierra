@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/task_segment.dart';
@@ -69,7 +70,10 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('All Tasks')),
+      appBar: AppBar(
+        title: const Text('All Tasks'),
+        actions: const [AssistantIconButton()],
+      ),
       body: ResponsiveContent(
         child: ListView(
           padding: const EdgeInsets.all(16),

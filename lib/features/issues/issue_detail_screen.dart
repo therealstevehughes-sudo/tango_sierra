@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/issue.dart';
@@ -259,7 +260,10 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
     final issue = widget.issue;
     final backendAvailable = ref.watch(backendDataEnabledProvider);
     return Scaffold(
-      appBar: AppBar(title: Text(issueTypeDisplayName(issue.type))),
+      appBar: AppBar(
+        title: Text(issueTypeDisplayName(issue.type)),
+        actions: const [AssistantIconButton()],
+      ),
       // Visual pass follow-up (2026-09-24) — was Center(...), which
       // vertically centered everything on a tall window, reading as
       // "floating in space" with no anchor. ResponsiveContent's own

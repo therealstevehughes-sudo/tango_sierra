@@ -250,6 +250,22 @@ class _CompanyOnboardingWizardScreenState
         _error = e.message;
         _submitting = false;
       });
+    } catch (e) {
+      // Fixed (2026-09-25, direct user report: "the set-up wizard keeps
+      // cycling to nothing") — any error other than TenantSignupException
+      // (a network timeout, an unexpected server response, anything
+      // thrown by _activateBackendSession/_startDirectDebitAfterSignup)
+      // used to propagate uncaught, leaving _submitting stuck true
+      // forever - the button just spins with no way forward and no
+      // visible reason why. Same "never leave the user stuck" principle
+      // as everywhere else in this app.
+      if (!mounted) return;
+      setState(() {
+        _error =
+            'Something went wrong creating your company. Please try '
+            'again - if it keeps happening, contact VenuRite.';
+        _submitting = false;
+      });
     }
   }
 
@@ -744,6 +760,16 @@ class _CompanyOnboardingWizardScreenState
     return FutureBuilder<_PayoffData>(
       future: _payoffFuture,
       builder: (context, snapshot) {
+        // Same fix as _submit()'s new catch-all — a FutureBuilder that only
+        // checks hasData spins forever if the future ever completes with
+        // an error instead of a value, with no way forward and no visible
+        // reason why.
+        if (snapshot.hasError) {
+          return const Text(
+            "Couldn't load the starter set for this venue type - you can "
+            'add tasks and equipment yourself once you\'re in.',
+          );
+        }
         if (!snapshot.hasData) {
           return const Padding(
             padding: EdgeInsets.symmetric(vertical: 40),

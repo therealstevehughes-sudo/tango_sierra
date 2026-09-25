@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -52,7 +53,10 @@ class _ShiftLogScreenState extends ConsumerState<ShiftLogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Shift Log')),
+      appBar: AppBar(
+        title: const Text('Shift Log'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Shift Log'),
       body: SafeArea(
         child: Padding(

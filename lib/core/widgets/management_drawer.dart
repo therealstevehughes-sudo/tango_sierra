@@ -478,35 +478,33 @@ class ManagementDrawer extends ConsumerWidget {
       ),
     ].whereType<Widget>().toList();
 
-    // Pinned footer (2026-09-25, direct user feedback) — Settings and Log
-    // out are used every session; burying them in a collapsed "Account"
-    // dropdown made them harder to reach than the rarely-used items.
-    // Always visible at the bottom, outside the scrollable section list.
+    // Settings/Log out placement (2026-09-25, direct user feedback,
+    // corrected same day) — first tried pinning these outside the
+    // scrollable list entirely; the actual ask was narrower: no collapsed
+    // "Account" header with an irrelevant expand/contract arrow over
+    // these two (they're fixed items, not a group that toggles), but
+    // still ordinary members of the one scrolling list — scrolls away
+    // like everything else, just always at the tail, always expanded,
+    // never behind a tap-to-reveal header.
     return Drawer(
-      child: Column(
+      child: ListView(
+        padding: EdgeInsets.zero,
         children: [
-          Expanded(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                DrawerHeader(
-                  decoration: const BoxDecoration(color: AppColors.tealTint),
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.tealInk,
-                      ),
-                    ),
-                  ),
+          DrawerHeader(
+            decoration: const BoxDecoration(color: AppColors.tealTint),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.tealInk,
                 ),
-                ...sections,
-              ],
+              ),
             ),
           ),
+          ...sections,
           const Divider(height: 1),
           _navTile(
             icon: Icons.settings,
@@ -532,7 +530,6 @@ class ManagementDrawer extends ConsumerWidget {
               ref.read(currentUserProvider.notifier).state = null;
             },
           ),
-          const SizedBox(height: 4),
         ],
       ),
     );

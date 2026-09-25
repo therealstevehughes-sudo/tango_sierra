@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/management_drawer.dart';
@@ -150,6 +151,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
             ? UserTitle(user: currentUser)
             : const Text('Home'),
         actions: [
+          const AssistantIconButton(),
           TextButton.icon(
             onPressed: () =>
                 ref.read(currentUserProvider.notifier).state = null,

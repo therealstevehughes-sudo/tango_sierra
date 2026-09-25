@@ -9,6 +9,7 @@ import '../../core/utils/date_format.dart';
 import '../../core/utils/unit_conversion.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/extra_fields_form.dart';
 import '../../core/widgets/guided_task_header.dart';
 import '../../core/widgets/management_drawer.dart';
@@ -29,7 +30,6 @@ import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/models/task_extra_field.dart';
 import '../../shared/providers/venue_setup_providers.dart';
-import '../help/help_screen.dart';
 import 'billing_gate.dart';
 import 'camera_capture_screen.dart';
 import 'delivery_detail_form.dart';
@@ -437,18 +437,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         icon: const Icon(Icons.view_list_outlined),
         tooltip: 'See all tasks',
       ),
-      // Help (2026-09-24) — base tier's drawer is deliberately absent (see
-      // this class's own doc comment above build()), so this is the one
-      // small addition to the existing actions row rather than a new nav
-      // surface.
-      IconButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const HelpScreen()),
-        ),
-        icon: const Icon(Icons.help_outline),
-        tooltip: 'Help',
-      ),
+      // Omnipresent assistant icon (2026-09-25) — every screen is getting
+      // the same one addition.
+      const AssistantIconButton(),
       TextButton.icon(
         onPressed: _confirmLogOut,
         icon: const Icon(Icons.logout, size: 18),

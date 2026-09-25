@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/assistant_icon_button.dart';
+
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
@@ -315,7 +317,10 @@ class _LeadershipDashboardScreenState
     final supervisorHasNoScope =
         _isSupervisor && !_loading && (_allowedUserIds?.isEmpty ?? false);
     return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard Overview')),
+      appBar: AppBar(
+        title: const Text('Dashboard Overview'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Dashboard Overview'),
       body: _sites.isEmpty
           ? const Center(child: Text('No branches to show yet.'))

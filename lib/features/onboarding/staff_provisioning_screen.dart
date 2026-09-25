@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -102,7 +103,10 @@ class _StaffProvisioningScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add Team Member')),
+      appBar: AppBar(
+        title: const Text('Add Team Member'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Add Team Member'),
       body: SafeArea(
         child: Padding(

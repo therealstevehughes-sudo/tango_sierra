@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -40,7 +41,10 @@ class DashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard')),
+      appBar: AppBar(
+        title: const Text('Dashboard'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Dashboard'),
       body: const SafeArea(child: DashboardBody()),
     );

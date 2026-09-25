@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/services/document_store.dart';
 import '../../core/utils/date_format.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -187,6 +188,7 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
       appBar: AppBar(
         title: const Text('Document Centre'),
         actions: [
+          const AssistantIconButton(),
           IconButton(
             icon: const Icon(Icons.upload_file),
             tooltip: 'Add Document',

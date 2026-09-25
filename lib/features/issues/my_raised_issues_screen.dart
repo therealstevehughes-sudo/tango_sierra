@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -34,6 +35,7 @@ class MyRaisedIssuesScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Things I\'ve reported'),
         actions: [
+          const AssistantIconButton(),
           TextButton.icon(
             onPressed: () => _logOut(context, ref),
             icon: const Icon(Icons.logout, size: 18),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
@@ -245,7 +246,10 @@ class _PresetManagementScreenState
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Task Presets')),
+      appBar: AppBar(
+        title: const Text('Task Presets'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Task Presets'),
       body: SafeArea(
         child: Padding(

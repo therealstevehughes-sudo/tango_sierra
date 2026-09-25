@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/trigger_notifications_banner.dart';
@@ -60,6 +61,7 @@ class _TopScreenState extends ConsumerState<TopScreen> {
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text('Top-Tier View'),
+        actions: const [AssistantIconButton()],
       ),
       // Sub-sprint 2 (visual/UX pass): see manager_screen.dart's identical
       // change for the rationale — replaces the previous 9-icon,

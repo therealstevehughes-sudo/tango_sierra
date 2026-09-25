@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -12,7 +13,6 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../auth/end_shift.dart';
-import '../help/help_screen.dart';
 import '../issues/my_raised_issues_screen.dart';
 import '../issues/report_issue_screen.dart';
 import 'ad_hoc_task_screen.dart';
@@ -48,17 +48,9 @@ class WorkerHubScreen extends ConsumerWidget {
             ? UserTitle(user: currentUser)
             : const Text('Home'),
         actions: [
-          // Help (2026-09-24) — base tier has no drawer at all (see class
-          // doc), so this is the one small addition to the existing
-          // actions row rather than a new nav surface.
-          IconButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const HelpScreen()),
-            ),
-            icon: const Icon(Icons.help_outline),
-            tooltip: 'Help',
-          ),
+          // Omnipresent assistant icon (2026-09-25) — replaces the plain
+          // "?" every screen is getting the same one addition.
+          const AssistantIconButton(),
           // "End shift" (2026-09-24, direct user request) — replaces a
           // plain logout with a "here's what's still not done" check,
           // plus records the clock-out on today's ShiftLog.
