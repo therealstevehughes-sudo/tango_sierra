@@ -417,6 +417,10 @@ class _SubmissionLogSection extends StatelessWidget {
 
     return Card(
       child: ExpansionTile(
+        // Layout fix (2026-09-25) — see faq_screen.dart's own comment on
+        // this same ExpansionTile-vs-Card corner artifact fix.
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
+        collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         leading: const Icon(Icons.list_alt),
         title: Text(
           '${entries.length} entr${entries.length == 1 ? 'y' : 'ies'}',
@@ -489,6 +493,10 @@ class _SessionSummariesBanner extends StatelessWidget {
 
     return Card(
       child: ExpansionTile(
+        // Layout fix (2026-09-25) — see faq_screen.dart's own comment on
+        // this same ExpansionTile-vs-Card corner artifact fix.
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
+        collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         leading: const Icon(
           Icons.assignment_turned_in,
           color: AppColors.caution,

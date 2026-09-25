@@ -23,6 +23,16 @@ class FaqScreen extends StatelessWidget {
               final entry = faqEntries[index];
               return Card(
                 child: ExpansionTile(
+                  // Layout fix (2026-09-25, direct user report) —
+                  // ExpansionTile draws its own plain rectangular border
+                  // when expanded by default, which clashes visibly with
+                  // the Card's rounded corners ("little lines on the
+                  // corners"). No border needed; the Card already frames
+                  // it.
+                  shape: const RoundedRectangleBorder(side: BorderSide.none),
+                  collapsedShape: const RoundedRectangleBorder(
+                    side: BorderSide.none,
+                  ),
                   title: Text(
                     entry.question,
                     style: const TextStyle(fontWeight: FontWeight.w600),

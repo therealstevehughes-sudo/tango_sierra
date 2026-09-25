@@ -201,11 +201,7 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
   // one-off collapse mechanism.
   String _summary() {
     if (axis == null) return 'Today + all fails';
-    final parts = <String>[
-      ?name,
-      if (date != null) formatDate(date!),
-      ?task,
-    ];
+    final parts = <String>[?name, if (date != null) formatDate(date!), ?task];
     if (parts.isEmpty) return 'By ${_axisLabel(axis!)}';
     return parts.join(' · ');
   }
@@ -225,6 +221,10 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
   Widget build(BuildContext context) {
     return Card(
       child: ExpansionTile(
+        // Layout fix (2026-09-25) — see faq_screen.dart's own comment on
+        // this same ExpansionTile-vs-Card corner artifact fix.
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
+        collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         title: const Text('Filter'),
         subtitle: Text(_summary()),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -280,8 +280,7 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
           decoration: const InputDecoration(labelText: 'Date'),
           items: dateOptions
               .map(
-                (d) =>
-                    DropdownMenuItem(value: d, child: Text(formatDate(d))),
+                (d) => DropdownMenuItem(value: d, child: Text(formatDate(d))),
               )
               .toList(),
           onChanged: _onDateAfterNameChanged,
@@ -308,9 +307,7 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
         initialValue: date,
         decoration: const InputDecoration(labelText: 'Date'),
         items: dateOptions
-            .map(
-              (d) => DropdownMenuItem(value: d, child: Text(formatDate(d))),
-            )
+            .map((d) => DropdownMenuItem(value: d, child: Text(formatDate(d))))
             .toList(),
         onChanged: _onDateChanged,
       ),
@@ -368,8 +365,7 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
           decoration: const InputDecoration(labelText: 'Date'),
           items: dateOptions
               .map(
-                (d) =>
-                    DropdownMenuItem(value: d, child: Text(formatDate(d))),
+                (d) => DropdownMenuItem(value: d, child: Text(formatDate(d))),
               )
               .toList(),
           onChanged: _onDateAfterTaskNameChanged,

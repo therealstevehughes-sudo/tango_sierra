@@ -16,7 +16,8 @@ import '../../shared/models/user.dart';
 import '../../shared/models/venue_type.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/subscription_providers.dart';
-import '../../shared/providers/task_submission_providers.dart' show appDatabaseProvider;
+import '../../shared/providers/task_submission_providers.dart'
+    show appDatabaseProvider;
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/equipment_repository.dart';
 import '../../shared/repositories/task_template_repository.dart';
@@ -266,7 +267,10 @@ class _CompanyOnboardingWizardScreenState
   Future<void> _activateBackendSession(TenantSignupResult result) async {
     try {
       final response = await gotrue.Supabase.instance.client.auth
-          .signInWithPassword(email: _email.text.trim(), password: _password.text);
+          .signInWithPassword(
+            email: _email.text.trim(),
+            password: _password.text,
+          );
       if (response.session == null) return;
 
       ref.read(backendAuthEnabledProvider.notifier).state = true;
@@ -317,18 +321,27 @@ class _CompanyOnboardingWizardScreenState
       return Scaffold(
         appBar: AppBar(title: const Text('Company created')),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: ResponsiveContent(
-              maxWidth: 440,
-              alignment: Alignment.center,
-              child: _SuccessView(
-                result: _done!,
-                activeSiteId: _activeSiteId,
-                paymentProvider: _paymentProvider,
-                startingDirectDebit: _startingDirectDebit,
-                directDebitRedirectUrl: _directDebitRedirectUrl,
-                directDebitError: _directDebitError,
+          // Layout fix (2026-09-25, direct user report - overflow on this
+          // screen): unlike every other wizard step (see the shared
+          // Expanded(child: SingleChildScrollView(...)) shell above), this
+          // one-off success/invite-team screen was never made scrollable -
+          // fine while the invited-staff list is empty, but it grows with
+          // every "Add team member" tap and the fixed-height Scaffold body
+          // can't absorb that.
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: ResponsiveContent(
+                maxWidth: 440,
+                alignment: Alignment.center,
+                child: _SuccessView(
+                  result: _done!,
+                  activeSiteId: _activeSiteId,
+                  paymentProvider: _paymentProvider,
+                  startingDirectDebit: _startingDirectDebit,
+                  directDebitRedirectUrl: _directDebitRedirectUrl,
+                  directDebitError: _directDebitError,
+                ),
               ),
             ),
           ),
@@ -474,9 +487,7 @@ class _CompanyOnboardingWizardScreenState
             labelText: 'Password',
             helperText: 'At least 8 characters',
             suffixIcon: IconButton(
-              icon: Icon(
-                _obscure ? Icons.visibility : Icons.visibility_off,
-              ),
+              icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
               onPressed: () => setState(() => _obscure = !_obscure),
             ),
           ),
@@ -559,7 +570,8 @@ class _CompanyOnboardingWizardScreenState
           controller: _billingEmail,
           decoration: InputDecoration(
             labelText: 'Billing contact email (optional)',
-            helperText: 'Leave blank to use ${_email.text.trim().isEmpty ? "your email" : _email.text.trim()}',
+            helperText:
+                'Leave blank to use ${_email.text.trim().isEmpty ? "your email" : _email.text.trim()}',
           ),
           keyboardType: TextInputType.emailAddress,
         ),
@@ -588,14 +600,16 @@ class _CompanyOnboardingWizardScreenState
               _StructureRow(
                 icon: Icons.map_outlined,
                 label: 'Regions (optional)',
-                sublabel: 'Group venues by country or area - skip if you '
+                sublabel:
+                    'Group venues by country or area - skip if you '
                     "don't need it",
                 indent: 1,
               ),
               _StructureRow(
                 icon: Icons.storefront_outlined,
                 label: 'Venues',
-                sublabel: 'One venue today, hundreds later - add more any '
+                sublabel:
+                    'One venue today, hundreds later - add more any '
                     'time',
                 indent: 2,
               ),
@@ -637,9 +651,7 @@ class _CompanyOnboardingWizardScreenState
         const SizedBox(height: 12),
         TextField(
           controller: _venueAddress,
-          decoration: const InputDecoration(
-            labelText: 'Address (optional)',
-          ),
+          decoration: const InputDecoration(labelText: 'Address (optional)'),
           maxLines: 2,
         ),
         const SizedBox(height: 12),
@@ -647,7 +659,8 @@ class _CompanyOnboardingWizardScreenState
           controller: _venueRegion,
           decoration: const InputDecoration(
             labelText: 'Region / area (optional)',
-            helperText: 'e.g. "London" - only needed if you have (or will '
+            helperText:
+                'e.g. "London" - only needed if you have (or will '
                 'have) more than one venue',
           ),
           textCapitalization: TextCapitalization.words,
@@ -657,19 +670,16 @@ class _CompanyOnboardingWizardScreenState
           initialValue: _venueTypeId,
           decoration: const InputDecoration(
             labelText: 'Venue type (optional)',
-            helperText: "Picking one shows you a ready-made starter set "
+            helperText:
+                "Picking one shows you a ready-made starter set "
                 'next - for tasks and equipment you already know you need.',
           ),
           items: _venueTypes
-              .map(
-                (t) => DropdownMenuItem(value: t.id, child: Text(t.name)),
-              )
+              .map((t) => DropdownMenuItem(value: t.id, child: Text(t.name)))
               .toList(),
           onChanged: (v) => setState(() {
             _venueTypeId = v;
-            _venueType = _venueTypes
-                .firstWhere((t) => t.id == v)
-                .name;
+            _venueType = _venueTypes.firstWhere((t) => t.id == v).name;
           }),
         ),
       ],
@@ -914,7 +924,22 @@ class _CompanyOnboardingWizardScreenState
         const SizedBox(height: 8),
         Center(
           child: TextButton(
-            onPressed: () => setState(() => _paymentProvider = null),
+            // Fixed (2026-09-25, direct user report): this used to just
+            // clear the selection with setState — when nothing was picked
+            // yet (the common case reaching this button), that produces
+            // zero visible change, reading as "doesn't click to anything."
+            // A SnackBar confirmation makes every tap visibly register,
+            // not just the ones that happen to deselect something.
+            onPressed: () {
+              setState(() => _paymentProvider = null);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    "No problem — you can set this up anytime from Settings.",
+                  ),
+                ),
+              );
+            },
             child: const Text("I'll decide later"),
           ),
         ),
@@ -983,10 +1008,7 @@ class _StructureRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(label, style: Theme.of(context).textTheme.titleMedium),
-                Text(
-                  sublabel,
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
+                Text(sublabel, style: Theme.of(context).textTheme.bodySmall),
               ],
             ),
           ),
@@ -995,7 +1017,6 @@ class _StructureRow extends StatelessWidget {
     );
   }
 }
-
 
 // Sprint 046 (Team Invite + Live Landing, 2026-09-22) — converted from a
 // StatelessWidget: now owns the "invite your team" mini-form's own state
@@ -1044,8 +1065,8 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
     final name = _staffName.text.trim();
     final jobTitle = _staffJobTitle.text.trim();
     if (siteId == null || name.isEmpty || jobTitle.isEmpty) return;
-    final accessToken = gotrue
-        .Supabase.instance.client.auth.currentSession?.accessToken;
+    final accessToken =
+        gotrue.Supabase.instance.client.auth.currentSession?.accessToken;
     if (accessToken == null) return;
 
     setState(() {
@@ -1173,18 +1194,19 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
                 DropdownButtonFormField<String>(
                   initialValue: _staffRoleTier,
                   decoration: const InputDecoration(labelText: 'Tier'),
-                  items: [
-                    RoleTier.base,
-                    RoleTier.supervisor,
-                    RoleTier.venueManager,
-                  ]
-                      .map(
-                        (tier) => DropdownMenuItem(
-                          value: tier.name,
-                          child: Text(roleTierDisplayName(tier)),
-                        ),
-                      )
-                      .toList(),
+                  items:
+                      [
+                            RoleTier.base,
+                            RoleTier.supervisor,
+                            RoleTier.venueManager,
+                          ]
+                          .map(
+                            (tier) => DropdownMenuItem(
+                              value: tier.name,
+                              child: Text(roleTierDisplayName(tier)),
+                            ),
+                          )
+                          .toList(),
                   onChanged: (v) => setState(() => _staffRoleTier = v!),
                 ),
                 if (_inviteError != null) ...[
@@ -1215,7 +1237,9 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
               ? _goToDashboard
               : () {
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
+                    MaterialPageRoute(
+                      builder: (_) => const SeniorLoginScreen(),
+                    ),
                   );
                 },
           child: Text(activated ? 'Go to dashboard' : 'Go to sign in'),

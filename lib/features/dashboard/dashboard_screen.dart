@@ -455,6 +455,10 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
     return AppCard(
       padding: EdgeInsets.zero,
       child: ExpansionTile(
+        // Layout fix (2026-09-25) — see faq_screen.dart's own comment on
+        // this same ExpansionTile-vs-Card corner artifact fix.
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
+        collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         title: Text(summary.site.name),
         subtitle: Wrap(
           spacing: 8,

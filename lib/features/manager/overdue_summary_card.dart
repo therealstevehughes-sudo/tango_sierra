@@ -31,6 +31,10 @@ class OverdueSummaryCard extends StatelessWidget {
 
     return Card(
       child: ExpansionTile(
+        // Layout fix (2026-09-25) — see faq_screen.dart's own comment on
+        // this same ExpansionTile-vs-Card corner artifact fix.
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
+        collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         leading: const Icon(Icons.schedule, color: AppColors.caution),
         title: Text(
           '${entries.length} task${entries.length == 1 ? '' : 's'} overdue',

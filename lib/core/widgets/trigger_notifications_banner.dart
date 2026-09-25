@@ -39,6 +39,10 @@ class TriggerNotificationsBanner extends StatelessWidget {
 
     return Card(
       child: ExpansionTile(
+        // Layout fix (2026-09-25) — see faq_screen.dart's own comment on
+        // this same ExpansionTile-vs-Card corner artifact fix.
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
+        collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         initiallyExpanded: true,
         leading: const Icon(Icons.notifications, color: AppColors.critical),
         title: Text(

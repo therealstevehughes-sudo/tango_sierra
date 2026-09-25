@@ -23,6 +23,12 @@ class TroubleshootingScreen extends StatelessWidget {
               final entry = troubleshootingEntries[index];
               return Card(
                 child: ExpansionTile(
+                  // Layout fix (2026-09-25) — see faq_screen.dart's own
+                  // comment on this same fix.
+                  shape: const RoundedRectangleBorder(side: BorderSide.none),
+                  collapsedShape: const RoundedRectangleBorder(
+                    side: BorderSide.none,
+                  ),
                   title: Text(
                     entry.question,
                     style: const TextStyle(fontWeight: FontWeight.w600),

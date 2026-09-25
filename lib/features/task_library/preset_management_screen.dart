@@ -325,6 +325,10 @@ class _PresetManagementScreenState
   Widget _buildPresetCard(TaskPreset preset) {
     return Card(
       child: ExpansionTile(
+        // Layout fix (2026-09-25) — see faq_screen.dart's own comment on
+        // this same ExpansionTile-vs-Card corner artifact fix.
+        shape: const RoundedRectangleBorder(side: BorderSide.none),
+        collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         title: Text(
           preset.active ? preset.name : '${preset.name} (inactive)',
           style: TextStyle(color: preset.active ? null : AppColors.muted),
