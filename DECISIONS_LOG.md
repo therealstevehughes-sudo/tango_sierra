@@ -2616,3 +2616,13 @@ Verified: `flutter analyze` clean, all 35 tests passing, real `flutter build win
 Voice-to-text for notes is now feature-complete across every notes field in the app. Not yet done: real end-to-end confirmation on a real (free-access-code) account — deferred to the user's own testing.
 
 Files: `lib/features/tasks/task_screen.dart`, `lib/features/issues/report_issue_screen.dart`, `lib/features/issues/issue_detail_screen.dart`, `lib/features/tasks/end_of_session_summary_screen.dart`.
+
+## Marketing website — first version published (2026-09-27)
+
+Built a single-page marketing site (hero, trust bar, feature grid, "how it works," three real-content UI showcase sections — task checklist, AI assistant answer, oversight dashboard — pricing, FAQ, final CTA), in the app's own brand (teal/paper palette, Fraunces headlines, real kitchen photography). Published as a private Claude Artifact for review: `https://claude.ai/artifact/7UxGPnn5dbSpWvivt4Uuf4`. Not yet deployed to the real `venurite.com` domain — that's a separate follow-up once the design is approved.
+
+Direct instruction, worth recording: keep all copy benefit-focused, never explain underlying mechanics (AI grounding approach, scoring/ranking logic, etc.) that a competitor could copy from a public page.
+
+## Roster add-on pricing set (2026-09-27)
+
+Closes the placeholder from the Roster add-on plan (`roster_addon_enabled`/billing sections). Researched real UK competitor pricing for rota/scheduling tools first (RotaCloud ~£1/employee/mo, Deputy £3.50-4.90/user/mo, Planday £2.99-4.49/user/mo + platform fee, Findmyshift flat £22/mo unlimited staff) before proposing a number — an initial flat £15/branch recommendation was superseded by the founder's own tiered idea, confirmed as final: **£6/branch/month for venues under 10 staff, £10/branch/month for 10+ staff**. Still comfortably undercuts every researched competitor. Billing rule: staff count is measured as active staff count at the time of billing each month (not a peak or a manual declaration) — avoids an ambiguous or gameable threshold. Reflected on the marketing website's pricing section; **not yet updated** in the Roster plan's own schema/billing sections (`organisations.roster_addon_enabled`-adjacent pricing logic isn't built yet — Roster is still queued last, after all other current work).
