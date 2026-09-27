@@ -15,51 +15,49 @@ alter table sites add column if not exists roster_category_caps jsonb;
 -- === R5: off-day requests ===
 create table if not exists off_day_requests (
   id bigint generated always as identity primary key,
-  site_id bigint not null references sites(id),
-  user_id bigint not null references users(id),
+  site_id integer not null references sites(id),
+  user_id integer not null references users(id),
   requested_date date not null,
   reason text,
   status text not null default 'pending' check (status in ('pending', 'approved', 'denied')),
-  decided_by_user_id bigint references users(id),
+  decided_by_user_id integer references users(id),
   decided_at timestamptz,
   created_at timestamptz not null default now()
 );
 
 alter table off_day_requests enable row level security;
 
--- Staff can see and create their own requests; venueManager+ can see and
--- decide all requests for sites they can access. Mirrors the shifts table's
--- existing can_access_site() pattern.
-create policy off_day_requests_select on off_day_requests
-  for select using (user_id = current_setting('request.jwt.claims', true)::jsonb ->> 'sub' is not null and (
-    user_id::text = (current_setting('request.jwt.claims', true)::jsonb -> 'app_metadata' ->> 'local_user_id')
-    or can_access_site(site_id)
-  ));
-
-create policy off_day_requests_insert on off_day_requests
-  for insert with check (can_access_site(site_id));
-
-create policy off_day_requests_update on off_day_requests
-  for update using (can_access_site(site_id));
+-- Verified against the real shifts table policy before writing this
+-- (2026-09-27, via pg_policy) — there is no per-local-user JWT claim
+-- anywhere in this backend at all, only site/org/region/role_tier claims
+-- (see BACKEND_INFRA.md's standing note on this). shifts' own policy is a
+-- single tenant_isolation rule using ONLY can_access_site() +
+-- roster_addon_active() for every operation — "staff see only their own
+-- request" and "only a manager decides" are both enforced client-side
+-- (the UI only shows the request form to the requester and the
+-- approve/deny menu on RosterBoardScreen), matching this app's established
+-- pattern of client-trusted attribution for non-tenant-isolation
+-- distinctions (e.g. task_submissions.completed_by_user_id). One unified
+-- policy, exactly mirroring shifts' own shape.
+create policy tenant_isolation on off_day_requests
+  for all
+  using (can_access_site(site_id) and roster_addon_active(site_id))
+  with check (can_access_site(site_id) and roster_addon_active(site_id));
 
 -- === R4: claim_shift extended for the priority window + category cap ===
--- *** CAUTION — reconstructed from documentation, not a diff against the
--- real live function *** — this session had no working SSH access to pull
--- the actual current claim_shift source, so this CREATE OR REPLACE was
--- written from BACKEND_INFRA.md's description of it (the can_access_site/
--- roster_addon_active re-check, the atomic UPDATE ... WHERE status='open'
--- RETURNING *). Before running this: first run
--- `select pg_get_functiondef('claim_shift'::regproc);` and compare it
--- against this version — if the real function has any detail not
--- reflected here, merge that in before replacing it. Do not run this
--- blind on production.
-create or replace function claim_shift(p_shift_id bigint, p_user_id bigint)
+-- Verified against the real live function via
+-- `select pg_get_functiondef('claim_shift'::regproc);` before writing this
+-- (2026-09-27) — the can_access_site/roster_addon_active re-check and the
+-- atomic UPDATE ... WHERE status='open' RETURNING * are carried over
+-- unchanged; only the p_user_id parameter type (integer, not bigint,
+-- corrected below) and the two new checks are additions.
+create or replace function claim_shift(p_shift_id bigint, p_user_id integer)
 returns setof shifts
 language plpgsql
 security definer
 as $$
 declare
-  target_site_id bigint;
+  target_site_id integer;
   target_priority_until timestamptz;
   target_category text;
   category_cap jsonb;
@@ -77,19 +75,56 @@ begin
     return;
   end if;
 
-  -- Priority window: before it elapses, only staff who currently have a
-  -- "Reliable" standing may claim (evaluated client-side today via
-  -- ShiftReliabilityService; this DB-side check is deliberately loose —
-  -- it only blocks during the window if the priority window hasn't
-  -- elapsed, real per-user reliability gating is a client-side UX nudge,
-  -- not a hard server rule, matching this app's existing pattern of
-  -- keeping compliance-critical checks server-side and softer UX rules
-  -- client-side).
+  -- Priority window: before it elapses, only staff at "Reliable" standing
+  -- may claim. Mirrors ShiftReliabilityService's own Dart logic exactly
+  -- (lib/features/roster/shift_reliability_service.dart) so the two never
+  -- disagree: latest event per shift only (a claim later cancelled counts
+  -- once, as its final outcome), 90-day lookback, late cancellation
+  -- (<24h before the shift started) weighted double, manager_removed
+  -- excluded, fewer than 3 decisions ever = not yet eligible (a brand new
+  -- starter hasn't earned priority access yet either).
   if target_priority_until is not null and now() < target_priority_until then
-    -- Left permissive deliberately: tightening this to a real DB-side
-    -- reliability check is a follow-up once real usage data exists to
-    -- validate the threshold against, not guessed upfront.
-    null;
+    declare
+      reliability_kept int;
+      reliability_cancelled_early int;
+      reliability_cancelled_late int;
+      reliability_score numeric;
+    begin
+      with latest_events as (
+        select distinct on (sc.shift_id)
+          sc.shift_id, sc.event_type, sc.created_at, s.starts_at
+        from shift_claims sc
+        join shifts s on s.id = sc.shift_id
+        where sc.user_id = p_user_id
+          and sc.created_at >= now() - interval '90 days'
+        order by sc.shift_id, sc.created_at desc
+      )
+      select
+        count(*) filter (where event_type in ('claimed', 'manager_assigned')),
+        count(*) filter (
+          where event_type = 'cancelled'
+            and starts_at - created_at >= interval '24 hours'
+        ),
+        count(*) filter (
+          where event_type = 'cancelled'
+            and starts_at - created_at < interval '24 hours'
+        )
+      into reliability_kept, reliability_cancelled_early, reliability_cancelled_late
+      from latest_events;
+
+      if (reliability_kept + reliability_cancelled_early + reliability_cancelled_late) < 3 then
+        reliability_score := null;
+      else
+        reliability_score := reliability_kept::numeric / nullif(
+          reliability_kept + reliability_cancelled_early + (reliability_cancelled_late * 2),
+          0
+        );
+      end if;
+
+      if reliability_score is null or reliability_score < 0.7 then
+        return;
+      end if;
+    end;
   end if;
 
   -- Per-category weekly cap, if the site has one configured.
