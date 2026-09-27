@@ -46,6 +46,7 @@ void main() {
           .read(tenantProvisioningRepositoryProvider)
           .signUpCompany(
             branchCount: 1,
+            termsAccepted: true,
             companyName: 'C1B-IT-COMPANY-$_unique',
             country: 'United Kingdom',
             venueName: 'Main Site',
@@ -103,6 +104,7 @@ void main() {
     try {
       await container.read(tenantProvisioningRepositoryProvider).signUpCompany(
             branchCount: 1,
+            termsAccepted: true,
             companyName: 'C1B-IT-DUPE-$_unique',
             country: 'United Kingdom',
             venueName: 'Main Site',

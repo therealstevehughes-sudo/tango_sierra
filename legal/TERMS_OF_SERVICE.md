@@ -1,6 +1,6 @@
 # VenuRite Terms of Service
 
-**Last updated: [DATE]**
+**Version: 2026-09-27**
 
 **⚠️ DRAFT — NOT LEGAL ADVICE. This document was drafted as a starting point and has not been reviewed by a solicitor. Do not rely on it in production, and especially do not treat the liability limitations below as enforceable, until a qualified solicitor (UK) has reviewed and approved it. Certain exclusions of liability described here are restricted or void under UK law regardless of what this document says — see the notes marked ⚠️ throughout.**
 

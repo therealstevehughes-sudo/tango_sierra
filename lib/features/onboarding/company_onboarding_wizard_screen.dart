@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/data/countries.dart';
+import '../../core/data/terms_of_service_content.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
@@ -131,6 +132,11 @@ class _CompanyOnboardingWizardScreenState
   // finishing sign-up.
   String? _paymentProvider;
 
+  // Terms of Service acceptance (2026-09-27) — required before the account
+  // can be created at all; the server rejects signup outright without it
+  // (fail-closed), this is just the honest UI-side gate on top.
+  bool _termsAccepted = false;
+
   @override
   void initState() {
     super.initState();
@@ -181,9 +187,32 @@ class _CompanyOnboardingWizardScreenState
         return _step1Valid;
       case 3:
         return _step3Valid;
+      case 6:
+        return _termsAccepted;
       default:
         return true;
     }
+  }
+
+  void _showTermsOfService() {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Terms of Service'),
+        content: SizedBox(
+          width: 480,
+          child: SingleChildScrollView(
+            child: Text(kTermsOfServiceText),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _submit() async {
@@ -224,6 +253,7 @@ class _CompanyOnboardingWizardScreenState
             venueType: _venueType,
             planName: _planName,
             paymentProvider: _paymentProvider,
+            termsAccepted: _termsAccepted,
           );
       if (!mounted) return;
       setState(() {
@@ -979,6 +1009,30 @@ class _CompanyOnboardingWizardScreenState
               );
             },
             child: const Text("I'll decide later"),
+          ),
+        ),
+        const Divider(height: 32),
+        CheckboxListTile(
+          contentPadding: EdgeInsets.zero,
+          controlAffinity: ListTileControlAffinity.leading,
+          value: _termsAccepted,
+          onChanged: (v) => setState(() => _termsAccepted = v ?? false),
+          title: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              const Text('I have read and agree to the '),
+              GestureDetector(
+                onTap: _showTermsOfService,
+                child: Text(
+                  'Terms of Service',
+                  style: TextStyle(
+                    color: AppColors.teal,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],

@@ -165,6 +165,10 @@ abstract class TenantProvisioningRepository {
     // #3).
     String? paymentProvider,
     int? primaryColorArgb,
+    // Terms of Service acceptance (2026-09-27) — required, not optional;
+    // the server rejects signup outright without it (fail-closed, same
+    // discipline as every other required field here).
+    required bool termsAccepted,
   });
 
   /// Sprint 034 — "Join existing company" invite side. Generates a real
@@ -260,6 +264,7 @@ class SupabaseTenantProvisioningRepository
     String? planName,
     String? paymentProvider,
     int? primaryColorArgb,
+    required bool termsAccepted,
   }) async {
     try {
       final response = await _client.functions.invoke(
@@ -283,6 +288,7 @@ class SupabaseTenantProvisioningRepository
           'plan_name': ?planName,
           'payment_provider': ?paymentProvider,
           'primary_color_argb': ?primaryColorArgb,
+          'terms_accepted': termsAccepted,
         },
       );
       final data = response.data as Map<String, dynamic>;

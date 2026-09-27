@@ -51,6 +51,7 @@ void main() {
           .read(tenantProvisioningRepositoryProvider)
           .signUpCompany(
             branchCount: 1,
+            termsAccepted: true,
             companyName: 'C1D-IT-COMPANY-$_unique',
             country: 'United Kingdom',
             venueName: 'Main Site',
