@@ -1869,3 +1869,26 @@ Verified: `flutter analyze` clean project-wide, all 32 unit tests passing.
 **Live-proven via curl before deploying to the client**: created a throwaway org (55) + site (60, with a `device_credential`) + two departments (Kitchen, Housekeeping) + one staff member assigned to Kitchen. Called `device-login` with the real setup code — response correctly returned `department_id: 7` on the staff row and both departments in the `departments` array. Cleaned up immediately after (staff, departments, site, org deleted in FK-safe order).
 
 Redeployed via `docker compose restart functions` (this function doesn't touch `.env`, matching the established "restart is enough, `--force-recreate` only needed for `.env` changes" rule from the Phase 2 push-notification gotcha).
+
+## Server migration to dedicated IONOS VPS + five pending schema gaps closed (2026-09-27)
+
+The entire stack (Postgres data, 30 RLS policies, all 13 Edge Functions, website, APK, compliance library) was migrated from the shared "Firebird" box to a new dedicated IONOS VPS Linux L+ (`87.106.101.222`), with `api.venurite.com`/`get.venurite.com` DNS cut over, real Let's Encrypt SSL, and server hardening (UFW firewall, SSH key-only, 4GB swap, nightly `pg_dumpall` cron backups). Full detail in that session's own record — this entry covers the five backend schema gaps closed on the new server immediately after.
+
+**Five columns applied in one transaction** (every one of these had been disclosed as "client built, backend gap, blocked by the auto-mode classifier" across four separate prior entries in this file and DECISIONS_LOG.md — this closes all of them at once, first deployment to the new server):
+```sql
+BEGIN;
+ALTER TABLE public.organisations ADD COLUMN IF NOT EXISTS employee_graded_bars_enabled boolean NOT NULL DEFAULT false;
+ALTER TABLE public.task_templates ADD COLUMN IF NOT EXISTS extra_fields_json text;
+ALTER TABLE public.task_submissions ADD COLUMN IF NOT EXISTS extra_field_values_json text;
+ALTER TABLE public.subscriptions ADD COLUMN IF NOT EXISTS free_access_granted boolean NOT NULL DEFAULT false;
+ALTER TABLE public.task_schedules ADD COLUMN IF NOT EXISTS window_starts_at_shift_start boolean NOT NULL DEFAULT false;
+COMMIT;
+```
+
+**Client-side `UnimplementedError` guards removed**, now that each column exists: `SupabaseTaskTemplateRepository.saveNewVersion()` sends `extra_fields_json` in the insert; `SupabaseTaskSubmissionRepository.submit()` sends `extra_field_values_json` (previously silently omitted, "fail open" during the gap); `SupabaseOrganisationRepository.setEmployeeGradedBarsEnabled()` now does a real `PATCH` instead of throwing; `SupabaseTaskScheduleRepository.create()` now sends `window_starts_at_shift_start` instead of throwing. `redeemFreeAccessCode()` needed no code change — it was already correctly implemented, only ever blocked by the missing column.
+
+**Real gotcha hit and fixed while verifying**: immediately after the migration, `SELECT` against any of the new columns via the public REST API returned `42703 column does not exist` — even though `\d public.organisations` on the server confirmed the column was there. Root cause: PostgREST caches the Postgres schema at startup and doesn't notice new columns added via a separate `psql` session; `NOTIFY pgrst, 'reload schema'` didn't take effect either. Fixed with `docker restart supabase-rest`, which forces a fresh schema introspection on boot. **Lesson for every future direct-SQL migration on this stack**: a `docker restart supabase-rest` (not just the migration `COMMIT`) is now a required step before the new columns are actually reachable over `/rest/v1/`, or verification will falsely appear broken.
+
+**Live-proven via curl** (real HTTPS against `api.venurite.com`, service-role key, not mocked): all five columns readable; a real write/read/revert round-trip on `organisations.employee_graded_bars_enabled` (org 56, a real venue — not a throwaway) proved false→true→false cleanly with no side effects. `flutter analyze` clean, all 35 tests passing.
+
+**Separate, unrelated DNS note surfaced during this verification**: a local machine's own ISP resolver (Virgin Media) served a stale cached `api.venurite.com` A record pointing at the old server, while Google's public DNS (8.8.8.8) already had the correct new IP — purely local resolver-cache lag from the recent cutover, not a server misconfiguration; resolved itself within the record's TTL.

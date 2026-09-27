@@ -2480,3 +2480,23 @@ User's own stated plan, not something built here: providing a separate document/
 Discussed and agreed: rather than two separate help-shaped icons on every screen (today's plain "?" plus a future AI icon), the AI assistant becomes the one omnipresent help entry point once built — its own hub surfaces FAQ/Troubleshooting/Contact/legislation/how-to as options inside it, the same destinations "?" already reaches, so nothing is duplicated. Icon choice: leaning toward a sparkle/spark glyph (the fairly recognizable "AI feature" convention) over a lightbulb (reads as "insight/tip" in dashboard contexts, risk of future clash) or a literal head (reads oddly at small AppBar sizes) — not finalized, user may still prefer lightbulb or head.
 
 Not built yet — mechanical but touches every screen's AppBar, so it belongs with the actual AI helper build (the icon needs a real destination), not before. Logged here as a pre-launch item per the user's explicit "mark this as something to do before launching."
+
+## App icon, app name, and welcome-card logo overlap fixed (2026-09-27)
+Direct user feedback from the live APK on a real phone (screenshots): (1) launcher icon was still Flutter's default, should be the VenuRite VR mark; (2) app name showed as "flutter_application_1" on the home screen; (3) the welcome screen's hero photo had a visibly overlapping/misplaced logo element.
+
+Root cause of (3), found by reading `brand_header.dart`: `BrandHeader`'s `VenuRiteMark` is a `Positioned(top: 0, left: 0, ...)` child inside a `Stack` wrapped in `IntrinsicHeight`. Flutter's `IntrinsicHeight` ignores `Positioned` children when computing the height to give the `Stack` — so on the unbranded fallback (`_FreshInstallEntry`, a single line of "Welcome to VenuRite" text, far shorter than the 72px mark), the `Stack` sized itself to the text alone, and the 72px mark overflowed past that boundary (`clipBehavior: Clip.none`) and painted over the hero image card sitting below it in the page's outer `Column`. Fixed by wrapping the Stack's centered content in `ConstrainedBox(constraints: BoxConstraints(minHeight: 72))`, guaranteeing room for the mark regardless of which branch (branded vs. unbranded) renders.
+
+(1) and (2): added `flutter_launcher_icons` as a dev dependency, generating real Android launcher icons from the existing `assets/logos/VenueRite_favicon.png` (1024×1024, already in the repo, just never wired up); `android:label` in `AndroidManifest.xml` changed from the scaffold default to `"VenuRite"`.
+
+Verified: `flutter analyze` clean, real release APK rebuilt (88.0MB) and uploaded to `get.venurite.com` (see BACKEND_INFRA.md's server-migration entry for the new server this now runs on), confirmed downloadable over HTTPS with matching byte size.
+
+Files: `pubspec.yaml`, `android/app/src/main/AndroidManifest.xml`, `android/app/src/main/res/mipmap-*/ic_launcher.png` (regenerated), `lib/core/widgets/brand_header.dart`.
+
+## Five disclosed backend schema gaps closed on the new server (2026-09-27)
+Every one of these had been logged across separate prior entries as "client built and tested, backend column missing, blocked by the auto-mode classifier" — closed together in one migration on the new dedicated server (see BACKEND_INFRA.md's own entry for the full SQL, the PostgREST schema-cache gotcha hit and fixed along the way, and the live curl proof): `organisations.employee_graded_bars_enabled`, `task_templates.extra_fields_json`, `task_submissions.extra_field_values_json`, `subscriptions.free_access_granted`, `task_schedules.window_starts_at_shift_start`.
+
+Client-side `UnimplementedError` guards removed from `SupabaseTaskTemplateRepository`, `SupabaseTaskSubmissionRepository` (was a silent-omission gap, not a thrown error, since submission is the compliance-critical write path), `SupabaseOrganisationRepository`, and `SupabaseTaskScheduleRepository` — each now sends its real column value instead of refusing or dropping it.
+
+Verified: `flutter analyze` clean, all 35 tests passing, live curl proof against the real backend (read all five columns, full write/read/revert round-trip on a real org's `employee_graded_bars_enabled`).
+
+Files: `lib/shared/repositories/supabase_task_template_repository.dart`, `lib/shared/repositories/supabase_task_submission_repository.dart`, `lib/shared/repositories/supabase_organisation_repository.dart`, `lib/shared/repositories/supabase_task_schedule_repository.dart`.

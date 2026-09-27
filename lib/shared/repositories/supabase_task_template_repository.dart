@@ -67,18 +67,6 @@ class SupabaseTaskTemplateRepository implements TaskTemplateRepository {
     required int createdByUserId,
     String? extraFieldsJson,
   }) async {
-    // Generic extra fields (2026-09-24) — backend schema gap, same
-    // disclosed pattern as windowStartsAtShiftStart in
-    // supabase_task_schedule_repository.dart: extra_fields_json doesn't
-    // exist on the live task_templates table yet.
-    if (extraFieldsJson != null) {
-      throw UnimplementedError(
-        'extraFieldsJson is not yet on the backend schema - needs a '
-        'migration adding task_templates.extra_fields_json (and '
-        'task_submissions.extra_field_values_json) before this can be set '
-        'for a backend-hosted organisation.',
-      );
-    }
     final myOrgId = _organisationId();
 
     int? previousVersionId;
@@ -133,6 +121,7 @@ class SupabaseTaskTemplateRepository implements TaskTemplateRepository {
       'fix_instructions': fixInstructions,
       'equipment_type_id': equipmentTypeId,
       'created_by_user_id': createdByUserId,
+      'extra_fields_json': extraFieldsJson,
       // A fork or a brand-new template always becomes this tenant's own —
       // RLS's WITH CHECK would reject anything else anyway, this just
       // avoids relying on the server to reject before setting it right.
