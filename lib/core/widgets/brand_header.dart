@@ -69,53 +69,64 @@ class BrandHeader extends StatelessWidget {
           // Director has set branding, this shows the company name, client
           // logo (64px, sizing confirmed via brain stand-in 2026-09-13),
           // and branch name.
-          if (logo != null || siteName != null)
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  if (clientLogoPath != null) ...[
-                    Image.file(
-                      File(clientLogoPath),
-                      height: 64,
-                      fit: BoxFit.contain,
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                  if (logo?.companyName != null) ...[
+          //
+          // Wrapped with a 72px minHeight (2026-09-27 fix) — the VenuRite
+          // mark above is `Positioned`, which IntrinsicHeight ignores when
+          // sizing this Stack. On the unbranded fallback (a single line of
+          // text, far shorter than the 72px mark) that let the mark overflow
+          // past the Stack's computed bounds and paint over whatever sits
+          // below it on the page (Clip.none) — the overlapping-logo bug seen
+          // on a fresh install's welcome card. Reserving 72px here always
+          // gives the mark enough room regardless of which branch renders.
+          ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 72),
+            child: Center(
+              child: logo != null || siteName != null
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        if (clientLogoPath != null) ...[
+                          Image.file(
+                            File(clientLogoPath),
+                            height: 64,
+                            fit: BoxFit.contain,
+                          ),
+                          const SizedBox(height: 8),
+                        ],
+                        if (logo?.companyName != null) ...[
+                          Text(
+                            logo!.companyName!,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                        if (siteName != null) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            siteName!,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                        ],
+                      ],
+                    )
+                  : // Login-screen warmth pass (2026-09-17) — without this,
+                    // an unbranded install (the common/demo case) showed
+                    // nothing but the small top-left app mark, with no
+                    // centred anchor at all: the sparse, off-balance
+                    // "floating small and high" look the user reported.
+                    // Same wording _FreshInstallEntry already uses for the
+                    // zero-staff case, so the fallback reads as one
+                    // consistent voice rather than a second, different
+                    // message.
                     Text(
-                      logo!.companyName!,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ],
-                  if (siteName != null) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      siteName!,
+                      'Welcome to VenuRite',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                  ],
-                ],
-              ),
-            )
-          else
-            // Login-screen warmth pass (2026-09-17) — without this, an
-            // unbranded install (the common/demo case) showed nothing but
-            // the small top-left app mark, with no centred anchor at all:
-            // the sparse, off-balance "floating small and high" look the
-            // user reported. Same wording _FreshInstallEntry already uses
-            // for the zero-staff case, so the fallback reads as one
-            // consistent voice rather than a second, different message.
-            Center(
-              child: Text(
-                'Welcome to VenuRite',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
             ),
+          ),
         ],
       ),
     );
