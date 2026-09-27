@@ -5,6 +5,10 @@
          explicitly. -->
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-feature android:name="android.hardware.camera" android:required="false"/>
+    <!-- Voice-to-text notes (record package, added 2026-09-27) — same
+         "OS handles the runtime prompt" approach as CAMERA above; no
+         permission_handler dependency needed. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <application
         android:label="VenuRite"
         android:name="${applicationName}"

@@ -78,6 +78,20 @@ dependencies:
   # unreliable there. Was already a transitive dependency; promoted to
   # direct so it can be imported.
   shared_preferences: ^2.5.5
+  # Voice-to-text notes (2026-09-27) — kitchens are a bad typing
+  # environment (gloved/wet hands, an angled tablet); a mic button next
+  # to any notes field lets staff dictate instead. `record` is a
+  # federated plugin like `camera` above, with a real Windows
+  # implementation (record_windows, WASAPI-backed) rather than a stub.
+  # v5.2.1 hit a real version-skew bug (record_linux, a transitive dep
+  # for a platform this app doesn't even target, failed to compile
+  # against the resolved record_platform_interface version) that broke
+  # the Windows build outright — bumped to 6.1.1 where the federated
+  # family's versions are back in sync. record_windows is NOT pinned
+  # directly here (unlike camera_windows): confirmed via a real
+  # `flutter build windows` that this version of the umbrella package
+  # already pulls a working Windows implementation transitively.
+  record: ^6.1.1
   # Sprint 034 (Customer Onboarding & Billing Foundation) — renders an
   # invite token as a scannable QR code so a new staff member can join by
   # scanning it (WhatsApp/photo) instead of typing a long code by hand.

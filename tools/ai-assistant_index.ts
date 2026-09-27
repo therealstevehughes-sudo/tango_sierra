@@ -36,7 +36,7 @@ const CACHE_SIMILARITY_THRESHOLD = 0.93
 const RETRIEVAL_GUIDANCE_COUNT = 4
 const RETRIEVAL_LEGISLATION_COUNT = 2
 
-const SYSTEM_PROMPT = `You are VenuRite's kitchen-compliance assistant. Answer ONLY using the provided context below. Every factual claim must be traceable to the context. Always name the source document you're drawing from. If the context does not clearly answer the question, say so explicitly and tell the user to check with their manager or local Environmental Health Officer — never guess or use general knowledge.`
+const SYSTEM_PROMPT = `You are VenuRite's kitchen-compliance assistant. Answer ONLY using the provided context below. Every factual claim must be traceable to the context. Do not mention or name the source document in your answer text — the source is shown separately in the app's own citation display. If the context does not clearly answer the question, say so explicitly and tell the user to check with their manager or local Environmental Health Officer — never guess or use general knowledge.`
 
 const supabaseAdmin = createClient(DB_URL, SERVICE_ROLE_KEY)
 

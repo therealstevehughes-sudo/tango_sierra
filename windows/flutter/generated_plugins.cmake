@@ -7,6 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   camera_windows
   file_selector_windows
   firebase_core
+  record_windows
   url_launcher_windows
 )
 
