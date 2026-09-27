@@ -6,11 +6,27 @@
 // established convention; this file is the staging/review copy only).
 //
 // Flow: embed the question -> check the cross-venue semantic answer cache
-// (Layer 2, free) -> on a miss, check the org's usage cap (no cap enforced
-// yet — Phase 4, deferred until real numbers are set) -> retrieve top
+// (Layer 2, free) -> on a miss, check the org's usage cap -> retrieve top
 // compliance_chunks (guidance-biased) -> ask gpt-4o-mini, grounded ONLY in
 // that context, with an explicit "say you don't know, don't guess"
 // instruction -> cache the new answer for future reuse -> return.
+//
+// Usage cap (Phase 4, 2026-09-27) — real OpenAI cost per question is
+// negligible (~$0.0006 worst-case uncached), so this isn't a cost-recovery
+// mechanism, it's abuse protection + founder visibility. Two thresholds,
+// both scaled by the org's billed_site_count (so a 5-branch org gets 5x a
+// 1-branch org's allowance) and both counting only real paid_questions_count
+// (cache hits stay free, matching bumpUsage's existing field split):
+//   - 500/branch/month: crossing it once emails the founder via Postmark's
+//     HTTP API (no charge, no in-app notification — there's no
+//     backend-synced notification delivery mechanism in this app yet, and
+//     building one just for this would be over-engineering for a founder-
+//     only visibility signal).
+//   - 1,500/branch/month: hard ceiling. Further questions return
+//     outcome "limit_reached" without calling OpenAI at all (no embedding,
+//     no retrieval, no chat completion — the block itself costs nothing).
+//     No charge at this threshold either — see DECISIONS_LOG.md's Phase 4
+//     entry for the real cost math behind not billing for this at all.
 //
 // Compliance-critical guardrail (see DECISIONS_LOG.md's standing rule):
 // this must NEVER answer from the model's general knowledge. A wrong
@@ -25,6 +41,7 @@ const SERVICE_ROLE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
 const JWT_SECRET = Deno.env.get("JWT_SECRET")!
 const DB_URL = Deno.env.get("SUPABASE_URL")!
 const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY")!
+const POSTMARK_API_TOKEN = Deno.env.get("POSTMARK_API_TOKEN")!
 const ISSUER = "https://api.venurite.com/auth/v1"
 
 const EMBEDDING_MODEL = "text-embedding-3-small"
@@ -35,6 +52,11 @@ const CHAT_MODEL = "gpt-4o-mini"
 const CACHE_SIMILARITY_THRESHOLD = 0.93
 const RETRIEVAL_GUIDANCE_COUNT = 4
 const RETRIEVAL_LEGISLATION_COUNT = 2
+
+// Usage cap thresholds — see the file-header comment for the reasoning.
+const WARNING_QUESTIONS_PER_BRANCH = 500
+const CEILING_QUESTIONS_PER_BRANCH = 1500
+const FOUNDER_EMAIL = "steve@venurite.com"
 
 const SYSTEM_PROMPT = `You are VenuRite's kitchen-compliance assistant. Answer ONLY using the provided context below. Every factual claim must be traceable to the context. Do not mention or name the source document in your answer text — the source is shown separately in the app's own citation display. If the context does not clearly answer the question, say so explicitly and tell the user to check with their manager or local Environmental Health Officer — never guess or use general knowledge.`
 
@@ -137,10 +159,12 @@ async function bumpUsage(
     .eq("period_start", periodStartStr)
     .maybeSingle()
 
+  let newCount = 1
   if (existing) {
+    newCount = (existing[field] ?? 0) + 1
     await supabaseAdmin
       .from("ai_usage")
-      .update({ [field]: (existing[field] ?? 0) + 1, updated_at: new Date().toISOString() })
+      .update({ [field]: newCount, updated_at: new Date().toISOString() })
       .eq("id", existing.id)
   } else {
     await supabaseAdmin.from("ai_usage").insert({
@@ -148,6 +172,74 @@ async function bumpUsage(
       period_start: periodStartStr,
       [field]: 1,
     })
+  }
+  return newCount
+}
+
+async function sendFounderWarningEmail(organisationId: number, count: number, ceiling: number) {
+  // Best-effort — a Postmark failure must never break the actual question
+  // being answered, so this is fire-and-forget with its own try/catch,
+  // never awaited into the caller's own error path.
+  try {
+    await fetch("https://api.postmarkapp.com/email", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "X-Postmark-Server-Token": POSTMARK_API_TOKEN,
+      },
+      body: JSON.stringify({
+        From: FOUNDER_EMAIL,
+        To: FOUNDER_EMAIL,
+        Subject: `VenuRite AI usage: organisation ${organisationId} crossed ${WARNING_QUESTIONS_PER_BRANCH}/branch`,
+        TextBody:
+          `Organisation ${organisationId} has asked ${count} AI questions this month ` +
+          `(warning threshold: ${WARNING_QUESTIONS_PER_BRANCH}/branch, hard ceiling: ${ceiling}). ` +
+          `No charge has been made — this is visibility only.`,
+      }),
+    })
+  } catch {
+    // swallow — see comment above
+  }
+}
+
+interface UsageCapResult {
+  atCeiling: boolean
+  justCrossedWarning: boolean
+  currentCount: number
+  ceiling: number
+}
+
+async function checkUsageCap(organisationId: number): Promise<UsageCapResult> {
+  const { data: subscription } = await supabaseAdmin
+    .from("subscriptions")
+    .select("billed_site_count")
+    .eq("organisation_id", organisationId)
+    .maybeSingle()
+  const billedSiteCount = subscription?.billed_site_count ?? 1
+
+  const periodStart = new Date()
+  periodStart.setUTCDate(1)
+  const periodStartStr = periodStart.toISOString().slice(0, 10)
+
+  const { data: usage } = await supabaseAdmin
+    .from("ai_usage")
+    .select("paid_questions_count")
+    .eq("organisation_id", organisationId)
+    .eq("period_start", periodStartStr)
+    .maybeSingle()
+  const currentCount = usage?.paid_questions_count ?? 0
+
+  const warning = WARNING_QUESTIONS_PER_BRANCH * billedSiteCount
+  const ceiling = CEILING_QUESTIONS_PER_BRANCH * billedSiteCount
+
+  return {
+    atCeiling: currentCount >= ceiling,
+    // Fires once: true only on the exact question that takes the count to
+    // the threshold, not on every question above it.
+    justCrossedWarning: currentCount + 1 === warning,
+    currentCount,
+    ceiling,
   }
 }
 
@@ -215,9 +307,16 @@ Deno.serve(async (req: Request) => {
       })
     }
 
-    // Budget gate — no cap enforced yet (Phase 4, deferred until the
-    // founder sets real numbers). The gate exists in the flow now so
-    // Phase 4 only has to wire in a real comparison, not restructure this.
+    // Usage cap gate (Phase 4) — checked after the free cache-hit path,
+    // before any paid OpenAI call is made.
+    const cap = await checkUsageCap(organisationId)
+    if (cap.atCeiling) {
+      return Response.json({
+        outcome: "limit_reached",
+        answer:
+          "This venue has reached its AI question limit for this month. Contact VenuRite if you need this raised.",
+      })
+    }
 
     // Layer 3: retrieve + generate.
     const chunks = await retrieveChunks(questionEmbedding, organisationId)
@@ -242,6 +341,9 @@ Deno.serve(async (req: Request) => {
       model_used: CHAT_MODEL,
     })
     await bumpUsage(organisationId, "paid_questions_count")
+    if (cap.justCrossedWarning) {
+      await sendFounderWarningEmail(organisationId, cap.currentCount + 1, cap.ceiling)
+    }
 
     return Response.json({
       outcome: "answer",

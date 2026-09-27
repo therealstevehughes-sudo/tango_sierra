@@ -6,11 +6,13 @@ import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../core/widgets/status_badge.dart';
 import '../../shared/models/shift.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_providers.dart';
 import '../../shared/providers/site_providers.dart'
     show organisationRepositoryProvider, currentSiteProvider, activeSiteProvider;
+import 'shift_reliability_service.dart';
 
 // Roster add-on, Phase R3 (2026-09-27) — the staff-facing side: browse
 // open shifts at your own site, claim one (race-safe — see
@@ -30,8 +32,9 @@ class ClaimBoardScreen extends ConsumerStatefulWidget {
 class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
   bool _loading = true;
   bool _addonEnabled = false;
-  List<Shift> _shifts = [];
+  int? _siteId;
   bool _busy = false;
+  ShiftReliabilityStanding? _ownStanding;
 
   @override
   void initState() {
@@ -39,6 +42,9 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
     _load();
   }
 
+  // Resolves addon-enabled/siteId/own-standing once — the shift LIST itself
+  // is no longer loaded here (R7, 2026-09-27): build() watches
+  // shiftsStreamForSiteProvider instead, which polls on its own.
   Future<void> _load() async {
     final org = await ref.read(organisationRepositoryProvider).getDefault();
     if (!mounted) return;
@@ -57,11 +63,17 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
         currentUser?.siteId ??
         (await ref.read(currentSiteProvider.future)).id;
 
-    final shifts = await ref.read(shiftRepositoryProvider).getForSite(siteId);
+    final standing = currentUser == null
+        ? null
+        : (await ref
+                  .read(shiftReliabilityServiceProvider)
+                  .computeForUser(currentUser.id))
+              .standing;
     if (!mounted) return;
     setState(() {
       _addonEnabled = true;
-      _shifts = shifts;
+      _siteId = siteId;
+      _ownStanding = standing;
       _loading = false;
     });
   }
@@ -88,6 +100,8 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
   }
 
   Future<void> _cancel(Shift shift) async {
+    final user = ref.read(currentUserProvider);
+    if (user == null) return;
     final hoursUntil = shift.startsAt.difference(DateTime.now()).inHours;
     final lateWarning = hoursUntil < 24
         ? '\n\nThis is less than 24 hours before the shift starts — '
@@ -115,7 +129,9 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
     if (confirmed != true) return;
 
     setState(() => _busy = true);
-    await ref.read(shiftRepositoryProvider).cancelClaim(shiftId: shift.id);
+    await ref
+        .read(shiftRepositoryProvider)
+        .cancelClaim(shiftId: shift.id, userId: user.id);
     if (!mounted) return;
     setState(() => _busy = false);
     await _load();
@@ -124,6 +140,10 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
   @override
   Widget build(BuildContext context) {
     final currentUserId = ref.watch(currentUserProvider)?.id;
+    final shiftsAsync = _siteId == null
+        ? const AsyncValue<List<Shift>>.loading()
+        : ref.watch(shiftsStreamForSiteProvider(_siteId!));
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Available Shifts'),
@@ -142,24 +162,68 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
                 ),
               ),
             )
-          : _shifts.isEmpty
-          ? const Center(child: Text('No shifts posted yet.'))
-          : ResponsiveContent(
-              child: ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  for (final shift in _shifts)
-                    _ShiftCard(
-                      shift: shift,
-                      currentUserId: currentUserId,
-                      busy: _busy,
-                      onClaim: () => _claim(shift),
-                      onCancel: () => _cancel(shift),
+          : shiftsAsync.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, _) =>
+                  Center(child: Text('Could not load shifts: $error')),
+              data: (shifts) => shifts.isEmpty
+                  ? const Center(child: Text('No shifts posted yet.'))
+                  : ResponsiveContent(
+                      child: ListView(
+                        padding: const EdgeInsets.all(16),
+                        children: [
+                          if (_ownStanding != null &&
+                              _ownStanding !=
+                                  ShiftReliabilityStanding
+                                      .buildingTrackRecord) ...[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: _OwnStandingChip(standing: _ownStanding!),
+                            ),
+                            const SizedBox(height: 12),
+                          ],
+                          for (final shift in shifts)
+                            _ShiftCard(
+                              shift: shift,
+                              currentUserId: currentUserId,
+                              busy: _busy,
+                              onClaim: () => _claim(shift),
+                              onCancel: () => _cancel(shift),
+                            ),
+                        ],
+                      ),
                     ),
-                ],
-              ),
             ),
     );
+  }
+}
+
+// Own-standing chip (R4, 2026-09-27) — descriptive only, never a number,
+// never shown for anyone but the viewer themselves. See
+// shift_reliability_service.dart's doc comment for the anti-gaming rule
+// this enforces.
+class _OwnStandingChip extends StatelessWidget {
+  const _OwnStandingChip({required this.standing});
+
+  final ShiftReliabilityStanding standing;
+
+  @override
+  Widget build(BuildContext context) {
+    final (StatusKind kind, String label) = switch (standing) {
+      ShiftReliabilityStanding.reliable => (
+        StatusKind.pass,
+        'Your shift record: Reliable',
+      ),
+      ShiftReliabilityStanding.needsImprovement => (
+        StatusKind.caution,
+        'Your shift record: Needs improvement',
+      ),
+      ShiftReliabilityStanding.buildingTrackRecord => (
+        StatusKind.caution,
+        'Your shift record: Building a track record',
+      ),
+    };
+    return StatusBadge(kind: kind, label: label);
   }
 }
 

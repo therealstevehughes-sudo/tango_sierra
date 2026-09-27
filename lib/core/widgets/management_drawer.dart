@@ -17,7 +17,9 @@ import '../../features/regions/branch_management_screen.dart';
 import '../../features/regions/branch_org_chart_screen.dart';
 import '../../features/regions/organisation_tree_screen.dart';
 import '../../features/roster/claim_board_screen.dart';
+import '../../features/roster/request_off_day_screen.dart';
 import '../../features/roster/roster_board_screen.dart';
+import '../../features/roster/shift_fairness_screen.dart';
 import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/document_centre_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
@@ -88,6 +90,15 @@ final List<_DrawerItemDef> _insightsItems = [
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const DocumentCentreScreen(),
   ),
+  // Roster fairness review (R6, 2026-09-27) — venueManager+, matching this
+  // section's existing floor. Self-gates on roster_addon_enabled internally
+  // like every other Roster screen.
+  _DrawerItemDef(
+    icon: Icons.balance_outlined,
+    label: 'Shift Fairness Review',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const ShiftFairnessScreen(),
+  ),
 ];
 
 final List<_DrawerItemDef> _peopleItems = [
@@ -145,6 +156,14 @@ final List<_DrawerItemDef> _peopleItems = [
     label: 'Claim Shifts',
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const ClaimBoardScreen(),
+  ),
+  // Off-day requests (R5, 2026-09-27) — same supervisor+ floor as Claim
+  // Shifts, same dual-entry pattern (WorkerHubScreen button for base tier).
+  _DrawerItemDef(
+    icon: Icons.event_busy_outlined,
+    label: 'Request a Day Off',
+    minTier: RoleTier.supervisor,
+    screenBuilder: (_) => const RequestOffDayScreen(),
   ),
 ];
 

@@ -33,9 +33,26 @@ abstract class ShiftRepository {
     required int assignedByUserId,
   });
 
-  Future<void> managerRemove({required int shiftId, String? reason});
+  Future<void> managerRemove({
+    required int shiftId,
+    required int removedUserId,
+    required int removedByUserId,
+    String? reason,
+  });
 
-  Future<void> cancelClaim({required int shiftId, String? reason});
+  Future<void> cancelClaim({
+    required int shiftId,
+    required int userId,
+    String? reason,
+  });
+
+  /// Full claim/cancel/manager-action history for one user, most recent
+  /// first — the raw data ShiftReliabilityService computes a descriptive
+  /// (never numeric-to-peers) standing from.
+  Future<List<ShiftClaimEvent>> getClaimHistoryForUser(
+    int userId, {
+    DateTime? since,
+  });
 }
 
 class SupabaseShiftRepository implements ShiftRepository {
@@ -53,6 +70,9 @@ class SupabaseShiftRepository implements ShiftRepository {
     endsAt: DateTime.parse(row['ends_at'] as String),
     notes: row['notes'] as String?,
     status: shiftStatusFromString(row['status'] as String),
+    priorityUntil: row['priority_until'] == null
+        ? null
+        : DateTime.parse(row['priority_until'] as String),
     claimedByUserId: row['claimed_by_user_id'] as int?,
     assignedByUserId: row['assigned_by_user_id'] as int?,
     createdByUserId: row['created_by_user_id'] as int,
@@ -104,6 +124,18 @@ class SupabaseShiftRepository implements ShiftRepository {
       'p_user_id': userId,
     });
     if (rows.isEmpty) return null;
+    // Audit trail (R4, 2026-09-27) — written client-side after the atomic
+    // claim succeeds, same pattern managerAssign already uses below. Not
+    // perfectly atomic with the claim itself (a crash between the two would
+    // lose this one row), but matches this app's established "not a hot
+    // path, simple read/write" convention and RLS already permits it (the
+    // same policy that lets managerAssign write here).
+    await _client.insertOne('shift_claims', {
+      'shift_id': shiftId,
+      'user_id': userId,
+      'event_type': 'claimed',
+      'actor_user_id': userId,
+    });
     return _toModel(rows.first as Map<String, dynamic>);
   }
 
@@ -131,7 +163,12 @@ class SupabaseShiftRepository implements ShiftRepository {
   }
 
   @override
-  Future<void> managerRemove({required int shiftId, String? reason}) async {
+  Future<void> managerRemove({
+    required int shiftId,
+    required int removedUserId,
+    required int removedByUserId,
+    String? reason,
+  }) async {
     await _client.update(
       'shifts',
       filter: 'id=eq.$shiftId',
@@ -141,10 +178,20 @@ class SupabaseShiftRepository implements ShiftRepository {
         'assigned_by_user_id': null,
       },
     );
+    await _client.insertOne('shift_claims', {
+      'shift_id': shiftId,
+      'user_id': removedUserId,
+      'event_type': 'manager_removed',
+      'actor_user_id': removedByUserId,
+    });
   }
 
   @override
-  Future<void> cancelClaim({required int shiftId, String? reason}) async {
+  Future<void> cancelClaim({
+    required int shiftId,
+    required int userId,
+    String? reason,
+  }) async {
     await _client.update(
       'shifts',
       filter: 'id=eq.$shiftId',
@@ -155,5 +202,42 @@ class SupabaseShiftRepository implements ShiftRepository {
         'cancellation_reason': reason,
       },
     );
+    await _client.insertOne('shift_claims', {
+      'shift_id': shiftId,
+      'user_id': userId,
+      'event_type': 'cancelled',
+      'actor_user_id': userId,
+    });
+  }
+
+  @override
+  Future<List<ShiftClaimEvent>> getClaimHistoryForUser(
+    int userId, {
+    DateTime? since,
+  }) async {
+    final sinceClause = since == null
+        ? ''
+        : '&created_at=gte.${since.toIso8601String()}';
+    final rows = await _client.select(
+      'shift_claims',
+      query:
+          'user_id=eq.$userId$sinceClause'
+          '&select=id,shift_id,user_id,event_type,actor_user_id,created_at,shifts(starts_at)'
+          '&order=created_at.desc',
+    );
+    return rows.map((row) {
+      final embeddedShift = row['shifts'] as Map<String, dynamic>?;
+      return ShiftClaimEvent(
+        id: row['id'] as int,
+        shiftId: row['shift_id'] as int,
+        userId: row['user_id'] as int,
+        eventType: shiftClaimEventTypeFromString(row['event_type'] as String),
+        actorUserId: row['actor_user_id'] as int,
+        createdAt: DateTime.parse(row['created_at'] as String),
+        shiftStartsAt: embeddedShift?['starts_at'] == null
+            ? null
+            : DateTime.parse(embeddedShift!['starts_at'] as String),
+      );
+    }).toList();
   }
 }

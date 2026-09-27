@@ -16,6 +16,7 @@ import '../auth/end_shift.dart';
 import '../issues/my_raised_issues_screen.dart';
 import '../issues/report_issue_screen.dart';
 import '../roster/claim_board_screen.dart';
+import '../roster/request_off_day_screen.dart';
 import 'ad_hoc_task_screen.dart';
 import 'task_screen.dart';
 
@@ -203,6 +204,30 @@ class WorkerHubScreen extends ConsumerWidget {
                                 ),
                           icon: const Icon(Icons.event_available_outlined),
                           label: const Text('Claim a shift'),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            minimumSize: const Size.fromHeight(48),
+                            foregroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        // Off-day requests (R5, 2026-09-27) — same dual-entry
+                        // pattern as Claim a shift above: base tier has no
+                        // drawer, so this button is its only route to
+                        // RequestOffDayScreen.
+                        OutlinedButton.icon(
+                          onPressed: currentUser == null
+                              ? null
+                              : () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const RequestOffDayScreen(),
+                                  ),
+                                ),
+                          icon: const Icon(Icons.event_busy_outlined),
+                          label: const Text('Request a day off'),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             minimumSize: const Size.fromHeight(48),
