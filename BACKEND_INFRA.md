@@ -1918,3 +1918,15 @@ Deployed to `~/tango-sierra/supabase/docker/volumes/functions/ai-assistant/index
 **Full fixture cleanup, verified empty afterward**: `ai_usage` and `ai_answer_cache` test rows deleted; organisation/site/subscription/users deleted in the established FK-safe order (`owner_user_id` nulled first); the GoTrue `auth.users` row needed a direct `psql DELETE` since it isn't reachable via PostgREST at all.
 
 **Not yet built**: Flutter UI (Phase 3), usage-cap billing (Phase 4).
+
+## Voice-to-text notes, Phase 2 — `transcribe-audio` Edge Function deployed live (2026-09-27)
+
+Deployed to `~/tango-sierra/supabase/docker/volumes/functions/transcribe-audio/index.ts`. No `.env`/compose change needed (`OPENAI_API_KEY` already present from the AI-assistant work) — `docker compose restart functions` sufficient. Model confirmed live against OpenAI's current docs before writing the constant (not assumed from training data): `gpt-4o-mini-transcribe`, ~$0.003/minute.
+
+Auth copied line-for-line from `ai-assistant`'s pattern (apikey check → `Authorization: Bearer` → `jose.jwtVerify`), but deliberately without the `organisation_id` claim requirement — this function reads/writes no tenant data, only proxies audio bytes to OpenAI, so it only needs to confirm "a real, current VenuRite session."
+
+Request/response: `multipart/form-data` in (one `audio` field), JSON out (`{"outcome":"transcribed","text":"..."}` or `{"outcome":"error","error":"..."}`) — the first binary-upload Edge Function in this project; every prior function has been pure JSON both ways.
+
+**Live-proven with a real spoken clip, not a text fixture**: generated a real WAV via Windows' own `System.Speech.Synthesis` (PowerShell) speaking "Fridge temperature should be checked every morning before service." — the function returned that exact sentence, word-for-word. Tested via a real throwaway tenant (org 58) and a real session token, same discipline as `ai-assistant`'s own proof. Three negative cases also confirmed: missing apikey → 401, invalid token → 401, missing audio field → clean 400 (never a 500). Fixture fully cleaned up afterward (org/site/subscription/users/auth.users all deleted, verified).
+
+Not yet built: the reusable `VoiceNoteMicButton` widget (Phase 3), the 6-field rollout (Phase 4).

@@ -2586,3 +2586,11 @@ Also hit and fixed the recurring "stale running instance locks the .exe" gotcha 
 Not yet built: the `transcribe-audio` Edge Function (Phase 2), the reusable widget (Phase 3), the 6-field rollout (Phase 4).
 
 Files: `pubspec.yaml`, `pubspec.lock`, `android/app/src/main/AndroidManifest.xml`.
+
+## Voice-to-text for notes, Phase 2 — Edge Function proven with a real spoken clip (2026-09-27)
+
+Confirmed the transcription model live against OpenAI's current docs first (`gpt-4o-mini-transcribe`, ~$0.003/min — better word-error-rate than classic `whisper-1` on ordinary speech, same cheap-tier family already used for chat). Built and deployed `transcribe-audio`, the project's first binary-upload Edge Function (multipart in, JSON out) — full detail in BACKEND_INFRA.md's own entry.
+
+**Live-proven with an actual spoken clip**, not a text fixture: generated a real WAV via Windows' `System.Speech.Synthesis` reading a test sentence, sent it through the real deployed function with a real throwaway tenant's session token — got back the exact sentence, word-for-word. All three negative cases (missing apikey, invalid token, missing audio) returned clean errors, never a 500. Fixture cleaned up and verified empty.
+
+Files: `tools/transcribe-audio_index.ts` (new).
