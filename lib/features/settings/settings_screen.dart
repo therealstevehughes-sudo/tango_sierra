@@ -574,7 +574,7 @@ class _RosterAddonSettingState extends ConsumerState<_RosterAddonSetting> {
         contentPadding: EdgeInsets.zero,
         title: const Text('Staff Shift/Roster (+£6-£10/branch/month)'),
         subtitle: const Text(
-          'Let staff see and claim open shifts themselves — a manager '
+          'Let staff see and claim open shifts themselves - a manager '
           'posts shifts, staff pick them up. £6/month per branch under 10 '
           'staff, £10/month for 10 or more.',
         ),

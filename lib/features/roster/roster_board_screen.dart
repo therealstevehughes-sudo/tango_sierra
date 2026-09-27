@@ -335,7 +335,7 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${formatDateTime(shift.startsAt)} – '
+                                            '${formatDateTime(shift.startsAt)} - '
                                             '${shift.endsAt.hour.toString().padLeft(2, '0')}:'
                                             '${shift.endsAt.minute.toString().padLeft(2, '0')}',
                                             style: Theme.of(context)
@@ -351,7 +351,7 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
                                                 shift.category!,
                                               shift.status == ShiftStatus.open
                                                   ? 'Open'
-                                                  : '${shift.status == ShiftStatus.assigned ? 'Assigned' : 'Claimed'} — ${_staffName(shift.claimedByUserId)}',
+                                                  : '${shift.status == ShiftStatus.assigned ? 'Assigned' : 'Claimed'} - ${_staffName(shift.claimedByUserId)}',
                                             ].join(' · '),
                                             style: Theme.of(
                                               context,
@@ -416,7 +416,7 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${_staffName(request.userId)} — '
+                                    '${_staffName(request.userId)} - '
                                     '${formatDate(request.requestedDate)}',
                                     style: Theme.of(context)
                                         .textTheme

@@ -118,7 +118,7 @@ class _RosterUpsellScreenState extends ConsumerState<RosterUpsellScreen> {
               ),
               const SizedBox(height: 12),
               Text(
-                'Post open shifts and let staff pick them up themselves — '
+                'Post open shifts and let staff pick them up themselves - '
                 'no more phone-round or WhatsApp group when someone can\'t '
                 'make it in. Staff can also request days off, and you '
                 'approve or decline from the same place.',
@@ -140,7 +140,7 @@ class _RosterUpsellScreenState extends ConsumerState<RosterUpsellScreen> {
                     const Text('£10/month per branch with 10 or more staff'),
                     const SizedBox(height: 8),
                     Text(
-                      'Added to your existing Direct Debit — no new payment '
+                      'Added to your existing Direct Debit - no new payment '
                       'method needed. You\'ll see the exact amount before '
                       'confirming.',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(

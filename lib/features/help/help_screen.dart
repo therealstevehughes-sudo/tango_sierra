@@ -20,7 +20,7 @@ void showAiOfflineNotice(BuildContext context) {
     builder: (context) => AlertDialog(
       title: const Text("Couldn't reach the assistant"),
       content: const Text(
-        "The AI assistant isn't reachable right now — could be your "
+        "The AI assistant isn't reachable right now - could be your "
         'connection, or the service is temporarily down. In the '
         'meantime, FAQ and Troubleshooting below cover the most common '
         'questions, or contact VenuRite directly.',

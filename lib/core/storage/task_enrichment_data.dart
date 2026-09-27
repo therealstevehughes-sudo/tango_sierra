@@ -66,7 +66,7 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
     // a genuine centre reading unlike other whole cuts (bacteria can be
     // found throughout it, not just the surface).
     guidanceText:
-        "Probe the thickest part of the food. Record the number, photo it. Must reach 70°C for 2 min (or 75°C). Beef/lamb whole cuts (steaks, joints) can be served rare if fully seared outside — pork and rolled joints must never be rare. Fish: cook through in the centre — some fish (e.g. tuna) may be served rare only if correctly frozen beforehand and fully seared outside. Liver/offal (pate, parfait): must reach a safe temperature in the centre, not just be seared. Eggs: cook until steaming hot, unless using pasteurised egg or a British Lion/equivalent assured scheme for a lightly-cooked dish.",
+        "Probe the thickest part of the food. Record the number, photo it. Must reach 70°C for 2 min (or 75°C). Beef/lamb whole cuts (steaks, joints) can be served rare if fully seared outside - pork and rolled joints must never be rare. Fish: cook through in the centre - some fish (e.g. tuna) may be served rare only if correctly frozen beforehand and fully seared outside. Liver/offal (pate, parfait): must reach a safe temperature in the centre, not just be seared. Eggs: cook until steaming hot, unless using pasteurised egg or a British Lion/equivalent assured scheme for a lightly-cooked dish.",
   ),
   TaskEnrichmentRow(
     title: "Reheated food core temperature",

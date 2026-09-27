@@ -95,7 +95,7 @@ class _ShiftFairnessScreenState extends ConsumerState<ShiftFairnessScreen> {
                   padding: const EdgeInsets.all(16),
                   children: [
                     Text(
-                      'Last 90 days, by shift category. Alphabetical — not '
+                      'Last 90 days, by shift category. Alphabetical - not '
                       'a ranking.',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppColors.muted,

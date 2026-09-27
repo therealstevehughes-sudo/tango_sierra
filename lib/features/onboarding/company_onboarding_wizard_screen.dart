@@ -890,7 +890,7 @@ class _CompanyOnboardingWizardScreenState
         const SizedBox(height: 16),
         const Text(
           'How many branches do you have today, including head office '
-          "if you have one? You'll only set up your first venue now — "
+          "if you have one? You'll only set up your first venue now - "
           'add the rest any time from inside the app.',
         ),
         const SizedBox(height: 16),
@@ -1003,7 +1003,7 @@ class _CompanyOnboardingWizardScreenState
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   content: Text(
-                    "No problem — you can set this up anytime from Settings.",
+                    "No problem - you can set this up anytime from Settings.",
                   ),
                 ),
               );
@@ -1244,7 +1244,7 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
           ),
           const SizedBox(height: 4),
           const Text(
-            "Optional — add whoever's on shift now, or skip and do this "
+            "Optional - add whoever's on shift now, or skip and do this "
             'later from Staff Management.',
           ),
           const SizedBox(height: 12),

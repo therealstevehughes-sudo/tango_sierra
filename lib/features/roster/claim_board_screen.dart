@@ -91,7 +91,7 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
       SnackBar(
         content: Text(
           result == null
-              ? 'Someone else just claimed that shift — sorry!'
+              ? 'Someone else just claimed that shift - sorry!'
               : 'Shift claimed.',
         ),
       ),
@@ -104,7 +104,7 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
     if (user == null) return;
     final hoursUntil = shift.startsAt.difference(DateTime.now()).inHours;
     final lateWarning = hoursUntil < 24
-        ? '\n\nThis is less than 24 hours before the shift starts — '
+        ? '\n\nThis is less than 24 hours before the shift starts - '
               'cancelling now may affect your reliability record.'
         : '';
     final confirmed = await showDialog<bool>(
@@ -278,7 +278,7 @@ class _ShiftCard extends StatelessWidget {
                 children: [
                   Text(
                     '${formatDate(shift.startsAt)}, $startHour:$startMinute'
-                    ' – $endHour:$endMinute',
+                    ' - $endHour:$endMinute',
                     style: Theme.of(
                       context,
                     ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),

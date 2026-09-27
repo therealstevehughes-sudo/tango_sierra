@@ -22,7 +22,7 @@ These Terms of Service ("Terms") are a contract between you (the individual usin
 
 By creating an account, signing in, or otherwise using the VenuRite application, you agree to be bound by these Terms. If you are using the App on behalf of a business, you confirm you have authority to bind that business.
 
-2. What VenuRite is — and is not
+2. What VenuRite is - and is not
 VenuRite is a software tool that helps food businesses record, track, and manage day-to-day food hygiene and workplace safety compliance activity.
 
 VenuRite is a record-keeping and workflow tool. It is not a substitute for your own legal duty to comply with food safety, health and safety, and all other applicable law; not a substitute for professional advice from a qualified Environmental Health Officer or food safety consultant; not a guarantee that your business complies with any law or will pass any inspection; and not a substitute for your own judgement, training, and supervision of staff.

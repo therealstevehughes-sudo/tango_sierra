@@ -105,7 +105,7 @@ class _VoiceNoteMicButtonState extends ConsumerState<VoiceNoteMicButton> {
 
     final filePath = path ?? _recordingPath;
     if (filePath == null) {
-      _showError("Couldn't record that — try again.");
+      _showError("Couldn't record that - try again.");
       return;
     }
 
@@ -202,7 +202,7 @@ class _VoiceNoteMicButtonState extends ConsumerState<VoiceNoteMicButton> {
             ),
             IconButton(
               icon: Icon(Icons.stop_circle, color: AppColors.pass),
-              tooltip: remaining <= 10 ? 'Stopping soon — tap to stop now' : 'Stop',
+              tooltip: remaining <= 10 ? 'Stopping soon - tap to stop now' : 'Stop',
               onPressed: _stopAndTranscribe,
             ),
           ],
