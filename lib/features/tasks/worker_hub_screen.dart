@@ -15,6 +15,7 @@ import '../../shared/providers/site_providers.dart';
 import '../auth/end_shift.dart';
 import '../issues/my_raised_issues_screen.dart';
 import '../issues/report_issue_screen.dart';
+import '../roster/claim_board_screen.dart';
 import 'ad_hoc_task_screen.dart';
 import 'task_screen.dart';
 
@@ -176,6 +177,32 @@ class WorkerHubScreen extends ConsumerWidget {
                                 ),
                           icon: const Icon(Icons.report_problem_outlined),
                           label: const Text('Log something that just happened'),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            minimumSize: const Size.fromHeight(48),
+                            foregroundColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        // Roster add-on (2026-09-27) — base tier has no drawer at
+                        // all (see the class doc comment above), so this is its
+                        // only route to ClaimBoardScreen; the screen itself shows
+                        // an explanatory message rather than this button when the
+                        // add-on isn't switched on for the venue, so no visibility
+                        // gate is needed here beyond having a signed-in user.
+                        OutlinedButton.icon(
+                          onPressed: currentUser == null
+                              ? null
+                              : () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const ClaimBoardScreen(),
+                                  ),
+                                ),
+                          icon: const Icon(Icons.event_available_outlined),
+                          label: const Text('Claim a shift'),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             minimumSize: const Size.fromHeight(48),

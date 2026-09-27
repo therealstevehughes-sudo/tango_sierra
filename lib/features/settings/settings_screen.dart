@@ -86,6 +86,8 @@ class SettingsScreen extends ConsumerWidget {
               _CompanyBrandingSection(currentUser: currentUser),
               const SizedBox(height: 16),
               const _EmployeeGradedBarsSetting(),
+              const SizedBox(height: 16),
+              const _RosterAddonSetting(),
             ],
           ],
         ),
@@ -443,6 +445,74 @@ class _EmployeeGradedBarsSettingState
           "Overview, show the same colour-graded bar the branch/section "
           "view uses, for work oversight and risk assessment - instead "
           "of the default plain list of what they raised/completed.",
+        ),
+        value: _enabled,
+        onChanged: _saving ? null : _toggle,
+      ),
+    );
+  }
+}
+
+// Roster add-on (2026-09-27) — the paid shift-claiming/rota feature, off
+// by default. Same shape as _EmployeeGradedBarsSetting above (a single
+// per-org boolean flag, executive-only since this affects billing).
+class _RosterAddonSetting extends ConsumerStatefulWidget {
+  const _RosterAddonSetting();
+
+  @override
+  ConsumerState<_RosterAddonSetting> createState() =>
+      _RosterAddonSettingState();
+}
+
+class _RosterAddonSettingState extends ConsumerState<_RosterAddonSetting> {
+  bool _loaded = false;
+  bool _enabled = false;
+  int? _organisationId;
+  bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final org = await ref.read(organisationRepositoryProvider).getDefault();
+    if (!mounted) return;
+    setState(() {
+      _organisationId = org.id;
+      _enabled = org.rosterAddonEnabled;
+      _loaded = true;
+    });
+  }
+
+  Future<void> _toggle(bool value) async {
+    final orgId = _organisationId;
+    if (orgId == null) return;
+    setState(() {
+      _enabled = value;
+      _saving = true;
+    });
+    await ref
+        .read(organisationRepositoryProvider)
+        .setRosterAddonEnabled(orgId, value);
+    if (!mounted) return;
+    setState(() => _saving = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_loaded) {
+      return const AppCard(child: Center(child: CircularProgressIndicator()));
+    }
+    return AppCard(
+      child: SwitchListTile(
+        contentPadding: EdgeInsets.zero,
+        title: const Text('Staff Shift/Roster (+£6-£10/branch/month)'),
+        subtitle: const Text(
+          'Let staff see and claim open shifts themselves — a manager '
+          'posts shifts, staff pick them up. £6/month per branch under 10 '
+          'staff, £10/month for 10 or more.',
         ),
         value: _enabled,
         onChanged: _saving ? null : _toggle,

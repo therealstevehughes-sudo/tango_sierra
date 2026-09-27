@@ -140,6 +140,24 @@ class BackendRestClient {
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
 
+  // Roster add-on (2026-09-27) — calls a Postgres RPC function exposed at
+  // /rest/v1/rpc/<name> (e.g. claim_shift), needed because PostgREST's
+  // plain table endpoints can't express an atomic
+  // "update only if still open" race-safe write. Returns the decoded
+  // JSON body (a list of rows, since claim_shift is `RETURNS SETOF`) —
+  // callers check whether it's empty to distinguish "someone else claimed
+  // it first" from a real error, same as _checkOk's status-based check
+  // would for a plain table call.
+  Future<List<dynamic>> rpc(String functionName, Map<String, dynamic> params) async {
+    final response = await http.post(
+      Uri.parse('$_base/rpc/$functionName'),
+      headers: _headers(json: true),
+      body: jsonEncode(params),
+    );
+    _checkOk(response);
+    return jsonDecode(response.body) as List<dynamic>;
+  }
+
   // Voice-to-text notes (2026-09-27) — the first binary-upload call this
   // client makes. Sends the recorded clip as multipart/form-data (what
   // OpenAI's own transcription endpoint expects server-side anyway), so

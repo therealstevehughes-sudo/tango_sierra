@@ -758,6 +758,12 @@ class Organisations extends Table {
   // changing the default for every other install.
   BoolColumn get employeeGradedBarsEnabled =>
       boolean().withDefault(const Constant(false))();
+  // Roster add-on (2026-09-27) — the paid shift-claiming/rota feature,
+  // off by default. Reuses this exact single-boolean-flag pattern rather
+  // than a generalized add-ons table, same reasoning as
+  // employeeGradedBarsEnabled above.
+  BoolColumn get rosterAddonEnabled =>
+      boolean().withDefault(const Constant(false))();
 }
 
 // Sprint 034 — one row per organisation, its single consolidated billing
@@ -1079,7 +1085,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 52;
+  int get schemaVersion => 53;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1544,6 +1550,10 @@ class AppDatabase extends _$AppDatabase {
           taskSubmissions,
           taskSubmissions.extraFieldValuesJson,
         );
+      }
+      if (from < 53) {
+        // Roster add-on toggle (2026-09-27).
+        await m.addColumn(organisations, organisations.rosterAddonEnabled);
       }
     },
     beforeOpen: (details) async {

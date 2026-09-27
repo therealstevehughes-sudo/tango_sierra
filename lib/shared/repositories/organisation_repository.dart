@@ -17,6 +17,9 @@ abstract class OrganisationRepository {
   // approved for this exact use; this flag only controls whether the
   // screen is allowed to use it for a given organisation.
   Future<void> setEmployeeGradedBarsEnabled(int id, bool enabled);
+  // Roster add-on (2026-09-27) — the paid shift-claiming/rota feature,
+  // off by default. See Organisation.rosterAddonEnabled's own doc comment.
+  Future<void> setRosterAddonEnabled(int id, bool enabled);
 }
 
 class DriftOrganisationRepository implements OrganisationRepository {
@@ -53,12 +56,20 @@ class DriftOrganisationRepository implements OrganisationRepository {
     );
   }
 
+  @override
+  Future<void> setRosterAddonEnabled(int id, bool enabled) async {
+    await (_db.update(_db.organisations)..where((o) => o.id.equals(id))).write(
+      OrganisationsCompanion(rosterAddonEnabled: Value(enabled)),
+    );
+  }
+
   Organisation _toModel(OrganisationEntity row) {
     return Organisation(
       id: row.id,
       name: row.name,
       createdAt: row.createdAt,
       employeeGradedBarsEnabled: row.employeeGradedBarsEnabled,
+      rosterAddonEnabled: row.rosterAddonEnabled,
     );
   }
 }

@@ -51,11 +51,21 @@ class SupabaseOrganisationRepository implements OrganisationRepository {
     );
   }
 
+  @override
+  Future<void> setRosterAddonEnabled(int id, bool enabled) async {
+    await _client.update(
+      'organisations',
+      filter: 'id=eq.$id',
+      body: {'roster_addon_enabled': enabled},
+    );
+  }
+
   Organisation _toModel(Map<String, dynamic> row) => Organisation(
     id: row['id'] as int,
     name: row['name'] as String,
     createdAt: DateTime.parse(row['created_at'] as String),
     employeeGradedBarsEnabled:
         row['employee_graded_bars_enabled'] as bool? ?? false,
+    rosterAddonEnabled: row['roster_addon_enabled'] as bool? ?? false,
   );
 }

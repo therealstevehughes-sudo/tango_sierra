@@ -2368,6 +2368,20 @@ class $OrganisationsTable extends Organisations
         ),
         defaultValue: const Constant(false),
       );
+  static const VerificationMeta _rosterAddonEnabledMeta =
+      const VerificationMeta('rosterAddonEnabled');
+  @override
+  late final GeneratedColumn<bool> rosterAddonEnabled = GeneratedColumn<bool>(
+    'roster_addon_enabled',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("roster_addon_enabled" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2380,6 +2394,7 @@ class $OrganisationsTable extends Organisations
     billingEmail,
     ownerUserId,
     employeeGradedBarsEnabled,
+    rosterAddonEnabled,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2466,6 +2481,15 @@ class $OrganisationsTable extends Organisations
         ),
       );
     }
+    if (data.containsKey('roster_addon_enabled')) {
+      context.handle(
+        _rosterAddonEnabledMeta,
+        rosterAddonEnabled.isAcceptableOrUnknown(
+          data['roster_addon_enabled']!,
+          _rosterAddonEnabledMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2515,6 +2539,10 @@ class $OrganisationsTable extends Organisations
         DriftSqlType.bool,
         data['${effectivePrefix}employee_graded_bars_enabled'],
       )!,
+      rosterAddonEnabled: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}roster_addon_enabled'],
+      )!,
     );
   }
 
@@ -2536,6 +2564,7 @@ class OrganisationEntity extends DataClass
   final String? billingEmail;
   final int? ownerUserId;
   final bool employeeGradedBarsEnabled;
+  final bool rosterAddonEnabled;
   const OrganisationEntity({
     required this.id,
     required this.name,
@@ -2547,6 +2576,7 @@ class OrganisationEntity extends DataClass
     this.billingEmail,
     this.ownerUserId,
     required this.employeeGradedBarsEnabled,
+    required this.rosterAddonEnabled,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2575,6 +2605,7 @@ class OrganisationEntity extends DataClass
     map['employee_graded_bars_enabled'] = Variable<bool>(
       employeeGradedBarsEnabled,
     );
+    map['roster_addon_enabled'] = Variable<bool>(rosterAddonEnabled);
     return map;
   }
 
@@ -2602,6 +2633,7 @@ class OrganisationEntity extends DataClass
           ? const Value.absent()
           : Value(ownerUserId),
       employeeGradedBarsEnabled: Value(employeeGradedBarsEnabled),
+      rosterAddonEnabled: Value(rosterAddonEnabled),
     );
   }
 
@@ -2625,6 +2657,7 @@ class OrganisationEntity extends DataClass
       employeeGradedBarsEnabled: serializer.fromJson<bool>(
         json['employeeGradedBarsEnabled'],
       ),
+      rosterAddonEnabled: serializer.fromJson<bool>(json['rosterAddonEnabled']),
     );
   }
   @override
@@ -2643,6 +2676,7 @@ class OrganisationEntity extends DataClass
       'employeeGradedBarsEnabled': serializer.toJson<bool>(
         employeeGradedBarsEnabled,
       ),
+      'rosterAddonEnabled': serializer.toJson<bool>(rosterAddonEnabled),
     };
   }
 
@@ -2657,6 +2691,7 @@ class OrganisationEntity extends DataClass
     Value<String?> billingEmail = const Value.absent(),
     Value<int?> ownerUserId = const Value.absent(),
     bool? employeeGradedBarsEnabled,
+    bool? rosterAddonEnabled,
   }) => OrganisationEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -2671,6 +2706,7 @@ class OrganisationEntity extends DataClass
     ownerUserId: ownerUserId.present ? ownerUserId.value : this.ownerUserId,
     employeeGradedBarsEnabled:
         employeeGradedBarsEnabled ?? this.employeeGradedBarsEnabled,
+    rosterAddonEnabled: rosterAddonEnabled ?? this.rosterAddonEnabled,
   );
   OrganisationEntity copyWithCompanion(OrganisationsCompanion data) {
     return OrganisationEntity(
@@ -2692,6 +2728,9 @@ class OrganisationEntity extends DataClass
       employeeGradedBarsEnabled: data.employeeGradedBarsEnabled.present
           ? data.employeeGradedBarsEnabled.value
           : this.employeeGradedBarsEnabled,
+      rosterAddonEnabled: data.rosterAddonEnabled.present
+          ? data.rosterAddonEnabled.value
+          : this.rosterAddonEnabled,
     );
   }
 
@@ -2707,7 +2746,8 @@ class OrganisationEntity extends DataClass
           ..write('vatNumber: $vatNumber, ')
           ..write('billingEmail: $billingEmail, ')
           ..write('ownerUserId: $ownerUserId, ')
-          ..write('employeeGradedBarsEnabled: $employeeGradedBarsEnabled')
+          ..write('employeeGradedBarsEnabled: $employeeGradedBarsEnabled, ')
+          ..write('rosterAddonEnabled: $rosterAddonEnabled')
           ..write(')'))
         .toString();
   }
@@ -2724,6 +2764,7 @@ class OrganisationEntity extends DataClass
     billingEmail,
     ownerUserId,
     employeeGradedBarsEnabled,
+    rosterAddonEnabled,
   );
   @override
   bool operator ==(Object other) =>
@@ -2738,7 +2779,8 @@ class OrganisationEntity extends DataClass
           other.vatNumber == this.vatNumber &&
           other.billingEmail == this.billingEmail &&
           other.ownerUserId == this.ownerUserId &&
-          other.employeeGradedBarsEnabled == this.employeeGradedBarsEnabled);
+          other.employeeGradedBarsEnabled == this.employeeGradedBarsEnabled &&
+          other.rosterAddonEnabled == this.rosterAddonEnabled);
 }
 
 class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
@@ -2752,6 +2794,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
   final Value<String?> billingEmail;
   final Value<int?> ownerUserId;
   final Value<bool> employeeGradedBarsEnabled;
+  final Value<bool> rosterAddonEnabled;
   const OrganisationsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -2763,6 +2806,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     this.billingEmail = const Value.absent(),
     this.ownerUserId = const Value.absent(),
     this.employeeGradedBarsEnabled = const Value.absent(),
+    this.rosterAddonEnabled = const Value.absent(),
   });
   OrganisationsCompanion.insert({
     this.id = const Value.absent(),
@@ -2775,6 +2819,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     this.billingEmail = const Value.absent(),
     this.ownerUserId = const Value.absent(),
     this.employeeGradedBarsEnabled = const Value.absent(),
+    this.rosterAddonEnabled = const Value.absent(),
   }) : name = Value(name),
        createdAt = Value(createdAt);
   static Insertable<OrganisationEntity> custom({
@@ -2788,6 +2833,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     Expression<String>? billingEmail,
     Expression<int>? ownerUserId,
     Expression<bool>? employeeGradedBarsEnabled,
+    Expression<bool>? rosterAddonEnabled,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2801,6 +2847,8 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
       if (ownerUserId != null) 'owner_user_id': ownerUserId,
       if (employeeGradedBarsEnabled != null)
         'employee_graded_bars_enabled': employeeGradedBarsEnabled,
+      if (rosterAddonEnabled != null)
+        'roster_addon_enabled': rosterAddonEnabled,
     });
   }
 
@@ -2815,6 +2863,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     Value<String?>? billingEmail,
     Value<int?>? ownerUserId,
     Value<bool>? employeeGradedBarsEnabled,
+    Value<bool>? rosterAddonEnabled,
   }) {
     return OrganisationsCompanion(
       id: id ?? this.id,
@@ -2828,6 +2877,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
       ownerUserId: ownerUserId ?? this.ownerUserId,
       employeeGradedBarsEnabled:
           employeeGradedBarsEnabled ?? this.employeeGradedBarsEnabled,
+      rosterAddonEnabled: rosterAddonEnabled ?? this.rosterAddonEnabled,
     );
   }
 
@@ -2866,6 +2916,9 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
         employeeGradedBarsEnabled.value,
       );
     }
+    if (rosterAddonEnabled.present) {
+      map['roster_addon_enabled'] = Variable<bool>(rosterAddonEnabled.value);
+    }
     return map;
   }
 
@@ -2881,7 +2934,8 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
           ..write('vatNumber: $vatNumber, ')
           ..write('billingEmail: $billingEmail, ')
           ..write('ownerUserId: $ownerUserId, ')
-          ..write('employeeGradedBarsEnabled: $employeeGradedBarsEnabled')
+          ..write('employeeGradedBarsEnabled: $employeeGradedBarsEnabled, ')
+          ..write('rosterAddonEnabled: $rosterAddonEnabled')
           ..write(')'))
         .toString();
   }
@@ -26162,6 +26216,7 @@ typedef $$OrganisationsTableCreateCompanionBuilder =
       Value<String?> billingEmail,
       Value<int?> ownerUserId,
       Value<bool> employeeGradedBarsEnabled,
+      Value<bool> rosterAddonEnabled,
     });
 typedef $$OrganisationsTableUpdateCompanionBuilder =
     OrganisationsCompanion Function({
@@ -26175,6 +26230,7 @@ typedef $$OrganisationsTableUpdateCompanionBuilder =
       Value<String?> billingEmail,
       Value<int?> ownerUserId,
       Value<bool> employeeGradedBarsEnabled,
+      Value<bool> rosterAddonEnabled,
     });
 
 final class $$OrganisationsTableReferences
@@ -26336,6 +26392,11 @@ class $$OrganisationsTableFilterComposer
 
   ColumnFilters<bool> get employeeGradedBarsEnabled => $composableBuilder(
     column: $table.employeeGradedBarsEnabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get rosterAddonEnabled => $composableBuilder(
+    column: $table.rosterAddonEnabled,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -26517,6 +26578,11 @@ class $$OrganisationsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get rosterAddonEnabled => $composableBuilder(
+    column: $table.rosterAddonEnabled,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$UsersTableOrderingComposer get ownerUserId {
     final $$UsersTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -26580,6 +26646,11 @@ class $$OrganisationsTableAnnotationComposer
 
   GeneratedColumn<bool> get employeeGradedBarsEnabled => $composableBuilder(
     column: $table.employeeGradedBarsEnabled,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get rosterAddonEnabled => $composableBuilder(
+    column: $table.rosterAddonEnabled,
     builder: (column) => column,
   );
 
@@ -26752,6 +26823,7 @@ class $$OrganisationsTableTableManager
                 Value<String?> billingEmail = const Value.absent(),
                 Value<int?> ownerUserId = const Value.absent(),
                 Value<bool> employeeGradedBarsEnabled = const Value.absent(),
+                Value<bool> rosterAddonEnabled = const Value.absent(),
               }) => OrganisationsCompanion(
                 id: id,
                 name: name,
@@ -26763,6 +26835,7 @@ class $$OrganisationsTableTableManager
                 billingEmail: billingEmail,
                 ownerUserId: ownerUserId,
                 employeeGradedBarsEnabled: employeeGradedBarsEnabled,
+                rosterAddonEnabled: rosterAddonEnabled,
               ),
           createCompanionCallback:
               ({
@@ -26776,6 +26849,7 @@ class $$OrganisationsTableTableManager
                 Value<String?> billingEmail = const Value.absent(),
                 Value<int?> ownerUserId = const Value.absent(),
                 Value<bool> employeeGradedBarsEnabled = const Value.absent(),
+                Value<bool> rosterAddonEnabled = const Value.absent(),
               }) => OrganisationsCompanion.insert(
                 id: id,
                 name: name,
@@ -26787,6 +26861,7 @@ class $$OrganisationsTableTableManager
                 billingEmail: billingEmail,
                 ownerUserId: ownerUserId,
                 employeeGradedBarsEnabled: employeeGradedBarsEnabled,
+                rosterAddonEnabled: rosterAddonEnabled,
               ),
           withReferenceMapper: (p0) => p0
               .map(

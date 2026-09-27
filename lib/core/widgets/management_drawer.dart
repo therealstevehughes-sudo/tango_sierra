@@ -16,6 +16,8 @@ import '../../features/problems/problems_register_screen.dart';
 import '../../features/regions/branch_management_screen.dart';
 import '../../features/regions/branch_org_chart_screen.dart';
 import '../../features/regions/organisation_tree_screen.dart';
+import '../../features/roster/claim_board_screen.dart';
+import '../../features/roster/roster_board_screen.dart';
 import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/document_centre_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
@@ -125,6 +127,24 @@ final List<_DrawerItemDef> _peopleItems = [
     label: 'Department Management',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const DepartmentManagementScreen(),
+  ),
+  // Roster add-on (2026-09-27) — manager side (post shifts, assign/remove)
+  // at venueManager+; the staff-facing claim board at supervisor+, same
+  // floor as Branch Team Structure above. Both screens self-gate on
+  // organisations.roster_addon_enabled internally and show an explanatory
+  // message rather than erroring when the add-on isn't switched on, so no
+  // separate feature-flag check is needed here.
+  _DrawerItemDef(
+    icon: Icons.event_note_outlined,
+    label: 'Roster Board',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const RosterBoardScreen(),
+  ),
+  _DrawerItemDef(
+    icon: Icons.event_available_outlined,
+    label: 'Claim Shifts',
+    minTier: RoleTier.supervisor,
+    screenBuilder: (_) => const ClaimBoardScreen(),
   ),
 ];
 
