@@ -2500,3 +2500,33 @@ Client-side `UnimplementedError` guards removed from `SupabaseTaskTemplateReposi
 Verified: `flutter analyze` clean, all 35 tests passing, live curl proof against the real backend (read all five columns, full write/read/revert round-trip on a real org's `employee_graded_bars_enabled`).
 
 Files: `lib/shared/repositories/supabase_task_template_repository.dart`, `lib/shared/repositories/supabase_task_submission_repository.dart`, `lib/shared/repositories/supabase_organisation_repository.dart`, `lib/shared/repositories/supabase_task_schedule_repository.dart`.
+
+## AI assistant (RAG) backend, Phase 1 — schema + embedding pipeline (2026-09-27)
+
+Full plan agreed with the user: pgvector on the existing self-hosted Postgres, OpenAI for both embeddings (`text-embedding-3-small`) and chat (`gpt-4o-mini`) — one vendor, one secret, since Anthropic has no first-party embeddings API and would need OpenAI anyway. Corpus sign-off (a food-safety professional reviewing `compliance_library/` before real customers see live answers) stays a separate, final gate — doesn't block engineering. Usage-cap/top-up numbers deferred to their own phase once the founder sets real figures.
+
+**Schema applied and verified live**: `compliance_chunks` (shared-baseline shape, nullable `organisation_id`, mirrors the existing `venue_types`/`equipment_types` pattern), `ai_answer_cache` (cross-venue shared, zero policies for non-service-role — deliberately not tenant data), `ai_usage` (tenant-owned, `can_access_organisation()`-scoped, same shape as `subscriptions`). `CREATE EXTENSION vector` applied fresh on the new dedicated server.
+
+**Real gotcha, same one hit before but now confirmed as a standing rule for this stack**: PostgREST's schema cache doesn't pick up new tables from a direct `psql` migration — `docker restart supabase-rest` is required before they're reachable over `/rest/v1/`, same as the `NOTIFY pgrst, 'reload schema'`-doesn't-work finding from the five-column migration earlier this session.
+
+**Embedding pipeline built** (`tools/embed_compliance_library.py`) — parses all 23 `compliance_library/` documents (`pypdf` for PDFs, `BeautifulSoup` for HTML), chunks to ~600 tokens targeting structural boundaries (never mid-sentence, since a citation that cuts off mid-thought undermines its own credibility in a compliance app), embeds via OpenAI, writes to `compliance_chunks`. Idempotent (delete-and-reinsert keyed on `source_document`).
+
+**Two real bugs found and fixed while running it for real, not just written and assumed correct**:
+1. The FSA's Safer Food Better Business pack (the single largest, most important guidance document) has a malformed PDF font descriptor (`/FontFile` and `/FontFile3` both present) that crashes `pypdf`'s `extract_text()` outright on most of its pages. Fixed with a per-page fallback to `pdfplumber` (a different parsing path, unaffected) rather than silently skipping the page or the whole document.
+2. A new OpenAI org's default rate limit (40,000 tokens/minute) rejected the initial 100-chunks-per-batch request (~64,500 tokens in one call) with a 429 — reduced to 20 chunks/batch plus retry-with-exponential-backoff. Caught only because the actual script output was checked line-by-line rather than trusting the wrapper's exit code, which had been silently masked to 0 by a `grep -v` pipe swallowing the real failure — a direct repeat of the "always check the real log, not just the reported exit code" lesson from this project's earlier Windows-build history, now confirmed to apply to Python/Docker pipelines too.
+
+**Pipeline run for real** (not a dry-run): 860 chunks, ~477k tokens, all 23 documents, committed to the live database. Cost: under 1 cent at `text-embedding-3-small` pricing.
+
+**Live-proven, not just "ran without error"**: a real embedded query for "what temperature should a fridge be?" against the live `compliance_chunks` table returned the correct SFBB guidance ("5°C or below... 8°C or below, a legal requirement") as the top match, with the actual Schedule 4 temperature-control regulation as the third result — proving both retrieval correctness and the guidance-over-legislation ranking bias work as designed.
+
+**Secret handling**: `OPENAI_API_KEY` added to `.env` and the `functions` service's `environment:` block in `docker-compose.yml`, `docker compose up -d --force-recreate functions` applied (same established pattern as Firebase/GoCardless/Postmark). Real key pulled from a local file the user saved it to (`openai_info.md`, confirmed untracked via `git status --short` before being moved out of the repo entirely, same discipline as `ionos.md`), never typed into chat.
+
+Not yet built: the `ai-assistant` Edge Function itself (Phase 2), the Flutter UI (Phase 3), usage-cap billing (Phase 4).
+
+Files: `tools/embed_compliance_library.py` (new).
+
+## Queued: audio transcription for notes (2026-09-27, agreed, not yet built)
+
+User asked whether voice-to-text for notes fields had been built — it hadn't, and nothing in this project's history had ever discussed it. Recommended building it: kitchens are a genuinely bad typing environment (gloved/wet hands, an angled tablet), so removing the need to type notes addresses real friction, and it reuses the same OpenAI secret just wired in for the AI assistant (Whisper API) rather than adding a new vendor. Agreed main safeguard: transcribed text must always land as editable, never auto-submitted, since kitchen background noise will sometimes produce a rough transcription and a silently-wrong word in a compliance note is a real risk.
+
+Queued behind the current AI-assistant backend work (Phases 2-4), not started.
