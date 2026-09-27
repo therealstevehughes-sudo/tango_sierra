@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 
@@ -136,6 +137,38 @@ class BackendRestClient {
       headers: _headers(json: true),
       body: jsonEncode(body),
     );
+    return jsonDecode(response.body) as Map<String, dynamic>;
+  }
+
+  // Voice-to-text notes (2026-09-27) — the first binary-upload call this
+  // client makes. Sends the recorded clip as multipart/form-data (what
+  // OpenAI's own transcription endpoint expects server-side anyway), so
+  // the Edge Function forwards the bytes through largely unchanged rather
+  // than this client base64-encoding into a much larger JSON payload only
+  // for the function to decode it straight back out. Deliberately a
+  // separate method, not a mode of invokeFunction() — every existing
+  // caller of that method depends on its plain JSON-in/JSON-out contract.
+  //
+  // Deliberately does NOT call _checkOk, same as invokeFunction() —
+  // transcribe-audio (like ai-assistant) reports its own errors via an
+  // {"outcome": "error", ...} body even on a non-2xx status, so throwing
+  // here on a real error response would hide that message from the
+  // caller behind a generic exception instead of the actual reason
+  // (found via real testing: the error tooltip showed a useless "couldn't
+  // reach" message for what was actually a well-formed error reply).
+  Future<Map<String, dynamic>> uploadAudioForTranscription(
+    String functionName,
+    File audioFile,
+  ) async {
+    final uri = Uri.parse('${BackendConfig.supabaseUrl}/functions/v1/$functionName');
+    final request = http.MultipartRequest('POST', uri)
+      // No json:true here -- MultipartRequest sets its own
+      // "multipart/form-data; boundary=..." Content-Type, and overriding
+      // it with "application/json" would break the encoding.
+      ..headers.addAll(_headers())
+      ..files.add(await http.MultipartFile.fromPath('audio', audioFile.path));
+    final streamedResponse = await request.send();
+    final response = await http.Response.fromStream(streamedResponse);
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
 }

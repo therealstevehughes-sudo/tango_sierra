@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/extra_fields_form.dart';
+import '../../core/widgets/voice_note_field.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/task_extra_field.dart';
@@ -355,7 +356,10 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
       const SizedBox(height: 12),
       TextField(
         controller: _noteController,
-        decoration: const InputDecoration(labelText: 'Notes (optional)'),
+        decoration: InputDecoration(
+          labelText: 'Notes (optional)',
+          suffixIcon: VoiceNoteMicButton(controller: _noteController),
+        ),
         maxLines: 2,
       ),
       ExtraFieldsForm(
@@ -427,7 +431,10 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
       const SizedBox(height: 12),
       TextField(
         controller: _noteController,
-        decoration: const InputDecoration(labelText: 'Note (optional)'),
+        decoration: InputDecoration(
+          labelText: 'Note (optional)',
+          suffixIcon: VoiceNoteMicButton(controller: _noteController),
+        ),
         maxLines: 2,
       ),
       ExtraFieldsForm(
