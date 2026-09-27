@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -438,7 +439,10 @@ class _VenueSetupWizardScreenState
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Venue Setup - Step ${currentStep + 1} of 4')),
+      appBar: AppBar(
+        title: Text('Venue Setup - Step ${currentStep + 1} of 4'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Venue Setup'),
       body: SafeArea(
         child: Padding(

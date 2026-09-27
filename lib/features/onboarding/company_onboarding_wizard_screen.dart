@@ -7,6 +7,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/data/countries.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/equipment_type.dart';
@@ -335,7 +336,10 @@ class _CompanyOnboardingWizardScreenState
   Widget build(BuildContext context) {
     if (_done != null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Company created')),
+        appBar: AppBar(
+          title: const Text('Company created'),
+          actions: const [AssistantIconButton()],
+        ),
         body: SafeArea(
           // Layout fix (2026-09-25, direct user report - overflow on this
           // screen): unlike every other wizard step (see the shared
@@ -370,6 +374,7 @@ class _CompanyOnboardingWizardScreenState
         title: Text(
           '${_stepTitles[currentStep]} - Step ${currentStep + 1} of $_stepCount',
         ),
+        actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
         child: Padding(

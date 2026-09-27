@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/subscription.dart';
 import '../../shared/providers/subscription_providers.dart';
@@ -112,7 +113,10 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
     final subscriptionAsync = ref.watch(currentSubscriptionProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Billing')),
+      appBar: AppBar(
+        title: const Text('Billing'),
+        actions: const [AssistantIconButton()],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

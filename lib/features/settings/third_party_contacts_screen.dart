@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -127,7 +128,10 @@ class _ThirdPartyContactsScreenState
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Maintenance Contacts')),
+      appBar: AppBar(
+        title: const Text('Maintenance Contacts'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Maintenance Contacts'),
       body: SafeArea(
         child: Padding(

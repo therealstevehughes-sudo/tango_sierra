@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/department.dart';
@@ -598,7 +599,10 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final indexLetters = staffByInitial.keys.toList()..sort();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Staff Management')),
+      appBar: AppBar(
+        title: const Text('Staff Management'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Staff Management'),
       body: SafeArea(
         child: Row(

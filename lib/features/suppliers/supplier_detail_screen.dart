@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/breakdown_sheet.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
@@ -129,7 +130,10 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
   Widget build(BuildContext context) {
     final supplier = widget.supplier;
     return Scaffold(
-      appBar: AppBar(title: Text(supplier.name)),
+      appBar: AppBar(
+        title: Text(supplier.name),
+        actions: const [AssistantIconButton()],
+      ),
       body: ResponsiveContent(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),

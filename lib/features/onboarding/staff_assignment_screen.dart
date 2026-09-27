@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -546,6 +547,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
                 onPressed: () => setState(() => selectedStaff = null),
               )
             : null,
+        actions: const [AssistantIconButton()],
       ),
       // Navigation-consistency pass (Sprint 031): while a staff member is
       // selected, this AppBar's `leading` is the "back to staff list"

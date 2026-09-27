@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
@@ -52,6 +53,7 @@ class _ProblemsRegisterScreenState
               Tab(text: 'Issues & Incidents'),
             ],
           ),
+          actions: const [AssistantIconButton()],
         ),
         drawer: const ManagementDrawer(title: 'Fails & Problems Register'),
         body: currentUser == null

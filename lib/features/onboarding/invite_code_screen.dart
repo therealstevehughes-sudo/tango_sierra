@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../core/widgets/app_banner.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
 
@@ -21,7 +22,10 @@ class InviteCodeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final daysLeft = invite.expiresAt.difference(DateTime.now()).inDays;
     return Scaffold(
-      appBar: AppBar(title: const Text('Invite created')),
+      appBar: AppBar(
+        title: const Text('Invite created'),
+        actions: const [AssistantIconButton()],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

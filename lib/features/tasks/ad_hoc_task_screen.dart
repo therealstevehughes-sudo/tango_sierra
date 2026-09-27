@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/extra_fields_form.dart';
 import '../../core/widgets/voice_note_field.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -224,7 +225,10 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Do an ad-hoc task')),
+      appBar: AppBar(
+        title: const Text('Do an ad-hoc task'),
+        actions: const [AssistantIconButton()],
+      ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : ResponsiveContent(

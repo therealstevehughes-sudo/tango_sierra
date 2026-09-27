@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
 import '../../core/widgets/app_banner.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
@@ -118,7 +119,10 @@ class _JoinCompanyScreenState extends ConsumerState<JoinCompanyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Join existing company')),
+      appBar: AppBar(
+        title: const Text('Join existing company'),
+        actions: const [AssistantIconButton()],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/trigger_notifications_banner.dart';
@@ -245,6 +246,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text('Manager View'),
+        actions: const [AssistantIconButton()],
       ),
       // Sub-sprint 2 (visual/UX pass): replaces the previous 9-icon,
       // tooltip-only AppBar action row — tooltips never surface on touch

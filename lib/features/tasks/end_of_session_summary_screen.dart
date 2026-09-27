@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -125,7 +126,10 @@ class _EndOfSessionSummaryScreenState
     final total = widget.stats.passCount + widget.stats.failCount;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Session Summary')),
+      appBar: AppBar(
+        title: const Text('Session Summary'),
+        actions: const [AssistantIconButton()],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

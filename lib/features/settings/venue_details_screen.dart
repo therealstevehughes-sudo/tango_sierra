@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -276,7 +277,10 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
     final effectiveActiveId = activeSite?.id ?? _defaultSiteId;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Venue Details')),
+      appBar: AppBar(
+        title: const Text('Venue Details'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Venue Details'),
       body: SafeArea(
         child: Padding(

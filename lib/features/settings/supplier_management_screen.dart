@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
@@ -350,7 +351,10 @@ class _SupplierManagementScreenState
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Supplier Management')),
+      appBar: AppBar(
+        title: const Text('Supplier Management'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Supplier Management'),
       body: SafeArea(
         child: ResponsiveContent(

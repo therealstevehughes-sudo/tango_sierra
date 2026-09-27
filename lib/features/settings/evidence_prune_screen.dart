@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 
 import '../../core/services/evidence_store.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -135,7 +136,10 @@ class _EvidencePruneScreenState extends ConsumerState<EvidencePruneScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Photo Evidence')),
+      appBar: AppBar(
+        title: const Text('Photo Evidence'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Photo Evidence'),
       body: SafeArea(
         child: ResponsiveContent(

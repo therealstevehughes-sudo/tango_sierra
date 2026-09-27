@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
 import '../../core/widgets/app_banner.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
@@ -261,7 +262,10 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
 
   Widget _buildMfaStep(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Two-Factor Verification')),
+      appBar: AppBar(
+        title: const Text('Two-Factor Verification'),
+        actions: const [AssistantIconButton()],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -330,7 +334,10 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
       return _buildMfaStep(context);
     }
     return Scaffold(
-      appBar: AppBar(title: const Text('Leadership Access')),
+      appBar: AppBar(
+        title: const Text('Leadership Access'),
+        actions: const [AssistantIconButton()],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -418,7 +425,10 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Leadership Access')),
+      appBar: AppBar(
+        title: const Text('Leadership Access'),
+        actions: const [AssistantIconButton()],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

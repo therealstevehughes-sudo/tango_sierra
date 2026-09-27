@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/voice_note_field.dart';
 import '../../shared/models/department.dart';
@@ -186,6 +187,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
             icon: const Icon(Icons.logout, size: 18),
             label: const Text('Log out'),
           ),
+          const AssistantIconButton(),
         ],
       ),
       // Layout fix (2026-09-24, matching the incident-detail-screen

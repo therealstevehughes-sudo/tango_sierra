@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/department.dart';
@@ -173,7 +174,10 @@ class _DepartmentManagementScreenState
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Department Management')),
+      appBar: AppBar(
+        title: const Text('Department Management'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Department Management'),
       body: SafeArea(
         child: ResponsiveContent(

@@ -2,6 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../core/widgets/assistant_icon_button.dart';
+
 const _lastCameraNamePrefsKey = 'evidence_camera_last_selected_name';
 
 /// Live camera preview + capture, Windows + Android (built 2026-09-14).
@@ -170,6 +172,7 @@ class _CameraCaptureScreenState extends State<CameraCaptureScreen> {
               tooltip: 'Switch camera',
               onPressed: _switchCamera,
             ),
+          const AssistantIconButton(),
         ],
       ),
       body: FutureBuilder<void>(

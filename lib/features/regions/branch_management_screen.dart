@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_banner.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/site.dart';
@@ -129,7 +130,10 @@ class _BranchManagementScreenState
     final hasRegion = currentUser?.regionId != null;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Branches')),
+      appBar: AppBar(
+        title: const Text('Branches'),
+        actions: const [AssistantIconButton()],
+      ),
       drawer: const ManagementDrawer(title: 'Branches'),
       floatingActionButton: hasRegion
           ? FloatingActionButton(

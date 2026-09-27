@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/utils/date_format.dart';
+import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../shared/models/training_item.dart';
@@ -202,6 +203,7 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Training Records - ${widget.staffMember.name}'),
+        actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
         child: ResponsiveContent(
