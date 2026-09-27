@@ -1907,4 +1907,14 @@ COMMIT;
 
 **Live-proven**: 860 chunks committed (verified via `Content-Range` header on a real REST count query, not just the pipeline's own "Done" message); a real end-to-end similarity search for "what temperature should a fridge be?" (embedded live, queried directly via `ORDER BY embedding <=> '<vector>'::vector`) returned the correct SFBB guidance passage as the top match and the actual Schedule 4 legislation as the third — proving retrieval correctness and the guidance-biased-over-legislation design both work.
 
-**Not yet built**: the `ai-assistant` Edge Function (Phase 2, will live at `~/tango-sierra/supabase/docker/volumes/functions/ai-assistant/index.ts`), Flutter UI (Phase 3), usage-cap billing (Phase 4).
+**Not yet built at that point**: the `ai-assistant` Edge Function — see the Phase 2 entry immediately below.
+
+## AI assistant backend, Phase 2 — `ai-assistant` Edge Function deployed live (2026-09-27)
+
+Deployed to `~/tango-sierra/supabase/docker/volumes/functions/ai-assistant/index.ts`. `docker compose restart functions` was sufficient (no `.env` change this time — `OPENAI_API_KEY` was already present from Phase 1). Two supporting RPC functions added directly via `psql` (`match_ai_answer_cache`, `match_compliance_chunks` — full SQL and reasoning in DECISIONS_LOG.md's own entry); the by-now-confirmed `docker restart supabase-rest` rule was needed again before PostgREST recognized the new functions over `/rest/v1/rpc/...`.
+
+**Live-proven with a real signed-up tenant, not a service-role shortcut**: created via `tenant-signup` (learned its actual field names — `company_name`, `country`, `first_name`, `last_name`, `email`, `password`, `venue_name`, `branch_count` — by iterating on its validation error messages rather than guessing from memory), signed in via `/auth/v1/token?grant_type=password` for a real GoTrue session JWT, then called `ai-assistant` with that real token exactly as the Flutter app will. First call: `outcome: "answer"`, correct grounded response. Identical second call: `outcome: "cache_hit"`, proving the semantic cache actually works, not just that the code compiles. `ai_usage` row confirmed correct via direct read afterward.
+
+**Full fixture cleanup, verified empty afterward**: `ai_usage` and `ai_answer_cache` test rows deleted; organisation/site/subscription/users deleted in the established FK-safe order (`owner_user_id` nulled first); the GoTrue `auth.users` row needed a direct `psql DELETE` since it isn't reachable via PostgREST at all.
+
+**Not yet built**: Flutter UI (Phase 3), usage-cap billing (Phase 4).
