@@ -2648,3 +2648,13 @@ Upgraded `BranchOrgChartScreen` ("Branch Team Structure") from read-only to full
 Verified: `flutter analyze` clean, all 47 tests passing (12 new), real `flutter build windows --debug` succeeded.
 
 Files: `lib/shared/models/user.dart`, `lib/features/settings/staff_management_screen.dart`, `lib/features/regions/branch_org_chart_screen.dart`, `lib/features/settings/widgets/add_staff_dialog.dart` (new), `lib/features/venue_setup/venue_setup_wizard_screen.dart`, `test/organogram_permissions_test.dart` (new).
+
+## Terms of Service — technical enforcement built (2026-09-27)
+
+Closes the gap from the earlier T&C drafting entry: the text existed, but nothing actually made anyone agree to it. Now a required checkbox on the sign-up wizard's final step (linking to the real terms text), gating the "Start free trial" button the same way every other step-validation already works (`_canAdvance`) — and, more importantly, enforced server-side in `tenant-signup` itself, which now rejects signup outright without `terms_accepted: true`. The accepted version is recorded on the organisation row (`terms_accepted_at`/`terms_accepted_version`), so this is a real, auditable record, not just a client-side flag that proves nothing.
+
+**Real judgment call**: the customer-facing terms text (`lib/core/data/terms_of_service_content.dart`) is a deliberately stripped copy of `legal/TERMS_OF_SERVICE.md` — the internal ⚠️ solicitor-review warnings ("this hasn't been legally reviewed yet") stay solicitor-facing only. Showing that caveat to someone being asked to legally agree to the document would be actively counterproductive, not just unpolished. The two files need to be kept in sync by hand when the terms are actually revised (no shared source — flagged so future-you doesn't forget one).
+
+Full backend detail (live curl proof, schema) in BACKEND_INFRA.md's own entry. Verified: `flutter analyze` clean, all 47 tests passing, real Windows build launched.
+
+Files: `lib/core/data/terms_of_service_content.dart` (new), `lib/features/onboarding/company_onboarding_wizard_screen.dart`, `lib/shared/repositories/tenant_provisioning_repository.dart`, `legal/TERMS_OF_SERVICE.md`, `tools/tenant-signup_index.ts`, `integration_test/phase_c1b_tenant_signup_test.dart`, `integration_test/phase_c1c_region_branch_test.dart`, `integration_test/phase_c1d_staff_provisioning_test.dart`.

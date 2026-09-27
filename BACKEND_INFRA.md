@@ -1940,3 +1940,11 @@ Site files uploaded to `/var/www/venurite-site/` (`index.html` + `images/kitchen
 **Real gotcha, same root cause as before, caught immediately by checking actual content not just status codes**: `curl https://venurite.com/images/kitchen.jpg` and `.../vr-mark.png` both returned `200` but with an identical, suspiciously small size (3133 bytes) — this machine's own ISP DNS cache (Virgin Media, the same culprit from the original server-migration cutover) was still resolving `venurite.com` to something else entirely. Confirmed and fixed the verification by forcing the real IP with `curl --resolve venurite.com:443:87.106.101.222 ...` — both images then returned their correct real sizes and genuine JPEG/PNG content. Not a server misconfiguration; purely local resolver-cache lag, same lesson as before: never trust a curl result from this dev machine without forcing the real IP first when DNS was very recently changed.
 
 Live-proven: `https://venurite.com` and `https://www.venurite.com` both return `200` with real SSL, both images load with correct byte sizes and content, verified via forced-IP curl.
+
+## Terms of Service acceptance enforced (2026-09-27)
+
+`organisations.terms_accepted_at` (timestamptz), `organisations.terms_accepted_version` (text) added — same `docker restart supabase-rest` schema-cache reload rule as every prior migration on this stack. `tenant-signup` now requires `terms_accepted: true` in the request body (rejects with a clean 400 otherwise, before any row is created) and records `terms_accepted_at`/`terms_accepted_version` (a plain `CURRENT_TERMS_VERSION` constant in the function, matching `legal/TERMS_OF_SERVICE.md`'s own "Version:" line — bump both together, never one without the other) on the organisation insert.
+
+**Live-proven, not just deployed**: a real signup call without `terms_accepted` → clean `{"error": "you must accept..."}`/400; the same call with `terms_accepted: true` → succeeds, and a direct read confirmed `terms_accepted_at`/`terms_accepted_version` correctly populated on the new organisation row. Fixture (org/site/subscription/users/auth.users) fully cleaned up afterward.
+
+Files: `tools/tenant-signup_index.ts` (staging/review copy; deployed to `~/tango-sierra/supabase/docker/volumes/functions/tenant-signup/index.ts`).
