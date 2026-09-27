@@ -18,6 +18,7 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../roster/roster_billing_service.dart';
 
 // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C; Company
 // section added for branding, finalized beta build order item 7). Three
@@ -486,18 +487,81 @@ class _RosterAddonSettingState extends ConsumerState<_RosterAddonSetting> {
     });
   }
 
+  // Real billing (2026-09-27, direct founder request) — a local/demo
+  // install has no real billing system at all (matches how Billing itself
+  // already hides for local installs elsewhere), so it keeps the old bare
+  // toggle. A real backend org routes through roster-addon-billing: turning
+  // ON needs an explicit price confirmation first (RosterUpsellScreen is
+  // the primary path for that; this switch is a secondary entry point for
+  // someone who already knows they want it, so it gets its own inline
+  // confirmation rather than a full-screen detour), turning OFF actually
+  // cancels the add-on's GoCardless subscription, not just flips a flag.
   Future<void> _toggle(bool value) async {
     final orgId = _organisationId;
     if (orgId == null) return;
+
+    if (!ref.read(backendDataEnabledProvider)) {
+      setState(() {
+        _enabled = value;
+        _saving = true;
+      });
+      await ref
+          .read(organisationRepositoryProvider)
+          .setRosterAddonEnabled(orgId, value);
+      if (!mounted) return;
+      setState(() => _saving = false);
+      return;
+    }
+
+    if (value) {
+      RosterQuote quote;
+      try {
+        quote = await ref.read(rosterBillingServiceProvider).getQuote();
+      } catch (e) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Could not get a price: $e')));
+        return;
+      }
+      if (!mounted) return;
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Enable Roster?'),
+          content: Text(
+            'Based on your current staff numbers, this will add '
+            '${quote.formatted} to your monthly Direct Debit.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Confirm'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed != true) return;
+    }
+
+    setState(() => _saving = true);
+    final error = value
+        ? await ref.read(rosterBillingServiceProvider).enable()
+        : await ref.read(rosterBillingServiceProvider).disable();
+    if (!mounted) return;
+    if (error != null) {
+      setState(() => _saving = false);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+      return;
+    }
     setState(() {
       _enabled = value;
-      _saving = true;
+      _saving = false;
     });
-    await ref
-        .read(organisationRepositoryProvider)
-        .setRosterAddonEnabled(orgId, value);
-    if (!mounted) return;
-    setState(() => _saving = false);
   }
 
   @override

@@ -18,7 +18,9 @@ import '../../features/regions/branch_org_chart_screen.dart';
 import '../../features/regions/organisation_tree_screen.dart';
 import '../../features/roster/claim_board_screen.dart';
 import '../../features/roster/request_off_day_screen.dart';
+import '../../features/roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
 import '../../features/roster/roster_board_screen.dart';
+import '../../features/roster/roster_upsell_screen.dart';
 import '../../features/roster/shift_fairness_screen.dart';
 import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/document_centre_screen.dart';
@@ -43,12 +45,20 @@ class _DrawerItemDef {
     required this.label,
     required this.minTier,
     required this.screenBuilder,
+    this.requiresRosterAddon = false,
   });
 
   final IconData icon;
   final String label;
   final RoleTier minTier;
   final WidgetBuilder screenBuilder;
+  // Roster paid-add-on teaser (2026-09-27) — when true and the org hasn't
+  // enabled Roster, this item renders dimmed with a lock icon and opens
+  // RosterUpsellScreen instead of screenBuilder. This is the ONLY
+  // feature-flag gate this drawer has ever needed (every other item is
+  // tier-only), so a single bool here beats a more general mechanism no
+  // other item would use.
+  final bool requiresRosterAddon;
 }
 
 // Menu redesign (2026-09-17) — grouped by purpose into 6 collapsible
@@ -91,13 +101,13 @@ final List<_DrawerItemDef> _insightsItems = [
     screenBuilder: (_) => const DocumentCentreScreen(),
   ),
   // Roster fairness review (R6, 2026-09-27) — venueManager+, matching this
-  // section's existing floor. Self-gates on roster_addon_enabled internally
-  // like every other Roster screen.
+  // section's existing floor.
   _DrawerItemDef(
     icon: Icons.balance_outlined,
     label: 'Shift Fairness Review',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const ShiftFairnessScreen(),
+    requiresRosterAddon: true,
   ),
 ];
 
@@ -141,21 +151,23 @@ final List<_DrawerItemDef> _peopleItems = [
   ),
   // Roster add-on (2026-09-27) — manager side (post shifts, assign/remove)
   // at venueManager+; the staff-facing claim board at supervisor+, same
-  // floor as Branch Team Structure above. Both screens self-gate on
-  // organisations.roster_addon_enabled internally and show an explanatory
-  // message rather than erroring when the add-on isn't switched on, so no
-  // separate feature-flag check is needed here.
+  // floor as Branch Team Structure above. Locked-teaser UX (2026-09-27,
+  // direct founder request): dimmed + lock icon + opens RosterUpsellScreen
+  // until the org has actually paid, rather than a plain "not enabled"
+  // sentence inside the real screen — see _itemTiles/_lockedNavTile below.
   _DrawerItemDef(
     icon: Icons.event_note_outlined,
     label: 'Roster Board',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const RosterBoardScreen(),
+    requiresRosterAddon: true,
   ),
   _DrawerItemDef(
     icon: Icons.event_available_outlined,
     label: 'Claim Shifts',
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const ClaimBoardScreen(),
+    requiresRosterAddon: true,
   ),
   // Off-day requests (R5, 2026-09-27) — same supervisor+ floor as Claim
   // Shifts, same dual-entry pattern (WorkerHubScreen button for base tier).
@@ -164,6 +176,7 @@ final List<_DrawerItemDef> _peopleItems = [
     label: 'Request a Day Off',
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const RequestOffDayScreen(),
+    requiresRosterAddon: true,
   ),
 ];
 
@@ -354,19 +367,54 @@ class ManagementDrawer extends ConsumerWidget {
     );
   }
 
+  // Locked-teaser tile (2026-09-27) — same shape as _navTile but dimmed,
+  // with a trailing lock icon and an "Add-on" label instead of the normal
+  // active-highlight logic (a locked item is never "the current screen").
+  // Opens RosterUpsellScreen regardless of which real screen it stands in
+  // for — the upsell content is identical either way.
+  Widget _lockedNavTile({required IconData icon, required String label}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      child: Builder(
+        builder: (context) => Material(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(10),
+          child: ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            leading: Icon(icon, color: AppColors.muted),
+            title: Text(label, style: const TextStyle(color: AppColors.muted)),
+            trailing: const Icon(
+              Icons.lock_outline,
+              size: 18,
+              color: AppColors.muted,
+            ),
+            onTap: () =>
+                _navigate(context, const RosterUpsellScreen()),
+          ),
+        ),
+      ),
+    );
+  }
+
   List<Widget> _itemTiles(
     BuildContext context,
     List<_DrawerItemDef> items,
     bool Function(RoleTier) atLeast,
+    bool rosterAddonEnabled,
   ) {
     return [
       for (final item in items)
         if (atLeast(item.minTier))
-          _navTile(
-            icon: item.icon,
-            label: item.label,
-            onTap: () => _navigate(context, item.screenBuilder(context)),
-          ),
+          if (item.requiresRosterAddon && !rosterAddonEnabled)
+            _lockedNavTile(icon: item.icon, label: item.label)
+          else
+            _navTile(
+              icon: item.icon,
+              label: item.label,
+              onTap: () => _navigate(context, item.screenBuilder(context)),
+            ),
     ];
   }
 
@@ -374,6 +422,12 @@ class ManagementDrawer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
     final tier = currentUser?.roleTier;
+    // Defaults to locked while resolving/on error — a brief false-locked
+    // flash on open is far better than briefly showing a paid screen as
+    // free before the real state loads.
+    final rosterAddonEnabled = ref
+        .watch(rosterAddonEnabledProvider)
+        .maybeWhen(data: (enabled) => enabled, orElse: () => false);
 
     bool atLeast(RoleTier minTier) =>
         tier != null && roleTierRank(tier) >= roleTierRank(minTier);
@@ -428,7 +482,12 @@ class ManagementDrawer extends ConsumerWidget {
       _section(
         label: 'Insights',
         children: [
-          ..._itemTiles(context, [_insightsItems[0]], atLeast),
+          ..._itemTiles(
+            context,
+            [_insightsItems[0]],
+            atLeast,
+            rosterAddonEnabled,
+          ),
           if (atLeast(_ehoExportMinTier))
             _navTile(
               icon: Icons.picture_as_pdf_outlined,
@@ -444,7 +503,12 @@ class ManagementDrawer extends ConsumerWidget {
                 );
               },
             ),
-          ..._itemTiles(context, _insightsItems.sublist(1), atLeast),
+          ..._itemTiles(
+            context,
+            _insightsItems.sublist(1),
+            atLeast,
+            rosterAddonEnabled,
+          ),
         ],
       ),
       // PEOPLE — staff/team structure. Branch Team Structure keeps its
@@ -454,19 +518,24 @@ class ManagementDrawer extends ConsumerWidget {
       // rather than complicating the tier-gating rule to avoid it.
       _section(
         label: 'People',
-        children: _itemTiles(context, _peopleItems, atLeast),
+        children: _itemTiles(context, _peopleItems, atLeast, rosterAddonEnabled),
       ),
       // VENUE SETUP — venueManager+ configuration, all one tier floor.
       _section(
         label: 'Venue Setup',
-        children: _itemTiles(context, _venueSetupItems, atLeast),
+        children: _itemTiles(
+          context,
+          _venueSetupItems,
+          atLeast,
+          rosterAddonEnabled,
+        ),
       ),
       // COMPANY — org-structure viewers grouped together (previously sat
       // apart, mid-list, among unrelated config items). Invisible to
       // supervisor/venueManager (neither item's gate reaches that low).
       _section(
         label: 'Company',
-        children: _itemTiles(context, _companyItems, atLeast),
+        children: _itemTiles(context, _companyItems, atLeast, rosterAddonEnabled),
       ),
       // ACCOUNT — collapsed by default like every non-Daily section.
       // Settings and Log out used to live here too, but per direct user

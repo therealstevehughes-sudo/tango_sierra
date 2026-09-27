@@ -17,6 +17,7 @@ import '../issues/my_raised_issues_screen.dart';
 import '../issues/report_issue_screen.dart';
 import '../roster/claim_board_screen.dart';
 import '../roster/request_off_day_screen.dart';
+import '../roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
 import 'ad_hoc_task_screen.dart';
 import 'task_screen.dart';
 
@@ -43,6 +44,15 @@ class WorkerHubScreen extends ConsumerWidget {
     final site = ref
         .watch(currentUserSiteProvider)
         .maybeWhen(data: (site) => site, orElse: () => null);
+    // Roster teaser UX (2026-09-27, direct founder request): base tier has
+    // no path to purchase the add-on, so a locked button they can't act on
+    // is just confusing dead weight — hide both Roster buttons entirely
+    // until a manager has actually enabled it, rather than showing a lock
+    // they can't unlock (contrast with the drawer's locked-teaser tiles,
+    // which ARE useful for venueManager+ who CAN act on them).
+    final rosterAddonEnabled = ref
+        .watch(rosterAddonEnabledProvider)
+        .maybeWhen(data: (enabled) => enabled, orElse: () => false);
 
     return Scaffold(
       appBar: AppBar(
@@ -186,56 +196,55 @@ class WorkerHubScreen extends ConsumerWidget {
                             ).colorScheme.primary,
                           ),
                         ),
-                        const SizedBox(height: 12),
-                        // Roster add-on (2026-09-27) — base tier has no drawer at
-                        // all (see the class doc comment above), so this is its
-                        // only route to ClaimBoardScreen; the screen itself shows
-                        // an explanatory message rather than this button when the
-                        // add-on isn't switched on for the venue, so no visibility
-                        // gate is needed here beyond having a signed-in user.
-                        OutlinedButton.icon(
-                          onPressed: currentUser == null
-                              ? null
-                              : () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const ClaimBoardScreen(),
+                        if (rosterAddonEnabled) ...[
+                          const SizedBox(height: 12),
+                          // Roster add-on (2026-09-27) — base tier has no drawer
+                          // at all (see the class doc comment above), so this is
+                          // its only route to ClaimBoardScreen. Hidden entirely
+                          // (not locked) when the venue hasn't enabled Roster —
+                          // see the rosterAddonEnabled doc comment above.
+                          OutlinedButton.icon(
+                            onPressed: currentUser == null
+                                ? null
+                                : () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const ClaimBoardScreen(),
+                                    ),
                                   ),
-                                ),
-                          icon: const Icon(Icons.event_available_outlined),
-                          label: const Text('Claim a shift'),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            minimumSize: const Size.fromHeight(48),
-                            foregroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
+                            icon: const Icon(Icons.event_available_outlined),
+                            label: const Text('Claim a shift'),
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              minimumSize: const Size.fromHeight(48),
+                              foregroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 12),
-                        // Off-day requests (R5, 2026-09-27) — same dual-entry
-                        // pattern as Claim a shift above: base tier has no
-                        // drawer, so this button is its only route to
-                        // RequestOffDayScreen.
-                        OutlinedButton.icon(
-                          onPressed: currentUser == null
-                              ? null
-                              : () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const RequestOffDayScreen(),
+                          const SizedBox(height: 12),
+                          // Off-day requests (R5, 2026-09-27) — same dual-entry
+                          // pattern as Claim a shift above.
+                          OutlinedButton.icon(
+                            onPressed: currentUser == null
+                                ? null
+                                : () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const RequestOffDayScreen(),
+                                    ),
                                   ),
-                                ),
-                          icon: const Icon(Icons.event_busy_outlined),
-                          label: const Text('Request a day off'),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            minimumSize: const Size.fromHeight(48),
-                            foregroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
+                            icon: const Icon(Icons.event_busy_outlined),
+                            label: const Text('Request a day off'),
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              minimumSize: const Size.fromHeight(48),
+                              foregroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary,
+                            ),
                           ),
-                        ),
+                        ],
                         const SizedBox(height: 8),
                         TextButton(
                           onPressed: currentUser == null

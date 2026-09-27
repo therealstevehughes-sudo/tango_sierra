@@ -1976,3 +1976,18 @@ Full Flutter-side detail (repository, providers, both screens, drawer wiring) in
 - **`off_day_requests` full CRUD + RLS**, proven live: created a request as the requesting user, approved it (status/decided_by/decided_at all updated correctly), read it back — matches exactly.
 
 Files: `tools/r4_r5_migration.sql` (now reflects exactly what's live, corrected from its first-draft version), `tools/ai-assistant_index.ts`, both deployed to their real server locations.
+
+## Roster add-on real billing — `roster-addon-billing` deployed and live-proven (2026-09-27)
+
+New column: `subscriptions.roster_addon_gc_subscription_id` (text, nullable) — tracks the add-on's own, separate GoCardless subscription id (distinct from `provider_subscription_id`, which is the main plan's subscription).
+
+New Edge Function `roster-addon-billing` (`~/tango-sierra/supabase/docker/volumes/functions/roster-addon-billing/index.ts`, staged copy at `tools/roster-addon-billing_index.ts`), three actions:
+- `quote` — no auth beyond a valid session; sums `£6×sites-under-10-staff + £10×sites-10-plus-staff` across every site in the org, reading `users` filtered by `site_id`/`active`.
+- `enable` — venueManager+ only (checked against the `role_tier` JWT claim); requires an active `gocardless_mandate_id` on the org's `subscriptions` row; creates a real GoCardless `POST /subscriptions` (same API shape as `gocardless-confirm-mandate`'s own main-plan subscription creation) named "VenuRite Roster Add-on", amount = the live quote; saves the returned subscription id; sets `organisations.roster_addon_enabled = true`. Idempotent — a second `enable` call when already enabled returns `{outcome:"enabled", alreadyEnabled:true}` rather than creating a duplicate.
+- `disable` — cancels the saved GoCardless subscription via `POST /subscriptions/:id/actions/cancel`, clears the saved id, sets `roster_addon_enabled = false`.
+
+No new secrets needed — reuses the existing `GOCARDLESS_ACCESS_TOKEN`/`GOCARDLESS_ENVIRONMENT` already present in the `functions` service's environment (same ones `gocardless-confirm-mandate` uses).
+
+**Live-proven against the real GoCardless sandbox API, with a genuine technique worth recording**: sandbox mandates do NOT activate instantly (unlike sandbox payments) — a mandate created via the API sits in `pending_submission` for a real simulated processing delay, impractical to wait out in a session. Rather than skip proving the success path, created a real sandbox customer → bank account (test sort code `200000`/account `55779911`) → mandate directly via GoCardless's own API (bypassing the hosted redirect-flow UI, which needs a real browser), then pointed a real throwaway org's `subscriptions.gocardless_mandate_id`/`mandate_status` at that real (still-pending) mandate and called `enable`. GoCardless accepted it — creating a subscription against a not-yet-fully-active mandate is realistic, expected GoCardless behaviour (the subscription just won't collect until the mandate itself activates), not a test workaround that bypassed anything. Fetched the resulting subscription directly from GoCardless afterward to confirm: `status: "active"`, `amount: 600`, `name: "VenuRite Roster Add-on"`, real `upcoming_payments` dates, correctly linked to the mandate. Called `disable` — fetched the subscription from GoCardless again and confirmed `status: "cancelled"`, and confirmed both DB fields (`roster_addon_enabled`, `roster_addon_gc_subscription_id`) cleared correctly. Fixture (org/site/subscription/users/auth.users) fully cleaned up, verified empty.
+
+Files: `tools/roster_addon_billing_migration.sql` (new, deployed), `tools/roster-addon-billing_index.ts` (new, deployed).
