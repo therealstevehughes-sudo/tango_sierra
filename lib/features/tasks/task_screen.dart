@@ -17,6 +17,7 @@ import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../core/widgets/user_title.dart';
+import '../../core/widgets/voice_note_field.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/user.dart';
@@ -1012,8 +1013,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                         if (task.requiresNotes)
                           TextField(
                             controller: notesController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: "Notes",
+                              suffixIcon: VoiceNoteMicButton(
+                                controller: notesController,
+                              ),
                             ),
                           ),
                         ExtraFieldsForm(
@@ -1227,8 +1231,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           const SizedBox(height: 12),
                           TextField(
                             controller: correctiveNoteController,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
                               labelText: 'What did you do? (optional)',
+                              suffixIcon: VoiceNoteMicButton(
+                                controller: correctiveNoteController,
+                              ),
                             ),
                           ),
                         ],

@@ -7,6 +7,7 @@ import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
+import '../../core/widgets/voice_note_field.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
@@ -266,8 +267,13 @@ class _EndOfSessionSummaryScreenState
                     TextField(
                       controller: summaryNoteController,
                       enabled: !sent,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         labelText: 'Note (optional)',
+                        suffixIcon: sent
+                            ? null
+                            : VoiceNoteMicButton(
+                                controller: summaryNoteController,
+                              ),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -286,8 +292,11 @@ class _EndOfSessionSummaryScreenState
                   TextField(
                     controller: handoverNoteController,
                     maxLines: 3,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'Handover note',
+                      suffixIcon: VoiceNoteMicButton(
+                        controller: handoverNoteController,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 24),

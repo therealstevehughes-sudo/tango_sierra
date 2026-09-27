@@ -2594,3 +2594,25 @@ Confirmed the transcription model live against OpenAI's current docs first (`gpt
 **Live-proven with an actual spoken clip**, not a text fixture: generated a real WAV via Windows' `System.Speech.Synthesis` reading a test sentence, sent it through the real deployed function with a real throwaway tenant's session token — got back the exact sentence, word-for-word. All three negative cases (missing apikey, invalid token, missing audio) returned clean errors, never a 500. Fixture cleaned up and verified empty.
 
 Files: `tools/transcribe-audio_index.ts` (new).
+
+## Voice-to-text for notes, Phase 3 — widget built, piloted, two real bugs found live (2026-09-27)
+
+New `VoiceNoteMicButton` (`lib/core/widgets/voice_note_field.dart`) — the entire integration surface for a caller is dropping it into an existing field's `suffixIcon`. State machine: idle → recording (with a visible countdown against the 60s cap) → transcribing → inserts transcribed text at the current cursor position (never replaces the whole field) → idle, or → error → idle. Piloted on `ad_hoc_task_screen.dart`'s two notes fields.
+
+**Two real bugs found via actual live testing on Windows, not code review**:
+1. `BackendRestClient.uploadAudioForTranscription` called `_checkOk()`, which throws on any non-2xx response — but `transcribe-audio` (like `ai-assistant`) reports its own errors as a JSON body even on a non-2xx status. The thrown exception masked the function's real error message behind a generic "couldn't reach the transcription service," which is exactly what showed up on first test. Fixed by removing `_checkOk` from this method, matching `invokeFunction`'s existing outcome-in-body philosophy.
+2. Once fixed, the real message turned out to be "sign in first" — correct, but confusing: the screen being tested runs on local/demo-only seed data (no backend session at all), so the mic button was showing on a screen where it could never work, and would show a real client the same failure if a demo/preview install ever reached it. Fixed by hiding the icon entirely when `backendDataEnabledProvider` is false, matching how Billing already hides itself for local installs. **User's own framing, worth recording verbatim**: "i dont want this sort of problem for my clients" — real paying clients always have a backend session (this only ever affected the pre-signup demo/preview experience), but the fix was made anyway since a broken-looking control is a problem regardless of who could hit it.
+
+Verified: `flutter analyze` clean, all 35 tests passing, real `flutter build windows --debug` succeeded both before and after the fixes.
+
+Files: `lib/core/widgets/voice_note_field.dart` (new), `lib/core/network/backend_rest_client.dart`, `lib/features/tasks/ad_hoc_task_screen.dart`.
+
+## Voice-to-text for notes, Phase 4 — rolled out to all 7 fields (2026-09-27)
+
+Mechanical rollout of the proven `VoiceNoteMicButton` to the remaining 6 controllers: `task_screen.dart`'s `notesController` and `correctiveNoteController`, `report_issue_screen.dart`'s `_detailsController`, `issue_detail_screen.dart`'s `_noteController` (both the reopen dialog and the "Add an update" card), and `end_of_session_summary_screen.dart`'s `summaryNoteController` and `handoverNoteController` (the summary field's mic hides once the note has been sent, matching that field's own `enabled: !sent` state).
+
+Verified: `flutter analyze` clean, all 35 tests passing, real `flutter build windows --debug` succeeded.
+
+Voice-to-text for notes is now feature-complete across every notes field in the app. Not yet done: real end-to-end confirmation on a real (free-access-code) account — deferred to the user's own testing.
+
+Files: `lib/features/tasks/task_screen.dart`, `lib/features/issues/report_issue_screen.dart`, `lib/features/issues/issue_detail_screen.dart`, `lib/features/tasks/end_of_session_summary_screen.dart`.

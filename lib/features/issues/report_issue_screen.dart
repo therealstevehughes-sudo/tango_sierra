@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../core/widgets/voice_note_field.dart';
 import '../../shared/models/department.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/models/supplier.dart';
@@ -381,9 +382,12 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                   const SizedBox(height: 12),
                   TextField(
                     controller: _detailsController,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'What happened?',
                       alignLabelWithHint: true,
+                      suffixIcon: VoiceNoteMicButton(
+                        controller: _detailsController,
+                      ),
                     ),
                     maxLines: 4,
                     onChanged: (_) => setState(() {}),

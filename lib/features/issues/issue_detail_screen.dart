@@ -6,6 +6,7 @@ import '../../core/utils/date_format.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../core/widgets/voice_note_field.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -215,8 +216,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
           controller: _noteController,
           autofocus: true,
           maxLines: 3,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             labelText: 'Why should this be reopened?',
+            suffixIcon: VoiceNoteMicButton(controller: _noteController),
           ),
         ),
         actions: [
@@ -374,9 +376,12 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                         const SizedBox(height: 8),
                         TextField(
                           controller: _noteController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: 'Note',
                             alignLabelWithHint: true,
+                            suffixIcon: VoiceNoteMicButton(
+                              controller: _noteController,
+                            ),
                           ),
                           maxLines: 3,
                         ),
