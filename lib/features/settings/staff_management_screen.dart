@@ -13,6 +13,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supervision_providers.dart';
 import '../../shared/providers/team_providers.dart';
 import 'training_records_screen.dart';
+import 'widgets/add_staff_dialog.dart';
 
 // Approximate height of a single staff tile Card + padding, for the
 // A–Z quick-jump scroll target calculation. Not pixel-perfect (subtitle
@@ -49,6 +50,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   // Same reasoning, for Teams (2026-09-18) — keyed by team id across every
   // department of every site represented in the loaded staff list.
   Map<int, Team> teamsById = {};
+  int? _siteId;
 
   @override
   void initState() {
@@ -86,6 +88,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       staff = loaded;
       departmentsById = byId;
       teamsById = teamById;
+      _siteId = siteId;
       loading = false;
     });
   }
@@ -194,6 +197,25 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
 
   Future<void> _changeRoleTier(User user) async {
     var selected = user.roleTier;
+    // Outrank check (2026-09-27) — only offer tiers the acting manager is
+    // actually allowed to set (see canChangeTier's own doc comment). The
+    // user's current tier is always included so the dropdown can show it
+    // even if the acting manager couldn't have set it themselves.
+    final manager = ref.read(currentUserProvider);
+    final allowedTiers = manager == null
+        ? <RoleTier>[user.roleTier]
+        : [
+            user.roleTier,
+            ...RoleTier.values.where(
+              (t) =>
+                  t != user.roleTier &&
+                  canChangeTier(
+                    actingTier: manager.roleTier,
+                    targetTier: user.roleTier,
+                    newTier: t,
+                  ),
+            ),
+          ];
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
@@ -202,7 +224,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
           content: DropdownButtonFormField<RoleTier>(
             initialValue: selected,
             decoration: const InputDecoration(labelText: 'Role tier'),
-            items: RoleTier.values
+            items: allowedTiers
                 .map(
                   (t) => DropdownMenuItem(
                     value: t,
@@ -228,6 +250,21 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     );
 
     if (confirmed != true || selected == user.roleTier) return;
+
+    // Outrank check (2026-09-27) — see canChangeTier's own doc comment.
+    // Re-checked here even though the tier dropdown already only offers
+    // permitted values (manager/allowedTiers computed above), since the
+    // menu item itself can only be hidden entirely (see _buildStaffTile),
+    // never disabled per-option — this is the real enforcement, not just
+    // a UI hint.
+    if (manager == null ||
+        !canChangeTier(
+          actingTier: manager.roleTier,
+          targetTier: user.roleTier,
+          newTier: selected,
+        )) {
+      return;
+    }
 
     final repo = ref.read(userRepositoryProvider);
     await repo.changeRoleTier(userId: user.id, newTier: selected);
@@ -539,6 +576,14 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   }
 
   Future<void> _deactivate(User user) async {
+    // Outrank check (2026-09-27) — see canDeactivate's own doc comment.
+    // The menu item itself is already hidden for a peer/superior (see
+    // _buildStaffTile), this is the real enforcement underneath that.
+    final manager = ref.read(currentUserProvider);
+    if (manager == null ||
+        !canDeactivate(actingTier: manager.roleTier, targetTier: user.roleTier)) {
+      return;
+    }
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -563,6 +608,21 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
 
     if (confirmed != true) return;
     await _setActive(user, false);
+  }
+
+  Future<void> _addStaff() async {
+    final manager = ref.read(currentUserProvider);
+    final siteId = _siteId;
+    if (manager == null || siteId == null) return;
+
+    final created = await showAddStaffDialog(
+      context,
+      ref: ref,
+      siteId: siteId,
+      actingManagerTier: manager.roleTier,
+    );
+    if (created == null || !mounted) return;
+    await _loadData();
   }
 
   Future<void> _setActive(User user, bool active) async {
@@ -601,7 +661,14 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Staff Management'),
-        actions: const [AssistantIconButton()],
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person_add_alt),
+            tooltip: 'Add Staff',
+            onPressed: _addStaff,
+          ),
+          const AssistantIconButton(),
+        ],
       ),
       drawer: const ManagementDrawer(title: 'Staff Management'),
       body: SafeArea(
@@ -660,6 +727,25 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   }
 
   Widget _buildStaffTile(User user) {
+    // Outrank checks (2026-09-27) — see canChangeTier/canDeactivate's own
+    // doc comments in user.dart. Hiding the menu item entirely (rather
+    // than showing it and letting the dialog silently no-op) is the
+    // honest signal that this action genuinely isn't available on this
+    // person, not just currently empty.
+    final manager = ref.read(currentUserProvider);
+    final canChangeThisTier =
+        manager != null &&
+        RoleTier.values.any(
+          (t) => canChangeTier(
+            actingTier: manager.roleTier,
+            targetTier: user.roleTier,
+            newTier: t,
+          ),
+        );
+    final canDeactivateThis =
+        manager != null &&
+        canDeactivate(actingTier: manager.roleTier, targetTier: user.roleTier);
+
     final deactivatedBy = _deactivatedByName(user);
     final department = user.departmentId == null
         ? null
@@ -722,10 +808,15 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
               value: _StaffAction.editDetails,
               child: Text('Edit Details'),
             ),
-            const PopupMenuItem(
-              value: _StaffAction.changeTier,
-              child: Text('Change Tier'),
-            ),
+            // Outrank check (2026-09-27) — hidden entirely, not just
+            // disabled, when the acting manager can't set any tier on this
+            // person (a peer or superior) — see canChangeTier's own doc
+            // comment in user.dart.
+            if (canChangeThisTier)
+              const PopupMenuItem(
+                value: _StaffAction.changeTier,
+                child: Text('Change Tier'),
+              ),
             const PopupMenuItem(
               value: _StaffAction.changeDepartment,
               child: Text('Change Section'),
@@ -745,10 +836,16 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
               value: _StaffAction.resetPin,
               child: Text('Reset PIN'),
             ),
-            PopupMenuItem(
-              value: _StaffAction.toggleActive,
-              child: Text(user.active ? 'Deactivate' : 'Reactivate'),
-            ),
+            // Outrank check (2026-09-27) — deactivating a peer/superior is
+            // hidden entirely (see canDeactivate's own doc comment);
+            // reactivating is left ungated, since restoring someone's
+            // access isn't the same "acting on" risk this feature guards
+            // against.
+            if (user.active ? canDeactivateThis : true)
+              PopupMenuItem(
+                value: _StaffAction.toggleActive,
+                child: Text(user.active ? 'Deactivate' : 'Reactivate'),
+              ),
             const PopupMenuItem(
               value: _StaffAction.trainingRecords,
               child: Text('Training Records'),

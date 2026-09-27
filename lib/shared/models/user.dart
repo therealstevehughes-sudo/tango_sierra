@@ -37,6 +37,32 @@ String roleTierDisplayName(RoleTier tier) {
   }
 }
 
+// Organogram permission checks (2026-09-27) — roleTierRank existed before
+// this only for sorting/escalation-suggestion, never for gating an actual
+// action. These three are the real outrank rules for the branch organogram
+// (and the retrofitted Staff Management actions): nobody can act on a peer
+// or superior, and nobody can hand out a tier at or above their own rank.
+// Deliberately does NOT cover reportsToUserId changes ("change manager") —
+// that stays unrestricted, per the deliberate standing decision that an
+// informal reporting line isn't this app's business to police.
+bool canChangeTier({
+  required RoleTier actingTier,
+  required RoleTier targetTier,
+  required RoleTier newTier,
+}) =>
+    roleTierRank(actingTier) > roleTierRank(targetTier) &&
+    roleTierRank(newTier) < roleTierRank(actingTier);
+
+bool canDeactivate({
+  required RoleTier actingTier,
+  required RoleTier targetTier,
+}) => roleTierRank(actingTier) > roleTierRank(targetTier);
+
+bool canMoveDepartment({
+  required RoleTier actingTier,
+  required RoleTier targetTier,
+}) => roleTierRank(actingTier) >= roleTierRank(targetTier);
+
 enum TemperatureUnit { celsius, fahrenheit }
 
 class User {

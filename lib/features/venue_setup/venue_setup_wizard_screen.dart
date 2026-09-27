@@ -19,6 +19,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import '../settings/widgets/add_staff_dialog.dart';
 
 class VenueSetupWizardScreen extends ConsumerStatefulWidget {
   const VenueSetupWizardScreen({super.key, this.initialStep = 0});
@@ -692,54 +693,17 @@ class _VenueSetupWizardScreenState
         const SizedBox(height: 8),
         const Text('Add staff members and assign their role tier.'),
         const SizedBox(height: 16),
-        TextField(
-          controller: staffNameController,
-          decoration: const InputDecoration(labelText: 'Name'),
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          controller: staffJobTitleController,
-          decoration: const InputDecoration(labelText: 'Job title'),
-        ),
-        const SizedBox(height: 12),
-        DropdownButtonFormField<RoleTier>(
-          initialValue: selectedRoleTier,
-          decoration: const InputDecoration(labelText: 'Role tier'),
-          items: RoleTier.values
-              .map(
-                (tier) => DropdownMenuItem(
-                  value: tier,
-                  child: Text(roleTierDisplayName(tier)),
-                ),
-              )
-              .toList(),
-          onChanged: (value) {
-            if (value != null) setState(() => selectedRoleTier = value);
-          },
-        ),
-        const SizedBox(height: 12),
-        DropdownButtonFormField<JobRole>(
-          initialValue: selectedJobRole,
-          decoration: const InputDecoration(labelText: 'Job role'),
-          items: JobRole.values
-              .where((role) => role != JobRole.everyone)
-              .map(
-                (role) => DropdownMenuItem(
-                  value: role,
-                  child: Text(jobRoleDisplayName(role)),
-                ),
-              )
-              .toList(),
-          onChanged: (value) {
-            if (value != null) setState(() => selectedJobRole = value);
-          },
-        ),
-        const SizedBox(height: 12),
-        TextField(
-          controller: staffPinController,
-          keyboardType: TextInputType.number,
-          obscureText: true,
-          decoration: const InputDecoration(labelText: 'PIN'),
+        AddStaffFormFields(
+          nameController: staffNameController,
+          jobTitleController: staffJobTitleController,
+          pinController: staffPinController,
+          selectedTier: selectedRoleTier,
+          onTierChanged: (t) => setState(() => selectedRoleTier = t),
+          selectedJobRole: selectedJobRole,
+          onJobRoleChanged: (r) => setState(() => selectedJobRole = r),
+          // A freshly signed-up owner setting up their first venue can hand
+          // out any tier — there's nobody else's outrank to check yet.
+          allowedTiers: RoleTier.values.toList(),
         ),
         const SizedBox(height: 12),
         PrimaryActionButton(label: 'Add Staff Member', onPressed: _addStaff),
