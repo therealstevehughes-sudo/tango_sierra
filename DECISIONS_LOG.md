@@ -2554,3 +2554,35 @@ Verified: `flutter analyze` clean, all 35 tests passing, real Windows debug buil
 **Live UI test surfaced the DNS-caching issue from the earlier server migration all over again**: asking a real question through the built app hit the fallback "Couldn't reach the assistant" dialog — not a code bug. `nslookup api.venurite.com` on this dev machine still resolved to the OLD server (`217.160.174.119`) via the ISP's own cached resolver, which has none of this session's new work at all (no `ai-assistant` function, no new schema). The backend logic itself is already proven correct via direct curl against the real new server (Phase 2's own entry) — this is purely a local DNS-propagation lag on the dev machine, same root cause as the `get.venurite.com` surprise during the server cutover, not a defect in the Flutter code, the Edge Function, or the offline-fallback design (which, notably, worked exactly as intended under this real failure condition). Deferred: a real in-app confirmation once the DNS cache clears (record TTL is 4 hours from the cutover) or a hosts-file override is added.
 
 Files: `lib/features/help/ask_question_screen.dart` (new), `lib/features/help/help_screen.dart`.
+
+## AI assistant — live-tested successfully, one prompt fix (2026-09-27)
+
+The DNS cache cleared and a real question ("how many times can i reheat food?") worked end-to-end in the real Windows app for the first time — correct grounded answer, correct citation chip. Direct user feedback: the answer text itself also named its source inline ("This information is sourced from the Safer Food Better Business (SFBB) for Caterers document"), duplicating the citation chip already shown separately below it. Fixed by removing the "always name the source document" instruction from `SYSTEM_PROMPT` in `tools/ai-assistant_index.ts` (the citation is the app's job to display, not the model's job to narrate) — redeployed (`docker compose restart functions`, no `.env` change), and the one stale cached answer with the old redundant phrasing was deleted from `ai_answer_cache` so it stops being served.
+
+Files: `tools/ai-assistant_index.ts`.
+
+## Terms of Service — first draft (2026-09-27, NOT solicitor-reviewed)
+
+Direct request: a first-use acceptance gate covering "VenuRite makes every effort to provide accurate information but can't be held liable for errors, issues, or user error." Drafted `legal/TERMS_OF_SERVICE.md` — covers what VenuRite is/isn't (a record-keeping tool, not a substitute for the venue's own legal duty or professional advice), a dedicated AI-assistant disclaimer (answers are guidance only, not professional advice), an accuracy-not-guaranteed clause, user responsibilities (honest record-keeping, credential security), and a broad limitation-of-liability section.
+
+**Explicitly flagged in the document itself, not silently glossed over**: UK law (Unfair Contract Terms Act 1977, Consumer Rights Act 2015) doesn't allow excluding liability for death/personal injury from negligence, fraud, or certain statutory rights, regardless of how the contract is worded — the liability section is drafted broadly as asked, but marked ⚠️ throughout as needing a solicitor's review before being relied on in production. This is content, not code — no technical enforcement (a first-launch acceptance screen, storage of who-agreed-to-which-version-when) has been built yet; that's a separate follow-up once the text itself is finalized.
+
+Assumed England & Wales governing law (matches the FSA/HSE-based product content and the UK-registered business) and the entity name "VenuRite Ltd" (confirmed by the user) — flagged as an assumption for anything else.
+
+Files: `legal/TERMS_OF_SERVICE.md` (new).
+
+## Voice-to-text for notes, Phase 1 — plugin proven on both platforms (2026-09-27)
+
+Full plan agreed: `record` package for cross-platform audio capture, a new `transcribe-audio` Edge Function proxying to OpenAI's transcription API, a single reusable `VoiceNoteMicButton` widget piloted on one field before rolling out to all 7 notes fields in the app. Confirmed with the founder: 60s recording cap uniform across fields, ship uncapped on usage (rely on the existing OpenAI monthly spend limit), free for every venue (not a paid-tier gate).
+
+**Real bug found and fixed before any feature code was written** (exactly why Phase 1 exists as its own phase): `record: ^5.2.1` broke `flutter build windows --debug` outright — not a Windows-specific problem, but a version-skew bug where `record_linux` (a transitive dependency for a platform this app doesn't even target) failed to compile against the resolved `record_platform_interface` version. Fixed by bumping to `record: ^6.1.1`, where the federated family's versions are back in sync. Confirmed `record_windows` is pulled in transitively at this version — no explicit pin needed, unlike `camera_windows`, which did need one for the `camera` package.
+
+Also hit and fixed the recurring "stale running instance locks the .exe" gotcha from earlier in this project's history (killed the leftover process, rebuilt clean).
+
+**Both builds verified with real, checked output**: `flutter build windows --debug` and `flutter build apk --debug` both genuinely succeeded (only pre-existing harmless warnings — Firebase PDB-not-found linker warnings, Kotlin-plugin deprecation notices). `RECORD_AUDIO` added to `AndroidManifest.xml`, same zero-Dart-permission-code approach as `CAMERA` (no `permission_handler` dependency). `flutter analyze` clean, all 35 tests passing.
+
+**Deliberately deferred**: the plan's own Phase 1 called for a throwaway manual device smoke test of the raw record/permission flow — skipped as wasted effort, since Phase 3's pilot-field test will exercise the exact same real recording/permission path for real, immediately after the actual widget exists.
+
+Not yet built: the `transcribe-audio` Edge Function (Phase 2), the reusable widget (Phase 3), the 6-field rollout (Phase 4).
+
+Files: `pubspec.yaml`, `pubspec.lock`, `android/app/src/main/AndroidManifest.xml`.
