@@ -2626,3 +2626,9 @@ Direct instruction, worth recording: keep all copy benefit-focused, never explai
 ## Roster add-on pricing set (2026-09-27)
 
 Closes the placeholder from the Roster add-on plan (`roster_addon_enabled`/billing sections). Researched real UK competitor pricing for rota/scheduling tools first (RotaCloud ~£1/employee/mo, Deputy £3.50-4.90/user/mo, Planday £2.99-4.49/user/mo + platform fee, Findmyshift flat £22/mo unlimited staff) before proposing a number — an initial flat £15/branch recommendation was superseded by the founder's own tiered idea, confirmed as final: **£6/branch/month for venues under 10 staff, £10/branch/month for 10+ staff**. Still comfortably undercuts every researched competitor. Billing rule: staff count is measured as active staff count at the time of billing each month (not a peak or a manual declaration) — avoids an ambiguous or gameable threshold. Reflected on the marketing website's pricing section; **not yet updated** in the Roster plan's own schema/billing sections (`organisations.roster_addon_enabled`-adjacent pricing logic isn't built yet — Roster is still queued last, after all other current work).
+
+## Marketing website live at venurite.com (2026-09-27)
+
+Went from private Artifact draft to the real domain in one session. Confirmed first that `venurite.com`/`www.venurite.com` only had Squarespace's default "Coming Soon" placeholder (no real site to lose) before touching anything. DNS switched from Squarespace's own hosting to the VenuRite server (same one as `api`/`get`); nginx + real Let's Encrypt SSL set up; site verified live over HTTPS. Full technical detail in BACKEND_INFRA.md's own entry.
+
+Files: `/var/www/venurite-site/index.html` + `images/` on the VPS (not in this git repo — matches the `get.venurite.com` static-site precedent, no local mirror of deployed website assets kept in the app repo).
