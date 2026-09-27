@@ -169,6 +169,20 @@ class SupabaseUserRepository implements UserRepository {
         },
       },
     );
+    // Roster add-on re-pricing (2026-09-27) — a deactivation/reactivation
+    // can change which price bracket a site falls into. Calling the
+    // Edge Function directly here (not via lib/features/roster's
+    // RosterBillingService) since lib/shared must never import from
+    // lib/features. No-ops instantly if Roster isn't enabled, and
+    // deliberately swallows its own errors — this must never surface as a
+    // failure of the deactivate/reactivate action itself.
+    try {
+      await _client.invokeFunction('roster-addon-billing', {
+        'action': 'reprice_if_needed',
+      });
+    } catch (_) {
+      // Best-effort — see comment above.
+    }
   }
 
   @override

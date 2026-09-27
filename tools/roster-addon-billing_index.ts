@@ -12,13 +12,20 @@
 // subscriptions don't support amount changes without cancel+recreate, and
 // keeping the two separate avoids proration complexity entirely.
 //
-// DISCLOSED LIMITATION, not glossed over: the price is fixed at the moment
-// enabling happens. If a venue's staff count later crosses the 10-person
-// threshold, the amount does NOT automatically re-price — there is no
-// scheduled job in this backend (deliberately, see BACKEND_INFRA.md's
-// standing note on avoiding pg_cron/scheduled jobs in favour of compute-
-// at-read-time). Re-pricing on staff-count change is a real follow-up,
-// not built here — flagged so it isn't silently wrong.
+// Re-pricing (2026-09-27) — event-driven, not a scheduled job (this
+// backend deliberately has none, see BACKEND_INFRA.md's standing note):
+// the `reprice_if_needed` action is called from the two real places a
+// site's active staff count actually changes for a backend-mode org --
+// client-side right after SupabaseUserRepository.setActive, and
+// server-side from provision-staff-pin right after it creates a new
+// staff row. No-ops instantly if Roster isn't enabled or the price
+// hasn't actually changed, so it's always safe/cheap to call. DISCLOSED
+// GAP: staff created via the older createStaffMember path (Staff
+// Management/organogram/venue wizard's "Add Staff" button, which
+// delegates to a local Drift write even in backend mode -- a separate,
+// pre-existing architecture question outside this task's scope) does
+// NOT trigger a reprice. A manager can always force a correct price by
+// toggling Roster off and back on in Settings.
 import "@supabase/functions-js/edge-runtime.d.ts"
 import { createClient } from "jsr:@supabase/supabase-js@2"
 import * as jose from "jsr:@panva/jose@6"
@@ -226,6 +233,107 @@ Deno.serve(async (req: Request) => {
       }).eq("id", organisationId)
 
       return Response.json({ outcome: "disabled" })
+    }
+
+    if (body.action === "reprice_if_needed") {
+      // Deliberately no ALLOWED_TIERS check here -- this only ever aligns
+      // the charged amount to current real usage, it can't be used to
+      // change what's enabled/disabled, so any authenticated staff member
+      // triggering it (indirectly, via a deactivate they were allowed to
+      // do) is harmless.
+      const { data: org } = await admin
+        .from("organisations")
+        .select("roster_addon_enabled")
+        .eq("id", organisationId)
+        .maybeSingle()
+      if (!org?.roster_addon_enabled) {
+        return Response.json({ outcome: "no_change", reason: "not_enabled" })
+      }
+
+      const { data: subscription } = await admin
+        .from("subscriptions")
+        .select("id, gocardless_mandate_id, roster_addon_gc_subscription_id")
+        .eq("organisation_id", organisationId)
+        .maybeSingle()
+      if (!subscription?.roster_addon_gc_subscription_id) {
+        return Response.json({ outcome: "no_change", reason: "not_subscribed" })
+      }
+
+      const currentGcResponse = await fetch(
+        `${GC_API_BASE}/subscriptions/${subscription.roster_addon_gc_subscription_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${GC_ACCESS_TOKEN}`,
+            "GoCardless-Version": "2015-07-06",
+          },
+        },
+      )
+      const currentGcData = await currentGcResponse.json()
+      if (!currentGcResponse.ok) {
+        console.error("gocardless roster-addon subscription fetch", currentGcData)
+        return Response.json({ outcome: "error", error: "could not check current billing" }, { status: 502 })
+      }
+      const currentAmount = currentGcData.subscriptions.amount as number
+
+      const quote = await computeQuote(organisationId)
+      if (quote.totalPence === currentAmount) {
+        return Response.json({ outcome: "no_change", reason: "price_unchanged" })
+      }
+
+      // Price changed -- cancel the old subscription and create a new one
+      // at the correct amount (GoCardless subscriptions can't have their
+      // amount changed in place).
+      const cancelResponse = await fetch(
+        `${GC_API_BASE}/subscriptions/${subscription.roster_addon_gc_subscription_id}/actions/cancel`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${GC_ACCESS_TOKEN}`,
+            "GoCardless-Version": "2015-07-06",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ data: {} }),
+        },
+      )
+      if (!cancelResponse.ok) {
+        const cancelData = await cancelResponse.json()
+        console.error("gocardless roster-addon reprice cancel", cancelData)
+        return Response.json({ outcome: "error", error: "could not update billing for this add-on" }, { status: 502 })
+      }
+
+      const gcResponse = await fetch(`${GC_API_BASE}/subscriptions`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${GC_ACCESS_TOKEN}`,
+          "GoCardless-Version": "2015-07-06",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          subscriptions: {
+            amount: quote.totalPence,
+            currency: "GBP",
+            name: "VenuRite Roster Add-on",
+            interval_unit: "monthly",
+            links: { mandate: subscription.gocardless_mandate_id },
+          },
+        }),
+      })
+      const gcData = await gcResponse.json()
+      if (!gcResponse.ok) {
+        console.error("gocardless roster-addon reprice create", gcData)
+        return Response.json({ outcome: "error", error: "could not update billing for this add-on" }, { status: 502 })
+      }
+
+      await admin.from("subscriptions").update({
+        roster_addon_gc_subscription_id: gcData.subscriptions.id,
+        updated_at: new Date().toISOString(),
+      }).eq("id", subscription.id)
+
+      return Response.json({
+        outcome: "repriced",
+        fromPence: currentAmount,
+        toPence: quote.totalPence,
+      })
     }
 
     return Response.json({ outcome: "error", error: "unknown action" }, { status: 400 })

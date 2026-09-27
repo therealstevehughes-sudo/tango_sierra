@@ -81,6 +81,23 @@ class RosterBillingService {
     }
     return null;
   }
+
+  /// Event-driven re-pricing (2026-09-27) — call after any write that
+  /// changes a site's active staff count for a real backend org (see
+  /// SupabaseUserRepository.setActive's call site). No-ops instantly if
+  /// Roster isn't enabled or the price hasn't actually changed, so this is
+  /// always safe/cheap to call speculatively. Deliberately swallows its own
+  /// errors — a billing-side reprice check must never surface as a failure
+  /// of the actual action (deactivating someone) that triggered it.
+  Future<void> repriceIfNeeded() async {
+    try {
+      await _client.invokeFunction('roster-addon-billing', {
+        'action': 'reprice_if_needed',
+      });
+    } catch (_) {
+      // Best-effort — see doc comment above.
+    }
+  }
 }
 
 final rosterBillingServiceProvider = Provider<RosterBillingService>(
