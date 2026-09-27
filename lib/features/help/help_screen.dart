@@ -2,8 +2,38 @@ import 'package:flutter/material.dart';
 
 import '../../core/widgets/responsive_content.dart';
 import '../onboarding/contact_venurite_screen.dart';
+import 'ask_question_screen.dart';
 import 'faq_screen.dart';
 import 'troubleshooting_screen.dart';
+
+/// Shown when the AI assistant genuinely can't be reached — no network, or
+/// the backend itself is down/misconfigured (never for "limit reached",
+/// which is a normal, handled outcome with its own honest UI inside
+/// `AskQuestionScreen`, not an error). Public (not private to one screen)
+/// since both `HelpScreen`'s pre-2026-09-27 placeholder and
+/// `AskQuestionScreen`'s real error path show the exact same message —
+/// the same "AI down, here's what still works" destination discussed with
+/// the user before the backend existed.
+void showAiOfflineNotice(BuildContext context) {
+  showDialog<void>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text("Couldn't reach the assistant"),
+      content: const Text(
+        "The AI assistant isn't reachable right now — could be your "
+        'connection, or the service is temporarily down. In the '
+        'meantime, FAQ and Troubleshooting below cover the most common '
+        'questions, or contact VenuRite directly.',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('OK'),
+        ),
+      ],
+    ),
+  );
+}
 
 /// Help hub (2026-09-24; redesigned 2026-09-25 as the one omnipresent
 /// destination behind AssistantIconButton on every screen). Reached from
@@ -11,14 +41,12 @@ import 'troubleshooting_screen.dart';
 /// — see `WorkerHubScreen`'s own doc comment on minimalism) — a one-off
 /// destination, never a new persistent nav surface.
 ///
-/// "Ask a question" is the AI assistant's own future entry point — not
-/// built yet (needs the compliance-library embedding pipeline + a live
-/// backend, see DECISIONS_LOG.md), so it currently opens a plain
-/// not-yet-available notice instead of erroring or silently doing
-/// nothing. Once built, the SAME tile starts actually answering — this
-/// hub is also the offline-degrade destination discussed with the user:
-/// no network, or the AI backend down, both fall through to this same
-/// FAQ/Troubleshooting/Contact content, which has zero network
+/// "Ask a question" now opens the real `AskQuestionScreen` (2026-09-27) —
+/// see that file for the RAG backend it talks to. A genuine connectivity/
+/// backend failure there falls through to `showAiOfflineNotice` above,
+/// preserving the exact offline-degrade design agreed before the backend
+/// was built: no network, or the AI backend down, both fall through to
+/// this same FAQ/Troubleshooting/Contact content, which has zero network
 /// dependency of its own.
 ///
 /// Reuses `ContactVenuRiteScreen` unchanged (it previously only appeared
@@ -26,26 +54,6 @@ import 'troubleshooting_screen.dart';
 /// logic.
 class HelpScreen extends StatelessWidget {
   const HelpScreen({super.key});
-
-  void _showAskAQuestionNotice(BuildContext context) {
-    showDialog<void>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Ask a question'),
-        content: const Text(
-          "The AI assistant isn't switched on for this install yet. In "
-          'the meantime, FAQ and Troubleshooting below cover the most '
-          'common questions, or contact VenuRite directly.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +73,12 @@ class HelpScreen extends StatelessWidget {
                     'Get a straight answer, in plain language',
                   ),
                   trailing: const Icon(Icons.chevron_right),
-                  onTap: () => _showAskAQuestionNotice(context),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const AskQuestionScreen(),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 8),

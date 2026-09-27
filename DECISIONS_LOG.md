@@ -2542,3 +2542,15 @@ Full flow implemented per the agreed plan: embed question → Layer 2 cache chec
 Not yet built: Flutter UI (Phase 3), usage-cap billing (Phase 4).
 
 Files: `tools/ai-assistant_index.ts` (new — staging/review copy; the real deployed copy lives at `~/tango-sierra/supabase/docker/volumes/functions/ai-assistant/index.ts` on the VPS, per this project's established convention of not mirroring Edge Function source in the git repo... except this one is kept in-repo for reviewability, unlike prior functions, since it's a compliance-critical piece of logic worth having in version control).
+
+## AI assistant (RAG) backend, Phase 3 — Flutter UI (2026-09-27)
+
+New `AskQuestionScreen` (`lib/features/help/ask_question_screen.dart`) replaces the old placeholder dialog as "Ask a question"'s real destination. Single question-and-answer, not a persisted chat (the backend's semantic cache is keyed per-question — a chat-history model would fight that for no benefit). States: idle → asking → answered (answer + citation, with a small "from cache" note when `outcome: "cache_hit"`) → limit-reached (built ahead of Phase 4, even though no cap is enforced yet — the UI is ready the moment the backend starts returning that outcome). Calls `BackendRestClient.invokeFunction('ai-assistant', {...})` via the existing `backendRestClientProvider` — no new network plumbing.
+
+`HelpScreen`'s old private `_showAskAQuestionNotice` was promoted to a public top-level `showAiOfflineNotice()` in the same file, reused by `AskQuestionScreen` as its genuine-connectivity-failure fallback — preserving the exact offline-degrade design agreed before this backend existed (no network, or the backend down, both fall through to the same FAQ/Troubleshooting/Contact destination) rather than inventing a second, different error UI.
+
+Verified: `flutter analyze` clean, all 35 tests passing, real Windows debug build launched successfully.
+
+**Live UI test surfaced the DNS-caching issue from the earlier server migration all over again**: asking a real question through the built app hit the fallback "Couldn't reach the assistant" dialog — not a code bug. `nslookup api.venurite.com` on this dev machine still resolved to the OLD server (`217.160.174.119`) via the ISP's own cached resolver, which has none of this session's new work at all (no `ai-assistant` function, no new schema). The backend logic itself is already proven correct via direct curl against the real new server (Phase 2's own entry) — this is purely a local DNS-propagation lag on the dev machine, same root cause as the `get.venurite.com` surprise during the server cutover, not a defect in the Flutter code, the Edge Function, or the offline-fallback design (which, notably, worked exactly as intended under this real failure condition). Deferred: a real in-app confirmation once the DNS cache clears (record TTL is 4 hours from the cutover) or a hosts-file override is added.
+
+Files: `lib/features/help/ask_question_screen.dart` (new), `lib/features/help/help_screen.dart`.
