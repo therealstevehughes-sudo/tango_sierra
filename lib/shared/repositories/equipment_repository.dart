@@ -15,8 +15,17 @@ abstract class EquipmentRepository {
     required int equipmentTypeId,
     int? areaId,
     required int siteId,
+    String? model,
+    String? serialNumber,
   });
   Future<void> rename(int id, String newName);
+  // Model/serial number (2026-09-28) — a separate setter, not folded into
+  // rename(), since these are typically filled in after creation (once
+  // someone's actually looked at the nameplate), not required upfront.
+  // Always sets both fields to exactly what's passed (null clears a
+  // field) — matches a single "edit details" form submitting both at
+  // once, not a partial-field-update contract.
+  Future<void> updateDetails(int id, {String? model, String? serialNumber});
   // Retiring (active: false) also deactivates any TaskSchedules currently
   // pointing at this instance, so staff stop being asked to check equipment
   // that no longer exists. Reactivating does NOT restore those schedules —
@@ -75,6 +84,8 @@ class DriftEquipmentRepository implements EquipmentRepository {
     required int equipmentTypeId,
     int? areaId,
     required int siteId,
+    String? model,
+    String? serialNumber,
   }) async {
     final trimmedName = name.trim();
     await _checkNotDuplicate(siteId: siteId, name: trimmedName);
@@ -87,6 +98,8 @@ class DriftEquipmentRepository implements EquipmentRepository {
             equipmentTypeId: equipmentTypeId,
             areaId: Value(areaId),
             siteId: Value(siteId),
+            model: Value(model),
+            serialNumber: Value(serialNumber),
           ),
         );
     return Equipment(
@@ -96,6 +109,8 @@ class DriftEquipmentRepository implements EquipmentRepository {
       areaId: areaId,
       siteId: siteId,
       active: true,
+      model: model,
+      serialNumber: serialNumber,
     );
   }
 
@@ -185,6 +200,21 @@ class DriftEquipmentRepository implements EquipmentRepository {
     });
   }
 
+  @override
+  Future<void> updateDetails(
+    int id, {
+    String? model,
+    String? serialNumber,
+  }) async {
+    await (_db.update(_db.equipmentInstances)..where((e) => e.id.equals(id)))
+        .write(
+          EquipmentInstancesCompanion(
+            model: Value(model),
+            serialNumber: Value(serialNumber),
+          ),
+        );
+  }
+
   Equipment _toModel(EquipmentInstanceEntity row) => Equipment(
     id: row.id,
     name: row.name,
@@ -192,5 +222,7 @@ class DriftEquipmentRepository implements EquipmentRepository {
     areaId: row.areaId,
     siteId: row.siteId!,
     active: row.active,
+    model: row.model,
+    serialNumber: row.serialNumber,
   );
 }

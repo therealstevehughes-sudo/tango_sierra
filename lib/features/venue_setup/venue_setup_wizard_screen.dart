@@ -67,6 +67,12 @@ class _VenueSetupWizardScreenState
 
   final TextEditingController areaNameController = TextEditingController();
   final TextEditingController equipmentNameController = TextEditingController();
+  // Model/serial number (2026-09-28, direct founder request) — optional,
+  // helps ordering the right replacement part when something breaks.
+  final TextEditingController equipmentModelController =
+      TextEditingController();
+  final TextEditingController equipmentSerialController =
+      TextEditingController();
   int? selectedEquipmentTypeId;
   int? selectedAreaId;
   bool addingNewEquipmentType = false;
@@ -93,6 +99,8 @@ class _VenueSetupWizardScreenState
   void dispose() {
     areaNameController.dispose();
     equipmentNameController.dispose();
+    equipmentModelController.dispose();
+    equipmentSerialController.dispose();
     newEquipmentTypeController.dispose();
     staffNameController.dispose();
     staffJobTitleController.dispose();
@@ -181,17 +189,23 @@ class _VenueSetupWizardScreenState
     // expected outcome here, not an unhandled crash — the error message
     // itself repeats the naming-guidance examples as a second nudge.
     try {
+      final model = equipmentModelController.text.trim();
+      final serial = equipmentSerialController.text.trim();
       final created = await repo.create(
         name: name,
         equipmentTypeId: selectedEquipmentTypeId!,
         areaId: selectedAreaId,
         siteId: site.id,
+        model: model.isEmpty ? null : model,
+        serialNumber: serial.isEmpty ? null : serial,
       );
 
       if (!mounted) return;
       setState(() {
         equipmentInstances = [...equipmentInstances, created];
         equipmentNameController.clear();
+        equipmentModelController.clear();
+        equipmentSerialController.clear();
       });
     } on DuplicateEquipmentNameException catch (e) {
       if (!mounted) return;
@@ -424,13 +438,23 @@ class _VenueSetupWizardScreenState
       (t) => t.id == equipment.equipmentTypeId,
       orElse: () => const EquipmentType(id: -1, name: 'Unknown type'),
     );
-    if (equipment.areaId == null) return type.name;
-
-    final area = areas.firstWhere(
-      (a) => a.id == equipment.areaId,
-      orElse: () => const Area(id: -1, name: 'Unknown area', siteId: -1),
-    );
-    return '${type.name} - ${area.name}';
+    final parts = <String>[type.name];
+    if (equipment.areaId != null) {
+      final area = areas.firstWhere(
+        (a) => a.id == equipment.areaId,
+        orElse: () => const Area(id: -1, name: 'Unknown area', siteId: -1),
+      );
+      parts.add(area.name);
+    }
+    // Model/serial number (2026-09-28) — shown only when set, so existing
+    // equipment with neither doesn't grow an empty-looking subtitle tail.
+    if (equipment.model != null && equipment.model!.isNotEmpty) {
+      parts.add('Model: ${equipment.model}');
+    }
+    if (equipment.serialNumber != null && equipment.serialNumber!.isNotEmpty) {
+      parts.add('S/N: ${equipment.serialNumber}');
+    }
+    return parts.join(' - ');
   }
 
   @override
@@ -647,6 +671,34 @@ class _VenueSetupWizardScreenState
               onPressed: _addEquipment,
               icon: const Icon(Icons.add),
               tooltip: 'Add equipment',
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        // Model/serial number (2026-09-28, direct founder request) — both
+        // optional, helps ordering the right replacement part later if
+        // something breaks. Kept visually secondary (smaller row, no
+        // asterisk) since most equipment gets added without these.
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: equipmentModelController,
+                decoration: const InputDecoration(
+                  labelText: 'Model (optional)',
+                  isDense: true,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: TextField(
+                controller: equipmentSerialController,
+                decoration: const InputDecoration(
+                  labelText: 'Serial number (optional)',
+                  isDense: true,
+                ),
+              ),
             ),
           ],
         ),

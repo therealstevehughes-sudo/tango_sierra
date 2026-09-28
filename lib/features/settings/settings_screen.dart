@@ -7,6 +7,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import '../../app/theme/contrast.dart';
+import '../../core/config/build_flags.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
@@ -18,6 +19,7 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../../shared/providers/task_submission_providers.dart' show appDatabaseProvider;
 import '../roster/roster_billing_service.dart';
 
 // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C; Company
@@ -89,6 +91,10 @@ class SettingsScreen extends ConsumerWidget {
               const _EmployeeGradedBarsSetting(),
               const SizedBox(height: 16),
               const _RosterAddonSetting(),
+              if (kSeedDemoData) ...[
+                const SizedBox(height: 16),
+                const _ClearDemoDataSetting(),
+              ],
             ],
           ],
         ),
@@ -580,6 +586,104 @@ class _RosterAddonSettingState extends ConsumerState<_RosterAddonSetting> {
         ),
         value: _enabled,
         onChanged: _saving ? null : _toggle,
+      ),
+    );
+  }
+}
+
+// "Clear Demo Data" (2026-09-28, direct founder request) — only ever
+// shown in a demo-seeded build (kSeedDemoData, checked by the call site
+// in SettingsScreen.build, not here) and only while still in local mode
+// (a device that's already converted to a real backend org has no more
+// local demo data left to clear). One irreversible action: wipe every
+// seeded staff member, branch, and department, then log out. LoginScreen
+// reactively shows its own real empty-state entry point (_FreshInstallEntry
+// -> "Get started" -> "Set up my business"/"My team already uses
+// VenuRite") the instant the staff list comes back empty — no new landing
+// screen needed here, that path already exists for a genuine
+// --dart-define=SEED_DEMO_DATA=false install.
+class _ClearDemoDataSetting extends ConsumerStatefulWidget {
+  const _ClearDemoDataSetting();
+
+  @override
+  ConsumerState<_ClearDemoDataSetting> createState() =>
+      _ClearDemoDataSettingState();
+}
+
+class _ClearDemoDataSettingState
+    extends ConsumerState<_ClearDemoDataSetting> {
+  bool _clearing = false;
+
+  Future<void> _clear() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Clear demo data?'),
+        content: const Text(
+          'This permanently deletes every demo staff member, branch, and '
+          "department, and signs you out. This can't be undone.",
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+            child: const Text('Clear everything'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    setState(() => _clearing = true);
+    await ref.read(appDatabaseProvider).clearDemoData();
+    if (!mounted) return;
+
+    ref.invalidate(staffDirectoryProvider);
+    // Pop back to root before logging out — same reasoning ManagementDrawer's
+    // own logout action documents: without this, a pushed screen (this
+    // very Settings screen) would stay mounted underneath while
+    // MaterialApp.home reactively swaps to LoginScreen.
+    Navigator.of(context).popUntil((route) => route.isFirst);
+    ref.read(currentUserProvider.notifier).state = null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Clear Demo Data',
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'Remove every demo staff member, branch, and department so '
+            'you can set up your own from scratch.',
+          ),
+          const SizedBox(height: 12),
+          OutlinedButton(
+            onPressed: _clearing ? null : _clear,
+            style: OutlinedButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.error,
+              side: BorderSide(color: Theme.of(context).colorScheme.error),
+            ),
+            child: _clearing
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Text('Clear demo data'),
+          ),
+        ],
       ),
     );
   }

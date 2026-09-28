@@ -5,9 +5,17 @@ import '../models/department.dart';
 
 abstract class DepartmentRepository {
   Future<List<Department>> getForSite(int siteId);
-  Future<Department> create({required String name, required int siteId});
+  Future<Department> create({
+    required String name,
+    required int siteId,
+    DepartmentCategory? category,
+  });
   Future<void> rename(int id, String newName);
   Future<void> setActive(int id, bool active);
+  // Category (2026-09-28) — a separate setter, not folded into rename(),
+  // since a manager may want to correct/add a category without touching
+  // the department's own name.
+  Future<void> setCategory(int id, DepartmentCategory? category);
 }
 
 class DriftDepartmentRepository implements DepartmentRepository {
@@ -28,6 +36,7 @@ class DriftDepartmentRepository implements DepartmentRepository {
   Future<Department> create({
     required String name,
     required int siteId,
+    DepartmentCategory? category,
   }) async {
     final id = await _db
         .into(_db.departments)
@@ -36,6 +45,7 @@ class DriftDepartmentRepository implements DepartmentRepository {
             name: name,
             siteId: Value(siteId),
             createdAt: DateTime.now(),
+            category: Value(category?.name),
           ),
         );
     final row = await (_db.select(
@@ -58,6 +68,13 @@ class DriftDepartmentRepository implements DepartmentRepository {
     );
   }
 
+  @override
+  Future<void> setCategory(int id, DepartmentCategory? category) {
+    return (_db.update(_db.departments)..where((d) => d.id.equals(id))).write(
+      DepartmentsCompanion(category: Value(category?.name)),
+    );
+  }
+
   Department _toModel(DepartmentEntity row) {
     return Department(
       id: row.id,
@@ -65,6 +82,7 @@ class DriftDepartmentRepository implements DepartmentRepository {
       siteId: row.siteId!,
       active: row.active,
       createdAt: row.createdAt,
+      category: departmentCategoryFromString(row.category),
     );
   }
 }

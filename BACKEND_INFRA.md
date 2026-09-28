@@ -2013,3 +2013,11 @@ No new secrets needed for `provision-staff-pin` — it reaches `roster-addon-bil
 **Resolved (2026-09-28)**: founder confirmed "John Black" (org 56 "SFO") was not a real account. Deleted after confirming zero dependent rows (`staff_pins`, `shift_claims`, `shifts`) — verified `SFO` and the founder's own linked account (`Stephen Hughes`, id 58) remain fully intact afterward. The second orphaned row ("GCTest Director," old GC-TEST org) is still untouched, not yet confirmed with the founder.
 
 **Fully resolved (2026-09-28)**: founder confirmed "GCTest Director" (org 49, the old GoCardless test org) was also safe to remove. Deleted the same way — confirmed zero dependent rows first, cleared `organisations.owner_user_id` (which referenced this user, same FK pattern as every other fixture cleanup this session), then deleted. Both orphaned rows from the original incident are now closed out; `SFO` and the founder's own account remain untouched throughout.
+
+## Department category + equipment model/serial number columns deployed (2026-09-28)
+
+`departments.category` (text, nullable), `equipment_instances.model` (text, nullable), `equipment_instances.serial_number` (text, nullable) — deployed via `tools/department_equipment_fields_migration.sql`, `docker restart supabase-rest` applied (standing schema-cache rule). All three are purely additive, no backfill needed (existing rows simply have no value until set).
+
+`category` stores one of the app's `DepartmentCategory` enum names as plain text (`kitchen`/`frontOfHouse`/`bar`/`management`/`maintenance`/`housekeeping`/`reception`/`security`) — no DB-level check constraint added, matching this project's established convention of enforcing enum validity at the Dart layer (`departmentCategoryFromString` returns null for anything unrecognised, never throws) rather than a Postgres `CHECK`, consistent with `shifts.status`/`off_day_requests.status`'s own looser text-column approach elsewhere.
+
+Not yet live-proven via a real curl round-trip against a throwaway tenant (the Flutter-side repository code was verified via `flutter analyze`/`flutter test`/a real Windows build instead) — a reasonable gap for a pure additive-column change with no new business logic on the server side, unlike prior migrations that added real RLS policies or RPC functions.

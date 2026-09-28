@@ -736,10 +736,19 @@ class _StaffListState extends State<_StaffList> {
     // today's flat list, unchanged. Search always searches every
     // department at once (isSearching branch above, untouched) — the
     // picker only replaces the browse-by-scrolling view, never search.
-    final allVisibleStaff = [...kitchenStaff, ...supervisorsAndManagers];
+    //
+    // Leadership excluded from department bucketing (2026-09-28, direct
+    // user report) — a departmentless supervisor/manager used to fall into
+    // the exact same "Other" catch-all as a departmentless kitchen porter,
+    // which read as nonsensical (a director grouped with a KP under a
+    // meaningless label). Leadership is a fixed tier-based concept
+    // (supervisor and above), not a section of the venue, so it's now
+    // ALWAYS shown in its own section below, regardless of department
+    // picker mode — only base-tier staff get bucketed by department at
+    // all.
     final departmentGroups = <_DepartmentGroup>[];
     for (final department in widget.departments) {
-      final members = allVisibleStaff
+      final members = kitchenStaff
           .where((u) => u.departmentId == department.id)
           .toList();
       if (members.isNotEmpty) {
@@ -749,15 +758,17 @@ class _StaffListState extends State<_StaffList> {
       }
     }
     final knownDepartmentIds = widget.departments.map((d) => d.id).toSet();
-    final unassigned = allVisibleStaff
+    final unassignedKitchenStaff = kitchenStaff
         .where(
           (u) =>
               u.departmentId == null ||
               !knownDepartmentIds.contains(u.departmentId),
         )
         .toList();
-    if (unassigned.isNotEmpty && departmentGroups.isNotEmpty) {
-      departmentGroups.add(_DepartmentGroup(name: 'Other', staff: unassigned));
+    if (unassignedKitchenStaff.isNotEmpty && departmentGroups.isNotEmpty) {
+      departmentGroups.add(
+        _DepartmentGroup(name: 'Unassigned', staff: unassignedKitchenStaff),
+      );
     }
     final showDepartmentPicker =
         !isSearching && departmentGroups.length >= 2;
@@ -811,76 +822,85 @@ class _StaffListState extends State<_StaffList> {
         Expanded(
           child: isSearching
               ? _buildSearchResults(searchResults)
-              : showDepartmentPicker
-              ? _buildDepartmentPicker(departmentGroups)
-              : _buildGroupedList(kitchenStaff, supervisorsAndManagers),
+              : _buildMainList(
+                  supervisorsAndManagers,
+                  kitchenStaff,
+                  departmentGroups,
+                  showDepartmentPicker,
+                ),
         ),
       ],
     );
   }
 
-  Widget _buildGroupedList(
+  // Leadership always shown (2026-09-28) — a fixed section for
+  // supervisor+ tier, always visible regardless of whether the department
+  // picker or the flat kitchen-staff list is showing below it. See the
+  // doc comment above departmentGroups' construction for why leadership
+  // was pulled out of department bucketing entirely.
+  Widget _buildMainList(
+    List<User> leadership,
     List<User> kitchenStaff,
-    List<User> supervisorsAndManagers,
+    List<_DepartmentGroup> departmentGroups,
+    bool showDepartmentPicker,
   ) {
     return ListView(
       padding: const EdgeInsets.only(bottom: 24),
       children: [
-        if (kitchenStaff.isNotEmpty) ...[
+        if (leadership.isNotEmpty) ...[
+          const SectionHeader(title: 'Leadership'),
+          const SizedBox(height: 8),
+          _sectionGrid(leadership),
+          const SizedBox(height: 20),
+        ],
+        if (showDepartmentPicker)
+          ..._departmentPickerChildren(departmentGroups)
+        else if (kitchenStaff.isNotEmpty) ...[
           const SectionHeader(title: 'Kitchen Staff'),
           const SizedBox(height: 8),
           _sectionGrid(kitchenStaff),
-          const SizedBox(height: 20),
-        ],
-        if (supervisorsAndManagers.isNotEmpty) ...[
-          const SectionHeader(title: 'Supervisors & Managers'),
-          const SizedBox(height: 8),
-          _sectionGrid(supervisorsAndManagers),
         ],
       ],
     );
   }
 
   // Section picker (2026-09-23) — a venue with 2+ departments that
-  // actually have staff sees this instead of _buildGroupedList: pick a
-  // department first, then see that department's own staff (still
-  // grouped by tier, on the next page — see _DepartmentStaffScreen).
-  Widget _buildDepartmentPicker(List<_DepartmentGroup> groups) {
-    return ListView(
-      padding: const EdgeInsets.only(bottom: 24),
-      children: [
-        const SectionHeader(title: 'Choose a section'),
-        const SizedBox(height: 8),
-        if (!isCompactWidth(context))
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 280,
-              mainAxisExtent: 88,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-            ),
-            itemCount: groups.length,
-            itemBuilder: (context, index) => _DepartmentTile(
-              group: groups[index],
-              onTap: () => _openDepartment(groups[index]),
-            ),
-          )
-        else
-          Column(
-            children: [
-              for (final group in groups) ...[
-                _DepartmentTile(
-                  group: group,
-                  onTap: () => _openDepartment(group),
-                ),
-                const SizedBox(height: 8),
-              ],
-            ],
+  // actually have staff sees this instead of the flat kitchen-staff list:
+  // pick a department first, then see that department's own staff on the
+  // next page (see _DepartmentStaffScreen).
+  List<Widget> _departmentPickerChildren(List<_DepartmentGroup> groups) {
+    return [
+      const SectionHeader(title: 'Choose a section'),
+      const SizedBox(height: 8),
+      if (!isCompactWidth(context))
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 280,
+            mainAxisExtent: 88,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
           ),
-      ],
-    );
+          itemCount: groups.length,
+          itemBuilder: (context, index) => _DepartmentTile(
+            group: groups[index],
+            onTap: () => _openDepartment(groups[index]),
+          ),
+        )
+      else
+        Column(
+          children: [
+            for (final group in groups) ...[
+              _DepartmentTile(
+                group: group,
+                onTap: () => _openDepartment(group),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ],
+        ),
+    ];
   }
 
   void _openDepartment(_DepartmentGroup group) {

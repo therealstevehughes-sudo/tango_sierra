@@ -11,7 +11,7 @@ import '../models/user.dart';
 import '../repositories/supabase_user_repository.dart';
 import '../repositories/user_repository.dart';
 import 'department_providers.dart' show departmentRepositoryProvider;
-import 'site_providers.dart' show currentSiteProvider;
+import 'site_providers.dart' show activeSiteProvider, currentSiteProvider;
 import 'task_submission_providers.dart' show appDatabaseProvider;
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {
@@ -159,8 +159,22 @@ final staffDirectoryProvider = FutureProvider<List<User>>((ref) async {
       (data['staff'] as List).cast<Map<String, dynamic>>(),
     );
   }
+  // Site scoping (2026-09-28, direct user report) — this used to be
+  // repository.getAll(), which returns every active user in the WHOLE
+  // local database with no site filter at all. That never mattered while
+  // a local install only ever had one site, but a second local demo
+  // branch (added the same day) immediately exposed it: both branches'
+  // staff mixed together on one walk-up screen. Now resolved the exact
+  // same way staffDirectoryDepartmentsProvider right below already does
+  // (and the same way venue_setup_wizard_screen.dart's own
+  // _resolveActiveSite() does) — prefer the explicitly "active" site, fall
+  // back to the first-created default for a single-site install.
   final repository = ref.watch(userRepositoryProvider);
-  final staff = await repository.getAll();
+  final activeSite = ref.watch(activeSiteProvider);
+  final siteId = activeSite != null
+      ? activeSite.id
+      : (await ref.watch(currentSiteProvider.future)).id;
+  final staff = await repository.getForSite(siteId);
   return staff.where((u) => u.active).toList();
 });
 

@@ -254,8 +254,26 @@ class $DepartmentsTable extends Departments
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
+  static const VerificationMeta _categoryMeta = const VerificationMeta(
+    'category',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, name, siteId, active, createdAt];
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+    'category',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    siteId,
+    active,
+    createdAt,
+    category,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -299,6 +317,12 @@ class $DepartmentsTable extends Departments
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
+    if (data.containsKey('category')) {
+      context.handle(
+        _categoryMeta,
+        category.isAcceptableOrUnknown(data['category']!, _categoryMeta),
+      );
+    }
     return context;
   }
 
@@ -328,6 +352,10 @@ class $DepartmentsTable extends Departments
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
       )!,
+      category: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category'],
+      ),
     );
   }
 
@@ -344,12 +372,14 @@ class DepartmentEntity extends DataClass
   final int? siteId;
   final bool active;
   final DateTime createdAt;
+  final String? category;
   const DepartmentEntity({
     required this.id,
     required this.name,
     this.siteId,
     required this.active,
     required this.createdAt,
+    this.category,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -361,6 +391,9 @@ class DepartmentEntity extends DataClass
     }
     map['active'] = Variable<bool>(active);
     map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || category != null) {
+      map['category'] = Variable<String>(category);
+    }
     return map;
   }
 
@@ -373,6 +406,9 @@ class DepartmentEntity extends DataClass
           : Value(siteId),
       active: Value(active),
       createdAt: Value(createdAt),
+      category: category == null && nullToAbsent
+          ? const Value.absent()
+          : Value(category),
     );
   }
 
@@ -387,6 +423,7 @@ class DepartmentEntity extends DataClass
       siteId: serializer.fromJson<int?>(json['siteId']),
       active: serializer.fromJson<bool>(json['active']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      category: serializer.fromJson<String?>(json['category']),
     );
   }
   @override
@@ -398,6 +435,7 @@ class DepartmentEntity extends DataClass
       'siteId': serializer.toJson<int?>(siteId),
       'active': serializer.toJson<bool>(active),
       'createdAt': serializer.toJson<DateTime>(createdAt),
+      'category': serializer.toJson<String?>(category),
     };
   }
 
@@ -407,12 +445,14 @@ class DepartmentEntity extends DataClass
     Value<int?> siteId = const Value.absent(),
     bool? active,
     DateTime? createdAt,
+    Value<String?> category = const Value.absent(),
   }) => DepartmentEntity(
     id: id ?? this.id,
     name: name ?? this.name,
     siteId: siteId.present ? siteId.value : this.siteId,
     active: active ?? this.active,
     createdAt: createdAt ?? this.createdAt,
+    category: category.present ? category.value : this.category,
   );
   DepartmentEntity copyWithCompanion(DepartmentsCompanion data) {
     return DepartmentEntity(
@@ -421,6 +461,7 @@ class DepartmentEntity extends DataClass
       siteId: data.siteId.present ? data.siteId.value : this.siteId,
       active: data.active.present ? data.active.value : this.active,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      category: data.category.present ? data.category.value : this.category,
     );
   }
 
@@ -431,13 +472,15 @@ class DepartmentEntity extends DataClass
           ..write('name: $name, ')
           ..write('siteId: $siteId, ')
           ..write('active: $active, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('category: $category')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, siteId, active, createdAt);
+  int get hashCode =>
+      Object.hash(id, name, siteId, active, createdAt, category);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -446,7 +489,8 @@ class DepartmentEntity extends DataClass
           other.name == this.name &&
           other.siteId == this.siteId &&
           other.active == this.active &&
-          other.createdAt == this.createdAt);
+          other.createdAt == this.createdAt &&
+          other.category == this.category);
 }
 
 class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
@@ -455,12 +499,14 @@ class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
   final Value<int?> siteId;
   final Value<bool> active;
   final Value<DateTime> createdAt;
+  final Value<String?> category;
   const DepartmentsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.siteId = const Value.absent(),
     this.active = const Value.absent(),
     this.createdAt = const Value.absent(),
+    this.category = const Value.absent(),
   });
   DepartmentsCompanion.insert({
     this.id = const Value.absent(),
@@ -468,6 +514,7 @@ class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
     this.siteId = const Value.absent(),
     this.active = const Value.absent(),
     required DateTime createdAt,
+    this.category = const Value.absent(),
   }) : name = Value(name),
        createdAt = Value(createdAt);
   static Insertable<DepartmentEntity> custom({
@@ -476,6 +523,7 @@ class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
     Expression<int>? siteId,
     Expression<bool>? active,
     Expression<DateTime>? createdAt,
+    Expression<String>? category,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -483,6 +531,7 @@ class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
       if (siteId != null) 'site_id': siteId,
       if (active != null) 'active': active,
       if (createdAt != null) 'created_at': createdAt,
+      if (category != null) 'category': category,
     });
   }
 
@@ -492,6 +541,7 @@ class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
     Value<int?>? siteId,
     Value<bool>? active,
     Value<DateTime>? createdAt,
+    Value<String?>? category,
   }) {
     return DepartmentsCompanion(
       id: id ?? this.id,
@@ -499,6 +549,7 @@ class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
       siteId: siteId ?? this.siteId,
       active: active ?? this.active,
       createdAt: createdAt ?? this.createdAt,
+      category: category ?? this.category,
     );
   }
 
@@ -520,6 +571,9 @@ class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
     return map;
   }
 
@@ -530,7 +584,8 @@ class DepartmentsCompanion extends UpdateCompanion<DepartmentEntity> {
           ..write('name: $name, ')
           ..write('siteId: $siteId, ')
           ..write('active: $active, ')
-          ..write('createdAt: $createdAt')
+          ..write('createdAt: $createdAt, ')
+          ..write('category: $category')
           ..write(')'))
         .toString();
   }
@@ -2382,6 +2437,21 @@ class $OrganisationsTable extends Organisations
     ),
     defaultValue: const Constant(false),
   );
+  static const VerificationMeta _demoDataClearedMeta = const VerificationMeta(
+    'demoDataCleared',
+  );
+  @override
+  late final GeneratedColumn<bool> demoDataCleared = GeneratedColumn<bool>(
+    'demo_data_cleared',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("demo_data_cleared" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -2395,6 +2465,7 @@ class $OrganisationsTable extends Organisations
     ownerUserId,
     employeeGradedBarsEnabled,
     rosterAddonEnabled,
+    demoDataCleared,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2490,6 +2561,15 @@ class $OrganisationsTable extends Organisations
         ),
       );
     }
+    if (data.containsKey('demo_data_cleared')) {
+      context.handle(
+        _demoDataClearedMeta,
+        demoDataCleared.isAcceptableOrUnknown(
+          data['demo_data_cleared']!,
+          _demoDataClearedMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -2543,6 +2623,10 @@ class $OrganisationsTable extends Organisations
         DriftSqlType.bool,
         data['${effectivePrefix}roster_addon_enabled'],
       )!,
+      demoDataCleared: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}demo_data_cleared'],
+      )!,
     );
   }
 
@@ -2565,6 +2649,7 @@ class OrganisationEntity extends DataClass
   final int? ownerUserId;
   final bool employeeGradedBarsEnabled;
   final bool rosterAddonEnabled;
+  final bool demoDataCleared;
   const OrganisationEntity({
     required this.id,
     required this.name,
@@ -2577,6 +2662,7 @@ class OrganisationEntity extends DataClass
     this.ownerUserId,
     required this.employeeGradedBarsEnabled,
     required this.rosterAddonEnabled,
+    required this.demoDataCleared,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -2606,6 +2692,7 @@ class OrganisationEntity extends DataClass
       employeeGradedBarsEnabled,
     );
     map['roster_addon_enabled'] = Variable<bool>(rosterAddonEnabled);
+    map['demo_data_cleared'] = Variable<bool>(demoDataCleared);
     return map;
   }
 
@@ -2634,6 +2721,7 @@ class OrganisationEntity extends DataClass
           : Value(ownerUserId),
       employeeGradedBarsEnabled: Value(employeeGradedBarsEnabled),
       rosterAddonEnabled: Value(rosterAddonEnabled),
+      demoDataCleared: Value(demoDataCleared),
     );
   }
 
@@ -2658,6 +2746,7 @@ class OrganisationEntity extends DataClass
         json['employeeGradedBarsEnabled'],
       ),
       rosterAddonEnabled: serializer.fromJson<bool>(json['rosterAddonEnabled']),
+      demoDataCleared: serializer.fromJson<bool>(json['demoDataCleared']),
     );
   }
   @override
@@ -2677,6 +2766,7 @@ class OrganisationEntity extends DataClass
         employeeGradedBarsEnabled,
       ),
       'rosterAddonEnabled': serializer.toJson<bool>(rosterAddonEnabled),
+      'demoDataCleared': serializer.toJson<bool>(demoDataCleared),
     };
   }
 
@@ -2692,6 +2782,7 @@ class OrganisationEntity extends DataClass
     Value<int?> ownerUserId = const Value.absent(),
     bool? employeeGradedBarsEnabled,
     bool? rosterAddonEnabled,
+    bool? demoDataCleared,
   }) => OrganisationEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -2707,6 +2798,7 @@ class OrganisationEntity extends DataClass
     employeeGradedBarsEnabled:
         employeeGradedBarsEnabled ?? this.employeeGradedBarsEnabled,
     rosterAddonEnabled: rosterAddonEnabled ?? this.rosterAddonEnabled,
+    demoDataCleared: demoDataCleared ?? this.demoDataCleared,
   );
   OrganisationEntity copyWithCompanion(OrganisationsCompanion data) {
     return OrganisationEntity(
@@ -2731,6 +2823,9 @@ class OrganisationEntity extends DataClass
       rosterAddonEnabled: data.rosterAddonEnabled.present
           ? data.rosterAddonEnabled.value
           : this.rosterAddonEnabled,
+      demoDataCleared: data.demoDataCleared.present
+          ? data.demoDataCleared.value
+          : this.demoDataCleared,
     );
   }
 
@@ -2747,7 +2842,8 @@ class OrganisationEntity extends DataClass
           ..write('billingEmail: $billingEmail, ')
           ..write('ownerUserId: $ownerUserId, ')
           ..write('employeeGradedBarsEnabled: $employeeGradedBarsEnabled, ')
-          ..write('rosterAddonEnabled: $rosterAddonEnabled')
+          ..write('rosterAddonEnabled: $rosterAddonEnabled, ')
+          ..write('demoDataCleared: $demoDataCleared')
           ..write(')'))
         .toString();
   }
@@ -2765,6 +2861,7 @@ class OrganisationEntity extends DataClass
     ownerUserId,
     employeeGradedBarsEnabled,
     rosterAddonEnabled,
+    demoDataCleared,
   );
   @override
   bool operator ==(Object other) =>
@@ -2780,7 +2877,8 @@ class OrganisationEntity extends DataClass
           other.billingEmail == this.billingEmail &&
           other.ownerUserId == this.ownerUserId &&
           other.employeeGradedBarsEnabled == this.employeeGradedBarsEnabled &&
-          other.rosterAddonEnabled == this.rosterAddonEnabled);
+          other.rosterAddonEnabled == this.rosterAddonEnabled &&
+          other.demoDataCleared == this.demoDataCleared);
 }
 
 class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
@@ -2795,6 +2893,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
   final Value<int?> ownerUserId;
   final Value<bool> employeeGradedBarsEnabled;
   final Value<bool> rosterAddonEnabled;
+  final Value<bool> demoDataCleared;
   const OrganisationsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -2807,6 +2906,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     this.ownerUserId = const Value.absent(),
     this.employeeGradedBarsEnabled = const Value.absent(),
     this.rosterAddonEnabled = const Value.absent(),
+    this.demoDataCleared = const Value.absent(),
   });
   OrganisationsCompanion.insert({
     this.id = const Value.absent(),
@@ -2820,6 +2920,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     this.ownerUserId = const Value.absent(),
     this.employeeGradedBarsEnabled = const Value.absent(),
     this.rosterAddonEnabled = const Value.absent(),
+    this.demoDataCleared = const Value.absent(),
   }) : name = Value(name),
        createdAt = Value(createdAt);
   static Insertable<OrganisationEntity> custom({
@@ -2834,6 +2935,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     Expression<int>? ownerUserId,
     Expression<bool>? employeeGradedBarsEnabled,
     Expression<bool>? rosterAddonEnabled,
+    Expression<bool>? demoDataCleared,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2849,6 +2951,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
         'employee_graded_bars_enabled': employeeGradedBarsEnabled,
       if (rosterAddonEnabled != null)
         'roster_addon_enabled': rosterAddonEnabled,
+      if (demoDataCleared != null) 'demo_data_cleared': demoDataCleared,
     });
   }
 
@@ -2864,6 +2967,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     Value<int?>? ownerUserId,
     Value<bool>? employeeGradedBarsEnabled,
     Value<bool>? rosterAddonEnabled,
+    Value<bool>? demoDataCleared,
   }) {
     return OrganisationsCompanion(
       id: id ?? this.id,
@@ -2878,6 +2982,7 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
       employeeGradedBarsEnabled:
           employeeGradedBarsEnabled ?? this.employeeGradedBarsEnabled,
       rosterAddonEnabled: rosterAddonEnabled ?? this.rosterAddonEnabled,
+      demoDataCleared: demoDataCleared ?? this.demoDataCleared,
     );
   }
 
@@ -2919,6 +3024,9 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
     if (rosterAddonEnabled.present) {
       map['roster_addon_enabled'] = Variable<bool>(rosterAddonEnabled.value);
     }
+    if (demoDataCleared.present) {
+      map['demo_data_cleared'] = Variable<bool>(demoDataCleared.value);
+    }
     return map;
   }
 
@@ -2935,7 +3043,8 @@ class OrganisationsCompanion extends UpdateCompanion<OrganisationEntity> {
           ..write('billingEmail: $billingEmail, ')
           ..write('ownerUserId: $ownerUserId, ')
           ..write('employeeGradedBarsEnabled: $employeeGradedBarsEnabled, ')
-          ..write('rosterAddonEnabled: $rosterAddonEnabled')
+          ..write('rosterAddonEnabled: $rosterAddonEnabled, ')
+          ..write('demoDataCleared: $demoDataCleared')
           ..write(')'))
         .toString();
   }
@@ -3730,6 +3839,26 @@ class $EquipmentInstancesTable extends EquipmentInstances
     ),
     defaultValue: const Constant(true),
   );
+  static const VerificationMeta _modelMeta = const VerificationMeta('model');
+  @override
+  late final GeneratedColumn<String> model = GeneratedColumn<String>(
+    'model',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _serialNumberMeta = const VerificationMeta(
+    'serialNumber',
+  );
+  @override
+  late final GeneratedColumn<String> serialNumber = GeneratedColumn<String>(
+    'serial_number',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3738,6 +3867,8 @@ class $EquipmentInstancesTable extends EquipmentInstances
     areaId,
     siteId,
     active,
+    model,
+    serialNumber,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3791,6 +3922,21 @@ class $EquipmentInstancesTable extends EquipmentInstances
         active.isAcceptableOrUnknown(data['active']!, _activeMeta),
       );
     }
+    if (data.containsKey('model')) {
+      context.handle(
+        _modelMeta,
+        model.isAcceptableOrUnknown(data['model']!, _modelMeta),
+      );
+    }
+    if (data.containsKey('serial_number')) {
+      context.handle(
+        _serialNumberMeta,
+        serialNumber.isAcceptableOrUnknown(
+          data['serial_number']!,
+          _serialNumberMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -3827,6 +3973,14 @@ class $EquipmentInstancesTable extends EquipmentInstances
         DriftSqlType.bool,
         data['${effectivePrefix}active'],
       )!,
+      model: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}model'],
+      ),
+      serialNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}serial_number'],
+      ),
     );
   }
 
@@ -3844,6 +3998,8 @@ class EquipmentInstanceEntity extends DataClass
   final int? areaId;
   final int? siteId;
   final bool active;
+  final String? model;
+  final String? serialNumber;
   const EquipmentInstanceEntity({
     required this.id,
     required this.name,
@@ -3851,6 +4007,8 @@ class EquipmentInstanceEntity extends DataClass
     this.areaId,
     this.siteId,
     required this.active,
+    this.model,
+    this.serialNumber,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3865,6 +4023,12 @@ class EquipmentInstanceEntity extends DataClass
       map['site_id'] = Variable<int>(siteId);
     }
     map['active'] = Variable<bool>(active);
+    if (!nullToAbsent || model != null) {
+      map['model'] = Variable<String>(model);
+    }
+    if (!nullToAbsent || serialNumber != null) {
+      map['serial_number'] = Variable<String>(serialNumber);
+    }
     return map;
   }
 
@@ -3880,6 +4044,12 @@ class EquipmentInstanceEntity extends DataClass
           ? const Value.absent()
           : Value(siteId),
       active: Value(active),
+      model: model == null && nullToAbsent
+          ? const Value.absent()
+          : Value(model),
+      serialNumber: serialNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(serialNumber),
     );
   }
 
@@ -3895,6 +4065,8 @@ class EquipmentInstanceEntity extends DataClass
       areaId: serializer.fromJson<int?>(json['areaId']),
       siteId: serializer.fromJson<int?>(json['siteId']),
       active: serializer.fromJson<bool>(json['active']),
+      model: serializer.fromJson<String?>(json['model']),
+      serialNumber: serializer.fromJson<String?>(json['serialNumber']),
     );
   }
   @override
@@ -3907,6 +4079,8 @@ class EquipmentInstanceEntity extends DataClass
       'areaId': serializer.toJson<int?>(areaId),
       'siteId': serializer.toJson<int?>(siteId),
       'active': serializer.toJson<bool>(active),
+      'model': serializer.toJson<String?>(model),
+      'serialNumber': serializer.toJson<String?>(serialNumber),
     };
   }
 
@@ -3917,6 +4091,8 @@ class EquipmentInstanceEntity extends DataClass
     Value<int?> areaId = const Value.absent(),
     Value<int?> siteId = const Value.absent(),
     bool? active,
+    Value<String?> model = const Value.absent(),
+    Value<String?> serialNumber = const Value.absent(),
   }) => EquipmentInstanceEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -3924,6 +4100,8 @@ class EquipmentInstanceEntity extends DataClass
     areaId: areaId.present ? areaId.value : this.areaId,
     siteId: siteId.present ? siteId.value : this.siteId,
     active: active ?? this.active,
+    model: model.present ? model.value : this.model,
+    serialNumber: serialNumber.present ? serialNumber.value : this.serialNumber,
   );
   EquipmentInstanceEntity copyWithCompanion(EquipmentInstancesCompanion data) {
     return EquipmentInstanceEntity(
@@ -3935,6 +4113,10 @@ class EquipmentInstanceEntity extends DataClass
       areaId: data.areaId.present ? data.areaId.value : this.areaId,
       siteId: data.siteId.present ? data.siteId.value : this.siteId,
       active: data.active.present ? data.active.value : this.active,
+      model: data.model.present ? data.model.value : this.model,
+      serialNumber: data.serialNumber.present
+          ? data.serialNumber.value
+          : this.serialNumber,
     );
   }
 
@@ -3946,14 +4128,24 @@ class EquipmentInstanceEntity extends DataClass
           ..write('equipmentTypeId: $equipmentTypeId, ')
           ..write('areaId: $areaId, ')
           ..write('siteId: $siteId, ')
-          ..write('active: $active')
+          ..write('active: $active, ')
+          ..write('model: $model, ')
+          ..write('serialNumber: $serialNumber')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, name, equipmentTypeId, areaId, siteId, active);
+  int get hashCode => Object.hash(
+    id,
+    name,
+    equipmentTypeId,
+    areaId,
+    siteId,
+    active,
+    model,
+    serialNumber,
+  );
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3963,7 +4155,9 @@ class EquipmentInstanceEntity extends DataClass
           other.equipmentTypeId == this.equipmentTypeId &&
           other.areaId == this.areaId &&
           other.siteId == this.siteId &&
-          other.active == this.active);
+          other.active == this.active &&
+          other.model == this.model &&
+          other.serialNumber == this.serialNumber);
 }
 
 class EquipmentInstancesCompanion
@@ -3974,6 +4168,8 @@ class EquipmentInstancesCompanion
   final Value<int?> areaId;
   final Value<int?> siteId;
   final Value<bool> active;
+  final Value<String?> model;
+  final Value<String?> serialNumber;
   const EquipmentInstancesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -3981,6 +4177,8 @@ class EquipmentInstancesCompanion
     this.areaId = const Value.absent(),
     this.siteId = const Value.absent(),
     this.active = const Value.absent(),
+    this.model = const Value.absent(),
+    this.serialNumber = const Value.absent(),
   });
   EquipmentInstancesCompanion.insert({
     this.id = const Value.absent(),
@@ -3989,6 +4187,8 @@ class EquipmentInstancesCompanion
     this.areaId = const Value.absent(),
     this.siteId = const Value.absent(),
     this.active = const Value.absent(),
+    this.model = const Value.absent(),
+    this.serialNumber = const Value.absent(),
   }) : name = Value(name),
        equipmentTypeId = Value(equipmentTypeId);
   static Insertable<EquipmentInstanceEntity> custom({
@@ -3998,6 +4198,8 @@ class EquipmentInstancesCompanion
     Expression<int>? areaId,
     Expression<int>? siteId,
     Expression<bool>? active,
+    Expression<String>? model,
+    Expression<String>? serialNumber,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4006,6 +4208,8 @@ class EquipmentInstancesCompanion
       if (areaId != null) 'area_id': areaId,
       if (siteId != null) 'site_id': siteId,
       if (active != null) 'active': active,
+      if (model != null) 'model': model,
+      if (serialNumber != null) 'serial_number': serialNumber,
     });
   }
 
@@ -4016,6 +4220,8 @@ class EquipmentInstancesCompanion
     Value<int?>? areaId,
     Value<int?>? siteId,
     Value<bool>? active,
+    Value<String?>? model,
+    Value<String?>? serialNumber,
   }) {
     return EquipmentInstancesCompanion(
       id: id ?? this.id,
@@ -4024,6 +4230,8 @@ class EquipmentInstancesCompanion
       areaId: areaId ?? this.areaId,
       siteId: siteId ?? this.siteId,
       active: active ?? this.active,
+      model: model ?? this.model,
+      serialNumber: serialNumber ?? this.serialNumber,
     );
   }
 
@@ -4048,6 +4256,12 @@ class EquipmentInstancesCompanion
     if (active.present) {
       map['active'] = Variable<bool>(active.value);
     }
+    if (model.present) {
+      map['model'] = Variable<String>(model.value);
+    }
+    if (serialNumber.present) {
+      map['serial_number'] = Variable<String>(serialNumber.value);
+    }
     return map;
   }
 
@@ -4059,7 +4273,9 @@ class EquipmentInstancesCompanion
           ..write('equipmentTypeId: $equipmentTypeId, ')
           ..write('areaId: $areaId, ')
           ..write('siteId: $siteId, ')
-          ..write('active: $active')
+          ..write('active: $active, ')
+          ..write('model: $model, ')
+          ..write('serialNumber: $serialNumber')
           ..write(')'))
         .toString();
   }
@@ -22157,6 +22373,7 @@ typedef $$DepartmentsTableCreateCompanionBuilder =
       Value<int?> siteId,
       Value<bool> active,
       required DateTime createdAt,
+      Value<String?> category,
     });
 typedef $$DepartmentsTableUpdateCompanionBuilder =
     DepartmentsCompanion Function({
@@ -22165,6 +22382,7 @@ typedef $$DepartmentsTableUpdateCompanionBuilder =
       Value<int?> siteId,
       Value<bool> active,
       Value<DateTime> createdAt,
+      Value<String?> category,
     });
 
 final class $$DepartmentsTableReferences
@@ -22285,6 +22503,11 @@ class $$DepartmentsTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get category => $composableBuilder(
+    column: $table.category,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -22423,6 +22646,11 @@ class $$DepartmentsTableOrderingComposer
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get category => $composableBuilder(
+    column: $table.category,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$DepartmentsTableAnnotationComposer
@@ -22448,6 +22676,9 @@ class $$DepartmentsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
 
   Expression<T> teamsRefs<T extends Object>(
     Expression<T> Function($$TeamsTableAnnotationComposer a) f,
@@ -22589,12 +22820,14 @@ class $$DepartmentsTableTableManager
                 Value<int?> siteId = const Value.absent(),
                 Value<bool> active = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
+                Value<String?> category = const Value.absent(),
               }) => DepartmentsCompanion(
                 id: id,
                 name: name,
                 siteId: siteId,
                 active: active,
                 createdAt: createdAt,
+                category: category,
               ),
           createCompanionCallback:
               ({
@@ -22603,12 +22836,14 @@ class $$DepartmentsTableTableManager
                 Value<int?> siteId = const Value.absent(),
                 Value<bool> active = const Value.absent(),
                 required DateTime createdAt,
+                Value<String?> category = const Value.absent(),
               }) => DepartmentsCompanion.insert(
                 id: id,
                 name: name,
                 siteId: siteId,
                 active: active,
                 createdAt: createdAt,
+                category: category,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -26217,6 +26452,7 @@ typedef $$OrganisationsTableCreateCompanionBuilder =
       Value<int?> ownerUserId,
       Value<bool> employeeGradedBarsEnabled,
       Value<bool> rosterAddonEnabled,
+      Value<bool> demoDataCleared,
     });
 typedef $$OrganisationsTableUpdateCompanionBuilder =
     OrganisationsCompanion Function({
@@ -26231,6 +26467,7 @@ typedef $$OrganisationsTableUpdateCompanionBuilder =
       Value<int?> ownerUserId,
       Value<bool> employeeGradedBarsEnabled,
       Value<bool> rosterAddonEnabled,
+      Value<bool> demoDataCleared,
     });
 
 final class $$OrganisationsTableReferences
@@ -26397,6 +26634,11 @@ class $$OrganisationsTableFilterComposer
 
   ColumnFilters<bool> get rosterAddonEnabled => $composableBuilder(
     column: $table.rosterAddonEnabled,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get demoDataCleared => $composableBuilder(
+    column: $table.demoDataCleared,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -26583,6 +26825,11 @@ class $$OrganisationsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<bool> get demoDataCleared => $composableBuilder(
+    column: $table.demoDataCleared,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$UsersTableOrderingComposer get ownerUserId {
     final $$UsersTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -26651,6 +26898,11 @@ class $$OrganisationsTableAnnotationComposer
 
   GeneratedColumn<bool> get rosterAddonEnabled => $composableBuilder(
     column: $table.rosterAddonEnabled,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get demoDataCleared => $composableBuilder(
+    column: $table.demoDataCleared,
     builder: (column) => column,
   );
 
@@ -26824,6 +27076,7 @@ class $$OrganisationsTableTableManager
                 Value<int?> ownerUserId = const Value.absent(),
                 Value<bool> employeeGradedBarsEnabled = const Value.absent(),
                 Value<bool> rosterAddonEnabled = const Value.absent(),
+                Value<bool> demoDataCleared = const Value.absent(),
               }) => OrganisationsCompanion(
                 id: id,
                 name: name,
@@ -26836,6 +27089,7 @@ class $$OrganisationsTableTableManager
                 ownerUserId: ownerUserId,
                 employeeGradedBarsEnabled: employeeGradedBarsEnabled,
                 rosterAddonEnabled: rosterAddonEnabled,
+                demoDataCleared: demoDataCleared,
               ),
           createCompanionCallback:
               ({
@@ -26850,6 +27104,7 @@ class $$OrganisationsTableTableManager
                 Value<int?> ownerUserId = const Value.absent(),
                 Value<bool> employeeGradedBarsEnabled = const Value.absent(),
                 Value<bool> rosterAddonEnabled = const Value.absent(),
+                Value<bool> demoDataCleared = const Value.absent(),
               }) => OrganisationsCompanion.insert(
                 id: id,
                 name: name,
@@ -26862,6 +27117,7 @@ class $$OrganisationsTableTableManager
                 ownerUserId: ownerUserId,
                 employeeGradedBarsEnabled: employeeGradedBarsEnabled,
                 rosterAddonEnabled: rosterAddonEnabled,
+                demoDataCleared: demoDataCleared,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -29388,6 +29644,8 @@ typedef $$EquipmentInstancesTableCreateCompanionBuilder =
       Value<int?> areaId,
       Value<int?> siteId,
       Value<bool> active,
+      Value<String?> model,
+      Value<String?> serialNumber,
     });
 typedef $$EquipmentInstancesTableUpdateCompanionBuilder =
     EquipmentInstancesCompanion Function({
@@ -29397,6 +29655,8 @@ typedef $$EquipmentInstancesTableUpdateCompanionBuilder =
       Value<int?> areaId,
       Value<int?> siteId,
       Value<bool> active,
+      Value<String?> model,
+      Value<String?> serialNumber,
     });
 
 final class $$EquipmentInstancesTableReferences
@@ -29526,6 +29786,16 @@ class $$EquipmentInstancesTableFilterComposer
 
   ColumnFilters<bool> get active => $composableBuilder(
     column: $table.active,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get model => $composableBuilder(
+    column: $table.model,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get serialNumber => $composableBuilder(
+    column: $table.serialNumber,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -29673,6 +29943,16 @@ class $$EquipmentInstancesTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get model => $composableBuilder(
+    column: $table.model,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get serialNumber => $composableBuilder(
+    column: $table.serialNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$EquipmentTypesTableOrderingComposer get equipmentTypeId {
     final $$EquipmentTypesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -29760,6 +30040,14 @@ class $$EquipmentInstancesTableAnnotationComposer
 
   GeneratedColumn<bool> get active =>
       $composableBuilder(column: $table.active, builder: (column) => column);
+
+  GeneratedColumn<String> get model =>
+      $composableBuilder(column: $table.model, builder: (column) => column);
+
+  GeneratedColumn<String> get serialNumber => $composableBuilder(
+    column: $table.serialNumber,
+    builder: (column) => column,
+  );
 
   $$EquipmentTypesTableAnnotationComposer get equipmentTypeId {
     final $$EquipmentTypesTableAnnotationComposer composer = $composerBuilder(
@@ -29926,6 +30214,8 @@ class $$EquipmentInstancesTableTableManager
                 Value<int?> areaId = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
                 Value<bool> active = const Value.absent(),
+                Value<String?> model = const Value.absent(),
+                Value<String?> serialNumber = const Value.absent(),
               }) => EquipmentInstancesCompanion(
                 id: id,
                 name: name,
@@ -29933,6 +30223,8 @@ class $$EquipmentInstancesTableTableManager
                 areaId: areaId,
                 siteId: siteId,
                 active: active,
+                model: model,
+                serialNumber: serialNumber,
               ),
           createCompanionCallback:
               ({
@@ -29942,6 +30234,8 @@ class $$EquipmentInstancesTableTableManager
                 Value<int?> areaId = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
                 Value<bool> active = const Value.absent(),
+                Value<String?> model = const Value.absent(),
+                Value<String?> serialNumber = const Value.absent(),
               }) => EquipmentInstancesCompanion.insert(
                 id: id,
                 name: name,
@@ -29949,6 +30243,8 @@ class $$EquipmentInstancesTableTableManager
                 areaId: areaId,
                 siteId: siteId,
                 active: active,
+                model: model,
+                serialNumber: serialNumber,
               ),
           withReferenceMapper: (p0) => p0
               .map(

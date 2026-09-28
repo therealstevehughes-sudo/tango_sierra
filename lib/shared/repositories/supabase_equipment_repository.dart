@@ -66,6 +66,8 @@ class SupabaseEquipmentRepository implements EquipmentRepository {
     required int equipmentTypeId,
     int? areaId,
     required int siteId,
+    String? model,
+    String? serialNumber,
   }) async {
     final trimmed = name.trim();
     await _checkNotDuplicate(siteId: siteId, name: trimmed);
@@ -74,8 +76,23 @@ class SupabaseEquipmentRepository implements EquipmentRepository {
       'equipment_type_id': equipmentTypeId,
       'area_id': areaId,
       'site_id': siteId,
+      'model': model,
+      'serial_number': serialNumber,
     });
     return _toModel(row);
+  }
+
+  @override
+  Future<void> updateDetails(
+    int id, {
+    String? model,
+    String? serialNumber,
+  }) async {
+    await _client.update(
+      'equipment_instances',
+      filter: 'id=eq.$id',
+      body: {'model': model, 'serial_number': serialNumber},
+    );
   }
 
   @override
@@ -157,5 +174,7 @@ class SupabaseEquipmentRepository implements EquipmentRepository {
     areaId: row['area_id'] as int?,
     siteId: row['site_id'] as int,
     active: row['active'] as bool,
+    model: row['model'] as String?,
+    serialNumber: row['serial_number'] as String?,
   );
 }

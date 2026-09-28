@@ -24,10 +24,12 @@ class SupabaseDepartmentRepository implements DepartmentRepository {
   Future<Department> create({
     required String name,
     required int siteId,
+    DepartmentCategory? category,
   }) async {
     final row = await _client.insertOne('departments', {
       'name': name,
       'site_id': siteId,
+      'category': category?.name,
     });
     return _toModel(row);
   }
@@ -50,11 +52,21 @@ class SupabaseDepartmentRepository implements DepartmentRepository {
     );
   }
 
+  @override
+  Future<void> setCategory(int id, DepartmentCategory? category) async {
+    await _client.update(
+      'departments',
+      filter: 'id=eq.$id',
+      body: {'category': category?.name},
+    );
+  }
+
   Department _toModel(Map<String, dynamic> row) => Department(
     id: row['id'] as int,
     name: row['name'] as String,
     siteId: row['site_id'] as int,
     active: row['active'] as bool,
     createdAt: DateTime.parse(row['created_at'] as String),
+    category: departmentCategoryFromString(row['category'] as String?),
   );
 }

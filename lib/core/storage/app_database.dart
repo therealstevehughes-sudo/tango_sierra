@@ -428,6 +428,12 @@ class EquipmentInstances extends Table {
   IntColumn get areaId => integer().nullable().references(Areas, #id)();
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
+  // Model/serial number (2026-09-28, direct founder request) — helps
+  // ordering the right replacement part when something breaks. Both
+  // nullable/optional: most equipment gets added without these today, and
+  // they can be filled in later without forcing it at creation time.
+  TextColumn get model => text().nullable()();
+  TextColumn get serialNumber => text().nullable()();
 }
 
 @DataClassName('TaskScheduleEntity')
@@ -515,6 +521,9 @@ class Departments extends Table {
   IntColumn get siteId => integer().nullable().references(Sites, #id)();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
   DateTimeColumn get createdAt => dateTime()();
+  // Category (2026-09-28) — see Department's own doc comment (department.dart)
+  // for why this is independent of the free-text name above.
+  TextColumn get category => text().nullable()();
 }
 
 // Teams (2026-09-18) — a finer subdivision within a Department, e.g. "Night
@@ -763,6 +772,16 @@ class Organisations extends Table {
   // than a generalized add-ons table, same reasoning as
   // employeeGradedBarsEnabled above.
   BoolColumn get rosterAddonEnabled =>
+      boolean().withDefault(const Constant(false))();
+  // "Clear Demo Data" (2026-09-28, direct founder request) — once a local
+  // demo install's seed staff/branches are wiped via AppDatabase.
+  // clearDemoData(), this stops `beforeOpen` from silently reseeding them
+  // straight back on the next launch (every seed step elsewhere in this
+  // file is deliberately idempotent/always-reapplied, which is exactly
+  // wrong once someone has chosen to start with a genuinely clean slate).
+  // The Organisation row itself is kept (not deleted) specifically so this
+  // flag has somewhere to live — see clearDemoData()'s own doc comment.
+  BoolColumn get demoDataCleared =>
       boolean().withDefault(const Constant(false))();
 }
 
@@ -1085,7 +1104,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 53;
+  int get schemaVersion => 55;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1555,6 +1574,19 @@ class AppDatabase extends _$AppDatabase {
         // Roster add-on toggle (2026-09-27).
         await m.addColumn(organisations, organisations.rosterAddonEnabled);
       }
+      if (from < 54) {
+        // "Clear Demo Data" flag (2026-09-28).
+        await m.addColumn(organisations, organisations.demoDataCleared);
+      }
+      if (from < 55) {
+        // Department category + equipment model/serial number (2026-09-28).
+        await m.addColumn(departments, departments.category);
+        await m.addColumn(equipmentInstances, equipmentInstances.model);
+        await m.addColumn(
+          equipmentInstances,
+          equipmentInstances.serialNumber,
+        );
+      }
     },
     beforeOpen: (details) async {
       // Phase C1a — the fake company / venue / people are demo scaffolding
@@ -1563,7 +1595,17 @@ class AppDatabase extends _$AppDatabase {
       // instead. Shipped REFERENCE content below (equipment types, venue
       // types, the ~150-task library) is NOT gated — every tenant needs it.
       int? defaultSiteId;
-      if (kSeedDemoData) {
+      // "Clear Demo Data" (2026-09-28) — once set, every demo-seeding step
+      // below is skipped entirely, permanently, even though kSeedDemoData
+      // itself never changes for a given build. Checked against whatever
+      // Organisation row already exists (there's at most one in local
+      // mode) — no row yet at all means a genuine first launch, so
+      // seeding proceeds normally.
+      final existingOrg = await select(organisations).get();
+      final demoDataCleared =
+          existingOrg.isNotEmpty && existingOrg.first.demoDataCleared;
+
+      if (kSeedDemoData && !demoDataCleared) {
         // Runs first — demo-user seeding below needs a real site id.
         defaultSiteId = await _ensureDefaultOrganisationAndSite();
 
@@ -1580,6 +1622,15 @@ class AppDatabase extends _$AppDatabase {
         // this column did — see the function doc for why `ensure` above
         // alone isn't enough.
         await _ensureSeedUserJobRoles();
+
+        // Org chart depth + a second branch (2026-09-28) — see each
+        // function's own doc comment.
+        await _ensureSeedGmTitle();
+        await _ensureSeedOrgChart(defaultSiteId);
+        final organisationId = existingOrg.isNotEmpty
+            ? existingOrg.first.id
+            : (await select(organisations).get()).first.id;
+        await _ensureSecondDemoSite(organisationId);
       }
 
       // Always ensured (not gated on "table empty"), so an existing install
@@ -1692,6 +1743,18 @@ class AppDatabase extends _$AppDatabase {
     'Jordan Blake': 'management',
     'Marcus Webb': 'management',
     'Alex Rivera': 'management',
+    // Org chart depth (2026-09-28, direct founder request) — the original
+    // 10 seed users had no reporting hierarchy at all (a flat list), which
+    // didn't demonstrate Branch Team Structure's tree view properly. These
+    // 6 fill out a real GM -> (F&B Manager, Duty Manager) -> Kitchen /
+    // Functions & Events branching shape — see _seedOrgChartManager/
+    // _seedOrgChartDepartment below for the actual reporting lines.
+    'Chloe Bennett': 'management',
+    'Marco Rossi': 'management',
+    'Ryan Osei': 'management',
+    'Dave Kowalski': 'bar',
+    'Sofia Martins': 'frontOfHouse',
+    'Tom Baker': 'frontOfHouse',
   };
 
   Future<void> _ensureSeedUsers(int siteId) async {
@@ -1716,65 +1779,359 @@ class AppDatabase extends _$AppDatabase {
       );
     }
 
-    await ensure(
-      name: 'Steve Hughes',
-      jobTitle: 'Kitchen Porter',
-      roleTier: 'base',
-      pin: '1111',
+    // First-launch cold-open time (2026-09-28, direct user report) — up to
+    // 16 individual inserts on a genuinely fresh install; one transaction
+    // avoids 16 separate commits.
+    await transaction(() async {
+      await ensure(
+        name: 'Steve Hughes',
+        jobTitle: 'Kitchen Porter',
+        roleTier: 'base',
+        pin: '1111',
+      );
+      await ensure(
+        name: 'Aisha Khan',
+        jobTitle: 'Line Chef',
+        roleTier: 'base',
+        pin: '2222',
+      );
+      await ensure(
+        name: 'Marta Nowak',
+        jobTitle: 'Prep Chef',
+        roleTier: 'base',
+        pin: '3333',
+      );
+      await ensure(
+        name: 'Lewis Grant',
+        jobTitle: 'Sous Chef',
+        roleTier: 'base',
+        pin: '4444',
+      );
+      await ensure(
+        name: 'Elena Petrov',
+        jobTitle: 'Commis Chef',
+        roleTier: 'base',
+        pin: '5555',
+      );
+      await ensure(
+        name: 'Samir Ali',
+        jobTitle: 'Grill Chef',
+        roleTier: 'base',
+        pin: '6666',
+      );
+      await ensure(
+        name: 'Priya Shah',
+        jobTitle: 'Duty Manager',
+        roleTier: 'supervisor',
+        pin: '8888',
+      );
+      await ensure(
+        name: 'Jordan Blake',
+        jobTitle: 'Head Chef / Kitchen Manager',
+        roleTier: 'venueManager',
+        pin: '9999',
+      );
+      await ensure(
+        name: 'Marcus Webb',
+        jobTitle: 'Regional Manager',
+        roleTier: 'regional',
+        pin: '5678',
+      );
+      await ensure(
+        name: 'Alex Rivera',
+        jobTitle: 'Director / MD',
+        roleTier: 'executive',
+        pin: '7777',
+      );
+      // Org chart depth (2026-09-28) — see _seedUserJobRoles' own doc
+      // comment. reportsToUserId/departmentId are set separately by
+      // _ensureSeedOrgChart, not here, since that step needs every named
+      // person's real row id first (including the 4 pre-existing chefs
+      // above, which this function itself may skip inserting if they
+      // already exist on this device).
+      await ensure(
+        name: 'Chloe Bennett',
+        jobTitle: 'F&B Manager',
+        roleTier: 'supervisor',
+        pin: '1122',
+      );
+      await ensure(
+        name: 'Marco Rossi',
+        jobTitle: 'Executive Chef',
+        roleTier: 'supervisor',
+        pin: '3344',
+      );
+      await ensure(
+        name: 'Ryan Osei',
+        jobTitle: 'Functions & Events Supervisor',
+        roleTier: 'supervisor',
+        pin: '5566',
+      );
+      await ensure(
+        name: 'Dave Kowalski',
+        jobTitle: 'Bartender',
+        roleTier: 'base',
+        pin: '7788',
+      );
+      await ensure(
+        name: 'Sofia Martins',
+        jobTitle: 'Waiter',
+        roleTier: 'base',
+        pin: '9900',
+      );
+      await ensure(
+        name: 'Tom Baker',
+        jobTitle: 'Waiter',
+        roleTier: 'base',
+        pin: '1212',
+      );
+    });
+  }
+
+  // GM title correction (2026-09-28) — Jordan Blake was the seed org's top
+  // person before the org-chart depth pass above; "General Manager" fits
+  // that root-of-the-tree role better than the old "Head Chef / Kitchen
+  // Manager" title now that a dedicated Executive Chef exists for the
+  // kitchen. Only renames the exact old string, so a device where someone
+  // has already manually retitled Jordan Blake is never overwritten.
+  Future<void> _ensureSeedGmTitle() async {
+    final row = await (select(
+      users,
+    )..where((u) => u.name.equals('Jordan Blake'))).getSingleOrNull();
+    if (row == null || row.jobTitle != 'Head Chef / Kitchen Manager') return;
+    await (update(users)..where((u) => u.id.equals(row.id))).write(
+      const UsersCompanion(jobTitle: Value('General Manager')),
     );
-    await ensure(
-      name: 'Aisha Khan',
-      jobTitle: 'Line Chef',
-      roleTier: 'base',
-      pin: '2222',
+  }
+
+  // Org chart depth (2026-09-28) — the actual reporting lines/department
+  // assignments for the tree described in _seedUserJobRoles' doc comment.
+  // Only backfills a still-NULL reportsToUserId/departmentId (same "never
+  // clobber a real edit" rule _ensureSeedUserJobRoles already follows) —
+  // a manager who's manually changed a demo person's manager or
+  // department via the real app keeps that change on every future launch.
+  static const _seedOrgChartManager = {
+    'Priya Shah': 'Jordan Blake',
+    'Chloe Bennett': 'Jordan Blake',
+    'Marco Rossi': 'Chloe Bennett',
+    'Lewis Grant': 'Marco Rossi',
+    'Aisha Khan': 'Lewis Grant',
+    'Elena Petrov': 'Lewis Grant',
+    'Samir Ali': 'Lewis Grant',
+    'Marta Nowak': 'Lewis Grant',
+    'Steve Hughes': 'Lewis Grant',
+    'Ryan Osei': 'Chloe Bennett',
+    'Dave Kowalski': 'Ryan Osei',
+    'Sofia Martins': 'Ryan Osei',
+    'Tom Baker': 'Ryan Osei',
+  };
+
+  static const _seedOrgChartDepartment = {
+    'Marco Rossi': 'Kitchen',
+    'Lewis Grant': 'Kitchen',
+    'Aisha Khan': 'Kitchen',
+    'Elena Petrov': 'Kitchen',
+    'Samir Ali': 'Kitchen',
+    'Marta Nowak': 'Kitchen',
+    'Steve Hughes': 'Kitchen',
+    'Ryan Osei': 'Functions & Events',
+    'Dave Kowalski': 'Functions & Events',
+    'Sofia Martins': 'Functions & Events',
+    'Tom Baker': 'Functions & Events',
+  };
+
+  Future<Map<String, int>> _ensureSeedDepartments(
+    int siteId,
+    Map<String, String> namesToCategory,
+  ) async {
+    final existing = await (select(
+      departments,
+    )..where((d) => d.siteId.equals(siteId))).get();
+    final result = {for (final d in existing) d.name: d.id};
+    for (final entry in namesToCategory.entries) {
+      if (result.containsKey(entry.key)) continue;
+      final id = await into(departments).insert(
+        DepartmentsCompanion.insert(
+          name: entry.key,
+          siteId: Value(siteId),
+          createdAt: DateTime.now(),
+          category: Value(entry.value),
+        ),
+      );
+      result[entry.key] = id;
+    }
+    return result;
+  }
+
+  Future<void> _ensureSeedOrgChart(int mainSiteId) async {
+    final departmentIds = await _ensureSeedDepartments(mainSiteId, const {
+      'Kitchen': 'kitchen',
+      'Functions & Events': 'frontOfHouse',
+    });
+    final allUsers = await select(users).get();
+    final idByName = {for (final u in allUsers) u.name: u.id};
+
+    // First-launch cold-open time (2026-09-28, direct user report) — this
+    // can touch up to 13 rows on a genuinely fresh install; one
+    // transaction for all of them avoids 13 separate commits, matching
+    // the same real cold-open concern the splash screen's own doc comment
+    // already flags for this file's other heavy seed steps.
+    await transaction(() async {
+      for (final row in allUsers) {
+        final managerName = _seedOrgChartManager[row.name];
+        final departmentName = _seedOrgChartDepartment[row.name];
+        final managerId = managerName == null ? null : idByName[managerName];
+        final departmentId = departmentName == null
+            ? null
+            : departmentIds[departmentName];
+
+        final updates = <String, dynamic>{};
+        if (row.reportsToUserId == null && managerId != null) {
+          updates['manager'] = managerId;
+        }
+        if (row.departmentId == null && departmentId != null) {
+          updates['department'] = departmentId;
+        }
+        if (updates.isEmpty) continue;
+
+        await (update(users)..where((u) => u.id.equals(row.id))).write(
+          UsersCompanion(
+            reportsToUserId: updates.containsKey('manager')
+                ? Value(updates['manager'] as int)
+                : const Value.absent(),
+            departmentId: updates.containsKey('department')
+                ? Value(updates['department'] as int)
+                : const Value.absent(),
+          ),
+        );
+      }
+    });
+  }
+
+  // Second demo branch (2026-09-28, direct founder request) — a single-
+  // site demo install can never show real branching in the Head Office
+  // "Organisation" tree (OrganisationTreeScreen), which aggregates
+  // multiple sites. A small (3-person) second site is enough to
+  // demonstrate that view without doubling the whole build's seed data.
+  Future<void> _ensureSecondDemoSite(int organisationId) async {
+    final existingSites = await (select(
+      sites,
+    )..where((s) => s.name.equals('Riverside Branch'))).get();
+    final siteId = existingSites.isNotEmpty
+        ? existingSites.first.id
+        : await into(sites).insert(
+            SitesCompanion.insert(
+              organisationId: organisationId,
+              name: 'Riverside Branch',
+              createdAt: DateTime.now(),
+            ),
+          );
+
+    final existingNames = (await select(
+      users,
+    ).get()).map((row) => row.name).toSet();
+
+    Future<void> ensure({
+      required String name,
+      required String jobTitle,
+      required String roleTier,
+      required String pin,
+      required String jobRole,
+    }) async {
+      if (existingNames.contains(name)) return;
+      await _insertSeedUser(
+        name: name,
+        jobTitle: jobTitle,
+        roleTier: roleTier,
+        pin: pin,
+        jobRole: jobRole,
+        siteId: siteId,
+      );
+    }
+
+    // First-launch cold-open time (2026-09-28, direct user report) — same
+    // reasoning as the other two seed functions' own transaction wraps.
+    await transaction(() async {
+      await ensure(
+        name: 'Nadia Cole',
+        jobTitle: 'General Manager',
+        roleTier: 'venueManager',
+        pin: '2323',
+        jobRole: 'management',
+      );
+      await ensure(
+        name: 'Ben Turner',
+        jobTitle: 'Duty Manager',
+        roleTier: 'supervisor',
+        pin: '3434',
+        jobRole: 'management',
+      );
+      await ensure(
+        name: 'Isla Fraser',
+        jobTitle: 'Kitchen Porter',
+        roleTier: 'base',
+        pin: '4545',
+        jobRole: 'kitchenPorter',
+      );
+
+      // Reporting lines, same "only backfill a null" rule as
+      // _ensureSeedOrgChart above.
+      final branchUsers = await (select(
+        users,
+      )..where((u) => u.siteId.equals(siteId))).get();
+      final idByName = {for (final u in branchUsers) u.name: u.id};
+      final nadiaId = idByName['Nadia Cole'];
+      if (nadiaId == null) return;
+      for (final row in branchUsers) {
+        if (row.name == 'Nadia Cole' || row.reportsToUserId != null) continue;
+        await (update(users)..where((u) => u.id.equals(row.id))).write(
+          UsersCompanion(reportsToUserId: Value(nadiaId)),
+        );
+      }
+    });
+  }
+
+  // "Clear Demo Data" (2026-09-28, direct founder request) — lets someone
+  // trying the demo/trial build wipe every seeded staff member, branch,
+  // and department with one action, landing on the exact same empty-state
+  // screen (LoginScreen's _FreshInstallEntry -> "Get started" -> real
+  // signup/join flow) a genuinely fresh --dart-define=SEED_DEMO_DATA=false
+  // install already shows — no new landing screen needed, since that path
+  // is already the correct one for "start using this for real."
+  //
+  // The Organisation row is deliberately KEPT, not deleted — it's the only
+  // place demoDataCleared can persist so beforeOpen's seeding step above
+  // stays permanently skipped from here on, even across app restarts,
+  // even though kSeedDemoData itself never changes for this build.
+  //
+  // Deletion order matters even though SQLite's own FK enforcement may or
+  // may not be strict here: every nullable FK column on `users` is cleared
+  // FIRST (including reportsToUserId/deactivatedByUserId, which
+  // self-reference other rows in the same table being deleted), so no
+  // step below can ever hit a dangling reference regardless of enforcement
+  // mode. Deliberately does NOT chase down every historically-dependent
+  // row (task submissions, photos, shift claims, etc.) in other tables —
+  // "demo staff, branches, and departments" is the founder's own scope for
+  // this action, and an orphaned historical row is unreachable/harmless
+  // once nothing queries it through a live site/user context.
+  Future<void> clearDemoData() async {
+    await update(users).write(
+      const UsersCompanion(
+        siteId: Value(null),
+        departmentId: Value(null),
+        teamId: Value(null),
+        regionId: Value(null),
+        reportsToUserId: Value(null),
+        deactivatedByUserId: Value(null),
+      ),
     );
-    await ensure(
-      name: 'Marta Nowak',
-      jobTitle: 'Prep Chef',
-      roleTier: 'base',
-      pin: '3333',
-    );
-    await ensure(
-      name: 'Lewis Grant',
-      jobTitle: 'Sous Chef',
-      roleTier: 'base',
-      pin: '4444',
-    );
-    await ensure(
-      name: 'Elena Petrov',
-      jobTitle: 'Commis Chef',
-      roleTier: 'base',
-      pin: '5555',
-    );
-    await ensure(
-      name: 'Samir Ali',
-      jobTitle: 'Grill Chef',
-      roleTier: 'base',
-      pin: '6666',
-    );
-    await ensure(
-      name: 'Priya Shah',
-      jobTitle: 'Duty Manager',
-      roleTier: 'supervisor',
-      pin: '8888',
-    );
-    await ensure(
-      name: 'Jordan Blake',
-      jobTitle: 'Head Chef / Kitchen Manager',
-      roleTier: 'venueManager',
-      pin: '9999',
-    );
-    await ensure(
-      name: 'Marcus Webb',
-      jobTitle: 'Regional Manager',
-      roleTier: 'regional',
-      pin: '5678',
-    );
-    await ensure(
-      name: 'Alex Rivera',
-      jobTitle: 'Director / MD',
-      roleTier: 'executive',
-      pin: '7777',
+    await delete(users).go();
+    await delete(teams).go();
+    await delete(departments).go();
+    await delete(sites).go();
+    await delete(regions).go();
+    await update(organisations).write(
+      const OrganisationsCompanion(demoDataCleared: Value(true)),
     );
   }
 

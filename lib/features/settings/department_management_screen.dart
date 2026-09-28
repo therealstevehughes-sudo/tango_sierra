@@ -98,29 +98,105 @@ class _DepartmentManagementScreenState
     return name.isEmpty ? null : name;
   }
 
+  // Category picker (2026-09-28, direct founder request) — a separate
+  // dialog from _promptForName rather than folding a dropdown into it,
+  // since "name" and "category" are independent concepts (see
+  // Department's own doc comment): a venue can have two differently-named
+  // kitchens, both tagged with the same Kitchen category. Returns null on
+  // cancel; returns an explicit `DepartmentCategory?` (nullable inside the
+  // result) on save, where null means "no category" was deliberately kept.
+  Future<(String, DepartmentCategory?)?> _promptForDepartment({
+    required String title,
+    String initialName = '',
+    DepartmentCategory? initialCategory,
+  }) async {
+    final nameController = TextEditingController(text: initialName);
+    var selectedCategory = initialCategory;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text(title),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(labelText: 'Name'),
+                autofocus: true,
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<DepartmentCategory?>(
+                initialValue: selectedCategory,
+                decoration: const InputDecoration(labelText: 'Category'),
+                items: [
+                  const DropdownMenuItem(value: null, child: Text('None')),
+                  for (final category in DepartmentCategory.values)
+                    DropdownMenuItem(
+                      value: category,
+                      child: Text(departmentCategoryDisplayName(category)),
+                    ),
+                ],
+                onChanged: (value) =>
+                    setDialogState(() => selectedCategory = value),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Save'),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (confirmed != true) return null;
+    final name = nameController.text.trim();
+    if (name.isEmpty) return null;
+    return (name, selectedCategory);
+  }
+
   Future<void> _addDepartment() async {
-    final name = await _promptForName(title: 'Add Department');
-    if (name == null) return;
+    final result = await _promptForDepartment(title: 'Add Department');
+    if (result == null) return;
+    final (name, category) = result;
 
     final currentUser = ref.read(currentUserProvider);
     if (currentUser == null) return;
 
     final repo = ref.read(departmentRepositoryProvider);
-    await repo.create(name: name, siteId: currentUser.siteId!);
+    await repo.create(
+      name: name,
+      siteId: currentUser.siteId!,
+      category: category,
+    );
 
     if (!mounted) return;
     await _loadData();
   }
 
   Future<void> _renameDepartment(Department department) async {
-    final name = await _promptForName(
-      title: 'Rename - ${department.name}',
-      initial: department.name,
+    final result = await _promptForDepartment(
+      title: 'Edit - ${department.name}',
+      initialName: department.name,
+      initialCategory: department.category,
     );
-    if (name == null) return;
+    if (result == null) return;
+    final (name, category) = result;
 
     final repo = ref.read(departmentRepositoryProvider);
-    await repo.rename(department.id!, name);
+    if (name != department.name) {
+      await repo.rename(department.id!, name);
+    }
+    if (category != department.category) {
+      await repo.setCategory(department.id!, category);
+    }
 
     if (!mounted) return;
     await _loadData();
@@ -210,11 +286,15 @@ class _DepartmentManagementScreenState
         collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         title: Text(department.name),
         subtitle: Text(
-          department.active
-              ? (teams.isEmpty
-                    ? 'No teams yet'
-                    : '${teams.length} team${teams.length == 1 ? '' : 's'}')
-              : '(inactive)',
+          [
+            if (department.category != null)
+              departmentCategoryDisplayName(department.category!),
+            department.active
+                ? (teams.isEmpty
+                      ? 'No teams yet'
+                      : '${teams.length} team${teams.length == 1 ? '' : 's'}')
+                : '(inactive)',
+          ].join(' · '),
         ),
         trailing: PopupMenuButton<_DepartmentAction>(
           tooltip: 'More actions',
@@ -229,7 +309,7 @@ class _DepartmentManagementScreenState
           itemBuilder: (context) => [
             const PopupMenuItem(
               value: _DepartmentAction.rename,
-              child: Text('Rename'),
+              child: Text('Edit'),
             ),
             PopupMenuItem(
               value: _DepartmentAction.toggleActive,
