@@ -13,6 +13,7 @@ import '../../shared/providers/shift_providers.dart';
 import '../../shared/providers/site_providers.dart'
     show organisationRepositoryProvider, currentSiteProvider, activeSiteProvider;
 import 'shift_reliability_service.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Roster add-on, Phase R3 (2026-09-27) — the staff-facing side: browse
 // open shifts at your own site, claim one (race-safe — see
@@ -145,7 +146,7 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
         : ref.watch(shiftsStreamForSiteProvider(_siteId!));
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Available Shifts'),
         actions: const [AssistantIconButton()],
       ),

@@ -12,6 +12,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
 import '../suppliers/supplier_detail_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 enum _SupplierAction { editDetails, changeApprovalStatus, toggleActive }
 
@@ -346,17 +347,15 @@ class _SupplierManagementScreenState
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Supplier Management'),
         actions: const [AssistantIconButton()],
       ),
       drawer: const ManagementDrawer(title: 'Supplier Management'),
-      body: SafeArea(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: ResponsiveContent(
           child: suppliers.isEmpty
               ? const Center(child: Text('No suppliers added yet.'))

@@ -10,6 +10,7 @@ import '../../shared/models/training_record.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/training_record_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 class TrainingRecordsScreen extends ConsumerStatefulWidget {
   const TrainingRecordsScreen({super.key, required this.staffMember});
@@ -192,20 +193,18 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     final current = latestPerItem(records);
     current.sort((a, b) => a.displayTitle.compareTo(b.displayTitle));
     final supersededCount = records.length - current.length;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: Text('Training Records - ${widget.staffMember.name}'),
         actions: const [AssistantIconButton()],
       ),
-      body: SafeArea(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: ResponsiveContent(
           child: records.isEmpty
               ? const Center(child: Text('No training records yet.'))

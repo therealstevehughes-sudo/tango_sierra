@@ -10,6 +10,7 @@ import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Photo-evidence P1 (Sprint 032, after P0): the "back up to free space"
 // flow PHOTO_EVIDENCE_PLAN.md deliberately deferred so the P0 sprint never
@@ -136,7 +137,7 @@ class _EvidencePruneScreenState extends ConsumerState<EvidencePruneScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Photo Evidence'),
         actions: const [AssistantIconButton()],
       ),

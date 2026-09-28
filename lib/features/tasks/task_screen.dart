@@ -40,6 +40,7 @@ import 'shift_handover_summary_service.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
 import 'task_overview_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 enum _PhotoSource { camera, upload }
 
@@ -777,15 +778,6 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_userMissing) {
-      // `controller` was never initialized — see _userMissing's doc
-      // comment. Nothing below this may touch `controller`.
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     final currentUser = ref.watch(currentUserProvider);
     // Navigation-consistency pass (Sprint 031): the drawer is base-tier's
     // one deliberate exception — a Kitchen Porter still just sees tasks +
@@ -816,6 +808,26 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
             ),
           );
 
+    // The header/drawer render immediately, before `controller` or the
+    // task list is known to be ready — a stuck or failed load must never
+    // strand the user on a header-less blank screen with no way back
+    // (2026-09-28, direct founder bug report). `_userMissing` means
+    // `controller` was never initialized (see its own doc comment):
+    // nothing below this may touch `controller` in that case.
+    if (_userMissing || loading) {
+      return Scaffold(
+        appBar: AppScreenHeader(
+          automaticallyImplyLeading: false,
+          leading: drawerLeading,
+          title: currentUser != null
+              ? UserTitle(user: currentUser)
+              : const Text('Task'),
+        ),
+        drawer: drawer,
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
     if (!controller.hasTasks) {
       return PopScope(
         // Complete-from-the-list (2026-09-25): a normal back gesture just
@@ -824,7 +836,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         // session's own exit path, not a one-off out-of-order completion.
         canPop: !widget.returnToListAfterSubmit,
         child: Scaffold(
-          appBar: AppBar(
+          appBar: AppScreenHeader(
             automaticallyImplyLeading: false,
             leading: drawerLeading,
             title: currentUser != null
@@ -888,7 +900,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppScreenHeader(
           automaticallyImplyLeading: false,
           leading: drawerLeading,
           title: currentUser != null
@@ -1292,7 +1304,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     return PopScope(
       canPop: false,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppScreenHeader(
           automaticallyImplyLeading: false,
           leading: drawerLeading,
           title: currentUser != null

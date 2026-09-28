@@ -24,6 +24,7 @@ import 'delivery_detail_form.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
 import 'verified_threshold_judgment.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Ad-hoc task path (Sprint 038 follow-on, 2026-09-17) — a worker does
 // something that was never scheduled (a delivery nobody set up a check
@@ -225,7 +226,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Do an ad-hoc task'),
         actions: const [AssistantIconButton()],
       ),

@@ -14,6 +14,7 @@ import '../../shared/providers/supervision_providers.dart';
 import '../../shared/providers/team_providers.dart';
 import 'training_records_screen.dart';
 import 'widgets/add_staff_dialog.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Approximate height of a single staff tile Card + padding, for the
 // A–Z quick-jump scroll target calculation. Not pixel-perfect (subtitle
@@ -642,10 +643,6 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     // Alphabetical index for quick-jump: staff are already sorted by name
     // from the repo, so we can compute which letters have at least one
     // entry and create a fast-access index column on the right.
@@ -659,7 +656,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final indexLetters = staffByInitial.keys.toList()..sort();
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Staff Management'),
         actions: [
           IconButton(
@@ -671,7 +668,9 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
         ],
       ),
       drawer: const ManagementDrawer(title: 'Staff Management'),
-      body: SafeArea(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: Row(
           children: [
             Expanded(

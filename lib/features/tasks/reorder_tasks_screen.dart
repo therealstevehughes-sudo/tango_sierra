@@ -15,6 +15,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Manager-configured execution order (Task-reorder, 2026-09-12).
 ///
@@ -243,7 +244,7 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Reorder Tasks'),
         actions: const [AssistantIconButton()],
       ),

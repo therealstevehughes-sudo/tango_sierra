@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/widgets/assistant_icon_button.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 const _lastCameraNamePrefsKey = 'evidence_camera_last_selected_name';
 
@@ -161,7 +162,7 @@ class _CameraCaptureScreenState extends State<CameraCaptureScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Take Photo'),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,

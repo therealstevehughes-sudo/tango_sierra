@@ -19,6 +19,7 @@ import '../onboarding/contact_venurite_screen.dart';
 import '../onboarding/join_company_screen.dart';
 import 'pin_entry.dart';
 import 'senior_login_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -424,7 +425,7 @@ class _ForkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Get started'),
         actions: const [AssistantIconButton()],
       ),
@@ -517,7 +518,7 @@ class _SignInAnotherWayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Sign in another way'),
         actions: const [AssistantIconButton()],
       ),
@@ -714,13 +715,21 @@ class _StaffListState extends State<_StaffList> {
     final kitchenStaff = widget.staff
         .where((u) => u.roleTier == RoleTier.base)
         .toList();
-    final supervisorsAndManagers = widget.staff
-        .where(
-          (u) =>
-              u.roleTier == RoleTier.supervisor ||
-              u.roleTier == RoleTier.venueManager,
-        )
-        .toList();
+    // Hierarchy order, top-down (2026-09-28, direct user report) — was
+    // insertion order before, which put the GM in the middle of the grid
+    // instead of first. Sorted by actual reportsToUserId chain (same
+    // relationship BranchOrgChartScreen's own tree is built from), not by
+    // tier or name, so the General Manager always leads, then their
+    // direct reports, then those reports' own reports.
+    final supervisorsAndManagers = _sortByHierarchy(
+      widget.staff
+          .where(
+            (u) =>
+                u.roleTier == RoleTier.supervisor ||
+                u.roleTier == RoleTier.venueManager,
+          )
+          .toList(),
+    );
 
     final isSearching = query.isNotEmpty;
     final searchResults = isSearching
@@ -831,6 +840,45 @@ class _StaffListState extends State<_StaffList> {
         ),
       ],
     );
+  }
+
+  // Hierarchy order (2026-09-28, direct user report) — pre-order walk of
+  // the reportsToUserId chain within the given group only: a root (no
+  // manager, or a manager outside this group — e.g. a Regional Manager
+  // above the branch) comes first, followed immediately by everyone who
+  // reports to them, then those people's own reports, and so on. Siblings
+  // at the same level are ordered alphabetically for a stable, predictable
+  // result. Mirrors BranchOrgChartScreen's own roots/childrenOf
+  // construction, just flattened into a list instead of a rendered tree.
+  List<User> _sortByHierarchy(List<User> people) {
+    final ids = people.map((u) => u.id).toSet();
+    final childrenOf = <int, List<User>>{};
+    final roots = <User>[];
+    for (final person in people) {
+      final managerId = person.reportsToUserId;
+      if (managerId != null && ids.contains(managerId)) {
+        childrenOf.putIfAbsent(managerId, () => []).add(person);
+      } else {
+        roots.add(person);
+      }
+    }
+    roots.sort((a, b) => a.name.compareTo(b.name));
+    for (final children in childrenOf.values) {
+      children.sort((a, b) => a.name.compareTo(b.name));
+    }
+
+    final ordered = <User>[];
+    void visit(User person) {
+      ordered.add(person);
+      for (final child in childrenOf[person.id] ?? const <User>[]) {
+        visit(child);
+      }
+    }
+
+    for (final root in roots) {
+      visit(root);
+    }
+    return ordered;
   }
 
   // Leadership always shown (2026-09-28) — a fixed section for
@@ -1071,7 +1119,7 @@ class _DepartmentStaffScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: Text(title),
         actions: const [AssistantIconButton()],
       ),

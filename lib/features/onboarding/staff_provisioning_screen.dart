@@ -9,6 +9,7 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Phase C1d — venueManager (branch manager) adds supervisor/base staff
 /// at their OWN site via `provision-staff-pin`. This is the backend-first
@@ -103,7 +104,7 @@ class _StaffProvisioningScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Add Team Member'),
         actions: const [AssistantIconButton()],
       ),

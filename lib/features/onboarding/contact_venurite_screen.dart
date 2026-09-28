@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// First-launch "Contact VenuRite" (2026-09-14) — for anyone who doesn't
 /// fit cleanly into "sign up" or "join an existing company" (an
@@ -22,7 +23,7 @@ class ContactVenuRiteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Contact VenuRite'),
         actions: const [AssistantIconButton()],
       ),

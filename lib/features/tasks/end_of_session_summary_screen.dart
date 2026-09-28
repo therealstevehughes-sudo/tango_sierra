@@ -14,6 +14,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../dashboard/reliability_service.dart';
 import 'task_model.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 class EndOfSessionSummaryScreen extends ConsumerStatefulWidget {
   const EndOfSessionSummaryScreen({super.key, required this.stats});
@@ -126,7 +127,7 @@ class _EndOfSessionSummaryScreenState
     final total = widget.stats.passCount + widget.stats.failCount;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Session Summary'),
         actions: const [AssistantIconButton()],
       ),

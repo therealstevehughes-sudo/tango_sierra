@@ -9,6 +9,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
 import '../auth/senior_login_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Sprint 034 — "Join existing company", the redeem side. For staff,
 /// managers, or anyone else whose company already has a VenuRite
@@ -119,7 +120,7 @@ class _JoinCompanyScreenState extends ConsumerState<JoinCompanyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Join existing company'),
         actions: const [AssistantIconButton()],
       ),

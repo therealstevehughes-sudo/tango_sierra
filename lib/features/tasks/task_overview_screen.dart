@@ -8,6 +8,7 @@ import '../../shared/models/task_segment.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
 import 'task_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Hybrid task view (roadmap v1.1, built 2026-09-15; complete-from-the-list
 // added 2026-09-25, direct user request). Shares the exact same
@@ -70,7 +71,7 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('All Tasks'),
         actions: const [AssistantIconButton()],
       ),

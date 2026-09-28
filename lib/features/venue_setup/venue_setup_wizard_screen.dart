@@ -20,6 +20,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../settings/widgets/add_staff_dialog.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 class VenueSetupWizardScreen extends ConsumerStatefulWidget {
   const VenueSetupWizardScreen({super.key, this.initialStep = 0});
@@ -459,17 +460,18 @@ class _VenueSetupWizardScreenState
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
+    // The header/drawer render unconditionally, loading or not — a stuck
+    // or failed load must never strand the user on a header-less blank
+    // screen with no way back (2026-09-28, direct founder bug report).
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: Text('Venue Setup - Step ${currentStep + 1} of 4'),
         actions: const [AssistantIconButton()],
       ),
       drawer: const ManagementDrawer(title: 'Venue Setup'),
-      body: SafeArea(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: ResponsiveContent(

@@ -5,6 +5,7 @@ import '../onboarding/contact_venurite_screen.dart';
 import 'ask_question_screen.dart';
 import 'faq_screen.dart';
 import 'troubleshooting_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Shown when the AI assistant genuinely can't be reached — no network, or
 /// the backend itself is down/misconfigured (never for "limit reached",
@@ -58,7 +59,7 @@ class HelpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Help')),
+      appBar: AppScreenHeader(title: const Text('Help')),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 480,

@@ -9,6 +9,7 @@ import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import 'pin_entry.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Leadership Access — the private entry point for regional/executive
 /// accounts, reached via the discreet lock icon on the main login screen
@@ -262,7 +263,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
 
   Widget _buildMfaStep(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Two-Factor Verification'),
         actions: const [AssistantIconButton()],
       ),
@@ -334,7 +335,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
       return _buildMfaStep(context);
     }
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Leadership Access'),
         actions: const [AssistantIconButton()],
       ),
@@ -425,7 +426,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Leadership Access'),
         actions: const [AssistantIconButton()],
       ),

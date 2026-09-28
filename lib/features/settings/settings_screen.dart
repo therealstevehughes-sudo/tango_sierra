@@ -21,6 +21,7 @@ import '../../shared/providers/branding_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_submission_providers.dart' show appDatabaseProvider;
 import '../roster/roster_billing_service.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C; Company
 // section added for branding, finalized beta build order item 7). Three
@@ -51,7 +52,7 @@ class SettingsScreen extends ConsumerWidget {
         roleTierRank(currentUser.roleTier) >= roleTierRank(RoleTier.executive);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Settings'),
         actions: const [AssistantIconButton()],
       ),

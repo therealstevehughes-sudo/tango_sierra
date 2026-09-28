@@ -13,6 +13,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Phase C3 (2026-09-14, redesigned same day after live feedback) — the
 /// "interactive org-builder/organogram." First pass showed structure
@@ -322,7 +323,7 @@ class _OrganisationTreeScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Organisation'),
         actions: const [AssistantIconButton()],
       ),

@@ -23,6 +23,7 @@ import '../notifications/escalation_service.dart';
 import '../tasks/overdue_summary_service.dart';
 import 'manager_log_filter.dart';
 import 'overdue_summary_card.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 class ManagerScreen extends ConsumerStatefulWidget {
   const ManagerScreen({super.key});
@@ -242,7 +243,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text('Manager View'),

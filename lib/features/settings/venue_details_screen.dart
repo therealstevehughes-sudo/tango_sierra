@@ -14,6 +14,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/venue_type_providers.dart';
 import 'billing_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 class VenueDetailsScreen extends ConsumerStatefulWidget {
   const VenueDetailsScreen({super.key});
@@ -267,22 +268,20 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     final currentUser = ref.watch(currentUserProvider);
     final backendDataEnabled = ref.watch(backendDataEnabledProvider);
     final activeSite = ref.watch(activeSiteProvider);
     final effectiveActiveId = activeSite?.id ?? _defaultSiteId;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Venue Details'),
         actions: const [AssistantIconButton()],
       ),
       drawer: const ManagementDrawer(title: 'Venue Details'),
-      body: SafeArea(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: ResponsiveContent(

@@ -11,6 +11,7 @@ import '../../shared/models/team.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/team_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 enum _DepartmentAction { rename, toggleActive }
 
@@ -245,17 +246,15 @@ class _DepartmentManagementScreenState
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Department Management'),
         actions: const [AssistantIconButton()],
       ),
       drawer: const ManagementDrawer(title: 'Department Management'),
-      body: SafeArea(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: ResponsiveContent(
           child: departments.isEmpty
               ? const Center(child: Text('No departments added yet.'))

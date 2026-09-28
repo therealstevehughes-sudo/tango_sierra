@@ -15,6 +15,7 @@ import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/issue_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/team_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // PART 2 of the branch-hub build (2026-09-15) — the "Log something that
 // just happened" destination from WorkerHubScreen (base) and
@@ -179,7 +180,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
         ? const <String>[]
         : issueSubtypesFor(_type!);
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Log something that just happened'),
         actions: [
           TextButton.icon(

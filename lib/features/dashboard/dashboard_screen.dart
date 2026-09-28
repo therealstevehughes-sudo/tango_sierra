@@ -15,6 +15,7 @@ import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/models/site.dart';
 import '../tasks/overdue_summary_service.dart';
 import 'reliability_service.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Dashboard + worker recognition, Sub-sprint B (Sprint 031). Venue-scoped —
 // shared by supervisor and venueManager, per the confirmed decision that
@@ -41,7 +42,7 @@ class DashboardScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Dashboard'),
         actions: const [AssistantIconButton()],
       ),

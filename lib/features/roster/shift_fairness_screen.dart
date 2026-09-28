@@ -11,6 +11,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart'
     show organisationRepositoryProvider, currentSiteProvider, activeSiteProvider;
 import 'shift_fairness_service.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Shift fairness pattern review (R6, 2026-09-27) — see
 // shift_fairness_service.dart's doc comment for the non-negotiable
@@ -70,7 +71,7 @@ class _ShiftFairnessScreenState extends ConsumerState<ShiftFairnessScreen> {
   Widget build(BuildContext context) {
     final summary = _summary;
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Shift Fairness Review'),
         actions: const [AssistantIconButton()],
       ),

@@ -9,6 +9,7 @@ import '../../core/widgets/status_badge.dart';
 import '../../shared/models/off_day_request.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/off_day_request_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 import '../../shared/providers/site_providers.dart'
     show organisationRepositoryProvider, currentSiteProvider, activeSiteProvider;
 
@@ -127,7 +128,7 @@ class _RequestOffDayScreenState extends ConsumerState<RequestOffDayScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Request a day off'),
         actions: const [AssistantIconButton()],
       ),

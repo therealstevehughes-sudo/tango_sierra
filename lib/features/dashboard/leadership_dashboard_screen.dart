@@ -21,6 +21,7 @@ import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../../shared/services/supervisor_scope_service.dart';
 import 'leadership_dashboard_service.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 enum _Period { month, week, day }
 
@@ -317,7 +318,7 @@ class _LeadershipDashboardScreenState
     final supervisorHasNoScope =
         _isSupervisor && !_loading && (_allowedUserIds?.isEmpty ?? false);
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Dashboard Overview'),
         actions: const [AssistantIconButton()],
       ),

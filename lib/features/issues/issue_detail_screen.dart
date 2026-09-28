@@ -13,6 +13,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/issue_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
 import '../suppliers/supplier_detail_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // PART 2 of the branch-hub build (2026-09-15) — where Process/Outcome
 // handling happens. Any staff member can OPEN this (to see the full
@@ -262,7 +263,7 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
     final issue = widget.issue;
     final backendAvailable = ref.watch(backendDataEnabledProvider);
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: Text(issueTypeDisplayName(issue.type)),
         actions: const [AssistantIconButton()],
       ),

@@ -21,6 +21,7 @@ import '../../shared/providers/task_preset_providers.dart';
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 class StaffAssignmentScreen extends ConsumerStatefulWidget {
   const StaffAssignmentScreen({super.key});
@@ -528,12 +529,8 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: Text(
           mode == _AssignMode.byTask
               ? 'Assign Tasks'
@@ -555,7 +552,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       // via edge-swipe in that state (pre-existing Scaffold behavior, not
       // new here), same as any screen with a custom leading widget.
       drawer: const ManagementDrawer(title: 'Assign Tasks'),
-      body: SafeArea(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: ResponsiveContent(

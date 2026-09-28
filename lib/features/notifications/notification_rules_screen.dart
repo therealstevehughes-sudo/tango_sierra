@@ -14,6 +14,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 enum _TargetMode { tier, user }
 
@@ -218,17 +219,15 @@ class _NotificationRulesScreenState
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Notification Rules'),
         actions: const [AssistantIconButton()],
       ),
       drawer: const ManagementDrawer(title: 'Notification Rules'),
-      body: SafeArea(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           // Responsive foundation: wider than the 480 default — the

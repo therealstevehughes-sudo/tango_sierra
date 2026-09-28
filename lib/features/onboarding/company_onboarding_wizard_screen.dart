@@ -27,6 +27,7 @@ import '../../shared/repositories/tenant_provisioning_repository.dart';
 import '../../shared/repositories/venue_type_repository.dart';
 import '../auth/senior_login_screen.dart';
 import '../home/tier_home_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Sprint 034 (Customer Onboarding & Billing Foundation) — replaces the
 /// old single-screen `TenantSignupScreen` with the full step-by-step
@@ -366,7 +367,7 @@ class _CompanyOnboardingWizardScreenState
   Widget build(BuildContext context) {
     if (_done != null) {
       return Scaffold(
-        appBar: AppBar(
+        appBar: AppScreenHeader(
           title: const Text('Company created'),
           actions: const [AssistantIconButton()],
         ),
@@ -400,7 +401,7 @@ class _CompanyOnboardingWizardScreenState
     }
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: Text(
           '${_stepTitles[currentStep]} - Step ${currentStep + 1} of $_stepCount',
         ),

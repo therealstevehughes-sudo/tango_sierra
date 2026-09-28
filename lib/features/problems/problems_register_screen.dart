@@ -14,6 +14,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/problem_register_providers.dart';
 import '../../shared/repositories/problem_register_repository.dart';
 import '../issues/issues_register_tab.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Fails & Problems Register (Part A) — a first-class screen at every
 // leadership tier (drawer-gated at supervisor, same floor as Dashboard).
@@ -45,7 +46,7 @@ class _ProblemsRegisterScreenState
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppScreenHeader(
           title: const Text('Fails & Problems Register'),
           bottom: const TabBar(
             tabs: [

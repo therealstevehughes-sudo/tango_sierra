@@ -13,6 +13,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../notifications/escalation_service.dart';
 import 'dashboard_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 class TopScreen extends ConsumerStatefulWidget {
   const TopScreen({super.key});
@@ -57,7 +58,7 @@ class _TopScreenState extends ConsumerState<TopScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text('Top-Tier View'),

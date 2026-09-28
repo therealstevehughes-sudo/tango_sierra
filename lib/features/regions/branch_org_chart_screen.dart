@@ -14,6 +14,7 @@ import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/team_providers.dart';
 import '../settings/widgets/add_staff_dialog.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Chain of command / branch organogram (2026-09-15, upgraded 2026-09-27
 // from read-only to interactive per the founder's original ask: "people
@@ -481,7 +482,7 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
     final managerTier = _managerTier;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Branch Team Structure'),
         actions: [
           IconButton(

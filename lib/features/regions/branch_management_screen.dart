@@ -10,6 +10,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Phase C1c/C1d — regional-tier. Builds branches (Sites) within the
 /// manager's OWN region — RLS scopes `siteRepositoryProvider.getAll()` to
@@ -130,7 +131,7 @@ class _BranchManagementScreenState
     final hasRegion = currentUser?.regionId != null;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Branches'),
         actions: const [AssistantIconButton()],
       ),

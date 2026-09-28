@@ -13,6 +13,7 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/off_day_request_providers.dart';
 import '../../shared/providers/shift_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 import '../../shared/providers/site_providers.dart'
     show organisationRepositoryProvider, currentSiteProvider, activeSiteProvider;
 
@@ -263,7 +264,7 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        appBar: AppBar(
+        appBar: AppScreenHeader(
           title: const Text('Roster Board'),
           actions: [
             if (_addonEnabled)

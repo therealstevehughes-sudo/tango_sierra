@@ -16,6 +16,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/task_preset_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 class PresetManagementScreen extends ConsumerStatefulWidget {
   const PresetManagementScreen({super.key});
@@ -241,17 +242,15 @@ class _PresetManagementScreenState
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Task Presets'),
         actions: const [AssistantIconButton()],
       ),
       drawer: const ManagementDrawer(title: 'Task Presets'),
-      body: SafeArea(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: ResponsiveContent(

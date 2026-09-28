@@ -12,6 +12,7 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Shift log (2026-09-24, direct user request) — a plain "who clocked in/
 // out when" list for management, a habit-tracking signal (see ShiftLog's
@@ -53,7 +54,7 @@ class _ShiftLogScreenState extends ConsumerState<ShiftLogScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Shift Log'),
         actions: const [AssistantIconButton()],
       ),

@@ -10,6 +10,7 @@ import '../../shared/models/subscription.dart';
 import '../../shared/providers/subscription_providers.dart';
 import '../../shared/repositories/subscription_repository.dart';
 import '../../shared/services/billing_service.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // GoCardless billing (2026-09-21) -- executive-only (enforced both by
 // Venue Details only linking here for that tier, and server-side by
@@ -113,7 +114,7 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
     final subscriptionAsync = ref.watch(currentSubscriptionProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Billing'),
         actions: const [AssistantIconButton()],
       ),

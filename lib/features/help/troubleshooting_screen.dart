@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/widgets/responsive_content.dart';
 import 'help_content.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Help section (2026-09-24) — same shape as `FaqScreen`, separate screen
 /// since "what does X mean" and "something's not working" are different
@@ -12,7 +13,7 @@ class TroubleshootingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Troubleshooting')),
+      appBar: AppScreenHeader(title: const Text('Troubleshooting')),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 640,

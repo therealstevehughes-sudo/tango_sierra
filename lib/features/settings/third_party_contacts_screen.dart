@@ -11,6 +11,7 @@ import '../../shared/models/third_party_contact.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/third_party_contact_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 class ThirdPartyContactsScreen extends ConsumerStatefulWidget {
   const ThirdPartyContactsScreen({super.key});
@@ -123,17 +124,15 @@ class _ThirdPartyContactsScreenState
 
   @override
   Widget build(BuildContext context) {
-    if (loading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Maintenance Contacts'),
         actions: const [AssistantIconButton()],
       ),
       drawer: const ManagementDrawer(title: 'Maintenance Contacts'),
-      body: SafeArea(
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: ResponsiveContent(

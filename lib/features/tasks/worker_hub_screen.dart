@@ -20,6 +20,7 @@ import '../roster/request_off_day_screen.dart';
 import '../roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
 import 'ad_hoc_task_screen.dart';
 import 'task_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // PART 3 of the branch-hub build (2026-09-15) — a pre-carousel choice
 // screen for base tier, added ahead of TaskScreen (never replacing it —
@@ -55,7 +56,7 @@ class WorkerHubScreen extends ConsumerWidget {
         .maybeWhen(data: (enabled) => enabled, orElse: () => false);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text('Home'),

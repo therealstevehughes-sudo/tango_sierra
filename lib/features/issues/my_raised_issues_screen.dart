@@ -9,6 +9,7 @@ import '../../shared/models/issue.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/issue_providers.dart';
 import 'issue_detail_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Read-only for base tier (confirmed requirement) — lets a worker see the
 // live status of things they raised without granting them any
@@ -32,7 +33,7 @@ class MyRaisedIssuesScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Things I\'ve reported'),
         actions: [
           const AssistantIconButton(),

@@ -5,6 +5,7 @@ import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Sprint 034 — shown after successfully creating an invite (Regions,
 /// Branches, Staff management). Displays the real single-use token both
@@ -22,7 +23,7 @@ class InviteCodeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final daysLeft = invite.expiresAt.difference(DateTime.now()).inDays;
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Invite created'),
         actions: const [AssistantIconButton()],
       ),

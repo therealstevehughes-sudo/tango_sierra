@@ -12,6 +12,7 @@ import '../../shared/models/issue.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/task_submission.dart';
 import 'supplier_scorecard_service.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Supplier/Delivery Scorecard (Sprint 038, 2026-09-17) — reachable both
 // from Supplier Management (tap a supplier) and from a raised
@@ -130,7 +131,7 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
   Widget build(BuildContext context) {
     final supplier = widget.supplier;
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: Text(supplier.name),
         actions: const [AssistantIconButton()],
       ),

@@ -24,6 +24,7 @@ import '../manager/manager_screen.dart';
 import '../onboarding/setup_checklist_card.dart';
 import '../tasks/overdue_summary_service.dart';
 import '../tasks/task_screen.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Tier home screen (Sprint 031, Build Order item 5, Sub-sprint A) — closes
 // the "My Tasks navigation fix" gap for good: every non-base tier previously
@@ -146,7 +147,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : const Text('Home'),

@@ -7,6 +7,7 @@ import '../../core/widgets/responsive_content.dart';
 import '../../shared/providers/auth_providers.dart' show backendDataEnabledProvider;
 import '../../shared/providers/site_providers.dart' show organisationRepositoryProvider;
 import 'roster_billing_service.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Roster add-on upsell (2026-09-27) — what a locked drawer entry (see
 // management_drawer.dart's _LockedNavTile) opens instead of the real
@@ -97,7 +98,7 @@ class _RosterUpsellScreenState extends ConsumerState<RosterUpsellScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Roster')),
+      appBar: AppScreenHeader(title: const Text('Roster')),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 480,

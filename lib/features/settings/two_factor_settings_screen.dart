@@ -6,6 +6,7 @@ import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Two-factor authentication for senior (regional/executive) GoTrue
 // accounts (roadmap v1.1, built 2026-09-15) — the "planned fast-follow"
@@ -171,7 +172,7 @@ class _TwoFactorSettingsScreenState extends State<TwoFactorSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Two-Factor Authentication'),
         actions: const [AssistantIconButton()],
       ),

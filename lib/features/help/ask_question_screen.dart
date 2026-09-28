@@ -6,6 +6,7 @@ import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/providers/backend_providers.dart';
 import 'help_screen.dart' show showAiOfflineNotice;
+import '../../core/widgets/app_screen_header.dart';
 
 /// AI assistant Q&A (2026-09-27) — the real destination behind Help's
 /// "Ask a question" tile, talking to the `ai-assistant` Edge Function (see
@@ -91,7 +92,7 @@ class _AskQuestionScreenState extends ConsumerState<AskQuestionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Ask a question')),
+      appBar: AppScreenHeader(title: const Text('Ask a question')),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 560,

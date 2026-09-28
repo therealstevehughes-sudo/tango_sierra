@@ -13,6 +13,7 @@ import '../../shared/models/document.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/document_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 // Document Centre (roadmap v1.1, built 2026-09-15) — policies, certs,
 // procedures, EHO reports, plus an expiry summary so a manager sees
@@ -185,7 +186,7 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
         .length;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppScreenHeader(
         title: const Text('Document Centre'),
         actions: [
           const AssistantIconButton(),

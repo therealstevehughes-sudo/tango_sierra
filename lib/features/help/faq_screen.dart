@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/widgets/responsive_content.dart';
 import 'help_content.dart';
+import '../../core/widgets/app_screen_header.dart';
 
 /// Help section (2026-09-24) — a plain expandable Q&A list, reachable
 /// from every tier (see `HelpScreen`). Content is a first-pass draft in
@@ -12,7 +13,7 @@ class FaqScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('FAQ')),
+      appBar: AppScreenHeader(title: const Text('FAQ')),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 640,
