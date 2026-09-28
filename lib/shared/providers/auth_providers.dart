@@ -26,6 +26,7 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
     return SupabaseUserRepository(
       BackendRestClient(() => ref.read(currentBackendAccessTokenProvider)),
       driftRepository,
+      () => ref.read(currentBackendAccessTokenProvider),
     );
   }
   return driftRepository;

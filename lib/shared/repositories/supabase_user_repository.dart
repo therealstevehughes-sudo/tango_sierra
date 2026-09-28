@@ -7,14 +7,13 @@ import '../models/user.dart';
 import 'user_repository.dart';
 
 // Phase B3 — only the profile-data methods move to the backend this
-// cluster. resetPin()/createStaffMember() still touch PIN credentials
-// directly (hashing, staff_pins) via the deliberately separate,
-// zero-grant Phase 2 table — delegated unchanged to a wrapped
-// DriftUserRepository, since changing those wasn't what "Users onto the
-// backend with RLS" meant, and touching them deserves its own explicit
-// decision.
+// cluster. resetPin() still touches PIN credentials directly (hashing,
+// staff_pins) via the deliberately separate, zero-grant Phase 2 table —
+// delegated unchanged to a wrapped DriftUserRepository, since changing
+// that wasn't what "Users onto the backend with RLS" meant, and touching
+// it deserves its own explicit decision.
 //
-// authenticate() is the one exception, added in Phase C1d: a real
+// authenticate() is one exception, added in Phase C1d: a real
 // (backend-first) tenant's staff have NO local Drift row to delegate
 // to at all — they were created directly on the backend via
 // provision-staff-pin. Delegating to Drift here would always return
@@ -22,10 +21,13 @@ import 'user_repository.dart';
 // accounts this phase exists to onboard. So this looks the user up on
 // the backend by id, then calls the SAME already-proven pin-login Edge
 // Function directly (Phase 2's real backend auth, unchanged) — no new
-// verification logic, just a backend-native way to reach it. The
-// Dart integration test proves the Drift-delegated methods still work
-// unchanged (resetPin/createStaffMember), and that this backend-native
-// authenticate() path round-trips a real PIN login.
+// verification logic, just a backend-native way to reach it.
+//
+// createStaffMember() is the other exception (fixed 2026-09-28 — see its
+// own doc comment): it used to delegate to Drift too, a disclosed gap
+// that meant the older "Add Staff" flow silently created a local-only
+// phantom account in backend mode. Now calls provision-staff-pin
+// directly, same as authenticate().
 //
 // RLS on public.users reuses can_access_site(site_id) — the same function
 // proven on sites/departments/areas/training_records. Isolation only, not
@@ -36,12 +38,20 @@ import 'user_repository.dart';
 class SupabaseUserRepository implements UserRepository {
   SupabaseUserRepository(
     this._client,
-    this._localCredentialDelegate, [
+    this._localCredentialDelegate,
+    this._getAccessToken, [
     SupabaseClient? functionsClient,
   ]) : _functionsClient = functionsClient ?? Supabase.instance.client;
 
   final BackendRestClient _client;
   final UserRepository _localCredentialDelegate;
+  // createStaffMember() needs the CALLER's own session token explicitly
+  // (2026-09-28 fix, see that method's own doc comment) — a PIN session
+  // has no ambient GoTrue session for functions.invoke to attach on its
+  // own, same reasoning tenant_provisioning_repository.dart's
+  // provisionStaffPin() already documents for its own callerAccessToken
+  // parameter.
+  final String? Function() _getAccessToken;
   final SupabaseClient _functionsClient;
 
   @override
@@ -131,6 +141,17 @@ class SupabaseUserRepository implements UserRepository {
     }
   }
 
+  // Real fix (2026-09-28) for a disclosed gap: this used to delegate
+  // unchanged to local Drift even in backend mode, meaning a staff member
+  // added via Staff Management/organogram/the venue wizard's "Add Staff"
+  // button never actually reached the backend at all — invisible to every
+  // other device, and invisible to Roster's own staff-count re-pricing
+  // (which reads real backend rows). Now calls the SAME `provision-staff-
+  // pin` Edge Function the backend-native StaffProvisioningScreen already
+  // uses (extended to accept this caller's own chosen PIN, since that
+  // screen's flow always wanted a freshly generated one instead) — gets
+  // a real, tenant-isolated account AND the re-pricing this function
+  // already fires internally, for free.
   @override
   Future<User> createStaffMember({
     required String name,
@@ -139,14 +160,32 @@ class SupabaseUserRepository implements UserRepository {
     required JobRole jobRole,
     required String pin,
     required int siteId,
-  }) => _localCredentialDelegate.createStaffMember(
-    name: name,
-    jobTitle: jobTitle,
-    roleTier: roleTier,
-    jobRole: jobRole,
-    pin: pin,
-    siteId: siteId,
-  );
+  }) async {
+    final token = _getAccessToken();
+    if (token == null) {
+      throw StateError('No session token available to create a staff account.');
+    }
+    final response = await _functionsClient.functions.invoke(
+      'provision-staff-pin',
+      headers: {'Authorization': 'Bearer $token'},
+      body: {
+        'name': name,
+        'job_title': jobTitle,
+        'role_tier': roleTier.name,
+        'job_role': jobRole.name,
+        'site_id': siteId,
+        'pin': pin,
+      },
+    );
+    final data = response.data as Map<String, dynamic>;
+    final localUserId = data['local_user_id'] as int;
+    // Re-fetch through the normal read path rather than hand-building a
+    // User from this function's smaller response shape — guarantees the
+    // exact same field defaults (preferredTemperatureUnit, etc.) every
+    // other read of this table already gets via _toModel.
+    final rows = await _client.select('users', query: 'id=eq.$localUserId');
+    return _toModel(rows.first);
+  }
 
   @override
   Future<void> resetPin({required int userId, required String newPin}) =>

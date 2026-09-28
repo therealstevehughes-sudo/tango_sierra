@@ -1,0 +1,12 @@
+-- random_photo_check_enabled backend parity (2026-09-28) — the local Drift
+-- schema and Supabase*Repository read path (SupabaseTaskTemplateRepository
+-- already defaults to false when this column is absent) were both ready
+-- for this column; only the live Postgres table was missing it. Confirmed
+-- zero existing rows in task_templates on this backend at the time of this
+-- migration, so no per-organisation flag-seeding pass is needed yet — a
+-- future backend-hosted org's task_templates seed step should set this
+-- true for the same titles _ensureRandomPhotoCheckFlag() in
+-- app_database.dart already flags locally ('Clean uniform / apron',
+-- 'Hair covering / beard net', 'Cuts covered (blue plaster)', 'Gloves
+-- available & changed appropriately').
+alter table task_templates add column if not exists random_photo_check_enabled boolean not null default false;

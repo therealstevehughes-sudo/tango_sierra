@@ -418,6 +418,13 @@ class Areas extends Table {
   // null = no explicit order yet, and the Reorder Tasks screen shows the
   // zones in this order (unset zones fall back to creation order).
   IntColumn get sortOrder => integer().nullable()();
+  // Department scoping (2026-09-28, direct founder request) — lets a
+  // department head's equipment delegation actually be scoped to their
+  // own section instead of the whole site. Nullable: an area with no
+  // department stays visible to everyone (defaults, not a lockout, same
+  // convention as venue-type equipment filtering elsewhere).
+  IntColumn get departmentId =>
+      integer().nullable().references(Departments, #id)();
 }
 
 @DataClassName('EquipmentInstanceEntity')
@@ -434,6 +441,14 @@ class EquipmentInstances extends Table {
   // they can be filled in later without forcing it at creation time.
   TextColumn get model => text().nullable()();
   TextColumn get serialNumber => text().nullable()();
+  // Department scoping (2026-09-28) — see Areas.departmentId's own doc
+  // comment for why. Kept independent of areaId's own department (once
+  // Areas gets one too) rather than always deriving it, since a piece of
+  // equipment can exist with no area assigned at all and still needs to
+  // be attributable to a department for a supervisor's own delegated
+  // Equipment step to filter on.
+  IntColumn get departmentId =>
+      integer().nullable().references(Departments, #id)();
 }
 
 @DataClassName('TaskScheduleEntity')
@@ -1104,7 +1119,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 55;
+  int get schemaVersion => 56;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1586,6 +1601,12 @@ class AppDatabase extends _$AppDatabase {
           equipmentInstances,
           equipmentInstances.serialNumber,
         );
+      }
+      if (from < 56) {
+        // Department scoping for equipment delegation (2026-09-28) — see
+        // Areas.departmentId's own doc comment.
+        await m.addColumn(areas, areas.departmentId);
+        await m.addColumn(equipmentInstances, equipmentInstances.departmentId);
       }
     },
     beforeOpen: (details) async {

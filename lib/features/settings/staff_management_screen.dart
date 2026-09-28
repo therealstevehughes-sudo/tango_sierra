@@ -12,6 +12,7 @@ import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supervision_providers.dart';
 import '../../shared/providers/team_providers.dart';
+import 'bulk_staff_import_screen.dart';
 import 'training_records_screen.dart';
 import 'widgets/add_staff_dialog.dart';
 import '../../core/widgets/app_screen_header.dart';
@@ -641,6 +642,33 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     await _loadData();
   }
 
+  Future<void> _bulkImport() async {
+    final manager = ref.read(currentUserProvider);
+    final siteId = _siteId;
+    if (manager == null || siteId == null) return;
+
+    final allowedTiers = RoleTier.values
+        .where(
+          (t) => canChangeTier(
+            actingTier: manager.roleTier,
+            targetTier: RoleTier.base,
+            newTier: t,
+          ),
+        )
+        .toList();
+
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => BulkStaffImportScreen(
+          siteId: siteId,
+          allowedTiers: allowedTiers.isEmpty ? [RoleTier.base] : allowedTiers,
+        ),
+      ),
+    );
+    if (!mounted) return;
+    await _loadData();
+  }
+
   Future<void> _setActive(User user, bool active) async {
     final manager = ref.read(currentUserProvider);
     if (manager == null) return;
@@ -678,6 +706,11 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
             icon: const Icon(Icons.person_add_alt),
             tooltip: 'Add Staff',
             onPressed: _addStaff,
+          ),
+          IconButton(
+            icon: const Icon(Icons.upload_file),
+            tooltip: 'Bulk Import',
+            onPressed: _bulkImport,
           ),
           const AssistantIconButton(),
         ],

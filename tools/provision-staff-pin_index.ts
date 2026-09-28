@@ -73,6 +73,7 @@ Deno.serve(async (req: Request) => {
     role_tier?: string
     job_role?: string | null
     site_id?: number
+    pin?: string
   }
   try {
     body = await req.json()
@@ -84,6 +85,16 @@ Deno.serve(async (req: Request) => {
   const jobTitle = (body.job_title ?? "").trim()
   const targetTier = body.role_tier ?? ""
   const siteId = body.site_id
+  // Caller-chosen PIN (2026-09-28) — the "Add Staff" flow (Staff
+  // Management/organogram/venue wizard) lets a manager type the new
+  // starter's own PIN, unlike this function's original only caller
+  // (StaffProvisioningScreen) which always wants a freshly generated one.
+  // Optional: omitted or empty falls back to the existing generated-PIN
+  // behaviour unchanged.
+  const callerPin = (body.pin ?? "").trim()
+  if (callerPin && !/^\d{4}$/.test(callerPin)) {
+    return Response.json({ error: "pin must be exactly 4 digits" }, { status: 400 })
+  }
 
   if (!name || !jobTitle || !siteId) {
     return Response.json({ error: "name, job_title and site_id are required" }, { status: 400 })
@@ -153,7 +164,7 @@ Deno.serve(async (req: Request) => {
     return Response.json({ error: "could not create the staff profile" }, { status: 500 })
   }
 
-  const pin = randomPin()
+  const pin = callerPin || randomPin()
   const salt = randomSalt()
   const pinHash = await hashPin(pin, salt)
   const { error: pinErr } = await admin.from("staff_pins").insert({

@@ -26,10 +26,11 @@ class SupabaseAreaRepository implements AreaRepository {
   }
 
   @override
-  Future<Area> create(String name, int siteId) async {
+  Future<Area> create(String name, int siteId, {int? departmentId}) async {
     final row = await _client.insertOne('areas', {
       'name': name,
       'site_id': siteId,
+      'department_id': departmentId,
     });
     return _toModel(row);
   }
@@ -53,9 +54,19 @@ class SupabaseAreaRepository implements AreaRepository {
     );
   }
 
+  @override
+  Future<void> setDepartment(int areaId, int? departmentId) async {
+    await _client.update(
+      'areas',
+      filter: 'id=eq.$areaId',
+      body: {'department_id': departmentId},
+    );
+  }
+
   Area _toModel(Map<String, dynamic> row) => Area(
     id: row['id'] as int,
     name: row['name'] as String,
     siteId: row['site_id'] as int,
+    departmentId: row['department_id'] as int?,
   );
 }

@@ -17,8 +17,13 @@ abstract class EquipmentRepository {
     required int siteId,
     String? model,
     String? serialNumber,
+    int? departmentId,
   });
   Future<void> rename(int id, String newName);
+  // Department scoping (2026-09-28) — see Equipment.departmentId's own doc
+  // comment. null clears the assignment, same convention as every other
+  // department setter in this app.
+  Future<void> setDepartment(int id, int? departmentId);
   // Model/serial number (2026-09-28) — a separate setter, not folded into
   // rename(), since these are typically filled in after creation (once
   // someone's actually looked at the nameplate), not required upfront.
@@ -86,6 +91,7 @@ class DriftEquipmentRepository implements EquipmentRepository {
     required int siteId,
     String? model,
     String? serialNumber,
+    int? departmentId,
   }) async {
     final trimmedName = name.trim();
     await _checkNotDuplicate(siteId: siteId, name: trimmedName);
@@ -100,6 +106,7 @@ class DriftEquipmentRepository implements EquipmentRepository {
             siteId: Value(siteId),
             model: Value(model),
             serialNumber: Value(serialNumber),
+            departmentId: Value(departmentId),
           ),
         );
     return Equipment(
@@ -111,6 +118,7 @@ class DriftEquipmentRepository implements EquipmentRepository {
       active: true,
       model: model,
       serialNumber: serialNumber,
+      departmentId: departmentId,
     );
   }
 
@@ -215,6 +223,12 @@ class DriftEquipmentRepository implements EquipmentRepository {
         );
   }
 
+  @override
+  Future<void> setDepartment(int id, int? departmentId) async {
+    await (_db.update(_db.equipmentInstances)..where((e) => e.id.equals(id)))
+        .write(EquipmentInstancesCompanion(departmentId: Value(departmentId)));
+  }
+
   Equipment _toModel(EquipmentInstanceEntity row) => Equipment(
     id: row.id,
     name: row.name,
@@ -224,5 +238,6 @@ class DriftEquipmentRepository implements EquipmentRepository {
     active: row.active,
     model: row.model,
     serialNumber: row.serialNumber,
+    departmentId: row.departmentId,
   );
 }

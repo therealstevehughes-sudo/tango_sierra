@@ -3510,8 +3510,28 @@ class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _departmentIdMeta = const VerificationMeta(
+    'departmentId',
+  );
   @override
-  List<GeneratedColumn> get $columns => [id, name, siteId, sortOrder];
+  late final GeneratedColumn<int> departmentId = GeneratedColumn<int>(
+    'department_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES departments (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    siteId,
+    sortOrder,
+    departmentId,
+  ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -3547,6 +3567,15 @@ class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
         sortOrder.isAcceptableOrUnknown(data['sort_order']!, _sortOrderMeta),
       );
     }
+    if (data.containsKey('department_id')) {
+      context.handle(
+        _departmentIdMeta,
+        departmentId.isAcceptableOrUnknown(
+          data['department_id']!,
+          _departmentIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -3572,6 +3601,10 @@ class $AreasTable extends Areas with TableInfo<$AreasTable, AreaEntity> {
         DriftSqlType.int,
         data['${effectivePrefix}sort_order'],
       ),
+      departmentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}department_id'],
+      ),
     );
   }
 
@@ -3586,11 +3619,13 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
   final String name;
   final int? siteId;
   final int? sortOrder;
+  final int? departmentId;
   const AreaEntity({
     required this.id,
     required this.name,
     this.siteId,
     this.sortOrder,
+    this.departmentId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -3602,6 +3637,9 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
     }
     if (!nullToAbsent || sortOrder != null) {
       map['sort_order'] = Variable<int>(sortOrder);
+    }
+    if (!nullToAbsent || departmentId != null) {
+      map['department_id'] = Variable<int>(departmentId);
     }
     return map;
   }
@@ -3616,6 +3654,9 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
       sortOrder: sortOrder == null && nullToAbsent
           ? const Value.absent()
           : Value(sortOrder),
+      departmentId: departmentId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(departmentId),
     );
   }
 
@@ -3629,6 +3670,7 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
       name: serializer.fromJson<String>(json['name']),
       siteId: serializer.fromJson<int?>(json['siteId']),
       sortOrder: serializer.fromJson<int?>(json['sortOrder']),
+      departmentId: serializer.fromJson<int?>(json['departmentId']),
     );
   }
   @override
@@ -3639,6 +3681,7 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
       'name': serializer.toJson<String>(name),
       'siteId': serializer.toJson<int?>(siteId),
       'sortOrder': serializer.toJson<int?>(sortOrder),
+      'departmentId': serializer.toJson<int?>(departmentId),
     };
   }
 
@@ -3647,11 +3690,13 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
     String? name,
     Value<int?> siteId = const Value.absent(),
     Value<int?> sortOrder = const Value.absent(),
+    Value<int?> departmentId = const Value.absent(),
   }) => AreaEntity(
     id: id ?? this.id,
     name: name ?? this.name,
     siteId: siteId.present ? siteId.value : this.siteId,
     sortOrder: sortOrder.present ? sortOrder.value : this.sortOrder,
+    departmentId: departmentId.present ? departmentId.value : this.departmentId,
   );
   AreaEntity copyWithCompanion(AreasCompanion data) {
     return AreaEntity(
@@ -3659,6 +3704,9 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
       name: data.name.present ? data.name.value : this.name,
       siteId: data.siteId.present ? data.siteId.value : this.siteId,
       sortOrder: data.sortOrder.present ? data.sortOrder.value : this.sortOrder,
+      departmentId: data.departmentId.present
+          ? data.departmentId.value
+          : this.departmentId,
     );
   }
 
@@ -3668,13 +3716,14 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('siteId: $siteId, ')
-          ..write('sortOrder: $sortOrder')
+          ..write('sortOrder: $sortOrder, ')
+          ..write('departmentId: $departmentId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, siteId, sortOrder);
+  int get hashCode => Object.hash(id, name, siteId, sortOrder, departmentId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3682,7 +3731,8 @@ class AreaEntity extends DataClass implements Insertable<AreaEntity> {
           other.id == this.id &&
           other.name == this.name &&
           other.siteId == this.siteId &&
-          other.sortOrder == this.sortOrder);
+          other.sortOrder == this.sortOrder &&
+          other.departmentId == this.departmentId);
 }
 
 class AreasCompanion extends UpdateCompanion<AreaEntity> {
@@ -3690,29 +3740,34 @@ class AreasCompanion extends UpdateCompanion<AreaEntity> {
   final Value<String> name;
   final Value<int?> siteId;
   final Value<int?> sortOrder;
+  final Value<int?> departmentId;
   const AreasCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.siteId = const Value.absent(),
     this.sortOrder = const Value.absent(),
+    this.departmentId = const Value.absent(),
   });
   AreasCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     this.siteId = const Value.absent(),
     this.sortOrder = const Value.absent(),
+    this.departmentId = const Value.absent(),
   }) : name = Value(name);
   static Insertable<AreaEntity> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<int>? siteId,
     Expression<int>? sortOrder,
+    Expression<int>? departmentId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (siteId != null) 'site_id': siteId,
       if (sortOrder != null) 'sort_order': sortOrder,
+      if (departmentId != null) 'department_id': departmentId,
     });
   }
 
@@ -3721,12 +3776,14 @@ class AreasCompanion extends UpdateCompanion<AreaEntity> {
     Value<String>? name,
     Value<int?>? siteId,
     Value<int?>? sortOrder,
+    Value<int?>? departmentId,
   }) {
     return AreasCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       siteId: siteId ?? this.siteId,
       sortOrder: sortOrder ?? this.sortOrder,
+      departmentId: departmentId ?? this.departmentId,
     );
   }
 
@@ -3745,6 +3802,9 @@ class AreasCompanion extends UpdateCompanion<AreaEntity> {
     if (sortOrder.present) {
       map['sort_order'] = Variable<int>(sortOrder.value);
     }
+    if (departmentId.present) {
+      map['department_id'] = Variable<int>(departmentId.value);
+    }
     return map;
   }
 
@@ -3754,7 +3814,8 @@ class AreasCompanion extends UpdateCompanion<AreaEntity> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('siteId: $siteId, ')
-          ..write('sortOrder: $sortOrder')
+          ..write('sortOrder: $sortOrder, ')
+          ..write('departmentId: $departmentId')
           ..write(')'))
         .toString();
   }
@@ -3859,6 +3920,20 @@ class $EquipmentInstancesTable extends EquipmentInstances
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _departmentIdMeta = const VerificationMeta(
+    'departmentId',
+  );
+  @override
+  late final GeneratedColumn<int> departmentId = GeneratedColumn<int>(
+    'department_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES departments (id)',
+    ),
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -3869,6 +3944,7 @@ class $EquipmentInstancesTable extends EquipmentInstances
     active,
     model,
     serialNumber,
+    departmentId,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -3937,6 +4013,15 @@ class $EquipmentInstancesTable extends EquipmentInstances
         ),
       );
     }
+    if (data.containsKey('department_id')) {
+      context.handle(
+        _departmentIdMeta,
+        departmentId.isAcceptableOrUnknown(
+          data['department_id']!,
+          _departmentIdMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -3981,6 +4066,10 @@ class $EquipmentInstancesTable extends EquipmentInstances
         DriftSqlType.string,
         data['${effectivePrefix}serial_number'],
       ),
+      departmentId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}department_id'],
+      ),
     );
   }
 
@@ -4000,6 +4089,7 @@ class EquipmentInstanceEntity extends DataClass
   final bool active;
   final String? model;
   final String? serialNumber;
+  final int? departmentId;
   const EquipmentInstanceEntity({
     required this.id,
     required this.name,
@@ -4009,6 +4099,7 @@ class EquipmentInstanceEntity extends DataClass
     required this.active,
     this.model,
     this.serialNumber,
+    this.departmentId,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -4028,6 +4119,9 @@ class EquipmentInstanceEntity extends DataClass
     }
     if (!nullToAbsent || serialNumber != null) {
       map['serial_number'] = Variable<String>(serialNumber);
+    }
+    if (!nullToAbsent || departmentId != null) {
+      map['department_id'] = Variable<int>(departmentId);
     }
     return map;
   }
@@ -4050,6 +4144,9 @@ class EquipmentInstanceEntity extends DataClass
       serialNumber: serialNumber == null && nullToAbsent
           ? const Value.absent()
           : Value(serialNumber),
+      departmentId: departmentId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(departmentId),
     );
   }
 
@@ -4067,6 +4164,7 @@ class EquipmentInstanceEntity extends DataClass
       active: serializer.fromJson<bool>(json['active']),
       model: serializer.fromJson<String?>(json['model']),
       serialNumber: serializer.fromJson<String?>(json['serialNumber']),
+      departmentId: serializer.fromJson<int?>(json['departmentId']),
     );
   }
   @override
@@ -4081,6 +4179,7 @@ class EquipmentInstanceEntity extends DataClass
       'active': serializer.toJson<bool>(active),
       'model': serializer.toJson<String?>(model),
       'serialNumber': serializer.toJson<String?>(serialNumber),
+      'departmentId': serializer.toJson<int?>(departmentId),
     };
   }
 
@@ -4093,6 +4192,7 @@ class EquipmentInstanceEntity extends DataClass
     bool? active,
     Value<String?> model = const Value.absent(),
     Value<String?> serialNumber = const Value.absent(),
+    Value<int?> departmentId = const Value.absent(),
   }) => EquipmentInstanceEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -4102,6 +4202,7 @@ class EquipmentInstanceEntity extends DataClass
     active: active ?? this.active,
     model: model.present ? model.value : this.model,
     serialNumber: serialNumber.present ? serialNumber.value : this.serialNumber,
+    departmentId: departmentId.present ? departmentId.value : this.departmentId,
   );
   EquipmentInstanceEntity copyWithCompanion(EquipmentInstancesCompanion data) {
     return EquipmentInstanceEntity(
@@ -4117,6 +4218,9 @@ class EquipmentInstanceEntity extends DataClass
       serialNumber: data.serialNumber.present
           ? data.serialNumber.value
           : this.serialNumber,
+      departmentId: data.departmentId.present
+          ? data.departmentId.value
+          : this.departmentId,
     );
   }
 
@@ -4130,7 +4234,8 @@ class EquipmentInstanceEntity extends DataClass
           ..write('siteId: $siteId, ')
           ..write('active: $active, ')
           ..write('model: $model, ')
-          ..write('serialNumber: $serialNumber')
+          ..write('serialNumber: $serialNumber, ')
+          ..write('departmentId: $departmentId')
           ..write(')'))
         .toString();
   }
@@ -4145,6 +4250,7 @@ class EquipmentInstanceEntity extends DataClass
     active,
     model,
     serialNumber,
+    departmentId,
   );
   @override
   bool operator ==(Object other) =>
@@ -4157,7 +4263,8 @@ class EquipmentInstanceEntity extends DataClass
           other.siteId == this.siteId &&
           other.active == this.active &&
           other.model == this.model &&
-          other.serialNumber == this.serialNumber);
+          other.serialNumber == this.serialNumber &&
+          other.departmentId == this.departmentId);
 }
 
 class EquipmentInstancesCompanion
@@ -4170,6 +4277,7 @@ class EquipmentInstancesCompanion
   final Value<bool> active;
   final Value<String?> model;
   final Value<String?> serialNumber;
+  final Value<int?> departmentId;
   const EquipmentInstancesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -4179,6 +4287,7 @@ class EquipmentInstancesCompanion
     this.active = const Value.absent(),
     this.model = const Value.absent(),
     this.serialNumber = const Value.absent(),
+    this.departmentId = const Value.absent(),
   });
   EquipmentInstancesCompanion.insert({
     this.id = const Value.absent(),
@@ -4189,6 +4298,7 @@ class EquipmentInstancesCompanion
     this.active = const Value.absent(),
     this.model = const Value.absent(),
     this.serialNumber = const Value.absent(),
+    this.departmentId = const Value.absent(),
   }) : name = Value(name),
        equipmentTypeId = Value(equipmentTypeId);
   static Insertable<EquipmentInstanceEntity> custom({
@@ -4200,6 +4310,7 @@ class EquipmentInstancesCompanion
     Expression<bool>? active,
     Expression<String>? model,
     Expression<String>? serialNumber,
+    Expression<int>? departmentId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4210,6 +4321,7 @@ class EquipmentInstancesCompanion
       if (active != null) 'active': active,
       if (model != null) 'model': model,
       if (serialNumber != null) 'serial_number': serialNumber,
+      if (departmentId != null) 'department_id': departmentId,
     });
   }
 
@@ -4222,6 +4334,7 @@ class EquipmentInstancesCompanion
     Value<bool>? active,
     Value<String?>? model,
     Value<String?>? serialNumber,
+    Value<int?>? departmentId,
   }) {
     return EquipmentInstancesCompanion(
       id: id ?? this.id,
@@ -4232,6 +4345,7 @@ class EquipmentInstancesCompanion
       active: active ?? this.active,
       model: model ?? this.model,
       serialNumber: serialNumber ?? this.serialNumber,
+      departmentId: departmentId ?? this.departmentId,
     );
   }
 
@@ -4262,6 +4376,9 @@ class EquipmentInstancesCompanion
     if (serialNumber.present) {
       map['serial_number'] = Variable<String>(serialNumber.value);
     }
+    if (departmentId.present) {
+      map['department_id'] = Variable<int>(departmentId.value);
+    }
     return map;
   }
 
@@ -4275,7 +4392,8 @@ class EquipmentInstancesCompanion
           ..write('siteId: $siteId, ')
           ..write('active: $active, ')
           ..write('model: $model, ')
-          ..write('serialNumber: $serialNumber')
+          ..write('serialNumber: $serialNumber, ')
+          ..write('departmentId: $departmentId')
           ..write(')'))
         .toString();
   }
@@ -22427,6 +22545,49 @@ final class $$DepartmentsTableReferences
     );
   }
 
+  static MultiTypedResultKey<$AreasTable, List<AreaEntity>> _areasRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.areas,
+    aliasName: 'departments__id__areas__department_id',
+  );
+
+  $$AreasTableProcessedTableManager get areasRefs {
+    final manager = $$AreasTableTableManager(
+      $_db,
+      $_db.areas,
+    ).filter((f) => f.departmentId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_areasRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $EquipmentInstancesTable,
+    List<EquipmentInstanceEntity>
+  >
+  _equipmentInstancesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.equipmentInstances,
+        aliasName: 'departments__id__equipment_instances__department_id',
+      );
+
+  $$EquipmentInstancesTableProcessedTableManager get equipmentInstancesRefs {
+    final manager = $$EquipmentInstancesTableTableManager(
+      $_db,
+      $_db.equipmentInstances,
+    ).filter((f) => f.departmentId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _equipmentInstancesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
   static MultiTypedResultKey<$IssuesTable, List<IssueEntity>> _issuesRefsTable(
     _$AppDatabase db,
   ) => MultiTypedResultKey.fromTable(
@@ -22552,6 +22713,56 @@ class $$DepartmentsTableFilterComposer
           }) => $$UsersTableFilterComposer(
             $db: $db,
             $table: $db.users,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> areasRefs(
+    Expression<bool> Function($$AreasTableFilterComposer f) f,
+  ) {
+    final $$AreasTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.areas,
+      getReferencedColumn: (t) => t.departmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AreasTableFilterComposer(
+            $db: $db,
+            $table: $db.areas,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> equipmentInstancesRefs(
+    Expression<bool> Function($$EquipmentInstancesTableFilterComposer f) f,
+  ) {
+    final $$EquipmentInstancesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.equipmentInstances,
+      getReferencedColumn: (t) => t.departmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EquipmentInstancesTableFilterComposer(
+            $db: $db,
+            $table: $db.equipmentInstances,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -22730,6 +22941,57 @@ class $$DepartmentsTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> areasRefs<T extends Object>(
+    Expression<T> Function($$AreasTableAnnotationComposer a) f,
+  ) {
+    final $$AreasTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.areas,
+      getReferencedColumn: (t) => t.departmentId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$AreasTableAnnotationComposer(
+            $db: $db,
+            $table: $db.areas,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> equipmentInstancesRefs<T extends Object>(
+    Expression<T> Function($$EquipmentInstancesTableAnnotationComposer a) f,
+  ) {
+    final $$EquipmentInstancesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.equipmentInstances,
+          getReferencedColumn: (t) => t.departmentId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$EquipmentInstancesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.equipmentInstances,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+
   Expression<T> issuesRefs<T extends Object>(
     Expression<T> Function($$IssuesTableAnnotationComposer a) f,
   ) {
@@ -22798,6 +23060,8 @@ class $$DepartmentsTableTableManager
           PrefetchHooks Function({
             bool teamsRefs,
             bool usersRefs,
+            bool areasRefs,
+            bool equipmentInstancesRefs,
             bool issuesRefs,
             bool supervisedDepartmentsRefs,
           })
@@ -22857,6 +23121,8 @@ class $$DepartmentsTableTableManager
               ({
                 teamsRefs = false,
                 usersRefs = false,
+                areasRefs = false,
+                equipmentInstancesRefs = false,
                 issuesRefs = false,
                 supervisedDepartmentsRefs = false,
               }) {
@@ -22865,6 +23131,8 @@ class $$DepartmentsTableTableManager
                   explicitlyWatchedTables: [
                     if (teamsRefs) db.teams,
                     if (usersRefs) db.users,
+                    if (areasRefs) db.areas,
+                    if (equipmentInstancesRefs) db.equipmentInstances,
                     if (issuesRefs) db.issues,
                     if (supervisedDepartmentsRefs) db.supervisedDepartments,
                   ],
@@ -22907,6 +23175,48 @@ class $$DepartmentsTableTableManager
                                 table,
                                 p0,
                               ).usersRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.departmentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (areasRefs)
+                        await $_getPrefetchedData<
+                          DepartmentEntity,
+                          $DepartmentsTable,
+                          AreaEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DepartmentsTableReferences
+                              ._areasRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DepartmentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).areasRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.departmentId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (equipmentInstancesRefs)
+                        await $_getPrefetchedData<
+                          DepartmentEntity,
+                          $DepartmentsTable,
+                          EquipmentInstanceEntity
+                        >(
+                          currentTable: table,
+                          referencedTable: $$DepartmentsTableReferences
+                              ._equipmentInstancesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$DepartmentsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).equipmentInstancesRefs,
                           referencedItemsForCurrentItem:
                               (item, referencedItems) => referencedItems.where(
                                 (e) => e.departmentId == item.id,
@@ -22978,6 +23288,8 @@ typedef $$DepartmentsTableProcessedTableManager =
       PrefetchHooks Function({
         bool teamsRefs,
         bool usersRefs,
+        bool areasRefs,
+        bool equipmentInstancesRefs,
         bool issuesRefs,
         bool supervisedDepartmentsRefs,
       })
@@ -29253,6 +29565,7 @@ typedef $$AreasTableCreateCompanionBuilder =
       required String name,
       Value<int?> siteId,
       Value<int?> sortOrder,
+      Value<int?> departmentId,
     });
 typedef $$AreasTableUpdateCompanionBuilder =
     AreasCompanion Function({
@@ -29260,6 +29573,7 @@ typedef $$AreasTableUpdateCompanionBuilder =
       Value<String> name,
       Value<int?> siteId,
       Value<int?> sortOrder,
+      Value<int?> departmentId,
     });
 
 final class $$AreasTableReferences
@@ -29277,6 +29591,23 @@ final class $$AreasTableReferences
       $_db.sites,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $DepartmentsTable _departmentIdTable(_$AppDatabase db) =>
+      db.departments.createAlias('areas__department_id__departments__id');
+
+  $$DepartmentsTableProcessedTableManager? get departmentId {
+    final $_column = $_itemColumn<int>('department_id');
+    if ($_column == null) return null;
+    final manager = $$DepartmentsTableTableManager(
+      $_db,
+      $_db.departments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_departmentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -29345,6 +29676,29 @@ class $$AreasTableFilterComposer extends Composer<_$AppDatabase, $AreasTable> {
           }) => $$SitesTableFilterComposer(
             $db: $db,
             $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DepartmentsTableFilterComposer get departmentId {
+    final $$DepartmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.departments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -29426,6 +29780,29 @@ class $$AreasTableOrderingComposer
     );
     return composer;
   }
+
+  $$DepartmentsTableOrderingComposer get departmentId {
+    final $$DepartmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$AreasTableAnnotationComposer
@@ -29460,6 +29837,29 @@ class $$AreasTableAnnotationComposer
           }) => $$SitesTableAnnotationComposer(
             $db: $db,
             $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DepartmentsTableAnnotationComposer get departmentId {
+    final $$DepartmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.departments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -29509,7 +29909,11 @@ class $$AreasTableTableManager
           $$AreasTableUpdateCompanionBuilder,
           (AreaEntity, $$AreasTableReferences),
           AreaEntity,
-          PrefetchHooks Function({bool siteId, bool equipmentInstancesRefs})
+          PrefetchHooks Function({
+            bool siteId,
+            bool departmentId,
+            bool equipmentInstancesRefs,
+          })
         > {
   $$AreasTableTableManager(_$AppDatabase db, $AreasTable table)
     : super(
@@ -29528,11 +29932,13 @@ class $$AreasTableTableManager
                 Value<String> name = const Value.absent(),
                 Value<int?> siteId = const Value.absent(),
                 Value<int?> sortOrder = const Value.absent(),
+                Value<int?> departmentId = const Value.absent(),
               }) => AreasCompanion(
                 id: id,
                 name: name,
                 siteId: siteId,
                 sortOrder: sortOrder,
+                departmentId: departmentId,
               ),
           createCompanionCallback:
               ({
@@ -29540,11 +29946,13 @@ class $$AreasTableTableManager
                 required String name,
                 Value<int?> siteId = const Value.absent(),
                 Value<int?> sortOrder = const Value.absent(),
+                Value<int?> departmentId = const Value.absent(),
               }) => AreasCompanion.insert(
                 id: id,
                 name: name,
                 siteId: siteId,
                 sortOrder: sortOrder,
+                departmentId: departmentId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -29553,7 +29961,11 @@ class $$AreasTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({siteId = false, equipmentInstancesRefs = false}) {
+              ({
+                siteId = false,
+                departmentId = false,
+                equipmentInstancesRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
@@ -29584,6 +29996,19 @@ class $$AreasTableTableManager
                                         ._siteIdTable(db),
                                     referencedColumn: $$AreasTableReferences
                                         ._siteIdTable(db)
+                                        .id,
+                                  )
+                                  as T;
+                        }
+                        if (departmentId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.departmentId,
+                                    referencedTable: $$AreasTableReferences
+                                        ._departmentIdTable(db),
+                                    referencedColumn: $$AreasTableReferences
+                                        ._departmentIdTable(db)
                                         .id,
                                   )
                                   as T;
@@ -29634,7 +30059,11 @@ typedef $$AreasTableProcessedTableManager =
       $$AreasTableUpdateCompanionBuilder,
       (AreaEntity, $$AreasTableReferences),
       AreaEntity,
-      PrefetchHooks Function({bool siteId, bool equipmentInstancesRefs})
+      PrefetchHooks Function({
+        bool siteId,
+        bool departmentId,
+        bool equipmentInstancesRefs,
+      })
     >;
 typedef $$EquipmentInstancesTableCreateCompanionBuilder =
     EquipmentInstancesCompanion Function({
@@ -29646,6 +30075,7 @@ typedef $$EquipmentInstancesTableCreateCompanionBuilder =
       Value<bool> active,
       Value<String?> model,
       Value<String?> serialNumber,
+      Value<int?> departmentId,
     });
 typedef $$EquipmentInstancesTableUpdateCompanionBuilder =
     EquipmentInstancesCompanion Function({
@@ -29657,6 +30087,7 @@ typedef $$EquipmentInstancesTableUpdateCompanionBuilder =
       Value<bool> active,
       Value<String?> model,
       Value<String?> serialNumber,
+      Value<int?> departmentId,
     });
 
 final class $$EquipmentInstancesTableReferences
@@ -29719,6 +30150,24 @@ final class $$EquipmentInstancesTableReferences
       $_db.sites,
     ).filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_siteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $DepartmentsTable _departmentIdTable(_$AppDatabase db) => db
+      .departments
+      .createAlias('equipment_instances__department_id__departments__id');
+
+  $$DepartmentsTableProcessedTableManager? get departmentId {
+    final $_column = $_itemColumn<int>('department_id');
+    if ($_column == null) return null;
+    final manager = $$DepartmentsTableTableManager(
+      $_db,
+      $_db.departments,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_departmentIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: [item]),
@@ -29859,6 +30308,29 @@ class $$EquipmentInstancesTableFilterComposer
           }) => $$SitesTableFilterComposer(
             $db: $db,
             $table: $db.sites,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$DepartmentsTableFilterComposer get departmentId {
+    final $$DepartmentsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableFilterComposer(
+            $db: $db,
+            $table: $db.departments,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -30021,6 +30493,29 @@ class $$EquipmentInstancesTableOrderingComposer
     );
     return composer;
   }
+
+  $$DepartmentsTableOrderingComposer get departmentId {
+    final $$DepartmentsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableOrderingComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$EquipmentInstancesTableAnnotationComposer
@@ -30118,6 +30613,29 @@ class $$EquipmentInstancesTableAnnotationComposer
     return composer;
   }
 
+  $$DepartmentsTableAnnotationComposer get departmentId {
+    final $$DepartmentsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.departmentId,
+      referencedTable: $db.departments,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$DepartmentsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.departments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
   Expression<T> taskSubmissionsRefs<T extends Object>(
     Expression<T> Function($$TaskSubmissionsTableAnnotationComposer a) f,
   ) {
@@ -30186,6 +30704,7 @@ class $$EquipmentInstancesTableTableManager
             bool equipmentTypeId,
             bool areaId,
             bool siteId,
+            bool departmentId,
             bool taskSubmissionsRefs,
             bool taskSchedulesRefs,
           })
@@ -30216,6 +30735,7 @@ class $$EquipmentInstancesTableTableManager
                 Value<bool> active = const Value.absent(),
                 Value<String?> model = const Value.absent(),
                 Value<String?> serialNumber = const Value.absent(),
+                Value<int?> departmentId = const Value.absent(),
               }) => EquipmentInstancesCompanion(
                 id: id,
                 name: name,
@@ -30225,6 +30745,7 @@ class $$EquipmentInstancesTableTableManager
                 active: active,
                 model: model,
                 serialNumber: serialNumber,
+                departmentId: departmentId,
               ),
           createCompanionCallback:
               ({
@@ -30236,6 +30757,7 @@ class $$EquipmentInstancesTableTableManager
                 Value<bool> active = const Value.absent(),
                 Value<String?> model = const Value.absent(),
                 Value<String?> serialNumber = const Value.absent(),
+                Value<int?> departmentId = const Value.absent(),
               }) => EquipmentInstancesCompanion.insert(
                 id: id,
                 name: name,
@@ -30245,6 +30767,7 @@ class $$EquipmentInstancesTableTableManager
                 active: active,
                 model: model,
                 serialNumber: serialNumber,
+                departmentId: departmentId,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -30259,6 +30782,7 @@ class $$EquipmentInstancesTableTableManager
                 equipmentTypeId = false,
                 areaId = false,
                 siteId = false,
+                departmentId = false,
                 taskSubmissionsRefs = false,
                 taskSchedulesRefs = false,
               }) {
@@ -30325,6 +30849,21 @@ class $$EquipmentInstancesTableTableManager
                                     referencedColumn:
                                         $$EquipmentInstancesTableReferences
                                             ._siteIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (departmentId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.departmentId,
+                                    referencedTable:
+                                        $$EquipmentInstancesTableReferences
+                                            ._departmentIdTable(db),
+                                    referencedColumn:
+                                        $$EquipmentInstancesTableReferences
+                                            ._departmentIdTable(db)
                                             .id,
                                   )
                                   as T;
@@ -30400,6 +30939,7 @@ typedef $$EquipmentInstancesTableProcessedTableManager =
         bool equipmentTypeId,
         bool areaId,
         bool siteId,
+        bool departmentId,
         bool taskSubmissionsRefs,
         bool taskSchedulesRefs,
       })

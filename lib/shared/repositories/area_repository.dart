@@ -6,10 +6,14 @@ import '../models/area.dart';
 abstract class AreaRepository {
   Future<List<Area>> getAll();
   Future<List<Area>> getForSite(int siteId);
-  Future<Area> create(String name, int siteId);
+  Future<Area> create(String name, int siteId, {int? departmentId});
   Future<void> rename(int id, String newName);
   // Task-reorder (2026-09-12): the manager-controlled order of a zone.
   Future<void> setSortOrder(int areaId, int? sortOrder);
+  // Department scoping (2026-09-28) — see Area.departmentId's own doc
+  // comment. null clears the assignment, same "explicit, not silently
+  // omitted" convention as User.changeDepartment.
+  Future<void> setDepartment(int areaId, int? departmentId);
 }
 
 class DriftAreaRepository implements AreaRepository {
@@ -39,11 +43,23 @@ class DriftAreaRepository implements AreaRepository {
   }
 
   @override
-  Future<Area> create(String name, int siteId) async {
+  Future<Area> create(String name, int siteId, {int? departmentId}) async {
     final id = await _db
         .into(_db.areas)
-        .insert(AreasCompanion.insert(name: name, siteId: Value(siteId)));
-    return Area(id: id, name: name, siteId: siteId, sortOrder: null);
+        .insert(
+          AreasCompanion.insert(
+            name: name,
+            siteId: Value(siteId),
+            departmentId: Value(departmentId),
+          ),
+        );
+    return Area(
+      id: id,
+      name: name,
+      siteId: siteId,
+      sortOrder: null,
+      departmentId: departmentId,
+    );
   }
 
   @override
@@ -60,10 +76,18 @@ class DriftAreaRepository implements AreaRepository {
     );
   }
 
+  @override
+  Future<void> setDepartment(int areaId, int? departmentId) async {
+    await (_db.update(_db.areas)..where((a) => a.id.equals(areaId))).write(
+      AreasCompanion(departmentId: Value(departmentId)),
+    );
+  }
+
   Area _toModel(AreaEntity row) => Area(
     id: row.id,
     name: row.name,
     siteId: row.siteId!,
     sortOrder: row.sortOrder,
+    departmentId: row.departmentId,
   );
 }

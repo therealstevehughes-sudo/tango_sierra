@@ -101,11 +101,40 @@ class _VenueSetupWizardScreenState
   // reach this screen at all, only a GM/venueManager could). Kept narrow
   // rather than opening the whole 4-step wizard to supervisors: a
   // supervisor only ever sees the Equipment step, no Areas/Staff/Supplier
-  // setup, since there's no per-department scoping on those yet. A GM (or
-  // above) still gets the full wizard, unchanged.
+  // setup. A GM (or above) still gets the full wizard, unchanged.
   bool get _equipmentOnly {
     final tier = ref.read(currentUserProvider)?.roleTier;
     return tier == RoleTier.supervisor;
+  }
+
+  // Properly scoped to the supervisor's own department (2026-09-28,
+  // direct founder follow-up: "a department head can add equipment for
+  // the whole site, not just their own department"). null for a GM (or a
+  // departmentless supervisor) — every filter below is a no-op in that
+  // case, matching "defaults not lockouts": nobody loses visibility of
+  // equipment/areas that were never tagged with a department at all.
+  int? get _myDepartmentId {
+    if (!_equipmentOnly) return null;
+    return ref.read(currentUserProvider)?.departmentId;
+  }
+
+  // A department head sees their own department's equipment/areas plus
+  // anything nobody has tagged with a department yet — never a hard
+  // lockout of pre-existing untagged content.
+  List<Equipment> get _visibleEquipment {
+    final deptId = _myDepartmentId;
+    if (deptId == null) return equipmentInstances;
+    return equipmentInstances
+        .where((e) => e.departmentId == null || e.departmentId == deptId)
+        .toList();
+  }
+
+  List<Area> get _visibleAreas {
+    final deptId = _myDepartmentId;
+    if (deptId == null) return areas;
+    return areas
+        .where((a) => a.departmentId == null || a.departmentId == deptId)
+        .toList();
   }
 
   @override
@@ -230,6 +259,11 @@ class _VenueSetupWizardScreenState
         siteId: site.id,
         model: model.isEmpty ? null : model,
         serialNumber: serial.isEmpty ? null : serial,
+        // A department head's own equipment is implicitly theirs — no
+        // picker shown, since in this mode there's only one department
+        // it could possibly be. A GM adding equipment (not in this mode)
+        // leaves it untagged, same as before this feature existed.
+        departmentId: _myDepartmentId,
       );
 
       if (!mounted) return;
@@ -681,13 +715,18 @@ class _VenueSetupWizardScreenState
             ),
           ),
         const SizedBox(height: 12),
-        if (areas.isEmpty)
-          const Text('No areas added yet - go back to add one.')
+        if (_visibleAreas.isEmpty)
+          Text(
+            _equipmentOnly
+                ? 'No areas set up for your department yet - equipment can '
+                      'still be added without one.'
+                : 'No areas added yet - go back to add one.',
+          )
         else
           DropdownButtonFormField<int>(
             initialValue: selectedAreaId,
             decoration: const InputDecoration(labelText: 'Area'),
-            items: areas
+            items: _visibleAreas
                 .map((a) => DropdownMenuItem(value: a.id, child: Text(a.name)))
                 .toList(),
             onChanged: (value) => setState(() => selectedAreaId = value),
@@ -745,7 +784,7 @@ class _VenueSetupWizardScreenState
           ],
         ),
         const SizedBox(height: 16),
-        ...equipmentInstances.map(
+        ..._visibleEquipment.map(
           (e) => Card(
             child: ListTile(
               title: Text(
