@@ -164,42 +164,64 @@ class _VenueSetupWizardScreenState
       loading = true;
       loadError = null;
     });
-    try {
-      final areaRepo = ref.read(areaRepositoryProvider);
-      final equipmentRepo = ref.read(equipmentRepositoryProvider);
-      final userRepo = ref.read(userRepositoryProvider);
-      final supplierRepo = ref.read(supplierRepositoryProvider);
-      final siteRepo = ref.read(siteRepositoryProvider);
-      final site = await _resolveActiveSite();
+    // One silent retry before ever showing an error (2026-09-28, real
+    // crash caught live: "NoSuchMethodError: _listenedElement was called
+    // on null"). Root cause: `_resolveActiveSite()` awaits
+    // `currentSiteProvider.future` as the very first step of this method,
+    // called straight from initState() — a known Riverpod internal race
+    // (its one-shot temporary subscription for a `.future` read can
+    // resolve against an already-torn-down provider element if something
+    // elsewhere invalidates/disposes a dependency mid-await, e.g. a fast
+    // in/out of this screen or a concurrent provider rebuild). It isn't
+    // this screen's own bug to fully prevent — it's an inherent hazard of
+    // reading `.future` this early — so rather than a deeper Riverpod
+    // restructure for a rare timing race, one transparent retry absorbs
+    // it: a genuine, persistent failure still surfaces via loadError
+    // (with the user's own Retry button) on the second attempt.
+    for (var attempt = 0; attempt < 2; attempt++) {
+      try {
+        final areaRepo = ref.read(areaRepositoryProvider);
+        final equipmentRepo = ref.read(equipmentRepositoryProvider);
+        final userRepo = ref.read(userRepositoryProvider);
+        final supplierRepo = ref.read(supplierRepositoryProvider);
+        final siteRepo = ref.read(siteRepositoryProvider);
+        final site = await _resolveActiveSite();
 
-      final loadedAreas = await areaRepo.getForSite(site.id);
-      final loadedTypes = await equipmentRepo.getEquipmentTypes();
-      final loadedEquipment = await equipmentRepo.getForSite(site.id);
-      final loadedStaff = await userRepo.getForSite(site.id);
-      final loadedSuppliers = await supplierRepo.getForSite(site.id);
-      final loadedSiteVenueTypeIds = await siteRepo.getVenueTypeIds(site.id);
-      final venueTypeTags = <int, List<int>>{};
-      for (final type in loadedTypes) {
-        venueTypeTags[type.id] = await equipmentRepo.getVenueTypeIds(type.id);
+        final loadedAreas = await areaRepo.getForSite(site.id);
+        final loadedTypes = await equipmentRepo.getEquipmentTypes();
+        final loadedEquipment = await equipmentRepo.getForSite(site.id);
+        final loadedStaff = await userRepo.getForSite(site.id);
+        final loadedSuppliers = await supplierRepo.getForSite(site.id);
+        final loadedSiteVenueTypeIds = await siteRepo.getVenueTypeIds(
+          site.id,
+        );
+        final venueTypeTags = <int, List<int>>{};
+        for (final type in loadedTypes) {
+          venueTypeTags[type.id] = await equipmentRepo.getVenueTypeIds(
+            type.id,
+          );
+        }
+
+        if (!mounted) return;
+        setState(() {
+          areas = loadedAreas;
+          equipmentTypes = loadedTypes;
+          equipmentInstances = loadedEquipment;
+          staff = loadedStaff;
+          suppliers = loadedSuppliers;
+          siteVenueTypeIds = loadedSiteVenueTypeIds;
+          venueTypeIdsByEquipmentTypeId = venueTypeTags;
+          loading = false;
+        });
+        return;
+      } catch (e) {
+        if (!mounted) return;
+        if (attempt == 0) continue;
+        setState(() {
+          loadError = e.toString();
+          loading = false;
+        });
       }
-
-      if (!mounted) return;
-      setState(() {
-        areas = loadedAreas;
-        equipmentTypes = loadedTypes;
-        equipmentInstances = loadedEquipment;
-        staff = loadedStaff;
-        suppliers = loadedSuppliers;
-        siteVenueTypeIds = loadedSiteVenueTypeIds;
-        venueTypeIdsByEquipmentTypeId = venueTypeTags;
-        loading = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        loadError = e.toString();
-        loading = false;
-      });
     }
   }
 

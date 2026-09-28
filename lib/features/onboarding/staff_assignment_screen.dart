@@ -138,54 +138,68 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       loading = true;
       loadError = null;
     });
-    try {
-      final userRepo = ref.read(userRepositoryProvider);
-      final templateRepo = ref.read(taskTemplateRepositoryProvider);
-      final equipmentRepo = ref.read(equipmentRepositoryProvider);
-      final presetRepo = ref.read(taskPresetRepositoryProvider);
-      final siteRepo = ref.read(siteRepositoryProvider);
-      final site =
-          ref.read(activeSiteProvider) ??
-          await ref.read(currentSiteProvider.future);
-      if (site == null) {
+    // One silent retry before showing an error — see
+    // venue_setup_wizard_screen.dart's own _loadData() for the full
+    // explanation: reading `currentSiteProvider.future` this early can hit
+    // a rare Riverpod internal race ("_listenedElement was called on
+    // null"), caught live during a demo. A persistent failure still
+    // surfaces via loadError on the second attempt.
+    for (var attempt = 0; attempt < 2; attempt++) {
+      try {
+        final userRepo = ref.read(userRepositoryProvider);
+        final templateRepo = ref.read(taskTemplateRepositoryProvider);
+        final equipmentRepo = ref.read(equipmentRepositoryProvider);
+        final presetRepo = ref.read(taskPresetRepositoryProvider);
+        final siteRepo = ref.read(siteRepositoryProvider);
+        final site =
+            ref.read(activeSiteProvider) ??
+            await ref.read(currentSiteProvider.future);
+        if (site == null) {
+          if (!mounted) return;
+          setState(() {
+            loadError = 'No active site found.';
+            loading = false;
+          });
+          return;
+        }
+
+        final loadedStaff = await userRepo.getForSite(site.id);
+        final loadedTemplates = await templateRepo.getAllCurrentVersions();
+        final loadedTypes = await equipmentRepo.getEquipmentTypes();
+        final loadedInstances = await equipmentRepo.getForSite(site.id);
+        final loadedPresets = await presetRepo.getAll();
+        final activePresets = loadedPresets.where((p) => p.active).toList();
+        final loadedSiteVenueTypeIds = await siteRepo.getVenueTypeIds(
+          site.id,
+        );
+        final venueTypeTags = <int, List<int>>{};
+        for (final preset in activePresets) {
+          venueTypeTags[preset.id] = await presetRepo.getVenueTypeIds(
+            preset.id,
+          );
+        }
+
         if (!mounted) return;
         setState(() {
-          loadError = 'No active site found.';
+          staffList = loadedStaff;
+          templates = loadedTemplates;
+          equipmentTypes = loadedTypes;
+          equipmentInstances = loadedInstances;
+          // Only active presets are offered for application.
+          presets = activePresets;
+          siteVenueTypeIds = loadedSiteVenueTypeIds;
+          venueTypeIdsByPresetId = venueTypeTags;
           loading = false;
         });
         return;
+      } catch (e) {
+        if (!mounted) return;
+        if (attempt == 0) continue;
+        setState(() {
+          loadError = e.toString();
+          loading = false;
+        });
       }
-
-      final loadedStaff = await userRepo.getForSite(site.id);
-      final loadedTemplates = await templateRepo.getAllCurrentVersions();
-      final loadedTypes = await equipmentRepo.getEquipmentTypes();
-      final loadedInstances = await equipmentRepo.getForSite(site.id);
-      final loadedPresets = await presetRepo.getAll();
-      final activePresets = loadedPresets.where((p) => p.active).toList();
-      final loadedSiteVenueTypeIds = await siteRepo.getVenueTypeIds(site.id);
-      final venueTypeTags = <int, List<int>>{};
-      for (final preset in activePresets) {
-        venueTypeTags[preset.id] = await presetRepo.getVenueTypeIds(preset.id);
-      }
-
-      if (!mounted) return;
-      setState(() {
-        staffList = loadedStaff;
-        templates = loadedTemplates;
-        equipmentTypes = loadedTypes;
-        equipmentInstances = loadedInstances;
-        // Only active presets are offered for application.
-        presets = activePresets;
-        siteVenueTypeIds = loadedSiteVenueTypeIds;
-        venueTypeIdsByPresetId = venueTypeTags;
-        loading = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        loadError = e.toString();
-        loading = false;
-      });
     }
   }
 

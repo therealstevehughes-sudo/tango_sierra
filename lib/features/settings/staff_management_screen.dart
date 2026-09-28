@@ -67,46 +67,56 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       loading = true;
       loadError = null;
     });
-    try {
-      final repo = ref.read(userRepositoryProvider);
-      final activeSite = ref.read(activeSiteProvider);
-      final currentUser = ref.read(currentUserProvider);
-      final siteId =
-          activeSite?.id ??
-          currentUser?.siteId ??
-          (await ref.read(currentSiteProvider.future)).id;
-      final loaded = await repo.getForSite(siteId);
+    // One silent retry before showing an error — see
+    // venue_setup_wizard_screen.dart's own _loadData() for the full
+    // explanation: reading `currentSiteProvider.future` this early can hit
+    // a rare Riverpod internal race ("_listenedElement was called on
+    // null"), caught live during a demo. A persistent failure still
+    // surfaces via loadError on the second attempt.
+    for (var attempt = 0; attempt < 2; attempt++) {
+      try {
+        final repo = ref.read(userRepositoryProvider);
+        final activeSite = ref.read(activeSiteProvider);
+        final currentUser = ref.read(currentUserProvider);
+        final siteId =
+            activeSite?.id ??
+            currentUser?.siteId ??
+            (await ref.read(currentSiteProvider.future)).id;
+        final loaded = await repo.getForSite(siteId);
 
-      final departmentRepo = ref.read(departmentRepositoryProvider);
-      final teamRepo = ref.read(teamRepositoryProvider);
-      final byId = <int, Department>{};
-      final teamById = <int, Team>{};
-      for (final siteId
-          in loaded.map((u) => u.siteId).whereType<int>().toSet()) {
-        final departments = await departmentRepo.getForSite(siteId);
-        for (final department in departments) {
-          byId[department.id!] = department;
-          final teams = await teamRepo.getForDepartment(department.id!);
-          for (final team in teams) {
-            teamById[team.id!] = team;
+        final departmentRepo = ref.read(departmentRepositoryProvider);
+        final teamRepo = ref.read(teamRepositoryProvider);
+        final byId = <int, Department>{};
+        final teamById = <int, Team>{};
+        for (final otherSiteId
+            in loaded.map((u) => u.siteId).whereType<int>().toSet()) {
+          final departments = await departmentRepo.getForSite(otherSiteId);
+          for (final department in departments) {
+            byId[department.id!] = department;
+            final teams = await teamRepo.getForDepartment(department.id!);
+            for (final team in teams) {
+              teamById[team.id!] = team;
+            }
           }
         }
-      }
 
-      if (!mounted) return;
-      setState(() {
-        staff = loaded;
-        departmentsById = byId;
-        teamsById = teamById;
-        _siteId = siteId;
-        loading = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        loadError = e.toString();
-        loading = false;
-      });
+        if (!mounted) return;
+        setState(() {
+          staff = loaded;
+          departmentsById = byId;
+          teamsById = teamById;
+          _siteId = siteId;
+          loading = false;
+        });
+        return;
+      } catch (e) {
+        if (!mounted) return;
+        if (attempt == 0) continue;
+        setState(() {
+          loadError = e.toString();
+          loading = false;
+        });
+      }
     }
   }
 

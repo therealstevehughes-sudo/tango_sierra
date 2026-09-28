@@ -42,33 +42,43 @@ class _SupplierManagementScreenState
       loading = true;
       loadError = null;
     });
-    try {
-      final currentUser = ref.read(currentUserProvider);
-      if (currentUser == null) {
+    // One silent retry before showing an error — see
+    // venue_setup_wizard_screen.dart's own _loadData() for the full
+    // explanation: reading `currentSiteProvider.future` this early can hit
+    // a rare Riverpod internal race ("_listenedElement was called on
+    // null"), caught live during a demo. A persistent failure still
+    // surfaces via loadError on the second attempt.
+    for (var attempt = 0; attempt < 2; attempt++) {
+      try {
+        final currentUser = ref.read(currentUserProvider);
+        if (currentUser == null) {
+          setState(() {
+            loadError = 'No signed-in user found.';
+            loading = false;
+          });
+          return;
+        }
+        final repo = ref.read(supplierRepositoryProvider);
+        final siteId =
+            ref.read(activeSiteProvider)?.id ??
+            currentUser.siteId ??
+            (await ref.read(currentSiteProvider.future)).id;
+        final loaded = await repo.getForSite(siteId);
+
+        if (!mounted) return;
         setState(() {
-          loadError = 'No signed-in user found.';
+          suppliers = loaded;
           loading = false;
         });
         return;
+      } catch (e) {
+        if (!mounted) return;
+        if (attempt == 0) continue;
+        setState(() {
+          loadError = e.toString();
+          loading = false;
+        });
       }
-      final repo = ref.read(supplierRepositoryProvider);
-      final siteId =
-          ref.read(activeSiteProvider)?.id ??
-          currentUser.siteId ??
-          (await ref.read(currentSiteProvider.future)).id;
-      final loaded = await repo.getForSite(siteId);
-
-      if (!mounted) return;
-      setState(() {
-        suppliers = loaded;
-        loading = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        loadError = e.toString();
-        loading = false;
-      });
     }
   }
 

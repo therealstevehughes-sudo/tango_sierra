@@ -54,33 +54,43 @@ class _NotificationRulesScreenState
       loading = true;
       loadError = null;
     });
-    try {
-      final ruleRepo = ref.read(notificationRuleRepositoryProvider);
-      final templateRepo = ref.read(taskTemplateRepositoryProvider);
-      final userRepo = ref.read(userRepositoryProvider);
-      final currentUser = ref.read(currentUserProvider);
-      final siteId =
-          ref.read(activeSiteProvider)?.id ??
-          currentUser?.siteId ??
-          (await ref.read(currentSiteProvider.future)).id;
+    // One silent retry before showing an error — see
+    // venue_setup_wizard_screen.dart's own _loadData() for the full
+    // explanation: reading `currentSiteProvider.future` this early can hit
+    // a rare Riverpod internal race ("_listenedElement was called on
+    // null"), caught live during a demo. A persistent failure still
+    // surfaces via loadError on the second attempt.
+    for (var attempt = 0; attempt < 2; attempt++) {
+      try {
+        final ruleRepo = ref.read(notificationRuleRepositoryProvider);
+        final templateRepo = ref.read(taskTemplateRepositoryProvider);
+        final userRepo = ref.read(userRepositoryProvider);
+        final currentUser = ref.read(currentUserProvider);
+        final siteId =
+            ref.read(activeSiteProvider)?.id ??
+            currentUser?.siteId ??
+            (await ref.read(currentSiteProvider.future)).id;
 
-      final loadedRules = await ruleRepo.getAllCurrentVersions();
-      final loadedTemplates = await templateRepo.getAllCurrentVersions();
-      final loadedUsers = await userRepo.getForSite(siteId);
+        final loadedRules = await ruleRepo.getAllCurrentVersions();
+        final loadedTemplates = await templateRepo.getAllCurrentVersions();
+        final loadedUsers = await userRepo.getForSite(siteId);
 
-      if (!mounted) return;
-      setState(() {
-        rules = loadedRules;
-        templates = loadedTemplates;
-        allUsers = loadedUsers;
-        loading = false;
-      });
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        loadError = e.toString();
-        loading = false;
-      });
+        if (!mounted) return;
+        setState(() {
+          rules = loadedRules;
+          templates = loadedTemplates;
+          allUsers = loadedUsers;
+          loading = false;
+        });
+        return;
+      } catch (e) {
+        if (!mounted) return;
+        if (attempt == 0) continue;
+        setState(() {
+          loadError = e.toString();
+          loading = false;
+        });
+      }
     }
   }
 
