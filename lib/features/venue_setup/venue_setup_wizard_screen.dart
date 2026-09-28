@@ -21,6 +21,7 @@ import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../settings/widgets/add_staff_dialog.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 class VenueSetupWizardScreen extends ConsumerStatefulWidget {
   const VenueSetupWizardScreen({super.key, this.initialStep = 0});
@@ -40,6 +41,12 @@ class _VenueSetupWizardScreenState
     extends ConsumerState<VenueSetupWizardScreen> {
   late int currentStep;
   bool loading = true;
+  // Surfaced load failure (2026-09-28, direct founder report of this
+  // screen hanging on a spinner forever with no way to tell why) —
+  // _loadData() previously had no error handling at all, so any thrown
+  // exception left `loading` stuck true permanently with nothing visible
+  // anywhere. Now the real error (and a retry) shows in the body instead.
+  String? loadError;
 
   List<Area> areas = [];
   List<EquipmentType> equipmentTypes = [];
@@ -89,10 +96,22 @@ class _VenueSetupWizardScreenState
   // regardless of job), never a real person's own day job.
   JobRole selectedJobRole = JobRole.chefCook;
 
+  // Department heads can add their own equipment (2026-09-28, direct
+  // founder request — Ryan Osei/Marco Rossi etc. previously had no way to
+  // reach this screen at all, only a GM/venueManager could). Kept narrow
+  // rather than opening the whole 4-step wizard to supervisors: a
+  // supervisor only ever sees the Equipment step, no Areas/Staff/Supplier
+  // setup, since there's no per-department scoping on those yet. A GM (or
+  // above) still gets the full wizard, unchanged.
+  bool get _equipmentOnly {
+    final tier = ref.read(currentUserProvider)?.roleTier;
+    return tier == RoleTier.supervisor;
+  }
+
   @override
   void initState() {
     super.initState();
-    currentStep = widget.initialStep.clamp(0, 3);
+    currentStep = _equipmentOnly ? 1 : widget.initialStep.clamp(0, 3);
     _loadData();
   }
 
@@ -112,35 +131,47 @@ class _VenueSetupWizardScreenState
   }
 
   Future<void> _loadData() async {
-    final areaRepo = ref.read(areaRepositoryProvider);
-    final equipmentRepo = ref.read(equipmentRepositoryProvider);
-    final userRepo = ref.read(userRepositoryProvider);
-    final supplierRepo = ref.read(supplierRepositoryProvider);
-    final siteRepo = ref.read(siteRepositoryProvider);
-    final site = await _resolveActiveSite();
-
-    final loadedAreas = await areaRepo.getForSite(site.id);
-    final loadedTypes = await equipmentRepo.getEquipmentTypes();
-    final loadedEquipment = await equipmentRepo.getForSite(site.id);
-    final loadedStaff = await userRepo.getForSite(site.id);
-    final loadedSuppliers = await supplierRepo.getForSite(site.id);
-    final loadedSiteVenueTypeIds = await siteRepo.getVenueTypeIds(site.id);
-    final venueTypeTags = <int, List<int>>{};
-    for (final type in loadedTypes) {
-      venueTypeTags[type.id] = await equipmentRepo.getVenueTypeIds(type.id);
-    }
-
-    if (!mounted) return;
     setState(() {
-      areas = loadedAreas;
-      equipmentTypes = loadedTypes;
-      equipmentInstances = loadedEquipment;
-      staff = loadedStaff;
-      suppliers = loadedSuppliers;
-      siteVenueTypeIds = loadedSiteVenueTypeIds;
-      venueTypeIdsByEquipmentTypeId = venueTypeTags;
-      loading = false;
+      loading = true;
+      loadError = null;
     });
+    try {
+      final areaRepo = ref.read(areaRepositoryProvider);
+      final equipmentRepo = ref.read(equipmentRepositoryProvider);
+      final userRepo = ref.read(userRepositoryProvider);
+      final supplierRepo = ref.read(supplierRepositoryProvider);
+      final siteRepo = ref.read(siteRepositoryProvider);
+      final site = await _resolveActiveSite();
+
+      final loadedAreas = await areaRepo.getForSite(site.id);
+      final loadedTypes = await equipmentRepo.getEquipmentTypes();
+      final loadedEquipment = await equipmentRepo.getForSite(site.id);
+      final loadedStaff = await userRepo.getForSite(site.id);
+      final loadedSuppliers = await supplierRepo.getForSite(site.id);
+      final loadedSiteVenueTypeIds = await siteRepo.getVenueTypeIds(site.id);
+      final venueTypeTags = <int, List<int>>{};
+      for (final type in loadedTypes) {
+        venueTypeTags[type.id] = await equipmentRepo.getVenueTypeIds(type.id);
+      }
+
+      if (!mounted) return;
+      setState(() {
+        areas = loadedAreas;
+        equipmentTypes = loadedTypes;
+        equipmentInstances = loadedEquipment;
+        staff = loadedStaff;
+        suppliers = loadedSuppliers;
+        siteVenueTypeIds = loadedSiteVenueTypeIds;
+        venueTypeIdsByEquipmentTypeId = venueTypeTags;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+    }
   }
 
   // An equipment type with no tags is universal; a tagged one needs to
@@ -463,14 +494,21 @@ class _VenueSetupWizardScreenState
     // The header/drawer render unconditionally, loading or not — a stuck
     // or failed load must never strand the user on a header-less blank
     // screen with no way back (2026-09-28, direct founder bug report).
+    final equipmentOnly = _equipmentOnly;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: Text('Venue Setup - Step ${currentStep + 1} of 4'),
+        title: Text(
+          equipmentOnly
+              ? 'Add Equipment'
+              : 'Venue Setup - Step ${currentStep + 1} of 4',
+        ),
         actions: const [AssistantIconButton()],
       ),
       drawer: const ManagementDrawer(title: 'Venue Setup'),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : loadError != null
+          ? LoadErrorView(error: loadError!, onRetry: _loadData)
           : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -479,29 +517,31 @@ class _VenueSetupWizardScreenState
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(child: SingleChildScrollView(child: _buildStep())),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    if (currentStep > 0)
-                      TextButton(
-                        onPressed: () => setState(() => currentStep -= 1),
-                        child: const Text('Back'),
-                      )
-                    else
-                      const SizedBox.shrink(),
-                    PrimaryActionButton(
-                      label: currentStep < 3 ? 'Next' : 'Finish Setup',
-                      onPressed: () {
-                        if (currentStep < 3) {
-                          setState(() => currentStep += 1);
-                        } else {
-                          Navigator.of(context).pop();
-                        }
-                      },
-                    ),
-                  ],
-                ),
+                if (!equipmentOnly) ...[
+                  const SizedBox(height: 12),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (currentStep > 0)
+                        TextButton(
+                          onPressed: () => setState(() => currentStep -= 1),
+                          child: const Text('Back'),
+                        )
+                      else
+                        const SizedBox.shrink(),
+                      PrimaryActionButton(
+                        label: currentStep < 3 ? 'Next' : 'Finish Setup',
+                        onPressed: () {
+                          if (currentStep < 3) {
+                            setState(() => currentStep += 1);
+                          } else {
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),

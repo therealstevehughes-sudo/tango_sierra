@@ -15,6 +15,7 @@ import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 enum _TargetMode { tier, user }
 
@@ -29,6 +30,7 @@ class NotificationRulesScreen extends ConsumerStatefulWidget {
 class _NotificationRulesScreenState
     extends ConsumerState<NotificationRulesScreen> {
   bool loading = true;
+  String? loadError;
   List<NotificationRule> rules = [];
   List<TaskTemplate> templates = [];
   List<User> allUsers = [];
@@ -48,26 +50,38 @@ class _NotificationRulesScreenState
   }
 
   Future<void> _loadData() async {
-    final ruleRepo = ref.read(notificationRuleRepositoryProvider);
-    final templateRepo = ref.read(taskTemplateRepositoryProvider);
-    final userRepo = ref.read(userRepositoryProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        ref.read(activeSiteProvider)?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-
-    final loadedRules = await ruleRepo.getAllCurrentVersions();
-    final loadedTemplates = await templateRepo.getAllCurrentVersions();
-    final loadedUsers = await userRepo.getForSite(siteId);
-
-    if (!mounted) return;
     setState(() {
-      rules = loadedRules;
-      templates = loadedTemplates;
-      allUsers = loadedUsers;
-      loading = false;
+      loading = true;
+      loadError = null;
     });
+    try {
+      final ruleRepo = ref.read(notificationRuleRepositoryProvider);
+      final templateRepo = ref.read(taskTemplateRepositoryProvider);
+      final userRepo = ref.read(userRepositoryProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          ref.read(activeSiteProvider)?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+
+      final loadedRules = await ruleRepo.getAllCurrentVersions();
+      final loadedTemplates = await templateRepo.getAllCurrentVersions();
+      final loadedUsers = await userRepo.getForSite(siteId);
+
+      if (!mounted) return;
+      setState(() {
+        rules = loadedRules;
+        templates = loadedTemplates;
+        allUsers = loadedUsers;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+    }
   }
 
   Future<void> _saveRule() async {
@@ -227,6 +241,8 @@ class _NotificationRulesScreenState
       drawer: const ManagementDrawer(title: 'Notification Rules'),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : loadError != null
+          ? LoadErrorView(error: loadError!, onRetry: _loadData)
           : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

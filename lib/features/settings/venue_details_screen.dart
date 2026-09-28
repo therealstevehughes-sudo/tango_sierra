@@ -15,6 +15,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/venue_type_providers.dart';
 import 'billing_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 class VenueDetailsScreen extends ConsumerStatefulWidget {
   const VenueDetailsScreen({super.key});
@@ -25,6 +26,7 @@ class VenueDetailsScreen extends ConsumerStatefulWidget {
 
 class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
   bool loading = true;
+  String? loadError;
   Organisation? organisation;
   List<Site> sites = [];
   List<VenueType> venueTypes = [];
@@ -48,28 +50,40 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
   }
 
   Future<void> _loadData() async {
-    final orgRepo = ref.read(organisationRepositoryProvider);
-    final siteRepo = ref.read(siteRepositoryProvider);
-    final venueTypeRepo = ref.read(venueTypeRepositoryProvider);
-
-    final loadedOrg = await orgRepo.getDefault();
-    final loadedSites = await siteRepo.getAll();
-    final loadedVenueTypes = await venueTypeRepo.getAll();
-
-    final loadedSiteVenueTypeIds = <int, Set<int>>{};
-    for (final site in loadedSites) {
-      final ids = await siteRepo.getVenueTypeIds(site.id);
-      loadedSiteVenueTypeIds[site.id] = ids.toSet();
-    }
-
-    if (!mounted) return;
     setState(() {
-      organisation = loadedOrg;
-      sites = loadedSites;
-      venueTypes = loadedVenueTypes;
-      siteVenueTypeIds = loadedSiteVenueTypeIds;
-      loading = false;
+      loading = true;
+      loadError = null;
     });
+    try {
+      final orgRepo = ref.read(organisationRepositoryProvider);
+      final siteRepo = ref.read(siteRepositoryProvider);
+      final venueTypeRepo = ref.read(venueTypeRepositoryProvider);
+
+      final loadedOrg = await orgRepo.getDefault();
+      final loadedSites = await siteRepo.getAll();
+      final loadedVenueTypes = await venueTypeRepo.getAll();
+
+      final loadedSiteVenueTypeIds = <int, Set<int>>{};
+      for (final site in loadedSites) {
+        final ids = await siteRepo.getVenueTypeIds(site.id);
+        loadedSiteVenueTypeIds[site.id] = ids.toSet();
+      }
+
+      if (!mounted) return;
+      setState(() {
+        organisation = loadedOrg;
+        sites = loadedSites;
+        venueTypes = loadedVenueTypes;
+        siteVenueTypeIds = loadedSiteVenueTypeIds;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+    }
   }
 
   Future<void> _toggleVenueType(Site site, int venueTypeId) async {
@@ -281,6 +295,8 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
       drawer: const ManagementDrawer(title: 'Venue Details'),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : loadError != null
+          ? LoadErrorView(error: loadError!, onRetry: _loadData)
           : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

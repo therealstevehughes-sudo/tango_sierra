@@ -13,6 +13,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
 import '../suppliers/supplier_detail_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 enum _SupplierAction { editDetails, changeApprovalStatus, toggleActive }
 
@@ -27,6 +28,7 @@ class SupplierManagementScreen extends ConsumerStatefulWidget {
 class _SupplierManagementScreenState
     extends ConsumerState<SupplierManagementScreen> {
   bool loading = true;
+  String? loadError;
   List<Supplier> suppliers = [];
 
   @override
@@ -36,20 +38,38 @@ class _SupplierManagementScreenState
   }
 
   Future<void> _loadData() async {
-    final currentUser = ref.read(currentUserProvider);
-    if (currentUser == null) return;
-    final repo = ref.read(supplierRepositoryProvider);
-    final siteId =
-        ref.read(activeSiteProvider)?.id ??
-        currentUser.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-    final loaded = await repo.getForSite(siteId);
-
-    if (!mounted) return;
     setState(() {
-      suppliers = loaded;
-      loading = false;
+      loading = true;
+      loadError = null;
     });
+    try {
+      final currentUser = ref.read(currentUserProvider);
+      if (currentUser == null) {
+        setState(() {
+          loadError = 'No signed-in user found.';
+          loading = false;
+        });
+        return;
+      }
+      final repo = ref.read(supplierRepositoryProvider);
+      final siteId =
+          ref.read(activeSiteProvider)?.id ??
+          currentUser.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+      final loaded = await repo.getForSite(siteId);
+
+      if (!mounted) return;
+      setState(() {
+        suppliers = loaded;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+    }
   }
 
   Future<void> _addSupplier() async {
@@ -355,6 +375,8 @@ class _SupplierManagementScreenState
       drawer: const ManagementDrawer(title: 'Supplier Management'),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : loadError != null
+          ? LoadErrorView(error: loadError!, onRetry: _loadData)
           : SafeArea(
         child: ResponsiveContent(
           child: suppliers.isEmpty

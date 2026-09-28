@@ -226,10 +226,17 @@ final List<_DrawerItemDef> _venueSetupItems = [
   // Renamed from "Venue Setup" (2026-09-17) — reads distinctly from
   // "Venue Details" above rather than the two sounding like the same
   // screen.
+  //
+  // minTier lowered to supervisor (2026-09-28, direct founder request) —
+  // a department head (Functions & Events Supervisor, Executive Chef,
+  // etc.) previously had no way to add their own equipment at all, only a
+  // GM could. A supervisor opening this screen only ever sees its
+  // Equipment step (VenueSetupWizardScreen's own `_equipmentOnly` gate) —
+  // Areas/Staff/Supplier setup stays venueManager+ only.
   _DrawerItemDef(
     icon: Icons.store,
     label: 'Setup Wizard',
-    minTier: RoleTier.venueManager,
+    minTier: RoleTier.supervisor,
     screenBuilder: (_) => const VenueSetupWizardScreen(),
   ),
 ];

@@ -715,27 +715,39 @@ class _StaffListState extends State<_StaffList> {
     final kitchenStaff = widget.staff
         .where((u) => u.roleTier == RoleTier.base)
         .toList();
+    // Leadership vs. department heads (2026-09-28, direct user report):
+    // a supervisor tied to a specific section — Ryan Osei as Functions &
+    // Events Supervisor, Marco Rossi as Executive Chef — belongs inside
+    // that department's own group, not lumped in with branch-wide
+    // leadership who aren't tied to any one section (GM, F&B Manager,
+    // Duty Manager). So only the departmentless supervisors/managers make
+    // up "Leadership" now; a supervisor with a departmentId joins their
+    // department's members below instead.
+    final allSupervisorsAndManagers = widget.staff
+        .where(
+          (u) =>
+              u.roleTier == RoleTier.supervisor ||
+              u.roleTier == RoleTier.venueManager,
+        )
+        .toList();
     // Hierarchy order, top-down (2026-09-28, direct user report) — was
     // insertion order before, which put the GM in the middle of the grid
     // instead of first. Sorted by actual reportsToUserId chain (same
     // relationship BranchOrgChartScreen's own tree is built from), not by
     // tier or name, so the General Manager always leads, then their
     // direct reports, then those reports' own reports.
-    final supervisorsAndManagers = _sortByHierarchy(
-      widget.staff
-          .where(
-            (u) =>
-                u.roleTier == RoleTier.supervisor ||
-                u.roleTier == RoleTier.venueManager,
-          )
-          .toList(),
+    final leadership = _sortByHierarchy(
+      allSupervisorsAndManagers.where((u) => u.departmentId == null).toList(),
     );
+    final departmentHeads = allSupervisorsAndManagers
+        .where((u) => u.departmentId != null)
+        .toList();
 
     final isSearching = query.isNotEmpty;
     final searchResults = isSearching
         ? [
             ...kitchenStaff,
-            ...supervisorsAndManagers,
+            ...allSupervisorsAndManagers,
           ].where((u) => u.name.toLowerCase().contains(query)).toList()
         : const <User>[];
 
@@ -750,19 +762,23 @@ class _StaffListState extends State<_StaffList> {
     // user report) — a departmentless supervisor/manager used to fall into
     // the exact same "Other" catch-all as a departmentless kitchen porter,
     // which read as nonsensical (a director grouped with a KP under a
-    // meaningless label). Leadership is a fixed tier-based concept
-    // (supervisor and above), not a section of the venue, so it's now
-    // ALWAYS shown in its own section below, regardless of department
-    // picker mode — only base-tier staff get bucketed by department at
-    // all.
+    // meaningless label). Leadership is now only the departmentless
+    // supervisors/managers (GM, F&B Manager, Duty Manager — not tied to
+    // one section); a supervisor WITH a department (Functions & Events
+    // Supervisor, Executive Chef, ...) is a department head and shows
+    // inside that department's own group, sorted first among its members.
     final departmentGroups = <_DepartmentGroup>[];
     for (final department in widget.departments) {
+      final head = departmentHeads
+          .where((u) => u.departmentId == department.id)
+          .toList();
       final members = kitchenStaff
           .where((u) => u.departmentId == department.id)
           .toList();
-      if (members.isNotEmpty) {
+      final allMembers = [...head, ...members];
+      if (allMembers.isNotEmpty) {
         departmentGroups.add(
-          _DepartmentGroup(name: department.name, staff: members),
+          _DepartmentGroup(name: department.name, staff: allMembers),
         );
       }
     }
@@ -832,7 +848,7 @@ class _StaffListState extends State<_StaffList> {
           child: isSearching
               ? _buildSearchResults(searchResults)
               : _buildMainList(
-                  supervisorsAndManagers,
+                  leadership,
                   kitchenStaff,
                   departmentGroups,
                   showDepartmentPicker,

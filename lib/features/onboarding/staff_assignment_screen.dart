@@ -22,6 +22,7 @@ import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 class StaffAssignmentScreen extends ConsumerStatefulWidget {
   const StaffAssignmentScreen({super.key});
@@ -40,6 +41,7 @@ enum _AssignMode { byPerson, byTask }
 
 class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   bool loading = true;
+  String? loadError;
   _AssignMode mode = _AssignMode.byPerson;
 
   // "Assign by Task" mode's own state -- separate from the by-person
@@ -132,40 +134,59 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   }
 
   Future<void> _loadData() async {
-    final userRepo = ref.read(userRepositoryProvider);
-    final templateRepo = ref.read(taskTemplateRepositoryProvider);
-    final equipmentRepo = ref.read(equipmentRepositoryProvider);
-    final presetRepo = ref.read(taskPresetRepositoryProvider);
-    final siteRepo = ref.read(siteRepositoryProvider);
-    final site =
-        ref.read(activeSiteProvider) ??
-        await ref.read(currentSiteProvider.future);
-    if (site == null) return;
-
-    final loadedStaff = await userRepo.getForSite(site.id);
-    final loadedTemplates = await templateRepo.getAllCurrentVersions();
-    final loadedTypes = await equipmentRepo.getEquipmentTypes();
-    final loadedInstances = await equipmentRepo.getForSite(site.id);
-    final loadedPresets = await presetRepo.getAll();
-    final activePresets = loadedPresets.where((p) => p.active).toList();
-    final loadedSiteVenueTypeIds = await siteRepo.getVenueTypeIds(site.id);
-    final venueTypeTags = <int, List<int>>{};
-    for (final preset in activePresets) {
-      venueTypeTags[preset.id] = await presetRepo.getVenueTypeIds(preset.id);
-    }
-
-    if (!mounted) return;
     setState(() {
-      staffList = loadedStaff;
-      templates = loadedTemplates;
-      equipmentTypes = loadedTypes;
-      equipmentInstances = loadedInstances;
-      // Only active presets are offered for application.
-      presets = activePresets;
-      siteVenueTypeIds = loadedSiteVenueTypeIds;
-      venueTypeIdsByPresetId = venueTypeTags;
-      loading = false;
+      loading = true;
+      loadError = null;
     });
+    try {
+      final userRepo = ref.read(userRepositoryProvider);
+      final templateRepo = ref.read(taskTemplateRepositoryProvider);
+      final equipmentRepo = ref.read(equipmentRepositoryProvider);
+      final presetRepo = ref.read(taskPresetRepositoryProvider);
+      final siteRepo = ref.read(siteRepositoryProvider);
+      final site =
+          ref.read(activeSiteProvider) ??
+          await ref.read(currentSiteProvider.future);
+      if (site == null) {
+        if (!mounted) return;
+        setState(() {
+          loadError = 'No active site found.';
+          loading = false;
+        });
+        return;
+      }
+
+      final loadedStaff = await userRepo.getForSite(site.id);
+      final loadedTemplates = await templateRepo.getAllCurrentVersions();
+      final loadedTypes = await equipmentRepo.getEquipmentTypes();
+      final loadedInstances = await equipmentRepo.getForSite(site.id);
+      final loadedPresets = await presetRepo.getAll();
+      final activePresets = loadedPresets.where((p) => p.active).toList();
+      final loadedSiteVenueTypeIds = await siteRepo.getVenueTypeIds(site.id);
+      final venueTypeTags = <int, List<int>>{};
+      for (final preset in activePresets) {
+        venueTypeTags[preset.id] = await presetRepo.getVenueTypeIds(preset.id);
+      }
+
+      if (!mounted) return;
+      setState(() {
+        staffList = loadedStaff;
+        templates = loadedTemplates;
+        equipmentTypes = loadedTypes;
+        equipmentInstances = loadedInstances;
+        // Only active presets are offered for application.
+        presets = activePresets;
+        siteVenueTypeIds = loadedSiteVenueTypeIds;
+        venueTypeIdsByPresetId = venueTypeTags;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+    }
   }
 
   // A preset with no venue-type tags is universal (offered everywhere);
@@ -554,6 +575,8 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       drawer: const ManagementDrawer(title: 'Assign Tasks'),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : loadError != null
+          ? LoadErrorView(error: loadError!, onRetry: _loadData)
           : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

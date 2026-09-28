@@ -461,6 +461,27 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
   @override
   Widget build(BuildContext context) {
     final staffIds = _staff.map((u) => u.id).toSet();
+    final childrenOf = <int, List<User>>{};
+    for (final u in _staff) {
+      if (u.reportsToUserId != null && staffIds.contains(u.reportsToUserId)) {
+        childrenOf.putIfAbsent(u.reportsToUserId!, () => []).add(u);
+      }
+    }
+    // Leaf siblings before branch siblings (2026-09-28, direct founder
+    // report): plain depth-first + alphabetical buried a childless Duty
+    // Manager at the very bottom of the list, after her same-tier sibling
+    // F&B Manager's entire Kitchen + Functions & Events subtree — even
+    // though both report directly to the GM. A person with no reports of
+    // their own now sorts ahead of a same-tier sibling who has reports, so
+    // they render right under the GM alongside the other department heads
+    // instead of being pushed down by however large a sibling's branch is.
+    int byLeafThenTierThenName(User a, User b) {
+      final aHasReports = childrenOf[a.id]?.isNotEmpty ?? false;
+      final bHasReports = childrenOf[b.id]?.isNotEmpty ?? false;
+      if (aHasReports != bHasReports) return aHasReports ? 1 : -1;
+      return _byTierThenName(a, b);
+    }
+
     final roots = _staff
         .where(
           (u) =>
@@ -468,15 +489,9 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
               !staffIds.contains(u.reportsToUserId),
         )
         .toList()
-      ..sort(_byTierThenName);
-    final childrenOf = <int, List<User>>{};
-    for (final u in _staff) {
-      if (u.reportsToUserId != null && staffIds.contains(u.reportsToUserId)) {
-        childrenOf.putIfAbsent(u.reportsToUserId!, () => []).add(u);
-      }
-    }
+      ..sort(byLeafThenTierThenName);
     for (final list in childrenOf.values) {
-      list.sort(_byTierThenName);
+      list.sort(byLeafThenTierThenName);
     }
 
     final managerTier = _managerTier;

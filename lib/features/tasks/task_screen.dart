@@ -41,6 +41,7 @@ import 'task_controller.dart';
 import 'task_model.dart';
 import 'task_overview_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 enum _PhotoSource { camera, upload }
 
@@ -79,6 +80,7 @@ class TaskScreen extends ConsumerStatefulWidget {
 class _TaskScreenState extends ConsumerState<TaskScreen> {
   late final TaskController controller;
   bool loading = true;
+  String? loadError;
   // Fail-safe (Sprint 031, Sub-sprint C follow-up): true when this screen
   // was reached with no logged-in user — `controller` is never initialized
   // in that case. This is the guard for the *class* of bug the popUntil
@@ -179,22 +181,35 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   }
 
   Future<void> _load() async {
-    // Complete-from-the-list (2026-09-25): an existingController already
-    // has `tasks` loaded and `currentIndex` deliberately positioned by the
-    // caller (task_overview_screen.dart) at the task to complete —
-    // calling loadTasks() again would re-fetch from the repositories AND
-    // reset currentIndex back to 0, undoing exactly what the caller just
-    // set up.
-    if (widget.existingController == null) {
-      await controller.loadTasks();
-    }
-
+    setState(() {
+      loading = true;
+      loadError = null;
+    });
     final currentUser = ref.read(currentUserProvider);
-    if (currentUser != null) {
-      final allSuppliers = await ref
-          .read(supplierRepositoryProvider)
-          .getForSite(currentUser.siteId!);
-      suppliers = allSuppliers.where((s) => s.active).toList();
+    try {
+      // Complete-from-the-list (2026-09-25): an existingController already
+      // has `tasks` loaded and `currentIndex` deliberately positioned by
+      // the caller (task_overview_screen.dart) at the task to complete —
+      // calling loadTasks() again would re-fetch from the repositories AND
+      // reset currentIndex back to 0, undoing exactly what the caller just
+      // set up.
+      if (widget.existingController == null) {
+        await controller.loadTasks();
+      }
+
+      if (currentUser != null) {
+        final allSuppliers = await ref
+            .read(supplierRepositoryProvider)
+            .getForSite(currentUser.siteId!);
+        suppliers = allSuppliers.where((s) => s.active).toList();
+      }
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+      return;
     }
 
     if (!mounted) return;
@@ -814,7 +829,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     // (2026-09-28, direct founder bug report). `_userMissing` means
     // `controller` was never initialized (see its own doc comment):
     // nothing below this may touch `controller` in that case.
-    if (_userMissing || loading) {
+    if (_userMissing || loading || loadError != null) {
       return Scaffold(
         appBar: AppScreenHeader(
           automaticallyImplyLeading: false,
@@ -824,7 +839,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
               : const Text('Task'),
         ),
         drawer: drawer,
-        body: const Center(child: CircularProgressIndicator()),
+        body: loadError != null
+            ? LoadErrorView(error: loadError!, onRetry: _load)
+            : const Center(child: CircularProgressIndicator()),
       );
     }
 

@@ -11,6 +11,7 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/training_record_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 class TrainingRecordsScreen extends ConsumerStatefulWidget {
   const TrainingRecordsScreen({super.key, required this.staffMember});
@@ -24,6 +25,7 @@ class TrainingRecordsScreen extends ConsumerStatefulWidget {
 
 class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
   bool loading = true;
+  String? loadError;
   List<TrainingRecord> records = [];
 
   @override
@@ -33,14 +35,26 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
   }
 
   Future<void> _loadData() async {
-    final repo = ref.read(trainingRecordRepositoryProvider);
-    final loaded = await repo.getForUser(widget.staffMember.id);
-
-    if (!mounted) return;
     setState(() {
-      records = loaded;
-      loading = false;
+      loading = true;
+      loadError = null;
     });
+    try {
+      final repo = ref.read(trainingRecordRepositoryProvider);
+      final loaded = await repo.getForUser(widget.staffMember.id);
+
+      if (!mounted) return;
+      setState(() {
+        records = loaded;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+    }
   }
 
   Future<void> _addRecord() async {
@@ -204,6 +218,8 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
       ),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : loadError != null
+          ? LoadErrorView(error: loadError!, onRetry: _loadData)
           : SafeArea(
         child: ResponsiveContent(
           child: records.isEmpty

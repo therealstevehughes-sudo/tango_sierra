@@ -17,6 +17,7 @@ import '../../shared/providers/task_preset_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 class PresetManagementScreen extends ConsumerStatefulWidget {
   const PresetManagementScreen({super.key});
@@ -29,6 +30,7 @@ class PresetManagementScreen extends ConsumerStatefulWidget {
 class _PresetManagementScreenState
     extends ConsumerState<PresetManagementScreen> {
   bool loading = true;
+  String? loadError;
   List<TaskPreset> presets = [];
   List<EquipmentType> equipmentTypes = [];
   List<TaskTemplate> templates = [];
@@ -52,21 +54,33 @@ class _PresetManagementScreenState
   }
 
   Future<void> _loadData() async {
-    final presetRepo = ref.read(taskPresetRepositoryProvider);
-    final equipmentRepo = ref.read(equipmentRepositoryProvider);
-    final templateRepo = ref.read(taskTemplateRepositoryProvider);
-
-    final loadedPresets = await presetRepo.getAll();
-    final loadedTypes = await equipmentRepo.getEquipmentTypes();
-    final loadedTemplates = await templateRepo.getAllCurrentVersions();
-
-    if (!mounted) return;
     setState(() {
-      presets = loadedPresets;
-      equipmentTypes = loadedTypes;
-      templates = loadedTemplates;
-      loading = false;
+      loading = true;
+      loadError = null;
     });
+    try {
+      final presetRepo = ref.read(taskPresetRepositoryProvider);
+      final equipmentRepo = ref.read(equipmentRepositoryProvider);
+      final templateRepo = ref.read(taskTemplateRepositoryProvider);
+
+      final loadedPresets = await presetRepo.getAll();
+      final loadedTypes = await equipmentRepo.getEquipmentTypes();
+      final loadedTemplates = await templateRepo.getAllCurrentVersions();
+
+      if (!mounted) return;
+      setState(() {
+        presets = loadedPresets;
+        equipmentTypes = loadedTypes;
+        templates = loadedTemplates;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+    }
   }
 
   String _equipmentTypeName(int id) {
@@ -250,6 +264,8 @@ class _PresetManagementScreenState
       drawer: const ManagementDrawer(title: 'Task Presets'),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : loadError != null
+          ? LoadErrorView(error: loadError!, onRetry: _loadData)
           : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

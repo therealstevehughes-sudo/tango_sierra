@@ -12,6 +12,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/third_party_contact_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 class ThirdPartyContactsScreen extends ConsumerStatefulWidget {
   const ThirdPartyContactsScreen({super.key});
@@ -24,6 +25,7 @@ class ThirdPartyContactsScreen extends ConsumerStatefulWidget {
 class _ThirdPartyContactsScreenState
     extends ConsumerState<ThirdPartyContactsScreen> {
   bool loading = true;
+  String? loadError;
   List<ThirdPartyContact> contacts = [];
 
   bool showForm = false;
@@ -52,19 +54,31 @@ class _ThirdPartyContactsScreenState
   }
 
   Future<void> _loadData() async {
-    final repo = ref.read(thirdPartyContactRepositoryProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        ref.read(activeSiteProvider)?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-    final loaded = await repo.getForSite(siteId);
-
-    if (!mounted) return;
     setState(() {
-      contacts = loaded;
-      loading = false;
+      loading = true;
+      loadError = null;
     });
+    try {
+      final repo = ref.read(thirdPartyContactRepositoryProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          ref.read(activeSiteProvider)?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+      final loaded = await repo.getForSite(siteId);
+
+      if (!mounted) return;
+      setState(() {
+        contacts = loaded;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+    }
   }
 
   Future<void> _saveContact() async {
@@ -132,6 +146,8 @@ class _ThirdPartyContactsScreenState
       drawer: const ManagementDrawer(title: 'Maintenance Contacts'),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : loadError != null
+          ? LoadErrorView(error: loadError!, onRetry: _loadData)
           : SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),

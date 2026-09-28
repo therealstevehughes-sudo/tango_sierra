@@ -15,6 +15,7 @@ import '../../shared/providers/team_providers.dart';
 import 'training_records_screen.dart';
 import 'widgets/add_staff_dialog.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 // Approximate height of a single staff tile Card + padding, for the
 // A–Z quick-jump scroll target calculation. Not pixel-perfect (subtitle
@@ -42,6 +43,7 @@ class StaffManagementScreen extends ConsumerStatefulWidget {
 
 class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   bool loading = true;
+  String? loadError;
   List<User> staff = [];
   final ScrollController _scrollController = ScrollController();
   // Keyed by department id, populated from every site any loaded staff
@@ -60,38 +62,51 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   }
 
   Future<void> _loadData() async {
-    final repo = ref.read(userRepositoryProvider);
-    final activeSite = ref.read(activeSiteProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        activeSite?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-    final loaded = await repo.getForSite(siteId);
+    setState(() {
+      loading = true;
+      loadError = null;
+    });
+    try {
+      final repo = ref.read(userRepositoryProvider);
+      final activeSite = ref.read(activeSiteProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          activeSite?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+      final loaded = await repo.getForSite(siteId);
 
-    final departmentRepo = ref.read(departmentRepositoryProvider);
-    final teamRepo = ref.read(teamRepositoryProvider);
-    final byId = <int, Department>{};
-    final teamById = <int, Team>{};
-    for (final siteId in loaded.map((u) => u.siteId).whereType<int>().toSet()) {
-      final departments = await departmentRepo.getForSite(siteId);
-      for (final department in departments) {
-        byId[department.id!] = department;
-        final teams = await teamRepo.getForDepartment(department.id!);
-        for (final team in teams) {
-          teamById[team.id!] = team;
+      final departmentRepo = ref.read(departmentRepositoryProvider);
+      final teamRepo = ref.read(teamRepositoryProvider);
+      final byId = <int, Department>{};
+      final teamById = <int, Team>{};
+      for (final siteId
+          in loaded.map((u) => u.siteId).whereType<int>().toSet()) {
+        final departments = await departmentRepo.getForSite(siteId);
+        for (final department in departments) {
+          byId[department.id!] = department;
+          final teams = await teamRepo.getForDepartment(department.id!);
+          for (final team in teams) {
+            teamById[team.id!] = team;
+          }
         }
       }
-    }
 
-    if (!mounted) return;
-    setState(() {
-      staff = loaded;
-      departmentsById = byId;
-      teamsById = teamById;
-      _siteId = siteId;
-      loading = false;
-    });
+      if (!mounted) return;
+      setState(() {
+        staff = loaded;
+        departmentsById = byId;
+        teamsById = teamById;
+        _siteId = siteId;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+    }
   }
 
   String? _deactivatedByName(User user) {
@@ -670,6 +685,8 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       drawer: const ManagementDrawer(title: 'Staff Management'),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : loadError != null
+          ? LoadErrorView(error: loadError!, onRetry: _loadData)
           : SafeArea(
         child: Row(
           children: [

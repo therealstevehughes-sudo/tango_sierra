@@ -12,6 +12,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/team_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 
 enum _DepartmentAction { rename, toggleActive }
 
@@ -34,6 +35,7 @@ class DepartmentManagementScreen extends ConsumerStatefulWidget {
 class _DepartmentManagementScreenState
     extends ConsumerState<DepartmentManagementScreen> {
   bool loading = true;
+  String? loadError;
   List<Department> departments = [];
   Map<int, List<Team>> teamsByDepartment = {};
 
@@ -44,28 +46,46 @@ class _DepartmentManagementScreenState
   }
 
   Future<void> _loadData() async {
-    final currentUser = ref.read(currentUserProvider);
-    if (currentUser == null) return;
-    final departmentRepo = ref.read(departmentRepositoryProvider);
-    final teamRepo = ref.read(teamRepositoryProvider);
-    final loadedDepartments = await departmentRepo.getForSite(
-      currentUser.siteId!,
-    );
-
-    final teamLists = await Future.wait(
-      loadedDepartments.map((d) => teamRepo.getForDepartment(d.id!)),
-    );
-    final teamsByDept = {
-      for (var i = 0; i < loadedDepartments.length; i++)
-        loadedDepartments[i].id!: teamLists[i],
-    };
-
-    if (!mounted) return;
     setState(() {
-      departments = loadedDepartments;
-      teamsByDepartment = teamsByDept;
-      loading = false;
+      loading = true;
+      loadError = null;
     });
+    try {
+      final currentUser = ref.read(currentUserProvider);
+      if (currentUser == null) {
+        setState(() {
+          loadError = 'No signed-in user found.';
+          loading = false;
+        });
+        return;
+      }
+      final departmentRepo = ref.read(departmentRepositoryProvider);
+      final teamRepo = ref.read(teamRepositoryProvider);
+      final loadedDepartments = await departmentRepo.getForSite(
+        currentUser.siteId!,
+      );
+
+      final teamLists = await Future.wait(
+        loadedDepartments.map((d) => teamRepo.getForDepartment(d.id!)),
+      );
+      final teamsByDept = {
+        for (var i = 0; i < loadedDepartments.length; i++)
+          loadedDepartments[i].id!: teamLists[i],
+      };
+
+      if (!mounted) return;
+      setState(() {
+        departments = loadedDepartments;
+        teamsByDepartment = teamsByDept;
+        loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        loadError = e.toString();
+        loading = false;
+      });
+    }
   }
 
   Future<String?> _promptForName({
@@ -254,6 +274,8 @@ class _DepartmentManagementScreenState
       drawer: const ManagementDrawer(title: 'Department Management'),
       body: loading
           ? const Center(child: CircularProgressIndicator())
+          : loadError != null
+          ? LoadErrorView(error: loadError!, onRetry: _loadData)
           : SafeArea(
         child: ResponsiveContent(
           child: departments.isEmpty
