@@ -97,6 +97,23 @@ class SupabaseTaskSubmissionRepository implements TaskSubmissionRepository {
       );
 
   @override
+  Future<List<TaskSubmission>> getRecentForEquipmentInstance({
+    required int equipmentInstanceId,
+    required int taskTemplateGroupId,
+    int limit = 4,
+  }) async {
+    // Fetched newest-first so `limit` keeps the most recent N, then
+    // reversed to oldest-first — same reasoning as the Drift impl's own
+    // comment on this method.
+    final rows = await _query(
+      'equipment_instance_id=eq.$equipmentInstanceId'
+      '&task_template_group_id=eq.$taskTemplateGroupId'
+      '&order=completed_at.desc&limit=$limit',
+    );
+    return rows.reversed.toList();
+  }
+
+  @override
   Stream<List<TaskSubmission>> watchAll() => _poll(() => getAll());
 
   @override

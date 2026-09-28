@@ -18,6 +18,7 @@ import '../../shared/repositories/task_template_repository.dart';
 import '../../shared/repositories/trigger_notification_repository.dart';
 import '../../shared/repositories/user_repository.dart';
 import 'due_status_service.dart';
+import 'equipment_trend_service.dart';
 import 'task_model.dart';
 
 class TaskController {
@@ -413,6 +414,72 @@ class TaskController {
         taskSubmissionId: submissionId,
         task: task,
         correctiveActionOutcome: correctiveActionOutcome,
+      );
+    } else if (task.equipmentInstanceId != null &&
+        numericValue != null &&
+        (task.minLimit != null || task.maxLimit != null)) {
+      // Equipment trend warnings (2026-09-28) — only for a reading that
+      // isn't already a FAIL (that path above already notifies); this
+      // catches the "still passing every time, but getting worse" pattern
+      // a plain pass/fail check can never see on its own.
+      await _checkEquipmentTrend(
+        submissionId: submissionId,
+        task: task,
+        numericValue: numericValue,
+      );
+    }
+  }
+
+  Future<void> _checkEquipmentTrend({
+    required int submissionId,
+    required ResolvedTask task,
+    required String numericValue,
+  }) async {
+    final recent = await _submissionRepository.getRecentForEquipmentInstance(
+      equipmentInstanceId: task.equipmentInstanceId!,
+      taskTemplateGroupId: task.templateGroupId,
+    );
+    final values = <double>[
+      for (final s in recent)
+        if (s.numericValue != null && double.tryParse(s.numericValue!) != null)
+          double.parse(s.numericValue!),
+    ];
+    final warning = evaluateEquipmentTrend(
+      values,
+      minLimit: task.minLimit,
+      maxLimit: task.maxLimit,
+      unit: task.unit,
+    );
+    if (warning == null) return;
+
+    final siteId = _currentUser.siteId!;
+    final allUsers = await _userRepository.getAll();
+    // Same "guaranteed floor" recipient rule as the corrective-action
+    // "Reported to manager" fallback in _fireNotifications: everyone at
+    // the lowest non-base tier present at the site, not an arbitrary pick
+    // — a trending fridge is a site-wide concern, not one specific
+    // manager's alone.
+    final nonBaseAtSite = allUsers
+        .where((u) => u.roleTier != RoleTier.base && u.siteId == siteId)
+        .toList();
+    if (nonBaseAtSite.isEmpty) return;
+    final lowestRank = nonBaseAtSite
+        .map((u) => roleTierRank(u.roleTier))
+        .reduce((a, b) => a < b ? a : b);
+    final recipients = nonBaseAtSite.where(
+      (u) => roleTierRank(u.roleTier) == lowestRank,
+    );
+
+    final message = warning.messageFor(task.displayTitle);
+    for (final recipient in recipients) {
+      await _triggerNotificationRepository.create(
+        notificationRuleId: null,
+        taskSubmissionId: submissionId,
+        recipientUserId: recipient.id,
+        message: message,
+        siteId: siteId,
+        originTargetRoleTier: null,
+        equipmentInstanceName: task.equipmentInstanceName,
       );
     }
   }

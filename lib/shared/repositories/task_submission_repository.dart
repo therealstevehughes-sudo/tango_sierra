@@ -52,6 +52,17 @@ abstract class TaskSubmissionRepository {
     required DateTime start,
     required DateTime end,
   });
+
+  // Equipment trend warnings (2026-09-28) — a numeric reading's own recent
+  // history for the SAME equipment instance + task template pair (so a
+  // fridge's temp checks are never mixed with, say, its own separate
+  // cleaning checks), oldest first, for EquipmentTrendService to compare
+  // against how close each one sat to its safe limit over time.
+  Future<List<TaskSubmission>> getRecentForEquipmentInstance({
+    required int equipmentInstanceId,
+    required int taskTemplateGroupId,
+    int limit = 4,
+  });
 }
 
 class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
@@ -138,6 +149,27 @@ class DriftTaskSubmissionRepository implements TaskSubmissionRepository {
       ..orderBy([(t) => OrderingTerm.asc(t.completedAt)]);
     final rows = await query.get();
     return rows.map(_toModel).toList();
+  }
+
+  @override
+  Future<List<TaskSubmission>> getRecentForEquipmentInstance({
+    required int equipmentInstanceId,
+    required int taskTemplateGroupId,
+    int limit = 4,
+  }) async {
+    final query = _db.select(_db.taskSubmissions)
+      ..where(
+        (t) =>
+            t.equipmentInstanceId.equals(equipmentInstanceId) &
+            t.taskTemplateGroupId.equals(taskTemplateGroupId),
+      )
+      ..orderBy([(t) => OrderingTerm.desc(t.completedAt)])
+      ..limit(limit);
+    final rows = await query.get();
+    // Fetched newest-first (so LIMIT keeps the most recent N), returned
+    // oldest-first — the order every caller of this method actually wants
+    // for a "did this get closer over time" comparison.
+    return rows.reversed.map(_toModel).toList();
   }
 
   @override
