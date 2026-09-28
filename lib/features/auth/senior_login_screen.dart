@@ -58,12 +58,30 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
   User? selectedUser;
   final pinController = TextEditingController();
 
+  // Self-service password reset (2026-09-28, direct founder request) — a
+  // native Windows app can't handle a clickable magic-link redirect the
+  // way a website would, so this reuses Supabase's own recovery flow but
+  // has the person type back a plain 6-digit code instead: `resetPassword
+  // ForEmail` sends it (the self-hosted GoTrue's recovery email template
+  // was updated server-side to show `{{ .Token }}` as visible text rather
+  // than only a link), then `verifyOTP(type: recovery)` exchanges that
+  // code for a real session, and `updateUser` sets the new password.
+  bool showForgotPassword = false;
+  bool showResetCode = false;
+  final forgotEmailController = TextEditingController();
+  final resetCodeController = TextEditingController();
+  final newPasswordController = TextEditingController();
+  bool obscureNewPassword = true;
+
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
     pinController.dispose();
     mfaCodeController.dispose();
+    forgotEmailController.dispose();
+    resetCodeController.dispose();
+    newPasswordController.dispose();
     super.dispose();
   }
 
@@ -233,6 +251,97 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     }
   }
 
+  Future<void> _sendResetCode() async {
+    final email = forgotEmailController.text.trim();
+    if (email.isEmpty) return;
+
+    setState(() {
+      error = null;
+      submitting = true;
+    });
+
+    try {
+      await gotrue.Supabase.instance.client.auth.resetPasswordForEmail(email);
+      if (!mounted) return;
+      setState(() {
+        showResetCode = true;
+        submitting = false;
+      });
+    } on gotrue.AuthException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        error = e.message;
+        submitting = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        error = 'Could not reach the server';
+        submitting = false;
+      });
+    }
+  }
+
+  Future<void> _confirmResetCode() async {
+    final email = forgotEmailController.text.trim();
+    final code = resetCodeController.text.trim();
+    final newPassword = newPasswordController.text;
+    if (email.isEmpty || code.isEmpty || newPassword.isEmpty) return;
+
+    setState(() {
+      error = null;
+      submitting = true;
+    });
+
+    try {
+      final response = await gotrue.Supabase.instance.client.auth.verifyOTP(
+        email: email,
+        token: code,
+        type: gotrue.OtpType.recovery,
+      );
+      final authUserId = response.user?.id;
+      final session = response.session;
+      if (authUserId == null || session == null) {
+        if (!mounted) return;
+        setState(() {
+          error = "That code didn't work.";
+          submitting = false;
+        });
+        return;
+      }
+
+      await gotrue.Supabase.instance.client.auth.updateUser(
+        gotrue.UserAttributes(password: newPassword),
+      );
+
+      if (!mounted) return;
+      await _finishSignIn(authUserId, session.accessToken);
+    } on gotrue.AuthException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        error = e.message;
+        submitting = false;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        error = "That code didn't work.";
+        submitting = false;
+      });
+    }
+  }
+
+  void _exitForgotPasswordFlow() {
+    setState(() {
+      showForgotPassword = false;
+      showResetCode = false;
+      forgotEmailController.clear();
+      resetCodeController.clear();
+      newPasswordController.clear();
+      error = null;
+    });
+  }
+
   Future<void> _finishSignIn(String authUserId, String accessToken) async {
     final repository = ref.read(userRepositoryProvider);
     final localUser = await repository.findBySupabaseUserId(authUserId);
@@ -259,6 +368,156 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     // rebuilt home.
     if (!mounted) return;
     Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
+  Widget _buildForgotEmailStep(BuildContext context) {
+    return Scaffold(
+      appBar: AppScreenHeader(
+        title: const Text('Reset Password'),
+        actions: const [AssistantIconButton()],
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ResponsiveContent(
+            maxWidth: 400,
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const AppBanner(
+                  kind: BannerKind.info,
+                  child: Text(
+                    "Enter your email and we'll send you a code to reset "
+                    'your password.',
+                  ),
+                ),
+                const SizedBox(height: 24),
+                TextField(
+                  controller: forgotEmailController,
+                  keyboardType: TextInputType.emailAddress,
+                  autofillHints: const [AutofillHints.email],
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    prefixIcon: Icon(Icons.email_outlined),
+                  ),
+                  onSubmitted: (_) => _sendResetCode(),
+                ),
+                if (error != null) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    error!,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                FilledButton(
+                  onPressed: submitting ? null : _sendResetCode,
+                  child: submitting
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text('SEND CODE'),
+                ),
+                TextButton(
+                  onPressed: submitting ? null : _exitForgotPasswordFlow,
+                  child: const Text('Back to sign in'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildResetCodeStep(BuildContext context) {
+    return Scaffold(
+      appBar: AppScreenHeader(
+        title: const Text('Reset Password'),
+        actions: const [AssistantIconButton()],
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ResponsiveContent(
+            maxWidth: 400,
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                AppBanner(
+                  kind: BannerKind.info,
+                  child: Text(
+                    'We sent a code to ${forgotEmailController.text.trim()}. '
+                    'Enter it below with your new password.',
+                  ),
+                ),
+                const SizedBox(height: 24),
+                TextField(
+                  controller: resetCodeController,
+                  keyboardType: TextInputType.number,
+                  autofocus: true,
+                  decoration: const InputDecoration(labelText: '6-digit code'),
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: newPasswordController,
+                  obscureText: obscureNewPassword,
+                  autofillHints: const [AutofillHints.newPassword],
+                  decoration: InputDecoration(
+                    labelText: 'New password',
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        obscureNewPassword
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined,
+                      ),
+                      onPressed: () => setState(
+                        () => obscureNewPassword = !obscureNewPassword,
+                      ),
+                    ),
+                  ),
+                  onSubmitted: (_) => _confirmResetCode(),
+                ),
+                if (error != null) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    error!,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                FilledButton(
+                  onPressed: submitting ? null : _confirmResetCode,
+                  child: submitting
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text('RESET PASSWORD'),
+                ),
+                TextButton(
+                  onPressed: submitting ? null : _exitForgotPasswordFlow,
+                  child: const Text('Back to sign in'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildMfaStep(BuildContext context) {
@@ -334,6 +593,11 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     if (_pendingMfaFactorId != null) {
       return _buildMfaStep(context);
     }
+    if (showForgotPassword) {
+      return showResetCode
+          ? _buildResetCodeStep(context)
+          : _buildForgotEmailStep(context);
+    }
     return Scaffold(
       appBar: AppScreenHeader(
         title: const Text('Leadership Access'),
@@ -403,6 +667,19 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
                       : const Text('SIGN IN'),
+                ),
+                TextButton(
+                  onPressed: submitting
+                      ? null
+                      : () {
+                          forgotEmailController.text = emailController.text
+                              .trim();
+                          setState(() {
+                            showForgotPassword = true;
+                            error = null;
+                          });
+                        },
+                  child: const Text('Forgot password?'),
                 ),
               ],
             ),
