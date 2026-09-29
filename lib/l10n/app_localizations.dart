@@ -2100,7 +2100,7 @@ abstract class AppLocalizations {
   /// **'Venue Setup'**
   String get venueSetupSection;
 
-  /// No description provided for @companySection.
+  ///
   ///
   /// In en, this message translates to:
   /// **'Company'**
@@ -5455,6 +5455,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'on {date} by {name}'**
   String deactivatedOnByLabel(String date, String name);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Dark Mode'**
+  String get darkModeLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'One brand identity, shared company-wide - applies to every venue, not per-site.'**
+  String get brandIdentityIntro;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Company name'**
+  String get companyNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Company logo'**
+  String get companyLogoLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Logo'**
+  String get chooseLogoButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Change Logo'**
+  String get changeLogoButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Brand colour'**
+  String get brandColourLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Custom hex colour'**
+  String get customHexColourLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid hex colour'**
+  String get enterValidHexColourError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Contact phone'**
+  String get contactPhoneLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Contact email'**
+  String get contactEmailLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get savingEllipsisLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Save Branding'**
+  String get saveBrandingButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Branding saved'**
+  String get brandingSavedMessage;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get customSwatchTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Staff Shift/Roster (+£6-£10/branch/month)'**
+  String get rosterAddonTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Let staff see and claim open shifts themselves - a manager posts shifts, staff pick them up. £6/month per branch under 10 staff, £10/month for 10 or more.'**
+  String get rosterAddonSubtitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Roster?'**
+  String get enableRosterTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Clear demo data?'**
+  String get clearDemoDataTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently deletes every demo staff member, branch, and department, and signs you out. This can\'t be undone.'**
+  String get clearDemoDataConfirmText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Clear everything'**
+  String get clearEverythingButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Demo Data'**
+  String get clearDemoDataCardTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Remove every demo staff member, branch, and department so you can set up your own from scratch.'**
+  String get clearDemoDataCardBody;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Clear demo data'**
+  String get clearDemoDataButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature unit'**
+  String get temperatureUnitLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Celsius (°C)'**
+  String get celsiusLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Fahrenheit (°F)'**
+  String get fahrenheitLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get comingSoonLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Ocean Teal'**
+  String get presetColorOceanTeal;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Navy'**
+  String get presetColorNavy;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Indigo'**
+  String get presetColorIndigo;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Slate'**
+  String get presetColorSlate;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Plum'**
+  String get presetColorPlum;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Forest'**
+  String get presetColorForest;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Umber'**
+  String get presetColorUmber;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Charcoal'**
+  String get presetColorCharcoal;
+
+  /// No description provided for @couldNotGetPriceError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not get a price: {error}'**
+  String couldNotGetPriceError(String error);
+
+  /// No description provided for @enableRosterConfirmText.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on your current staff numbers, this will add {amount} to your monthly Direct Debit.'**
+  String enableRosterConfirmText(String amount);
 }
 
 class _AppLocalizationsDelegate

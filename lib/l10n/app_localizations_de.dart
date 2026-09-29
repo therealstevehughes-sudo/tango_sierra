@@ -1150,7 +1150,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get venueSetupSection => 'Standort-Einrichtung';
 
   @override
-  String get companySection => 'Unternehmen';
+  String get companySection => 'Firma';
 
   @override
   String get accountSection => 'Konto';
@@ -3139,5 +3139,131 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String deactivatedOnByLabel(String date, String name) {
     return 'am $date von $name';
+  }
+
+  @override
+  String get darkModeLabel => 'Dunkelmodus';
+
+  @override
+  String get brandIdentityIntro =>
+      'Eine Markenidentität, unternehmensweit geteilt - gilt für jeden Standort, nicht pro Standort.';
+
+  @override
+  String get companyNameLabel => 'Firmenname';
+
+  @override
+  String get companyLogoLabel => 'Firmenlogo';
+
+  @override
+  String get chooseLogoButton => 'Logo wählen';
+
+  @override
+  String get changeLogoButton => 'Logo ändern';
+
+  @override
+  String get brandColourLabel => 'Markenfarbe';
+
+  @override
+  String get customHexColourLabel => 'Benutzerdefinierte Hex-Farbe';
+
+  @override
+  String get enterValidHexColourError => 'Gib eine gültige Hex-Farbe ein';
+
+  @override
+  String get contactPhoneLabel => 'Kontakttelefon';
+
+  @override
+  String get contactEmailLabel => 'Kontakt-E-Mail';
+
+  @override
+  String get savingEllipsisLabel => 'Wird gespeichert...';
+
+  @override
+  String get saveBrandingButton => 'Branding speichern';
+
+  @override
+  String get brandingSavedMessage => 'Branding gespeichert';
+
+  @override
+  String get customSwatchTooltip => 'Benutzerdefiniert';
+
+  @override
+  String get rosterAddonTitle =>
+      'Personal-Schicht/Dienstplan (+6-10 £/Filiale/Monat)';
+
+  @override
+  String get rosterAddonSubtitle =>
+      'Lass Mitarbeiter offene Schichten selbst sehen und übernehmen - ein Manager stellt Schichten ein, Mitarbeiter greifen zu. 6 £/Monat pro Filiale unter 10 Mitarbeitern, 10 £/Monat für 10 oder mehr.';
+
+  @override
+  String get enableRosterTitle => 'Dienstplan aktivieren?';
+
+  @override
+  String get confirmButton => 'Bestätigen';
+
+  @override
+  String get clearDemoDataTitle => 'Demo-Daten löschen?';
+
+  @override
+  String get clearDemoDataConfirmText =>
+      'Dies löscht dauerhaft jeden Demo-Mitarbeiter, jede Filiale und Abteilung und meldet dich ab. Dies kann nicht rückgängig gemacht werden.';
+
+  @override
+  String get clearEverythingButton => 'Alles löschen';
+
+  @override
+  String get clearDemoDataCardTitle => 'Demo-Daten löschen';
+
+  @override
+  String get clearDemoDataCardBody =>
+      'Entferne jeden Demo-Mitarbeiter, jede Filiale und Abteilung, damit du deine eigenen von Grund auf einrichten kannst.';
+
+  @override
+  String get clearDemoDataButton => 'Demo-Daten löschen';
+
+  @override
+  String get temperatureUnitLabel => 'Temperatureinheit';
+
+  @override
+  String get celsiusLabel => 'Celsius (°C)';
+
+  @override
+  String get fahrenheitLabel => 'Fahrenheit (°F)';
+
+  @override
+  String get comingSoonLabel => 'Demnächst';
+
+  @override
+  String get presetColorOceanTeal => 'Ozeanblau';
+
+  @override
+  String get presetColorNavy => 'Marineblau';
+
+  @override
+  String get presetColorIndigo => 'Indigo';
+
+  @override
+  String get presetColorSlate => 'Schiefer';
+
+  @override
+  String get presetColorPlum => 'Pflaume';
+
+  @override
+  String get presetColorForest => 'Waldgrün';
+
+  @override
+  String get presetColorUmber => 'Umbra';
+
+  @override
+  String get presetColorCharcoal => 'Anthrazit';
+
+  @override
+  String couldNotGetPriceError(String error) {
+    return 'Preis konnte nicht abgerufen werden: $error';
+  }
+
+  @override
+  String enableRosterConfirmText(String amount) {
+    return 'Basierend auf deiner aktuellen Mitarbeiterzahl wird dies $amount zu deinem monatlichen Lastschrifteinzug hinzufügen.';
   }
 }

@@ -3054,4 +3054,130 @@ class AppLocalizationsAr extends AppLocalizations {
   String deactivatedOnByLabel(String date, String name) {
     return 'في $date بواسطة $name';
   }
+
+  @override
+  String get darkModeLabel => 'الوضع الداكن';
+
+  @override
+  String get brandIdentityIntro =>
+      'هوية علامة تجارية واحدة، مشتركة على مستوى الشركة - تنطبق على كل موقع، وليس لكل موقع على حدة.';
+
+  @override
+  String get companyNameLabel => 'اسم الشركة';
+
+  @override
+  String get companyLogoLabel => 'شعار الشركة';
+
+  @override
+  String get chooseLogoButton => 'اختيار الشعار';
+
+  @override
+  String get changeLogoButton => 'تغيير الشعار';
+
+  @override
+  String get brandColourLabel => 'لون العلامة التجارية';
+
+  @override
+  String get customHexColourLabel => 'لون سداسي عشري مخصص';
+
+  @override
+  String get enterValidHexColourError => 'أدخل لونًا سداسيًا عشريًا صالحًا';
+
+  @override
+  String get contactPhoneLabel => 'هاتف التواصل';
+
+  @override
+  String get contactEmailLabel => 'بريد التواصل الإلكتروني';
+
+  @override
+  String get savingEllipsisLabel => 'جارٍ الحفظ...';
+
+  @override
+  String get saveBrandingButton => 'حفظ الهوية';
+
+  @override
+  String get brandingSavedMessage => 'تم حفظ الهوية';
+
+  @override
+  String get customSwatchTooltip => 'مخصص';
+
+  @override
+  String get rosterAddonTitle =>
+      'نوبات/جدول الموظفين (+6-10 جنيه إسترليني/موقع/شهر)';
+
+  @override
+  String get rosterAddonSubtitle =>
+      'دع الموظفين يرون النوبات المفتوحة ويطلبونها بأنفسهم - يقوم المدير بنشر النوبات، ويختارها الموظفون. 6 جنيهات إسترلينية/شهر لكل موقع أقل من 10 موظفين، و10 جنيهات إسترلينية/شهر لـ 10 أو أكثر.';
+
+  @override
+  String get enableRosterTitle => 'تفعيل الجدول؟';
+
+  @override
+  String get confirmButton => 'تأكيد';
+
+  @override
+  String get clearDemoDataTitle => 'مسح بيانات العرض التوضيحي؟';
+
+  @override
+  String get clearDemoDataConfirmText =>
+      'سيؤدي هذا إلى حذف كل موظف وفرع وقسم تجريبي نهائيًا، وتسجيل خروجك. لا يمكن التراجع عن هذا.';
+
+  @override
+  String get clearEverythingButton => 'مسح كل شيء';
+
+  @override
+  String get clearDemoDataCardTitle => 'مسح بيانات العرض التوضيحي';
+
+  @override
+  String get clearDemoDataCardBody =>
+      'أزل كل موظف وفرع وقسم تجريبي حتى تتمكن من إعداد بياناتك الخاصة من الصفر.';
+
+  @override
+  String get clearDemoDataButton => 'مسح بيانات العرض التوضيحي';
+
+  @override
+  String get temperatureUnitLabel => 'وحدة درجة الحرارة';
+
+  @override
+  String get celsiusLabel => 'مئوية (°C)';
+
+  @override
+  String get fahrenheitLabel => 'فهرنهايت (°F)';
+
+  @override
+  String get comingSoonLabel => 'قريبًا';
+
+  @override
+  String get presetColorOceanTeal => 'أزرق محيطي';
+
+  @override
+  String get presetColorNavy => 'كحلي';
+
+  @override
+  String get presetColorIndigo => 'نيلي';
+
+  @override
+  String get presetColorSlate => 'أردوازي';
+
+  @override
+  String get presetColorPlum => 'خوخي غامق';
+
+  @override
+  String get presetColorForest => 'أخضر غابي';
+
+  @override
+  String get presetColorUmber => 'عنبري';
+
+  @override
+  String get presetColorCharcoal => 'فحمي';
+
+  @override
+  String couldNotGetPriceError(String error) {
+    return 'تعذر الحصول على السعر: $error';
+  }
+
+  @override
+  String enableRosterConfirmText(String amount) {
+    return 'بناءً على عدد موظفيك الحالي، سيضيف هذا $amount إلى الخصم المباشر الشهري الخاص بك.';
+  }
 }

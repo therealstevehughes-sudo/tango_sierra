@@ -3113,4 +3113,129 @@ class AppLocalizationsEn extends AppLocalizations {
   String deactivatedOnByLabel(String date, String name) {
     return 'on $date by $name';
   }
+
+  @override
+  String get darkModeLabel => 'Dark Mode';
+
+  @override
+  String get brandIdentityIntro =>
+      'One brand identity, shared company-wide - applies to every venue, not per-site.';
+
+  @override
+  String get companyNameLabel => 'Company name';
+
+  @override
+  String get companyLogoLabel => 'Company logo';
+
+  @override
+  String get chooseLogoButton => 'Choose Logo';
+
+  @override
+  String get changeLogoButton => 'Change Logo';
+
+  @override
+  String get brandColourLabel => 'Brand colour';
+
+  @override
+  String get customHexColourLabel => 'Custom hex colour';
+
+  @override
+  String get enterValidHexColourError => 'Enter a valid hex colour';
+
+  @override
+  String get contactPhoneLabel => 'Contact phone';
+
+  @override
+  String get contactEmailLabel => 'Contact email';
+
+  @override
+  String get savingEllipsisLabel => 'Saving...';
+
+  @override
+  String get saveBrandingButton => 'Save Branding';
+
+  @override
+  String get brandingSavedMessage => 'Branding saved';
+
+  @override
+  String get customSwatchTooltip => 'Custom';
+
+  @override
+  String get rosterAddonTitle => 'Staff Shift/Roster (+£6-£10/branch/month)';
+
+  @override
+  String get rosterAddonSubtitle =>
+      'Let staff see and claim open shifts themselves - a manager posts shifts, staff pick them up. £6/month per branch under 10 staff, £10/month for 10 or more.';
+
+  @override
+  String get enableRosterTitle => 'Enable Roster?';
+
+  @override
+  String get confirmButton => 'Confirm';
+
+  @override
+  String get clearDemoDataTitle => 'Clear demo data?';
+
+  @override
+  String get clearDemoDataConfirmText =>
+      'This permanently deletes every demo staff member, branch, and department, and signs you out. This can\'t be undone.';
+
+  @override
+  String get clearEverythingButton => 'Clear everything';
+
+  @override
+  String get clearDemoDataCardTitle => 'Clear Demo Data';
+
+  @override
+  String get clearDemoDataCardBody =>
+      'Remove every demo staff member, branch, and department so you can set up your own from scratch.';
+
+  @override
+  String get clearDemoDataButton => 'Clear demo data';
+
+  @override
+  String get temperatureUnitLabel => 'Temperature unit';
+
+  @override
+  String get celsiusLabel => 'Celsius (°C)';
+
+  @override
+  String get fahrenheitLabel => 'Fahrenheit (°F)';
+
+  @override
+  String get comingSoonLabel => 'Coming soon';
+
+  @override
+  String get presetColorOceanTeal => 'Ocean Teal';
+
+  @override
+  String get presetColorNavy => 'Navy';
+
+  @override
+  String get presetColorIndigo => 'Indigo';
+
+  @override
+  String get presetColorSlate => 'Slate';
+
+  @override
+  String get presetColorPlum => 'Plum';
+
+  @override
+  String get presetColorForest => 'Forest';
+
+  @override
+  String get presetColorUmber => 'Umber';
+
+  @override
+  String get presetColorCharcoal => 'Charcoal';
+
+  @override
+  String couldNotGetPriceError(String error) {
+    return 'Could not get a price: $error';
+  }
+
+  @override
+  String enableRosterConfirmText(String amount) {
+    return 'Based on your current staff numbers, this will add $amount to your monthly Direct Debit.';
+  }
 }

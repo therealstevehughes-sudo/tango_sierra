@@ -2970,4 +2970,126 @@ class AppLocalizationsZh extends AppLocalizations {
   String deactivatedOnByLabel(String date, String name) {
     return '于 $date 由 $name';
   }
+
+  @override
+  String get darkModeLabel => '深色模式';
+
+  @override
+  String get brandIdentityIntro => '统一的品牌形象,全公司共享 - 适用于每个场所,而非按场所单独设置。';
+
+  @override
+  String get companyNameLabel => '公司名称';
+
+  @override
+  String get companyLogoLabel => '公司标志';
+
+  @override
+  String get chooseLogoButton => '选择标志';
+
+  @override
+  String get changeLogoButton => '更改标志';
+
+  @override
+  String get brandColourLabel => '品牌颜色';
+
+  @override
+  String get customHexColourLabel => '自定义十六进制颜色';
+
+  @override
+  String get enterValidHexColourError => '请输入有效的十六进制颜色';
+
+  @override
+  String get contactPhoneLabel => '联系电话';
+
+  @override
+  String get contactEmailLabel => '联系邮箱';
+
+  @override
+  String get savingEllipsisLabel => '保存中...';
+
+  @override
+  String get saveBrandingButton => '保存品牌设置';
+
+  @override
+  String get brandingSavedMessage => '品牌设置已保存';
+
+  @override
+  String get customSwatchTooltip => '自定义';
+
+  @override
+  String get rosterAddonTitle => '员工排班(+每场所每月6-10英镑)';
+
+  @override
+  String get rosterAddonSubtitle =>
+      '让员工自己查看并认领空缺班次 - 管理者发布班次,员工自行认领。10人以下场所每月6英镑,10人及以上每月10英镑。';
+
+  @override
+  String get enableRosterTitle => '启用排班?';
+
+  @override
+  String get confirmButton => '确认';
+
+  @override
+  String get clearDemoDataTitle => '清除演示数据?';
+
+  @override
+  String get clearDemoDataConfirmText => '这将永久删除所有演示员工、分店和部门,并将你登出。此操作无法撤销。';
+
+  @override
+  String get clearEverythingButton => '清除全部';
+
+  @override
+  String get clearDemoDataCardTitle => '清除演示数据';
+
+  @override
+  String get clearDemoDataCardBody => '移除所有演示员工、分店和部门,以便你从头开始设置自己的数据。';
+
+  @override
+  String get clearDemoDataButton => '清除演示数据';
+
+  @override
+  String get temperatureUnitLabel => '温度单位';
+
+  @override
+  String get celsiusLabel => '摄氏度(°C)';
+
+  @override
+  String get fahrenheitLabel => '华氏度(°F)';
+
+  @override
+  String get comingSoonLabel => '即将推出';
+
+  @override
+  String get presetColorOceanTeal => '海洋青';
+
+  @override
+  String get presetColorNavy => '藏青';
+
+  @override
+  String get presetColorIndigo => '靛蓝';
+
+  @override
+  String get presetColorSlate => '石板灰';
+
+  @override
+  String get presetColorPlum => '梅红';
+
+  @override
+  String get presetColorForest => '森林绿';
+
+  @override
+  String get presetColorUmber => '赭石';
+
+  @override
+  String get presetColorCharcoal => '炭黑';
+
+  @override
+  String couldNotGetPriceError(String error) {
+    return '无法获取价格:$error';
+  }
+
+  @override
+  String enableRosterConfirmText(String amount) {
+    return '根据你目前的员工数量,这将在你的每月直接借记中增加 $amount。';
+  }
 }

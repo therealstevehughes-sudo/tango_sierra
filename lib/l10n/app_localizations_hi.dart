@@ -3073,4 +3073,129 @@ class AppLocalizationsHi extends AppLocalizations {
   String deactivatedOnByLabel(String date, String name) {
     return '$date को $name द्वारा';
   }
+
+  @override
+  String get darkModeLabel => 'डार्क मोड';
+
+  @override
+  String get brandIdentityIntro =>
+      'एक ब्रांड पहचान, पूरी कंपनी में साझा - हर वेन्यू पर लागू होती है, प्रति-साइट नहीं।';
+
+  @override
+  String get companyNameLabel => 'कंपनी का नाम';
+
+  @override
+  String get companyLogoLabel => 'कंपनी लोगो';
+
+  @override
+  String get chooseLogoButton => 'लोगो चुनें';
+
+  @override
+  String get changeLogoButton => 'लोगो बदलें';
+
+  @override
+  String get brandColourLabel => 'ब्रांड रंग';
+
+  @override
+  String get customHexColourLabel => 'कस्टम हेक्स रंग';
+
+  @override
+  String get enterValidHexColourError => 'एक मान्य हेक्स रंग दर्ज करें';
+
+  @override
+  String get contactPhoneLabel => 'संपर्क फोन';
+
+  @override
+  String get contactEmailLabel => 'संपर्क ईमेल';
+
+  @override
+  String get savingEllipsisLabel => 'सहेजा जा रहा है...';
+
+  @override
+  String get saveBrandingButton => 'ब्रांडिंग सहेजें';
+
+  @override
+  String get brandingSavedMessage => 'ब्रांडिंग सहेजी गई';
+
+  @override
+  String get customSwatchTooltip => 'कस्टम';
+
+  @override
+  String get rosterAddonTitle => 'स्टाफ शिफ्ट/रोस्टर (+£6-£10/शाखा/महीना)';
+
+  @override
+  String get rosterAddonSubtitle =>
+      'स्टाफ को खुद खुली शिफ्ट देखने और लेने दें - मैनेजर शिफ्ट पोस्ट करता है, स्टाफ उन्हें चुनता है। 10 से कम स्टाफ वाली शाखा के लिए £6/महीना, 10 या अधिक के लिए £10/महीना।';
+
+  @override
+  String get enableRosterTitle => 'रोस्टर सक्षम करें?';
+
+  @override
+  String get confirmButton => 'पुष्टि करें';
+
+  @override
+  String get clearDemoDataTitle => 'डेमो डेटा साफ़ करें?';
+
+  @override
+  String get clearDemoDataConfirmText =>
+      'यह हर डेमो स्टाफ सदस्य, शाखा और विभाग को स्थायी रूप से हटा देता है, और तुम्हें लॉग आउट कर देता है। इसे वापस नहीं किया जा सकता।';
+
+  @override
+  String get clearEverythingButton => 'सब कुछ साफ़ करें';
+
+  @override
+  String get clearDemoDataCardTitle => 'डेमो डेटा साफ़ करें';
+
+  @override
+  String get clearDemoDataCardBody =>
+      'हर डेमो स्टाफ सदस्य, शाखा और विभाग हटाओ ताकि तुम अपना खुद का सेटअप शुरुआत से कर सको।';
+
+  @override
+  String get clearDemoDataButton => 'डेमो डेटा साफ़ करें';
+
+  @override
+  String get temperatureUnitLabel => 'तापमान इकाई';
+
+  @override
+  String get celsiusLabel => 'सेल्सियस (°C)';
+
+  @override
+  String get fahrenheitLabel => 'फ़ारेनहाइट (°F)';
+
+  @override
+  String get comingSoonLabel => 'जल्द आ रहा है';
+
+  @override
+  String get presetColorOceanTeal => 'ओशन टील';
+
+  @override
+  String get presetColorNavy => 'नेवी';
+
+  @override
+  String get presetColorIndigo => 'इंडिगो';
+
+  @override
+  String get presetColorSlate => 'स्लेट';
+
+  @override
+  String get presetColorPlum => 'प्लम';
+
+  @override
+  String get presetColorForest => 'फॉरेस्ट';
+
+  @override
+  String get presetColorUmber => 'अंबर';
+
+  @override
+  String get presetColorCharcoal => 'चारकोल';
+
+  @override
+  String couldNotGetPriceError(String error) {
+    return 'कीमत प्राप्त नहीं हो सकी: $error';
+  }
+
+  @override
+  String enableRosterConfirmText(String amount) {
+    return 'तुम्हारे मौजूदा स्टाफ की संख्या के आधार पर, यह तुम्हारे मासिक डायरेक्ट डेबिट में $amount जोड़ देगा।';
+  }
 }

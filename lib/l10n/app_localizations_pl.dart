@@ -3125,4 +3125,130 @@ class AppLocalizationsPl extends AppLocalizations {
   String deactivatedOnByLabel(String date, String name) {
     return '$date przez $name';
   }
+
+  @override
+  String get darkModeLabel => 'Tryb ciemny';
+
+  @override
+  String get brandIdentityIntro =>
+      'Jedna tożsamość marki, wspólna dla całej firmy - dotyczy każdego lokalu, nie per lokal.';
+
+  @override
+  String get companyNameLabel => 'Nazwa firmy';
+
+  @override
+  String get companyLogoLabel => 'Logo firmy';
+
+  @override
+  String get chooseLogoButton => 'Wybierz logo';
+
+  @override
+  String get changeLogoButton => 'Zmień logo';
+
+  @override
+  String get brandColourLabel => 'Kolor marki';
+
+  @override
+  String get customHexColourLabel => 'Niestandardowy kolor hex';
+
+  @override
+  String get enterValidHexColourError => 'Wprowadź prawidłowy kolor hex';
+
+  @override
+  String get contactPhoneLabel => 'Telefon kontaktowy';
+
+  @override
+  String get contactEmailLabel => 'E-mail kontaktowy';
+
+  @override
+  String get savingEllipsisLabel => 'Zapisywanie...';
+
+  @override
+  String get saveBrandingButton => 'Zapisz markę';
+
+  @override
+  String get brandingSavedMessage => 'Zapisano markę';
+
+  @override
+  String get customSwatchTooltip => 'Niestandardowy';
+
+  @override
+  String get rosterAddonTitle =>
+      'Grafik/zmiany personelu (+6-10 GBP/lokal/miesiąc)';
+
+  @override
+  String get rosterAddonSubtitle =>
+      'Pozwól personelowi samodzielnie widzieć i zgłaszać się na otwarte zmiany - menedżer publikuje zmiany, personel je wybiera. 6 GBP/miesiąc za lokal poniżej 10 pracowników, 10 GBP/miesiąc dla 10 lub więcej.';
+
+  @override
+  String get enableRosterTitle => 'Włączyć grafik?';
+
+  @override
+  String get confirmButton => 'Potwierdź';
+
+  @override
+  String get clearDemoDataTitle => 'Wyczyścić dane demo?';
+
+  @override
+  String get clearDemoDataConfirmText =>
+      'To trwale usunie każdego demo pracownika, oddział i dział oraz wyloguje cię. Tego nie można cofnąć.';
+
+  @override
+  String get clearEverythingButton => 'Wyczyść wszystko';
+
+  @override
+  String get clearDemoDataCardTitle => 'Wyczyść dane demo';
+
+  @override
+  String get clearDemoDataCardBody =>
+      'Usuń każdego demo pracownika, oddział i dział, aby móc skonfigurować własne od zera.';
+
+  @override
+  String get clearDemoDataButton => 'Wyczyść dane demo';
+
+  @override
+  String get temperatureUnitLabel => 'Jednostka temperatury';
+
+  @override
+  String get celsiusLabel => 'Celsjusz (°C)';
+
+  @override
+  String get fahrenheitLabel => 'Fahrenheit (°F)';
+
+  @override
+  String get comingSoonLabel => 'Wkrótce';
+
+  @override
+  String get presetColorOceanTeal => 'Morski Turkus';
+
+  @override
+  String get presetColorNavy => 'Granat';
+
+  @override
+  String get presetColorIndigo => 'Indygo';
+
+  @override
+  String get presetColorSlate => 'Łupek';
+
+  @override
+  String get presetColorPlum => 'Śliwka';
+
+  @override
+  String get presetColorForest => 'Leśna zieleń';
+
+  @override
+  String get presetColorUmber => 'Umbra';
+
+  @override
+  String get presetColorCharcoal => 'Antracyt';
+
+  @override
+  String couldNotGetPriceError(String error) {
+    return 'Nie udało się uzyskać ceny: $error';
+  }
+
+  @override
+  String enableRosterConfirmText(String amount) {
+    return 'Na podstawie obecnej liczby pracowników, doda to $amount do twojego miesięcznego polecenia zapłaty.';
+  }
 }

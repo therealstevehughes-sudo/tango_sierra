@@ -3066,4 +3066,129 @@ class AppLocalizationsUr extends AppLocalizations {
   String deactivatedOnByLabel(String date, String name) {
     return '$date کو $name کی طرف سے';
   }
+
+  @override
+  String get darkModeLabel => 'ڈارک موڈ';
+
+  @override
+  String get brandIdentityIntro =>
+      'ایک برانڈ شناخت، پوری کمپنی میں مشترکہ - ہر وینیو پر لاگو ہوتی ہے، فی سائٹ نہیں۔';
+
+  @override
+  String get companyNameLabel => 'کمپنی کا نام';
+
+  @override
+  String get companyLogoLabel => 'کمپنی لوگو';
+
+  @override
+  String get chooseLogoButton => 'لوگو منتخب کریں';
+
+  @override
+  String get changeLogoButton => 'لوگو تبدیل کریں';
+
+  @override
+  String get brandColourLabel => 'برانڈ کا رنگ';
+
+  @override
+  String get customHexColourLabel => 'کسٹم ہیکس رنگ';
+
+  @override
+  String get enterValidHexColourError => 'ایک درست ہیکس رنگ درج کریں';
+
+  @override
+  String get contactPhoneLabel => 'رابطہ فون';
+
+  @override
+  String get contactEmailLabel => 'رابطہ ای میل';
+
+  @override
+  String get savingEllipsisLabel => 'محفوظ ہو رہا ہے...';
+
+  @override
+  String get saveBrandingButton => 'برانڈنگ محفوظ کریں';
+
+  @override
+  String get brandingSavedMessage => 'برانڈنگ محفوظ ہو گئی';
+
+  @override
+  String get customSwatchTooltip => 'کسٹم';
+
+  @override
+  String get rosterAddonTitle => 'اسٹاف شفٹ/روسٹر (+£6-£10/برانچ/مہینہ)';
+
+  @override
+  String get rosterAddonSubtitle =>
+      'اسٹاف کو خود کھلی شفٹیں دیکھنے اور لینے دیں - مینیجر شفٹیں پوسٹ کرتا ہے، اسٹاف انہیں چنتا ہے۔ 10 سے کم اسٹاف والی برانچ کے لیے £6/مہینہ، 10 یا زیادہ کے لیے £10/مہینہ۔';
+
+  @override
+  String get enableRosterTitle => 'روسٹر فعال کریں؟';
+
+  @override
+  String get confirmButton => 'تصدیق کریں';
+
+  @override
+  String get clearDemoDataTitle => 'ڈیمو ڈیٹا صاف کریں؟';
+
+  @override
+  String get clearDemoDataConfirmText =>
+      'یہ ہر ڈیمو اسٹاف رکن، برانچ اور شعبے کو مستقل طور پر حذف کر دیتا ہے، اور تمہیں لاگ آؤٹ کر دیتا ہے۔ اسے واپس نہیں کیا جا سکتا۔';
+
+  @override
+  String get clearEverythingButton => 'سب کچھ صاف کریں';
+
+  @override
+  String get clearDemoDataCardTitle => 'ڈیمو ڈیٹا صاف کریں';
+
+  @override
+  String get clearDemoDataCardBody =>
+      'ہر ڈیمو اسٹاف رکن، برانچ اور شعبہ ہٹاؤ تاکہ تم اپنا سیٹ اپ شروع سے کر سکو۔';
+
+  @override
+  String get clearDemoDataButton => 'ڈیمو ڈیٹا صاف کریں';
+
+  @override
+  String get temperatureUnitLabel => 'درجہ حرارت کی اکائی';
+
+  @override
+  String get celsiusLabel => 'سیلسیس (°C)';
+
+  @override
+  String get fahrenheitLabel => 'فارن ہائیٹ (°F)';
+
+  @override
+  String get comingSoonLabel => 'جلد آ رہا ہے';
+
+  @override
+  String get presetColorOceanTeal => 'اوشن ٹیل';
+
+  @override
+  String get presetColorNavy => 'نیوی';
+
+  @override
+  String get presetColorIndigo => 'انڈیگو';
+
+  @override
+  String get presetColorSlate => 'سلیٹ';
+
+  @override
+  String get presetColorPlum => 'پلم';
+
+  @override
+  String get presetColorForest => 'فارسٹ';
+
+  @override
+  String get presetColorUmber => 'امبر';
+
+  @override
+  String get presetColorCharcoal => 'چارکول';
+
+  @override
+  String couldNotGetPriceError(String error) {
+    return 'قیمت حاصل نہیں ہو سکی: $error';
+  }
+
+  @override
+  String enableRosterConfirmText(String amount) {
+    return 'تمہارے موجودہ اسٹاف کی تعداد کی بنیاد پر، یہ تمہارے ماہانہ ڈائریکٹ ڈیبٹ میں $amount شامل کر دے گا۔';
+  }
 }

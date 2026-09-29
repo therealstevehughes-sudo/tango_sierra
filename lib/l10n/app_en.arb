@@ -2663,5 +2663,172 @@
         "type": "String"
       }
     }
+  },
+  "darkModeLabel": "Dark Mode",
+  "@darkModeLabel": {
+    "description": ""
+  },
+  "@companySection": {
+    "description": ""
+  },
+  "brandIdentityIntro": "One brand identity, shared company-wide - applies to every venue, not per-site.",
+  "@brandIdentityIntro": {
+    "description": ""
+  },
+  "companyNameLabel": "Company name",
+  "@companyNameLabel": {
+    "description": ""
+  },
+  "companyLogoLabel": "Company logo",
+  "@companyLogoLabel": {
+    "description": ""
+  },
+  "chooseLogoButton": "Choose Logo",
+  "@chooseLogoButton": {
+    "description": ""
+  },
+  "changeLogoButton": "Change Logo",
+  "@changeLogoButton": {
+    "description": ""
+  },
+  "brandColourLabel": "Brand colour",
+  "@brandColourLabel": {
+    "description": ""
+  },
+  "customHexColourLabel": "Custom hex colour",
+  "@customHexColourLabel": {
+    "description": ""
+  },
+  "enterValidHexColourError": "Enter a valid hex colour",
+  "@enterValidHexColourError": {
+    "description": ""
+  },
+  "contactPhoneLabel": "Contact phone",
+  "@contactPhoneLabel": {
+    "description": ""
+  },
+  "contactEmailLabel": "Contact email",
+  "@contactEmailLabel": {
+    "description": ""
+  },
+  "savingEllipsisLabel": "Saving...",
+  "@savingEllipsisLabel": {
+    "description": ""
+  },
+  "saveBrandingButton": "Save Branding",
+  "@saveBrandingButton": {
+    "description": ""
+  },
+  "brandingSavedMessage": "Branding saved",
+  "@brandingSavedMessage": {
+    "description": ""
+  },
+  "customSwatchTooltip": "Custom",
+  "@customSwatchTooltip": {
+    "description": ""
+  },
+  "rosterAddonTitle": "Staff Shift/Roster (+£6-£10/branch/month)",
+  "@rosterAddonTitle": {
+    "description": ""
+  },
+  "rosterAddonSubtitle": "Let staff see and claim open shifts themselves - a manager posts shifts, staff pick them up. £6/month per branch under 10 staff, £10/month for 10 or more.",
+  "@rosterAddonSubtitle": {
+    "description": ""
+  },
+  "enableRosterTitle": "Enable Roster?",
+  "@enableRosterTitle": {
+    "description": ""
+  },
+  "confirmButton": "Confirm",
+  "@confirmButton": {
+    "description": ""
+  },
+  "clearDemoDataTitle": "Clear demo data?",
+  "@clearDemoDataTitle": {
+    "description": ""
+  },
+  "clearDemoDataConfirmText": "This permanently deletes every demo staff member, branch, and department, and signs you out. This can't be undone.",
+  "@clearDemoDataConfirmText": {
+    "description": ""
+  },
+  "clearEverythingButton": "Clear everything",
+  "@clearEverythingButton": {
+    "description": ""
+  },
+  "clearDemoDataCardTitle": "Clear Demo Data",
+  "@clearDemoDataCardTitle": {
+    "description": ""
+  },
+  "clearDemoDataCardBody": "Remove every demo staff member, branch, and department so you can set up your own from scratch.",
+  "@clearDemoDataCardBody": {
+    "description": ""
+  },
+  "clearDemoDataButton": "Clear demo data",
+  "@clearDemoDataButton": {
+    "description": ""
+  },
+  "temperatureUnitLabel": "Temperature unit",
+  "@temperatureUnitLabel": {
+    "description": ""
+  },
+  "celsiusLabel": "Celsius (°C)",
+  "@celsiusLabel": {
+    "description": ""
+  },
+  "fahrenheitLabel": "Fahrenheit (°F)",
+  "@fahrenheitLabel": {
+    "description": ""
+  },
+  "comingSoonLabel": "Coming soon",
+  "@comingSoonLabel": {
+    "description": ""
+  },
+  "presetColorOceanTeal": "Ocean Teal",
+  "@presetColorOceanTeal": {
+    "description": ""
+  },
+  "presetColorNavy": "Navy",
+  "@presetColorNavy": {
+    "description": ""
+  },
+  "presetColorIndigo": "Indigo",
+  "@presetColorIndigo": {
+    "description": ""
+  },
+  "presetColorSlate": "Slate",
+  "@presetColorSlate": {
+    "description": ""
+  },
+  "presetColorPlum": "Plum",
+  "@presetColorPlum": {
+    "description": ""
+  },
+  "presetColorForest": "Forest",
+  "@presetColorForest": {
+    "description": ""
+  },
+  "presetColorUmber": "Umber",
+  "@presetColorUmber": {
+    "description": ""
+  },
+  "presetColorCharcoal": "Charcoal",
+  "@presetColorCharcoal": {
+    "description": ""
+  },
+  "couldNotGetPriceError": "Could not get a price: {error}",
+  "@couldNotGetPriceError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "enableRosterConfirmText": "Based on your current staff numbers, this will add {amount} to your monthly Direct Debit.",
+  "@enableRosterConfirmText": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
   }
 }

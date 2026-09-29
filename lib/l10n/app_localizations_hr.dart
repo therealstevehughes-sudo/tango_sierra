@@ -3093,4 +3093,130 @@ class AppLocalizationsHr extends AppLocalizations {
   String deactivatedOnByLabel(String date, String name) {
     return '$date od strane $name';
   }
+
+  @override
+  String get darkModeLabel => 'Tamni način';
+
+  @override
+  String get brandIdentityIntro =>
+      'Jedan identitet marke, zajednički za cijelu tvrtku - primjenjuje se na svaku poslovnicu, ne po poslovnici.';
+
+  @override
+  String get companyNameLabel => 'Naziv tvrtke';
+
+  @override
+  String get companyLogoLabel => 'Logo tvrtke';
+
+  @override
+  String get chooseLogoButton => 'Odaberi logo';
+
+  @override
+  String get changeLogoButton => 'Promijeni logo';
+
+  @override
+  String get brandColourLabel => 'Boja marke';
+
+  @override
+  String get customHexColourLabel => 'Prilagođena hex boja';
+
+  @override
+  String get enterValidHexColourError => 'Unesi valjanu hex boju';
+
+  @override
+  String get contactPhoneLabel => 'Kontakt telefon';
+
+  @override
+  String get contactEmailLabel => 'Kontakt e-pošta';
+
+  @override
+  String get savingEllipsisLabel => 'Spremanje...';
+
+  @override
+  String get saveBrandingButton => 'Spremi identitet marke';
+
+  @override
+  String get brandingSavedMessage => 'Identitet marke spremljen';
+
+  @override
+  String get customSwatchTooltip => 'Prilagođeno';
+
+  @override
+  String get rosterAddonTitle =>
+      'Smjene osoblja / raspored (+6-10 GBP/poslovnici/mjesečno)';
+
+  @override
+  String get rosterAddonSubtitle =>
+      'Dopusti osoblju da samo vidi i preuzme otvorene smjene - voditelj objavljuje smjene, osoblje ih preuzima. 6 GBP/mjesečno po poslovnici s manje od 10 zaposlenika, 10 GBP/mjesečno za 10 ili više.';
+
+  @override
+  String get enableRosterTitle => 'Omogućiti raspored?';
+
+  @override
+  String get confirmButton => 'Potvrdi';
+
+  @override
+  String get clearDemoDataTitle => 'Očistiti demo podatke?';
+
+  @override
+  String get clearDemoDataConfirmText =>
+      'Ovo trajno briše svakog demo zaposlenika, poslovnicu i odjel, te te odjavljuje. Ovo se ne može poništiti.';
+
+  @override
+  String get clearEverythingButton => 'Očisti sve';
+
+  @override
+  String get clearDemoDataCardTitle => 'Očisti demo podatke';
+
+  @override
+  String get clearDemoDataCardBody =>
+      'Ukloni svakog demo zaposlenika, poslovnicu i odjel kako bi mogao/mogla postaviti svoje od nule.';
+
+  @override
+  String get clearDemoDataButton => 'Očisti demo podatke';
+
+  @override
+  String get temperatureUnitLabel => 'Jedinica temperature';
+
+  @override
+  String get celsiusLabel => 'Celzij (°C)';
+
+  @override
+  String get fahrenheitLabel => 'Fahrenheit (°F)';
+
+  @override
+  String get comingSoonLabel => 'Uskoro';
+
+  @override
+  String get presetColorOceanTeal => 'Oceanska tirkizna';
+
+  @override
+  String get presetColorNavy => 'Mornarsko plava';
+
+  @override
+  String get presetColorIndigo => 'Indigo';
+
+  @override
+  String get presetColorSlate => 'Škriljevac';
+
+  @override
+  String get presetColorPlum => 'Šljiva';
+
+  @override
+  String get presetColorForest => 'Šumsko zelena';
+
+  @override
+  String get presetColorUmber => 'Umbra';
+
+  @override
+  String get presetColorCharcoal => 'Antracit';
+
+  @override
+  String couldNotGetPriceError(String error) {
+    return 'Nije moguće dobiti cijenu: $error';
+  }
+
+  @override
+  String enableRosterConfirmText(String amount) {
+    return 'Na temelju tvog trenutnog broja zaposlenika, ovo će dodati $amount tvom mjesečnom izravnom terećenju.';
+  }
 }

@@ -70,13 +70,13 @@ class SettingsScreen extends ConsumerWidget {
                   const Divider(height: 24),
                   const _LanguageSetting(),
                   const Divider(height: 24),
-                  const _ComingSoonTile(label: 'Dark Mode'),
+                  _ComingSoonTile(label: l10n.darkModeLabel),
                 ],
               ),
             ),
             if (canSeeCompanySettings) ...[
               const SizedBox(height: 24),
-              const SectionHeader(title: 'Company'),
+              SectionHeader(title: l10n.companySection),
               _CompanyBrandingSection(currentUser: currentUser),
               const SizedBox(height: 16),
               const _RosterAddonSetting(),
@@ -101,15 +101,26 @@ class SettingsScreen extends ConsumerWidget {
 // deliberate choice over an unconstrained colour wheel, per the user's
 // explicit instruction: "NOT an unconstrained colour wheel (which lets
 // someone pick a colour that makes text unreadable)."
-const _presetColors = <String, int>{
-  'Ocean Teal': 0xFF0E6E77,
-  'Navy': 0xFF1B4F72,
-  'Indigo': 0xFF4B3F72,
-  'Slate': 0xFF33414D,
-  'Plum': 0xFF6B3F5C,
-  'Forest': 0xFF2F6B4A,
-  'Umber': 0xFF6B4423,
-  'Charcoal': 0xFF2B2B2B,
+const _presetColorArgbs = <int>[
+  0xFF0E6E77,
+  0xFF1B4F72,
+  0xFF4B3F72,
+  0xFF33414D,
+  0xFF6B3F5C,
+  0xFF2F6B4A,
+  0xFF6B4423,
+  0xFF2B2B2B,
+];
+
+Map<String, int> _presetColors(AppLocalizations l10n) => {
+  l10n.presetColorOceanTeal: _presetColorArgbs[0],
+  l10n.presetColorNavy: _presetColorArgbs[1],
+  l10n.presetColorIndigo: _presetColorArgbs[2],
+  l10n.presetColorSlate: _presetColorArgbs[3],
+  l10n.presetColorPlum: _presetColorArgbs[4],
+  l10n.presetColorForest: _presetColorArgbs[5],
+  l10n.presetColorUmber: _presetColorArgbs[6],
+  l10n.presetColorCharcoal: _presetColorArgbs[7],
 };
 
 class _LanguageSetting extends ConsumerWidget {
@@ -146,7 +157,7 @@ class _CompanyBrandingSectionState
   final _contactEmailController = TextEditingController();
   final _customHexController = TextEditingController();
 
-  int _selectedColorArgb = _presetColors.values.first;
+  int _selectedColorArgb = _presetColorArgbs.first;
   bool _useCustomHex = false;
   BrandingConfig? _loadedConfig;
   bool _loaded = false;
@@ -183,7 +194,7 @@ class _CompanyBrandingSectionState
         _contactPhoneController.text = current.contactPhone ?? '';
         _contactEmailController.text = current.contactEmail ?? '';
         _selectedColorArgb = current.primaryColorArgb;
-        _useCustomHex = !_presetColors.values.contains(
+        _useCustomHex = !_presetColorArgbs.contains(
           current.primaryColorArgb,
         );
         if (_useCustomHex) {
@@ -267,9 +278,9 @@ class _CompanyBrandingSectionState
 
     if (!mounted) return;
     setState(() => _saving = false);
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Branding saved')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.brandingSavedMessage)),
+    );
     await _load();
   }
 
@@ -282,6 +293,8 @@ class _CompanyBrandingSectionState
       );
     }
 
+    final l10n = AppLocalizations.of(context)!;
+    final presetColors = _presetColors(l10n);
     final customHexArgb = _parseHex(_customHexController.text);
     final customHexInvalid =
         _useCustomHex &&
@@ -293,17 +306,16 @@ class _CompanyBrandingSectionState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'One brand identity, shared company-wide - applies to every '
-            'venue, not per-site.',
+            l10n.brandIdentityIntro,
             style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(height: 12),
           TextField(
             controller: _companyNameController,
-            decoration: const InputDecoration(labelText: 'Company name'),
+            decoration: InputDecoration(labelText: l10n.companyNameLabel),
           ),
           const SizedBox(height: 16),
-          Text('Company logo', style: Theme.of(context).textTheme.labelLarge),
+          Text(l10n.companyLogoLabel, style: Theme.of(context).textTheme.labelLarge),
           const SizedBox(height: 8),
           Row(
             children: [
@@ -330,20 +342,20 @@ class _CompanyBrandingSectionState
               const SizedBox(width: 12),
               TextButton(
                 onPressed: _pickLogo,
-                child: Text(_logoPath == null ? 'Choose Logo' : 'Change Logo'),
+                child: Text(_logoPath == null ? l10n.chooseLogoButton : l10n.changeLogoButton),
               ),
               if (_logoPath != null)
-                TextButton(onPressed: _removeLogo, child: const Text('Remove')),
+                TextButton(onPressed: _removeLogo, child: Text(l10n.removeTooltip)),
             ],
           ),
           const SizedBox(height: 12),
-          Text('Brand colour', style: Theme.of(context).textTheme.labelLarge),
+          Text(l10n.brandColourLabel, style: Theme.of(context).textTheme.labelLarge),
           const SizedBox(height: 8),
           Wrap(
             spacing: 10,
             runSpacing: 10,
             children: [
-              for (final entry in _presetColors.entries)
+              for (final entry in presetColors.entries)
                 _ColorSwatch(
                   label: entry.key,
                   argb: entry.value,
@@ -365,9 +377,9 @@ class _CompanyBrandingSectionState
             TextField(
               controller: _customHexController,
               decoration: InputDecoration(
-                labelText: 'Custom hex colour',
+                labelText: l10n.customHexColourLabel,
                 hintText: '#0E6E77',
-                errorText: customHexInvalid ? 'Enter a valid hex colour' : null,
+                errorText: customHexInvalid ? l10n.enterValidHexColourError : null,
               ),
               onChanged: (_) => setState(() {}),
             ),
@@ -375,16 +387,16 @@ class _CompanyBrandingSectionState
           const Divider(height: 24),
           TextField(
             controller: _contactPhoneController,
-            decoration: const InputDecoration(labelText: 'Contact phone'),
+            decoration: InputDecoration(labelText: l10n.contactPhoneLabel),
           ),
           const SizedBox(height: 8),
           TextField(
             controller: _contactEmailController,
-            decoration: const InputDecoration(labelText: 'Contact email'),
+            decoration: InputDecoration(labelText: l10n.contactEmailLabel),
           ),
           const SizedBox(height: 16),
           PrimaryActionButton(
-            label: _saving ? 'Saving...' : 'Save Branding',
+            label: _saving ? l10n.savingEllipsisLabel : l10n.saveBrandingButton,
             onPressed: (_saving || (_useCustomHex && customHexArgb == null))
                 ? null
                 : _save,
@@ -460,31 +472,35 @@ class _RosterAddonSettingState extends ConsumerState<_RosterAddonSetting> {
         quote = await ref.read(rosterBillingServiceProvider).getQuote();
       } catch (e) {
         if (!mounted) return;
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Could not get a price: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.couldNotGetPriceError(e.toString()),
+            ),
+          ),
+        );
         return;
       }
       if (!mounted) return;
       final confirmed = await showDialog<bool>(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Enable Roster?'),
-          content: Text(
-            'Based on your current staff numbers, this will add '
-            '${quote.formatted} to your monthly Direct Debit.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Confirm'),
-            ),
-          ],
-        ),
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.enableRosterTitle),
+            content: Text(l10n.enableRosterConfirmText(quote.formatted)),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.confirmButton),
+              ),
+            ],
+          );
+        },
       );
       if (confirmed != true) return;
     }
@@ -510,15 +526,12 @@ class _RosterAddonSettingState extends ConsumerState<_RosterAddonSetting> {
     if (!_loaded) {
       return const AppCard(child: Center(child: CircularProgressIndicator()));
     }
+    final l10n = AppLocalizations.of(context)!;
     return AppCard(
       child: SwitchListTile(
         contentPadding: EdgeInsets.zero,
-        title: const Text('Staff Shift/Roster (+£6-£10/branch/month)'),
-        subtitle: const Text(
-          'Let staff see and claim open shifts themselves - a manager '
-          'posts shifts, staff pick them up. £6/month per branch under 10 '
-          'staff, £10/month for 10 or more.',
-        ),
+        title: Text(l10n.rosterAddonTitle),
+        subtitle: Text(l10n.rosterAddonSubtitle),
         value: _enabled,
         onChanged: _saving ? null : _toggle,
       ),
@@ -552,26 +565,26 @@ class _ClearDemoDataSettingState
   Future<void> _clear() async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Clear demo data?'),
-        content: const Text(
-          'This permanently deletes every demo staff member, branch, and '
-          "department, and signs you out. This can't be undone.",
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: FilledButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.error,
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.clearDemoDataTitle),
+          content: Text(l10n.clearDemoDataConfirmText),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
             ),
-            child: const Text('Clear everything'),
-          ),
-        ],
-      ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.error,
+              ),
+              child: Text(l10n.clearEverythingButton),
+            ),
+          ],
+        );
+      },
     );
     if (confirmed != true) return;
 
@@ -590,19 +603,17 @@ class _ClearDemoDataSettingState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Clear Demo Data',
-            style: TextStyle(fontWeight: FontWeight.w600),
+          Text(
+            l10n.clearDemoDataCardTitle,
+            style: const TextStyle(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Remove every demo staff member, branch, and department so '
-            'you can set up your own from scratch.',
-          ),
+          Text(l10n.clearDemoDataCardBody),
           const SizedBox(height: 12),
           OutlinedButton(
             onPressed: _clearing ? null : _clear,
@@ -616,7 +627,7 @@ class _ClearDemoDataSettingState
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : const Text('Clear demo data'),
+                : Text(l10n.clearDemoDataButton),
           ),
         ],
       ),
@@ -680,7 +691,7 @@ class _CustomSwatch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tooltip(
-      message: 'Custom',
+      message: AppLocalizations.of(context)!.customSwatchTooltip,
       child: InkWell(
         borderRadius: BorderRadius.circular(24),
         onTap: onTap,
@@ -715,6 +726,7 @@ class _TemperatureUnitSetting extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     // Visual pass follow-up (2026-09-24, app-wide tick-box sweep) — a
     // plain 2-way choice, converted from a dropdown to chips.
     Future<void> select(TemperatureUnit unit) async {
@@ -731,19 +743,19 @@ class _TemperatureUnitSetting extends ConsumerWidget {
 
     return Row(
       children: [
-        const Expanded(child: Text('Temperature unit')),
+        Expanded(child: Text(l10n.temperatureUnitLabel)),
         Wrap(
           spacing: 8,
           children: [
             ChoiceChip(
-              label: const Text('Celsius (°C)'),
+              label: Text(l10n.celsiusLabel),
               selected:
                   currentUser.preferredTemperatureUnit ==
                   TemperatureUnit.celsius,
               onSelected: (_) => select(TemperatureUnit.celsius),
             ),
             ChoiceChip(
-              label: const Text('Fahrenheit (°F)'),
+              label: Text(l10n.fahrenheitLabel),
               selected:
                   currentUser.preferredTemperatureUnit ==
                   TemperatureUnit.fahrenheit,
@@ -776,7 +788,7 @@ class _ComingSoonTile extends StatelessWidget {
             ),
           ),
           Text(
-            'Coming soon',
+            AppLocalizations.of(context)!.comingSoonLabel,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: Theme.of(context).disabledColor,
             ),

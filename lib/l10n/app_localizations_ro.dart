@@ -3130,4 +3130,129 @@ class AppLocalizationsRo extends AppLocalizations {
   String deactivatedOnByLabel(String date, String name) {
     return 'pe $date de $name';
   }
+
+  @override
+  String get darkModeLabel => 'Mod întunecat';
+
+  @override
+  String get brandIdentityIntro =>
+      'O singură identitate de brand, comună la nivel de companie - se aplică fiecărui local, nu per local.';
+
+  @override
+  String get companyNameLabel => 'Numele companiei';
+
+  @override
+  String get companyLogoLabel => 'Logo companie';
+
+  @override
+  String get chooseLogoButton => 'Alege logo';
+
+  @override
+  String get changeLogoButton => 'Schimbă logo';
+
+  @override
+  String get brandColourLabel => 'Culoare brand';
+
+  @override
+  String get customHexColourLabel => 'Culoare hex personalizată';
+
+  @override
+  String get enterValidHexColourError => 'Introdu o culoare hex validă';
+
+  @override
+  String get contactPhoneLabel => 'Telefon de contact';
+
+  @override
+  String get contactEmailLabel => 'Email de contact';
+
+  @override
+  String get savingEllipsisLabel => 'Se salvează...';
+
+  @override
+  String get saveBrandingButton => 'Salvează brandul';
+
+  @override
+  String get brandingSavedMessage => 'Brand salvat';
+
+  @override
+  String get customSwatchTooltip => 'Personalizat';
+
+  @override
+  String get rosterAddonTitle => 'Tură/Program personal (+6-10 GBP/local/lună)';
+
+  @override
+  String get rosterAddonSubtitle =>
+      'Lasă personalul să vadă și să preia singur turele deschise - un manager postează ture, personalul le preia. 6 GBP/lună per local sub 10 angajați, 10 GBP/lună pentru 10 sau mai mulți.';
+
+  @override
+  String get enableRosterTitle => 'Activezi Programul?';
+
+  @override
+  String get confirmButton => 'Confirmă';
+
+  @override
+  String get clearDemoDataTitle => 'Ștergi datele demo?';
+
+  @override
+  String get clearDemoDataConfirmText =>
+      'Aceasta șterge definitiv fiecare angajat demo, filială și departament și te deloghează. Nu poate fi anulat.';
+
+  @override
+  String get clearEverythingButton => 'Șterge tot';
+
+  @override
+  String get clearDemoDataCardTitle => 'Șterge datele demo';
+
+  @override
+  String get clearDemoDataCardBody =>
+      'Elimină fiecare angajat demo, filială și departament ca să-ți poți configura propriile date de la zero.';
+
+  @override
+  String get clearDemoDataButton => 'Șterge datele demo';
+
+  @override
+  String get temperatureUnitLabel => 'Unitate de temperatură';
+
+  @override
+  String get celsiusLabel => 'Celsius (°C)';
+
+  @override
+  String get fahrenheitLabel => 'Fahrenheit (°F)';
+
+  @override
+  String get comingSoonLabel => 'În curând';
+
+  @override
+  String get presetColorOceanTeal => 'Turcoaz Ocean';
+
+  @override
+  String get presetColorNavy => 'Bleumarin';
+
+  @override
+  String get presetColorIndigo => 'Indigo';
+
+  @override
+  String get presetColorSlate => 'Ardezie';
+
+  @override
+  String get presetColorPlum => 'Prună';
+
+  @override
+  String get presetColorForest => 'Verde pădure';
+
+  @override
+  String get presetColorUmber => 'Umbra';
+
+  @override
+  String get presetColorCharcoal => 'Cărbune';
+
+  @override
+  String couldNotGetPriceError(String error) {
+    return 'Nu s-a putut obține un preț: $error';
+  }
+
+  @override
+  String enableRosterConfirmText(String amount) {
+    return 'Pe baza numărului actual de angajați, aceasta va adăuga $amount la Direct Debit-ul tău lunar.';
+  }
 }

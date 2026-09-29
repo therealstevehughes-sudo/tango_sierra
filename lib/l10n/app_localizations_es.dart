@@ -3128,4 +3128,129 @@ class AppLocalizationsEs extends AppLocalizations {
   String deactivatedOnByLabel(String date, String name) {
     return 'el $date por $name';
   }
+
+  @override
+  String get darkModeLabel => 'Modo oscuro';
+
+  @override
+  String get brandIdentityIntro =>
+      'Una identidad de marca, compartida en toda la empresa - se aplica a cada local, no por local.';
+
+  @override
+  String get companyNameLabel => 'Nombre de la empresa';
+
+  @override
+  String get companyLogoLabel => 'Logo de la empresa';
+
+  @override
+  String get chooseLogoButton => 'Elegir logo';
+
+  @override
+  String get changeLogoButton => 'Cambiar logo';
+
+  @override
+  String get brandColourLabel => 'Color de marca';
+
+  @override
+  String get customHexColourLabel => 'Color hex personalizado';
+
+  @override
+  String get enterValidHexColourError => 'Introduce un color hex válido';
+
+  @override
+  String get contactPhoneLabel => 'Teléfono de contacto';
+
+  @override
+  String get contactEmailLabel => 'Correo de contacto';
+
+  @override
+  String get savingEllipsisLabel => 'Guardando...';
+
+  @override
+  String get saveBrandingButton => 'Guardar marca';
+
+  @override
+  String get brandingSavedMessage => 'Marca guardada';
+
+  @override
+  String get customSwatchTooltip => 'Personalizado';
+
+  @override
+  String get rosterAddonTitle => 'Turnos de personal (+6-10£/local/mes)';
+
+  @override
+  String get rosterAddonSubtitle =>
+      'Deja que el personal vea y reclame turnos abiertos por sí mismo - un gerente publica turnos, el personal los elige. 6£/mes por local con menos de 10 empleados, 10£/mes para 10 o más.';
+
+  @override
+  String get enableRosterTitle => '¿Activar turnos?';
+
+  @override
+  String get confirmButton => 'Confirmar';
+
+  @override
+  String get clearDemoDataTitle => '¿Borrar datos de demostración?';
+
+  @override
+  String get clearDemoDataConfirmText =>
+      'Esto elimina permanentemente cada empleado, sucursal y departamento de demostración, y cierra tu sesión. No se puede deshacer.';
+
+  @override
+  String get clearEverythingButton => 'Borrar todo';
+
+  @override
+  String get clearDemoDataCardTitle => 'Borrar datos de demostración';
+
+  @override
+  String get clearDemoDataCardBody =>
+      'Elimina cada empleado, sucursal y departamento de demostración para que puedas configurar los tuyos desde cero.';
+
+  @override
+  String get clearDemoDataButton => 'Borrar datos de demostración';
+
+  @override
+  String get temperatureUnitLabel => 'Unidad de temperatura';
+
+  @override
+  String get celsiusLabel => 'Celsius (°C)';
+
+  @override
+  String get fahrenheitLabel => 'Fahrenheit (°F)';
+
+  @override
+  String get comingSoonLabel => 'Próximamente';
+
+  @override
+  String get presetColorOceanTeal => 'Turquesa Océano';
+
+  @override
+  String get presetColorNavy => 'Azul Marino';
+
+  @override
+  String get presetColorIndigo => 'Índigo';
+
+  @override
+  String get presetColorSlate => 'Pizarra';
+
+  @override
+  String get presetColorPlum => 'Ciruela';
+
+  @override
+  String get presetColorForest => 'Bosque';
+
+  @override
+  String get presetColorUmber => 'Sombra';
+
+  @override
+  String get presetColorCharcoal => 'Carbón';
+
+  @override
+  String couldNotGetPriceError(String error) {
+    return 'No se pudo obtener un precio: $error';
+  }
+
+  @override
+  String enableRosterConfirmText(String amount) {
+    return 'Según tu número actual de empleados, esto añadirá $amount a tu domiciliación bancaria mensual.';
+  }
 }
