@@ -1422,7 +1422,7 @@ abstract class AppLocalizations {
   /// **'None assigned'**
   String get noneAssignedLabel;
 
-  /// No description provided for @areaLabel.
+  ///
   ///
   /// In en, this message translates to:
   /// **'Area'**
@@ -4885,6 +4885,384 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email: {value}'**
   String emailPrefixLabel(String value);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh Produce'**
+  String get supplierCategoryFreshProduce;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Meat & Poultry'**
+  String get supplierCategoryMeatPoultry;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Dairy & Eggs'**
+  String get supplierCategoryDairyEggs;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Frozen Goods'**
+  String get supplierCategoryFrozenGoods;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Dry & Ambient Goods'**
+  String get supplierCategoryDryAmbientGoods;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Drinks & Beverages'**
+  String get supplierCategoryDrinksBeverages;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Chemicals & Cleaning Supplies'**
+  String get supplierCategoryChemicalsCleaningSupplies;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment & Maintenance'**
+  String get supplierCategoryEquipmentMaintenance;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get supplierCategoryOther;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get supplierStatusApproved;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get supplierStatusPending;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Suspended'**
+  String get supplierStatusSuspended;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Equipment'**
+  String get addEquipmentTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Venue Setup'**
+  String get venueSetupTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get nextButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Finish Setup'**
+  String get finishSetupButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Area'**
+  String get renameAreaTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Equipment'**
+  String get renameEquipmentTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Retire Equipment'**
+  String get retireEquipmentTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Retiring this equipment will also unassign any tasks currently assigned to it. Past submission history is kept. Continue?'**
+  String get retireEquipmentConfirmText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Retire'**
+  String get retireButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Areas'**
+  String get areasStepTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add the operational zones of this venue.'**
+  String get areasStepIntro;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Kitchen'**
+  String get areaSuggestionKitchen;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Storage'**
+  String get areaSuggestionStorage;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Receiving'**
+  String get areaSuggestionReceiving;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Front of House'**
+  String get areaSuggestionFrontOfHouse;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Area name'**
+  String get areaNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add area'**
+  String get addAreaTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get renameTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment'**
+  String get equipmentStepTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add named equipment instances, e.g. \"Fridge 1\", \"Fridge 2\".'**
+  String get equipmentStepIntro;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Show all equipment types'**
+  String get showAllEquipmentTypesButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment type'**
+  String get equipmentTypeLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Something else...'**
+  String get somethingElseOption;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'New equipment type name'**
+  String get newEquipmentTypeNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm new equipment type'**
+  String get confirmNewEquipmentTypeTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No areas set up for your department yet - equipment can still be added without one.'**
+  String get noAreasForDeptText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No areas added yet - go back to add one.'**
+  String get noAreasAddOneText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment name'**
+  String get equipmentNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Meat Walk-in, Dessert Fridge, Bar Fryer'**
+  String get equipmentNameHint;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Model (optional)'**
+  String get modelOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Serial number (optional)'**
+  String get serialNumberOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Retire'**
+  String get retireTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reactivate'**
+  String get reactivateTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown type'**
+  String get unknownTypeLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown area'**
+  String get unknownAreaLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Staff'**
+  String get staffStepTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add staff members and assign their role tier.'**
+  String get staffStepIntro;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Staff Member'**
+  String get addStaffMemberButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Suppliers'**
+  String get suppliersStepTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add the suppliers this venue works with. Approval flags appear on the EHO export - suspended suppliers are surfaced to managers, not silently hidden.'**
+  String get suppliersStepIntro;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Supplier name'**
+  String get supplierNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Contact (optional)'**
+  String get contactOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Phone or email'**
+  String get phoneOrEmailHint;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Approval status'**
+  String get approvalStatusLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Supplier'**
+  String get addSupplierButton;
+
+  /// No description provided for @venueSetupStepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue Setup - Step {step} of 4'**
+  String venueSetupStepTitle(int step);
+
+  /// No description provided for @modelPrefixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Model: {value}'**
+  String modelPrefixLabel(String value);
+
+  /// No description provided for @serialPrefixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'S/N: {value}'**
+  String serialPrefixLabel(String value);
+
+  /// No description provided for @retiredSuffixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} (retired)'**
+  String retiredSuffixLabel(String name);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add equipment'**
+  String get addEquipmentTooltip;
 }
 
 class _AppLocalizationsDelegate

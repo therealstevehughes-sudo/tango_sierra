@@ -2791,4 +2791,207 @@ class AppLocalizationsEn extends AppLocalizations {
   String emailPrefixLabel(String value) {
     return 'Email: $value';
   }
+
+  @override
+  String get supplierCategoryFreshProduce => 'Fresh Produce';
+
+  @override
+  String get supplierCategoryMeatPoultry => 'Meat & Poultry';
+
+  @override
+  String get supplierCategoryDairyEggs => 'Dairy & Eggs';
+
+  @override
+  String get supplierCategoryFrozenGoods => 'Frozen Goods';
+
+  @override
+  String get supplierCategoryDryAmbientGoods => 'Dry & Ambient Goods';
+
+  @override
+  String get supplierCategoryDrinksBeverages => 'Drinks & Beverages';
+
+  @override
+  String get supplierCategoryChemicalsCleaningSupplies =>
+      'Chemicals & Cleaning Supplies';
+
+  @override
+  String get supplierCategoryEquipmentMaintenance => 'Equipment & Maintenance';
+
+  @override
+  String get supplierCategoryOther => 'Other';
+
+  @override
+  String get supplierStatusApproved => 'Approved';
+
+  @override
+  String get supplierStatusPending => 'Pending';
+
+  @override
+  String get supplierStatusSuspended => 'Suspended';
+
+  @override
+  String get addEquipmentTitle => 'Add Equipment';
+
+  @override
+  String get venueSetupTitle => 'Venue Setup';
+
+  @override
+  String get nextButton => 'Next';
+
+  @override
+  String get finishSetupButton => 'Finish Setup';
+
+  @override
+  String get renameAreaTitle => 'Rename Area';
+
+  @override
+  String get renameEquipmentTitle => 'Rename Equipment';
+
+  @override
+  String get saveButton => 'Save';
+
+  @override
+  String get retireEquipmentTitle => 'Retire Equipment';
+
+  @override
+  String get retireEquipmentConfirmText =>
+      'Retiring this equipment will also unassign any tasks currently assigned to it. Past submission history is kept. Continue?';
+
+  @override
+  String get retireButton => 'Retire';
+
+  @override
+  String get areasStepTitle => 'Areas';
+
+  @override
+  String get areasStepIntro => 'Add the operational zones of this venue.';
+
+  @override
+  String get areaSuggestionKitchen => 'Kitchen';
+
+  @override
+  String get areaSuggestionStorage => 'Storage';
+
+  @override
+  String get areaSuggestionReceiving => 'Receiving';
+
+  @override
+  String get areaSuggestionFrontOfHouse => 'Front of House';
+
+  @override
+  String get areaNameLabel => 'Area name';
+
+  @override
+  String get addAreaTooltip => 'Add area';
+
+  @override
+  String get renameTooltip => 'Rename';
+
+  @override
+  String get equipmentStepTitle => 'Equipment';
+
+  @override
+  String get equipmentStepIntro =>
+      'Add named equipment instances, e.g. \"Fridge 1\", \"Fridge 2\".';
+
+  @override
+  String get showAllEquipmentTypesButton => 'Show all equipment types';
+
+  @override
+  String get equipmentTypeLabel => 'Equipment type';
+
+  @override
+  String get somethingElseOption => 'Something else...';
+
+  @override
+  String get newEquipmentTypeNameLabel => 'New equipment type name';
+
+  @override
+  String get confirmNewEquipmentTypeTooltip => 'Confirm new equipment type';
+
+  @override
+  String get noAreasForDeptText =>
+      'No areas set up for your department yet - equipment can still be added without one.';
+
+  @override
+  String get noAreasAddOneText => 'No areas added yet - go back to add one.';
+
+  @override
+  String get equipmentNameLabel => 'Equipment name';
+
+  @override
+  String get equipmentNameHint =>
+      'e.g. Meat Walk-in, Dessert Fridge, Bar Fryer';
+
+  @override
+  String get modelOptionalLabel => 'Model (optional)';
+
+  @override
+  String get serialNumberOptionalLabel => 'Serial number (optional)';
+
+  @override
+  String get retireTooltip => 'Retire';
+
+  @override
+  String get reactivateTooltip => 'Reactivate';
+
+  @override
+  String get unknownTypeLabel => 'Unknown type';
+
+  @override
+  String get unknownAreaLabel => 'Unknown area';
+
+  @override
+  String get staffStepTitle => 'Staff';
+
+  @override
+  String get staffStepIntro => 'Add staff members and assign their role tier.';
+
+  @override
+  String get addStaffMemberButton => 'Add Staff Member';
+
+  @override
+  String get suppliersStepTitle => 'Suppliers';
+
+  @override
+  String get suppliersStepIntro =>
+      'Add the suppliers this venue works with. Approval flags appear on the EHO export - suspended suppliers are surfaced to managers, not silently hidden.';
+
+  @override
+  String get supplierNameLabel => 'Supplier name';
+
+  @override
+  String get contactOptionalLabel => 'Contact (optional)';
+
+  @override
+  String get phoneOrEmailHint => 'Phone or email';
+
+  @override
+  String get approvalStatusLabel => 'Approval status';
+
+  @override
+  String get addSupplierButton => 'Add Supplier';
+
+  @override
+  String venueSetupStepTitle(int step) {
+    return 'Venue Setup - Step $step of 4';
+  }
+
+  @override
+  String modelPrefixLabel(String value) {
+    return 'Model: $value';
+  }
+
+  @override
+  String serialPrefixLabel(String value) {
+    return 'S/N: $value';
+  }
+
+  @override
+  String retiredSuffixLabel(String name) {
+    return '$name (retired)';
+  }
+
+  @override
+  String get addEquipmentTooltip => 'Add equipment';
 }

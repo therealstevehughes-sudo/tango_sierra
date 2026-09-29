@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'supplier_category.dart';
 
 // approved / pending / suspended (Sprint 031) — flagged for manager
@@ -6,14 +7,27 @@ import 'supplier_category.dart';
 // worker can't refuse a delivery already at the door).
 enum SupplierApprovalStatus { approved, pending, suspended }
 
-String supplierApprovalStatusLabel(SupplierApprovalStatus status) {
+String supplierApprovalStatusLabel(
+  SupplierApprovalStatus status, [
+  AppLocalizations? l10n,
+]) {
+  if (l10n == null) {
+    switch (status) {
+      case SupplierApprovalStatus.approved:
+        return 'Approved';
+      case SupplierApprovalStatus.pending:
+        return 'Pending';
+      case SupplierApprovalStatus.suspended:
+        return 'Suspended';
+    }
+  }
   switch (status) {
     case SupplierApprovalStatus.approved:
-      return 'Approved';
+      return l10n.supplierStatusApproved;
     case SupplierApprovalStatus.pending:
-      return 'Pending';
+      return l10n.supplierStatusPending;
     case SupplierApprovalStatus.suspended:
-      return 'Suspended';
+      return l10n.supplierStatusSuspended;
   }
 }
 

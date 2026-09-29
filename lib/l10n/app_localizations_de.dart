@@ -2813,4 +2813,212 @@ class AppLocalizationsDe extends AppLocalizations {
   String emailPrefixLabel(String value) {
     return 'E-Mail: $value';
   }
+
+  @override
+  String get supplierCategoryFreshProduce => 'Frische Produkte';
+
+  @override
+  String get supplierCategoryMeatPoultry => 'Fleisch & Geflügel';
+
+  @override
+  String get supplierCategoryDairyEggs => 'Milchprodukte & Eier';
+
+  @override
+  String get supplierCategoryFrozenGoods => 'Tiefkühlwaren';
+
+  @override
+  String get supplierCategoryDryAmbientGoods =>
+      'Trocken- & Raumtemperaturwaren';
+
+  @override
+  String get supplierCategoryDrinksBeverages => 'Getränke';
+
+  @override
+  String get supplierCategoryChemicalsCleaningSupplies =>
+      'Chemikalien & Reinigungsmittel';
+
+  @override
+  String get supplierCategoryEquipmentMaintenance => 'Ausrüstung & Wartung';
+
+  @override
+  String get supplierCategoryOther => 'Sonstiges';
+
+  @override
+  String get supplierStatusApproved => 'Genehmigt';
+
+  @override
+  String get supplierStatusPending => 'Ausstehend';
+
+  @override
+  String get supplierStatusSuspended => 'Gesperrt';
+
+  @override
+  String get addEquipmentTitle => 'Ausrüstung hinzufügen';
+
+  @override
+  String get venueSetupTitle => 'Standort-Einrichtung';
+
+  @override
+  String get nextButton => 'Weiter';
+
+  @override
+  String get finishSetupButton => 'Einrichtung abschließen';
+
+  @override
+  String get renameAreaTitle => 'Bereich umbenennen';
+
+  @override
+  String get renameEquipmentTitle => 'Ausrüstung umbenennen';
+
+  @override
+  String get saveButton => 'Speichern';
+
+  @override
+  String get retireEquipmentTitle => 'Ausrüstung außer Betrieb nehmen';
+
+  @override
+  String get retireEquipmentConfirmText =>
+      'Das Außerbetriebnehmen dieser Ausrüstung hebt auch alle ihr aktuell zugewiesenen Aufgaben auf. Der bisherige Verlauf bleibt erhalten. Fortfahren?';
+
+  @override
+  String get retireButton => 'Außer Betrieb nehmen';
+
+  @override
+  String get areasStepTitle => 'Bereiche';
+
+  @override
+  String get areasStepIntro =>
+      'Füge die Betriebsbereiche dieses Standorts hinzu.';
+
+  @override
+  String get areaSuggestionKitchen => 'Küche';
+
+  @override
+  String get areaSuggestionStorage => 'Lager';
+
+  @override
+  String get areaSuggestionReceiving => 'Wareneingang';
+
+  @override
+  String get areaSuggestionFrontOfHouse => 'Service';
+
+  @override
+  String get areaNameLabel => 'Bereichsname';
+
+  @override
+  String get addAreaTooltip => 'Bereich hinzufügen';
+
+  @override
+  String get renameTooltip => 'Umbenennen';
+
+  @override
+  String get equipmentStepTitle => 'Ausrüstung';
+
+  @override
+  String get equipmentStepIntro =>
+      'Füge benannte Ausrüstungsinstanzen hinzu, z. B. \"Kühlschrank 1\", \"Kühlschrank 2\".';
+
+  @override
+  String get showAllEquipmentTypesButton => 'Alle Ausrüstungstypen anzeigen';
+
+  @override
+  String get equipmentTypeLabel => 'Ausrüstungstyp';
+
+  @override
+  String get somethingElseOption => 'Etwas anderes...';
+
+  @override
+  String get newEquipmentTypeNameLabel => 'Name des neuen Ausrüstungstyps';
+
+  @override
+  String get confirmNewEquipmentTypeTooltip =>
+      'Neuen Ausrüstungstyp bestätigen';
+
+  @override
+  String get noAreasForDeptText =>
+      'Für deine Abteilung sind noch keine Bereiche eingerichtet - Ausrüstung kann trotzdem ohne einen hinzugefügt werden.';
+
+  @override
+  String get noAreasAddOneText =>
+      'Noch keine Bereiche hinzugefügt - geh zurück, um einen hinzuzufügen.';
+
+  @override
+  String get equipmentNameLabel => 'Ausrüstungsname';
+
+  @override
+  String get equipmentNameHint =>
+      'z. B. Fleisch-Kühlraum, Dessert-Kühlschrank, Bar-Fritteuse';
+
+  @override
+  String get modelOptionalLabel => 'Modell (optional)';
+
+  @override
+  String get serialNumberOptionalLabel => 'Seriennummer (optional)';
+
+  @override
+  String get retireTooltip => 'Außer Betrieb nehmen';
+
+  @override
+  String get reactivateTooltip => 'Reaktivieren';
+
+  @override
+  String get unknownTypeLabel => 'Unbekannter Typ';
+
+  @override
+  String get unknownAreaLabel => 'Unbekannter Bereich';
+
+  @override
+  String get staffStepTitle => 'Personal';
+
+  @override
+  String get staffStepIntro =>
+      'Füge Mitarbeiter hinzu und weise ihnen eine Rollenebene zu.';
+
+  @override
+  String get addStaffMemberButton => 'Mitarbeiter hinzufügen';
+
+  @override
+  String get suppliersStepTitle => 'Lieferanten';
+
+  @override
+  String get suppliersStepIntro =>
+      'Füge die Lieferanten hinzu, mit denen dieser Standort zusammenarbeitet. Genehmigungsmarkierungen erscheinen im EHO-Export - gesperrte Lieferanten werden Managern angezeigt, nicht stillschweigend versteckt.';
+
+  @override
+  String get supplierNameLabel => 'Lieferantenname';
+
+  @override
+  String get contactOptionalLabel => 'Kontakt (optional)';
+
+  @override
+  String get phoneOrEmailHint => 'Telefon oder E-Mail';
+
+  @override
+  String get approvalStatusLabel => 'Genehmigungsstatus';
+
+  @override
+  String get addSupplierButton => 'Lieferant hinzufügen';
+
+  @override
+  String venueSetupStepTitle(int step) {
+    return 'Standort-Einrichtung - Schritt $step von 4';
+  }
+
+  @override
+  String modelPrefixLabel(String value) {
+    return 'Modell: $value';
+  }
+
+  @override
+  String serialPrefixLabel(String value) {
+    return 'S/N: $value';
+  }
+
+  @override
+  String retiredSuffixLabel(String name) {
+    return '$name (außer Betrieb)';
+  }
+
+  @override
+  String get addEquipmentTooltip => 'Ausrüstung hinzufügen';
 }

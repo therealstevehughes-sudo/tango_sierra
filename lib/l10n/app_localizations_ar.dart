@@ -2730,4 +2730,209 @@ class AppLocalizationsAr extends AppLocalizations {
   String emailPrefixLabel(String value) {
     return 'البريد الإلكتروني: $value';
   }
+
+  @override
+  String get supplierCategoryFreshProduce => 'منتجات طازجة';
+
+  @override
+  String get supplierCategoryMeatPoultry => 'لحوم ودواجن';
+
+  @override
+  String get supplierCategoryDairyEggs => 'ألبان وبيض';
+
+  @override
+  String get supplierCategoryFrozenGoods => 'بضائع مجمدة';
+
+  @override
+  String get supplierCategoryDryAmbientGoods =>
+      'بضائع جافة وفي درجة حرارة الغرفة';
+
+  @override
+  String get supplierCategoryDrinksBeverages => 'مشروبات';
+
+  @override
+  String get supplierCategoryChemicalsCleaningSupplies =>
+      'مواد كيميائية ومستلزمات تنظيف';
+
+  @override
+  String get supplierCategoryEquipmentMaintenance => 'معدات وصيانة';
+
+  @override
+  String get supplierCategoryOther => 'أخرى';
+
+  @override
+  String get supplierStatusApproved => 'معتمد';
+
+  @override
+  String get supplierStatusPending => 'قيد الانتظار';
+
+  @override
+  String get supplierStatusSuspended => 'موقوف';
+
+  @override
+  String get addEquipmentTitle => 'إضافة معدات';
+
+  @override
+  String get venueSetupTitle => 'إعداد الموقع';
+
+  @override
+  String get nextButton => 'التالي';
+
+  @override
+  String get finishSetupButton => 'إنهاء الإعداد';
+
+  @override
+  String get renameAreaTitle => 'إعادة تسمية المنطقة';
+
+  @override
+  String get renameEquipmentTitle => 'إعادة تسمية المعدات';
+
+  @override
+  String get saveButton => 'حفظ';
+
+  @override
+  String get retireEquipmentTitle => 'سحب المعدات من الخدمة';
+
+  @override
+  String get retireEquipmentConfirmText =>
+      'سيؤدي سحب هذه المعدات من الخدمة أيضًا إلى إلغاء تعيين أي مهام مسندة إليها حاليًا. يتم الاحتفاظ بسجل التقديمات السابقة. متابعة؟';
+
+  @override
+  String get retireButton => 'سحب من الخدمة';
+
+  @override
+  String get areasStepTitle => 'المناطق';
+
+  @override
+  String get areasStepIntro => 'أضف المناطق التشغيلية لهذا الموقع.';
+
+  @override
+  String get areaSuggestionKitchen => 'المطبخ';
+
+  @override
+  String get areaSuggestionStorage => 'التخزين';
+
+  @override
+  String get areaSuggestionReceiving => 'الاستلام';
+
+  @override
+  String get areaSuggestionFrontOfHouse => 'صالة الخدمة';
+
+  @override
+  String get areaNameLabel => 'اسم المنطقة';
+
+  @override
+  String get addAreaTooltip => 'إضافة منطقة';
+
+  @override
+  String get renameTooltip => 'إعادة تسمية';
+
+  @override
+  String get equipmentStepTitle => 'المعدات';
+
+  @override
+  String get equipmentStepIntro =>
+      'أضف أمثلة معدات مسماة، مثل \"ثلاجة 1\"، \"ثلاجة 2\".';
+
+  @override
+  String get showAllEquipmentTypesButton => 'إظهار جميع أنواع المعدات';
+
+  @override
+  String get equipmentTypeLabel => 'نوع المعدات';
+
+  @override
+  String get somethingElseOption => 'شيء آخر...';
+
+  @override
+  String get newEquipmentTypeNameLabel => 'اسم نوع المعدات الجديد';
+
+  @override
+  String get confirmNewEquipmentTypeTooltip => 'تأكيد نوع المعدات الجديد';
+
+  @override
+  String get noAreasForDeptText =>
+      'لا توجد مناطق مُعدة لقسمك بعد - لا يزال بالإمكان إضافة المعدات بدون واحدة.';
+
+  @override
+  String get noAreasAddOneText =>
+      'لم تتم إضافة أي منطقة بعد - ارجع لإضافة واحدة.';
+
+  @override
+  String get equipmentNameLabel => 'اسم المعدات';
+
+  @override
+  String get equipmentNameHint =>
+      'مثال: غرفة تبريد اللحوم، ثلاجة الحلويات، مقلاة البار';
+
+  @override
+  String get modelOptionalLabel => 'الطراز (اختياري)';
+
+  @override
+  String get serialNumberOptionalLabel => 'الرقم التسلسلي (اختياري)';
+
+  @override
+  String get retireTooltip => 'سحب من الخدمة';
+
+  @override
+  String get reactivateTooltip => 'إعادة التفعيل';
+
+  @override
+  String get unknownTypeLabel => 'نوع غير معروف';
+
+  @override
+  String get unknownAreaLabel => 'منطقة غير معروفة';
+
+  @override
+  String get staffStepTitle => 'الموظفون';
+
+  @override
+  String get staffStepIntro => 'أضف أعضاء الموظفين وعيّن مستوى دورهم.';
+
+  @override
+  String get addStaffMemberButton => 'إضافة عضو موظف';
+
+  @override
+  String get suppliersStepTitle => 'الموردون';
+
+  @override
+  String get suppliersStepIntro =>
+      'أضف الموردين الذين يتعامل معهم هذا الموقع. تظهر علامات الموافقة في تصدير EHO - يتم إظهار الموردين الموقوفين للمديرين، وليس إخفاؤهم بصمت.';
+
+  @override
+  String get supplierNameLabel => 'اسم المورد';
+
+  @override
+  String get contactOptionalLabel => 'جهة الاتصال (اختياري)';
+
+  @override
+  String get phoneOrEmailHint => 'الهاتف أو البريد الإلكتروني';
+
+  @override
+  String get approvalStatusLabel => 'حالة الموافقة';
+
+  @override
+  String get addSupplierButton => 'إضافة مورد';
+
+  @override
+  String venueSetupStepTitle(int step) {
+    return 'إعداد الموقع - الخطوة $step من 4';
+  }
+
+  @override
+  String modelPrefixLabel(String value) {
+    return 'الطراز: $value';
+  }
+
+  @override
+  String serialPrefixLabel(String value) {
+    return 'الرقم التسلسلي: $value';
+  }
+
+  @override
+  String retiredSuffixLabel(String name) {
+    return '$name (متقاعد)';
+  }
+
+  @override
+  String get addEquipmentTooltip => 'إضافة معدات';
 }

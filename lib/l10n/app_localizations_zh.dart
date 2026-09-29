@@ -2653,4 +2653,203 @@ class AppLocalizationsZh extends AppLocalizations {
   String emailPrefixLabel(String value) {
     return '邮箱:$value';
   }
+
+  @override
+  String get supplierCategoryFreshProduce => '新鲜农产品';
+
+  @override
+  String get supplierCategoryMeatPoultry => '肉类和禽类';
+
+  @override
+  String get supplierCategoryDairyEggs => '乳制品和蛋类';
+
+  @override
+  String get supplierCategoryFrozenGoods => '冷冻食品';
+
+  @override
+  String get supplierCategoryDryAmbientGoods => '干货和常温商品';
+
+  @override
+  String get supplierCategoryDrinksBeverages => '饮品';
+
+  @override
+  String get supplierCategoryChemicalsCleaningSupplies => '化学品和清洁用品';
+
+  @override
+  String get supplierCategoryEquipmentMaintenance => '设备和维护';
+
+  @override
+  String get supplierCategoryOther => '其他';
+
+  @override
+  String get supplierStatusApproved => '已批准';
+
+  @override
+  String get supplierStatusPending => '待定';
+
+  @override
+  String get supplierStatusSuspended => '已暂停';
+
+  @override
+  String get addEquipmentTitle => '添加设备';
+
+  @override
+  String get venueSetupTitle => '场所设置';
+
+  @override
+  String get nextButton => '下一步';
+
+  @override
+  String get finishSetupButton => '完成设置';
+
+  @override
+  String get renameAreaTitle => '重命名区域';
+
+  @override
+  String get renameEquipmentTitle => '重命名设备';
+
+  @override
+  String get saveButton => '保存';
+
+  @override
+  String get retireEquipmentTitle => '停用设备';
+
+  @override
+  String get retireEquipmentConfirmText =>
+      '停用此设备也会取消分配给它的所有任务。过去的提交记录将被保留。是否继续?';
+
+  @override
+  String get retireButton => '停用';
+
+  @override
+  String get areasStepTitle => '区域';
+
+  @override
+  String get areasStepIntro => '添加此场所的运营区域。';
+
+  @override
+  String get areaSuggestionKitchen => '厨房';
+
+  @override
+  String get areaSuggestionStorage => '储藏室';
+
+  @override
+  String get areaSuggestionReceiving => '收货区';
+
+  @override
+  String get areaSuggestionFrontOfHouse => '前厅';
+
+  @override
+  String get areaNameLabel => '区域名称';
+
+  @override
+  String get addAreaTooltip => '添加区域';
+
+  @override
+  String get renameTooltip => '重命名';
+
+  @override
+  String get equipmentStepTitle => '设备';
+
+  @override
+  String get equipmentStepIntro => '添加命名的设备实例,例如\"冰箱1\"、\"冰箱2\"。';
+
+  @override
+  String get showAllEquipmentTypesButton => '显示所有设备类型';
+
+  @override
+  String get equipmentTypeLabel => '设备类型';
+
+  @override
+  String get somethingElseOption => '其他...';
+
+  @override
+  String get newEquipmentTypeNameLabel => '新设备类型名称';
+
+  @override
+  String get confirmNewEquipmentTypeTooltip => '确认新设备类型';
+
+  @override
+  String get noAreasForDeptText => '你的部门尚未设置区域 - 设备仍可在没有区域的情况下添加。';
+
+  @override
+  String get noAreasAddOneText => '尚未添加任何区域 - 返回添加一个。';
+
+  @override
+  String get equipmentNameLabel => '设备名称';
+
+  @override
+  String get equipmentNameHint => '例如:肉类步入式冷库、甜点冰箱、吧台炸锅';
+
+  @override
+  String get modelOptionalLabel => '型号(可选)';
+
+  @override
+  String get serialNumberOptionalLabel => '序列号(可选)';
+
+  @override
+  String get retireTooltip => '停用';
+
+  @override
+  String get reactivateTooltip => '重新启用';
+
+  @override
+  String get unknownTypeLabel => '未知类型';
+
+  @override
+  String get unknownAreaLabel => '未知区域';
+
+  @override
+  String get staffStepTitle => '员工';
+
+  @override
+  String get staffStepIntro => '添加员工并分配他们的职级。';
+
+  @override
+  String get addStaffMemberButton => '添加员工';
+
+  @override
+  String get suppliersStepTitle => '供应商';
+
+  @override
+  String get suppliersStepIntro =>
+      '添加此场所合作的供应商。审批标记会显示在EHO导出报告中 - 被暂停的供应商会展示给管理人员,而非悄悄隐藏。';
+
+  @override
+  String get supplierNameLabel => '供应商名称';
+
+  @override
+  String get contactOptionalLabel => '联系方式(可选)';
+
+  @override
+  String get phoneOrEmailHint => '电话或邮箱';
+
+  @override
+  String get approvalStatusLabel => '审批状态';
+
+  @override
+  String get addSupplierButton => '添加供应商';
+
+  @override
+  String venueSetupStepTitle(int step) {
+    return '场所设置 - 第 $step 步,共 4 步';
+  }
+
+  @override
+  String modelPrefixLabel(String value) {
+    return '型号:$value';
+  }
+
+  @override
+  String serialPrefixLabel(String value) {
+    return '序列号:$value';
+  }
+
+  @override
+  String retiredSuffixLabel(String name) {
+    return '$name(已停用)';
+  }
+
+  @override
+  String get addEquipmentTooltip => '添加设备';
 }

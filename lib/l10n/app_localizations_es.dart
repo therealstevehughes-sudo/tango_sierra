@@ -2800,4 +2800,213 @@ class AppLocalizationsEs extends AppLocalizations {
   String emailPrefixLabel(String value) {
     return 'Correo: $value';
   }
+
+  @override
+  String get supplierCategoryFreshProduce => 'Productos frescos';
+
+  @override
+  String get supplierCategoryMeatPoultry => 'Carne y aves';
+
+  @override
+  String get supplierCategoryDairyEggs => 'Lácteos y huevos';
+
+  @override
+  String get supplierCategoryFrozenGoods => 'Productos congelados';
+
+  @override
+  String get supplierCategoryDryAmbientGoods => 'Productos secos y ambiente';
+
+  @override
+  String get supplierCategoryDrinksBeverages => 'Bebidas';
+
+  @override
+  String get supplierCategoryChemicalsCleaningSupplies =>
+      'Productos químicos y de limpieza';
+
+  @override
+  String get supplierCategoryEquipmentMaintenance =>
+      'Equipamiento y mantenimiento';
+
+  @override
+  String get supplierCategoryOther => 'Otro';
+
+  @override
+  String get supplierStatusApproved => 'Aprobado';
+
+  @override
+  String get supplierStatusPending => 'Pendiente';
+
+  @override
+  String get supplierStatusSuspended => 'Suspendido';
+
+  @override
+  String get addEquipmentTitle => 'Añadir equipamiento';
+
+  @override
+  String get venueSetupTitle => 'Configuración del local';
+
+  @override
+  String get nextButton => 'Siguiente';
+
+  @override
+  String get finishSetupButton => 'Finalizar configuración';
+
+  @override
+  String get renameAreaTitle => 'Renombrar zona';
+
+  @override
+  String get renameEquipmentTitle => 'Renombrar equipamiento';
+
+  @override
+  String get saveButton => 'Guardar';
+
+  @override
+  String get retireEquipmentTitle => 'Retirar equipamiento';
+
+  @override
+  String get retireEquipmentConfirmText =>
+      'Retirar este equipamiento también desasignará cualquier tarea actualmente asignada a él. Se conserva el historial de envíos pasados. ¿Continuar?';
+
+  @override
+  String get retireButton => 'Retirar';
+
+  @override
+  String get areasStepTitle => 'Zonas';
+
+  @override
+  String get areasStepIntro => 'Añade las zonas operativas de este local.';
+
+  @override
+  String get areaSuggestionKitchen => 'Cocina';
+
+  @override
+  String get areaSuggestionStorage => 'Almacén';
+
+  @override
+  String get areaSuggestionReceiving => 'Recepción';
+
+  @override
+  String get areaSuggestionFrontOfHouse => 'Sala';
+
+  @override
+  String get areaNameLabel => 'Nombre de la zona';
+
+  @override
+  String get addAreaTooltip => 'Añadir zona';
+
+  @override
+  String get renameTooltip => 'Renombrar';
+
+  @override
+  String get equipmentStepTitle => 'Equipamiento';
+
+  @override
+  String get equipmentStepIntro =>
+      'Añade instancias de equipamiento con nombre, p. ej. \"Nevera 1\", \"Nevera 2\".';
+
+  @override
+  String get showAllEquipmentTypesButton =>
+      'Mostrar todos los tipos de equipamiento';
+
+  @override
+  String get equipmentTypeLabel => 'Tipo de equipamiento';
+
+  @override
+  String get somethingElseOption => 'Algo más...';
+
+  @override
+  String get newEquipmentTypeNameLabel =>
+      'Nombre del nuevo tipo de equipamiento';
+
+  @override
+  String get confirmNewEquipmentTypeTooltip =>
+      'Confirmar nuevo tipo de equipamiento';
+
+  @override
+  String get noAreasForDeptText =>
+      'Todavía no hay zonas configuradas para tu departamento - el equipamiento se puede añadir igualmente sin una.';
+
+  @override
+  String get noAreasAddOneText =>
+      'Todavía no se ha añadido ninguna zona - vuelve atrás para añadir una.';
+
+  @override
+  String get equipmentNameLabel => 'Nombre del equipamiento';
+
+  @override
+  String get equipmentNameHint =>
+      'p. ej. Cámara de carne, Nevera de postres, Freidora de bar';
+
+  @override
+  String get modelOptionalLabel => 'Modelo (opcional)';
+
+  @override
+  String get serialNumberOptionalLabel => 'Número de serie (opcional)';
+
+  @override
+  String get retireTooltip => 'Retirar';
+
+  @override
+  String get reactivateTooltip => 'Reactivar';
+
+  @override
+  String get unknownTypeLabel => 'Tipo desconocido';
+
+  @override
+  String get unknownAreaLabel => 'Zona desconocida';
+
+  @override
+  String get staffStepTitle => 'Personal';
+
+  @override
+  String get staffStepIntro =>
+      'Añade miembros del personal y asigna su nivel de rol.';
+
+  @override
+  String get addStaffMemberButton => 'Añadir miembro del personal';
+
+  @override
+  String get suppliersStepTitle => 'Proveedores';
+
+  @override
+  String get suppliersStepIntro =>
+      'Añade los proveedores con los que trabaja este local. Las marcas de aprobación aparecen en la exportación EHO - los proveedores suspendidos se muestran a los gerentes, no se ocultan silenciosamente.';
+
+  @override
+  String get supplierNameLabel => 'Nombre del proveedor';
+
+  @override
+  String get contactOptionalLabel => 'Contacto (opcional)';
+
+  @override
+  String get phoneOrEmailHint => 'Teléfono o correo';
+
+  @override
+  String get approvalStatusLabel => 'Estado de aprobación';
+
+  @override
+  String get addSupplierButton => 'Añadir proveedor';
+
+  @override
+  String venueSetupStepTitle(int step) {
+    return 'Configuración del local - Paso $step de 4';
+  }
+
+  @override
+  String modelPrefixLabel(String value) {
+    return 'Modelo: $value';
+  }
+
+  @override
+  String serialPrefixLabel(String value) {
+    return 'N.º de serie: $value';
+  }
+
+  @override
+  String retiredSuffixLabel(String name) {
+    return '$name (retirado)';
+  }
+
+  @override
+  String get addEquipmentTooltip => 'Añadir equipamiento';
 }

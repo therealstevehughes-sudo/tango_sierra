@@ -2802,4 +2802,213 @@ class AppLocalizationsRo extends AppLocalizations {
   String emailPrefixLabel(String value) {
     return 'Email: $value';
   }
+
+  @override
+  String get supplierCategoryFreshProduce => 'Produse proaspete';
+
+  @override
+  String get supplierCategoryMeatPoultry => 'Carne și pasăre';
+
+  @override
+  String get supplierCategoryDairyEggs => 'Lactate și ouă';
+
+  @override
+  String get supplierCategoryFrozenGoods => 'Produse congelate';
+
+  @override
+  String get supplierCategoryDryAmbientGoods =>
+      'Produse uscate și la temperatura ambiantă';
+
+  @override
+  String get supplierCategoryDrinksBeverages => 'Băuturi';
+
+  @override
+  String get supplierCategoryChemicalsCleaningSupplies =>
+      'Chimicale și produse de curățenie';
+
+  @override
+  String get supplierCategoryEquipmentMaintenance =>
+      'Echipamente și întreținere';
+
+  @override
+  String get supplierCategoryOther => 'Altele';
+
+  @override
+  String get supplierStatusApproved => 'Aprobat';
+
+  @override
+  String get supplierStatusPending => 'În așteptare';
+
+  @override
+  String get supplierStatusSuspended => 'Suspendat';
+
+  @override
+  String get addEquipmentTitle => 'Adaugă echipament';
+
+  @override
+  String get venueSetupTitle => 'Configurare local';
+
+  @override
+  String get nextButton => 'Următorul';
+
+  @override
+  String get finishSetupButton => 'Finalizează configurarea';
+
+  @override
+  String get renameAreaTitle => 'Redenumește zona';
+
+  @override
+  String get renameEquipmentTitle => 'Redenumește echipamentul';
+
+  @override
+  String get saveButton => 'Salvează';
+
+  @override
+  String get retireEquipmentTitle => 'Retrage echipamentul';
+
+  @override
+  String get retireEquipmentConfirmText =>
+      'Retragerea acestui echipament va anula și alocarea oricăror sarcini atribuite în prezent acestuia. Istoricul trimiterilor anterioare este păstrat. Continui?';
+
+  @override
+  String get retireButton => 'Retrage';
+
+  @override
+  String get areasStepTitle => 'Zone';
+
+  @override
+  String get areasStepIntro => 'Adaugă zonele operaționale ale acestui local.';
+
+  @override
+  String get areaSuggestionKitchen => 'Bucătărie';
+
+  @override
+  String get areaSuggestionStorage => 'Depozit';
+
+  @override
+  String get areaSuggestionReceiving => 'Recepție marfă';
+
+  @override
+  String get areaSuggestionFrontOfHouse => 'Sală';
+
+  @override
+  String get areaNameLabel => 'Nume zonă';
+
+  @override
+  String get addAreaTooltip => 'Adaugă zonă';
+
+  @override
+  String get renameTooltip => 'Redenumește';
+
+  @override
+  String get equipmentStepTitle => 'Echipamente';
+
+  @override
+  String get equipmentStepIntro =>
+      'Adaugă instanțe de echipamente cu nume, ex. \"Frigider 1\", \"Frigider 2\".';
+
+  @override
+  String get showAllEquipmentTypesButton =>
+      'Arată toate tipurile de echipamente';
+
+  @override
+  String get equipmentTypeLabel => 'Tip de echipament';
+
+  @override
+  String get somethingElseOption => 'Altceva...';
+
+  @override
+  String get newEquipmentTypeNameLabel => 'Nume tip nou de echipament';
+
+  @override
+  String get confirmNewEquipmentTypeTooltip =>
+      'Confirmă noul tip de echipament';
+
+  @override
+  String get noAreasForDeptText =>
+      'Nicio zonă configurată încă pentru departamentul tău - echipamentul poate fi totuși adăugat fără una.';
+
+  @override
+  String get noAreasAddOneText =>
+      'Nicio zonă adăugată încă - întoarce-te pentru a adăuga una.';
+
+  @override
+  String get equipmentNameLabel => 'Nume echipament';
+
+  @override
+  String get equipmentNameHint =>
+      'ex. Cameră frigorifică carne, Frigider deserturi, Friteuză bar';
+
+  @override
+  String get modelOptionalLabel => 'Model (opțional)';
+
+  @override
+  String get serialNumberOptionalLabel => 'Număr de serie (opțional)';
+
+  @override
+  String get retireTooltip => 'Retrage';
+
+  @override
+  String get reactivateTooltip => 'Reactivează';
+
+  @override
+  String get unknownTypeLabel => 'Tip necunoscut';
+
+  @override
+  String get unknownAreaLabel => 'Zonă necunoscută';
+
+  @override
+  String get staffStepTitle => 'Personal';
+
+  @override
+  String get staffStepIntro =>
+      'Adaugă membri ai personalului și atribuie-le nivelul de rol.';
+
+  @override
+  String get addStaffMemberButton => 'Adaugă membru personal';
+
+  @override
+  String get suppliersStepTitle => 'Furnizori';
+
+  @override
+  String get suppliersStepIntro =>
+      'Adaugă furnizorii cu care lucrează acest local. Marcajele de aprobare apar în exportul EHO - furnizorii suspendați sunt afișați managerilor, nu ascunși în tăcere.';
+
+  @override
+  String get supplierNameLabel => 'Nume furnizor';
+
+  @override
+  String get contactOptionalLabel => 'Contact (opțional)';
+
+  @override
+  String get phoneOrEmailHint => 'Telefon sau email';
+
+  @override
+  String get approvalStatusLabel => 'Stare aprobare';
+
+  @override
+  String get addSupplierButton => 'Adaugă furnizor';
+
+  @override
+  String venueSetupStepTitle(int step) {
+    return 'Configurare local - Pasul $step din 4';
+  }
+
+  @override
+  String modelPrefixLabel(String value) {
+    return 'Model: $value';
+  }
+
+  @override
+  String serialPrefixLabel(String value) {
+    return 'Nr. serie: $value';
+  }
+
+  @override
+  String retiredSuffixLabel(String name) {
+    return '$name (retras)';
+  }
+
+  @override
+  String get addEquipmentTooltip => 'Adaugă echipament';
 }

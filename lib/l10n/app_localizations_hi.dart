@@ -2750,4 +2750,208 @@ class AppLocalizationsHi extends AppLocalizations {
   String emailPrefixLabel(String value) {
     return 'ईमेल: $value';
   }
+
+  @override
+  String get supplierCategoryFreshProduce => 'ताज़ा उपज';
+
+  @override
+  String get supplierCategoryMeatPoultry => 'मांस और मुर्गी';
+
+  @override
+  String get supplierCategoryDairyEggs => 'डेयरी और अंडे';
+
+  @override
+  String get supplierCategoryFrozenGoods => 'जमे हुए सामान';
+
+  @override
+  String get supplierCategoryDryAmbientGoods => 'सूखा और सामान्य तापमान सामान';
+
+  @override
+  String get supplierCategoryDrinksBeverages => 'पेय पदार्थ';
+
+  @override
+  String get supplierCategoryChemicalsCleaningSupplies =>
+      'रसायन और सफाई सामग्री';
+
+  @override
+  String get supplierCategoryEquipmentMaintenance => 'उपकरण और रखरखाव';
+
+  @override
+  String get supplierCategoryOther => 'अन्य';
+
+  @override
+  String get supplierStatusApproved => 'स्वीकृत';
+
+  @override
+  String get supplierStatusPending => 'लंबित';
+
+  @override
+  String get supplierStatusSuspended => 'निलंबित';
+
+  @override
+  String get addEquipmentTitle => 'उपकरण जोड़ें';
+
+  @override
+  String get venueSetupTitle => 'वेन्यू सेटअप';
+
+  @override
+  String get nextButton => 'अगला';
+
+  @override
+  String get finishSetupButton => 'सेटअप समाप्त करें';
+
+  @override
+  String get renameAreaTitle => 'क्षेत्र का नाम बदलें';
+
+  @override
+  String get renameEquipmentTitle => 'उपकरण का नाम बदलें';
+
+  @override
+  String get saveButton => 'सहेजें';
+
+  @override
+  String get retireEquipmentTitle => 'उपकरण हटाएं';
+
+  @override
+  String get retireEquipmentConfirmText =>
+      'इस उपकरण को हटाने से इसे सौंपे गए सभी कार्य भी अनअसाइन हो जाएंगे। पिछला सबमिशन इतिहास सुरक्षित रहता है। जारी रखें?';
+
+  @override
+  String get retireButton => 'हटाएं';
+
+  @override
+  String get areasStepTitle => 'क्षेत्र';
+
+  @override
+  String get areasStepIntro => 'इस वेन्यू के परिचालन क्षेत्र जोड़ें।';
+
+  @override
+  String get areaSuggestionKitchen => 'रसोई';
+
+  @override
+  String get areaSuggestionStorage => 'भंडारण';
+
+  @override
+  String get areaSuggestionReceiving => 'प्राप्ति';
+
+  @override
+  String get areaSuggestionFrontOfHouse => 'फ्रंट ऑफ हाउस';
+
+  @override
+  String get areaNameLabel => 'क्षेत्र का नाम';
+
+  @override
+  String get addAreaTooltip => 'क्षेत्र जोड़ें';
+
+  @override
+  String get renameTooltip => 'नाम बदलें';
+
+  @override
+  String get equipmentStepTitle => 'उपकरण';
+
+  @override
+  String get equipmentStepIntro =>
+      'नामित उपकरण इंस्टेंस जोड़ें, जैसे \"फ्रिज 1\", \"फ्रिज 2\"।';
+
+  @override
+  String get showAllEquipmentTypesButton => 'सभी उपकरण प्रकार दिखाएं';
+
+  @override
+  String get equipmentTypeLabel => 'उपकरण प्रकार';
+
+  @override
+  String get somethingElseOption => 'कुछ और...';
+
+  @override
+  String get newEquipmentTypeNameLabel => 'नए उपकरण प्रकार का नाम';
+
+  @override
+  String get confirmNewEquipmentTypeTooltip => 'नए उपकरण प्रकार की पुष्टि करें';
+
+  @override
+  String get noAreasForDeptText =>
+      'तुम्हारे विभाग के लिए अभी तक कोई क्षेत्र सेट नहीं किया गया - उपकरण फिर भी बिना क्षेत्र के जोड़ा जा सकता है।';
+
+  @override
+  String get noAreasAddOneText =>
+      'अभी तक कोई क्षेत्र नहीं जोड़ा गया - एक जोड़ने के लिए वापस जाओ।';
+
+  @override
+  String get equipmentNameLabel => 'उपकरण का नाम';
+
+  @override
+  String get equipmentNameHint => 'जैसे मीट वॉक-इन, डेज़र्ट फ्रिज, बार फ्रायर';
+
+  @override
+  String get modelOptionalLabel => 'मॉडल (वैकल्पिक)';
+
+  @override
+  String get serialNumberOptionalLabel => 'सीरियल नंबर (वैकल्पिक)';
+
+  @override
+  String get retireTooltip => 'हटाएं';
+
+  @override
+  String get reactivateTooltip => 'पुनः सक्रिय करें';
+
+  @override
+  String get unknownTypeLabel => 'अज्ञात प्रकार';
+
+  @override
+  String get unknownAreaLabel => 'अज्ञात क्षेत्र';
+
+  @override
+  String get staffStepTitle => 'स्टाफ';
+
+  @override
+  String get staffStepIntro =>
+      'स्टाफ सदस्य जोड़ें और उनका भूमिका स्तर असाइन करें।';
+
+  @override
+  String get addStaffMemberButton => 'स्टाफ सदस्य जोड़ें';
+
+  @override
+  String get suppliersStepTitle => 'आपूर्तिकर्ता';
+
+  @override
+  String get suppliersStepIntro =>
+      'इस वेन्यू के साथ काम करने वाले आपूर्तिकर्ता जोड़ें। EHO एक्सपोर्ट पर अनुमोदन फ्लैग दिखाई देते हैं - निलंबित आपूर्तिकर्ता प्रबंधकों को दिखाए जाते हैं, चुपचाप छिपाए नहीं जाते।';
+
+  @override
+  String get supplierNameLabel => 'आपूर्तिकर्ता का नाम';
+
+  @override
+  String get contactOptionalLabel => 'संपर्क (वैकल्पिक)';
+
+  @override
+  String get phoneOrEmailHint => 'फोन या ईमेल';
+
+  @override
+  String get approvalStatusLabel => 'अनुमोदन स्थिति';
+
+  @override
+  String get addSupplierButton => 'आपूर्तिकर्ता जोड़ें';
+
+  @override
+  String venueSetupStepTitle(int step) {
+    return 'वेन्यू सेटअप - चरण $step / 4';
+  }
+
+  @override
+  String modelPrefixLabel(String value) {
+    return 'मॉडल: $value';
+  }
+
+  @override
+  String serialPrefixLabel(String value) {
+    return 'सीरियल नंबर: $value';
+  }
+
+  @override
+  String retiredSuffixLabel(String name) {
+    return '$name (सेवानिवृत्त)';
+  }
+
+  @override
+  String get addEquipmentTooltip => 'उपकरण जोड़ें';
 }

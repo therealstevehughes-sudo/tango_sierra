@@ -22,6 +22,7 @@ import '../../shared/providers/venue_setup_providers.dart';
 import '../settings/widgets/add_staff_dialog.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
+import '../../l10n/app_localizations.dart';
 
 class VenueSetupWizardScreen extends ConsumerStatefulWidget {
   const VenueSetupWizardScreen({super.key, this.initialStep = 0});
@@ -381,29 +382,35 @@ class _VenueSetupWizardScreenState
     final controller = TextEditingController(text: currentName);
     return showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(labelText: 'Name'),
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(title),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(labelText: l10n.nameAxisLabel),
+            autofocus: true,
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, controller.text.trim()),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, controller.text.trim()),
+              child: Text(l10n.saveButton),
+            ),
+          ],
+        );
+      },
     );
   }
 
   Future<void> _renameArea(Area area) async {
-    final newName = await _promptForName('Rename Area', area.name);
+    final newName = await _promptForName(
+      AppLocalizations.of(context)!.renameAreaTitle,
+      area.name,
+    );
     if (newName == null || newName.isEmpty || newName == area.name) return;
 
     final repo = ref.read(areaRepositoryProvider);
@@ -422,7 +429,10 @@ class _VenueSetupWizardScreenState
   }
 
   Future<void> _renameEquipment(Equipment equipment) async {
-    final newName = await _promptForName('Rename Equipment', equipment.name);
+    final newName = await _promptForName(
+      AppLocalizations.of(context)!.renameEquipmentTitle,
+      equipment.name,
+    );
     if (newName == null || newName.isEmpty || newName == equipment.name) {
       return;
     }
@@ -463,24 +473,23 @@ class _VenueSetupWizardScreenState
     if (!activating) {
       final confirmed = await showDialog<bool>(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Retire Equipment'),
-          content: const Text(
-            'Retiring this equipment will also unassign any tasks '
-            'currently assigned to it. Past submission history is kept. '
-            'Continue?',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Retire'),
-            ),
-          ],
-        ),
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.retireEquipmentTitle),
+            content: Text(l10n.retireEquipmentConfirmText),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.retireButton),
+              ),
+            ],
+          );
+        },
       );
       if (confirmed != true) return;
     }
@@ -522,25 +531,26 @@ class _VenueSetupWizardScreenState
   }
 
   String _equipmentSubtitle(Equipment equipment) {
+    final l10n = AppLocalizations.of(context)!;
     final type = equipmentTypes.firstWhere(
       (t) => t.id == equipment.equipmentTypeId,
-      orElse: () => const EquipmentType(id: -1, name: 'Unknown type'),
+      orElse: () => EquipmentType(id: -1, name: l10n.unknownTypeLabel),
     );
     final parts = <String>[type.name];
     if (equipment.areaId != null) {
       final area = areas.firstWhere(
         (a) => a.id == equipment.areaId,
-        orElse: () => const Area(id: -1, name: 'Unknown area', siteId: -1),
+        orElse: () => Area(id: -1, name: l10n.unknownAreaLabel, siteId: -1),
       );
       parts.add(area.name);
     }
     // Model/serial number (2026-09-28) — shown only when set, so existing
     // equipment with neither doesn't grow an empty-looking subtitle tail.
     if (equipment.model != null && equipment.model!.isNotEmpty) {
-      parts.add('Model: ${equipment.model}');
+      parts.add(l10n.modelPrefixLabel(equipment.model!));
     }
     if (equipment.serialNumber != null && equipment.serialNumber!.isNotEmpty) {
-      parts.add('S/N: ${equipment.serialNumber}');
+      parts.add(l10n.serialPrefixLabel(equipment.serialNumber!));
     }
     return parts.join(' - ');
   }
@@ -550,17 +560,18 @@ class _VenueSetupWizardScreenState
     // The header/drawer render unconditionally, loading or not — a stuck
     // or failed load must never strand the user on a header-less blank
     // screen with no way back (2026-09-28, direct founder bug report).
+    final l10n = AppLocalizations.of(context)!;
     final equipmentOnly = _equipmentOnly;
     return Scaffold(
       appBar: AppScreenHeader(
         title: Text(
           equipmentOnly
-              ? 'Add Equipment'
-              : 'Venue Setup - Step ${currentStep + 1} of 4',
+              ? l10n.addEquipmentTitle
+              : l10n.venueSetupStepTitle(currentStep + 1),
         ),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Venue Setup'),
+      drawer: ManagementDrawer(title: l10n.venueSetupTitle),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : loadError != null
@@ -581,12 +592,12 @@ class _VenueSetupWizardScreenState
                       if (currentStep > 0)
                         TextButton(
                           onPressed: () => setState(() => currentStep -= 1),
-                          child: const Text('Back'),
+                          child: Text(l10n.back),
                         )
                       else
                         const SizedBox.shrink(),
                       PrimaryActionButton(
-                        label: currentStep < 3 ? 'Next' : 'Finish Setup',
+                        label: currentStep < 3 ? l10n.nextButton : l10n.finishSetupButton,
                         onPressed: () {
                           if (currentStep < 3) {
                             setState(() => currentStep += 1);
@@ -620,14 +631,20 @@ class _VenueSetupWizardScreenState
   }
 
   Widget _buildAreasStep() {
-    const suggestions = ['Kitchen', 'Storage', 'Receiving', 'Front of House'];
+    final l10n = AppLocalizations.of(context)!;
+    final suggestions = [
+      l10n.areaSuggestionKitchen,
+      l10n.areaSuggestionStorage,
+      l10n.areaSuggestionReceiving,
+      l10n.areaSuggestionFrontOfHouse,
+    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('Areas', style: Theme.of(context).textTheme.titleLarge),
+        Text(l10n.areasStepTitle, style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
-        const Text('Add the operational zones of this venue.'),
+        Text(l10n.areasStepIntro),
         const SizedBox(height: 16),
         Wrap(
           spacing: 8,
@@ -644,13 +661,13 @@ class _VenueSetupWizardScreenState
             Expanded(
               child: TextField(
                 controller: areaNameController,
-                decoration: const InputDecoration(labelText: 'Area name'),
+                decoration: InputDecoration(labelText: l10n.areaNameLabel),
               ),
             ),
             IconButton(
               onPressed: () => _addArea(areaNameController.text),
               icon: const Icon(Icons.add),
-              tooltip: 'Add area',
+              tooltip: l10n.addAreaTooltip,
             ),
           ],
         ),
@@ -661,7 +678,7 @@ class _VenueSetupWizardScreenState
               title: Text(a.name),
               trailing: IconButton(
                 icon: const Icon(Icons.edit),
-                tooltip: 'Rename',
+                tooltip: l10n.renameTooltip,
                 onPressed: () => _renameArea(a),
               ),
             ),
@@ -672,14 +689,13 @@ class _VenueSetupWizardScreenState
   }
 
   Widget _buildEquipmentStep() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('Equipment', style: Theme.of(context).textTheme.titleLarge),
+        Text(l10n.equipmentStepTitle, style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
-        const Text(
-          'Add named equipment instances, e.g. "Fridge 1", "Fridge 2".',
-        ),
+        Text(l10n.equipmentStepIntro),
         const SizedBox(height: 16),
         if (!showAllEquipmentTypes &&
             siteVenueTypeIds.isNotEmpty &&
@@ -688,17 +704,17 @@ class _VenueSetupWizardScreenState
             padding: const EdgeInsets.only(bottom: 8),
             child: TextButton(
               onPressed: () => setState(() => showAllEquipmentTypes = true),
-              child: const Text('Show all equipment types'),
+              child: Text(l10n.showAllEquipmentTypesButton),
             ),
           ),
         DropdownButtonFormField<int>(
           initialValue: selectedEquipmentTypeId,
-          decoration: const InputDecoration(labelText: 'Equipment type'),
+          decoration: InputDecoration(labelText: l10n.equipmentTypeLabel),
           items: [
             ..._offeredEquipmentTypes.map(
               (t) => DropdownMenuItem(value: t.id, child: Text(t.name)),
             ),
-            const DropdownMenuItem(value: -1, child: Text('Something else...')),
+            DropdownMenuItem(value: -1, child: Text(l10n.somethingElseOption)),
           ],
           onChanged: (value) {
             if (value == -1) {
@@ -723,15 +739,15 @@ class _VenueSetupWizardScreenState
                 Expanded(
                   child: TextField(
                     controller: newEquipmentTypeController,
-                    decoration: const InputDecoration(
-                      labelText: 'New equipment type name',
+                    decoration: InputDecoration(
+                      labelText: l10n.newEquipmentTypeNameLabel,
                     ),
                   ),
                 ),
                 IconButton(
                   onPressed: _addNewEquipmentType,
                   icon: const Icon(Icons.check),
-                  tooltip: 'Confirm new equipment type',
+                  tooltip: l10n.confirmNewEquipmentTypeTooltip,
                 ),
               ],
             ),
@@ -739,15 +755,12 @@ class _VenueSetupWizardScreenState
         const SizedBox(height: 12),
         if (_visibleAreas.isEmpty)
           Text(
-            _equipmentOnly
-                ? 'No areas set up for your department yet - equipment can '
-                      'still be added without one.'
-                : 'No areas added yet - go back to add one.',
+            _equipmentOnly ? l10n.noAreasForDeptText : l10n.noAreasAddOneText,
           )
         else
           DropdownButtonFormField<int>(
             initialValue: selectedAreaId,
-            decoration: const InputDecoration(labelText: 'Area'),
+            decoration: InputDecoration(labelText: l10n.areaLabel),
             items: _visibleAreas
                 .map((a) => DropdownMenuItem(value: a.id, child: Text(a.name)))
                 .toList(),
@@ -764,16 +777,16 @@ class _VenueSetupWizardScreenState
                 // type ("Fridge 1/2" tells nobody which physical unit to
                 // check) — compliance-critical once a venue has 2+ of the
                 // same equipment.
-                decoration: const InputDecoration(
-                  labelText: 'Equipment name',
-                  hintText: 'e.g. Meat Walk-in, Dessert Fridge, Bar Fryer',
+                decoration: InputDecoration(
+                  labelText: l10n.equipmentNameLabel,
+                  hintText: l10n.equipmentNameHint,
                 ),
               ),
             ),
             IconButton(
               onPressed: _addEquipment,
               icon: const Icon(Icons.add),
-              tooltip: 'Add equipment',
+              tooltip: l10n.addEquipmentTooltip,
             ),
           ],
         ),
@@ -787,8 +800,8 @@ class _VenueSetupWizardScreenState
             Expanded(
               child: TextField(
                 controller: equipmentModelController,
-                decoration: const InputDecoration(
-                  labelText: 'Model (optional)',
+                decoration: InputDecoration(
+                  labelText: l10n.modelOptionalLabel,
                   isDense: true,
                 ),
               ),
@@ -797,8 +810,8 @@ class _VenueSetupWizardScreenState
             Expanded(
               child: TextField(
                 controller: equipmentSerialController,
-                decoration: const InputDecoration(
-                  labelText: 'Serial number (optional)',
+                decoration: InputDecoration(
+                  labelText: l10n.serialNumberOptionalLabel,
                   isDense: true,
                 ),
               ),
@@ -810,7 +823,7 @@ class _VenueSetupWizardScreenState
           (e) => Card(
             child: ListTile(
               title: Text(
-                e.active ? e.name : '${e.name} (retired)',
+                e.active ? e.name : l10n.retiredSuffixLabel(e.name),
                 style: e.active
                     ? null
                     : const TextStyle(color: AppColors.muted),
@@ -821,14 +834,14 @@ class _VenueSetupWizardScreenState
                 children: [
                   IconButton(
                     icon: const Icon(Icons.edit),
-                    tooltip: 'Rename',
+                    tooltip: l10n.renameTooltip,
                     onPressed: () => _renameEquipment(e),
                   ),
                   IconButton(
                     icon: Icon(
                       e.active ? Icons.remove_circle_outline : Icons.restore,
                     ),
-                    tooltip: e.active ? 'Retire' : 'Reactivate',
+                    tooltip: e.active ? l10n.retireTooltip : l10n.reactivateTooltip,
                     onPressed: () => _toggleEquipmentActive(e),
                   ),
                 ],
@@ -841,12 +854,13 @@ class _VenueSetupWizardScreenState
   }
 
   Widget _buildStaffStep() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('Staff', style: Theme.of(context).textTheme.titleLarge),
+        Text(l10n.staffStepTitle, style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
-        const Text('Add staff members and assign their role tier.'),
+        Text(l10n.staffStepIntro),
         const SizedBox(height: 16),
         AddStaffFormFields(
           nameController: staffNameController,
@@ -861,7 +875,7 @@ class _VenueSetupWizardScreenState
           allowedTiers: RoleTier.values.toList(),
         ),
         const SizedBox(height: 12),
-        PrimaryActionButton(label: 'Add Staff Member', onPressed: _addStaff),
+        PrimaryActionButton(label: l10n.addStaffMemberButton, onPressed: _addStaff),
         const SizedBox(height: 16),
         ...staff.map(
           (s) => Card(
@@ -869,8 +883,8 @@ class _VenueSetupWizardScreenState
               title: Text('${s.name} (${s.jobTitle})'),
               subtitle: Text(
                 s.jobRole == null
-                    ? roleTierDisplayName(s.roleTier)
-                    : '${roleTierDisplayName(s.roleTier)} · ${jobRoleDisplayName(s.jobRole!)}',
+                    ? roleTierDisplayName(s.roleTier, l10n)
+                    : '${roleTierDisplayName(s.roleTier, l10n)} · ${jobRoleDisplayName(s.jobRole!, l10n)}',
               ),
             ),
           ),
@@ -880,38 +894,35 @@ class _VenueSetupWizardScreenState
   }
 
   Widget _buildSuppliersStep() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text('Suppliers', style: Theme.of(context).textTheme.titleLarge),
+        Text(l10n.suppliersStepTitle, style: Theme.of(context).textTheme.titleLarge),
         const SizedBox(height: 8),
-        const Text(
-          'Add the suppliers this venue works with. Approval flags appear '
-          'on the EHO export - suspended suppliers are surfaced to '
-          'managers, not silently hidden.',
-        ),
+        Text(l10n.suppliersStepIntro),
         const SizedBox(height: 16),
         TextField(
           controller: supplierNameController,
-          decoration: const InputDecoration(labelText: 'Supplier name'),
+          decoration: InputDecoration(labelText: l10n.supplierNameLabel),
         ),
         const SizedBox(height: 12),
         TextField(
           controller: supplierContactController,
-          decoration: const InputDecoration(
-            labelText: 'Contact (optional)',
-            hintText: 'Phone or email',
+          decoration: InputDecoration(
+            labelText: l10n.contactOptionalLabel,
+            hintText: l10n.phoneOrEmailHint,
           ),
         ),
         const SizedBox(height: 12),
         DropdownButtonFormField<SupplierCategory>(
           initialValue: selectedSupplierCategory,
-          decoration: const InputDecoration(labelText: 'Category'),
+          decoration: InputDecoration(labelText: l10n.categoryLabel),
           items: SupplierCategory.values
               .map(
                 (category) => DropdownMenuItem(
                   value: category,
-                  child: Text(supplierCategoryLabel(category)),
+                  child: Text(supplierCategoryLabel(category, l10n)),
                 ),
               )
               .toList(),
@@ -920,14 +931,14 @@ class _VenueSetupWizardScreenState
           },
         ),
         const SizedBox(height: 12),
-        const Text('Approval status'),
+        Text(l10n.approvalStatusLabel),
         const SizedBox(height: 4),
         Wrap(
           spacing: 8,
           children: [
             for (final status in SupplierApprovalStatus.values)
               ChoiceChip(
-                label: Text(supplierApprovalStatusLabel(status)),
+                label: Text(supplierApprovalStatusLabel(status, l10n)),
                 selected: selectedSupplierApproval == status,
                 onSelected: (_) =>
                     setState(() => selectedSupplierApproval = status),
@@ -935,7 +946,7 @@ class _VenueSetupWizardScreenState
           ],
         ),
         const SizedBox(height: 12),
-        PrimaryActionButton(label: 'Add Supplier', onPressed: _addSupplier),
+        PrimaryActionButton(label: l10n.addSupplierButton, onPressed: _addSupplier),
         const SizedBox(height: 16),
         ...suppliers.map(
           (supplier) => Card(
@@ -946,7 +957,7 @@ class _VenueSetupWizardScreenState
                 '${supplier.contact == null ? '' : ' · ${supplier.contact}'}',
               ),
               trailing: Text(
-                supplierApprovalStatusLabel(supplier.approvalStatus),
+                supplierApprovalStatusLabel(supplier.approvalStatus, l10n),
               ),
             ),
           ),

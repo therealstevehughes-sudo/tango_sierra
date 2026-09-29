@@ -2214,5 +2214,276 @@
         "type": "String"
       }
     }
+  },
+  "supplierCategoryFreshProduce": "Fresh Produce",
+  "@supplierCategoryFreshProduce": {
+    "description": ""
+  },
+  "supplierCategoryMeatPoultry": "Meat & Poultry",
+  "@supplierCategoryMeatPoultry": {
+    "description": ""
+  },
+  "supplierCategoryDairyEggs": "Dairy & Eggs",
+  "@supplierCategoryDairyEggs": {
+    "description": ""
+  },
+  "supplierCategoryFrozenGoods": "Frozen Goods",
+  "@supplierCategoryFrozenGoods": {
+    "description": ""
+  },
+  "supplierCategoryDryAmbientGoods": "Dry & Ambient Goods",
+  "@supplierCategoryDryAmbientGoods": {
+    "description": ""
+  },
+  "supplierCategoryDrinksBeverages": "Drinks & Beverages",
+  "@supplierCategoryDrinksBeverages": {
+    "description": ""
+  },
+  "supplierCategoryChemicalsCleaningSupplies": "Chemicals & Cleaning Supplies",
+  "@supplierCategoryChemicalsCleaningSupplies": {
+    "description": ""
+  },
+  "supplierCategoryEquipmentMaintenance": "Equipment & Maintenance",
+  "@supplierCategoryEquipmentMaintenance": {
+    "description": ""
+  },
+  "supplierCategoryOther": "Other",
+  "@supplierCategoryOther": {
+    "description": ""
+  },
+  "supplierStatusApproved": "Approved",
+  "@supplierStatusApproved": {
+    "description": ""
+  },
+  "supplierStatusPending": "Pending",
+  "@supplierStatusPending": {
+    "description": ""
+  },
+  "supplierStatusSuspended": "Suspended",
+  "@supplierStatusSuspended": {
+    "description": ""
+  },
+  "addEquipmentTitle": "Add Equipment",
+  "@addEquipmentTitle": {
+    "description": ""
+  },
+  "venueSetupTitle": "Venue Setup",
+  "@venueSetupTitle": {
+    "description": ""
+  },
+  "nextButton": "Next",
+  "@nextButton": {
+    "description": ""
+  },
+  "finishSetupButton": "Finish Setup",
+  "@finishSetupButton": {
+    "description": ""
+  },
+  "renameAreaTitle": "Rename Area",
+  "@renameAreaTitle": {
+    "description": ""
+  },
+  "renameEquipmentTitle": "Rename Equipment",
+  "@renameEquipmentTitle": {
+    "description": ""
+  },
+  "saveButton": "Save",
+  "@saveButton": {
+    "description": ""
+  },
+  "retireEquipmentTitle": "Retire Equipment",
+  "@retireEquipmentTitle": {
+    "description": ""
+  },
+  "retireEquipmentConfirmText": "Retiring this equipment will also unassign any tasks currently assigned to it. Past submission history is kept. Continue?",
+  "@retireEquipmentConfirmText": {
+    "description": ""
+  },
+  "retireButton": "Retire",
+  "@retireButton": {
+    "description": ""
+  },
+  "areasStepTitle": "Areas",
+  "@areasStepTitle": {
+    "description": ""
+  },
+  "areasStepIntro": "Add the operational zones of this venue.",
+  "@areasStepIntro": {
+    "description": ""
+  },
+  "areaSuggestionKitchen": "Kitchen",
+  "@areaSuggestionKitchen": {
+    "description": ""
+  },
+  "areaSuggestionStorage": "Storage",
+  "@areaSuggestionStorage": {
+    "description": ""
+  },
+  "areaSuggestionReceiving": "Receiving",
+  "@areaSuggestionReceiving": {
+    "description": ""
+  },
+  "areaSuggestionFrontOfHouse": "Front of House",
+  "@areaSuggestionFrontOfHouse": {
+    "description": ""
+  },
+  "areaNameLabel": "Area name",
+  "@areaNameLabel": {
+    "description": ""
+  },
+  "addAreaTooltip": "Add area",
+  "@addAreaTooltip": {
+    "description": ""
+  },
+  "renameTooltip": "Rename",
+  "@renameTooltip": {
+    "description": ""
+  },
+  "equipmentStepTitle": "Equipment",
+  "@equipmentStepTitle": {
+    "description": ""
+  },
+  "equipmentStepIntro": "Add named equipment instances, e.g. \"Fridge 1\", \"Fridge 2\".",
+  "@equipmentStepIntro": {
+    "description": ""
+  },
+  "showAllEquipmentTypesButton": "Show all equipment types",
+  "@showAllEquipmentTypesButton": {
+    "description": ""
+  },
+  "equipmentTypeLabel": "Equipment type",
+  "@equipmentTypeLabel": {
+    "description": ""
+  },
+  "somethingElseOption": "Something else...",
+  "@somethingElseOption": {
+    "description": ""
+  },
+  "newEquipmentTypeNameLabel": "New equipment type name",
+  "@newEquipmentTypeNameLabel": {
+    "description": ""
+  },
+  "confirmNewEquipmentTypeTooltip": "Confirm new equipment type",
+  "@confirmNewEquipmentTypeTooltip": {
+    "description": ""
+  },
+  "noAreasForDeptText": "No areas set up for your department yet - equipment can still be added without one.",
+  "@noAreasForDeptText": {
+    "description": ""
+  },
+  "noAreasAddOneText": "No areas added yet - go back to add one.",
+  "@noAreasAddOneText": {
+    "description": ""
+  },
+  "@areaLabel": {
+    "description": ""
+  },
+  "equipmentNameLabel": "Equipment name",
+  "@equipmentNameLabel": {
+    "description": ""
+  },
+  "equipmentNameHint": "e.g. Meat Walk-in, Dessert Fridge, Bar Fryer",
+  "@equipmentNameHint": {
+    "description": ""
+  },
+  "modelOptionalLabel": "Model (optional)",
+  "@modelOptionalLabel": {
+    "description": ""
+  },
+  "serialNumberOptionalLabel": "Serial number (optional)",
+  "@serialNumberOptionalLabel": {
+    "description": ""
+  },
+  "retireTooltip": "Retire",
+  "@retireTooltip": {
+    "description": ""
+  },
+  "reactivateTooltip": "Reactivate",
+  "@reactivateTooltip": {
+    "description": ""
+  },
+  "unknownTypeLabel": "Unknown type",
+  "@unknownTypeLabel": {
+    "description": ""
+  },
+  "unknownAreaLabel": "Unknown area",
+  "@unknownAreaLabel": {
+    "description": ""
+  },
+  "staffStepTitle": "Staff",
+  "@staffStepTitle": {
+    "description": ""
+  },
+  "staffStepIntro": "Add staff members and assign their role tier.",
+  "@staffStepIntro": {
+    "description": ""
+  },
+  "addStaffMemberButton": "Add Staff Member",
+  "@addStaffMemberButton": {
+    "description": ""
+  },
+  "suppliersStepTitle": "Suppliers",
+  "@suppliersStepTitle": {
+    "description": ""
+  },
+  "suppliersStepIntro": "Add the suppliers this venue works with. Approval flags appear on the EHO export - suspended suppliers are surfaced to managers, not silently hidden.",
+  "@suppliersStepIntro": {
+    "description": ""
+  },
+  "supplierNameLabel": "Supplier name",
+  "@supplierNameLabel": {
+    "description": ""
+  },
+  "contactOptionalLabel": "Contact (optional)",
+  "@contactOptionalLabel": {
+    "description": ""
+  },
+  "phoneOrEmailHint": "Phone or email",
+  "@phoneOrEmailHint": {
+    "description": ""
+  },
+  "approvalStatusLabel": "Approval status",
+  "@approvalStatusLabel": {
+    "description": ""
+  },
+  "addSupplierButton": "Add Supplier",
+  "@addSupplierButton": {
+    "description": ""
+  },
+  "venueSetupStepTitle": "Venue Setup - Step {step} of 4",
+  "@venueSetupStepTitle": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      }
+    }
+  },
+  "modelPrefixLabel": "Model: {value}",
+  "@modelPrefixLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "serialPrefixLabel": "S/N: {value}",
+  "@serialPrefixLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "retiredSuffixLabel": "{name} (retired)",
+  "@retiredSuffixLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "addEquipmentTooltip": "Add equipment",
+  "@addEquipmentTooltip": {
+    "description": ""
   }
 }

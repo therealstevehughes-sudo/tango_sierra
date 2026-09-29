@@ -2743,4 +2743,208 @@ class AppLocalizationsUr extends AppLocalizations {
   String emailPrefixLabel(String value) {
     return 'ای میل: $value';
   }
+
+  @override
+  String get supplierCategoryFreshProduce => 'تازہ پیداوار';
+
+  @override
+  String get supplierCategoryMeatPoultry => 'گوشت اور مرغی';
+
+  @override
+  String get supplierCategoryDairyEggs => 'ڈیری اور انڈے';
+
+  @override
+  String get supplierCategoryFrozenGoods => 'منجمد سامان';
+
+  @override
+  String get supplierCategoryDryAmbientGoods => 'خشک اور عام درجہ حرارت سامان';
+
+  @override
+  String get supplierCategoryDrinksBeverages => 'مشروبات';
+
+  @override
+  String get supplierCategoryChemicalsCleaningSupplies =>
+      'کیمیکل اور صفائی کا سامان';
+
+  @override
+  String get supplierCategoryEquipmentMaintenance => 'سامان اور دیکھ بھال';
+
+  @override
+  String get supplierCategoryOther => 'دیگر';
+
+  @override
+  String get supplierStatusApproved => 'منظور شدہ';
+
+  @override
+  String get supplierStatusPending => 'زیر التواء';
+
+  @override
+  String get supplierStatusSuspended => 'معطل';
+
+  @override
+  String get addEquipmentTitle => 'سامان شامل کریں';
+
+  @override
+  String get venueSetupTitle => 'وینیو سیٹ اپ';
+
+  @override
+  String get nextButton => 'اگلا';
+
+  @override
+  String get finishSetupButton => 'سیٹ اپ مکمل کریں';
+
+  @override
+  String get renameAreaTitle => 'علاقے کا نام تبدیل کریں';
+
+  @override
+  String get renameEquipmentTitle => 'سامان کا نام تبدیل کریں';
+
+  @override
+  String get saveButton => 'محفوظ کریں';
+
+  @override
+  String get retireEquipmentTitle => 'سامان ہٹائیں';
+
+  @override
+  String get retireEquipmentConfirmText =>
+      'اس سامان کو ہٹانے سے اسے تفویض کردہ تمام کام بھی غیر تفویض ہو جائیں گے۔ پچھلی جمع کرانے کی تاریخ محفوظ رہتی ہے۔ جاری رکھیں؟';
+
+  @override
+  String get retireButton => 'ہٹائیں';
+
+  @override
+  String get areasStepTitle => 'علاقے';
+
+  @override
+  String get areasStepIntro => 'اس وینیو کے آپریشنل علاقے شامل کریں۔';
+
+  @override
+  String get areaSuggestionKitchen => 'باورچی خانہ';
+
+  @override
+  String get areaSuggestionStorage => 'ذخیرہ';
+
+  @override
+  String get areaSuggestionReceiving => 'وصولی';
+
+  @override
+  String get areaSuggestionFrontOfHouse => 'فرنٹ آف ہاؤس';
+
+  @override
+  String get areaNameLabel => 'علاقے کا نام';
+
+  @override
+  String get addAreaTooltip => 'علاقہ شامل کریں';
+
+  @override
+  String get renameTooltip => 'نام تبدیل کریں';
+
+  @override
+  String get equipmentStepTitle => 'سامان';
+
+  @override
+  String get equipmentStepIntro =>
+      'نامزد سامان کی مثالیں شامل کریں، جیسے \"فریج 1\"، \"فریج 2\"۔';
+
+  @override
+  String get showAllEquipmentTypesButton => 'تمام سامان کی اقسام دکھائیں';
+
+  @override
+  String get equipmentTypeLabel => 'سامان کی قسم';
+
+  @override
+  String get somethingElseOption => 'کچھ اور...';
+
+  @override
+  String get newEquipmentTypeNameLabel => 'نئی سامان کی قسم کا نام';
+
+  @override
+  String get confirmNewEquipmentTypeTooltip => 'نئی سامان کی قسم کی تصدیق کریں';
+
+  @override
+  String get noAreasForDeptText =>
+      'تمہارے شعبے کے لیے ابھی تک کوئی علاقہ سیٹ نہیں کیا گیا - سامان پھر بھی بغیر علاقے کے شامل کیا جا سکتا ہے۔';
+
+  @override
+  String get noAreasAddOneText =>
+      'ابھی تک کوئی علاقہ شامل نہیں کیا گیا - ایک شامل کرنے کے لیے واپس جاؤ۔';
+
+  @override
+  String get equipmentNameLabel => 'سامان کا نام';
+
+  @override
+  String get equipmentNameHint => 'جیسے میٹ واک ان، ڈیزرٹ فریج، بار فرائر';
+
+  @override
+  String get modelOptionalLabel => 'ماڈل (اختیاری)';
+
+  @override
+  String get serialNumberOptionalLabel => 'سیریل نمبر (اختیاری)';
+
+  @override
+  String get retireTooltip => 'ہٹائیں';
+
+  @override
+  String get reactivateTooltip => 'دوبارہ فعال کریں';
+
+  @override
+  String get unknownTypeLabel => 'نامعلوم قسم';
+
+  @override
+  String get unknownAreaLabel => 'نامعلوم علاقہ';
+
+  @override
+  String get staffStepTitle => 'عملہ';
+
+  @override
+  String get staffStepIntro =>
+      'اسٹاف اراکین شامل کریں اور ان کی کردار سطح تفویض کریں۔';
+
+  @override
+  String get addStaffMemberButton => 'اسٹاف رکن شامل کریں';
+
+  @override
+  String get suppliersStepTitle => 'سپلائرز';
+
+  @override
+  String get suppliersStepIntro =>
+      'اس وینیو کے ساتھ کام کرنے والے سپلائرز شامل کریں۔ منظوری کے نشانات EHO ایکسپورٹ پر ظاہر ہوتے ہیں - معطل سپلائرز مینیجرز کو دکھائے جاتے ہیں، خاموشی سے چھپائے نہیں جاتے۔';
+
+  @override
+  String get supplierNameLabel => 'سپلائر کا نام';
+
+  @override
+  String get contactOptionalLabel => 'رابطہ (اختیاری)';
+
+  @override
+  String get phoneOrEmailHint => 'فون یا ای میل';
+
+  @override
+  String get approvalStatusLabel => 'منظوری کی حیثیت';
+
+  @override
+  String get addSupplierButton => 'سپلائر شامل کریں';
+
+  @override
+  String venueSetupStepTitle(int step) {
+    return 'وینیو سیٹ اپ - مرحلہ $step / 4';
+  }
+
+  @override
+  String modelPrefixLabel(String value) {
+    return 'ماڈل: $value';
+  }
+
+  @override
+  String serialPrefixLabel(String value) {
+    return 'سیریل نمبر: $value';
+  }
+
+  @override
+  String retiredSuffixLabel(String name) {
+    return '$name (ریٹائرڈ)';
+  }
+
+  @override
+  String get addEquipmentTooltip => 'سامان شامل کریں';
 }

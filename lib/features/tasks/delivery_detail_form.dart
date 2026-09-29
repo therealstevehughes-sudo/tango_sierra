@@ -99,8 +99,9 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
         selected.first.approvalStatus == SupplierApprovalStatus.approved) {
       return null;
     }
-    return AppLocalizations.of(context)!.supplierWarningRecorded(
-      supplierApprovalStatusLabel(selected.first.approvalStatus),
+    final l10n = AppLocalizations.of(context)!;
+    return l10n.supplierWarningRecorded(
+      supplierApprovalStatusLabel(selected.first.approvalStatus, l10n),
     );
   }
 

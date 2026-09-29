@@ -2768,4 +2768,210 @@ class AppLocalizationsHr extends AppLocalizations {
   String emailPrefixLabel(String value) {
     return 'E-pošta: $value';
   }
+
+  @override
+  String get supplierCategoryFreshProduce => 'Svježi proizvodi';
+
+  @override
+  String get supplierCategoryMeatPoultry => 'Meso i perad';
+
+  @override
+  String get supplierCategoryDairyEggs => 'Mliječni proizvodi i jaja';
+
+  @override
+  String get supplierCategoryFrozenGoods => 'Smrznuta roba';
+
+  @override
+  String get supplierCategoryDryAmbientGoods =>
+      'Suha roba i roba na sobnoj temperaturi';
+
+  @override
+  String get supplierCategoryDrinksBeverages => 'Pića';
+
+  @override
+  String get supplierCategoryChemicalsCleaningSupplies =>
+      'Kemikalije i sredstva za čišćenje';
+
+  @override
+  String get supplierCategoryEquipmentMaintenance => 'Oprema i održavanje';
+
+  @override
+  String get supplierCategoryOther => 'Ostalo';
+
+  @override
+  String get supplierStatusApproved => 'Odobreno';
+
+  @override
+  String get supplierStatusPending => 'Na čekanju';
+
+  @override
+  String get supplierStatusSuspended => 'Suspendirano';
+
+  @override
+  String get addEquipmentTitle => 'Dodaj opremu';
+
+  @override
+  String get venueSetupTitle => 'Postavljanje poslovnice';
+
+  @override
+  String get nextButton => 'Dalje';
+
+  @override
+  String get finishSetupButton => 'Završi postavljanje';
+
+  @override
+  String get renameAreaTitle => 'Preimenuj područje';
+
+  @override
+  String get renameEquipmentTitle => 'Preimenuj opremu';
+
+  @override
+  String get saveButton => 'Spremi';
+
+  @override
+  String get retireEquipmentTitle => 'Povuci opremu iz upotrebe';
+
+  @override
+  String get retireEquipmentConfirmText =>
+      'Povlačenje ove opreme također će poništiti dodjelu svih zadataka trenutno dodijeljenih njoj. Prošla povijest podnošenja se čuva. Nastaviti?';
+
+  @override
+  String get retireButton => 'Povuci iz upotrebe';
+
+  @override
+  String get areasStepTitle => 'Područja';
+
+  @override
+  String get areasStepIntro => 'Dodaj operativna područja ove poslovnice.';
+
+  @override
+  String get areaSuggestionKitchen => 'Kuhinja';
+
+  @override
+  String get areaSuggestionStorage => 'Skladište';
+
+  @override
+  String get areaSuggestionReceiving => 'Prijem robe';
+
+  @override
+  String get areaSuggestionFrontOfHouse => 'Sala';
+
+  @override
+  String get areaNameLabel => 'Naziv područja';
+
+  @override
+  String get addAreaTooltip => 'Dodaj područje';
+
+  @override
+  String get renameTooltip => 'Preimenuj';
+
+  @override
+  String get equipmentStepTitle => 'Oprema';
+
+  @override
+  String get equipmentStepIntro =>
+      'Dodaj imenovane primjerke opreme, npr. \"Hladnjak 1\", \"Hladnjak 2\".';
+
+  @override
+  String get showAllEquipmentTypesButton => 'Prikaži sve vrste opreme';
+
+  @override
+  String get equipmentTypeLabel => 'Vrsta opreme';
+
+  @override
+  String get somethingElseOption => 'Nešto drugo...';
+
+  @override
+  String get newEquipmentTypeNameLabel => 'Naziv nove vrste opreme';
+
+  @override
+  String get confirmNewEquipmentTypeTooltip => 'Potvrdi novu vrstu opreme';
+
+  @override
+  String get noAreasForDeptText =>
+      'Za tvoj odjel još nema postavljenih područja - oprema se ipak može dodati bez njega.';
+
+  @override
+  String get noAreasAddOneText =>
+      'Još nije dodano nijedno područje - vrati se da bi dodao/dodala jedno.';
+
+  @override
+  String get equipmentNameLabel => 'Naziv opreme';
+
+  @override
+  String get equipmentNameHint =>
+      'npr. Rashladna komora za meso, Hladnjak za deserte, Friteza za šank';
+
+  @override
+  String get modelOptionalLabel => 'Model (neobavezno)';
+
+  @override
+  String get serialNumberOptionalLabel => 'Serijski broj (neobavezno)';
+
+  @override
+  String get retireTooltip => 'Povuci iz upotrebe';
+
+  @override
+  String get reactivateTooltip => 'Ponovno aktiviraj';
+
+  @override
+  String get unknownTypeLabel => 'Nepoznata vrsta';
+
+  @override
+  String get unknownAreaLabel => 'Nepoznato područje';
+
+  @override
+  String get staffStepTitle => 'Osoblje';
+
+  @override
+  String get staffStepIntro =>
+      'Dodaj članove osoblja i dodijeli im razinu uloge.';
+
+  @override
+  String get addStaffMemberButton => 'Dodaj člana osoblja';
+
+  @override
+  String get suppliersStepTitle => 'Dobavljači';
+
+  @override
+  String get suppliersStepIntro =>
+      'Dodaj dobavljače s kojima ova poslovnica surađuje. Oznake odobrenja pojavljuju se u EHO izvozu - suspendirani dobavljači prikazuju se voditeljima, ne skrivaju se tiho.';
+
+  @override
+  String get supplierNameLabel => 'Naziv dobavljača';
+
+  @override
+  String get contactOptionalLabel => 'Kontakt (neobavezno)';
+
+  @override
+  String get phoneOrEmailHint => 'Telefon ili e-pošta';
+
+  @override
+  String get approvalStatusLabel => 'Status odobrenja';
+
+  @override
+  String get addSupplierButton => 'Dodaj dobavljača';
+
+  @override
+  String venueSetupStepTitle(int step) {
+    return 'Postavljanje poslovnice - Korak $step od 4';
+  }
+
+  @override
+  String modelPrefixLabel(String value) {
+    return 'Model: $value';
+  }
+
+  @override
+  String serialPrefixLabel(String value) {
+    return 'Serijski br.: $value';
+  }
+
+  @override
+  String retiredSuffixLabel(String name) {
+    return '$name (povučeno)';
+  }
+
+  @override
+  String get addEquipmentTooltip => 'Dodaj opremu';
 }
