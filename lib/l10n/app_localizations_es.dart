@@ -726,4 +726,126 @@ class AppLocalizationsEs extends AppLocalizations {
   String regionFallbackLabel(int id) {
     return 'Región n.º $id';
   }
+
+  @override
+  String get dashboardOverviewTitle => 'Resumen del panel';
+
+  @override
+  String get gradedBarsOnTooltip => 'Barras calificadas por empleado: activado';
+
+  @override
+  String get gradedBarsOffTooltip =>
+      'Barras calificadas por empleado: desactivado';
+
+  @override
+  String get noBranchesToShow => 'Aún no hay locales que mostrar.';
+
+  @override
+  String get supervisorNoScopeMessage =>
+      'Todavía no se te ha asignado a una sección o equipo - pide a un responsable que lo configure en Gestión de personal antes de que este panel tenga algo que mostrar.';
+
+  @override
+  String get individualViewNotice =>
+      'Vista individual - para supervisión de riesgos, no una clasificación.';
+
+  @override
+  String get branchLabel => 'Local';
+
+  @override
+  String get allBranchesLabel => 'Todos los locales';
+
+  @override
+  String get yourSectionLabel => 'Tu sección';
+
+  @override
+  String get noneAssignedLabel => 'Ninguna asignada';
+
+  @override
+  String get areaLabel => 'Zona';
+
+  @override
+  String get allAreasLabel => 'Todas las zonas';
+
+  @override
+  String get employeeLabel => 'Empleado';
+
+  @override
+  String get allEmployeesLabel => 'Todos los empleados';
+
+  @override
+  String get monthLabel => 'Mes';
+
+  @override
+  String get weekLabel => 'Semana';
+
+  @override
+  String get dayLabel => 'Día';
+
+  @override
+  String get noTaskActivityPeriod => 'Sin actividad de tareas en este periodo.';
+
+  @override
+  String get taskOverviewTitle => 'Resumen de tareas';
+
+  @override
+  String get incidentsTitle => 'Incidencias';
+
+  @override
+  String get noIncidentsPeriod =>
+      'No se han notificado incidencias en este periodo.';
+
+  @override
+  String urgentCountLabel(int count) {
+    return '$count urgentes';
+  }
+
+  @override
+  String get tapForDetailsHint =>
+      'Toca una sección de color o una leyenda para ver detalles';
+
+  @override
+  String get employeeFallbackLabel => 'Empleado';
+
+  @override
+  String get plainLookupNotice =>
+      'Una simple consulta, no una puntuación - el color de finalización y las etiquetas de incidencias nunca se califican por persona aquí.';
+
+  @override
+  String tasksCompletedCountParens(int count) {
+    return 'Tareas completadas ($count)';
+  }
+
+  @override
+  String issuesRaisedCountParens(int count) {
+    return 'Incidencias notificadas ($count)';
+  }
+
+  @override
+  String get doneOnTimeNoIssues => 'Hecho a tiempo (sin incidencias)';
+
+  @override
+  String get doneOnTimeIssuesLogged =>
+      'Hecho a tiempo (incidencias registradas)';
+
+  @override
+  String get doneEarlyLateNoIssues => 'Hecho antes/después (sin incidencias)';
+
+  @override
+  String get doneEarlyLateIssuesLogged =>
+      'Hecho antes/después (incidencias registradas)';
+
+  @override
+  String get notDoneLabel => 'No hecho';
+
+  @override
+  String get resolvedLabel => 'Resueltas';
+
+  @override
+  String get unresolvedLabel => 'Sin resolver';
+
+  @override
+  String get escalatedLabel => 'Escaladas';
+
+  @override
+  String get urgentLabel => 'Urgente';
 }

@@ -723,4 +723,124 @@ class AppLocalizationsPl extends AppLocalizations {
   String regionFallbackLabel(int id) {
     return 'Region #$id';
   }
+
+  @override
+  String get dashboardOverviewTitle => 'Przegląd panelu';
+
+  @override
+  String get gradedBarsOnTooltip => 'Oceniane paski dla pracowników: wł.';
+
+  @override
+  String get gradedBarsOffTooltip => 'Oceniane paski dla pracowników: wył.';
+
+  @override
+  String get noBranchesToShow => 'Brak oddziałów do wyświetlenia.';
+
+  @override
+  String get supervisorNoScopeMessage =>
+      'Nie zostałeś jeszcze przypisany do sekcji ani zespołu - poproś kierownika o skonfigurowanie tego w Zarządzaniu personelem, zanim ten panel będzie miał cokolwiek do pokazania.';
+
+  @override
+  String get individualViewNotice =>
+      'Widok indywidualny - do nadzoru ryzyka, nie tabela wyników.';
+
+  @override
+  String get branchLabel => 'Oddział';
+
+  @override
+  String get allBranchesLabel => 'Wszystkie oddziały';
+
+  @override
+  String get yourSectionLabel => 'Twoja sekcja';
+
+  @override
+  String get noneAssignedLabel => 'Nie przypisano';
+
+  @override
+  String get areaLabel => 'Obszar';
+
+  @override
+  String get allAreasLabel => 'Wszystkie obszary';
+
+  @override
+  String get employeeLabel => 'Pracownik';
+
+  @override
+  String get allEmployeesLabel => 'Wszyscy pracownicy';
+
+  @override
+  String get monthLabel => 'Miesiąc';
+
+  @override
+  String get weekLabel => 'Tydzień';
+
+  @override
+  String get dayLabel => 'Dzień';
+
+  @override
+  String get noTaskActivityPeriod => 'Brak aktywności zadań w tym okresie.';
+
+  @override
+  String get taskOverviewTitle => 'Przegląd zadań';
+
+  @override
+  String get incidentsTitle => 'Incydenty';
+
+  @override
+  String get noIncidentsPeriod => 'Brak zgłoszonych incydentów w tym okresie.';
+
+  @override
+  String urgentCountLabel(int count) {
+    return '$count pilnych';
+  }
+
+  @override
+  String get tapForDetailsHint =>
+      'Dotknij sekcji koloru lub legendy, aby zobaczyć szczegóły';
+
+  @override
+  String get employeeFallbackLabel => 'Pracownik';
+
+  @override
+  String get plainLookupNotice =>
+      'Zwykłe wyszukiwanie, nie ocena - kolor realizacji i etykiety problemów nigdy nie są tu oceniane per osoba.';
+
+  @override
+  String tasksCompletedCountParens(int count) {
+    return 'Ukończone zadania ($count)';
+  }
+
+  @override
+  String issuesRaisedCountParens(int count) {
+    return 'Zgłoszone problemy ($count)';
+  }
+
+  @override
+  String get doneOnTimeNoIssues => 'Zrobione na czas (bez problemów)';
+
+  @override
+  String get doneOnTimeIssuesLogged => 'Zrobione na czas (zgłoszono problemy)';
+
+  @override
+  String get doneEarlyLateNoIssues =>
+      'Zrobione wcześniej/później (bez problemów)';
+
+  @override
+  String get doneEarlyLateIssuesLogged =>
+      'Zrobione wcześniej/później (zgłoszono problemy)';
+
+  @override
+  String get notDoneLabel => 'Niezrobione';
+
+  @override
+  String get resolvedLabel => 'Rozwiązane';
+
+  @override
+  String get unresolvedLabel => 'Nierozwiązane';
+
+  @override
+  String get escalatedLabel => 'Eskalowane';
+
+  @override
+  String get urgentLabel => 'Pilne';
 }

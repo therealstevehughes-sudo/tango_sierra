@@ -721,4 +721,128 @@ class AppLocalizationsHr extends AppLocalizations {
   String regionFallbackLabel(int id) {
     return 'Regija #$id';
   }
+
+  @override
+  String get dashboardOverviewTitle => 'Pregled nadzorne ploče';
+
+  @override
+  String get gradedBarsOnTooltip =>
+      'Ocijenjene trake po zaposleniku: uključeno';
+
+  @override
+  String get gradedBarsOffTooltip =>
+      'Ocijenjene trake po zaposleniku: isključeno';
+
+  @override
+  String get noBranchesToShow => 'Još nema podružnica za prikaz.';
+
+  @override
+  String get supervisorNoScopeMessage =>
+      'Još nisi dodijeljen/a odjelu ili timu - zamoli voditelja da to postavi u Upravljanju osobljem prije nego što ova nadzorna ploča ima što prikazati.';
+
+  @override
+  String get individualViewNotice =>
+      'Pojedinačni prikaz - za nadzor rizika, ne ljestvica.';
+
+  @override
+  String get branchLabel => 'Podružnica';
+
+  @override
+  String get allBranchesLabel => 'Sve podružnice';
+
+  @override
+  String get yourSectionLabel => 'Tvoj odjel';
+
+  @override
+  String get noneAssignedLabel => 'Ništa nije dodijeljeno';
+
+  @override
+  String get areaLabel => 'Područje';
+
+  @override
+  String get allAreasLabel => 'Sva područja';
+
+  @override
+  String get employeeLabel => 'Zaposlenik';
+
+  @override
+  String get allEmployeesLabel => 'Svi zaposlenici';
+
+  @override
+  String get monthLabel => 'Mjesec';
+
+  @override
+  String get weekLabel => 'Tjedan';
+
+  @override
+  String get dayLabel => 'Dan';
+
+  @override
+  String get noTaskActivityPeriod =>
+      'Nema aktivnosti zadataka u ovom razdoblju.';
+
+  @override
+  String get taskOverviewTitle => 'Pregled zadataka';
+
+  @override
+  String get incidentsTitle => 'Incidenti';
+
+  @override
+  String get noIncidentsPeriod =>
+      'U ovom razdoblju nisu prijavljeni incidenti.';
+
+  @override
+  String urgentCountLabel(int count) {
+    return '$count hitno';
+  }
+
+  @override
+  String get tapForDetailsHint =>
+      'Dodirni obojeni odjeljak ili stavku legende za detalje';
+
+  @override
+  String get employeeFallbackLabel => 'Zaposlenik';
+
+  @override
+  String get plainLookupNotice =>
+      'Obična pretraga, ne ocjena - boja dovršenosti i oznake problema ovdje se nikada ne ocjenjuju po osobi.';
+
+  @override
+  String tasksCompletedCountParens(int count) {
+    return 'Dovršeni zadaci ($count)';
+  }
+
+  @override
+  String issuesRaisedCountParens(int count) {
+    return 'Prijavljeni problemi ($count)';
+  }
+
+  @override
+  String get doneOnTimeNoIssues => 'Obavljeno na vrijeme (bez problema)';
+
+  @override
+  String get doneOnTimeIssuesLogged =>
+      'Obavljeno na vrijeme (problemi prijavljeni)';
+
+  @override
+  String get doneEarlyLateNoIssues => 'Obavljeno ranije/kasnije (bez problema)';
+
+  @override
+  String get doneEarlyLateIssuesLogged =>
+      'Obavljeno ranije/kasnije (problemi prijavljeni)';
+
+  @override
+  String get notDoneLabel => 'Nije obavljeno';
+
+  @override
+  String get resolvedLabel => 'Riješeno';
+
+  @override
+  String get unresolvedLabel => 'Neriješeno';
+
+  @override
+  String get escalatedLabel => 'Eskalirano';
+
+  @override
+  String get urgentLabel => 'Hitno';
 }

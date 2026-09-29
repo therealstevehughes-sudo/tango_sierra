@@ -716,4 +716,122 @@ class AppLocalizationsEn extends AppLocalizations {
   String regionFallbackLabel(int id) {
     return 'Region #$id';
   }
+
+  @override
+  String get dashboardOverviewTitle => 'Dashboard Overview';
+
+  @override
+  String get gradedBarsOnTooltip => 'Per-employee graded bars: on';
+
+  @override
+  String get gradedBarsOffTooltip => 'Per-employee graded bars: off';
+
+  @override
+  String get noBranchesToShow => 'No branches to show yet.';
+
+  @override
+  String get supervisorNoScopeMessage =>
+      'You haven\'t been assigned to a section or team yet - ask a manager to set this up in Staff Management before this dashboard has anything to show.';
+
+  @override
+  String get individualViewNotice =>
+      'Individual view - for risk oversight, not a league table.';
+
+  @override
+  String get branchLabel => 'Branch';
+
+  @override
+  String get allBranchesLabel => 'All branches';
+
+  @override
+  String get yourSectionLabel => 'Your section';
+
+  @override
+  String get noneAssignedLabel => 'None assigned';
+
+  @override
+  String get areaLabel => 'Area';
+
+  @override
+  String get allAreasLabel => 'All areas';
+
+  @override
+  String get employeeLabel => 'Employee';
+
+  @override
+  String get allEmployeesLabel => 'All employees';
+
+  @override
+  String get monthLabel => 'Month';
+
+  @override
+  String get weekLabel => 'Week';
+
+  @override
+  String get dayLabel => 'Day';
+
+  @override
+  String get noTaskActivityPeriod => 'No task activity in this period.';
+
+  @override
+  String get taskOverviewTitle => 'Task overview';
+
+  @override
+  String get incidentsTitle => 'Incidents';
+
+  @override
+  String get noIncidentsPeriod => 'No incidents raised in this period.';
+
+  @override
+  String urgentCountLabel(int count) {
+    return '$count urgent';
+  }
+
+  @override
+  String get tapForDetailsHint =>
+      'Tap a colour section or legend entry for details';
+
+  @override
+  String get employeeFallbackLabel => 'Employee';
+
+  @override
+  String get plainLookupNotice =>
+      'A plain lookup, not a score - completion colour and issue tags here are never graded per person.';
+
+  @override
+  String tasksCompletedCountParens(int count) {
+    return 'Tasks completed ($count)';
+  }
+
+  @override
+  String issuesRaisedCountParens(int count) {
+    return 'Issues raised ($count)';
+  }
+
+  @override
+  String get doneOnTimeNoIssues => 'Done on time (no issues)';
+
+  @override
+  String get doneOnTimeIssuesLogged => 'Done on time (issues logged)';
+
+  @override
+  String get doneEarlyLateNoIssues => 'Done early/late (no issues)';
+
+  @override
+  String get doneEarlyLateIssuesLogged => 'Done early/late (issues logged)';
+
+  @override
+  String get notDoneLabel => 'Not done';
+
+  @override
+  String get resolvedLabel => 'Resolved';
+
+  @override
+  String get unresolvedLabel => 'Unresolved';
+
+  @override
+  String get escalatedLabel => 'Escalated';
+
+  @override
+  String get urgentLabel => 'Urgent';
 }

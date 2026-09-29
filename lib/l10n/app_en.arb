@@ -391,5 +391,62 @@
         "type": "int"
       }
     }
-  }
+  },
+  "dashboardOverviewTitle": "Dashboard Overview",
+  "gradedBarsOnTooltip": "Per-employee graded bars: on",
+  "gradedBarsOffTooltip": "Per-employee graded bars: off",
+  "noBranchesToShow": "No branches to show yet.",
+  "supervisorNoScopeMessage": "You haven't been assigned to a section or team yet - ask a manager to set this up in Staff Management before this dashboard has anything to show.",
+  "individualViewNotice": "Individual view - for risk oversight, not a league table.",
+  "branchLabel": "Branch",
+  "allBranchesLabel": "All branches",
+  "yourSectionLabel": "Your section",
+  "noneAssignedLabel": "None assigned",
+  "areaLabel": "Area",
+  "allAreasLabel": "All areas",
+  "employeeLabel": "Employee",
+  "allEmployeesLabel": "All employees",
+  "monthLabel": "Month",
+  "weekLabel": "Week",
+  "dayLabel": "Day",
+  "noTaskActivityPeriod": "No task activity in this period.",
+  "taskOverviewTitle": "Task overview",
+  "incidentsTitle": "Incidents",
+  "noIncidentsPeriod": "No incidents raised in this period.",
+  "urgentCountLabel": "{count} urgent",
+  "@urgentCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "tapForDetailsHint": "Tap a colour section or legend entry for details",
+  "employeeFallbackLabel": "Employee",
+  "plainLookupNotice": "A plain lookup, not a score - completion colour and issue tags here are never graded per person.",
+  "tasksCompletedCountParens": "Tasks completed ({count})",
+  "@tasksCompletedCountParens": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "issuesRaisedCountParens": "Issues raised ({count})",
+  "@issuesRaisedCountParens": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "doneOnTimeNoIssues": "Done on time (no issues)",
+  "doneOnTimeIssuesLogged": "Done on time (issues logged)",
+  "doneEarlyLateNoIssues": "Done early/late (no issues)",
+  "doneEarlyLateIssuesLogged": "Done early/late (issues logged)",
+  "notDoneLabel": "Not done",
+  "resolvedLabel": "Resolved",
+  "unresolvedLabel": "Unresolved",
+  "escalatedLabel": "Escalated",
+  "urgentLabel": "Urgent"
 }

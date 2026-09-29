@@ -718,4 +718,122 @@ class AppLocalizationsUr extends AppLocalizations {
   String regionFallbackLabel(int id) {
     return 'علاقہ #$id';
   }
+
+  @override
+  String get dashboardOverviewTitle => 'ڈیش بورڈ کا جائزہ';
+
+  @override
+  String get gradedBarsOnTooltip => 'فی ملازم گریڈڈ بارز: آن';
+
+  @override
+  String get gradedBarsOffTooltip => 'فی ملازم گریڈڈ بارز: آف';
+
+  @override
+  String get noBranchesToShow => 'ابھی تک دکھانے کے لیے کوئی برانچ نہیں۔';
+
+  @override
+  String get supervisorNoScopeMessage =>
+      'آپ کو ابھی تک کسی سیکشن یا ٹیم کو تفویض نہیں کیا گیا - اس ڈیش بورڈ میں کچھ دکھانے سے پہلے کسی منیجر سے اسٹاف مینجمنٹ میں یہ سیٹ کرنے کو کہیں۔';
+
+  @override
+  String get individualViewNotice =>
+      'انفرادی منظر - رسک نگرانی کے لیے، لیگ ٹیبل نہیں۔';
+
+  @override
+  String get branchLabel => 'برانچ';
+
+  @override
+  String get allBranchesLabel => 'تمام برانچز';
+
+  @override
+  String get yourSectionLabel => 'آپ کا سیکشن';
+
+  @override
+  String get noneAssignedLabel => 'کچھ تفویض نہیں کیا گیا';
+
+  @override
+  String get areaLabel => 'علاقہ';
+
+  @override
+  String get allAreasLabel => 'تمام علاقے';
+
+  @override
+  String get employeeLabel => 'ملازم';
+
+  @override
+  String get allEmployeesLabel => 'تمام ملازمین';
+
+  @override
+  String get monthLabel => 'مہینہ';
+
+  @override
+  String get weekLabel => 'ہفتہ';
+
+  @override
+  String get dayLabel => 'دن';
+
+  @override
+  String get noTaskActivityPeriod => 'اس مدت میں کوئی کام کی سرگرمی نہیں۔';
+
+  @override
+  String get taskOverviewTitle => 'کام کا جائزہ';
+
+  @override
+  String get incidentsTitle => 'واقعات';
+
+  @override
+  String get noIncidentsPeriod => 'اس مدت میں کوئی واقعہ رپورٹ نہیں ہوا۔';
+
+  @override
+  String urgentCountLabel(int count) {
+    return '$count فوری';
+  }
+
+  @override
+  String get tapForDetailsHint =>
+      'تفصیلات کے لیے کسی رنگ سیکشن یا لیجنڈ اندراج پر ٹیپ کریں';
+
+  @override
+  String get employeeFallbackLabel => 'ملازم';
+
+  @override
+  String get plainLookupNotice =>
+      'یہ صرف ایک سادہ تلاش ہے، اسکور نہیں - تکمیل کا رنگ اور مسئلے کے ٹیگز یہاں کبھی بھی فی شخص گریڈ نہیں کیے جاتے۔';
+
+  @override
+  String tasksCompletedCountParens(int count) {
+    return 'مکمل شدہ کام ($count)';
+  }
+
+  @override
+  String issuesRaisedCountParens(int count) {
+    return 'اٹھائے گئے مسائل ($count)';
+  }
+
+  @override
+  String get doneOnTimeNoIssues => 'وقت پر مکمل (کوئی مسئلہ نہیں)';
+
+  @override
+  String get doneOnTimeIssuesLogged => 'وقت پر مکمل (مسائل درج)';
+
+  @override
+  String get doneEarlyLateNoIssues => 'جلدی/دیر سے مکمل (کوئی مسئلہ نہیں)';
+
+  @override
+  String get doneEarlyLateIssuesLogged => 'جلدی/دیر سے مکمل (مسائل درج)';
+
+  @override
+  String get notDoneLabel => 'مکمل نہیں ہوا';
+
+  @override
+  String get resolvedLabel => 'حل شدہ';
+
+  @override
+  String get unresolvedLabel => 'غیر حل شدہ';
+
+  @override
+  String get escalatedLabel => 'آگے بڑھایا گیا';
+
+  @override
+  String get urgentLabel => 'فوری';
 }

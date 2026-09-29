@@ -1361,6 +1361,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Region #{id}'**
   String regionFallbackLabel(int id);
+
+  /// No description provided for @dashboardOverviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard Overview'**
+  String get dashboardOverviewTitle;
+
+  /// No description provided for @gradedBarsOnTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Per-employee graded bars: on'**
+  String get gradedBarsOnTooltip;
+
+  /// No description provided for @gradedBarsOffTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Per-employee graded bars: off'**
+  String get gradedBarsOffTooltip;
+
+  /// No description provided for @noBranchesToShow.
+  ///
+  /// In en, this message translates to:
+  /// **'No branches to show yet.'**
+  String get noBranchesToShow;
+
+  /// No description provided for @supervisorNoScopeMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t been assigned to a section or team yet - ask a manager to set this up in Staff Management before this dashboard has anything to show.'**
+  String get supervisorNoScopeMessage;
+
+  /// No description provided for @individualViewNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Individual view - for risk oversight, not a league table.'**
+  String get individualViewNotice;
+
+  /// No description provided for @branchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch'**
+  String get branchLabel;
+
+  /// No description provided for @allBranchesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All branches'**
+  String get allBranchesLabel;
+
+  /// No description provided for @yourSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your section'**
+  String get yourSectionLabel;
+
+  /// No description provided for @noneAssignedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'None assigned'**
+  String get noneAssignedLabel;
+
+  /// No description provided for @areaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get areaLabel;
+
+  /// No description provided for @allAreasLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All areas'**
+  String get allAreasLabel;
+
+  /// No description provided for @employeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee'**
+  String get employeeLabel;
+
+  /// No description provided for @allEmployeesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All employees'**
+  String get allEmployeesLabel;
+
+  /// No description provided for @monthLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get monthLabel;
+
+  /// No description provided for @weekLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Week'**
+  String get weekLabel;
+
+  /// No description provided for @dayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get dayLabel;
+
+  /// No description provided for @noTaskActivityPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'No task activity in this period.'**
+  String get noTaskActivityPeriod;
+
+  /// No description provided for @taskOverviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Task overview'**
+  String get taskOverviewTitle;
+
+  /// No description provided for @incidentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Incidents'**
+  String get incidentsTitle;
+
+  /// No description provided for @noIncidentsPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'No incidents raised in this period.'**
+  String get noIncidentsPeriod;
+
+  /// No description provided for @urgentCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} urgent'**
+  String urgentCountLabel(int count);
+
+  /// No description provided for @tapForDetailsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a colour section or legend entry for details'**
+  String get tapForDetailsHint;
+
+  /// No description provided for @employeeFallbackLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Employee'**
+  String get employeeFallbackLabel;
+
+  /// No description provided for @plainLookupNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'A plain lookup, not a score - completion colour and issue tags here are never graded per person.'**
+  String get plainLookupNotice;
+
+  /// No description provided for @tasksCompletedCountParens.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks completed ({count})'**
+  String tasksCompletedCountParens(int count);
+
+  /// No description provided for @issuesRaisedCountParens.
+  ///
+  /// In en, this message translates to:
+  /// **'Issues raised ({count})'**
+  String issuesRaisedCountParens(int count);
+
+  /// No description provided for @doneOnTimeNoIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Done on time (no issues)'**
+  String get doneOnTimeNoIssues;
+
+  /// No description provided for @doneOnTimeIssuesLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Done on time (issues logged)'**
+  String get doneOnTimeIssuesLogged;
+
+  /// No description provided for @doneEarlyLateNoIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Done early/late (no issues)'**
+  String get doneEarlyLateNoIssues;
+
+  /// No description provided for @doneEarlyLateIssuesLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Done early/late (issues logged)'**
+  String get doneEarlyLateIssuesLogged;
+
+  /// No description provided for @notDoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not done'**
+  String get notDoneLabel;
+
+  /// No description provided for @resolvedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolved'**
+  String get resolvedLabel;
+
+  /// No description provided for @unresolvedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unresolved'**
+  String get unresolvedLabel;
+
+  /// No description provided for @escalatedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalated'**
+  String get escalatedLabel;
+
+  /// No description provided for @urgentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Urgent'**
+  String get urgentLabel;
 }
 
 class _AppLocalizationsDelegate

@@ -20,6 +20,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../../shared/services/supervisor_scope_service.dart';
+import '../../l10n/app_localizations.dart';
 import 'leadership_dashboard_service.dart';
 import '../../core/widgets/app_screen_header.dart';
 
@@ -330,11 +331,12 @@ class _LeadershipDashboardScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final supervisorHasNoScope =
         _isSupervisor && !_loading && (_allowedUserIds?.isEmpty ?? false);
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Dashboard Overview'),
+        title: Text(l10n.dashboardOverviewTitle),
         actions: [
           // Moved here from a Settings toggle (2026-09-29, direct founder
           // request) — the setting and the thing it controls used to live
@@ -349,23 +351,23 @@ class _LeadershipDashboardScreenState
                 _gradedBarsEnabled ? Icons.leaderboard : Icons.leaderboard_outlined,
               ),
               tooltip: _gradedBarsEnabled
-                  ? 'Per-employee graded bars: on'
-                  : 'Per-employee graded bars: off',
+                  ? l10n.gradedBarsOnTooltip
+                  : l10n.gradedBarsOffTooltip,
               onPressed: _toggleGradedBars,
             ),
           const AssistantIconButton(),
         ],
       ),
-      drawer: const ManagementDrawer(title: 'Dashboard Overview'),
+      drawer: ManagementDrawer(title: l10n.dashboardOverviewTitle),
       body: _sites.isEmpty
-          ? const Center(child: Text('No branches to show yet.'))
+          ? Center(child: Text(l10n.noBranchesToShow))
           : ResponsiveContent(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    _buildFilters(),
+                    _buildFilters(l10n),
                     const SizedBox(height: 16),
                     if (_loading)
                       const Center(
@@ -375,30 +377,22 @@ class _LeadershipDashboardScreenState
                         ),
                       )
                     else if (supervisorHasNoScope)
-                      const AppCard(
-                        child: Text(
-                          "You haven't been assigned to a section or team "
-                          'yet - ask a manager to set this up in Staff '
-                          'Management before this dashboard has anything '
-                          'to show.',
-                        ),
-                      )
+                      AppCard(child: Text(l10n.supervisorNoScopeMessage))
                     else if (_selectedEmployeeId != null && !_gradedBarsEnabled)
-                      _buildEmployeeLookup()
+                      _buildEmployeeLookup(l10n)
                     else ...[
                       if (_selectedEmployeeId != null)
                         Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: Text(
-                            'Individual view - for risk oversight, not a '
-                            'league table.',
+                            l10n.individualViewNotice,
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(color: AppColors.muted),
                           ),
                         ),
-                      _buildTaskOverviewCard(),
+                      _buildTaskOverviewCard(l10n),
                       const SizedBox(height: 16),
-                      _buildIncidentsCard(),
+                      _buildIncidentsCard(l10n),
                     ],
                   ],
                 ),
@@ -407,13 +401,13 @@ class _LeadershipDashboardScreenState
     );
   }
 
-  Widget _buildFilters() {
+  Widget _buildFilters(AppLocalizations l10n) {
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (_sites.length > 1) ...[
-            const Text('Branch'),
+            Text(l10n.branchLabel),
             const SizedBox(height: 4),
             DropdownButtonFormField<int>(
               initialValue: _selectedSiteId,
@@ -421,9 +415,9 @@ class _LeadershipDashboardScreenState
                 // Cross-venue rollup (2026-09-18) — combines every
                 // permitted site's own numbers via plain concatenation
                 // (TaskOverviewBreakdown.merge/IncidentsBreakdown.merge).
-                const DropdownMenuItem(
+                DropdownMenuItem(
                   value: _allBranchesSentinel,
-                  child: Text('All branches'),
+                  child: Text(l10n.allBranchesLabel),
                 ),
                 ..._sites.map(
                   (s) => DropdownMenuItem(value: s.id, child: Text(s.name)),
@@ -442,10 +436,12 @@ class _LeadershipDashboardScreenState
           // gets: their whole point is to see only their own scope, not
           // to be handed the same free-roam filters as branch leadership.
           if (_isSupervisor) ...[
-            const Text('Your section'),
+            Text(l10n.yourSectionLabel),
             const SizedBox(height: 4),
             Text(
-              _scopeLabels.isEmpty ? 'None assigned' : _scopeLabels.join(', '),
+              _scopeLabels.isEmpty
+                  ? l10n.noneAssignedLabel
+                  : _scopeLabels.join(', '),
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
@@ -457,12 +453,12 @@ class _LeadershipDashboardScreenState
             // "section" a Supervisor is scoped by above (renamed from
             // "Section" 2026-09-18 to stop the two ideas colliding under
             // one word).
-            const Text('Area'),
+            Text(l10n.areaLabel),
             const SizedBox(height: 4),
             DropdownButtonFormField<int?>(
               initialValue: _selectedAreaId,
               items: [
-                const DropdownMenuItem(value: null, child: Text('All areas')),
+                DropdownMenuItem(value: null, child: Text(l10n.allAreasLabel)),
                 ..._areas.map(
                   (a) => DropdownMenuItem(value: a.id, child: Text(a.name)),
                 ),
@@ -473,14 +469,14 @@ class _LeadershipDashboardScreenState
               },
             ),
             const SizedBox(height: 12),
-            const Text('Employee'),
+            Text(l10n.employeeLabel),
             const SizedBox(height: 4),
             DropdownButtonFormField<int?>(
               initialValue: _selectedEmployeeId,
               items: [
-                const DropdownMenuItem(
+                DropdownMenuItem(
                   value: null,
-                  child: Text('All employees'),
+                  child: Text(l10n.allEmployeesLabel),
                 ),
                 ..._staff.map(
                   (u) => DropdownMenuItem(value: u.id, child: Text(u.name)),
@@ -494,10 +490,10 @@ class _LeadershipDashboardScreenState
             const SizedBox(height: 12),
           ],
           SegmentedButton<_Period>(
-            segments: const [
-              ButtonSegment(value: _Period.month, label: Text('Month')),
-              ButtonSegment(value: _Period.week, label: Text('Week')),
-              ButtonSegment(value: _Period.day, label: Text('Day')),
+            segments: [
+              ButtonSegment(value: _Period.month, label: Text(l10n.monthLabel)),
+              ButtonSegment(value: _Period.week, label: Text(l10n.weekLabel)),
+              ButtonSegment(value: _Period.day, label: Text(l10n.dayLabel)),
             ],
             selected: {_period},
             onSelectionChanged: (selection) {
@@ -510,16 +506,16 @@ class _LeadershipDashboardScreenState
     );
   }
 
-  Widget _buildTaskOverviewCard() {
+  Widget _buildTaskOverviewCard(AppLocalizations l10n) {
     final overview = _taskOverview;
     if (overview == null || overview.total == 0) {
-      return const AppCard(child: Text('No task activity in this period.'));
+      return AppCard(child: Text(l10n.noTaskActivityPeriod));
     }
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Task overview', style: Theme.of(context).textTheme.titleMedium),
+          Text(l10n.taskOverviewTitle, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 12),
           _ProportionBar(
             segments: [
@@ -528,7 +524,7 @@ class _LeadershipDashboardScreenState
                 AppColors.pass,
                 '${overview.onTimeNoIssues.length}',
                 () => _showSubmissionBreakdown(
-                  'Done on time (no issues)',
+                  l10n.doneOnTimeNoIssues,
                   overview.onTimeNoIssues,
                 ),
               ),
@@ -537,7 +533,7 @@ class _LeadershipDashboardScreenState
                 const Color(0xFFE8C547),
                 '${overview.onTimeIssuesLogged.length}',
                 () => _showSubmissionBreakdown(
-                  'Done on time (issues logged)',
+                  l10n.doneOnTimeIssuesLogged,
                   overview.onTimeIssuesLogged,
                 ),
               ),
@@ -546,7 +542,7 @@ class _LeadershipDashboardScreenState
                 const Color(0xFFE8873D),
                 '${overview.offWindowNoIssues.length}',
                 () => _showSubmissionBreakdown(
-                  'Done early/late (no issues)',
+                  l10n.doneEarlyLateNoIssues,
                   overview.offWindowNoIssues,
                 ),
               ),
@@ -555,7 +551,7 @@ class _LeadershipDashboardScreenState
                 const Color(0xFF8E5FD9),
                 '${overview.offWindowIssuesLogged.length}',
                 () => _showSubmissionBreakdown(
-                  'Done early/late (issues logged)',
+                  l10n.doneEarlyLateIssuesLogged,
                   overview.offWindowIssuesLogged,
                 ),
               ),
@@ -563,7 +559,7 @@ class _LeadershipDashboardScreenState
                 overview.notDoneRate,
                 AppColors.critical,
                 '${overview.notDone.length}',
-                () => _showSubmissionBreakdown('Not done', overview.notDone),
+                () => _showSubmissionBreakdown(l10n.notDoneLabel, overview.notDone),
               ),
             ],
           ),
@@ -571,52 +567,52 @@ class _LeadershipDashboardScreenState
           _legendRow([
             (
               AppColors.pass,
-              'Done on time (no issues)',
+              l10n.doneOnTimeNoIssues,
               () => _showSubmissionBreakdown(
-                'Done on time (no issues)',
+                l10n.doneOnTimeNoIssues,
                 overview.onTimeNoIssues,
               ),
             ),
             (
               const Color(0xFFE8C547),
-              'Done on time (issues logged)',
+              l10n.doneOnTimeIssuesLogged,
               () => _showSubmissionBreakdown(
-                'Done on time (issues logged)',
+                l10n.doneOnTimeIssuesLogged,
                 overview.onTimeIssuesLogged,
               ),
             ),
             (
               const Color(0xFFE8873D),
-              'Done early/late (no issues)',
+              l10n.doneEarlyLateNoIssues,
               () => _showSubmissionBreakdown(
-                'Done early/late (no issues)',
+                l10n.doneEarlyLateNoIssues,
                 overview.offWindowNoIssues,
               ),
             ),
             (
               const Color(0xFF8E5FD9),
-              'Done early/late (issues logged)',
+              l10n.doneEarlyLateIssuesLogged,
               () => _showSubmissionBreakdown(
-                'Done early/late (issues logged)',
+                l10n.doneEarlyLateIssuesLogged,
                 overview.offWindowIssuesLogged,
               ),
             ),
             (
               AppColors.critical,
-              'Not done',
-              () => _showSubmissionBreakdown('Not done', overview.notDone),
+              l10n.notDoneLabel,
+              () => _showSubmissionBreakdown(l10n.notDoneLabel, overview.notDone),
             ),
           ]),
-          const _TapForDetailsHint(),
+          _TapForDetailsHint(text: l10n.tapForDetailsHint),
         ],
       ),
     );
   }
 
-  Widget _buildIncidentsCard() {
+  Widget _buildIncidentsCard(AppLocalizations l10n) {
     final incidents = _incidents;
     if (incidents == null || incidents.total == 0) {
-      return const AppCard(child: Text('No incidents raised in this period.'));
+      return AppCard(child: Text(l10n.noIncidentsPeriod));
     }
     return AppCard(
       child: Column(
@@ -624,7 +620,7 @@ class _LeadershipDashboardScreenState
         children: [
           Row(
             children: [
-              Text('Incidents', style: Theme.of(context).textTheme.titleMedium),
+              Text(l10n.incidentsTitle, style: Theme.of(context).textTheme.titleMedium),
               // "Urgent" badge (2026-09-20) — additive, not part of the
               // bar below (see IncidentsBreakdown.urgent's own doc
               // comment for why it can't be a mutually-exclusive
@@ -635,7 +631,8 @@ class _LeadershipDashboardScreenState
                 const SizedBox(width: 8),
                 InkWell(
                   borderRadius: BorderRadius.circular(999),
-                  onTap: () => _showIssueBreakdown('Urgent', incidents.urgent),
+                  onTap: () =>
+                      _showIssueBreakdown(l10n.urgentLabel, incidents.urgent),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 10,
@@ -646,7 +643,7 @@ class _LeadershipDashboardScreenState
                       borderRadius: BorderRadius.circular(999),
                     ),
                     child: Text(
-                      '${incidents.urgent.length} urgent',
+                      l10n.urgentCountLabel(incidents.urgent.length),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppColors.critical,
                         fontWeight: FontWeight.w700,
@@ -664,19 +661,19 @@ class _LeadershipDashboardScreenState
                 incidents.resolvedRate,
                 AppColors.pass,
                 '${incidents.resolved.length}',
-                () => _showIssueBreakdown('Resolved', incidents.resolved),
+                () => _showIssueBreakdown(l10n.resolvedLabel, incidents.resolved),
               ),
               _BarSegment(
                 incidents.unresolvedRate,
                 const Color(0xFFE8C547),
                 '${incidents.unresolved.length}',
-                () => _showIssueBreakdown('Unresolved', incidents.unresolved),
+                () => _showIssueBreakdown(l10n.unresolvedLabel, incidents.unresolved),
               ),
               _BarSegment(
                 incidents.escalatedRate,
                 const Color(0xFFE8873D),
                 '${incidents.escalated.length}',
-                () => _showIssueBreakdown('Escalated', incidents.escalated),
+                () => _showIssueBreakdown(l10n.escalatedLabel, incidents.escalated),
               ),
             ],
           ),
@@ -684,21 +681,21 @@ class _LeadershipDashboardScreenState
           _legendRow([
             (
               AppColors.pass,
-              'Resolved',
-              () => _showIssueBreakdown('Resolved', incidents.resolved),
+              l10n.resolvedLabel,
+              () => _showIssueBreakdown(l10n.resolvedLabel, incidents.resolved),
             ),
             (
               const Color(0xFFE8C547),
-              'Unresolved',
-              () => _showIssueBreakdown('Unresolved', incidents.unresolved),
+              l10n.unresolvedLabel,
+              () => _showIssueBreakdown(l10n.unresolvedLabel, incidents.unresolved),
             ),
             (
               const Color(0xFFE8873D),
-              'Escalated',
-              () => _showIssueBreakdown('Escalated', incidents.escalated),
+              l10n.escalatedLabel,
+              () => _showIssueBreakdown(l10n.escalatedLabel, incidents.escalated),
             ),
           ]),
-          const _TapForDetailsHint(),
+          _TapForDetailsHint(text: l10n.tapForDetailsHint),
         ],
       ),
     );
@@ -746,7 +743,7 @@ class _LeadershipDashboardScreenState
     );
   }
 
-  Widget _buildEmployeeLookup() {
+  Widget _buildEmployeeLookup(AppLocalizations l10n) {
     final employee = _staff
         .where((u) => u.id == _selectedEmployeeId)
         .firstOrNull;
@@ -755,18 +752,17 @@ class _LeadershipDashboardScreenState
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            employee?.name ?? 'Employee',
+            employee?.name ?? l10n.employeeFallbackLabel,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 4),
           Text(
-            'A plain lookup, not a score - completion colour and issue tags '
-            'here are never graded per person.',
+            l10n.plainLookupNotice,
             style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(height: 12),
           Text(
-            'Tasks completed (${_employeeSubmissions.length})',
+            l10n.tasksCompletedCountParens(_employeeSubmissions.length),
             style: Theme.of(context).textTheme.titleSmall,
           ),
           for (final s in _employeeSubmissions.take(20))
@@ -776,7 +772,7 @@ class _LeadershipDashboardScreenState
             ),
           const SizedBox(height: 12),
           Text(
-            'Issues raised (${_employeeIssues.length})',
+            l10n.issuesRaisedCountParens(_employeeIssues.length),
             style: Theme.of(context).textTheme.titleSmall,
           ),
           for (final i in _employeeIssues.take(20))
@@ -838,7 +834,9 @@ class _LeadershipDashboardScreenState
 // screen — only the underlying tap behaviour was built. This closes
 // that gap.
 class _TapForDetailsHint extends StatelessWidget {
-  const _TapForDetailsHint();
+  const _TapForDetailsHint({required this.text});
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -854,7 +852,7 @@ class _TapForDetailsHint extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           Text(
-            'Tap a colour section or legend entry for details',
+            text,
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: AppColors.muted),

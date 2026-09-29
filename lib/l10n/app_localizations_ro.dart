@@ -724,4 +724,126 @@ class AppLocalizationsRo extends AppLocalizations {
   String regionFallbackLabel(int id) {
     return 'Regiunea #$id';
   }
+
+  @override
+  String get dashboardOverviewTitle => 'Prezentare generală tablou de bord';
+
+  @override
+  String get gradedBarsOnTooltip => 'Bare notate per angajat: activat';
+
+  @override
+  String get gradedBarsOffTooltip => 'Bare notate per angajat: dezactivat';
+
+  @override
+  String get noBranchesToShow => 'Niciun sediu de afișat încă.';
+
+  @override
+  String get supervisorNoScopeMessage =>
+      'Nu ai fost încă atribuit unei secțiuni sau echipe - roagă un manager să configureze acest lucru în Gestionarea personalului înainte ca acest tablou de bord să aibă ceva de arătat.';
+
+  @override
+  String get individualViewNotice =>
+      'Vizualizare individuală - pentru supraveghere de risc, nu un clasament.';
+
+  @override
+  String get branchLabel => 'Sediu';
+
+  @override
+  String get allBranchesLabel => 'Toate sediile';
+
+  @override
+  String get yourSectionLabel => 'Secțiunea ta';
+
+  @override
+  String get noneAssignedLabel => 'Niciuna atribuită';
+
+  @override
+  String get areaLabel => 'Zonă';
+
+  @override
+  String get allAreasLabel => 'Toate zonele';
+
+  @override
+  String get employeeLabel => 'Angajat';
+
+  @override
+  String get allEmployeesLabel => 'Toți angajații';
+
+  @override
+  String get monthLabel => 'Lună';
+
+  @override
+  String get weekLabel => 'Săptămână';
+
+  @override
+  String get dayLabel => 'Zi';
+
+  @override
+  String get noTaskActivityPeriod =>
+      'Nicio activitate de sarcini în această perioadă.';
+
+  @override
+  String get taskOverviewTitle => 'Prezentare sarcini';
+
+  @override
+  String get incidentsTitle => 'Incidente';
+
+  @override
+  String get noIncidentsPeriod =>
+      'Niciun incident raportat în această perioadă.';
+
+  @override
+  String urgentCountLabel(int count) {
+    return '$count urgente';
+  }
+
+  @override
+  String get tapForDetailsHint =>
+      'Atinge o secțiune colorată sau o legendă pentru detalii';
+
+  @override
+  String get employeeFallbackLabel => 'Angajat';
+
+  @override
+  String get plainLookupNotice =>
+      'O simplă căutare, nu un scor - culoarea de finalizare și etichetele problemelor nu sunt niciodată notate per persoană aici.';
+
+  @override
+  String tasksCompletedCountParens(int count) {
+    return 'Sarcini finalizate ($count)';
+  }
+
+  @override
+  String issuesRaisedCountParens(int count) {
+    return 'Probleme raportate ($count)';
+  }
+
+  @override
+  String get doneOnTimeNoIssues => 'Făcut la timp (fără probleme)';
+
+  @override
+  String get doneOnTimeIssuesLogged => 'Făcut la timp (probleme raportate)';
+
+  @override
+  String get doneEarlyLateNoIssues =>
+      'Făcut mai devreme/târziu (fără probleme)';
+
+  @override
+  String get doneEarlyLateIssuesLogged =>
+      'Făcut mai devreme/târziu (probleme raportate)';
+
+  @override
+  String get notDoneLabel => 'Nefăcut';
+
+  @override
+  String get resolvedLabel => 'Rezolvate';
+
+  @override
+  String get unresolvedLabel => 'Nerezolvate';
+
+  @override
+  String get escalatedLabel => 'Escaladate';
+
+  @override
+  String get urgentLabel => 'Urgent';
 }

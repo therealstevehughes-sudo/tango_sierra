@@ -694,4 +694,119 @@ class AppLocalizationsZh extends AppLocalizations {
   String regionFallbackLabel(int id) {
     return '区域 #$id';
   }
+
+  @override
+  String get dashboardOverviewTitle => '仪表盘概览';
+
+  @override
+  String get gradedBarsOnTooltip => '按员工评分条:开启';
+
+  @override
+  String get gradedBarsOffTooltip => '按员工评分条:关闭';
+
+  @override
+  String get noBranchesToShow => '尚无分店可显示。';
+
+  @override
+  String get supervisorNoScopeMessage =>
+      '您尚未被分配到某个部门或团队 - 请在此仪表盘显示任何内容之前,请经理在员工管理中进行设置。';
+
+  @override
+  String get individualViewNotice => '个人视图 - 用于风险监督,而非排行榜。';
+
+  @override
+  String get branchLabel => '分店';
+
+  @override
+  String get allBranchesLabel => '所有分店';
+
+  @override
+  String get yourSectionLabel => '您的部门';
+
+  @override
+  String get noneAssignedLabel => '未分配';
+
+  @override
+  String get areaLabel => '区域';
+
+  @override
+  String get allAreasLabel => '所有区域';
+
+  @override
+  String get employeeLabel => '员工';
+
+  @override
+  String get allEmployeesLabel => '所有员工';
+
+  @override
+  String get monthLabel => '月';
+
+  @override
+  String get weekLabel => '周';
+
+  @override
+  String get dayLabel => '日';
+
+  @override
+  String get noTaskActivityPeriod => '此期间没有任务活动。';
+
+  @override
+  String get taskOverviewTitle => '任务概览';
+
+  @override
+  String get incidentsTitle => '事件';
+
+  @override
+  String get noIncidentsPeriod => '此期间未报告任何事件。';
+
+  @override
+  String urgentCountLabel(int count) {
+    return '$count 项紧急';
+  }
+
+  @override
+  String get tapForDetailsHint => '点击颜色区块或图例项目查看详情';
+
+  @override
+  String get employeeFallbackLabel => '员工';
+
+  @override
+  String get plainLookupNotice => '这只是简单查询,不是评分 - 完成度颜色和问题标签在此绝不会针对个人评分。';
+
+  @override
+  String tasksCompletedCountParens(int count) {
+    return '已完成任务($count)';
+  }
+
+  @override
+  String issuesRaisedCountParens(int count) {
+    return '已报告问题($count)';
+  }
+
+  @override
+  String get doneOnTimeNoIssues => '按时完成(无问题)';
+
+  @override
+  String get doneOnTimeIssuesLogged => '按时完成(已记录问题)';
+
+  @override
+  String get doneEarlyLateNoIssues => '提前/延迟完成(无问题)';
+
+  @override
+  String get doneEarlyLateIssuesLogged => '提前/延迟完成(已记录问题)';
+
+  @override
+  String get notDoneLabel => '未完成';
+
+  @override
+  String get resolvedLabel => '已解决';
+
+  @override
+  String get unresolvedLabel => '未解决';
+
+  @override
+  String get escalatedLabel => '已升级';
+
+  @override
+  String get urgentLabel => '紧急';
 }

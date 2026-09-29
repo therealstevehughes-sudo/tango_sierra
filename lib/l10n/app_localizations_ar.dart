@@ -715,4 +715,122 @@ class AppLocalizationsAr extends AppLocalizations {
   String regionFallbackLabel(int id) {
     return 'المنطقة رقم $id';
   }
+
+  @override
+  String get dashboardOverviewTitle => 'نظرة عامة على لوحة التحكم';
+
+  @override
+  String get gradedBarsOnTooltip => 'أشرطة تقييم لكل موظف: مفعّلة';
+
+  @override
+  String get gradedBarsOffTooltip => 'أشرطة تقييم لكل موظف: معطّلة';
+
+  @override
+  String get noBranchesToShow => 'لا توجد فروع لعرضها بعد.';
+
+  @override
+  String get supervisorNoScopeMessage =>
+      'لم يتم تعيينك بعد إلى قسم أو فريق - اطلب من المدير إعداد ذلك في إدارة الموظفين قبل أن يكون لهذه اللوحة أي شيء تعرضه.';
+
+  @override
+  String get individualViewNotice =>
+      'عرض فردي - للإشراف على المخاطر، وليس جدول ترتيب.';
+
+  @override
+  String get branchLabel => 'الفرع';
+
+  @override
+  String get allBranchesLabel => 'جميع الفروع';
+
+  @override
+  String get yourSectionLabel => 'قسمك';
+
+  @override
+  String get noneAssignedLabel => 'لم يُعيّن أي شيء';
+
+  @override
+  String get areaLabel => 'المنطقة';
+
+  @override
+  String get allAreasLabel => 'جميع المناطق';
+
+  @override
+  String get employeeLabel => 'الموظف';
+
+  @override
+  String get allEmployeesLabel => 'جميع الموظفين';
+
+  @override
+  String get monthLabel => 'شهر';
+
+  @override
+  String get weekLabel => 'أسبوع';
+
+  @override
+  String get dayLabel => 'يوم';
+
+  @override
+  String get noTaskActivityPeriod => 'لا يوجد نشاط مهام في هذه الفترة.';
+
+  @override
+  String get taskOverviewTitle => 'نظرة عامة على المهام';
+
+  @override
+  String get incidentsTitle => 'الحوادث';
+
+  @override
+  String get noIncidentsPeriod => 'لم يتم الإبلاغ عن أي حوادث في هذه الفترة.';
+
+  @override
+  String urgentCountLabel(int count) {
+    return '$count عاجل';
+  }
+
+  @override
+  String get tapForDetailsHint =>
+      'اضغط على قسم لوني أو عنصر في المفتاح لمعرفة التفاصيل';
+
+  @override
+  String get employeeFallbackLabel => 'الموظف';
+
+  @override
+  String get plainLookupNotice =>
+      'مجرد بحث بسيط، وليس درجة - لون الإنجاز وعلامات المشاكل لا يتم تقييمها هنا حسب الشخص أبدًا.';
+
+  @override
+  String tasksCompletedCountParens(int count) {
+    return 'المهام المكتملة ($count)';
+  }
+
+  @override
+  String issuesRaisedCountParens(int count) {
+    return 'المشاكل المبلغ عنها ($count)';
+  }
+
+  @override
+  String get doneOnTimeNoIssues => 'تم في الوقت المحدد (بدون مشاكل)';
+
+  @override
+  String get doneOnTimeIssuesLogged => 'تم في الوقت المحدد (تم تسجيل مشاكل)';
+
+  @override
+  String get doneEarlyLateNoIssues => 'تم مبكرًا/متأخرًا (بدون مشاكل)';
+
+  @override
+  String get doneEarlyLateIssuesLogged => 'تم مبكرًا/متأخرًا (تم تسجيل مشاكل)';
+
+  @override
+  String get notDoneLabel => 'لم يتم';
+
+  @override
+  String get resolvedLabel => 'تم الحل';
+
+  @override
+  String get unresolvedLabel => 'لم يُحل';
+
+  @override
+  String get escalatedLabel => 'تم التصعيد';
+
+  @override
+  String get urgentLabel => 'عاجل';
 }
