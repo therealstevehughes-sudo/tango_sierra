@@ -161,5 +161,20 @@
   "moveDownTooltip": "下移",
   "accountRestrictedTitle": "账户受限",
   "accountRestrictedBody": "该机构的直接借记需要处理后才能保存新的检查。您的工作不会丢失 - 请告知经理或董事解决账单问题,然后重试。",
-  "okLabel": "确定"
+  "okLabel": "确定",
+  "troubleshootingTitle": "故障排查",
+  "faqTitle": "常见问题",
+  "helpTitle": "帮助",
+  "couldntReachAssistant": "无法连接到助手",
+  "aiOfflineBody": "AI助手目前无法访问 - 可能是您的网络连接问题,也可能是服务暂时中断。与此同时,下方的常见问题和故障排查涵盖了大多数常见疑问,或直接联系VenuRite。",
+  "askQuestionSubtitle": "用简单易懂的语言获取直接答案",
+  "faqSubtitle": "常见问题及解答",
+  "troubleshootingSubtitle": "遇到问题?从这里开始",
+  "contactVenuriteTitle": "联系VenuRite",
+  "contactVenuriteSubtitle": "直接联系我们",
+  "topTierViewTitle": "高层视图",
+  "everythingsDone": "全部完成。干得好。",
+  "tasksNotCompletedCount": "{count, plural, other{{count} 个任务未完成:}}",
+  "backToShiftLabel": "返回班次",
+  "finishShiftLabel": "结束班次"
 }

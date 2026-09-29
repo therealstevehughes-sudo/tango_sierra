@@ -547,4 +547,58 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get okLabel => 'U redu';
+
+  @override
+  String get troubleshootingTitle => 'Rješavanje problema';
+
+  @override
+  String get faqTitle => 'Česta pitanja';
+
+  @override
+  String get helpTitle => 'Pomoć';
+
+  @override
+  String get couldntReachAssistant => 'Nije bilo moguće kontaktirati asistenta';
+
+  @override
+  String get aiOfflineBody =>
+      'AI asistent trenutno nije dostupan - može biti tvoja veza ili je usluga privremeno nedostupna. U međuvremenu, Česta pitanja i Rješavanje problema u nastavku pokrivaju najčešća pitanja, ili izravno kontaktiraj VenuRite.';
+
+  @override
+  String get askQuestionSubtitle => 'Dobij jasan odgovor, jednostavnim jezikom';
+
+  @override
+  String get faqSubtitle => 'Česta pitanja, s odgovorima';
+
+  @override
+  String get troubleshootingSubtitle => 'Nešto ne radi? Počni ovdje';
+
+  @override
+  String get contactVenuriteTitle => 'Kontaktiraj VenuRite';
+
+  @override
+  String get contactVenuriteSubtitle => 'Stupi izravno u kontakt';
+
+  @override
+  String get topTierViewTitle => 'Prikaz najviše razine';
+
+  @override
+  String get everythingsDone => 'Sve je gotovo. Dobar posao.';
+
+  @override
+  String tasksNotCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count zadataka nije dovršeno:',
+      one: '1 zadatak nije dovršen:',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backToShiftLabel => 'Natrag na smjenu';
+
+  @override
+  String get finishShiftLabel => 'Završi smjenu';
 }

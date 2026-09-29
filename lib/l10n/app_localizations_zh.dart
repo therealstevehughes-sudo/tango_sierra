@@ -527,4 +527,57 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get okLabel => '确定';
+
+  @override
+  String get troubleshootingTitle => '故障排查';
+
+  @override
+  String get faqTitle => '常见问题';
+
+  @override
+  String get helpTitle => '帮助';
+
+  @override
+  String get couldntReachAssistant => '无法连接到助手';
+
+  @override
+  String get aiOfflineBody =>
+      'AI助手目前无法访问 - 可能是您的网络连接问题,也可能是服务暂时中断。与此同时,下方的常见问题和故障排查涵盖了大多数常见疑问,或直接联系VenuRite。';
+
+  @override
+  String get askQuestionSubtitle => '用简单易懂的语言获取直接答案';
+
+  @override
+  String get faqSubtitle => '常见问题及解答';
+
+  @override
+  String get troubleshootingSubtitle => '遇到问题?从这里开始';
+
+  @override
+  String get contactVenuriteTitle => '联系VenuRite';
+
+  @override
+  String get contactVenuriteSubtitle => '直接联系我们';
+
+  @override
+  String get topTierViewTitle => '高层视图';
+
+  @override
+  String get everythingsDone => '全部完成。干得好。';
+
+  @override
+  String tasksNotCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个任务未完成:',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backToShiftLabel => '返回班次';
+
+  @override
+  String get finishShiftLabel => '结束班次';
 }

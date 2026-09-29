@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/widgets/responsive_content.dart';
+import '../../l10n/app_localizations.dart';
 import '../onboarding/contact_venurite_screen.dart';
 import 'ask_question_screen.dart';
 import 'faq_screen.dart';
@@ -18,21 +19,19 @@ import '../../core/widgets/app_screen_header.dart';
 void showAiOfflineNotice(BuildContext context) {
   showDialog<void>(
     context: context,
-    builder: (context) => AlertDialog(
-      title: const Text("Couldn't reach the assistant"),
-      content: const Text(
-        "The AI assistant isn't reachable right now - could be your "
-        'connection, or the service is temporarily down. In the '
-        'meantime, FAQ and Troubleshooting below cover the most common '
-        'questions, or contact VenuRite directly.',
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('OK'),
-        ),
-      ],
-    ),
+    builder: (context) {
+      final l10n = AppLocalizations.of(context)!;
+      return AlertDialog(
+        title: Text(l10n.couldntReachAssistant),
+        content: Text(l10n.aiOfflineBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.okLabel),
+          ),
+        ],
+      );
+    },
   );
 }
 
@@ -58,8 +57,9 @@ class HelpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppScreenHeader(title: const Text('Help')),
+      appBar: AppScreenHeader(title: Text(l10n.helpTitle)),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 480,
@@ -69,10 +69,8 @@ class HelpScreen extends StatelessWidget {
               Card(
                 child: ListTile(
                   leading: const Icon(Icons.auto_awesome),
-                  title: const Text('Ask a question'),
-                  subtitle: const Text(
-                    'Get a straight answer, in plain language',
-                  ),
+                  title: Text(l10n.askQuestionTitle),
+                  subtitle: Text(l10n.askQuestionSubtitle),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => Navigator.push(
                     context,
@@ -86,8 +84,8 @@ class HelpScreen extends StatelessWidget {
               Card(
                 child: ListTile(
                   leading: const Icon(Icons.help_outline),
-                  title: const Text('FAQ'),
-                  subtitle: const Text('Common questions, answered'),
+                  title: Text(l10n.faqTitle),
+                  subtitle: Text(l10n.faqSubtitle),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => Navigator.push(
                     context,
@@ -98,8 +96,8 @@ class HelpScreen extends StatelessWidget {
               Card(
                 child: ListTile(
                   leading: const Icon(Icons.build_outlined),
-                  title: const Text('Troubleshooting'),
-                  subtitle: const Text("Something not working? Start here"),
+                  title: Text(l10n.troubleshootingTitle),
+                  subtitle: Text(l10n.troubleshootingSubtitle),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => Navigator.push(
                     context,
@@ -112,8 +110,8 @@ class HelpScreen extends StatelessWidget {
               Card(
                 child: ListTile(
                   leading: const Icon(Icons.mail_outline),
-                  title: const Text('Contact VenuRite'),
-                  subtitle: const Text('Get in touch directly'),
+                  title: Text(l10n.contactVenuriteTitle),
+                  subtitle: Text(l10n.contactVenuriteSubtitle),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => Navigator.push(
                     context,

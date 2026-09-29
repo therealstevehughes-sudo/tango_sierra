@@ -161,5 +161,20 @@
   "moveDownTooltip": "Pomakni dolje",
   "accountRestrictedTitle": "Račun ograničen",
   "accountRestrictedBody": "Izravno terećenje ove organizacije zahtijeva pažnju prije nego što se nove provjere mogu spremiti. Tvoj rad nije izgubljen - obavijesti voditelja ili direktora da riješi naplatu, a zatim pokušaj ponovno.",
-  "okLabel": "U redu"
+  "okLabel": "U redu",
+  "troubleshootingTitle": "Rješavanje problema",
+  "faqTitle": "Česta pitanja",
+  "helpTitle": "Pomoć",
+  "couldntReachAssistant": "Nije bilo moguće kontaktirati asistenta",
+  "aiOfflineBody": "AI asistent trenutno nije dostupan - može biti tvoja veza ili je usluga privremeno nedostupna. U međuvremenu, Česta pitanja i Rješavanje problema u nastavku pokrivaju najčešća pitanja, ili izravno kontaktiraj VenuRite.",
+  "askQuestionSubtitle": "Dobij jasan odgovor, jednostavnim jezikom",
+  "faqSubtitle": "Česta pitanja, s odgovorima",
+  "troubleshootingSubtitle": "Nešto ne radi? Počni ovdje",
+  "contactVenuriteTitle": "Kontaktiraj VenuRite",
+  "contactVenuriteSubtitle": "Stupi izravno u kontakt",
+  "topTierViewTitle": "Prikaz najviše razine",
+  "everythingsDone": "Sve je gotovo. Dobar posao.",
+  "tasksNotCompletedCount": "{count, plural, one{1 zadatak nije dovršen:} other{{count} zadataka nije dovršeno:}}",
+  "backToShiftLabel": "Natrag na smjenu",
+  "finishShiftLabel": "Završi smjenu"
 }

@@ -161,5 +161,20 @@
   "moveDownTooltip": "نیچے منتقل کریں",
   "accountRestrictedTitle": "اکاؤنٹ محدود ہے",
   "accountRestrictedBody": "نئی جانچیں محفوظ ہونے سے پہلے اس ادارے کے ڈائریکٹ ڈیبٹ پر توجہ درکار ہے۔ آپ کا کام ضائع نہیں ہوا - براہ کرم کسی منیجر یا ڈائریکٹر کو بلنگ حل کرنے کے لیے بتائیں، پھر دوبارہ کوشش کریں۔",
-  "okLabel": "ٹھیک ہے"
+  "okLabel": "ٹھیک ہے",
+  "troubleshootingTitle": "مسئلہ حل کرنا",
+  "faqTitle": "عمومی سوالات",
+  "helpTitle": "مدد",
+  "couldntReachAssistant": "معاون سے رابطہ نہیں ہو سکا",
+  "aiOfflineBody": "AI معاون فی الحال قابل رسائی نہیں ہے - یہ آپ کا کنیکشن ہو سکتا ہے، یا سروس عارضی طور پر بند ہو سکتی ہے۔ اس دوران، نیچے دیے گئے عمومی سوالات اور مسئلہ حل کرنا سب سے عام سوالات کا احاطہ کرتے ہیں، یا براہ راست VenuRite سے رابطہ کریں۔",
+  "askQuestionSubtitle": "سادہ زبان میں براہ راست جواب حاصل کریں",
+  "faqSubtitle": "عمومی سوالات، جوابات کے ساتھ",
+  "troubleshootingSubtitle": "کچھ کام نہیں کر رہا؟ یہاں سے شروع کریں",
+  "contactVenuriteTitle": "VenuRite سے رابطہ کریں",
+  "contactVenuriteSubtitle": "براہ راست رابطہ کریں",
+  "topTierViewTitle": "اعلیٰ سطحی منظر",
+  "everythingsDone": "سب کچھ ہو گیا۔ بہترین کام۔",
+  "tasksNotCompletedCount": "{count, plural, one{1 کام مکمل نہیں ہوا:} other{{count} کام مکمل نہیں ہوئے:}}",
+  "backToShiftLabel": "شفٹ پر واپس جائیں",
+  "finishShiftLabel": "شفٹ ختم کریں"
 }

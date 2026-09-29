@@ -549,4 +549,59 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get okLabel => 'OK';
+
+  @override
+  String get troubleshootingTitle => 'Depanare';
+
+  @override
+  String get faqTitle => 'Întrebări frecvente';
+
+  @override
+  String get helpTitle => 'Ajutor';
+
+  @override
+  String get couldntReachAssistant => 'Nu s-a putut contacta asistentul';
+
+  @override
+  String get aiOfflineBody =>
+      'Asistentul AI nu poate fi contactat acum - poate fi conexiunea ta sau serviciul este temporar indisponibil. Între timp, secțiunile Întrebări frecvente și Depanare de mai jos acoperă cele mai comune întrebări, sau contactează direct VenuRite.';
+
+  @override
+  String get askQuestionSubtitle =>
+      'Primește un răspuns clar, pe înțelesul tuturor';
+
+  @override
+  String get faqSubtitle => 'Întrebări comune, cu răspuns';
+
+  @override
+  String get troubleshootingSubtitle => 'Ceva nu funcționează? Începe de aici';
+
+  @override
+  String get contactVenuriteTitle => 'Contactează VenuRite';
+
+  @override
+  String get contactVenuriteSubtitle => 'Ia legătura direct';
+
+  @override
+  String get topTierViewTitle => 'Vizualizare nivel superior';
+
+  @override
+  String get everythingsDone => 'Totul e gata. Bună treabă.';
+
+  @override
+  String tasksNotCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sarcini neterminate:',
+      one: '1 sarcină neterminată:',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backToShiftLabel => 'Înapoi la tură';
+
+  @override
+  String get finishShiftLabel => 'Încheie tura';
 }

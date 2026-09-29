@@ -161,5 +161,20 @@
   "moveDownTooltip": "تحريك لأسفل",
   "accountRestrictedTitle": "الحساب مقيّد",
   "accountRestrictedBody": "يحتاج الخصم المباشر لهذه المؤسسة إلى الانتباه قبل أن يمكن حفظ فحوصات جديدة. عملك لم يُفقد - يرجى إخبار مدير أو مدير تنفيذي لحل مشكلة الفوترة، ثم المحاولة مرة أخرى.",
-  "okLabel": "موافق"
+  "okLabel": "موافق",
+  "troubleshootingTitle": "استكشاف الأخطاء وإصلاحها",
+  "faqTitle": "الأسئلة الشائعة",
+  "helpTitle": "المساعدة",
+  "couldntReachAssistant": "تعذر الوصول إلى المساعد",
+  "aiOfflineBody": "المساعد الذكي غير متاح حاليًا - قد يكون السبب اتصالك أو أن الخدمة معطلة مؤقتًا. في هذه الأثناء، تغطي الأسئلة الشائعة واستكشاف الأخطاء أدناه معظم الأسئلة الشائعة، أو تواصل مع VenuRite مباشرة.",
+  "askQuestionSubtitle": "احصل على إجابة واضحة بلغة بسيطة",
+  "faqSubtitle": "أسئلة شائعة مع إجاباتها",
+  "troubleshootingSubtitle": "هل هناك خلل؟ ابدأ من هنا",
+  "contactVenuriteTitle": "تواصل مع VenuRite",
+  "contactVenuriteSubtitle": "تواصل مباشرة",
+  "topTierViewTitle": "عرض المستوى الأعلى",
+  "everythingsDone": "تم كل شيء. عمل رائع.",
+  "tasksNotCompletedCount": "{count, plural, one{مهمة واحدة غير مكتملة:} other{{count} مهام غير مكتملة:}}",
+  "backToShiftLabel": "العودة إلى المناوبة",
+  "finishShiftLabel": "إنهاء المناوبة"
 }

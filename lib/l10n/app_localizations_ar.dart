@@ -542,4 +542,58 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get okLabel => 'موافق';
+
+  @override
+  String get troubleshootingTitle => 'استكشاف الأخطاء وإصلاحها';
+
+  @override
+  String get faqTitle => 'الأسئلة الشائعة';
+
+  @override
+  String get helpTitle => 'المساعدة';
+
+  @override
+  String get couldntReachAssistant => 'تعذر الوصول إلى المساعد';
+
+  @override
+  String get aiOfflineBody =>
+      'المساعد الذكي غير متاح حاليًا - قد يكون السبب اتصالك أو أن الخدمة معطلة مؤقتًا. في هذه الأثناء، تغطي الأسئلة الشائعة واستكشاف الأخطاء أدناه معظم الأسئلة الشائعة، أو تواصل مع VenuRite مباشرة.';
+
+  @override
+  String get askQuestionSubtitle => 'احصل على إجابة واضحة بلغة بسيطة';
+
+  @override
+  String get faqSubtitle => 'أسئلة شائعة مع إجاباتها';
+
+  @override
+  String get troubleshootingSubtitle => 'هل هناك خلل؟ ابدأ من هنا';
+
+  @override
+  String get contactVenuriteTitle => 'تواصل مع VenuRite';
+
+  @override
+  String get contactVenuriteSubtitle => 'تواصل مباشرة';
+
+  @override
+  String get topTierViewTitle => 'عرض المستوى الأعلى';
+
+  @override
+  String get everythingsDone => 'تم كل شيء. عمل رائع.';
+
+  @override
+  String tasksNotCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مهام غير مكتملة:',
+      one: 'مهمة واحدة غير مكتملة:',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backToShiftLabel => 'العودة إلى المناوبة';
+
+  @override
+  String get finishShiftLabel => 'إنهاء المناوبة';
 }

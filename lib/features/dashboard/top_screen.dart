@@ -11,6 +11,7 @@ import '../../core/widgets/user_title.dart';
 import '../../shared/models/trigger_notification.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
+import '../../l10n/app_localizations.dart';
 import '../notifications/escalation_service.dart';
 import 'dashboard_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
@@ -57,17 +58,18 @@ class _TopScreenState extends ConsumerState<TopScreen> {
       triggerNotificationRepositoryProvider,
     );
 
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
         title: currentUser != null
             ? UserTitle(user: currentUser)
-            : const Text('Top-Tier View'),
+            : Text(l10n.topTierViewTitle),
         actions: const [AssistantIconButton()],
       ),
       // Sub-sprint 2 (visual/UX pass): see manager_screen.dart's identical
       // change for the rationale — replaces the previous 9-icon,
       // tooltip-only AppBar action row.
-      drawer: const ManagementDrawer(title: 'Top-Tier View'),
+      drawer: ManagementDrawer(title: l10n.topTierViewTitle),
       body: Column(
         children: [
           if (currentUser != null)

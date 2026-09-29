@@ -161,5 +161,20 @@
   "moveDownTooltip": "Mută în jos",
   "accountRestrictedTitle": "Cont restricționat",
   "accountRestrictedBody": "Debitul direct al acestei organizații necesită atenție înainte ca noi verificări să poată fi salvate. Munca ta nu este pierdută - te rugăm să anunți un manager sau un director să rezolve facturarea, apoi încearcă din nou.",
-  "okLabel": "OK"
+  "okLabel": "OK",
+  "troubleshootingTitle": "Depanare",
+  "faqTitle": "Întrebări frecvente",
+  "helpTitle": "Ajutor",
+  "couldntReachAssistant": "Nu s-a putut contacta asistentul",
+  "aiOfflineBody": "Asistentul AI nu poate fi contactat acum - poate fi conexiunea ta sau serviciul este temporar indisponibil. Între timp, secțiunile Întrebări frecvente și Depanare de mai jos acoperă cele mai comune întrebări, sau contactează direct VenuRite.",
+  "askQuestionSubtitle": "Primește un răspuns clar, pe înțelesul tuturor",
+  "faqSubtitle": "Întrebări comune, cu răspuns",
+  "troubleshootingSubtitle": "Ceva nu funcționează? Începe de aici",
+  "contactVenuriteTitle": "Contactează VenuRite",
+  "contactVenuriteSubtitle": "Ia legătura direct",
+  "topTierViewTitle": "Vizualizare nivel superior",
+  "everythingsDone": "Totul e gata. Bună treabă.",
+  "tasksNotCompletedCount": "{count, plural, one{1 sarcină neterminată:} other{{count} sarcini neterminate:}}",
+  "backToShiftLabel": "Înapoi la tură",
+  "finishShiftLabel": "Încheie tura"
 }

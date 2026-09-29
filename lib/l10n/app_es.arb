@@ -161,5 +161,20 @@
   "moveDownTooltip": "Bajar",
   "accountRestrictedTitle": "Cuenta restringida",
   "accountRestrictedBody": "El adeudo directo de esta organización necesita atención antes de que se puedan guardar nuevas comprobaciones. Tu trabajo no se ha perdido: dile a un responsable o director que resuelva el tema de facturación y vuelve a intentarlo.",
-  "okLabel": "Aceptar"
+  "okLabel": "Aceptar",
+  "troubleshootingTitle": "Solución de problemas",
+  "faqTitle": "Preguntas frecuentes",
+  "helpTitle": "Ayuda",
+  "couldntReachAssistant": "No se pudo contactar con el asistente",
+  "aiOfflineBody": "El asistente de IA no está disponible ahora mismo - puede ser tu conexión o que el servicio esté caído temporalmente. Mientras tanto, las Preguntas frecuentes y Solución de problemas de abajo cubren las dudas más comunes, o contacta directamente con VenuRite.",
+  "askQuestionSubtitle": "Obtén una respuesta clara, en lenguaje sencillo",
+  "faqSubtitle": "Preguntas frecuentes, respondidas",
+  "troubleshootingSubtitle": "¿Algo no funciona? Empieza aquí",
+  "contactVenuriteTitle": "Contactar con VenuRite",
+  "contactVenuriteSubtitle": "Ponte en contacto directamente",
+  "topTierViewTitle": "Vista de nivel superior",
+  "everythingsDone": "Todo hecho. Buen trabajo.",
+  "tasksNotCompletedCount": "{count, plural, one{1 tarea sin completar:} other{{count} tareas sin completar:}}",
+  "backToShiftLabel": "Volver al turno",
+  "finishShiftLabel": "Terminar turno"
 }

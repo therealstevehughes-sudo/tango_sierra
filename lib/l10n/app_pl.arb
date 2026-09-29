@@ -161,5 +161,20 @@
   "moveDownTooltip": "Przesuń w dół",
   "accountRestrictedTitle": "Konto ograniczone",
   "accountRestrictedBody": "Polecenie zapłaty tej organizacji wymaga uwagi, zanim nowe kontrole będą mogły zostać zapisane. Twoja praca nie jest stracona - poproś kierownika lub dyrektora o uregulowanie rozliczeń, a następnie spróbuj ponownie.",
-  "okLabel": "OK"
+  "okLabel": "OK",
+  "troubleshootingTitle": "Rozwiązywanie problemów",
+  "faqTitle": "FAQ",
+  "helpTitle": "Pomoc",
+  "couldntReachAssistant": "Nie udało się połączyć z asystentem",
+  "aiOfflineBody": "Asystent AI jest obecnie niedostępny - może to być Twoje połączenie lub chwilowa awaria usługi. W międzyczasie sekcje FAQ i Rozwiązywanie problemów poniżej obejmują najczęstsze pytania, albo skontaktuj się bezpośrednio z VenuRite.",
+  "askQuestionSubtitle": "Uzyskaj jasną odpowiedź, prostym językiem",
+  "faqSubtitle": "Najczęstsze pytania, z odpowiedziami",
+  "troubleshootingSubtitle": "Coś nie działa? Zacznij tutaj",
+  "contactVenuriteTitle": "Skontaktuj się z VenuRite",
+  "contactVenuriteSubtitle": "Skontaktuj się bezpośrednio",
+  "topTierViewTitle": "Widok najwyższego poziomu",
+  "everythingsDone": "Wszystko zrobione. Dobra robota.",
+  "tasksNotCompletedCount": "{count, plural, one{1 zadanie nieukończone:} other{{count} zadań nieukończonych:}}",
+  "backToShiftLabel": "Wróć do zmiany",
+  "finishShiftLabel": "Zakończ zmianę"
 }

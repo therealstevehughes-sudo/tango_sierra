@@ -543,4 +543,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get okLabel => 'OK';
+
+  @override
+  String get troubleshootingTitle => 'Troubleshooting';
+
+  @override
+  String get faqTitle => 'FAQ';
+
+  @override
+  String get helpTitle => 'Help';
+
+  @override
+  String get couldntReachAssistant => 'Couldn\'t reach the assistant';
+
+  @override
+  String get aiOfflineBody =>
+      'The AI assistant isn\'t reachable right now - could be your connection, or the service is temporarily down. In the meantime, FAQ and Troubleshooting below cover the most common questions, or contact VenuRite directly.';
+
+  @override
+  String get askQuestionSubtitle => 'Get a straight answer, in plain language';
+
+  @override
+  String get faqSubtitle => 'Common questions, answered';
+
+  @override
+  String get troubleshootingSubtitle => 'Something not working? Start here';
+
+  @override
+  String get contactVenuriteTitle => 'Contact VenuRite';
+
+  @override
+  String get contactVenuriteSubtitle => 'Get in touch directly';
+
+  @override
+  String get topTierViewTitle => 'Top-Tier View';
+
+  @override
+  String get everythingsDone => 'Everything\'s done. Nice work.';
+
+  @override
+  String tasksNotCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tasks not completed:',
+      one: '1 task not completed:',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backToShiftLabel => 'Back to shift';
+
+  @override
+  String get finishShiftLabel => 'Finish shift';
 }

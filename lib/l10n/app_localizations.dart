@@ -1085,6 +1085,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OK'**
   String get okLabel;
+
+  /// No description provided for @troubleshootingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Troubleshooting'**
+  String get troubleshootingTitle;
+
+  /// No description provided for @faqTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ'**
+  String get faqTitle;
+
+  /// No description provided for @helpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get helpTitle;
+
+  /// No description provided for @couldntReachAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reach the assistant'**
+  String get couldntReachAssistant;
+
+  /// No description provided for @aiOfflineBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI assistant isn\'t reachable right now - could be your connection, or the service is temporarily down. In the meantime, FAQ and Troubleshooting below cover the most common questions, or contact VenuRite directly.'**
+  String get aiOfflineBody;
+
+  /// No description provided for @askQuestionSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get a straight answer, in plain language'**
+  String get askQuestionSubtitle;
+
+  /// No description provided for @faqSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Common questions, answered'**
+  String get faqSubtitle;
+
+  /// No description provided for @troubleshootingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Something not working? Start here'**
+  String get troubleshootingSubtitle;
+
+  /// No description provided for @contactVenuriteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact VenuRite'**
+  String get contactVenuriteTitle;
+
+  /// No description provided for @contactVenuriteSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Get in touch directly'**
+  String get contactVenuriteSubtitle;
+
+  /// No description provided for @topTierViewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Top-Tier View'**
+  String get topTierViewTitle;
+
+  /// No description provided for @everythingsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything\'s done. Nice work.'**
+  String get everythingsDone;
+
+  /// No description provided for @tasksNotCompletedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 task not completed:} other{{count} tasks not completed:}}'**
+  String tasksNotCompletedCount(int count);
+
+  /// No description provided for @backToShiftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to shift'**
+  String get backToShiftLabel;
+
+  /// No description provided for @finishShiftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish shift'**
+  String get finishShiftLabel;
 }
 
 class _AppLocalizationsDelegate

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/widgets/responsive_content.dart';
+import '../../l10n/app_localizations.dart';
 import 'help_content.dart';
 import '../../core/widgets/app_screen_header.dart';
 
@@ -13,7 +14,9 @@ class FaqScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppScreenHeader(title: const Text('FAQ')),
+      appBar: AppScreenHeader(
+        title: Text(AppLocalizations.of(context)!.faqTitle),
+      ),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 640,

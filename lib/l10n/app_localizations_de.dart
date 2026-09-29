@@ -552,4 +552,61 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get okLabel => 'OK';
+
+  @override
+  String get troubleshootingTitle => 'Problembehandlung';
+
+  @override
+  String get faqTitle => 'Häufige Fragen';
+
+  @override
+  String get helpTitle => 'Hilfe';
+
+  @override
+  String get couldntReachAssistant =>
+      'Der Assistent konnte nicht erreicht werden';
+
+  @override
+  String get aiOfflineBody =>
+      'Der KI-Assistent ist gerade nicht erreichbar - das kann an deiner Verbindung liegen oder der Dienst ist vorübergehend nicht verfügbar. In der Zwischenzeit decken die häufigen Fragen und die Problembehandlung unten die gängigsten Fragen ab, oder kontaktiere VenuRite direkt.';
+
+  @override
+  String get askQuestionSubtitle =>
+      'Erhalte eine klare Antwort in einfacher Sprache';
+
+  @override
+  String get faqSubtitle => 'Häufige Fragen, beantwortet';
+
+  @override
+  String get troubleshootingSubtitle =>
+      'Funktioniert etwas nicht? Hier anfangen';
+
+  @override
+  String get contactVenuriteTitle => 'VenuRite kontaktieren';
+
+  @override
+  String get contactVenuriteSubtitle => 'Direkt Kontakt aufnehmen';
+
+  @override
+  String get topTierViewTitle => 'Ansicht oberste Ebene';
+
+  @override
+  String get everythingsDone => 'Alles erledigt. Gute Arbeit.';
+
+  @override
+  String tasksNotCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Aufgaben nicht abgeschlossen:',
+      one: '1 Aufgabe nicht abgeschlossen:',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backToShiftLabel => 'Zurück zur Schicht';
+
+  @override
+  String get finishShiftLabel => 'Schicht beenden';
 }

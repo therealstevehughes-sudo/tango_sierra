@@ -551,4 +551,59 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get okLabel => 'Aceptar';
+
+  @override
+  String get troubleshootingTitle => 'Solución de problemas';
+
+  @override
+  String get faqTitle => 'Preguntas frecuentes';
+
+  @override
+  String get helpTitle => 'Ayuda';
+
+  @override
+  String get couldntReachAssistant => 'No se pudo contactar con el asistente';
+
+  @override
+  String get aiOfflineBody =>
+      'El asistente de IA no está disponible ahora mismo - puede ser tu conexión o que el servicio esté caído temporalmente. Mientras tanto, las Preguntas frecuentes y Solución de problemas de abajo cubren las dudas más comunes, o contacta directamente con VenuRite.';
+
+  @override
+  String get askQuestionSubtitle =>
+      'Obtén una respuesta clara, en lenguaje sencillo';
+
+  @override
+  String get faqSubtitle => 'Preguntas frecuentes, respondidas';
+
+  @override
+  String get troubleshootingSubtitle => '¿Algo no funciona? Empieza aquí';
+
+  @override
+  String get contactVenuriteTitle => 'Contactar con VenuRite';
+
+  @override
+  String get contactVenuriteSubtitle => 'Ponte en contacto directamente';
+
+  @override
+  String get topTierViewTitle => 'Vista de nivel superior';
+
+  @override
+  String get everythingsDone => 'Todo hecho. Buen trabajo.';
+
+  @override
+  String tasksNotCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tareas sin completar:',
+      one: '1 tarea sin completar:',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backToShiftLabel => 'Volver al turno';
+
+  @override
+  String get finishShiftLabel => 'Terminar turno';
 }

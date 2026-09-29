@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
@@ -51,20 +52,20 @@ Future<void> endShift(
 
   if (!context.mounted) return;
 
+  final l10n = AppLocalizations.of(context)!;
   final confirmed = await showDialog<bool>(
     context: context,
     builder: (context) => AlertDialog(
-      title: const Text('End shift'),
+      title: Text(l10n.endShift),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (missedTitles.isEmpty)
-            const Text("Everything's done. Nice work.")
+            Text(l10n.everythingsDone)
           else ...[
             Text(
-              '${missedTitles.length} task'
-              '${missedTitles.length == 1 ? '' : 's'} not completed:',
+              l10n.tasksNotCompletedCount(missedTitles.length),
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
@@ -82,11 +83,11 @@ Future<void> endShift(
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: const Text('Back to shift'),
+          child: Text(l10n.backToShiftLabel),
         ),
         FilledButton(
           onPressed: () => Navigator.of(context).pop(true),
-          child: const Text('Finish shift'),
+          child: Text(l10n.finishShiftLabel),
         ),
       ],
     ),

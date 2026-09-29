@@ -543,4 +543,59 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get okLabel => 'ٹھیک ہے';
+
+  @override
+  String get troubleshootingTitle => 'مسئلہ حل کرنا';
+
+  @override
+  String get faqTitle => 'عمومی سوالات';
+
+  @override
+  String get helpTitle => 'مدد';
+
+  @override
+  String get couldntReachAssistant => 'معاون سے رابطہ نہیں ہو سکا';
+
+  @override
+  String get aiOfflineBody =>
+      'AI معاون فی الحال قابل رسائی نہیں ہے - یہ آپ کا کنیکشن ہو سکتا ہے، یا سروس عارضی طور پر بند ہو سکتی ہے۔ اس دوران، نیچے دیے گئے عمومی سوالات اور مسئلہ حل کرنا سب سے عام سوالات کا احاطہ کرتے ہیں، یا براہ راست VenuRite سے رابطہ کریں۔';
+
+  @override
+  String get askQuestionSubtitle => 'سادہ زبان میں براہ راست جواب حاصل کریں';
+
+  @override
+  String get faqSubtitle => 'عمومی سوالات، جوابات کے ساتھ';
+
+  @override
+  String get troubleshootingSubtitle =>
+      'کچھ کام نہیں کر رہا؟ یہاں سے شروع کریں';
+
+  @override
+  String get contactVenuriteTitle => 'VenuRite سے رابطہ کریں';
+
+  @override
+  String get contactVenuriteSubtitle => 'براہ راست رابطہ کریں';
+
+  @override
+  String get topTierViewTitle => 'اعلیٰ سطحی منظر';
+
+  @override
+  String get everythingsDone => 'سب کچھ ہو گیا۔ بہترین کام۔';
+
+  @override
+  String tasksNotCompletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count کام مکمل نہیں ہوئے:',
+      one: '1 کام مکمل نہیں ہوا:',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backToShiftLabel => 'شفٹ پر واپس جائیں';
+
+  @override
+  String get finishShiftLabel => 'شفٹ ختم کریں';
 }

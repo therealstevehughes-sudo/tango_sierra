@@ -276,5 +276,27 @@
   "moveDownTooltip": "Move down",
   "accountRestrictedTitle": "Account restricted",
   "accountRestrictedBody": "This organisation's Direct Debit needs attention before new checks can be saved. Your work isn't lost - please tell a manager or Director to sort out billing, then try again.",
-  "okLabel": "OK"
+  "okLabel": "OK",
+  "troubleshootingTitle": "Troubleshooting",
+  "faqTitle": "FAQ",
+  "helpTitle": "Help",
+  "couldntReachAssistant": "Couldn't reach the assistant",
+  "aiOfflineBody": "The AI assistant isn't reachable right now - could be your connection, or the service is temporarily down. In the meantime, FAQ and Troubleshooting below cover the most common questions, or contact VenuRite directly.",
+  "askQuestionSubtitle": "Get a straight answer, in plain language",
+  "faqSubtitle": "Common questions, answered",
+  "troubleshootingSubtitle": "Something not working? Start here",
+  "contactVenuriteTitle": "Contact VenuRite",
+  "contactVenuriteSubtitle": "Get in touch directly",
+  "topTierViewTitle": "Top-Tier View",
+  "everythingsDone": "Everything's done. Nice work.",
+  "tasksNotCompletedCount": "{count, plural, one{1 task not completed:} other{{count} tasks not completed:}}",
+  "@tasksNotCompletedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backToShiftLabel": "Back to shift",
+  "finishShiftLabel": "Finish shift"
 }

@@ -161,5 +161,20 @@
   "moveDownTooltip": "Nach unten verschieben",
   "accountRestrictedTitle": "Konto eingeschränkt",
   "accountRestrictedBody": "Das Lastschriftmandat dieser Organisation benötigt Aufmerksamkeit, bevor neue Prüfungen gespeichert werden können. Deine Arbeit ist nicht verloren - bitte einen Manager oder Direktor, die Abrechnung zu klären, und versuche es dann erneut.",
-  "okLabel": "OK"
+  "okLabel": "OK",
+  "troubleshootingTitle": "Problembehandlung",
+  "faqTitle": "Häufige Fragen",
+  "helpTitle": "Hilfe",
+  "couldntReachAssistant": "Der Assistent konnte nicht erreicht werden",
+  "aiOfflineBody": "Der KI-Assistent ist gerade nicht erreichbar - das kann an deiner Verbindung liegen oder der Dienst ist vorübergehend nicht verfügbar. In der Zwischenzeit decken die häufigen Fragen und die Problembehandlung unten die gängigsten Fragen ab, oder kontaktiere VenuRite direkt.",
+  "askQuestionSubtitle": "Erhalte eine klare Antwort in einfacher Sprache",
+  "faqSubtitle": "Häufige Fragen, beantwortet",
+  "troubleshootingSubtitle": "Funktioniert etwas nicht? Hier anfangen",
+  "contactVenuriteTitle": "VenuRite kontaktieren",
+  "contactVenuriteSubtitle": "Direkt Kontakt aufnehmen",
+  "topTierViewTitle": "Ansicht oberste Ebene",
+  "everythingsDone": "Alles erledigt. Gute Arbeit.",
+  "tasksNotCompletedCount": "{count, plural, one{1 Aufgabe nicht abgeschlossen:} other{{count} Aufgaben nicht abgeschlossen:}}",
+  "backToShiftLabel": "Zurück zur Schicht",
+  "finishShiftLabel": "Schicht beenden"
 }
