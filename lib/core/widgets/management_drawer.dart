@@ -77,37 +77,28 @@ final List<_DrawerItemDef> _insightsItems = [
   // leadership_dashboard_screen.dart). This is the one gate this build
   // deliberately changes, for a stated reason — every other item's gate
   // stays byte-for-byte as it was.
+  // Renamed from "Dashboard Overview" (2026-09-29, drawer audit) — the
+  // Daily section's own "Dashboard" item and this one both starting with
+  // "Dashboard" was a real, confirmed naming collision (two different
+  // screens, no way to tell them apart from the label alone). This name
+  // now matches the screen's own class name (LeadershipDashboardScreen)
+  // and its actual audience.
   _DrawerItemDef(
     icon: Icons.bar_chart,
-    label: 'Dashboard Overview',
+    label: 'Leadership Overview',
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const LeadershipDashboardScreen(),
   ),
   // EHO Export is a dialog action, not a screen push — handled by hand in
   // the INSIGHTS section body below, not this list (WidgetBuilder can't
   // express "run a dialog" cleanly). Kept here in the doc comment only so
-  // the section's full item order is legible in one place: Dashboard
-  // Overview, EHO / Audit Export, Photo Evidence, Document Centre.
+  // the section's full item order is legible in one place: Leadership
+  // Overview, EHO / Audit Export, Photo Evidence.
   _DrawerItemDef(
     icon: Icons.photo_library_outlined,
     label: 'Photo Evidence',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const EvidencePruneScreen(),
-  ),
-  _DrawerItemDef(
-    icon: Icons.folder_copy_outlined,
-    label: 'Document Centre',
-    minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const DocumentCentreScreen(),
-  ),
-  // Roster fairness review (R6, 2026-09-27) — venueManager+, matching this
-  // section's existing floor.
-  _DrawerItemDef(
-    icon: Icons.balance_outlined,
-    label: 'Shift Fairness Review',
-    minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const ShiftFairnessScreen(),
-    requiresRosterAddon: true,
   ),
 ];
 
@@ -149,12 +140,21 @@ final List<_DrawerItemDef> _peopleItems = [
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const DepartmentManagementScreen(),
   ),
-  // Roster add-on (2026-09-27) — manager side (post shifts, assign/remove)
-  // at venueManager+; the staff-facing claim board at supervisor+, same
-  // floor as Branch Team Structure above. Locked-teaser UX (2026-09-27,
-  // direct founder request): dimmed + lock icon + opens RosterUpsellScreen
-  // until the org has actually paid, rather than a plain "not enabled"
-  // sentence inside the real screen — see _itemTiles/_lockedNavTile below.
+];
+
+// ROSTER — the paid add-on's own section (2026-09-29, drawer audit): all
+// four Roster pieces used to be split across People (Roster Board/Claim
+// Shifts/Request a Day Off) and Insights (Shift Fairness Review) — one
+// feature, two unrelated places to look for it. Grouped together so the
+// add-on has one discoverable home, and gates unchanged from before this
+// move.
+final List<_DrawerItemDef> _rosterItems = [
+  // Manager side (post shifts, assign/remove) at venueManager+; the
+  // staff-facing screens below at supervisor+. Locked-teaser UX
+  // (2026-09-27, direct founder request): dimmed + lock icon + opens
+  // RosterUpsellScreen until the org has actually paid, rather than a
+  // plain "not enabled" sentence inside the real screen — see
+  // _itemTiles/_lockedNavTile below.
   _DrawerItemDef(
     icon: Icons.event_note_outlined,
     label: 'Roster Board',
@@ -176,6 +176,15 @@ final List<_DrawerItemDef> _peopleItems = [
     label: 'Request a Day Off',
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const RequestOffDayScreen(),
+    requiresRosterAddon: true,
+  ),
+  // Fairness review (R6, 2026-09-27) — venueManager+, previously sat in
+  // Insights; moved here to sit with the rest of Roster.
+  _DrawerItemDef(
+    icon: Icons.balance_outlined,
+    label: 'Shift Fairness Review',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const ShiftFairnessScreen(),
     requiresRosterAddon: true,
   ),
 ];
@@ -222,6 +231,15 @@ final List<_DrawerItemDef> _venueSetupItems = [
     label: 'Notification Rules',
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const NotificationRulesScreen(),
+  ),
+  // Moved here from Insights (2026-09-29, drawer audit) — it's document
+  // storage/reference material, not a monitoring/reporting tool like the
+  // rest of Insights (Leadership Overview, EHO Export, Photo Evidence).
+  _DrawerItemDef(
+    icon: Icons.folder_copy_outlined,
+    label: 'Document Centre',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const DocumentCentreScreen(),
   ),
   // Renamed from "Venue Setup" (2026-09-17) — reads distinctly from
   // "Venue Details" above rather than the two sounding like the same
@@ -526,6 +544,15 @@ class ManagementDrawer extends ConsumerWidget {
       _section(
         label: 'People',
         children: _itemTiles(context, _peopleItems, atLeast, rosterAddonEnabled),
+      ),
+      // ROSTER — the paid add-on's own section (2026-09-29, drawer audit).
+      // See _rosterItems' own doc comment for why this was split out of
+      // People/Insights. A locked-teaser tile still renders (and this
+      // section still appears) for a tier that qualifies but hasn't paid
+      // — same as every other requiresRosterAddon item always has.
+      _section(
+        label: 'Roster',
+        children: _itemTiles(context, _rosterItems, atLeast, rosterAddonEnabled),
       ),
       // VENUE SETUP — venueManager+ configuration, all one tier floor.
       _section(

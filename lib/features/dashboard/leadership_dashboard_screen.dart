@@ -91,10 +91,25 @@ class _LeadershipDashboardScreenState
     _loadSites();
   }
 
+  int? _organisationId;
+
   Future<void> _loadGradedBarsSetting() async {
     final org = await ref.read(organisationRepositoryProvider).getDefault();
     if (!mounted) return;
-    setState(() => _gradedBarsEnabled = org.employeeGradedBarsEnabled);
+    setState(() {
+      _organisationId = org.id;
+      _gradedBarsEnabled = org.employeeGradedBarsEnabled;
+    });
+  }
+
+  Future<void> _toggleGradedBars() async {
+    final orgId = _organisationId;
+    if (orgId == null) return;
+    final next = !_gradedBarsEnabled;
+    setState(() => _gradedBarsEnabled = next);
+    await ref
+        .read(organisationRepositoryProvider)
+        .setEmployeeGradedBarsEnabled(orgId, next);
   }
 
   DateTimeRange get _range {
@@ -320,7 +335,26 @@ class _LeadershipDashboardScreenState
     return Scaffold(
       appBar: AppScreenHeader(
         title: const Text('Dashboard Overview'),
-        actions: const [AssistantIconButton()],
+        actions: [
+          // Moved here from a Settings toggle (2026-09-29, direct founder
+          // request) — the setting and the thing it controls used to live
+          // on two different screens. Still executive-only (unchanged
+          // gate: a company-wide dashboard behaviour, not a per-venue
+          // one) — a supervisor/venueManager viewing this screen simply
+          // doesn't see the icon at all, same as before when the Settings
+          // toggle was invisible to them.
+          if (ref.watch(currentUserProvider)?.roleTier == RoleTier.executive)
+            IconButton(
+              icon: Icon(
+                _gradedBarsEnabled ? Icons.leaderboard : Icons.leaderboard_outlined,
+              ),
+              tooltip: _gradedBarsEnabled
+                  ? 'Per-employee graded bars: on'
+                  : 'Per-employee graded bars: off',
+              onPressed: _toggleGradedBars,
+            ),
+          const AssistantIconButton(),
+        ],
       ),
       drawer: const ManagementDrawer(title: 'Dashboard Overview'),
       body: _sites.isEmpty

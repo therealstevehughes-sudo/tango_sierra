@@ -89,8 +89,6 @@ class SettingsScreen extends ConsumerWidget {
               const SectionHeader(title: 'Company'),
               _CompanyBrandingSection(currentUser: currentUser),
               const SizedBox(height: 16),
-              const _EmployeeGradedBarsSetting(),
-              const SizedBox(height: 16),
               const _RosterAddonSetting(),
               if (kSeedDemoData) ...[
                 const SizedBox(height: 16),
@@ -385,77 +383,6 @@ class _CompanyBrandingSectionState
                 : _save,
           ),
         ],
-      ),
-    );
-  }
-}
-
-// Per-employee graded dashboard bars (2026-09-24, direct user request) —
-// off by default; see Organisation.employeeGradedBarsEnabled's own doc
-// comment. Executive-only, alongside company branding, since this
-// governs a company-wide dashboard behaviour, not a per-venue one.
-class _EmployeeGradedBarsSetting extends ConsumerStatefulWidget {
-  const _EmployeeGradedBarsSetting();
-
-  @override
-  ConsumerState<_EmployeeGradedBarsSetting> createState() =>
-      _EmployeeGradedBarsSettingState();
-}
-
-class _EmployeeGradedBarsSettingState
-    extends ConsumerState<_EmployeeGradedBarsSetting> {
-  bool _loaded = false;
-  bool _enabled = false;
-  int? _organisationId;
-  bool _saving = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _load();
-  }
-
-  Future<void> _load() async {
-    final org = await ref.read(organisationRepositoryProvider).getDefault();
-    if (!mounted) return;
-    setState(() {
-      _organisationId = org.id;
-      _enabled = org.employeeGradedBarsEnabled;
-      _loaded = true;
-    });
-  }
-
-  Future<void> _toggle(bool value) async {
-    final orgId = _organisationId;
-    if (orgId == null) return;
-    setState(() {
-      _enabled = value;
-      _saving = true;
-    });
-    await ref
-        .read(organisationRepositoryProvider)
-        .setEmployeeGradedBarsEnabled(orgId, value);
-    if (!mounted) return;
-    setState(() => _saving = false);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (!_loaded) {
-      return const AppCard(child: Center(child: CircularProgressIndicator()));
-    }
-    return AppCard(
-      child: SwitchListTile(
-        contentPadding: EdgeInsets.zero,
-        title: const Text('Per-employee dashboard bars'),
-        subtitle: const Text(
-          "When a manager selects a named person on the Dashboard "
-          "Overview, show the same colour-graded bar the branch/section "
-          "view uses, for work oversight and risk assessment - instead "
-          "of the default plain list of what they raised/completed.",
-        ),
-        value: _enabled,
-        onChanged: _saving ? null : _toggle,
       ),
     );
   }

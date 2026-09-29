@@ -64,14 +64,36 @@ class WorkerHubScreen extends ConsumerWidget {
           // Omnipresent assistant icon (2026-09-25) — replaces the plain
           // "?" every screen is getting the same one addition.
           const AssistantIconButton(),
-          // "End shift" (2026-09-24, direct user request) — replaces a
-          // plain logout with a "here's what's still not done" check,
-          // plus records the clock-out on today's ShiftLog.
+          // Log out vs. End shift, kept as two genuinely separate actions
+          // (2026-09-29, direct founder report) — "End shift" alone forced
+          // anyone stepping away mid-shift (device swap, a quick break)
+          // through a "shift is finishing" flow that records a clock-out
+          // and nags about unfinished tasks that aren't actually
+          // unfinished yet. Plain "Log out" just signs the device out —
+          // same pop-to-root-then-clear-session shape as
+          // ManagementDrawer's own default logout, no shift-end
+          // semantics, no remaining-tasks check.
+          TextButton.icon(
+            onPressed: currentUser == null
+                ? null
+                : () {
+                    Navigator.of(
+                      context,
+                    ).popUntil((route) => route.isFirst);
+                    ref.read(currentUserProvider.notifier).state = null;
+                  },
+            icon: const Icon(Icons.logout, size: 18),
+            label: const Text('Log out'),
+          ),
+          // "End shift" (2026-09-24, direct user request) — a "here's
+          // what's still not done" check, plus records the clock-out on
+          // today's ShiftLog. Reached only when the person actually means
+          // to finish their shift, not just step away.
           TextButton.icon(
             onPressed: currentUser == null
                 ? null
                 : () => endShift(context, ref, currentUser),
-            icon: const Icon(Icons.logout, size: 18),
+            icon: const Icon(Icons.event_available, size: 18),
             label: const Text('End shift'),
           ),
         ],
