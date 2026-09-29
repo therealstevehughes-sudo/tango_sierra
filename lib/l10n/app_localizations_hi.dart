@@ -434,4 +434,67 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get doneLabel => 'पूर्ण';
+
+  @override
+  String get supplierOptionalLabel => 'आपूर्तिकर्ता (वैकल्पिक)';
+
+  @override
+  String supplierWarningRecorded(String status) {
+    return 'यह आपूर्तिकर्ता $status के रूप में चिह्नित है - फिर भी जांच दर्ज की जाएगी।';
+  }
+
+  @override
+  String get reportProblemWithDelivery =>
+      'इस डिलीवरी में समस्या की रिपोर्ट करें';
+
+  @override
+  String get temperatureOnArrivalLabel => 'आगमन पर तापमान (°C, वैकल्पिक)';
+
+  @override
+  String get problemsTickAnyApply => 'समस्याएं (जो भी लागू हों उन्हें चुनें)';
+
+  @override
+  String get shortDeliveryLabel => 'कम डिलीवरी';
+
+  @override
+  String get damagedStockLabel => 'क्षतिग्रस्त सामान';
+
+  @override
+  String get lateDeliveryLabel => 'देर से डिलीवरी';
+
+  @override
+  String get qualityProblemLabel => 'गुणवत्ता की समस्या';
+
+  @override
+  String get outcomeLabel => 'परिणाम';
+
+  @override
+  String get acceptedLabel => 'स्वीकृत';
+
+  @override
+  String get rejectedLabel => 'अस्वीकृत';
+
+  @override
+  String get partiallyAcceptedLabel => 'आंशिक रूप से स्वीकृत';
+
+  @override
+  String get noCameraFound => 'इस डिवाइस पर कोई कैमरा नहीं मिला।';
+
+  @override
+  String couldNotStartCamera(String error) {
+    return 'कैमरा शुरू नहीं किया जा सका: $error';
+  }
+
+  @override
+  String couldNotSwitchCamera(String error) {
+    return 'कैमरा स्विच नहीं किया जा सका: $error';
+  }
+
+  @override
+  String couldNotCapturePhoto(String error) {
+    return 'फ़ोटो कैप्चर नहीं की जा सकी: $error';
+  }
+
+  @override
+  String get switchCameraTooltip => 'कैमरा स्विच करें';
 }

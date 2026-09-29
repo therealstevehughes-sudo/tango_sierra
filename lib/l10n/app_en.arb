@@ -208,5 +208,51 @@
   "sendLabel": "Send",
   "leaveNoteForNextShift": "Leave a note for the next shift (optional)",
   "handoverNoteLabel": "Handover note",
-  "doneLabel": "Done"
+  "doneLabel": "Done",
+  "supplierOptionalLabel": "Supplier (optional)",
+  "supplierWarningRecorded": "This supplier is marked {status} - the check will still be recorded.",
+  "@supplierWarningRecorded": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "reportProblemWithDelivery": "Report a problem with this delivery",
+  "temperatureOnArrivalLabel": "Temperature on arrival (°C, optional)",
+  "problemsTickAnyApply": "Problems (tick any that apply)",
+  "shortDeliveryLabel": "Short delivery",
+  "damagedStockLabel": "Damaged stock",
+  "lateDeliveryLabel": "Late delivery",
+  "qualityProblemLabel": "Quality problem",
+  "outcomeLabel": "Outcome",
+  "acceptedLabel": "Accepted",
+  "rejectedLabel": "Rejected",
+  "partiallyAcceptedLabel": "Partially accepted",
+  "noCameraFound": "No camera was found on this device.",
+  "couldNotStartCamera": "Could not start the camera: {error}",
+  "@couldNotStartCamera": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "couldNotSwitchCamera": "Could not switch camera: {error}",
+  "@couldNotSwitchCamera": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "couldNotCapturePhoto": "Could not capture a photo: {error}",
+  "@couldNotCapturePhoto": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "switchCameraTooltip": "Switch camera"
 }

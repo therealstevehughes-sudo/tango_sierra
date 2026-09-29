@@ -417,4 +417,66 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get doneLabel => '完成';
+
+  @override
+  String get supplierOptionalLabel => '供应商(可选)';
+
+  @override
+  String supplierWarningRecorded(String status) {
+    return '该供应商标记为$status - 此次检查仍将被记录。';
+  }
+
+  @override
+  String get reportProblemWithDelivery => '报告此次送货的问题';
+
+  @override
+  String get temperatureOnArrivalLabel => '到货温度 (°C,可选)';
+
+  @override
+  String get problemsTickAnyApply => '问题(勾选所有适用项)';
+
+  @override
+  String get shortDeliveryLabel => '短缺送货';
+
+  @override
+  String get damagedStockLabel => '货物损坏';
+
+  @override
+  String get lateDeliveryLabel => '送货延迟';
+
+  @override
+  String get qualityProblemLabel => '质量问题';
+
+  @override
+  String get outcomeLabel => '结果';
+
+  @override
+  String get acceptedLabel => '已接受';
+
+  @override
+  String get rejectedLabel => '已拒绝';
+
+  @override
+  String get partiallyAcceptedLabel => '部分接受';
+
+  @override
+  String get noCameraFound => '此设备上未找到摄像头。';
+
+  @override
+  String couldNotStartCamera(String error) {
+    return '无法启动摄像头: $error';
+  }
+
+  @override
+  String couldNotSwitchCamera(String error) {
+    return '无法切换摄像头: $error';
+  }
+
+  @override
+  String couldNotCapturePhoto(String error) {
+    return '无法拍照: $error';
+  }
+
+  @override
+  String get switchCameraTooltip => '切换摄像头';
 }

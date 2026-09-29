@@ -434,4 +434,67 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get doneLabel => 'Gotovo';
+
+  @override
+  String get supplierOptionalLabel => 'Dobavljač (neobavezno)';
+
+  @override
+  String supplierWarningRecorded(String status) {
+    return 'Ovaj dobavljač je označen kao $status - provjera će ipak biti zabilježena.';
+  }
+
+  @override
+  String get reportProblemWithDelivery => 'Prijavi problem s ovom dostavom';
+
+  @override
+  String get temperatureOnArrivalLabel =>
+      'Temperatura pri dolasku (°C, neobavezno)';
+
+  @override
+  String get problemsTickAnyApply => 'Problemi (označi sve koji se odnose)';
+
+  @override
+  String get shortDeliveryLabel => 'Nepotpuna dostava';
+
+  @override
+  String get damagedStockLabel => 'Oštećena roba';
+
+  @override
+  String get lateDeliveryLabel => 'Zakašnjela dostava';
+
+  @override
+  String get qualityProblemLabel => 'Problem s kvalitetom';
+
+  @override
+  String get outcomeLabel => 'Ishod';
+
+  @override
+  String get acceptedLabel => 'Prihvaćeno';
+
+  @override
+  String get rejectedLabel => 'Odbijeno';
+
+  @override
+  String get partiallyAcceptedLabel => 'Djelomično prihvaćeno';
+
+  @override
+  String get noCameraFound => 'Na ovom uređaju nije pronađena kamera.';
+
+  @override
+  String couldNotStartCamera(String error) {
+    return 'Kameru nije bilo moguće pokrenuti: $error';
+  }
+
+  @override
+  String couldNotSwitchCamera(String error) {
+    return 'Kameru nije bilo moguće promijeniti: $error';
+  }
+
+  @override
+  String couldNotCapturePhoto(String error) {
+    return 'Fotografiju nije bilo moguće snimiti: $error';
+  }
+
+  @override
+  String get switchCameraTooltip => 'Promijeni kameru';
 }

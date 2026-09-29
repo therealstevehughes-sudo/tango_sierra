@@ -887,6 +887,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get doneLabel;
+
+  /// No description provided for @supplierOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplier (optional)'**
+  String get supplierOptionalLabel;
+
+  /// No description provided for @supplierWarningRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'This supplier is marked {status} - the check will still be recorded.'**
+  String supplierWarningRecorded(String status);
+
+  /// No description provided for @reportProblemWithDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a problem with this delivery'**
+  String get reportProblemWithDelivery;
+
+  /// No description provided for @temperatureOnArrivalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature on arrival (°C, optional)'**
+  String get temperatureOnArrivalLabel;
+
+  /// No description provided for @problemsTickAnyApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Problems (tick any that apply)'**
+  String get problemsTickAnyApply;
+
+  /// No description provided for @shortDeliveryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Short delivery'**
+  String get shortDeliveryLabel;
+
+  /// No description provided for @damagedStockLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Damaged stock'**
+  String get damagedStockLabel;
+
+  /// No description provided for @lateDeliveryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Late delivery'**
+  String get lateDeliveryLabel;
+
+  /// No description provided for @qualityProblemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quality problem'**
+  String get qualityProblemLabel;
+
+  /// No description provided for @outcomeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Outcome'**
+  String get outcomeLabel;
+
+  /// No description provided for @acceptedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get acceptedLabel;
+
+  /// No description provided for @rejectedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get rejectedLabel;
+
+  /// No description provided for @partiallyAcceptedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Partially accepted'**
+  String get partiallyAcceptedLabel;
+
+  /// No description provided for @noCameraFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No camera was found on this device.'**
+  String get noCameraFound;
+
+  /// No description provided for @couldNotStartCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start the camera: {error}'**
+  String couldNotStartCamera(String error);
+
+  /// No description provided for @couldNotSwitchCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not switch camera: {error}'**
+  String couldNotSwitchCamera(String error);
+
+  /// No description provided for @couldNotCapturePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not capture a photo: {error}'**
+  String couldNotCapturePhoto(String error);
+
+  /// No description provided for @switchCameraTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch camera'**
+  String get switchCameraTooltip;
 }
 
 class _AppLocalizationsDelegate

@@ -435,4 +435,68 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get doneLabel => 'Gata';
+
+  @override
+  String get supplierOptionalLabel => 'Furnizor (opțional)';
+
+  @override
+  String supplierWarningRecorded(String status) {
+    return 'Acest furnizor este marcat ca $status - verificarea va fi totuși înregistrată.';
+  }
+
+  @override
+  String get reportProblemWithDelivery =>
+      'Raportează o problemă cu această livrare';
+
+  @override
+  String get temperatureOnArrivalLabel =>
+      'Temperatura la sosire (°C, opțional)';
+
+  @override
+  String get problemsTickAnyApply => 'Probleme (bifează tot ce se aplică)';
+
+  @override
+  String get shortDeliveryLabel => 'Livrare incompletă';
+
+  @override
+  String get damagedStockLabel => 'Marfă deteriorată';
+
+  @override
+  String get lateDeliveryLabel => 'Livrare întârziată';
+
+  @override
+  String get qualityProblemLabel => 'Problemă de calitate';
+
+  @override
+  String get outcomeLabel => 'Rezultat';
+
+  @override
+  String get acceptedLabel => 'Acceptat';
+
+  @override
+  String get rejectedLabel => 'Respins';
+
+  @override
+  String get partiallyAcceptedLabel => 'Acceptat parțial';
+
+  @override
+  String get noCameraFound => 'Nu s-a găsit nicio cameră pe acest dispozitiv.';
+
+  @override
+  String couldNotStartCamera(String error) {
+    return 'Camera nu a putut fi pornită: $error';
+  }
+
+  @override
+  String couldNotSwitchCamera(String error) {
+    return 'Camera nu a putut fi schimbată: $error';
+  }
+
+  @override
+  String couldNotCapturePhoto(String error) {
+    return 'Nu s-a putut face o fotografie: $error';
+  }
+
+  @override
+  String get switchCameraTooltip => 'Schimbă camera';
 }

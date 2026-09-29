@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../core/widgets/app_banner.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/supplier.dart';
 
 // Extracted (2026-09-17, ad-hoc task path build) from task_screen.dart's
@@ -98,20 +99,21 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
         selected.first.approvalStatus == SupplierApprovalStatus.approved) {
       return null;
     }
-    return 'This supplier is marked '
-        '${supplierApprovalStatusLabel(selected.first.approvalStatus)} - the '
-        'check will still be recorded.';
+    return AppLocalizations.of(context)!.supplierWarningRecorded(
+      supplierApprovalStatusLabel(selected.first.approvalStatus),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 12),
         DropdownButtonFormField<int>(
           initialValue: _supplierId,
-          decoration: const InputDecoration(labelText: 'Supplier (optional)'),
+          decoration: InputDecoration(labelText: l10n.supplierOptionalLabel),
           items: widget.suppliers
               .map((s) => DropdownMenuItem(value: s.id, child: Text(s.name)))
               .toList(),
@@ -140,7 +142,7 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
           },
           controlAffinity: ListTileControlAffinity.leading,
           contentPadding: EdgeInsets.zero,
-          title: const Text('Report a problem with this delivery'),
+          title: Text(l10n.reportProblemWithDelivery),
         ),
         if (_hasProblem) ...[
           TextField(
@@ -149,8 +151,8 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
               decimal: true,
               signed: true,
             ),
-            decoration: const InputDecoration(
-              labelText: 'Temperature on arrival (°C, optional)',
+            decoration: InputDecoration(
+              labelText: l10n.temperatureOnArrivalLabel,
             ),
             onChanged: (_) => _notify(),
           ),
@@ -160,12 +162,12 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
           // to scan and tap accurately than chips wrapping unpredictably,
           // especially on a smaller phone. Same reasoning applied to the
           // Outcome dropdown just below.
-          const Text('Problems (tick any that apply)'),
+          Text(l10n.problemsTickAnyApply),
           CheckboxListTile(
             value: _shortDelivery,
             controlAffinity: ListTileControlAffinity.leading,
             contentPadding: EdgeInsets.zero,
-            title: const Text('Short delivery'),
+            title: Text(l10n.shortDeliveryLabel),
             onChanged: (v) {
               setState(() => _shortDelivery = v ?? false);
               _notify();
@@ -175,7 +177,7 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
             value: _damagedStock,
             controlAffinity: ListTileControlAffinity.leading,
             contentPadding: EdgeInsets.zero,
-            title: const Text('Damaged stock'),
+            title: Text(l10n.damagedStockLabel),
             onChanged: (v) {
               setState(() => _damagedStock = v ?? false);
               _notify();
@@ -185,7 +187,7 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
             value: _lateDelivery,
             controlAffinity: ListTileControlAffinity.leading,
             contentPadding: EdgeInsets.zero,
-            title: const Text('Late delivery'),
+            title: Text(l10n.lateDeliveryLabel),
             onChanged: (v) {
               setState(() => _lateDelivery = v ?? false);
               _notify();
@@ -195,14 +197,14 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
             value: _qualityProblem,
             controlAffinity: ListTileControlAffinity.leading,
             contentPadding: EdgeInsets.zero,
-            title: const Text('Quality problem'),
+            title: Text(l10n.qualityProblemLabel),
             onChanged: (v) {
               setState(() => _qualityProblem = v ?? false);
               _notify();
             },
           ),
           const SizedBox(height: 8),
-          const Text('Outcome'),
+          Text(l10n.outcomeLabel),
           // Migrated off RadioListTile's own deprecated groupValue/onChanged
           // (2026-09-25) to a RadioGroup ancestor, per Flutter's own
           // deprecation guidance.
@@ -212,22 +214,22 @@ class _DeliveryDetailFormState extends State<DeliveryDetailForm> {
               setState(() => _outcome = v ?? _outcome);
               _notify();
             },
-            child: const Column(
+            child: Column(
               children: [
                 RadioListTile<String>(
                   value: 'accepted',
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Accepted'),
+                  title: Text(l10n.acceptedLabel),
                 ),
                 RadioListTile<String>(
                   value: 'rejected',
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Rejected'),
+                  title: Text(l10n.rejectedLabel),
                 ),
                 RadioListTile<String>(
                   value: 'partial',
                   contentPadding: EdgeInsets.zero,
-                  title: Text('Partially accepted'),
+                  title: Text(l10n.partiallyAcceptedLabel),
                 ),
               ],
             ),

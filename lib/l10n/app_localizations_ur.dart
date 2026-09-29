@@ -431,4 +431,66 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get doneLabel => 'مکمل';
+
+  @override
+  String get supplierOptionalLabel => 'سپلائر (اختیاری)';
+
+  @override
+  String supplierWarningRecorded(String status) {
+    return 'یہ سپلائر $status کے طور پر نشان زد ہے - پھر بھی جانچ درج کی جائے گی۔';
+  }
+
+  @override
+  String get reportProblemWithDelivery => 'اس ڈیلیوری میں مسئلے کی اطلاع دیں';
+
+  @override
+  String get temperatureOnArrivalLabel => 'آمد پر درجہ حرارت (°C، اختیاری)';
+
+  @override
+  String get problemsTickAnyApply => 'مسائل (جو بھی لاگو ہوں منتخب کریں)';
+
+  @override
+  String get shortDeliveryLabel => 'کم ڈیلیوری';
+
+  @override
+  String get damagedStockLabel => 'خراب شدہ سامان';
+
+  @override
+  String get lateDeliveryLabel => 'تاخیر سے ڈیلیوری';
+
+  @override
+  String get qualityProblemLabel => 'معیار کا مسئلہ';
+
+  @override
+  String get outcomeLabel => 'نتیجہ';
+
+  @override
+  String get acceptedLabel => 'قبول شدہ';
+
+  @override
+  String get rejectedLabel => 'مسترد شدہ';
+
+  @override
+  String get partiallyAcceptedLabel => 'جزوی طور پر قبول';
+
+  @override
+  String get noCameraFound => 'اس ڈیوائس پر کوئی کیمرہ نہیں ملا۔';
+
+  @override
+  String couldNotStartCamera(String error) {
+    return 'کیمرہ شروع نہیں ہو سکا: $error';
+  }
+
+  @override
+  String couldNotSwitchCamera(String error) {
+    return 'کیمرہ تبدیل نہیں ہو سکا: $error';
+  }
+
+  @override
+  String couldNotCapturePhoto(String error) {
+    return 'تصویر نہیں لی جا سکی: $error';
+  }
+
+  @override
+  String get switchCameraTooltip => 'کیمرہ تبدیل کریں';
 }

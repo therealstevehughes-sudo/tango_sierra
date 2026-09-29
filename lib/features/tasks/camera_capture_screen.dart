@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 const _lastCameraNamePrefsKey = 'evidence_camera_last_selected_name';
 
@@ -57,13 +58,17 @@ class _CameraCaptureScreenState extends State<CameraCaptureScreen> {
     try {
       final cameras = await availableCameras();
       if (cameras.isEmpty) {
-        setState(() => _error = 'No camera was found on this device.');
+        setState(
+          () => _error = AppLocalizations.of(context)!.noCameraFound,
+        );
         return;
       }
       _cameras = cameras;
       await _selectCamera(await _pickDefaultCameraIndex(cameras));
     } catch (e) {
-      setState(() => _error = 'Could not start the camera: $e');
+      setState(
+        () => _error = AppLocalizations.of(context)!.couldNotStartCamera('$e'),
+      );
     }
   }
 
@@ -131,7 +136,11 @@ class _CameraCaptureScreenState extends State<CameraCaptureScreen> {
       await prefs.setString(_lastCameraNamePrefsKey, _cameras[next].name);
     } catch (e) {
       if (!mounted) return;
-      setState(() => _error = 'Could not switch camera: $e');
+      setState(
+        () => _error = AppLocalizations.of(
+          context,
+        )!.couldNotSwitchCamera('$e'),
+      );
     }
   }
 
@@ -153,24 +162,25 @@ class _CameraCaptureScreenState extends State<CameraCaptureScreen> {
       if (!mounted) return;
       setState(() {
         _capturing = false;
-        _error = 'Could not capture a photo: $e';
+        _error = AppLocalizations.of(context)!.couldNotCapturePhoto('$e');
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppScreenHeader(
-        title: const Text('Take Photo'),
+        title: Text(l10n.takePhoto),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         actions: [
           if (_cameras.length > 1)
             IconButton(
               icon: const Icon(Icons.cameraswitch_outlined),
-              tooltip: 'Switch camera',
+              tooltip: l10n.switchCameraTooltip,
               onPressed: _switchCamera,
             ),
           const AssistantIconButton(),
@@ -200,7 +210,7 @@ class _CameraCaptureScreenState extends State<CameraCaptureScreen> {
                     const SizedBox(height: 16),
                     FilledButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Back'),
+                      child: Text(l10n.back),
                     ),
                   ],
                 ),

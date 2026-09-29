@@ -430,4 +430,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get doneLabel => 'Done';
+
+  @override
+  String get supplierOptionalLabel => 'Supplier (optional)';
+
+  @override
+  String supplierWarningRecorded(String status) {
+    return 'This supplier is marked $status - the check will still be recorded.';
+  }
+
+  @override
+  String get reportProblemWithDelivery => 'Report a problem with this delivery';
+
+  @override
+  String get temperatureOnArrivalLabel =>
+      'Temperature on arrival (°C, optional)';
+
+  @override
+  String get problemsTickAnyApply => 'Problems (tick any that apply)';
+
+  @override
+  String get shortDeliveryLabel => 'Short delivery';
+
+  @override
+  String get damagedStockLabel => 'Damaged stock';
+
+  @override
+  String get lateDeliveryLabel => 'Late delivery';
+
+  @override
+  String get qualityProblemLabel => 'Quality problem';
+
+  @override
+  String get outcomeLabel => 'Outcome';
+
+  @override
+  String get acceptedLabel => 'Accepted';
+
+  @override
+  String get rejectedLabel => 'Rejected';
+
+  @override
+  String get partiallyAcceptedLabel => 'Partially accepted';
+
+  @override
+  String get noCameraFound => 'No camera was found on this device.';
+
+  @override
+  String couldNotStartCamera(String error) {
+    return 'Could not start the camera: $error';
+  }
+
+  @override
+  String couldNotSwitchCamera(String error) {
+    return 'Could not switch camera: $error';
+  }
+
+  @override
+  String couldNotCapturePhoto(String error) {
+    return 'Could not capture a photo: $error';
+  }
+
+  @override
+  String get switchCameraTooltip => 'Switch camera';
 }

@@ -438,4 +438,68 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get doneLabel => 'Fertig';
+
+  @override
+  String get supplierOptionalLabel => 'Lieferant (optional)';
+
+  @override
+  String supplierWarningRecorded(String status) {
+    return 'Dieser Lieferant ist als $status markiert - die Prüfung wird trotzdem erfasst.';
+  }
+
+  @override
+  String get reportProblemWithDelivery =>
+      'Ein Problem mit dieser Lieferung melden';
+
+  @override
+  String get temperatureOnArrivalLabel =>
+      'Temperatur bei Ankunft (°C, optional)';
+
+  @override
+  String get problemsTickAnyApply => 'Probleme (alle Zutreffenden ankreuzen)';
+
+  @override
+  String get shortDeliveryLabel => 'Unvollständige Lieferung';
+
+  @override
+  String get damagedStockLabel => 'Beschädigte Ware';
+
+  @override
+  String get lateDeliveryLabel => 'Verspätete Lieferung';
+
+  @override
+  String get qualityProblemLabel => 'Qualitätsproblem';
+
+  @override
+  String get outcomeLabel => 'Ergebnis';
+
+  @override
+  String get acceptedLabel => 'Angenommen';
+
+  @override
+  String get rejectedLabel => 'Abgelehnt';
+
+  @override
+  String get partiallyAcceptedLabel => 'Teilweise angenommen';
+
+  @override
+  String get noCameraFound => 'Auf diesem Gerät wurde keine Kamera gefunden.';
+
+  @override
+  String couldNotStartCamera(String error) {
+    return 'Die Kamera konnte nicht gestartet werden: $error';
+  }
+
+  @override
+  String couldNotSwitchCamera(String error) {
+    return 'Die Kamera konnte nicht gewechselt werden: $error';
+  }
+
+  @override
+  String couldNotCapturePhoto(String error) {
+    return 'Es konnte kein Foto aufgenommen werden: $error';
+  }
+
+  @override
+  String get switchCameraTooltip => 'Kamera wechseln';
 }

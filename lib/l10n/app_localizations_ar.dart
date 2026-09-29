@@ -429,4 +429,67 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get doneLabel => 'تم';
+
+  @override
+  String get supplierOptionalLabel => 'المورد (اختياري)';
+
+  @override
+  String supplierWarningRecorded(String status) {
+    return 'هذا المورد مُصنّف كـ $status - سيتم تسجيل الفحص رغم ذلك.';
+  }
+
+  @override
+  String get reportProblemWithDelivery => 'الإبلاغ عن مشكلة في هذا التوصيل';
+
+  @override
+  String get temperatureOnArrivalLabel =>
+      'درجة الحرارة عند الوصول (°م، اختياري)';
+
+  @override
+  String get problemsTickAnyApply => 'المشاكل (حدد كل ما ينطبق)';
+
+  @override
+  String get shortDeliveryLabel => 'توصيل ناقص';
+
+  @override
+  String get damagedStockLabel => 'بضاعة تالفة';
+
+  @override
+  String get lateDeliveryLabel => 'توصيل متأخر';
+
+  @override
+  String get qualityProblemLabel => 'مشكلة في الجودة';
+
+  @override
+  String get outcomeLabel => 'النتيجة';
+
+  @override
+  String get acceptedLabel => 'مقبول';
+
+  @override
+  String get rejectedLabel => 'مرفوض';
+
+  @override
+  String get partiallyAcceptedLabel => 'مقبول جزئيًا';
+
+  @override
+  String get noCameraFound => 'لم يتم العثور على كاميرا في هذا الجهاز.';
+
+  @override
+  String couldNotStartCamera(String error) {
+    return 'تعذر تشغيل الكاميرا: $error';
+  }
+
+  @override
+  String couldNotSwitchCamera(String error) {
+    return 'تعذر تبديل الكاميرا: $error';
+  }
+
+  @override
+  String couldNotCapturePhoto(String error) {
+    return 'تعذر التقاط الصورة: $error';
+  }
+
+  @override
+  String get switchCameraTooltip => 'تبديل الكاميرا';
 }
