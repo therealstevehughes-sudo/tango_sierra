@@ -1171,4 +1171,88 @@ class AppLocalizationsHr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get managerViewTitle => 'Prikaz voditelja';
+
+  @override
+  String showingScopeLabel(String scope) {
+    return 'Prikazano: $scope';
+  }
+
+  @override
+  String get supervisorNoScopeMessageLog =>
+      'Još nisi dodijeljen/a odjelu ili timu - zamoli voditelja da to postavi u Upravljanju osobljem prije nego što ovaj zapisnik ima što prikazati.';
+
+  @override
+  String entriesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unosa',
+      one: '1 unos',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountPlain(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count PALO',
+      one: '1 PALO',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noFailsLabel => 'Bez padova';
+
+  @override
+  String get noCompletedTasksLoggedYet =>
+      'Još nema zabilježenih dovršenih zadataka';
+
+  @override
+  String sessionSummariesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sažetaka smjena',
+      one: '1 sažetak smjene',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String passFailCountLabel(int passCount, int failCount) {
+    return '$passCount prošlo / $failCount palo';
+  }
+
+  @override
+  String get workerFixedIt => 'Zaposlenik je to popravio';
+
+  @override
+  String get noCorrectiveActionRecorded => 'Nije zabilježena korektivna radnja';
+
+  @override
+  String get taskAlertFallback => 'Upozorenje o zadatku';
+
+  @override
+  String get loggedByLabel => 'Zabilježio/la';
+
+  @override
+  String get resultLabel => 'Rezultat';
+
+  @override
+  String get correctiveActionLabel => 'Korektivna radnja';
+
+  @override
+  String get noteLabel => 'Bilješka';
+
+  @override
+  String get closeLabel => 'Zatvori';
+
+  @override
+  String get notCompletedSuffix => '- NIJE DOVRŠENO (smjena završena)';
 }

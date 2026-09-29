@@ -1154,4 +1154,87 @@ class AppLocalizationsAr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get managerViewTitle => 'عرض المدير';
+
+  @override
+  String showingScopeLabel(String scope) {
+    return 'عرض: $scope';
+  }
+
+  @override
+  String get supervisorNoScopeMessageLog =>
+      'لم يتم تعيينك بعد إلى قسم أو فريق - اطلب من المدير إعداد ذلك في إدارة الموظفين قبل أن يكون لهذا السجل أي شيء يعرضه.';
+
+  @override
+  String entriesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count إدخالات',
+      one: 'إدخال واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountPlain(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count راسب',
+      one: 'راسب واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noFailsLabel => 'لا توجد حالات راسبة';
+
+  @override
+  String get noCompletedTasksLoggedYet => 'لم يتم تسجيل أي مهام مكتملة بعد';
+
+  @override
+  String sessionSummariesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ملخصات مناوبة',
+      one: 'ملخص مناوبة واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String passFailCountLabel(int passCount, int failCount) {
+    return '$passCount ناجح / $failCount راسب';
+  }
+
+  @override
+  String get workerFixedIt => 'قام الموظف بإصلاحه';
+
+  @override
+  String get noCorrectiveActionRecorded => 'لم يتم تسجيل أي إجراء تصحيحي';
+
+  @override
+  String get taskAlertFallback => 'تنبيه مهمة';
+
+  @override
+  String get loggedByLabel => 'سجّله';
+
+  @override
+  String get resultLabel => 'النتيجة';
+
+  @override
+  String get correctiveActionLabel => 'الإجراء التصحيحي';
+
+  @override
+  String get noteLabel => 'ملاحظة';
+
+  @override
+  String get closeLabel => 'إغلاق';
+
+  @override
+  String get notCompletedSuffix => '- لم يكتمل (انتهت المناوبة)';
 }

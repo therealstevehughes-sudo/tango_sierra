@@ -19,6 +19,7 @@ import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/services/supervisor_scope_service.dart';
+import '../../l10n/app_localizations.dart';
 import '../notifications/escalation_service.dart';
 import '../tasks/overdue_summary_service.dart';
 import 'manager_log_filter.dart';
@@ -203,7 +204,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
         break;
     }
     final statusSuffix = isNotCompleted
-        ? ' - NOT COMPLETED (session ended)'
+        ? ' ${AppLocalizations.of(context)!.notCompletedSuffix}'
         : '';
     spans.add(
       TextSpan(text: '$statusSuffix${entry.photoAttached ? ' 📷' : ''}'),
@@ -235,6 +236,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final taskSubmissionRepo = ref.watch(taskSubmissionRepositoryProvider);
     final currentUser = ref.watch(currentUserProvider);
     final sessionSummaryRepo = ref.watch(sessionSummaryRepositoryProvider);
@@ -246,7 +248,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
       appBar: AppScreenHeader(
         title: currentUser != null
             ? UserTitle(user: currentUser)
-            : const Text('Manager View'),
+            : Text(l10n.managerViewTitle),
         actions: const [AssistantIconButton()],
       ),
       // Sub-sprint 2 (visual/UX pass): replaces the previous 9-icon,
@@ -254,7 +256,7 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
       // devices, so a user unfamiliar with the glyphs had no way to tell
       // what a button did before pressing it. A drawer with a visible icon
       // + label per row fixes that without crowding the app bar.
-      drawer: const ManagementDrawer(title: 'Manager View'),
+      drawer: ManagementDrawer(title: l10n.managerViewTitle),
       // Layout fix (Sprint 031): the banners and the filter used to sit
       // outside the scrollable area (only the log itself was Expanded),
       // so their combined height was a fixed tax on the viewport — with
@@ -354,20 +356,14 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
                     child: Text(
-                      'Showing: ${_scopeLabels.join(', ')}',
+                      l10n.showingScopeLabel(_scopeLabels.join(', ')),
                       style: Theme.of(
                         context,
                       ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
                     ),
                   ),
                 if (allowedUserIds != null && allowedUserIds.isEmpty)
-                  const AppCard(
-                    child: Text(
-                      "You haven't been assigned to a section or team "
-                      'yet - ask a manager to set this up in Staff '
-                      'Management before this log has anything to show.',
-                    ),
-                  )
+                  AppCard(child: Text(l10n.supervisorNoScopeMessageLog))
                 else
                   _SubmissionLogSection(
                     entries: entries,
@@ -416,6 +412,7 @@ class _SubmissionLogSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final failCount = entries.where((e) => e.status == 'FAIL').length;
 
     return Card(
@@ -425,26 +422,24 @@ class _SubmissionLogSection extends StatelessWidget {
         shape: const RoundedRectangleBorder(side: BorderSide.none),
         collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         leading: const Icon(Icons.list_alt),
-        title: Text(
-          '${entries.length} entr${entries.length == 1 ? 'y' : 'ies'}',
-        ),
+        title: Text(l10n.entriesCountLabel(entries.length)),
         subtitle: failCount > 0
             ? Text(
-                '$failCount FAIL${failCount == 1 ? '' : 's'}',
+                l10n.failCountPlain(failCount),
                 style: const TextStyle(
                   color: AppColors.critical,
                   fontWeight: FontWeight.w700,
                 ),
               )
-            : const Text('No fails'),
+            : Text(l10n.noFailsLabel),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         children: [
           ManagerLogFilter(onChanged: onFilterChanged),
           const SizedBox(height: 12),
           if (entries.isEmpty)
-            const Padding(
-              padding: EdgeInsets.only(bottom: 8),
-              child: Center(child: Text('No completed tasks logged yet')),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Center(child: Text(l10n.noCompletedTasksLoggedYet)),
             )
           else
             for (final groupKey in groupKeys)
@@ -492,6 +487,7 @@ class _SessionSummariesBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final unacknowledged = summaries.where((s) => !s.acknowledged).length;
 
     return Card(
@@ -504,19 +500,16 @@ class _SessionSummariesBanner extends StatelessWidget {
           Icons.assignment_turned_in,
           color: AppColors.caution,
         ),
-        title: Text(
-          '${summaries.length} session '
-          'summar${summaries.length == 1 ? 'y' : 'ies'}',
-        ),
+        title: Text(l10n.sessionSummariesCountLabel(summaries.length)),
         subtitle: unacknowledged > 0
             ? Text(
-                '$unacknowledged unacknowledged',
+                l10n.unacknowledgedCountLabel(unacknowledged),
                 style: const TextStyle(
                   color: AppColors.caution,
                   fontWeight: FontWeight.w700,
                 ),
               )
-            : const Text('All acknowledged'),
+            : Text(l10n.allAcknowledgedLabel),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         children: [
           ...summaries.map(
@@ -527,15 +520,15 @@ class _SessionSummariesBanner extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      '${summary.staffName} - ${summary.passCount} pass / '
-                      '${summary.failCount} fail'
+                      '${summary.staffName} - '
+                      '${l10n.passFailCountLabel(summary.passCount, summary.failCount)}'
                       '${summary.note != null ? '\n"${summary.note}"' : ''}',
                     ),
                   ),
                   if (!summary.acknowledged)
                     TextButton(
                       onPressed: () => onAcknowledge(summary.id),
-                      child: const Text('Acknowledge'),
+                      child: Text(l10n.acknowledgeLabel),
                     )
                   else
                     const Icon(Icons.check, color: AppColors.pass),
@@ -576,67 +569,76 @@ void _showAlertDetail(
   }
 
   final submission = submissionFor(notification);
-  final correctiveLabel = switch (submission?.correctiveActionOutcome) {
-    'fixed' => 'Worker fixed it',
-    'reported' => 'Reported to manager',
-    _ => 'No corrective action recorded',
-  };
 
   showDialog(
     context: context,
-    builder: (dialogContext) => AlertDialog(
-      title: Text(submission?.taskTitle ?? 'Task alert'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (submission?.equipmentInstanceName != null)
-            Text(
-              submission!.equipmentInstanceName!,
-              style: const TextStyle(
-                fontWeight: FontWeight.w700,
-                color: AppColors.teal,
+    builder: (dialogContext) {
+      final l10n = AppLocalizations.of(dialogContext)!;
+      final correctiveLabel = switch (submission?.correctiveActionOutcome) {
+        'fixed' => l10n.workerFixedIt,
+        'reported' => l10n.reportedToManager,
+        _ => l10n.noCorrectiveActionRecorded,
+      };
+      return AlertDialog(
+        title: Text(submission?.taskTitle ?? l10n.taskAlertFallback),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (submission?.equipmentInstanceName != null)
+              Text(
+                submission!.equipmentInstanceName!,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.teal,
+                ),
               ),
-            ),
-          const SizedBox(height: 8),
-          Text(notification.message),
-          const SizedBox(height: 12),
-          if (submission != null) ...[
-            _DetailRow(
-              label: 'Logged by',
-              value:
-                  '${submission.completedBy} (${formatDateTime(submission.completedAt)})',
-            ),
-            const SizedBox(height: 4),
-            _DetailRow(label: 'Result', value: submission.status),
-            const SizedBox(height: 4),
-            _DetailRow(label: 'Corrective action', value: correctiveLabel),
-            if (submission.correctiveActionNote != null) ...[
+            const SizedBox(height: 8),
+            Text(notification.message),
+            const SizedBox(height: 12),
+            if (submission != null) ...[
+              _DetailRow(
+                label: l10n.loggedByLabel,
+                value:
+                    '${submission.completedBy} (${formatDateTime(submission.completedAt)})',
+              ),
+              const SizedBox(height: 4),
+              _DetailRow(label: l10n.resultLabel, value: submission.status),
               const SizedBox(height: 4),
               _DetailRow(
-                label: 'Note',
-                value: submission.correctiveActionNote!,
+                label: l10n.correctiveActionLabel,
+                value: correctiveLabel,
               ),
-            ],
-          ] else
-            _DetailRow(label: 'Corrective action', value: correctiveLabel),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(dialogContext),
-          child: const Text('Close'),
+              if (submission.correctiveActionNote != null) ...[
+                const SizedBox(height: 4),
+                _DetailRow(
+                  label: l10n.noteLabel,
+                  value: submission.correctiveActionNote!,
+                ),
+              ],
+            ] else
+              _DetailRow(
+                label: l10n.correctiveActionLabel,
+                value: correctiveLabel,
+              ),
+          ],
         ),
-        if (!notification.acknowledged)
+        actions: [
           TextButton(
-            onPressed: () {
-              Navigator.pop(dialogContext);
-              onAcknowledge(notification.id);
-            },
-            child: const Text('Acknowledge'),
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(l10n.closeLabel),
           ),
-      ],
-    ),
+          if (!notification.acknowledged)
+            TextButton(
+              onPressed: () {
+                Navigator.pop(dialogContext);
+                onAcknowledge(notification.id);
+              },
+              child: Text(l10n.acknowledgeLabel),
+            ),
+        ],
+      );
+    },
   );
 }
 

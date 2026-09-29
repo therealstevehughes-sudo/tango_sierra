@@ -1171,4 +1171,89 @@ class AppLocalizationsRo extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get managerViewTitle => 'Vizualizare manager';
+
+  @override
+  String showingScopeLabel(String scope) {
+    return 'Se afișează: $scope';
+  }
+
+  @override
+  String get supervisorNoScopeMessageLog =>
+      'Nu ai fost încă atribuit unei secțiuni sau echipe - roagă un manager să configureze acest lucru în Gestionarea personalului înainte ca acest jurnal să aibă ceva de arătat.';
+
+  @override
+  String entriesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count înregistrări',
+      one: '1 înregistrare',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountPlain(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count NEREUȘITE',
+      one: '1 NEREUȘIT',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noFailsLabel => 'Fără eșecuri';
+
+  @override
+  String get noCompletedTasksLoggedYet =>
+      'Nicio sarcină finalizată înregistrată încă';
+
+  @override
+  String sessionSummariesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rezumate de tură',
+      one: '1 rezumat de tură',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String passFailCountLabel(int passCount, int failCount) {
+    return '$passCount trecut / $failCount nereușit';
+  }
+
+  @override
+  String get workerFixedIt => 'Angajatul a reparat';
+
+  @override
+  String get noCorrectiveActionRecorded =>
+      'Nicio acțiune corectivă înregistrată';
+
+  @override
+  String get taskAlertFallback => 'Alertă sarcină';
+
+  @override
+  String get loggedByLabel => 'Înregistrat de';
+
+  @override
+  String get resultLabel => 'Rezultat';
+
+  @override
+  String get correctiveActionLabel => 'Acțiune corectivă';
+
+  @override
+  String get noteLabel => 'Notă';
+
+  @override
+  String get closeLabel => 'Închide';
+
+  @override
+  String get notCompletedSuffix => '- NETERMINAT (tura încheiată)';
 }

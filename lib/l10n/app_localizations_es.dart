@@ -1172,4 +1172,89 @@ class AppLocalizationsEs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get managerViewTitle => 'Vista de responsable';
+
+  @override
+  String showingScopeLabel(String scope) {
+    return 'Mostrando: $scope';
+  }
+
+  @override
+  String get supervisorNoScopeMessageLog =>
+      'Todavía no se te ha asignado a una sección o equipo - pide a un responsable que lo configure en Gestión de personal antes de que este registro tenga algo que mostrar.';
+
+  @override
+  String entriesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entradas',
+      one: '1 entrada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountPlain(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count NO APTOS',
+      one: '1 NO APTO',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noFailsLabel => 'Sin fallos';
+
+  @override
+  String get noCompletedTasksLoggedYet =>
+      'Aún no hay tareas completadas registradas';
+
+  @override
+  String sessionSummariesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count resúmenes de turno',
+      one: '1 resumen de turno',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String passFailCountLabel(int passCount, int failCount) {
+    return '$passCount aptos / $failCount no aptos';
+  }
+
+  @override
+  String get workerFixedIt => 'El trabajador lo arregló';
+
+  @override
+  String get noCorrectiveActionRecorded =>
+      'No se registró ninguna acción correctiva';
+
+  @override
+  String get taskAlertFallback => 'Alerta de tarea';
+
+  @override
+  String get loggedByLabel => 'Registrado por';
+
+  @override
+  String get resultLabel => 'Resultado';
+
+  @override
+  String get correctiveActionLabel => 'Acción correctiva';
+
+  @override
+  String get noteLabel => 'Nota';
+
+  @override
+  String get closeLabel => 'Cerrar';
+
+  @override
+  String get notCompletedSuffix => '- NO COMPLETADO (turno finalizado)';
 }

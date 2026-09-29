@@ -1159,4 +1159,88 @@ class AppLocalizationsUr extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get managerViewTitle => 'منیجر ویو';
+
+  @override
+  String showingScopeLabel(String scope) {
+    return 'دکھایا جا رہا ہے: $scope';
+  }
+
+  @override
+  String get supervisorNoScopeMessageLog =>
+      'آپ کو ابھی تک کسی سیکشن یا ٹیم کو تفویض نہیں کیا گیا - اس لاگ میں کچھ دکھانے سے پہلے کسی منیجر سے اسٹاف مینجمنٹ میں یہ سیٹ کرنے کو کہیں۔';
+
+  @override
+  String entriesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count اندراجات',
+      one: '1 اندراج',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountPlain(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count فیل',
+      one: '1 فیل',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noFailsLabel => 'کوئی فیل نہیں';
+
+  @override
+  String get noCompletedTasksLoggedYet =>
+      'ابھی تک کوئی مکمل شدہ کام درج نہیں کیا گیا';
+
+  @override
+  String sessionSummariesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count سیشن خلاصے',
+      one: '1 سیشن خلاصہ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String passFailCountLabel(int passCount, int failCount) {
+    return '$passCount پاس / $failCount فیل';
+  }
+
+  @override
+  String get workerFixedIt => 'ملازم نے اسے ٹھیک کیا';
+
+  @override
+  String get noCorrectiveActionRecorded => 'کوئی اصلاحی اقدام درج نہیں کیا گیا';
+
+  @override
+  String get taskAlertFallback => 'کام کی وارننگ';
+
+  @override
+  String get loggedByLabel => 'درج کنندہ';
+
+  @override
+  String get resultLabel => 'نتیجہ';
+
+  @override
+  String get correctiveActionLabel => 'اصلاحی اقدام';
+
+  @override
+  String get noteLabel => 'نوٹ';
+
+  @override
+  String get closeLabel => 'بند کریں';
+
+  @override
+  String get notCompletedSuffix => '- مکمل نہیں ہوا (شفٹ ختم)';
 }

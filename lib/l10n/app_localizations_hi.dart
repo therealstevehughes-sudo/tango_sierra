@@ -1163,4 +1163,89 @@ class AppLocalizationsHi extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get managerViewTitle => 'प्रबंधक दृश्य';
+
+  @override
+  String showingScopeLabel(String scope) {
+    return 'दिखा रहे हैं: $scope';
+  }
+
+  @override
+  String get supervisorNoScopeMessageLog =>
+      'आपको अभी तक किसी अनुभाग या टीम को नहीं सौंपा गया है - इस लॉग में कुछ दिखने से पहले किसी प्रबंधक से स्टाफ प्रबंधन में यह सेट करने के लिए कहें।';
+
+  @override
+  String entriesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count प्रविष्टियां',
+      one: '1 प्रविष्टि',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountPlain(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count फेल',
+      one: '1 फेल',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noFailsLabel => 'कोई फेल नहीं';
+
+  @override
+  String get noCompletedTasksLoggedYet =>
+      'अभी तक कोई पूर्ण कार्य दर्ज नहीं किया गया';
+
+  @override
+  String sessionSummariesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count सत्र सारांश',
+      one: '1 सत्र सारांश',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String passFailCountLabel(int passCount, int failCount) {
+    return '$passCount पास / $failCount फेल';
+  }
+
+  @override
+  String get workerFixedIt => 'कर्मचारी ने इसे ठीक किया';
+
+  @override
+  String get noCorrectiveActionRecorded =>
+      'कोई सुधारात्मक कार्रवाई दर्ज नहीं की गई';
+
+  @override
+  String get taskAlertFallback => 'कार्य चेतावनी';
+
+  @override
+  String get loggedByLabel => 'दर्ज किया';
+
+  @override
+  String get resultLabel => 'परिणाम';
+
+  @override
+  String get correctiveActionLabel => 'सुधारात्मक कार्रवाई';
+
+  @override
+  String get noteLabel => 'टिप्पणी';
+
+  @override
+  String get closeLabel => 'बंद करें';
+
+  @override
+  String get notCompletedSuffix => '- पूरा नहीं हुआ (शिफ्ट समाप्त)';
 }

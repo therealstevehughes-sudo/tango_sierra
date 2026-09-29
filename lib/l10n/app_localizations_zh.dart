@@ -1121,4 +1121,84 @@ class AppLocalizationsZh extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get managerViewTitle => '经理视图';
+
+  @override
+  String showingScopeLabel(String scope) {
+    return '显示: $scope';
+  }
+
+  @override
+  String get supervisorNoScopeMessageLog =>
+      '您尚未被分配到某个部门或团队 - 请先让经理在员工管理中进行设置,再来查看此日志。';
+
+  @override
+  String entriesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 条记录',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountPlain(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 项未通过',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noFailsLabel => '无未通过项';
+
+  @override
+  String get noCompletedTasksLoggedYet => '尚未记录任何已完成的任务';
+
+  @override
+  String sessionSummariesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 份班次总结',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String passFailCountLabel(int passCount, int failCount) {
+    return '$passCount 通过 / $failCount 未通过';
+  }
+
+  @override
+  String get workerFixedIt => '员工已修复';
+
+  @override
+  String get noCorrectiveActionRecorded => '未记录纠正措施';
+
+  @override
+  String get taskAlertFallback => '任务警报';
+
+  @override
+  String get loggedByLabel => '记录人';
+
+  @override
+  String get resultLabel => '结果';
+
+  @override
+  String get correctiveActionLabel => '纠正措施';
+
+  @override
+  String get noteLabel => '备注';
+
+  @override
+  String get closeLabel => '关闭';
+
+  @override
+  String get notCompletedSuffix => '- 未完成(班次已结束)';
 }

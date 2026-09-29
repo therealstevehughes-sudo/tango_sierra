@@ -1167,4 +1167,89 @@ class AppLocalizationsPl extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get managerViewTitle => 'Widok kierownika';
+
+  @override
+  String showingScopeLabel(String scope) {
+    return 'Wyświetlane: $scope';
+  }
+
+  @override
+  String get supervisorNoScopeMessageLog =>
+      'Nie zostałeś jeszcze przypisany do sekcji ani zespołu - poproś kierownika o skonfigurowanie tego w Zarządzaniu personelem, zanim ten dziennik będzie miał cokolwiek do pokazania.';
+
+  @override
+  String entriesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count wpisów',
+      one: '1 wpis',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountPlain(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count NIEZALICZONYCH',
+      one: '1 NIEZALICZONE',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noFailsLabel => 'Brak niezaliczonych';
+
+  @override
+  String get noCompletedTasksLoggedYet =>
+      'Brak zarejestrowanych ukończonych zadań';
+
+  @override
+  String sessionSummariesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count podsumowań zmian',
+      one: '1 podsumowanie zmiany',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String passFailCountLabel(int passCount, int failCount) {
+    return '$passCount zaliczone / $failCount niezaliczone';
+  }
+
+  @override
+  String get workerFixedIt => 'Pracownik to naprawił';
+
+  @override
+  String get noCorrectiveActionRecorded =>
+      'Nie zarejestrowano działania naprawczego';
+
+  @override
+  String get taskAlertFallback => 'Alert zadania';
+
+  @override
+  String get loggedByLabel => 'Zarejestrował(a)';
+
+  @override
+  String get resultLabel => 'Wynik';
+
+  @override
+  String get correctiveActionLabel => 'Działanie naprawcze';
+
+  @override
+  String get noteLabel => 'Notatka';
+
+  @override
+  String get closeLabel => 'Zamknij';
+
+  @override
+  String get notCompletedSuffix => '- NIEUKOŃCZONE (zmiana zakończona)';
 }

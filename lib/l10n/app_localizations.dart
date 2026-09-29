@@ -2135,6 +2135,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, one{1 FAIL today} other{{count} FAILs today}}'**
   String failCountTodayBadge(int count);
+
+  /// No description provided for @managerViewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager View'**
+  String get managerViewTitle;
+
+  /// No description provided for @showingScopeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing: {scope}'**
+  String showingScopeLabel(String scope);
+
+  /// No description provided for @supervisorNoScopeMessageLog.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t been assigned to a section or team yet - ask a manager to set this up in Staff Management before this log has anything to show.'**
+  String get supervisorNoScopeMessageLog;
+
+  /// No description provided for @entriesCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 entry} other{{count} entries}}'**
+  String entriesCountLabel(int count);
+
+  /// No description provided for @failCountPlain.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 FAIL} other{{count} FAILs}}'**
+  String failCountPlain(int count);
+
+  /// No description provided for @noFailsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No fails'**
+  String get noFailsLabel;
+
+  /// No description provided for @noCompletedTasksLoggedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No completed tasks logged yet'**
+  String get noCompletedTasksLoggedYet;
+
+  /// No description provided for @sessionSummariesCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 session summary} other{{count} session summaries}}'**
+  String sessionSummariesCountLabel(int count);
+
+  /// No description provided for @passFailCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{passCount} pass / {failCount} fail'**
+  String passFailCountLabel(int passCount, int failCount);
+
+  /// No description provided for @workerFixedIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Worker fixed it'**
+  String get workerFixedIt;
+
+  /// No description provided for @noCorrectiveActionRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'No corrective action recorded'**
+  String get noCorrectiveActionRecorded;
+
+  /// No description provided for @taskAlertFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Task alert'**
+  String get taskAlertFallback;
+
+  /// No description provided for @loggedByLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged by'**
+  String get loggedByLabel;
+
+  /// No description provided for @resultLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Result'**
+  String get resultLabel;
+
+  /// No description provided for @correctiveActionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Corrective action'**
+  String get correctiveActionLabel;
+
+  /// No description provided for @noteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get noteLabel;
+
+  /// No description provided for @closeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get closeLabel;
+
+  /// No description provided for @notCompletedSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'- NOT COMPLETED (session ended)'**
+  String get notCompletedSuffix;
 }
 
 class _AppLocalizationsDelegate

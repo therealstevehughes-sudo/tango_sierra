@@ -1178,4 +1178,88 @@ class AppLocalizationsDe extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get managerViewTitle => 'Manager-Ansicht';
+
+  @override
+  String showingScopeLabel(String scope) {
+    return 'Angezeigt: $scope';
+  }
+
+  @override
+  String get supervisorNoScopeMessageLog =>
+      'Dir wurde noch keine Abteilung oder kein Team zugewiesen - bitte einen Manager, dies in der Personalverwaltung einzurichten, bevor dieses Protokoll etwas anzeigen kann.';
+
+  @override
+  String entriesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Einträge',
+      one: '1 Eintrag',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountPlain(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count NICHT BESTANDEN',
+      one: '1 NICHT BESTANDEN',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noFailsLabel => 'Keine Fehlschläge';
+
+  @override
+  String get noCompletedTasksLoggedYet =>
+      'Noch keine abgeschlossenen Aufgaben erfasst';
+
+  @override
+  String sessionSummariesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Schichtzusammenfassungen',
+      one: '1 Schichtzusammenfassung',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String passFailCountLabel(int passCount, int failCount) {
+    return '$passCount bestanden / $failCount nicht bestanden';
+  }
+
+  @override
+  String get workerFixedIt => 'Mitarbeiter hat es behoben';
+
+  @override
+  String get noCorrectiveActionRecorded => 'Keine Korrekturmaßnahme erfasst';
+
+  @override
+  String get taskAlertFallback => 'Aufgabenwarnung';
+
+  @override
+  String get loggedByLabel => 'Erfasst von';
+
+  @override
+  String get resultLabel => 'Ergebnis';
+
+  @override
+  String get correctiveActionLabel => 'Korrekturmaßnahme';
+
+  @override
+  String get noteLabel => 'Notiz';
+
+  @override
+  String get closeLabel => 'Schließen';
+
+  @override
+  String get notCompletedSuffix => '- NICHT ABGESCHLOSSEN (Schicht beendet)';
 }

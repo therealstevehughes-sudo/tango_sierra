@@ -607,5 +607,61 @@
         "type": "int"
       }
     }
-  }
+  },
+  "managerViewTitle": "Manager View",
+  "showingScopeLabel": "Showing: {scope}",
+  "@showingScopeLabel": {
+    "placeholders": {
+      "scope": {
+        "type": "String"
+      }
+    }
+  },
+  "supervisorNoScopeMessageLog": "You haven't been assigned to a section or team yet - ask a manager to set this up in Staff Management before this log has anything to show.",
+  "entriesCountLabel": "{count, plural, one{1 entry} other{{count} entries}}",
+  "@entriesCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "failCountPlain": "{count, plural, one{1 FAIL} other{{count} FAILs}}",
+  "@failCountPlain": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noFailsLabel": "No fails",
+  "noCompletedTasksLoggedYet": "No completed tasks logged yet",
+  "sessionSummariesCountLabel": "{count, plural, one{1 session summary} other{{count} session summaries}}",
+  "@sessionSummariesCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "passFailCountLabel": "{passCount} pass / {failCount} fail",
+  "@passFailCountLabel": {
+    "placeholders": {
+      "passCount": {
+        "type": "int"
+      },
+      "failCount": {
+        "type": "int"
+      }
+    }
+  },
+  "workerFixedIt": "Worker fixed it",
+  "noCorrectiveActionRecorded": "No corrective action recorded",
+  "taskAlertFallback": "Task alert",
+  "loggedByLabel": "Logged by",
+  "resultLabel": "Result",
+  "correctiveActionLabel": "Corrective action",
+  "noteLabel": "Note",
+  "closeLabel": "Close",
+  "notCompletedSuffix": "- NOT COMPLETED (session ended)"
 }

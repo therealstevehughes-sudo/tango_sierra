@@ -1156,4 +1156,87 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get managerViewTitle => 'Manager View';
+
+  @override
+  String showingScopeLabel(String scope) {
+    return 'Showing: $scope';
+  }
+
+  @override
+  String get supervisorNoScopeMessageLog =>
+      'You haven\'t been assigned to a section or team yet - ask a manager to set this up in Staff Management before this log has anything to show.';
+
+  @override
+  String entriesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries',
+      one: '1 entry',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountPlain(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count FAILs',
+      one: '1 FAIL',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noFailsLabel => 'No fails';
+
+  @override
+  String get noCompletedTasksLoggedYet => 'No completed tasks logged yet';
+
+  @override
+  String sessionSummariesCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count session summaries',
+      one: '1 session summary',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String passFailCountLabel(int passCount, int failCount) {
+    return '$passCount pass / $failCount fail';
+  }
+
+  @override
+  String get workerFixedIt => 'Worker fixed it';
+
+  @override
+  String get noCorrectiveActionRecorded => 'No corrective action recorded';
+
+  @override
+  String get taskAlertFallback => 'Task alert';
+
+  @override
+  String get loggedByLabel => 'Logged by';
+
+  @override
+  String get resultLabel => 'Result';
+
+  @override
+  String get correctiveActionLabel => 'Corrective action';
+
+  @override
+  String get noteLabel => 'Note';
+
+  @override
+  String get closeLabel => 'Close';
+
+  @override
+  String get notCompletedSuffix => '- NOT COMPLETED (session ended)';
 }
