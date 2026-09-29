@@ -268,5 +268,16 @@
   "noBackendConfiguredPin": "Za ovu instalaciju nije konfiguriran backend - prijavi se PIN-om, kao i svi ostali.",
   "noDirectorRegionalAccounts": "Na ovom uređaju nema računa direktora/regionalnog voditelja.",
   "directorLabel": "Direktor",
-  "regionalManagerLabel": "Regionalni voditelj"
+  "regionalManagerLabel": "Regionalni voditelj",
+  "whoAreYouTitle": "Tko si ti?",
+  "searchLabel": "Pretraži",
+  "noMatchesLabel": "Nema podudaranja",
+  "leadershipSectionTitle": "Rukovodstvo",
+  "kitchenStaffSectionTitle": "Kuhinjsko osoblje",
+  "chooseASectionTitle": "Odaberi odjel",
+  "unassignedLabel": "Nedodijeljeno",
+  "personCountLabel": "{count, plural, one{{count} osoba} other{{count} osoba}}",
+  "goodMorning": "Dobro jutro",
+  "goodAfternoon": "Dobar dan",
+  "goodEvening": "Dobra večer"
 }

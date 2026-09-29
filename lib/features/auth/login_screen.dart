@@ -269,9 +269,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             builder: (_) => const _SignInAnotherWayScreen(),
                           ),
                         ),
-                        child: const Text(
-                          'Not on this list? Sign in another way',
-                        ),
+                        child: Text(l10n.notOnThisList),
                       ),
                     ),
                 ],
@@ -341,7 +339,7 @@ class _FreshInstallEntry extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            'Kitchen compliance, done right',
+                            AppLocalizations.of(context)!.kitchenComplianceDoneRight,
                             style: const TextStyle(
                               fontFamily: 'Fraunces',
                               fontWeight: FontWeight.w600,
@@ -357,25 +355,19 @@ class _FreshInstallEntry extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              const _ValuePoint(
+              _ValuePoint(
                 icon: Icons.verified_outlined,
-                text:
-                    'Always EHO-ready - real-time compliance, not a '
-                    'once-a-year scramble',
+                text: AppLocalizations.of(context)!.valuePointEhoReady,
               ),
               const SizedBox(height: 12),
-              const _ValuePoint(
+              _ValuePoint(
                 icon: Icons.shield_outlined,
-                text:
-                    "Built so results can't be gamed - every check is "
-                    'honest, every record stands up',
+                text: AppLocalizations.of(context)!.valuePointHonestRecords,
               ),
               const SizedBox(height: 12),
-              const _ValuePoint(
+              _ValuePoint(
                 icon: Icons.picture_as_pdf_outlined,
-                text:
-                    'One-tap audit export - hand an inspector a real '
-                    'record, instantly',
+                text: AppLocalizations.of(context)!.valuePointAuditExport,
               ),
               const SizedBox(height: 28),
               FilledButton(
@@ -383,7 +375,7 @@ class _FreshInstallEntry extends StatelessWidget {
                   context,
                   MaterialPageRoute(builder: (_) => const _ForkScreen()),
                 ),
-                child: const Text('Get started'),
+                child: Text(AppLocalizations.of(context)!.getStarted),
               ),
               const SizedBox(height: 12),
             ],
@@ -441,7 +433,7 @@ class _ForkScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Get started'),
+        title: Text(AppLocalizations.of(context)!.getStarted),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -463,12 +455,13 @@ class _ForkContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          'How would you like to get started?',
+          l10n.howGetStarted,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontFamily: 'Fraunces',
@@ -485,7 +478,7 @@ class _ForkContent extends StatelessWidget {
               builder: (_) => const CompanyOnboardingWizardScreen(),
             ),
           ),
-          child: const Text('Set up my business'),
+          child: Text(l10n.setUpMyBusiness),
         ),
         const SizedBox(height: 12),
         OutlinedButton(
@@ -493,7 +486,7 @@ class _ForkContent extends StatelessWidget {
             context,
             MaterialPageRoute(builder: (_) => const JoinCompanyScreen()),
           ),
-          child: const Text('My team already uses VenuRite'),
+          child: Text(l10n.teamAlreadyUses),
         ),
         const SizedBox(height: 24),
         Center(
@@ -502,7 +495,7 @@ class _ForkContent extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
             ),
-            child: const Text('Already have an account? Sign in'),
+            child: Text(l10n.alreadyHaveAccount),
           ),
         ),
         Center(
@@ -511,7 +504,7 @@ class _ForkContent extends StatelessWidget {
               context,
               MaterialPageRoute(builder: (_) => const ContactVenuRiteScreen()),
             ),
-            child: const Text('Need help? Contact VenuRite'),
+            child: Text(l10n.needHelpContact),
           ),
         ),
       ],
@@ -534,7 +527,7 @@ class _SignInAnotherWayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Sign in another way'),
+        title: Text(AppLocalizations.of(context)!.signInAnotherWay),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -600,7 +593,7 @@ class _DevicePairingPromptState extends ConsumerState<_DevicePairingPrompt> {
     } catch (_) {
       if (!mounted) return;
       setState(() {
-        _error = 'Could not reach the server';
+        _error = AppLocalizations.of(context)!.couldNotReachServer;
         _submitting = false;
         _failedAttempts++;
       });
@@ -609,6 +602,7 @@ class _DevicePairingPromptState extends ConsumerState<_DevicePairingPrompt> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: ResponsiveContent(
         maxWidth: 380,
@@ -621,13 +615,13 @@ class _DevicePairingPromptState extends ConsumerState<_DevicePairingPrompt> {
               const Icon(Icons.tablet_mac, size: 40, color: AppColors.muted),
               const SizedBox(height: 16),
               Text(
-                "This tablet isn't set up yet",
+                l10n.deviceNotSetUp,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 8),
               Text(
-                "Ask a manager for this venue's setup code.",
+                l10n.askManagerSetupCode,
                 textAlign: TextAlign.center,
                 style: Theme.of(
                   context,
@@ -642,7 +636,7 @@ class _DevicePairingPromptState extends ConsumerState<_DevicePairingPrompt> {
                 enabled: !_submitting,
                 onSubmitted: (_) => _connect(),
                 decoration: InputDecoration(
-                  labelText: 'Setup code',
+                  labelText: l10n.setupCode,
                   errorText: _error,
                 ),
                 style: Theme.of(context).textTheme.headlineSmall,
@@ -656,13 +650,12 @@ class _DevicePairingPromptState extends ConsumerState<_DevicePairingPrompt> {
                         height: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text('Connect this tablet'),
+                    : Text(l10n.connectTablet),
               ),
               if (_failedAttempts >= 3) ...[
                 const SizedBox(height: 16),
                 Text(
-                  'Still stuck? A manager can find this in '
-                  'Settings → Venue Details.',
+                  l10n.stillStuckSetupCode,
                   textAlign: TextAlign.center,
                   style: Theme.of(
                     context,
@@ -716,6 +709,7 @@ class _StaffListState extends State<_StaffList> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     // Visual/UX pass, Sub-sprint 3: regional/executive accounts are
     // deliberately excluded from this shared, walk-up staff list — senior
     // tiers aren't meant to be visible/selectable on a shared store device.
@@ -807,7 +801,10 @@ class _StaffListState extends State<_StaffList> {
         .toList();
     if (unassignedKitchenStaff.isNotEmpty && departmentGroups.isNotEmpty) {
       departmentGroups.add(
-        _DepartmentGroup(name: 'Unassigned', staff: unassignedKitchenStaff),
+        _DepartmentGroup(
+          name: l10n.unassignedLabel,
+          staff: unassignedKitchenStaff,
+        ),
       );
     }
     final showDepartmentPicker =
@@ -830,7 +827,7 @@ class _StaffListState extends State<_StaffList> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                timeAwareGreeting(),
+                timeAwareGreeting(l10n),
                 textAlign: TextAlign.center,
                 style: Theme.of(
                   context,
@@ -838,18 +835,18 @@ class _StaffListState extends State<_StaffList> {
               ),
               const SizedBox(height: 2),
               Text(
-                "Who are you?",
+                l10n.whoAreYouTitle,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: searchController,
-                decoration: const InputDecoration(
-                  labelText: 'Search',
-                  prefixIcon: Icon(Icons.search),
+                decoration: InputDecoration(
+                  labelText: l10n.searchLabel,
+                  prefixIcon: const Icon(Icons.search),
                   isDense: true,
-                  contentPadding: EdgeInsets.symmetric(
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 10,
                   ),
@@ -861,12 +858,13 @@ class _StaffListState extends State<_StaffList> {
         const SizedBox(height: 8),
         Expanded(
           child: isSearching
-              ? _buildSearchResults(searchResults)
+              ? _buildSearchResults(searchResults, l10n)
               : _buildMainList(
                   leadership,
                   kitchenStaff,
                   departmentGroups,
                   showDepartmentPicker,
+                  l10n,
                 ),
         ),
       ],
@@ -922,20 +920,21 @@ class _StaffListState extends State<_StaffList> {
     List<User> kitchenStaff,
     List<_DepartmentGroup> departmentGroups,
     bool showDepartmentPicker,
+    AppLocalizations l10n,
   ) {
     return ListView(
       padding: const EdgeInsets.only(bottom: 24),
       children: [
         if (leadership.isNotEmpty) ...[
-          const SectionHeader(title: 'Leadership'),
+          SectionHeader(title: l10n.leadershipSectionTitle),
           const SizedBox(height: 8),
           _sectionGrid(leadership),
           const SizedBox(height: 20),
         ],
         if (showDepartmentPicker)
-          ..._departmentPickerChildren(departmentGroups)
+          ..._departmentPickerChildren(departmentGroups, l10n)
         else if (kitchenStaff.isNotEmpty) ...[
-          const SectionHeader(title: 'Kitchen Staff'),
+          SectionHeader(title: l10n.kitchenStaffSectionTitle),
           const SizedBox(height: 8),
           _sectionGrid(kitchenStaff),
         ],
@@ -947,9 +946,12 @@ class _StaffListState extends State<_StaffList> {
   // actually have staff sees this instead of the flat kitchen-staff list:
   // pick a department first, then see that department's own staff on the
   // next page (see _DepartmentStaffScreen).
-  List<Widget> _departmentPickerChildren(List<_DepartmentGroup> groups) {
+  List<Widget> _departmentPickerChildren(
+    List<_DepartmentGroup> groups,
+    AppLocalizations l10n,
+  ) {
     return [
-      const SectionHeader(title: 'Choose a section'),
+      SectionHeader(title: l10n.chooseASectionTitle),
       const SizedBox(height: 8),
       if (!isCompactWidth(context))
         GridView.builder(
@@ -1018,11 +1020,11 @@ class _StaffListState extends State<_StaffList> {
     return Column(children: _tilesWithDividers(users));
   }
 
-  Widget _buildSearchResults(List<User> results) {
+  Widget _buildSearchResults(List<User> results, AppLocalizations l10n) {
     if (results.isEmpty) {
       return Center(
         child: Text(
-          'No matches',
+          l10n.noMatchesLabel,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       );
@@ -1114,8 +1116,9 @@ class _DepartmentTile extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
             subtitle: Text(
-              '${group.staff.length} '
-              '${group.staff.length == 1 ? 'person' : 'people'}',
+              AppLocalizations.of(context)!.personCountLabel(
+                group.staff.length,
+              ),
             ),
             trailing: const Icon(Icons.chevron_right, color: AppColors.muted),
             onTap: onTap,

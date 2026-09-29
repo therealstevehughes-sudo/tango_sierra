@@ -268,5 +268,16 @@
   "noBackendConfiguredPin": "Dla tej instalacji nie skonfigurowano backendu - zaloguj się kodem PIN, tak jak wszyscy inni.",
   "noDirectorRegionalAccounts": "Brak kont dyrektora/regionalnego na tym urządzeniu.",
   "directorLabel": "Dyrektor",
-  "regionalManagerLabel": "Kierownik regionalny"
+  "regionalManagerLabel": "Kierownik regionalny",
+  "whoAreYouTitle": "Kim jesteś?",
+  "searchLabel": "Szukaj",
+  "noMatchesLabel": "Brak wyników",
+  "leadershipSectionTitle": "Kierownictwo",
+  "kitchenStaffSectionTitle": "Personel kuchni",
+  "chooseASectionTitle": "Wybierz sekcję",
+  "unassignedLabel": "Nieprzypisani",
+  "personCountLabel": "{count, plural, one{{count} osoba} other{{count} osób}}",
+  "goodMorning": "Dzień dobry",
+  "goodAfternoon": "Dzień dobry",
+  "goodEvening": "Dobry wieczór"
 }

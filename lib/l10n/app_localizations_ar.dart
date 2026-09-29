@@ -915,4 +915,45 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get regionalManagerLabel => 'مدير إقليمي';
+
+  @override
+  String get whoAreYouTitle => 'من أنت؟';
+
+  @override
+  String get searchLabel => 'بحث';
+
+  @override
+  String get noMatchesLabel => 'لا توجد نتائج';
+
+  @override
+  String get leadershipSectionTitle => 'القيادة';
+
+  @override
+  String get kitchenStaffSectionTitle => 'طاقم المطبخ';
+
+  @override
+  String get chooseASectionTitle => 'اختر قسمًا';
+
+  @override
+  String get unassignedLabel => 'غير معيّن';
+
+  @override
+  String personCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count أشخاص',
+      one: 'شخص واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goodMorning => 'صباح الخير';
+
+  @override
+  String get goodAfternoon => 'مساء الخير';
+
+  @override
+  String get goodEvening => 'مساء الخير';
 }

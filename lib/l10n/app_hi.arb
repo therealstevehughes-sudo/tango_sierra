@@ -268,5 +268,16 @@
   "noBackendConfiguredPin": "इस इंस्टॉलेशन के लिए कोई बैकएंड कॉन्फ़िगर नहीं है - बाकी सभी की तरह PIN से साइन इन करें।",
   "noDirectorRegionalAccounts": "इस डिवाइस पर कोई डायरेक्टर/क्षेत्रीय खाता नहीं है।",
   "directorLabel": "डायरेक्टर",
-  "regionalManagerLabel": "क्षेत्रीय प्रबंधक"
+  "regionalManagerLabel": "क्षेत्रीय प्रबंधक",
+  "whoAreYouTitle": "आप कौन हैं?",
+  "searchLabel": "खोजें",
+  "noMatchesLabel": "कोई मेल नहीं मिला",
+  "leadershipSectionTitle": "नेतृत्व",
+  "kitchenStaffSectionTitle": "रसोई स्टाफ",
+  "chooseASectionTitle": "एक अनुभाग चुनें",
+  "unassignedLabel": "अनसाइन किया गया",
+  "personCountLabel": "{count, plural, one{{count} व्यक्ति} other{{count} लोग}}",
+  "goodMorning": "सुप्रभात",
+  "goodAfternoon": "नमस्कार",
+  "goodEvening": "शुभ संध्या"
 }

@@ -929,4 +929,45 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get regionalManagerLabel => 'Regionalni voditelj';
+
+  @override
+  String get whoAreYouTitle => 'Tko si ti?';
+
+  @override
+  String get searchLabel => 'Pretraži';
+
+  @override
+  String get noMatchesLabel => 'Nema podudaranja';
+
+  @override
+  String get leadershipSectionTitle => 'Rukovodstvo';
+
+  @override
+  String get kitchenStaffSectionTitle => 'Kuhinjsko osoblje';
+
+  @override
+  String get chooseASectionTitle => 'Odaberi odjel';
+
+  @override
+  String get unassignedLabel => 'Nedodijeljeno';
+
+  @override
+  String personCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count osoba',
+      one: '$count osoba',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goodMorning => 'Dobro jutro';
+
+  @override
+  String get goodAfternoon => 'Dobar dan';
+
+  @override
+  String get goodEvening => 'Dobra večer';
 }

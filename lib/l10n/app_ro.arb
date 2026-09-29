@@ -268,5 +268,16 @@
   "noBackendConfiguredPin": "Nu este configurat niciun backend pentru această instalare - autentifică-te cu un PIN, la fel ca toți ceilalți.",
   "noDirectorRegionalAccounts": "Niciun cont de Director/Regional pe acest dispozitiv.",
   "directorLabel": "Director",
-  "regionalManagerLabel": "Manager regional"
+  "regionalManagerLabel": "Manager regional",
+  "whoAreYouTitle": "Cine ești?",
+  "searchLabel": "Caută",
+  "noMatchesLabel": "Nicio potrivire",
+  "leadershipSectionTitle": "Conducere",
+  "kitchenStaffSectionTitle": "Personal de bucătărie",
+  "chooseASectionTitle": "Alege o secțiune",
+  "unassignedLabel": "Neatribuit",
+  "personCountLabel": "{count, plural, one{{count} persoană} other{{count} persoane}}",
+  "goodMorning": "Bună dimineața",
+  "goodAfternoon": "Bună ziua",
+  "goodEvening": "Bună seara"
 }

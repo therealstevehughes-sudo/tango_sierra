@@ -480,5 +480,23 @@
   "noBackendConfiguredPin": "No backend is configured for this install - sign in with a PIN, same as everyone else.",
   "noDirectorRegionalAccounts": "No Director/Regional accounts on this device.",
   "directorLabel": "Director",
-  "regionalManagerLabel": "Regional Manager"
+  "regionalManagerLabel": "Regional Manager",
+  "whoAreYouTitle": "Who are you?",
+  "searchLabel": "Search",
+  "noMatchesLabel": "No matches",
+  "leadershipSectionTitle": "Leadership",
+  "kitchenStaffSectionTitle": "Kitchen Staff",
+  "chooseASectionTitle": "Choose a section",
+  "unassignedLabel": "Unassigned",
+  "personCountLabel": "{count, plural, one{{count} person} other{{count} people}}",
+  "@personCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goodMorning": "Good morning",
+  "goodAfternoon": "Good afternoon",
+  "goodEvening": "Good evening"
 }

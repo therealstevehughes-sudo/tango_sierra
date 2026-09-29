@@ -268,5 +268,16 @@
   "noBackendConfiguredPin": "No hay ningún backend configurado para esta instalación - inicia sesión con un PIN, igual que todos los demás.",
   "noDirectorRegionalAccounts": "No hay cuentas de Director/Regional en este dispositivo.",
   "directorLabel": "Director",
-  "regionalManagerLabel": "Gerente regional"
+  "regionalManagerLabel": "Gerente regional",
+  "whoAreYouTitle": "¿Quién eres?",
+  "searchLabel": "Buscar",
+  "noMatchesLabel": "Sin resultados",
+  "leadershipSectionTitle": "Dirección",
+  "kitchenStaffSectionTitle": "Personal de cocina",
+  "chooseASectionTitle": "Elige una sección",
+  "unassignedLabel": "Sin asignar",
+  "personCountLabel": "{count, plural, one{{count} persona} other{{count} personas}}",
+  "goodMorning": "Buenos días",
+  "goodAfternoon": "Buenas tardes",
+  "goodEvening": "Buenas noches"
 }

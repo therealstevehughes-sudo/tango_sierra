@@ -268,5 +268,16 @@
   "noBackendConfiguredPin": "此安装未配置后端 - 请像其他人一样使用PIN登录。",
   "noDirectorRegionalAccounts": "此设备上没有董事/区域经理账户。",
   "directorLabel": "董事",
-  "regionalManagerLabel": "区域经理"
+  "regionalManagerLabel": "区域经理",
+  "whoAreYouTitle": "你是谁?",
+  "searchLabel": "搜索",
+  "noMatchesLabel": "没有匹配结果",
+  "leadershipSectionTitle": "领导层",
+  "kitchenStaffSectionTitle": "厨房员工",
+  "chooseASectionTitle": "选择一个部门",
+  "unassignedLabel": "未分配",
+  "personCountLabel": "{count, plural, other{{count} 人}}",
+  "goodMorning": "早上好",
+  "goodAfternoon": "下午好",
+  "goodEvening": "晚上好"
 }

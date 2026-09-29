@@ -918,4 +918,45 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get regionalManagerLabel => 'علاقائی منیجر';
+
+  @override
+  String get whoAreYouTitle => 'آپ کون ہیں؟';
+
+  @override
+  String get searchLabel => 'تلاش کریں';
+
+  @override
+  String get noMatchesLabel => 'کوئی نتیجہ نہیں ملا';
+
+  @override
+  String get leadershipSectionTitle => 'قیادت';
+
+  @override
+  String get kitchenStaffSectionTitle => 'کچن اسٹاف';
+
+  @override
+  String get chooseASectionTitle => 'ایک سیکشن منتخب کریں';
+
+  @override
+  String get unassignedLabel => 'غیر تفویض شدہ';
+
+  @override
+  String personCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count افراد',
+      one: '$count شخص',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goodMorning => 'صبح بخیر';
+
+  @override
+  String get goodAfternoon => 'دوپہر بخیر';
+
+  @override
+  String get goodEvening => 'شام بخیر';
 }

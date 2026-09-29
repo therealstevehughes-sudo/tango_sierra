@@ -268,5 +268,16 @@
   "noBackendConfiguredPin": "اس تنصیب کے لیے کوئی بیک اینڈ کنفیگر نہیں ہے - باقی سب کی طرح PIN سے سائن ان کریں۔",
   "noDirectorRegionalAccounts": "اس ڈیوائس پر کوئی ڈائریکٹر/علاقائی اکاؤنٹ نہیں ہے۔",
   "directorLabel": "ڈائریکٹر",
-  "regionalManagerLabel": "علاقائی منیجر"
+  "regionalManagerLabel": "علاقائی منیجر",
+  "whoAreYouTitle": "آپ کون ہیں؟",
+  "searchLabel": "تلاش کریں",
+  "noMatchesLabel": "کوئی نتیجہ نہیں ملا",
+  "leadershipSectionTitle": "قیادت",
+  "kitchenStaffSectionTitle": "کچن اسٹاف",
+  "chooseASectionTitle": "ایک سیکشن منتخب کریں",
+  "unassignedLabel": "غیر تفویض شدہ",
+  "personCountLabel": "{count, plural, one{{count} شخص} other{{count} افراد}}",
+  "goodMorning": "صبح بخیر",
+  "goodAfternoon": "دوپہر بخیر",
+  "goodEvening": "شام بخیر"
 }

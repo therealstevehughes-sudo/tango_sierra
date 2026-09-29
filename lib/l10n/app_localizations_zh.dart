@@ -886,4 +886,44 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get regionalManagerLabel => '区域经理';
+
+  @override
+  String get whoAreYouTitle => '你是谁?';
+
+  @override
+  String get searchLabel => '搜索';
+
+  @override
+  String get noMatchesLabel => '没有匹配结果';
+
+  @override
+  String get leadershipSectionTitle => '领导层';
+
+  @override
+  String get kitchenStaffSectionTitle => '厨房员工';
+
+  @override
+  String get chooseASectionTitle => '选择一个部门';
+
+  @override
+  String get unassignedLabel => '未分配';
+
+  @override
+  String personCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 人',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goodMorning => '早上好';
+
+  @override
+  String get goodAfternoon => '下午好';
+
+  @override
+  String get goodEvening => '晚上好';
 }

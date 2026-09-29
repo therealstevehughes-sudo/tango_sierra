@@ -268,5 +268,16 @@
   "noBackendConfiguredPin": "لا يوجد خادم خلفي مُهيأ لهذا التثبيت - سجّل الدخول باستخدام رمز PIN مثل أي شخص آخر.",
   "noDirectorRegionalAccounts": "لا توجد حسابات مدير/إقليمي على هذا الجهاز.",
   "directorLabel": "مدير تنفيذي",
-  "regionalManagerLabel": "مدير إقليمي"
+  "regionalManagerLabel": "مدير إقليمي",
+  "whoAreYouTitle": "من أنت؟",
+  "searchLabel": "بحث",
+  "noMatchesLabel": "لا توجد نتائج",
+  "leadershipSectionTitle": "القيادة",
+  "kitchenStaffSectionTitle": "طاقم المطبخ",
+  "chooseASectionTitle": "اختر قسمًا",
+  "unassignedLabel": "غير معيّن",
+  "personCountLabel": "{count, plural, one{شخص واحد} other{{count} أشخاص}}",
+  "goodMorning": "صباح الخير",
+  "goodAfternoon": "مساء الخير",
+  "goodEvening": "مساء الخير"
 }

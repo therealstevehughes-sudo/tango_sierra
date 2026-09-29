@@ -921,4 +921,45 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get regionalManagerLabel => 'क्षेत्रीय प्रबंधक';
+
+  @override
+  String get whoAreYouTitle => 'आप कौन हैं?';
+
+  @override
+  String get searchLabel => 'खोजें';
+
+  @override
+  String get noMatchesLabel => 'कोई मेल नहीं मिला';
+
+  @override
+  String get leadershipSectionTitle => 'नेतृत्व';
+
+  @override
+  String get kitchenStaffSectionTitle => 'रसोई स्टाफ';
+
+  @override
+  String get chooseASectionTitle => 'एक अनुभाग चुनें';
+
+  @override
+  String get unassignedLabel => 'अनसाइन किया गया';
+
+  @override
+  String personCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count लोग',
+      one: '$count व्यक्ति',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goodMorning => 'सुप्रभात';
+
+  @override
+  String get goodAfternoon => 'नमस्कार';
+
+  @override
+  String get goodEvening => 'शुभ संध्या';
 }

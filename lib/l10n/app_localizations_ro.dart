@@ -929,4 +929,45 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get regionalManagerLabel => 'Manager regional';
+
+  @override
+  String get whoAreYouTitle => 'Cine ești?';
+
+  @override
+  String get searchLabel => 'Caută';
+
+  @override
+  String get noMatchesLabel => 'Nicio potrivire';
+
+  @override
+  String get leadershipSectionTitle => 'Conducere';
+
+  @override
+  String get kitchenStaffSectionTitle => 'Personal de bucătărie';
+
+  @override
+  String get chooseASectionTitle => 'Alege o secțiune';
+
+  @override
+  String get unassignedLabel => 'Neatribuit';
+
+  @override
+  String personCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoane',
+      one: '$count persoană',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goodMorning => 'Bună dimineața';
+
+  @override
+  String get goodAfternoon => 'Bună ziua';
+
+  @override
+  String get goodEvening => 'Bună seara';
 }

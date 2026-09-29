@@ -268,5 +268,16 @@
   "noBackendConfiguredPin": "Für diese Installation ist kein Backend konfiguriert - melde dich wie alle anderen mit einer PIN an.",
   "noDirectorRegionalAccounts": "Keine Direktions-/Regionalkonten auf diesem Gerät.",
   "directorLabel": "Direktor",
-  "regionalManagerLabel": "Regionalleiter"
+  "regionalManagerLabel": "Regionalleiter",
+  "whoAreYouTitle": "Wer bist du?",
+  "searchLabel": "Suchen",
+  "noMatchesLabel": "Keine Treffer",
+  "leadershipSectionTitle": "Führung",
+  "kitchenStaffSectionTitle": "Küchenpersonal",
+  "chooseASectionTitle": "Wähle einen Bereich",
+  "unassignedLabel": "Nicht zugewiesen",
+  "personCountLabel": "{count, plural, one{{count} Person} other{{count} Personen}}",
+  "goodMorning": "Guten Morgen",
+  "goodAfternoon": "Guten Tag",
+  "goodEvening": "Guten Abend"
 }

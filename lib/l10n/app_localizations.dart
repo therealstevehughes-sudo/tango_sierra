@@ -1727,6 +1727,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Regional Manager'**
   String get regionalManagerLabel;
+
+  /// No description provided for @whoAreYouTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Who are you?'**
+  String get whoAreYouTitle;
+
+  /// No description provided for @searchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchLabel;
+
+  /// No description provided for @noMatchesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches'**
+  String get noMatchesLabel;
+
+  /// No description provided for @leadershipSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leadership'**
+  String get leadershipSectionTitle;
+
+  /// No description provided for @kitchenStaffSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Kitchen Staff'**
+  String get kitchenStaffSectionTitle;
+
+  /// No description provided for @chooseASectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a section'**
+  String get chooseASectionTitle;
+
+  /// No description provided for @unassignedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unassigned'**
+  String get unassignedLabel;
+
+  /// No description provided for @personCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} person} other{{count} people}}'**
+  String personCountLabel(int count);
+
+  /// No description provided for @goodMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get goodMorning;
+
+  /// No description provided for @goodAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get goodAfternoon;
+
+  /// No description provided for @goodEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get goodEvening;
 }
 
 class _AppLocalizationsDelegate

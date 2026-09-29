@@ -931,4 +931,45 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get regionalManagerLabel => 'Gerente regional';
+
+  @override
+  String get whoAreYouTitle => '¿Quién eres?';
+
+  @override
+  String get searchLabel => 'Buscar';
+
+  @override
+  String get noMatchesLabel => 'Sin resultados';
+
+  @override
+  String get leadershipSectionTitle => 'Dirección';
+
+  @override
+  String get kitchenStaffSectionTitle => 'Personal de cocina';
+
+  @override
+  String get chooseASectionTitle => 'Elige una sección';
+
+  @override
+  String get unassignedLabel => 'Sin asignar';
+
+  @override
+  String personCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas',
+      one: '$count persona',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goodMorning => 'Buenos días';
+
+  @override
+  String get goodAfternoon => 'Buenas tardes';
+
+  @override
+  String get goodEvening => 'Buenas noches';
 }
