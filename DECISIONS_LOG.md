@@ -2933,3 +2933,39 @@ Fixed by moving it, not by reverting the header fix (which is correct behaviour 
 Verified: `flutter analyze` clean, all 63 tests passing, real `flutter build windows --debug` succeeded, relaunched.
 
 Files: `lib/core/widgets/management_drawer.dart`.
+
+## Oversight-first home hub for venueManager+ (2026-09-29)
+
+Resolves the open question logged in the Setup Checklist icon-alignment entry above. Decision: for `venueManager` tier and above, `TierHomeScreen`'s two primary buttons now lead with "Oversight" then "My Tasks" (reversed from the base/supervisor order, which stays "My Tasks" then "Oversight"). Reasoning: a GM or above in a typical venue isn't usually assigned personal tasks — their job is watching the venue, not ticking off their own checklist — so the button they need first should lead. Small, tightly-staffed venues where a manager does have assigned tasks are already served by "My Tasks" sitting second, not removed.
+
+Verified: `flutter analyze` clean, all 63 tests passing, real `flutter build windows --debug` succeeded.
+
+Files: `lib/features/home/tier_home_screen.dart`.
+
+## Login Layout placeholder removed (2026-09-29)
+
+Direct founder instruction, resolving a long-standing open question: the "Login Layout" entry under Settings -> Venue was an unbuilt "Coming soon" stub with no spec ever written behind it. Decided to remove rather than build blind — nothing currently depends on it, and no one asked for a specific login-screen customisation feature; if a real need surfaces later it gets scoped properly first, same as every other feature in this app.
+
+Removed the entire `if (canSeeVenueSettings) ...` block (Venue section header + the placeholder tile) and the now-unused `canSeeVenueSettings` local from `settings_screen.dart`.
+
+Verified: `flutter analyze` clean, all 63 tests passing, real `flutter build windows --debug` succeeded.
+
+Files: `lib/features/settings/settings_screen.dart`.
+
+## Maintenance Contacts / Service Providers merged into one feature (2026-09-29)
+
+Direct founder catch: "Wait, isn't maintenance contacts the same as service providers?" Yes — a real design mistake on this session's part, building the Trusted Service Provider directory as a parallel concept instead of extending the pre-existing `ThirdPartyContacts` ("Maintenance Contacts") Drift table that already covered the same real-world thing (a plumber, an electrician, a pest-control contact). No backend table for Maintenance Contacts ever existed, so this was a local-mode/UI merge only, not a data migration.
+
+`ServiceProvidersScreen`'s "My Providers" tab is now backed by `ThirdPartyContacts` in both local and backend mode (new `DriftServiceProviderRepository` for local, unchanged `SupabaseServiceProviderRepository` for backend, switched the same way every other dual-mode repository in this app is). Backend-only capability (sharing to the cross-org directory, star ratings on add, the "Find a Provider" tab) is gated behind a `canShare` check so local-mode users see one clean, single-purpose contacts list with no dead controls. The old standalone "Maintenance Contacts" drawer entry and its four backing files (`third_party_contact.dart` model, its repository, its providers, its screen) are gone — fully replaced by "Service Providers."
+
+Full technical detail (schema, migration version, file list) logged in `BACKEND_INFRA.md`'s matching entry.
+
+Verified: `flutter analyze` clean, all 63 tests passing, real `flutter build windows --debug` succeeded.
+
+Files: see `BACKEND_INFRA.md`.
+
+## Project file cleanup (2026-09-29)
+
+Direct founder instruction: check the full project for documents/files no longer needed and remove them. Deleted 12 root-level planning/handoff `.md` files with zero remaining references anywhere in code or in the two living logs (`AGENT_CHANGELOG.md`, `CHANGELOG_LOCK.md`, `COMPETITIVE_ANALYSIS.md`, `FEATURE_AUDIT.md`, `HANDOFF_NEXT_CHAT.md`, `HANDOFF_PROMPT.md`, `MASTER_PLAN.md`, `PHOTO_EVIDENCE_PLAN.md`, `PROJECT_BIBLE.md`, `SPRINT.md`, `SPRINT_RULES.md`, `UX_RESEARCH_REPORT.md`), a stray tracked `lib6Apr1.zip`, and three untracked stray `flutter_0*.log` files. Kept everything still actively referenced or serving as a living record: `ARCHITECTURE_LOCK.md`, `DESIGN_SYSTEM_LOCK.md`, `DRIFT_GUARD.md`, `DECISIONS_LOG.md`, `BACKEND_INFRA.md`, the `HORECA_*` compliance-content reference docs, `README.md`.
+
+Files: 12 root `.md` files deleted, `lib6Apr1.zip` deleted, 3 `.log` files deleted (see `git log` for exact list).

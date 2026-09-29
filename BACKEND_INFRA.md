@@ -2059,3 +2059,25 @@ New tables: `service_providers` (owning org's contacts — name/phone/email/cate
 **Live-proven end to end** with two real throwaway tenants (org 67, org 68 — both fully deleted afterward, verified zero rows remaining): Org A created and shared a provider, rated it themselves; Org B's `list_shared_service_providers()` call correctly returned `name`/`phone`/`email: null` with ratings/category intact; a direct `service_providers` SELECT from Org B returned empty (confirming the masking can't be bypassed by going around the RPC); Org B called `unlock_service_provider` and the SAME read then returned full contact detail; `count_unlocks_this_month()` correctly showed `1`; `list_provider_reviews` returned the review text; Org B attempting to INSERT a rating against Org A's listing was correctly rejected with a real `42501` RLS violation (HTTP 403).
 
 Files: `tools/service_provider_directory_migration.sql` (new, deployed).
+
+## Maintenance Contacts / Service Providers merge — one Drift table backs both (2026-09-29)
+
+Founder caught a real redundancy: local mode had two parallel concepts for the same real-world thing (a plumber, an electrician, a pest-control contact) — the pre-existing `ThirdPartyContacts` Drift table ("Maintenance Contacts") and the brand-new Trusted Service Provider directory built the same session. No backend table for `ThirdPartyContacts` ever existed, so nothing server-side needed migrating — this was purely a local-mode/UI consolidation.
+
+**New `DriftServiceProviderRepository`** (`lib/shared/repositories/drift_service_provider_repository.dart`) implements the same `ServiceProviderRepository` interface as `SupabaseServiceProviderRepository`, backed by `ThirdPartyContacts` (for "My Providers") plus a new `LocalProviderRatings` Drift table (contact id FK, 4 star ratings, review text, timestamp) for local-only reviews. Cross-org concepts (`getSharedDirectory`/`unlockProvider`/`getUnlocksThisMonth`) are deliberately inert locally (empty/no-op/0) — there's no other organisation on a single-device install to share with. `serviceProviderRepositoryProvider` now switches on `backendDataEnabledProvider` the same way every other dual-mode repository in the app does.
+
+Schema: `schemaVersion` 56 -> 57, new migration `if (from < 57) { await m.createTable(localProviderRatings); }`. `ThirdPartyContacts` itself is unchanged (no columns added/removed) — it's simply read/written by a second, more capable screen now.
+
+**Deleted entirely** (confirmed zero remaining references first): `lib/shared/models/third_party_contact.dart`, `lib/shared/repositories/third_party_contact_repository.dart`, `lib/shared/providers/third_party_contact_providers.dart`, `lib/features/settings/third_party_contacts_screen.dart`. The drawer's old "Maintenance Contacts" entry is gone; "Service Providers" (now covering both local contacts and, once a backend org is signed in, the full shared directory) lives in the Venue Setup section instead.
+
+`ServiceProvidersScreen` gates backend-only UI (the share toggle, star-rating fields on add, the "Find a Provider" tab) behind a `canShare`/`hasBackendOrg` check computed from `backendDataEnabledProvider` + `currentBackendOrganisationIdProvider`, so local-mode users get a clean single-purpose "My Providers" list with no dead controls pointing at features that don't apply to them.
+
+Verified: `flutter analyze` clean, `flutter test` — all 63 passing, real `flutter build windows --debug` succeeded.
+
+## Drawer placement fix — Service Providers moved into Venue Setup (2026-09-29)
+
+Founder flagged the Service Providers drawer entry felt "apart from the other menu elements." Root cause was a side effect of this session's own earlier single-item-section fix (`_section()` renders a lone child directly, no header, when a section has exactly one visible item for the current tier): Service Providers' tier floor (`venueManager`) was lower than its Company section-mates', so for a `venueManager` viewer it rendered as a bare header-less row while Company still showed its normal expandable header. Fixed by moving the "Service Providers" `_DrawerItemDef` into `_venueSetupItems`, where its tier floor matches its section-mates' — no change to `_section()` itself needed.
+
+## Project file cleanup — stale planning docs removed (2026-09-29)
+
+Founder asked for a full-project pass to remove anything no longer needed. Deleted 12 root-level planning/handoff documents confirmed to have zero active references anywhere in code or the two living logs (`AGENT_CHANGELOG.md`, `CHANGELOG_LOCK.md`, `COMPETITIVE_ANALYSIS.md`, `FEATURE_AUDIT.md`, `HANDOFF_NEXT_CHAT.md`, `HANDOFF_PROMPT.md`, `MASTER_PLAN.md`, `PHOTO_EVIDENCE_PLAN.md`, `PROJECT_BIBLE.md`, `SPRINT.md`, `SPRINT_RULES.md`, `UX_RESEARCH_REPORT.md`), plus a stray tracked `lib6Apr1.zip` and three untracked `flutter_0*.log` files. Kept `ARCHITECTURE_LOCK.md`/`DESIGN_SYSTEM_LOCK.md`/`DRIFT_GUARD.md` (actively cited in code), `DECISIONS_LOG.md`/`BACKEND_INFRA.md` (this pair), the `HORECA_*` reference docs, and `README.md`.

@@ -43,10 +43,6 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
-    final canSeeVenueSettings =
-        currentUser != null &&
-        roleTierRank(currentUser.roleTier) >=
-            roleTierRank(RoleTier.venueManager);
     final canSeeCompanySettings =
         currentUser != null &&
         roleTierRank(currentUser.roleTier) >= roleTierRank(RoleTier.executive);
@@ -74,16 +70,6 @@ class SettingsScreen extends ConsumerWidget {
                 ],
               ),
             ),
-            if (canSeeVenueSettings) ...[
-              const SizedBox(height: 24),
-              const SectionHeader(title: 'Venue'),
-              const AppCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [_ComingSoonTile(label: 'Login Layout')],
-                ),
-              ),
-            ],
             if (canSeeCompanySettings) ...[
               const SizedBox(height: 24),
               const SectionHeader(title: 'Company'),

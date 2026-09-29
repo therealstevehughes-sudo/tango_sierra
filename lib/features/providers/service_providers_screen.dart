@@ -16,23 +16,21 @@ import 'review_text_screening.dart';
 
 /// Trusted Service Provider directory, phase 1 (2026-09-29) — see
 /// service_provider.dart's own doc comment for the full agreed design.
-/// Two tabs: your own contacts (full detail, opt in to share) and the
-/// cross-organisation directory (blurred until unlocked). No vetting, no
-/// VenuRite endorsement — reviews are entirely external, from venues that
-/// have actually used the provider.
+/// Merged with the former "Maintenance Contacts" (2026-09-29, direct
+/// founder report — same job, two screens): "My Providers" is your own
+/// private contact list and works everywhere, same as Maintenance
+/// Contacts always did (Drift-backed locally, Supabase-backed once a real
+/// backend account is signed in). "Find a Provider" — the cross-org
+/// directory, blurred until unlocked — and the "share" opt-in are the
+/// only parts that inherently need a real company account: there's no
+/// other organisation to share with on a purely local install. No
+/// vetting, no VenuRite endorsement — reviews are entirely external, from
+/// venues that have actually used the provider.
 class ServiceProvidersScreen extends ConsumerWidget {
   const ServiceProvidersScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Backend-only feature (2026-09-29, real bug caught live: adding a
-    // provider silently did nothing at all under a local/demo PIN login).
-    // Cross-organisation browsing has no meaningful offline form — same
-    // reasoning as Roster — so this needs a genuine company account
-    // (signed in via Leadership Access, or a real backend-connected PIN
-    // account), not the local demo login. Previously this just no-opped
-    // silently on save; now it says so plainly instead of pretending to
-    // work.
     final hasBackendOrg =
         ref.watch(currentBackendOrganisationIdProvider) != null;
 
@@ -42,21 +40,22 @@ class ServiceProvidersScreen extends ConsumerWidget {
         appBar: AppScreenHeader(
           title: const Text('Service Providers'),
           actions: const [AssistantIconButton()],
-          bottom: hasBackendOrg
-              ? const TabBar(
-                  tabs: [
-                    Tab(text: 'My Providers'),
-                    Tab(text: 'Find a Provider'),
-                  ],
-                )
-              : null,
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'My Providers'),
+              Tab(text: 'Find a Provider'),
+            ],
+          ),
         ),
         drawer: const ManagementDrawer(title: 'Service Providers'),
-        body: hasBackendOrg
-            ? const TabBarView(
-                children: [_MyProvidersTab(), _DirectoryTab()],
-              )
-            : const _NoBackendAccountNotice(),
+        body: TabBarView(
+          children: [
+            _MyProvidersTab(canShare: hasBackendOrg),
+            hasBackendOrg
+                ? const _DirectoryTab()
+                : const _NoBackendAccountNotice(),
+          ],
+        ),
       ),
     );
   }
@@ -83,9 +82,10 @@ class _NoBackendAccountNotice extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 const Text(
-                  "Service Providers needs a real company account signed "
-                  'in - this is a shared directory across venues, so it '
-                  "can't work from the local demo login alone.",
+                  "Browsing other venues' shared providers needs a real "
+                  "company account signed in - this can't work from the "
+                  'local demo login alone. Your own contacts under "My '
+                  'Providers" work either way.',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
@@ -173,7 +173,15 @@ class _StarRow extends StatelessWidget {
 }
 
 class _MyProvidersTab extends ConsumerWidget {
-  const _MyProvidersTab();
+  const _MyProvidersTab({required this.canShare});
+
+  // False in local/demo mode (no real backend organisation signed in) —
+  // there's no other organisation to share with, so the share toggle and
+  // its inline rating-on-share flow are hidden entirely rather than
+  // shown broken. Adding and privately rating your own contacts still
+  // works fully either way (Drift-backed locally, same as the former
+  // Maintenance Contacts screen always was).
+  final bool canShare;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -209,6 +217,7 @@ class _MyProvidersTab extends ConsumerWidget {
                           itemCount: providers.length,
                           itemBuilder: (context, i) => _MyProviderTile(
                             provider: providers[i],
+                            canShare: canShare,
                           ),
                         ),
                 ),
@@ -278,23 +287,28 @@ class _MyProvidersTab extends ConsumerWidget {
                   ),
                   maxLines: 2,
                 ),
-                const SizedBox(height: 8),
-                SwitchListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: const Text("I'm happy to review and share"),
-                  subtitle: const Text(
-                    'Other venues will see your ratings and reviews, with '
-                    'the name/contact blurred until they unlock it.',
+                // Hidden entirely in local/demo mode (2026-09-29) — no
+                // other organisation exists to share with on a purely
+                // local install.
+                if (canShare) ...[
+                  const SizedBox(height: 8),
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: const Text("I'm happy to review and share"),
+                    subtitle: const Text(
+                      'Other venues will see your ratings and reviews, with '
+                      'the name/contact blurred until they unlock it.',
+                    ),
+                    value: shared,
+                    onChanged: (v) => setDialogState(() => shared = v),
                   ),
-                  value: shared,
-                  onChanged: (v) => setDialogState(() => shared = v),
-                ),
+                ],
                 // Opens immediately once "share" is on (2026-09-29,
                 // direct founder report) — a shared listing with zero
                 // ratings isn't useful to anyone else browsing it, so
                 // sharing and rating happen in the same step rather than
                 // a separate screen visited afterward.
-                if (shared) ...[
+                if (canShare && shared) ...[
                   const Divider(height: 24),
                   const Text(
                     'Rate this provider',
@@ -373,10 +387,14 @@ class _MyProvidersTab extends ConsumerWidget {
     final category = categoryController.text.trim();
     if (confirmed != true || name.isEmpty || category.isEmpty) return;
 
+    // organisationId is only meaningful in backend mode — the Drift-backed
+    // local repository ignores it entirely (see its own doc comment), so
+    // it's only actually required to resolve when canShare is true.
     final orgId = ref.read(currentBackendOrganisationIdProvider);
-    if (orgId == null) {
-      // Defensive fallback — the screen itself is gated on this already,
-      // but a session could expire mid-visit. Never silently no-op again.
+    if (canShare && orgId == null) {
+      // Defensive fallback — the share toggle itself is hidden without a
+      // backend org, but a session could still expire mid-visit. Never
+      // silently no-op again.
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -388,7 +406,7 @@ class _MyProvidersTab extends ConsumerWidget {
     }
     final repo = ref.read(serviceProviderRepositoryProvider);
     final created = await repo.addProvider(
-      organisationId: orgId,
+      organisationId: orgId ?? 0,
       name: name,
       phone: phoneController.text.trim().isEmpty
           ? null
@@ -418,9 +436,13 @@ class _MyProvidersTab extends ConsumerWidget {
 }
 
 class _MyProviderTile extends ConsumerWidget {
-  const _MyProviderTile({required this.provider});
+  const _MyProviderTile({required this.provider, required this.canShare});
 
   final ServiceProvider provider;
+  // Hidden entirely in local/demo mode (2026-09-29) — no other
+  // organisation exists to share with on a purely local install; rating
+  // your own contact for your own reference still works either way.
+  final bool canShare;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -445,30 +467,32 @@ class _MyProviderTile extends ConsumerWidget {
                   ],
                 ),
               ),
-              Switch(
-                value: provider.shared,
-                onChanged: (v) async {
-                  await ref
-                      .read(serviceProviderRepositoryProvider)
-                      .setShared(provider.id, v);
-                  ref.invalidate(myServiceProvidersProvider);
-                  // Opens the rate/review section immediately when share
-                  // turns on (2026-09-29, direct founder report) — a
-                  // shared listing with zero ratings isn't useful to
-                  // anyone browsing it, and making the reviewer hunt for
-                  // a separate button afterward is a real, avoidable gap.
-                  if (v && context.mounted) {
-                    showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) => _ReviewSheet(
-                        providerId: provider.id,
-                        canRate: true,
-                      ),
-                    );
-                  }
-                },
-              ),
+              if (canShare)
+                Switch(
+                  value: provider.shared,
+                  onChanged: (v) async {
+                    await ref
+                        .read(serviceProviderRepositoryProvider)
+                        .setShared(provider.id, v);
+                    ref.invalidate(myServiceProvidersProvider);
+                    // Opens the rate/review section immediately when
+                    // share turns on (2026-09-29, direct founder report)
+                    // — a shared listing with zero ratings isn't useful
+                    // to anyone browsing it, and making the reviewer hunt
+                    // for a separate button afterward is a real,
+                    // avoidable gap.
+                    if (v && context.mounted) {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) => _ReviewSheet(
+                          providerId: provider.id,
+                          canRate: true,
+                        ),
+                      );
+                    }
+                  },
+                ),
             ],
           ),
           if (provider.phone != null) Text('Phone: ${provider.phone}'),
@@ -476,13 +500,14 @@ class _MyProviderTile extends ConsumerWidget {
           const SizedBox(height: 8),
           Row(
             children: [
-              Text(
-                provider.shared ? 'Shared with other venues' : 'Private',
-                style: TextStyle(
-                  color: provider.shared ? AppColors.pass : AppColors.muted,
-                  fontSize: 12,
+              if (canShare)
+                Text(
+                  provider.shared ? 'Shared with other venues' : 'Private',
+                  style: TextStyle(
+                    color: provider.shared ? AppColors.pass : AppColors.muted,
+                    fontSize: 12,
+                  ),
                 ),
-              ),
               const Spacer(),
               TextButton(
                 onPressed: () => showModalBottomSheet(

@@ -21827,6 +21827,535 @@ class SupervisedTeamsCompanion extends UpdateCompanion<SupervisedTeamEntity> {
   }
 }
 
+class $LocalProviderRatingsTable extends LocalProviderRatings
+    with TableInfo<$LocalProviderRatingsTable, LocalProviderRating> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LocalProviderRatingsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _contactIdMeta = const VerificationMeta(
+    'contactId',
+  );
+  @override
+  late final GeneratedColumn<int> contactId = GeneratedColumn<int>(
+    'contact_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES third_party_contacts (id)',
+    ),
+  );
+  static const VerificationMeta _priceRatingMeta = const VerificationMeta(
+    'priceRating',
+  );
+  @override
+  late final GeneratedColumn<int> priceRating = GeneratedColumn<int>(
+    'price_rating',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _punctualityRatingMeta = const VerificationMeta(
+    'punctualityRating',
+  );
+  @override
+  late final GeneratedColumn<int> punctualityRating = GeneratedColumn<int>(
+    'punctuality_rating',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _qualityRatingMeta = const VerificationMeta(
+    'qualityRating',
+  );
+  @override
+  late final GeneratedColumn<int> qualityRating = GeneratedColumn<int>(
+    'quality_rating',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _availabilityRatingMeta =
+      const VerificationMeta('availabilityRating');
+  @override
+  late final GeneratedColumn<int> availabilityRating = GeneratedColumn<int>(
+    'availability_rating',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _reviewTextMeta = const VerificationMeta(
+    'reviewText',
+  );
+  @override
+  late final GeneratedColumn<String> reviewText = GeneratedColumn<String>(
+    'review_text',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    contactId,
+    priceRating,
+    punctualityRating,
+    qualityRating,
+    availabilityRating,
+    reviewText,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'local_provider_ratings';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LocalProviderRating> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('contact_id')) {
+      context.handle(
+        _contactIdMeta,
+        contactId.isAcceptableOrUnknown(data['contact_id']!, _contactIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_contactIdMeta);
+    }
+    if (data.containsKey('price_rating')) {
+      context.handle(
+        _priceRatingMeta,
+        priceRating.isAcceptableOrUnknown(
+          data['price_rating']!,
+          _priceRatingMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_priceRatingMeta);
+    }
+    if (data.containsKey('punctuality_rating')) {
+      context.handle(
+        _punctualityRatingMeta,
+        punctualityRating.isAcceptableOrUnknown(
+          data['punctuality_rating']!,
+          _punctualityRatingMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_punctualityRatingMeta);
+    }
+    if (data.containsKey('quality_rating')) {
+      context.handle(
+        _qualityRatingMeta,
+        qualityRating.isAcceptableOrUnknown(
+          data['quality_rating']!,
+          _qualityRatingMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_qualityRatingMeta);
+    }
+    if (data.containsKey('availability_rating')) {
+      context.handle(
+        _availabilityRatingMeta,
+        availabilityRating.isAcceptableOrUnknown(
+          data['availability_rating']!,
+          _availabilityRatingMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_availabilityRatingMeta);
+    }
+    if (data.containsKey('review_text')) {
+      context.handle(
+        _reviewTextMeta,
+        reviewText.isAcceptableOrUnknown(data['review_text']!, _reviewTextMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LocalProviderRating map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LocalProviderRating(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      contactId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}contact_id'],
+      )!,
+      priceRating: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}price_rating'],
+      )!,
+      punctualityRating: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}punctuality_rating'],
+      )!,
+      qualityRating: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}quality_rating'],
+      )!,
+      availabilityRating: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}availability_rating'],
+      )!,
+      reviewText: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}review_text'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $LocalProviderRatingsTable createAlias(String alias) {
+    return $LocalProviderRatingsTable(attachedDatabase, alias);
+  }
+}
+
+class LocalProviderRating extends DataClass
+    implements Insertable<LocalProviderRating> {
+  final int id;
+  final int contactId;
+  final int priceRating;
+  final int punctualityRating;
+  final int qualityRating;
+  final int availabilityRating;
+  final String? reviewText;
+  final DateTime createdAt;
+  const LocalProviderRating({
+    required this.id,
+    required this.contactId,
+    required this.priceRating,
+    required this.punctualityRating,
+    required this.qualityRating,
+    required this.availabilityRating,
+    this.reviewText,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['contact_id'] = Variable<int>(contactId);
+    map['price_rating'] = Variable<int>(priceRating);
+    map['punctuality_rating'] = Variable<int>(punctualityRating);
+    map['quality_rating'] = Variable<int>(qualityRating);
+    map['availability_rating'] = Variable<int>(availabilityRating);
+    if (!nullToAbsent || reviewText != null) {
+      map['review_text'] = Variable<String>(reviewText);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  LocalProviderRatingsCompanion toCompanion(bool nullToAbsent) {
+    return LocalProviderRatingsCompanion(
+      id: Value(id),
+      contactId: Value(contactId),
+      priceRating: Value(priceRating),
+      punctualityRating: Value(punctualityRating),
+      qualityRating: Value(qualityRating),
+      availabilityRating: Value(availabilityRating),
+      reviewText: reviewText == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reviewText),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory LocalProviderRating.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LocalProviderRating(
+      id: serializer.fromJson<int>(json['id']),
+      contactId: serializer.fromJson<int>(json['contactId']),
+      priceRating: serializer.fromJson<int>(json['priceRating']),
+      punctualityRating: serializer.fromJson<int>(json['punctualityRating']),
+      qualityRating: serializer.fromJson<int>(json['qualityRating']),
+      availabilityRating: serializer.fromJson<int>(json['availabilityRating']),
+      reviewText: serializer.fromJson<String?>(json['reviewText']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'contactId': serializer.toJson<int>(contactId),
+      'priceRating': serializer.toJson<int>(priceRating),
+      'punctualityRating': serializer.toJson<int>(punctualityRating),
+      'qualityRating': serializer.toJson<int>(qualityRating),
+      'availabilityRating': serializer.toJson<int>(availabilityRating),
+      'reviewText': serializer.toJson<String?>(reviewText),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  LocalProviderRating copyWith({
+    int? id,
+    int? contactId,
+    int? priceRating,
+    int? punctualityRating,
+    int? qualityRating,
+    int? availabilityRating,
+    Value<String?> reviewText = const Value.absent(),
+    DateTime? createdAt,
+  }) => LocalProviderRating(
+    id: id ?? this.id,
+    contactId: contactId ?? this.contactId,
+    priceRating: priceRating ?? this.priceRating,
+    punctualityRating: punctualityRating ?? this.punctualityRating,
+    qualityRating: qualityRating ?? this.qualityRating,
+    availabilityRating: availabilityRating ?? this.availabilityRating,
+    reviewText: reviewText.present ? reviewText.value : this.reviewText,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  LocalProviderRating copyWithCompanion(LocalProviderRatingsCompanion data) {
+    return LocalProviderRating(
+      id: data.id.present ? data.id.value : this.id,
+      contactId: data.contactId.present ? data.contactId.value : this.contactId,
+      priceRating: data.priceRating.present
+          ? data.priceRating.value
+          : this.priceRating,
+      punctualityRating: data.punctualityRating.present
+          ? data.punctualityRating.value
+          : this.punctualityRating,
+      qualityRating: data.qualityRating.present
+          ? data.qualityRating.value
+          : this.qualityRating,
+      availabilityRating: data.availabilityRating.present
+          ? data.availabilityRating.value
+          : this.availabilityRating,
+      reviewText: data.reviewText.present
+          ? data.reviewText.value
+          : this.reviewText,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProviderRating(')
+          ..write('id: $id, ')
+          ..write('contactId: $contactId, ')
+          ..write('priceRating: $priceRating, ')
+          ..write('punctualityRating: $punctualityRating, ')
+          ..write('qualityRating: $qualityRating, ')
+          ..write('availabilityRating: $availabilityRating, ')
+          ..write('reviewText: $reviewText, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    contactId,
+    priceRating,
+    punctualityRating,
+    qualityRating,
+    availabilityRating,
+    reviewText,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LocalProviderRating &&
+          other.id == this.id &&
+          other.contactId == this.contactId &&
+          other.priceRating == this.priceRating &&
+          other.punctualityRating == this.punctualityRating &&
+          other.qualityRating == this.qualityRating &&
+          other.availabilityRating == this.availabilityRating &&
+          other.reviewText == this.reviewText &&
+          other.createdAt == this.createdAt);
+}
+
+class LocalProviderRatingsCompanion
+    extends UpdateCompanion<LocalProviderRating> {
+  final Value<int> id;
+  final Value<int> contactId;
+  final Value<int> priceRating;
+  final Value<int> punctualityRating;
+  final Value<int> qualityRating;
+  final Value<int> availabilityRating;
+  final Value<String?> reviewText;
+  final Value<DateTime> createdAt;
+  const LocalProviderRatingsCompanion({
+    this.id = const Value.absent(),
+    this.contactId = const Value.absent(),
+    this.priceRating = const Value.absent(),
+    this.punctualityRating = const Value.absent(),
+    this.qualityRating = const Value.absent(),
+    this.availabilityRating = const Value.absent(),
+    this.reviewText = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  LocalProviderRatingsCompanion.insert({
+    this.id = const Value.absent(),
+    required int contactId,
+    required int priceRating,
+    required int punctualityRating,
+    required int qualityRating,
+    required int availabilityRating,
+    this.reviewText = const Value.absent(),
+    required DateTime createdAt,
+  }) : contactId = Value(contactId),
+       priceRating = Value(priceRating),
+       punctualityRating = Value(punctualityRating),
+       qualityRating = Value(qualityRating),
+       availabilityRating = Value(availabilityRating),
+       createdAt = Value(createdAt);
+  static Insertable<LocalProviderRating> custom({
+    Expression<int>? id,
+    Expression<int>? contactId,
+    Expression<int>? priceRating,
+    Expression<int>? punctualityRating,
+    Expression<int>? qualityRating,
+    Expression<int>? availabilityRating,
+    Expression<String>? reviewText,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (contactId != null) 'contact_id': contactId,
+      if (priceRating != null) 'price_rating': priceRating,
+      if (punctualityRating != null) 'punctuality_rating': punctualityRating,
+      if (qualityRating != null) 'quality_rating': qualityRating,
+      if (availabilityRating != null) 'availability_rating': availabilityRating,
+      if (reviewText != null) 'review_text': reviewText,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  LocalProviderRatingsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? contactId,
+    Value<int>? priceRating,
+    Value<int>? punctualityRating,
+    Value<int>? qualityRating,
+    Value<int>? availabilityRating,
+    Value<String?>? reviewText,
+    Value<DateTime>? createdAt,
+  }) {
+    return LocalProviderRatingsCompanion(
+      id: id ?? this.id,
+      contactId: contactId ?? this.contactId,
+      priceRating: priceRating ?? this.priceRating,
+      punctualityRating: punctualityRating ?? this.punctualityRating,
+      qualityRating: qualityRating ?? this.qualityRating,
+      availabilityRating: availabilityRating ?? this.availabilityRating,
+      reviewText: reviewText ?? this.reviewText,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (contactId.present) {
+      map['contact_id'] = Variable<int>(contactId.value);
+    }
+    if (priceRating.present) {
+      map['price_rating'] = Variable<int>(priceRating.value);
+    }
+    if (punctualityRating.present) {
+      map['punctuality_rating'] = Variable<int>(punctualityRating.value);
+    }
+    if (qualityRating.present) {
+      map['quality_rating'] = Variable<int>(qualityRating.value);
+    }
+    if (availabilityRating.present) {
+      map['availability_rating'] = Variable<int>(availabilityRating.value);
+    }
+    if (reviewText.present) {
+      map['review_text'] = Variable<String>(reviewText.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LocalProviderRatingsCompanion(')
+          ..write('id: $id, ')
+          ..write('contactId: $contactId, ')
+          ..write('priceRating: $priceRating, ')
+          ..write('punctualityRating: $punctualityRating, ')
+          ..write('qualityRating: $qualityRating, ')
+          ..write('availabilityRating: $availabilityRating, ')
+          ..write('reviewText: $reviewText, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -21893,6 +22422,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $SupervisedTeamsTable supervisedTeams = $SupervisedTeamsTable(
     this,
   );
+  late final $LocalProviderRatingsTable localProviderRatings =
+      $LocalProviderRatingsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -21936,6 +22467,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     issueEvents,
     supervisedDepartments,
     supervisedTeams,
+    localProviderRatings,
   ];
 }
 
@@ -39373,6 +39905,32 @@ final class $$ThirdPartyContactsTableReferences
       manager.$state.copyWith(prefetchedData: [item]),
     );
   }
+
+  static MultiTypedResultKey<
+    $LocalProviderRatingsTable,
+    List<LocalProviderRating>
+  >
+  _localProviderRatingsRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.localProviderRatings,
+        aliasName:
+            'third_party_contacts__id__local_provider_ratings__contact_id',
+      );
+
+  $$LocalProviderRatingsTableProcessedTableManager
+  get localProviderRatingsRefs {
+    final manager = $$LocalProviderRatingsTableTableManager(
+      $_db,
+      $_db.localProviderRatings,
+    ).filter((f) => f.contactId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _localProviderRatingsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$ThirdPartyContactsTableFilterComposer
@@ -39473,6 +40031,31 @@ class $$ThirdPartyContactsTableFilterComposer
           ),
     );
     return composer;
+  }
+
+  Expression<bool> localProviderRatingsRefs(
+    Expression<bool> Function($$LocalProviderRatingsTableFilterComposer f) f,
+  ) {
+    final $$LocalProviderRatingsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.localProviderRatings,
+      getReferencedColumn: (t) => t.contactId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$LocalProviderRatingsTableFilterComposer(
+            $db: $db,
+            $table: $db.localProviderRatings,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
   }
 }
 
@@ -39658,6 +40241,32 @@ class $$ThirdPartyContactsTableAnnotationComposer
     );
     return composer;
   }
+
+  Expression<T> localProviderRatingsRefs<T extends Object>(
+    Expression<T> Function($$LocalProviderRatingsTableAnnotationComposer a) f,
+  ) {
+    final $$LocalProviderRatingsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.localProviderRatings,
+          getReferencedColumn: (t) => t.contactId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$LocalProviderRatingsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.localProviderRatings,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$ThirdPartyContactsTableTableManager
@@ -39673,7 +40282,11 @@ class $$ThirdPartyContactsTableTableManager
           $$ThirdPartyContactsTableUpdateCompanionBuilder,
           (ThirdPartyContactEntity, $$ThirdPartyContactsTableReferences),
           ThirdPartyContactEntity,
-          PrefetchHooks Function({bool siteId, bool createdByUserId})
+          PrefetchHooks Function({
+            bool siteId,
+            bool createdByUserId,
+            bool localProviderRatingsRefs,
+          })
         > {
   $$ThirdPartyContactsTableTableManager(
     _$AppDatabase db,
@@ -39751,64 +40364,93 @@ class $$ThirdPartyContactsTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({siteId = false, createdByUserId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (siteId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.siteId,
-                                referencedTable:
-                                    $$ThirdPartyContactsTableReferences
-                                        ._siteIdTable(db),
-                                referencedColumn:
-                                    $$ThirdPartyContactsTableReferences
-                                        ._siteIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
-                    if (createdByUserId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.createdByUserId,
-                                referencedTable:
-                                    $$ThirdPartyContactsTableReferences
-                                        ._createdByUserIdTable(db),
-                                referencedColumn:
-                                    $$ThirdPartyContactsTableReferences
-                                        ._createdByUserIdTable(db)
-                                        .id,
-                              )
-                              as T;
-                    }
+          prefetchHooksCallback:
+              ({
+                siteId = false,
+                createdByUserId = false,
+                localProviderRatingsRefs = false,
+              }) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (localProviderRatingsRefs) db.localProviderRatings,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (siteId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.siteId,
+                                    referencedTable:
+                                        $$ThirdPartyContactsTableReferences
+                                            ._siteIdTable(db),
+                                    referencedColumn:
+                                        $$ThirdPartyContactsTableReferences
+                                            ._siteIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+                        if (createdByUserId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.createdByUserId,
+                                    referencedTable:
+                                        $$ThirdPartyContactsTableReferences
+                                            ._createdByUserIdTable(db),
+                                    referencedColumn:
+                                        $$ThirdPartyContactsTableReferences
+                                            ._createdByUserIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
 
-                    return state;
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (localProviderRatingsRefs)
+                        await $_getPrefetchedData<
+                          ThirdPartyContactEntity,
+                          $ThirdPartyContactsTable,
+                          LocalProviderRating
+                        >(
+                          currentTable: table,
+                          referencedTable: $$ThirdPartyContactsTableReferences
+                              ._localProviderRatingsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$ThirdPartyContactsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).localProviderRatingsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.contactId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
                   },
-              getPrefetchedDataCallback: (items) async {
-                return [];
+                );
               },
-            );
-          },
         ),
       );
 }
@@ -39825,7 +40467,11 @@ typedef $$ThirdPartyContactsTableProcessedTableManager =
       $$ThirdPartyContactsTableUpdateCompanionBuilder,
       (ThirdPartyContactEntity, $$ThirdPartyContactsTableReferences),
       ThirdPartyContactEntity,
-      PrefetchHooks Function({bool siteId, bool createdByUserId})
+      PrefetchHooks Function({
+        bool siteId,
+        bool createdByUserId,
+        bool localProviderRatingsRefs,
+      })
     >;
 typedef $$TaskPresetsTableCreateCompanionBuilder =
     TaskPresetsCompanion Function({
@@ -48107,6 +48753,406 @@ typedef $$SupervisedTeamsTableProcessedTableManager =
       SupervisedTeamEntity,
       PrefetchHooks Function({bool userId, bool teamId})
     >;
+typedef $$LocalProviderRatingsTableCreateCompanionBuilder =
+    LocalProviderRatingsCompanion Function({
+      Value<int> id,
+      required int contactId,
+      required int priceRating,
+      required int punctualityRating,
+      required int qualityRating,
+      required int availabilityRating,
+      Value<String?> reviewText,
+      required DateTime createdAt,
+    });
+typedef $$LocalProviderRatingsTableUpdateCompanionBuilder =
+    LocalProviderRatingsCompanion Function({
+      Value<int> id,
+      Value<int> contactId,
+      Value<int> priceRating,
+      Value<int> punctualityRating,
+      Value<int> qualityRating,
+      Value<int> availabilityRating,
+      Value<String?> reviewText,
+      Value<DateTime> createdAt,
+    });
+
+final class $$LocalProviderRatingsTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $LocalProviderRatingsTable,
+          LocalProviderRating
+        > {
+  $$LocalProviderRatingsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $ThirdPartyContactsTable _contactIdTable(_$AppDatabase db) =>
+      db.thirdPartyContacts.createAlias(
+        'local_provider_ratings__contact_id__third_party_contacts__id',
+      );
+
+  $$ThirdPartyContactsTableProcessedTableManager get contactId {
+    final $_column = $_itemColumn<int>('contact_id')!;
+
+    final manager = $$ThirdPartyContactsTableTableManager(
+      $_db,
+      $_db.thirdPartyContacts,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_contactIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$LocalProviderRatingsTableFilterComposer
+    extends Composer<_$AppDatabase, $LocalProviderRatingsTable> {
+  $$LocalProviderRatingsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get priceRating => $composableBuilder(
+    column: $table.priceRating,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get punctualityRating => $composableBuilder(
+    column: $table.punctualityRating,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get qualityRating => $composableBuilder(
+    column: $table.qualityRating,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get availabilityRating => $composableBuilder(
+    column: $table.availabilityRating,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get reviewText => $composableBuilder(
+    column: $table.reviewText,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$ThirdPartyContactsTableFilterComposer get contactId {
+    final $$ThirdPartyContactsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.contactId,
+      referencedTable: $db.thirdPartyContacts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ThirdPartyContactsTableFilterComposer(
+            $db: $db,
+            $table: $db.thirdPartyContacts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$LocalProviderRatingsTableOrderingComposer
+    extends Composer<_$AppDatabase, $LocalProviderRatingsTable> {
+  $$LocalProviderRatingsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get priceRating => $composableBuilder(
+    column: $table.priceRating,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get punctualityRating => $composableBuilder(
+    column: $table.punctualityRating,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get qualityRating => $composableBuilder(
+    column: $table.qualityRating,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get availabilityRating => $composableBuilder(
+    column: $table.availabilityRating,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get reviewText => $composableBuilder(
+    column: $table.reviewText,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$ThirdPartyContactsTableOrderingComposer get contactId {
+    final $$ThirdPartyContactsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.contactId,
+      referencedTable: $db.thirdPartyContacts,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$ThirdPartyContactsTableOrderingComposer(
+            $db: $db,
+            $table: $db.thirdPartyContacts,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$LocalProviderRatingsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LocalProviderRatingsTable> {
+  $$LocalProviderRatingsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get priceRating => $composableBuilder(
+    column: $table.priceRating,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get punctualityRating => $composableBuilder(
+    column: $table.punctualityRating,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get qualityRating => $composableBuilder(
+    column: $table.qualityRating,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get availabilityRating => $composableBuilder(
+    column: $table.availabilityRating,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get reviewText => $composableBuilder(
+    column: $table.reviewText,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$ThirdPartyContactsTableAnnotationComposer get contactId {
+    final $$ThirdPartyContactsTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.contactId,
+          referencedTable: $db.thirdPartyContacts,
+          getReferencedColumn: (t) => t.id,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$ThirdPartyContactsTableAnnotationComposer(
+                $db: $db,
+                $table: $db.thirdPartyContacts,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return composer;
+  }
+}
+
+class $$LocalProviderRatingsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LocalProviderRatingsTable,
+          LocalProviderRating,
+          $$LocalProviderRatingsTableFilterComposer,
+          $$LocalProviderRatingsTableOrderingComposer,
+          $$LocalProviderRatingsTableAnnotationComposer,
+          $$LocalProviderRatingsTableCreateCompanionBuilder,
+          $$LocalProviderRatingsTableUpdateCompanionBuilder,
+          (LocalProviderRating, $$LocalProviderRatingsTableReferences),
+          LocalProviderRating,
+          PrefetchHooks Function({bool contactId})
+        > {
+  $$LocalProviderRatingsTableTableManager(
+    _$AppDatabase db,
+    $LocalProviderRatingsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LocalProviderRatingsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LocalProviderRatingsTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$LocalProviderRatingsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> contactId = const Value.absent(),
+                Value<int> priceRating = const Value.absent(),
+                Value<int> punctualityRating = const Value.absent(),
+                Value<int> qualityRating = const Value.absent(),
+                Value<int> availabilityRating = const Value.absent(),
+                Value<String?> reviewText = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => LocalProviderRatingsCompanion(
+                id: id,
+                contactId: contactId,
+                priceRating: priceRating,
+                punctualityRating: punctualityRating,
+                qualityRating: qualityRating,
+                availabilityRating: availabilityRating,
+                reviewText: reviewText,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int contactId,
+                required int priceRating,
+                required int punctualityRating,
+                required int qualityRating,
+                required int availabilityRating,
+                Value<String?> reviewText = const Value.absent(),
+                required DateTime createdAt,
+              }) => LocalProviderRatingsCompanion.insert(
+                id: id,
+                contactId: contactId,
+                priceRating: priceRating,
+                punctualityRating: punctualityRating,
+                qualityRating: qualityRating,
+                availabilityRating: availabilityRating,
+                reviewText: reviewText,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$LocalProviderRatingsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({contactId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (contactId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.contactId,
+                                referencedTable:
+                                    $$LocalProviderRatingsTableReferences
+                                        ._contactIdTable(db),
+                                referencedColumn:
+                                    $$LocalProviderRatingsTableReferences
+                                        ._contactIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$LocalProviderRatingsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LocalProviderRatingsTable,
+      LocalProviderRating,
+      $$LocalProviderRatingsTableFilterComposer,
+      $$LocalProviderRatingsTableOrderingComposer,
+      $$LocalProviderRatingsTableAnnotationComposer,
+      $$LocalProviderRatingsTableCreateCompanionBuilder,
+      $$LocalProviderRatingsTableUpdateCompanionBuilder,
+      (LocalProviderRating, $$LocalProviderRatingsTableReferences),
+      LocalProviderRating,
+      PrefetchHooks Function({bool contactId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -48197,4 +49243,6 @@ class $AppDatabaseManager {
       $$SupervisedDepartmentsTableTableManager(_db, _db.supervisedDepartments);
   $$SupervisedTeamsTableTableManager get supervisedTeams =>
       $$SupervisedTeamsTableTableManager(_db, _db.supervisedTeams);
+  $$LocalProviderRatingsTableTableManager get localProviderRatings =>
+      $$LocalProviderRatingsTableTableManager(_db, _db.localProviderRatings);
 }

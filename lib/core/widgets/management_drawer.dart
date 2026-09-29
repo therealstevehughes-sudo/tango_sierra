@@ -30,7 +30,6 @@ import '../../features/settings/settings_screen.dart';
 import '../../features/settings/shift_log_screen.dart';
 import '../../features/settings/staff_management_screen.dart';
 import '../../features/settings/supplier_management_screen.dart';
-import '../../features/settings/third_party_contacts_screen.dart';
 import '../../features/settings/two_factor_settings_screen.dart';
 import '../../features/settings/venue_details_screen.dart';
 import '../../features/task_library/preset_management_screen.dart';
@@ -221,18 +220,16 @@ final List<_DrawerItemDef> _venueSetupItems = [
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const SupplierManagementScreen(),
   ),
-  _DrawerItemDef(
-    icon: Icons.contact_phone,
-    label: 'Maintenance Contacts',
-    minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const ThirdPartyContactsScreen(),
-  ),
   // Trusted Service Provider directory, phase 1 (2026-09-29) — moved here
   // from Company (2026-09-29, direct founder report): its lower tier
   // floor than Organisation/Branches meant a venueManager only ever saw
   // it as a lone, header-less item there (see _section()'s single-item
-  // rule), looking randomly placed. Sits naturally next to Maintenance
-  // Contacts/Supplier Management instead — same "who to call" flavour,
+  // rule), looking randomly placed. Sits naturally next to Supplier
+  // Management instead — same "who to call" flavour. ALSO absorbs the
+  // former "Maintenance Contacts" entry entirely (2026-09-29, direct
+  // founder report: "isn't maintenance contacts the same as service
+  // providers?" — correct, real avoidable duplication): its own "My
+  // Providers" tab now covers that exact same job.
   // and every item in this section already shares its venueManager+
   // floor, so it always renders properly grouped.
   _DrawerItemDef(

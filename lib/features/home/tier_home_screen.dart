@@ -230,32 +230,72 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                               textAlign: TextAlign.center,
                             ),
                             const SizedBox(height: 20),
-                            PrimaryActionButton(
-                              label: 'My Tasks',
-                              icon: Icons.checklist,
-                              onPressed: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const TaskScreen(),
+                            // Oversight leads for venueManager+ (2026-09-29,
+                            // direct founder request, "as long as you feel
+                            // it makes the most sense intuitively"): a GM
+                            // or above is rarely the person doing the daily
+                            // fridge-temp check themselves — Oversight is
+                            // what they open first almost every time. A
+                            // supervisor is much more often hands-on, so
+                            // My Tasks stays first for that tier — same
+                            // reasoning as this file's own "small team"
+                            // case, just applied per-tier rather than
+                            // reordered for everyone.
+                            if (currentUser != null &&
+                                roleTierRank(currentUser.roleTier) >=
+                                    roleTierRank(RoleTier.venueManager)) ...[
+                              PrimaryActionButton(
+                                label: 'Oversight',
+                                icon: Icons.visibility,
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        TierHomeScreen.oversightScreenFor(
+                                          currentUser.roleTier,
+                                        ),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 12),
-                            PrimaryActionButton(
-                              label: 'Oversight',
-                              icon: Icons.visibility,
-                              onPressed: currentUser == null
-                                  ? null
-                                  : () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) =>
-                                            TierHomeScreen.oversightScreenFor(
-                                              currentUser.roleTier,
-                                            ),
+                              const SizedBox(height: 12),
+                              PrimaryActionButton(
+                                label: 'My Tasks',
+                                icon: Icons.checklist,
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const TaskScreen(),
+                                  ),
+                                ),
+                              ),
+                            ] else ...[
+                              PrimaryActionButton(
+                                label: 'My Tasks',
+                                icon: Icons.checklist,
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const TaskScreen(),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              PrimaryActionButton(
+                                label: 'Oversight',
+                                icon: Icons.visibility,
+                                onPressed: currentUser == null
+                                    ? null
+                                    : () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              TierHomeScreen.oversightScreenFor(
+                                                currentUser.roleTier,
+                                              ),
+                                        ),
                                       ),
-                                    ),
-                            ),
+                              ),
+                            ],
                             // Branch-hub build (2026-09-15) — supervisor+ already
                             // has a home hub, so the second "ad-hoc entry" option
                             // is added here rather than a duplicate screen (base

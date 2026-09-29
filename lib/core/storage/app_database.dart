@@ -735,6 +735,15 @@ class TriggerNotifications extends Table {
 }
 
 @DataClassName('ThirdPartyContactEntity')
+// Doubles as the local backing store for the Service Provider directory's
+// "My Providers" (2026-09-29, direct founder report: "isn't maintenance
+// contacts the same as service providers?" — correct, they were a real,
+// avoidable duplication). `specialty` is read as `category` by
+// DriftServiceProviderRepository; `shared`/cross-org browsing/unlock/pay
+// concepts have no local meaning (no other organisation exists to share
+// with on a single-device install) and are simply not offered by the
+// Drift-backed repository — same "works locally, richer once backend is
+// on" shape as every other dual-mode repository in this app.
 class ThirdPartyContacts extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
@@ -748,6 +757,22 @@ class ThirdPartyContacts extends Table {
   IntColumn get createdByUserId => integer().references(Users, #id)();
   DateTimeColumn get createdAt => dateTime()();
   BoolColumn get active => boolean().withDefault(const Constant(true))();
+}
+
+// Local-only ratings for a ThirdPartyContacts row — your own private
+// record of an experience with a contact, same 4-matrix shape as the
+// backend's service_provider_ratings, kept separate since it never needs
+// to be readable by anyone but this device.
+class LocalProviderRatings extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get contactId =>
+      integer().references(ThirdPartyContacts, #id)();
+  IntColumn get priceRating => integer()();
+  IntColumn get punctualityRating => integer()();
+  IntColumn get qualityRating => integer()();
+  IntColumn get availabilityRating => integer()();
+  TextColumn get reviewText => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
 }
 
 @DataClassName('OrganisationEntity')
@@ -1108,6 +1133,7 @@ class _LibraryPreset {
     Teams,
     SupervisedDepartments,
     SupervisedTeams,
+    LocalProviderRatings,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -1119,7 +1145,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 56;
+  int get schemaVersion => 57;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1607,6 +1633,12 @@ class AppDatabase extends _$AppDatabase {
         // Areas.departmentId's own doc comment.
         await m.addColumn(areas, areas.departmentId);
         await m.addColumn(equipmentInstances, equipmentInstances.departmentId);
+      }
+      if (from < 57) {
+        // Maintenance Contacts / Service Providers merge (2026-09-29) —
+        // see ThirdPartyContacts' own doc comment for why this table now
+        // also backs the Service Provider directory's local mode.
+        await m.createTable(localProviderRatings);
       }
     },
     beforeOpen: (details) async {
