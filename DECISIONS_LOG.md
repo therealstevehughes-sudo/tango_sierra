@@ -2859,3 +2859,13 @@ Files: `lib/features/venue_setup/venue_setup_wizard_screen.dart`, `lib/features/
 Verified: `flutter analyze` clean, all 57 tests passing, real `flutter build windows --debug` succeeded, relaunched.
 
 Files: `lib/features/tasks/worker_hub_screen.dart` (Log out action), `lib/features/dashboard/leadership_dashboard_screen.dart` (graded-bars toggle icon), `lib/features/settings/settings_screen.dart` (`_EmployeeGradedBarsSetting` removed), `lib/core/widgets/management_drawer.dart` (Roster section, renames, Document Centre move).
+
+## Drawer: single-item sections skip the header (2026-09-29)
+
+Follow-up decision from the drawer audit: founder confirmed the intended shape is ONE shared structure/order for every tier (not a different shape per tier, e.g. no flattened-vs-grouped fork) — items simply appear/disappear per role via the existing tier gates, same principle base tier already gets taken further (a wholly separate `WorkerHubScreen`, not a filtered drawer). Checking that against the actual per-tier output surfaced a real, if minor, cost: a supervisor currently sees several sections (Insights, People, Venue Setup, Account) collapse to exactly one visible row each, since most of what's in them needs venueManager+ — four tap-to-expand headers for one row apiece.
+
+Fixed at the root: `_section()` now returns the single child directly, with no `ExpansionTile` wrapper, whenever it would only ever contain one item. Same overall grouping and order for every tier — nothing moved, nothing re-gated — this only changes how a section renders once tier-filtering has already reduced it to a single row.
+
+Verified: `flutter analyze` clean, all 57 tests passing, real `flutter build windows --debug` succeeded, relaunched.
+
+Files: `lib/core/widgets/management_drawer.dart` (`_section()`).

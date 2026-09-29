@@ -378,12 +378,23 @@ class ManagementDrawer extends ConsumerWidget {
   // only for Daily; every other section collapses by default, matching
   // the ExpansionTile pattern manager_screen.dart already uses for
   // Alerts/Overdue/Log grouping.
+  //
+  // Single-item sections skip the header entirely (2026-09-29, direct
+  // founder follow-up on the drawer audit): several sections collapse to
+  // exactly one visible row for a lower tier (e.g. a supervisor sees only
+  // Branch Team Structure under "People") — same overall structure and
+  // order as every other tier, just nothing to usefully group when
+  // there's only one thing to show. A tap-to-expand header over a single
+  // row is pure overhead in that case, so it's shown as a plain row
+  // instead — the grouping/order itself is unchanged, this only affects
+  // how a section with exactly one item is presented.
   Widget? _section({
     required String label,
     required List<Widget> children,
     bool initiallyExpanded = false,
   }) {
     if (children.isEmpty) return null;
+    if (children.length == 1) return children.single;
     return ExpansionTile(
       initiallyExpanded: initiallyExpanded,
       title: Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
