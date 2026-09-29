@@ -21,7 +21,6 @@ import '../dashboard/reliability_service.dart';
 import '../dashboard/top_screen.dart';
 import '../issues/report_issue_screen.dart';
 import '../manager/manager_screen.dart';
-import '../onboarding/setup_checklist_card.dart';
 import '../tasks/overdue_summary_service.dart';
 import '../tasks/task_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
@@ -294,7 +293,6 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                           ],
                         ),
                       ),
-                      if (currentUser != null) const SetupChecklistCard(),
                     ],
                   ),
                 ),

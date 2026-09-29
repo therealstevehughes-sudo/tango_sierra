@@ -2913,3 +2913,13 @@ Direct founder report with screenshot: the done (green tick) and not-done (grey 
 Also discussed, not yet changed pending the founder's steer: whether a done row should stay tappable to revisit that screen later (currently intentionally non-tappable — "done" means the underlying data exists, nothing left to complete), and whether venueManager+ tiers should lead with Oversight rather than My Tasks on their home hub, since a GM in a larger venue rarely has tasks assigned to themselves (small/tightly-staffed venues are the real exception, and the existing per-person task assignment already handles that case with no change needed).
 
 Files: `lib/features/onboarding/setup_checklist_card.dart`.
+
+## Setup Checklist removed from the home hub (2026-09-29)
+
+Direct founder follow-up on the alignment fix above, screenshot again: "I don't like it being there as it feels redundant... venue set-up/changes and staff additions... feel iffy there on this screen." Agreed — venue setup and staff management are already fully reachable via the drawer, and this card was a second, permanent-feeling entry point for the exact same two things, on the one screen (`TierHomeScreen`) every executive/regional/venueManager session lands on.
+
+Removed the card from `tier_home_screen.dart` entirely (not just hidden) and deleted `setup_checklist_card.dart` outright — confirmed nothing else in the codebase referenced it before deleting.
+
+Verified: `flutter analyze` clean, all 63 tests passing, real `flutter build windows --debug` succeeded, relaunched.
+
+Files: `lib/features/home/tier_home_screen.dart`, `lib/features/onboarding/setup_checklist_card.dart` (deleted).
