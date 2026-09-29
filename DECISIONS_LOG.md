@@ -2905,3 +2905,11 @@ Three direct founder follow-ups on the just-shipped directory, same day.
 Verified: `flutter analyze` clean, all 63 tests passing, real `flutter build windows --debug` succeeded, relaunched.
 
 Files: `lib/features/providers/service_providers_screen.dart` (backend-org gate, inline review-on-share, search/grouping), `tools/service_provider_directory_migration.sql` (deployed: deterministic ordering).
+
+## Setup Checklist: icon alignment fixed (2026-09-29)
+
+Direct founder report with screenshot: the done (green tick) and not-done (grey circle) rows' icons didn't line up vertically. Root cause: the tappable row wraps its content in `Padding(horizontal: 4, vertical: 6)`; the done row had no matching padding at all, so its icon sat 4px further left. Fixed by giving the done row the identical padding.
+
+Also discussed, not yet changed pending the founder's steer: whether a done row should stay tappable to revisit that screen later (currently intentionally non-tappable — "done" means the underlying data exists, nothing left to complete), and whether venueManager+ tiers should lead with Oversight rather than My Tasks on their home hub, since a GM in a larger venue rarely has tasks assigned to themselves (small/tightly-staffed venues are the real exception, and the existing per-person task assignment already handles that case with no change needed).
+
+Files: `lib/features/onboarding/setup_checklist_card.dart`.

@@ -152,17 +152,28 @@ class _SetupChecklistCardState extends ConsumerState<SetupChecklistCard> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2),
                 child: item.done
-                    // Done rows are plain — nothing to complete, no affordance.
-                    ? Row(
-                        children: [
-                          const Icon(
-                            Icons.check_circle,
-                            size: 18,
-                            color: AppColors.pass,
-                          ),
-                          const SizedBox(width: 8),
-                          Expanded(child: Text(item.label)),
-                        ],
+                    // Done rows are plain — nothing to complete, no
+                    // affordance. Same horizontal padding as the tappable
+                    // row below (2026-09-29, direct founder report: the
+                    // two rows' icons didn't line up — this row was
+                    // missing the matching `horizontal: 4` the tappable
+                    // row's own Padding already had).
+                    ? Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 6,
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.check_circle,
+                              size: 18,
+                              color: AppColors.pass,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(child: Text(item.label)),
+                          ],
+                        ),
                       )
                     : InkWell(
                         onTap: item.destination == null
