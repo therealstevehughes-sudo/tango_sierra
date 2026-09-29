@@ -1256,4 +1256,33 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get notCompletedSuffix => '- NETERMINAT (tura încheiată)';
+
+  @override
+  String get todayAllFails => 'Azi + toate eșecurile';
+
+  @override
+  String byAxisLabel(String axis) {
+    return 'După $axis';
+  }
+
+  @override
+  String get nameAxisLabel => 'Nume';
+
+  @override
+  String get dateAxisLabel => 'Dată';
+
+  @override
+  String get taskAxisLabel => 'Sarcină';
+
+  @override
+  String get filterLabel => 'Filtru';
+
+  @override
+  String get filterByLabel => 'Filtrează după:';
+
+  @override
+  String get clearFiltersLabel => 'Șterge filtrele';
+
+  @override
+  String get staffLabel => 'Personal';
 }

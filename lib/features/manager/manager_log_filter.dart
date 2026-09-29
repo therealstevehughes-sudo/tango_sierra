@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/utils/date_format.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/providers/task_submission_providers.dart';
 
 // Manager submission-log filtering (Sprint 031) — the log becomes an
@@ -199,48 +200,49 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
   // Card+ExpansionTile matches the existing pattern already used for
   // preset_management_screen.dart's preset cards, rather than a new
   // one-off collapse mechanism.
-  String _summary() {
-    if (axis == null) return 'Today + all fails';
+  String _summary(AppLocalizations l10n) {
+    if (axis == null) return l10n.todayAllFails;
     final parts = <String>[?name, if (date != null) formatDate(date!), ?task];
-    if (parts.isEmpty) return 'By ${_axisLabel(axis!)}';
+    if (parts.isEmpty) return l10n.byAxisLabel(_axisLabel(l10n, axis!));
     return parts.join(' · ');
   }
 
-  String _axisLabel(LogFilterAxis axis) {
+  String _axisLabel(AppLocalizations l10n, LogFilterAxis axis) {
     switch (axis) {
       case LogFilterAxis.name:
-        return 'Name';
+        return l10n.nameAxisLabel;
       case LogFilterAxis.date:
-        return 'Date';
+        return l10n.dateAxisLabel;
       case LogFilterAxis.task:
-        return 'Task';
+        return l10n.taskAxisLabel;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       child: ExpansionTile(
         // Layout fix (2026-09-25) — see faq_screen.dart's own comment on
         // this same ExpansionTile-vs-Card corner artifact fix.
         shape: const RoundedRectangleBorder(side: BorderSide.none),
         collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
-        title: const Text('Filter'),
-        subtitle: Text(_summary()),
+        title: Text(l10n.filterLabel),
+        subtitle: Text(_summary(l10n)),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         children: [
           // Visual pass follow-up (2026-09-24, app-wide tick-box sweep) —
           // 3 fixed options, converted from a dropdown to chips.
           Row(
             children: [
-              const Text('Filter by: '),
+              Text(l10n.filterByLabel),
               Expanded(
                 child: Wrap(
                   spacing: 8,
                   children: [
                     for (final a in LogFilterAxis.values)
                       ChoiceChip(
-                        label: Text(_axisLabel(a)),
+                        label: Text(_axisLabel(l10n, a)),
                         selected: axis == a,
                         onSelected: (_) => _selectAxis(a),
                       ),
@@ -250,24 +252,24 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
               if (axis != null)
                 TextButton(
                   onPressed: _clear,
-                  child: const Text('Clear filters'),
+                  child: Text(l10n.clearFiltersLabel),
                 ),
             ],
           ),
-          if (axis == LogFilterAxis.name) ..._buildNameAxis(),
-          if (axis == LogFilterAxis.date) ..._buildDateAxis(),
-          if (axis == LogFilterAxis.task) ..._buildTaskAxis(),
+          if (axis == LogFilterAxis.name) ..._buildNameAxis(l10n),
+          if (axis == LogFilterAxis.date) ..._buildDateAxis(l10n),
+          if (axis == LogFilterAxis.task) ..._buildTaskAxis(l10n),
         ],
       ),
     );
   }
 
-  List<Widget> _buildNameAxis() {
+  List<Widget> _buildNameAxis(AppLocalizations l10n) {
     return [
       const SizedBox(height: 12),
       DropdownButtonFormField<String>(
         initialValue: name,
-        decoration: const InputDecoration(labelText: 'Staff'),
+        decoration: InputDecoration(labelText: l10n.staffLabel),
         items: nameOptions
             .map((n) => DropdownMenuItem(value: n, child: Text(n)))
             .toList(),
@@ -277,7 +279,7 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
         const SizedBox(height: 12),
         DropdownButtonFormField<DateTime>(
           initialValue: date,
-          decoration: const InputDecoration(labelText: 'Date'),
+          decoration: InputDecoration(labelText: l10n.dateAxisLabel),
           items: dateOptions
               .map(
                 (d) => DropdownMenuItem(value: d, child: Text(formatDate(d))),
@@ -290,7 +292,7 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
         const SizedBox(height: 12),
         DropdownButtonFormField<String>(
           initialValue: task,
-          decoration: const InputDecoration(labelText: 'Task'),
+          decoration: InputDecoration(labelText: l10n.taskAxisLabel),
           items: taskOptions
               .map((t) => DropdownMenuItem(value: t, child: Text(t)))
               .toList(),
@@ -300,12 +302,12 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
     ];
   }
 
-  List<Widget> _buildDateAxis() {
+  List<Widget> _buildDateAxis(AppLocalizations l10n) {
     return [
       const SizedBox(height: 12),
       DropdownButtonFormField<DateTime>(
         initialValue: date,
-        decoration: const InputDecoration(labelText: 'Date'),
+        decoration: InputDecoration(labelText: l10n.dateAxisLabel),
         items: dateOptions
             .map((d) => DropdownMenuItem(value: d, child: Text(formatDate(d))))
             .toList(),
@@ -315,7 +317,7 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
         const SizedBox(height: 12),
         DropdownButtonFormField<String>(
           initialValue: name,
-          decoration: const InputDecoration(labelText: 'Staff'),
+          decoration: InputDecoration(labelText: l10n.staffLabel),
           items: nameOptions
               .map((n) => DropdownMenuItem(value: n, child: Text(n)))
               .toList(),
@@ -326,7 +328,7 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
         const SizedBox(height: 12),
         DropdownButtonFormField<String>(
           initialValue: task,
-          decoration: const InputDecoration(labelText: 'Task'),
+          decoration: InputDecoration(labelText: l10n.taskAxisLabel),
           items: taskOptions
               .map((t) => DropdownMenuItem(value: t, child: Text(t)))
               .toList(),
@@ -336,12 +338,12 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
     ];
   }
 
-  List<Widget> _buildTaskAxis() {
+  List<Widget> _buildTaskAxis(AppLocalizations l10n) {
     return [
       const SizedBox(height: 12),
       DropdownButtonFormField<String>(
         initialValue: task,
-        decoration: const InputDecoration(labelText: 'Task'),
+        decoration: InputDecoration(labelText: l10n.taskAxisLabel),
         items: taskOptions
             .map((t) => DropdownMenuItem(value: t, child: Text(t)))
             .toList(),
@@ -351,7 +353,7 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
         const SizedBox(height: 12),
         DropdownButtonFormField<String>(
           initialValue: name,
-          decoration: const InputDecoration(labelText: 'Staff'),
+          decoration: InputDecoration(labelText: l10n.staffLabel),
           items: nameOptions
               .map((n) => DropdownMenuItem(value: n, child: Text(n)))
               .toList(),
@@ -362,7 +364,7 @@ class _ManagerLogFilterState extends ConsumerState<ManagerLogFilter> {
         const SizedBox(height: 12),
         DropdownButtonFormField<DateTime>(
           initialValue: date,
-          decoration: const InputDecoration(labelText: 'Date'),
+          decoration: InputDecoration(labelText: l10n.dateAxisLabel),
           items: dateOptions
               .map(
                 (d) => DropdownMenuItem(value: d, child: Text(formatDate(d))),

@@ -1248,4 +1248,33 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get notCompletedSuffix => '- पूरा नहीं हुआ (शिफ्ट समाप्त)';
+
+  @override
+  String get todayAllFails => 'आज + सभी फेल';
+
+  @override
+  String byAxisLabel(String axis) {
+    return '$axis के अनुसार';
+  }
+
+  @override
+  String get nameAxisLabel => 'नाम';
+
+  @override
+  String get dateAxisLabel => 'तिथि';
+
+  @override
+  String get taskAxisLabel => 'कार्य';
+
+  @override
+  String get filterLabel => 'फ़िल्टर';
+
+  @override
+  String get filterByLabel => 'फ़िल्टर करें:';
+
+  @override
+  String get clearFiltersLabel => 'फ़िल्टर साफ़ करें';
+
+  @override
+  String get staffLabel => 'स्टाफ';
 }

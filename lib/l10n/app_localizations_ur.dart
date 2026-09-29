@@ -1243,4 +1243,33 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get notCompletedSuffix => '- مکمل نہیں ہوا (شفٹ ختم)';
+
+  @override
+  String get todayAllFails => 'آج + تمام فیل';
+
+  @override
+  String byAxisLabel(String axis) {
+    return '$axis کے مطابق';
+  }
+
+  @override
+  String get nameAxisLabel => 'نام';
+
+  @override
+  String get dateAxisLabel => 'تاریخ';
+
+  @override
+  String get taskAxisLabel => 'کام';
+
+  @override
+  String get filterLabel => 'فلٹر';
+
+  @override
+  String get filterByLabel => 'فلٹر کریں:';
+
+  @override
+  String get clearFiltersLabel => 'فلٹرز صاف کریں';
+
+  @override
+  String get staffLabel => 'عملہ';
 }

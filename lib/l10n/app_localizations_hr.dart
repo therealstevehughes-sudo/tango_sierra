@@ -1255,4 +1255,33 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get notCompletedSuffix => '- NIJE DOVRŠENO (smjena završena)';
+
+  @override
+  String get todayAllFails => 'Danas + svi padovi';
+
+  @override
+  String byAxisLabel(String axis) {
+    return 'Prema $axis';
+  }
+
+  @override
+  String get nameAxisLabel => 'Ime';
+
+  @override
+  String get dateAxisLabel => 'Datum';
+
+  @override
+  String get taskAxisLabel => 'Zadatak';
+
+  @override
+  String get filterLabel => 'Filtar';
+
+  @override
+  String get filterByLabel => 'Filtriraj prema:';
+
+  @override
+  String get clearFiltersLabel => 'Očisti filtre';
+
+  @override
+  String get staffLabel => 'Osoblje';
 }

@@ -354,5 +354,14 @@
   "correctiveActionLabel": "الإجراء التصحيحي",
   "noteLabel": "ملاحظة",
   "closeLabel": "إغلاق",
-  "notCompletedSuffix": "- لم يكتمل (انتهت المناوبة)"
+  "notCompletedSuffix": "- لم يكتمل (انتهت المناوبة)",
+  "todayAllFails": "اليوم + كل الحالات الراسبة",
+  "byAxisLabel": "حسب {axis}",
+  "nameAxisLabel": "الاسم",
+  "dateAxisLabel": "التاريخ",
+  "taskAxisLabel": "المهمة",
+  "filterLabel": "التصفية",
+  "filterByLabel": "التصفية حسب:",
+  "clearFiltersLabel": "مسح الفلاتر",
+  "staffLabel": "الموظف"
 }

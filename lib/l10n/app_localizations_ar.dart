@@ -1237,4 +1237,33 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notCompletedSuffix => '- لم يكتمل (انتهت المناوبة)';
+
+  @override
+  String get todayAllFails => 'اليوم + كل الحالات الراسبة';
+
+  @override
+  String byAxisLabel(String axis) {
+    return 'حسب $axis';
+  }
+
+  @override
+  String get nameAxisLabel => 'الاسم';
+
+  @override
+  String get dateAxisLabel => 'التاريخ';
+
+  @override
+  String get taskAxisLabel => 'المهمة';
+
+  @override
+  String get filterLabel => 'التصفية';
+
+  @override
+  String get filterByLabel => 'التصفية حسب:';
+
+  @override
+  String get clearFiltersLabel => 'مسح الفلاتر';
+
+  @override
+  String get staffLabel => 'الموظف';
 }

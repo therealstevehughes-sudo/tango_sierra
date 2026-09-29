@@ -354,5 +354,14 @@
   "correctiveActionLabel": "Działanie naprawcze",
   "noteLabel": "Notatka",
   "closeLabel": "Zamknij",
-  "notCompletedSuffix": "- NIEUKOŃCZONE (zmiana zakończona)"
+  "notCompletedSuffix": "- NIEUKOŃCZONE (zmiana zakończona)",
+  "todayAllFails": "Dzisiaj + wszystkie niezaliczone",
+  "byAxisLabel": "Wg {axis}",
+  "nameAxisLabel": "Nazwa",
+  "dateAxisLabel": "Data",
+  "taskAxisLabel": "Zadanie",
+  "filterLabel": "Filtr",
+  "filterByLabel": "Filtruj wg:",
+  "clearFiltersLabel": "Wyczyść filtry",
+  "staffLabel": "Pracownik"
 }

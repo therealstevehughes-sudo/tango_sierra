@@ -354,5 +354,14 @@
   "correctiveActionLabel": "Acțiune corectivă",
   "noteLabel": "Notă",
   "closeLabel": "Închide",
-  "notCompletedSuffix": "- NETERMINAT (tura încheiată)"
+  "notCompletedSuffix": "- NETERMINAT (tura încheiată)",
+  "todayAllFails": "Azi + toate eșecurile",
+  "byAxisLabel": "După {axis}",
+  "nameAxisLabel": "Nume",
+  "dateAxisLabel": "Dată",
+  "taskAxisLabel": "Sarcină",
+  "filterLabel": "Filtru",
+  "filterByLabel": "Filtrează după:",
+  "clearFiltersLabel": "Șterge filtrele",
+  "staffLabel": "Personal"
 }

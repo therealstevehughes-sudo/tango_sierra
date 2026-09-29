@@ -2243,6 +2243,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'- NOT COMPLETED (session ended)'**
   String get notCompletedSuffix;
+
+  /// No description provided for @todayAllFails.
+  ///
+  /// In en, this message translates to:
+  /// **'Today + all fails'**
+  String get todayAllFails;
+
+  /// No description provided for @byAxisLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'By {axis}'**
+  String byAxisLabel(String axis);
+
+  /// No description provided for @nameAxisLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get nameAxisLabel;
+
+  /// No description provided for @dateAxisLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get dateAxisLabel;
+
+  /// No description provided for @taskAxisLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get taskAxisLabel;
+
+  /// No description provided for @filterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filterLabel;
+
+  /// No description provided for @filterByLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by:'**
+  String get filterByLabel;
+
+  /// No description provided for @clearFiltersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get clearFiltersLabel;
+
+  /// No description provided for @staffLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff'**
+  String get staffLabel;
 }
 
 class _AppLocalizationsDelegate

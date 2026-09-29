@@ -1239,4 +1239,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notCompletedSuffix => '- NOT COMPLETED (session ended)';
+
+  @override
+  String get todayAllFails => 'Today + all fails';
+
+  @override
+  String byAxisLabel(String axis) {
+    return 'By $axis';
+  }
+
+  @override
+  String get nameAxisLabel => 'Name';
+
+  @override
+  String get dateAxisLabel => 'Date';
+
+  @override
+  String get taskAxisLabel => 'Task';
+
+  @override
+  String get filterLabel => 'Filter';
+
+  @override
+  String get filterByLabel => 'Filter by:';
+
+  @override
+  String get clearFiltersLabel => 'Clear filters';
+
+  @override
+  String get staffLabel => 'Staff';
 }

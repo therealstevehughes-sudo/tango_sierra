@@ -1262,4 +1262,33 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notCompletedSuffix => '- NICHT ABGESCHLOSSEN (Schicht beendet)';
+
+  @override
+  String get todayAllFails => 'Heute + alle Fehlschläge';
+
+  @override
+  String byAxisLabel(String axis) {
+    return 'Nach $axis';
+  }
+
+  @override
+  String get nameAxisLabel => 'Name';
+
+  @override
+  String get dateAxisLabel => 'Datum';
+
+  @override
+  String get taskAxisLabel => 'Aufgabe';
+
+  @override
+  String get filterLabel => 'Filter';
+
+  @override
+  String get filterByLabel => 'Filtern nach:';
+
+  @override
+  String get clearFiltersLabel => 'Filter zurücksetzen';
+
+  @override
+  String get staffLabel => 'Personal';
 }

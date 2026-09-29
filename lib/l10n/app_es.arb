@@ -354,5 +354,14 @@
   "correctiveActionLabel": "Acción correctiva",
   "noteLabel": "Nota",
   "closeLabel": "Cerrar",
-  "notCompletedSuffix": "- NO COMPLETADO (turno finalizado)"
+  "notCompletedSuffix": "- NO COMPLETADO (turno finalizado)",
+  "todayAllFails": "Hoy + todos los fallos",
+  "byAxisLabel": "Por {axis}",
+  "nameAxisLabel": "Nombre",
+  "dateAxisLabel": "Fecha",
+  "taskAxisLabel": "Tarea",
+  "filterLabel": "Filtro",
+  "filterByLabel": "Filtrar por:",
+  "clearFiltersLabel": "Borrar filtros",
+  "staffLabel": "Personal"
 }

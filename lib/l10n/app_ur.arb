@@ -354,5 +354,14 @@
   "correctiveActionLabel": "اصلاحی اقدام",
   "noteLabel": "نوٹ",
   "closeLabel": "بند کریں",
-  "notCompletedSuffix": "- مکمل نہیں ہوا (شفٹ ختم)"
+  "notCompletedSuffix": "- مکمل نہیں ہوا (شفٹ ختم)",
+  "todayAllFails": "آج + تمام فیل",
+  "byAxisLabel": "{axis} کے مطابق",
+  "nameAxisLabel": "نام",
+  "dateAxisLabel": "تاریخ",
+  "taskAxisLabel": "کام",
+  "filterLabel": "فلٹر",
+  "filterByLabel": "فلٹر کریں:",
+  "clearFiltersLabel": "فلٹرز صاف کریں",
+  "staffLabel": "عملہ"
 }

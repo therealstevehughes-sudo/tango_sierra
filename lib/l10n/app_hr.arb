@@ -354,5 +354,14 @@
   "correctiveActionLabel": "Korektivna radnja",
   "noteLabel": "Bilješka",
   "closeLabel": "Zatvori",
-  "notCompletedSuffix": "- NIJE DOVRŠENO (smjena završena)"
+  "notCompletedSuffix": "- NIJE DOVRŠENO (smjena završena)",
+  "todayAllFails": "Danas + svi padovi",
+  "byAxisLabel": "Prema {axis}",
+  "nameAxisLabel": "Ime",
+  "dateAxisLabel": "Datum",
+  "taskAxisLabel": "Zadatak",
+  "filterLabel": "Filtar",
+  "filterByLabel": "Filtriraj prema:",
+  "clearFiltersLabel": "Očisti filtre",
+  "staffLabel": "Osoblje"
 }

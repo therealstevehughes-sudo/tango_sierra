@@ -663,5 +663,21 @@
   "correctiveActionLabel": "Corrective action",
   "noteLabel": "Note",
   "closeLabel": "Close",
-  "notCompletedSuffix": "- NOT COMPLETED (session ended)"
+  "notCompletedSuffix": "- NOT COMPLETED (session ended)",
+  "todayAllFails": "Today + all fails",
+  "byAxisLabel": "By {axis}",
+  "@byAxisLabel": {
+    "placeholders": {
+      "axis": {
+        "type": "String"
+      }
+    }
+  },
+  "nameAxisLabel": "Name",
+  "dateAxisLabel": "Date",
+  "taskAxisLabel": "Task",
+  "filterLabel": "Filter",
+  "filterByLabel": "Filter by:",
+  "clearFiltersLabel": "Clear filters",
+  "staffLabel": "Staff"
 }

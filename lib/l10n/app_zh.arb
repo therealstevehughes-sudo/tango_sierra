@@ -354,5 +354,14 @@
   "correctiveActionLabel": "纠正措施",
   "noteLabel": "备注",
   "closeLabel": "关闭",
-  "notCompletedSuffix": "- 未完成(班次已结束)"
+  "notCompletedSuffix": "- 未完成(班次已结束)",
+  "todayAllFails": "今天 + 所有未通过",
+  "byAxisLabel": "按{axis}",
+  "nameAxisLabel": "姓名",
+  "dateAxisLabel": "日期",
+  "taskAxisLabel": "任务",
+  "filterLabel": "筛选",
+  "filterByLabel": "筛选方式:",
+  "clearFiltersLabel": "清除筛选",
+  "staffLabel": "员工"
 }

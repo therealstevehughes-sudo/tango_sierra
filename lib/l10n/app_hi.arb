@@ -354,5 +354,14 @@
   "correctiveActionLabel": "सुधारात्मक कार्रवाई",
   "noteLabel": "टिप्पणी",
   "closeLabel": "बंद करें",
-  "notCompletedSuffix": "- पूरा नहीं हुआ (शिफ्ट समाप्त)"
+  "notCompletedSuffix": "- पूरा नहीं हुआ (शिफ्ट समाप्त)",
+  "todayAllFails": "आज + सभी फेल",
+  "byAxisLabel": "{axis} के अनुसार",
+  "nameAxisLabel": "नाम",
+  "dateAxisLabel": "तिथि",
+  "taskAxisLabel": "कार्य",
+  "filterLabel": "फ़िल्टर",
+  "filterByLabel": "फ़िल्टर करें:",
+  "clearFiltersLabel": "फ़िल्टर साफ़ करें",
+  "staffLabel": "स्टाफ"
 }

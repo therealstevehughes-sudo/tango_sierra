@@ -354,5 +354,14 @@
   "correctiveActionLabel": "Korrekturmaßnahme",
   "noteLabel": "Notiz",
   "closeLabel": "Schließen",
-  "notCompletedSuffix": "- NICHT ABGESCHLOSSEN (Schicht beendet)"
+  "notCompletedSuffix": "- NICHT ABGESCHLOSSEN (Schicht beendet)",
+  "todayAllFails": "Heute + alle Fehlschläge",
+  "byAxisLabel": "Nach {axis}",
+  "nameAxisLabel": "Name",
+  "dateAxisLabel": "Datum",
+  "taskAxisLabel": "Aufgabe",
+  "filterLabel": "Filter",
+  "filterByLabel": "Filtern nach:",
+  "clearFiltersLabel": "Filter zurücksetzen",
+  "staffLabel": "Personal"
 }

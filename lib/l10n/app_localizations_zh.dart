@@ -1201,4 +1201,33 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get notCompletedSuffix => '- 未完成(班次已结束)';
+
+  @override
+  String get todayAllFails => '今天 + 所有未通过';
+
+  @override
+  String byAxisLabel(String axis) {
+    return '按$axis';
+  }
+
+  @override
+  String get nameAxisLabel => '姓名';
+
+  @override
+  String get dateAxisLabel => '日期';
+
+  @override
+  String get taskAxisLabel => '任务';
+
+  @override
+  String get filterLabel => '筛选';
+
+  @override
+  String get filterByLabel => '筛选方式:';
+
+  @override
+  String get clearFiltersLabel => '清除筛选';
+
+  @override
+  String get staffLabel => '员工';
 }
