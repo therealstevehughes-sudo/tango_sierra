@@ -12,6 +12,7 @@ import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_background.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../core/widgets/user_title.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
@@ -124,6 +125,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.watch(currentUserProvider);
     final branding = ref
         .watch(brandingConfigProvider)
@@ -149,14 +151,14 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
       appBar: AppScreenHeader(
         title: currentUser != null
             ? UserTitle(user: currentUser)
-            : const Text('Home'),
+            : Text(l10n.homeLabel),
         actions: [
           const AssistantIconButton(),
           TextButton.icon(
             onPressed: () =>
                 ref.read(currentUserProvider.notifier).state = null,
             icon: const Icon(Icons.logout, size: 18),
-            label: const Text('Log out'),
+            label: Text(l10n.logOut),
           ),
         ],
       ),
@@ -164,7 +166,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
       // non-base screen now has — Home/My Tasks/Oversight/Settings/tools/
       // Log out, always reachable, never a dead end. TierHomeScreen keeps
       // its own AppBar Log out button too (unchanged, low-risk to leave).
-      drawer: const ManagementDrawer(title: 'Home'),
+      drawer: ManagementDrawer(title: l10n.homeLabel),
       // Visual pass follow-up (2026-09-24, direct user feedback) — the
       // comment that used to be here claimed this card "shrink-wraps to
       // its own content width," but that's not actually how
@@ -211,7 +213,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                             ),
                             if (showBranchStatus) ...[
                               const SizedBox(height: 16),
-                              _BranchStatusCard(status: _status),
+                              _BranchStatusCard(status: _status, l10n: l10n),
                             ],
                             const SizedBox(height: 16),
                             // Visual pass follow-up (2026-09-22) — same treatment
@@ -220,7 +222,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                             // multiple times a shift; a repeated image would
                             // read as clutter, not polish).
                             Text(
-                              'What would you like to do?',
+                              l10n.workerHubPrompt,
                               style: const TextStyle(
                                 fontFamily: 'Fraunces',
                                 fontWeight: FontWeight.w600,
@@ -245,7 +247,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                                 roleTierRank(currentUser.roleTier) >=
                                     roleTierRank(RoleTier.venueManager)) ...[
                               PrimaryActionButton(
-                                label: 'Oversight',
+                                label: l10n.oversightLabel,
                                 icon: Icons.visibility,
                                 onPressed: () => Navigator.push(
                                   context,
@@ -259,7 +261,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                               ),
                               const SizedBox(height: 12),
                               PrimaryActionButton(
-                                label: 'My Tasks',
+                                label: l10n.myTasksTitle,
                                 icon: Icons.checklist,
                                 onPressed: () => Navigator.push(
                                   context,
@@ -270,7 +272,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                               ),
                             ] else ...[
                               PrimaryActionButton(
-                                label: 'My Tasks',
+                                label: l10n.myTasksTitle,
                                 icon: Icons.checklist,
                                 onPressed: () => Navigator.push(
                                   context,
@@ -281,7 +283,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                               ),
                               const SizedBox(height: 12),
                               PrimaryActionButton(
-                                label: 'Oversight',
+                                label: l10n.oversightLabel,
                                 icon: Icons.visibility,
                                 onPressed: currentUser == null
                                     ? null
@@ -316,9 +318,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                                   ),
                                 ),
                                 icon: const Icon(Icons.report_problem_outlined),
-                                label: const Text(
-                                  'Log something that just happened',
-                                ),
+                                label: Text(l10n.logSomethingHappened),
                                 style: OutlinedButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 16,
@@ -351,9 +351,10 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
 /// (never a spinner that jumps the layout) while `_TierHomeScreenState`
 /// fetches the figures.
 class _BranchStatusCard extends StatelessWidget {
-  const _BranchStatusCard({required this.status});
+  const _BranchStatusCard({required this.status, required this.l10n});
 
   final _BranchStatus? status;
+  final AppLocalizations l10n;
 
   @override
   Widget build(BuildContext context) {
@@ -383,29 +384,30 @@ class _BranchStatusCard extends StatelessWidget {
                 if (status.reliability.completionRate != null)
                   MetricChip(
                     icon: Icons.check_circle_outline,
-                    label:
-                        '${(status.reliability.completionRate! * 100).round()}% completed today',
+                    label: l10n.percentCompletedTodayChip(
+                      (status.reliability.completionRate! * 100).round(),
+                    ),
                   ),
                 if (status.reliability.onTimeRate != null)
                   MetricChip(
                     icon: Icons.schedule,
-                    label:
-                        '${(status.reliability.onTimeRate! * 100).round()}% on time',
+                    label: l10n.onTimePercentChip(
+                      (status.reliability.onTimeRate! * 100).round(),
+                    ),
                   ),
                 if (status.failCountToday > 0)
                   StatusBadge(
                     kind: StatusKind.critical,
-                    label:
-                        '${status.failCountToday} FAIL${status.failCountToday == 1 ? '' : 's'} today',
+                    label: l10n.failCountTodayBadge(status.failCountToday),
                   ),
                 if (status.overdueCount > 0)
                   StatusBadge(
                     kind: StatusKind.overdue,
-                    label: '${status.overdueCount} overdue',
+                    label: l10n.overdueCountLabel(status.overdueCount),
                   ),
                 MetricChip(
                   icon: Icons.groups_outlined,
-                  label: '${status.activeStaffCount} active staff',
+                  label: l10n.activeStaffCountLabel(status.activeStaffCount),
                 ),
               ],
             ),

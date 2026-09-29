@@ -970,4 +970,205 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get goodEvening => 'Bună seara';
+
+  @override
+  String get welcomeToVenurite => 'Bine ai venit la VenuRite';
+
+  @override
+  String get helpAssistantTooltip => 'Ajutor și asistent';
+
+  @override
+  String get couldntLoadScreen => 'Acest ecran nu a putut fi încărcat.';
+
+  @override
+  String get retryLabel => 'Reîncearcă';
+
+  @override
+  String get microphonePermissionDenied =>
+      'Permisiunea pentru microfon a fost refuzată.';
+
+  @override
+  String get couldntRecordTryAgain =>
+      'Nu s-a putut înregistra - încearcă din nou.';
+
+  @override
+  String get couldntTranscribe => 'Nu s-a putut transcrie.';
+
+  @override
+  String get couldntReachTranscriptionService =>
+      'Nu s-a putut contacta serviciul de transcriere.';
+
+  @override
+  String get dictateANote => 'Dictează o notă';
+
+  @override
+  String get stoppingSoonTapToStop =>
+      'Se oprește curând - atinge pentru a opri acum';
+
+  @override
+  String get stopLabel => 'Oprește';
+
+  @override
+  String get somethingWentWrong => 'Ceva nu a mers bine';
+
+  @override
+  String alertsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count alerte',
+      one: '1 alertă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unacknowledgedCountLabel(int count) {
+    return '$count necitite';
+  }
+
+  @override
+  String get allAcknowledgedLabel => 'Toate confirmate';
+
+  @override
+  String overdueUnacknowledgedMinutes(int minutes) {
+    return 'ÎNTÂRZIAT - neconfirmat de $minutes min';
+  }
+
+  @override
+  String get escalatedToTopTier => 'Escaladat la nivelul superior';
+
+  @override
+  String get acknowledgeLabel => 'Confirmă';
+
+  @override
+  String get nothingInCategory => 'Nimic în această categorie.';
+
+  @override
+  String categoryWithCountLabel(String title, int count) {
+    return '$title ($count)';
+  }
+
+  @override
+  String get leadershipOverview => 'Prezentare generală conducere';
+
+  @override
+  String get photoEvidence => 'Dovezi foto';
+
+  @override
+  String get staffManagement => 'Gestionarea personalului';
+
+  @override
+  String get addTeamMember => 'Adaugă membru al echipei';
+
+  @override
+  String get shiftLog => 'Jurnal de tură';
+
+  @override
+  String get branchTeamStructure => 'Structura echipei sucursalei';
+
+  @override
+  String get departmentManagement => 'Gestionarea departamentelor';
+
+  @override
+  String get rosterBoard => 'Panou de tură';
+
+  @override
+  String get claimShifts => 'Revendică ture';
+
+  @override
+  String get requestADayOff => 'Solicită o zi liberă';
+
+  @override
+  String get shiftFairnessReview => 'Analiză echitate ture';
+
+  @override
+  String get venueDetails => 'Detalii local';
+
+  @override
+  String get assignTasks => 'Atribuie sarcini';
+
+  @override
+  String get taskPresets => 'Presetări sarcini';
+
+  @override
+  String get supplierManagement => 'Gestionarea furnizorilor';
+
+  @override
+  String get serviceProviders => 'Furnizori de servicii';
+
+  @override
+  String get notificationRules => 'Reguli de notificare';
+
+  @override
+  String get documentCentre => 'Centru de documente';
+
+  @override
+  String get setupWizard => 'Expert de configurare';
+
+  @override
+  String get organisationLabel => 'Organizație';
+
+  @override
+  String get branchesLabel => 'Sucursale';
+
+  @override
+  String get homeLabel => 'Acasă';
+
+  @override
+  String get oversightLabel => 'Supraveghere';
+
+  @override
+  String get problemsAndIssues => 'Probleme și sesizări';
+
+  @override
+  String get twoFactorAuthentication => 'Autentificare în doi pași';
+
+  @override
+  String get backUpNow => 'Salvează acum';
+
+  @override
+  String get dailySection => 'Zilnic';
+
+  @override
+  String get insightsSection => 'Analize';
+
+  @override
+  String get peopleSection => 'Personal';
+
+  @override
+  String get rosterSection => 'Tură';
+
+  @override
+  String get venueSetupSection => 'Configurare local';
+
+  @override
+  String get companySection => 'Companie';
+
+  @override
+  String get accountSection => 'Cont';
+
+  @override
+  String get settingsLabel => 'Setări';
+
+  @override
+  String percentCompletedTodayChip(int percent) {
+    return '$percent% finalizat azi';
+  }
+
+  @override
+  String activeStaffCountLabel(int count) {
+    return '$count personal activ';
+  }
+
+  @override
+  String failCountTodayBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count NEREUȘITE azi',
+      one: '1 NEREUȘIT azi',
+    );
+    return '$_temp0';
+  }
 }

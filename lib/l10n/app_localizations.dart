@@ -1793,6 +1793,348 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Good evening'**
   String get goodEvening;
+
+  /// No description provided for @welcomeToVenurite.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to VenuRite'**
+  String get welcomeToVenurite;
+
+  /// No description provided for @helpAssistantTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & Assistant'**
+  String get helpAssistantTooltip;
+
+  /// No description provided for @couldntLoadScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load this screen.'**
+  String get couldntLoadScreen;
+
+  /// No description provided for @retryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retryLabel;
+
+  /// No description provided for @microphonePermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone permission was denied.'**
+  String get microphonePermissionDenied;
+
+  /// No description provided for @couldntRecordTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t record that - try again.'**
+  String get couldntRecordTryAgain;
+
+  /// No description provided for @couldntTranscribe.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t transcribe that.'**
+  String get couldntTranscribe;
+
+  /// No description provided for @couldntReachTranscriptionService.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reach the transcription service.'**
+  String get couldntReachTranscriptionService;
+
+  /// No description provided for @dictateANote.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictate a note'**
+  String get dictateANote;
+
+  /// No description provided for @stoppingSoonTapToStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopping soon - tap to stop now'**
+  String get stoppingSoonTapToStop;
+
+  /// No description provided for @stopLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get stopLabel;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// No description provided for @alertsCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 alert} other{{count} alerts}}'**
+  String alertsCountLabel(int count);
+
+  /// No description provided for @unacknowledgedCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} unacknowledged'**
+  String unacknowledgedCountLabel(int count);
+
+  /// No description provided for @allAcknowledgedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All acknowledged'**
+  String get allAcknowledgedLabel;
+
+  /// No description provided for @overdueUnacknowledgedMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'OVERDUE - unacknowledged for {minutes} min'**
+  String overdueUnacknowledgedMinutes(int minutes);
+
+  /// No description provided for @escalatedToTopTier.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalated to top tier'**
+  String get escalatedToTopTier;
+
+  /// No description provided for @acknowledgeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Acknowledge'**
+  String get acknowledgeLabel;
+
+  /// No description provided for @nothingInCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing in this category.'**
+  String get nothingInCategory;
+
+  /// No description provided for @categoryWithCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} ({count})'**
+  String categoryWithCountLabel(String title, int count);
+
+  /// No description provided for @leadershipOverview.
+  ///
+  /// In en, this message translates to:
+  /// **'Leadership Overview'**
+  String get leadershipOverview;
+
+  /// No description provided for @photoEvidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Evidence'**
+  String get photoEvidence;
+
+  /// No description provided for @staffManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff Management'**
+  String get staffManagement;
+
+  /// No description provided for @addTeamMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Team Member'**
+  String get addTeamMember;
+
+  /// No description provided for @shiftLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift Log'**
+  String get shiftLog;
+
+  /// No description provided for @branchTeamStructure.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch Team Structure'**
+  String get branchTeamStructure;
+
+  /// No description provided for @departmentManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Department Management'**
+  String get departmentManagement;
+
+  /// No description provided for @rosterBoard.
+  ///
+  /// In en, this message translates to:
+  /// **'Roster Board'**
+  String get rosterBoard;
+
+  /// No description provided for @claimShifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim Shifts'**
+  String get claimShifts;
+
+  /// No description provided for @requestADayOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Request a Day Off'**
+  String get requestADayOff;
+
+  /// No description provided for @shiftFairnessReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift Fairness Review'**
+  String get shiftFairnessReview;
+
+  /// No description provided for @venueDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue Details'**
+  String get venueDetails;
+
+  /// No description provided for @assignTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Tasks'**
+  String get assignTasks;
+
+  /// No description provided for @taskPresets.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Presets'**
+  String get taskPresets;
+
+  /// No description provided for @supplierManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplier Management'**
+  String get supplierManagement;
+
+  /// No description provided for @serviceProviders.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Providers'**
+  String get serviceProviders;
+
+  /// No description provided for @notificationRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Rules'**
+  String get notificationRules;
+
+  /// No description provided for @documentCentre.
+  ///
+  /// In en, this message translates to:
+  /// **'Document Centre'**
+  String get documentCentre;
+
+  /// No description provided for @setupWizard.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup Wizard'**
+  String get setupWizard;
+
+  /// No description provided for @organisationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Organisation'**
+  String get organisationLabel;
+
+  /// No description provided for @branchesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Branches'**
+  String get branchesLabel;
+
+  /// No description provided for @homeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get homeLabel;
+
+  /// No description provided for @oversightLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Oversight'**
+  String get oversightLabel;
+
+  /// No description provided for @problemsAndIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Problems & Issues'**
+  String get problemsAndIssues;
+
+  /// No description provided for @twoFactorAuthentication.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-Factor Authentication'**
+  String get twoFactorAuthentication;
+
+  /// No description provided for @backUpNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Back Up Now'**
+  String get backUpNow;
+
+  /// No description provided for @dailySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get dailySection;
+
+  /// No description provided for @insightsSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Insights'**
+  String get insightsSection;
+
+  /// No description provided for @peopleSection.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get peopleSection;
+
+  /// No description provided for @rosterSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Roster'**
+  String get rosterSection;
+
+  /// No description provided for @venueSetupSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue Setup'**
+  String get venueSetupSection;
+
+  /// No description provided for @companySection.
+  ///
+  /// In en, this message translates to:
+  /// **'Company'**
+  String get companySection;
+
+  /// No description provided for @accountSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get accountSection;
+
+  /// No description provided for @settingsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsLabel;
+
+  /// No description provided for @percentCompletedTodayChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% completed today'**
+  String percentCompletedTodayChip(int percent);
+
+  /// No description provided for @activeStaffCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} active staff'**
+  String activeStaffCountLabel(int count);
+
+  /// No description provided for @failCountTodayBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 FAIL today} other{{count} FAILs today}}'**
+  String failCountTodayBadge(int count);
 }
 
 class _AppLocalizationsDelegate

@@ -962,4 +962,205 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get goodEvening => 'शुभ संध्या';
+
+  @override
+  String get welcomeToVenurite => 'VenuRite में आपका स्वागत है';
+
+  @override
+  String get helpAssistantTooltip => 'सहायता और सहायक';
+
+  @override
+  String get couldntLoadScreen => 'इस स्क्रीन को लोड नहीं किया जा सका।';
+
+  @override
+  String get retryLabel => 'पुनः प्रयास करें';
+
+  @override
+  String get microphonePermissionDenied =>
+      'माइक्रोफ़ोन की अनुमति अस्वीकार कर दी गई।';
+
+  @override
+  String get couldntRecordTryAgain =>
+      'रिकॉर्ड नहीं किया जा सका - पुनः प्रयास करें।';
+
+  @override
+  String get couldntTranscribe => 'उसे ट्रांसक्राइब नहीं किया जा सका।';
+
+  @override
+  String get couldntReachTranscriptionService =>
+      'ट्रांसक्रिप्शन सेवा तक नहीं पहुंचा जा सका।';
+
+  @override
+  String get dictateANote => 'एक टिप्पणी बोलें';
+
+  @override
+  String get stoppingSoonTapToStop =>
+      'जल्द ही बंद होगा - अभी रोकने के लिए टैप करें';
+
+  @override
+  String get stopLabel => 'रोकें';
+
+  @override
+  String get somethingWentWrong => 'कुछ गलत हो गया';
+
+  @override
+  String alertsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count अलर्ट',
+      one: '1 अलर्ट',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unacknowledgedCountLabel(int count) {
+    return '$count अस्वीकृत नहीं';
+  }
+
+  @override
+  String get allAcknowledgedLabel => 'सभी स्वीकृत';
+
+  @override
+  String overdueUnacknowledgedMinutes(int minutes) {
+    return 'बकाया - $minutes मिनट से अस्वीकृत';
+  }
+
+  @override
+  String get escalatedToTopTier => 'शीर्ष स्तर पर भेजा गया';
+
+  @override
+  String get acknowledgeLabel => 'स्वीकार करें';
+
+  @override
+  String get nothingInCategory => 'इस श्रेणी में कुछ भी नहीं है।';
+
+  @override
+  String categoryWithCountLabel(String title, int count) {
+    return '$title ($count)';
+  }
+
+  @override
+  String get leadershipOverview => 'नेतृत्व अवलोकन';
+
+  @override
+  String get photoEvidence => 'फोटो साक्ष्य';
+
+  @override
+  String get staffManagement => 'स्टाफ प्रबंधन';
+
+  @override
+  String get addTeamMember => 'टीम सदस्य जोड़ें';
+
+  @override
+  String get shiftLog => 'शिफ्ट लॉग';
+
+  @override
+  String get branchTeamStructure => 'शाखा टीम संरचना';
+
+  @override
+  String get departmentManagement => 'विभाग प्रबंधन';
+
+  @override
+  String get rosterBoard => 'रोस्टर बोर्ड';
+
+  @override
+  String get claimShifts => 'शिफ्ट का दावा करें';
+
+  @override
+  String get requestADayOff => 'छुट्टी के लिए अनुरोध करें';
+
+  @override
+  String get shiftFairnessReview => 'शिफ्ट निष्पक्षता समीक्षा';
+
+  @override
+  String get venueDetails => 'वेन्यू विवरण';
+
+  @override
+  String get assignTasks => 'कार्य असाइन करें';
+
+  @override
+  String get taskPresets => 'कार्य प्रीसेट';
+
+  @override
+  String get supplierManagement => 'आपूर्तिकर्ता प्रबंधन';
+
+  @override
+  String get serviceProviders => 'सेवा प्रदाता';
+
+  @override
+  String get notificationRules => 'सूचना नियम';
+
+  @override
+  String get documentCentre => 'दस्तावेज़ केंद्र';
+
+  @override
+  String get setupWizard => 'सेटअप विज़ार्ड';
+
+  @override
+  String get organisationLabel => 'संगठन';
+
+  @override
+  String get branchesLabel => 'शाखाएं';
+
+  @override
+  String get homeLabel => 'होम';
+
+  @override
+  String get oversightLabel => 'निगरानी';
+
+  @override
+  String get problemsAndIssues => 'समस्याएं और मुद्दे';
+
+  @override
+  String get twoFactorAuthentication => 'टू-फैक्टर प्रमाणीकरण';
+
+  @override
+  String get backUpNow => 'अभी बैकअप लें';
+
+  @override
+  String get dailySection => 'दैनिक';
+
+  @override
+  String get insightsSection => 'अंतर्दृष्टि';
+
+  @override
+  String get peopleSection => 'लोग';
+
+  @override
+  String get rosterSection => 'रोस्टर';
+
+  @override
+  String get venueSetupSection => 'वेन्यू सेटअप';
+
+  @override
+  String get companySection => 'कंपनी';
+
+  @override
+  String get accountSection => 'खाता';
+
+  @override
+  String get settingsLabel => 'सेटिंग्स';
+
+  @override
+  String percentCompletedTodayChip(int percent) {
+    return '$percent% आज पूर्ण';
+  }
+
+  @override
+  String activeStaffCountLabel(int count) {
+    return '$count सक्रिय स्टाफ';
+  }
+
+  @override
+  String failCountTodayBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'आज $count फेल',
+      one: 'आज 1 फेल',
+    );
+    return '$_temp0';
+  }
 }

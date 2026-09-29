@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/branding_config.dart';
 
 /// Shared branded header (2026-09-13, v2): the client's company logo and
@@ -121,7 +122,7 @@ class BrandHeader extends StatelessWidget {
                     // consistent voice rather than a second, different
                     // message.
                     Text(
-                      'Welcome to VenuRite',
+                      AppLocalizations.of(context)!.welcomeToVenurite,
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),

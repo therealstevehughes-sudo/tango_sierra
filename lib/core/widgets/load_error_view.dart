@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import 'primary_action_button.dart';
 
 /// Shown in a screen's body when its initial data load throws (2026-09-28,
@@ -16,6 +17,7 @@ class LoadErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -24,7 +26,7 @@ class LoadErrorView extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline, color: AppColors.critical, size: 40),
             const SizedBox(height: 12),
-            const Text("Couldn't load this screen."),
+            Text(l10n.couldntLoadScreen),
             const SizedBox(height: 4),
             Text(
               error,
@@ -32,7 +34,7 @@ class LoadErrorView extends StatelessWidget {
               style: const TextStyle(color: AppColors.muted),
             ),
             const SizedBox(height: 16),
-            PrimaryActionButton(label: 'Retry', onPressed: onRetry),
+            PrimaryActionButton(label: l10n.retryLabel, onPressed: onRetry),
           ],
         ),
       ),

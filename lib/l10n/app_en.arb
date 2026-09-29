@@ -498,5 +498,114 @@
   },
   "goodMorning": "Good morning",
   "goodAfternoon": "Good afternoon",
-  "goodEvening": "Good evening"
+  "goodEvening": "Good evening",
+  "welcomeToVenurite": "Welcome to VenuRite",
+  "helpAssistantTooltip": "Help & Assistant",
+  "couldntLoadScreen": "Couldn't load this screen.",
+  "retryLabel": "Retry",
+  "microphonePermissionDenied": "Microphone permission was denied.",
+  "couldntRecordTryAgain": "Couldn't record that - try again.",
+  "couldntTranscribe": "Couldn't transcribe that.",
+  "couldntReachTranscriptionService": "Couldn't reach the transcription service.",
+  "dictateANote": "Dictate a note",
+  "stoppingSoonTapToStop": "Stopping soon - tap to stop now",
+  "stopLabel": "Stop",
+  "somethingWentWrong": "Something went wrong",
+  "alertsCountLabel": "{count, plural, one{1 alert} other{{count} alerts}}",
+  "@alertsCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "unacknowledgedCountLabel": "{count} unacknowledged",
+  "@unacknowledgedCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "allAcknowledgedLabel": "All acknowledged",
+  "overdueUnacknowledgedMinutes": "OVERDUE - unacknowledged for {minutes} min",
+  "@overdueUnacknowledgedMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "escalatedToTopTier": "Escalated to top tier",
+  "acknowledgeLabel": "Acknowledge",
+  "nothingInCategory": "Nothing in this category.",
+  "categoryWithCountLabel": "{title} ({count})",
+  "@categoryWithCountLabel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "leadershipOverview": "Leadership Overview",
+  "photoEvidence": "Photo Evidence",
+  "staffManagement": "Staff Management",
+  "addTeamMember": "Add Team Member",
+  "shiftLog": "Shift Log",
+  "branchTeamStructure": "Branch Team Structure",
+  "departmentManagement": "Department Management",
+  "rosterBoard": "Roster Board",
+  "claimShifts": "Claim Shifts",
+  "requestADayOff": "Request a Day Off",
+  "shiftFairnessReview": "Shift Fairness Review",
+  "venueDetails": "Venue Details",
+  "assignTasks": "Assign Tasks",
+  "taskPresets": "Task Presets",
+  "supplierManagement": "Supplier Management",
+  "serviceProviders": "Service Providers",
+  "notificationRules": "Notification Rules",
+  "documentCentre": "Document Centre",
+  "setupWizard": "Setup Wizard",
+  "organisationLabel": "Organisation",
+  "branchesLabel": "Branches",
+  "homeLabel": "Home",
+  "oversightLabel": "Oversight",
+  "problemsAndIssues": "Problems & Issues",
+  "twoFactorAuthentication": "Two-Factor Authentication",
+  "backUpNow": "Back Up Now",
+  "dailySection": "Daily",
+  "insightsSection": "Insights",
+  "peopleSection": "People",
+  "rosterSection": "Roster",
+  "venueSetupSection": "Venue Setup",
+  "companySection": "Company",
+  "accountSection": "Account",
+  "settingsLabel": "Settings",
+  "percentCompletedTodayChip": "{percent}% completed today",
+  "@percentCompletedTodayChip": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "activeStaffCountLabel": "{count} active staff",
+  "@activeStaffCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "failCountTodayBadge": "{count, plural, one{1 FAIL today} other{{count} FAILs today}}",
+  "@failCountTodayBadge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

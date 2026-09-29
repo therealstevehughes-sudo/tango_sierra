@@ -970,4 +970,205 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get goodEvening => 'Dobra večer';
+
+  @override
+  String get welcomeToVenurite => 'Dobrodošli u VenuRite';
+
+  @override
+  String get helpAssistantTooltip => 'Pomoć i asistent';
+
+  @override
+  String get couldntLoadScreen => 'Ovaj zaslon nije bilo moguće učitati.';
+
+  @override
+  String get retryLabel => 'Pokušaj ponovno';
+
+  @override
+  String get microphonePermissionDenied =>
+      'Dopuštenje za mikrofon je odbijeno.';
+
+  @override
+  String get couldntRecordTryAgain =>
+      'Snimanje nije uspjelo - pokušaj ponovno.';
+
+  @override
+  String get couldntTranscribe => 'To nije bilo moguće transkribirati.';
+
+  @override
+  String get couldntReachTranscriptionService =>
+      'Nije bilo moguće kontaktirati uslugu transkripcije.';
+
+  @override
+  String get dictateANote => 'Izdiktiraj bilješku';
+
+  @override
+  String get stoppingSoonTapToStop =>
+      'Uskoro se zaustavlja - dodirni za trenutno zaustavljanje';
+
+  @override
+  String get stopLabel => 'Zaustavi';
+
+  @override
+  String get somethingWentWrong => 'Nešto je pošlo po zlu';
+
+  @override
+  String alertsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count upozorenja',
+      one: '1 upozorenje',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unacknowledgedCountLabel(int count) {
+    return '$count nepotvrđeno';
+  }
+
+  @override
+  String get allAcknowledgedLabel => 'Sve potvrđeno';
+
+  @override
+  String overdueUnacknowledgedMinutes(int minutes) {
+    return 'ZAKAŠNJELO - nepotvrđeno $minutes min';
+  }
+
+  @override
+  String get escalatedToTopTier => 'Eskalirano na najvišu razinu';
+
+  @override
+  String get acknowledgeLabel => 'Potvrdi';
+
+  @override
+  String get nothingInCategory => 'Ništa u ovoj kategoriji.';
+
+  @override
+  String categoryWithCountLabel(String title, int count) {
+    return '$title ($count)';
+  }
+
+  @override
+  String get leadershipOverview => 'Pregled rukovodstva';
+
+  @override
+  String get photoEvidence => 'Fotografski dokazi';
+
+  @override
+  String get staffManagement => 'Upravljanje osobljem';
+
+  @override
+  String get addTeamMember => 'Dodaj člana tima';
+
+  @override
+  String get shiftLog => 'Zapisnik smjena';
+
+  @override
+  String get branchTeamStructure => 'Struktura tima podružnice';
+
+  @override
+  String get departmentManagement => 'Upravljanje odjelima';
+
+  @override
+  String get rosterBoard => 'Raspored smjena';
+
+  @override
+  String get claimShifts => 'Preuzmi smjene';
+
+  @override
+  String get requestADayOff => 'Zatraži slobodan dan';
+
+  @override
+  String get shiftFairnessReview => 'Pregled pravednosti rasporeda';
+
+  @override
+  String get venueDetails => 'Detalji lokacije';
+
+  @override
+  String get assignTasks => 'Dodijeli zadatke';
+
+  @override
+  String get taskPresets => 'Predlošci zadataka';
+
+  @override
+  String get supplierManagement => 'Upravljanje dobavljačima';
+
+  @override
+  String get serviceProviders => 'Pružatelji usluga';
+
+  @override
+  String get notificationRules => 'Pravila obavijesti';
+
+  @override
+  String get documentCentre => 'Centar dokumenata';
+
+  @override
+  String get setupWizard => 'Čarobnjak za postavljanje';
+
+  @override
+  String get organisationLabel => 'Organizacija';
+
+  @override
+  String get branchesLabel => 'Podružnice';
+
+  @override
+  String get homeLabel => 'Početna';
+
+  @override
+  String get oversightLabel => 'Nadzor';
+
+  @override
+  String get problemsAndIssues => 'Problemi i incidenti';
+
+  @override
+  String get twoFactorAuthentication => 'Dvofaktorska autentifikacija';
+
+  @override
+  String get backUpNow => 'Napravi sigurnosnu kopiju sada';
+
+  @override
+  String get dailySection => 'Dnevno';
+
+  @override
+  String get insightsSection => 'Uvidi';
+
+  @override
+  String get peopleSection => 'Osoblje';
+
+  @override
+  String get rosterSection => 'Raspored';
+
+  @override
+  String get venueSetupSection => 'Postavljanje lokacije';
+
+  @override
+  String get companySection => 'Tvrtka';
+
+  @override
+  String get accountSection => 'Račun';
+
+  @override
+  String get settingsLabel => 'Postavke';
+
+  @override
+  String percentCompletedTodayChip(int percent) {
+    return '$percent% dovršeno danas';
+  }
+
+  @override
+  String activeStaffCountLabel(int count) {
+    return '$count aktivnog osoblja';
+  }
+
+  @override
+  String failCountTodayBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count PALO danas',
+      one: '1 PALO danas',
+    );
+    return '$_temp0';
+  }
 }

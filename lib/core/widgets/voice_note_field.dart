@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/providers/auth_providers.dart' show backendDataEnabledProvider;
 import '../../shared/providers/backend_providers.dart';
 
@@ -70,8 +71,9 @@ class _VoiceNoteMicButtonState extends ConsumerState<VoiceNoteMicButton> {
 
   Future<void> _start() async {
     final hasPermission = await _recorder.hasPermission();
+    if (!mounted) return;
     if (!hasPermission) {
-      _showError('Microphone permission was denied.');
+      _showError(AppLocalizations.of(context)!.microphonePermissionDenied);
       return;
     }
 
@@ -105,7 +107,7 @@ class _VoiceNoteMicButtonState extends ConsumerState<VoiceNoteMicButton> {
 
     final filePath = path ?? _recordingPath;
     if (filePath == null) {
-      _showError("Couldn't record that - try again.");
+      _showError(AppLocalizations.of(context)!.couldntRecordTryAgain);
       return;
     }
 
@@ -124,11 +126,14 @@ class _VoiceNoteMicButtonState extends ConsumerState<VoiceNoteMicButton> {
         _insertAtCursor(text.trim());
         setState(() => _state = _VoiceNoteState.idle);
       } else {
-        _showError((response['error'] as String?) ?? "Couldn't transcribe that.");
+        _showError(
+          (response['error'] as String?) ??
+              AppLocalizations.of(context)!.couldntTranscribe,
+        );
       }
     } catch (_) {
       if (!mounted) return;
-      _showError("Couldn't reach the transcription service.");
+      _showError(AppLocalizations.of(context)!.couldntReachTranscriptionService);
     } finally {
       // Never leave the recorded clip on disk, success or failure.
       if (await file.exists()) {
@@ -180,12 +185,13 @@ class _VoiceNoteMicButtonState extends ConsumerState<VoiceNoteMicButton> {
     if (!ref.watch(backendDataEnabledProvider)) {
       return const SizedBox.shrink();
     }
+    final l10n = AppLocalizations.of(context)!;
 
     switch (_state) {
       case _VoiceNoteState.idle:
         return IconButton(
           icon: const Icon(Icons.mic_none),
-          tooltip: 'Dictate a note',
+          tooltip: l10n.dictateANote,
           onPressed: _start,
         );
       case _VoiceNoteState.recording:
@@ -202,7 +208,9 @@ class _VoiceNoteMicButtonState extends ConsumerState<VoiceNoteMicButton> {
             ),
             IconButton(
               icon: Icon(Icons.stop_circle, color: AppColors.pass),
-              tooltip: remaining <= 10 ? 'Stopping soon - tap to stop now' : 'Stop',
+              tooltip: remaining <= 10
+                  ? l10n.stoppingSoonTapToStop
+                  : l10n.stopLabel,
               onPressed: _stopAndTranscribe,
             ),
           ],
@@ -218,7 +226,7 @@ class _VoiceNoteMicButtonState extends ConsumerState<VoiceNoteMicButton> {
         );
       case _VoiceNoteState.error:
         return Tooltip(
-          message: _errorMessage ?? 'Something went wrong',
+          message: _errorMessage ?? l10n.somethingWentWrong,
           child: const Icon(Icons.mic_off, color: AppColors.critical),
         );
     }

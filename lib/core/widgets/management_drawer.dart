@@ -36,6 +36,7 @@ import '../../features/task_library/preset_management_screen.dart';
 import '../../features/tasks/reorder_tasks_screen.dart';
 import '../../features/tasks/task_screen.dart';
 import '../../features/venue_setup/venue_setup_wizard_screen.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 
@@ -71,7 +72,7 @@ class _DrawerItemDef {
 // Issues" (the screen gained an Issues & Incidents tab 2026-09-15, the
 // old name was stale) and "Venue Setup" -> "Setup Wizard" (to read
 // distinctly from "Venue Details" next to it).
-final List<_DrawerItemDef> _insightsItems = [
+List<_DrawerItemDef> _insightsItems(AppLocalizations l10n) => [
   // Sections/Teams scoping (2026-09-18) — lowered from venueManager so a
   // Supervisor can reach their own section/team-scoped view (see
   // leadership_dashboard_screen.dart). This is the one gate this build
@@ -85,7 +86,7 @@ final List<_DrawerItemDef> _insightsItems = [
   // and its actual audience.
   _DrawerItemDef(
     icon: Icons.bar_chart,
-    label: 'Leadership Overview',
+    label: l10n.leadershipOverview,
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const LeadershipDashboardScreen(),
   ),
@@ -96,22 +97,22 @@ final List<_DrawerItemDef> _insightsItems = [
   // Overview, EHO / Audit Export, Photo Evidence.
   _DrawerItemDef(
     icon: Icons.photo_library_outlined,
-    label: 'Photo Evidence',
+    label: l10n.photoEvidence,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const EvidencePruneScreen(),
   ),
 ];
 
-final List<_DrawerItemDef> _peopleItems = [
+List<_DrawerItemDef> _peopleItems(AppLocalizations l10n) => [
   _DrawerItemDef(
     icon: Icons.badge,
-    label: 'Staff Management',
+    label: l10n.staffManagement,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const StaffManagementScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.person_add_alt,
-    label: 'Add Team Member',
+    label: l10n.addTeamMember,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const StaffProvisioningScreen(),
   ),
@@ -119,7 +120,7 @@ final List<_DrawerItemDef> _peopleItems = [
   // signal per its own doc comment, not a graded score.
   _DrawerItemDef(
     icon: Icons.schedule_outlined,
-    label: 'Shift Log',
+    label: l10n.shiftLog,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const ShiftLogScreen(),
   ),
@@ -130,13 +131,13 @@ final List<_DrawerItemDef> _peopleItems = [
   // able to see the reporting lines, not just venueManager+.
   _DrawerItemDef(
     icon: Icons.account_tree_outlined,
-    label: 'Branch Team Structure',
+    label: l10n.branchTeamStructure,
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const BranchOrgChartScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.groups,
-    label: 'Department Management',
+    label: l10n.departmentManagement,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const DepartmentManagementScreen(),
   ),
@@ -148,7 +149,7 @@ final List<_DrawerItemDef> _peopleItems = [
 // feature, two unrelated places to look for it. Grouped together so the
 // add-on has one discoverable home, and gates unchanged from before this
 // move.
-final List<_DrawerItemDef> _rosterItems = [
+List<_DrawerItemDef> _rosterItems(AppLocalizations l10n) => [
   // Manager side (post shifts, assign/remove) at venueManager+; the
   // staff-facing screens below at supervisor+. Locked-teaser UX
   // (2026-09-27, direct founder request): dimmed + lock icon + opens
@@ -157,14 +158,14 @@ final List<_DrawerItemDef> _rosterItems = [
   // _itemTiles/_lockedNavTile below.
   _DrawerItemDef(
     icon: Icons.event_note_outlined,
-    label: 'Roster Board',
+    label: l10n.rosterBoard,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const RosterBoardScreen(),
     requiresRosterAddon: true,
   ),
   _DrawerItemDef(
     icon: Icons.event_available_outlined,
-    label: 'Claim Shifts',
+    label: l10n.claimShifts,
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const ClaimBoardScreen(),
     requiresRosterAddon: true,
@@ -173,7 +174,7 @@ final List<_DrawerItemDef> _rosterItems = [
   // Shifts, same dual-entry pattern (WorkerHubScreen button for base tier).
   _DrawerItemDef(
     icon: Icons.event_busy_outlined,
-    label: 'Request a Day Off',
+    label: l10n.requestADayOff,
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const RequestOffDayScreen(),
     requiresRosterAddon: true,
@@ -182,41 +183,41 @@ final List<_DrawerItemDef> _rosterItems = [
   // Insights; moved here to sit with the rest of Roster.
   _DrawerItemDef(
     icon: Icons.balance_outlined,
-    label: 'Shift Fairness Review',
+    label: l10n.shiftFairnessReview,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const ShiftFairnessScreen(),
     requiresRosterAddon: true,
   ),
 ];
 
-final List<_DrawerItemDef> _venueSetupItems = [
+List<_DrawerItemDef> _venueSetupItems(AppLocalizations l10n) => [
   _DrawerItemDef(
     icon: Icons.location_city,
-    label: 'Venue Details',
+    label: l10n.venueDetails,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const VenueDetailsScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.assignment_ind,
-    label: 'Assign Tasks',
+    label: l10n.assignTasks,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const StaffAssignmentScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.swap_vert,
-    label: 'Reorder Tasks',
+    label: l10n.reorderTasksTitle,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const ReorderTasksScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.checklist,
-    label: 'Task Presets',
+    label: l10n.taskPresets,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const PresetManagementScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.local_shipping,
-    label: 'Supplier Management',
+    label: l10n.supplierManagement,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const SupplierManagementScreen(),
   ),
@@ -234,13 +235,13 @@ final List<_DrawerItemDef> _venueSetupItems = [
   // floor, so it always renders properly grouped.
   _DrawerItemDef(
     icon: Icons.handshake_outlined,
-    label: 'Service Providers',
+    label: l10n.serviceProviders,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const ServiceProvidersScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.notifications,
-    label: 'Notification Rules',
+    label: l10n.notificationRules,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const NotificationRulesScreen(),
   ),
@@ -249,7 +250,7 @@ final List<_DrawerItemDef> _venueSetupItems = [
   // rest of Insights (Leadership Overview, EHO Export, Photo Evidence).
   _DrawerItemDef(
     icon: Icons.folder_copy_outlined,
-    label: 'Document Centre',
+    label: l10n.documentCentre,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const DocumentCentreScreen(),
   ),
@@ -265,19 +266,19 @@ final List<_DrawerItemDef> _venueSetupItems = [
   // Areas/Staff/Supplier setup stays venueManager+ only.
   _DrawerItemDef(
     icon: Icons.store,
-    label: 'Setup Wizard',
+    label: l10n.setupWizard,
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const VenueSetupWizardScreen(),
   ),
 ];
 
-final List<_DrawerItemDef> _companyItems = [
+List<_DrawerItemDef> _companyItems(AppLocalizations l10n) => [
   // Phase C3 — the visual org organogram: Head Office -> Regions ->
   // Venues, each level showing its actual people, expandable downward,
   // add/invite/rename/reset-password actions right on it. Executive-only.
   _DrawerItemDef(
     icon: Icons.account_tree_outlined,
-    label: 'Organisation',
+    label: l10n.organisationLabel,
     minTier: RoleTier.executive,
     screenBuilder: (_) => const OrganisationTreeScreen(),
   ),
@@ -285,7 +286,7 @@ final List<_DrawerItemDef> _companyItems = [
   // the executive-only Organisation tree above.
   _DrawerItemDef(
     icon: Icons.storefront_outlined,
-    label: 'Branches',
+    label: l10n.branchesLabel,
     minTier: RoleTier.regional,
     screenBuilder: (_) => const BranchManagementScreen(),
   ),
@@ -468,6 +469,7 @@ class ManagementDrawer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.watch(currentUserProvider);
     final tier = currentUser?.roleTier;
     // Defaults to locked while resolving/on error — a brief false-locked
@@ -485,12 +487,12 @@ class ManagementDrawer extends ConsumerWidget {
       // all (Home/My Tasks/Oversight are unconditional), expanded by
       // default: the items a supervisor+ actually touches every shift.
       _section(
-        label: 'Daily',
+        label: l10n.dailySection,
         initiallyExpanded: true,
         children: [
           _navTile(
             icon: Icons.home_outlined,
-            label: 'Home',
+            label: l10n.homeLabel,
             onTap: () {
               Navigator.pop(context);
               Navigator.of(context).popUntil((route) => route.isFirst);
@@ -498,13 +500,13 @@ class ManagementDrawer extends ConsumerWidget {
           ),
           _navTile(
             icon: Icons.checklist,
-            label: 'My Tasks',
+            label: l10n.myTasksTitle,
             onTap: () => _navigate(context, const TaskScreen()),
           ),
           if (tier != null)
             _navTile(
               icon: Icons.visibility,
-              label: 'Oversight',
+              label: l10n.oversightLabel,
               onTap: () =>
                   _navigate(context, TierHomeScreen.oversightScreenFor(tier)),
             ),
@@ -514,13 +516,13 @@ class ManagementDrawer extends ConsumerWidget {
           if (atLeast(RoleTier.supervisor))
             _navTile(
               icon: Icons.report_problem_outlined,
-              label: 'Problems & Issues',
+              label: l10n.problemsAndIssues,
               onTap: () => _navigate(context, const ProblemsRegisterScreen()),
             ),
           if (atLeast(RoleTier.supervisor))
             _navTile(
               icon: Icons.insights,
-              label: 'Dashboard',
+              label: l10n.dashboardTitle,
               onTap: () => _navigate(context, const DashboardScreen()),
             ),
         ],
@@ -528,18 +530,18 @@ class ManagementDrawer extends ConsumerWidget {
       // INSIGHTS — venueManager+ reporting/monitoring, collapsed by
       // default (checked occasionally, not every shift).
       _section(
-        label: 'Insights',
+        label: l10n.insightsSection,
         children: [
           ..._itemTiles(
             context,
-            [_insightsItems[0]],
+            [_insightsItems(l10n)[0]],
             atLeast,
             rosterAddonEnabled,
           ),
           if (atLeast(_ehoExportMinTier))
             _navTile(
               icon: Icons.picture_as_pdf_outlined,
-              label: 'EHO / Audit Export',
+              label: l10n.ehoAuditExportTitle,
               onTap: () {
                 Navigator.pop(context);
                 showEhoExportDialog(
@@ -553,7 +555,7 @@ class ManagementDrawer extends ConsumerWidget {
             ),
           ..._itemTiles(
             context,
-            _insightsItems.sublist(1),
+            _insightsItems(l10n).sublist(1),
             atLeast,
             rosterAddonEnabled,
           ),
@@ -565,8 +567,13 @@ class ManagementDrawer extends ConsumerWidget {
       // one item — a harmless, deliberately-accepted one-item section
       // rather than complicating the tier-gating rule to avoid it.
       _section(
-        label: 'People',
-        children: _itemTiles(context, _peopleItems, atLeast, rosterAddonEnabled),
+        label: l10n.peopleSection,
+        children: _itemTiles(
+          context,
+          _peopleItems(l10n),
+          atLeast,
+          rosterAddonEnabled,
+        ),
       ),
       // ROSTER — the paid add-on's own section (2026-09-29, drawer audit).
       // See _rosterItems' own doc comment for why this was split out of
@@ -574,15 +581,20 @@ class ManagementDrawer extends ConsumerWidget {
       // section still appears) for a tier that qualifies but hasn't paid
       // — same as every other requiresRosterAddon item always has.
       _section(
-        label: 'Roster',
-        children: _itemTiles(context, _rosterItems, atLeast, rosterAddonEnabled),
+        label: l10n.rosterSection,
+        children: _itemTiles(
+          context,
+          _rosterItems(l10n),
+          atLeast,
+          rosterAddonEnabled,
+        ),
       ),
       // VENUE SETUP — venueManager+ configuration, all one tier floor.
       _section(
-        label: 'Venue Setup',
+        label: l10n.venueSetupSection,
         children: _itemTiles(
           context,
-          _venueSetupItems,
+          _venueSetupItems(l10n),
           atLeast,
           rosterAddonEnabled,
         ),
@@ -591,8 +603,13 @@ class ManagementDrawer extends ConsumerWidget {
       // apart, mid-list, among unrelated config items). Invisible to
       // supervisor/venueManager (neither item's gate reaches that low).
       _section(
-        label: 'Company',
-        children: _itemTiles(context, _companyItems, atLeast, rosterAddonEnabled),
+        label: l10n.companySection,
+        children: _itemTiles(
+          context,
+          _companyItems(l10n),
+          atLeast,
+          rosterAddonEnabled,
+        ),
       ),
       // ACCOUNT — collapsed by default like every non-Daily section.
       // Settings and Log out used to live here too, but per direct user
@@ -602,14 +619,14 @@ class ManagementDrawer extends ConsumerWidget {
       // build()'s Column below). This section keeps only the genuinely
       // occasional items.
       _section(
-        label: 'Account',
+        label: l10n.accountSection,
         children: [
           // Help hub (2026-09-24) — Contact VenuRite/FAQ/Troubleshooting,
           // the same destination base tier reaches via its own "?" icon
           // (see WorkerHubScreen/TaskScreen).
           _navTile(
             icon: Icons.help_outline,
-            label: 'Help',
+            label: l10n.helpTitle,
             onTap: () => _navigate(context, const HelpScreen()),
           ),
           // Two-factor authentication — only meaningful for a real GoTrue
@@ -621,13 +638,13 @@ class ManagementDrawer extends ConsumerWidget {
               ref.watch(backendAuthEnabledProvider))
             _navTile(
               icon: Icons.verified_user_outlined,
-              label: 'Two-Factor Authentication',
+              label: l10n.twoFactorAuthentication,
               onTap: () => _navigate(context, const TwoFactorSettingsScreen()),
             ),
           if (atLeast(_backUpMinTier))
             _navTile(
               icon: Icons.backup,
-              label: 'Back Up Now',
+              label: l10n.backUpNow,
               onTap: () {
                 Navigator.pop(context);
                 showBackupDialog(
@@ -673,12 +690,12 @@ class ManagementDrawer extends ConsumerWidget {
           const Divider(height: 1),
           _navTile(
             icon: Icons.settings,
-            label: 'Settings',
+            label: l10n.settingsLabel,
             onTap: () => _navigate(context, const SettingsScreen()),
           ),
           _navTile(
             icon: Icons.logout,
-            label: 'Log out',
+            label: l10n.logOut,
             onTap: () {
               Navigator.pop(context); // closes the drawer itself
               if (onLogout != null) {

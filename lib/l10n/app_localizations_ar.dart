@@ -956,4 +956,202 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get goodEvening => 'مساء الخير';
+
+  @override
+  String get welcomeToVenurite => 'مرحبًا بك في VenuRite';
+
+  @override
+  String get helpAssistantTooltip => 'المساعدة والمساعد';
+
+  @override
+  String get couldntLoadScreen => 'تعذر تحميل هذه الشاشة.';
+
+  @override
+  String get retryLabel => 'إعادة المحاولة';
+
+  @override
+  String get microphonePermissionDenied => 'تم رفض إذن الميكروفون.';
+
+  @override
+  String get couldntRecordTryAgain => 'تعذر التسجيل - حاول مرة أخرى.';
+
+  @override
+  String get couldntTranscribe => 'تعذر تفريغ ذلك.';
+
+  @override
+  String get couldntReachTranscriptionService =>
+      'تعذر الوصول إلى خدمة تفريغ الصوت.';
+
+  @override
+  String get dictateANote => 'أملِ ملاحظة';
+
+  @override
+  String get stoppingSoonTapToStop => 'سيتوقف قريبًا - اضغط للتوقف الآن';
+
+  @override
+  String get stopLabel => 'إيقاف';
+
+  @override
+  String get somethingWentWrong => 'حدث خطأ ما';
+
+  @override
+  String alertsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count تنبيهات',
+      one: 'تنبيه واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unacknowledgedCountLabel(int count) {
+    return '$count غير مُقرة';
+  }
+
+  @override
+  String get allAcknowledgedLabel => 'تم إقرار الكل';
+
+  @override
+  String overdueUnacknowledgedMinutes(int minutes) {
+    return 'متأخر - غير مُقر منذ $minutes دقيقة';
+  }
+
+  @override
+  String get escalatedToTopTier => 'تم التصعيد إلى المستوى الأعلى';
+
+  @override
+  String get acknowledgeLabel => 'إقرار';
+
+  @override
+  String get nothingInCategory => 'لا يوجد شيء في هذه الفئة.';
+
+  @override
+  String categoryWithCountLabel(String title, int count) {
+    return '$title ($count)';
+  }
+
+  @override
+  String get leadershipOverview => 'نظرة عامة على القيادة';
+
+  @override
+  String get photoEvidence => 'أدلة مصورة';
+
+  @override
+  String get staffManagement => 'إدارة الموظفين';
+
+  @override
+  String get addTeamMember => 'إضافة عضو فريق';
+
+  @override
+  String get shiftLog => 'سجل المناوبات';
+
+  @override
+  String get branchTeamStructure => 'هيكل فريق الفرع';
+
+  @override
+  String get departmentManagement => 'إدارة الأقسام';
+
+  @override
+  String get rosterBoard => 'لوحة الجدول الزمني';
+
+  @override
+  String get claimShifts => 'المطالبة بمناوبات';
+
+  @override
+  String get requestADayOff => 'طلب إجازة يوم';
+
+  @override
+  String get shiftFairnessReview => 'مراجعة عدالة المناوبات';
+
+  @override
+  String get venueDetails => 'تفاصيل الموقع';
+
+  @override
+  String get assignTasks => 'تعيين المهام';
+
+  @override
+  String get taskPresets => 'قوالب المهام';
+
+  @override
+  String get supplierManagement => 'إدارة الموردين';
+
+  @override
+  String get serviceProviders => 'مزودو الخدمة';
+
+  @override
+  String get notificationRules => 'قواعد الإشعارات';
+
+  @override
+  String get documentCentre => 'مركز المستندات';
+
+  @override
+  String get setupWizard => 'معالج الإعداد';
+
+  @override
+  String get organisationLabel => 'المؤسسة';
+
+  @override
+  String get branchesLabel => 'الفروع';
+
+  @override
+  String get homeLabel => 'الرئيسية';
+
+  @override
+  String get oversightLabel => 'الإشراف';
+
+  @override
+  String get problemsAndIssues => 'المشاكل والقضايا';
+
+  @override
+  String get twoFactorAuthentication => 'المصادقة الثنائية';
+
+  @override
+  String get backUpNow => 'احفظ نسخة احتياطية الآن';
+
+  @override
+  String get dailySection => 'يومي';
+
+  @override
+  String get insightsSection => 'التحليلات';
+
+  @override
+  String get peopleSection => 'الموظفون';
+
+  @override
+  String get rosterSection => 'الجدول الزمني';
+
+  @override
+  String get venueSetupSection => 'إعداد الموقع';
+
+  @override
+  String get companySection => 'الشركة';
+
+  @override
+  String get accountSection => 'الحساب';
+
+  @override
+  String get settingsLabel => 'الإعدادات';
+
+  @override
+  String percentCompletedTodayChip(int percent) {
+    return '$percent٪ مكتمل اليوم';
+  }
+
+  @override
+  String activeStaffCountLabel(int count) {
+    return '$count موظف نشط';
+  }
+
+  @override
+  String failCountTodayBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count راسب اليوم',
+      one: 'راسب واحد اليوم',
+    );
+    return '$_temp0';
+  }
 }

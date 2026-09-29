@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/trigger_notification.dart';
 import '../../features/notifications/escalation_service.dart';
 
@@ -34,6 +35,7 @@ class TriggerNotificationsBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final now = DateTime.now();
     final unacknowledged = notifications.where((n) => !n.acknowledged).length;
 
@@ -45,18 +47,16 @@ class TriggerNotificationsBanner extends StatelessWidget {
         collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         initiallyExpanded: true,
         leading: const Icon(Icons.notifications, color: AppColors.critical),
-        title: Text(
-          '${notifications.length} alert${notifications.length == 1 ? '' : 's'}',
-        ),
+        title: Text(l10n.alertsCountLabel(notifications.length)),
         subtitle: unacknowledged > 0
             ? Text(
-                '$unacknowledged unacknowledged',
+                l10n.unacknowledgedCountLabel(unacknowledged),
                 style: const TextStyle(
                   color: AppColors.critical,
                   fontWeight: FontWeight.w700,
                 ),
               )
-            : const Text('All acknowledged'),
+            : Text(l10n.allAcknowledgedLabel),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         children: [
           ...notifications.map((notification) {
@@ -92,8 +92,9 @@ class TriggerNotificationsBanner extends StatelessWidget {
                       ),
                       if (isOverdue)
                         Text(
-                          'OVERDUE - unacknowledged for '
-                          '${now.difference(notification.createdAt).inMinutes} min',
+                          l10n.overdueUnacknowledgedMinutes(
+                            now.difference(notification.createdAt).inMinutes,
+                          ),
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
                                 color: AppColors.critical,
@@ -102,7 +103,7 @@ class TriggerNotificationsBanner extends StatelessWidget {
                         ),
                       if (notification.escalatedAt != null)
                         Text(
-                          'Escalated to top tier',
+                          l10n.escalatedToTopTier,
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(
                                 fontStyle: FontStyle.italic,
@@ -115,7 +116,7 @@ class TriggerNotificationsBanner extends StatelessWidget {
                 if (!notification.acknowledged)
                   TextButton(
                     onPressed: () => onAcknowledge(notification.id),
-                    child: const Text('Acknowledge'),
+                    child: Text(l10n.acknowledgeLabel),
                   )
                 else
                   const Icon(Icons.check, color: AppColors.pass),

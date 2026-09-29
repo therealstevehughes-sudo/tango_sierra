@@ -967,4 +967,204 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get goodEvening => 'Dobry wieczór';
+
+  @override
+  String get welcomeToVenurite => 'Witamy w VenuRite';
+
+  @override
+  String get helpAssistantTooltip => 'Pomoc i asystent';
+
+  @override
+  String get couldntLoadScreen => 'Nie udało się załadować tego ekranu.';
+
+  @override
+  String get retryLabel => 'Ponów';
+
+  @override
+  String get microphonePermissionDenied => 'Odmówiono dostępu do mikrofonu.';
+
+  @override
+  String get couldntRecordTryAgain =>
+      'Nie udało się nagrać - spróbuj ponownie.';
+
+  @override
+  String get couldntTranscribe => 'Nie udało się przetworzyć nagrania.';
+
+  @override
+  String get couldntReachTranscriptionService =>
+      'Nie udało się połączyć z usługą transkrypcji.';
+
+  @override
+  String get dictateANote => 'Podyktuj notatkę';
+
+  @override
+  String get stoppingSoonTapToStop =>
+      'Zatrzyma się wkrótce - dotknij, aby zatrzymać teraz';
+
+  @override
+  String get stopLabel => 'Zatrzymaj';
+
+  @override
+  String get somethingWentWrong => 'Coś poszło nie tak';
+
+  @override
+  String alertsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count alertów',
+      one: '1 alert',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unacknowledgedCountLabel(int count) {
+    return '$count nieodczytanych';
+  }
+
+  @override
+  String get allAcknowledgedLabel => 'Wszystkie potwierdzone';
+
+  @override
+  String overdueUnacknowledgedMinutes(int minutes) {
+    return 'ZALEGŁE - nieodczytane od $minutes min';
+  }
+
+  @override
+  String get escalatedToTopTier => 'Eskalowano do najwyższego szczebla';
+
+  @override
+  String get acknowledgeLabel => 'Potwierdź';
+
+  @override
+  String get nothingInCategory => 'Brak wpisów w tej kategorii.';
+
+  @override
+  String categoryWithCountLabel(String title, int count) {
+    return '$title ($count)';
+  }
+
+  @override
+  String get leadershipOverview => 'Przegląd kierownictwa';
+
+  @override
+  String get photoEvidence => 'Dowody fotograficzne';
+
+  @override
+  String get staffManagement => 'Zarządzanie personelem';
+
+  @override
+  String get addTeamMember => 'Dodaj członka zespołu';
+
+  @override
+  String get shiftLog => 'Dziennik zmian';
+
+  @override
+  String get branchTeamStructure => 'Struktura zespołu oddziału';
+
+  @override
+  String get departmentManagement => 'Zarządzanie działami';
+
+  @override
+  String get rosterBoard => 'Tablica grafiku';
+
+  @override
+  String get claimShifts => 'Zgłoś się do zmiany';
+
+  @override
+  String get requestADayOff => 'Poproś o dzień wolny';
+
+  @override
+  String get shiftFairnessReview => 'Przegląd sprawiedliwości grafiku';
+
+  @override
+  String get venueDetails => 'Szczegóły lokalu';
+
+  @override
+  String get assignTasks => 'Przypisz zadania';
+
+  @override
+  String get taskPresets => 'Szablony zadań';
+
+  @override
+  String get supplierManagement => 'Zarządzanie dostawcami';
+
+  @override
+  String get serviceProviders => 'Usługodawcy';
+
+  @override
+  String get notificationRules => 'Reguły powiadomień';
+
+  @override
+  String get documentCentre => 'Centrum dokumentów';
+
+  @override
+  String get setupWizard => 'Kreator konfiguracji';
+
+  @override
+  String get organisationLabel => 'Organizacja';
+
+  @override
+  String get branchesLabel => 'Oddziały';
+
+  @override
+  String get homeLabel => 'Strona główna';
+
+  @override
+  String get oversightLabel => 'Nadzór';
+
+  @override
+  String get problemsAndIssues => 'Problemy i zgłoszenia';
+
+  @override
+  String get twoFactorAuthentication => 'Uwierzytelnianie dwuskładnikowe';
+
+  @override
+  String get backUpNow => 'Utwórz kopię zapasową teraz';
+
+  @override
+  String get dailySection => 'Codzienne';
+
+  @override
+  String get insightsSection => 'Analizy';
+
+  @override
+  String get peopleSection => 'Personel';
+
+  @override
+  String get rosterSection => 'Grafik';
+
+  @override
+  String get venueSetupSection => 'Konfiguracja lokalu';
+
+  @override
+  String get companySection => 'Firma';
+
+  @override
+  String get accountSection => 'Konto';
+
+  @override
+  String get settingsLabel => 'Ustawienia';
+
+  @override
+  String percentCompletedTodayChip(int percent) {
+    return '$percent% ukończono dzisiaj';
+  }
+
+  @override
+  String activeStaffCountLabel(int count) {
+    return '$count aktywnych pracowników';
+  }
+
+  @override
+  String failCountTodayBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count NIEZALICZONYCH dzisiaj',
+      one: '1 NIEZALICZONE dzisiaj',
+    );
+    return '$_temp0';
+  }
 }

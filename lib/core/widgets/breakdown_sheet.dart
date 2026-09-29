@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
+
 // Extracted (2026-09-17) from leadership_dashboard_screen.dart's private
 // click-to-drill-down sheet so Sprint 038's Supplier Scorecard can reuse
 // the exact same "tap a category, see the real rows behind it" pattern
@@ -31,13 +33,17 @@ class BreakdownSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '$title ($count)',
+              AppLocalizations.of(context)!.categoryWithCountLabel(title, count),
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 12),
             Expanded(
               child: rows.isEmpty
-                  ? const Center(child: Text('Nothing in this category.'))
+                  ? Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.nothingInCategory,
+                      ),
+                    )
                   : ListView.separated(
                       controller: scrollController,
                       itemCount: rows.length,

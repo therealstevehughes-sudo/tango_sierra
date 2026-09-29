@@ -959,4 +959,204 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get goodEvening => 'شام بخیر';
+
+  @override
+  String get welcomeToVenurite => 'VenuRite میں خوش آمدید';
+
+  @override
+  String get helpAssistantTooltip => 'مدد اور معاون';
+
+  @override
+  String get couldntLoadScreen => 'یہ اسکرین لوڈ نہیں ہو سکی۔';
+
+  @override
+  String get retryLabel => 'دوبارہ کوشش کریں';
+
+  @override
+  String get microphonePermissionDenied =>
+      'مائیکروفون کی اجازت مسترد کر دی گئی۔';
+
+  @override
+  String get couldntRecordTryAgain => 'ریکارڈ نہیں ہو سکا - دوبارہ کوشش کریں۔';
+
+  @override
+  String get couldntTranscribe => 'اسے ٹرانسکرائب نہیں کیا جا سکا۔';
+
+  @override
+  String get couldntReachTranscriptionService =>
+      'ٹرانسکرپشن سروس تک رسائی نہیں ہو سکی۔';
+
+  @override
+  String get dictateANote => 'نوٹ بولیں';
+
+  @override
+  String get stoppingSoonTapToStop =>
+      'جلد بند ہو جائے گا - ابھی روکنے کے لیے ٹیپ کریں';
+
+  @override
+  String get stopLabel => 'روکیں';
+
+  @override
+  String get somethingWentWrong => 'کچھ غلط ہو گیا';
+
+  @override
+  String alertsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count الرٹس',
+      one: '1 الرٹ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unacknowledgedCountLabel(int count) {
+    return '$count غیر تسلیم شدہ';
+  }
+
+  @override
+  String get allAcknowledgedLabel => 'سب تسلیم شدہ';
+
+  @override
+  String overdueUnacknowledgedMinutes(int minutes) {
+    return 'زائد المیعاد - $minutes منٹ سے غیر تسلیم شدہ';
+  }
+
+  @override
+  String get escalatedToTopTier => 'اعلیٰ سطح پر بھیجا گیا';
+
+  @override
+  String get acknowledgeLabel => 'تسلیم کریں';
+
+  @override
+  String get nothingInCategory => 'اس زمرے میں کچھ نہیں ہے۔';
+
+  @override
+  String categoryWithCountLabel(String title, int count) {
+    return '$title ($count)';
+  }
+
+  @override
+  String get leadershipOverview => 'قیادت کا جائزہ';
+
+  @override
+  String get photoEvidence => 'تصویری ثبوت';
+
+  @override
+  String get staffManagement => 'اسٹاف مینجمنٹ';
+
+  @override
+  String get addTeamMember => 'ٹیم ممبر شامل کریں';
+
+  @override
+  String get shiftLog => 'شفٹ لاگ';
+
+  @override
+  String get branchTeamStructure => 'برانچ ٹیم کا ڈھانچہ';
+
+  @override
+  String get departmentManagement => 'شعبہ جاتی انتظام';
+
+  @override
+  String get rosterBoard => 'روسٹر بورڈ';
+
+  @override
+  String get claimShifts => 'شفٹس کا دعویٰ کریں';
+
+  @override
+  String get requestADayOff => 'چھٹی کی درخواست دیں';
+
+  @override
+  String get shiftFairnessReview => 'شفٹ منصفانہ جائزہ';
+
+  @override
+  String get venueDetails => 'مقام کی تفصیلات';
+
+  @override
+  String get assignTasks => 'کام تفویض کریں';
+
+  @override
+  String get taskPresets => 'کام پری سیٹس';
+
+  @override
+  String get supplierManagement => 'سپلائر مینجمنٹ';
+
+  @override
+  String get serviceProviders => 'سروس فراہم کنندگان';
+
+  @override
+  String get notificationRules => 'اطلاع کے اصول';
+
+  @override
+  String get documentCentre => 'دستاویزات مرکز';
+
+  @override
+  String get setupWizard => 'سیٹ اپ وزرڈ';
+
+  @override
+  String get organisationLabel => 'ادارہ';
+
+  @override
+  String get branchesLabel => 'برانچز';
+
+  @override
+  String get homeLabel => 'ہوم';
+
+  @override
+  String get oversightLabel => 'نگرانی';
+
+  @override
+  String get problemsAndIssues => 'مسائل اور شکایات';
+
+  @override
+  String get twoFactorAuthentication => 'دو مرحلہ تصدیق';
+
+  @override
+  String get backUpNow => 'ابھی بیک اپ لیں';
+
+  @override
+  String get dailySection => 'روزانہ';
+
+  @override
+  String get insightsSection => 'بصیرت';
+
+  @override
+  String get peopleSection => 'افراد';
+
+  @override
+  String get rosterSection => 'روسٹر';
+
+  @override
+  String get venueSetupSection => 'مقام سیٹ اپ';
+
+  @override
+  String get companySection => 'کمپنی';
+
+  @override
+  String get accountSection => 'اکاؤنٹ';
+
+  @override
+  String get settingsLabel => 'ترتیبات';
+
+  @override
+  String percentCompletedTodayChip(int percent) {
+    return 'آج $percent% مکمل';
+  }
+
+  @override
+  String activeStaffCountLabel(int count) {
+    return '$count فعال عملہ';
+  }
+
+  @override
+  String failCountTodayBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'آج $count فیل',
+      one: 'آج 1 فیل',
+    );
+    return '$_temp0';
+  }
 }

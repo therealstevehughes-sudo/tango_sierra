@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../features/help/help_screen.dart';
+import '../../l10n/app_localizations.dart';
 
 /// The one omnipresent help/AI-assistant entry point (2026-09-25, direct
 /// user request) — added to every screen's own AppBar actions, replacing
@@ -24,7 +25,7 @@ class AssistantIconButton extends StatelessWidget {
         MaterialPageRoute(builder: (_) => const HelpScreen()),
       ),
       icon: const Icon(Icons.auto_awesome),
-      tooltip: 'Help & Assistant',
+      tooltip: AppLocalizations.of(context)!.helpAssistantTooltip,
     );
   }
 }

@@ -926,4 +926,199 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get goodEvening => '晚上好';
+
+  @override
+  String get welcomeToVenurite => '欢迎使用 VenuRite';
+
+  @override
+  String get helpAssistantTooltip => '帮助与助手';
+
+  @override
+  String get couldntLoadScreen => '无法加载此页面。';
+
+  @override
+  String get retryLabel => '重试';
+
+  @override
+  String get microphonePermissionDenied => '麦克风权限被拒绝。';
+
+  @override
+  String get couldntRecordTryAgain => '无法录音 - 请重试。';
+
+  @override
+  String get couldntTranscribe => '无法转录该内容。';
+
+  @override
+  String get couldntReachTranscriptionService => '无法连接转录服务。';
+
+  @override
+  String get dictateANote => '口述备注';
+
+  @override
+  String get stoppingSoonTapToStop => '即将停止 - 点击立即停止';
+
+  @override
+  String get stopLabel => '停止';
+
+  @override
+  String get somethingWentWrong => '出了点问题';
+
+  @override
+  String alertsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 条警报',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unacknowledgedCountLabel(int count) {
+    return '$count 条未确认';
+  }
+
+  @override
+  String get allAcknowledgedLabel => '全部已确认';
+
+  @override
+  String overdueUnacknowledgedMinutes(int minutes) {
+    return '逾期 - 已 $minutes 分钟未确认';
+  }
+
+  @override
+  String get escalatedToTopTier => '已升级至最高层';
+
+  @override
+  String get acknowledgeLabel => '确认';
+
+  @override
+  String get nothingInCategory => '此类别中没有内容。';
+
+  @override
+  String categoryWithCountLabel(String title, int count) {
+    return '$title($count)';
+  }
+
+  @override
+  String get leadershipOverview => '领导层概览';
+
+  @override
+  String get photoEvidence => '照片证据';
+
+  @override
+  String get staffManagement => '员工管理';
+
+  @override
+  String get addTeamMember => '添加团队成员';
+
+  @override
+  String get shiftLog => '班次记录';
+
+  @override
+  String get branchTeamStructure => '分店团队结构';
+
+  @override
+  String get departmentManagement => '部门管理';
+
+  @override
+  String get rosterBoard => '排班表';
+
+  @override
+  String get claimShifts => '认领班次';
+
+  @override
+  String get requestADayOff => '申请休假';
+
+  @override
+  String get shiftFairnessReview => '排班公平性审查';
+
+  @override
+  String get venueDetails => '场所详情';
+
+  @override
+  String get assignTasks => '分配任务';
+
+  @override
+  String get taskPresets => '任务预设';
+
+  @override
+  String get supplierManagement => '供应商管理';
+
+  @override
+  String get serviceProviders => '服务提供商';
+
+  @override
+  String get notificationRules => '通知规则';
+
+  @override
+  String get documentCentre => '文档中心';
+
+  @override
+  String get setupWizard => '设置向导';
+
+  @override
+  String get organisationLabel => '组织';
+
+  @override
+  String get branchesLabel => '分店';
+
+  @override
+  String get homeLabel => '主页';
+
+  @override
+  String get oversightLabel => '监督';
+
+  @override
+  String get problemsAndIssues => '问题与事项';
+
+  @override
+  String get twoFactorAuthentication => '双重身份验证';
+
+  @override
+  String get backUpNow => '立即备份';
+
+  @override
+  String get dailySection => '日常';
+
+  @override
+  String get insightsSection => '洞察';
+
+  @override
+  String get peopleSection => '人员';
+
+  @override
+  String get rosterSection => '排班';
+
+  @override
+  String get venueSetupSection => '场所设置';
+
+  @override
+  String get companySection => '公司';
+
+  @override
+  String get accountSection => '账户';
+
+  @override
+  String get settingsLabel => '设置';
+
+  @override
+  String percentCompletedTodayChip(int percent) {
+    return '今天已完成 $percent%';
+  }
+
+  @override
+  String activeStaffCountLabel(int count) {
+    return '$count 名在职员工';
+  }
+
+  @override
+  String failCountTodayBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '今天 $count 项未通过',
+    );
+    return '$_temp0';
+  }
 }

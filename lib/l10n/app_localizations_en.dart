@@ -958,4 +958,202 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goodEvening => 'Good evening';
+
+  @override
+  String get welcomeToVenurite => 'Welcome to VenuRite';
+
+  @override
+  String get helpAssistantTooltip => 'Help & Assistant';
+
+  @override
+  String get couldntLoadScreen => 'Couldn\'t load this screen.';
+
+  @override
+  String get retryLabel => 'Retry';
+
+  @override
+  String get microphonePermissionDenied => 'Microphone permission was denied.';
+
+  @override
+  String get couldntRecordTryAgain => 'Couldn\'t record that - try again.';
+
+  @override
+  String get couldntTranscribe => 'Couldn\'t transcribe that.';
+
+  @override
+  String get couldntReachTranscriptionService =>
+      'Couldn\'t reach the transcription service.';
+
+  @override
+  String get dictateANote => 'Dictate a note';
+
+  @override
+  String get stoppingSoonTapToStop => 'Stopping soon - tap to stop now';
+
+  @override
+  String get stopLabel => 'Stop';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String alertsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count alerts',
+      one: '1 alert',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unacknowledgedCountLabel(int count) {
+    return '$count unacknowledged';
+  }
+
+  @override
+  String get allAcknowledgedLabel => 'All acknowledged';
+
+  @override
+  String overdueUnacknowledgedMinutes(int minutes) {
+    return 'OVERDUE - unacknowledged for $minutes min';
+  }
+
+  @override
+  String get escalatedToTopTier => 'Escalated to top tier';
+
+  @override
+  String get acknowledgeLabel => 'Acknowledge';
+
+  @override
+  String get nothingInCategory => 'Nothing in this category.';
+
+  @override
+  String categoryWithCountLabel(String title, int count) {
+    return '$title ($count)';
+  }
+
+  @override
+  String get leadershipOverview => 'Leadership Overview';
+
+  @override
+  String get photoEvidence => 'Photo Evidence';
+
+  @override
+  String get staffManagement => 'Staff Management';
+
+  @override
+  String get addTeamMember => 'Add Team Member';
+
+  @override
+  String get shiftLog => 'Shift Log';
+
+  @override
+  String get branchTeamStructure => 'Branch Team Structure';
+
+  @override
+  String get departmentManagement => 'Department Management';
+
+  @override
+  String get rosterBoard => 'Roster Board';
+
+  @override
+  String get claimShifts => 'Claim Shifts';
+
+  @override
+  String get requestADayOff => 'Request a Day Off';
+
+  @override
+  String get shiftFairnessReview => 'Shift Fairness Review';
+
+  @override
+  String get venueDetails => 'Venue Details';
+
+  @override
+  String get assignTasks => 'Assign Tasks';
+
+  @override
+  String get taskPresets => 'Task Presets';
+
+  @override
+  String get supplierManagement => 'Supplier Management';
+
+  @override
+  String get serviceProviders => 'Service Providers';
+
+  @override
+  String get notificationRules => 'Notification Rules';
+
+  @override
+  String get documentCentre => 'Document Centre';
+
+  @override
+  String get setupWizard => 'Setup Wizard';
+
+  @override
+  String get organisationLabel => 'Organisation';
+
+  @override
+  String get branchesLabel => 'Branches';
+
+  @override
+  String get homeLabel => 'Home';
+
+  @override
+  String get oversightLabel => 'Oversight';
+
+  @override
+  String get problemsAndIssues => 'Problems & Issues';
+
+  @override
+  String get twoFactorAuthentication => 'Two-Factor Authentication';
+
+  @override
+  String get backUpNow => 'Back Up Now';
+
+  @override
+  String get dailySection => 'Daily';
+
+  @override
+  String get insightsSection => 'Insights';
+
+  @override
+  String get peopleSection => 'People';
+
+  @override
+  String get rosterSection => 'Roster';
+
+  @override
+  String get venueSetupSection => 'Venue Setup';
+
+  @override
+  String get companySection => 'Company';
+
+  @override
+  String get accountSection => 'Account';
+
+  @override
+  String get settingsLabel => 'Settings';
+
+  @override
+  String percentCompletedTodayChip(int percent) {
+    return '$percent% completed today';
+  }
+
+  @override
+  String activeStaffCountLabel(int count) {
+    return '$count active staff';
+  }
+
+  @override
+  String failCountTodayBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count FAILs today',
+      one: '1 FAIL today',
+    );
+    return '$_temp0';
+  }
 }

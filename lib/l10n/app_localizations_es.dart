@@ -972,4 +972,204 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get goodEvening => 'Buenas noches';
+
+  @override
+  String get welcomeToVenurite => 'Bienvenido a VenuRite';
+
+  @override
+  String get helpAssistantTooltip => 'Ayuda y asistente';
+
+  @override
+  String get couldntLoadScreen => 'No se pudo cargar esta pantalla.';
+
+  @override
+  String get retryLabel => 'Reintentar';
+
+  @override
+  String get microphonePermissionDenied =>
+      'Se denegó el permiso del micrófono.';
+
+  @override
+  String get couldntRecordTryAgain => 'No se pudo grabar - inténtalo de nuevo.';
+
+  @override
+  String get couldntTranscribe => 'No se pudo transcribir eso.';
+
+  @override
+  String get couldntReachTranscriptionService =>
+      'No se pudo contactar con el servicio de transcripción.';
+
+  @override
+  String get dictateANote => 'Dictar una nota';
+
+  @override
+  String get stoppingSoonTapToStop =>
+      'Se detendrá pronto - toca para detener ahora';
+
+  @override
+  String get stopLabel => 'Detener';
+
+  @override
+  String get somethingWentWrong => 'Algo salió mal';
+
+  @override
+  String alertsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count alertas',
+      one: '1 alerta',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String unacknowledgedCountLabel(int count) {
+    return '$count sin confirmar';
+  }
+
+  @override
+  String get allAcknowledgedLabel => 'Todo confirmado';
+
+  @override
+  String overdueUnacknowledgedMinutes(int minutes) {
+    return 'ATRASADO - sin confirmar desde hace $minutes min';
+  }
+
+  @override
+  String get escalatedToTopTier => 'Escalado al nivel superior';
+
+  @override
+  String get acknowledgeLabel => 'Confirmar';
+
+  @override
+  String get nothingInCategory => 'Nada en esta categoría.';
+
+  @override
+  String categoryWithCountLabel(String title, int count) {
+    return '$title ($count)';
+  }
+
+  @override
+  String get leadershipOverview => 'Resumen de dirección';
+
+  @override
+  String get photoEvidence => 'Evidencia fotográfica';
+
+  @override
+  String get staffManagement => 'Gestión de personal';
+
+  @override
+  String get addTeamMember => 'Añadir miembro del equipo';
+
+  @override
+  String get shiftLog => 'Registro de turnos';
+
+  @override
+  String get branchTeamStructure => 'Estructura del equipo del local';
+
+  @override
+  String get departmentManagement => 'Gestión de departamentos';
+
+  @override
+  String get rosterBoard => 'Panel de turnos';
+
+  @override
+  String get claimShifts => 'Reclamar turnos';
+
+  @override
+  String get requestADayOff => 'Solicitar un día libre';
+
+  @override
+  String get shiftFairnessReview => 'Revisión de equidad de turnos';
+
+  @override
+  String get venueDetails => 'Detalles del local';
+
+  @override
+  String get assignTasks => 'Asignar tareas';
+
+  @override
+  String get taskPresets => 'Plantillas de tareas';
+
+  @override
+  String get supplierManagement => 'Gestión de proveedores';
+
+  @override
+  String get serviceProviders => 'Proveedores de servicios';
+
+  @override
+  String get notificationRules => 'Reglas de notificación';
+
+  @override
+  String get documentCentre => 'Centro de documentos';
+
+  @override
+  String get setupWizard => 'Asistente de configuración';
+
+  @override
+  String get organisationLabel => 'Organización';
+
+  @override
+  String get branchesLabel => 'Locales';
+
+  @override
+  String get homeLabel => 'Inicio';
+
+  @override
+  String get oversightLabel => 'Supervisión';
+
+  @override
+  String get problemsAndIssues => 'Problemas e incidencias';
+
+  @override
+  String get twoFactorAuthentication => 'Autenticación en dos pasos';
+
+  @override
+  String get backUpNow => 'Hacer copia de seguridad ahora';
+
+  @override
+  String get dailySection => 'Diario';
+
+  @override
+  String get insightsSection => 'Análisis';
+
+  @override
+  String get peopleSection => 'Personal';
+
+  @override
+  String get rosterSection => 'Turnos';
+
+  @override
+  String get venueSetupSection => 'Configuración del local';
+
+  @override
+  String get companySection => 'Empresa';
+
+  @override
+  String get accountSection => 'Cuenta';
+
+  @override
+  String get settingsLabel => 'Ajustes';
+
+  @override
+  String percentCompletedTodayChip(int percent) {
+    return '$percent% completado hoy';
+  }
+
+  @override
+  String activeStaffCountLabel(int count) {
+    return '$count personal activo';
+  }
+
+  @override
+  String failCountTodayBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count NO APTOS hoy',
+      one: '1 NO APTO hoy',
+    );
+    return '$_temp0';
+  }
 }
