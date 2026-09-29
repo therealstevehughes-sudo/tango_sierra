@@ -604,4 +604,49 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get finishShiftLabel => 'Încheie tura';
+
+  @override
+  String get ehoAuditExportTitle => 'Export EHO / Audit';
+
+  @override
+  String get ehoExportDescription =>
+      'Generează un PDF cu înregistrările de conformitate ale acestui local pentru intervalul de date ales.';
+
+  @override
+  String dateRangeValue(String start, String end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get selectDateRangeLabel => 'Selectează intervalul de date';
+
+  @override
+  String get tapToChooseDates =>
+      'Atinge pentru a alege o dată de început și de sfârșit.';
+
+  @override
+  String get includeFullDetailedLog => 'Include jurnalul detaliat complet';
+
+  @override
+  String get fullLogSubtitle =>
+      'Dezactivat implicit - rezumatul și excepțiile de mai sus sunt ceea ce verifică efectiv un inspector; aceasta adaugă fiecare verificare individuală.';
+
+  @override
+  String get generateLabel => 'Generează';
+
+  @override
+  String get exportFailedTitle => 'Exportul a eșuat';
+
+  @override
+  String exportFailedBody(String error) {
+    return 'Exportul a eșuat: $error';
+  }
+
+  @override
+  String get exportCreatedTitle => 'Export creat';
+
+  @override
+  String savedToLabel(String path) {
+    return 'Salvat în:\n$path';
+  }
 }

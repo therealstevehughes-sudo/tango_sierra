@@ -176,5 +176,17 @@
   "everythingsDone": "Todo hecho. Buen trabajo.",
   "tasksNotCompletedCount": "{count, plural, one{1 tarea sin completar:} other{{count} tareas sin completar:}}",
   "backToShiftLabel": "Volver al turno",
-  "finishShiftLabel": "Terminar turno"
+  "finishShiftLabel": "Terminar turno",
+  "ehoAuditExportTitle": "Exportación EHO / Auditoría",
+  "ehoExportDescription": "Genera un PDF con los registros de cumplimiento de este local para el intervalo de fechas elegido.",
+  "dateRangeValue": "{start} - {end}",
+  "selectDateRangeLabel": "Seleccionar intervalo de fechas",
+  "tapToChooseDates": "Toca para elegir una fecha de inicio y de fin.",
+  "includeFullDetailedLog": "Incluir registro detallado completo",
+  "fullLogSubtitle": "Desactivado por defecto: el resumen y las excepciones de arriba son lo que realmente revisa un inspector; esto añade cada comprobación individual.",
+  "generateLabel": "Generar",
+  "exportFailedTitle": "Error en la exportación",
+  "exportFailedBody": "Error en la exportación: {error}",
+  "exportCreatedTitle": "Exportación creada",
+  "savedToLabel": "Guardado en:\n{path}"
 }

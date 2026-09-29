@@ -598,4 +598,49 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get finishShiftLabel => 'شفٹ ختم کریں';
+
+  @override
+  String get ehoAuditExportTitle => 'EHO / آڈٹ ایکسپورٹ';
+
+  @override
+  String get ehoExportDescription =>
+      'منتخب تاریخ کی حد کے لیے اس مقام کے تعمیل ریکارڈز کی PDF بناتا ہے۔';
+
+  @override
+  String dateRangeValue(String start, String end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get selectDateRangeLabel => 'تاریخ کی حد منتخب کریں';
+
+  @override
+  String get tapToChooseDates =>
+      'شروع اور اختتامی تاریخ منتخب کرنے کے لیے ٹیپ کریں۔';
+
+  @override
+  String get includeFullDetailedLog => 'مکمل تفصیلی لاگ شامل کریں';
+
+  @override
+  String get fullLogSubtitle =>
+      'پہلے سے غیر فعال - اوپر دیا گیا خلاصہ اور استثنیات وہی ہیں جن کا انسپکٹر جائزہ لیتا ہے؛ یہ ہر انفرادی جانچ کو شامل کرتا ہے۔';
+
+  @override
+  String get generateLabel => 'بنائیں';
+
+  @override
+  String get exportFailedTitle => 'ایکسپورٹ ناکام';
+
+  @override
+  String exportFailedBody(String error) {
+    return 'ایکسپورٹ ناکام: $error';
+  }
+
+  @override
+  String get exportCreatedTitle => 'ایکسپورٹ بن گئی';
+
+  @override
+  String savedToLabel(String path) {
+    return 'یہاں محفوظ کیا گیا:\n$path';
+  }
 }

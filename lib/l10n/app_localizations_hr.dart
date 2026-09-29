@@ -601,4 +601,49 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get finishShiftLabel => 'Završi smjenu';
+
+  @override
+  String get ehoAuditExportTitle => 'EHO / izvoz revizije';
+
+  @override
+  String get ehoExportDescription =>
+      'Generira PDF s evidencijom usklađenosti ove lokacije za odabrani vremenski raspon.';
+
+  @override
+  String dateRangeValue(String start, String end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get selectDateRangeLabel => 'Odaberi vremenski raspon';
+
+  @override
+  String get tapToChooseDates =>
+      'Dodirni za odabir početnog i završnog datuma.';
+
+  @override
+  String get includeFullDetailedLog => 'Uključi potpuni detaljni zapisnik';
+
+  @override
+  String get fullLogSubtitle =>
+      'Zadano isključeno - sažetak i iznimke iznad su ono što inspektor stvarno pregledava; ovo dodaje svaku pojedinačnu provjeru.';
+
+  @override
+  String get generateLabel => 'Generiraj';
+
+  @override
+  String get exportFailedTitle => 'Izvoz nije uspio';
+
+  @override
+  String exportFailedBody(String error) {
+    return 'Izvoz nije uspio: $error';
+  }
+
+  @override
+  String get exportCreatedTitle => 'Izvoz stvoren';
+
+  @override
+  String savedToLabel(String path) {
+    return 'Spremljeno u:\n$path';
+  }
 }

@@ -1175,6 +1175,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finish shift'**
   String get finishShiftLabel;
+
+  /// No description provided for @ehoAuditExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'EHO / Audit Export'**
+  String get ehoAuditExportTitle;
+
+  /// No description provided for @ehoExportDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Generates a PDF of this venue\'s compliance records for the chosen date range.'**
+  String get ehoExportDescription;
+
+  /// No description provided for @dateRangeValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{start} - {end}'**
+  String dateRangeValue(String start, String end);
+
+  /// No description provided for @selectDateRangeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date range'**
+  String get selectDateRangeLabel;
+
+  /// No description provided for @tapToChooseDates.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to choose a start and end date.'**
+  String get tapToChooseDates;
+
+  /// No description provided for @includeFullDetailedLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Include full detailed log'**
+  String get includeFullDetailedLog;
+
+  /// No description provided for @fullLogSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Off by default - the summary and exceptions above are what an inspector actually reviews; this adds every individual check on top.'**
+  String get fullLogSubtitle;
+
+  /// No description provided for @generateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate'**
+  String get generateLabel;
+
+  /// No description provided for @exportFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Failed'**
+  String get exportFailedTitle;
+
+  /// No description provided for @exportFailedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Export failed: {error}'**
+  String exportFailedBody(String error);
+
+  /// No description provided for @exportCreatedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Created'**
+  String get exportCreatedTitle;
+
+  /// No description provided for @savedToLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to:\n{path}'**
+  String savedToLabel(String path);
 }
 
 class _AppLocalizationsDelegate

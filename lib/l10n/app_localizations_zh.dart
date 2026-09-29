@@ -580,4 +580,46 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get finishShiftLabel => '结束班次';
+
+  @override
+  String get ehoAuditExportTitle => 'EHO/审计导出';
+
+  @override
+  String get ehoExportDescription => '为所选日期范围生成该场所合规记录的PDF。';
+
+  @override
+  String dateRangeValue(String start, String end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get selectDateRangeLabel => '选择日期范围';
+
+  @override
+  String get tapToChooseDates => '点击选择开始和结束日期。';
+
+  @override
+  String get includeFullDetailedLog => '包含完整详细日志';
+
+  @override
+  String get fullLogSubtitle => '默认关闭 - 上方的摘要和例外情况是检查员实际审查的内容;此选项会添加每一项检查记录。';
+
+  @override
+  String get generateLabel => '生成';
+
+  @override
+  String get exportFailedTitle => '导出失败';
+
+  @override
+  String exportFailedBody(String error) {
+    return '导出失败: $error';
+  }
+
+  @override
+  String get exportCreatedTitle => '导出已创建';
+
+  @override
+  String savedToLabel(String path) {
+    return '已保存至:\n$path';
+  }
 }

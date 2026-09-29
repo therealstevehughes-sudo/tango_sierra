@@ -176,5 +176,17 @@
   "everythingsDone": "सब कुछ हो गया। बहुत बढ़िया काम।",
   "tasksNotCompletedCount": "{count, plural, one{1 कार्य पूरा नहीं हुआ:} other{{count} कार्य पूरे नहीं हुए:}}",
   "backToShiftLabel": "शिफ्ट पर वापस जाएं",
-  "finishShiftLabel": "शिफ्ट समाप्त करें"
+  "finishShiftLabel": "शिफ्ट समाप्त करें",
+  "ehoAuditExportTitle": "EHO / ऑडिट एक्सपोर्ट",
+  "ehoExportDescription": "चुनी गई तिथि सीमा के लिए इस वेन्यू के अनुपालन रिकॉर्ड का एक PDF बनाता है।",
+  "dateRangeValue": "{start} - {end}",
+  "selectDateRangeLabel": "तिथि सीमा चुनें",
+  "tapToChooseDates": "प्रारंभ और समाप्ति तिथि चुनने के लिए टैप करें।",
+  "includeFullDetailedLog": "पूर्ण विस्तृत लॉग शामिल करें",
+  "fullLogSubtitle": "डिफ़ॉल्ट रूप से बंद - ऊपर दिया गया सारांश और अपवाद वही है जिसे एक निरीक्षक वास्तव में समीक्षा करता है; यह हर व्यक्तिगत जांच को जोड़ता है।",
+  "generateLabel": "बनाएं",
+  "exportFailedTitle": "एक्सपोर्ट विफल",
+  "exportFailedBody": "एक्सपोर्ट विफल: {error}",
+  "exportCreatedTitle": "एक्सपोर्ट बनाया गया",
+  "savedToLabel": "यहां सहेजा गया:\n{path}"
 }

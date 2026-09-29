@@ -596,4 +596,48 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get finishShiftLabel => 'إنهاء المناوبة';
+
+  @override
+  String get ehoAuditExportTitle => 'تصدير EHO / التدقيق';
+
+  @override
+  String get ehoExportDescription =>
+      'يُنشئ ملف PDF لسجلات الامتثال لهذا الموقع للفترة الزمنية المحددة.';
+
+  @override
+  String dateRangeValue(String start, String end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get selectDateRangeLabel => 'اختر النطاق الزمني';
+
+  @override
+  String get tapToChooseDates => 'اضغط لاختيار تاريخ البداية والنهاية.';
+
+  @override
+  String get includeFullDetailedLog => 'تضمين السجل التفصيلي الكامل';
+
+  @override
+  String get fullLogSubtitle =>
+      'معطل افتراضيًا - الملخص والاستثناءات أعلاه هي ما يراجعه المفتش فعليًا؛ يضيف هذا كل فحص فردي.';
+
+  @override
+  String get generateLabel => 'إنشاء';
+
+  @override
+  String get exportFailedTitle => 'فشل التصدير';
+
+  @override
+  String exportFailedBody(String error) {
+    return 'فشل التصدير: $error';
+  }
+
+  @override
+  String get exportCreatedTitle => 'تم إنشاء التصدير';
+
+  @override
+  String savedToLabel(String path) {
+    return 'تم الحفظ في:\n$path';
+  }
 }

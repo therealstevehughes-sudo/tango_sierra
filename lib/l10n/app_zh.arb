@@ -176,5 +176,17 @@
   "everythingsDone": "全部完成。干得好。",
   "tasksNotCompletedCount": "{count, plural, other{{count} 个任务未完成:}}",
   "backToShiftLabel": "返回班次",
-  "finishShiftLabel": "结束班次"
+  "finishShiftLabel": "结束班次",
+  "ehoAuditExportTitle": "EHO/审计导出",
+  "ehoExportDescription": "为所选日期范围生成该场所合规记录的PDF。",
+  "dateRangeValue": "{start} - {end}",
+  "selectDateRangeLabel": "选择日期范围",
+  "tapToChooseDates": "点击选择开始和结束日期。",
+  "includeFullDetailedLog": "包含完整详细日志",
+  "fullLogSubtitle": "默认关闭 - 上方的摘要和例外情况是检查员实际审查的内容;此选项会添加每一项检查记录。",
+  "generateLabel": "生成",
+  "exportFailedTitle": "导出失败",
+  "exportFailedBody": "导出失败: {error}",
+  "exportCreatedTitle": "导出已创建",
+  "savedToLabel": "已保存至:\n{path}"
 }

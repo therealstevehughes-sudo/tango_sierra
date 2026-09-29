@@ -176,5 +176,17 @@
   "everythingsDone": "Totul e gata. Bună treabă.",
   "tasksNotCompletedCount": "{count, plural, one{1 sarcină neterminată:} other{{count} sarcini neterminate:}}",
   "backToShiftLabel": "Înapoi la tură",
-  "finishShiftLabel": "Încheie tura"
+  "finishShiftLabel": "Încheie tura",
+  "ehoAuditExportTitle": "Export EHO / Audit",
+  "ehoExportDescription": "Generează un PDF cu înregistrările de conformitate ale acestui local pentru intervalul de date ales.",
+  "dateRangeValue": "{start} - {end}",
+  "selectDateRangeLabel": "Selectează intervalul de date",
+  "tapToChooseDates": "Atinge pentru a alege o dată de început și de sfârșit.",
+  "includeFullDetailedLog": "Include jurnalul detaliat complet",
+  "fullLogSubtitle": "Dezactivat implicit - rezumatul și excepțiile de mai sus sunt ceea ce verifică efectiv un inspector; aceasta adaugă fiecare verificare individuală.",
+  "generateLabel": "Generează",
+  "exportFailedTitle": "Exportul a eșuat",
+  "exportFailedBody": "Exportul a eșuat: {error}",
+  "exportCreatedTitle": "Export creat",
+  "savedToLabel": "Salvat în:\n{path}"
 }

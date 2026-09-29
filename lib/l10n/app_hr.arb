@@ -176,5 +176,17 @@
   "everythingsDone": "Sve je gotovo. Dobar posao.",
   "tasksNotCompletedCount": "{count, plural, one{1 zadatak nije dovršen:} other{{count} zadataka nije dovršeno:}}",
   "backToShiftLabel": "Natrag na smjenu",
-  "finishShiftLabel": "Završi smjenu"
+  "finishShiftLabel": "Završi smjenu",
+  "ehoAuditExportTitle": "EHO / izvoz revizije",
+  "ehoExportDescription": "Generira PDF s evidencijom usklađenosti ove lokacije za odabrani vremenski raspon.",
+  "dateRangeValue": "{start} - {end}",
+  "selectDateRangeLabel": "Odaberi vremenski raspon",
+  "tapToChooseDates": "Dodirni za odabir početnog i završnog datuma.",
+  "includeFullDetailedLog": "Uključi potpuni detaljni zapisnik",
+  "fullLogSubtitle": "Zadano isključeno - sažetak i iznimke iznad su ono što inspektor stvarno pregledava; ovo dodaje svaku pojedinačnu provjeru.",
+  "generateLabel": "Generiraj",
+  "exportFailedTitle": "Izvoz nije uspio",
+  "exportFailedBody": "Izvoz nije uspio: {error}",
+  "exportCreatedTitle": "Izvoz stvoren",
+  "savedToLabel": "Spremljeno u:\n{path}"
 }

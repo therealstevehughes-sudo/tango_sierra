@@ -176,5 +176,17 @@
   "everythingsDone": "Alles erledigt. Gute Arbeit.",
   "tasksNotCompletedCount": "{count, plural, one{1 Aufgabe nicht abgeschlossen:} other{{count} Aufgaben nicht abgeschlossen:}}",
   "backToShiftLabel": "Zurück zur Schicht",
-  "finishShiftLabel": "Schicht beenden"
+  "finishShiftLabel": "Schicht beenden",
+  "ehoAuditExportTitle": "EHO-/Prüfungsexport",
+  "ehoExportDescription": "Erstellt ein PDF der Compliance-Aufzeichnungen dieses Standorts für den gewählten Zeitraum.",
+  "dateRangeValue": "{start} - {end}",
+  "selectDateRangeLabel": "Zeitraum auswählen",
+  "tapToChooseDates": "Tippen, um ein Start- und Enddatum auszuwählen.",
+  "includeFullDetailedLog": "Vollständiges detailliertes Protokoll einschließen",
+  "fullLogSubtitle": "Standardmäßig deaktiviert - die obige Zusammenfassung und die Ausnahmen sind das, was ein Prüfer tatsächlich überprüft; dies fügt jede einzelne Prüfung hinzu.",
+  "generateLabel": "Erstellen",
+  "exportFailedTitle": "Export fehlgeschlagen",
+  "exportFailedBody": "Export fehlgeschlagen: {error}",
+  "exportCreatedTitle": "Export erstellt",
+  "savedToLabel": "Gespeichert unter:\n{path}"
 }

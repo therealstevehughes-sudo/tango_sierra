@@ -597,4 +597,48 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get finishShiftLabel => 'Finish shift';
+
+  @override
+  String get ehoAuditExportTitle => 'EHO / Audit Export';
+
+  @override
+  String get ehoExportDescription =>
+      'Generates a PDF of this venue\'s compliance records for the chosen date range.';
+
+  @override
+  String dateRangeValue(String start, String end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get selectDateRangeLabel => 'Select date range';
+
+  @override
+  String get tapToChooseDates => 'Tap to choose a start and end date.';
+
+  @override
+  String get includeFullDetailedLog => 'Include full detailed log';
+
+  @override
+  String get fullLogSubtitle =>
+      'Off by default - the summary and exceptions above are what an inspector actually reviews; this adds every individual check on top.';
+
+  @override
+  String get generateLabel => 'Generate';
+
+  @override
+  String get exportFailedTitle => 'Export Failed';
+
+  @override
+  String exportFailedBody(String error) {
+    return 'Export failed: $error';
+  }
+
+  @override
+  String get exportCreatedTitle => 'Export Created';
+
+  @override
+  String savedToLabel(String path) {
+    return 'Saved to:\n$path';
+  }
 }

@@ -609,4 +609,50 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get finishShiftLabel => 'Schicht beenden';
+
+  @override
+  String get ehoAuditExportTitle => 'EHO-/Prüfungsexport';
+
+  @override
+  String get ehoExportDescription =>
+      'Erstellt ein PDF der Compliance-Aufzeichnungen dieses Standorts für den gewählten Zeitraum.';
+
+  @override
+  String dateRangeValue(String start, String end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get selectDateRangeLabel => 'Zeitraum auswählen';
+
+  @override
+  String get tapToChooseDates =>
+      'Tippen, um ein Start- und Enddatum auszuwählen.';
+
+  @override
+  String get includeFullDetailedLog =>
+      'Vollständiges detailliertes Protokoll einschließen';
+
+  @override
+  String get fullLogSubtitle =>
+      'Standardmäßig deaktiviert - die obige Zusammenfassung und die Ausnahmen sind das, was ein Prüfer tatsächlich überprüft; dies fügt jede einzelne Prüfung hinzu.';
+
+  @override
+  String get generateLabel => 'Erstellen';
+
+  @override
+  String get exportFailedTitle => 'Export fehlgeschlagen';
+
+  @override
+  String exportFailedBody(String error) {
+    return 'Export fehlgeschlagen: $error';
+  }
+
+  @override
+  String get exportCreatedTitle => 'Export erstellt';
+
+  @override
+  String savedToLabel(String path) {
+    return 'Gespeichert unter:\n$path';
+  }
 }

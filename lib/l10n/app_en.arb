@@ -298,5 +298,41 @@
     }
   },
   "backToShiftLabel": "Back to shift",
-  "finishShiftLabel": "Finish shift"
+  "finishShiftLabel": "Finish shift",
+  "ehoAuditExportTitle": "EHO / Audit Export",
+  "ehoExportDescription": "Generates a PDF of this venue's compliance records for the chosen date range.",
+  "dateRangeValue": "{start} - {end}",
+  "@dateRangeValue": {
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      }
+    }
+  },
+  "selectDateRangeLabel": "Select date range",
+  "tapToChooseDates": "Tap to choose a start and end date.",
+  "includeFullDetailedLog": "Include full detailed log",
+  "fullLogSubtitle": "Off by default - the summary and exceptions above are what an inspector actually reviews; this adds every individual check on top.",
+  "generateLabel": "Generate",
+  "exportFailedTitle": "Export Failed",
+  "exportFailedBody": "Export failed: {error}",
+  "@exportFailedBody": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "exportCreatedTitle": "Export Created",
+  "savedToLabel": "Saved to:\n{path}",
+  "@savedToLabel": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  }
 }

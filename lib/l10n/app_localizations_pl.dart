@@ -603,4 +603,49 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get finishShiftLabel => 'Zakończ zmianę';
+
+  @override
+  String get ehoAuditExportTitle => 'Eksport EHO / Audyt';
+
+  @override
+  String get ehoExportDescription =>
+      'Generuje plik PDF z zapisami zgodności tego lokalu dla wybranego zakresu dat.';
+
+  @override
+  String dateRangeValue(String start, String end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get selectDateRangeLabel => 'Wybierz zakres dat';
+
+  @override
+  String get tapToChooseDates =>
+      'Dotknij, aby wybrać datę początkową i końcową.';
+
+  @override
+  String get includeFullDetailedLog => 'Uwzględnij pełny szczegółowy dziennik';
+
+  @override
+  String get fullLogSubtitle =>
+      'Domyślnie wyłączone - podsumowanie i wyjątki powyżej to to, co inspektor faktycznie sprawdza; ta opcja dodaje każdą pojedynczą kontrolę.';
+
+  @override
+  String get generateLabel => 'Generuj';
+
+  @override
+  String get exportFailedTitle => 'Eksport nie powiódł się';
+
+  @override
+  String exportFailedBody(String error) {
+    return 'Eksport nie powiódł się: $error';
+  }
+
+  @override
+  String get exportCreatedTitle => 'Eksport utworzony';
+
+  @override
+  String savedToLabel(String path) {
+    return 'Zapisano w:\n$path';
+  }
 }

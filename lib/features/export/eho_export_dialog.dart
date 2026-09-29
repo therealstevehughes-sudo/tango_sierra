@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/utils/date_format.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/providers/auth_providers.dart';
 import 'eho_export_service.dart';
 
@@ -29,28 +30,30 @@ Future<void> showEhoExportDialog(
   final confirmed = await showDialog<bool>(
     context: context,
     builder: (context) => StatefulBuilder(
-      builder: (context, setState) => AlertDialog(
-        title: const Text('EHO / Audit Export'),
+      builder: (context, setState) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+        title: Text(l10n.ehoAuditExportTitle),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "Generates a PDF of this venue's compliance records for "
-              'the chosen date range.',
-            ),
+            Text(l10n.ehoExportDescription),
             const SizedBox(height: 12),
             ListTile(
               contentPadding: EdgeInsets.zero,
               leading: const Icon(Icons.date_range),
               title: Text(
                 start != null && end != null
-                    ? '${formatDate(start!)} - ${formatDate(end!)}'
-                    : 'Select date range',
+                    ? l10n.dateRangeValue(
+                        formatDate(start!),
+                        formatDate(end!),
+                      )
+                    : l10n.selectDateRangeLabel,
               ),
               subtitle: start != null && end != null
                   ? null
-                  : const Text('Tap to choose a start and end date.'),
+                  : Text(l10n.tapToChooseDates),
               onTap: () async {
                 final picked = await showDateRangePicker(
                   context: context,
@@ -77,12 +80,8 @@ Future<void> showEhoExportDialog(
               contentPadding: EdgeInsets.zero,
               controlAffinity: ListTileControlAffinity.leading,
               value: includeFullLog,
-              title: const Text('Include full detailed log'),
-              subtitle: const Text(
-                'Off by default - the summary and exceptions above are '
-                "what an inspector actually reviews; this adds every "
-                'individual check on top.',
-              ),
+              title: Text(l10n.includeFullDetailedLog),
+              subtitle: Text(l10n.fullLogSubtitle),
               onChanged: (checked) =>
                   setState(() => includeFullLog = checked ?? false),
             ),
@@ -91,16 +90,17 @@ Future<void> showEhoExportDialog(
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           ElevatedButton(
             onPressed: (start != null && end != null)
                 ? () => Navigator.pop(context, true)
                 : null,
-            child: const Text('Generate'),
+            child: Text(l10n.generateLabel),
           ),
         ],
-      ),
+        );
+      },
     ),
   );
 
@@ -140,31 +140,37 @@ Future<void> showEhoExportDialog(
   if (error != null) {
     await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Export Failed'),
-        content: Text('Export failed: $error'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.exportFailedTitle),
+          content: Text(l10n.exportFailedBody('$error')),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.okLabel),
+            ),
+          ],
+        );
+      },
     );
     return;
   }
 
   await showDialog(
     context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Export Created'),
-      content: Text('Saved to:\n$path'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('OK'),
-        ),
-      ],
-    ),
+    builder: (context) {
+      final l10n = AppLocalizations.of(context)!;
+      return AlertDialog(
+        title: Text(l10n.exportCreatedTitle),
+        content: Text(l10n.savedToLabel('$path')),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.okLabel),
+          ),
+        ],
+      );
+    },
   );
 }

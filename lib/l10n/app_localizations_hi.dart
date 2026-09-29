@@ -602,4 +602,49 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get finishShiftLabel => 'शिफ्ट समाप्त करें';
+
+  @override
+  String get ehoAuditExportTitle => 'EHO / ऑडिट एक्सपोर्ट';
+
+  @override
+  String get ehoExportDescription =>
+      'चुनी गई तिथि सीमा के लिए इस वेन्यू के अनुपालन रिकॉर्ड का एक PDF बनाता है।';
+
+  @override
+  String dateRangeValue(String start, String end) {
+    return '$start - $end';
+  }
+
+  @override
+  String get selectDateRangeLabel => 'तिथि सीमा चुनें';
+
+  @override
+  String get tapToChooseDates =>
+      'प्रारंभ और समाप्ति तिथि चुनने के लिए टैप करें।';
+
+  @override
+  String get includeFullDetailedLog => 'पूर्ण विस्तृत लॉग शामिल करें';
+
+  @override
+  String get fullLogSubtitle =>
+      'डिफ़ॉल्ट रूप से बंद - ऊपर दिया गया सारांश और अपवाद वही है जिसे एक निरीक्षक वास्तव में समीक्षा करता है; यह हर व्यक्तिगत जांच को जोड़ता है।';
+
+  @override
+  String get generateLabel => 'बनाएं';
+
+  @override
+  String get exportFailedTitle => 'एक्सपोर्ट विफल';
+
+  @override
+  String exportFailedBody(String error) {
+    return 'एक्सपोर्ट विफल: $error';
+  }
+
+  @override
+  String get exportCreatedTitle => 'एक्सपोर्ट बनाया गया';
+
+  @override
+  String savedToLabel(String path) {
+    return 'यहां सहेजा गया:\n$path';
+  }
 }

@@ -176,5 +176,17 @@
   "everythingsDone": "Wszystko zrobione. Dobra robota.",
   "tasksNotCompletedCount": "{count, plural, one{1 zadanie nieukończone:} other{{count} zadań nieukończonych:}}",
   "backToShiftLabel": "Wróć do zmiany",
-  "finishShiftLabel": "Zakończ zmianę"
+  "finishShiftLabel": "Zakończ zmianę",
+  "ehoAuditExportTitle": "Eksport EHO / Audyt",
+  "ehoExportDescription": "Generuje plik PDF z zapisami zgodności tego lokalu dla wybranego zakresu dat.",
+  "dateRangeValue": "{start} - {end}",
+  "selectDateRangeLabel": "Wybierz zakres dat",
+  "tapToChooseDates": "Dotknij, aby wybrać datę początkową i końcową.",
+  "includeFullDetailedLog": "Uwzględnij pełny szczegółowy dziennik",
+  "fullLogSubtitle": "Domyślnie wyłączone - podsumowanie i wyjątki powyżej to to, co inspektor faktycznie sprawdza; ta opcja dodaje każdą pojedynczą kontrolę.",
+  "generateLabel": "Generuj",
+  "exportFailedTitle": "Eksport nie powiódł się",
+  "exportFailedBody": "Eksport nie powiódł się: {error}",
+  "exportCreatedTitle": "Eksport utworzony",
+  "savedToLabel": "Zapisano w:\n{path}"
 }

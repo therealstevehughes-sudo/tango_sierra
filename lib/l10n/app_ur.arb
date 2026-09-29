@@ -176,5 +176,17 @@
   "everythingsDone": "سب کچھ ہو گیا۔ بہترین کام۔",
   "tasksNotCompletedCount": "{count, plural, one{1 کام مکمل نہیں ہوا:} other{{count} کام مکمل نہیں ہوئے:}}",
   "backToShiftLabel": "شفٹ پر واپس جائیں",
-  "finishShiftLabel": "شفٹ ختم کریں"
+  "finishShiftLabel": "شفٹ ختم کریں",
+  "ehoAuditExportTitle": "EHO / آڈٹ ایکسپورٹ",
+  "ehoExportDescription": "منتخب تاریخ کی حد کے لیے اس مقام کے تعمیل ریکارڈز کی PDF بناتا ہے۔",
+  "dateRangeValue": "{start} - {end}",
+  "selectDateRangeLabel": "تاریخ کی حد منتخب کریں",
+  "tapToChooseDates": "شروع اور اختتامی تاریخ منتخب کرنے کے لیے ٹیپ کریں۔",
+  "includeFullDetailedLog": "مکمل تفصیلی لاگ شامل کریں",
+  "fullLogSubtitle": "پہلے سے غیر فعال - اوپر دیا گیا خلاصہ اور استثنیات وہی ہیں جن کا انسپکٹر جائزہ لیتا ہے؛ یہ ہر انفرادی جانچ کو شامل کرتا ہے۔",
+  "generateLabel": "بنائیں",
+  "exportFailedTitle": "ایکسپورٹ ناکام",
+  "exportFailedBody": "ایکسپورٹ ناکام: {error}",
+  "exportCreatedTitle": "ایکسپورٹ بن گئی",
+  "savedToLabel": "یہاں محفوظ کیا گیا:\n{path}"
 }

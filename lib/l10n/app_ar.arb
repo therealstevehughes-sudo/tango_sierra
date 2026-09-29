@@ -176,5 +176,17 @@
   "everythingsDone": "تم كل شيء. عمل رائع.",
   "tasksNotCompletedCount": "{count, plural, one{مهمة واحدة غير مكتملة:} other{{count} مهام غير مكتملة:}}",
   "backToShiftLabel": "العودة إلى المناوبة",
-  "finishShiftLabel": "إنهاء المناوبة"
+  "finishShiftLabel": "إنهاء المناوبة",
+  "ehoAuditExportTitle": "تصدير EHO / التدقيق",
+  "ehoExportDescription": "يُنشئ ملف PDF لسجلات الامتثال لهذا الموقع للفترة الزمنية المحددة.",
+  "dateRangeValue": "{start} - {end}",
+  "selectDateRangeLabel": "اختر النطاق الزمني",
+  "tapToChooseDates": "اضغط لاختيار تاريخ البداية والنهاية.",
+  "includeFullDetailedLog": "تضمين السجل التفصيلي الكامل",
+  "fullLogSubtitle": "معطل افتراضيًا - الملخص والاستثناءات أعلاه هي ما يراجعه المفتش فعليًا؛ يضيف هذا كل فحص فردي.",
+  "generateLabel": "إنشاء",
+  "exportFailedTitle": "فشل التصدير",
+  "exportFailedBody": "فشل التصدير: {error}",
+  "exportCreatedTitle": "تم إنشاء التصدير",
+  "savedToLabel": "تم الحفظ في:\n{path}"
 }
