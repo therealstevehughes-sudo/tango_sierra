@@ -13,6 +13,7 @@ import '../../features/notifications/notification_rules_screen.dart';
 import '../../features/onboarding/staff_assignment_screen.dart';
 import '../../features/onboarding/staff_provisioning_screen.dart';
 import '../../features/problems/problems_register_screen.dart';
+import '../../features/providers/service_providers_screen.dart';
 import '../../features/regions/branch_management_screen.dart';
 import '../../features/regions/branch_org_chart_screen.dart';
 import '../../features/regions/organisation_tree_screen.dart';
@@ -276,6 +277,17 @@ final List<_DrawerItemDef> _companyItems = [
     label: 'Branches',
     minTier: RoleTier.regional,
     screenBuilder: (_) => const BranchManagementScreen(),
+  ),
+  // Trusted Service Provider directory, phase 1 (2026-09-29) — venueManager+
+  // (not executive-only like the other two items here): a single-branch
+  // GM wants this just as much as a Director does. Placed under Company
+  // per the agreed design (a company-wide, paid feature), even though its
+  // tier floor is lower than its section-mates.
+  _DrawerItemDef(
+    icon: Icons.handshake_outlined,
+    label: 'Service Providers',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const ServiceProvidersScreen(),
   ),
 ];
 
