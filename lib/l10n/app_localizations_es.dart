@@ -1488,4 +1488,102 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get openLabel => 'Abierto';
+
+  @override
+  String get enableRosterQuestion => '¿Activar Turnos?';
+
+  @override
+  String rosterQuoteBody(String amount) {
+    return 'Según tu número actual de empleados, esto añadirá $amount a tu domiciliación bancaria mensual, a partir del próximo pago.';
+  }
+
+  @override
+  String get confirmAndEnable => 'Confirmar y activar';
+
+  @override
+  String couldNotReachVenurite(String error) {
+    return 'No se pudo contactar con VenuRite: $error';
+  }
+
+  @override
+  String get letStaffClaimShifts =>
+      'Deja que el personal reclame sus propios turnos';
+
+  @override
+  String get rosterPitchBody =>
+      'Publica turnos abiertos y deja que el personal los reclame por sí mismo - se acabaron las rondas de llamadas o el grupo de WhatsApp cuando alguien no puede venir. El personal también puede solicitar días libres, y tú apruebas o rechazas desde el mismo lugar.';
+
+  @override
+  String get pricingLabel => 'Precios';
+
+  @override
+  String get priceUnder10Staff =>
+      '6 GBP/mes por local con menos de 10 empleados';
+
+  @override
+  String get price10PlusStaff => '10 GBP/mes por local con 10 o más empleados';
+
+  @override
+  String get addedToDirectDebitNote =>
+      'Se añade a tu domiciliación bancaria actual - no se necesita un nuevo método de pago. Verás el importe exacto antes de confirmar.';
+
+  @override
+  String get enableRosterButton => 'Activar Turnos';
+
+  @override
+  String get availableShiftsTitle => 'Turnos disponibles';
+
+  @override
+  String get shiftClaimingNotEnabled =>
+      'La reclamación de turnos aún no está activada para este local. Pide a tu responsable que la active en Ajustes.';
+
+  @override
+  String couldNotLoadShifts(String error) {
+    return 'No se pudieron cargar los turnos: $error';
+  }
+
+  @override
+  String get noShiftsPostedYet => 'Aún no se han publicado turnos.';
+
+  @override
+  String get someoneElseClaimedShift =>
+      'Otra persona acaba de reclamar ese turno - ¡lo sentimos!';
+
+  @override
+  String get shiftClaimedMessage => 'Turno reclamado.';
+
+  @override
+  String get cancelThisShiftTitle => '¿Cancelar este turno?';
+
+  @override
+  String get cancelShiftLateWarning =>
+      '\n\nFaltan menos de 24 horas para que empiece el turno - cancelarlo ahora puede afectar a tu historial de fiabilidad.';
+
+  @override
+  String willNoLongerBeClaimed(String warning) {
+    return 'Ya no estarás asignado a este turno.$warning';
+  }
+
+  @override
+  String get keepShiftButton => 'Mantener turno';
+
+  @override
+  String get cancelShiftButton => 'Cancelar turno';
+
+  @override
+  String get yourShiftRecordReliable => 'Tu historial de turnos: Fiable';
+
+  @override
+  String get yourShiftRecordNeedsImprovement =>
+      'Tu historial de turnos: Necesita mejorar';
+
+  @override
+  String get yourShiftRecordBuilding =>
+      'Tu historial de turnos: Creando historial';
+
+  @override
+  String get claimLabel => 'Reclamar';
+
+  @override
+  String get claimedLabel => 'Reclamado';
 }

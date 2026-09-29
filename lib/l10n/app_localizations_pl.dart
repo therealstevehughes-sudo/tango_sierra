@@ -1483,4 +1483,103 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get openLabel => 'Otwarte';
+
+  @override
+  String get enableRosterQuestion => 'Włączyć Grafik?';
+
+  @override
+  String rosterQuoteBody(String amount) {
+    return 'Na podstawie obecnej liczby pracowników doda to $amount do Twojego miesięcznego polecenia zapłaty, począwszy od następnej płatności.';
+  }
+
+  @override
+  String get confirmAndEnable => 'Potwierdź i włącz';
+
+  @override
+  String couldNotReachVenurite(String error) {
+    return 'Nie udało się połączyć z VenuRite: $error';
+  }
+
+  @override
+  String get letStaffClaimShifts =>
+      'Pozwól pracownikom samodzielnie zgłaszać się do zmian';
+
+  @override
+  String get rosterPitchBody =>
+      'Publikuj wolne zmiany i pozwól pracownikom samodzielnie je zajmować - koniec z obdzwanianiem lub grupą na WhatsAppie, gdy ktoś nie może przyjść. Pracownicy mogą też prosić o dni wolne, a Ty zatwierdzasz lub odrzucasz z tego samego miejsca.';
+
+  @override
+  String get pricingLabel => 'Cennik';
+
+  @override
+  String get priceUnder10Staff =>
+      '6 GBP/miesiąc za oddział z mniej niż 10 pracownikami';
+
+  @override
+  String get price10PlusStaff =>
+      '10 GBP/miesiąc za oddział z 10 lub więcej pracownikami';
+
+  @override
+  String get addedToDirectDebitNote =>
+      'Dodane do istniejącego polecenia zapłaty - nie jest potrzebna nowa metoda płatności. Przed potwierdzeniem zobaczysz dokładną kwotę.';
+
+  @override
+  String get enableRosterButton => 'Włącz Grafik';
+
+  @override
+  String get availableShiftsTitle => 'Dostępne zmiany';
+
+  @override
+  String get shiftClaimingNotEnabled =>
+      'Zgłaszanie się do zmian nie jest jeszcze włączone dla tego lokalu. Poproś kierownika o włączenie tego w Ustawieniach.';
+
+  @override
+  String couldNotLoadShifts(String error) {
+    return 'Nie udało się załadować zmian: $error';
+  }
+
+  @override
+  String get noShiftsPostedYet => 'Nie opublikowano jeszcze żadnych zmian.';
+
+  @override
+  String get someoneElseClaimedShift =>
+      'Ktoś inny właśnie zgłosił się do tej zmiany - przepraszamy!';
+
+  @override
+  String get shiftClaimedMessage => 'Zmiana zgłoszona.';
+
+  @override
+  String get cancelThisShiftTitle => 'Anulować tę zmianę?';
+
+  @override
+  String get cancelShiftLateWarning =>
+      '\n\nZostało mniej niż 24 godziny do rozpoczęcia zmiany - anulowanie teraz może wpłynąć na Twoją historię niezawodności.';
+
+  @override
+  String willNoLongerBeClaimed(String warning) {
+    return 'Nie będziesz już zgłoszony(a) do tej zmiany.$warning';
+  }
+
+  @override
+  String get keepShiftButton => 'Zachowaj zmianę';
+
+  @override
+  String get cancelShiftButton => 'Anuluj zmianę';
+
+  @override
+  String get yourShiftRecordReliable => 'Twoja historia zmian: Niezawodny(a)';
+
+  @override
+  String get yourShiftRecordNeedsImprovement =>
+      'Twoja historia zmian: Wymaga poprawy';
+
+  @override
+  String get yourShiftRecordBuilding =>
+      'Twoja historia zmian: Budowanie historii';
+
+  @override
+  String get claimLabel => 'Zgłoś się';
+
+  @override
+  String get claimedLabel => 'Zgłoszono';
 }

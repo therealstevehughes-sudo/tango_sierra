@@ -1468,4 +1468,100 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get openLabel => 'مفتوح';
+
+  @override
+  String get enableRosterQuestion => 'تفعيل الجدول الزمني؟';
+
+  @override
+  String rosterQuoteBody(String amount) {
+    return 'استنادًا إلى عدد موظفيك الحالي، سيضيف هذا $amount إلى الخصم المباشر الشهري، بدءًا من الدفعة القادمة.';
+  }
+
+  @override
+  String get confirmAndEnable => 'تأكيد وتفعيل';
+
+  @override
+  String couldNotReachVenurite(String error) {
+    return 'تعذر الوصول إلى VenuRite: $error';
+  }
+
+  @override
+  String get letStaffClaimShifts => 'دع الموظفين يطالبون بمناوباتهم الخاصة';
+
+  @override
+  String get rosterPitchBody =>
+      'انشر المناوبات المفتوحة ودع الموظفين يختارونها بأنفسهم - لا مزيد من الاتصالات الهاتفية أو مجموعات واتساب عندما لا يستطيع أحدهم الحضور. يمكن للموظفين أيضًا طلب أيام إجازة، وأنت توافق أو ترفض من نفس المكان.';
+
+  @override
+  String get pricingLabel => 'التسعير';
+
+  @override
+  String get priceUnder10Staff =>
+      '6 جنيه إسترليني/شهريًا لكل فرع بأقل من 10 موظفين';
+
+  @override
+  String get price10PlusStaff =>
+      '10 جنيه إسترليني/شهريًا لكل فرع بـ 10 موظفين أو أكثر';
+
+  @override
+  String get addedToDirectDebitNote =>
+      'يُضاف إلى الخصم المباشر الحالي - لا حاجة لطريقة دفع جديدة. سترى المبلغ الدقيق قبل التأكيد.';
+
+  @override
+  String get enableRosterButton => 'تفعيل الجدول الزمني';
+
+  @override
+  String get availableShiftsTitle => 'المناوبات المتاحة';
+
+  @override
+  String get shiftClaimingNotEnabled =>
+      'المطالبة بالمناوبات غير مفعّلة بعد لهذا الموقع. اطلب من مديرك تفعيلها في الإعدادات.';
+
+  @override
+  String couldNotLoadShifts(String error) {
+    return 'تعذر تحميل المناوبات: $error';
+  }
+
+  @override
+  String get noShiftsPostedYet => 'لم يتم نشر أي مناوبات بعد.';
+
+  @override
+  String get someoneElseClaimedShift =>
+      'قام شخص آخر للتو بالمطالبة بتلك المناوبة - عذرًا!';
+
+  @override
+  String get shiftClaimedMessage => 'تمت المطالبة بالمناوبة.';
+
+  @override
+  String get cancelThisShiftTitle => 'إلغاء هذه المناوبة؟';
+
+  @override
+  String get cancelShiftLateWarning =>
+      '\n\nتبقى أقل من 24 ساعة على بدء المناوبة - الإلغاء الآن قد يؤثر على سجل موثوقيتك.';
+
+  @override
+  String willNoLongerBeClaimed(String warning) {
+    return 'لن تكون مسجلاً لهذه المناوبة بعد الآن.$warning';
+  }
+
+  @override
+  String get keepShiftButton => 'احتفظ بالمناوبة';
+
+  @override
+  String get cancelShiftButton => 'إلغاء المناوبة';
+
+  @override
+  String get yourShiftRecordReliable => 'سجل مناوباتك: موثوق';
+
+  @override
+  String get yourShiftRecordNeedsImprovement => 'سجل مناوباتك: يحتاج إلى تحسين';
+
+  @override
+  String get yourShiftRecordBuilding => 'سجل مناوباتك: قيد البناء';
+
+  @override
+  String get claimLabel => 'المطالبة';
+
+  @override
+  String get claimedLabel => 'تمت المطالبة';
 }

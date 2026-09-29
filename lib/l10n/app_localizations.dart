@@ -2675,6 +2675,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open'**
   String get openLabel;
+
+  /// No description provided for @enableRosterQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Roster?'**
+  String get enableRosterQuestion;
+
+  /// No description provided for @rosterQuoteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on your current staff numbers, this will add {amount} to your monthly Direct Debit, starting with your next payment.'**
+  String rosterQuoteBody(String amount);
+
+  /// No description provided for @confirmAndEnable.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm and enable'**
+  String get confirmAndEnable;
+
+  /// No description provided for @couldNotReachVenurite.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach VenuRite: {error}'**
+  String couldNotReachVenurite(String error);
+
+  /// No description provided for @letStaffClaimShifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Let staff claim their own shifts'**
+  String get letStaffClaimShifts;
+
+  /// No description provided for @rosterPitchBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Post open shifts and let staff pick them up themselves - no more phone-round or WhatsApp group when someone can\'t make it in. Staff can also request days off, and you approve or decline from the same place.'**
+  String get rosterPitchBody;
+
+  /// No description provided for @pricingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pricing'**
+  String get pricingLabel;
+
+  /// No description provided for @priceUnder10Staff.
+  ///
+  /// In en, this message translates to:
+  /// **'£6/month per branch with fewer than 10 staff'**
+  String get priceUnder10Staff;
+
+  /// No description provided for @price10PlusStaff.
+  ///
+  /// In en, this message translates to:
+  /// **'£10/month per branch with 10 or more staff'**
+  String get price10PlusStaff;
+
+  /// No description provided for @addedToDirectDebitNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to your existing Direct Debit - no new payment method needed. You\'ll see the exact amount before confirming.'**
+  String get addedToDirectDebitNote;
+
+  /// No description provided for @enableRosterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Roster'**
+  String get enableRosterButton;
+
+  /// No description provided for @availableShiftsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Shifts'**
+  String get availableShiftsTitle;
+
+  /// No description provided for @shiftClaimingNotEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift claiming isn\'t switched on for this venue yet. Ask your manager to enable it in Settings.'**
+  String get shiftClaimingNotEnabled;
+
+  /// No description provided for @couldNotLoadShifts.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load shifts: {error}'**
+  String couldNotLoadShifts(String error);
+
+  /// No description provided for @noShiftsPostedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No shifts posted yet.'**
+  String get noShiftsPostedYet;
+
+  /// No description provided for @someoneElseClaimedShift.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone else just claimed that shift - sorry!'**
+  String get someoneElseClaimedShift;
+
+  /// No description provided for @shiftClaimedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift claimed.'**
+  String get shiftClaimedMessage;
+
+  /// No description provided for @cancelThisShiftTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this shift?'**
+  String get cancelThisShiftTitle;
+
+  /// No description provided for @cancelShiftLateWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'\n\nThis is less than 24 hours before the shift starts - cancelling now may affect your reliability record.'**
+  String get cancelShiftLateWarning;
+
+  /// No description provided for @willNoLongerBeClaimed.
+  ///
+  /// In en, this message translates to:
+  /// **'You will no longer be claimed for this shift.{warning}'**
+  String willNoLongerBeClaimed(String warning);
+
+  /// No description provided for @keepShiftButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep shift'**
+  String get keepShiftButton;
+
+  /// No description provided for @cancelShiftButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel shift'**
+  String get cancelShiftButton;
+
+  /// No description provided for @yourShiftRecordReliable.
+  ///
+  /// In en, this message translates to:
+  /// **'Your shift record: Reliable'**
+  String get yourShiftRecordReliable;
+
+  /// No description provided for @yourShiftRecordNeedsImprovement.
+  ///
+  /// In en, this message translates to:
+  /// **'Your shift record: Needs improvement'**
+  String get yourShiftRecordNeedsImprovement;
+
+  /// No description provided for @yourShiftRecordBuilding.
+  ///
+  /// In en, this message translates to:
+  /// **'Your shift record: Building a track record'**
+  String get yourShiftRecordBuilding;
+
+  /// No description provided for @claimLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim'**
+  String get claimLabel;
+
+  /// No description provided for @claimedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Claimed'**
+  String get claimedLabel;
 }
 
 class _AppLocalizationsDelegate

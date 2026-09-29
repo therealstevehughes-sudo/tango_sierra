@@ -1486,4 +1486,103 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get openLabel => 'Otvoreno';
+
+  @override
+  String get enableRosterQuestion => 'Omogućiti raspored?';
+
+  @override
+  String rosterQuoteBody(String amount) {
+    return 'Na temelju tvog trenutnog broja osoblja, ovo će dodati $amount tvom mjesečnom izravnom terećenju, počevši od sljedeće uplate.';
+  }
+
+  @override
+  String get confirmAndEnable => 'Potvrdi i omogući';
+
+  @override
+  String couldNotReachVenurite(String error) {
+    return 'Nije bilo moguće kontaktirati VenuRite: $error';
+  }
+
+  @override
+  String get letStaffClaimShifts =>
+      'Dopusti osoblju da preuzme vlastite smjene';
+
+  @override
+  String get rosterPitchBody =>
+      'Objavi otvorene smjene i dopusti osoblju da ih samo preuzme - više nema kruženja telefonom ili WhatsApp grupe kada netko ne može doći. Osoblje također može zatražiti slobodne dane, a ti odobravaš ili odbijaš s istog mjesta.';
+
+  @override
+  String get pricingLabel => 'Cijene';
+
+  @override
+  String get priceUnder10Staff =>
+      '6 GBP/mjesečno po podružnici s manje od 10 zaposlenika';
+
+  @override
+  String get price10PlusStaff =>
+      '10 GBP/mjesečno po podružnici s 10 ili više zaposlenika';
+
+  @override
+  String get addedToDirectDebitNote =>
+      'Dodano tvom postojećem izravnom terećenju - nije potreban novi način plaćanja. Vidjet ćeš točan iznos prije potvrde.';
+
+  @override
+  String get enableRosterButton => 'Omogući raspored';
+
+  @override
+  String get availableShiftsTitle => 'Dostupne smjene';
+
+  @override
+  String get shiftClaimingNotEnabled =>
+      'Preuzimanje smjena još nije omogućeno za ovu lokaciju. Zamoli voditelja da to omogući u Postavkama.';
+
+  @override
+  String couldNotLoadShifts(String error) {
+    return 'Smjene nije bilo moguće učitati: $error';
+  }
+
+  @override
+  String get noShiftsPostedYet => 'Još nema objavljenih smjena.';
+
+  @override
+  String get someoneElseClaimedShift =>
+      'Netko drugi je upravo preuzeo tu smjenu - žao nam je!';
+
+  @override
+  String get shiftClaimedMessage => 'Smjena preuzeta.';
+
+  @override
+  String get cancelThisShiftTitle => 'Otkazati ovu smjenu?';
+
+  @override
+  String get cancelShiftLateWarning =>
+      '\n\nPreostalo je manje od 24 sata do početka smjene - otkazivanje sada može utjecati na tvoju evidenciju pouzdanosti.';
+
+  @override
+  String willNoLongerBeClaimed(String warning) {
+    return 'Više nećeš biti prijavljen/a za ovu smjenu.$warning';
+  }
+
+  @override
+  String get keepShiftButton => 'Zadrži smjenu';
+
+  @override
+  String get cancelShiftButton => 'Otkaži smjenu';
+
+  @override
+  String get yourShiftRecordReliable => 'Tvoja evidencija smjena: Pouzdan/na';
+
+  @override
+  String get yourShiftRecordNeedsImprovement =>
+      'Tvoja evidencija smjena: Potrebno poboljšanje';
+
+  @override
+  String get yourShiftRecordBuilding =>
+      'Tvoja evidencija smjena: Gradi se evidencija';
+
+  @override
+  String get claimLabel => 'Preuzmi';
+
+  @override
+  String get claimedLabel => 'Preuzeto';
 }

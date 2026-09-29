@@ -1489,4 +1489,103 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get openLabel => 'Deschis';
+
+  @override
+  String get enableRosterQuestion => 'Activezi Tura?';
+
+  @override
+  String rosterQuoteBody(String amount) {
+    return 'Pe baza numărului actual de angajați, aceasta va adăuga $amount la debitul tău direct lunar, începând cu următoarea plată.';
+  }
+
+  @override
+  String get confirmAndEnable => 'Confirmă și activează';
+
+  @override
+  String couldNotReachVenurite(String error) {
+    return 'Nu s-a putut contacta VenuRite: $error';
+  }
+
+  @override
+  String get letStaffClaimShifts =>
+      'Lasă personalul să-și revendice propriile ture';
+
+  @override
+  String get rosterPitchBody =>
+      'Publică ture libere și lasă personalul să le preia singur - fără telefoane în lanț sau grup de WhatsApp când cineva nu poate veni. Personalul poate cere și zile libere, iar tu aprobi sau respingi din același loc.';
+
+  @override
+  String get pricingLabel => 'Preț';
+
+  @override
+  String get priceUnder10Staff =>
+      '6 GBP/lună per local cu mai puțin de 10 angajați';
+
+  @override
+  String get price10PlusStaff =>
+      '10 GBP/lună per local cu 10 sau mai mulți angajați';
+
+  @override
+  String get addedToDirectDebitNote =>
+      'Adăugat la debitul tău direct existent - nu este nevoie de o nouă metodă de plată. Vei vedea suma exactă înainte de confirmare.';
+
+  @override
+  String get enableRosterButton => 'Activează Tura';
+
+  @override
+  String get availableShiftsTitle => 'Ture disponibile';
+
+  @override
+  String get shiftClaimingNotEnabled =>
+      'Revendicarea turelor nu este încă activată pentru acest local. Roagă un manager să o activeze din Setări.';
+
+  @override
+  String couldNotLoadShifts(String error) {
+    return 'Turele nu au putut fi încărcate: $error';
+  }
+
+  @override
+  String get noShiftsPostedYet => 'Nicio tură publicată încă.';
+
+  @override
+  String get someoneElseClaimedShift =>
+      'Altcineva tocmai a revendicat acea tură - ne pare rău!';
+
+  @override
+  String get shiftClaimedMessage => 'Tură revendicată.';
+
+  @override
+  String get cancelThisShiftTitle => 'Anulezi această tură?';
+
+  @override
+  String get cancelShiftLateWarning =>
+      '\n\nMai sunt mai puțin de 24 de ore până la începerea turei - anularea acum îți poate afecta istoricul de fiabilitate.';
+
+  @override
+  String willNoLongerBeClaimed(String warning) {
+    return 'Nu vei mai fi înregistrat(ă) pentru această tură.$warning';
+  }
+
+  @override
+  String get keepShiftButton => 'Păstrează tura';
+
+  @override
+  String get cancelShiftButton => 'Anulează tura';
+
+  @override
+  String get yourShiftRecordReliable => 'Istoricul turelor tale: Fiabil';
+
+  @override
+  String get yourShiftRecordNeedsImprovement =>
+      'Istoricul turelor tale: Necesită îmbunătățire';
+
+  @override
+  String get yourShiftRecordBuilding =>
+      'Istoricul turelor tale: În curs de construire';
+
+  @override
+  String get claimLabel => 'Revendică';
+
+  @override
+  String get claimedLabel => 'Revendicat';
 }

@@ -1494,4 +1494,102 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get openLabel => 'Offen';
+
+  @override
+  String get enableRosterQuestion => 'Dienstplan aktivieren?';
+
+  @override
+  String rosterQuoteBody(String amount) {
+    return 'Basierend auf deiner aktuellen Mitarbeiterzahl wird dies $amount zu deinem monatlichen Lastschrifteinzug hinzufügen, beginnend mit der nächsten Zahlung.';
+  }
+
+  @override
+  String get confirmAndEnable => 'Bestätigen und aktivieren';
+
+  @override
+  String couldNotReachVenurite(String error) {
+    return 'VenuRite konnte nicht erreicht werden: $error';
+  }
+
+  @override
+  String get letStaffClaimShifts =>
+      'Lass Mitarbeiter ihre eigenen Schichten übernehmen';
+
+  @override
+  String get rosterPitchBody =>
+      'Veröffentliche offene Schichten und lass Mitarbeiter sie selbst übernehmen - keine Telefonrunden oder WhatsApp-Gruppen mehr, wenn jemand nicht kommen kann. Mitarbeiter können auch freie Tage beantragen, und du genehmigst oder lehnst sie am selben Ort ab.';
+
+  @override
+  String get pricingLabel => 'Preise';
+
+  @override
+  String get priceUnder10Staff =>
+      '6 £/Monat pro Filiale mit weniger als 10 Mitarbeitern';
+
+  @override
+  String get price10PlusStaff =>
+      '10 £/Monat pro Filiale mit 10 oder mehr Mitarbeitern';
+
+  @override
+  String get addedToDirectDebitNote =>
+      'Wird zu deinem bestehenden Lastschrifteinzug hinzugefügt - keine neue Zahlungsmethode erforderlich. Du siehst den genauen Betrag vor der Bestätigung.';
+
+  @override
+  String get enableRosterButton => 'Dienstplan aktivieren';
+
+  @override
+  String get availableShiftsTitle => 'Verfügbare Schichten';
+
+  @override
+  String get shiftClaimingNotEnabled =>
+      'Die Schichtübernahme ist für diesen Standort noch nicht aktiviert. Bitte deinen Manager, sie in den Einstellungen zu aktivieren.';
+
+  @override
+  String couldNotLoadShifts(String error) {
+    return 'Schichten konnten nicht geladen werden: $error';
+  }
+
+  @override
+  String get noShiftsPostedYet => 'Noch keine Schichten veröffentlicht.';
+
+  @override
+  String get someoneElseClaimedShift =>
+      'Jemand anderes hat diese Schicht gerade übernommen - sorry!';
+
+  @override
+  String get shiftClaimedMessage => 'Schicht übernommen.';
+
+  @override
+  String get cancelThisShiftTitle => 'Diese Schicht stornieren?';
+
+  @override
+  String get cancelShiftLateWarning =>
+      '\n\nEs sind weniger als 24 Stunden bis Schichtbeginn - eine Stornierung jetzt kann sich auf deinen Zuverlässigkeitsverlauf auswirken.';
+
+  @override
+  String willNoLongerBeClaimed(String warning) {
+    return 'Du wirst für diese Schicht nicht mehr eingetragen sein.$warning';
+  }
+
+  @override
+  String get keepShiftButton => 'Schicht behalten';
+
+  @override
+  String get cancelShiftButton => 'Schicht stornieren';
+
+  @override
+  String get yourShiftRecordReliable => 'Dein Schichtverlauf: Zuverlässig';
+
+  @override
+  String get yourShiftRecordNeedsImprovement =>
+      'Dein Schichtverlauf: Verbesserung nötig';
+
+  @override
+  String get yourShiftRecordBuilding => 'Dein Schichtverlauf: Wird aufgebaut';
+
+  @override
+  String get claimLabel => 'Übernehmen';
+
+  @override
+  String get claimedLabel => 'Übernommen';
 }

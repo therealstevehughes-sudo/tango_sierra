@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/providers/auth_providers.dart' show backendDataEnabledProvider;
 import '../../shared/providers/site_providers.dart' show organisationRepositoryProvider;
 import 'roster_billing_service.dart';
@@ -53,24 +54,23 @@ class _RosterUpsellScreenState extends ConsumerState<RosterUpsellScreen> {
 
       final confirmed = await showDialog<bool>(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Enable Roster?'),
-          content: Text(
-            'Based on your current staff numbers, this will add '
-            '${quote.formatted} to your monthly Direct Debit, starting '
-            'with your next payment.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Confirm and enable'),
-            ),
-          ],
-        ),
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.enableRosterQuestion),
+            content: Text(l10n.rosterQuoteBody(quote.formatted)),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.confirmAndEnable),
+              ),
+            ],
+          );
+        },
       );
       if (confirmed != true) return;
 
@@ -90,15 +90,20 @@ class _RosterUpsellScreenState extends ConsumerState<RosterUpsellScreen> {
       if (!mounted) return;
       setState(() => _busy = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not reach VenuRite: $e')),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.couldNotReachVenurite('$e'),
+          ),
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppScreenHeader(title: const Text('Roster')),
+      appBar: AppScreenHeader(title: Text(l10n.rosterSection)),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 480,
@@ -112,17 +117,14 @@ class _RosterUpsellScreenState extends ConsumerState<RosterUpsellScreen> {
               ),
               const SizedBox(height: 16),
               Text(
-                'Let staff claim their own shifts',
+                l10n.letStaffClaimShifts,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 12),
               Text(
-                'Post open shifts and let staff pick them up themselves - '
-                'no more phone-round or WhatsApp group when someone can\'t '
-                'make it in. Staff can also request days off, and you '
-                'approve or decline from the same place.',
+                l10n.rosterPitchBody,
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               const SizedBox(height: 24),
@@ -131,19 +133,17 @@ class _RosterUpsellScreenState extends ConsumerState<RosterUpsellScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Pricing',
+                      l10n.pricingLabel,
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     const SizedBox(height: 8),
-                    const Text('£6/month per branch with fewer than 10 staff'),
-                    const Text('£10/month per branch with 10 or more staff'),
+                    Text(l10n.priceUnder10Staff),
+                    Text(l10n.price10PlusStaff),
                     const SizedBox(height: 8),
                     Text(
-                      'Added to your existing Direct Debit - no new payment '
-                      'method needed. You\'ll see the exact amount before '
-                      'confirming.',
+                      l10n.addedToDirectDebitNote,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppColors.muted,
                       ),
@@ -160,7 +160,7 @@ class _RosterUpsellScreenState extends ConsumerState<RosterUpsellScreen> {
                         height: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text('Enable Roster'),
+                    : Text(l10n.enableRosterButton),
               ),
             ],
           ),

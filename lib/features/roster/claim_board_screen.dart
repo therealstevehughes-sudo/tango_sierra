@@ -7,6 +7,7 @@ import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/shift.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_providers.dart';
@@ -88,12 +89,13 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
         .claimShift(shiftId: shift.id, userId: user.id);
     if (!mounted) return;
     setState(() => _busy = false);
+    final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           result == null
-              ? 'Someone else just claimed that shift - sorry!'
-              : 'Shift claimed.',
+              ? l10n.someoneElseClaimedShift
+              : l10n.shiftClaimedMessage,
         ),
       ),
     );
@@ -104,28 +106,28 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
     final user = ref.read(currentUserProvider);
     if (user == null) return;
     final hoursUntil = shift.startsAt.difference(DateTime.now()).inHours;
-    final lateWarning = hoursUntil < 24
-        ? '\n\nThis is less than 24 hours before the shift starts - '
-              'cancelling now may affect your reliability record.'
-        : '';
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Cancel this shift?'),
-        content: Text(
-          'You will no longer be claimed for this shift.$lateWarning',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Keep shift'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Cancel shift'),
-          ),
-        ],
-      ),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        final lateWarning = hoursUntil < 24
+            ? l10n.cancelShiftLateWarning
+            : '';
+        return AlertDialog(
+          title: Text(l10n.cancelThisShiftTitle),
+          content: Text(l10n.willNoLongerBeClaimed(lateWarning)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.keepShiftButton),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.cancelShiftButton),
+            ),
+          ],
+        );
+      },
     );
     if (confirmed != true) return;
 
@@ -140,6 +142,7 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final currentUserId = ref.watch(currentUserProvider)?.id;
     final shiftsAsync = _siteId == null
         ? const AsyncValue<List<Shift>>.loading()
@@ -147,18 +150,17 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Available Shifts'),
+        title: Text(l10n.availableShiftsTitle),
         actions: const [AssistantIconButton()],
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : !_addonEnabled
-          ? const Center(
+          ? Center(
               child: Padding(
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 child: Text(
-                  "Shift claiming isn't switched on for this venue yet. "
-                  'Ask your manager to enable it in Settings.',
+                  l10n.shiftClaimingNotEnabled,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -166,9 +168,9 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
           : shiftsAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) =>
-                  Center(child: Text('Could not load shifts: $error')),
+                  Center(child: Text(l10n.couldNotLoadShifts('$error'))),
               data: (shifts) => shifts.isEmpty
-                  ? const Center(child: Text('No shifts posted yet.'))
+                  ? Center(child: Text(l10n.noShiftsPostedYet))
                   : ResponsiveContent(
                       child: ListView(
                         padding: const EdgeInsets.all(16),
@@ -210,18 +212,19 @@ class _OwnStandingChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final (StatusKind kind, String label) = switch (standing) {
       ShiftReliabilityStanding.reliable => (
         StatusKind.pass,
-        'Your shift record: Reliable',
+        l10n.yourShiftRecordReliable,
       ),
       ShiftReliabilityStanding.needsImprovement => (
         StatusKind.caution,
-        'Your shift record: Needs improvement',
+        l10n.yourShiftRecordNeedsImprovement,
       ),
       ShiftReliabilityStanding.buildingTrackRecord => (
         StatusKind.caution,
-        'Your shift record: Building a track record',
+        l10n.yourShiftRecordBuilding,
       ),
     };
     return StatusBadge(kind: kind, label: label);
@@ -245,6 +248,7 @@ class _ShiftCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isMine =
         shift.claimedByUserId != null && shift.claimedByUserId == currentUserId;
 
@@ -252,15 +256,15 @@ class _ShiftCard extends StatelessWidget {
     if (isMine) {
       trailing = OutlinedButton(
         onPressed: busy ? null : onCancel,
-        child: const Text('Cancel'),
+        child: Text(l10n.cancel),
       );
     } else if (shift.status == ShiftStatus.open) {
       trailing = ElevatedButton(
         onPressed: busy ? null : onClaim,
-        child: const Text('Claim'),
+        child: Text(l10n.claimLabel),
       );
     } else {
-      trailing = const Text('Claimed', style: TextStyle(color: AppColors.muted));
+      trailing = Text(l10n.claimedLabel, style: const TextStyle(color: AppColors.muted));
     }
 
     final startHour = shift.startsAt.hour.toString().padLeft(2, '0');

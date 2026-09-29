@@ -784,5 +784,60 @@
   "abandonedLabel": "Abandoned",
   "noActionTakenLabel": "No action taken",
   "markResolvedButton": "Mark Resolved",
-  "openLabel": "Open"
+  "openLabel": "Open",
+  "enableRosterQuestion": "Enable Roster?",
+  "rosterQuoteBody": "Based on your current staff numbers, this will add {amount} to your monthly Direct Debit, starting with your next payment.",
+  "@rosterQuoteBody": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmAndEnable": "Confirm and enable",
+  "couldNotReachVenurite": "Could not reach VenuRite: {error}",
+  "@couldNotReachVenurite": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "letStaffClaimShifts": "Let staff claim their own shifts",
+  "rosterPitchBody": "Post open shifts and let staff pick them up themselves - no more phone-round or WhatsApp group when someone can't make it in. Staff can also request days off, and you approve or decline from the same place.",
+  "pricingLabel": "Pricing",
+  "priceUnder10Staff": "£6/month per branch with fewer than 10 staff",
+  "price10PlusStaff": "£10/month per branch with 10 or more staff",
+  "addedToDirectDebitNote": "Added to your existing Direct Debit - no new payment method needed. You'll see the exact amount before confirming.",
+  "enableRosterButton": "Enable Roster",
+  "availableShiftsTitle": "Available Shifts",
+  "shiftClaimingNotEnabled": "Shift claiming isn't switched on for this venue yet. Ask your manager to enable it in Settings.",
+  "couldNotLoadShifts": "Could not load shifts: {error}",
+  "@couldNotLoadShifts": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noShiftsPostedYet": "No shifts posted yet.",
+  "someoneElseClaimedShift": "Someone else just claimed that shift - sorry!",
+  "shiftClaimedMessage": "Shift claimed.",
+  "cancelThisShiftTitle": "Cancel this shift?",
+  "cancelShiftLateWarning": "\n\nThis is less than 24 hours before the shift starts - cancelling now may affect your reliability record.",
+  "willNoLongerBeClaimed": "You will no longer be claimed for this shift.{warning}",
+  "@willNoLongerBeClaimed": {
+    "placeholders": {
+      "warning": {
+        "type": "String"
+      }
+    }
+  },
+  "keepShiftButton": "Keep shift",
+  "cancelShiftButton": "Cancel shift",
+  "yourShiftRecordReliable": "Your shift record: Reliable",
+  "yourShiftRecordNeedsImprovement": "Your shift record: Needs improvement",
+  "yourShiftRecordBuilding": "Your shift record: Building a track record",
+  "claimLabel": "Claim",
+  "claimedLabel": "Claimed"
 }

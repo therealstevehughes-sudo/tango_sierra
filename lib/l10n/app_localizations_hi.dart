@@ -1479,4 +1479,100 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get openLabel => 'खुला';
+
+  @override
+  String get enableRosterQuestion => 'रोस्टर सक्षम करें?';
+
+  @override
+  String rosterQuoteBody(String amount) {
+    return 'आपकी वर्तमान स्टाफ संख्या के आधार पर, यह आपके मासिक डायरेक्ट डेबिट में $amount जोड़ देगा, जो आपके अगले भुगतान से शुरू होगा।';
+  }
+
+  @override
+  String get confirmAndEnable => 'पुष्टि करें और सक्षम करें';
+
+  @override
+  String couldNotReachVenurite(String error) {
+    return 'VenuRite तक नहीं पहुंचा जा सका: $error';
+  }
+
+  @override
+  String get letStaffClaimShifts => 'स्टाफ को अपनी शिफ्ट खुद दावा करने दें';
+
+  @override
+  String get rosterPitchBody =>
+      'खुली शिफ्ट पोस्ट करें और स्टाफ को उन्हें खुद उठाने दें - जब कोई नहीं आ सकता तो फोन करने या व्हाट्सएप ग्रुप की जरूरत नहीं। स्टाफ छुट्टी के दिनों का अनुरोध भी कर सकता है, और आप उसी जगह से मंजूर या अस्वीकार कर सकते हैं।';
+
+  @override
+  String get pricingLabel => 'मूल्य निर्धारण';
+
+  @override
+  String get priceUnder10Staff => '10 से कम स्टाफ वाली शाखा के लिए £6/माह';
+
+  @override
+  String get price10PlusStaff => '10 या अधिक स्टाफ वाली शाखा के लिए £10/माह';
+
+  @override
+  String get addedToDirectDebitNote =>
+      'आपके मौजूदा डायरेक्ट डेबिट में जोड़ा गया - किसी नए भुगतान तरीके की आवश्यकता नहीं। पुष्टि करने से पहले आप सटीक राशि देखेंगे।';
+
+  @override
+  String get enableRosterButton => 'रोस्टर सक्षम करें';
+
+  @override
+  String get availableShiftsTitle => 'उपलब्ध शिफ्ट';
+
+  @override
+  String get shiftClaimingNotEnabled =>
+      'इस वेन्यू के लिए शिफ्ट दावा अभी तक सक्षम नहीं है। अपने प्रबंधक से सेटिंग्स में इसे सक्षम करने के लिए कहें।';
+
+  @override
+  String couldNotLoadShifts(String error) {
+    return 'शिफ्ट लोड नहीं की जा सकीं: $error';
+  }
+
+  @override
+  String get noShiftsPostedYet => 'अभी तक कोई शिफ्ट पोस्ट नहीं की गई है।';
+
+  @override
+  String get someoneElseClaimedShift =>
+      'किसी और ने अभी वह शिफ्ट दावा कर ली - क्षमा करें!';
+
+  @override
+  String get shiftClaimedMessage => 'शिफ्ट दावा की गई।';
+
+  @override
+  String get cancelThisShiftTitle => 'इस शिफ्ट को रद्द करें?';
+
+  @override
+  String get cancelShiftLateWarning =>
+      '\n\nशिफ्ट शुरू होने में 24 घंटे से कम समय बचा है - अभी रद्द करने से आपके विश्वसनीयता रिकॉर्ड पर असर पड़ सकता है।';
+
+  @override
+  String willNoLongerBeClaimed(String warning) {
+    return 'अब आप इस शिफ्ट के लिए दावेदार नहीं रहेंगे।$warning';
+  }
+
+  @override
+  String get keepShiftButton => 'शिफ्ट रखें';
+
+  @override
+  String get cancelShiftButton => 'शिफ्ट रद्द करें';
+
+  @override
+  String get yourShiftRecordReliable => 'आपका शिफ्ट रिकॉर्ड: विश्वसनीय';
+
+  @override
+  String get yourShiftRecordNeedsImprovement =>
+      'आपका शिफ्ट रिकॉर्ड: सुधार की जरूरत';
+
+  @override
+  String get yourShiftRecordBuilding =>
+      'आपका शिफ्ट रिकॉर्ड: ट्रैक रिकॉर्ड बन रहा है';
+
+  @override
+  String get claimLabel => 'दावा करें';
+
+  @override
+  String get claimedLabel => 'दावा किया गया';
 }

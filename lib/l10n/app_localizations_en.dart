@@ -1470,4 +1470,101 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get openLabel => 'Open';
+
+  @override
+  String get enableRosterQuestion => 'Enable Roster?';
+
+  @override
+  String rosterQuoteBody(String amount) {
+    return 'Based on your current staff numbers, this will add $amount to your monthly Direct Debit, starting with your next payment.';
+  }
+
+  @override
+  String get confirmAndEnable => 'Confirm and enable';
+
+  @override
+  String couldNotReachVenurite(String error) {
+    return 'Could not reach VenuRite: $error';
+  }
+
+  @override
+  String get letStaffClaimShifts => 'Let staff claim their own shifts';
+
+  @override
+  String get rosterPitchBody =>
+      'Post open shifts and let staff pick them up themselves - no more phone-round or WhatsApp group when someone can\'t make it in. Staff can also request days off, and you approve or decline from the same place.';
+
+  @override
+  String get pricingLabel => 'Pricing';
+
+  @override
+  String get priceUnder10Staff =>
+      '£6/month per branch with fewer than 10 staff';
+
+  @override
+  String get price10PlusStaff => '£10/month per branch with 10 or more staff';
+
+  @override
+  String get addedToDirectDebitNote =>
+      'Added to your existing Direct Debit - no new payment method needed. You\'ll see the exact amount before confirming.';
+
+  @override
+  String get enableRosterButton => 'Enable Roster';
+
+  @override
+  String get availableShiftsTitle => 'Available Shifts';
+
+  @override
+  String get shiftClaimingNotEnabled =>
+      'Shift claiming isn\'t switched on for this venue yet. Ask your manager to enable it in Settings.';
+
+  @override
+  String couldNotLoadShifts(String error) {
+    return 'Could not load shifts: $error';
+  }
+
+  @override
+  String get noShiftsPostedYet => 'No shifts posted yet.';
+
+  @override
+  String get someoneElseClaimedShift =>
+      'Someone else just claimed that shift - sorry!';
+
+  @override
+  String get shiftClaimedMessage => 'Shift claimed.';
+
+  @override
+  String get cancelThisShiftTitle => 'Cancel this shift?';
+
+  @override
+  String get cancelShiftLateWarning =>
+      '\n\nThis is less than 24 hours before the shift starts - cancelling now may affect your reliability record.';
+
+  @override
+  String willNoLongerBeClaimed(String warning) {
+    return 'You will no longer be claimed for this shift.$warning';
+  }
+
+  @override
+  String get keepShiftButton => 'Keep shift';
+
+  @override
+  String get cancelShiftButton => 'Cancel shift';
+
+  @override
+  String get yourShiftRecordReliable => 'Your shift record: Reliable';
+
+  @override
+  String get yourShiftRecordNeedsImprovement =>
+      'Your shift record: Needs improvement';
+
+  @override
+  String get yourShiftRecordBuilding =>
+      'Your shift record: Building a track record';
+
+  @override
+  String get claimLabel => 'Claim';
+
+  @override
+  String get claimedLabel => 'Claimed';
 }

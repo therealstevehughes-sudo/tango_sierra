@@ -1431,4 +1431,94 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get openLabel => '开放';
+
+  @override
+  String get enableRosterQuestion => '启用排班功能?';
+
+  @override
+  String rosterQuoteBody(String amount) {
+    return '根据您目前的员工人数,这将在您的每月直接借记中增加 $amount,从下次付款开始。';
+  }
+
+  @override
+  String get confirmAndEnable => '确认并启用';
+
+  @override
+  String couldNotReachVenurite(String error) {
+    return '无法连接到VenuRite: $error';
+  }
+
+  @override
+  String get letStaffClaimShifts => '让员工自行认领班次';
+
+  @override
+  String get rosterPitchBody =>
+      '发布空缺班次,让员工自行认领 - 不再需要打电话或使用WhatsApp群组来找人顶班。员工也可以申请休假,您可以在同一个地方批准或拒绝。';
+
+  @override
+  String get pricingLabel => '定价';
+
+  @override
+  String get priceUnder10Staff => '每分店每月6英镑(员工少于10人)';
+
+  @override
+  String get price10PlusStaff => '每分店每月10英镑(员工10人及以上)';
+
+  @override
+  String get addedToDirectDebitNote => '将添加到您现有的直接借记中 - 无需新的付款方式。确认前您将看到确切金额。';
+
+  @override
+  String get enableRosterButton => '启用排班';
+
+  @override
+  String get availableShiftsTitle => '可选班次';
+
+  @override
+  String get shiftClaimingNotEnabled => '此场所尚未启用班次认领功能。请经理在设置中启用。';
+
+  @override
+  String couldNotLoadShifts(String error) {
+    return '无法加载班次: $error';
+  }
+
+  @override
+  String get noShiftsPostedYet => '尚未发布任何班次。';
+
+  @override
+  String get someoneElseClaimedShift => '抱歉,该班次刚被其他人认领了!';
+
+  @override
+  String get shiftClaimedMessage => '已认领班次。';
+
+  @override
+  String get cancelThisShiftTitle => '取消此班次?';
+
+  @override
+  String get cancelShiftLateWarning => '\n\n距离班次开始不足24小时 - 现在取消可能会影响您的可靠性记录。';
+
+  @override
+  String willNoLongerBeClaimed(String warning) {
+    return '您将不再被认领此班次。$warning';
+  }
+
+  @override
+  String get keepShiftButton => '保留班次';
+
+  @override
+  String get cancelShiftButton => '取消班次';
+
+  @override
+  String get yourShiftRecordReliable => '您的班次记录:可靠';
+
+  @override
+  String get yourShiftRecordNeedsImprovement => '您的班次记录:需要改进';
+
+  @override
+  String get yourShiftRecordBuilding => '您的班次记录:正在建立';
+
+  @override
+  String get claimLabel => '认领';
+
+  @override
+  String get claimedLabel => '已认领';
 }
