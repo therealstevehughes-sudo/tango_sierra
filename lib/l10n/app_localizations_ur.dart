@@ -1444,4 +1444,34 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get havenReportedYet => 'آپ نے ابھی تک کچھ رپورٹ نہیں کیا۔';
+
+  @override
+  String get failsAndProblemsRegisterTitle => 'فیل اور مسائل رجسٹر';
+
+  @override
+  String get taskProblemsTab => 'کام کے مسائل';
+
+  @override
+  String get issuesAndIncidentsTab => 'مسائل اور واقعات';
+
+  @override
+  String get failFilterLabel => 'فیل';
+
+  @override
+  String get reportedFilterLabel => 'رپورٹ کیا گیا';
+
+  @override
+  String get notCompletedFilterLabel => 'مکمل نہیں ہوا';
+
+  @override
+  String get abandonedLabel => 'ترک شدہ';
+
+  @override
+  String get noActionTakenLabel => 'کوئی کارروائی نہیں کی گئی';
+
+  @override
+  String get markResolvedButton => 'حل شدہ کے طور پر نشان زد کریں';
+
+  @override
+  String get openLabel => 'کھلا';
 }

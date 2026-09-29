@@ -416,5 +416,15 @@
   "staffFallback": "स्टाफ #{id}",
   "nothingHereGoodSign": "यहां कुछ नहीं है - यह एक अच्छा संकेत है।",
   "escalatedToNameLabel": "{name} को आगे बढ़ाया गया",
-  "havenReportedYet": "आपने अभी तक कुछ भी रिपोर्ट नहीं किया है।"
+  "havenReportedYet": "आपने अभी तक कुछ भी रिपोर्ट नहीं किया है।",
+  "failsAndProblemsRegisterTitle": "फेल और समस्याएं रजिस्टर",
+  "taskProblemsTab": "कार्य समस्याएं",
+  "issuesAndIncidentsTab": "समस्याएं और घटनाएं",
+  "failFilterLabel": "फेल",
+  "reportedFilterLabel": "रिपोर्ट किया गया",
+  "notCompletedFilterLabel": "पूरा नहीं हुआ",
+  "abandonedLabel": "छोड़ दिया गया",
+  "noActionTakenLabel": "कोई कार्रवाई नहीं की गई",
+  "markResolvedButton": "हल के रूप में चिह्नित करें",
+  "openLabel": "खुला"
 }

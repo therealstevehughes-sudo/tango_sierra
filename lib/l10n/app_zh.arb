@@ -416,5 +416,15 @@
   "staffFallback": "员工 #{id}",
   "nothingHereGoodSign": "这里什么都没有 - 这是个好现象。",
   "escalatedToNameLabel": "已升级至 {name}",
-  "havenReportedYet": "您还没有报告任何内容。"
+  "havenReportedYet": "您还没有报告任何内容。",
+  "failsAndProblemsRegisterTitle": "未通过与问题登记册",
+  "taskProblemsTab": "任务问题",
+  "issuesAndIncidentsTab": "问题与事件",
+  "failFilterLabel": "未通过",
+  "reportedFilterLabel": "已上报",
+  "notCompletedFilterLabel": "未完成",
+  "abandonedLabel": "已放弃",
+  "noActionTakenLabel": "未采取行动",
+  "markResolvedButton": "标记为已解决",
+  "openLabel": "开放"
 }

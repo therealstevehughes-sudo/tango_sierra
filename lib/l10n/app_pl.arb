@@ -416,5 +416,15 @@
   "staffFallback": "Pracownik #{id}",
   "nothingHereGoodSign": "Nic tu nie ma - to dobry znak.",
   "escalatedToNameLabel": "Eskalowano do {name}",
-  "havenReportedYet": "Nie zgłosiłeś jeszcze niczego."
+  "havenReportedYet": "Nie zgłosiłeś jeszcze niczego.",
+  "failsAndProblemsRegisterTitle": "Rejestr niezaliczeń i problemów",
+  "taskProblemsTab": "Problemy z zadaniami",
+  "issuesAndIncidentsTab": "Zgłoszenia i incydenty",
+  "failFilterLabel": "Niezaliczone",
+  "reportedFilterLabel": "Zgłoszone",
+  "notCompletedFilterLabel": "Niedokończone",
+  "abandonedLabel": "Porzucone",
+  "noActionTakenLabel": "Brak działania",
+  "markResolvedButton": "Oznacz jako rozwiązane",
+  "openLabel": "Otwarte"
 }

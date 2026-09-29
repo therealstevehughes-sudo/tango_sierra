@@ -1453,4 +1453,34 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get havenReportedYet => 'Nie zgłosiłeś jeszcze niczego.';
+
+  @override
+  String get failsAndProblemsRegisterTitle => 'Rejestr niezaliczeń i problemów';
+
+  @override
+  String get taskProblemsTab => 'Problemy z zadaniami';
+
+  @override
+  String get issuesAndIncidentsTab => 'Zgłoszenia i incydenty';
+
+  @override
+  String get failFilterLabel => 'Niezaliczone';
+
+  @override
+  String get reportedFilterLabel => 'Zgłoszone';
+
+  @override
+  String get notCompletedFilterLabel => 'Niedokończone';
+
+  @override
+  String get abandonedLabel => 'Porzucone';
+
+  @override
+  String get noActionTakenLabel => 'Brak działania';
+
+  @override
+  String get markResolvedButton => 'Oznacz jako rozwiązane';
+
+  @override
+  String get openLabel => 'Otwarte';
 }

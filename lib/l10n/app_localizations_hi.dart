@@ -1449,4 +1449,34 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get havenReportedYet => 'आपने अभी तक कुछ भी रिपोर्ट नहीं किया है।';
+
+  @override
+  String get failsAndProblemsRegisterTitle => 'फेल और समस्याएं रजिस्टर';
+
+  @override
+  String get taskProblemsTab => 'कार्य समस्याएं';
+
+  @override
+  String get issuesAndIncidentsTab => 'समस्याएं और घटनाएं';
+
+  @override
+  String get failFilterLabel => 'फेल';
+
+  @override
+  String get reportedFilterLabel => 'रिपोर्ट किया गया';
+
+  @override
+  String get notCompletedFilterLabel => 'पूरा नहीं हुआ';
+
+  @override
+  String get abandonedLabel => 'छोड़ दिया गया';
+
+  @override
+  String get noActionTakenLabel => 'कोई कार्रवाई नहीं की गई';
+
+  @override
+  String get markResolvedButton => 'हल के रूप में चिह्नित करें';
+
+  @override
+  String get openLabel => 'खुला';
 }

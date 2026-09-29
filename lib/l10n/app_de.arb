@@ -416,5 +416,15 @@
   "staffFallback": "Mitarbeiter #{id}",
   "nothingHereGoodSign": "Hier gibt es nichts - ein gutes Zeichen.",
   "escalatedToNameLabel": "Eskaliert an {name}",
-  "havenReportedYet": "Du hast noch nichts gemeldet."
+  "havenReportedYet": "Du hast noch nichts gemeldet.",
+  "failsAndProblemsRegisterTitle": "Fehlschläge- & Problemregister",
+  "taskProblemsTab": "Aufgabenprobleme",
+  "issuesAndIncidentsTab": "Vorfälle & Zwischenfälle",
+  "failFilterLabel": "Nicht bestanden",
+  "reportedFilterLabel": "Gemeldet",
+  "notCompletedFilterLabel": "Nicht abgeschlossen",
+  "abandonedLabel": "Abgebrochen",
+  "noActionTakenLabel": "Keine Maßnahme ergriffen",
+  "markResolvedButton": "Als gelöst markieren",
+  "openLabel": "Offen"
 }

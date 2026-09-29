@@ -1438,4 +1438,34 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get havenReportedYet => 'لم تُبلغ عن أي شيء بعد.';
+
+  @override
+  String get failsAndProblemsRegisterTitle => 'سجل الحالات الراسبة والمشاكل';
+
+  @override
+  String get taskProblemsTab => 'مشاكل المهام';
+
+  @override
+  String get issuesAndIncidentsTab => 'المشاكل والحوادث';
+
+  @override
+  String get failFilterLabel => 'راسب';
+
+  @override
+  String get reportedFilterLabel => 'تم الإبلاغ';
+
+  @override
+  String get notCompletedFilterLabel => 'غير مكتمل';
+
+  @override
+  String get abandonedLabel => 'متروك';
+
+  @override
+  String get noActionTakenLabel => 'لم يُتخذ أي إجراء';
+
+  @override
+  String get markResolvedButton => 'وضع علامة كمحلول';
+
+  @override
+  String get openLabel => 'مفتوح';
 }

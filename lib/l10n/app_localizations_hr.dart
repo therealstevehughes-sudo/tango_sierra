@@ -1456,4 +1456,34 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get havenReportedYet => 'Još nisi ništa prijavio/la.';
+
+  @override
+  String get failsAndProblemsRegisterTitle => 'Registar padova i problema';
+
+  @override
+  String get taskProblemsTab => 'Problemi sa zadacima';
+
+  @override
+  String get issuesAndIncidentsTab => 'Problemi i incidenti';
+
+  @override
+  String get failFilterLabel => 'Palo';
+
+  @override
+  String get reportedFilterLabel => 'Prijavljeno';
+
+  @override
+  String get notCompletedFilterLabel => 'Nije dovršeno';
+
+  @override
+  String get abandonedLabel => 'Napušteno';
+
+  @override
+  String get noActionTakenLabel => 'Nije poduzeta radnja';
+
+  @override
+  String get markResolvedButton => 'Označi kao riješeno';
+
+  @override
+  String get openLabel => 'Otvoreno';
 }

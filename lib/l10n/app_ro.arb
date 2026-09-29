@@ -416,5 +416,15 @@
   "staffFallback": "Angajat #{id}",
   "nothingHereGoodSign": "Nimic aici - este un semn bun.",
   "escalatedToNameLabel": "Escaladat către {name}",
-  "havenReportedYet": "Nu ai raportat încă nimic."
+  "havenReportedYet": "Nu ai raportat încă nimic.",
+  "failsAndProblemsRegisterTitle": "Registrul de eșecuri și probleme",
+  "taskProblemsTab": "Probleme de sarcini",
+  "issuesAndIncidentsTab": "Sesizări și incidente",
+  "failFilterLabel": "Nereușit",
+  "reportedFilterLabel": "Raportat",
+  "notCompletedFilterLabel": "Neterminat",
+  "abandonedLabel": "Abandonat",
+  "noActionTakenLabel": "Nicio acțiune întreprinsă",
+  "markResolvedButton": "Marchează ca rezolvat",
+  "openLabel": "Deschis"
 }

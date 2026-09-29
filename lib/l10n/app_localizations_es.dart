@@ -1458,4 +1458,34 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get havenReportedYet => 'Aún no has notificado nada.';
+
+  @override
+  String get failsAndProblemsRegisterTitle => 'Registro de fallos y problemas';
+
+  @override
+  String get taskProblemsTab => 'Problemas de tareas';
+
+  @override
+  String get issuesAndIncidentsTab => 'Incidencias y sucesos';
+
+  @override
+  String get failFilterLabel => 'No apto';
+
+  @override
+  String get reportedFilterLabel => 'Notificado';
+
+  @override
+  String get notCompletedFilterLabel => 'No completado';
+
+  @override
+  String get abandonedLabel => 'Abandonado';
+
+  @override
+  String get noActionTakenLabel => 'Sin acción tomada';
+
+  @override
+  String get markResolvedButton => 'Marcar como resuelto';
+
+  @override
+  String get openLabel => 'Abierto';
 }

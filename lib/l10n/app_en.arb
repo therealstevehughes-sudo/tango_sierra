@@ -774,5 +774,15 @@
       }
     }
   },
-  "havenReportedYet": "You haven't reported anything yet."
+  "havenReportedYet": "You haven't reported anything yet.",
+  "failsAndProblemsRegisterTitle": "Fails & Problems Register",
+  "taskProblemsTab": "Task Problems",
+  "issuesAndIncidentsTab": "Issues & Incidents",
+  "failFilterLabel": "Fail",
+  "reportedFilterLabel": "Reported",
+  "notCompletedFilterLabel": "Not Completed",
+  "abandonedLabel": "Abandoned",
+  "noActionTakenLabel": "No action taken",
+  "markResolvedButton": "Mark Resolved",
+  "openLabel": "Open"
 }

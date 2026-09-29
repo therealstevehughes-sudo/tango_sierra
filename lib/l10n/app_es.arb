@@ -416,5 +416,15 @@
   "staffFallback": "Empleado #{id}",
   "nothingHereGoodSign": "No hay nada aquí - buena señal.",
   "escalatedToNameLabel": "Escalado a {name}",
-  "havenReportedYet": "Aún no has notificado nada."
+  "havenReportedYet": "Aún no has notificado nada.",
+  "failsAndProblemsRegisterTitle": "Registro de fallos y problemas",
+  "taskProblemsTab": "Problemas de tareas",
+  "issuesAndIncidentsTab": "Incidencias y sucesos",
+  "failFilterLabel": "No apto",
+  "reportedFilterLabel": "Notificado",
+  "notCompletedFilterLabel": "No completado",
+  "abandonedLabel": "Abandonado",
+  "noActionTakenLabel": "Sin acción tomada",
+  "markResolvedButton": "Marcar como resuelto",
+  "openLabel": "Abierto"
 }

@@ -416,5 +416,15 @@
   "staffFallback": "الموظف رقم {id}",
   "nothingHereGoodSign": "لا يوجد شيء هنا - هذه علامة جيدة.",
   "escalatedToNameLabel": "تم التصعيد إلى {name}",
-  "havenReportedYet": "لم تُبلغ عن أي شيء بعد."
+  "havenReportedYet": "لم تُبلغ عن أي شيء بعد.",
+  "failsAndProblemsRegisterTitle": "سجل الحالات الراسبة والمشاكل",
+  "taskProblemsTab": "مشاكل المهام",
+  "issuesAndIncidentsTab": "المشاكل والحوادث",
+  "failFilterLabel": "راسب",
+  "reportedFilterLabel": "تم الإبلاغ",
+  "notCompletedFilterLabel": "غير مكتمل",
+  "abandonedLabel": "متروك",
+  "noActionTakenLabel": "لم يُتخذ أي إجراء",
+  "markResolvedButton": "وضع علامة كمحلول",
+  "openLabel": "مفتوح"
 }

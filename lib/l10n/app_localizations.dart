@@ -2615,6 +2615,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You haven\'t reported anything yet.'**
   String get havenReportedYet;
+
+  /// No description provided for @failsAndProblemsRegisterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fails & Problems Register'**
+  String get failsAndProblemsRegisterTitle;
+
+  /// No description provided for @taskProblemsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Problems'**
+  String get taskProblemsTab;
+
+  /// No description provided for @issuesAndIncidentsTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Issues & Incidents'**
+  String get issuesAndIncidentsTab;
+
+  /// No description provided for @failFilterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fail'**
+  String get failFilterLabel;
+
+  /// No description provided for @reportedFilterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported'**
+  String get reportedFilterLabel;
+
+  /// No description provided for @notCompletedFilterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Completed'**
+  String get notCompletedFilterLabel;
+
+  /// No description provided for @abandonedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Abandoned'**
+  String get abandonedLabel;
+
+  /// No description provided for @noActionTakenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No action taken'**
+  String get noActionTakenLabel;
+
+  /// No description provided for @markResolvedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark Resolved'**
+  String get markResolvedButton;
+
+  /// No description provided for @openLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get openLabel;
 }
 
 class _AppLocalizationsDelegate

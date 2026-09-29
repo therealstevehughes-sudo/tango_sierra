@@ -1458,4 +1458,35 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get havenReportedYet => 'Nu ai raportat încă nimic.';
+
+  @override
+  String get failsAndProblemsRegisterTitle =>
+      'Registrul de eșecuri și probleme';
+
+  @override
+  String get taskProblemsTab => 'Probleme de sarcini';
+
+  @override
+  String get issuesAndIncidentsTab => 'Sesizări și incidente';
+
+  @override
+  String get failFilterLabel => 'Nereușit';
+
+  @override
+  String get reportedFilterLabel => 'Raportat';
+
+  @override
+  String get notCompletedFilterLabel => 'Neterminat';
+
+  @override
+  String get abandonedLabel => 'Abandonat';
+
+  @override
+  String get noActionTakenLabel => 'Nicio acțiune întreprinsă';
+
+  @override
+  String get markResolvedButton => 'Marchează ca rezolvat';
+
+  @override
+  String get openLabel => 'Deschis';
 }

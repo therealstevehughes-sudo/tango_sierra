@@ -1401,4 +1401,34 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get havenReportedYet => '您还没有报告任何内容。';
+
+  @override
+  String get failsAndProblemsRegisterTitle => '未通过与问题登记册';
+
+  @override
+  String get taskProblemsTab => '任务问题';
+
+  @override
+  String get issuesAndIncidentsTab => '问题与事件';
+
+  @override
+  String get failFilterLabel => '未通过';
+
+  @override
+  String get reportedFilterLabel => '已上报';
+
+  @override
+  String get notCompletedFilterLabel => '未完成';
+
+  @override
+  String get abandonedLabel => '已放弃';
+
+  @override
+  String get noActionTakenLabel => '未采取行动';
+
+  @override
+  String get markResolvedButton => '标记为已解决';
+
+  @override
+  String get openLabel => '开放';
 }

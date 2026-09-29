@@ -9,6 +9,7 @@ import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../core/widgets/urgency.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/problem_register_providers.dart';
@@ -40,6 +41,7 @@ class _ProblemsRegisterScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.watch(currentUserProvider);
     final repository = ref.watch(problemRegisterRepositoryProvider);
 
@@ -47,16 +49,16 @@ class _ProblemsRegisterScreenState
       length: 2,
       child: Scaffold(
         appBar: AppScreenHeader(
-          title: const Text('Fails & Problems Register'),
-          bottom: const TabBar(
+          title: Text(l10n.failsAndProblemsRegisterTitle),
+          bottom: TabBar(
             tabs: [
-              Tab(text: 'Task Problems'),
-              Tab(text: 'Issues & Incidents'),
+              Tab(text: l10n.taskProblemsTab),
+              Tab(text: l10n.issuesAndIncidentsTab),
             ],
           ),
           actions: const [AssistantIconButton()],
         ),
-        drawer: const ManagementDrawer(title: 'Fails & Problems Register'),
+        drawer: ManagementDrawer(title: l10n.failsAndProblemsRegisterTitle),
         body: currentUser == null
             ? const SizedBox.shrink()
             : TabBarView(
@@ -82,26 +84,26 @@ class _ProblemsRegisterScreenState
                             runSpacing: 8,
                             children: [
                               _ProblemFilterChip(
-                                label: 'All',
+                                label: l10n.allLabel,
                                 selected: _filter == ProblemFilter.all,
                                 onSelected: () =>
                                     setState(() => _filter = ProblemFilter.all),
                               ),
                               _ProblemFilterChip(
-                                label: 'Fail',
+                                label: l10n.failFilterLabel,
                                 selected: _filter == ProblemFilter.fail,
                                 onSelected: () =>
                                     setState(() => _filter = ProblemFilter.fail),
                               ),
                               _ProblemFilterChip(
-                                label: 'Reported',
+                                label: l10n.reportedFilterLabel,
                                 selected: _filter == ProblemFilter.reported,
                                 onSelected: () => setState(
                                   () => _filter = ProblemFilter.reported,
                                 ),
                               ),
                               _ProblemFilterChip(
-                                label: 'Not Completed',
+                                label: l10n.notCompletedFilterLabel,
                                 selected: _filter == ProblemFilter.notCompleted,
                                 onSelected: () => setState(
                                   () => _filter = ProblemFilter.notCompleted,
@@ -124,10 +126,8 @@ class _ProblemsRegisterScreenState
                                 );
                               }
                               if (entries.isEmpty) {
-                                return const Center(
-                                  child: Text(
-                                    'Nothing here - that\'s a good sign.',
-                                  ),
+                                return Center(
+                                  child: Text(l10n.nothingHereGoodSign),
                                 );
                               }
                               return ListView.separated(
@@ -160,14 +160,18 @@ class _ProblemTile extends ConsumerWidget {
   final TaskSubmission submission;
   final int currentUserId;
 
-  String get _correctiveLabel => switch (submission.correctiveActionOutcome) {
-    'fixed' => 'I fixed it',
-    'reported' => 'Reported to manager',
-    _ => submission.status == 'NOT_COMPLETED' ? 'Abandoned' : 'No action taken',
-  };
+  String _correctiveLabel(AppLocalizations l10n) =>
+      switch (submission.correctiveActionOutcome) {
+        'fixed' => l10n.iFixedIt,
+        'reported' => l10n.reportedToManager,
+        _ => submission.status == 'NOT_COMPLETED'
+            ? l10n.abandonedLabel
+            : l10n.noActionTakenLabel,
+      };
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final isResolved = submission.problemStatus == 'resolved';
     final repository = ref.read(problemRegisterRepositoryProvider);
     // Urgency (2026-09-17): a Not Completed task is treated as urgent the
@@ -186,9 +190,9 @@ class _ProblemTile extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (submission.status == 'NOT_COMPLETED')
-            const StatusBadge(kind: StatusKind.overdue, label: 'Not Completed')
+            StatusBadge(kind: StatusKind.overdue, label: l10n.notCompletedFilterLabel)
           else
-            const StatusBadge(kind: StatusKind.critical, label: 'Fail'),
+            StatusBadge(kind: StatusKind.critical, label: l10n.failFilterLabel),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -236,7 +240,7 @@ class _ProblemTile extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _correctiveLabel,
+                  _correctiveLabel(l10n),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall,
@@ -274,7 +278,7 @@ class _ProblemTile extends ConsumerWidget {
                     );
                   }
                 },
-                child: Text(isResolved ? 'Reopen' : 'Mark Resolved'),
+                child: Text(isResolved ? l10n.reopenButton : l10n.markResolvedButton),
               ),
             ],
           ),
@@ -295,14 +299,20 @@ class _ProblemStatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final (Color fg, Color bg, IconData icon, String label) = resolved
         ? (
             AppColors.pass,
             AppColors.passBg,
             Icons.check_circle_outline,
-            'Resolved',
+            l10n.resolvedLabel,
           )
-        : (AppColors.ink, AppColors.line, Icons.radio_button_unchecked, 'Open');
+        : (
+            AppColors.ink,
+            AppColors.line,
+            Icons.radio_button_unchecked,
+            l10n.openLabel,
+          );
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),

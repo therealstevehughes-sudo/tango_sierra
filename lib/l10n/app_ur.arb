@@ -416,5 +416,15 @@
   "staffFallback": "عملہ #{id}",
   "nothingHereGoodSign": "یہاں کچھ نہیں ہے - یہ اچھی علامت ہے۔",
   "escalatedToNameLabel": "{name} کو آگے بڑھایا گیا",
-  "havenReportedYet": "آپ نے ابھی تک کچھ رپورٹ نہیں کیا۔"
+  "havenReportedYet": "آپ نے ابھی تک کچھ رپورٹ نہیں کیا۔",
+  "failsAndProblemsRegisterTitle": "فیل اور مسائل رجسٹر",
+  "taskProblemsTab": "کام کے مسائل",
+  "issuesAndIncidentsTab": "مسائل اور واقعات",
+  "failFilterLabel": "فیل",
+  "reportedFilterLabel": "رپورٹ کیا گیا",
+  "notCompletedFilterLabel": "مکمل نہیں ہوا",
+  "abandonedLabel": "ترک شدہ",
+  "noActionTakenLabel": "کوئی کارروائی نہیں کی گئی",
+  "markResolvedButton": "حل شدہ کے طور پر نشان زد کریں",
+  "openLabel": "کھلا"
 }

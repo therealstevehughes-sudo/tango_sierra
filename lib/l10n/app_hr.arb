@@ -416,5 +416,15 @@
   "staffFallback": "Osoblje #{id}",
   "nothingHereGoodSign": "Ovdje nema ničega - to je dobar znak.",
   "escalatedToNameLabel": "Eskalirano do {name}",
-  "havenReportedYet": "Još nisi ništa prijavio/la."
+  "havenReportedYet": "Još nisi ništa prijavio/la.",
+  "failsAndProblemsRegisterTitle": "Registar padova i problema",
+  "taskProblemsTab": "Problemi sa zadacima",
+  "issuesAndIncidentsTab": "Problemi i incidenti",
+  "failFilterLabel": "Palo",
+  "reportedFilterLabel": "Prijavljeno",
+  "notCompletedFilterLabel": "Nije dovršeno",
+  "abandonedLabel": "Napušteno",
+  "noActionTakenLabel": "Nije poduzeta radnja",
+  "markResolvedButton": "Označi kao riješeno",
+  "openLabel": "Otvoreno"
 }
