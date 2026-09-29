@@ -493,4 +493,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get switchCameraTooltip => 'Switch camera';
+
+  @override
+  String get allTasksTitle => 'All Tasks';
+
+  @override
+  String get otherSegmentLabel => 'Other';
+
+  @override
+  String get reorderTasksTitle => 'Reorder Tasks';
+
+  @override
+  String get ungroupedLabel => 'Ungrouped';
+
+  @override
+  String get taskOrderSaved => 'Task order saved.';
+
+  @override
+  String couldNotSaveTaskOrder(String error) {
+    return 'Could not save task order: $error';
+  }
+
+  @override
+  String get noVenueSelectedReorder =>
+      'No venue selected yet. Set an active venue from Venue Details before reordering tasks.';
+
+  @override
+  String get noActiveTasksToReorder =>
+      'No active tasks to reorder yet. Assign tasks first, then return here to choose their order.';
+
+  @override
+  String get savingEllipsis => 'Saving…';
+
+  @override
+  String get saveOrderLabel => 'Save Order';
+
+  @override
+  String get moveUpTooltip => 'Move up';
+
+  @override
+  String get moveDownTooltip => 'Move down';
+
+  @override
+  String get accountRestrictedTitle => 'Account restricted';
+
+  @override
+  String get accountRestrictedBody =>
+      'This organisation\'s Direct Debit needs attention before new checks can be saved. Your work isn\'t lost - please tell a manager or Director to sort out billing, then try again.';
+
+  @override
+  String get okLabel => 'OK';
 }

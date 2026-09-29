@@ -501,4 +501,54 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get switchCameraTooltip => 'Cambiar cámara';
+
+  @override
+  String get allTasksTitle => 'Todas las tareas';
+
+  @override
+  String get otherSegmentLabel => 'Otros';
+
+  @override
+  String get reorderTasksTitle => 'Reordenar tareas';
+
+  @override
+  String get ungroupedLabel => 'Sin agrupar';
+
+  @override
+  String get taskOrderSaved => 'Orden de tareas guardado.';
+
+  @override
+  String couldNotSaveTaskOrder(String error) {
+    return 'No se pudo guardar el orden de las tareas: $error';
+  }
+
+  @override
+  String get noVenueSelectedReorder =>
+      'Todavía no hay ningún local seleccionado. Establece un local activo desde Detalles del local antes de reordenar las tareas.';
+
+  @override
+  String get noActiveTasksToReorder =>
+      'Todavía no hay tareas activas para reordenar. Asigna tareas primero y luego vuelve aquí para elegir su orden.';
+
+  @override
+  String get savingEllipsis => 'Guardando…';
+
+  @override
+  String get saveOrderLabel => 'Guardar orden';
+
+  @override
+  String get moveUpTooltip => 'Subir';
+
+  @override
+  String get moveDownTooltip => 'Bajar';
+
+  @override
+  String get accountRestrictedTitle => 'Cuenta restringida';
+
+  @override
+  String get accountRestrictedBody =>
+      'El adeudo directo de esta organización necesita atención antes de que se puedan guardar nuevas comprobaciones. Tu trabajo no se ha perdido: dile a un responsable o director que resuelva el tema de facturación y vuelve a intentarlo.';
+
+  @override
+  String get okLabel => 'Aceptar';
 }

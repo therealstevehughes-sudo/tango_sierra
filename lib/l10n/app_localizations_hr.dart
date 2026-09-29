@@ -497,4 +497,54 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get switchCameraTooltip => 'Promijeni kameru';
+
+  @override
+  String get allTasksTitle => 'Svi zadaci';
+
+  @override
+  String get otherSegmentLabel => 'Ostalo';
+
+  @override
+  String get reorderTasksTitle => 'Promijeni redoslijed zadataka';
+
+  @override
+  String get ungroupedLabel => 'Negrupirano';
+
+  @override
+  String get taskOrderSaved => 'Redoslijed zadataka spremljen.';
+
+  @override
+  String couldNotSaveTaskOrder(String error) {
+    return 'Redoslijed zadataka nije bilo moguće spremiti: $error';
+  }
+
+  @override
+  String get noVenueSelectedReorder =>
+      'Još nije odabrana lokacija. Postavi aktivnu lokaciju u Detaljima lokacije prije promjene redoslijeda zadataka.';
+
+  @override
+  String get noActiveTasksToReorder =>
+      'Još nema aktivnih zadataka za promjenu redoslijeda. Prvo dodijeli zadatke, a zatim se vrati ovdje kako bi odabrao/la njihov redoslijed.';
+
+  @override
+  String get savingEllipsis => 'Spremanje…';
+
+  @override
+  String get saveOrderLabel => 'Spremi redoslijed';
+
+  @override
+  String get moveUpTooltip => 'Pomakni gore';
+
+  @override
+  String get moveDownTooltip => 'Pomakni dolje';
+
+  @override
+  String get accountRestrictedTitle => 'Račun ograničen';
+
+  @override
+  String get accountRestrictedBody =>
+      'Izravno terećenje ove organizacije zahtijeva pažnju prije nego što se nove provjere mogu spremiti. Tvoj rad nije izgubljen - obavijesti voditelja ili direktora da riješi naplatu, a zatim pokušaj ponovno.';
+
+  @override
+  String get okLabel => 'U redu';
 }

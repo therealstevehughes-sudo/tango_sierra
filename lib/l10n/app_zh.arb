@@ -146,5 +146,20 @@
   "couldNotStartCamera": "无法启动摄像头: {error}",
   "couldNotSwitchCamera": "无法切换摄像头: {error}",
   "couldNotCapturePhoto": "无法拍照: {error}",
-  "switchCameraTooltip": "切换摄像头"
+  "switchCameraTooltip": "切换摄像头",
+  "allTasksTitle": "所有任务",
+  "otherSegmentLabel": "其他",
+  "reorderTasksTitle": "重新排序任务",
+  "ungroupedLabel": "未分组",
+  "taskOrderSaved": "任务顺序已保存。",
+  "couldNotSaveTaskOrder": "无法保存任务顺序: {error}",
+  "noVenueSelectedReorder": "尚未选择场所。请先在场所详情中设置活动场所,再重新排序任务。",
+  "noActiveTasksToReorder": "尚无可重新排序的活动任务。请先分配任务,然后返回此处选择其顺序。",
+  "savingEllipsis": "正在保存…",
+  "saveOrderLabel": "保存顺序",
+  "moveUpTooltip": "上移",
+  "moveDownTooltip": "下移",
+  "accountRestrictedTitle": "账户受限",
+  "accountRestrictedBody": "该机构的直接借记需要处理后才能保存新的检查。您的工作不会丢失 - 请告知经理或董事解决账单问题,然后重试。",
+  "okLabel": "确定"
 }

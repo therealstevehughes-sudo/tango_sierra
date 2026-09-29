@@ -146,5 +146,20 @@
   "couldNotStartCamera": "Die Kamera konnte nicht gestartet werden: {error}",
   "couldNotSwitchCamera": "Die Kamera konnte nicht gewechselt werden: {error}",
   "couldNotCapturePhoto": "Es konnte kein Foto aufgenommen werden: {error}",
-  "switchCameraTooltip": "Kamera wechseln"
+  "switchCameraTooltip": "Kamera wechseln",
+  "allTasksTitle": "Alle Aufgaben",
+  "otherSegmentLabel": "Sonstiges",
+  "reorderTasksTitle": "Aufgaben neu anordnen",
+  "ungroupedLabel": "Nicht gruppiert",
+  "taskOrderSaved": "Aufgabenreihenfolge gespeichert.",
+  "couldNotSaveTaskOrder": "Aufgabenreihenfolge konnte nicht gespeichert werden: {error}",
+  "noVenueSelectedReorder": "Noch kein Standort ausgewählt. Lege in den Standortdetails einen aktiven Standort fest, bevor du Aufgaben neu anordnest.",
+  "noActiveTasksToReorder": "Noch keine aktiven Aufgaben zum Neuanordnen. Weise zuerst Aufgaben zu und kehre dann hierher zurück, um ihre Reihenfolge festzulegen.",
+  "savingEllipsis": "Wird gespeichert…",
+  "saveOrderLabel": "Reihenfolge speichern",
+  "moveUpTooltip": "Nach oben verschieben",
+  "moveDownTooltip": "Nach unten verschieben",
+  "accountRestrictedTitle": "Konto eingeschränkt",
+  "accountRestrictedBody": "Das Lastschriftmandat dieser Organisation benötigt Aufmerksamkeit, bevor neue Prüfungen gespeichert werden können. Deine Arbeit ist nicht verloren - bitte einen Manager oder Direktor, die Abrechnung zu klären, und versuche es dann erneut.",
+  "okLabel": "OK"
 }

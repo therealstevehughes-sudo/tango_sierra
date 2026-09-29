@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../shared/providers/subscription_providers.dart';
 
 // Billing enforcement (2026-09-24) — the one place every task-submission
@@ -26,20 +27,19 @@ Future<bool> canSubmitTask(BuildContext context, WidgetRef ref) async {
 
   await showDialog<void>(
     context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Account restricted'),
-      content: const Text(
-        "This organisation's Direct Debit needs attention before new "
-        "checks can be saved. Your work isn't lost - please tell a "
-        'manager or Director to sort out billing, then try again.',
-      ),
-      actions: [
-        FilledButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('OK'),
-        ),
-      ],
-    ),
+    builder: (context) {
+      final l10n = AppLocalizations.of(context)!;
+      return AlertDialog(
+        title: Text(l10n.accountRestrictedTitle),
+        content: Text(l10n.accountRestrictedBody),
+        actions: [
+          FilledButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.okLabel),
+          ),
+        ],
+      );
+    },
   );
   return false;
 }

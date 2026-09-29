@@ -479,4 +479,52 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get switchCameraTooltip => '切换摄像头';
+
+  @override
+  String get allTasksTitle => '所有任务';
+
+  @override
+  String get otherSegmentLabel => '其他';
+
+  @override
+  String get reorderTasksTitle => '重新排序任务';
+
+  @override
+  String get ungroupedLabel => '未分组';
+
+  @override
+  String get taskOrderSaved => '任务顺序已保存。';
+
+  @override
+  String couldNotSaveTaskOrder(String error) {
+    return '无法保存任务顺序: $error';
+  }
+
+  @override
+  String get noVenueSelectedReorder => '尚未选择场所。请先在场所详情中设置活动场所,再重新排序任务。';
+
+  @override
+  String get noActiveTasksToReorder => '尚无可重新排序的活动任务。请先分配任务,然后返回此处选择其顺序。';
+
+  @override
+  String get savingEllipsis => '正在保存…';
+
+  @override
+  String get saveOrderLabel => '保存顺序';
+
+  @override
+  String get moveUpTooltip => '上移';
+
+  @override
+  String get moveDownTooltip => '下移';
+
+  @override
+  String get accountRestrictedTitle => '账户受限';
+
+  @override
+  String get accountRestrictedBody =>
+      '该机构的直接借记需要处理后才能保存新的检查。您的工作不会丢失 - 请告知经理或董事解决账单问题,然后重试。';
+
+  @override
+  String get okLabel => '确定';
 }

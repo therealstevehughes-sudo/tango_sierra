@@ -146,5 +146,20 @@
   "couldNotStartCamera": "کیمرہ شروع نہیں ہو سکا: {error}",
   "couldNotSwitchCamera": "کیمرہ تبدیل نہیں ہو سکا: {error}",
   "couldNotCapturePhoto": "تصویر نہیں لی جا سکی: {error}",
-  "switchCameraTooltip": "کیمرہ تبدیل کریں"
+  "switchCameraTooltip": "کیمرہ تبدیل کریں",
+  "allTasksTitle": "تمام کام",
+  "otherSegmentLabel": "دیگر",
+  "reorderTasksTitle": "کاموں کو دوبارہ ترتیب دیں",
+  "ungroupedLabel": "غیر گروپ شدہ",
+  "taskOrderSaved": "کام کی ترتیب محفوظ کر لی گئی۔",
+  "couldNotSaveTaskOrder": "کام کی ترتیب محفوظ نہیں ہو سکی: {error}",
+  "noVenueSelectedReorder": "ابھی تک کوئی مقام منتخب نہیں کیا گیا۔ کاموں کو دوبارہ ترتیب دینے سے پہلے مقام کی تفصیلات سے ایک فعال مقام سیٹ کریں۔",
+  "noActiveTasksToReorder": "ابھی تک دوبارہ ترتیب دینے کے لیے کوئی فعال کام نہیں ہیں۔ پہلے کام تفویض کریں، پھر ان کی ترتیب منتخب کرنے کے لیے یہاں واپس آئیں۔",
+  "savingEllipsis": "محفوظ ہو رہا ہے…",
+  "saveOrderLabel": "ترتیب محفوظ کریں",
+  "moveUpTooltip": "اوپر منتقل کریں",
+  "moveDownTooltip": "نیچے منتقل کریں",
+  "accountRestrictedTitle": "اکاؤنٹ محدود ہے",
+  "accountRestrictedBody": "نئی جانچیں محفوظ ہونے سے پہلے اس ادارے کے ڈائریکٹ ڈیبٹ پر توجہ درکار ہے۔ آپ کا کام ضائع نہیں ہوا - براہ کرم کسی منیجر یا ڈائریکٹر کو بلنگ حل کرنے کے لیے بتائیں، پھر دوبارہ کوشش کریں۔",
+  "okLabel": "ٹھیک ہے"
 }

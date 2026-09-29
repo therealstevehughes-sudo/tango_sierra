@@ -497,4 +497,54 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get switchCameraTooltip => 'कैमरा स्विच करें';
+
+  @override
+  String get allTasksTitle => 'सभी कार्य';
+
+  @override
+  String get otherSegmentLabel => 'अन्य';
+
+  @override
+  String get reorderTasksTitle => 'कार्यों को पुनः क्रमबद्ध करें';
+
+  @override
+  String get ungroupedLabel => 'अवर्गीकृत';
+
+  @override
+  String get taskOrderSaved => 'कार्य क्रम सहेज लिया गया।';
+
+  @override
+  String couldNotSaveTaskOrder(String error) {
+    return 'कार्य क्रम सहेजा नहीं जा सका: $error';
+  }
+
+  @override
+  String get noVenueSelectedReorder =>
+      'अभी तक कोई वेन्यू नहीं चुना गया है। कार्यों को पुनः क्रमबद्ध करने से पहले वेन्यू विवरण से एक सक्रिय वेन्यू सेट करें।';
+
+  @override
+  String get noActiveTasksToReorder =>
+      'अभी तक पुनः क्रमबद्ध करने के लिए कोई सक्रिय कार्य नहीं हैं। पहले कार्य असाइन करें, फिर उनका क्रम चुनने के लिए यहां लौटें।';
+
+  @override
+  String get savingEllipsis => 'सहेजा जा रहा है…';
+
+  @override
+  String get saveOrderLabel => 'क्रम सहेजें';
+
+  @override
+  String get moveUpTooltip => 'ऊपर ले जाएं';
+
+  @override
+  String get moveDownTooltip => 'नीचे ले जाएं';
+
+  @override
+  String get accountRestrictedTitle => 'खाता प्रतिबंधित';
+
+  @override
+  String get accountRestrictedBody =>
+      'नई जांचें सहेजी जाने से पहले इस संगठन के डायरेक्ट डेबिट पर ध्यान देने की आवश्यकता है। आपका काम खोया नहीं है - कृपया किसी प्रबंधक या डायरेक्टर को बिलिंग सुलझाने के लिए बताएं, फिर पुनः प्रयास करें।';
+
+  @override
+  String get okLabel => 'ठीक है';
 }

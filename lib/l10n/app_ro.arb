@@ -146,5 +146,20 @@
   "couldNotStartCamera": "Camera nu a putut fi pornită: {error}",
   "couldNotSwitchCamera": "Camera nu a putut fi schimbată: {error}",
   "couldNotCapturePhoto": "Nu s-a putut face o fotografie: {error}",
-  "switchCameraTooltip": "Schimbă camera"
+  "switchCameraTooltip": "Schimbă camera",
+  "allTasksTitle": "Toate sarcinile",
+  "otherSegmentLabel": "Altele",
+  "reorderTasksTitle": "Reordonează sarcinile",
+  "ungroupedLabel": "Negrupat",
+  "taskOrderSaved": "Ordinea sarcinilor a fost salvată.",
+  "couldNotSaveTaskOrder": "Ordinea sarcinilor nu a putut fi salvată: {error}",
+  "noVenueSelectedReorder": "Niciun local selectat încă. Setează un local activ din Detalii local înainte de a reordona sarcinile.",
+  "noActiveTasksToReorder": "Nu există sarcini active de reordonat încă. Atribuie mai întâi sarcini, apoi revino aici pentru a le alege ordinea.",
+  "savingEllipsis": "Se salvează…",
+  "saveOrderLabel": "Salvează ordinea",
+  "moveUpTooltip": "Mută în sus",
+  "moveDownTooltip": "Mută în jos",
+  "accountRestrictedTitle": "Cont restricționat",
+  "accountRestrictedBody": "Debitul direct al acestei organizații necesită atenție înainte ca noi verificări să poată fi salvate. Munca ta nu este pierdută - te rugăm să anunți un manager sau un director să rezolve facturarea, apoi încearcă din nou.",
+  "okLabel": "OK"
 }

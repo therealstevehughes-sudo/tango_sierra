@@ -146,5 +146,20 @@
   "couldNotStartCamera": "No se pudo iniciar la cámara: {error}",
   "couldNotSwitchCamera": "No se pudo cambiar de cámara: {error}",
   "couldNotCapturePhoto": "No se pudo capturar la foto: {error}",
-  "switchCameraTooltip": "Cambiar cámara"
+  "switchCameraTooltip": "Cambiar cámara",
+  "allTasksTitle": "Todas las tareas",
+  "otherSegmentLabel": "Otros",
+  "reorderTasksTitle": "Reordenar tareas",
+  "ungroupedLabel": "Sin agrupar",
+  "taskOrderSaved": "Orden de tareas guardado.",
+  "couldNotSaveTaskOrder": "No se pudo guardar el orden de las tareas: {error}",
+  "noVenueSelectedReorder": "Todavía no hay ningún local seleccionado. Establece un local activo desde Detalles del local antes de reordenar las tareas.",
+  "noActiveTasksToReorder": "Todavía no hay tareas activas para reordenar. Asigna tareas primero y luego vuelve aquí para elegir su orden.",
+  "savingEllipsis": "Guardando…",
+  "saveOrderLabel": "Guardar orden",
+  "moveUpTooltip": "Subir",
+  "moveDownTooltip": "Bajar",
+  "accountRestrictedTitle": "Cuenta restringida",
+  "accountRestrictedBody": "El adeudo directo de esta organización necesita atención antes de que se puedan guardar nuevas comprobaciones. Tu trabajo no se ha perdido: dile a un responsable o director que resuelva el tema de facturación y vuelve a intentarlo.",
+  "okLabel": "Aceptar"
 }

@@ -499,4 +499,54 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get switchCameraTooltip => 'Przełącz kamerę';
+
+  @override
+  String get allTasksTitle => 'Wszystkie zadania';
+
+  @override
+  String get otherSegmentLabel => 'Inne';
+
+  @override
+  String get reorderTasksTitle => 'Zmień kolejność zadań';
+
+  @override
+  String get ungroupedLabel => 'Niezgrupowane';
+
+  @override
+  String get taskOrderSaved => 'Kolejność zadań zapisana.';
+
+  @override
+  String couldNotSaveTaskOrder(String error) {
+    return 'Nie udało się zapisać kolejności zadań: $error';
+  }
+
+  @override
+  String get noVenueSelectedReorder =>
+      'Nie wybrano jeszcze lokalu. Ustaw aktywny lokal w Szczegółach lokalu przed zmianą kolejności zadań.';
+
+  @override
+  String get noActiveTasksToReorder =>
+      'Brak aktywnych zadań do uporządkowania. Najpierw przypisz zadania, a następnie wróć tutaj, aby ustalić ich kolejność.';
+
+  @override
+  String get savingEllipsis => 'Zapisywanie…';
+
+  @override
+  String get saveOrderLabel => 'Zapisz kolejność';
+
+  @override
+  String get moveUpTooltip => 'Przesuń w górę';
+
+  @override
+  String get moveDownTooltip => 'Przesuń w dół';
+
+  @override
+  String get accountRestrictedTitle => 'Konto ograniczone';
+
+  @override
+  String get accountRestrictedBody =>
+      'Polecenie zapłaty tej organizacji wymaga uwagi, zanim nowe kontrole będą mogły zostać zapisane. Twoja praca nie jest stracona - poproś kierownika lub dyrektora o uregulowanie rozliczeń, a następnie spróbuj ponownie.';
+
+  @override
+  String get okLabel => 'OK';
 }

@@ -499,4 +499,54 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get switchCameraTooltip => 'Schimbă camera';
+
+  @override
+  String get allTasksTitle => 'Toate sarcinile';
+
+  @override
+  String get otherSegmentLabel => 'Altele';
+
+  @override
+  String get reorderTasksTitle => 'Reordonează sarcinile';
+
+  @override
+  String get ungroupedLabel => 'Negrupat';
+
+  @override
+  String get taskOrderSaved => 'Ordinea sarcinilor a fost salvată.';
+
+  @override
+  String couldNotSaveTaskOrder(String error) {
+    return 'Ordinea sarcinilor nu a putut fi salvată: $error';
+  }
+
+  @override
+  String get noVenueSelectedReorder =>
+      'Niciun local selectat încă. Setează un local activ din Detalii local înainte de a reordona sarcinile.';
+
+  @override
+  String get noActiveTasksToReorder =>
+      'Nu există sarcini active de reordonat încă. Atribuie mai întâi sarcini, apoi revino aici pentru a le alege ordinea.';
+
+  @override
+  String get savingEllipsis => 'Se salvează…';
+
+  @override
+  String get saveOrderLabel => 'Salvează ordinea';
+
+  @override
+  String get moveUpTooltip => 'Mută în sus';
+
+  @override
+  String get moveDownTooltip => 'Mută în jos';
+
+  @override
+  String get accountRestrictedTitle => 'Cont restricționat';
+
+  @override
+  String get accountRestrictedBody =>
+      'Debitul direct al acestei organizații necesită atenție înainte ca noi verificări să poată fi salvate. Munca ta nu este pierdută - te rugăm să anunți un manager sau un director să rezolve facturarea, apoi încearcă din nou.';
+
+  @override
+  String get okLabel => 'OK';
 }

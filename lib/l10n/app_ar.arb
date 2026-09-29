@@ -146,5 +146,20 @@
   "couldNotStartCamera": "تعذر تشغيل الكاميرا: {error}",
   "couldNotSwitchCamera": "تعذر تبديل الكاميرا: {error}",
   "couldNotCapturePhoto": "تعذر التقاط الصورة: {error}",
-  "switchCameraTooltip": "تبديل الكاميرا"
+  "switchCameraTooltip": "تبديل الكاميرا",
+  "allTasksTitle": "جميع المهام",
+  "otherSegmentLabel": "أخرى",
+  "reorderTasksTitle": "إعادة ترتيب المهام",
+  "ungroupedLabel": "غير مجمّع",
+  "taskOrderSaved": "تم حفظ ترتيب المهام.",
+  "couldNotSaveTaskOrder": "تعذر حفظ ترتيب المهام: {error}",
+  "noVenueSelectedReorder": "لم يتم اختيار موقع بعد. حدد موقعًا نشطًا من تفاصيل الموقع قبل إعادة ترتيب المهام.",
+  "noActiveTasksToReorder": "لا توجد مهام نشطة لإعادة ترتيبها بعد. قم بتعيين المهام أولاً، ثم عد إلى هنا لاختيار ترتيبها.",
+  "savingEllipsis": "جارٍ الحفظ…",
+  "saveOrderLabel": "حفظ الترتيب",
+  "moveUpTooltip": "تحريك لأعلى",
+  "moveDownTooltip": "تحريك لأسفل",
+  "accountRestrictedTitle": "الحساب مقيّد",
+  "accountRestrictedBody": "يحتاج الخصم المباشر لهذه المؤسسة إلى الانتباه قبل أن يمكن حفظ فحوصات جديدة. عملك لم يُفقد - يرجى إخبار مدير أو مدير تنفيذي لحل مشكلة الفوترة، ثم المحاولة مرة أخرى.",
+  "okLabel": "موافق"
 }

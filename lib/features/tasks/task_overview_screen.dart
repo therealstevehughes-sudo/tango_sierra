@@ -4,6 +4,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/task_segment.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
@@ -64,6 +65,7 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final tasks = controller.tasks;
     final grouped = <String, List<int>>{};
     for (var i = 0; i < tasks.length; i++) {
@@ -72,7 +74,7 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('All Tasks'),
+        title: Text(l10n.allTasksTitle),
         actions: const [AssistantIconButton()],
       ),
       body: ResponsiveContent(
@@ -83,7 +85,9 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8),
                 child: Text(
-                  entry.key.isEmpty ? 'Other' : segmentDisplayName(entry.key),
+                  entry.key.isEmpty
+                      ? l10n.otherSegmentLabel
+                      : segmentDisplayName(entry.key),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),

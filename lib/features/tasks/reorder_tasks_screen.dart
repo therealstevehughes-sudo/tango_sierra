@@ -16,6 +16,7 @@ import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Manager-configured execution order (Task-reorder, 2026-09-12).
 ///
@@ -155,7 +156,7 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
       groups.add(
         _OrderGroup(
           areaId: null,
-          title: 'Ungrouped',
+          title: AppLocalizations.of(context)!.ungroupedLabel,
           rows: _rowsFor(
             ungrouped,
             titleByGroupId: titleByGroupId,
@@ -179,7 +180,9 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
           // The worker carousel skips a schedule whose template group has
           // no current version — mirror that here so the list shows only
           // realistically runnable tasks.
-          title: titleByGroupId[schedule.taskTemplateGroupId] ?? 'Task',
+          title:
+              titleByGroupId[schedule.taskTemplateGroupId] ??
+              AppLocalizations.of(context)!.taskTitleFallback,
           subtitle: _subtitleFor(schedule, equipmentById),
         ),
     ];
@@ -228,14 +231,18 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
         }
       }
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Task order saved.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.taskOrderSaved)),
+      );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Could not save task order: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.couldNotSaveTaskOrder('$e'),
+          ),
+        ),
+      );
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -243,42 +250,33 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Reorder Tasks'),
+        title: Text(l10n.reorderTasksTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Reorder Tasks'),
+      drawer: ManagementDrawer(title: l10n.reorderTasksTitle),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: ResponsiveContent(
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
-                : _buildBody(),
+                : _buildBody(l10n),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(AppLocalizations l10n) {
     if (_siteId == null) {
-      return const AppCard(
-        child: Text(
-          'No venue selected yet. Set an active venue from Venue Details '
-          'before reordering tasks.',
-        ),
-      );
+      return AppCard(child: Text(l10n.noVenueSelectedReorder));
     }
 
     if (_groups.every((g) => g.rows.isEmpty)) {
-      return const AppCard(
-        child: Text(
-          'No active tasks to reorder yet. Assign tasks first, then return '
-          'here to choose their order.',
-        ),
-      );
+      return AppCard(child: Text(l10n.noActiveTasksToReorder));
     }
 
     return Column(
@@ -288,13 +286,13 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
           child: ListView(
             children: [
               for (final group in _groups)
-                if (group.rows.isNotEmpty) _buildGroup(group),
+                if (group.rows.isNotEmpty) _buildGroup(group, l10n),
             ],
           ),
         ),
         const SizedBox(height: 16),
         PrimaryActionButton(
-          label: _saving ? 'Saving…' : 'Save Order',
+          label: _saving ? l10n.savingEllipsis : l10n.saveOrderLabel,
           icon: Icons.save_outlined,
           onPressed: _saving ? null : _save,
         ),
@@ -302,7 +300,7 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
     );
   }
 
-  Widget _buildGroup(_OrderGroup group) {
+  Widget _buildGroup(_OrderGroup group, AppLocalizations l10n) {
     final index = _groups.indexOf(group);
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -324,6 +322,7 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
                     itemIndex: i,
                     count: group.rows.length,
                     row: group.rows[i],
+                    l10n: l10n,
                   ),
                   if (i != group.rows.length - 1)
                     const Divider(height: 1, color: AppColors.divider),
@@ -341,6 +340,7 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
     required int itemIndex,
     required int count,
     required _OrderRow row,
+    required AppLocalizations l10n,
   }) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 2),
@@ -362,14 +362,14 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
         children: [
           IconButton(
             icon: const Icon(Icons.keyboard_arrow_up),
-            tooltip: 'Move up',
+            tooltip: l10n.moveUpTooltip,
             onPressed: itemIndex == 0
                 ? null
                 : () => _move(groupIndex, itemIndex, -1),
           ),
           IconButton(
             icon: const Icon(Icons.keyboard_arrow_down),
-            tooltip: 'Move down',
+            tooltip: l10n.moveDownTooltip,
             onPressed: itemIndex == count - 1
                 ? null
                 : () => _move(groupIndex, itemIndex, 1),

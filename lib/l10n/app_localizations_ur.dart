@@ -493,4 +493,54 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get switchCameraTooltip => 'کیمرہ تبدیل کریں';
+
+  @override
+  String get allTasksTitle => 'تمام کام';
+
+  @override
+  String get otherSegmentLabel => 'دیگر';
+
+  @override
+  String get reorderTasksTitle => 'کاموں کو دوبارہ ترتیب دیں';
+
+  @override
+  String get ungroupedLabel => 'غیر گروپ شدہ';
+
+  @override
+  String get taskOrderSaved => 'کام کی ترتیب محفوظ کر لی گئی۔';
+
+  @override
+  String couldNotSaveTaskOrder(String error) {
+    return 'کام کی ترتیب محفوظ نہیں ہو سکی: $error';
+  }
+
+  @override
+  String get noVenueSelectedReorder =>
+      'ابھی تک کوئی مقام منتخب نہیں کیا گیا۔ کاموں کو دوبارہ ترتیب دینے سے پہلے مقام کی تفصیلات سے ایک فعال مقام سیٹ کریں۔';
+
+  @override
+  String get noActiveTasksToReorder =>
+      'ابھی تک دوبارہ ترتیب دینے کے لیے کوئی فعال کام نہیں ہیں۔ پہلے کام تفویض کریں، پھر ان کی ترتیب منتخب کرنے کے لیے یہاں واپس آئیں۔';
+
+  @override
+  String get savingEllipsis => 'محفوظ ہو رہا ہے…';
+
+  @override
+  String get saveOrderLabel => 'ترتیب محفوظ کریں';
+
+  @override
+  String get moveUpTooltip => 'اوپر منتقل کریں';
+
+  @override
+  String get moveDownTooltip => 'نیچے منتقل کریں';
+
+  @override
+  String get accountRestrictedTitle => 'اکاؤنٹ محدود ہے';
+
+  @override
+  String get accountRestrictedBody =>
+      'نئی جانچیں محفوظ ہونے سے پہلے اس ادارے کے ڈائریکٹ ڈیبٹ پر توجہ درکار ہے۔ آپ کا کام ضائع نہیں ہوا - براہ کرم کسی منیجر یا ڈائریکٹر کو بلنگ حل کرنے کے لیے بتائیں، پھر دوبارہ کوشش کریں۔';
+
+  @override
+  String get okLabel => 'ٹھیک ہے';
 }

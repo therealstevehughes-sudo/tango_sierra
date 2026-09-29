@@ -254,5 +254,27 @@
       }
     }
   },
-  "switchCameraTooltip": "Switch camera"
+  "switchCameraTooltip": "Switch camera",
+  "allTasksTitle": "All Tasks",
+  "otherSegmentLabel": "Other",
+  "reorderTasksTitle": "Reorder Tasks",
+  "ungroupedLabel": "Ungrouped",
+  "taskOrderSaved": "Task order saved.",
+  "couldNotSaveTaskOrder": "Could not save task order: {error}",
+  "@couldNotSaveTaskOrder": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noVenueSelectedReorder": "No venue selected yet. Set an active venue from Venue Details before reordering tasks.",
+  "noActiveTasksToReorder": "No active tasks to reorder yet. Assign tasks first, then return here to choose their order.",
+  "savingEllipsis": "Saving…",
+  "saveOrderLabel": "Save Order",
+  "moveUpTooltip": "Move up",
+  "moveDownTooltip": "Move down",
+  "accountRestrictedTitle": "Account restricted",
+  "accountRestrictedBody": "This organisation's Direct Debit needs attention before new checks can be saved. Your work isn't lost - please tell a manager or Director to sort out billing, then try again.",
+  "okLabel": "OK"
 }

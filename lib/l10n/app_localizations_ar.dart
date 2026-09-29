@@ -492,4 +492,54 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get switchCameraTooltip => 'تبديل الكاميرا';
+
+  @override
+  String get allTasksTitle => 'جميع المهام';
+
+  @override
+  String get otherSegmentLabel => 'أخرى';
+
+  @override
+  String get reorderTasksTitle => 'إعادة ترتيب المهام';
+
+  @override
+  String get ungroupedLabel => 'غير مجمّع';
+
+  @override
+  String get taskOrderSaved => 'تم حفظ ترتيب المهام.';
+
+  @override
+  String couldNotSaveTaskOrder(String error) {
+    return 'تعذر حفظ ترتيب المهام: $error';
+  }
+
+  @override
+  String get noVenueSelectedReorder =>
+      'لم يتم اختيار موقع بعد. حدد موقعًا نشطًا من تفاصيل الموقع قبل إعادة ترتيب المهام.';
+
+  @override
+  String get noActiveTasksToReorder =>
+      'لا توجد مهام نشطة لإعادة ترتيبها بعد. قم بتعيين المهام أولاً، ثم عد إلى هنا لاختيار ترتيبها.';
+
+  @override
+  String get savingEllipsis => 'جارٍ الحفظ…';
+
+  @override
+  String get saveOrderLabel => 'حفظ الترتيب';
+
+  @override
+  String get moveUpTooltip => 'تحريك لأعلى';
+
+  @override
+  String get moveDownTooltip => 'تحريك لأسفل';
+
+  @override
+  String get accountRestrictedTitle => 'الحساب مقيّد';
+
+  @override
+  String get accountRestrictedBody =>
+      'يحتاج الخصم المباشر لهذه المؤسسة إلى الانتباه قبل أن يمكن حفظ فحوصات جديدة. عملك لم يُفقد - يرجى إخبار مدير أو مدير تنفيذي لحل مشكلة الفوترة، ثم المحاولة مرة أخرى.';
+
+  @override
+  String get okLabel => 'موافق';
 }

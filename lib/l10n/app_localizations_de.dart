@@ -502,4 +502,54 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get switchCameraTooltip => 'Kamera wechseln';
+
+  @override
+  String get allTasksTitle => 'Alle Aufgaben';
+
+  @override
+  String get otherSegmentLabel => 'Sonstiges';
+
+  @override
+  String get reorderTasksTitle => 'Aufgaben neu anordnen';
+
+  @override
+  String get ungroupedLabel => 'Nicht gruppiert';
+
+  @override
+  String get taskOrderSaved => 'Aufgabenreihenfolge gespeichert.';
+
+  @override
+  String couldNotSaveTaskOrder(String error) {
+    return 'Aufgabenreihenfolge konnte nicht gespeichert werden: $error';
+  }
+
+  @override
+  String get noVenueSelectedReorder =>
+      'Noch kein Standort ausgewählt. Lege in den Standortdetails einen aktiven Standort fest, bevor du Aufgaben neu anordnest.';
+
+  @override
+  String get noActiveTasksToReorder =>
+      'Noch keine aktiven Aufgaben zum Neuanordnen. Weise zuerst Aufgaben zu und kehre dann hierher zurück, um ihre Reihenfolge festzulegen.';
+
+  @override
+  String get savingEllipsis => 'Wird gespeichert…';
+
+  @override
+  String get saveOrderLabel => 'Reihenfolge speichern';
+
+  @override
+  String get moveUpTooltip => 'Nach oben verschieben';
+
+  @override
+  String get moveDownTooltip => 'Nach unten verschieben';
+
+  @override
+  String get accountRestrictedTitle => 'Konto eingeschränkt';
+
+  @override
+  String get accountRestrictedBody =>
+      'Das Lastschriftmandat dieser Organisation benötigt Aufmerksamkeit, bevor neue Prüfungen gespeichert werden können. Deine Arbeit ist nicht verloren - bitte einen Manager oder Direktor, die Abrechnung zu klären, und versuche es dann erneut.';
+
+  @override
+  String get okLabel => 'OK';
 }

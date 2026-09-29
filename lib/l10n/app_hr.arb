@@ -146,5 +146,20 @@
   "couldNotStartCamera": "Kameru nije bilo moguće pokrenuti: {error}",
   "couldNotSwitchCamera": "Kameru nije bilo moguće promijeniti: {error}",
   "couldNotCapturePhoto": "Fotografiju nije bilo moguće snimiti: {error}",
-  "switchCameraTooltip": "Promijeni kameru"
+  "switchCameraTooltip": "Promijeni kameru",
+  "allTasksTitle": "Svi zadaci",
+  "otherSegmentLabel": "Ostalo",
+  "reorderTasksTitle": "Promijeni redoslijed zadataka",
+  "ungroupedLabel": "Negrupirano",
+  "taskOrderSaved": "Redoslijed zadataka spremljen.",
+  "couldNotSaveTaskOrder": "Redoslijed zadataka nije bilo moguće spremiti: {error}",
+  "noVenueSelectedReorder": "Još nije odabrana lokacija. Postavi aktivnu lokaciju u Detaljima lokacije prije promjene redoslijeda zadataka.",
+  "noActiveTasksToReorder": "Još nema aktivnih zadataka za promjenu redoslijeda. Prvo dodijeli zadatke, a zatim se vrati ovdje kako bi odabrao/la njihov redoslijed.",
+  "savingEllipsis": "Spremanje…",
+  "saveOrderLabel": "Spremi redoslijed",
+  "moveUpTooltip": "Pomakni gore",
+  "moveDownTooltip": "Pomakni dolje",
+  "accountRestrictedTitle": "Račun ograničen",
+  "accountRestrictedBody": "Izravno terećenje ove organizacije zahtijeva pažnju prije nego što se nove provjere mogu spremiti. Tvoj rad nije izgubljen - obavijesti voditelja ili direktora da riješi naplatu, a zatim pokušaj ponovno.",
+  "okLabel": "U redu"
 }

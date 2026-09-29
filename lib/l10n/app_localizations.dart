@@ -995,6 +995,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Switch camera'**
   String get switchCameraTooltip;
+
+  /// No description provided for @allTasksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All Tasks'**
+  String get allTasksTitle;
+
+  /// No description provided for @otherSegmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get otherSegmentLabel;
+
+  /// No description provided for @reorderTasksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reorder Tasks'**
+  String get reorderTasksTitle;
+
+  /// No description provided for @ungroupedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ungrouped'**
+  String get ungroupedLabel;
+
+  /// No description provided for @taskOrderSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Task order saved.'**
+  String get taskOrderSaved;
+
+  /// No description provided for @couldNotSaveTaskOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save task order: {error}'**
+  String couldNotSaveTaskOrder(String error);
+
+  /// No description provided for @noVenueSelectedReorder.
+  ///
+  /// In en, this message translates to:
+  /// **'No venue selected yet. Set an active venue from Venue Details before reordering tasks.'**
+  String get noVenueSelectedReorder;
+
+  /// No description provided for @noActiveTasksToReorder.
+  ///
+  /// In en, this message translates to:
+  /// **'No active tasks to reorder yet. Assign tasks first, then return here to choose their order.'**
+  String get noActiveTasksToReorder;
+
+  /// No description provided for @savingEllipsis.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving…'**
+  String get savingEllipsis;
+
+  /// No description provided for @saveOrderLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Order'**
+  String get saveOrderLabel;
+
+  /// No description provided for @moveUpTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get moveUpTooltip;
+
+  /// No description provided for @moveDownTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get moveDownTooltip;
+
+  /// No description provided for @accountRestrictedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account restricted'**
+  String get accountRestrictedTitle;
+
+  /// No description provided for @accountRestrictedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This organisation\'s Direct Debit needs attention before new checks can be saved. Your work isn\'t lost - please tell a manager or Director to sort out billing, then try again.'**
+  String get accountRestrictedBody;
+
+  /// No description provided for @okLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get okLabel;
 }
 
 class _AppLocalizationsDelegate
