@@ -18,7 +18,12 @@ class MotivationalQuoteService {
 
   String _poolKey(int userId) => 'motivational_quote_pool_$userId';
 
-  Future<String> nextQuoteFor(int userId) async {
+  // [locale] selects which translated list a quote is drawn from; the
+  // pool of indices is shared across languages (same length, same
+  // meaning per index in every list), so switching language mid-cycle
+  // just changes which text index N maps to, not the rotation itself.
+  Future<String> nextQuoteFor(int userId, [String? locale]) async {
+    final quotes = motivationalQuotesByLocale[locale] ?? motivationalQuotes;
     final prefs = await SharedPreferences.getInstance();
     final key = _poolKey(userId);
     var pool = _readPool(prefs, key);
@@ -30,7 +35,7 @@ class MotivationalQuoteService {
 
     final index = pool.removeLast();
     await prefs.setString(key, jsonEncode(pool));
-    return motivationalQuotes[index];
+    return quotes[index];
   }
 
   List<int> _readPool(SharedPreferences prefs, String key) {
@@ -54,7 +59,8 @@ final motivationalQuoteService = MotivationalQuoteService();
 
 // Fallback for any caller that genuinely has no user id to key by (should
 // not normally happen -- ShiftWelcomeScreen always has a real user).
-String randomMotivationalQuote() {
+String randomMotivationalQuote([String? locale]) {
+  final quotes = motivationalQuotesByLocale[locale] ?? motivationalQuotes;
   final random = Random();
-  return motivationalQuotes[random.nextInt(motivationalQuotes.length)];
+  return quotes[random.nextInt(quotes.length)];
 }

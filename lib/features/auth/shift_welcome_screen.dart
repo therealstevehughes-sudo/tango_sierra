@@ -38,6 +38,7 @@ class ShiftWelcomeScreen extends ConsumerStatefulWidget {
 
 class _ShiftWelcomeScreenState extends ConsumerState<ShiftWelcomeScreen> {
   bool _loading = true;
+  bool _quoteRequested = false;
   int _startCount = 0;
   int _duringCount = 0;
   int _endCount = 0;
@@ -55,16 +56,31 @@ class _ShiftWelcomeScreenState extends ConsumerState<ShiftWelcomeScreen> {
     // record. Fire-and-forget is fine here — worst case a missed clock-in
     // row, never something that blocks the person getting to work.
     _clockIn();
-    _loadQuote();
     _load();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // AppLocalizations.of() needs an inherited-widget lookup, which isn't
+    // safe in initState -- didChangeDependencies is the first point where
+    // it's available, and it can fire more than once, hence the guard.
+    if (!_quoteRequested) {
+      _quoteRequested = true;
+      _loadQuote();
+    }
+  }
+
   Future<void> _loadQuote() async {
+    final locale = AppLocalizations.of(context)?.localeName;
     String quote;
     try {
-      quote = await motivationalQuoteService.nextQuoteFor(widget.user.id);
+      quote = await motivationalQuoteService.nextQuoteFor(
+        widget.user.id,
+        locale,
+      );
     } catch (_) {
-      quote = randomMotivationalQuote();
+      quote = randomMotivationalQuote(locale);
     }
     if (!mounted) return;
     setState(() => _quote = quote);
