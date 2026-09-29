@@ -987,5 +987,377 @@
   "rulesInAppNotice": "Rules are shown in-app now; push/email delivery is not yet connected to a backend and will be added in a later sprint.",
   "saveRuleButton": "Save Rule",
   "addRuleButton": "Add Rule",
-  "noNotificationRulesYet": "No notification rules set up yet."
+  "noNotificationRulesYet": "No notification rules set up yet.",
+  "stepYourAccount": "Your account",
+  "@stepYourAccount": {
+    "description": ""
+  },
+  "stepCompanyDetails": "Company details",
+  "@stepCompanyDetails": {
+    "description": ""
+  },
+  "stepOrgStructure": "Organisation structure",
+  "@stepOrgStructure": {
+    "description": ""
+  },
+  "stepFirstVenue": "First venue",
+  "@stepFirstVenue": {
+    "description": ""
+  },
+  "stepStarterSetup": "Your starter setup",
+  "@stepStarterSetup": {
+    "description": ""
+  },
+  "stepSubscription": "Subscription",
+  "@stepSubscription": {
+    "description": ""
+  },
+  "stepPayment": "Payment",
+  "@stepPayment": {
+    "description": ""
+  },
+  "termsOfServiceTitle": "Terms of Service",
+  "@termsOfServiceTitle": {
+    "description": ""
+  },
+  "companySignupGenericError": "Something went wrong creating your company. Please try again - if it keeps happening, contact VenuRite.",
+  "@companySignupGenericError": {
+    "description": ""
+  },
+  "directDebitStartError": "We couldn't start Direct Debit setup automatically - you can do this any time from Settings once you're signed in.",
+  "@directDebitStartError": {
+    "description": ""
+  },
+  "continueButton": "Continue",
+  "@continueButton": {
+    "description": ""
+  },
+  "creatingEllipsis": "Creating...",
+  "@creatingEllipsis": {
+    "description": ""
+  },
+  "startFreeTrialButton": "Start free trial",
+  "@startFreeTrialButton": {
+    "description": ""
+  },
+  "companyCreatedTitle": "Company created",
+  "@companyCreatedTitle": {
+    "description": ""
+  },
+  "adminAccountIntro": "Let's set up your account. You'll be the administrator for this company on VenuRite, and can invite your team once you're in.",
+  "@adminAccountIntro": {
+    "description": ""
+  },
+  "firstNameLabel": "First name",
+  "@firstNameLabel": {
+    "description": ""
+  },
+  "lastNameLabel": "Last name",
+  "@lastNameLabel": {
+    "description": ""
+  },
+  "passwordMinCharsHelper": "At least 8 characters",
+  "@passwordMinCharsHelper": {
+    "description": ""
+  },
+  "companyDetailsIntro": "Tell us about your company.",
+  "@companyDetailsIntro": {
+    "description": ""
+  },
+  "tradingCompanyNameLabel": "Trading / company name",
+  "@tradingCompanyNameLabel": {
+    "description": ""
+  },
+  "legalCompanyNameLabel": "Legal company name (optional)",
+  "@legalCompanyNameLabel": {
+    "description": ""
+  },
+  "legalCompanyNameHelper": "Leave blank to use the trading name above",
+  "@legalCompanyNameHelper": {
+    "description": ""
+  },
+  "countryLabel": "Country",
+  "@countryLabel": {
+    "description": ""
+  },
+  "registeredAddressLabel": "Registered / business address (optional)",
+  "@registeredAddressLabel": {
+    "description": ""
+  },
+  "vatNumberLabel": "VAT / tax number (if applicable)",
+  "@vatNumberLabel": {
+    "description": ""
+  },
+  "billingContactEmailLabel": "Billing contact email (optional)",
+  "@billingContactEmailLabel": {
+    "description": ""
+  },
+  "structureIntro": "Here's how VenuRite organises your company. You don't need to set anything up now - this is just so the next step makes sense.",
+  "@structureIntro": {
+    "description": ""
+  },
+  "structureYourCompanyLabel": "Your company",
+  "@structureYourCompanyLabel": {
+    "description": ""
+  },
+  "structureYourCompanySublabel": "One consolidated account and bill",
+  "@structureYourCompanySublabel": {
+    "description": ""
+  },
+  "structureRegionsLabel": "Regions (optional)",
+  "@structureRegionsLabel": {
+    "description": ""
+  },
+  "structureRegionsSublabel": "Group venues by country or area - skip if you don't need it",
+  "@structureRegionsSublabel": {
+    "description": ""
+  },
+  "structureVenuesLabel": "Venues",
+  "@structureVenuesLabel": {
+    "description": ""
+  },
+  "structureVenuesSublabel": "One venue today, hundreds later - add more any time",
+  "@structureVenuesSublabel": {
+    "description": ""
+  },
+  "structureStaffLabel": "Staff",
+  "@structureStaffLabel": {
+    "description": ""
+  },
+  "structureStaffSublabel": "Each venue's team, invited once it exists",
+  "@structureStaffSublabel": {
+    "description": ""
+  },
+  "structureOutro": "We'll set up your first venue next - you can add regions and more venues later from inside the app.",
+  "@structureOutro": {
+    "description": ""
+  },
+  "wizardFirstVenueHeroTitle": "Let's add your first venue",
+  "@wizardFirstVenueHeroTitle": {
+    "description": ""
+  },
+  "addMoreVenuesLaterText": "You can add more venues later.",
+  "@addMoreVenuesLaterText": {
+    "description": ""
+  },
+  "venueNameLabel": "Venue name",
+  "@venueNameLabel": {
+    "description": ""
+  },
+  "addressOptionalLabel": "Address (optional)",
+  "@addressOptionalLabel": {
+    "description": ""
+  },
+  "regionAreaOptionalLabel": "Region / area (optional)",
+  "@regionAreaOptionalLabel": {
+    "description": ""
+  },
+  "regionAreaHelper": "e.g. \"London\" - only needed if you have (or will have) more than one venue",
+  "@regionAreaHelper": {
+    "description": ""
+  },
+  "venueTypeOptionalLabel": "Venue type (optional)",
+  "@venueTypeOptionalLabel": {
+    "description": ""
+  },
+  "venueTypeHelper": "Picking one shows you a ready-made starter set next - for tasks and equipment you already know you need.",
+  "@venueTypeHelper": {
+    "description": ""
+  },
+  "payoffSkippedText": "You skipped choosing a venue type, so there's no starter set to show yet - you can add tasks and equipment yourself once you're in.",
+  "@payoffSkippedText": {
+    "description": ""
+  },
+  "payoffErrorText": "Couldn't load the starter set for this venue type - you can add tasks and equipment yourself once you're in.",
+  "@payoffErrorText": {
+    "description": ""
+  },
+  "payoffHeroTitle": "Here's your compliance, ready to go",
+  "@payoffHeroTitle": {
+    "description": ""
+  },
+  "equipmentSectionLabel": "Equipment",
+  "@equipmentSectionLabel": {
+    "description": ""
+  },
+  "subscriptionBannerText": "One company account, one consolidated bill - priced per branch, never per person.",
+  "@subscriptionBannerText": {
+    "description": ""
+  },
+  "subscriptionIntroText": "How many branches do you have today, including head office if you have one? You'll only set up your first venue now - add the rest any time from inside the app.",
+  "@subscriptionIntroText": {
+    "description": ""
+  },
+  "perBranchPriceLabel": "£39/branch/month",
+  "@perBranchPriceLabel": {
+    "description": ""
+  },
+  "headOfficeIncludedLabel": "+ 1 head office branch (4+ branches)",
+  "@headOfficeIncludedLabel": {
+    "description": ""
+  },
+  "discountCodeHint": "Have a discount code? You can enter it when you set up Direct Debit.",
+  "@discountCodeHint": {
+    "description": ""
+  },
+  "trialBannerText": "You're starting a 14-day free trial - no card needed today.",
+  "@trialBannerText": {
+    "description": ""
+  },
+  "paymentStepIntro": "We'll ask you to set up payment before your trial ends, from Settings inside the app. Nothing is charged now - just tell us how you'd prefer to pay.",
+  "@paymentStepIntro": {
+    "description": ""
+  },
+  "cardPaymentTitle": "Card payment (Stripe)",
+  "@cardPaymentTitle": {
+    "description": ""
+  },
+  "cardPaymentSubtitle": "Debit/credit card, billed monthly or annually",
+  "@cardPaymentSubtitle": {
+    "description": ""
+  },
+  "directDebitTitle": "Direct Debit (GoCardless)",
+  "@directDebitTitle": {
+    "description": ""
+  },
+  "directDebitSubtitle": "Bank-to-bank payment, no card required",
+  "@directDebitSubtitle": {
+    "description": ""
+  },
+  "decideLaterButton": "I'll decide later",
+  "@decideLaterButton": {
+    "description": ""
+  },
+  "decideLaterSnackbar": "No problem - you can set this up anytime from Settings.",
+  "@decideLaterSnackbar": {
+    "description": ""
+  },
+  "agreeToTermsPrefix": "I have read and agree to the ",
+  "@agreeToTermsPrefix": {
+    "description": ""
+  },
+  "successActivatedBanner": "Your company and first venue are set up, and you're signed in.",
+  "@successActivatedBanner": {
+    "description": ""
+  },
+  "successNotActivatedBanner": "Your company and first venue are set up. Sign in with your email and the password you just chose.",
+  "@successNotActivatedBanner": {
+    "description": ""
+  },
+  "directDebitSettingUp": "Setting up Direct Debit...",
+  "@directDebitSettingUp": {
+    "description": ""
+  },
+  "directDebitOpenedBrowser": "We've opened your browser to finish setting up Direct Debit.",
+  "@directDebitOpenedBrowser": {
+    "description": ""
+  },
+  "inviteYourTeamTitle": "Invite your team",
+  "@inviteYourTeamTitle": {
+    "description": ""
+  },
+  "inviteYourTeamSubtitle": "Optional - add whoever's on shift now, or skip and do this later from Staff Management.",
+  "@inviteYourTeamSubtitle": {
+    "description": ""
+  },
+  "jobTitleLabel": "Job title",
+  "@jobTitleLabel": {
+    "description": ""
+  },
+  "tierFieldLabel": "Tier",
+  "@tierFieldLabel": {
+    "description": ""
+  },
+  "addTeamMemberButton": "Add team member",
+  "@addTeamMemberButton": {
+    "description": ""
+  },
+  "goToDashboardButton": "Go to dashboard",
+  "@goToDashboardButton": {
+    "description": ""
+  },
+  "goToSignInButton": "Go to sign in",
+  "@goToSignInButton": {
+    "description": ""
+  },
+  "wizardStepOfLabel": "{title} - Step {step} of {total}",
+  "@wizardStepOfLabel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "billingContactEmailHelper": "Leave blank to use {email}",
+  "@billingContactEmailHelper": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "payoffNoStarterSet": "We don't have a pre-built starter set for {venueType} yet - you can add tasks and equipment yourself once you're in.",
+  "@payoffNoStarterSet": {
+    "placeholders": {
+      "venueType": {
+        "type": "String"
+      }
+    }
+  },
+  "payoffSummaryWithEquipment": "{totalTasks} tasks across {sectionCount} sections and {equipmentCount} equipment types already set up for a {venueType}.",
+  "@payoffSummaryWithEquipment": {
+    "placeholders": {
+      "totalTasks": {
+        "type": "int"
+      },
+      "sectionCount": {
+        "type": "int"
+      },
+      "equipmentCount": {
+        "type": "int"
+      },
+      "venueType": {
+        "type": "String"
+      }
+    }
+  },
+  "payoffSummaryNoEquipment": "{totalTasks} tasks across {sectionCount} sections already set up for a {venueType}.",
+  "@payoffSummaryNoEquipment": {
+    "placeholders": {
+      "totalTasks": {
+        "type": "int"
+      },
+      "sectionCount": {
+        "type": "int"
+      },
+      "venueType": {
+        "type": "String"
+      }
+    }
+  },
+  "totalPerMonthLabel": "£{total}/month total ({units, plural, one{{units} branch} other{{units} branches}} billed)",
+  "@totalPerMonthLabel": {
+    "placeholders": {
+      "total": {
+        "type": "String"
+      },
+      "units": {
+        "type": "int"
+      }
+    }
+  },
+  "staffPinLabel": "PIN: {pin}",
+  "@staffPinLabel": {
+    "placeholders": {
+      "pin": {
+        "type": "String"
+      }
+    }
+  }
 }

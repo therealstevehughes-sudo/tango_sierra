@@ -1833,4 +1833,292 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noNotificationRulesYet => 'لم يتم إعداد أي قواعد إشعارات بعد.';
+
+  @override
+  String get stepYourAccount => 'حسابك';
+
+  @override
+  String get stepCompanyDetails => 'تفاصيل الشركة';
+
+  @override
+  String get stepOrgStructure => 'هيكل المؤسسة';
+
+  @override
+  String get stepFirstVenue => 'أول موقع';
+
+  @override
+  String get stepStarterSetup => 'مجموعتك الأولية';
+
+  @override
+  String get stepSubscription => 'الاشتراك';
+
+  @override
+  String get stepPayment => 'الدفع';
+
+  @override
+  String get termsOfServiceTitle => 'شروط الخدمة';
+
+  @override
+  String get companySignupGenericError =>
+      'حدث خطأ ما أثناء إنشاء شركتك. يرجى المحاولة مرة أخرى - إذا استمر حدوث ذلك، تواصل مع VenuRite.';
+
+  @override
+  String get directDebitStartError =>
+      'لم نتمكن من بدء إعداد الخصم المباشر تلقائيًا - يمكنك القيام بذلك في أي وقت من الإعدادات بعد تسجيل الدخول.';
+
+  @override
+  String get continueButton => 'متابعة';
+
+  @override
+  String get creatingEllipsis => 'جارٍ الإنشاء...';
+
+  @override
+  String get startFreeTrialButton => 'ابدأ الفترة التجريبية المجانية';
+
+  @override
+  String get companyCreatedTitle => 'تم إنشاء الشركة';
+
+  @override
+  String get adminAccountIntro =>
+      'لنقم بإعداد حسابك. ستكون مسؤول هذه الشركة على VenuRite، ويمكنك دعوة فريقك بمجرد الدخول.';
+
+  @override
+  String get firstNameLabel => 'الاسم الأول';
+
+  @override
+  String get lastNameLabel => 'اسم العائلة';
+
+  @override
+  String get passwordMinCharsHelper => '8 أحرف على الأقل';
+
+  @override
+  String get companyDetailsIntro => 'أخبرنا عن شركتك.';
+
+  @override
+  String get tradingCompanyNameLabel => 'الاسم التجاري / اسم الشركة';
+
+  @override
+  String get legalCompanyNameLabel => 'الاسم القانوني للشركة (اختياري)';
+
+  @override
+  String get legalCompanyNameHelper =>
+      'اتركه فارغًا لاستخدام الاسم التجاري أعلاه';
+
+  @override
+  String get countryLabel => 'الدولة';
+
+  @override
+  String get registeredAddressLabel => 'العنوان المسجل / التجاري (اختياري)';
+
+  @override
+  String get vatNumberLabel =>
+      'رقم ضريبة القيمة المضافة / الرقم الضريبي (إن وجد)';
+
+  @override
+  String get billingContactEmailLabel =>
+      'بريد التواصل الخاص بالفوترة (اختياري)';
+
+  @override
+  String get structureIntro =>
+      'هكذا تنظم VenuRite شركتك. لست بحاجة لإعداد أي شيء الآن - هذا فقط لجعل الخطوة التالية منطقية.';
+
+  @override
+  String get structureYourCompanyLabel => 'شركتك';
+
+  @override
+  String get structureYourCompanySublabel => 'حساب واحد موحد وفاتورة واحدة';
+
+  @override
+  String get structureRegionsLabel => 'المناطق (اختياري)';
+
+  @override
+  String get structureRegionsSublabel =>
+      'جمّع المواقع حسب الدولة أو المنطقة - تخطَّ هذا إذا لم تكن بحاجة إليه';
+
+  @override
+  String get structureVenuesLabel => 'المواقع';
+
+  @override
+  String get structureVenuesSublabel =>
+      'موقع واحد اليوم، المئات لاحقًا - أضف المزيد في أي وقت';
+
+  @override
+  String get structureStaffLabel => 'الموظفون';
+
+  @override
+  String get structureStaffSublabel =>
+      'فريق كل موقع، تتم دعوته بمجرد وجود الموقع';
+
+  @override
+  String get structureOutro =>
+      'سنقوم بإعداد أول موقع لك بعد ذلك - يمكنك إضافة المناطق والمزيد من المواقع لاحقًا من داخل التطبيق.';
+
+  @override
+  String get wizardFirstVenueHeroTitle => 'لنضف أول موقع لك';
+
+  @override
+  String get addMoreVenuesLaterText => 'يمكنك إضافة المزيد من المواقع لاحقًا.';
+
+  @override
+  String get venueNameLabel => 'اسم الموقع';
+
+  @override
+  String get addressOptionalLabel => 'العنوان (اختياري)';
+
+  @override
+  String get regionAreaOptionalLabel => 'المنطقة / المنطقة الجغرافية (اختياري)';
+
+  @override
+  String get regionAreaHelper =>
+      'مثال \"الرياض\" - مطلوب فقط إذا كان لديك (أو سيكون لديك) أكثر من موقع واحد';
+
+  @override
+  String get venueTypeOptionalLabel => 'نوع الموقع (اختياري)';
+
+  @override
+  String get venueTypeHelper =>
+      'اختيار نوع يعرض لك مجموعة أولية جاهزة - للمهام والمعدات التي تعرف بالفعل أنك بحاجة إليها.';
+
+  @override
+  String get payoffSkippedText =>
+      'لقد تخطيت اختيار نوع الموقع، لذا لا توجد مجموعة أولية لعرضها بعد - يمكنك إضافة المهام والمعدات بنفسك بمجرد الدخول.';
+
+  @override
+  String get payoffErrorText =>
+      'تعذر تحميل المجموعة الأولية لهذا النوع من المواقع - يمكنك إضافة المهام والمعدات بنفسك بمجرد الدخول.';
+
+  @override
+  String get payoffHeroTitle => 'هذا هو امتثالك، جاهز للاستخدام';
+
+  @override
+  String get equipmentSectionLabel => 'المعدات';
+
+  @override
+  String get subscriptionBannerText =>
+      'حساب شركة واحد، فاتورة موحدة واحدة - يُحتسب السعر لكل موقع، أبدًا لكل شخص.';
+
+  @override
+  String get subscriptionIntroText =>
+      'كم عدد المواقع التي لديك اليوم، بما في ذلك المكتب الرئيسي إن وجد؟ ستقوم الآن بإعداد أول موقع لك فقط - يمكنك إضافة الباقي في أي وقت من داخل التطبيق.';
+
+  @override
+  String get perBranchPriceLabel => '39 جنيهًا إسترلينيًا/موقع/شهر';
+
+  @override
+  String get headOfficeIncludedLabel => '+ موقع مكتب رئيسي واحد (4+ مواقع)';
+
+  @override
+  String get discountCodeHint =>
+      'هل لديك رمز خصم؟ يمكنك إدخاله عند إعداد الخصم المباشر.';
+
+  @override
+  String get trialBannerText =>
+      'أنت تبدأ فترة تجريبية مجانية مدتها 14 يومًا - لا حاجة لبطاقة اليوم.';
+
+  @override
+  String get paymentStepIntro =>
+      'سنطلب منك إعداد الدفع قبل انتهاء فترتك التجريبية، من الإعدادات داخل التطبيق. لن يتم خصم أي مبلغ الآن - فقط أخبرنا كيف تفضل الدفع.';
+
+  @override
+  String get cardPaymentTitle => 'الدفع بالبطاقة (Stripe)';
+
+  @override
+  String get cardPaymentSubtitle => 'بطاقة خصم/ائتمان، تُفوتر شهريًا أو سنويًا';
+
+  @override
+  String get directDebitTitle => 'الخصم المباشر (GoCardless)';
+
+  @override
+  String get directDebitSubtitle => 'دفع من بنك إلى بنك، لا حاجة لبطاقة';
+
+  @override
+  String get decideLaterButton => 'سأقرر لاحقًا';
+
+  @override
+  String get decideLaterSnackbar =>
+      'لا مشكلة - يمكنك إعداد هذا في أي وقت من الإعدادات.';
+
+  @override
+  String get agreeToTermsPrefix => 'لقد قرأت ووافقت على ';
+
+  @override
+  String get successActivatedBanner =>
+      'تم إعداد شركتك وأول موقع لك، وقد سجّلت الدخول.';
+
+  @override
+  String get successNotActivatedBanner =>
+      'تم إعداد شركتك وأول موقع لك. سجّل الدخول ببريدك الإلكتروني وكلمة المرور التي اخترتها للتو.';
+
+  @override
+  String get directDebitSettingUp => 'جارٍ إعداد الخصم المباشر...';
+
+  @override
+  String get directDebitOpenedBrowser =>
+      'لقد فتحنا متصفحك لإنهاء إعداد الخصم المباشر.';
+
+  @override
+  String get inviteYourTeamTitle => 'ادعُ فريقك';
+
+  @override
+  String get inviteYourTeamSubtitle =>
+      'اختياري - أضف أي شخص في نوبة العمل الآن، أو تخطَّ ذلك وقم به لاحقًا من إدارة الموظفين.';
+
+  @override
+  String get jobTitleLabel => 'المسمى الوظيفي';
+
+  @override
+  String get tierFieldLabel => 'المستوى';
+
+  @override
+  String get addTeamMemberButton => 'إضافة عضو فريق';
+
+  @override
+  String get goToDashboardButton => 'الذهاب إلى لوحة التحكم';
+
+  @override
+  String get goToSignInButton => 'الذهاب إلى تسجيل الدخول';
+
+  @override
+  String wizardStepOfLabel(String title, int step, int total) {
+    return '$title - الخطوة $step من $total';
+  }
+
+  @override
+  String billingContactEmailHelper(String email) {
+    return 'اتركه فارغًا لاستخدام $email';
+  }
+
+  @override
+  String payoffNoStarterSet(String venueType) {
+    return 'ليس لدينا بعد مجموعة أولية جاهزة لـ $venueType - يمكنك إضافة المهام والمعدات بنفسك بمجرد الدخول.';
+  }
+
+  @override
+  String payoffSummaryWithEquipment(
+    int totalTasks,
+    int sectionCount,
+    int equipmentCount,
+    String venueType,
+  ) {
+    return '$totalTasks مهمة عبر $sectionCount أقسام و$equipmentCount أنواع معدات مُعدة مسبقًا لـ $venueType.';
+  }
+
+  @override
+  String payoffSummaryNoEquipment(
+    int totalTasks,
+    int sectionCount,
+    String venueType,
+  ) {
+    return '$totalTasks مهمة عبر $sectionCount أقسام مُعدة مسبقًا لـ $venueType.';
+  }
+
+  @override
+  String totalPerMonthLabel(String total, int units) {
+    return '£$total/شهريًا إجمالاً ($units مواقع مفوترة)';
+  }
+
+  @override
+  String staffPinLabel(String pin) {
+    return 'الرمز السري: $pin';
+  }
 }

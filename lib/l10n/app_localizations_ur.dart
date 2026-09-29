@@ -1841,4 +1841,291 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get noNotificationRulesYet =>
       'ابھی تک کوئی اطلاع کا اصول سیٹ نہیں کیا گیا۔';
+
+  @override
+  String get stepYourAccount => 'تمہارا اکاؤنٹ';
+
+  @override
+  String get stepCompanyDetails => 'کمپنی کی تفصیلات';
+
+  @override
+  String get stepOrgStructure => 'تنظیمی ڈھانچہ';
+
+  @override
+  String get stepFirstVenue => 'پہلا وینیو';
+
+  @override
+  String get stepStarterSetup => 'تمہارا ابتدائی سیٹ اپ';
+
+  @override
+  String get stepSubscription => 'سبسکرپشن';
+
+  @override
+  String get stepPayment => 'ادائیگی';
+
+  @override
+  String get termsOfServiceTitle => 'سروس کی شرائط';
+
+  @override
+  String get companySignupGenericError =>
+      'تمہاری کمپنی بناتے وقت کچھ غلط ہو گیا۔ براہ کرم دوبارہ کوشش کریں - اگر یہ ہوتا رہے، تو VenuRite سے رابطہ کریں۔';
+
+  @override
+  String get directDebitStartError =>
+      'ہم ڈائریکٹ ڈیبٹ سیٹ اپ خودکار طور پر شروع نہیں کر سکے - لاگ ان کرنے کے بعد تم یہ سیٹنگز سے کسی بھی وقت کر سکتے ہو۔';
+
+  @override
+  String get continueButton => 'جاری رکھیں';
+
+  @override
+  String get creatingEllipsis => 'بن رہا ہے...';
+
+  @override
+  String get startFreeTrialButton => 'مفت ٹرائل شروع کریں';
+
+  @override
+  String get companyCreatedTitle => 'کمپنی بن گئی';
+
+  @override
+  String get adminAccountIntro =>
+      'چلو تمہارا اکاؤنٹ سیٹ کرتے ہیں۔ تم VenuRite پر اس کمپنی کے ایڈمن ہو گے، اور اندر آتے ہی اپنی ٹیم کو مدعو کر سکتے ہو۔';
+
+  @override
+  String get firstNameLabel => 'پہلا نام';
+
+  @override
+  String get lastNameLabel => 'آخری نام';
+
+  @override
+  String get passwordMinCharsHelper => 'کم از کم 8 حروف';
+
+  @override
+  String get companyDetailsIntro => 'ہمیں اپنی کمپنی کے بارے میں بتاؤ۔';
+
+  @override
+  String get tradingCompanyNameLabel => 'تجارتی / کمپنی کا نام';
+
+  @override
+  String get legalCompanyNameLabel => 'کمپنی کا قانونی نام (اختیاری)';
+
+  @override
+  String get legalCompanyNameHelper =>
+      'اوپر دیے گئے تجارتی نام کو استعمال کرنے کے لیے خالی چھوڑیں';
+
+  @override
+  String get countryLabel => 'ملک';
+
+  @override
+  String get registeredAddressLabel => 'رجسٹرڈ / کاروباری پتہ (اختیاری)';
+
+  @override
+  String get vatNumberLabel => 'ویٹ / ٹیکس نمبر (اگر لاگو ہو)';
+
+  @override
+  String get billingContactEmailLabel => 'بلنگ رابطہ ای میل (اختیاری)';
+
+  @override
+  String get structureIntro =>
+      'یہ ہے کہ VenuRite تمہاری کمپنی کو کیسے منظم کرتا ہے۔ ابھی تمہیں کچھ بھی سیٹ کرنے کی ضرورت نہیں - یہ بس اگلے مرحلے کو سمجھنے کے قابل بنانے کے لیے ہے۔';
+
+  @override
+  String get structureYourCompanyLabel => 'تمہاری کمپنی';
+
+  @override
+  String get structureYourCompanySublabel => 'ایک مجتمع اکاؤنٹ اور بل';
+
+  @override
+  String get structureRegionsLabel => 'علاقے (اختیاری)';
+
+  @override
+  String get structureRegionsSublabel =>
+      'وینیوز کو ملک یا علاقے کے مطابق گروپ کریں - ضرورت نہ ہو تو چھوڑ دیں';
+
+  @override
+  String get structureVenuesLabel => 'وینیوز';
+
+  @override
+  String get structureVenuesSublabel =>
+      'آج ایک وینیو، بعد میں سیکڑوں - کبھی بھی مزید شامل کریں';
+
+  @override
+  String get structureStaffLabel => 'عملہ';
+
+  @override
+  String get structureStaffSublabel => 'ہر وینیو کی ٹیم، وینیو بننے پر مدعو';
+
+  @override
+  String get structureOutro =>
+      'آگے ہم تمہارا پہلا وینیو سیٹ کریں گے - علاقے اور مزید وینیوز تم ایپ کے اندر سے بعد میں شامل کر سکتے ہو۔';
+
+  @override
+  String get wizardFirstVenueHeroTitle => 'چلو تمہارا پہلا وینیو شامل کرتے ہیں';
+
+  @override
+  String get addMoreVenuesLaterText =>
+      'تم بعد میں مزید وینیوز شامل کر سکتے ہو۔';
+
+  @override
+  String get venueNameLabel => 'وینیو کا نام';
+
+  @override
+  String get addressOptionalLabel => 'پتہ (اختیاری)';
+
+  @override
+  String get regionAreaOptionalLabel => 'علاقہ / خطہ (اختیاری)';
+
+  @override
+  String get regionAreaHelper =>
+      'جیسے \"لاہور\" - صرف اسی وقت ضروری جب تمہارے پاس ایک سے زیادہ وینیو ہوں (یا ہوں گے)';
+
+  @override
+  String get venueTypeOptionalLabel => 'وینیو کی قسم (اختیاری)';
+
+  @override
+  String get venueTypeHelper =>
+      'ایک منتخب کرنے پر تمہیں ایک تیار ابتدائی سیٹ دکھائی دے گا - ان کاموں اور آلات کے لیے جن کی تمہیں پہلے سے ضرورت معلوم ہے۔';
+
+  @override
+  String get payoffSkippedText =>
+      'تم نے وینیو کی قسم منتخب کرنا چھوڑ دیا، اس لیے ابھی دکھانے کے لیے کوئی ابتدائی سیٹ نہیں ہے - اندر آنے کے بعد تم خود کام اور آلات شامل کر سکتے ہو۔';
+
+  @override
+  String get payoffErrorText =>
+      'اس وینیو کی قسم کے لیے ابتدائی سیٹ لوڈ نہیں ہو سکا - اندر آنے کے بعد تم خود کام اور آلات شامل کر سکتے ہو۔';
+
+  @override
+  String get payoffHeroTitle =>
+      'یہ ہے تمہاری تعمیل کی تیاری، استعمال کے لیے تیار';
+
+  @override
+  String get equipmentSectionLabel => 'آلات';
+
+  @override
+  String get subscriptionBannerText =>
+      'ایک کمپنی اکاؤنٹ، ایک مجتمع بل - فی وینیو قیمت، کبھی فی شخص نہیں۔';
+
+  @override
+  String get subscriptionIntroText =>
+      'آج تمہارے پاس کتنے وینیو ہیں، ہیڈ آفس سمیت اگر ہے تو؟ ابھی تم صرف اپنا پہلا وینیو سیٹ کرو گے - باقی تم ایپ کے اندر سے کبھی بھی شامل کر سکتے ہو۔';
+
+  @override
+  String get perBranchPriceLabel => '39 پاؤنڈ/وینیو/مہینہ';
+
+  @override
+  String get headOfficeIncludedLabel => '+ 1 ہیڈ آفس وینیو (4+ وینیوز)';
+
+  @override
+  String get discountCodeHint =>
+      'کیا تمہارے پاس ڈسکاؤنٹ کوڈ ہے؟ تم اسے ڈائریکٹ ڈیبٹ سیٹ کرتے وقت درج کر سکتے ہو۔';
+
+  @override
+  String get trialBannerText =>
+      'تم 14 دن کا مفت ٹرائل شروع کر رہے ہو - آج کارڈ کی ضرورت نہیں۔';
+
+  @override
+  String get paymentStepIntro =>
+      'ہم تمہارے ٹرائل ختم ہونے سے پہلے ادائیگی سیٹ کرنے کے لیے کہیں گے، ایپ کے اندر سیٹنگز سے۔ ابھی کچھ بھی چارج نہیں ہوتا - بس ہمیں بتاؤ کہ تم کیسے ادائیگی کرنا پسند کرو گے۔';
+
+  @override
+  String get cardPaymentTitle => 'کارڈ ادائیگی (Stripe)';
+
+  @override
+  String get cardPaymentSubtitle => 'ڈیبٹ/کریڈٹ کارڈ، ماہانہ یا سالانہ بل';
+
+  @override
+  String get directDebitTitle => 'ڈائریکٹ ڈیبٹ (GoCardless)';
+
+  @override
+  String get directDebitSubtitle => 'بینک سے بینک ادائیگی، کارڈ کی ضرورت نہیں';
+
+  @override
+  String get decideLaterButton => 'میں بعد میں فیصلہ کروں گا/گی';
+
+  @override
+  String get decideLaterSnackbar =>
+      'کوئی مسئلہ نہیں - تم یہ سیٹنگز سے کسی بھی وقت سیٹ کر سکتے ہو۔';
+
+  @override
+  String get agreeToTermsPrefix => 'میں نے پڑھ لیا ہے اور اتفاق کرتا/کرتی ہوں ';
+
+  @override
+  String get successActivatedBanner =>
+      'تمہاری کمپنی اور پہلا وینیو سیٹ ہو گئے ہیں، اور تم لاگ ان ہو۔';
+
+  @override
+  String get successNotActivatedBanner =>
+      'تمہاری کمپنی اور پہلا وینیو سیٹ ہو گئے ہیں۔ اپنے ای میل اور ابھی منتخب کردہ پاس ورڈ سے لاگ ان کرو۔';
+
+  @override
+  String get directDebitSettingUp => 'ڈائریکٹ ڈیبٹ سیٹ ہو رہا ہے...';
+
+  @override
+  String get directDebitOpenedBrowser =>
+      'ہم نے ڈائریکٹ ڈیبٹ سیٹ اپ مکمل کرنے کے لیے تمہارا براؤزر کھول دیا ہے۔';
+
+  @override
+  String get inviteYourTeamTitle => 'اپنی ٹیم کو مدعو کرو';
+
+  @override
+  String get inviteYourTeamSubtitle =>
+      'اختیاری - ابھی شفٹ پر موجود کسی کو بھی شامل کرو، یا چھوڑ کر بعد میں اسٹاف مینجمنٹ سے یہ کرو۔';
+
+  @override
+  String get jobTitleLabel => 'عہدہ';
+
+  @override
+  String get tierFieldLabel => 'سطح';
+
+  @override
+  String get addTeamMemberButton => 'ٹیم رکن شامل کریں';
+
+  @override
+  String get goToDashboardButton => 'ڈیش بورڈ پر جائیں';
+
+  @override
+  String get goToSignInButton => 'لاگ ان پر جائیں';
+
+  @override
+  String wizardStepOfLabel(String title, int step, int total) {
+    return '$title - مرحلہ $step / $total';
+  }
+
+  @override
+  String billingContactEmailHelper(String email) {
+    return '$email استعمال کرنے کے لیے خالی چھوڑیں';
+  }
+
+  @override
+  String payoffNoStarterSet(String venueType) {
+    return 'ہمارے پاس ابھی $venueType کے لیے پہلے سے بنا ابتدائی سیٹ نہیں ہے - اندر آنے کے بعد تم خود کام اور آلات شامل کر سکتے ہو۔';
+  }
+
+  @override
+  String payoffSummaryWithEquipment(
+    int totalTasks,
+    int sectionCount,
+    int equipmentCount,
+    String venueType,
+  ) {
+    return '$venueType کے لیے $sectionCount حصوں میں $totalTasks کام اور $equipmentCount آلات کی اقسام پہلے سے سیٹ کی گئی ہیں۔';
+  }
+
+  @override
+  String payoffSummaryNoEquipment(
+    int totalTasks,
+    int sectionCount,
+    String venueType,
+  ) {
+    return '$venueType کے لیے $sectionCount حصوں میں $totalTasks کام پہلے سے سیٹ کیے گئے ہیں۔';
+  }
+
+  @override
+  String totalPerMonthLabel(String total, int units) {
+    return '£$total/مہینہ کل ($units وینیوز بل کیے گئے)';
+  }
+
+  @override
+  String staffPinLabel(String pin) {
+    return 'پن: $pin';
+  }
 }

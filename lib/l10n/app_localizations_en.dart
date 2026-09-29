@@ -1836,4 +1836,299 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noNotificationRulesYet => 'No notification rules set up yet.';
+
+  @override
+  String get stepYourAccount => 'Your account';
+
+  @override
+  String get stepCompanyDetails => 'Company details';
+
+  @override
+  String get stepOrgStructure => 'Organisation structure';
+
+  @override
+  String get stepFirstVenue => 'First venue';
+
+  @override
+  String get stepStarterSetup => 'Your starter setup';
+
+  @override
+  String get stepSubscription => 'Subscription';
+
+  @override
+  String get stepPayment => 'Payment';
+
+  @override
+  String get termsOfServiceTitle => 'Terms of Service';
+
+  @override
+  String get companySignupGenericError =>
+      'Something went wrong creating your company. Please try again - if it keeps happening, contact VenuRite.';
+
+  @override
+  String get directDebitStartError =>
+      'We couldn\'t start Direct Debit setup automatically - you can do this any time from Settings once you\'re signed in.';
+
+  @override
+  String get continueButton => 'Continue';
+
+  @override
+  String get creatingEllipsis => 'Creating...';
+
+  @override
+  String get startFreeTrialButton => 'Start free trial';
+
+  @override
+  String get companyCreatedTitle => 'Company created';
+
+  @override
+  String get adminAccountIntro =>
+      'Let\'s set up your account. You\'ll be the administrator for this company on VenuRite, and can invite your team once you\'re in.';
+
+  @override
+  String get firstNameLabel => 'First name';
+
+  @override
+  String get lastNameLabel => 'Last name';
+
+  @override
+  String get passwordMinCharsHelper => 'At least 8 characters';
+
+  @override
+  String get companyDetailsIntro => 'Tell us about your company.';
+
+  @override
+  String get tradingCompanyNameLabel => 'Trading / company name';
+
+  @override
+  String get legalCompanyNameLabel => 'Legal company name (optional)';
+
+  @override
+  String get legalCompanyNameHelper =>
+      'Leave blank to use the trading name above';
+
+  @override
+  String get countryLabel => 'Country';
+
+  @override
+  String get registeredAddressLabel =>
+      'Registered / business address (optional)';
+
+  @override
+  String get vatNumberLabel => 'VAT / tax number (if applicable)';
+
+  @override
+  String get billingContactEmailLabel => 'Billing contact email (optional)';
+
+  @override
+  String get structureIntro =>
+      'Here\'s how VenuRite organises your company. You don\'t need to set anything up now - this is just so the next step makes sense.';
+
+  @override
+  String get structureYourCompanyLabel => 'Your company';
+
+  @override
+  String get structureYourCompanySublabel =>
+      'One consolidated account and bill';
+
+  @override
+  String get structureRegionsLabel => 'Regions (optional)';
+
+  @override
+  String get structureRegionsSublabel =>
+      'Group venues by country or area - skip if you don\'t need it';
+
+  @override
+  String get structureVenuesLabel => 'Venues';
+
+  @override
+  String get structureVenuesSublabel =>
+      'One venue today, hundreds later - add more any time';
+
+  @override
+  String get structureStaffLabel => 'Staff';
+
+  @override
+  String get structureStaffSublabel =>
+      'Each venue\'s team, invited once it exists';
+
+  @override
+  String get structureOutro =>
+      'We\'ll set up your first venue next - you can add regions and more venues later from inside the app.';
+
+  @override
+  String get wizardFirstVenueHeroTitle => 'Let\'s add your first venue';
+
+  @override
+  String get addMoreVenuesLaterText => 'You can add more venues later.';
+
+  @override
+  String get venueNameLabel => 'Venue name';
+
+  @override
+  String get addressOptionalLabel => 'Address (optional)';
+
+  @override
+  String get regionAreaOptionalLabel => 'Region / area (optional)';
+
+  @override
+  String get regionAreaHelper =>
+      'e.g. \"London\" - only needed if you have (or will have) more than one venue';
+
+  @override
+  String get venueTypeOptionalLabel => 'Venue type (optional)';
+
+  @override
+  String get venueTypeHelper =>
+      'Picking one shows you a ready-made starter set next - for tasks and equipment you already know you need.';
+
+  @override
+  String get payoffSkippedText =>
+      'You skipped choosing a venue type, so there\'s no starter set to show yet - you can add tasks and equipment yourself once you\'re in.';
+
+  @override
+  String get payoffErrorText =>
+      'Couldn\'t load the starter set for this venue type - you can add tasks and equipment yourself once you\'re in.';
+
+  @override
+  String get payoffHeroTitle => 'Here\'s your compliance, ready to go';
+
+  @override
+  String get equipmentSectionLabel => 'Equipment';
+
+  @override
+  String get subscriptionBannerText =>
+      'One company account, one consolidated bill - priced per branch, never per person.';
+
+  @override
+  String get subscriptionIntroText =>
+      'How many branches do you have today, including head office if you have one? You\'ll only set up your first venue now - add the rest any time from inside the app.';
+
+  @override
+  String get perBranchPriceLabel => '£39/branch/month';
+
+  @override
+  String get headOfficeIncludedLabel => '+ 1 head office branch (4+ branches)';
+
+  @override
+  String get discountCodeHint =>
+      'Have a discount code? You can enter it when you set up Direct Debit.';
+
+  @override
+  String get trialBannerText =>
+      'You\'re starting a 14-day free trial - no card needed today.';
+
+  @override
+  String get paymentStepIntro =>
+      'We\'ll ask you to set up payment before your trial ends, from Settings inside the app. Nothing is charged now - just tell us how you\'d prefer to pay.';
+
+  @override
+  String get cardPaymentTitle => 'Card payment (Stripe)';
+
+  @override
+  String get cardPaymentSubtitle =>
+      'Debit/credit card, billed monthly or annually';
+
+  @override
+  String get directDebitTitle => 'Direct Debit (GoCardless)';
+
+  @override
+  String get directDebitSubtitle => 'Bank-to-bank payment, no card required';
+
+  @override
+  String get decideLaterButton => 'I\'ll decide later';
+
+  @override
+  String get decideLaterSnackbar =>
+      'No problem - you can set this up anytime from Settings.';
+
+  @override
+  String get agreeToTermsPrefix => 'I have read and agree to the ';
+
+  @override
+  String get successActivatedBanner =>
+      'Your company and first venue are set up, and you\'re signed in.';
+
+  @override
+  String get successNotActivatedBanner =>
+      'Your company and first venue are set up. Sign in with your email and the password you just chose.';
+
+  @override
+  String get directDebitSettingUp => 'Setting up Direct Debit...';
+
+  @override
+  String get directDebitOpenedBrowser =>
+      'We\'ve opened your browser to finish setting up Direct Debit.';
+
+  @override
+  String get inviteYourTeamTitle => 'Invite your team';
+
+  @override
+  String get inviteYourTeamSubtitle =>
+      'Optional - add whoever\'s on shift now, or skip and do this later from Staff Management.';
+
+  @override
+  String get jobTitleLabel => 'Job title';
+
+  @override
+  String get tierFieldLabel => 'Tier';
+
+  @override
+  String get addTeamMemberButton => 'Add team member';
+
+  @override
+  String get goToDashboardButton => 'Go to dashboard';
+
+  @override
+  String get goToSignInButton => 'Go to sign in';
+
+  @override
+  String wizardStepOfLabel(String title, int step, int total) {
+    return '$title - Step $step of $total';
+  }
+
+  @override
+  String billingContactEmailHelper(String email) {
+    return 'Leave blank to use $email';
+  }
+
+  @override
+  String payoffNoStarterSet(String venueType) {
+    return 'We don\'t have a pre-built starter set for $venueType yet - you can add tasks and equipment yourself once you\'re in.';
+  }
+
+  @override
+  String payoffSummaryWithEquipment(
+    int totalTasks,
+    int sectionCount,
+    int equipmentCount,
+    String venueType,
+  ) {
+    return '$totalTasks tasks across $sectionCount sections and $equipmentCount equipment types already set up for a $venueType.';
+  }
+
+  @override
+  String payoffSummaryNoEquipment(
+    int totalTasks,
+    int sectionCount,
+    String venueType,
+  ) {
+    return '$totalTasks tasks across $sectionCount sections already set up for a $venueType.';
+  }
+
+  @override
+  String totalPerMonthLabel(String total, int units) {
+    String _temp0 = intl.Intl.pluralLogic(
+      units,
+      locale: localeName,
+      other: '$units branches',
+      one: '$units branch',
+    );
+    return '£$total/month total ($_temp0 billed)';
+  }
+
+  @override
+  String staffPinLabel(String pin) {
+    return 'PIN: $pin';
+  }
 }

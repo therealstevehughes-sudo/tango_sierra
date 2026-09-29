@@ -1858,4 +1858,298 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get noNotificationRulesYet =>
       'Aún no hay reglas de notificación configuradas.';
+
+  @override
+  String get stepYourAccount => 'Tu cuenta';
+
+  @override
+  String get stepCompanyDetails => 'Datos de la empresa';
+
+  @override
+  String get stepOrgStructure => 'Estructura organizativa';
+
+  @override
+  String get stepFirstVenue => 'Primer local';
+
+  @override
+  String get stepStarterSetup => 'Tu configuración inicial';
+
+  @override
+  String get stepSubscription => 'Suscripción';
+
+  @override
+  String get stepPayment => 'Pago';
+
+  @override
+  String get termsOfServiceTitle => 'Términos de servicio';
+
+  @override
+  String get companySignupGenericError =>
+      'Algo salió mal al crear tu empresa. Inténtalo de nuevo - si sigue ocurriendo, contacta con VenuRite.';
+
+  @override
+  String get directDebitStartError =>
+      'No pudimos iniciar la configuración de Domiciliación Bancaria automáticamente - puedes hacerlo en cualquier momento desde Ajustes una vez que hayas iniciado sesión.';
+
+  @override
+  String get continueButton => 'Continuar';
+
+  @override
+  String get creatingEllipsis => 'Creando...';
+
+  @override
+  String get startFreeTrialButton => 'Iniciar prueba gratuita';
+
+  @override
+  String get companyCreatedTitle => 'Empresa creada';
+
+  @override
+  String get adminAccountIntro =>
+      'Configuremos tu cuenta. Serás el administrador de esta empresa en VenuRite y podrás invitar a tu equipo en cuanto entres.';
+
+  @override
+  String get firstNameLabel => 'Nombre';
+
+  @override
+  String get lastNameLabel => 'Apellidos';
+
+  @override
+  String get passwordMinCharsHelper => 'Al menos 8 caracteres';
+
+  @override
+  String get companyDetailsIntro => 'Cuéntanos sobre tu empresa.';
+
+  @override
+  String get tradingCompanyNameLabel => 'Nombre comercial / de la empresa';
+
+  @override
+  String get legalCompanyNameLabel => 'Nombre legal de la empresa (opcional)';
+
+  @override
+  String get legalCompanyNameHelper =>
+      'Déjalo en blanco para usar el nombre comercial de arriba';
+
+  @override
+  String get countryLabel => 'País';
+
+  @override
+  String get registeredAddressLabel =>
+      'Dirección registrada / comercial (opcional)';
+
+  @override
+  String get vatNumberLabel => 'Número de IVA / fiscal (si aplica)';
+
+  @override
+  String get billingContactEmailLabel =>
+      'Correo de contacto de facturación (opcional)';
+
+  @override
+  String get structureIntro =>
+      'Así es como VenuRite organiza tu empresa. No necesitas configurar nada ahora - esto es solo para que el siguiente paso tenga sentido.';
+
+  @override
+  String get structureYourCompanyLabel => 'Tu empresa';
+
+  @override
+  String get structureYourCompanySublabel =>
+      'Una cuenta y una factura consolidadas';
+
+  @override
+  String get structureRegionsLabel => 'Regiones (opcional)';
+
+  @override
+  String get structureRegionsSublabel =>
+      'Agrupa locales por país o zona - omítelo si no lo necesitas';
+
+  @override
+  String get structureVenuesLabel => 'Locales';
+
+  @override
+  String get structureVenuesSublabel =>
+      'Un local hoy, cientos más adelante - añade más en cualquier momento';
+
+  @override
+  String get structureStaffLabel => 'Personal';
+
+  @override
+  String get structureStaffSublabel =>
+      'El equipo de cada local, invitado una vez que existe';
+
+  @override
+  String get structureOutro =>
+      'A continuación configuraremos tu primer local - puedes añadir regiones y más locales más adelante desde dentro de la app.';
+
+  @override
+  String get wizardFirstVenueHeroTitle => 'Añadamos tu primer local';
+
+  @override
+  String get addMoreVenuesLaterText =>
+      'Puedes añadir más locales más adelante.';
+
+  @override
+  String get venueNameLabel => 'Nombre del local';
+
+  @override
+  String get addressOptionalLabel => 'Dirección (opcional)';
+
+  @override
+  String get regionAreaOptionalLabel => 'Región / zona (opcional)';
+
+  @override
+  String get regionAreaHelper =>
+      'p. ej. \"Madrid\" - solo necesario si tienes (o vas a tener) más de un local';
+
+  @override
+  String get venueTypeOptionalLabel => 'Tipo de local (opcional)';
+
+  @override
+  String get venueTypeHelper =>
+      'Elegir uno te muestra un conjunto inicial ya preparado - para tareas y equipamiento que ya sabes que necesitas.';
+
+  @override
+  String get payoffSkippedText =>
+      'Te saltaste la elección de un tipo de local, así que todavía no hay un conjunto inicial que mostrar - puedes añadir tareas y equipamiento tú mismo una vez que entres.';
+
+  @override
+  String get payoffErrorText =>
+      'No se pudo cargar el conjunto inicial para este tipo de local - puedes añadir tareas y equipamiento tú mismo una vez que entres.';
+
+  @override
+  String get payoffHeroTitle =>
+      'Aquí tienes tu cumplimiento normativo, listo para usar';
+
+  @override
+  String get equipmentSectionLabel => 'Equipamiento';
+
+  @override
+  String get subscriptionBannerText =>
+      'Una cuenta de empresa, una factura consolidada - con precio por local, nunca por persona.';
+
+  @override
+  String get subscriptionIntroText =>
+      '¿Cuántos locales tienes hoy, incluida la oficina central si tienes una? Ahora solo configurarás tu primer local - el resto los añades cuando quieras desde la app.';
+
+  @override
+  String get perBranchPriceLabel => '39£/local/mes';
+
+  @override
+  String get headOfficeIncludedLabel =>
+      '+ 1 local de oficina central (4+ locales)';
+
+  @override
+  String get discountCodeHint =>
+      '¿Tienes un código de descuento? Puedes introducirlo al configurar la Domiciliación Bancaria.';
+
+  @override
+  String get trialBannerText =>
+      'Estás empezando una prueba gratuita de 14 días - no se necesita tarjeta hoy.';
+
+  @override
+  String get paymentStepIntro =>
+      'Te pediremos que configures el pago antes de que termine tu prueba, desde Ajustes dentro de la app. No se cobra nada ahora - solo dinos cómo prefieres pagar.';
+
+  @override
+  String get cardPaymentTitle => 'Pago con tarjeta (Stripe)';
+
+  @override
+  String get cardPaymentSubtitle =>
+      'Tarjeta de débito/crédito, facturado mensual o anualmente';
+
+  @override
+  String get directDebitTitle => 'Domiciliación Bancaria (GoCardless)';
+
+  @override
+  String get directDebitSubtitle =>
+      'Pago de banco a banco, sin necesidad de tarjeta';
+
+  @override
+  String get decideLaterButton => 'Decidiré más tarde';
+
+  @override
+  String get decideLaterSnackbar =>
+      'No hay problema - puedes configurar esto cuando quieras desde Ajustes.';
+
+  @override
+  String get agreeToTermsPrefix => 'He leído y acepto los ';
+
+  @override
+  String get successActivatedBanner =>
+      'Tu empresa y tu primer local están configurados, y has iniciado sesión.';
+
+  @override
+  String get successNotActivatedBanner =>
+      'Tu empresa y tu primer local están configurados. Inicia sesión con tu correo y la contraseña que acabas de elegir.';
+
+  @override
+  String get directDebitSettingUp => 'Configurando Domiciliación Bancaria...';
+
+  @override
+  String get directDebitOpenedBrowser =>
+      'Hemos abierto tu navegador para terminar de configurar la Domiciliación Bancaria.';
+
+  @override
+  String get inviteYourTeamTitle => 'Invita a tu equipo';
+
+  @override
+  String get inviteYourTeamSubtitle =>
+      'Opcional - añade a quien esté en turno ahora, o sáltatelo y hazlo más tarde desde Gestión de Personal.';
+
+  @override
+  String get jobTitleLabel => 'Puesto';
+
+  @override
+  String get tierFieldLabel => 'Nivel';
+
+  @override
+  String get addTeamMemberButton => 'Añadir miembro del equipo';
+
+  @override
+  String get goToDashboardButton => 'Ir al panel';
+
+  @override
+  String get goToSignInButton => 'Ir a iniciar sesión';
+
+  @override
+  String wizardStepOfLabel(String title, int step, int total) {
+    return '$title - Paso $step de $total';
+  }
+
+  @override
+  String billingContactEmailHelper(String email) {
+    return 'Déjalo en blanco para usar $email';
+  }
+
+  @override
+  String payoffNoStarterSet(String venueType) {
+    return 'Todavía no tenemos un conjunto inicial predefinido para $venueType - puedes añadir tareas y equipamiento tú mismo una vez que entres.';
+  }
+
+  @override
+  String payoffSummaryWithEquipment(
+    int totalTasks,
+    int sectionCount,
+    int equipmentCount,
+    String venueType,
+  ) {
+    return '$totalTasks tareas en $sectionCount secciones y $equipmentCount tipos de equipamiento ya configurados para un $venueType.';
+  }
+
+  @override
+  String payoffSummaryNoEquipment(
+    int totalTasks,
+    int sectionCount,
+    String venueType,
+  ) {
+    return '$totalTasks tareas en $sectionCount secciones ya configuradas para un $venueType.';
+  }
+
+  @override
+  String totalPerMonthLabel(String total, int units) {
+    return '£$total/mes en total ($units locales facturados)';
+  }
+
+  @override
+  String staffPinLabel(String pin) {
+    return 'PIN: $pin';
+  }
 }

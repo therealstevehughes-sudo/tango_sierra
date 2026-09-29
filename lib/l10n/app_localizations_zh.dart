@@ -1783,4 +1783,273 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get noNotificationRulesYet => '尚未设置任何通知规则。';
+
+  @override
+  String get stepYourAccount => '你的账户';
+
+  @override
+  String get stepCompanyDetails => '公司详情';
+
+  @override
+  String get stepOrgStructure => '组织架构';
+
+  @override
+  String get stepFirstVenue => '首个场所';
+
+  @override
+  String get stepStarterSetup => '你的初始设置';
+
+  @override
+  String get stepSubscription => '订阅';
+
+  @override
+  String get stepPayment => '付款';
+
+  @override
+  String get termsOfServiceTitle => '服务条款';
+
+  @override
+  String get companySignupGenericError =>
+      '创建你的公司时出了点问题。请重试 - 如果问题持续发生,请联系 VenuRite。';
+
+  @override
+  String get directDebitStartError => '我们无法自动启动直接借记设置 - 登录后你可以随时在设置中完成此操作。';
+
+  @override
+  String get continueButton => '继续';
+
+  @override
+  String get creatingEllipsis => '创建中...';
+
+  @override
+  String get startFreeTrialButton => '开始免费试用';
+
+  @override
+  String get companyCreatedTitle => '公司已创建';
+
+  @override
+  String get adminAccountIntro =>
+      '让我们设置你的账户。你将成为该公司在 VenuRite 上的管理员,进入后即可邀请你的团队。';
+
+  @override
+  String get firstNameLabel => '名字';
+
+  @override
+  String get lastNameLabel => '姓氏';
+
+  @override
+  String get passwordMinCharsHelper => '至少 8 个字符';
+
+  @override
+  String get companyDetailsIntro => '告诉我们关于你公司的信息。';
+
+  @override
+  String get tradingCompanyNameLabel => '商业/公司名称';
+
+  @override
+  String get legalCompanyNameLabel => '公司法定名称(可选)';
+
+  @override
+  String get legalCompanyNameHelper => '留空则使用上面的商业名称';
+
+  @override
+  String get countryLabel => '国家';
+
+  @override
+  String get registeredAddressLabel => '注册/营业地址(可选)';
+
+  @override
+  String get vatNumberLabel => '增值税/税号(如适用)';
+
+  @override
+  String get billingContactEmailLabel => '账单联系邮箱(可选)';
+
+  @override
+  String get structureIntro =>
+      '这是 VenuRite 组织你公司的方式。你现在不需要设置任何东西 - 这只是为了让下一步更容易理解。';
+
+  @override
+  String get structureYourCompanyLabel => '你的公司';
+
+  @override
+  String get structureYourCompanySublabel => '一个整合账户和账单';
+
+  @override
+  String get structureRegionsLabel => '地区(可选)';
+
+  @override
+  String get structureRegionsSublabel => '按国家或区域对场所分组 - 如果不需要可跳过';
+
+  @override
+  String get structureVenuesLabel => '场所';
+
+  @override
+  String get structureVenuesSublabel => '今天一个场所,以后数百个 - 随时可以添加更多';
+
+  @override
+  String get structureStaffLabel => '员工';
+
+  @override
+  String get structureStaffSublabel => '每个场所的团队,场所建立后即可邀请';
+
+  @override
+  String get structureOutro => '接下来我们将设置你的首个场所 - 你可以在应用内稍后添加地区和更多场所。';
+
+  @override
+  String get wizardFirstVenueHeroTitle => '让我们添加你的首个场所';
+
+  @override
+  String get addMoreVenuesLaterText => '你可以稍后添加更多场所。';
+
+  @override
+  String get venueNameLabel => '场所名称';
+
+  @override
+  String get addressOptionalLabel => '地址(可选)';
+
+  @override
+  String get regionAreaOptionalLabel => '地区/区域(可选)';
+
+  @override
+  String get regionAreaHelper => '例如\"北京\" - 仅当你有(或将有)多个场所时才需要';
+
+  @override
+  String get venueTypeOptionalLabel => '场所类型(可选)';
+
+  @override
+  String get venueTypeHelper => '选择一个类型会为你展示一套现成的初始设置 - 涵盖你已知需要的任务和设备。';
+
+  @override
+  String get payoffSkippedText =>
+      '你跳过了场所类型的选择,因此暂时没有初始设置可以展示 - 进入后你可以自行添加任务和设备。';
+
+  @override
+  String get payoffErrorText => '无法加载此场所类型的初始设置 - 进入后你可以自行添加任务和设备。';
+
+  @override
+  String get payoffHeroTitle => '这是你的合规套装,随时可用';
+
+  @override
+  String get equipmentSectionLabel => '设备';
+
+  @override
+  String get subscriptionBannerText => '一个公司账户,一份整合账单 - 按场所计费,绝不按人头计费。';
+
+  @override
+  String get subscriptionIntroText =>
+      '你今天有多少个场所,包括总部(如果有的话)?你现在只会设置首个场所 - 其余的可以随时在应用内添加。';
+
+  @override
+  String get perBranchPriceLabel => '39英镑/场所/月';
+
+  @override
+  String get headOfficeIncludedLabel => '+ 1 个总部场所(4个以上场所时)';
+
+  @override
+  String get discountCodeHint => '有折扣码吗?你可以在设置直接借记时输入。';
+
+  @override
+  String get trialBannerText => '你正在开始 14 天免费试用 - 今天无需信用卡。';
+
+  @override
+  String get paymentStepIntro =>
+      '我们会在试用期结束前,请你在应用内的设置中完成付款设置。现在不会产生任何费用 - 只需告诉我们你偏好的付款方式。';
+
+  @override
+  String get cardPaymentTitle => '银行卡支付(Stripe)';
+
+  @override
+  String get cardPaymentSubtitle => '借记卡/信用卡,按月或按年计费';
+
+  @override
+  String get directDebitTitle => '直接借记(GoCardless)';
+
+  @override
+  String get directDebitSubtitle => '银行对银行付款,无需银行卡';
+
+  @override
+  String get decideLaterButton => '稍后再决定';
+
+  @override
+  String get decideLaterSnackbar => '没问题 - 你可以随时在设置中完成此操作。';
+
+  @override
+  String get agreeToTermsPrefix => '我已阅读并同意';
+
+  @override
+  String get successActivatedBanner => '你的公司和首个场所已设置完成,你已登录。';
+
+  @override
+  String get successNotActivatedBanner => '你的公司和首个场所已设置完成。请使用你的邮箱和刚刚选择的密码登录。';
+
+  @override
+  String get directDebitSettingUp => '正在设置直接借记...';
+
+  @override
+  String get directDebitOpenedBrowser => '我们已打开你的浏览器以完成直接借记设置。';
+
+  @override
+  String get inviteYourTeamTitle => '邀请你的团队';
+
+  @override
+  String get inviteYourTeamSubtitle => '可选 - 添加当前正在当班的人员,或跳过并稍后在员工管理中完成。';
+
+  @override
+  String get jobTitleLabel => '职位';
+
+  @override
+  String get tierFieldLabel => '级别';
+
+  @override
+  String get addTeamMemberButton => '添加团队成员';
+
+  @override
+  String get goToDashboardButton => '前往仪表板';
+
+  @override
+  String get goToSignInButton => '前往登录';
+
+  @override
+  String wizardStepOfLabel(String title, int step, int total) {
+    return '$title - 第 $step 步,共 $total 步';
+  }
+
+  @override
+  String billingContactEmailHelper(String email) {
+    return '留空则使用 $email';
+  }
+
+  @override
+  String payoffNoStarterSet(String venueType) {
+    return '我们目前还没有针对 $venueType 的预设初始设置 - 进入后你可以自行添加任务和设备。';
+  }
+
+  @override
+  String payoffSummaryWithEquipment(
+    int totalTasks,
+    int sectionCount,
+    int equipmentCount,
+    String venueType,
+  ) {
+    return '已为 $venueType 设置了 $sectionCount 个板块共 $totalTasks 项任务和 $equipmentCount 种设备类型。';
+  }
+
+  @override
+  String payoffSummaryNoEquipment(
+    int totalTasks,
+    int sectionCount,
+    String venueType,
+  ) {
+    return '已为 $venueType 设置了 $sectionCount 个板块共 $totalTasks 项任务。';
+  }
+
+  @override
+  String totalPerMonthLabel(String total, int units) {
+    return '£$total/月 总计(计费 $units 个场所)';
+  }
+
+  @override
+  String staffPinLabel(String pin) {
+    return 'PIN 码:$pin';
+  }
 }

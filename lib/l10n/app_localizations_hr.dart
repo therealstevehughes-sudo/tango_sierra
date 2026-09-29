@@ -1859,4 +1859,296 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get noNotificationRulesYet =>
       'Još nema postavljenih pravila obavijesti.';
+
+  @override
+  String get stepYourAccount => 'Tvoj račun';
+
+  @override
+  String get stepCompanyDetails => 'Podaci o tvrtki';
+
+  @override
+  String get stepOrgStructure => 'Struktura organizacije';
+
+  @override
+  String get stepFirstVenue => 'Prva poslovnica';
+
+  @override
+  String get stepStarterSetup => 'Tvoj početni paket';
+
+  @override
+  String get stepSubscription => 'Pretplata';
+
+  @override
+  String get stepPayment => 'Plaćanje';
+
+  @override
+  String get termsOfServiceTitle => 'Uvjeti korištenja';
+
+  @override
+  String get companySignupGenericError =>
+      'Nešto je pošlo po zlu pri stvaranju tvrtke. Pokušaj ponovno - ako se to i dalje događa, kontaktiraj VenuRite.';
+
+  @override
+  String get directDebitStartError =>
+      'Nismo mogli automatski pokrenuti postavljanje izravnog terećenja - to možeš učiniti u bilo kojem trenutku u Postavkama nakon prijave.';
+
+  @override
+  String get continueButton => 'Nastavi';
+
+  @override
+  String get creatingEllipsis => 'Stvaranje...';
+
+  @override
+  String get startFreeTrialButton => 'Pokreni besplatno probno razdoblje';
+
+  @override
+  String get companyCreatedTitle => 'Tvrtka stvorena';
+
+  @override
+  String get adminAccountIntro =>
+      'Postavimo tvoj račun. Bit ćeš administrator ove tvrtke na VenuRiteu i moći ćeš pozvati svoj tim čim uđeš.';
+
+  @override
+  String get firstNameLabel => 'Ime';
+
+  @override
+  String get lastNameLabel => 'Prezime';
+
+  @override
+  String get passwordMinCharsHelper => 'Najmanje 8 znakova';
+
+  @override
+  String get companyDetailsIntro => 'Reci nam nešto o svojoj tvrtki.';
+
+  @override
+  String get tradingCompanyNameLabel => 'Trgovački / naziv tvrtke';
+
+  @override
+  String get legalCompanyNameLabel => 'Puni naziv tvrtke (neobavezno)';
+
+  @override
+  String get legalCompanyNameHelper =>
+      'Ostavi prazno za korištenje trgovačkog naziva iznad';
+
+  @override
+  String get countryLabel => 'Država';
+
+  @override
+  String get registeredAddressLabel =>
+      'Registrirana / poslovna adresa (neobavezno)';
+
+  @override
+  String get vatNumberLabel => 'PDV / porezni broj (ako je primjenjivo)';
+
+  @override
+  String get billingContactEmailLabel => 'E-mail za naplatu (neobavezno)';
+
+  @override
+  String get structureIntro =>
+      'Evo kako VenuRite organizira tvoju tvrtku. Ne moraš sada ništa postavljati - ovo je samo da bi sljedeći korak imao smisla.';
+
+  @override
+  String get structureYourCompanyLabel => 'Tvoja tvrtka';
+
+  @override
+  String get structureYourCompanySublabel =>
+      'Jedan objedinjeni račun i jedan račun za plaćanje';
+
+  @override
+  String get structureRegionsLabel => 'Regije (neobavezno)';
+
+  @override
+  String get structureRegionsSublabel =>
+      'Grupiraj poslovnice po državi ili području - preskoči ako ti ne treba';
+
+  @override
+  String get structureVenuesLabel => 'Poslovnice';
+
+  @override
+  String get structureVenuesSublabel =>
+      'Jedna poslovnica danas, stotine kasnije - dodaj još kad god želiš';
+
+  @override
+  String get structureStaffLabel => 'Osoblje';
+
+  @override
+  String get structureStaffSublabel =>
+      'Tim svake poslovnice, pozvan čim poslovnica postoji';
+
+  @override
+  String get structureOutro =>
+      'Sljedeće ćemo postaviti tvoju prvu poslovnicu - regije i dodatne poslovnice možeš dodati kasnije unutar aplikacije.';
+
+  @override
+  String get wizardFirstVenueHeroTitle => 'Dodajmo tvoju prvu poslovnicu';
+
+  @override
+  String get addMoreVenuesLaterText =>
+      'Dodatne poslovnice možeš dodati kasnije.';
+
+  @override
+  String get venueNameLabel => 'Naziv poslovnice';
+
+  @override
+  String get addressOptionalLabel => 'Adresa (neobavezno)';
+
+  @override
+  String get regionAreaOptionalLabel => 'Regija / područje (neobavezno)';
+
+  @override
+  String get regionAreaHelper =>
+      'npr. \"Zagreb\" - potrebno samo ako imaš (ili ćeš imati) više od jedne poslovnice';
+
+  @override
+  String get venueTypeOptionalLabel => 'Vrsta poslovnice (neobavezno)';
+
+  @override
+  String get venueTypeHelper =>
+      'Odabir prikazuje gotov početni paket - za zadatke i opremu za koje već znaš da su ti potrebni.';
+
+  @override
+  String get payoffSkippedText =>
+      'Preskočio/la si odabir vrste poslovnice, pa još nema početnog paketa za prikaz - zadatke i opremu možeš dodati sam/sama nakon što uđeš.';
+
+  @override
+  String get payoffErrorText =>
+      'Nije uspjelo učitavanje početnog paketa za ovu vrstu poslovnice - zadatke i opremu možeš dodati sam/sama nakon što uđeš.';
+
+  @override
+  String get payoffHeroTitle => 'Evo tvoje usklađenosti, spremne za korištenje';
+
+  @override
+  String get equipmentSectionLabel => 'Oprema';
+
+  @override
+  String get subscriptionBannerText =>
+      'Jedan račun tvrtke, jedan objedinjeni račun za plaćanje - cijena po poslovnici, nikad po osobi.';
+
+  @override
+  String get subscriptionIntroText =>
+      'Koliko poslovnica danas imaš, uključujući sjedište ako ga imaš? Sada ćeš postaviti samo svoju prvu poslovnicu - ostatak dodaješ kad god želiš unutar aplikacije.';
+
+  @override
+  String get perBranchPriceLabel => '39 GBP/poslovnici/mjesečno';
+
+  @override
+  String get headOfficeIncludedLabel =>
+      '+ 1 poslovnica sjedišta (4+ poslovnice)';
+
+  @override
+  String get discountCodeHint =>
+      'Imaš kod za popust? Možeš ga unijeti prilikom postavljanja izravnog terećenja.';
+
+  @override
+  String get trialBannerText =>
+      'Započinješ 14-dnevno besplatno probno razdoblje - danas kartica nije potrebna.';
+
+  @override
+  String get paymentStepIntro =>
+      'Zatražit ćemo od tebe da postaviš plaćanje prije isteka probnog razdoblja, u Postavkama unutar aplikacije. Sada se ništa ne naplaćuje - samo nam reci kako želiš plaćati.';
+
+  @override
+  String get cardPaymentTitle => 'Plaćanje karticom (Stripe)';
+
+  @override
+  String get cardPaymentSubtitle =>
+      'Debitna/kreditna kartica, naplata mjesečno ili godišnje';
+
+  @override
+  String get directDebitTitle => 'Izravno terećenje (GoCardless)';
+
+  @override
+  String get directDebitSubtitle =>
+      'Plaćanje banka-banci, kartica nije potrebna';
+
+  @override
+  String get decideLaterButton => 'Odlučit ću kasnije';
+
+  @override
+  String get decideLaterSnackbar =>
+      'Nema problema - ovo možeš postaviti bilo kada u Postavkama.';
+
+  @override
+  String get agreeToTermsPrefix => 'Pročitao/la sam i slažem se s ';
+
+  @override
+  String get successActivatedBanner =>
+      'Tvoja tvrtka i prva poslovnica su postavljene, a ti si prijavljen/a.';
+
+  @override
+  String get successNotActivatedBanner =>
+      'Tvoja tvrtka i prva poslovnica su postavljene. Prijavi se svojom e-poštom i lozinkom koju si upravo odabrao/la.';
+
+  @override
+  String get directDebitSettingUp => 'Postavljanje izravnog terećenja...';
+
+  @override
+  String get directDebitOpenedBrowser =>
+      'Otvorili smo tvoj preglednik za dovršetak postavljanja izravnog terećenja.';
+
+  @override
+  String get inviteYourTeamTitle => 'Pozovi svoj tim';
+
+  @override
+  String get inviteYourTeamSubtitle =>
+      'Neobavezno - dodaj sve koji su trenutno na smjeni, ili preskoči i učini to kasnije u Upravljanju osobljem.';
+
+  @override
+  String get jobTitleLabel => 'Radno mjesto';
+
+  @override
+  String get tierFieldLabel => 'Razina';
+
+  @override
+  String get addTeamMemberButton => 'Dodaj člana tima';
+
+  @override
+  String get goToDashboardButton => 'Idi na nadzornu ploču';
+
+  @override
+  String get goToSignInButton => 'Idi na prijavu';
+
+  @override
+  String wizardStepOfLabel(String title, int step, int total) {
+    return '$title - Korak $step od $total';
+  }
+
+  @override
+  String billingContactEmailHelper(String email) {
+    return 'Ostavi prazno za korištenje $email';
+  }
+
+  @override
+  String payoffNoStarterSet(String venueType) {
+    return 'Još nemamo unaprijed pripremljen početni paket za $venueType - zadatke i opremu možeš dodati sam/sama nakon što uđeš.';
+  }
+
+  @override
+  String payoffSummaryWithEquipment(
+    int totalTasks,
+    int sectionCount,
+    int equipmentCount,
+    String venueType,
+  ) {
+    return '$totalTasks zadataka u $sectionCount odjeljaka i $equipmentCount vrsta opreme već postavljeno za \"$venueType\".';
+  }
+
+  @override
+  String payoffSummaryNoEquipment(
+    int totalTasks,
+    int sectionCount,
+    String venueType,
+  ) {
+    return '$totalTasks zadataka u $sectionCount odjeljaka već postavljeno za \"$venueType\".';
+  }
+
+  @override
+  String totalPerMonthLabel(String total, int units) {
+    return '£$total/mjesečno ukupno (naplaćeno $units poslovnica)';
+  }
+
+  @override
+  String staffPinLabel(String pin) {
+    return 'PIN: $pin';
+  }
 }

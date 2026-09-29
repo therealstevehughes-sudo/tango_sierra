@@ -28,6 +28,7 @@ import '../../shared/repositories/venue_type_repository.dart';
 import '../auth/senior_login_screen.dart';
 import '../home/tier_home_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Sprint 034 (Customer Onboarding & Billing Foundation) — replaces the
 /// old single-screen `TenantSignupScreen` with the full step-by-step
@@ -48,14 +49,14 @@ class CompanyOnboardingWizardScreen extends ConsumerStatefulWidget {
 }
 
 const _stepCount = 7;
-const _stepTitles = [
-  'Your account',
-  'Company details',
-  'Organisation structure',
-  'First venue',
-  'Your starter setup',
-  'Subscription',
-  'Payment',
+List<String> _stepTitles(AppLocalizations l10n) => [
+  l10n.stepYourAccount,
+  l10n.stepCompanyDetails,
+  l10n.stepOrgStructure,
+  l10n.stepFirstVenue,
+  l10n.stepStarterSetup,
+  l10n.stepSubscription,
+  l10n.stepPayment,
 ];
 
 class _CompanyOnboardingWizardScreenState
@@ -198,21 +199,24 @@ class _CompanyOnboardingWizardScreenState
   void _showTermsOfService() {
     showDialog<void>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Terms of Service'),
-        content: SizedBox(
-          width: 480,
-          child: SingleChildScrollView(
-            child: Text(kTermsOfServiceText),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.termsOfServiceTitle),
+          content: SizedBox(
+            width: 480,
+            child: SingleChildScrollView(
+              child: Text(kTermsOfServiceText),
+            ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Close'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.closeLabel),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -293,9 +297,7 @@ class _CompanyOnboardingWizardScreenState
       // as everywhere else in this app.
       if (!mounted) return;
       setState(() {
-        _error =
-            'Something went wrong creating your company. Please try '
-            'again - if it keeps happening, contact VenuRite.';
+        _error = AppLocalizations.of(context)!.companySignupGenericError;
         _submitting = false;
       });
     }
@@ -355,9 +357,7 @@ class _CompanyOnboardingWizardScreenState
     } catch (_) {
       if (!mounted) return;
       setState(() {
-        _directDebitError =
-            "We couldn't start Direct Debit setup automatically - "
-            "you can do this any time from Settings once you're signed in.";
+        _directDebitError = AppLocalizations.of(context)!.directDebitStartError;
         _startingDirectDebit = false;
       });
     }
@@ -365,10 +365,11 @@ class _CompanyOnboardingWizardScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (_done != null) {
       return Scaffold(
         appBar: AppScreenHeader(
-          title: const Text('Company created'),
+          title: Text(l10n.companyCreatedTitle),
           actions: const [AssistantIconButton()],
         ),
         body: SafeArea(
@@ -403,7 +404,11 @@ class _CompanyOnboardingWizardScreenState
     return Scaffold(
       appBar: AppScreenHeader(
         title: Text(
-          '${_stepTitles[currentStep]} - Step ${currentStep + 1} of $_stepCount',
+          l10n.wizardStepOfLabel(
+            _stepTitles(l10n)[currentStep],
+            currentStep + 1,
+            _stepCount,
+          ),
         ),
         actions: const [AssistantIconButton()],
       ),
@@ -449,16 +454,16 @@ class _CompanyOnboardingWizardScreenState
                         onPressed: _submitting
                             ? null
                             : () => setState(() => currentStep -= 1),
-                        child: const Text('Back'),
+                        child: Text(l10n.back),
                       )
                     else
                       const SizedBox.shrink(),
                     PrimaryActionButton(
                       label: _submitting
-                          ? 'Creating...'
+                          ? l10n.creatingEllipsis
                           : currentStep < _stepCount - 1
-                          ? 'Continue'
-                          : 'Start free trial',
+                          ? l10n.continueButton
+                          : l10n.startFreeTrialButton,
                       onPressed: _submitting || !_canAdvance
                           ? null
                           : () {
@@ -501,32 +506,29 @@ class _CompanyOnboardingWizardScreenState
   }
 
   Widget _buildAdminAccountStep() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          "Let's set up your account. You'll be the administrator for "
-          'this company on VenuRite, and can invite your team once '
-          "you're in.",
-        ),
+        Text(l10n.adminAccountIntro),
         const SizedBox(height: 16),
         TextField(
           controller: _firstName,
-          decoration: const InputDecoration(labelText: 'First name'),
+          decoration: InputDecoration(labelText: l10n.firstNameLabel),
           textCapitalization: TextCapitalization.words,
           onChanged: (_) => setState(() {}),
         ),
         const SizedBox(height: 12),
         TextField(
           controller: _lastName,
-          decoration: const InputDecoration(labelText: 'Last name'),
+          decoration: InputDecoration(labelText: l10n.lastNameLabel),
           textCapitalization: TextCapitalization.words,
           onChanged: (_) => setState(() {}),
         ),
         const SizedBox(height: 12),
         TextField(
           controller: _email,
-          decoration: const InputDecoration(labelText: 'Email'),
+          decoration: InputDecoration(labelText: l10n.emailLabel),
           keyboardType: TextInputType.emailAddress,
           autocorrect: false,
           onChanged: (_) => setState(() {}),
@@ -536,8 +538,8 @@ class _CompanyOnboardingWizardScreenState
           controller: _password,
           obscureText: _obscure,
           decoration: InputDecoration(
-            labelText: 'Password',
-            helperText: 'At least 8 characters',
+            labelText: l10n.passwordLabel,
+            helperText: l10n.passwordMinCharsHelper,
             suffixIcon: IconButton(
               icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
               onPressed: () => setState(() => _obscure = !_obscure),
@@ -550,15 +552,16 @@ class _CompanyOnboardingWizardScreenState
   }
 
   Widget _buildCompanyDetailsStep() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text('Tell us about your company.'),
+        Text(l10n.companyDetailsIntro),
         const SizedBox(height: 16),
         TextField(
           controller: _companyName,
-          decoration: const InputDecoration(
-            labelText: 'Trading / company name',
+          decoration: InputDecoration(
+            labelText: l10n.tradingCompanyNameLabel,
           ),
           textCapitalization: TextCapitalization.words,
           onChanged: (_) => setState(() {}),
@@ -566,9 +569,9 @@ class _CompanyOnboardingWizardScreenState
         const SizedBox(height: 12),
         TextField(
           controller: _legalName,
-          decoration: const InputDecoration(
-            labelText: 'Legal company name (optional)',
-            helperText: "Leave blank to use the trading name above",
+          decoration: InputDecoration(
+            labelText: l10n.legalCompanyNameLabel,
+            helperText: l10n.legalCompanyNameHelper,
           ),
           textCapitalization: TextCapitalization.words,
         ),
@@ -596,7 +599,7 @@ class _CompanyOnboardingWizardScreenState
             return TextField(
               controller: controller,
               focusNode: focusNode,
-              decoration: const InputDecoration(labelText: 'Country'),
+              decoration: InputDecoration(labelText: l10n.countryLabel),
               textCapitalization: TextCapitalization.words,
               onChanged: (_) => setState(() {}),
             );
@@ -605,25 +608,26 @@ class _CompanyOnboardingWizardScreenState
         const SizedBox(height: 12),
         TextField(
           controller: _registeredAddress,
-          decoration: const InputDecoration(
-            labelText: 'Registered / business address (optional)',
+          decoration: InputDecoration(
+            labelText: l10n.registeredAddressLabel,
           ),
           maxLines: 2,
         ),
         const SizedBox(height: 12),
         TextField(
           controller: _vatNumber,
-          decoration: const InputDecoration(
-            labelText: 'VAT / tax number (if applicable)',
+          decoration: InputDecoration(
+            labelText: l10n.vatNumberLabel,
           ),
         ),
         const SizedBox(height: 12),
         TextField(
           controller: _billingEmail,
           decoration: InputDecoration(
-            labelText: 'Billing contact email (optional)',
-            helperText:
-                'Leave blank to use ${_email.text.trim().isEmpty ? "your email" : _email.text.trim()}',
+            labelText: l10n.billingContactEmailLabel,
+            helperText: l10n.billingContactEmailHelper(
+              _email.text.trim().isEmpty ? l10n.emailLabel : _email.text.trim(),
+            ),
           ),
           keyboardType: TextInputType.emailAddress,
         ),
@@ -632,99 +636,87 @@ class _CompanyOnboardingWizardScreenState
   }
 
   Widget _buildStructureStep() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          "Here's how VenuRite organises your company. You don't need to "
-          'set anything up now - this is just so the next step makes sense.',
-        ),
+        Text(l10n.structureIntro),
         const SizedBox(height: 20),
         AppCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               _StructureRow(
                 icon: Icons.apartment,
-                label: 'Your company',
-                sublabel: 'One consolidated account and bill',
+                label: l10n.structureYourCompanyLabel,
+                sublabel: l10n.structureYourCompanySublabel,
               ),
               _StructureRow(
                 icon: Icons.map_outlined,
-                label: 'Regions (optional)',
-                sublabel:
-                    'Group venues by country or area - skip if you '
-                    "don't need it",
+                label: l10n.structureRegionsLabel,
+                sublabel: l10n.structureRegionsSublabel,
                 indent: 1,
               ),
               _StructureRow(
                 icon: Icons.storefront_outlined,
-                label: 'Venues',
-                sublabel:
-                    'One venue today, hundreds later - add more any '
-                    'time',
+                label: l10n.structureVenuesLabel,
+                sublabel: l10n.structureVenuesSublabel,
                 indent: 2,
               ),
               _StructureRow(
                 icon: Icons.people_outline,
-                label: 'Staff',
-                sublabel: "Each venue's team, invited once it exists",
+                label: l10n.structureStaffLabel,
+                sublabel: l10n.structureStaffSublabel,
                 indent: 3,
               ),
             ],
           ),
         ),
         const SizedBox(height: 16),
-        const Text(
-          "We'll set up your first venue next - you can add regions and "
-          'more venues later from inside the app.',
-        ),
+        Text(l10n.structureOutro),
       ],
     );
   }
 
   Widget _buildVenueStep() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const _WizardHeroBanner(
+        _WizardHeroBanner(
           image: 'assets/images/kitchen.png',
-          title: "Let's add your first venue",
+          title: l10n.wizardFirstVenueHeroTitle,
         ),
         const SizedBox(height: 16),
-        const Text('You can add more venues later.'),
+        Text(l10n.addMoreVenuesLaterText),
         const SizedBox(height: 16),
         TextField(
           controller: _venueName,
-          decoration: const InputDecoration(labelText: 'Venue name'),
+          decoration: InputDecoration(labelText: l10n.venueNameLabel),
           textCapitalization: TextCapitalization.words,
           onChanged: (_) => setState(() {}),
         ),
         const SizedBox(height: 12),
         TextField(
           controller: _venueAddress,
-          decoration: const InputDecoration(labelText: 'Address (optional)'),
+          decoration: InputDecoration(labelText: l10n.addressOptionalLabel),
           maxLines: 2,
         ),
         const SizedBox(height: 12),
         TextField(
           controller: _venueRegion,
-          decoration: const InputDecoration(
-            labelText: 'Region / area (optional)',
-            helperText:
-                'e.g. "London" - only needed if you have (or will '
-                'have) more than one venue',
+          decoration: InputDecoration(
+            labelText: l10n.regionAreaOptionalLabel,
+            helperText: l10n.regionAreaHelper,
           ),
           textCapitalization: TextCapitalization.words,
         ),
         const SizedBox(height: 12),
         DropdownButtonFormField<int>(
           initialValue: _venueTypeId,
-          decoration: const InputDecoration(
-            labelText: 'Venue type (optional)',
-            helperText:
-                "Picking one shows you a ready-made starter set "
-                'next - for tasks and equipment you already know you need.',
+          decoration: InputDecoration(
+            labelText: l10n.venueTypeOptionalLabel,
+            helperText: l10n.venueTypeHelper,
           ),
           items: _venueTypes
               .map((t) => DropdownMenuItem(value: t.id, child: Text(t.name)))
@@ -781,13 +773,10 @@ class _CompanyOnboardingWizardScreenState
   }
 
   Widget _buildPayoffStep() {
+    final l10n = AppLocalizations.of(context)!;
     final venueTypeId = _venueTypeId;
     if (venueTypeId == null) {
-      return const Text(
-        "You skipped choosing a venue type, so there's no starter set "
-        "to show yet - you can add tasks and equipment yourself once "
-        "you're in.",
-      );
+      return Text(l10n.payoffSkippedText);
     }
     if (_payoffLoadedForVenueTypeId != venueTypeId) {
       _payoffLoadedForVenueTypeId = venueTypeId;
@@ -801,10 +790,7 @@ class _CompanyOnboardingWizardScreenState
         // an error instead of a value, with no way forward and no visible
         // reason why.
         if (snapshot.hasError) {
-          return const Text(
-            "Couldn't load the starter set for this venue type - you can "
-            'add tasks and equipment yourself once you\'re in.',
-          );
+          return Text(l10n.payoffErrorText);
         }
         if (!snapshot.hasData) {
           return const Padding(
@@ -818,26 +804,31 @@ class _CompanyOnboardingWizardScreenState
           (sum, tasks) => sum + tasks.length,
         );
         if (totalTasks == 0 && data.equipment.isEmpty) {
-          return Text(
-            "We don't have a pre-built starter set for $_venueType yet - "
-            "you can add tasks and equipment yourself once you're in.",
-          );
+          return Text(l10n.payoffNoStarterSet(_venueType ?? ''));
         }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const _WizardHeroBanner(
+            _WizardHeroBanner(
               image: 'assets/images/front_of_house.png',
-              title: "Here's your compliance, ready to go",
+              title: l10n.payoffHeroTitle,
             ),
             const SizedBox(height: 16),
             AppBanner(
               kind: BannerKind.info,
               child: Text(
-                '$totalTasks tasks across ${data.tasksBySegment.length} '
-                'sections'
-                '${data.equipment.isNotEmpty ? ' and ${data.equipment.length} equipment types' : ''} '
-                'already set up for a $_venueType.',
+                data.equipment.isNotEmpty
+                    ? l10n.payoffSummaryWithEquipment(
+                        totalTasks,
+                        data.tasksBySegment.length,
+                        data.equipment.length,
+                        _venueType ?? '',
+                      )
+                    : l10n.payoffSummaryNoEquipment(
+                        totalTasks,
+                        data.tasksBySegment.length,
+                        _venueType ?? '',
+                      ),
               ),
             ),
             const SizedBox(height: 16),
@@ -848,7 +839,7 @@ class _CompanyOnboardingWizardScreenState
               ),
             if (data.equipment.isNotEmpty)
               _PayoffSection(
-                title: 'Equipment',
+                title: l10n.equipmentSectionLabel,
                 items: data.equipment.map((e) => e.name).toList(),
               ),
           ],
@@ -868,6 +859,7 @@ class _CompanyOnboardingWizardScreenState
   // number exists purely to calculate an honest price up front; the rest
   // get added one at a time later, same as before this pricing model.
   Widget _buildSubscriptionStep() {
+    final l10n = AppLocalizations.of(context)!;
     final headOfficeIncluded = _branchCount >= _headOfficeThreshold;
     final billedUnits = _branchCount + (headOfficeIncluded ? 1 : 0);
     // Pressure-test audit fix (2026-09-22) — this used to restate the
@@ -881,19 +873,12 @@ class _CompanyOnboardingWizardScreenState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const AppBanner(
+        AppBanner(
           kind: BannerKind.info,
-          child: Text(
-            'One company account, one consolidated bill - priced per '
-            'branch, never per person.',
-          ),
+          child: Text(l10n.subscriptionBannerText),
         ),
         const SizedBox(height: 16),
-        const Text(
-          'How many branches do you have today, including head office '
-          "if you have one? You'll only set up your first venue now - "
-          'add the rest any time from inside the app.',
-        ),
+        Text(l10n.subscriptionIntroText),
         const SizedBox(height: 16),
         Row(
           children: [
@@ -921,26 +906,24 @@ class _CompanyOnboardingWizardScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '£39/branch/month',
+                l10n.perBranchPriceLabel,
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               if (headOfficeIncluded) ...[
                 const SizedBox(height: 4),
                 Text(
-                  '+ 1 head office branch (4+ branches)',
+                  l10n.headOfficeIncludedLabel,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
               const Divider(height: 24),
               Text(
-                '£$totalPoundsPerMonth/month total ($billedUnits '
-                'branch${billedUnits == 1 ? '' : 'es'} billed)',
+                l10n.totalPerMonthLabel(totalPoundsPerMonth, billedUnits),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 4),
               Text(
-                'Have a discount code? You can enter it when you set up '
-                'Direct Debit.',
+                l10n.discountCodeHint,
                 style: Theme.of(
                   context,
                 ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
@@ -953,21 +936,16 @@ class _CompanyOnboardingWizardScreenState
   }
 
   Widget _buildPaymentStep() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const AppBanner(
+        AppBanner(
           kind: BannerKind.info,
-          child: Text(
-            "You're starting a 14-day free trial - no card needed today.",
-          ),
+          child: Text(l10n.trialBannerText),
         ),
         const SizedBox(height: 16),
-        const Text(
-          "We'll ask you to set up payment before your trial ends, from "
-          'Settings inside the app. Nothing is charged now - just tell '
-          "us how you'd prefer to pay.",
-        ),
+        Text(l10n.paymentStepIntro),
         const SizedBox(height: 16),
         // Migrated off RadioListTile's own deprecated groupValue/onChanged
         // (2026-09-25) to a RadioGroup ancestor, per Flutter's own
@@ -975,17 +953,17 @@ class _CompanyOnboardingWizardScreenState
         RadioGroup<String>(
           groupValue: _paymentProvider,
           onChanged: (v) => setState(() => _paymentProvider = v),
-          child: const Column(
+          child: Column(
             children: [
               _PaymentProviderOption(
                 value: 'stripe',
-                title: 'Card payment (Stripe)',
-                subtitle: 'Debit/credit card, billed monthly or annually',
+                title: l10n.cardPaymentTitle,
+                subtitle: l10n.cardPaymentSubtitle,
               ),
               _PaymentProviderOption(
                 value: 'gocardless',
-                title: 'Direct Debit (GoCardless)',
-                subtitle: 'Bank-to-bank payment, no card required',
+                title: l10n.directDebitTitle,
+                subtitle: l10n.directDebitSubtitle,
               ),
             ],
           ),
@@ -1002,14 +980,10 @@ class _CompanyOnboardingWizardScreenState
             onPressed: () {
               setState(() => _paymentProvider = null);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    "No problem - you can set this up anytime from Settings.",
-                  ),
-                ),
+                SnackBar(content: Text(l10n.decideLaterSnackbar)),
               );
             },
-            child: const Text("I'll decide later"),
+            child: Text(l10n.decideLaterButton),
           ),
         ),
         const Divider(height: 32),
@@ -1021,11 +995,11 @@ class _CompanyOnboardingWizardScreenState
           title: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              const Text('I have read and agree to the '),
+              Text(l10n.agreeToTermsPrefix),
               GestureDetector(
                 onTap: _showTermsOfService,
                 child: Text(
-                  'Terms of Service',
+                  l10n.termsOfServiceTitle,
                   style: TextStyle(
                     color: AppColors.teal,
                     fontWeight: FontWeight.w600,
@@ -1198,6 +1172,7 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final activated = widget.activeSiteId != null;
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -1207,10 +1182,8 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
           kind: BannerKind.info,
           child: Text(
             activated
-                ? "Your company and first venue are set up, and you're "
-                      'signed in.'
-                : 'Your company and first venue are set up. Sign in with '
-                      'your email and the password you just chose.',
+                ? l10n.successActivatedBanner
+                : l10n.successNotActivatedBanner,
           ),
         ),
         // Sprint 045 — only shown when 'gocardless' was actually chosen
@@ -1219,17 +1192,14 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
         if (widget.paymentProvider == 'gocardless') ...[
           const SizedBox(height: 16),
           if (widget.startingDirectDebit)
-            const AppBanner(
+            AppBanner(
               kind: BannerKind.info,
-              child: Text('Setting up Direct Debit...'),
+              child: Text(l10n.directDebitSettingUp),
             )
           else if (widget.directDebitRedirectUrl != null)
-            const AppBanner(
+            AppBanner(
               kind: BannerKind.info,
-              child: Text(
-                "We've opened your browser to finish setting up Direct "
-                'Debit.',
-              ),
+              child: Text(l10n.directDebitOpenedBrowser),
             )
           else if (widget.directDebitError != null)
             AppBanner(
@@ -1240,20 +1210,17 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
         if (activated) ...[
           const SizedBox(height: 24),
           Text(
-            'Invite your team',
+            l10n.inviteYourTeamTitle,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 4),
-          const Text(
-            "Optional - add whoever's on shift now, or skip and do this "
-            'later from Staff Management.',
-          ),
+          Text(l10n.inviteYourTeamSubtitle),
           const SizedBox(height: 12),
           for (final person in _invited)
             AppCard(
               child: ListTile(
                 title: Text(person.name),
-                subtitle: Text('PIN: ${person.pin}'),
+                subtitle: Text(l10n.staffPinLabel(person.pin)),
                 dense: true,
               ),
             ),
@@ -1264,13 +1231,13 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
               children: [
                 TextField(
                   controller: _staffName,
-                  decoration: const InputDecoration(labelText: 'Name'),
+                  decoration: InputDecoration(labelText: l10n.nameAxisLabel),
                   textCapitalization: TextCapitalization.words,
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: _staffJobTitle,
-                  decoration: const InputDecoration(labelText: 'Job title'),
+                  decoration: InputDecoration(labelText: l10n.jobTitleLabel),
                   textCapitalization: TextCapitalization.words,
                 ),
                 const SizedBox(height: 12),
@@ -1283,7 +1250,7 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
                 // can't hand out regional/executive access at this step.
                 DropdownButtonFormField<String>(
                   initialValue: _staffRoleTier,
-                  decoration: const InputDecoration(labelText: 'Tier'),
+                  decoration: InputDecoration(labelText: l10n.tierFieldLabel),
                   items:
                       [
                             RoleTier.base,
@@ -1293,7 +1260,7 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
                           .map(
                             (tier) => DropdownMenuItem(
                               value: tier.name,
-                              child: Text(roleTierDisplayName(tier)),
+                              child: Text(roleTierDisplayName(tier, l10n)),
                             ),
                           )
                           .toList(),
@@ -1315,7 +1282,7 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
                           height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text('Add team member'),
+                      : Text(l10n.addTeamMemberButton),
                 ),
               ],
             ),
@@ -1332,7 +1299,7 @@ class _SuccessViewState extends ConsumerState<_SuccessView> {
                     ),
                   );
                 },
-          child: Text(activated ? 'Go to dashboard' : 'Go to sign in'),
+          child: Text(activated ? l10n.goToDashboardButton : l10n.goToSignInButton),
         ),
       ],
     );

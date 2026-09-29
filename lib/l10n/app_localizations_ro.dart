@@ -1861,4 +1861,296 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get noNotificationRulesYet =>
       'Nicio regulă de notificare configurată încă.';
+
+  @override
+  String get stepYourAccount => 'Contul tău';
+
+  @override
+  String get stepCompanyDetails => 'Detaliile companiei';
+
+  @override
+  String get stepOrgStructure => 'Structura organizației';
+
+  @override
+  String get stepFirstVenue => 'Primul local';
+
+  @override
+  String get stepStarterSetup => 'Setul tău de pornire';
+
+  @override
+  String get stepSubscription => 'Abonament';
+
+  @override
+  String get stepPayment => 'Plată';
+
+  @override
+  String get termsOfServiceTitle => 'Termeni și condiții';
+
+  @override
+  String get companySignupGenericError =>
+      'Ceva n-a mers bine la crearea companiei tale. Te rugăm încearcă din nou - dacă tot se întâmplă, contactează VenuRite.';
+
+  @override
+  String get directDebitStartError =>
+      'N-am putut porni automat configurarea Direct Debit - poți face asta oricând din Setări după ce te-ai autentificat.';
+
+  @override
+  String get continueButton => 'Continuă';
+
+  @override
+  String get creatingEllipsis => 'Se creează...';
+
+  @override
+  String get startFreeTrialButton => 'Începe perioada de probă gratuită';
+
+  @override
+  String get companyCreatedTitle => 'Companie creată';
+
+  @override
+  String get adminAccountIntro =>
+      'Hai să-ți configurăm contul. Vei fi administratorul acestei companii pe VenuRite și îți poți invita echipa odată ce ai intrat.';
+
+  @override
+  String get firstNameLabel => 'Prenume';
+
+  @override
+  String get lastNameLabel => 'Nume';
+
+  @override
+  String get passwordMinCharsHelper => 'Cel puțin 8 caractere';
+
+  @override
+  String get companyDetailsIntro => 'Spune-ne despre compania ta.';
+
+  @override
+  String get tradingCompanyNameLabel => 'Nume comercial / al companiei';
+
+  @override
+  String get legalCompanyNameLabel => 'Denumire legală a companiei (opțional)';
+
+  @override
+  String get legalCompanyNameHelper =>
+      'Lasă gol pentru a folosi numele comercial de mai sus';
+
+  @override
+  String get countryLabel => 'Țară';
+
+  @override
+  String get registeredAddressLabel =>
+      'Adresă înregistrată / de afaceri (opțional)';
+
+  @override
+  String get vatNumberLabel => 'Cod TVA / fiscal (dacă e cazul)';
+
+  @override
+  String get billingContactEmailLabel =>
+      'Email de contact pentru facturare (opțional)';
+
+  @override
+  String get structureIntro =>
+      'Iată cum organizează VenuRite compania ta. Nu trebuie să configurezi nimic acum - e doar ca să aibă sens pasul următor.';
+
+  @override
+  String get structureYourCompanyLabel => 'Compania ta';
+
+  @override
+  String get structureYourCompanySublabel =>
+      'Un singur cont și o singură factură consolidată';
+
+  @override
+  String get structureRegionsLabel => 'Regiuni (opțional)';
+
+  @override
+  String get structureRegionsSublabel =>
+      'Grupează locațiile după țară sau zonă - sari peste dacă nu ai nevoie';
+
+  @override
+  String get structureVenuesLabel => 'Locații';
+
+  @override
+  String get structureVenuesSublabel =>
+      'O locație azi, sute mai târziu - adaugă mai multe oricând';
+
+  @override
+  String get structureStaffLabel => 'Personal';
+
+  @override
+  String get structureStaffSublabel =>
+      'Echipa fiecărei locații, invitată odată ce există';
+
+  @override
+  String get structureOutro =>
+      'Vom configura primul tău local în continuare - poți adăuga regiuni și mai multe locații mai târziu din aplicație.';
+
+  @override
+  String get wizardFirstVenueHeroTitle => 'Hai să adăugăm primul tău local';
+
+  @override
+  String get addMoreVenuesLaterText =>
+      'Poți adăuga mai multe locații mai târziu.';
+
+  @override
+  String get venueNameLabel => 'Numele localului';
+
+  @override
+  String get addressOptionalLabel => 'Adresă (opțional)';
+
+  @override
+  String get regionAreaOptionalLabel => 'Regiune / zonă (opțional)';
+
+  @override
+  String get regionAreaHelper =>
+      'de ex. \"București\" - necesar doar dacă ai (sau vei avea) mai mult de o locație';
+
+  @override
+  String get venueTypeOptionalLabel => 'Tip de local (opțional)';
+
+  @override
+  String get venueTypeHelper =>
+      'Alegerea uneia îți arată un set de pornire gata făcut - pentru sarcini și echipamente de care știi deja că ai nevoie.';
+
+  @override
+  String get payoffSkippedText =>
+      'Ai sărit peste alegerea unui tip de local, deci nu există încă un set de pornire de arătat - poți adăuga sarcini și echipamente singur odată ce ai intrat.';
+
+  @override
+  String get payoffErrorText =>
+      'Nu am putut încărca setul de pornire pentru acest tip de local - poți adăuga sarcini și echipamente singur odată ce ai intrat.';
+
+  @override
+  String get payoffHeroTitle => 'Iată conformitatea ta, gata de utilizare';
+
+  @override
+  String get equipmentSectionLabel => 'Echipamente';
+
+  @override
+  String get subscriptionBannerText =>
+      'Un cont de companie, o factură consolidată - taxat per local, niciodată per persoană.';
+
+  @override
+  String get subscriptionIntroText =>
+      'Câte locații ai astăzi, inclusiv sediul central dacă ai unul? Vei configura acum doar primul tău local - restul le adaugi oricând din aplicație.';
+
+  @override
+  String get perBranchPriceLabel => '39 GBP/local/lună';
+
+  @override
+  String get headOfficeIncludedLabel =>
+      '+ 1 local de sediu central (4+ locații)';
+
+  @override
+  String get discountCodeHint =>
+      'Ai un cod de reducere? Îl poți introduce când configurezi Direct Debit.';
+
+  @override
+  String get trialBannerText =>
+      'Începi o perioadă de probă gratuită de 14 zile - nu ai nevoie de card azi.';
+
+  @override
+  String get paymentStepIntro =>
+      'Îți vom cere să configurezi plata înainte de sfârșitul perioadei de probă, din Setări în aplicație. Nu se taxează nimic acum - spune-ne doar cum preferi să plătești.';
+
+  @override
+  String get cardPaymentTitle => 'Plată cu cardul (Stripe)';
+
+  @override
+  String get cardPaymentSubtitle =>
+      'Card de debit/credit, facturat lunar sau anual';
+
+  @override
+  String get directDebitTitle => 'Direct Debit (GoCardless)';
+
+  @override
+  String get directDebitSubtitle => 'Plată bancă-la-bancă, fără card necesar';
+
+  @override
+  String get decideLaterButton => 'Decid mai târziu';
+
+  @override
+  String get decideLaterSnackbar =>
+      'Nicio problemă - poți configura asta oricând din Setări.';
+
+  @override
+  String get agreeToTermsPrefix => 'Am citit și sunt de acord cu ';
+
+  @override
+  String get successActivatedBanner =>
+      'Compania și primul tău local sunt configurate, și ești autentificat.';
+
+  @override
+  String get successNotActivatedBanner =>
+      'Compania și primul tău local sunt configurate. Autentifică-te cu emailul tău și parola pe care tocmai ai ales-o.';
+
+  @override
+  String get directDebitSettingUp => 'Se configurează Direct Debit...';
+
+  @override
+  String get directDebitOpenedBrowser =>
+      'Ți-am deschis browserul pentru a finaliza configurarea Direct Debit.';
+
+  @override
+  String get inviteYourTeamTitle => 'Invită-ți echipa';
+
+  @override
+  String get inviteYourTeamSubtitle =>
+      'Opțional - adaugă pe oricine e în tură acum, sau sari peste și fă asta mai târziu din Managementul personalului.';
+
+  @override
+  String get jobTitleLabel => 'Funcție';
+
+  @override
+  String get tierFieldLabel => 'Nivel';
+
+  @override
+  String get addTeamMemberButton => 'Adaugă membru al echipei';
+
+  @override
+  String get goToDashboardButton => 'Mergi la panou';
+
+  @override
+  String get goToSignInButton => 'Mergi la autentificare';
+
+  @override
+  String wizardStepOfLabel(String title, int step, int total) {
+    return '$title - Pasul $step din $total';
+  }
+
+  @override
+  String billingContactEmailHelper(String email) {
+    return 'Lasă gol pentru a folosi $email';
+  }
+
+  @override
+  String payoffNoStarterSet(String venueType) {
+    return 'Nu avem încă un set de pornire predefinit pentru $venueType - poți adăuga sarcini și echipamente singur odată ce ai intrat.';
+  }
+
+  @override
+  String payoffSummaryWithEquipment(
+    int totalTasks,
+    int sectionCount,
+    int equipmentCount,
+    String venueType,
+  ) {
+    return '$totalTasks sarcini în $sectionCount secțiuni și $equipmentCount tipuri de echipamente deja configurate pentru un $venueType.';
+  }
+
+  @override
+  String payoffSummaryNoEquipment(
+    int totalTasks,
+    int sectionCount,
+    String venueType,
+  ) {
+    return '$totalTasks sarcini în $sectionCount secțiuni deja configurate pentru un $venueType.';
+  }
+
+  @override
+  String totalPerMonthLabel(String total, int units) {
+    return '£$total/lună total ($units locații facturate)';
+  }
+
+  @override
+  String staffPinLabel(String pin) {
+    return 'PIN: $pin';
+  }
 }

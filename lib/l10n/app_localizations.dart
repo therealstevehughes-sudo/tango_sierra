@@ -3311,6 +3311,495 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No notification rules set up yet.'**
   String get noNotificationRulesYet;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your account'**
+  String get stepYourAccount;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Company details'**
+  String get stepCompanyDetails;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Organisation structure'**
+  String get stepOrgStructure;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'First venue'**
+  String get stepFirstVenue;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your starter setup'**
+  String get stepStarterSetup;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription'**
+  String get stepSubscription;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get stepPayment;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfServiceTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong creating your company. Please try again - if it keeps happening, contact VenuRite.'**
+  String get companySignupGenericError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t start Direct Debit setup automatically - you can do this any time from Settings once you\'re signed in.'**
+  String get directDebitStartError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Creating...'**
+  String get creatingEllipsis;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Start free trial'**
+  String get startFreeTrialButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Company created'**
+  String get companyCreatedTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s set up your account. You\'ll be the administrator for this company on VenuRite, and can invite your team once you\'re in.'**
+  String get adminAccountIntro;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'First name'**
+  String get firstNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Last name'**
+  String get lastNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters'**
+  String get passwordMinCharsHelper;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us about your company.'**
+  String get companyDetailsIntro;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Trading / company name'**
+  String get tradingCompanyNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Legal company name (optional)'**
+  String get legalCompanyNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Leave blank to use the trading name above'**
+  String get legalCompanyNameHelper;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get countryLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Registered / business address (optional)'**
+  String get registeredAddressLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'VAT / tax number (if applicable)'**
+  String get vatNumberLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Billing contact email (optional)'**
+  String get billingContactEmailLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Here\'s how VenuRite organises your company. You don\'t need to set anything up now - this is just so the next step makes sense.'**
+  String get structureIntro;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your company'**
+  String get structureYourCompanyLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'One consolidated account and bill'**
+  String get structureYourCompanySublabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Regions (optional)'**
+  String get structureRegionsLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Group venues by country or area - skip if you don\'t need it'**
+  String get structureRegionsSublabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Venues'**
+  String get structureVenuesLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'One venue today, hundreds later - add more any time'**
+  String get structureVenuesSublabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Staff'**
+  String get structureStaffLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Each venue\'s team, invited once it exists'**
+  String get structureStaffSublabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll set up your first venue next - you can add regions and more venues later from inside the app.'**
+  String get structureOutro;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s add your first venue'**
+  String get wizardFirstVenueHeroTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'You can add more venues later.'**
+  String get addMoreVenuesLaterText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Venue name'**
+  String get venueNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Address (optional)'**
+  String get addressOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Region / area (optional)'**
+  String get regionAreaOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. \"London\" - only needed if you have (or will have) more than one venue'**
+  String get regionAreaHelper;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Venue type (optional)'**
+  String get venueTypeOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Picking one shows you a ready-made starter set next - for tasks and equipment you already know you need.'**
+  String get venueTypeHelper;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'You skipped choosing a venue type, so there\'s no starter set to show yet - you can add tasks and equipment yourself once you\'re in.'**
+  String get payoffSkippedText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the starter set for this venue type - you can add tasks and equipment yourself once you\'re in.'**
+  String get payoffErrorText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Here\'s your compliance, ready to go'**
+  String get payoffHeroTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment'**
+  String get equipmentSectionLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'One company account, one consolidated bill - priced per branch, never per person.'**
+  String get subscriptionBannerText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'How many branches do you have today, including head office if you have one? You\'ll only set up your first venue now - add the rest any time from inside the app.'**
+  String get subscriptionIntroText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'£39/branch/month'**
+  String get perBranchPriceLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'+ 1 head office branch (4+ branches)'**
+  String get headOfficeIncludedLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Have a discount code? You can enter it when you set up Direct Debit.'**
+  String get discountCodeHint;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re starting a 14-day free trial - no card needed today.'**
+  String get trialBannerText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll ask you to set up payment before your trial ends, from Settings inside the app. Nothing is charged now - just tell us how you\'d prefer to pay.'**
+  String get paymentStepIntro;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Card payment (Stripe)'**
+  String get cardPaymentTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Debit/credit card, billed monthly or annually'**
+  String get cardPaymentSubtitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Debit (GoCardless)'**
+  String get directDebitTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Bank-to-bank payment, no card required'**
+  String get directDebitSubtitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ll decide later'**
+  String get decideLaterButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No problem - you can set this up anytime from Settings.'**
+  String get decideLaterSnackbar;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'I have read and agree to the '**
+  String get agreeToTermsPrefix;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your company and first venue are set up, and you\'re signed in.'**
+  String get successActivatedBanner;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your company and first venue are set up. Sign in with your email and the password you just chose.'**
+  String get successNotActivatedBanner;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Setting up Direct Debit...'**
+  String get directDebitSettingUp;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve opened your browser to finish setting up Direct Debit.'**
+  String get directDebitOpenedBrowser;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Invite your team'**
+  String get inviteYourTeamTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Optional - add whoever\'s on shift now, or skip and do this later from Staff Management.'**
+  String get inviteYourTeamSubtitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Job title'**
+  String get jobTitleLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Tier'**
+  String get tierFieldLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add team member'**
+  String get addTeamMemberButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Go to dashboard'**
+  String get goToDashboardButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Go to sign in'**
+  String get goToSignInButton;
+
+  /// No description provided for @wizardStepOfLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} - Step {step} of {total}'**
+  String wizardStepOfLabel(String title, int step, int total);
+
+  /// No description provided for @billingContactEmailHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave blank to use {email}'**
+  String billingContactEmailHelper(String email);
+
+  /// No description provided for @payoffNoStarterSet.
+  ///
+  /// In en, this message translates to:
+  /// **'We don\'t have a pre-built starter set for {venueType} yet - you can add tasks and equipment yourself once you\'re in.'**
+  String payoffNoStarterSet(String venueType);
+
+  /// No description provided for @payoffSummaryWithEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'{totalTasks} tasks across {sectionCount} sections and {equipmentCount} equipment types already set up for a {venueType}.'**
+  String payoffSummaryWithEquipment(
+    int totalTasks,
+    int sectionCount,
+    int equipmentCount,
+    String venueType,
+  );
+
+  /// No description provided for @payoffSummaryNoEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'{totalTasks} tasks across {sectionCount} sections already set up for a {venueType}.'**
+  String payoffSummaryNoEquipment(
+    int totalTasks,
+    int sectionCount,
+    String venueType,
+  );
+
+  /// No description provided for @totalPerMonthLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'£{total}/month total ({units, plural, one{{units} branch} other{{units} branches}} billed)'**
+  String totalPerMonthLabel(String total, int units);
+
+  /// No description provided for @staffPinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN: {pin}'**
+  String staffPinLabel(String pin);
 }
 
 class _AppLocalizationsDelegate
