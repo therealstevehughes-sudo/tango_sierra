@@ -172,7 +172,12 @@ as $$
       ) as can_see
   ) reveal
   where sp.shared = true
-  group by sp.id, reveal.is_own, reveal.is_unlocked, reveal.can_see;
+  group by sp.id, reveal.is_own, reveal.is_unlocked, reveal.can_see
+  -- Deterministic, category-grouped ordering (2026-09-29, direct founder
+  -- follow-up — "is Find a Provider grouped by type?") so the client can
+  -- just render a category header whenever it changes, no client-side
+  -- sort needed.
+  order by sp.category, sp.id;
 $$;
 
 -- Records (or confirms) that the calling org has unlocked a provider's

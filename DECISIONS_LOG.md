@@ -2891,3 +2891,17 @@ Geographic scoping deliberately NOT implemented this pass (disclosed gap) — `S
 Verified: `flutter analyze` clean, 6 new unit tests (`test/review_text_screening_test.dart`) plus the existing 57 all passing, real `flutter build windows --debug` succeeded.
 
 Files: `tools/service_provider_directory_migration.sql` (new, deployed), `lib/shared/models/service_provider.dart` (new), `lib/shared/repositories/service_provider_repository.dart` (new), `lib/shared/providers/service_provider_providers.dart` (new), `lib/features/providers/service_providers_screen.dart` (new), `lib/features/providers/review_text_screening.dart` (new), `lib/core/widgets/management_drawer.dart` (drawer entry), `test/review_text_screening_test.dart` (new).
+
+## Service Provider directory: real bug fixed, review-on-share, search + grouping (2026-09-29)
+
+Three direct founder follow-ups on the just-shipped directory, same day.
+
+**Real bug — adding a provider silently did nothing**: the whole feature is backend-only (see its own entry above for why), but the founder was testing under the local demo PIN login (Jordan Blake etc.), which has no real backend session at all. `addProvider()`'s `if (orgId == null) return;` guard was silently swallowing the save with zero feedback — the dialog closed, nothing was created, no error anywhere. Root-caused via `currentBackendOrganisationIdProvider`, which decodes `organisation_id` from a real backend JWT and returns null when there isn't one. Fixed properly: the whole screen now checks for a real backend organisation up front and shows a plain explanation ("needs a real company account, not the local demo login — sign in via Leadership Access") instead of a half-working UI; the add-dialog's own save path also got a defensive fallback (a session expiring mid-visit shows a SnackBar, never silently no-ops again).
+
+**Rate/review opens the moment "share" turns on**: direct founder point — "if I've ticked the switch, it should open the section to let me rate and review," since a shared listing with zero ratings isn't useful to anyone browsing it. Fixed in two places: the "Add a Service Provider" dialog now reveals the same 4-star-matrix + review text fields inline the instant the share switch flips on (submitted as part of the same "Add" action, screened through the same regex check before the dialog can close), and toggling share on an ALREADY-added provider now auto-opens the rate/review bottom sheet immediately rather than waiting for a separate button tap.
+
+**Search + category grouping**: direct founder question — "is Find a Provider searchable and grouped by type?" It wasn't; now it is. Added a search field (matches category always, matches name once a listing is unlocked) and a category header rendered whenever the category changes down the list. Made deterministic server-side: `list_shared_service_providers()` redeployed with `order by category, id`, so the client never needs its own sort — just render a header on each category change.
+
+Verified: `flutter analyze` clean, all 63 tests passing, real `flutter build windows --debug` succeeded, relaunched.
+
+Files: `lib/features/providers/service_providers_screen.dart` (backend-org gate, inline review-on-share, search/grouping), `tools/service_provider_directory_migration.sql` (deployed: deterministic ordering).

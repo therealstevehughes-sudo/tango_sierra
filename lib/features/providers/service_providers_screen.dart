@@ -20,27 +20,84 @@ import 'review_text_screening.dart';
 /// cross-organisation directory (blurred until unlocked). No vetting, no
 /// VenuRite endorsement — reviews are entirely external, from venues that
 /// have actually used the provider.
-class ServiceProvidersScreen extends StatelessWidget {
+class ServiceProvidersScreen extends ConsumerWidget {
   const ServiceProvidersScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Backend-only feature (2026-09-29, real bug caught live: adding a
+    // provider silently did nothing at all under a local/demo PIN login).
+    // Cross-organisation browsing has no meaningful offline form — same
+    // reasoning as Roster — so this needs a genuine company account
+    // (signed in via Leadership Access, or a real backend-connected PIN
+    // account), not the local demo login. Previously this just no-opped
+    // silently on save; now it says so plainly instead of pretending to
+    // work.
+    final hasBackendOrg =
+        ref.watch(currentBackendOrganisationIdProvider) != null;
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppScreenHeader(
           title: const Text('Service Providers'),
           actions: const [AssistantIconButton()],
-          bottom: const TabBar(
-            tabs: [
-              Tab(text: 'My Providers'),
-              Tab(text: 'Find a Provider'),
-            ],
-          ),
+          bottom: hasBackendOrg
+              ? const TabBar(
+                  tabs: [
+                    Tab(text: 'My Providers'),
+                    Tab(text: 'Find a Provider'),
+                  ],
+                )
+              : null,
         ),
         drawer: const ManagementDrawer(title: 'Service Providers'),
-        body: const TabBarView(
-          children: [_MyProvidersTab(), _DirectoryTab()],
+        body: hasBackendOrg
+            ? const TabBarView(
+                children: [_MyProvidersTab(), _DirectoryTab()],
+              )
+            : const _NoBackendAccountNotice(),
+      ),
+    );
+  }
+}
+
+class _NoBackendAccountNotice extends StatelessWidget {
+  const _NoBackendAccountNotice();
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Center(
+          child: ResponsiveContent(
+            maxWidth: 420,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.cloud_off_outlined,
+                  size: 40,
+                  color: AppColors.muted,
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  "Service Providers needs a real company account signed "
+                  'in - this is a shared directory across venues, so it '
+                  "can't work from the local demo login alone.",
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Sign in via Leadership Access with a real company '
+                  'account to use this.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: AppColors.muted, fontSize: 13),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -76,6 +133,41 @@ class _DisclaimerBanner extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+// Shared star-rating row (2026-09-29) — extracted so both the "Add a
+// Provider" dialog and _MyProviderTile's inline rating form can use the
+// exact same widget, rather than each screen re-implementing it.
+class _StarRow extends StatelessWidget {
+  const _StarRow({
+    required this.label,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final String label;
+  final int value;
+  final ValueChanged<int> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        SizedBox(width: 90, child: Text(label)),
+        for (var i = 1; i <= 5; i++)
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+            icon: Icon(
+              i <= value ? Icons.star : Icons.star_border,
+              color: AppColors.caution,
+              size: 20,
+            ),
+            onPressed: () => onChanged(i),
+          ),
+      ],
     );
   }
 }
@@ -137,7 +229,10 @@ class _MyProvidersTab extends ConsumerWidget {
     final phoneController = TextEditingController();
     final emailController = TextEditingController();
     final notesController = TextEditingController();
+    final reviewController = TextEditingController();
     var shared = false;
+    var price = 5, punctuality = 5, quality = 5, availability = 5;
+    String? error;
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -194,6 +289,57 @@ class _MyProvidersTab extends ConsumerWidget {
                   value: shared,
                   onChanged: (v) => setDialogState(() => shared = v),
                 ),
+                // Opens immediately once "share" is on (2026-09-29,
+                // direct founder report) — a shared listing with zero
+                // ratings isn't useful to anyone else browsing it, so
+                // sharing and rating happen in the same step rather than
+                // a separate screen visited afterward.
+                if (shared) ...[
+                  const Divider(height: 24),
+                  const Text(
+                    'Rate this provider',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 8),
+                  _StarRow(
+                    label: 'Price',
+                    value: price,
+                    onChanged: (v) => setDialogState(() => price = v),
+                  ),
+                  _StarRow(
+                    label: 'Punctuality',
+                    value: punctuality,
+                    onChanged: (v) => setDialogState(() => punctuality = v),
+                  ),
+                  _StarRow(
+                    label: 'Quality',
+                    value: quality,
+                    onChanged: (v) => setDialogState(() => quality = v),
+                  ),
+                  _StarRow(
+                    label: 'Availability',
+                    value: availability,
+                    onChanged: (v) => setDialogState(() => availability = v),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: reviewController,
+                    maxLines: 3,
+                    decoration: const InputDecoration(
+                      labelText: 'Review (optional)',
+                      hintText:
+                          "Describe your experience - please don't name "
+                          'the business or include contact details.',
+                    ),
+                  ),
+                ],
+                if (error != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    error!,
+                    style: const TextStyle(color: AppColors.critical),
+                  ),
+                ],
               ],
             ),
           ),
@@ -203,7 +349,19 @@ class _MyProvidersTab extends ConsumerWidget {
               child: const Text('Cancel'),
             ),
             FilledButton(
-              onPressed: () => Navigator.pop(context, true),
+              onPressed: () {
+                final found = identifyingInfoIn(reviewController.text.trim());
+                if (shared && found != null) {
+                  setDialogState(
+                    () => error =
+                        "Your review looks like it includes $found. Please "
+                        'remove contact details or business names before '
+                        'submitting.',
+                  );
+                  return;
+                }
+                Navigator.pop(context, true);
+              },
               child: const Text('Add'),
             ),
           ],
@@ -216,8 +374,20 @@ class _MyProvidersTab extends ConsumerWidget {
     if (confirmed != true || name.isEmpty || category.isEmpty) return;
 
     final orgId = ref.read(currentBackendOrganisationIdProvider);
-    if (orgId == null) return;
-    await ref.read(serviceProviderRepositoryProvider).addProvider(
+    if (orgId == null) {
+      // Defensive fallback — the screen itself is gated on this already,
+      // but a session could expire mid-visit. Never silently no-op again.
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Your session has expired - please sign in again.'),
+          ),
+        );
+      }
+      return;
+    }
+    final repo = ref.read(serviceProviderRepositoryProvider);
+    final created = await repo.addProvider(
       organisationId: orgId,
       name: name,
       phone: phoneController.text.trim().isEmpty
@@ -232,6 +402,17 @@ class _MyProvidersTab extends ConsumerWidget {
           : notesController.text.trim(),
       shared: shared,
     );
+    if (shared) {
+      final reviewText = reviewController.text.trim();
+      await repo.submitReview(
+        providerId: created.id,
+        priceRating: price,
+        punctualityRating: punctuality,
+        qualityRating: quality,
+        availabilityRating: availability,
+        reviewText: reviewText.isEmpty ? null : reviewText,
+      );
+    }
     ref.invalidate(myServiceProvidersProvider);
   }
 }
@@ -271,6 +452,21 @@ class _MyProviderTile extends ConsumerWidget {
                       .read(serviceProviderRepositoryProvider)
                       .setShared(provider.id, v);
                   ref.invalidate(myServiceProvidersProvider);
+                  // Opens the rate/review section immediately when share
+                  // turns on (2026-09-29, direct founder report) — a
+                  // shared listing with zero ratings isn't useful to
+                  // anyone browsing it, and making the reviewer hunt for
+                  // a separate button afterward is a real, avoidable gap.
+                  if (v && context.mounted) {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) => _ReviewSheet(
+                        providerId: provider.id,
+                        canRate: true,
+                      ),
+                    );
+                  }
                 },
               ),
             ],
@@ -308,11 +504,44 @@ class _MyProviderTile extends ConsumerWidget {
 
 }
 
-class _DirectoryTab extends ConsumerWidget {
+class _DirectoryTab extends ConsumerStatefulWidget {
   const _DirectoryTab();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_DirectoryTab> createState() => _DirectoryTabState();
+}
+
+class _DirectoryTabState extends ConsumerState<_DirectoryTab> {
+  final _searchController = TextEditingController();
+  String _query = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  // Search + category grouping (2026-09-29, direct founder question —
+  // "is Find a Provider searchable and grouped by type?"). Matches
+  // category always (visible pre-unlock); matches name too once a
+  // listing is revealed, so unlocking a provider doesn't make it harder
+  // to find again later. The backend already returns rows ordered by
+  // category (see list_shared_service_providers' own ORDER BY), so a
+  // category header just needs to render whenever the category changes.
+  List<SharedProviderListing> _filtered(List<SharedProviderListing> all) {
+    if (_query.isEmpty) return all;
+    final q = _query.toLowerCase();
+    return all
+        .where(
+          (l) =>
+              l.category.toLowerCase().contains(q) ||
+              (l.name?.toLowerCase().contains(q) ?? false),
+        )
+        .toList();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final directoryAsync = ref.watch(sharedProviderDirectoryProvider);
     final unlockCountAsync = ref.watch(unlocksThisMonthProvider);
     return SafeArea(
@@ -323,6 +552,16 @@ class _DirectoryTab extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const _DisclaimerBanner(),
+              TextField(
+                controller: _searchController,
+                decoration: const InputDecoration(
+                  labelText: 'Search by category or name',
+                  prefixIcon: Icon(Icons.search),
+                  isDense: true,
+                ),
+                onChanged: (v) => setState(() => _query = v.trim()),
+              ),
+              const SizedBox(height: 8),
               // Running count (2026-09-29, agreed placement: on the
               // screen it's about, not Settings/Account) — awareness
               // without a checkout flow, per the founder's own "impulse
@@ -353,18 +592,53 @@ class _DirectoryTab extends ConsumerWidget {
                     onRetry: () =>
                         ref.invalidate(sharedProviderDirectoryProvider),
                   ),
-                  data: (listings) => listings.isEmpty
-                      ? const Center(
-                          child: Text(
-                            'No shared providers yet - be the first to '
-                            'share one from "My Providers."',
-                          ),
-                        )
-                      : ListView.builder(
-                          itemCount: listings.length,
-                          itemBuilder: (context, i) =>
-                              _DirectoryTile(listing: listings[i]),
+                  data: (allListings) {
+                    final listings = _filtered(allListings);
+                    if (allListings.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          'No shared providers yet - be the first to '
+                          'share one from "My Providers."',
                         ),
+                      );
+                    }
+                    if (listings.isEmpty) {
+                      return const Center(
+                        child: Text('No providers match your search.'),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: listings.length,
+                      itemBuilder: (context, i) {
+                        final listing = listings[i];
+                        final showHeader =
+                            i == 0 ||
+                            listings[i - 1].category != listing.category;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (showHeader)
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: i == 0 ? 0 : 12,
+                                  bottom: 4,
+                                ),
+                                child: Text(
+                                  listing.category,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.muted,
+                                    fontSize: 12,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ),
+                            _DirectoryTile(listing: listing),
+                          ],
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
             ],
