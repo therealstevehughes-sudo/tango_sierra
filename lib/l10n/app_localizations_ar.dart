@@ -2121,4 +2121,425 @@ class AppLocalizationsAr extends AppLocalizations {
   String staffPinLabel(String pin) {
     return 'الرمز السري: $pin';
   }
+
+  @override
+  String get jobRoleChefCook => 'طاهٍ/شيف';
+
+  @override
+  String get jobRoleKitchenPorter => 'عامل مطبخ';
+
+  @override
+  String get jobRoleFrontOfHouse => 'صالة الخدمة';
+
+  @override
+  String get jobRoleBar => 'البار';
+
+  @override
+  String get jobRoleManagement => 'الإدارة';
+
+  @override
+  String get jobRoleEveryone => 'الجميع';
+
+  @override
+  String get jobRoleMaintenance => 'الصيانة';
+
+  @override
+  String get jobRoleHousekeeping => 'التدبير المنزلي';
+
+  @override
+  String get jobRoleReception => 'الاستقبال';
+
+  @override
+  String get jobRoleSecurity => 'الأمن';
+
+  @override
+  String get segmentFoodSafety => 'سلامة الغذاء والتحكم في درجة الحرارة';
+
+  @override
+  String get segmentAllergen => 'إدارة مسببات الحساسية';
+
+  @override
+  String get segmentPersonalHygienePpe => 'النظافة الشخصية ومعدات الحماية';
+
+  @override
+  String get segmentRefrigerationColdStorage => 'التبريد والتخزين البارد';
+
+  @override
+  String get segmentCookingLineEquipment => 'معدات خط الطهي';
+
+  @override
+  String get segmentWashupDishwash => 'غسيل الأطباق';
+
+  @override
+  String get segmentCleaningSanitation => 'التنظيف والتعقيم';
+
+  @override
+  String get segmentCleaningChemicals => 'مواد التنظيف الكيميائية والمستهلكات';
+
+  @override
+  String get segmentDryAmbientStorage => 'التخزين الجاف وفي درجة حرارة الغرفة';
+
+  @override
+  String get segmentDeliveriesGoodsIn => 'التوصيل واستلام البضائع';
+
+  @override
+  String get segmentUtilitiesSafety => 'المرافق والسلامة';
+
+  @override
+  String get segmentWastePestControl => 'النفايات ومكافحة الآفات';
+
+  @override
+  String get segmentPreventiveMaintenance => 'الصيانة الوقائية (معدات المطبخ)';
+
+  @override
+  String get segmentStockControl => 'مراقبة المخزون';
+
+  @override
+  String get segmentOpeningProcedures => 'إجراءات الفتح';
+
+  @override
+  String get segmentClosingProcedures => 'إجراءات الإغلاق';
+
+  @override
+  String get segmentServiceReadiness => 'الجاهزية للخدمة';
+
+  @override
+  String get segmentFrontOfHouse => 'صالة الخدمة / الخدمة';
+
+  @override
+  String get segmentBarBeverage => 'البار والمشروبات';
+
+  @override
+  String get segmentHotelSpecific => 'خاص بالفندق';
+
+  @override
+  String get segmentManagementComplianceOversight =>
+      'الإدارة والإشراف على الامتثال';
+
+  @override
+  String get segmentMaintenance => 'الصيانة';
+
+  @override
+  String get segmentHousekeeping => 'التدبير المنزلي';
+
+  @override
+  String get segmentReception => 'الاستقبال';
+
+  @override
+  String get segmentSecurity => 'الأمن';
+
+  @override
+  String get freqDaily => 'يوميًا';
+
+  @override
+  String get freqWeekly => 'أسبوعيًا';
+
+  @override
+  String get freqPerShift => 'لكل نوبة';
+
+  @override
+  String get freqThreeXDaily => '3 مرات يوميًا';
+
+  @override
+  String get freqTwoXDaily => 'مرتين يوميًا';
+
+  @override
+  String get freqPerBatch => 'لكل دفعة';
+
+  @override
+  String get freqPerDelivery => 'لكل توصيلة';
+
+  @override
+  String get freqPerUse => 'لكل استخدام';
+
+  @override
+  String get freqPerService => 'لكل خدمة';
+
+  @override
+  String get freqTwoXPerService => 'مرتين لكل خدمة';
+
+  @override
+  String get freqEventBased => 'حسب الحدث';
+
+  @override
+  String get freqAsNeeded => 'عند الحاجة';
+
+  @override
+  String get freqMonthly => 'شهريًا';
+
+  @override
+  String get freqCustom => 'مخصص';
+
+  @override
+  String get jobRoleFieldLabel => 'المسمى الوظيفي';
+
+  @override
+  String get pinFieldLabel => 'الرمز السري';
+
+  @override
+  String get addStaffMemberTitle => 'إضافة موظف';
+
+  @override
+  String get addLabel => 'إضافة';
+
+  @override
+  String get assignTasksTitle => 'تعيين المهام';
+
+  @override
+  String get noActiveSiteFoundError => 'لم يتم العثور على موقع نشط.';
+
+  @override
+  String get byPersonLabel => 'حسب الشخص';
+
+  @override
+  String get byTaskLabel => 'حسب المهمة';
+
+  @override
+  String get noEquipmentOfTypeSetUp => 'لا توجد معدات من هذا النوع مُعدة بعد.';
+
+  @override
+  String get applyButton => 'تطبيق';
+
+  @override
+  String get assignToTitle => 'تعيين إلى';
+
+  @override
+  String get noStaffMatchTiers =>
+      'لا يوجد موظفون يطابقون المستوى (المستويات) التي تنطبق عليها هذه المهام.';
+
+  @override
+  String get assignButton => 'تعيين';
+
+  @override
+  String get showInstructionsTooltip => 'إظهار التعليمات';
+
+  @override
+  String get selectTasksToAssignLabel => 'اختر المهام للتعيين';
+
+  @override
+  String get taskPresetsSectionTitle => 'مجموعات المهام الجاهزة';
+
+  @override
+  String get showAllPresetsButton => 'إظهار جميع المجموعات الجاهزة';
+
+  @override
+  String get showTasksInGroupTooltip => 'إظهار المهام في هذه المجموعة';
+
+  @override
+  String get applyToMultipleButton => 'تطبيق على عدة أشخاص';
+
+  @override
+  String get addCustomTaskButton => 'إضافة مهمة مخصصة';
+
+  @override
+  String get customTaskSectionTitle => 'مهمة مخصصة';
+
+  @override
+  String get titleFieldLabel => 'العنوان';
+
+  @override
+  String get departmentSectionLabel => 'القسم / الشعبة';
+
+  @override
+  String get methodLabel => 'الطريقة';
+
+  @override
+  String get methodTick => 'علامة صح';
+
+  @override
+  String get methodData => 'بيانات';
+
+  @override
+  String get methodDataTick => 'بيانات + علامة صح';
+
+  @override
+  String get methodTickPhoto => 'علامة صح + صورة';
+
+  @override
+  String get methodDataPhoto => 'بيانات + صورة';
+
+  @override
+  String get methodNote => 'ملاحظة';
+
+  @override
+  String get methodDataNote => 'بيانات + ملاحظة';
+
+  @override
+  String get methodNotePhoto => 'ملاحظة + صورة';
+
+  @override
+  String get methodTickNote => 'علامة صح + ملاحظة';
+
+  @override
+  String get methodMulti => 'متعدد';
+
+  @override
+  String get requiresPhotoLabel => 'يتطلب صورة';
+
+  @override
+  String get requiresNotesLabel => 'يتطلب ملاحظات';
+
+  @override
+  String get minLimitLabel => 'الحد الأدنى';
+
+  @override
+  String get maxLimitLabel => 'الحد الأقصى';
+
+  @override
+  String get unitHintLabel => 'الوحدة (مثال: مئوية)';
+
+  @override
+  String get equipmentTypeOptionalLabel => 'نوع المعدات (اختياري)';
+
+  @override
+  String get noneLabel => 'لا شيء';
+
+  @override
+  String get priorityLabel => 'الأولوية';
+
+  @override
+  String get priorityCritical => 'حرجة';
+
+  @override
+  String get priorityHigh => 'عالية';
+
+  @override
+  String get priorityStandard => 'قياسية';
+
+  @override
+  String get requiresCorrectiveActionLabel => 'يتطلب إجراءً تصحيحيًا عند الفشل';
+
+  @override
+  String get fixInstructionsLabel => 'تعليمات الإصلاح';
+
+  @override
+  String get customFieldsJsonLabel => 'حقول مخصصة (JSON، اختياري)';
+
+  @override
+  String get extraFieldsSectionTitle => 'حقول إضافية (اختياري)';
+
+  @override
+  String get removeTooltip => 'إزالة';
+
+  @override
+  String get fieldLabelHint => 'تسمية الحقل (مثال: رقم أمر الشراء)';
+
+  @override
+  String get extraFieldTypeText => 'نص';
+
+  @override
+  String get extraFieldTypeNumber => 'رقم';
+
+  @override
+  String get extraFieldTypeDate => 'تاريخ';
+
+  @override
+  String get addFieldTooltip => 'إضافة حقل';
+
+  @override
+  String get saveCustomTaskButton => 'حفظ المهمة المخصصة';
+
+  @override
+  String get adHocLabel => 'عند الحاجة';
+
+  @override
+  String get timeAllocatedLabel => 'وقت مخصص';
+
+  @override
+  String get frequencyPrefixLabel => 'التكرار: ';
+
+  @override
+  String get atATimeLabel => 'في وقت محدد';
+
+  @override
+  String get fromStartOfShiftLabel => 'من بداية الوردية';
+
+  @override
+  String get fromClockInLabel => 'من تسجيل الحضور';
+
+  @override
+  String get availableFromEllipsis => 'متاح من…';
+
+  @override
+  String get untilEllipsis => 'حتى…';
+
+  @override
+  String assignTasksForStaffTitle(String name) {
+    return 'تعيين المهام - $name';
+  }
+
+  @override
+  String applyPresetToWhichOneTitle(String name) {
+    return 'تطبيق \"$name\" على أيهما؟';
+  }
+
+  @override
+  String allPresetTasksAlreadyAssigned(String name) {
+    return 'تم بالفعل تعيين جميع مهام $name';
+  }
+
+  @override
+  String addedTasksFromPreset(int count, String name) {
+    return 'تمت إضافة $count مهمة من $name';
+  }
+
+  @override
+  String applyPresetToTitle(String name) {
+    return 'تطبيق \"$name\" على';
+  }
+
+  @override
+  String assignTasksCountLabel(int count) {
+    return 'تعيين $count مهمة للموظفين…';
+  }
+
+  @override
+  String addedTasksAcrossStaffLabel(int count, int staffCount) {
+    return 'تمت إضافة $count تعيين عبر $staffCount موظف';
+  }
+
+  @override
+  String presetSectionPrefix(String segment) {
+    return 'القسم: $segment';
+  }
+
+  @override
+  String taskCountLabel(int count) {
+    return '$count مهمة';
+  }
+
+  @override
+  String showAllRolesLabel(String jobRole) {
+    return 'إظهار جميع الأدوار (الافتراضي: $jobRole فقط)';
+  }
+
+  @override
+  String extraFieldSummary(String label, String type) {
+    return '$label ($type)';
+  }
+
+  @override
+  String noEquipmentSetUpForTemplate(String title) {
+    return '$title - لا توجد معدات مُعدة لهذا بعد';
+  }
+
+  @override
+  String fromTimeLabel(String time) {
+    return 'من $time';
+  }
+
+  @override
+  String untilTimeLabel(String time) {
+    return 'حتى $time';
+  }
+
+  @override
+  String createdAssignmentsLabel(int count, String skippedNote) {
+    return 'تم إنشاء $count تعيين$skippedNote.';
+  }
+
+  @override
+  String skippedNoteLabel(int count) {
+    return ' (تم تخطي $count - معينة بالفعل أو عدم تطابق في الدور)';
+  }
 }

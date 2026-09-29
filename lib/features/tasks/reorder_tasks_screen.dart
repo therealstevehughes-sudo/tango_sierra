@@ -197,7 +197,7 @@ class _ReorderTasksScreenState extends ConsumerState<ReorderTasksScreen> {
         ? null
         : equipmentById[schedule.equipmentInstanceId];
     if (equipment != null) parts.add(equipment.name);
-    parts.add(frequencyLabel(schedule.frequency));
+    parts.add(frequencyLabel(schedule.frequency, AppLocalizations.of(context)));
     return parts.join(' · ');
   }
 

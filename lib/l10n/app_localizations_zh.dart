@@ -2052,4 +2052,423 @@ class AppLocalizationsZh extends AppLocalizations {
   String staffPinLabel(String pin) {
     return 'PIN 码:$pin';
   }
+
+  @override
+  String get jobRoleChefCook => '厨师/主厨';
+
+  @override
+  String get jobRoleKitchenPorter => '厨房杂工';
+
+  @override
+  String get jobRoleFrontOfHouse => '前厅';
+
+  @override
+  String get jobRoleBar => '吧台';
+
+  @override
+  String get jobRoleManagement => '管理层';
+
+  @override
+  String get jobRoleEveryone => '所有人';
+
+  @override
+  String get jobRoleMaintenance => '维护';
+
+  @override
+  String get jobRoleHousekeeping => '客房清洁';
+
+  @override
+  String get jobRoleReception => '前台';
+
+  @override
+  String get jobRoleSecurity => '安保';
+
+  @override
+  String get segmentFoodSafety => '食品安全与温度控制';
+
+  @override
+  String get segmentAllergen => '过敏原管理';
+
+  @override
+  String get segmentPersonalHygienePpe => '个人卫生与防护装备';
+
+  @override
+  String get segmentRefrigerationColdStorage => '制冷与冷藏储存';
+
+  @override
+  String get segmentCookingLineEquipment => '烹饪线设备';
+
+  @override
+  String get segmentWashupDishwash => '洗碗区';
+
+  @override
+  String get segmentCleaningSanitation => '清洁与卫生';
+
+  @override
+  String get segmentCleaningChemicals => '清洁化学品与耗材';
+
+  @override
+  String get segmentDryAmbientStorage => '干货与常温储存';
+
+  @override
+  String get segmentDeliveriesGoodsIn => '送货与收货';
+
+  @override
+  String get segmentUtilitiesSafety => '设施与安全';
+
+  @override
+  String get segmentWastePestControl => '废物与虫害控制';
+
+  @override
+  String get segmentPreventiveMaintenance => '预防性维护(厨房设备)';
+
+  @override
+  String get segmentStockControl => '库存控制';
+
+  @override
+  String get segmentOpeningProcedures => '开店程序';
+
+  @override
+  String get segmentClosingProcedures => '关店程序';
+
+  @override
+  String get segmentServiceReadiness => '服务准备';
+
+  @override
+  String get segmentFrontOfHouse => '前厅/服务';
+
+  @override
+  String get segmentBarBeverage => '吧台与饮品';
+
+  @override
+  String get segmentHotelSpecific => '酒店专属';
+
+  @override
+  String get segmentManagementComplianceOversight => '管理与合规监督';
+
+  @override
+  String get segmentMaintenance => '维护';
+
+  @override
+  String get segmentHousekeeping => '客房清洁';
+
+  @override
+  String get segmentReception => '前台';
+
+  @override
+  String get segmentSecurity => '安保';
+
+  @override
+  String get freqDaily => '每天';
+
+  @override
+  String get freqWeekly => '每周';
+
+  @override
+  String get freqPerShift => '每班次';
+
+  @override
+  String get freqThreeXDaily => '每天3次';
+
+  @override
+  String get freqTwoXDaily => '每天2次';
+
+  @override
+  String get freqPerBatch => '每批次';
+
+  @override
+  String get freqPerDelivery => '每次送货';
+
+  @override
+  String get freqPerUse => '每次使用';
+
+  @override
+  String get freqPerService => '每次服务';
+
+  @override
+  String get freqTwoXPerService => '每次服务2次';
+
+  @override
+  String get freqEventBased => '按事件';
+
+  @override
+  String get freqAsNeeded => '按需';
+
+  @override
+  String get freqMonthly => '每月';
+
+  @override
+  String get freqCustom => '自定义';
+
+  @override
+  String get jobRoleFieldLabel => '工作角色';
+
+  @override
+  String get pinFieldLabel => 'PIN 码';
+
+  @override
+  String get addStaffMemberTitle => '添加员工';
+
+  @override
+  String get addLabel => '添加';
+
+  @override
+  String get assignTasksTitle => '分配任务';
+
+  @override
+  String get noActiveSiteFoundError => '未找到活动场所。';
+
+  @override
+  String get byPersonLabel => '按人员';
+
+  @override
+  String get byTaskLabel => '按任务';
+
+  @override
+  String get noEquipmentOfTypeSetUp => '此类型的设备尚未设置。';
+
+  @override
+  String get applyButton => '应用';
+
+  @override
+  String get assignToTitle => '分配给';
+
+  @override
+  String get noStaffMatchTiers => '没有员工符合这些任务适用的级别。';
+
+  @override
+  String get assignButton => '分配';
+
+  @override
+  String get showInstructionsTooltip => '显示说明';
+
+  @override
+  String get selectTasksToAssignLabel => '选择要分配的任务';
+
+  @override
+  String get taskPresetsSectionTitle => '任务预设组';
+
+  @override
+  String get showAllPresetsButton => '显示所有预设组';
+
+  @override
+  String get showTasksInGroupTooltip => '显示此组中的任务';
+
+  @override
+  String get applyToMultipleButton => '批量应用';
+
+  @override
+  String get addCustomTaskButton => '添加自定义任务';
+
+  @override
+  String get customTaskSectionTitle => '自定义任务';
+
+  @override
+  String get titleFieldLabel => '标题';
+
+  @override
+  String get departmentSectionLabel => '部门/板块';
+
+  @override
+  String get methodLabel => '方法';
+
+  @override
+  String get methodTick => '打勾';
+
+  @override
+  String get methodData => '数据';
+
+  @override
+  String get methodDataTick => '数据 + 打勾';
+
+  @override
+  String get methodTickPhoto => '打勾 + 照片';
+
+  @override
+  String get methodDataPhoto => '数据 + 照片';
+
+  @override
+  String get methodNote => '备注';
+
+  @override
+  String get methodDataNote => '数据 + 备注';
+
+  @override
+  String get methodNotePhoto => '备注 + 照片';
+
+  @override
+  String get methodTickNote => '打勾 + 备注';
+
+  @override
+  String get methodMulti => '多项';
+
+  @override
+  String get requiresPhotoLabel => '需要照片';
+
+  @override
+  String get requiresNotesLabel => '需要备注';
+
+  @override
+  String get minLimitLabel => '最小限值';
+
+  @override
+  String get maxLimitLabel => '最大限值';
+
+  @override
+  String get unitHintLabel => '单位(例如摄氏度)';
+
+  @override
+  String get equipmentTypeOptionalLabel => '设备类型(可选)';
+
+  @override
+  String get noneLabel => '无';
+
+  @override
+  String get priorityLabel => '优先级';
+
+  @override
+  String get priorityCritical => '紧急';
+
+  @override
+  String get priorityHigh => '高';
+
+  @override
+  String get priorityStandard => '标准';
+
+  @override
+  String get requiresCorrectiveActionLabel => '失败时需要纠正措施';
+
+  @override
+  String get fixInstructionsLabel => '纠正说明';
+
+  @override
+  String get customFieldsJsonLabel => '自定义字段(JSON,可选)';
+
+  @override
+  String get extraFieldsSectionTitle => '附加字段(可选)';
+
+  @override
+  String get removeTooltip => '移除';
+
+  @override
+  String get fieldLabelHint => '字段标签(例如订单号)';
+
+  @override
+  String get extraFieldTypeText => '文本';
+
+  @override
+  String get extraFieldTypeNumber => '数字';
+
+  @override
+  String get extraFieldTypeDate => '日期';
+
+  @override
+  String get addFieldTooltip => '添加字段';
+
+  @override
+  String get saveCustomTaskButton => '保存自定义任务';
+
+  @override
+  String get adHocLabel => '临时安排';
+
+  @override
+  String get timeAllocatedLabel => '已分配时间';
+
+  @override
+  String get frequencyPrefixLabel => '频率:';
+
+  @override
+  String get atATimeLabel => '在特定时间';
+
+  @override
+  String get fromStartOfShiftLabel => '从班次开始';
+
+  @override
+  String get fromClockInLabel => '从打卡开始';
+
+  @override
+  String get availableFromEllipsis => '开始时间…';
+
+  @override
+  String get untilEllipsis => '结束时间…';
+
+  @override
+  String assignTasksForStaffTitle(String name) {
+    return '分配任务 - $name';
+  }
+
+  @override
+  String applyPresetToWhichOneTitle(String name) {
+    return '将\"$name\"应用到哪一个?';
+  }
+
+  @override
+  String allPresetTasksAlreadyAssigned(String name) {
+    return '\"$name\"的所有任务均已分配';
+  }
+
+  @override
+  String addedTasksFromPreset(int count, String name) {
+    return '已从\"$name\"添加 $count 项任务';
+  }
+
+  @override
+  String applyPresetToTitle(String name) {
+    return '将\"$name\"应用到';
+  }
+
+  @override
+  String assignTasksCountLabel(int count) {
+    return '将 $count 项任务分配给员工…';
+  }
+
+  @override
+  String addedTasksAcrossStaffLabel(int count, int staffCount) {
+    return '已为 $staffCount 名员工添加 $count 项分配';
+  }
+
+  @override
+  String presetSectionPrefix(String segment) {
+    return '板块:$segment';
+  }
+
+  @override
+  String taskCountLabel(int count) {
+    return '$count 项任务';
+  }
+
+  @override
+  String showAllRolesLabel(String jobRole) {
+    return '显示所有角色(默认仅显示:$jobRole)';
+  }
+
+  @override
+  String extraFieldSummary(String label, String type) {
+    return '$label($type)';
+  }
+
+  @override
+  String noEquipmentSetUpForTemplate(String title) {
+    return '$title - 尚未为此设置设备';
+  }
+
+  @override
+  String fromTimeLabel(String time) {
+    return '从 $time';
+  }
+
+  @override
+  String untilTimeLabel(String time) {
+    return '至 $time';
+  }
+
+  @override
+  String createdAssignmentsLabel(int count, String skippedNote) {
+    return '已创建 $count 项分配$skippedNote。';
+  }
+
+  @override
+  String skippedNoteLabel(int count) {
+    return ' (已跳过 $count 个 - 已分配或角色不匹配)';
+  }
 }

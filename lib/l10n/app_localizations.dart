@@ -3800,6 +3800,780 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PIN: {pin}'**
   String staffPinLabel(String pin);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Chef/Cook'**
+  String get jobRoleChefCook;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Kitchen Porter'**
+  String get jobRoleKitchenPorter;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Front of House'**
+  String get jobRoleFrontOfHouse;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Bar'**
+  String get jobRoleBar;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Management'**
+  String get jobRoleManagement;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone'**
+  String get jobRoleEveryone;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance'**
+  String get jobRoleMaintenance;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Housekeeping'**
+  String get jobRoleHousekeeping;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reception'**
+  String get jobRoleReception;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get jobRoleSecurity;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Food Safety & Temperature Control'**
+  String get segmentFoodSafety;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Allergen Management'**
+  String get segmentAllergen;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Hygiene & PPE'**
+  String get segmentPersonalHygienePpe;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Refrigeration & Cold Storage'**
+  String get segmentRefrigerationColdStorage;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Cooking Line Equipment'**
+  String get segmentCookingLineEquipment;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Wash-up / Dishwash'**
+  String get segmentWashupDishwash;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaning & Sanitation'**
+  String get segmentCleaningSanitation;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaning Chemicals & Consumables'**
+  String get segmentCleaningChemicals;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Dry & Ambient Storage'**
+  String get segmentDryAmbientStorage;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Deliveries & Goods In'**
+  String get segmentDeliveriesGoodsIn;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Utilities & Safety'**
+  String get segmentUtilitiesSafety;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Waste & Pest Control'**
+  String get segmentWastePestControl;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Preventive Maintenance (Kitchen Equipment)'**
+  String get segmentPreventiveMaintenance;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Stock Control'**
+  String get segmentStockControl;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Opening Procedures'**
+  String get segmentOpeningProcedures;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Closing Procedures'**
+  String get segmentClosingProcedures;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Service Readiness'**
+  String get segmentServiceReadiness;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Front of House / Service'**
+  String get segmentFrontOfHouse;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Bar & Beverage'**
+  String get segmentBarBeverage;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Hotel-Specific'**
+  String get segmentHotelSpecific;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Management & Compliance Oversight'**
+  String get segmentManagementComplianceOversight;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance'**
+  String get segmentMaintenance;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Housekeeping'**
+  String get segmentHousekeeping;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reception'**
+  String get segmentReception;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get segmentSecurity;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get freqDaily;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get freqWeekly;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Per Shift'**
+  String get freqPerShift;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'3x Daily'**
+  String get freqThreeXDaily;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'2x Daily'**
+  String get freqTwoXDaily;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Per Batch'**
+  String get freqPerBatch;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Per Delivery'**
+  String get freqPerDelivery;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Per Use'**
+  String get freqPerUse;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Per Service'**
+  String get freqPerService;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'2x Per Service'**
+  String get freqTwoXPerService;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Event-Based'**
+  String get freqEventBased;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'As Needed'**
+  String get freqAsNeeded;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get freqMonthly;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get freqCustom;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Job role'**
+  String get jobRoleFieldLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'PIN'**
+  String get pinFieldLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Staff Member'**
+  String get addStaffMemberTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get addLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Tasks'**
+  String get assignTasksTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No active site found.'**
+  String get noActiveSiteFoundError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'By Person'**
+  String get byPersonLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'By Task'**
+  String get byTaskLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No equipment of this type set up yet.'**
+  String get noEquipmentOfTypeSetUp;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get applyButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Assign to'**
+  String get assignToTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No staff match the tier(s) these tasks apply to.'**
+  String get noStaffMatchTiers;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Assign'**
+  String get assignButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Show instructions'**
+  String get showInstructionsTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Select tasks to assign'**
+  String get selectTasksToAssignLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Task Presets'**
+  String get taskPresetsSectionTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Show all presets'**
+  String get showAllPresetsButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Show tasks in this group'**
+  String get showTasksInGroupTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Apply to Multiple'**
+  String get applyToMultipleButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Custom Task'**
+  String get addCustomTaskButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Task'**
+  String get customTaskSectionTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get titleFieldLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Department / section'**
+  String get departmentSectionLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Method'**
+  String get methodLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Tick'**
+  String get methodTick;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get methodData;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Data + Tick'**
+  String get methodDataTick;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Tick + Photo'**
+  String get methodTickPhoto;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Data + Photo'**
+  String get methodDataPhoto;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get methodNote;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Data + Note'**
+  String get methodDataNote;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Note + Photo'**
+  String get methodNotePhoto;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Tick + Note'**
+  String get methodTickNote;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Multi'**
+  String get methodMulti;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Requires photo'**
+  String get requiresPhotoLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Requires notes'**
+  String get requiresNotesLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Min limit'**
+  String get minLimitLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Max limit'**
+  String get maxLimitLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Unit (e.g. celsius)'**
+  String get unitHintLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment type (optional)'**
+  String get equipmentTypeOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get noneLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get priorityLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Critical'**
+  String get priorityCritical;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get priorityHigh;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get priorityStandard;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Requires corrective action on fail'**
+  String get requiresCorrectiveActionLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Fix instructions'**
+  String get fixInstructionsLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Custom fields (JSON, optional)'**
+  String get customFieldsJsonLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Extra fields (optional)'**
+  String get extraFieldsSectionTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Field label (e.g. PO number)'**
+  String get fieldLabelHint;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get extraFieldTypeText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Number'**
+  String get extraFieldTypeNumber;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get extraFieldTypeDate;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add field'**
+  String get addFieldTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Save Custom Task'**
+  String get saveCustomTaskButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Ad hoc'**
+  String get adHocLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Time allocated'**
+  String get timeAllocatedLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Frequency: '**
+  String get frequencyPrefixLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'At a time'**
+  String get atATimeLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'From start of shift'**
+  String get fromStartOfShiftLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'From clock-in'**
+  String get fromClockInLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Available from…'**
+  String get availableFromEllipsis;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'until…'**
+  String get untilEllipsis;
+
+  /// No description provided for @assignTasksForStaffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Tasks - {name}'**
+  String assignTasksForStaffTitle(String name);
+
+  /// No description provided for @applyPresetToWhichOneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply \"{name}\" to which one?'**
+  String applyPresetToWhichOneTitle(String name);
+
+  /// No description provided for @allPresetTasksAlreadyAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'All {name} tasks were already assigned'**
+  String allPresetTasksAlreadyAssigned(String name);
+
+  /// No description provided for @addedTasksFromPreset.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Added {count} task} other{Added {count} tasks}} from {name}'**
+  String addedTasksFromPreset(int count, String name);
+
+  /// No description provided for @applyPresetToTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply \"{name}\" to'**
+  String applyPresetToTitle(String name);
+
+  /// No description provided for @assignTasksCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Assign {count} task to staff…} other{Assign {count} tasks to staff…}}'**
+  String assignTasksCountLabel(int count);
+
+  /// No description provided for @addedTasksAcrossStaffLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Added {count} assignment} other{Added {count} assignments}} across {staffCount, plural, one{{staffCount} staff member} other{{staffCount} staff members}}'**
+  String addedTasksAcrossStaffLabel(int count, int staffCount);
+
+  /// No description provided for @presetSectionPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Section: {segment}'**
+  String presetSectionPrefix(String segment);
+
+  /// No description provided for @taskCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} task} other{{count} tasks}}'**
+  String taskCountLabel(int count);
+
+  /// No description provided for @showAllRolesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all roles (default: {jobRole} only)'**
+  String showAllRolesLabel(String jobRole);
+
+  /// No description provided for @extraFieldSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} ({type})'**
+  String extraFieldSummary(String label, String type);
+
+  /// No description provided for @noEquipmentSetUpForTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} - no equipment set up for this yet'**
+  String noEquipmentSetUpForTemplate(String title);
+
+  /// No description provided for @fromTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'From {time}'**
+  String fromTimeLabel(String time);
+
+  /// No description provided for @untilTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'until {time}'**
+  String untilTimeLabel(String time);
+
+  /// No description provided for @createdAssignmentsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} assignment created} other{{count} assignments created}}{skippedNote}.'**
+  String createdAssignmentsLabel(int count, String skippedNote);
+
+  /// No description provided for @skippedNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **' ({count} skipped - already assigned or role mismatch)'**
+  String skippedNoteLabel(int count);
 }
 
 class _AppLocalizationsDelegate

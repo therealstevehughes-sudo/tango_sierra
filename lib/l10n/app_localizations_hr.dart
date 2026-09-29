@@ -2151,4 +2151,430 @@ class AppLocalizationsHr extends AppLocalizations {
   String staffPinLabel(String pin) {
     return 'PIN: $pin';
   }
+
+  @override
+  String get jobRoleChefCook => 'Kuhar';
+
+  @override
+  String get jobRoleKitchenPorter => 'Kuhinjski pomoćnik';
+
+  @override
+  String get jobRoleFrontOfHouse => 'Sala (usluživanje)';
+
+  @override
+  String get jobRoleBar => 'Šank';
+
+  @override
+  String get jobRoleManagement => 'Uprava';
+
+  @override
+  String get jobRoleEveryone => 'Svi';
+
+  @override
+  String get jobRoleMaintenance => 'Održavanje';
+
+  @override
+  String get jobRoleHousekeeping => 'Čišćenje';
+
+  @override
+  String get jobRoleReception => 'Recepcija';
+
+  @override
+  String get jobRoleSecurity => 'Zaštitarska služba';
+
+  @override
+  String get segmentFoodSafety => 'Sigurnost hrane i kontrola temperature';
+
+  @override
+  String get segmentAllergen => 'Upravljanje alergenima';
+
+  @override
+  String get segmentPersonalHygienePpe => 'Osobna higijena i OZO';
+
+  @override
+  String get segmentRefrigerationColdStorage =>
+      'Hlađenje i skladištenje na hladnom';
+
+  @override
+  String get segmentCookingLineEquipment => 'Oprema kuhinjske linije';
+
+  @override
+  String get segmentWashupDishwash => 'Pranje posuđa';
+
+  @override
+  String get segmentCleaningSanitation => 'Čišćenje i sanitacija';
+
+  @override
+  String get segmentCleaningChemicals =>
+      'Sredstva za čišćenje i potrošni materijal';
+
+  @override
+  String get segmentDryAmbientStorage =>
+      'Suho i skladištenje na sobnoj temperaturi';
+
+  @override
+  String get segmentDeliveriesGoodsIn => 'Dostave i prijem robe';
+
+  @override
+  String get segmentUtilitiesSafety => 'Instalacije i sigurnost';
+
+  @override
+  String get segmentWastePestControl => 'Otpad i kontrola štetočina';
+
+  @override
+  String get segmentPreventiveMaintenance =>
+      'Preventivno održavanje (kuhinjska oprema)';
+
+  @override
+  String get segmentStockControl => 'Kontrola zaliha';
+
+  @override
+  String get segmentOpeningProcedures => 'Postupci otvaranja';
+
+  @override
+  String get segmentClosingProcedures => 'Postupci zatvaranja';
+
+  @override
+  String get segmentServiceReadiness => 'Spremnost za uslugu';
+
+  @override
+  String get segmentFrontOfHouse => 'Sala / Usluživanje';
+
+  @override
+  String get segmentBarBeverage => 'Šank i pića';
+
+  @override
+  String get segmentHotelSpecific => 'Specifično za hotel';
+
+  @override
+  String get segmentManagementComplianceOversight =>
+      'Upravljanje i nadzor usklađenosti';
+
+  @override
+  String get segmentMaintenance => 'Održavanje';
+
+  @override
+  String get segmentHousekeeping => 'Čišćenje';
+
+  @override
+  String get segmentReception => 'Recepcija';
+
+  @override
+  String get segmentSecurity => 'Zaštitarska služba';
+
+  @override
+  String get freqDaily => 'Dnevno';
+
+  @override
+  String get freqWeekly => 'Tjedno';
+
+  @override
+  String get freqPerShift => 'Po smjeni';
+
+  @override
+  String get freqThreeXDaily => '3x dnevno';
+
+  @override
+  String get freqTwoXDaily => '2x dnevno';
+
+  @override
+  String get freqPerBatch => 'Po seriji';
+
+  @override
+  String get freqPerDelivery => 'Po dostavi';
+
+  @override
+  String get freqPerUse => 'Po upotrebi';
+
+  @override
+  String get freqPerService => 'Po usluzi';
+
+  @override
+  String get freqTwoXPerService => '2x po usluzi';
+
+  @override
+  String get freqEventBased => 'Prema događaju';
+
+  @override
+  String get freqAsNeeded => 'Prema potrebi';
+
+  @override
+  String get freqMonthly => 'Mjesečno';
+
+  @override
+  String get freqCustom => 'Prilagođeno';
+
+  @override
+  String get jobRoleFieldLabel => 'Radna uloga';
+
+  @override
+  String get pinFieldLabel => 'PIN';
+
+  @override
+  String get addStaffMemberTitle => 'Dodaj zaposlenika';
+
+  @override
+  String get addLabel => 'Dodaj';
+
+  @override
+  String get assignTasksTitle => 'Dodijeli zadatke';
+
+  @override
+  String get noActiveSiteFoundError => 'Nije pronađena aktivna poslovnica.';
+
+  @override
+  String get byPersonLabel => 'Po osobi';
+
+  @override
+  String get byTaskLabel => 'Po zadatku';
+
+  @override
+  String get noEquipmentOfTypeSetUp => 'Još nema postavljene opreme ove vrste.';
+
+  @override
+  String get applyButton => 'Primijeni';
+
+  @override
+  String get assignToTitle => 'Dodijeli';
+
+  @override
+  String get noStaffMatchTiers =>
+      'Nijedan zaposlenik ne odgovara razini(ama) na koje se ovi zadaci odnose.';
+
+  @override
+  String get assignButton => 'Dodijeli';
+
+  @override
+  String get showInstructionsTooltip => 'Prikaži upute';
+
+  @override
+  String get selectTasksToAssignLabel => 'Odaberi zadatke za dodjelu';
+
+  @override
+  String get taskPresetsSectionTitle => 'Skupovi zadataka';
+
+  @override
+  String get showAllPresetsButton => 'Prikaži sve skupove';
+
+  @override
+  String get showTasksInGroupTooltip => 'Prikaži zadatke u ovoj skupini';
+
+  @override
+  String get applyToMultipleButton => 'Primijeni na više njih';
+
+  @override
+  String get addCustomTaskButton => 'Dodaj prilagođeni zadatak';
+
+  @override
+  String get customTaskSectionTitle => 'Prilagođeni zadatak';
+
+  @override
+  String get titleFieldLabel => 'Naslov';
+
+  @override
+  String get departmentSectionLabel => 'Odjel / sekcija';
+
+  @override
+  String get methodLabel => 'Metoda';
+
+  @override
+  String get methodTick => 'Kvačica';
+
+  @override
+  String get methodData => 'Podaci';
+
+  @override
+  String get methodDataTick => 'Podaci + kvačica';
+
+  @override
+  String get methodTickPhoto => 'Kvačica + fotografija';
+
+  @override
+  String get methodDataPhoto => 'Podaci + fotografija';
+
+  @override
+  String get methodNote => 'Bilješka';
+
+  @override
+  String get methodDataNote => 'Podaci + bilješka';
+
+  @override
+  String get methodNotePhoto => 'Bilješka + fotografija';
+
+  @override
+  String get methodTickNote => 'Kvačica + bilješka';
+
+  @override
+  String get methodMulti => 'Višestruko';
+
+  @override
+  String get requiresPhotoLabel => 'Zahtijeva fotografiju';
+
+  @override
+  String get requiresNotesLabel => 'Zahtijeva bilješke';
+
+  @override
+  String get minLimitLabel => 'Minimalna granica';
+
+  @override
+  String get maxLimitLabel => 'Maksimalna granica';
+
+  @override
+  String get unitHintLabel => 'Jedinica (npr. Celzij)';
+
+  @override
+  String get equipmentTypeOptionalLabel => 'Vrsta opreme (neobavezno)';
+
+  @override
+  String get noneLabel => 'Nijedna';
+
+  @override
+  String get priorityLabel => 'Prioritet';
+
+  @override
+  String get priorityCritical => 'Kritično';
+
+  @override
+  String get priorityHigh => 'Visoko';
+
+  @override
+  String get priorityStandard => 'Standardno';
+
+  @override
+  String get requiresCorrectiveActionLabel =>
+      'Zahtijeva korektivnu radnju u slučaju neuspjeha';
+
+  @override
+  String get fixInstructionsLabel => 'Upute za ispravak';
+
+  @override
+  String get customFieldsJsonLabel => 'Prilagođena polja (JSON, neobavezno)';
+
+  @override
+  String get extraFieldsSectionTitle => 'Dodatna polja (neobavezno)';
+
+  @override
+  String get removeTooltip => 'Ukloni';
+
+  @override
+  String get fieldLabelHint => 'Naziv polja (npr. broj narudžbe)';
+
+  @override
+  String get extraFieldTypeText => 'Tekst';
+
+  @override
+  String get extraFieldTypeNumber => 'Broj';
+
+  @override
+  String get extraFieldTypeDate => 'Datum';
+
+  @override
+  String get addFieldTooltip => 'Dodaj polje';
+
+  @override
+  String get saveCustomTaskButton => 'Spremi prilagođeni zadatak';
+
+  @override
+  String get adHocLabel => 'Prema potrebi';
+
+  @override
+  String get timeAllocatedLabel => 'Dodijeljeno vrijeme';
+
+  @override
+  String get frequencyPrefixLabel => 'Učestalost: ';
+
+  @override
+  String get atATimeLabel => 'U određeno vrijeme';
+
+  @override
+  String get fromStartOfShiftLabel => 'Od početka smjene';
+
+  @override
+  String get fromClockInLabel => 'Od prijave na posao';
+
+  @override
+  String get availableFromEllipsis => 'Dostupno od…';
+
+  @override
+  String get untilEllipsis => 'do…';
+
+  @override
+  String assignTasksForStaffTitle(String name) {
+    return 'Dodijeli zadatke - $name';
+  }
+
+  @override
+  String applyPresetToWhichOneTitle(String name) {
+    return 'Primijeni \"$name\" na koji?';
+  }
+
+  @override
+  String allPresetTasksAlreadyAssigned(String name) {
+    return 'Svi zadaci \"$name\" već su dodijeljeni';
+  }
+
+  @override
+  String addedTasksFromPreset(int count, String name) {
+    return 'Dodano $count zadataka iz \"$name\"';
+  }
+
+  @override
+  String applyPresetToTitle(String name) {
+    return 'Primijeni \"$name\" na';
+  }
+
+  @override
+  String assignTasksCountLabel(int count) {
+    return 'Dodijeli $count zadataka osoblju…';
+  }
+
+  @override
+  String addedTasksAcrossStaffLabel(int count, int staffCount) {
+    return 'Dodano $count dodjela za $staffCount zaposlenika';
+  }
+
+  @override
+  String presetSectionPrefix(String segment) {
+    return 'Odjeljak: $segment';
+  }
+
+  @override
+  String taskCountLabel(int count) {
+    return '$count zadataka';
+  }
+
+  @override
+  String showAllRolesLabel(String jobRole) {
+    return 'Prikaži sve uloge (zadano: samo $jobRole)';
+  }
+
+  @override
+  String extraFieldSummary(String label, String type) {
+    return '$label ($type)';
+  }
+
+  @override
+  String noEquipmentSetUpForTemplate(String title) {
+    return '$title - za ovo još nije postavljena oprema';
+  }
+
+  @override
+  String fromTimeLabel(String time) {
+    return 'Od $time';
+  }
+
+  @override
+  String untilTimeLabel(String time) {
+    return 'do $time';
+  }
+
+  @override
+  String createdAssignmentsLabel(int count, String skippedNote) {
+    return 'Stvoreno $count dodjela$skippedNote.';
+  }
+
+  @override
+  String skippedNoteLabel(int count) {
+    return ' (preskočeno $count - već dodijeljeno ili neusklađena uloga)';
+  }
 }

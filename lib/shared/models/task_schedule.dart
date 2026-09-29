@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 // Expanded (Sprint 023) to cover the checklist's real frequency vocabulary
 // alongside the original four, then again (Sprint 030) for gaps found while
 // loading HORECA_TASK_LIBRARY.md — purely additive both times, stored as
@@ -19,36 +21,68 @@ enum ScheduleFrequency {
   custom,
 }
 
-String frequencyLabel(ScheduleFrequency frequency) {
+String frequencyLabel(ScheduleFrequency frequency, [AppLocalizations? l10n]) {
+  if (l10n == null) {
+    switch (frequency) {
+      case ScheduleFrequency.daily:
+        return 'Daily';
+      case ScheduleFrequency.weekly:
+        return 'Weekly';
+      case ScheduleFrequency.perShift:
+        return 'Per Shift';
+      case ScheduleFrequency.threeXDaily:
+        return '3x Daily';
+      case ScheduleFrequency.twoXDaily:
+        return '2x Daily';
+      case ScheduleFrequency.perBatch:
+        return 'Per Batch';
+      case ScheduleFrequency.perDelivery:
+        return 'Per Delivery';
+      case ScheduleFrequency.perUse:
+        return 'Per Use';
+      case ScheduleFrequency.perService:
+        return 'Per Service';
+      case ScheduleFrequency.twoXPerService:
+        return '2x Per Service';
+      case ScheduleFrequency.eventBased:
+        return 'Event-Based';
+      case ScheduleFrequency.asNeeded:
+        return 'As Needed';
+      case ScheduleFrequency.monthly:
+        return 'Monthly';
+      case ScheduleFrequency.custom:
+        return 'Custom';
+    }
+  }
   switch (frequency) {
     case ScheduleFrequency.daily:
-      return 'Daily';
+      return l10n.freqDaily;
     case ScheduleFrequency.weekly:
-      return 'Weekly';
+      return l10n.freqWeekly;
     case ScheduleFrequency.perShift:
-      return 'Per Shift';
+      return l10n.freqPerShift;
     case ScheduleFrequency.threeXDaily:
-      return '3x Daily';
+      return l10n.freqThreeXDaily;
     case ScheduleFrequency.twoXDaily:
-      return '2x Daily';
+      return l10n.freqTwoXDaily;
     case ScheduleFrequency.perBatch:
-      return 'Per Batch';
+      return l10n.freqPerBatch;
     case ScheduleFrequency.perDelivery:
-      return 'Per Delivery';
+      return l10n.freqPerDelivery;
     case ScheduleFrequency.perUse:
-      return 'Per Use';
+      return l10n.freqPerUse;
     case ScheduleFrequency.perService:
-      return 'Per Service';
+      return l10n.freqPerService;
     case ScheduleFrequency.twoXPerService:
-      return '2x Per Service';
+      return l10n.freqTwoXPerService;
     case ScheduleFrequency.eventBased:
-      return 'Event-Based';
+      return l10n.freqEventBased;
     case ScheduleFrequency.asNeeded:
-      return 'As Needed';
+      return l10n.freqAsNeeded;
     case ScheduleFrequency.monthly:
-      return 'Monthly';
+      return l10n.freqMonthly;
     case ScheduleFrequency.custom:
-      return 'Custom';
+      return l10n.freqCustom;
   }
 }
 

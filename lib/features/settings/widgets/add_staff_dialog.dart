@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../shared/models/job_role.dart';
 import '../../../shared/models/user.dart';
 import '../../../shared/providers/auth_providers.dart';
@@ -42,6 +43,7 @@ class AddStaffFormFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final tierOptions = allowedTiers.contains(selectedTier)
         ? allowedTiers
         : [selectedTier, ...allowedTiers];
@@ -51,22 +53,22 @@ class AddStaffFormFields extends StatelessWidget {
       children: [
         TextField(
           controller: nameController,
-          decoration: const InputDecoration(labelText: 'Name'),
+          decoration: InputDecoration(labelText: l10n.nameAxisLabel),
         ),
         const SizedBox(height: 12),
         TextField(
           controller: jobTitleController,
-          decoration: const InputDecoration(labelText: 'Job title'),
+          decoration: InputDecoration(labelText: l10n.jobTitleLabel),
         ),
         const SizedBox(height: 12),
         DropdownButtonFormField<RoleTier>(
           initialValue: selectedTier,
-          decoration: const InputDecoration(labelText: 'Role tier'),
+          decoration: InputDecoration(labelText: l10n.roleTierLabel),
           items: tierOptions
               .map(
                 (tier) => DropdownMenuItem(
                   value: tier,
-                  child: Text(roleTierDisplayName(tier)),
+                  child: Text(roleTierDisplayName(tier, l10n)),
                 ),
               )
               .toList(),
@@ -77,13 +79,13 @@ class AddStaffFormFields extends StatelessWidget {
         const SizedBox(height: 12),
         DropdownButtonFormField<JobRole>(
           initialValue: selectedJobRole,
-          decoration: const InputDecoration(labelText: 'Job role'),
+          decoration: InputDecoration(labelText: l10n.jobRoleFieldLabel),
           items: JobRole.values
               .where((role) => role != JobRole.everyone)
               .map(
                 (role) => DropdownMenuItem(
                   value: role,
-                  child: Text(jobRoleDisplayName(role)),
+                  child: Text(jobRoleDisplayName(role, l10n)),
                 ),
               )
               .toList(),
@@ -96,7 +98,7 @@ class AddStaffFormFields extends StatelessWidget {
           controller: pinController,
           keyboardType: TextInputType.number,
           obscureText: true,
-          decoration: const InputDecoration(labelText: 'PIN'),
+          decoration: InputDecoration(labelText: l10n.pinFieldLabel),
         ),
       ],
     );
@@ -185,8 +187,9 @@ class _AddStaffDialogContentState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AlertDialog(
-      title: const Text('Add Staff Member'),
+      title: Text(l10n.addStaffMemberTitle),
       content: SingleChildScrollView(
         child: AddStaffFormFields(
           nameController: _nameController,
@@ -202,7 +205,7 @@ class _AddStaffDialogContentState
       actions: [
         TextButton(
           onPressed: _submitting ? null : () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(l10n.cancel),
         ),
         ElevatedButton(
           onPressed: _submitting ? null : _submit,
@@ -212,7 +215,7 @@ class _AddStaffDialogContentState
                   height: 18,
                   child: CircularProgressIndicator(strokeWidth: 2),
                 )
-              : const Text('Add'),
+              : Text(l10n.addLabel),
         ),
       ],
     );

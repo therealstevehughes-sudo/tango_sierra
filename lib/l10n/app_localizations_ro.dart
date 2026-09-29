@@ -2153,4 +2153,449 @@ class AppLocalizationsRo extends AppLocalizations {
   String staffPinLabel(String pin) {
     return 'PIN: $pin';
   }
+
+  @override
+  String get jobRoleChefCook => 'Bucătar';
+
+  @override
+  String get jobRoleKitchenPorter => 'Ajutor de bucătărie';
+
+  @override
+  String get jobRoleFrontOfHouse => 'Sală (Front of House)';
+
+  @override
+  String get jobRoleBar => 'Bar';
+
+  @override
+  String get jobRoleManagement => 'Management';
+
+  @override
+  String get jobRoleEveryone => 'Toată lumea';
+
+  @override
+  String get jobRoleMaintenance => 'Întreținere';
+
+  @override
+  String get jobRoleHousekeeping => 'Menaj';
+
+  @override
+  String get jobRoleReception => 'Recepție';
+
+  @override
+  String get jobRoleSecurity => 'Securitate';
+
+  @override
+  String get segmentFoodSafety =>
+      'Siguranța alimentară și controlul temperaturii';
+
+  @override
+  String get segmentAllergen => 'Managementul alergenilor';
+
+  @override
+  String get segmentPersonalHygienePpe => 'Igienă personală și EIP';
+
+  @override
+  String get segmentRefrigerationColdStorage =>
+      'Refrigerare și depozitare la rece';
+
+  @override
+  String get segmentCookingLineEquipment => 'Echipamente de linie de gătit';
+
+  @override
+  String get segmentWashupDishwash => 'Spălătorie / Spălat vase';
+
+  @override
+  String get segmentCleaningSanitation => 'Curățenie și igienizare';
+
+  @override
+  String get segmentCleaningChemicals => 'Substanțe de curățare și consumabile';
+
+  @override
+  String get segmentDryAmbientStorage =>
+      'Depozitare uscată și la temperatura ambiantă';
+
+  @override
+  String get segmentDeliveriesGoodsIn => 'Livrări și recepție marfă';
+
+  @override
+  String get segmentUtilitiesSafety => 'Utilități și siguranță';
+
+  @override
+  String get segmentWastePestControl => 'Deșeuri și control dăunători';
+
+  @override
+  String get segmentPreventiveMaintenance =>
+      'Întreținere preventivă (echipamente de bucătărie)';
+
+  @override
+  String get segmentStockControl => 'Control stoc';
+
+  @override
+  String get segmentOpeningProcedures => 'Proceduri de deschidere';
+
+  @override
+  String get segmentClosingProcedures => 'Proceduri de închidere';
+
+  @override
+  String get segmentServiceReadiness => 'Pregătire pentru serviciu';
+
+  @override
+  String get segmentFrontOfHouse => 'Sală / Serviciu';
+
+  @override
+  String get segmentBarBeverage => 'Bar și băuturi';
+
+  @override
+  String get segmentHotelSpecific => 'Specific hotelului';
+
+  @override
+  String get segmentManagementComplianceOversight =>
+      'Management și supraveghere a conformității';
+
+  @override
+  String get segmentMaintenance => 'Întreținere';
+
+  @override
+  String get segmentHousekeeping => 'Menaj';
+
+  @override
+  String get segmentReception => 'Recepție';
+
+  @override
+  String get segmentSecurity => 'Securitate';
+
+  @override
+  String get freqDaily => 'Zilnic';
+
+  @override
+  String get freqWeekly => 'Săptămânal';
+
+  @override
+  String get freqPerShift => 'Pe tură';
+
+  @override
+  String get freqThreeXDaily => 'De 3 ori pe zi';
+
+  @override
+  String get freqTwoXDaily => 'De 2 ori pe zi';
+
+  @override
+  String get freqPerBatch => 'Pe lot';
+
+  @override
+  String get freqPerDelivery => 'Pe livrare';
+
+  @override
+  String get freqPerUse => 'La utilizare';
+
+  @override
+  String get freqPerService => 'Pe serviciu';
+
+  @override
+  String get freqTwoXPerService => 'De 2 ori pe serviciu';
+
+  @override
+  String get freqEventBased => 'Bazat pe eveniment';
+
+  @override
+  String get freqAsNeeded => 'La nevoie';
+
+  @override
+  String get freqMonthly => 'Lunar';
+
+  @override
+  String get freqCustom => 'Personalizat';
+
+  @override
+  String get jobRoleFieldLabel => 'Rol de post';
+
+  @override
+  String get pinFieldLabel => 'PIN';
+
+  @override
+  String get addStaffMemberTitle => 'Adaugă angajat';
+
+  @override
+  String get addLabel => 'Adaugă';
+
+  @override
+  String get assignTasksTitle => 'Atribuire sarcini';
+
+  @override
+  String get noActiveSiteFoundError => 'Nu s-a găsit niciun local activ.';
+
+  @override
+  String get byPersonLabel => 'După persoană';
+
+  @override
+  String get byTaskLabel => 'După sarcină';
+
+  @override
+  String get noEquipmentOfTypeSetUp =>
+      'Niciun echipament de acest tip configurat încă.';
+
+  @override
+  String get applyButton => 'Aplică';
+
+  @override
+  String get assignToTitle => 'Atribuie către';
+
+  @override
+  String get noStaffMatchTiers =>
+      'Niciun angajat nu se potrivește nivelului(rilor) cărora li se aplică aceste sarcini.';
+
+  @override
+  String get assignButton => 'Atribuie';
+
+  @override
+  String get showInstructionsTooltip => 'Arată instrucțiunile';
+
+  @override
+  String get selectTasksToAssignLabel => 'Selectează sarcini de atribuit';
+
+  @override
+  String get taskPresetsSectionTitle => 'Seturi predefinite de sarcini';
+
+  @override
+  String get showAllPresetsButton => 'Arată toate seturile';
+
+  @override
+  String get showTasksInGroupTooltip => 'Arată sarcinile din acest grup';
+
+  @override
+  String get applyToMultipleButton => 'Aplică la mai mulți';
+
+  @override
+  String get addCustomTaskButton => 'Adaugă sarcină personalizată';
+
+  @override
+  String get customTaskSectionTitle => 'Sarcină personalizată';
+
+  @override
+  String get titleFieldLabel => 'Titlu';
+
+  @override
+  String get departmentSectionLabel => 'Departament / secțiune';
+
+  @override
+  String get methodLabel => 'Metodă';
+
+  @override
+  String get methodTick => 'Bifă';
+
+  @override
+  String get methodData => 'Date';
+
+  @override
+  String get methodDataTick => 'Date + bifă';
+
+  @override
+  String get methodTickPhoto => 'Bifă + fotografie';
+
+  @override
+  String get methodDataPhoto => 'Date + fotografie';
+
+  @override
+  String get methodNote => 'Notă';
+
+  @override
+  String get methodDataNote => 'Date + notă';
+
+  @override
+  String get methodNotePhoto => 'Notă + fotografie';
+
+  @override
+  String get methodTickNote => 'Bifă + notă';
+
+  @override
+  String get methodMulti => 'Multiplu';
+
+  @override
+  String get requiresPhotoLabel => 'Necesită fotografie';
+
+  @override
+  String get requiresNotesLabel => 'Necesită notițe';
+
+  @override
+  String get minLimitLabel => 'Limită minimă';
+
+  @override
+  String get maxLimitLabel => 'Limită maximă';
+
+  @override
+  String get unitHintLabel => 'Unitate (ex. Celsius)';
+
+  @override
+  String get equipmentTypeOptionalLabel => 'Tip de echipament (opțional)';
+
+  @override
+  String get noneLabel => 'Niciunul';
+
+  @override
+  String get priorityLabel => 'Prioritate';
+
+  @override
+  String get priorityCritical => 'Critică';
+
+  @override
+  String get priorityHigh => 'Ridicată';
+
+  @override
+  String get priorityStandard => 'Standard';
+
+  @override
+  String get requiresCorrectiveActionLabel =>
+      'Necesită acțiune corectivă la eșec';
+
+  @override
+  String get fixInstructionsLabel => 'Instrucțiuni de remediere';
+
+  @override
+  String get customFieldsJsonLabel => 'Câmpuri personalizate (JSON, opțional)';
+
+  @override
+  String get extraFieldsSectionTitle => 'Câmpuri suplimentare (opțional)';
+
+  @override
+  String get removeTooltip => 'Elimină';
+
+  @override
+  String get fieldLabelHint => 'Etichetă câmp (ex. număr comandă)';
+
+  @override
+  String get extraFieldTypeText => 'Text';
+
+  @override
+  String get extraFieldTypeNumber => 'Număr';
+
+  @override
+  String get extraFieldTypeDate => 'Dată';
+
+  @override
+  String get addFieldTooltip => 'Adaugă câmp';
+
+  @override
+  String get saveCustomTaskButton => 'Salvează sarcina personalizată';
+
+  @override
+  String get adHocLabel => 'Ad hoc';
+
+  @override
+  String get timeAllocatedLabel => 'Timp alocat';
+
+  @override
+  String get frequencyPrefixLabel => 'Frecvență: ';
+
+  @override
+  String get atATimeLabel => 'La o oră fixă';
+
+  @override
+  String get fromStartOfShiftLabel => 'De la începutul turei';
+
+  @override
+  String get fromClockInLabel => 'De la pontaj';
+
+  @override
+  String get availableFromEllipsis => 'Disponibil de la…';
+
+  @override
+  String get untilEllipsis => 'până la…';
+
+  @override
+  String assignTasksForStaffTitle(String name) {
+    return 'Atribuire sarcini - $name';
+  }
+
+  @override
+  String applyPresetToWhichOneTitle(String name) {
+    return 'Aplică \"$name\" la care?';
+  }
+
+  @override
+  String allPresetTasksAlreadyAssigned(String name) {
+    return 'Toate sarcinile $name erau deja atribuite';
+  }
+
+  @override
+  String addedTasksFromPreset(int count, String name) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'S-au adăugat $count sarcini',
+      one: 'S-a adăugat $count sarcină',
+    );
+    return '$_temp0 din $name';
+  }
+
+  @override
+  String applyPresetToTitle(String name) {
+    return 'Aplică \"$name\" la';
+  }
+
+  @override
+  String assignTasksCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Atribuie $count sarcini personalului…',
+      one: 'Atribuie $count sarcină personalului…',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String addedTasksAcrossStaffLabel(int count, int staffCount) {
+    return 'S-au adăugat $count atribuiri pentru $staffCount angajați';
+  }
+
+  @override
+  String presetSectionPrefix(String segment) {
+    return 'Secțiune: $segment';
+  }
+
+  @override
+  String taskCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sarcini',
+      one: '$count sarcină',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String showAllRolesLabel(String jobRole) {
+    return 'Arată toate rolurile (implicit doar: $jobRole)';
+  }
+
+  @override
+  String extraFieldSummary(String label, String type) {
+    return '$label ($type)';
+  }
+
+  @override
+  String noEquipmentSetUpForTemplate(String title) {
+    return '$title - niciun echipament configurat încă pentru asta';
+  }
+
+  @override
+  String fromTimeLabel(String time) {
+    return 'De la $time';
+  }
+
+  @override
+  String untilTimeLabel(String time) {
+    return 'până la $time';
+  }
+
+  @override
+  String createdAssignmentsLabel(int count, String skippedNote) {
+    return '$count atribuiri create$skippedNote.';
+  }
+
+  @override
+  String skippedNoteLabel(int count) {
+    return ' ($count omise - deja atribuite sau nepotrivire de rol)';
+  }
 }

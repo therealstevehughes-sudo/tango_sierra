@@ -87,7 +87,7 @@ class _TaskOverviewScreenState extends State<TaskOverviewScreen> {
                 child: Text(
                   entry.key.isEmpty
                       ? l10n.otherSegmentLabel
-                      : segmentDisplayName(entry.key),
+                      : segmentDisplayName(entry.key, l10n),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),

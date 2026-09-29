@@ -2128,4 +2128,428 @@ class AppLocalizationsUr extends AppLocalizations {
   String staffPinLabel(String pin) {
     return 'پن: $pin';
   }
+
+  @override
+  String get jobRoleChefCook => 'شیف/باورچی';
+
+  @override
+  String get jobRoleKitchenPorter => 'کچن پورٹر';
+
+  @override
+  String get jobRoleFrontOfHouse => 'فرنٹ آف ہاؤس';
+
+  @override
+  String get jobRoleBar => 'بار';
+
+  @override
+  String get jobRoleManagement => 'انتظامیہ';
+
+  @override
+  String get jobRoleEveryone => 'سب';
+
+  @override
+  String get jobRoleMaintenance => 'دیکھ بھال';
+
+  @override
+  String get jobRoleHousekeeping => 'ہاؤس کیپنگ';
+
+  @override
+  String get jobRoleReception => 'استقبالیہ';
+
+  @override
+  String get jobRoleSecurity => 'سیکیورٹی';
+
+  @override
+  String get segmentFoodSafety => 'خوراک کی حفاظت اور درجہ حرارت کنٹرول';
+
+  @override
+  String get segmentAllergen => 'الرجن مینجمنٹ';
+
+  @override
+  String get segmentPersonalHygienePpe => 'ذاتی صفائی اور پی پی ای';
+
+  @override
+  String get segmentRefrigerationColdStorage => 'ریفریجریشن اور کولڈ اسٹوریج';
+
+  @override
+  String get segmentCookingLineEquipment => 'کوکنگ لائن آلات';
+
+  @override
+  String get segmentWashupDishwash => 'برتن دھونا';
+
+  @override
+  String get segmentCleaningSanitation => 'صفائی اور صحت و صفائی';
+
+  @override
+  String get segmentCleaningChemicals =>
+      'صفائی کیمیکل اور استعمال ہونے والی اشیاء';
+
+  @override
+  String get segmentDryAmbientStorage => 'خشک اور عام درجہ حرارت اسٹوریج';
+
+  @override
+  String get segmentDeliveriesGoodsIn => 'ڈیلیوری اور سامان کی وصولی';
+
+  @override
+  String get segmentUtilitiesSafety => 'سہولیات اور حفاظت';
+
+  @override
+  String get segmentWastePestControl => 'فضلہ اور کیڑوں کا کنٹرول';
+
+  @override
+  String get segmentPreventiveMaintenance => 'احتیاطی دیکھ بھال (کچن کا سامان)';
+
+  @override
+  String get segmentStockControl => 'اسٹاک کنٹرول';
+
+  @override
+  String get segmentOpeningProcedures => 'کھولنے کے طریقہ کار';
+
+  @override
+  String get segmentClosingProcedures => 'بند کرنے کے طریقہ کار';
+
+  @override
+  String get segmentServiceReadiness => 'سروس کی تیاری';
+
+  @override
+  String get segmentFrontOfHouse => 'فرنٹ آف ہاؤس / سروس';
+
+  @override
+  String get segmentBarBeverage => 'بار اور مشروبات';
+
+  @override
+  String get segmentHotelSpecific => 'ہوٹل کے لیے مخصوص';
+
+  @override
+  String get segmentManagementComplianceOversight =>
+      'انتظام اور تعمیل کی نگرانی';
+
+  @override
+  String get segmentMaintenance => 'دیکھ بھال';
+
+  @override
+  String get segmentHousekeeping => 'ہاؤس کیپنگ';
+
+  @override
+  String get segmentReception => 'استقبالیہ';
+
+  @override
+  String get segmentSecurity => 'سیکیورٹی';
+
+  @override
+  String get freqDaily => 'روزانہ';
+
+  @override
+  String get freqWeekly => 'ہفتہ وار';
+
+  @override
+  String get freqPerShift => 'فی شفٹ';
+
+  @override
+  String get freqThreeXDaily => 'دن میں 3 بار';
+
+  @override
+  String get freqTwoXDaily => 'دن میں 2 بار';
+
+  @override
+  String get freqPerBatch => 'فی بیچ';
+
+  @override
+  String get freqPerDelivery => 'فی ڈیلیوری';
+
+  @override
+  String get freqPerUse => 'فی استعمال';
+
+  @override
+  String get freqPerService => 'فی سروس';
+
+  @override
+  String get freqTwoXPerService => 'فی سروس 2 بار';
+
+  @override
+  String get freqEventBased => 'ایونٹ پر مبنی';
+
+  @override
+  String get freqAsNeeded => 'ضرورت کے مطابق';
+
+  @override
+  String get freqMonthly => 'ماہانہ';
+
+  @override
+  String get freqCustom => 'کسٹم';
+
+  @override
+  String get jobRoleFieldLabel => 'ملازمت کا کردار';
+
+  @override
+  String get pinFieldLabel => 'پن';
+
+  @override
+  String get addStaffMemberTitle => 'اسٹاف رکن شامل کریں';
+
+  @override
+  String get addLabel => 'شامل کریں';
+
+  @override
+  String get assignTasksTitle => 'کام تفویض کریں';
+
+  @override
+  String get noActiveSiteFoundError => 'کوئی فعال وینیو نہیں ملا۔';
+
+  @override
+  String get byPersonLabel => 'شخص کے مطابق';
+
+  @override
+  String get byTaskLabel => 'کام کے مطابق';
+
+  @override
+  String get noEquipmentOfTypeSetUp =>
+      'اس قسم کا کوئی سامان ابھی تک سیٹ نہیں کیا گیا۔';
+
+  @override
+  String get applyButton => 'لاگو کریں';
+
+  @override
+  String get assignToTitle => 'کسے تفویض کریں';
+
+  @override
+  String get noStaffMatchTiers =>
+      'کوئی عملہ ان سطحوں سے میل نہیں کھاتا جن پر یہ کام لاگو ہوتے ہیں۔';
+
+  @override
+  String get assignButton => 'تفویض کریں';
+
+  @override
+  String get showInstructionsTooltip => 'ہدایات دکھائیں';
+
+  @override
+  String get selectTasksToAssignLabel => 'تفویض کے لیے کام منتخب کریں';
+
+  @override
+  String get taskPresetsSectionTitle => 'کام کے پری سیٹس';
+
+  @override
+  String get showAllPresetsButton => 'تمام پری سیٹس دکھائیں';
+
+  @override
+  String get showTasksInGroupTooltip => 'اس گروپ میں کام دکھائیں';
+
+  @override
+  String get applyToMultipleButton => 'کئی افراد پر لاگو کریں';
+
+  @override
+  String get addCustomTaskButton => 'کسٹم کام شامل کریں';
+
+  @override
+  String get customTaskSectionTitle => 'کسٹم کام';
+
+  @override
+  String get titleFieldLabel => 'عنوان';
+
+  @override
+  String get departmentSectionLabel => 'شعبہ / حصہ';
+
+  @override
+  String get methodLabel => 'طریقہ';
+
+  @override
+  String get methodTick => 'ٹک';
+
+  @override
+  String get methodData => 'ڈیٹا';
+
+  @override
+  String get methodDataTick => 'ڈیٹا + ٹک';
+
+  @override
+  String get methodTickPhoto => 'ٹک + تصویر';
+
+  @override
+  String get methodDataPhoto => 'ڈیٹا + تصویر';
+
+  @override
+  String get methodNote => 'نوٹ';
+
+  @override
+  String get methodDataNote => 'ڈیٹا + نوٹ';
+
+  @override
+  String get methodNotePhoto => 'نوٹ + تصویر';
+
+  @override
+  String get methodTickNote => 'ٹک + نوٹ';
+
+  @override
+  String get methodMulti => 'ملٹی';
+
+  @override
+  String get requiresPhotoLabel => 'تصویر درکار ہے';
+
+  @override
+  String get requiresNotesLabel => 'نوٹس درکار ہیں';
+
+  @override
+  String get minLimitLabel => 'کم از کم حد';
+
+  @override
+  String get maxLimitLabel => 'زیادہ سے زیادہ حد';
+
+  @override
+  String get unitHintLabel => 'یونٹ (مثلاً سیلسیس)';
+
+  @override
+  String get equipmentTypeOptionalLabel => 'سامان کی قسم (اختیاری)';
+
+  @override
+  String get noneLabel => 'کوئی نہیں';
+
+  @override
+  String get priorityLabel => 'ترجیح';
+
+  @override
+  String get priorityCritical => 'نازک';
+
+  @override
+  String get priorityHigh => 'زیادہ';
+
+  @override
+  String get priorityStandard => 'معیاری';
+
+  @override
+  String get requiresCorrectiveActionLabel =>
+      'ناکامی پر اصلاحی کارروائی درکار ہے';
+
+  @override
+  String get fixInstructionsLabel => 'اصلاحی ہدایات';
+
+  @override
+  String get customFieldsJsonLabel => 'کسٹم فیلڈز (JSON، اختیاری)';
+
+  @override
+  String get extraFieldsSectionTitle => 'اضافی فیلڈز (اختیاری)';
+
+  @override
+  String get removeTooltip => 'ہٹائیں';
+
+  @override
+  String get fieldLabelHint => 'فیلڈ لیبل (مثلاً PO نمبر)';
+
+  @override
+  String get extraFieldTypeText => 'متن';
+
+  @override
+  String get extraFieldTypeNumber => 'نمبر';
+
+  @override
+  String get extraFieldTypeDate => 'تاریخ';
+
+  @override
+  String get addFieldTooltip => 'فیلڈ شامل کریں';
+
+  @override
+  String get saveCustomTaskButton => 'کسٹم کام محفوظ کریں';
+
+  @override
+  String get adHocLabel => 'فوری';
+
+  @override
+  String get timeAllocatedLabel => 'وقت مختص';
+
+  @override
+  String get frequencyPrefixLabel => 'تعدد: ';
+
+  @override
+  String get atATimeLabel => 'ایک مقررہ وقت پر';
+
+  @override
+  String get fromStartOfShiftLabel => 'شفٹ کے آغاز سے';
+
+  @override
+  String get fromClockInLabel => 'کلاک اِن سے';
+
+  @override
+  String get availableFromEllipsis => 'دستیاب…';
+
+  @override
+  String get untilEllipsis => 'تک…';
+
+  @override
+  String assignTasksForStaffTitle(String name) {
+    return 'کام تفویض کریں - $name';
+  }
+
+  @override
+  String applyPresetToWhichOneTitle(String name) {
+    return '\"$name\" کس پر لاگو کریں؟';
+  }
+
+  @override
+  String allPresetTasksAlreadyAssigned(String name) {
+    return '$name کے تمام کام پہلے سے تفویض کیے جا چکے ہیں';
+  }
+
+  @override
+  String addedTasksFromPreset(int count, String name) {
+    return '$name سے $count کام شامل کیے گئے';
+  }
+
+  @override
+  String applyPresetToTitle(String name) {
+    return '\"$name\" لاگو کریں';
+  }
+
+  @override
+  String assignTasksCountLabel(int count) {
+    return 'عملے کو $count کام تفویض کریں…';
+  }
+
+  @override
+  String addedTasksAcrossStaffLabel(int count, int staffCount) {
+    return '$staffCount اسٹاف اراکین میں $count تفویضات شامل کی گئیں';
+  }
+
+  @override
+  String presetSectionPrefix(String segment) {
+    return 'حصہ: $segment';
+  }
+
+  @override
+  String taskCountLabel(int count) {
+    return '$count کام';
+  }
+
+  @override
+  String showAllRolesLabel(String jobRole) {
+    return 'تمام کردار دکھائیں (طے شدہ: صرف $jobRole)';
+  }
+
+  @override
+  String extraFieldSummary(String label, String type) {
+    return '$label ($type)';
+  }
+
+  @override
+  String noEquipmentSetUpForTemplate(String title) {
+    return '$title - اس کے لیے ابھی تک کوئی سامان سیٹ نہیں کیا گیا';
+  }
+
+  @override
+  String fromTimeLabel(String time) {
+    return '$time سے';
+  }
+
+  @override
+  String untilTimeLabel(String time) {
+    return '$time تک';
+  }
+
+  @override
+  String createdAssignmentsLabel(int count, String skippedNote) {
+    return '$count تفویضات بنائی گئیں$skippedNote۔';
+  }
+
+  @override
+  String skippedNoteLabel(int count) {
+    return ' ($count چھوڑے گئے - پہلے سے تفویض یا کردار عدم مطابقت)';
+  }
 }

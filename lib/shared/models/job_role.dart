@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 // Job-role tags (Sprint 031 — HORECA_TASK_ENRICHMENT.md load). A distinct
 // dimension from RoleTier: RoleTier is org-level access control (who CAN be
 // assigned what — a real lockout); JobRole is content relevance (who a task
@@ -29,27 +31,51 @@ enum JobRole {
   security,
 }
 
-String jobRoleDisplayName(JobRole role) {
+String jobRoleDisplayName(JobRole role, [AppLocalizations? l10n]) {
+  if (l10n == null) {
+    switch (role) {
+      case JobRole.chefCook:
+        return 'Chef/Cook';
+      case JobRole.kitchenPorter:
+        return 'Kitchen Porter';
+      case JobRole.frontOfHouse:
+        return 'Front of House';
+      case JobRole.bar:
+        return 'Bar';
+      case JobRole.management:
+        return 'Management';
+      case JobRole.everyone:
+        return 'Everyone';
+      case JobRole.maintenance:
+        return 'Maintenance';
+      case JobRole.housekeeping:
+        return 'Housekeeping';
+      case JobRole.reception:
+        return 'Reception';
+      case JobRole.security:
+        return 'Security';
+    }
+  }
   switch (role) {
     case JobRole.chefCook:
-      return 'Chef/Cook';
+      return l10n.jobRoleChefCook;
     case JobRole.kitchenPorter:
-      return 'Kitchen Porter';
+      return l10n.jobRoleKitchenPorter;
     case JobRole.frontOfHouse:
-      return 'Front of House';
+      return l10n.jobRoleFrontOfHouse;
     case JobRole.bar:
-      return 'Bar';
+      return l10n.jobRoleBar;
     case JobRole.management:
-      return 'Management';
+      return l10n.jobRoleManagement;
     case JobRole.everyone:
-      return 'Everyone';
+      return l10n.jobRoleEveryone;
     case JobRole.maintenance:
-      return 'Maintenance';
+      return l10n.jobRoleMaintenance;
     case JobRole.housekeeping:
-      return 'Housekeeping';
+      return l10n.jobRoleHousekeeping;
     case JobRole.reception:
-      return 'Reception';
+      return l10n.jobRoleReception;
     case JobRole.security:
-      return 'Security';
+      return l10n.jobRoleSecurity;
   }
 }

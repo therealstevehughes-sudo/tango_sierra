@@ -23,6 +23,7 @@ import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
+import '../../l10n/app_localizations.dart';
 
 class StaffAssignmentScreen extends ConsumerStatefulWidget {
   const StaffAssignmentScreen({super.key});
@@ -157,7 +158,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         if (site == null) {
           if (!mounted) return;
           setState(() {
-            loadError = 'No active site found.';
+            loadError = AppLocalizations.of(context)!.noActiveSiteFoundError;
             loading = false;
           });
           return;
@@ -352,17 +353,16 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   }
 
   String _presetSubtitle(TaskPreset preset) {
+    final l10n = AppLocalizations.of(context)!;
     final parts = <String>[
       for (final t in equipmentTypes)
         if (t.id == preset.equipmentTypeId) t.name,
       if (preset.segment != null && preset.segment!.isNotEmpty)
-        'Section: ${preset.segment}',
+        l10n.presetSectionPrefix(preset.segment!),
     ];
-    final context = parts.join(' · ');
-    final count =
-        '${preset.items.length} task'
-        '${preset.items.length == 1 ? '' : 's'}';
-    return context.isEmpty ? count : '$context · $count';
+    final joined = parts.join(' · ');
+    final count = l10n.taskCountLabel(preset.items.length);
+    return joined.isEmpty ? count : '$joined · $count';
   }
 
   Future<void> _onApplyPreset(TaskPreset preset) async {
@@ -379,7 +379,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         .toList();
     if (matching.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No equipment of this type set up yet.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.noEquipmentOfTypeSetUp)),
       );
       return;
     }
@@ -387,7 +387,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     final chosen = await showDialog<Equipment>(
       context: context,
       builder: (context) => SimpleDialog(
-        title: Text('Apply "${preset.name}" to which one?'),
+        title: Text(
+          AppLocalizations.of(context)!.applyPresetToWhichOneTitle(preset.name),
+        ),
         children: matching
             .map(
               (e) => SimpleDialogOption(
@@ -425,12 +427,13 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     if (!mounted) return;
     setState(() => schedulesForSelectedStaff = refreshed);
 
+    final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
           count == 0
-              ? 'All ${preset.name} tasks were already assigned'
-              : 'Added $count task${count == 1 ? '' : 's'} from ${preset.name}',
+              ? l10n.allPresetTasksAlreadyAssigned(preset.name)
+              : l10n.addedTasksFromPreset(count, preset.name),
         ),
       ),
     );
@@ -452,8 +455,8 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
           .toList();
       if (matching.isEmpty) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('No equipment of this type set up yet.'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.noEquipmentOfTypeSetUp),
           ),
         );
         return;
@@ -461,7 +464,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       final chosen = await showDialog<Equipment>(
         context: context,
         builder: (context) => SimpleDialog(
-          title: Text('Apply "${preset.name}" to which one?'),
+          title: Text(
+            AppLocalizations.of(context)!.applyPresetToWhichOneTitle(preset.name),
+          ),
           children: matching
               .map(
                 (e) => SimpleDialogOption(
@@ -481,43 +486,46 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('Apply "${preset.name}" to'),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: ListView(
-              shrinkWrap: true,
-              children: staffList
-                  .map(
-                    (u) => CheckboxListTile(
-                      value: selected.contains(u.id),
-                      title: Text(u.name),
-                      subtitle: Text(u.jobTitle),
-                      onChanged: (checked) => setDialogState(() {
-                        if (checked ?? false) {
-                          selected.add(u.id);
-                        } else {
-                          selected.remove(u.id);
-                        }
-                      }),
-                    ),
-                  )
-                  .toList(),
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.applyPresetToTitle(preset.name)),
+            content: SizedBox(
+              width: double.maxFinite,
+              child: ListView(
+                shrinkWrap: true,
+                children: staffList
+                    .map(
+                      (u) => CheckboxListTile(
+                        value: selected.contains(u.id),
+                        title: Text(u.name),
+                        subtitle: Text(u.jobTitle),
+                        onChanged: (checked) => setDialogState(() {
+                          if (checked ?? false) {
+                            selected.add(u.id);
+                          } else {
+                            selected.remove(u.id);
+                          }
+                        }),
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: selected.isEmpty
-                  ? null
-                  : () => Navigator.pop(context, true),
-              child: const Text('Apply'),
-            ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: selected.isEmpty
+                    ? null
+                    : () => Navigator.pop(context, true),
+                child: Text(l10n.applyButton),
+              ),
+            ],
+          );
+        },
       ),
     );
     if (confirmed != true || selected.isEmpty) return;
@@ -555,8 +563,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          'Added $totalAdded task${totalAdded == 1 ? '' : 's'} across '
-          '${selected.length} staff member${selected.length == 1 ? '' : 's'}',
+          AppLocalizations.of(
+            context,
+          )!.addedTasksAcrossStaffLabel(totalAdded, selected.length),
         ),
       ),
     );
@@ -564,14 +573,15 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
         title: Text(
           mode == _AssignMode.byTask
-              ? 'Assign Tasks'
+              ? l10n.assignTasksTitle
               : selectedStaff == null
-              ? 'Assign Tasks'
-              : 'Assign Tasks - ${selectedStaff!.name}',
+              ? l10n.assignTasksTitle
+              : l10n.assignTasksForStaffTitle(selectedStaff!.name),
         ),
         leading: mode == _AssignMode.byPerson && selectedStaff != null
             ? IconButton(
@@ -586,7 +596,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
       // arrow above, not the drawer hamburger — the drawer stays reachable
       // via edge-swipe in that state (pre-existing Scaffold behavior, not
       // new here), same as any screen with a custom leading widget.
-      drawer: const ManagementDrawer(title: 'Assign Tasks'),
+      drawer: ManagementDrawer(title: l10n.assignTasksTitle),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : loadError != null
@@ -599,16 +609,16 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SegmentedButton<_AssignMode>(
-                  segments: const [
+                  segments: [
                     ButtonSegment(
                       value: _AssignMode.byPerson,
-                      label: Text('By Person'),
-                      icon: Icon(Icons.person_outline),
+                      label: Text(l10n.byPersonLabel),
+                      icon: const Icon(Icons.person_outline),
                     ),
                     ButtonSegment(
                       value: _AssignMode.byTask,
-                      label: Text('By Task'),
-                      icon: Icon(Icons.checklist_outlined),
+                      label: Text(l10n.byTaskLabel),
+                      icon: const Icon(Icons.checklist_outlined),
                     ),
                   ],
                   selected: {mode},
@@ -644,6 +654,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   // screen), so a manager can see exactly what they're assigning without
   // leaving this screen.
   Widget _buildByTaskMode() {
+    final l10n = AppLocalizations.of(context)!;
     final groups = <String, List<_TaskRow>>{};
     for (final template in templates) {
       if (template.equipmentTypeId == null) {
@@ -651,7 +662,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         // prefixed with "Segment: " (e.g. "Segment: reception"); now the
         // same friendly name used by the By Person tab's own grouping.
         groups
-            .putIfAbsent(segmentDisplayName(template.segment), () => [])
+            .putIfAbsent(segmentDisplayName(template.segment, l10n), () => [])
             .add(_TaskRow(template: template, instance: null));
         continue;
       }
@@ -688,8 +699,8 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         const SizedBox(height: 12),
         PrimaryActionButton(
           label: selectedTaskKeys.isEmpty
-              ? 'Select tasks to assign'
-              : 'Assign ${selectedTaskKeys.length} task${selectedTaskKeys.length == 1 ? '' : 's'} to staff…',
+              ? l10n.selectTasksToAssignLabel
+              : l10n.assignTasksCountLabel(selectedTaskKeys.length),
           onPressed: selectedTaskKeys.isEmpty ? null : _pickStaffAndAssign,
         ),
       ],
@@ -697,6 +708,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   }
 
   Widget _buildByTaskRow(_TaskRow row) {
+    final l10n = AppLocalizations.of(context)!;
     final key = _taskKey(row.template.templateGroupId, row.instance?.id);
     final hasGuidance = (row.template.guidanceText ?? '').trim().isNotEmpty;
     final expanded = expandedTaskKeys.contains(key);
@@ -720,7 +732,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
                     icon: Icon(
                       expanded ? Icons.expand_less : Icons.expand_more,
                     ),
-                    tooltip: 'Show instructions',
+                    tooltip: l10n.showInstructionsTooltip,
                     onPressed: () => setState(() {
                       if (expanded) {
                         expandedTaskKeys.remove(key);
@@ -822,11 +834,14 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
 
     if (!mounted) return;
     setState(() => selectedTaskKeys.clear());
+    final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          '$created assignment${created == 1 ? '' : 's'} created'
-          '${skipped > 0 ? ' ($skipped skipped - already assigned or role mismatch)' : ''}.',
+          l10n.createdAssignmentsLabel(
+            created,
+            skipped > 0 ? l10n.skippedNoteLabel(skipped) : '',
+          ),
         ),
       ),
     );
@@ -853,7 +868,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         return Card(
           child: ListTile(
             title: Text('${user.name} (${user.jobTitle})'),
-            subtitle: Text(roleTierDisplayName(user.roleTier)),
+            subtitle: Text(
+              roleTierDisplayName(user.roleTier, AppLocalizations.of(context)),
+            ),
             onTap: () => _selectStaff(user),
           ),
         );
@@ -862,6 +879,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   }
 
   Widget _buildAssignmentList() {
+    final l10n = AppLocalizations.of(context)!;
     final staff = selectedStaff!;
     // Tier is a real lockout — unchanged, still the only access-control
     // filter. jobRole below is a default on top of it, not a second
@@ -898,13 +916,13 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (presets.isNotEmpty) ...[
-            const SectionHeader(title: 'Task Presets'),
+            SectionHeader(title: l10n.taskPresetsSectionTitle),
             if (!showAllPresetVenueTypes &&
                 siteVenueTypeIds.isNotEmpty &&
                 _visiblePresets.length < presets.length)
               TextButton(
                 onPressed: () => setState(() => showAllPresetVenueTypes = true),
-                child: const Text('Show all presets'),
+                child: Text(l10n.showAllPresetsButton),
               ),
             for (final preset in _visiblePresets)
               Card(
@@ -923,7 +941,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
                                   ? Icons.expand_less
                                   : Icons.expand_more,
                             ),
-                            tooltip: 'Show tasks in this group',
+                            tooltip: l10n.showTasksInGroupTooltip,
                             onPressed: () => setState(() {
                               if (expandedPresetIds.contains(preset.id)) {
                                 expandedPresetIds.remove(preset.id);
@@ -934,11 +952,11 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
                           ),
                           TextButton(
                             onPressed: () => _onApplyPreset(preset),
-                            child: const Text('Apply'),
+                            child: Text(l10n.applyButton),
                           ),
                           TextButton(
                             onPressed: () => _onApplyPresetToMultiple(preset),
-                            child: const Text('Apply to Multiple'),
+                            child: Text(l10n.applyToMultipleButton),
                           ),
                         ],
                       ),
@@ -983,7 +1001,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
             CheckboxListTile(
               value: showAllJobRoles,
               title: Text(
-                'Show all roles (default: ${jobRoleDisplayName(staff.jobRole!)} only)',
+                l10n.showAllRolesLabel(jobRoleDisplayName(staff.jobRole!, l10n)),
               ),
               onChanged: (value) =>
                   setState(() => showAllJobRoles = value ?? false),
@@ -995,7 +1013,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
           const Divider(),
           if (!showCustomTaskForm)
             PrimaryActionButton(
-              label: 'Add Custom Task',
+              label: l10n.addCustomTaskButton,
               onPressed: () => setState(() => showCustomTaskForm = true),
             )
           else
@@ -1012,6 +1030,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
   // segmentDisplayName, not the raw slug), first one open by default so
   // the screen isn't empty-looking on first open.
   Widget _buildSegmentGroup(String segment, List<TaskTemplate> templates) {
+    final l10n = AppLocalizations.of(context)!;
     final isExpanded = expandedSegments.contains(segment);
     return Card(
       child: Column(
@@ -1019,12 +1038,10 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         children: [
           ListTile(
             title: Text(
-              segmentDisplayName(segment),
+              segmentDisplayName(segment, l10n),
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
-            subtitle: Text(
-              '${templates.length} task${templates.length == 1 ? '' : 's'}',
-            ),
+            subtitle: Text(l10n.taskCountLabel(templates.length)),
             trailing: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
             onTap: () => setState(() {
               if (isExpanded) {
@@ -1077,7 +1094,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     if (matchingInstances.isEmpty) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 8),
-        child: Text('${template.title} - no equipment set up for this yet'),
+        child: Text(
+          AppLocalizations.of(context)!.noEquipmentSetUpForTemplate(template.title),
+        ),
       );
     }
 
@@ -1123,15 +1142,27 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
     );
   }
 
+  String _extraFieldTypeLabel(AppLocalizations l10n, TaskExtraFieldType type) {
+    switch (type) {
+      case TaskExtraFieldType.text:
+        return l10n.extraFieldTypeText;
+      case TaskExtraFieldType.number:
+        return l10n.extraFieldTypeNumber;
+      case TaskExtraFieldType.date:
+        return l10n.extraFieldTypeDate;
+    }
+  }
+
   Widget _buildCustomTaskForm() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 12),
-        const SectionHeader(title: 'Custom Task'),
+        SectionHeader(title: l10n.customTaskSectionTitle),
         TextField(
           controller: customTitleController,
-          decoration: const InputDecoration(labelText: 'Title'),
+          decoration: InputDecoration(labelText: l10n.titleFieldLabel),
         ),
         const SizedBox(height: 12),
         // Department/section (2026-09-24, direct user feedback) — files
@@ -1141,12 +1172,12 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         // "short lists -> tick/radio, long lists -> dropdown" rule.
         DropdownButtonFormField<String>(
           initialValue: customSegment,
-          decoration: const InputDecoration(labelText: 'Department / section'),
+          decoration: InputDecoration(labelText: l10n.departmentSectionLabel),
           items: allTaskSegments
               .map(
                 (s) => DropdownMenuItem(
                   value: s,
-                  child: Text(segmentDisplayName(s)),
+                  child: Text(segmentDisplayName(s, l10n)),
                 ),
               )
               .toList(),
@@ -1155,30 +1186,30 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         const SizedBox(height: 12),
         DropdownButtonFormField<String>(
           initialValue: customMethod,
-          decoration: const InputDecoration(labelText: 'Method'),
-          items: const [
-            DropdownMenuItem(value: 'tick', child: Text('Tick')),
-            DropdownMenuItem(value: 'data', child: Text('Data')),
-            DropdownMenuItem(value: 'data_tick', child: Text('Data + Tick')),
-            DropdownMenuItem(value: 'tick_photo', child: Text('Tick + Photo')),
-            DropdownMenuItem(value: 'data_photo', child: Text('Data + Photo')),
-            DropdownMenuItem(value: 'note', child: Text('Note')),
-            DropdownMenuItem(value: 'data_note', child: Text('Data + Note')),
-            DropdownMenuItem(value: 'note_photo', child: Text('Note + Photo')),
-            DropdownMenuItem(value: 'tick_note', child: Text('Tick + Note')),
-            DropdownMenuItem(value: 'multi', child: Text('Multi')),
+          decoration: InputDecoration(labelText: l10n.methodLabel),
+          items: [
+            DropdownMenuItem(value: 'tick', child: Text(l10n.methodTick)),
+            DropdownMenuItem(value: 'data', child: Text(l10n.methodData)),
+            DropdownMenuItem(value: 'data_tick', child: Text(l10n.methodDataTick)),
+            DropdownMenuItem(value: 'tick_photo', child: Text(l10n.methodTickPhoto)),
+            DropdownMenuItem(value: 'data_photo', child: Text(l10n.methodDataPhoto)),
+            DropdownMenuItem(value: 'note', child: Text(l10n.methodNote)),
+            DropdownMenuItem(value: 'data_note', child: Text(l10n.methodDataNote)),
+            DropdownMenuItem(value: 'note_photo', child: Text(l10n.methodNotePhoto)),
+            DropdownMenuItem(value: 'tick_note', child: Text(l10n.methodTickNote)),
+            DropdownMenuItem(value: 'multi', child: Text(l10n.methodMulti)),
           ],
           onChanged: (value) {
             if (value != null) setState(() => customMethod = value);
           },
         ),
         CheckboxListTile(
-          title: const Text('Requires photo'),
+          title: Text(l10n.requiresPhotoLabel),
           value: customRequiresPhoto,
           onChanged: (v) => setState(() => customRequiresPhoto = v ?? false),
         ),
         CheckboxListTile(
-          title: const Text('Requires notes'),
+          title: Text(l10n.requiresNotesLabel),
           value: customRequiresNotes,
           onChanged: (v) => setState(() => customRequiresNotes = v ?? false),
         ),
@@ -1188,7 +1219,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
               child: TextField(
                 controller: customMinLimitController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Min limit'),
+                decoration: InputDecoration(labelText: l10n.minLimitLabel),
               ),
             ),
             const SizedBox(width: 8),
@@ -1196,7 +1227,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
               child: TextField(
                 controller: customMaxLimitController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(labelText: 'Max limit'),
+                decoration: InputDecoration(labelText: l10n.maxLimitLabel),
               ),
             ),
           ],
@@ -1204,16 +1235,16 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         const SizedBox(height: 12),
         TextField(
           controller: customUnitController,
-          decoration: const InputDecoration(labelText: 'Unit (e.g. celsius)'),
+          decoration: InputDecoration(labelText: l10n.unitHintLabel),
         ),
         const SizedBox(height: 12),
         DropdownButtonFormField<int?>(
           initialValue: customEquipmentTypeId,
-          decoration: const InputDecoration(
-            labelText: 'Equipment type (optional)',
+          decoration: InputDecoration(
+            labelText: l10n.equipmentTypeOptionalLabel,
           ),
           items: [
-            const DropdownMenuItem<int?>(value: null, child: Text('None')),
+            DropdownMenuItem<int?>(value: null, child: Text(l10n.noneLabel)),
             ...equipmentTypes.map(
               (t) => DropdownMenuItem<int?>(value: t.id, child: Text(t.name)),
             ),
@@ -1222,16 +1253,16 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         ),
         DropdownButtonFormField<TaskPriority>(
           initialValue: customPriority,
-          decoration: const InputDecoration(labelText: 'Priority'),
-          items: const [
+          decoration: InputDecoration(labelText: l10n.priorityLabel),
+          items: [
             DropdownMenuItem(
               value: TaskPriority.critical,
-              child: Text('Critical'),
+              child: Text(l10n.priorityCritical),
             ),
-            DropdownMenuItem(value: TaskPriority.high, child: Text('High')),
+            DropdownMenuItem(value: TaskPriority.high, child: Text(l10n.priorityHigh)),
             DropdownMenuItem(
               value: TaskPriority.standard,
-              child: Text('Standard'),
+              child: Text(l10n.priorityStandard),
             ),
           ],
           onChanged: (value) {
@@ -1239,7 +1270,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
           },
         ),
         CheckboxListTile(
-          title: const Text('Requires corrective action on fail'),
+          title: Text(l10n.requiresCorrectiveActionLabel),
           value: customRequiresCorrectiveActionOnFail,
           onChanged: (v) =>
               setState(() => customRequiresCorrectiveActionOnFail = v ?? false),
@@ -1247,13 +1278,13 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         const SizedBox(height: 12),
         TextField(
           controller: customFixInstructionsController,
-          decoration: const InputDecoration(labelText: 'Fix instructions'),
+          decoration: InputDecoration(labelText: l10n.fixInstructionsLabel),
         ),
         const SizedBox(height: 12),
         TextField(
           controller: customFieldsJsonController,
-          decoration: const InputDecoration(
-            labelText: 'Custom fields (JSON, optional)',
+          decoration: InputDecoration(
+            labelText: l10n.customFieldsJsonLabel,
           ),
         ),
         const SizedBox(height: 16),
@@ -1262,16 +1293,23 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         // received, etc.) a worker fills in alongside this task's normal
         // PASS/FAIL/limits. A short, manager-built list rather than
         // hardcoded per task type - see task_extra_field.dart.
-        const SectionHeader(title: 'Extra fields (optional)'),
+        SectionHeader(title: l10n.extraFieldsSectionTitle),
         for (final field in customExtraFields)
           Padding(
             padding: const EdgeInsets.only(bottom: 4),
             child: Row(
               children: [
-                Expanded(child: Text('${field.label} (${field.type.name})')),
+                Expanded(
+                  child: Text(
+                    l10n.extraFieldSummary(
+                      field.label,
+                      _extraFieldTypeLabel(l10n, field.type),
+                    ),
+                  ),
+                ),
                 IconButton(
                   icon: const Icon(Icons.close, size: 18),
-                  tooltip: 'Remove',
+                  tooltip: l10n.removeTooltip,
                   onPressed: () =>
                       setState(() => customExtraFields.remove(field)),
                 ),
@@ -1283,26 +1321,26 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
             Expanded(
               child: TextField(
                 controller: customExtraFieldLabelController,
-                decoration: const InputDecoration(
-                  labelText: 'Field label (e.g. PO number)',
+                decoration: InputDecoration(
+                  labelText: l10n.fieldLabelHint,
                 ),
               ),
             ),
             const SizedBox(width: 8),
             DropdownButton<TaskExtraFieldType>(
               value: customExtraFieldType,
-              items: const [
+              items: [
                 DropdownMenuItem(
                   value: TaskExtraFieldType.text,
-                  child: Text('Text'),
+                  child: Text(l10n.extraFieldTypeText),
                 ),
                 DropdownMenuItem(
                   value: TaskExtraFieldType.number,
-                  child: Text('Number'),
+                  child: Text(l10n.extraFieldTypeNumber),
                 ),
                 DropdownMenuItem(
                   value: TaskExtraFieldType.date,
-                  child: Text('Date'),
+                  child: Text(l10n.extraFieldTypeDate),
                 ),
               ],
               onChanged: (value) {
@@ -1313,7 +1351,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
             ),
             IconButton(
               icon: const Icon(Icons.add),
-              tooltip: 'Add field',
+              tooltip: l10n.addFieldTooltip,
               onPressed: () {
                 final label = customExtraFieldLabelController.text.trim();
                 if (label.isEmpty) return;
@@ -1338,10 +1376,10 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
           children: [
             TextButton(
               onPressed: () => setState(() => showCustomTaskForm = false),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             PrimaryActionButton(
-              label: 'Save Custom Task',
+              label: l10n.saveCustomTaskButton,
               onPressed: customSegment == null ? null : _saveCustomTask,
             ),
           ],
@@ -1454,6 +1492,7 @@ class _AssignmentTileState extends State<_AssignmentTile> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.only(left: widget.indent ? 16 : 0),
       child: Column(
@@ -1474,7 +1513,7 @@ class _AssignmentTileState extends State<_AssignmentTile> {
               spacing: 8,
               children: [
                 ChoiceChip(
-                  label: const Text('Ad hoc'),
+                  label: Text(l10n.adHocLabel),
                   selected: mode == _SchedulingMode.adHoc,
                   onSelected: (_) => setState(() {
                     mode = _SchedulingMode.adHoc;
@@ -1483,7 +1522,7 @@ class _AssignmentTileState extends State<_AssignmentTile> {
                   }),
                 ),
                 ChoiceChip(
-                  label: const Text('Time allocated'),
+                  label: Text(l10n.timeAllocatedLabel),
                   selected: mode == _SchedulingMode.timeAllocated,
                   onSelected: (_) => setState(() {
                     mode = _SchedulingMode.timeAllocated;
@@ -1501,7 +1540,7 @@ class _AssignmentTileState extends State<_AssignmentTile> {
               padding: const EdgeInsets.only(left: 40, bottom: 8),
               child: Row(
                 children: [
-                  const Text('Frequency: '),
+                  Text(l10n.frequencyPrefixLabel),
                   DropdownButton<ScheduleFrequency>(
                     value: frequency,
                     items: ScheduleFrequency.values
@@ -1509,7 +1548,7 @@ class _AssignmentTileState extends State<_AssignmentTile> {
                         .map(
                           (f) => DropdownMenuItem(
                             value: f,
-                            child: Text(frequencyLabel(f)),
+                            child: Text(frequencyLabel(f, l10n)),
                           ),
                         )
                         .toList(),
@@ -1538,13 +1577,13 @@ class _AssignmentTileState extends State<_AssignmentTile> {
                 spacing: 8,
                 children: [
                   ChoiceChip(
-                    label: const Text('At a time'),
+                    label: Text(l10n.atATimeLabel),
                     selected: !startsAtShiftStart,
                     onSelected: (_) =>
                         setState(() => startsAtShiftStart = false),
                   ),
                   ChoiceChip(
-                    label: const Text('From start of shift'),
+                    label: Text(l10n.fromStartOfShiftLabel),
                     selected: startsAtShiftStart,
                     onSelected: (_) =>
                         setState(() => startsAtShiftStart = true),
@@ -1570,14 +1609,14 @@ class _AssignmentTileState extends State<_AssignmentTile> {
                       },
                       child: Text(
                         windowStart == null
-                            ? 'Available from…'
-                            : 'From ${windowStart!.format(context)}',
+                            ? l10n.availableFromEllipsis
+                            : l10n.fromTimeLabel(windowStart!.format(context)),
                       ),
                     )
                   else
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Text('From clock-in'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(l10n.fromClockInLabel),
                     ),
                   const Text('-'),
                   TextButton(
@@ -1592,8 +1631,8 @@ class _AssignmentTileState extends State<_AssignmentTile> {
                     },
                     child: Text(
                       windowEnd == null
-                          ? 'until…'
-                          : 'until ${windowEnd!.format(context)}',
+                          ? l10n.untilEllipsis
+                          : l10n.untilTimeLabel(windowEnd!.format(context)),
                     ),
                   ),
                 ],
@@ -1629,12 +1668,13 @@ class _StaffMultiSelectDialogState extends State<_StaffMultiSelectDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return AlertDialog(
-      title: const Text('Assign to'),
+      title: Text(l10n.assignToTitle),
       content: SizedBox(
         width: double.maxFinite,
         child: widget.staff.isEmpty
-            ? const Text('No staff match the tier(s) these tasks apply to.')
+            ? Text(l10n.noStaffMatchTiers)
             : ListView(
                 shrinkWrap: true,
                 children: [
@@ -1650,7 +1690,7 @@ class _StaffMultiSelectDialogState extends State<_StaffMultiSelectDialog> {
                       }),
                       title: Text(user.name),
                       subtitle: Text(
-                        '${user.jobTitle} · ${roleTierDisplayName(user.roleTier)}',
+                        '${user.jobTitle} · ${roleTierDisplayName(user.roleTier, l10n)}',
                       ),
                     ),
                 ],
@@ -1659,7 +1699,7 @@ class _StaffMultiSelectDialogState extends State<_StaffMultiSelectDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(l10n.cancel),
         ),
         FilledButton(
           onPressed: selectedIds.isEmpty
@@ -1670,7 +1710,7 @@ class _StaffMultiSelectDialogState extends State<_StaffMultiSelectDialog> {
                       .where((u) => selectedIds.contains(u.id))
                       .toList(),
                 ),
-          child: const Text('Assign'),
+          child: Text(l10n.assignButton),
         ),
       ],
     );

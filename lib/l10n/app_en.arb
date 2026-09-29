@@ -1359,5 +1359,597 @@
         "type": "String"
       }
     }
+  },
+  "jobRoleChefCook": "Chef/Cook",
+  "@jobRoleChefCook": {
+    "description": ""
+  },
+  "jobRoleKitchenPorter": "Kitchen Porter",
+  "@jobRoleKitchenPorter": {
+    "description": ""
+  },
+  "jobRoleFrontOfHouse": "Front of House",
+  "@jobRoleFrontOfHouse": {
+    "description": ""
+  },
+  "jobRoleBar": "Bar",
+  "@jobRoleBar": {
+    "description": ""
+  },
+  "jobRoleManagement": "Management",
+  "@jobRoleManagement": {
+    "description": ""
+  },
+  "jobRoleEveryone": "Everyone",
+  "@jobRoleEveryone": {
+    "description": ""
+  },
+  "jobRoleMaintenance": "Maintenance",
+  "@jobRoleMaintenance": {
+    "description": ""
+  },
+  "jobRoleHousekeeping": "Housekeeping",
+  "@jobRoleHousekeeping": {
+    "description": ""
+  },
+  "jobRoleReception": "Reception",
+  "@jobRoleReception": {
+    "description": ""
+  },
+  "jobRoleSecurity": "Security",
+  "@jobRoleSecurity": {
+    "description": ""
+  },
+  "segmentFoodSafety": "Food Safety & Temperature Control",
+  "@segmentFoodSafety": {
+    "description": ""
+  },
+  "segmentAllergen": "Allergen Management",
+  "@segmentAllergen": {
+    "description": ""
+  },
+  "segmentPersonalHygienePpe": "Personal Hygiene & PPE",
+  "@segmentPersonalHygienePpe": {
+    "description": ""
+  },
+  "segmentRefrigerationColdStorage": "Refrigeration & Cold Storage",
+  "@segmentRefrigerationColdStorage": {
+    "description": ""
+  },
+  "segmentCookingLineEquipment": "Cooking Line Equipment",
+  "@segmentCookingLineEquipment": {
+    "description": ""
+  },
+  "segmentWashupDishwash": "Wash-up / Dishwash",
+  "@segmentWashupDishwash": {
+    "description": ""
+  },
+  "segmentCleaningSanitation": "Cleaning & Sanitation",
+  "@segmentCleaningSanitation": {
+    "description": ""
+  },
+  "segmentCleaningChemicals": "Cleaning Chemicals & Consumables",
+  "@segmentCleaningChemicals": {
+    "description": ""
+  },
+  "segmentDryAmbientStorage": "Dry & Ambient Storage",
+  "@segmentDryAmbientStorage": {
+    "description": ""
+  },
+  "segmentDeliveriesGoodsIn": "Deliveries & Goods In",
+  "@segmentDeliveriesGoodsIn": {
+    "description": ""
+  },
+  "segmentUtilitiesSafety": "Utilities & Safety",
+  "@segmentUtilitiesSafety": {
+    "description": ""
+  },
+  "segmentWastePestControl": "Waste & Pest Control",
+  "@segmentWastePestControl": {
+    "description": ""
+  },
+  "segmentPreventiveMaintenance": "Preventive Maintenance (Kitchen Equipment)",
+  "@segmentPreventiveMaintenance": {
+    "description": ""
+  },
+  "segmentStockControl": "Stock Control",
+  "@segmentStockControl": {
+    "description": ""
+  },
+  "segmentOpeningProcedures": "Opening Procedures",
+  "@segmentOpeningProcedures": {
+    "description": ""
+  },
+  "segmentClosingProcedures": "Closing Procedures",
+  "@segmentClosingProcedures": {
+    "description": ""
+  },
+  "segmentServiceReadiness": "Service Readiness",
+  "@segmentServiceReadiness": {
+    "description": ""
+  },
+  "segmentFrontOfHouse": "Front of House / Service",
+  "@segmentFrontOfHouse": {
+    "description": ""
+  },
+  "segmentBarBeverage": "Bar & Beverage",
+  "@segmentBarBeverage": {
+    "description": ""
+  },
+  "segmentHotelSpecific": "Hotel-Specific",
+  "@segmentHotelSpecific": {
+    "description": ""
+  },
+  "segmentManagementComplianceOversight": "Management & Compliance Oversight",
+  "@segmentManagementComplianceOversight": {
+    "description": ""
+  },
+  "segmentMaintenance": "Maintenance",
+  "@segmentMaintenance": {
+    "description": ""
+  },
+  "segmentHousekeeping": "Housekeeping",
+  "@segmentHousekeeping": {
+    "description": ""
+  },
+  "segmentReception": "Reception",
+  "@segmentReception": {
+    "description": ""
+  },
+  "segmentSecurity": "Security",
+  "@segmentSecurity": {
+    "description": ""
+  },
+  "freqDaily": "Daily",
+  "@freqDaily": {
+    "description": ""
+  },
+  "freqWeekly": "Weekly",
+  "@freqWeekly": {
+    "description": ""
+  },
+  "freqPerShift": "Per Shift",
+  "@freqPerShift": {
+    "description": ""
+  },
+  "freqThreeXDaily": "3x Daily",
+  "@freqThreeXDaily": {
+    "description": ""
+  },
+  "freqTwoXDaily": "2x Daily",
+  "@freqTwoXDaily": {
+    "description": ""
+  },
+  "freqPerBatch": "Per Batch",
+  "@freqPerBatch": {
+    "description": ""
+  },
+  "freqPerDelivery": "Per Delivery",
+  "@freqPerDelivery": {
+    "description": ""
+  },
+  "freqPerUse": "Per Use",
+  "@freqPerUse": {
+    "description": ""
+  },
+  "freqPerService": "Per Service",
+  "@freqPerService": {
+    "description": ""
+  },
+  "freqTwoXPerService": "2x Per Service",
+  "@freqTwoXPerService": {
+    "description": ""
+  },
+  "freqEventBased": "Event-Based",
+  "@freqEventBased": {
+    "description": ""
+  },
+  "freqAsNeeded": "As Needed",
+  "@freqAsNeeded": {
+    "description": ""
+  },
+  "freqMonthly": "Monthly",
+  "@freqMonthly": {
+    "description": ""
+  },
+  "freqCustom": "Custom",
+  "@freqCustom": {
+    "description": ""
+  },
+  "jobRoleFieldLabel": "Job role",
+  "@jobRoleFieldLabel": {
+    "description": ""
+  },
+  "pinFieldLabel": "PIN",
+  "@pinFieldLabel": {
+    "description": ""
+  },
+  "addStaffMemberTitle": "Add Staff Member",
+  "@addStaffMemberTitle": {
+    "description": ""
+  },
+  "addLabel": "Add",
+  "@addLabel": {
+    "description": ""
+  },
+  "assignTasksTitle": "Assign Tasks",
+  "@assignTasksTitle": {
+    "description": ""
+  },
+  "noActiveSiteFoundError": "No active site found.",
+  "@noActiveSiteFoundError": {
+    "description": ""
+  },
+  "byPersonLabel": "By Person",
+  "@byPersonLabel": {
+    "description": ""
+  },
+  "byTaskLabel": "By Task",
+  "@byTaskLabel": {
+    "description": ""
+  },
+  "noEquipmentOfTypeSetUp": "No equipment of this type set up yet.",
+  "@noEquipmentOfTypeSetUp": {
+    "description": ""
+  },
+  "applyButton": "Apply",
+  "@applyButton": {
+    "description": ""
+  },
+  "assignToTitle": "Assign to",
+  "@assignToTitle": {
+    "description": ""
+  },
+  "noStaffMatchTiers": "No staff match the tier(s) these tasks apply to.",
+  "@noStaffMatchTiers": {
+    "description": ""
+  },
+  "assignButton": "Assign",
+  "@assignButton": {
+    "description": ""
+  },
+  "showInstructionsTooltip": "Show instructions",
+  "@showInstructionsTooltip": {
+    "description": ""
+  },
+  "selectTasksToAssignLabel": "Select tasks to assign",
+  "@selectTasksToAssignLabel": {
+    "description": ""
+  },
+  "taskPresetsSectionTitle": "Task Presets",
+  "@taskPresetsSectionTitle": {
+    "description": ""
+  },
+  "showAllPresetsButton": "Show all presets",
+  "@showAllPresetsButton": {
+    "description": ""
+  },
+  "showTasksInGroupTooltip": "Show tasks in this group",
+  "@showTasksInGroupTooltip": {
+    "description": ""
+  },
+  "applyToMultipleButton": "Apply to Multiple",
+  "@applyToMultipleButton": {
+    "description": ""
+  },
+  "addCustomTaskButton": "Add Custom Task",
+  "@addCustomTaskButton": {
+    "description": ""
+  },
+  "customTaskSectionTitle": "Custom Task",
+  "@customTaskSectionTitle": {
+    "description": ""
+  },
+  "titleFieldLabel": "Title",
+  "@titleFieldLabel": {
+    "description": ""
+  },
+  "departmentSectionLabel": "Department / section",
+  "@departmentSectionLabel": {
+    "description": ""
+  },
+  "methodLabel": "Method",
+  "@methodLabel": {
+    "description": ""
+  },
+  "methodTick": "Tick",
+  "@methodTick": {
+    "description": ""
+  },
+  "methodData": "Data",
+  "@methodData": {
+    "description": ""
+  },
+  "methodDataTick": "Data + Tick",
+  "@methodDataTick": {
+    "description": ""
+  },
+  "methodTickPhoto": "Tick + Photo",
+  "@methodTickPhoto": {
+    "description": ""
+  },
+  "methodDataPhoto": "Data + Photo",
+  "@methodDataPhoto": {
+    "description": ""
+  },
+  "methodNote": "Note",
+  "@methodNote": {
+    "description": ""
+  },
+  "methodDataNote": "Data + Note",
+  "@methodDataNote": {
+    "description": ""
+  },
+  "methodNotePhoto": "Note + Photo",
+  "@methodNotePhoto": {
+    "description": ""
+  },
+  "methodTickNote": "Tick + Note",
+  "@methodTickNote": {
+    "description": ""
+  },
+  "methodMulti": "Multi",
+  "@methodMulti": {
+    "description": ""
+  },
+  "requiresPhotoLabel": "Requires photo",
+  "@requiresPhotoLabel": {
+    "description": ""
+  },
+  "requiresNotesLabel": "Requires notes",
+  "@requiresNotesLabel": {
+    "description": ""
+  },
+  "minLimitLabel": "Min limit",
+  "@minLimitLabel": {
+    "description": ""
+  },
+  "maxLimitLabel": "Max limit",
+  "@maxLimitLabel": {
+    "description": ""
+  },
+  "unitHintLabel": "Unit (e.g. celsius)",
+  "@unitHintLabel": {
+    "description": ""
+  },
+  "equipmentTypeOptionalLabel": "Equipment type (optional)",
+  "@equipmentTypeOptionalLabel": {
+    "description": ""
+  },
+  "noneLabel": "None",
+  "@noneLabel": {
+    "description": ""
+  },
+  "priorityLabel": "Priority",
+  "@priorityLabel": {
+    "description": ""
+  },
+  "priorityCritical": "Critical",
+  "@priorityCritical": {
+    "description": ""
+  },
+  "priorityHigh": "High",
+  "@priorityHigh": {
+    "description": ""
+  },
+  "priorityStandard": "Standard",
+  "@priorityStandard": {
+    "description": ""
+  },
+  "requiresCorrectiveActionLabel": "Requires corrective action on fail",
+  "@requiresCorrectiveActionLabel": {
+    "description": ""
+  },
+  "fixInstructionsLabel": "Fix instructions",
+  "@fixInstructionsLabel": {
+    "description": ""
+  },
+  "customFieldsJsonLabel": "Custom fields (JSON, optional)",
+  "@customFieldsJsonLabel": {
+    "description": ""
+  },
+  "extraFieldsSectionTitle": "Extra fields (optional)",
+  "@extraFieldsSectionTitle": {
+    "description": ""
+  },
+  "removeTooltip": "Remove",
+  "@removeTooltip": {
+    "description": ""
+  },
+  "fieldLabelHint": "Field label (e.g. PO number)",
+  "@fieldLabelHint": {
+    "description": ""
+  },
+  "extraFieldTypeText": "Text",
+  "@extraFieldTypeText": {
+    "description": ""
+  },
+  "extraFieldTypeNumber": "Number",
+  "@extraFieldTypeNumber": {
+    "description": ""
+  },
+  "extraFieldTypeDate": "Date",
+  "@extraFieldTypeDate": {
+    "description": ""
+  },
+  "addFieldTooltip": "Add field",
+  "@addFieldTooltip": {
+    "description": ""
+  },
+  "saveCustomTaskButton": "Save Custom Task",
+  "@saveCustomTaskButton": {
+    "description": ""
+  },
+  "adHocLabel": "Ad hoc",
+  "@adHocLabel": {
+    "description": ""
+  },
+  "timeAllocatedLabel": "Time allocated",
+  "@timeAllocatedLabel": {
+    "description": ""
+  },
+  "frequencyPrefixLabel": "Frequency: ",
+  "@frequencyPrefixLabel": {
+    "description": ""
+  },
+  "atATimeLabel": "At a time",
+  "@atATimeLabel": {
+    "description": ""
+  },
+  "fromStartOfShiftLabel": "From start of shift",
+  "@fromStartOfShiftLabel": {
+    "description": ""
+  },
+  "fromClockInLabel": "From clock-in",
+  "@fromClockInLabel": {
+    "description": ""
+  },
+  "availableFromEllipsis": "Available from…",
+  "@availableFromEllipsis": {
+    "description": ""
+  },
+  "untilEllipsis": "until…",
+  "@untilEllipsis": {
+    "description": ""
+  },
+  "assignTasksForStaffTitle": "Assign Tasks - {name}",
+  "@assignTasksForStaffTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "applyPresetToWhichOneTitle": "Apply \"{name}\" to which one?",
+  "@applyPresetToWhichOneTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "allPresetTasksAlreadyAssigned": "All {name} tasks were already assigned",
+  "@allPresetTasksAlreadyAssigned": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "addedTasksFromPreset": "{count, plural, one{Added {count} task} other{Added {count} tasks}} from {name}",
+  "@addedTasksFromPreset": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "applyPresetToTitle": "Apply \"{name}\" to",
+  "@applyPresetToTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "assignTasksCountLabel": "{count, plural, one{Assign {count} task to staff…} other{Assign {count} tasks to staff…}}",
+  "@assignTasksCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "addedTasksAcrossStaffLabel": "{count, plural, one{Added {count} assignment} other{Added {count} assignments}} across {staffCount, plural, one{{staffCount} staff member} other{{staffCount} staff members}}",
+  "@addedTasksAcrossStaffLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "staffCount": {
+        "type": "int"
+      }
+    }
+  },
+  "presetSectionPrefix": "Section: {segment}",
+  "@presetSectionPrefix": {
+    "placeholders": {
+      "segment": {
+        "type": "String"
+      }
+    }
+  },
+  "taskCountLabel": "{count, plural, one{{count} task} other{{count} tasks}}",
+  "@taskCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "showAllRolesLabel": "Show all roles (default: {jobRole} only)",
+  "@showAllRolesLabel": {
+    "placeholders": {
+      "jobRole": {
+        "type": "String"
+      }
+    }
+  },
+  "extraFieldSummary": "{label} ({type})",
+  "@extraFieldSummary": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "type": {
+        "type": "String"
+      }
+    }
+  },
+  "noEquipmentSetUpForTemplate": "{title} - no equipment set up for this yet",
+  "@noEquipmentSetUpForTemplate": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "fromTimeLabel": "From {time}",
+  "@fromTimeLabel": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "untilTimeLabel": "until {time}",
+  "@untilTimeLabel": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "createdAssignmentsLabel": "{count, plural, one{{count} assignment created} other{{count} assignments created}}{skippedNote}.",
+  "@createdAssignmentsLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "skippedNote": {
+        "type": "String"
+      }
+    }
+  },
+  "skippedNoteLabel": " ({count} skipped - already assigned or role mismatch)",
+  "@skippedNoteLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

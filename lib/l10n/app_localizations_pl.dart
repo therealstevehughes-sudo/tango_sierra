@@ -2148,4 +2148,453 @@ class AppLocalizationsPl extends AppLocalizations {
   String staffPinLabel(String pin) {
     return 'PIN: $pin';
   }
+
+  @override
+  String get jobRoleChefCook => 'Kucharz/Szef kuchni';
+
+  @override
+  String get jobRoleKitchenPorter => 'Pomoc kuchenna';
+
+  @override
+  String get jobRoleFrontOfHouse => 'Sala';
+
+  @override
+  String get jobRoleBar => 'Bar';
+
+  @override
+  String get jobRoleManagement => 'Kierownictwo';
+
+  @override
+  String get jobRoleEveryone => 'Wszyscy';
+
+  @override
+  String get jobRoleMaintenance => 'Konserwacja';
+
+  @override
+  String get jobRoleHousekeeping => 'Utrzymanie czystości';
+
+  @override
+  String get jobRoleReception => 'Recepcja';
+
+  @override
+  String get jobRoleSecurity => 'Ochrona';
+
+  @override
+  String get segmentFoodSafety =>
+      'Bezpieczeństwo żywności i kontrola temperatury';
+
+  @override
+  String get segmentAllergen => 'Zarządzanie alergenami';
+
+  @override
+  String get segmentPersonalHygienePpe => 'Higiena osobista i ŚOI';
+
+  @override
+  String get segmentRefrigerationColdStorage =>
+      'Chłodnictwo i przechowywanie w chłodzie';
+
+  @override
+  String get segmentCookingLineEquipment => 'Urządzenia linii gotowania';
+
+  @override
+  String get segmentWashupDishwash => 'Zmywalnia / Mycie naczyń';
+
+  @override
+  String get segmentCleaningSanitation => 'Czyszczenie i sanitacja';
+
+  @override
+  String get segmentCleaningChemicals =>
+      'Środki czystości i materiały eksploatacyjne';
+
+  @override
+  String get segmentDryAmbientStorage =>
+      'Magazyn suchy i temperatury otoczenia';
+
+  @override
+  String get segmentDeliveriesGoodsIn => 'Dostawy i przyjęcie towaru';
+
+  @override
+  String get segmentUtilitiesSafety => 'Media i bezpieczeństwo';
+
+  @override
+  String get segmentWastePestControl => 'Odpady i kontrola szkodników';
+
+  @override
+  String get segmentPreventiveMaintenance =>
+      'Konserwacja zapobiegawcza (sprzęt kuchenny)';
+
+  @override
+  String get segmentStockControl => 'Kontrola zapasów';
+
+  @override
+  String get segmentOpeningProcedures => 'Procedury otwarcia';
+
+  @override
+  String get segmentClosingProcedures => 'Procedury zamknięcia';
+
+  @override
+  String get segmentServiceReadiness => 'Gotowość do obsługi';
+
+  @override
+  String get segmentFrontOfHouse => 'Sala / Obsługa';
+
+  @override
+  String get segmentBarBeverage => 'Bar i napoje';
+
+  @override
+  String get segmentHotelSpecific => 'Specyficzne dla hotelu';
+
+  @override
+  String get segmentManagementComplianceOversight =>
+      'Zarządzanie i nadzór nad zgodnością';
+
+  @override
+  String get segmentMaintenance => 'Konserwacja';
+
+  @override
+  String get segmentHousekeeping => 'Utrzymanie czystości';
+
+  @override
+  String get segmentReception => 'Recepcja';
+
+  @override
+  String get segmentSecurity => 'Ochrona';
+
+  @override
+  String get freqDaily => 'Codziennie';
+
+  @override
+  String get freqWeekly => 'Co tydzień';
+
+  @override
+  String get freqPerShift => 'Na zmianę';
+
+  @override
+  String get freqThreeXDaily => '3x dziennie';
+
+  @override
+  String get freqTwoXDaily => '2x dziennie';
+
+  @override
+  String get freqPerBatch => 'Na partię';
+
+  @override
+  String get freqPerDelivery => 'Na dostawę';
+
+  @override
+  String get freqPerUse => 'Przy użyciu';
+
+  @override
+  String get freqPerService => 'Na usługę';
+
+  @override
+  String get freqTwoXPerService => '2x na usługę';
+
+  @override
+  String get freqEventBased => 'Wg zdarzenia';
+
+  @override
+  String get freqAsNeeded => 'W razie potrzeby';
+
+  @override
+  String get freqMonthly => 'Co miesiąc';
+
+  @override
+  String get freqCustom => 'Niestandardowa';
+
+  @override
+  String get jobRoleFieldLabel => 'Rola zawodowa';
+
+  @override
+  String get pinFieldLabel => 'PIN';
+
+  @override
+  String get addStaffMemberTitle => 'Dodaj pracownika';
+
+  @override
+  String get addLabel => 'Dodaj';
+
+  @override
+  String get assignTasksTitle => 'Przypisz zadania';
+
+  @override
+  String get noActiveSiteFoundError => 'Nie znaleziono aktywnego lokalu.';
+
+  @override
+  String get byPersonLabel => 'Wg osoby';
+
+  @override
+  String get byTaskLabel => 'Wg zadania';
+
+  @override
+  String get noEquipmentOfTypeSetUp =>
+      'Brak sprzętu tego typu skonfigurowanego jeszcze.';
+
+  @override
+  String get applyButton => 'Zastosuj';
+
+  @override
+  String get assignToTitle => 'Przypisz do';
+
+  @override
+  String get noStaffMatchTiers =>
+      'Żaden personel nie pasuje do poziomu(ów), do których te zadania się stosują.';
+
+  @override
+  String get assignButton => 'Przypisz';
+
+  @override
+  String get showInstructionsTooltip => 'Pokaż instrukcje';
+
+  @override
+  String get selectTasksToAssignLabel => 'Wybierz zadania do przypisania';
+
+  @override
+  String get taskPresetsSectionTitle => 'Zestawy zadań';
+
+  @override
+  String get showAllPresetsButton => 'Pokaż wszystkie zestawy';
+
+  @override
+  String get showTasksInGroupTooltip => 'Pokaż zadania w tej grupie';
+
+  @override
+  String get applyToMultipleButton => 'Zastosuj do wielu';
+
+  @override
+  String get addCustomTaskButton => 'Dodaj zadanie niestandardowe';
+
+  @override
+  String get customTaskSectionTitle => 'Zadanie niestandardowe';
+
+  @override
+  String get titleFieldLabel => 'Tytuł';
+
+  @override
+  String get departmentSectionLabel => 'Dział / sekcja';
+
+  @override
+  String get methodLabel => 'Metoda';
+
+  @override
+  String get methodTick => 'Zaznaczenie';
+
+  @override
+  String get methodData => 'Dane';
+
+  @override
+  String get methodDataTick => 'Dane + zaznaczenie';
+
+  @override
+  String get methodTickPhoto => 'Zaznaczenie + zdjęcie';
+
+  @override
+  String get methodDataPhoto => 'Dane + zdjęcie';
+
+  @override
+  String get methodNote => 'Notatka';
+
+  @override
+  String get methodDataNote => 'Dane + notatka';
+
+  @override
+  String get methodNotePhoto => 'Notatka + zdjęcie';
+
+  @override
+  String get methodTickNote => 'Zaznaczenie + notatka';
+
+  @override
+  String get methodMulti => 'Wielokrotny';
+
+  @override
+  String get requiresPhotoLabel => 'Wymaga zdjęcia';
+
+  @override
+  String get requiresNotesLabel => 'Wymaga notatek';
+
+  @override
+  String get minLimitLabel => 'Limit minimalny';
+
+  @override
+  String get maxLimitLabel => 'Limit maksymalny';
+
+  @override
+  String get unitHintLabel => 'Jednostka (np. Celsjusz)';
+
+  @override
+  String get equipmentTypeOptionalLabel => 'Typ sprzętu (opcjonalnie)';
+
+  @override
+  String get noneLabel => 'Brak';
+
+  @override
+  String get priorityLabel => 'Priorytet';
+
+  @override
+  String get priorityCritical => 'Krytyczny';
+
+  @override
+  String get priorityHigh => 'Wysoki';
+
+  @override
+  String get priorityStandard => 'Standardowy';
+
+  @override
+  String get requiresCorrectiveActionLabel =>
+      'Wymaga działania naprawczego przy niepowodzeniu';
+
+  @override
+  String get fixInstructionsLabel => 'Instrukcje naprawy';
+
+  @override
+  String get customFieldsJsonLabel => 'Pola niestandardowe (JSON, opcjonalnie)';
+
+  @override
+  String get extraFieldsSectionTitle => 'Dodatkowe pola (opcjonalnie)';
+
+  @override
+  String get removeTooltip => 'Usuń';
+
+  @override
+  String get fieldLabelHint => 'Etykieta pola (np. numer zamówienia)';
+
+  @override
+  String get extraFieldTypeText => 'Tekst';
+
+  @override
+  String get extraFieldTypeNumber => 'Liczba';
+
+  @override
+  String get extraFieldTypeDate => 'Data';
+
+  @override
+  String get addFieldTooltip => 'Dodaj pole';
+
+  @override
+  String get saveCustomTaskButton => 'Zapisz zadanie niestandardowe';
+
+  @override
+  String get adHocLabel => 'Doraźnie';
+
+  @override
+  String get timeAllocatedLabel => 'Zaplanowany czas';
+
+  @override
+  String get frequencyPrefixLabel => 'Częstotliwość: ';
+
+  @override
+  String get atATimeLabel => 'O określonej porze';
+
+  @override
+  String get fromStartOfShiftLabel => 'Od początku zmiany';
+
+  @override
+  String get fromClockInLabel => 'Od zameldowania';
+
+  @override
+  String get availableFromEllipsis => 'Dostępne od…';
+
+  @override
+  String get untilEllipsis => 'do…';
+
+  @override
+  String assignTasksForStaffTitle(String name) {
+    return 'Przypisz zadania - $name';
+  }
+
+  @override
+  String applyPresetToWhichOneTitle(String name) {
+    return 'Zastosować \"$name\" do którego?';
+  }
+
+  @override
+  String allPresetTasksAlreadyAssigned(String name) {
+    return 'Wszystkie zadania \"$name\" są już przypisane';
+  }
+
+  @override
+  String addedTasksFromPreset(int count, String name) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Dodano $count zadań',
+      few: 'Dodano $count zadania',
+      one: 'Dodano $count zadanie',
+    );
+    return '$_temp0 z \"$name\"';
+  }
+
+  @override
+  String applyPresetToTitle(String name) {
+    return 'Zastosuj \"$name\" do';
+  }
+
+  @override
+  String assignTasksCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Przypisz $count zadań do personelu…',
+      few: 'Przypisz $count zadania do personelu…',
+      one: 'Przypisz $count zadanie do personelu…',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String addedTasksAcrossStaffLabel(int count, int staffCount) {
+    return 'Dodano $count przypisań dla $staffCount pracowników';
+  }
+
+  @override
+  String presetSectionPrefix(String segment) {
+    return 'Sekcja: $segment';
+  }
+
+  @override
+  String taskCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count zadań',
+      few: '$count zadania',
+      one: '$count zadanie',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String showAllRolesLabel(String jobRole) {
+    return 'Pokaż wszystkie role (domyślnie tylko: $jobRole)';
+  }
+
+  @override
+  String extraFieldSummary(String label, String type) {
+    return '$label ($type)';
+  }
+
+  @override
+  String noEquipmentSetUpForTemplate(String title) {
+    return '$title - brak jeszcze skonfigurowanego sprzętu';
+  }
+
+  @override
+  String fromTimeLabel(String time) {
+    return 'Od $time';
+  }
+
+  @override
+  String untilTimeLabel(String time) {
+    return 'do $time';
+  }
+
+  @override
+  String createdAssignmentsLabel(int count, String skippedNote) {
+    return 'Utworzono $count przypisań$skippedNote.';
+  }
+
+  @override
+  String skippedNoteLabel(int count) {
+    return ' (pominięto $count - już przypisane lub niezgodność roli)';
+  }
 }
