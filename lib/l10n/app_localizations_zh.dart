@@ -2852,4 +2852,122 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get addEquipmentTooltip => '添加设备';
+
+  @override
+  String get newPinLabel => '新PIN码';
+
+  @override
+  String get editDetailsTitle => '编辑详情';
+
+  @override
+  String get sectionLabel => '部门';
+
+  @override
+  String get noSectionOption => '无部门';
+
+  @override
+  String get inactiveParenSuffix => '(未启用)';
+
+  @override
+  String get noSpecificTeamOption => '无特定团队';
+
+  @override
+  String get noSectionsSetupText => '此场所尚未设置部门 - 请先在部门管理中添加一个。';
+
+  @override
+  String get reportsToFieldLabel => '汇报对象';
+
+  @override
+  String get notSetOption => '未设置';
+
+  @override
+  String get deactivateStaffMemberTitle => '停用员工';
+
+  @override
+  String get staffManagementTitle => '员工管理';
+
+  @override
+  String get addStaffTooltip => '添加员工';
+
+  @override
+  String get bulkImportTooltip => '批量导入';
+
+  @override
+  String get deactivatedSuffixLabel => '(已停用)';
+
+  @override
+  String get moreActionsTooltip => '更多操作';
+
+  @override
+  String get changeTierMenuItem => '更改级别';
+
+  @override
+  String get changeSectionMenuItem => '更改部门';
+
+  @override
+  String get assignSupervisionMenuItem => '分配督导';
+
+  @override
+  String get reportsToMenuItem => '汇报对象';
+
+  @override
+  String get resetPinMenuItem => '重置PIN码';
+
+  @override
+  String get trainingRecordsMenuItem => '培训记录';
+
+  @override
+  String unknownUserIdFallback(String id) {
+    return '用户 #$id';
+  }
+
+  @override
+  String resetPinForUserTitle(String name) {
+    return '重置PIN码 - $name';
+  }
+
+  @override
+  String pinResetForUserMessage(String name) {
+    return '已为 $name 重置PIN码';
+  }
+
+  @override
+  String changeRoleTierTitle(String name) {
+    return '更改职级 - $name';
+  }
+
+  @override
+  String changeSectionTitle(String name) {
+    return '更改部门 - $name';
+  }
+
+  @override
+  String assignSupervisionTitle(String name) {
+    return '分配督导 - $name';
+  }
+
+  @override
+  String supervisionScopeUpdatedMessage(String name) {
+    return '已更新 $name 的督导范围';
+  }
+
+  @override
+  String reportsToTitle(String name) {
+    return '汇报对象 - $name';
+  }
+
+  @override
+  String deactivateStaffConfirmText(String name) {
+    return '$name 将无法再登录。他们当前的任务分配将被取消。他们的提交历史不受影响。此操作以后可以撤销。';
+  }
+
+  @override
+  String reportsToSubtitle(String name) {
+    return '汇报给 $name';
+  }
+
+  @override
+  String deactivatedOnByLabel(String date, String name) {
+    return '于 $date 由 $name';
+  }
 }

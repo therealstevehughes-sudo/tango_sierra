@@ -2935,4 +2935,123 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get addEquipmentTooltip => 'إضافة معدات';
+
+  @override
+  String get newPinLabel => 'رمز سري جديد';
+
+  @override
+  String get editDetailsTitle => 'تعديل التفاصيل';
+
+  @override
+  String get sectionLabel => 'القسم';
+
+  @override
+  String get noSectionOption => 'بدون قسم';
+
+  @override
+  String get inactiveParenSuffix => ' (غير نشط)';
+
+  @override
+  String get noSpecificTeamOption => 'بدون فريق محدد';
+
+  @override
+  String get noSectionsSetupText =>
+      'لا توجد أقسام مُعدة في هذا الموقع بعد - أضف واحدًا أولاً في إدارة الأقسام.';
+
+  @override
+  String get reportsToFieldLabel => 'يتبع إلى';
+
+  @override
+  String get notSetOption => 'غير محدد';
+
+  @override
+  String get deactivateStaffMemberTitle => 'إلغاء تفعيل الموظف';
+
+  @override
+  String get staffManagementTitle => 'إدارة الموظفين';
+
+  @override
+  String get addStaffTooltip => 'إضافة موظف';
+
+  @override
+  String get bulkImportTooltip => 'استيراد جماعي';
+
+  @override
+  String get deactivatedSuffixLabel => '(معطل)';
+
+  @override
+  String get moreActionsTooltip => 'المزيد من الإجراءات';
+
+  @override
+  String get changeTierMenuItem => 'تغيير المستوى';
+
+  @override
+  String get changeSectionMenuItem => 'تغيير القسم';
+
+  @override
+  String get assignSupervisionMenuItem => 'تعيين الإشراف';
+
+  @override
+  String get reportsToMenuItem => 'يتبع إلى';
+
+  @override
+  String get resetPinMenuItem => 'إعادة تعيين الرمز السري';
+
+  @override
+  String get trainingRecordsMenuItem => 'سجلات التدريب';
+
+  @override
+  String unknownUserIdFallback(String id) {
+    return 'مستخدم #$id';
+  }
+
+  @override
+  String resetPinForUserTitle(String name) {
+    return 'إعادة تعيين الرمز السري - $name';
+  }
+
+  @override
+  String pinResetForUserMessage(String name) {
+    return 'تمت إعادة تعيين الرمز السري لـ $name';
+  }
+
+  @override
+  String changeRoleTierTitle(String name) {
+    return 'تغيير مستوى الدور - $name';
+  }
+
+  @override
+  String changeSectionTitle(String name) {
+    return 'تغيير القسم - $name';
+  }
+
+  @override
+  String assignSupervisionTitle(String name) {
+    return 'تعيين الإشراف - $name';
+  }
+
+  @override
+  String supervisionScopeUpdatedMessage(String name) {
+    return 'تم تحديث نطاق الإشراف لـ $name';
+  }
+
+  @override
+  String reportsToTitle(String name) {
+    return 'يتبع إلى - $name';
+  }
+
+  @override
+  String deactivateStaffConfirmText(String name) {
+    return 'لن يتمكن $name بعد الآن من تسجيل الدخول. سيتم إلغاء تعيين مهامه النشطة. لن يتأثر سجل تقديماته. يمكن التراجع عن هذا لاحقًا.';
+  }
+
+  @override
+  String reportsToSubtitle(String name) {
+    return 'يتبع إلى $name';
+  }
+
+  @override
+  String deactivatedOnByLabel(String date, String name) {
+    return 'في $date بواسطة $name';
+  }
 }

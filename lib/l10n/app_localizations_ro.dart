@@ -3011,4 +3011,123 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get addEquipmentTooltip => 'Adaugă echipament';
+
+  @override
+  String get newPinLabel => 'PIN nou';
+
+  @override
+  String get editDetailsTitle => 'Editează detaliile';
+
+  @override
+  String get sectionLabel => 'Secțiune';
+
+  @override
+  String get noSectionOption => 'Fără secțiune';
+
+  @override
+  String get inactiveParenSuffix => ' (inactivă)';
+
+  @override
+  String get noSpecificTeamOption => 'Fără o echipă anume';
+
+  @override
+  String get noSectionsSetupText =>
+      'Nicio secțiune configurată încă la acest local - adaugă una mai întâi în Managementul departamentelor.';
+
+  @override
+  String get reportsToFieldLabel => 'Raportează către';
+
+  @override
+  String get notSetOption => 'Nesetat';
+
+  @override
+  String get deactivateStaffMemberTitle => 'Dezactivează angajatul';
+
+  @override
+  String get staffManagementTitle => 'Managementul personalului';
+
+  @override
+  String get addStaffTooltip => 'Adaugă personal';
+
+  @override
+  String get bulkImportTooltip => 'Import în masă';
+
+  @override
+  String get deactivatedSuffixLabel => '(dezactivat)';
+
+  @override
+  String get moreActionsTooltip => 'Mai multe acțiuni';
+
+  @override
+  String get changeTierMenuItem => 'Schimbă nivelul';
+
+  @override
+  String get changeSectionMenuItem => 'Schimbă secțiunea';
+
+  @override
+  String get assignSupervisionMenuItem => 'Atribuie supervizare';
+
+  @override
+  String get reportsToMenuItem => 'Raportează către';
+
+  @override
+  String get resetPinMenuItem => 'Resetează PIN-ul';
+
+  @override
+  String get trainingRecordsMenuItem => 'Înregistrări de instruire';
+
+  @override
+  String unknownUserIdFallback(String id) {
+    return 'utilizator #$id';
+  }
+
+  @override
+  String resetPinForUserTitle(String name) {
+    return 'Resetează PIN - $name';
+  }
+
+  @override
+  String pinResetForUserMessage(String name) {
+    return 'PIN resetat pentru $name';
+  }
+
+  @override
+  String changeRoleTierTitle(String name) {
+    return 'Schimbă nivelul rolului - $name';
+  }
+
+  @override
+  String changeSectionTitle(String name) {
+    return 'Schimbă secțiunea - $name';
+  }
+
+  @override
+  String assignSupervisionTitle(String name) {
+    return 'Atribuie supervizare - $name';
+  }
+
+  @override
+  String supervisionScopeUpdatedMessage(String name) {
+    return 'Domeniul de supervizare actualizat pentru $name';
+  }
+
+  @override
+  String reportsToTitle(String name) {
+    return 'Raportează către - $name';
+  }
+
+  @override
+  String deactivateStaffConfirmText(String name) {
+    return '$name nu se va mai putea autentifica. Sarcinile active atribuite vor fi dezatribuite. Istoricul trimiterilor nu este afectat. Aceasta poate fi anulată ulterior.';
+  }
+
+  @override
+  String reportsToSubtitle(String name) {
+    return 'Raportează către $name';
+  }
+
+  @override
+  String deactivatedOnByLabel(String date, String name) {
+    return 'pe $date de $name';
+  }
 }

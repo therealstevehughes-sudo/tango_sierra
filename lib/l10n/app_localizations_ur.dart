@@ -2947,4 +2947,123 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get addEquipmentTooltip => 'سامان شامل کریں';
+
+  @override
+  String get newPinLabel => 'نیا پن';
+
+  @override
+  String get editDetailsTitle => 'تفصیلات میں ترمیم کریں';
+
+  @override
+  String get sectionLabel => 'حصہ';
+
+  @override
+  String get noSectionOption => 'کوئی حصہ نہیں';
+
+  @override
+  String get inactiveParenSuffix => ' (غیر فعال)';
+
+  @override
+  String get noSpecificTeamOption => 'کوئی مخصوص ٹیم نہیں';
+
+  @override
+  String get noSectionsSetupText =>
+      'اس وینیو میں ابھی تک کوئی حصہ سیٹ نہیں کیا گیا - پہلے ڈیپارٹمنٹ مینجمنٹ میں ایک شامل کریں۔';
+
+  @override
+  String get reportsToFieldLabel => 'رپورٹ کرتا ہے';
+
+  @override
+  String get notSetOption => 'سیٹ نہیں';
+
+  @override
+  String get deactivateStaffMemberTitle => 'اسٹاف رکن غیر فعال کریں';
+
+  @override
+  String get staffManagementTitle => 'اسٹاف مینجمنٹ';
+
+  @override
+  String get addStaffTooltip => 'اسٹاف شامل کریں';
+
+  @override
+  String get bulkImportTooltip => 'بلک درآمد';
+
+  @override
+  String get deactivatedSuffixLabel => '(غیر فعال)';
+
+  @override
+  String get moreActionsTooltip => 'مزید کارروائیاں';
+
+  @override
+  String get changeTierMenuItem => 'سطح تبدیل کریں';
+
+  @override
+  String get changeSectionMenuItem => 'حصہ تبدیل کریں';
+
+  @override
+  String get assignSupervisionMenuItem => 'نگرانی تفویض کریں';
+
+  @override
+  String get reportsToMenuItem => 'رپورٹ کرتا ہے';
+
+  @override
+  String get resetPinMenuItem => 'پن ری سیٹ کریں';
+
+  @override
+  String get trainingRecordsMenuItem => 'تربیتی ریکارڈ';
+
+  @override
+  String unknownUserIdFallback(String id) {
+    return 'صارف #$id';
+  }
+
+  @override
+  String resetPinForUserTitle(String name) {
+    return 'پن ری سیٹ کریں - $name';
+  }
+
+  @override
+  String pinResetForUserMessage(String name) {
+    return '$name کے لیے پن ری سیٹ کیا گیا';
+  }
+
+  @override
+  String changeRoleTierTitle(String name) {
+    return 'کردار کی سطح تبدیل کریں - $name';
+  }
+
+  @override
+  String changeSectionTitle(String name) {
+    return 'حصہ تبدیل کریں - $name';
+  }
+
+  @override
+  String assignSupervisionTitle(String name) {
+    return 'نگرانی تفویض کریں - $name';
+  }
+
+  @override
+  String supervisionScopeUpdatedMessage(String name) {
+    return '$name کے لیے نگرانی کا دائرہ اپ ڈیٹ کیا گیا';
+  }
+
+  @override
+  String reportsToTitle(String name) {
+    return 'رپورٹ کرتا ہے - $name';
+  }
+
+  @override
+  String deactivateStaffConfirmText(String name) {
+    return '$name اب لاگ ان نہیں کر سکیں گے۔ ان کے فعال کام کی تفویضات غیر تفویض ہو جائیں گی۔ ان کی جمع کرانے کی تاریخ متاثر نہیں ہوگی۔ اسے بعد میں واپس پلٹا جا سکتا ہے۔';
+  }
+
+  @override
+  String reportsToSubtitle(String name) {
+    return '$name کو رپورٹ کرتا ہے';
+  }
+
+  @override
+  String deactivatedOnByLabel(String date, String name) {
+    return '$date کو $name کی طرف سے';
+  }
 }

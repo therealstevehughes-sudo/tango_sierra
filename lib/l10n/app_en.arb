@@ -2485,5 +2485,183 @@
   "addEquipmentTooltip": "Add equipment",
   "@addEquipmentTooltip": {
     "description": ""
+  },
+  "newPinLabel": "New PIN",
+  "@newPinLabel": {
+    "description": ""
+  },
+  "editDetailsTitle": "Edit Details",
+  "@editDetailsTitle": {
+    "description": ""
+  },
+  "sectionLabel": "Section",
+  "@sectionLabel": {
+    "description": ""
+  },
+  "noSectionOption": "No section",
+  "@noSectionOption": {
+    "description": ""
+  },
+  "inactiveParenSuffix": " (inactive)",
+  "@inactiveParenSuffix": {
+    "description": ""
+  },
+  "@teamOptionalLabel": {
+    "description": ""
+  },
+  "noSpecificTeamOption": "No specific team",
+  "@noSpecificTeamOption": {
+    "description": ""
+  },
+  "noSectionsSetupText": "No sections set up at this venue yet - add one under Department Management first.",
+  "@noSectionsSetupText": {
+    "description": ""
+  },
+  "reportsToFieldLabel": "Reports to",
+  "@reportsToFieldLabel": {
+    "description": ""
+  },
+  "notSetOption": "Not set",
+  "@notSetOption": {
+    "description": ""
+  },
+  "deactivateStaffMemberTitle": "Deactivate Staff Member",
+  "@deactivateStaffMemberTitle": {
+    "description": ""
+  },
+  "staffManagementTitle": "Staff Management",
+  "@staffManagementTitle": {
+    "description": ""
+  },
+  "addStaffTooltip": "Add Staff",
+  "@addStaffTooltip": {
+    "description": ""
+  },
+  "bulkImportTooltip": "Bulk Import",
+  "@bulkImportTooltip": {
+    "description": ""
+  },
+  "deactivatedSuffixLabel": "(deactivated)",
+  "@deactivatedSuffixLabel": {
+    "description": ""
+  },
+  "moreActionsTooltip": "More actions",
+  "@moreActionsTooltip": {
+    "description": ""
+  },
+  "changeTierMenuItem": "Change Tier",
+  "@changeTierMenuItem": {
+    "description": ""
+  },
+  "changeSectionMenuItem": "Change Section",
+  "@changeSectionMenuItem": {
+    "description": ""
+  },
+  "assignSupervisionMenuItem": "Assign Supervision",
+  "@assignSupervisionMenuItem": {
+    "description": ""
+  },
+  "reportsToMenuItem": "Reports To",
+  "@reportsToMenuItem": {
+    "description": ""
+  },
+  "resetPinMenuItem": "Reset PIN",
+  "@resetPinMenuItem": {
+    "description": ""
+  },
+  "trainingRecordsMenuItem": "Training Records",
+  "@trainingRecordsMenuItem": {
+    "description": ""
+  },
+  "unknownUserIdFallback": "user #{id}",
+  "@unknownUserIdFallback": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "resetPinForUserTitle": "Reset PIN - {name}",
+  "@resetPinForUserTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "pinResetForUserMessage": "PIN reset for {name}",
+  "@pinResetForUserMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "changeRoleTierTitle": "Change Role Tier - {name}",
+  "@changeRoleTierTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "changeSectionTitle": "Change Section - {name}",
+  "@changeSectionTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "assignSupervisionTitle": "Assign Supervision - {name}",
+  "@assignSupervisionTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "supervisionScopeUpdatedMessage": "Supervision scope updated for {name}",
+  "@supervisionScopeUpdatedMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reportsToTitle": "Reports To - {name}",
+  "@reportsToTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deactivateStaffConfirmText": "{name} will no longer be able to log in. Their active task assignments will be unassigned. Their submission history is not affected. This can be reversed later.",
+  "@deactivateStaffConfirmText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reportsToSubtitle": "Reports to {name}",
+  "@reportsToSubtitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deactivatedOnByLabel": "on {date} by {name}",
+  "@deactivatedOnByLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

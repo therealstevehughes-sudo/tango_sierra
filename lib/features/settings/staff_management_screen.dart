@@ -17,6 +17,7 @@ import 'training_records_screen.dart';
 import 'widgets/add_staff_dialog.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
+import '../../l10n/app_localizations.dart';
 
 // Approximate height of a single staff tile Card + padding, for the
 // A–Z quick-jump scroll target calculation. Not pixel-perfect (subtitle
@@ -125,33 +126,38 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     for (final candidate in staff) {
       if (candidate.id == user.deactivatedByUserId) return candidate.name;
     }
-    return 'user #${user.deactivatedByUserId}';
+    return AppLocalizations.of(
+      context,
+    )!.unknownUserIdFallback(user.deactivatedByUserId.toString());
   }
 
   Future<void> _resetPin(User user) async {
     final controller = TextEditingController();
     final newPin = await showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Reset PIN - ${user.name}'),
-        content: TextField(
-          controller: controller,
-          keyboardType: TextInputType.number,
-          obscureText: true,
-          decoration: const InputDecoration(labelText: 'New PIN'),
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.resetPinForUserTitle(user.name)),
+          content: TextField(
+            controller: controller,
+            keyboardType: TextInputType.number,
+            obscureText: true,
+            decoration: InputDecoration(labelText: l10n.newPinLabel),
+            autofocus: true,
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, controller.text.trim()),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, controller.text.trim()),
+              child: Text(l10n.saveButton),
+            ),
+          ],
+        );
+      },
     );
 
     if (newPin == null || newPin.isEmpty) return;
@@ -160,9 +166,11 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     await repo.resetPin(userId: user.id, newPin: newPin);
 
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('PIN reset for ${user.name}')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.pinResetForUserMessage(user.name)),
+      ),
+    );
   }
 
   // Built 2026-09-14 — the one staff-detail edit no prior action covered:
@@ -173,34 +181,37 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final jobTitleController = TextEditingController(text: user.jobTitle);
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Edit Details'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
-              autofocus: true,
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.editDetailsTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: l10n.nameAxisLabel),
+                autofocus: true,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: jobTitleController,
+                decoration: InputDecoration(labelText: l10n.jobTitleLabel),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
             ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: jobTitleController,
-              decoration: const InputDecoration(labelText: 'Job title'),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.saveButton),
             ),
           ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
+        );
+      },
     );
 
     final newName = nameController.text.trim();
@@ -246,33 +257,36 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('Change Role Tier - ${user.name}'),
-          content: DropdownButtonFormField<RoleTier>(
-            initialValue: selected,
-            decoration: const InputDecoration(labelText: 'Role tier'),
-            items: allowedTiers
-                .map(
-                  (t) => DropdownMenuItem(
-                    value: t,
-                    child: Text(roleTierDisplayName(t)),
-                  ),
-                )
-                .toList(),
-            onChanged: (value) =>
-                setDialogState(() => selected = value ?? selected),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.changeRoleTierTitle(user.name)),
+            content: DropdownButtonFormField<RoleTier>(
+              initialValue: selected,
+              decoration: InputDecoration(labelText: l10n.roleTierLabel),
+              items: allowedTiers
+                  .map(
+                    (t) => DropdownMenuItem(
+                      value: t,
+                      child: Text(roleTierDisplayName(t, l10n)),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) =>
+                  setDialogState(() => selected = value ?? selected),
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.saveButton),
+              ),
+            ],
+          );
+        },
       ),
     );
 
@@ -339,27 +353,30 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
           final teamOptions = selectedDepartment == null
               ? const <Team>[]
               : (teamsByDept[selectedDepartment] ?? const <Team>[]);
           return AlertDialog(
-            title: Text('Change Section - ${user.name}'),
+            title: Text(l10n.changeSectionTitle(user.name)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DropdownButtonFormField<int?>(
                   initialValue: selectedDepartment,
-                  decoration: const InputDecoration(labelText: 'Section'),
+                  decoration: InputDecoration(labelText: l10n.sectionLabel),
                   items: [
-                    const DropdownMenuItem<int?>(
+                    DropdownMenuItem<int?>(
                       value: null,
-                      child: Text('No section'),
+                      child: Text(l10n.noSectionOption),
                     ),
                     ...departmentOptions.map(
                       (d) => DropdownMenuItem<int?>(
                         value: d.id,
-                        child: Text(d.active ? d.name : '${d.name} (inactive)'),
+                        child: Text(
+                          d.active ? d.name : '${d.name}${l10n.inactiveParenSuffix}',
+                        ),
                       ),
                     ),
                   ],
@@ -378,18 +395,20 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
                 const SizedBox(height: 12),
                 DropdownButtonFormField<int?>(
                   initialValue: selectedTeam,
-                  decoration: const InputDecoration(
-                    labelText: 'Team (optional)',
+                  decoration: InputDecoration(
+                    labelText: l10n.teamOptionalLabel,
                   ),
                   items: [
-                    const DropdownMenuItem<int?>(
+                    DropdownMenuItem<int?>(
                       value: null,
-                      child: Text('No specific team'),
+                      child: Text(l10n.noSpecificTeamOption),
                     ),
                     ...teamOptions.map(
                       (t) => DropdownMenuItem<int?>(
                         value: t.id,
-                        child: Text(t.active ? t.name : '${t.name} (inactive)'),
+                        child: Text(
+                          t.active ? t.name : '${t.name}${l10n.inactiveParenSuffix}',
+                        ),
                       ),
                     ),
                   ],
@@ -402,11 +421,11 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text('Cancel'),
+                child: Text(l10n.cancel),
               ),
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text('Save'),
+                child: Text(l10n.saveButton),
               ),
             ],
           );
@@ -467,15 +486,14 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('Assign Supervision - ${user.name}'),
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+          title: Text(l10n.assignSupervisionTitle(user.name)),
           content: SizedBox(
             width: 360,
             child: siteDepartments.isEmpty
-                ? const Text(
-                    'No sections set up at this venue yet - add one under '
-                    'Department Management first.',
-                  )
+                ? Text(l10n.noSectionsSetupText)
                 : SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -527,14 +545,15 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Save'),
+              child: Text(l10n.saveButton),
             ),
           ],
-        ),
+          );
+        },
       ),
     );
 
@@ -551,7 +570,11 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
 
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Supervision scope updated for ${user.name}')),
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context)!.supervisionScopeUpdatedMessage(user.name),
+        ),
+      ),
     );
   }
 
@@ -566,30 +589,33 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('Reports To - ${user.name}'),
-          content: DropdownButtonFormField<int?>(
-            initialValue: selected,
-            decoration: const InputDecoration(labelText: 'Reports to'),
-            items: [
-              const DropdownMenuItem<int?>(value: null, child: Text('Not set')),
-              ...options.map(
-                (u) => DropdownMenuItem<int?>(value: u.id, child: Text(u.name)),
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.reportsToTitle(user.name)),
+            content: DropdownButtonFormField<int?>(
+              initialValue: selected,
+              decoration: InputDecoration(labelText: l10n.reportsToFieldLabel),
+              items: [
+                DropdownMenuItem<int?>(value: null, child: Text(l10n.notSetOption)),
+                ...options.map(
+                  (u) => DropdownMenuItem<int?>(value: u.id, child: Text(u.name)),
+                ),
+              ],
+              onChanged: (value) => setDialogState(() => selected = value),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.saveButton),
               ),
             ],
-            onChanged: (value) => setDialogState(() => selected = value),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
 
@@ -613,24 +639,23 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     }
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Deactivate Staff Member'),
-        content: Text(
-          '${user.name} will no longer be able to log in. Their active '
-          'task assignments will be unassigned. Their submission history '
-          'is not affected. This can be reversed later.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Deactivate'),
-          ),
-        ],
-      ),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.deactivateStaffMemberTitle),
+          content: Text(l10n.deactivateStaffConfirmText(user.name)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.deactivateButton),
+            ),
+          ],
+        );
+      },
     );
 
     if (confirmed != true) return;
@@ -696,6 +721,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     // Alphabetical index for quick-jump: staff are already sorted by name
     // from the repo, so we can compute which letters have at least one
     // entry and create a fast-access index column on the right.
@@ -710,22 +736,22 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Staff Management'),
+        title: Text(l10n.staffManagementTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.person_add_alt),
-            tooltip: 'Add Staff',
+            tooltip: l10n.addStaffTooltip,
             onPressed: _addStaff,
           ),
           IconButton(
             icon: const Icon(Icons.upload_file),
-            tooltip: 'Bulk Import',
+            tooltip: l10n.bulkImportTooltip,
             onPressed: _bulkImport,
           ),
           const AssistantIconButton(),
         ],
       ),
-      drawer: const ManagementDrawer(title: 'Staff Management'),
+      drawer: ManagementDrawer(title: l10n.staffManagementTitle),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : loadError != null
@@ -786,6 +812,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
   }
 
   Widget _buildStaffTile(User user) {
+    final l10n = AppLocalizations.of(context)!;
     // Outrank checks (2026-09-27) — see canChangeTier/canDeactivate's own
     // doc comments in user.dart. Hiding the menu item entirely (rather
     // than showing it and letting the dialog silently no-op) is the
@@ -814,14 +841,16 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
         ? null
         : staff.where((u) => u.id == user.reportsToUserId).firstOrNull;
     final subtitleParts = <String>[
-      '${user.jobTitle} · ${roleTierDisplayName(user.roleTier)}',
+      '${user.jobTitle} · ${roleTierDisplayName(user.roleTier, l10n)}',
       if (department != null)
         team != null ? '${department.name} · ${team.name}' : department.name,
-      if (reportsTo != null) 'Reports to ${reportsTo.name}',
-      if (!user.active) '(deactivated)',
+      if (reportsTo != null) l10n.reportsToSubtitle(reportsTo.name),
+      if (!user.active) l10n.deactivatedSuffixLabel,
       if (!user.active && user.deactivatedAt != null && deactivatedBy != null)
-        'on ${user.deactivatedAt!.toLocal().toString().split('.').first} '
-            'by $deactivatedBy',
+        l10n.deactivatedOnByLabel(
+          user.deactivatedAt!.toLocal().toString().split('.').first,
+          deactivatedBy,
+        ),
     ];
 
     // Sub-sprint 2 (visual/UX pass): was a Row of 3 full-text TextButtons
@@ -836,7 +865,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
         subtitle: Text(subtitleParts.join('\n')),
         isThreeLine: subtitleParts.length > 2,
         trailing: PopupMenuButton<_StaffAction>(
-          tooltip: 'More actions',
+          tooltip: l10n.moreActionsTooltip,
           onSelected: (action) {
             switch (action) {
               case _StaffAction.editDetails:
@@ -863,37 +892,37 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
             }
           },
           itemBuilder: (context) => [
-            const PopupMenuItem(
+            PopupMenuItem(
               value: _StaffAction.editDetails,
-              child: Text('Edit Details'),
+              child: Text(l10n.editDetailsTitle),
             ),
             // Outrank check (2026-09-27) — hidden entirely, not just
             // disabled, when the acting manager can't set any tier on this
             // person (a peer or superior) — see canChangeTier's own doc
             // comment in user.dart.
             if (canChangeThisTier)
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: _StaffAction.changeTier,
-                child: Text('Change Tier'),
+                child: Text(l10n.changeTierMenuItem),
               ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: _StaffAction.changeDepartment,
-              child: Text('Change Section'),
+              child: Text(l10n.changeSectionMenuItem),
             ),
             // Supervision scope only applies to Supervisor tier — Venue
             // Manager+ already sees the whole branch by construction.
             if (user.roleTier == RoleTier.supervisor)
-              const PopupMenuItem(
+              PopupMenuItem(
                 value: _StaffAction.assignSupervision,
-                child: Text('Assign Supervision'),
+                child: Text(l10n.assignSupervisionMenuItem),
               ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: _StaffAction.changeReportsTo,
-              child: Text('Reports To'),
+              child: Text(l10n.reportsToMenuItem),
             ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: _StaffAction.resetPin,
-              child: Text('Reset PIN'),
+              child: Text(l10n.resetPinMenuItem),
             ),
             // Outrank check (2026-09-27) — deactivating a peer/superior is
             // hidden entirely (see canDeactivate's own doc comment);
@@ -903,11 +932,11 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
             if (user.active ? canDeactivateThis : true)
               PopupMenuItem(
                 value: _StaffAction.toggleActive,
-                child: Text(user.active ? 'Deactivate' : 'Reactivate'),
+                child: Text(user.active ? l10n.deactivateButton : l10n.reactivateButton),
               ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: _StaffAction.trainingRecords,
-              child: Text('Training Records'),
+              child: Text(l10n.trainingRecordsMenuItem),
             ),
           ],
         ),

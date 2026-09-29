@@ -2394,7 +2394,7 @@ abstract class AppLocalizations {
   /// **'No section'**
   String get noSectionLabel;
 
-  /// No description provided for @teamOptionalLabel.
+  ///
   ///
   /// In en, this message translates to:
   /// **'Team (optional)'**
@@ -5263,6 +5263,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add equipment'**
   String get addEquipmentTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'New PIN'**
+  String get newPinLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Details'**
+  String get editDetailsTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Section'**
+  String get sectionLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No section'**
+  String get noSectionOption;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **' (inactive)'**
+  String get inactiveParenSuffix;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No specific team'**
+  String get noSpecificTeamOption;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No sections set up at this venue yet - add one under Department Management first.'**
+  String get noSectionsSetupText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reports to'**
+  String get reportsToFieldLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get notSetOption;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Deactivate Staff Member'**
+  String get deactivateStaffMemberTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Staff Management'**
+  String get staffManagementTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Staff'**
+  String get addStaffTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Bulk Import'**
+  String get bulkImportTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'(deactivated)'**
+  String get deactivatedSuffixLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'More actions'**
+  String get moreActionsTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Change Tier'**
+  String get changeTierMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Change Section'**
+  String get changeSectionMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Supervision'**
+  String get assignSupervisionMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reports To'**
+  String get reportsToMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reset PIN'**
+  String get resetPinMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Training Records'**
+  String get trainingRecordsMenuItem;
+
+  /// No description provided for @unknownUserIdFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'user #{id}'**
+  String unknownUserIdFallback(String id);
+
+  /// No description provided for @resetPinForUserTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset PIN - {name}'**
+  String resetPinForUserTitle(String name);
+
+  /// No description provided for @pinResetForUserMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN reset for {name}'**
+  String pinResetForUserMessage(String name);
+
+  /// No description provided for @changeRoleTierTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Role Tier - {name}'**
+  String changeRoleTierTitle(String name);
+
+  /// No description provided for @changeSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Section - {name}'**
+  String changeSectionTitle(String name);
+
+  /// No description provided for @assignSupervisionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Supervision - {name}'**
+  String assignSupervisionTitle(String name);
+
+  /// No description provided for @supervisionScopeUpdatedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervision scope updated for {name}'**
+  String supervisionScopeUpdatedMessage(String name);
+
+  /// No description provided for @reportsToTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports To - {name}'**
+  String reportsToTitle(String name);
+
+  /// No description provided for @deactivateStaffConfirmText.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} will no longer be able to log in. Their active task assignments will be unassigned. Their submission history is not affected. This can be reversed later.'**
+  String deactivateStaffConfirmText(String name);
+
+  /// No description provided for @reportsToSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports to {name}'**
+  String reportsToSubtitle(String name);
+
+  /// No description provided for @deactivatedOnByLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'on {date} by {name}'**
+  String deactivatedOnByLabel(String date, String name);
 }
 
 class _AppLocalizationsDelegate

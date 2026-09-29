@@ -3021,4 +3021,123 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get addEquipmentTooltip => 'Ausrüstung hinzufügen';
+
+  @override
+  String get newPinLabel => 'Neue PIN';
+
+  @override
+  String get editDetailsTitle => 'Details bearbeiten';
+
+  @override
+  String get sectionLabel => 'Abteilung';
+
+  @override
+  String get noSectionOption => 'Keine Abteilung';
+
+  @override
+  String get inactiveParenSuffix => ' (inaktiv)';
+
+  @override
+  String get noSpecificTeamOption => 'Kein bestimmtes Team';
+
+  @override
+  String get noSectionsSetupText =>
+      'Für diesen Standort sind noch keine Abteilungen eingerichtet - füge zuerst eine in der Abteilungsverwaltung hinzu.';
+
+  @override
+  String get reportsToFieldLabel => 'Berichtet an';
+
+  @override
+  String get notSetOption => 'Nicht festgelegt';
+
+  @override
+  String get deactivateStaffMemberTitle => 'Mitarbeiter deaktivieren';
+
+  @override
+  String get staffManagementTitle => 'Personalverwaltung';
+
+  @override
+  String get addStaffTooltip => 'Mitarbeiter hinzufügen';
+
+  @override
+  String get bulkImportTooltip => 'Massenimport';
+
+  @override
+  String get deactivatedSuffixLabel => '(deaktiviert)';
+
+  @override
+  String get moreActionsTooltip => 'Weitere Aktionen';
+
+  @override
+  String get changeTierMenuItem => 'Ebene ändern';
+
+  @override
+  String get changeSectionMenuItem => 'Abteilung ändern';
+
+  @override
+  String get assignSupervisionMenuItem => 'Aufsicht zuweisen';
+
+  @override
+  String get reportsToMenuItem => 'Berichtet an';
+
+  @override
+  String get resetPinMenuItem => 'PIN zurücksetzen';
+
+  @override
+  String get trainingRecordsMenuItem => 'Schulungsnachweise';
+
+  @override
+  String unknownUserIdFallback(String id) {
+    return 'Benutzer #$id';
+  }
+
+  @override
+  String resetPinForUserTitle(String name) {
+    return 'PIN zurücksetzen - $name';
+  }
+
+  @override
+  String pinResetForUserMessage(String name) {
+    return 'PIN für $name zurückgesetzt';
+  }
+
+  @override
+  String changeRoleTierTitle(String name) {
+    return 'Rollenebene ändern - $name';
+  }
+
+  @override
+  String changeSectionTitle(String name) {
+    return 'Abteilung ändern - $name';
+  }
+
+  @override
+  String assignSupervisionTitle(String name) {
+    return 'Aufsicht zuweisen - $name';
+  }
+
+  @override
+  String supervisionScopeUpdatedMessage(String name) {
+    return 'Aufsichtsbereich für $name aktualisiert';
+  }
+
+  @override
+  String reportsToTitle(String name) {
+    return 'Berichtet an - $name';
+  }
+
+  @override
+  String deactivateStaffConfirmText(String name) {
+    return '$name kann sich nicht mehr anmelden. Ihre aktiven Aufgabenzuweisungen werden aufgehoben. Ihr Einreichungsverlauf ist nicht betroffen. Dies kann später rückgängig gemacht werden.';
+  }
+
+  @override
+  String reportsToSubtitle(String name) {
+    return 'Berichtet an $name';
+  }
+
+  @override
+  String deactivatedOnByLabel(String date, String name) {
+    return 'am $date von $name';
+  }
 }

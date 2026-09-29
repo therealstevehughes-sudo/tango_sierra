@@ -2974,4 +2974,123 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get addEquipmentTooltip => 'Dodaj opremu';
+
+  @override
+  String get newPinLabel => 'Novi PIN';
+
+  @override
+  String get editDetailsTitle => 'Uredi podatke';
+
+  @override
+  String get sectionLabel => 'Odjel';
+
+  @override
+  String get noSectionOption => 'Bez odjela';
+
+  @override
+  String get inactiveParenSuffix => ' (neaktivan)';
+
+  @override
+  String get noSpecificTeamOption => 'Bez određenog tima';
+
+  @override
+  String get noSectionsSetupText =>
+      'Za ovu poslovnicu još nema postavljenih odjela - prvo dodaj jedan u Upravljanju odjelima.';
+
+  @override
+  String get reportsToFieldLabel => 'Izvještava se';
+
+  @override
+  String get notSetOption => 'Nije postavljeno';
+
+  @override
+  String get deactivateStaffMemberTitle => 'Deaktiviraj zaposlenika';
+
+  @override
+  String get staffManagementTitle => 'Upravljanje osobljem';
+
+  @override
+  String get addStaffTooltip => 'Dodaj osoblje';
+
+  @override
+  String get bulkImportTooltip => 'Skupni uvoz';
+
+  @override
+  String get deactivatedSuffixLabel => '(deaktiviran)';
+
+  @override
+  String get moreActionsTooltip => 'Više radnji';
+
+  @override
+  String get changeTierMenuItem => 'Promijeni razinu';
+
+  @override
+  String get changeSectionMenuItem => 'Promijeni odjel';
+
+  @override
+  String get assignSupervisionMenuItem => 'Dodijeli nadzor';
+
+  @override
+  String get reportsToMenuItem => 'Izvještava se';
+
+  @override
+  String get resetPinMenuItem => 'Resetiraj PIN';
+
+  @override
+  String get trainingRecordsMenuItem => 'Evidencija osposobljavanja';
+
+  @override
+  String unknownUserIdFallback(String id) {
+    return 'korisnik #$id';
+  }
+
+  @override
+  String resetPinForUserTitle(String name) {
+    return 'Resetiraj PIN - $name';
+  }
+
+  @override
+  String pinResetForUserMessage(String name) {
+    return 'PIN resetiran za $name';
+  }
+
+  @override
+  String changeRoleTierTitle(String name) {
+    return 'Promijeni razinu uloge - $name';
+  }
+
+  @override
+  String changeSectionTitle(String name) {
+    return 'Promijeni odjel - $name';
+  }
+
+  @override
+  String assignSupervisionTitle(String name) {
+    return 'Dodijeli nadzor - $name';
+  }
+
+  @override
+  String supervisionScopeUpdatedMessage(String name) {
+    return 'Opseg nadzora ažuriran za $name';
+  }
+
+  @override
+  String reportsToTitle(String name) {
+    return 'Izvještava se - $name';
+  }
+
+  @override
+  String deactivateStaffConfirmText(String name) {
+    return '$name se više neće moći prijaviti. Njihove aktivne dodjele zadataka bit će poništene. Njihova povijest podnošenja nije pogođena. Ovo se kasnije može poništiti.';
+  }
+
+  @override
+  String reportsToSubtitle(String name) {
+    return 'Izvještava se $name';
+  }
+
+  @override
+  String deactivatedOnByLabel(String date, String name) {
+    return '$date od strane $name';
+  }
 }

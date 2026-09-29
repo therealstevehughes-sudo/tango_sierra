@@ -2954,4 +2954,123 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get addEquipmentTooltip => 'उपकरण जोड़ें';
+
+  @override
+  String get newPinLabel => 'नया पिन';
+
+  @override
+  String get editDetailsTitle => 'विवरण संपादित करें';
+
+  @override
+  String get sectionLabel => 'अनुभाग';
+
+  @override
+  String get noSectionOption => 'कोई अनुभाग नहीं';
+
+  @override
+  String get inactiveParenSuffix => ' (निष्क्रिय)';
+
+  @override
+  String get noSpecificTeamOption => 'कोई विशिष्ट टीम नहीं';
+
+  @override
+  String get noSectionsSetupText =>
+      'इस वेन्यू में अभी तक कोई अनुभाग सेट नहीं किया गया - पहले विभाग प्रबंधन में एक जोड़ें।';
+
+  @override
+  String get reportsToFieldLabel => 'रिपोर्ट करता है';
+
+  @override
+  String get notSetOption => 'सेट नहीं';
+
+  @override
+  String get deactivateStaffMemberTitle => 'स्टाफ सदस्य निष्क्रिय करें';
+
+  @override
+  String get staffManagementTitle => 'स्टाफ प्रबंधन';
+
+  @override
+  String get addStaffTooltip => 'स्टाफ जोड़ें';
+
+  @override
+  String get bulkImportTooltip => 'बल्क आयात';
+
+  @override
+  String get deactivatedSuffixLabel => '(निष्क्रिय)';
+
+  @override
+  String get moreActionsTooltip => 'अधिक कार्रवाइयां';
+
+  @override
+  String get changeTierMenuItem => 'स्तर बदलें';
+
+  @override
+  String get changeSectionMenuItem => 'अनुभाग बदलें';
+
+  @override
+  String get assignSupervisionMenuItem => 'पर्यवेक्षण असाइन करें';
+
+  @override
+  String get reportsToMenuItem => 'रिपोर्ट करता है';
+
+  @override
+  String get resetPinMenuItem => 'पिन रीसेट करें';
+
+  @override
+  String get trainingRecordsMenuItem => 'प्रशिक्षण रिकॉर्ड';
+
+  @override
+  String unknownUserIdFallback(String id) {
+    return 'उपयोगकर्ता #$id';
+  }
+
+  @override
+  String resetPinForUserTitle(String name) {
+    return 'पिन रीसेट करें - $name';
+  }
+
+  @override
+  String pinResetForUserMessage(String name) {
+    return '$name के लिए पिन रीसेट किया गया';
+  }
+
+  @override
+  String changeRoleTierTitle(String name) {
+    return 'भूमिका स्तर बदलें - $name';
+  }
+
+  @override
+  String changeSectionTitle(String name) {
+    return 'अनुभाग बदलें - $name';
+  }
+
+  @override
+  String assignSupervisionTitle(String name) {
+    return 'पर्यवेक्षण असाइन करें - $name';
+  }
+
+  @override
+  String supervisionScopeUpdatedMessage(String name) {
+    return '$name के लिए पर्यवेक्षण दायरा अपडेट किया गया';
+  }
+
+  @override
+  String reportsToTitle(String name) {
+    return 'रिपोर्ट करता है - $name';
+  }
+
+  @override
+  String deactivateStaffConfirmText(String name) {
+    return '$name अब लॉग इन नहीं कर पाएंगे। उनके सक्रिय कार्य असाइनमेंट अनअसाइन हो जाएंगे। उनका सबमिशन इतिहास प्रभावित नहीं होगा। इसे बाद में वापस पलटा जा सकता है।';
+  }
+
+  @override
+  String reportsToSubtitle(String name) {
+    return '$name को रिपोर्ट करता है';
+  }
+
+  @override
+  String deactivatedOnByLabel(String date, String name) {
+    return '$date को $name द्वारा';
+  }
 }
