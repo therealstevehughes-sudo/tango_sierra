@@ -3263,4 +3263,35 @@ class AppLocalizationsZh extends AppLocalizations {
   String venueManagerSuffixLabel(String name) {
     return '$name  ·  场所经理';
   }
+
+  @override
+  String get noSignedInUserError => '未找到已登录用户。';
+
+  @override
+  String get customCategoryTitleLabel => '自定义类别标题';
+
+  @override
+  String get approvalNoteLabel => '审批/尽职调查备注(可选)';
+
+  @override
+  String get supplierManagementTitle => '供应商管理';
+
+  @override
+  String get noSuppliersAddedYetText => '尚未添加供应商。';
+
+  @override
+  String get inactiveStandaloneLabel => '(未启用)';
+
+  @override
+  String get changeApprovalStatusMenuItem => '更改审批状态';
+
+  @override
+  String editDetailsForSupplierTitle(String name) {
+    return '编辑详情 - $name';
+  }
+
+  @override
+  String changeApprovalStatusTitle(String name) {
+    return '更改审批状态 - $name';
+  }
 }

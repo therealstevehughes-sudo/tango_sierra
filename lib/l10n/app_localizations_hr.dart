@@ -3392,4 +3392,36 @@ class AppLocalizationsHr extends AppLocalizations {
   String venueManagerSuffixLabel(String name) {
     return '$name  ·  Voditelj poslovnice';
   }
+
+  @override
+  String get noSignedInUserError => 'Nije pronađen prijavljeni korisnik.';
+
+  @override
+  String get customCategoryTitleLabel => 'Prilagođeni naziv kategorije';
+
+  @override
+  String get approvalNoteLabel =>
+      'Bilješka o odobrenju / dubinskoj analizi (neobavezno)';
+
+  @override
+  String get supplierManagementTitle => 'Upravljanje dobavljačima';
+
+  @override
+  String get noSuppliersAddedYetText => 'Još nema dodanih dobavljača.';
+
+  @override
+  String get inactiveStandaloneLabel => '(neaktivan)';
+
+  @override
+  String get changeApprovalStatusMenuItem => 'Promijeni status odobrenja';
+
+  @override
+  String editDetailsForSupplierTitle(String name) {
+    return 'Uredi podatke - $name';
+  }
+
+  @override
+  String changeApprovalStatusTitle(String name) {
+    return 'Promijeni status odobrenja - $name';
+  }
 }

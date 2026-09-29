@@ -973,5 +973,14 @@
   "emailColonLabel": "Correo: {email}",
   "temporaryPasswordColonLabel": "Contraseña temporal: {password}",
   "resetPasswordConfirmText": "Esto invalida inmediatamente la contraseña actual de {name}. Obtendrás una nueva contraseña temporal para transmitir.",
-  "venueManagerSuffixLabel": "{name}  ·  Gerente de local"
+  "venueManagerSuffixLabel": "{name}  ·  Gerente de local",
+  "noSignedInUserError": "No se encontró ningún usuario con sesión iniciada.",
+  "customCategoryTitleLabel": "Título de categoría personalizado",
+  "approvalNoteLabel": "Nota de aprobación / diligencia debida (opcional)",
+  "supplierManagementTitle": "Gestión de Proveedores",
+  "noSuppliersAddedYetText": "Todavía no se han añadido proveedores.",
+  "inactiveStandaloneLabel": "(inactivo)",
+  "changeApprovalStatusMenuItem": "Cambiar estado de aprobación",
+  "editDetailsForSupplierTitle": "Editar datos - {name}",
+  "changeApprovalStatusTitle": "Cambiar estado de aprobación - {name}"
 }

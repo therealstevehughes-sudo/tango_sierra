@@ -973,5 +973,14 @@
   "emailColonLabel": "البريد الإلكتروني: {email}",
   "temporaryPasswordColonLabel": "كلمة المرور المؤقتة: {password}",
   "resetPasswordConfirmText": "سيؤدي هذا إلى إبطال كلمة مرور {name} الحالية فورًا. ستحصل على كلمة مرور مؤقتة جديدة لتسليمها.",
-  "venueManagerSuffixLabel": "{name}  ·  مدير الموقع"
+  "venueManagerSuffixLabel": "{name}  ·  مدير الموقع",
+  "noSignedInUserError": "لم يتم العثور على مستخدم مسجل الدخول.",
+  "customCategoryTitleLabel": "عنوان فئة مخصص",
+  "approvalNoteLabel": "ملاحظة الموافقة / العناية الواجبة (اختياري)",
+  "supplierManagementTitle": "إدارة الموردين",
+  "noSuppliersAddedYetText": "لم تتم إضافة أي موردين بعد.",
+  "inactiveStandaloneLabel": "(غير نشط)",
+  "changeApprovalStatusMenuItem": "تغيير حالة الموافقة",
+  "editDetailsForSupplierTitle": "تعديل التفاصيل - {name}",
+  "changeApprovalStatusTitle": "تغيير حالة الموافقة - {name}"
 }

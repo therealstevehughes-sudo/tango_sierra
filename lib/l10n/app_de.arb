@@ -973,5 +973,14 @@
   "emailColonLabel": "E-Mail: {email}",
   "temporaryPasswordColonLabel": "Temporäres Passwort: {password}",
   "resetPasswordConfirmText": "Dies macht sofort das aktuelle Passwort von {name} ungültig. Du erhältst ein neues temporäres Passwort zum Weitergeben.",
-  "venueManagerSuffixLabel": "{name}  ·  Standortleiter"
+  "venueManagerSuffixLabel": "{name}  ·  Standortleiter",
+  "noSignedInUserError": "Kein angemeldeter Benutzer gefunden.",
+  "customCategoryTitleLabel": "Benutzerdefinierter Kategorietitel",
+  "approvalNoteLabel": "Genehmigungs-/Sorgfaltspflicht-Notiz (optional)",
+  "supplierManagementTitle": "Lieferantenverwaltung",
+  "noSuppliersAddedYetText": "Noch keine Lieferanten hinzugefügt.",
+  "inactiveStandaloneLabel": "(inaktiv)",
+  "changeApprovalStatusMenuItem": "Genehmigungsstatus ändern",
+  "editDetailsForSupplierTitle": "Details bearbeiten - {name}",
+  "changeApprovalStatusTitle": "Genehmigungsstatus ändern - {name}"
 }

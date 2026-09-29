@@ -973,5 +973,14 @@
   "emailColonLabel": "ای میل: {email}",
   "temporaryPasswordColonLabel": "عارضی پاس ورڈ: {password}",
   "resetPasswordConfirmText": "یہ فوری طور پر {name} کا موجودہ پاس ورڈ غیر فعال کر دیتا ہے۔ تمہیں آگے دینے کے لیے ایک نیا عارضی پاس ورڈ ملے گا۔",
-  "venueManagerSuffixLabel": "{name}  ·  وینیو مینیجر"
+  "venueManagerSuffixLabel": "{name}  ·  وینیو مینیجر",
+  "noSignedInUserError": "کوئی سائن ان صارف نہیں ملا۔",
+  "customCategoryTitleLabel": "کسٹم قسم کا عنوان",
+  "approvalNoteLabel": "منظوری / ڈیو ڈیلیجنس نوٹ (اختیاری)",
+  "supplierManagementTitle": "سپلائر مینجمنٹ",
+  "noSuppliersAddedYetText": "ابھی تک کوئی سپلائر شامل نہیں کیا گیا۔",
+  "inactiveStandaloneLabel": "(غیر فعال)",
+  "changeApprovalStatusMenuItem": "منظوری کی حیثیت تبدیل کریں",
+  "editDetailsForSupplierTitle": "تفصیلات میں ترمیم کریں - {name}",
+  "changeApprovalStatusTitle": "منظوری کی حیثیت تبدیل کریں - {name}"
 }

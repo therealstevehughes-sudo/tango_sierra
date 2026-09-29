@@ -973,5 +973,14 @@
   "emailColonLabel": "邮箱:{email}",
   "temporaryPasswordColonLabel": "临时密码:{password}",
   "resetPasswordConfirmText": "这将立即使 {name} 的当前密码失效。你将获得一个新的临时密码以转达给他们。",
-  "venueManagerSuffixLabel": "{name}  ·  场所经理"
+  "venueManagerSuffixLabel": "{name}  ·  场所经理",
+  "noSignedInUserError": "未找到已登录用户。",
+  "customCategoryTitleLabel": "自定义类别标题",
+  "approvalNoteLabel": "审批/尽职调查备注(可选)",
+  "supplierManagementTitle": "供应商管理",
+  "noSuppliersAddedYetText": "尚未添加供应商。",
+  "inactiveStandaloneLabel": "(未启用)",
+  "changeApprovalStatusMenuItem": "更改审批状态",
+  "editDetailsForSupplierTitle": "编辑详情 - {name}",
+  "changeApprovalStatusTitle": "更改审批状态 - {name}"
 }

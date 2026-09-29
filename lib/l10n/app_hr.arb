@@ -973,5 +973,14 @@
   "emailColonLabel": "E-pošta: {email}",
   "temporaryPasswordColonLabel": "Privremena lozinka: {password}",
   "resetPasswordConfirmText": "Ovo odmah poništava trenutnu lozinku korisnika {name}. Dobit ćeš novu privremenu lozinku za proslijediti.",
-  "venueManagerSuffixLabel": "{name}  ·  Voditelj poslovnice"
+  "venueManagerSuffixLabel": "{name}  ·  Voditelj poslovnice",
+  "noSignedInUserError": "Nije pronađen prijavljeni korisnik.",
+  "customCategoryTitleLabel": "Prilagođeni naziv kategorije",
+  "approvalNoteLabel": "Bilješka o odobrenju / dubinskoj analizi (neobavezno)",
+  "supplierManagementTitle": "Upravljanje dobavljačima",
+  "noSuppliersAddedYetText": "Još nema dodanih dobavljača.",
+  "inactiveStandaloneLabel": "(neaktivan)",
+  "changeApprovalStatusMenuItem": "Promijeni status odobrenja",
+  "editDetailsForSupplierTitle": "Uredi podatke - {name}",
+  "changeApprovalStatusTitle": "Promijeni status odobrenja - {name}"
 }

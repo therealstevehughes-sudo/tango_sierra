@@ -14,6 +14,7 @@ import '../../shared/providers/supplier_providers.dart';
 import '../suppliers/supplier_detail_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
+import '../../l10n/app_localizations.dart';
 
 enum _SupplierAction { editDetails, changeApprovalStatus, toggleActive }
 
@@ -53,7 +54,7 @@ class _SupplierManagementScreenState
         final currentUser = ref.read(currentUserProvider);
         if (currentUser == null) {
           setState(() {
-            loadError = 'No signed-in user found.';
+            loadError = AppLocalizations.of(context)!.noSignedInUserError;
             loading = false;
           });
           return;
@@ -93,92 +94,95 @@ class _SupplierManagementScreenState
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Add Supplier'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                  autofocus: true,
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: contactController,
-                  decoration: const InputDecoration(
-                    labelText: 'Contact (optional)',
-                    hintText: 'Phone or email',
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.addSupplierButton),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(labelText: l10n.nameAxisLabel),
+                    autofocus: true,
                   ),
-                ),
-                const SizedBox(height: 12),
-                DropdownButtonFormField<SupplierCategory>(
-                  initialValue: category,
-                  decoration: const InputDecoration(labelText: 'Category'),
-                  items: SupplierCategory.values
-                      .map(
-                        (c) => DropdownMenuItem(
-                          value: c,
-                          child: Text(supplierCategoryLabel(c)),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) =>
-                      setDialogState(() => category = value ?? category),
-                ),
-                if (category == SupplierCategory.other) ...[
                   const SizedBox(height: 12),
                   TextField(
-                    controller: customCategoryController,
-                    decoration: const InputDecoration(
-                      labelText: 'Custom category title',
+                    controller: contactController,
+                    decoration: InputDecoration(
+                      labelText: l10n.contactOptionalLabel,
+                      hintText: l10n.phoneOrEmailHint,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  DropdownButtonFormField<SupplierCategory>(
+                    initialValue: category,
+                    decoration: InputDecoration(labelText: l10n.categoryLabel),
+                    items: SupplierCategory.values
+                        .map(
+                          (c) => DropdownMenuItem(
+                            value: c,
+                            child: Text(supplierCategoryLabel(c, l10n)),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) =>
+                        setDialogState(() => category = value ?? category),
+                  ),
+                  if (category == SupplierCategory.other) ...[
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: customCategoryController,
+                      decoration: InputDecoration(
+                        labelText: l10n.customCategoryTitleLabel,
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 12),
+                  Text(l10n.approvalStatusLabel),
+                  const SizedBox(height: 4),
+                  // Visual pass follow-up (2026-09-24, app-wide tick-box
+                  // sweep) — 3 fixed options, converted from a dropdown to
+                  // a compact chip row (not a vertical list, to keep this
+                  // dialog's height sane).
+                  Wrap(
+                    spacing: 8,
+                    children: [
+                      for (final s in SupplierApprovalStatus.values)
+                        ChoiceChip(
+                          label: Text(supplierApprovalStatusLabel(s, l10n)),
+                          selected: approvalStatus == s,
+                          onSelected: (_) =>
+                              setDialogState(() => approvalStatus = s),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: approvalNoteController,
+                    decoration: InputDecoration(
+                      labelText: l10n.approvalNoteLabel,
                     ),
                   ),
                 ],
-                const SizedBox(height: 12),
-                const Text('Approval status'),
-                const SizedBox(height: 4),
-                // Visual pass follow-up (2026-09-24, app-wide tick-box
-                // sweep) — 3 fixed options, converted from a dropdown to
-                // a compact chip row (not a vertical list, to keep this
-                // dialog's height sane).
-                Wrap(
-                  spacing: 8,
-                  children: [
-                    for (final s in SupplierApprovalStatus.values)
-                      ChoiceChip(
-                        label: Text(supplierApprovalStatusLabel(s)),
-                        selected: approvalStatus == s,
-                        onSelected: (_) =>
-                            setDialogState(() => approvalStatus = s),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: approvalNoteController,
-                  decoration: const InputDecoration(
-                    labelText: 'Approval / due-diligence note (optional)',
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: nameController.text.trim().isNotEmpty
-                  ? () => Navigator.pop(context, true)
-                  : null,
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: nameController.text.trim().isNotEmpty
+                    ? () => Navigator.pop(context, true)
+                    : null,
+                child: Text(l10n.saveButton),
+              ),
+            ],
+          );
+        },
       ),
     );
 
@@ -221,64 +225,67 @@ class _SupplierManagementScreenState
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('Edit Details - ${supplier.name}'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: contactController,
-                  decoration: const InputDecoration(
-                    labelText: 'Contact (optional)',
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.editDetailsForSupplierTitle(supplier.name)),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(labelText: l10n.nameAxisLabel),
                   ),
-                ),
-                const SizedBox(height: 12),
-                DropdownButtonFormField<SupplierCategory>(
-                  initialValue: category,
-                  decoration: const InputDecoration(labelText: 'Category'),
-                  items: SupplierCategory.values
-                      .map(
-                        (c) => DropdownMenuItem(
-                          value: c,
-                          child: Text(supplierCategoryLabel(c)),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) =>
-                      setDialogState(() => category = value ?? category),
-                ),
-                if (category == SupplierCategory.other) ...[
                   const SizedBox(height: 12),
                   TextField(
-                    controller: customCategoryController,
-                    decoration: const InputDecoration(
-                      labelText: 'Custom category title',
+                    controller: contactController,
+                    decoration: InputDecoration(
+                      labelText: l10n.contactOptionalLabel,
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  DropdownButtonFormField<SupplierCategory>(
+                    initialValue: category,
+                    decoration: InputDecoration(labelText: l10n.categoryLabel),
+                    items: SupplierCategory.values
+                        .map(
+                          (c) => DropdownMenuItem(
+                            value: c,
+                            child: Text(supplierCategoryLabel(c, l10n)),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) =>
+                        setDialogState(() => category = value ?? category),
+                  ),
+                  if (category == SupplierCategory.other) ...[
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: customCategoryController,
+                      decoration: InputDecoration(
+                        labelText: l10n.customCategoryTitleLabel,
+                      ),
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: nameController.text.trim().isNotEmpty
-                  ? () => Navigator.pop(context, true)
-                  : null,
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: nameController.text.trim().isNotEmpty
+                    ? () => Navigator.pop(context, true)
+                    : null,
+                child: Text(l10n.saveButton),
+              ),
+            ],
+          );
+        },
       ),
     );
 
@@ -310,45 +317,48 @@ class _SupplierManagementScreenState
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('Change Approval Status - ${supplier.name}'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Approval status'),
-              const SizedBox(height: 4),
-              Wrap(
-                spacing: 8,
-                children: [
-                  for (final s in SupplierApprovalStatus.values)
-                    ChoiceChip(
-                      label: Text(supplierApprovalStatusLabel(s)),
-                      selected: status == s,
-                      onSelected: (_) => setDialogState(() => status = s),
-                    ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: noteController,
-                decoration: const InputDecoration(
-                  labelText: 'Approval / due-diligence note (optional)',
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.changeApprovalStatusTitle(supplier.name)),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.approvalStatusLabel),
+                const SizedBox(height: 4),
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    for (final s in SupplierApprovalStatus.values)
+                      ChoiceChip(
+                        label: Text(supplierApprovalStatusLabel(s, l10n)),
+                        selected: status == s,
+                        onSelected: (_) => setDialogState(() => status = s),
+                      ),
+                  ],
                 ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: noteController,
+                  decoration: InputDecoration(
+                    labelText: l10n.approvalNoteLabel,
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.saveButton),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
 
@@ -377,12 +387,13 @@ class _SupplierManagementScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Supplier Management'),
+        title: Text(l10n.supplierManagementTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Supplier Management'),
+      drawer: ManagementDrawer(title: l10n.supplierManagementTitle),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : loadError != null
@@ -390,7 +401,7 @@ class _SupplierManagementScreenState
           : SafeArea(
         child: ResponsiveContent(
           child: suppliers.isEmpty
-              ? const Center(child: Text('No suppliers added yet.'))
+              ? Center(child: Text(l10n.noSuppliersAddedYetText))
               : ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: suppliers.length,
@@ -402,22 +413,23 @@ class _SupplierManagementScreenState
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addSupplier,
         icon: const Icon(Icons.add),
-        label: const Text('Add Supplier'),
+        label: Text(l10n.addSupplierButton),
       ),
     );
   }
 
   Widget _buildSupplierTile(Supplier supplier) {
+    final l10n = AppLocalizations.of(context)!;
     final subtitleParts = <String>[
       supplier.displayCategory,
       if (supplier.contact != null) supplier.contact!,
-      if (!supplier.active) '(inactive)',
+      if (!supplier.active) l10n.inactiveStandaloneLabel,
     ];
 
     final (kind, label) = switch (supplier.approvalStatus) {
-      SupplierApprovalStatus.approved => (StatusKind.pass, 'Approved'),
-      SupplierApprovalStatus.pending => (StatusKind.caution, 'Pending'),
-      SupplierApprovalStatus.suspended => (StatusKind.critical, 'Suspended'),
+      SupplierApprovalStatus.approved => (StatusKind.pass, l10n.supplierStatusApproved),
+      SupplierApprovalStatus.pending => (StatusKind.caution, l10n.supplierStatusPending),
+      SupplierApprovalStatus.suspended => (StatusKind.critical, l10n.supplierStatusSuspended),
     };
 
     return AppCard(
@@ -436,7 +448,7 @@ class _SupplierManagementScreenState
           children: [
             StatusBadge(kind: kind, label: label),
             PopupMenuButton<_SupplierAction>(
-              tooltip: 'More actions',
+              tooltip: l10n.moreActionsTooltip,
               onSelected: (action) {
                 switch (action) {
                   case _SupplierAction.editDetails:
@@ -448,17 +460,17 @@ class _SupplierManagementScreenState
                 }
               },
               itemBuilder: (context) => [
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: _SupplierAction.editDetails,
-                  child: Text('Edit Details'),
+                  child: Text(l10n.editDetailsTitle),
                 ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: _SupplierAction.changeApprovalStatus,
-                  child: Text('Change Approval Status'),
+                  child: Text(l10n.changeApprovalStatusMenuItem),
                 ),
                 PopupMenuItem(
                   value: _SupplierAction.toggleActive,
-                  child: Text(supplier.active ? 'Deactivate' : 'Reactivate'),
+                  child: Text(supplier.active ? l10n.deactivateButton : l10n.reactivateButton),
                 ),
               ],
             ),

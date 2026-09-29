@@ -3422,4 +3422,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String venueManagerSuffixLabel(String name) {
     return '$name  ·  Venue Manager';
   }
+
+  @override
+  String get noSignedInUserError => 'No signed-in user found.';
+
+  @override
+  String get customCategoryTitleLabel => 'Custom category title';
+
+  @override
+  String get approvalNoteLabel => 'Approval / due-diligence note (optional)';
+
+  @override
+  String get supplierManagementTitle => 'Supplier Management';
+
+  @override
+  String get noSuppliersAddedYetText => 'No suppliers added yet.';
+
+  @override
+  String get inactiveStandaloneLabel => '(inactive)';
+
+  @override
+  String get changeApprovalStatusMenuItem => 'Change Approval Status';
+
+  @override
+  String editDetailsForSupplierTitle(String name) {
+    return 'Edit Details - $name';
+  }
+
+  @override
+  String changeApprovalStatusTitle(String name) {
+    return 'Change Approval Status - $name';
+  }
 }

@@ -973,5 +973,14 @@
   "emailColonLabel": "Email: {email}",
   "temporaryPasswordColonLabel": "Parolă temporară: {password}",
   "resetPasswordConfirmText": "Aceasta invalidează imediat parola curentă a lui {name}. Vei primi o nouă parolă temporară de transmis.",
-  "venueManagerSuffixLabel": "{name}  ·  Manager local"
+  "venueManagerSuffixLabel": "{name}  ·  Manager local",
+  "noSignedInUserError": "Niciun utilizator autentificat găsit.",
+  "customCategoryTitleLabel": "Titlu categorie personalizat",
+  "approvalNoteLabel": "Notă de aprobare / diligență (opțional)",
+  "supplierManagementTitle": "Managementul furnizorilor",
+  "noSuppliersAddedYetText": "Niciun furnizor adăugat încă.",
+  "inactiveStandaloneLabel": "(inactiv)",
+  "changeApprovalStatusMenuItem": "Schimbă starea de aprobare",
+  "editDetailsForSupplierTitle": "Editează detaliile - {name}",
+  "changeApprovalStatusTitle": "Schimbă starea de aprobare - {name}"
 }

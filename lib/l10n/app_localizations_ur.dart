@@ -3364,4 +3364,36 @@ class AppLocalizationsUr extends AppLocalizations {
   String venueManagerSuffixLabel(String name) {
     return '$name  ·  وینیو مینیجر';
   }
+
+  @override
+  String get noSignedInUserError => 'کوئی سائن ان صارف نہیں ملا۔';
+
+  @override
+  String get customCategoryTitleLabel => 'کسٹم قسم کا عنوان';
+
+  @override
+  String get approvalNoteLabel => 'منظوری / ڈیو ڈیلیجنس نوٹ (اختیاری)';
+
+  @override
+  String get supplierManagementTitle => 'سپلائر مینجمنٹ';
+
+  @override
+  String get noSuppliersAddedYetText =>
+      'ابھی تک کوئی سپلائر شامل نہیں کیا گیا۔';
+
+  @override
+  String get inactiveStandaloneLabel => '(غیر فعال)';
+
+  @override
+  String get changeApprovalStatusMenuItem => 'منظوری کی حیثیت تبدیل کریں';
+
+  @override
+  String editDetailsForSupplierTitle(String name) {
+    return 'تفصیلات میں ترمیم کریں - $name';
+  }
+
+  @override
+  String changeApprovalStatusTitle(String name) {
+    return 'منظوری کی حیثیت تبدیل کریں - $name';
+  }
 }

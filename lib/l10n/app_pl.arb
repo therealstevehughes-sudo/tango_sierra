@@ -973,5 +973,14 @@
   "emailColonLabel": "E-mail: {email}",
   "temporaryPasswordColonLabel": "Hasło tymczasowe: {password}",
   "resetPasswordConfirmText": "To natychmiast unieważnia obecne hasło {name}. Otrzymasz nowe hasło tymczasowe do przekazania.",
-  "venueManagerSuffixLabel": "{name}  ·  Kierownik lokalu"
+  "venueManagerSuffixLabel": "{name}  ·  Kierownik lokalu",
+  "noSignedInUserError": "Nie znaleziono zalogowanego użytkownika.",
+  "customCategoryTitleLabel": "Niestandardowy tytuł kategorii",
+  "approvalNoteLabel": "Notatka zatwierdzenia / due diligence (opcjonalnie)",
+  "supplierManagementTitle": "Zarządzanie dostawcami",
+  "noSuppliersAddedYetText": "Nie dodano jeszcze żadnych dostawców.",
+  "inactiveStandaloneLabel": "(nieaktywny)",
+  "changeApprovalStatusMenuItem": "Zmień status zatwierdzenia",
+  "editDetailsForSupplierTitle": "Edytuj dane - {name}",
+  "changeApprovalStatusTitle": "Zmień status zatwierdzenia - {name}"
 }

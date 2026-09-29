@@ -973,5 +973,14 @@
   "emailColonLabel": "ईमेल: {email}",
   "temporaryPasswordColonLabel": "अस्थायी पासवर्ड: {password}",
   "resetPasswordConfirmText": "यह तुरंत {name} का मौजूदा पासवर्ड अमान्य कर देता है। तुम्हें आगे देने के लिए एक नया अस्थायी पासवर्ड मिलेगा।",
-  "venueManagerSuffixLabel": "{name}  ·  वेन्यू प्रबंधक"
+  "venueManagerSuffixLabel": "{name}  ·  वेन्यू प्रबंधक",
+  "noSignedInUserError": "कोई साइन-इन उपयोगकर्ता नहीं मिला।",
+  "customCategoryTitleLabel": "कस्टम श्रेणी शीर्षक",
+  "approvalNoteLabel": "अनुमोदन / ड्यू-डिलिजेंस नोट (वैकल्पिक)",
+  "supplierManagementTitle": "आपूर्तिकर्ता प्रबंधन",
+  "noSuppliersAddedYetText": "अभी तक कोई आपूर्तिकर्ता नहीं जोड़ा गया।",
+  "inactiveStandaloneLabel": "(निष्क्रिय)",
+  "changeApprovalStatusMenuItem": "अनुमोदन स्थिति बदलें",
+  "editDetailsForSupplierTitle": "विवरण संपादित करें - {name}",
+  "changeApprovalStatusTitle": "अनुमोदन स्थिति बदलें - {name}"
 }

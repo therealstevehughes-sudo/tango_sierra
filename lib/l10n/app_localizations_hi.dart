@@ -3372,4 +3372,36 @@ class AppLocalizationsHi extends AppLocalizations {
   String venueManagerSuffixLabel(String name) {
     return '$name  ·  वेन्यू प्रबंधक';
   }
+
+  @override
+  String get noSignedInUserError => 'कोई साइन-इन उपयोगकर्ता नहीं मिला।';
+
+  @override
+  String get customCategoryTitleLabel => 'कस्टम श्रेणी शीर्षक';
+
+  @override
+  String get approvalNoteLabel => 'अनुमोदन / ड्यू-डिलिजेंस नोट (वैकल्पिक)';
+
+  @override
+  String get supplierManagementTitle => 'आपूर्तिकर्ता प्रबंधन';
+
+  @override
+  String get noSuppliersAddedYetText =>
+      'अभी तक कोई आपूर्तिकर्ता नहीं जोड़ा गया।';
+
+  @override
+  String get inactiveStandaloneLabel => '(निष्क्रिय)';
+
+  @override
+  String get changeApprovalStatusMenuItem => 'अनुमोदन स्थिति बदलें';
+
+  @override
+  String editDetailsForSupplierTitle(String name) {
+    return 'विवरण संपादित करें - $name';
+  }
+
+  @override
+  String changeApprovalStatusTitle(String name) {
+    return 'अनुमोदन स्थिति बदलें - $name';
+  }
 }

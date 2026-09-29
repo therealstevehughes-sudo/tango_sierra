@@ -3440,4 +3440,35 @@ class AppLocalizationsRo extends AppLocalizations {
   String venueManagerSuffixLabel(String name) {
     return '$name  ·  Manager local';
   }
+
+  @override
+  String get noSignedInUserError => 'Niciun utilizator autentificat găsit.';
+
+  @override
+  String get customCategoryTitleLabel => 'Titlu categorie personalizat';
+
+  @override
+  String get approvalNoteLabel => 'Notă de aprobare / diligență (opțional)';
+
+  @override
+  String get supplierManagementTitle => 'Managementul furnizorilor';
+
+  @override
+  String get noSuppliersAddedYetText => 'Niciun furnizor adăugat încă.';
+
+  @override
+  String get inactiveStandaloneLabel => '(inactiv)';
+
+  @override
+  String get changeApprovalStatusMenuItem => 'Schimbă starea de aprobare';
+
+  @override
+  String editDetailsForSupplierTitle(String name) {
+    return 'Editează detaliile - $name';
+  }
+
+  @override
+  String changeApprovalStatusTitle(String name) {
+    return 'Schimbă starea de aprobare - $name';
+  }
 }

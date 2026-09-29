@@ -5971,6 +5971,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name}  ·  Venue Manager'**
   String venueManagerSuffixLabel(String name);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No signed-in user found.'**
+  String get noSignedInUserError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Custom category title'**
+  String get customCategoryTitleLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Approval / due-diligence note (optional)'**
+  String get approvalNoteLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Supplier Management'**
+  String get supplierManagementTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No suppliers added yet.'**
+  String get noSuppliersAddedYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'(inactive)'**
+  String get inactiveStandaloneLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Change Approval Status'**
+  String get changeApprovalStatusMenuItem;
+
+  /// No description provided for @editDetailsForSupplierTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Details - {name}'**
+  String editDetailsForSupplierTitle(String name);
+
+  /// No description provided for @changeApprovalStatusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Approval Status - {name}'**
+  String changeApprovalStatusTitle(String name);
 }
 
 class _AppLocalizationsDelegate

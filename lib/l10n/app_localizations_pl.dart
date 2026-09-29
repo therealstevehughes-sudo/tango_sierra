@@ -3438,4 +3438,36 @@ class AppLocalizationsPl extends AppLocalizations {
   String venueManagerSuffixLabel(String name) {
     return '$name  ·  Kierownik lokalu';
   }
+
+  @override
+  String get noSignedInUserError => 'Nie znaleziono zalogowanego użytkownika.';
+
+  @override
+  String get customCategoryTitleLabel => 'Niestandardowy tytuł kategorii';
+
+  @override
+  String get approvalNoteLabel =>
+      'Notatka zatwierdzenia / due diligence (opcjonalnie)';
+
+  @override
+  String get supplierManagementTitle => 'Zarządzanie dostawcami';
+
+  @override
+  String get noSuppliersAddedYetText => 'Nie dodano jeszcze żadnych dostawców.';
+
+  @override
+  String get inactiveStandaloneLabel => '(nieaktywny)';
+
+  @override
+  String get changeApprovalStatusMenuItem => 'Zmień status zatwierdzenia';
+
+  @override
+  String editDetailsForSupplierTitle(String name) {
+    return 'Edytuj dane - $name';
+  }
+
+  @override
+  String changeApprovalStatusTitle(String name) {
+    return 'Zmień status zatwierdzenia - $name';
+  }
 }

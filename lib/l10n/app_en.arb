@@ -3084,5 +3084,49 @@
         "type": "String"
       }
     }
+  },
+  "noSignedInUserError": "No signed-in user found.",
+  "@noSignedInUserError": {
+    "description": ""
+  },
+  "customCategoryTitleLabel": "Custom category title",
+  "@customCategoryTitleLabel": {
+    "description": ""
+  },
+  "approvalNoteLabel": "Approval / due-diligence note (optional)",
+  "@approvalNoteLabel": {
+    "description": ""
+  },
+  "supplierManagementTitle": "Supplier Management",
+  "@supplierManagementTitle": {
+    "description": ""
+  },
+  "noSuppliersAddedYetText": "No suppliers added yet.",
+  "@noSuppliersAddedYetText": {
+    "description": ""
+  },
+  "inactiveStandaloneLabel": "(inactive)",
+  "@inactiveStandaloneLabel": {
+    "description": ""
+  },
+  "changeApprovalStatusMenuItem": "Change Approval Status",
+  "@changeApprovalStatusMenuItem": {
+    "description": ""
+  },
+  "editDetailsForSupplierTitle": "Edit Details - {name}",
+  "@editDetailsForSupplierTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "changeApprovalStatusTitle": "Change Approval Status - {name}",
+  "@changeApprovalStatusTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

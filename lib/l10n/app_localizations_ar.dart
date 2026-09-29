@@ -3352,4 +3352,35 @@ class AppLocalizationsAr extends AppLocalizations {
   String venueManagerSuffixLabel(String name) {
     return '$name  ·  مدير الموقع';
   }
+
+  @override
+  String get noSignedInUserError => 'لم يتم العثور على مستخدم مسجل الدخول.';
+
+  @override
+  String get customCategoryTitleLabel => 'عنوان فئة مخصص';
+
+  @override
+  String get approvalNoteLabel => 'ملاحظة الموافقة / العناية الواجبة (اختياري)';
+
+  @override
+  String get supplierManagementTitle => 'إدارة الموردين';
+
+  @override
+  String get noSuppliersAddedYetText => 'لم تتم إضافة أي موردين بعد.';
+
+  @override
+  String get inactiveStandaloneLabel => '(غير نشط)';
+
+  @override
+  String get changeApprovalStatusMenuItem => 'تغيير حالة الموافقة';
+
+  @override
+  String editDetailsForSupplierTitle(String name) {
+    return 'تعديل التفاصيل - $name';
+  }
+
+  @override
+  String changeApprovalStatusTitle(String name) {
+    return 'تغيير حالة الموافقة - $name';
+  }
 }
