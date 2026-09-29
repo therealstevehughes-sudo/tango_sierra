@@ -1285,4 +1285,177 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get staffLabel => 'Personal';
+
+  @override
+  String get issueTypeComplaint => 'Reclamație';
+
+  @override
+  String get issueTypeAccident => 'Accident';
+
+  @override
+  String get issueTypeIncident => 'Incident';
+
+  @override
+  String get issueTypeSupplyProblem => 'Problemă de aprovizionare';
+
+  @override
+  String get issueTypeVenueProblem => 'Problemă a localului';
+
+  @override
+  String get issueTypeOther => 'Altele';
+
+  @override
+  String get incorrectDeliveryLabel => 'Livrare incorectă';
+
+  @override
+  String get driverProblemLabel => 'Problemă cu șoferul';
+
+  @override
+  String get otherLabel => 'Altele';
+
+  @override
+  String get whatKindOfThingHappened => 'Ce fel de lucru s-a întâmplat?';
+
+  @override
+  String get whichOneLabel => 'Care anume?';
+
+  @override
+  String get supplierLabel => 'Furnizor';
+
+  @override
+  String get whatWasWrongWithDelivery => 'Ce a fost în neregulă cu livrarea?';
+
+  @override
+  String get receivedByLabel => 'Primit de';
+
+  @override
+  String get whichSectionOptional =>
+      'Despre ce secțiune este vorba? (opțional)';
+
+  @override
+  String get noSectionLabel => 'Nicio secțiune';
+
+  @override
+  String get teamOptionalLabel => 'Echipă (opțional)';
+
+  @override
+  String get noSpecificTeamLabel => 'Nicio echipă specifică';
+
+  @override
+  String get whatHappenedLabel => 'Ce s-a întâmplat?';
+
+  @override
+  String get markAsUrgentLabel => 'Marchează ca urgent';
+
+  @override
+  String get markUrgentSubtitle =>
+      'Necesită atenție imediată, indiferent de cât timp rămâne nerezolvat';
+
+  @override
+  String get logItButton => 'Înregistrează';
+
+  @override
+  String get escalateToTitle => 'Escaladează către';
+
+  @override
+  String get sendToLabel => 'Trimite către';
+
+  @override
+  String get escalateButton => 'Escaladează';
+
+  @override
+  String get savedLabel => 'Salvat.';
+
+  @override
+  String remindedMessage(String name) {
+    return '$name a fost notificat(ă).';
+  }
+
+  @override
+  String get couldNotSendReminder => 'Memento-ul nu a putut fi trimis.';
+
+  @override
+  String get viewSupplierScorecard => 'Vezi fișa furnizorului';
+
+  @override
+  String raisedAtLabel(String date) {
+    return 'Raportat $date';
+  }
+
+  @override
+  String escalatedToColonLabel(String name) {
+    return 'Escaladat către: $name';
+  }
+
+  @override
+  String get historyLabel => 'Istoric';
+
+  @override
+  String get addAnUpdateLabel => 'Adaugă o actualizare';
+
+  @override
+  String get addProcessNoteButton => 'Adaugă notă de proces';
+
+  @override
+  String get resolveButton => 'Rezolvă';
+
+  @override
+  String get reopenThisIssueTitle => 'Redeschide această sesizare';
+
+  @override
+  String get whyReopenLabel => 'De ce ar trebui redeschisă?';
+
+  @override
+  String get reopenButton => 'Redeschide';
+
+  @override
+  String sentToLabel(String name) {
+    return 'Trimis către $name';
+  }
+
+  @override
+  String get remindButton => 'Reamintește';
+
+  @override
+  String get phaseRaisedLabel => 'Raportat';
+
+  @override
+  String get phaseUpdateLabel => 'Actualizare';
+
+  @override
+  String get phaseOutcomeLabel => 'Rezultat';
+
+  @override
+  String get allLabel => 'Toate';
+
+  @override
+  String get dateRangeLabel => 'Interval de date';
+
+  @override
+  String get allDatesLabel => 'Toate datele';
+
+  @override
+  String get typeLabel => 'Tip';
+
+  @override
+  String get anyTypeLabel => 'Orice tip';
+
+  @override
+  String get anyoneLabel => 'Oricine';
+
+  @override
+  String staffFallback(String id) {
+    return 'Angajat #$id';
+  }
+
+  @override
+  String get nothingHereGoodSign => 'Nimic aici - este un semn bun.';
+
+  @override
+  String escalatedToNameLabel(String name) {
+    return 'Escaladat către $name';
+  }
+
+  @override
+  String get havenReportedYet => 'Nu ai raportat încă nimic.';
 }

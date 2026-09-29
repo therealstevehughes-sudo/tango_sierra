@@ -1284,4 +1284,176 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get staffLabel => 'Osoblje';
+
+  @override
+  String get issueTypeComplaint => 'Pritužba';
+
+  @override
+  String get issueTypeAccident => 'Nesreća';
+
+  @override
+  String get issueTypeIncident => 'Incident';
+
+  @override
+  String get issueTypeSupplyProblem => 'Problem s opskrbom';
+
+  @override
+  String get issueTypeVenueProblem => 'Problem s lokacijom';
+
+  @override
+  String get issueTypeOther => 'Ostalo';
+
+  @override
+  String get incorrectDeliveryLabel => 'Pogrešna dostava';
+
+  @override
+  String get driverProblemLabel => 'Problem s vozačem';
+
+  @override
+  String get otherLabel => 'Ostalo';
+
+  @override
+  String get whatKindOfThingHappened => 'Kakva se stvar dogodila?';
+
+  @override
+  String get whichOneLabel => 'Koja?';
+
+  @override
+  String get supplierLabel => 'Dobavljač';
+
+  @override
+  String get whatWasWrongWithDelivery => 'Što nije bilo u redu s dostavom?';
+
+  @override
+  String get receivedByLabel => 'Primio/la';
+
+  @override
+  String get whichSectionOptional => 'O kojem se odjelu radi? (neobavezno)';
+
+  @override
+  String get noSectionLabel => 'Bez odjela';
+
+  @override
+  String get teamOptionalLabel => 'Tim (neobavezno)';
+
+  @override
+  String get noSpecificTeamLabel => 'Nema određenog tima';
+
+  @override
+  String get whatHappenedLabel => 'Što se dogodilo?';
+
+  @override
+  String get markAsUrgentLabel => 'Označi kao hitno';
+
+  @override
+  String get markUrgentSubtitle =>
+      'Zahtijeva trenutnu pažnju, bez obzira koliko dugo ostaje neriješeno';
+
+  @override
+  String get logItButton => 'Zabilježi';
+
+  @override
+  String get escalateToTitle => 'Eskaliraj do';
+
+  @override
+  String get sendToLabel => 'Pošalji';
+
+  @override
+  String get escalateButton => 'Eskaliraj';
+
+  @override
+  String get savedLabel => 'Spremljeno.';
+
+  @override
+  String remindedMessage(String name) {
+    return '$name je podsjećen/a.';
+  }
+
+  @override
+  String get couldNotSendReminder => 'Podsjetnik nije bilo moguće poslati.';
+
+  @override
+  String get viewSupplierScorecard => 'Pogledaj karticu dobavljača';
+
+  @override
+  String raisedAtLabel(String date) {
+    return 'Prijavljeno $date';
+  }
+
+  @override
+  String escalatedToColonLabel(String name) {
+    return 'Eskalirano do: $name';
+  }
+
+  @override
+  String get historyLabel => 'Povijest';
+
+  @override
+  String get addAnUpdateLabel => 'Dodaj ažuriranje';
+
+  @override
+  String get addProcessNoteButton => 'Dodaj bilješku procesa';
+
+  @override
+  String get resolveButton => 'Riješi';
+
+  @override
+  String get reopenThisIssueTitle => 'Ponovno otvori ovaj problem';
+
+  @override
+  String get whyReopenLabel => 'Zašto bi ovo trebalo ponovno otvoriti?';
+
+  @override
+  String get reopenButton => 'Ponovno otvori';
+
+  @override
+  String sentToLabel(String name) {
+    return 'Poslano $name';
+  }
+
+  @override
+  String get remindButton => 'Podsjeti';
+
+  @override
+  String get phaseRaisedLabel => 'Prijavljeno';
+
+  @override
+  String get phaseUpdateLabel => 'Ažuriranje';
+
+  @override
+  String get phaseOutcomeLabel => 'Ishod';
+
+  @override
+  String get allLabel => 'Sve';
+
+  @override
+  String get dateRangeLabel => 'Vremenski raspon';
+
+  @override
+  String get allDatesLabel => 'Svi datumi';
+
+  @override
+  String get typeLabel => 'Vrsta';
+
+  @override
+  String get anyTypeLabel => 'Bilo koja vrsta';
+
+  @override
+  String get anyoneLabel => 'Bilo tko';
+
+  @override
+  String staffFallback(String id) {
+    return 'Osoblje #$id';
+  }
+
+  @override
+  String get nothingHereGoodSign => 'Ovdje nema ničega - to je dobar znak.';
+
+  @override
+  String escalatedToNameLabel(String name) {
+    return 'Eskalirano do $name';
+  }
+
+  @override
+  String get havenReportedYet => 'Još nisi ništa prijavio/la.';
 }

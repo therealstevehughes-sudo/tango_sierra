@@ -1266,4 +1266,176 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get staffLabel => 'الموظف';
+
+  @override
+  String get issueTypeComplaint => 'شكوى';
+
+  @override
+  String get issueTypeAccident => 'حادث';
+
+  @override
+  String get issueTypeIncident => 'واقعة';
+
+  @override
+  String get issueTypeSupplyProblem => 'مشكلة توريد';
+
+  @override
+  String get issueTypeVenueProblem => 'مشكلة في الموقع';
+
+  @override
+  String get issueTypeOther => 'أخرى';
+
+  @override
+  String get incorrectDeliveryLabel => 'توصيل غير صحيح';
+
+  @override
+  String get driverProblemLabel => 'مشكلة مع السائق';
+
+  @override
+  String get otherLabel => 'أخرى';
+
+  @override
+  String get whatKindOfThingHappened => 'ما نوع الأمر الذي حدث؟';
+
+  @override
+  String get whichOneLabel => 'أيهما؟';
+
+  @override
+  String get supplierLabel => 'المورد';
+
+  @override
+  String get whatWasWrongWithDelivery => 'ما الخطأ الذي حدث في التوصيل؟';
+
+  @override
+  String get receivedByLabel => 'استلمه';
+
+  @override
+  String get whichSectionOptional => 'ما القسم المعني؟ (اختياري)';
+
+  @override
+  String get noSectionLabel => 'بدون قسم';
+
+  @override
+  String get teamOptionalLabel => 'الفريق (اختياري)';
+
+  @override
+  String get noSpecificTeamLabel => 'لا فريق محدد';
+
+  @override
+  String get whatHappenedLabel => 'ماذا حدث؟';
+
+  @override
+  String get markAsUrgentLabel => 'وضع علامة عاجل';
+
+  @override
+  String get markUrgentSubtitle =>
+      'يحتاج إلى اهتمام فوري، بغض النظر عن المدة التي يظل فيها دون حل';
+
+  @override
+  String get logItButton => 'سجّل ذلك';
+
+  @override
+  String get escalateToTitle => 'تصعيد إلى';
+
+  @override
+  String get sendToLabel => 'إرسال إلى';
+
+  @override
+  String get escalateButton => 'تصعيد';
+
+  @override
+  String get savedLabel => 'تم الحفظ.';
+
+  @override
+  String remindedMessage(String name) {
+    return 'تم تذكير $name.';
+  }
+
+  @override
+  String get couldNotSendReminder => 'تعذر إرسال التذكير.';
+
+  @override
+  String get viewSupplierScorecard => 'عرض بطاقة تقييم المورد';
+
+  @override
+  String raisedAtLabel(String date) {
+    return 'تم الإبلاغ $date';
+  }
+
+  @override
+  String escalatedToColonLabel(String name) {
+    return 'تم التصعيد إلى: $name';
+  }
+
+  @override
+  String get historyLabel => 'السجل';
+
+  @override
+  String get addAnUpdateLabel => 'إضافة تحديث';
+
+  @override
+  String get addProcessNoteButton => 'إضافة ملاحظة إجراء';
+
+  @override
+  String get resolveButton => 'حل';
+
+  @override
+  String get reopenThisIssueTitle => 'إعادة فتح هذه المشكلة';
+
+  @override
+  String get whyReopenLabel => 'لماذا يجب إعادة فتح هذا؟';
+
+  @override
+  String get reopenButton => 'إعادة فتح';
+
+  @override
+  String sentToLabel(String name) {
+    return 'أُرسل إلى $name';
+  }
+
+  @override
+  String get remindButton => 'تذكير';
+
+  @override
+  String get phaseRaisedLabel => 'تم الإبلاغ';
+
+  @override
+  String get phaseUpdateLabel => 'تحديث';
+
+  @override
+  String get phaseOutcomeLabel => 'النتيجة';
+
+  @override
+  String get allLabel => 'الكل';
+
+  @override
+  String get dateRangeLabel => 'النطاق الزمني';
+
+  @override
+  String get allDatesLabel => 'جميع التواريخ';
+
+  @override
+  String get typeLabel => 'النوع';
+
+  @override
+  String get anyTypeLabel => 'أي نوع';
+
+  @override
+  String get anyoneLabel => 'أي شخص';
+
+  @override
+  String staffFallback(String id) {
+    return 'الموظف رقم $id';
+  }
+
+  @override
+  String get nothingHereGoodSign => 'لا يوجد شيء هنا - هذه علامة جيدة.';
+
+  @override
+  String escalatedToNameLabel(String name) {
+    return 'تم التصعيد إلى $name';
+  }
+
+  @override
+  String get havenReportedYet => 'لم تُبلغ عن أي شيء بعد.';
 }

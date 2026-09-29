@@ -679,5 +679,100 @@
   "filterLabel": "Filter",
   "filterByLabel": "Filter by:",
   "clearFiltersLabel": "Clear filters",
-  "staffLabel": "Staff"
+  "staffLabel": "Staff",
+  "issueTypeComplaint": "Complaint",
+  "issueTypeAccident": "Accident",
+  "issueTypeIncident": "Incident",
+  "issueTypeSupplyProblem": "Supply Problem",
+  "issueTypeVenueProblem": "Venue Problem",
+  "issueTypeOther": "Other",
+  "incorrectDeliveryLabel": "Incorrect delivery",
+  "driverProblemLabel": "Driver problem",
+  "otherLabel": "Other",
+  "whatKindOfThingHappened": "What kind of thing happened?",
+  "whichOneLabel": "Which one?",
+  "supplierLabel": "Supplier",
+  "whatWasWrongWithDelivery": "What was wrong with the delivery?",
+  "receivedByLabel": "Received by",
+  "whichSectionOptional": "Which section is this about? (optional)",
+  "noSectionLabel": "No section",
+  "teamOptionalLabel": "Team (optional)",
+  "noSpecificTeamLabel": "No specific team",
+  "whatHappenedLabel": "What happened?",
+  "markAsUrgentLabel": "Mark as urgent",
+  "markUrgentSubtitle": "Needs attention right away, regardless of how long it sits unresolved",
+  "logItButton": "Log it",
+  "escalateToTitle": "Escalate to",
+  "sendToLabel": "Send to",
+  "escalateButton": "Escalate",
+  "savedLabel": "Saved.",
+  "remindedMessage": "Reminded {name}.",
+  "@remindedMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "couldNotSendReminder": "Could not send the reminder.",
+  "viewSupplierScorecard": "View supplier scorecard",
+  "raisedAtLabel": "Raised {date}",
+  "@raisedAtLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "escalatedToColonLabel": "Escalated to: {name}",
+  "@escalatedToColonLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "historyLabel": "History",
+  "addAnUpdateLabel": "Add an update",
+  "addProcessNoteButton": "Add process note",
+  "resolveButton": "Resolve",
+  "reopenThisIssueTitle": "Reopen this issue",
+  "whyReopenLabel": "Why should this be reopened?",
+  "reopenButton": "Reopen",
+  "sentToLabel": "Sent to {name}",
+  "@sentToLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "remindButton": "Remind",
+  "phaseRaisedLabel": "Raised",
+  "phaseUpdateLabel": "Update",
+  "phaseOutcomeLabel": "Outcome",
+  "allLabel": "All",
+  "dateRangeLabel": "Date range",
+  "allDatesLabel": "All dates",
+  "typeLabel": "Type",
+  "anyTypeLabel": "Any type",
+  "anyoneLabel": "Anyone",
+  "staffFallback": "Staff #{id}",
+  "@staffFallback": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "nothingHereGoodSign": "Nothing here - that's a good sign.",
+  "escalatedToNameLabel": "Escalated to {name}",
+  "@escalatedToNameLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "havenReportedYet": "You haven't reported anything yet."
 }

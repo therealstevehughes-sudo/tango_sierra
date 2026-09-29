@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/issue_providers.dart';
@@ -32,15 +33,16 @@ class MyRaisedIssuesScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Things I\'ve reported'),
+        title: Text(l10n.thingsIReported),
         actions: [
           const AssistantIconButton(),
           TextButton.icon(
             onPressed: () => _logOut(context, ref),
             icon: const Icon(Icons.logout, size: 18),
-            label: const Text('Log out'),
+            label: Text(l10n.logOut),
           ),
         ],
       ),
@@ -52,8 +54,8 @@ class MyRaisedIssuesScreen extends ConsumerWidget {
           }
           final issues = snapshot.data!;
           if (issues.isEmpty) {
-            return const Center(
-              child: Text('You haven\'t reported anything yet.'),
+            return Center(
+              child: Text(l10n.havenReportedYet),
             );
           }
           return ListView.separated(
@@ -81,8 +83,8 @@ class MyRaisedIssuesScreen extends ConsumerWidget {
                           children: [
                             Text(
                               issue.subtype != null
-                                  ? '${issueTypeDisplayName(issue.type)} · ${issue.subtype}'
-                                  : issueTypeDisplayName(issue.type),
+                                  ? '${issueTypeDisplayName(issue.type, l10n)} · ${issue.subtype}'
+                                  : issueTypeDisplayName(issue.type, l10n),
                               style: Theme.of(context).textTheme.bodyLarge
                                   ?.copyWith(fontWeight: FontWeight.w600),
                             ),
@@ -126,7 +128,7 @@ class _StatusPill extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
-        issueStatusDisplayName(status),
+        issueStatusDisplayName(status, AppLocalizations.of(context)!),
         style: Theme.of(
           context,
         ).textTheme.bodySmall?.copyWith(color: fg, fontWeight: FontWeight.w600),

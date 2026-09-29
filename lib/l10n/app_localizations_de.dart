@@ -1291,4 +1291,177 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get staffLabel => 'Personal';
+
+  @override
+  String get issueTypeComplaint => 'Beschwerde';
+
+  @override
+  String get issueTypeAccident => 'Unfall';
+
+  @override
+  String get issueTypeIncident => 'Vorfall';
+
+  @override
+  String get issueTypeSupplyProblem => 'Lieferproblem';
+
+  @override
+  String get issueTypeVenueProblem => 'Standortproblem';
+
+  @override
+  String get issueTypeOther => 'Sonstiges';
+
+  @override
+  String get incorrectDeliveryLabel => 'Falsche Lieferung';
+
+  @override
+  String get driverProblemLabel => 'Fahrerproblem';
+
+  @override
+  String get otherLabel => 'Sonstiges';
+
+  @override
+  String get whatKindOfThingHappened => 'Was für eine Sache ist passiert?';
+
+  @override
+  String get whichOneLabel => 'Welches?';
+
+  @override
+  String get supplierLabel => 'Lieferant';
+
+  @override
+  String get whatWasWrongWithDelivery => 'Was war falsch an der Lieferung?';
+
+  @override
+  String get receivedByLabel => 'Entgegengenommen von';
+
+  @override
+  String get whichSectionOptional => 'Um welche Abteilung geht es? (optional)';
+
+  @override
+  String get noSectionLabel => 'Keine Abteilung';
+
+  @override
+  String get teamOptionalLabel => 'Team (optional)';
+
+  @override
+  String get noSpecificTeamLabel => 'Kein bestimmtes Team';
+
+  @override
+  String get whatHappenedLabel => 'Was ist passiert?';
+
+  @override
+  String get markAsUrgentLabel => 'Als dringend markieren';
+
+  @override
+  String get markUrgentSubtitle =>
+      'Benötigt sofortige Aufmerksamkeit, unabhängig davon, wie lange es unerledigt bleibt';
+
+  @override
+  String get logItButton => 'Erfassen';
+
+  @override
+  String get escalateToTitle => 'Eskalieren an';
+
+  @override
+  String get sendToLabel => 'Senden an';
+
+  @override
+  String get escalateButton => 'Eskalieren';
+
+  @override
+  String get savedLabel => 'Gespeichert.';
+
+  @override
+  String remindedMessage(String name) {
+    return '$name wurde erinnert.';
+  }
+
+  @override
+  String get couldNotSendReminder =>
+      'Die Erinnerung konnte nicht gesendet werden.';
+
+  @override
+  String get viewSupplierScorecard => 'Lieferanten-Scorecard ansehen';
+
+  @override
+  String raisedAtLabel(String date) {
+    return 'Gemeldet $date';
+  }
+
+  @override
+  String escalatedToColonLabel(String name) {
+    return 'Eskaliert an: $name';
+  }
+
+  @override
+  String get historyLabel => 'Verlauf';
+
+  @override
+  String get addAnUpdateLabel => 'Update hinzufügen';
+
+  @override
+  String get addProcessNoteButton => 'Prozessnotiz hinzufügen';
+
+  @override
+  String get resolveButton => 'Lösen';
+
+  @override
+  String get reopenThisIssueTitle => 'Diesen Vorfall wieder öffnen';
+
+  @override
+  String get whyReopenLabel => 'Warum sollte dies wieder geöffnet werden?';
+
+  @override
+  String get reopenButton => 'Wieder öffnen';
+
+  @override
+  String sentToLabel(String name) {
+    return 'Gesendet an $name';
+  }
+
+  @override
+  String get remindButton => 'Erinnern';
+
+  @override
+  String get phaseRaisedLabel => 'Gemeldet';
+
+  @override
+  String get phaseUpdateLabel => 'Update';
+
+  @override
+  String get phaseOutcomeLabel => 'Ergebnis';
+
+  @override
+  String get allLabel => 'Alle';
+
+  @override
+  String get dateRangeLabel => 'Datumsbereich';
+
+  @override
+  String get allDatesLabel => 'Alle Daten';
+
+  @override
+  String get typeLabel => 'Typ';
+
+  @override
+  String get anyTypeLabel => 'Beliebiger Typ';
+
+  @override
+  String get anyoneLabel => 'Jeder';
+
+  @override
+  String staffFallback(String id) {
+    return 'Mitarbeiter #$id';
+  }
+
+  @override
+  String get nothingHereGoodSign => 'Hier gibt es nichts - ein gutes Zeichen.';
+
+  @override
+  String escalatedToNameLabel(String name) {
+    return 'Eskaliert an $name';
+  }
+
+  @override
+  String get havenReportedYet => 'Du hast noch nichts gemeldet.';
 }

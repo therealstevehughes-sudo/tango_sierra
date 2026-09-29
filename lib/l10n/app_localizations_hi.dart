@@ -1277,4 +1277,176 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get staffLabel => 'स्टाफ';
+
+  @override
+  String get issueTypeComplaint => 'शिकायत';
+
+  @override
+  String get issueTypeAccident => 'दुर्घटना';
+
+  @override
+  String get issueTypeIncident => 'घटना';
+
+  @override
+  String get issueTypeSupplyProblem => 'आपूर्ति समस्या';
+
+  @override
+  String get issueTypeVenueProblem => 'वेन्यू समस्या';
+
+  @override
+  String get issueTypeOther => 'अन्य';
+
+  @override
+  String get incorrectDeliveryLabel => 'गलत डिलीवरी';
+
+  @override
+  String get driverProblemLabel => 'ड्राइवर की समस्या';
+
+  @override
+  String get otherLabel => 'अन्य';
+
+  @override
+  String get whatKindOfThingHappened => 'किस तरह की चीज़ हुई?';
+
+  @override
+  String get whichOneLabel => 'कौन सा?';
+
+  @override
+  String get supplierLabel => 'आपूर्तिकर्ता';
+
+  @override
+  String get whatWasWrongWithDelivery => 'डिलीवरी में क्या गड़बड़ थी?';
+
+  @override
+  String get receivedByLabel => 'प्राप्तकर्ता';
+
+  @override
+  String get whichSectionOptional => 'यह किस अनुभाग के बारे में है? (वैकल्पिक)';
+
+  @override
+  String get noSectionLabel => 'कोई अनुभाग नहीं';
+
+  @override
+  String get teamOptionalLabel => 'टीम (वैकल्पिक)';
+
+  @override
+  String get noSpecificTeamLabel => 'कोई विशिष्ट टीम नहीं';
+
+  @override
+  String get whatHappenedLabel => 'क्या हुआ?';
+
+  @override
+  String get markAsUrgentLabel => 'तत्काल के रूप में चिह्नित करें';
+
+  @override
+  String get markUrgentSubtitle =>
+      'यह कितने समय से अनसुलझा है, इसकी परवाह किए बिना तुरंत ध्यान देने की आवश्यकता है';
+
+  @override
+  String get logItButton => 'दर्ज करें';
+
+  @override
+  String get escalateToTitle => 'इसे भेजें';
+
+  @override
+  String get sendToLabel => 'इन्हें भेजें';
+
+  @override
+  String get escalateButton => 'आगे बढ़ाएं';
+
+  @override
+  String get savedLabel => 'सहेजा गया।';
+
+  @override
+  String remindedMessage(String name) {
+    return '$name को याद दिलाया गया।';
+  }
+
+  @override
+  String get couldNotSendReminder => 'अनुस्मारक नहीं भेजा जा सका।';
+
+  @override
+  String get viewSupplierScorecard => 'आपूर्तिकर्ता स्कोरकार्ड देखें';
+
+  @override
+  String raisedAtLabel(String date) {
+    return '$date को दर्ज किया गया';
+  }
+
+  @override
+  String escalatedToColonLabel(String name) {
+    return 'आगे बढ़ाया गया: $name';
+  }
+
+  @override
+  String get historyLabel => 'इतिहास';
+
+  @override
+  String get addAnUpdateLabel => 'एक अपडेट जोड़ें';
+
+  @override
+  String get addProcessNoteButton => 'प्रक्रिया टिप्पणी जोड़ें';
+
+  @override
+  String get resolveButton => 'हल करें';
+
+  @override
+  String get reopenThisIssueTitle => 'इस समस्या को फिर से खोलें';
+
+  @override
+  String get whyReopenLabel => 'इसे फिर से क्यों खोला जाना चाहिए?';
+
+  @override
+  String get reopenButton => 'फिर से खोलें';
+
+  @override
+  String sentToLabel(String name) {
+    return '$name को भेजा गया';
+  }
+
+  @override
+  String get remindButton => 'याद दिलाएं';
+
+  @override
+  String get phaseRaisedLabel => 'दर्ज किया गया';
+
+  @override
+  String get phaseUpdateLabel => 'अपडेट';
+
+  @override
+  String get phaseOutcomeLabel => 'परिणाम';
+
+  @override
+  String get allLabel => 'सभी';
+
+  @override
+  String get dateRangeLabel => 'तिथि सीमा';
+
+  @override
+  String get allDatesLabel => 'सभी तिथियां';
+
+  @override
+  String get typeLabel => 'प्रकार';
+
+  @override
+  String get anyTypeLabel => 'कोई भी प्रकार';
+
+  @override
+  String get anyoneLabel => 'कोई भी';
+
+  @override
+  String staffFallback(String id) {
+    return 'स्टाफ #$id';
+  }
+
+  @override
+  String get nothingHereGoodSign => 'यहां कुछ नहीं है - यह एक अच्छा संकेत है।';
+
+  @override
+  String escalatedToNameLabel(String name) {
+    return '$name को आगे बढ़ाया गया';
+  }
+
+  @override
+  String get havenReportedYet => 'आपने अभी तक कुछ भी रिपोर्ट नहीं किया है।';
 }

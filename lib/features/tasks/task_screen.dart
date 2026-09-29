@@ -338,8 +338,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       section(l10n.openIssues, [
         for (final i in summary.openIssues)
           i.subtype != null
-              ? '${issueTypeDisplayName(i.type)} · ${i.subtype}'
-              : issueTypeDisplayName(i.type),
+              ? '${issueTypeDisplayName(i.type, l10n)} · ${i.subtype}'
+              : issueTypeDisplayName(i.type, l10n),
       ]),
       section(l10n.flaggedEquipment, [
         for (final s in summary.flaggedEquipment)

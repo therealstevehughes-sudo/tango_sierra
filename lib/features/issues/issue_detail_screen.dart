@@ -7,6 +7,7 @@ import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/voice_note_field.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -70,7 +71,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
 
   String _staffName(int userId) {
     final match = _staff.where((u) => u.id == userId);
-    return match.isEmpty ? 'Staff #$userId' : match.first.name;
+    return match.isEmpty
+        ? AppLocalizations.of(context)!.staffFallback('$userId')
+        : match.first.name;
   }
 
   Future<void> _load() async {
@@ -118,31 +121,36 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
         : null;
     return showDialog<int>(
       context: context,
-      builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Escalate to'),
-          content: DropdownButtonFormField<int>(
-            initialValue: selected,
-            decoration: const InputDecoration(labelText: 'Send to'),
-            items: _staff
-                .map((u) => DropdownMenuItem(value: u.id, child: Text(u.name)))
-                .toList(),
-            onChanged: (v) => setDialogState(() => selected = v),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return StatefulBuilder(
+          builder: (context, setDialogState) => AlertDialog(
+            title: Text(l10n.escalateToTitle),
+            content: DropdownButtonFormField<int>(
+              initialValue: selected,
+              decoration: InputDecoration(labelText: l10n.sendToLabel),
+              items: _staff
+                  .map(
+                    (u) => DropdownMenuItem(value: u.id, child: Text(u.name)),
+                  )
+                  .toList(),
+              onChanged: (v) => setDialogState(() => selected = v),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: selected == null
+                    ? null
+                    : () => Navigator.pop(context, selected),
+                child: Text(l10n.escalateButton),
+              ),
+            ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: selected == null
-                  ? null
-                  : () => Navigator.pop(context, selected),
-              child: const Text('Escalate'),
-            ),
-          ],
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -194,9 +202,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
       _noteController.clear();
       await _load();
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Saved.')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.savedLabel)),
+      );
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
@@ -211,28 +219,31 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
     _noteController.clear();
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Reopen this issue'),
-        content: TextField(
-          controller: _noteController,
-          autofocus: true,
-          maxLines: 3,
-          decoration: InputDecoration(
-            labelText: 'Why should this be reopened?',
-            suffixIcon: VoiceNoteMicButton(controller: _noteController),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.reopenThisIssueTitle),
+          content: TextField(
+            controller: _noteController,
+            autofocus: true,
+            maxLines: 3,
+            decoration: InputDecoration(
+              labelText: l10n.whyReopenLabel,
+              suffixIcon: VoiceNoteMicButton(controller: _noteController),
+            ),
           ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Reopen'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.reopenButton),
+            ),
+          ],
+        );
+      },
     );
     if (confirmed == true) await _act(_IssueAction.reopen);
   }
@@ -248,23 +259,34 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
           .remind(issueId: widget.issue.id, targetUserId: targetUserId);
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Reminded ${_staffName(targetUserId)}.')),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.remindedMessage(
+              _staffName(targetUserId),
+            ),
+          ),
+        ),
       );
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not send the reminder.')),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.couldNotSendReminder,
+          ),
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final issue = widget.issue;
     final backendAvailable = ref.watch(backendDataEnabledProvider);
     return Scaffold(
       appBar: AppScreenHeader(
-        title: Text(issueTypeDisplayName(issue.type)),
+        title: Text(issueTypeDisplayName(issue.type, l10n)),
         actions: const [AssistantIconButton()],
       ),
       // Visual pass follow-up (2026-09-24) — was Center(...), which
@@ -290,7 +312,7 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                           Expanded(
                             child: Text(
                               issue.subtype ??
-                                  issueTypeDisplayName(issue.type),
+                                  issueTypeDisplayName(issue.type, l10n),
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ),
@@ -299,7 +321,7 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Raised ${formatDateTime(issue.raisedAt)}',
+                        l10n.raisedAtLabel(formatDateTime(issue.raisedAt)),
                         style: Theme.of(context).textTheme.bodySmall,
                       ),
                       const SizedBox(height: 12),
@@ -308,7 +330,9 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                           issue.escalatedToUserId != null) ...[
                         const SizedBox(height: 8),
                         Text(
-                          'Escalated to: ${_staffName(issue.escalatedToUserId!)}',
+                          l10n.escalatedToColonLabel(
+                            _staffName(issue.escalatedToUserId!),
+                          ),
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
@@ -319,14 +343,14 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                         OutlinedButton.icon(
                           onPressed: _openSupplierScorecard,
                           icon: const Icon(Icons.storefront, size: 18),
-                          label: const Text('View supplier scorecard'),
+                          label: Text(l10n.viewSupplierScorecard),
                         ),
                       ],
                     ],
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text('History', style: Theme.of(context).textTheme.titleSmall),
+                Text(l10n.historyLabel, style: Theme.of(context).textTheme.titleSmall),
                 const SizedBox(height: 4),
                 if (_loading)
                   const Padding(
@@ -371,14 +395,14 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          'Add an update',
+                          l10n.addAnUpdateLabel,
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         const SizedBox(height: 8),
                         TextField(
                           controller: _noteController,
                           decoration: InputDecoration(
-                            labelText: 'Note',
+                            labelText: l10n.noteLabel,
                             alignLabelWithHint: true,
                             suffixIcon: VoiceNoteMicButton(
                               controller: _noteController,
@@ -395,20 +419,20 @@ class _IssueDetailScreenState extends ConsumerState<IssueDetailScreen> {
                               onPressed: _submitting
                                   ? null
                                   : () => _act(_IssueAction.addProcessNote),
-                              child: const Text('Add process note'),
+                              child: Text(l10n.addProcessNoteButton),
                             ),
                             if (issue.status != IssueStatus.escalated)
                               OutlinedButton(
                                 onPressed: _submitting
                                     ? null
                                     : () => _act(_IssueAction.escalate),
-                                child: const Text('Escalate'),
+                                child: Text(l10n.escalateButton),
                               ),
                             ElevatedButton(
                               onPressed: _submitting
                                   ? null
                                   : () => _act(_IssueAction.resolve),
-                              child: const Text('Resolve'),
+                              child: Text(l10n.resolveButton),
                             ),
                           ],
                         ),
@@ -452,10 +476,10 @@ class _EventTile extends StatelessWidget {
   final bool canReopen;
   final VoidCallback? onReopen;
 
-  String get _phaseLabel => switch (event.phase) {
-    IssueEventPhase.details => 'Raised',
-    IssueEventPhase.process => 'Update',
-    IssueEventPhase.outcome => 'Outcome',
+  String _phaseLabel(AppLocalizations l10n) => switch (event.phase) {
+    IssueEventPhase.details => l10n.phaseRaisedLabel,
+    IssueEventPhase.process => l10n.phaseUpdateLabel,
+    IssueEventPhase.outcome => l10n.phaseOutcomeLabel,
   };
 
   Color get _dotColor => switch (event.resultingStatus) {
@@ -468,6 +492,7 @@ class _EventTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -507,7 +532,7 @@ class _EventTile extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        _phaseLabel,
+                        _phaseLabel(l10n),
                         style: Theme.of(context).textTheme.bodySmall
                             ?.copyWith(fontWeight: FontWeight.w700),
                       ),
@@ -523,7 +548,7 @@ class _EventTile extends StatelessWidget {
                   if (targetName != null) ...[
                     const SizedBox(height: 2),
                     Text(
-                      'Sent to $targetName',
+                      l10n.sentToLabel(targetName!),
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],
@@ -539,13 +564,13 @@ class _EventTile extends StatelessWidget {
                               Icons.notifications_active_outlined,
                               size: 16,
                             ),
-                            label: const Text('Remind'),
+                            label: Text(l10n.remindButton),
                           ),
                         if (canReopen)
                           TextButton.icon(
                             onPressed: onReopen,
                             icon: const Icon(Icons.replay, size: 16),
-                            label: const Text('Reopen'),
+                            label: Text(l10n.reopenButton),
                           ),
                       ],
                     ),
@@ -583,7 +608,7 @@ class _StatusChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
-        issueStatusDisplayName(status),
+        issueStatusDisplayName(status, AppLocalizations.of(context)!),
         style: Theme.of(
           context,
         ).textTheme.bodySmall?.copyWith(color: fg, fontWeight: FontWeight.w600),

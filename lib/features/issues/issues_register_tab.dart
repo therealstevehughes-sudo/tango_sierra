@@ -6,6 +6,7 @@ import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/urgency.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart' show userRepositoryProvider;
@@ -69,6 +70,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final canManage =
         roleTierRank(widget.currentUser.roleTier) >=
         roleTierRank(RoleTier.supervisor);
@@ -111,7 +113,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
               runSpacing: 8,
               children: [
                 _IssueFilterChip(
-                  label: 'All',
+                  label: l10n.allLabel,
                   selected: _statusFilter == IssueFilter.all,
                   onSelected: () {
                     setState(() => _statusFilter = IssueFilter.all);
@@ -119,7 +121,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                   },
                 ),
                 _IssueFilterChip(
-                  label: 'Unresolved',
+                  label: l10n.unresolvedLabel,
                   selected: _statusFilter == IssueFilter.open,
                   onSelected: () {
                     setState(() => _statusFilter = IssueFilter.open);
@@ -127,7 +129,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                   },
                 ),
                 _IssueFilterChip(
-                  label: 'Resolved',
+                  label: l10n.resolvedLabel,
                   selected: _statusFilter == IssueFilter.resolved,
                   onSelected: () {
                     setState(() => _statusFilter = IssueFilter.resolved);
@@ -135,7 +137,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                   },
                 ),
                 _IssueFilterChip(
-                  label: 'Escalated',
+                  label: l10n.escalatedLabel,
                   selected: _statusFilter == IssueFilter.escalated,
                   onSelected: () {
                     setState(() => _statusFilter = IssueFilter.escalated);
@@ -160,7 +162,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
               },
               child: InputDecorator(
                 decoration: InputDecoration(
-                  labelText: 'Date range',
+                  labelText: l10n.dateRangeLabel,
                   isDense: true,
                   suffixIcon: _dateRange == null
                       ? const Icon(Icons.date_range)
@@ -171,7 +173,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                 ),
                 child: Text(
                   _dateRange == null
-                      ? 'All dates'
+                      ? l10n.allDatesLabel
                       : '${formatDate(_dateRange!.start)} - ${formatDate(_dateRange!.end)}',
                 ),
               ),
@@ -184,19 +186,19 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                 Expanded(
                   child: DropdownButtonFormField<IssueType?>(
                     initialValue: _typeFilter,
-                    decoration: const InputDecoration(
-                      labelText: 'Type',
+                    decoration: InputDecoration(
+                      labelText: l10n.typeLabel,
                       isDense: true,
                     ),
                     items: [
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: null,
-                        child: Text('Any type'),
+                        child: Text(l10n.anyTypeLabel),
                       ),
                       ...IssueType.values.map(
                         (t) => DropdownMenuItem(
                           value: t,
-                          child: Text(issueTypeDisplayName(t)),
+                          child: Text(issueTypeDisplayName(t, l10n)),
                         ),
                       ),
                     ],
@@ -207,19 +209,21 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
                 Expanded(
                   child: DropdownButtonFormField<int?>(
                     initialValue: _employeeFilter,
-                    decoration: const InputDecoration(
-                      labelText: 'Employee',
+                    decoration: InputDecoration(
+                      labelText: l10n.employeeLabel,
                       isDense: true,
                     ),
                     items: [
-                      const DropdownMenuItem(
+                      DropdownMenuItem(
                         value: null,
-                        child: Text('Anyone'),
+                        child: Text(l10n.anyoneLabel),
                       ),
                       ...employeeIds.map(
                         (id) => DropdownMenuItem(
                           value: id,
-                          child: Text(_staffNames[id] ?? 'Staff #$id'),
+                          child: Text(
+                            _staffNames[id] ?? l10n.staffFallback('$id'),
+                          ),
                         ),
                       ),
                     ],
@@ -233,8 +237,8 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
                 : visible.isEmpty
-                ? const Center(
-                    child: Text('Nothing here - that\'s a good sign.'),
+                ? Center(
+                    child: Text(l10n.nothingHereGoodSign),
                   )
                 : ListView.separated(
                     padding: const EdgeInsets.all(16),
@@ -282,6 +286,7 @@ class _IssueTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final urgency = computeUrgency(
       since: issue.raisedAt,
       escalated: issue.status == IssueStatus.escalated,
@@ -304,8 +309,8 @@ class _IssueTile extends StatelessWidget {
                       Expanded(
                         child: Text(
                           issue.subtype != null
-                              ? '${issueTypeDisplayName(issue.type)} · ${issue.subtype}'
-                              : issueTypeDisplayName(issue.type),
+                              ? '${issueTypeDisplayName(issue.type, l10n)} · ${issue.subtype}'
+                              : issueTypeDisplayName(issue.type, l10n),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.bodyLarge
@@ -335,7 +340,7 @@ class _IssueTile extends StatelessWidget {
                   if (escalatedToName != null) ...[
                     const SizedBox(height: 2),
                     Text(
-                      'Escalated to $escalatedToName',
+                      l10n.escalatedToNameLabel(escalatedToName!),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
@@ -374,7 +379,7 @@ class _StatusPill extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
-        issueStatusDisplayName(status),
+        issueStatusDisplayName(status, AppLocalizations.of(context)!),
         style: Theme.of(
           context,
         ).textTheme.bodySmall?.copyWith(color: fg, fontWeight: FontWeight.w600),

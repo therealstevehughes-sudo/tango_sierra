@@ -5,6 +5,7 @@ import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/voice_note_field.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/department.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/models/supplier.dart';
@@ -154,7 +155,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
           );
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Logged. Thanks for reporting this.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.loggedThanksMessage)),
       );
       Navigator.of(context).pop();
     } finally {
@@ -176,17 +177,18 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final subtypes = _type == null
         ? const <String>[]
         : issueSubtypesFor(_type!);
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Log something that just happened'),
+        title: Text(l10n.logSomethingHappened),
         actions: [
           TextButton.icon(
             onPressed: _logOut,
             icon: const Icon(Icons.logout, size: 18),
-            label: const Text('Log out'),
+            label: Text(l10n.logOut),
           ),
           const AssistantIconButton(),
         ],
@@ -206,7 +208,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'What kind of thing happened?',
+                    l10n.whatKindOfThingHappened,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 12),
@@ -237,7 +239,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                             value: t,
                             dense: true,
                             contentPadding: EdgeInsets.zero,
-                            title: Text(issueTypeDisplayName(t)),
+                            title: Text(issueTypeDisplayName(t, l10n)),
                           ),
                       ],
                     ),
@@ -246,8 +248,8 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(
                       initialValue: _subtype,
-                      decoration: const InputDecoration(
-                        labelText: 'Which one?',
+                      decoration: InputDecoration(
+                        labelText: l10n.whichOneLabel,
                       ),
                       items: subtypes
                           .map(
@@ -273,8 +275,8 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                     else ...[
                       DropdownButtonFormField<int>(
                         initialValue: _supplierId,
-                        decoration: const InputDecoration(
-                          labelText: 'Supplier',
+                        decoration: InputDecoration(
+                          labelText: l10n.supplierLabel,
                         ),
                         items: _suppliers
                             .map(
@@ -287,7 +289,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                         onChanged: (v) => setState(() => _supplierId = v),
                       ),
                       const SizedBox(height: 12),
-                      const Text('What was wrong with the delivery?'),
+                      Text(l10n.whatWasWrongWithDelivery),
                       RadioGroup<DeliveryProblemType>(
                         groupValue: _deliveryProblemType,
                         onChanged: (v) =>
@@ -299,7 +301,9 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                                 value: d,
                                 dense: true,
                                 contentPadding: EdgeInsets.zero,
-                                title: Text(deliveryProblemTypeDisplayName(d)),
+                                title: Text(
+                                  deliveryProblemTypeDisplayName(d, l10n),
+                                ),
                               ),
                           ],
                         ),
@@ -307,8 +311,8 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                       const SizedBox(height: 12),
                       DropdownButtonFormField<int>(
                         initialValue: _receivedByUserId,
-                        decoration: const InputDecoration(
-                          labelText: 'Received by',
+                        decoration: InputDecoration(
+                          labelText: l10n.receivedByLabel,
                         ),
                         items: _staff
                             .map(
@@ -329,13 +333,13 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                     const SizedBox(height: 12),
                     DropdownButtonFormField<int?>(
                       initialValue: _departmentId,
-                      decoration: const InputDecoration(
-                        labelText: 'Which section is this about? (optional)',
+                      decoration: InputDecoration(
+                        labelText: l10n.whichSectionOptional,
                       ),
                       items: [
-                        const DropdownMenuItem<int?>(
+                        DropdownMenuItem<int?>(
                           value: null,
-                          child: Text('No section'),
+                          child: Text(l10n.noSectionLabel),
                         ),
                         ..._departments.map(
                           (d) => DropdownMenuItem<int?>(
@@ -362,13 +366,13 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                       const SizedBox(height: 12),
                       DropdownButtonFormField<int?>(
                         initialValue: _teamId,
-                        decoration: const InputDecoration(
-                          labelText: 'Team (optional)',
+                        decoration: InputDecoration(
+                          labelText: l10n.teamOptionalLabel,
                         ),
                         items: [
-                          const DropdownMenuItem<int?>(
+                          DropdownMenuItem<int?>(
                             value: null,
-                            child: Text('No specific team'),
+                            child: Text(l10n.noSpecificTeamLabel),
                           ),
                           ...(_teamsByDepartment[_departmentId] ?? const [])
                               .map(
@@ -386,7 +390,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                   TextField(
                     controller: _detailsController,
                     decoration: InputDecoration(
-                      labelText: 'What happened?',
+                      labelText: l10n.whatHappenedLabel,
                       alignLabelWithHint: true,
                       suffixIcon: VoiceNoteMicButton(
                         controller: _detailsController,
@@ -407,10 +411,8 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                         setState(() => _manualUrgent = v ?? false),
                     controlAffinity: ListTileControlAffinity.leading,
                     contentPadding: EdgeInsets.zero,
-                    title: const Text('Mark as urgent'),
-                    subtitle: const Text(
-                      'Needs attention right away, regardless of how long it sits unresolved',
-                    ),
+                    title: Text(l10n.markAsUrgentLabel),
+                    subtitle: Text(l10n.markUrgentSubtitle),
                   ),
                   const SizedBox(height: 8),
                   ElevatedButton(
@@ -421,7 +423,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
                             height: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text('Log it'),
+                        : Text(l10n.logItButton),
                   ),
                 ],
               ),

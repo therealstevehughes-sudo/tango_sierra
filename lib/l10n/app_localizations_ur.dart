@@ -1272,4 +1272,176 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get staffLabel => 'عملہ';
+
+  @override
+  String get issueTypeComplaint => 'شکایت';
+
+  @override
+  String get issueTypeAccident => 'حادثہ';
+
+  @override
+  String get issueTypeIncident => 'واقعہ';
+
+  @override
+  String get issueTypeSupplyProblem => 'سپلائی کا مسئلہ';
+
+  @override
+  String get issueTypeVenueProblem => 'مقام کا مسئلہ';
+
+  @override
+  String get issueTypeOther => 'دیگر';
+
+  @override
+  String get incorrectDeliveryLabel => 'غلط ڈیلیوری';
+
+  @override
+  String get driverProblemLabel => 'ڈرائیور کا مسئلہ';
+
+  @override
+  String get otherLabel => 'دیگر';
+
+  @override
+  String get whatKindOfThingHappened => 'کس قسم کی چیز ہوئی؟';
+
+  @override
+  String get whichOneLabel => 'کون سا؟';
+
+  @override
+  String get supplierLabel => 'سپلائر';
+
+  @override
+  String get whatWasWrongWithDelivery => 'ڈیلیوری میں کیا خرابی تھی؟';
+
+  @override
+  String get receivedByLabel => 'وصول کنندہ';
+
+  @override
+  String get whichSectionOptional => 'یہ کس سیکشن کے بارے میں ہے؟ (اختیاری)';
+
+  @override
+  String get noSectionLabel => 'کوئی سیکشن نہیں';
+
+  @override
+  String get teamOptionalLabel => 'ٹیم (اختیاری)';
+
+  @override
+  String get noSpecificTeamLabel => 'کوئی مخصوص ٹیم نہیں';
+
+  @override
+  String get whatHappenedLabel => 'کیا ہوا؟';
+
+  @override
+  String get markAsUrgentLabel => 'فوری کے طور پر نشان زد کریں';
+
+  @override
+  String get markUrgentSubtitle =>
+      'یہ کتنی دیر سے حل طلب ہے اس سے قطع نظر فوری توجہ درکار ہے';
+
+  @override
+  String get logItButton => 'درج کریں';
+
+  @override
+  String get escalateToTitle => 'اسے بھیجیں';
+
+  @override
+  String get sendToLabel => 'انہیں بھیجیں';
+
+  @override
+  String get escalateButton => 'آگے بڑھائیں';
+
+  @override
+  String get savedLabel => 'محفوظ ہو گیا۔';
+
+  @override
+  String remindedMessage(String name) {
+    return '$name کو یاد دلایا گیا۔';
+  }
+
+  @override
+  String get couldNotSendReminder => 'یاد دہانی نہیں بھیجی جا سکی۔';
+
+  @override
+  String get viewSupplierScorecard => 'سپلائر اسکور کارڈ دیکھیں';
+
+  @override
+  String raisedAtLabel(String date) {
+    return '$date کو درج کیا گیا';
+  }
+
+  @override
+  String escalatedToColonLabel(String name) {
+    return 'آگے بڑھایا گیا: $name';
+  }
+
+  @override
+  String get historyLabel => 'تاریخ';
+
+  @override
+  String get addAnUpdateLabel => 'اپڈیٹ شامل کریں';
+
+  @override
+  String get addProcessNoteButton => 'پروسیس نوٹ شامل کریں';
+
+  @override
+  String get resolveButton => 'حل کریں';
+
+  @override
+  String get reopenThisIssueTitle => 'اس مسئلے کو دوبارہ کھولیں';
+
+  @override
+  String get whyReopenLabel => 'اسے دوبارہ کیوں کھولا جانا چاہیے؟';
+
+  @override
+  String get reopenButton => 'دوبارہ کھولیں';
+
+  @override
+  String sentToLabel(String name) {
+    return '$name کو بھیجا گیا';
+  }
+
+  @override
+  String get remindButton => 'یاد دہانی';
+
+  @override
+  String get phaseRaisedLabel => 'درج کیا گیا';
+
+  @override
+  String get phaseUpdateLabel => 'اپڈیٹ';
+
+  @override
+  String get phaseOutcomeLabel => 'نتیجہ';
+
+  @override
+  String get allLabel => 'تمام';
+
+  @override
+  String get dateRangeLabel => 'تاریخ کی حد';
+
+  @override
+  String get allDatesLabel => 'تمام تاریخیں';
+
+  @override
+  String get typeLabel => 'قسم';
+
+  @override
+  String get anyTypeLabel => 'کوئی بھی قسم';
+
+  @override
+  String get anyoneLabel => 'کوئی بھی';
+
+  @override
+  String staffFallback(String id) {
+    return 'عملہ #$id';
+  }
+
+  @override
+  String get nothingHereGoodSign => 'یہاں کچھ نہیں ہے - یہ اچھی علامت ہے۔';
+
+  @override
+  String escalatedToNameLabel(String name) {
+    return '$name کو آگے بڑھایا گیا';
+  }
+
+  @override
+  String get havenReportedYet => 'آپ نے ابھی تک کچھ رپورٹ نہیں کیا۔';
 }

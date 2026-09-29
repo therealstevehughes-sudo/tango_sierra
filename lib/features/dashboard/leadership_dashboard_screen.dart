@@ -735,7 +735,10 @@ class _LeadershipDashboardScreenState
         rows: [
           for (final i in items)
             BreakdownRow(
-              title: issueTypeDisplayName(i.type),
+              title: issueTypeDisplayName(
+                i.type,
+                AppLocalizations.of(context)!,
+              ),
               subtitle: '${i.details} - ${formatDateTime(i.raisedAt)}',
             ),
         ],
@@ -779,7 +782,7 @@ class _LeadershipDashboardScreenState
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 4),
               child: Text(
-                '${issueTypeDisplayName(i.type)} - ${issueStatusDisplayName(i.status)} '
+                '${issueTypeDisplayName(i.type, l10n)} - ${issueStatusDisplayName(i.status, l10n)} '
                 '(${formatDateTime(i.raisedAt)})',
               ),
             ),

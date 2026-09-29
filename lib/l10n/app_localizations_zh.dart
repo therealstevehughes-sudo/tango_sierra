@@ -1230,4 +1230,175 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get staffLabel => '员工';
+
+  @override
+  String get issueTypeComplaint => '投诉';
+
+  @override
+  String get issueTypeAccident => '事故';
+
+  @override
+  String get issueTypeIncident => '事件';
+
+  @override
+  String get issueTypeSupplyProblem => '供应问题';
+
+  @override
+  String get issueTypeVenueProblem => '场所问题';
+
+  @override
+  String get issueTypeOther => '其他';
+
+  @override
+  String get incorrectDeliveryLabel => '错误送货';
+
+  @override
+  String get driverProblemLabel => '司机问题';
+
+  @override
+  String get otherLabel => '其他';
+
+  @override
+  String get whatKindOfThingHappened => '发生了什么类型的事情?';
+
+  @override
+  String get whichOneLabel => '哪一个?';
+
+  @override
+  String get supplierLabel => '供应商';
+
+  @override
+  String get whatWasWrongWithDelivery => '送货出了什么问题?';
+
+  @override
+  String get receivedByLabel => '接收人';
+
+  @override
+  String get whichSectionOptional => '这是关于哪个部门的?(可选)';
+
+  @override
+  String get noSectionLabel => '无部门';
+
+  @override
+  String get teamOptionalLabel => '团队(可选)';
+
+  @override
+  String get noSpecificTeamLabel => '无特定团队';
+
+  @override
+  String get whatHappenedLabel => '发生了什么?';
+
+  @override
+  String get markAsUrgentLabel => '标记为紧急';
+
+  @override
+  String get markUrgentSubtitle => '无论未解决多长时间都需要立即处理';
+
+  @override
+  String get logItButton => '记录';
+
+  @override
+  String get escalateToTitle => '升级至';
+
+  @override
+  String get sendToLabel => '发送至';
+
+  @override
+  String get escalateButton => '升级';
+
+  @override
+  String get savedLabel => '已保存。';
+
+  @override
+  String remindedMessage(String name) {
+    return '已提醒 $name。';
+  }
+
+  @override
+  String get couldNotSendReminder => '无法发送提醒。';
+
+  @override
+  String get viewSupplierScorecard => '查看供应商记分卡';
+
+  @override
+  String raisedAtLabel(String date) {
+    return '报告于 $date';
+  }
+
+  @override
+  String escalatedToColonLabel(String name) {
+    return '已升级至: $name';
+  }
+
+  @override
+  String get historyLabel => '历史记录';
+
+  @override
+  String get addAnUpdateLabel => '添加更新';
+
+  @override
+  String get addProcessNoteButton => '添加处理备注';
+
+  @override
+  String get resolveButton => '解决';
+
+  @override
+  String get reopenThisIssueTitle => '重新打开此问题';
+
+  @override
+  String get whyReopenLabel => '为什么应该重新打开?';
+
+  @override
+  String get reopenButton => '重新打开';
+
+  @override
+  String sentToLabel(String name) {
+    return '已发送至 $name';
+  }
+
+  @override
+  String get remindButton => '提醒';
+
+  @override
+  String get phaseRaisedLabel => '已报告';
+
+  @override
+  String get phaseUpdateLabel => '更新';
+
+  @override
+  String get phaseOutcomeLabel => '结果';
+
+  @override
+  String get allLabel => '全部';
+
+  @override
+  String get dateRangeLabel => '日期范围';
+
+  @override
+  String get allDatesLabel => '所有日期';
+
+  @override
+  String get typeLabel => '类型';
+
+  @override
+  String get anyTypeLabel => '任何类型';
+
+  @override
+  String get anyoneLabel => '任何人';
+
+  @override
+  String staffFallback(String id) {
+    return '员工 #$id';
+  }
+
+  @override
+  String get nothingHereGoodSign => '这里什么都没有 - 这是个好现象。';
+
+  @override
+  String escalatedToNameLabel(String name) {
+    return '已升级至 $name';
+  }
+
+  @override
+  String get havenReportedYet => '您还没有报告任何内容。';
 }

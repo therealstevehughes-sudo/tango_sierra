@@ -2297,6 +2297,324 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Staff'**
   String get staffLabel;
+
+  /// No description provided for @issueTypeComplaint.
+  ///
+  /// In en, this message translates to:
+  /// **'Complaint'**
+  String get issueTypeComplaint;
+
+  /// No description provided for @issueTypeAccident.
+  ///
+  /// In en, this message translates to:
+  /// **'Accident'**
+  String get issueTypeAccident;
+
+  /// No description provided for @issueTypeIncident.
+  ///
+  /// In en, this message translates to:
+  /// **'Incident'**
+  String get issueTypeIncident;
+
+  /// No description provided for @issueTypeSupplyProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Supply Problem'**
+  String get issueTypeSupplyProblem;
+
+  /// No description provided for @issueTypeVenueProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue Problem'**
+  String get issueTypeVenueProblem;
+
+  /// No description provided for @issueTypeOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get issueTypeOther;
+
+  /// No description provided for @incorrectDeliveryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect delivery'**
+  String get incorrectDeliveryLabel;
+
+  /// No description provided for @driverProblemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Driver problem'**
+  String get driverProblemLabel;
+
+  /// No description provided for @otherLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get otherLabel;
+
+  /// No description provided for @whatKindOfThingHappened.
+  ///
+  /// In en, this message translates to:
+  /// **'What kind of thing happened?'**
+  String get whatKindOfThingHappened;
+
+  /// No description provided for @whichOneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Which one?'**
+  String get whichOneLabel;
+
+  /// No description provided for @supplierLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Supplier'**
+  String get supplierLabel;
+
+  /// No description provided for @whatWasWrongWithDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'What was wrong with the delivery?'**
+  String get whatWasWrongWithDelivery;
+
+  /// No description provided for @receivedByLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Received by'**
+  String get receivedByLabel;
+
+  /// No description provided for @whichSectionOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Which section is this about? (optional)'**
+  String get whichSectionOptional;
+
+  /// No description provided for @noSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No section'**
+  String get noSectionLabel;
+
+  /// No description provided for @teamOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Team (optional)'**
+  String get teamOptionalLabel;
+
+  /// No description provided for @noSpecificTeamLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No specific team'**
+  String get noSpecificTeamLabel;
+
+  /// No description provided for @whatHappenedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What happened?'**
+  String get whatHappenedLabel;
+
+  /// No description provided for @markAsUrgentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as urgent'**
+  String get markAsUrgentLabel;
+
+  /// No description provided for @markUrgentSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs attention right away, regardless of how long it sits unresolved'**
+  String get markUrgentSubtitle;
+
+  /// No description provided for @logItButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Log it'**
+  String get logItButton;
+
+  /// No description provided for @escalateToTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalate to'**
+  String get escalateToTitle;
+
+  /// No description provided for @sendToLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to'**
+  String get sendToLabel;
+
+  /// No description provided for @escalateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalate'**
+  String get escalateButton;
+
+  /// No description provided for @savedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved.'**
+  String get savedLabel;
+
+  /// No description provided for @remindedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminded {name}.'**
+  String remindedMessage(String name);
+
+  /// No description provided for @couldNotSendReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not send the reminder.'**
+  String get couldNotSendReminder;
+
+  /// No description provided for @viewSupplierScorecard.
+  ///
+  /// In en, this message translates to:
+  /// **'View supplier scorecard'**
+  String get viewSupplierScorecard;
+
+  /// No description provided for @raisedAtLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Raised {date}'**
+  String raisedAtLabel(String date);
+
+  /// No description provided for @escalatedToColonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalated to: {name}'**
+  String escalatedToColonLabel(String name);
+
+  /// No description provided for @historyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyLabel;
+
+  /// No description provided for @addAnUpdateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Add an update'**
+  String get addAnUpdateLabel;
+
+  /// No description provided for @addProcessNoteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add process note'**
+  String get addProcessNoteButton;
+
+  /// No description provided for @resolveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Resolve'**
+  String get resolveButton;
+
+  /// No description provided for @reopenThisIssueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen this issue'**
+  String get reopenThisIssueTitle;
+
+  /// No description provided for @whyReopenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Why should this be reopened?'**
+  String get whyReopenLabel;
+
+  /// No description provided for @reopenButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen'**
+  String get reopenButton;
+
+  /// No description provided for @sentToLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent to {name}'**
+  String sentToLabel(String name);
+
+  /// No description provided for @remindButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind'**
+  String get remindButton;
+
+  /// No description provided for @phaseRaisedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Raised'**
+  String get phaseRaisedLabel;
+
+  /// No description provided for @phaseUpdateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get phaseUpdateLabel;
+
+  /// No description provided for @phaseOutcomeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Outcome'**
+  String get phaseOutcomeLabel;
+
+  /// No description provided for @allLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allLabel;
+
+  /// No description provided for @dateRangeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Date range'**
+  String get dateRangeLabel;
+
+  /// No description provided for @allDatesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All dates'**
+  String get allDatesLabel;
+
+  /// No description provided for @typeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get typeLabel;
+
+  /// No description provided for @anyTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Any type'**
+  String get anyTypeLabel;
+
+  /// No description provided for @anyoneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone'**
+  String get anyoneLabel;
+
+  /// No description provided for @staffFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff #{id}'**
+  String staffFallback(String id);
+
+  /// No description provided for @nothingHereGoodSign.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here - that\'s a good sign.'**
+  String get nothingHereGoodSign;
+
+  /// No description provided for @escalatedToNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Escalated to {name}'**
+  String escalatedToNameLabel(String name);
+
+  /// No description provided for @havenReportedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t reported anything yet.'**
+  String get havenReportedYet;
 }
 
 class _AppLocalizationsDelegate

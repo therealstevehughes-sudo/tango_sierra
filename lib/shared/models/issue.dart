@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 // Issues & Incidents (built 2026-09-15) -- freestanding problem capture.
 // See app_database.dart's `Issues` table doc comment for why this is
 // deliberately separate from the task-fail-triggered ProblemStatusEvent,
@@ -96,48 +98,98 @@ class IssueEvent {
 
 /// Human-facing labels -- kept here, alongside the models, rather than
 /// scattered per-screen so every list/filter/form uses the same wording.
-String issueTypeDisplayName(IssueType type) {
+///
+/// [l10n] is optional because one call site (SupabaseIssueRepository's
+/// push-notification title) runs server-side with no BuildContext/locale
+/// available -- that path always gets the English fallback below. Every
+/// UI call site passes it for a properly localized label.
+String issueTypeDisplayName(IssueType type, [AppLocalizations? l10n]) {
+  if (l10n == null) {
+    switch (type) {
+      case IssueType.complaint:
+        return 'Complaint';
+      case IssueType.accident:
+        return 'Accident';
+      case IssueType.incident:
+        return 'Incident';
+      case IssueType.supplyProblem:
+        return 'Supply Problem';
+      case IssueType.venueProblem:
+        return 'Venue Problem';
+      case IssueType.other:
+        return 'Other';
+    }
+  }
   switch (type) {
     case IssueType.complaint:
-      return 'Complaint';
+      return l10n.issueTypeComplaint;
     case IssueType.accident:
-      return 'Accident';
+      return l10n.issueTypeAccident;
     case IssueType.incident:
-      return 'Incident';
+      return l10n.issueTypeIncident;
     case IssueType.supplyProblem:
-      return 'Supply Problem';
+      return l10n.issueTypeSupplyProblem;
     case IssueType.venueProblem:
-      return 'Venue Problem';
+      return l10n.issueTypeVenueProblem;
     case IssueType.other:
-      return 'Other';
+      return l10n.issueTypeOther;
   }
 }
 
-String issueStatusDisplayName(IssueStatus status) {
+String issueStatusDisplayName(IssueStatus status, [AppLocalizations? l10n]) {
+  if (l10n == null) {
+    switch (status) {
+      case IssueStatus.open:
+        return 'Unresolved';
+      case IssueStatus.resolved:
+        return 'Resolved';
+      case IssueStatus.escalated:
+        return 'Escalated';
+    }
+  }
   switch (status) {
     case IssueStatus.open:
-      return 'Unresolved';
+      return l10n.unresolvedLabel;
     case IssueStatus.resolved:
-      return 'Resolved';
+      return l10n.resolvedLabel;
     case IssueStatus.escalated:
-      return 'Escalated';
+      return l10n.escalatedLabel;
   }
 }
 
-String deliveryProblemTypeDisplayName(DeliveryProblemType type) {
+String deliveryProblemTypeDisplayName(
+  DeliveryProblemType type, [
+  AppLocalizations? l10n,
+]) {
+  if (l10n == null) {
+    switch (type) {
+      case DeliveryProblemType.lateDelivery:
+        return 'Late delivery';
+      case DeliveryProblemType.shortDelivery:
+        return 'Short delivery';
+      case DeliveryProblemType.incorrectDelivery:
+        return 'Incorrect delivery';
+      case DeliveryProblemType.damagedStock:
+        return 'Damaged stock';
+      case DeliveryProblemType.driverProblem:
+        return 'Driver problem';
+      case DeliveryProblemType.other:
+        return 'Other';
+    }
+  }
   switch (type) {
     case DeliveryProblemType.lateDelivery:
-      return 'Late delivery';
+      return l10n.lateDeliveryLabel;
     case DeliveryProblemType.shortDelivery:
-      return 'Short delivery';
+      return l10n.shortDeliveryLabel;
     case DeliveryProblemType.incorrectDelivery:
-      return 'Incorrect delivery';
+      return l10n.incorrectDeliveryLabel;
     case DeliveryProblemType.damagedStock:
-      return 'Damaged stock';
+      return l10n.damagedStockLabel;
     case DeliveryProblemType.driverProblem:
-      return 'Driver problem';
+      return l10n.driverProblemLabel;
     case DeliveryProblemType.other:
-      return 'Other';
+      return l10n.otherLabel;
   }
 }
 
