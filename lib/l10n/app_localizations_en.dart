@@ -641,4 +641,79 @@ class AppLocalizationsEn extends AppLocalizations {
   String savedToLabel(String path) {
     return 'Saved to:\n$path';
   }
+
+  @override
+  String get dashboardTitle => 'Dashboard';
+
+  @override
+  String get noVenueFound => 'No venue found.';
+
+  @override
+  String get allPermittedVenuesLast30Days =>
+      'All permitted venues · last 30 days';
+
+  @override
+  String get last30Days => 'Last 30 days';
+
+  @override
+  String failCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count FAILs (30 days)',
+      one: '1 FAIL (30 days)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String overdueCountLabel(int count) {
+    return '$count overdue';
+  }
+
+  @override
+  String get venuesSectionTitle => 'Venues';
+
+  @override
+  String get teamSectionTitle => 'Team';
+
+  @override
+  String get noStaffAtVenue => 'No staff at this venue yet.';
+
+  @override
+  String get notEnoughDataYet => 'Not enough data yet';
+
+  @override
+  String get venueFallbackLabel => 'Venue';
+
+  @override
+  String get trendsTitle => 'Trends';
+
+  @override
+  String get trendNeedsHistory =>
+      'Trend data: need at least 4 weeks of history to show a trend.';
+
+  @override
+  String perVenueWeeklyCompletion(int weeks) {
+    return 'Per-venue weekly completion · last $weeks weeks';
+  }
+
+  @override
+  String get allVenuesCombined => 'All venues combined';
+
+  @override
+  String get noVenuesYet => 'No venues yet.';
+
+  @override
+  String get otherVenuesLabel => 'Other venues';
+
+  @override
+  String lowLoggingFlagLabel(int completed, int total) {
+    return '$completed of $total checks logged';
+  }
+
+  @override
+  String regionFallbackLabel(int id) {
+    return 'Region #$id';
+  }
 }

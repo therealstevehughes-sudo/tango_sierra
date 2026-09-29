@@ -643,4 +643,79 @@ class AppLocalizationsUr extends AppLocalizations {
   String savedToLabel(String path) {
     return 'یہاں محفوظ کیا گیا:\n$path';
   }
+
+  @override
+  String get dashboardTitle => 'ڈیش بورڈ';
+
+  @override
+  String get noVenueFound => 'کوئی مقام نہیں ملا۔';
+
+  @override
+  String get allPermittedVenuesLast30Days =>
+      'تمام اجازت یافتہ مقامات · پچھلے 30 دن';
+
+  @override
+  String get last30Days => 'پچھلے 30 دن';
+
+  @override
+  String failCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count فیل (30 دن)',
+      one: '1 فیل (30 دن)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String overdueCountLabel(int count) {
+    return '$count زائد المیعاد';
+  }
+
+  @override
+  String get venuesSectionTitle => 'مقامات';
+
+  @override
+  String get teamSectionTitle => 'ٹیم';
+
+  @override
+  String get noStaffAtVenue => 'اس مقام پر ابھی تک کوئی عملہ نہیں ہے۔';
+
+  @override
+  String get notEnoughDataYet => 'ناکافی ڈیٹا';
+
+  @override
+  String get venueFallbackLabel => 'مقام';
+
+  @override
+  String get trendsTitle => 'رجحانات';
+
+  @override
+  String get trendNeedsHistory =>
+      'رجحان کا ڈیٹا: رجحان دکھانے کے لیے کم از کم 4 ہفتوں کی تاریخ درکار ہے۔';
+
+  @override
+  String perVenueWeeklyCompletion(int weeks) {
+    return 'فی مقام ہفتہ وار تکمیل · پچھلے $weeks ہفتے';
+  }
+
+  @override
+  String get allVenuesCombined => 'تمام مقامات مجموعی طور پر';
+
+  @override
+  String get noVenuesYet => 'ابھی تک کوئی مقام نہیں۔';
+
+  @override
+  String get otherVenuesLabel => 'دیگر مقامات';
+
+  @override
+  String lowLoggingFlagLabel(int completed, int total) {
+    return '$total میں سے $completed جانچیں درج کی گئیں';
+  }
+
+  @override
+  String regionFallbackLabel(int id) {
+    return 'علاقہ #$id';
+  }
 }

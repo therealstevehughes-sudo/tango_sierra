@@ -649,4 +649,79 @@ class AppLocalizationsRo extends AppLocalizations {
   String savedToLabel(String path) {
     return 'Salvat în:\n$path';
   }
+
+  @override
+  String get dashboardTitle => 'Tablou de bord';
+
+  @override
+  String get noVenueFound => 'Niciun local găsit.';
+
+  @override
+  String get allPermittedVenuesLast30Days =>
+      'Toate localurile permise · ultimele 30 de zile';
+
+  @override
+  String get last30Days => 'Ultimele 30 de zile';
+
+  @override
+  String failCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count NEREUȘITE (30 zile)',
+      one: '1 NEREUȘIT (30 zile)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String overdueCountLabel(int count) {
+    return '$count restante';
+  }
+
+  @override
+  String get venuesSectionTitle => 'Localuri';
+
+  @override
+  String get teamSectionTitle => 'Echipă';
+
+  @override
+  String get noStaffAtVenue => 'Niciun personal la acest local încă.';
+
+  @override
+  String get notEnoughDataYet => 'Date insuficiente';
+
+  @override
+  String get venueFallbackLabel => 'Local';
+
+  @override
+  String get trendsTitle => 'Tendințe';
+
+  @override
+  String get trendNeedsHistory =>
+      'Date de tendință: sunt necesare cel puțin 4 săptămâni de istoric pentru a afișa o tendință.';
+
+  @override
+  String perVenueWeeklyCompletion(int weeks) {
+    return 'Finalizare săptămânală pe local · ultimele $weeks săptămâni';
+  }
+
+  @override
+  String get allVenuesCombined => 'Toate localurile combinate';
+
+  @override
+  String get noVenuesYet => 'Niciun local încă.';
+
+  @override
+  String get otherVenuesLabel => 'Alte localuri';
+
+  @override
+  String lowLoggingFlagLabel(int completed, int total) {
+    return '$completed din $total verificări înregistrate';
+  }
+
+  @override
+  String regionFallbackLabel(int id) {
+    return 'Regiunea #$id';
+  }
 }

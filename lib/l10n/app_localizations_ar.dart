@@ -640,4 +640,79 @@ class AppLocalizationsAr extends AppLocalizations {
   String savedToLabel(String path) {
     return 'تم الحفظ في:\n$path';
   }
+
+  @override
+  String get dashboardTitle => 'لوحة التحكم';
+
+  @override
+  String get noVenueFound => 'لم يتم العثور على موقع.';
+
+  @override
+  String get allPermittedVenuesLast30Days =>
+      'جميع المواقع المسموح بها · آخر 30 يومًا';
+
+  @override
+  String get last30Days => 'آخر 30 يومًا';
+
+  @override
+  String failCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count راسب (30 يومًا)',
+      one: 'راسب واحد (30 يومًا)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String overdueCountLabel(int count) {
+    return '$count متأخر';
+  }
+
+  @override
+  String get venuesSectionTitle => 'المواقع';
+
+  @override
+  String get teamSectionTitle => 'الفريق';
+
+  @override
+  String get noStaffAtVenue => 'لا يوجد موظفون في هذا الموقع بعد.';
+
+  @override
+  String get notEnoughDataYet => 'بيانات غير كافية';
+
+  @override
+  String get venueFallbackLabel => 'الموقع';
+
+  @override
+  String get trendsTitle => 'الاتجاهات';
+
+  @override
+  String get trendNeedsHistory =>
+      'بيانات الاتجاه: يلزم توفر 4 أسابيع على الأقل من السجل لإظهار اتجاه.';
+
+  @override
+  String perVenueWeeklyCompletion(int weeks) {
+    return 'الإنجاز الأسبوعي لكل موقع · آخر $weeks أسابيع';
+  }
+
+  @override
+  String get allVenuesCombined => 'جميع المواقع مجتمعة';
+
+  @override
+  String get noVenuesYet => 'لا توجد مواقع بعد.';
+
+  @override
+  String get otherVenuesLabel => 'مواقع أخرى';
+
+  @override
+  String lowLoggingFlagLabel(int completed, int total) {
+    return 'تم تسجيل $completed من $total فحوصات';
+  }
+
+  @override
+  String regionFallbackLabel(int id) {
+    return 'المنطقة رقم $id';
+  }
 }

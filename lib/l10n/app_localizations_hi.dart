@@ -647,4 +647,78 @@ class AppLocalizationsHi extends AppLocalizations {
   String savedToLabel(String path) {
     return 'यहां सहेजा गया:\n$path';
   }
+
+  @override
+  String get dashboardTitle => 'डैशबोर्ड';
+
+  @override
+  String get noVenueFound => 'कोई वेन्यू नहीं मिला।';
+
+  @override
+  String get allPermittedVenuesLast30Days => 'सभी अनुमत वेन्यू · पिछले 30 दिन';
+
+  @override
+  String get last30Days => 'पिछले 30 दिन';
+
+  @override
+  String failCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count फेल (30 दिन)',
+      one: '1 फेल (30 दिन)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String overdueCountLabel(int count) {
+    return '$count बकाया';
+  }
+
+  @override
+  String get venuesSectionTitle => 'वेन्यू';
+
+  @override
+  String get teamSectionTitle => 'टीम';
+
+  @override
+  String get noStaffAtVenue => 'इस वेन्यू पर अभी तक कोई स्टाफ नहीं है।';
+
+  @override
+  String get notEnoughDataYet => 'पर्याप्त डेटा नहीं';
+
+  @override
+  String get venueFallbackLabel => 'वेन्यू';
+
+  @override
+  String get trendsTitle => 'रुझान';
+
+  @override
+  String get trendNeedsHistory =>
+      'रुझान डेटा: रुझान दिखाने के लिए कम से कम 4 सप्ताह का इतिहास आवश्यक है।';
+
+  @override
+  String perVenueWeeklyCompletion(int weeks) {
+    return 'प्रति वेन्यू साप्ताहिक पूर्णता · पिछले $weeks सप्ताह';
+  }
+
+  @override
+  String get allVenuesCombined => 'सभी वेन्यू संयुक्त';
+
+  @override
+  String get noVenuesYet => 'अभी तक कोई वेन्यू नहीं।';
+
+  @override
+  String get otherVenuesLabel => 'अन्य वेन्यू';
+
+  @override
+  String lowLoggingFlagLabel(int completed, int total) {
+    return '$total में से $completed जांच दर्ज की गईं';
+  }
+
+  @override
+  String regionFallbackLabel(int id) {
+    return 'क्षेत्र #$id';
+  }
 }

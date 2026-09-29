@@ -1247,6 +1247,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saved to:\n{path}'**
   String savedToLabel(String path);
+
+  /// No description provided for @dashboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dashboard'**
+  String get dashboardTitle;
+
+  /// No description provided for @noVenueFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No venue found.'**
+  String get noVenueFound;
+
+  /// No description provided for @allPermittedVenuesLast30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'All permitted venues · last 30 days'**
+  String get allPermittedVenuesLast30Days;
+
+  /// No description provided for @last30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get last30Days;
+
+  /// No description provided for @failCountBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 FAIL (30 days)} other{{count} FAILs (30 days)}}'**
+  String failCountBadge(int count);
+
+  /// No description provided for @overdueCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} overdue'**
+  String overdueCountLabel(int count);
+
+  /// No description provided for @venuesSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Venues'**
+  String get venuesSectionTitle;
+
+  /// No description provided for @teamSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Team'**
+  String get teamSectionTitle;
+
+  /// No description provided for @noStaffAtVenue.
+  ///
+  /// In en, this message translates to:
+  /// **'No staff at this venue yet.'**
+  String get noStaffAtVenue;
+
+  /// No description provided for @notEnoughDataYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough data yet'**
+  String get notEnoughDataYet;
+
+  /// No description provided for @venueFallbackLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue'**
+  String get venueFallbackLabel;
+
+  /// No description provided for @trendsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trends'**
+  String get trendsTitle;
+
+  /// No description provided for @trendNeedsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Trend data: need at least 4 weeks of history to show a trend.'**
+  String get trendNeedsHistory;
+
+  /// No description provided for @perVenueWeeklyCompletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Per-venue weekly completion · last {weeks} weeks'**
+  String perVenueWeeklyCompletion(int weeks);
+
+  /// No description provided for @allVenuesCombined.
+  ///
+  /// In en, this message translates to:
+  /// **'All venues combined'**
+  String get allVenuesCombined;
+
+  /// No description provided for @noVenuesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No venues yet.'**
+  String get noVenuesYet;
+
+  /// No description provided for @otherVenuesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Other venues'**
+  String get otherVenuesLabel;
+
+  /// No description provided for @lowLoggingFlagLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{completed} of {total} checks logged'**
+  String lowLoggingFlagLabel(int completed, int total);
+
+  /// No description provided for @regionFallbackLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Region #{id}'**
+  String regionFallbackLabel(int id);
 }
 
 class _AppLocalizationsDelegate

@@ -622,4 +622,76 @@ class AppLocalizationsZh extends AppLocalizations {
   String savedToLabel(String path) {
     return '已保存至:\n$path';
   }
+
+  @override
+  String get dashboardTitle => '仪表盘';
+
+  @override
+  String get noVenueFound => '未找到场所。';
+
+  @override
+  String get allPermittedVenuesLast30Days => '所有授权场所 · 过去30天';
+
+  @override
+  String get last30Days => '过去30天';
+
+  @override
+  String failCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 项未通过(30天)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String overdueCountLabel(int count) {
+    return '$count 项逾期';
+  }
+
+  @override
+  String get venuesSectionTitle => '场所';
+
+  @override
+  String get teamSectionTitle => '团队';
+
+  @override
+  String get noStaffAtVenue => '此场所尚无员工。';
+
+  @override
+  String get notEnoughDataYet => '数据不足';
+
+  @override
+  String get venueFallbackLabel => '场所';
+
+  @override
+  String get trendsTitle => '趋势';
+
+  @override
+  String get trendNeedsHistory => '趋势数据:需要至少4周的历史记录才能显示趋势。';
+
+  @override
+  String perVenueWeeklyCompletion(int weeks) {
+    return '各场所每周完成率 · 最近$weeks周';
+  }
+
+  @override
+  String get allVenuesCombined => '所有场所合计';
+
+  @override
+  String get noVenuesYet => '尚无场所。';
+
+  @override
+  String get otherVenuesLabel => '其他场所';
+
+  @override
+  String lowLoggingFlagLabel(int completed, int total) {
+    return '已记录 $total 项检查中的 $completed 项';
+  }
+
+  @override
+  String regionFallbackLabel(int id) {
+    return '区域 #$id';
+  }
 }

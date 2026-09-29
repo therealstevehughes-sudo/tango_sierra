@@ -9,6 +9,7 @@ import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/status_badge.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
@@ -41,12 +42,13 @@ class DashboardScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Dashboard'),
+        title: Text(l10n.dashboardTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Dashboard'),
+      drawer: ManagementDrawer(title: l10n.dashboardTitle),
       body: const SafeArea(child: DashboardBody()),
     );
   }
@@ -88,6 +90,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
   }
 
   Future<void> _load() async {
+    final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.read(currentUserProvider);
     if (currentUser == null) {
       setState(() => _loading = false);
@@ -146,7 +149,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
         final regionId = site.regionId;
         if (regionId != null) {
           regionNameBySiteId[site.id] =
-              regionNameById[regionId] ?? 'Region #$regionId';
+              regionNameById[regionId] ?? l10n.regionFallbackLabel(regionId);
         }
       }
     }
@@ -240,11 +243,12 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (_loading) {
       return const Center(child: CircularProgressIndicator());
     }
     if (_reliability == null) {
-      return const Center(child: Text('No venue found.'));
+      return Center(child: Text(l10n.noVenueFound));
     }
 
     final overall = _reliability!.overall;
@@ -269,8 +273,8 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
                 children: [
                   Text(
                     widget.aggregatePermittedSites
-                        ? 'All permitted venues · last 30 days'
-                        : 'Last 30 days',
+                        ? l10n.allPermittedVenuesLast30Days
+                        : l10n.last30Days,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 12),
@@ -281,23 +285,24 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
                       if (overall.completionRate != null)
                         MetricChip(
                           icon: Icons.check_circle_outline,
-                          label:
-                              '${(overall.completionRate! * 100).round()}% completed',
+                          label: l10n.completedPercentChip(
+                            (overall.completionRate! * 100).round(),
+                          ),
                         ),
                       if (overall.onTimeRate != null)
                         MetricChip(
                           icon: Icons.schedule,
-                          label:
-                              '${(overall.onTimeRate! * 100).round()}% on time',
+                          label: l10n.onTimePercentChip(
+                            (overall.onTimeRate! * 100).round(),
+                          ),
                         ),
                       StatusBadge(
                         kind: StatusKind.critical,
-                        label:
-                            '$_failCount FAIL${_failCount == 1 ? '' : 's'} (30 days)',
+                        label: l10n.failCountBadge(_failCount),
                       ),
                       StatusBadge(
                         kind: StatusKind.overdue,
-                        label: '$_overdueCount overdue',
+                        label: l10n.overdueCountLabel(_overdueCount),
                       ),
                     ],
                   ),
@@ -311,21 +316,21 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
             // over time" signal the 30-day snapshot can't.
             if (widget.aggregatePermittedSites &&
                 _combinedWeeklyTrend.isNotEmpty) ...[
-              _buildTrendsCard(),
+              _buildTrendsCard(l10n),
               const SizedBox(height: 24),
             ],
             if (widget.aggregatePermittedSites) ...[
-              const SectionHeader(title: 'Venues'),
+              SectionHeader(title: l10n.venuesSectionTitle),
               const SizedBox(height: 8),
-              ..._buildVenueSection(),
+              ..._buildVenueSection(l10n),
               const SizedBox(height: 16),
             ],
-            const SectionHeader(title: 'Team'),
+            SectionHeader(title: l10n.teamSectionTitle),
             const SizedBox(height: 8),
             if (staff.isEmpty)
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: Text('No staff at this venue yet.'),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(l10n.noStaffAtVenue),
               )
             else
               ...staff.map(
@@ -334,12 +339,12 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
                   child: ListTile(
                     title: Text(
                       widget.aggregatePermittedSites
-                          ? '${member.userName} · ${_siteNameByUserId[member.userId] ?? 'Venue'}'
+                          ? '${member.userName} · ${_siteNameByUserId[member.userId] ?? l10n.venueFallbackLabel}'
                           : member.userName,
                     ),
                     subtitle: member.reliability.totalPeriods == 0
                         ? Text(
-                            'Not enough data yet',
+                            l10n.notEnoughDataYet,
                             style: Theme.of(context).textTheme.bodySmall
                                 ?.copyWith(color: AppColors.muted),
                           )
@@ -351,13 +356,17 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
                               children: [
                                 MetricChip(
                                   icon: Icons.check_circle_outline,
-                                  label:
-                                      '${(member.reliability.completionRate! * 100).round()}% completed',
+                                  label: l10n.completedPercentChip(
+                                    (member.reliability.completionRate! * 100)
+                                        .round(),
+                                  ),
                                 ),
                                 MetricChip(
                                   icon: Icons.schedule,
-                                  label:
-                                      '${(member.reliability.onTimeRate! * 100).round()}% on time',
+                                  label: l10n.onTimePercentChip(
+                                    (member.reliability.onTimeRate! * 100)
+                                        .round(),
+                                  ),
                                 ),
                                 // Improvement (2026-09-12): leadership-only,
                                 // strictly NEUTRAL "needs a look" cue. Never
@@ -393,13 +402,13 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
   // rates the live numbers use (PASS/FAIL never distinguished), and a week
   // with no data renders as a blank slot ("Not enough data yet"), never as
   // a failing week.
-  Widget _buildTrendsCard() {
+  Widget _buildTrendsCard(AppLocalizations l10n) {
     final weeks = _combinedWeeklyTrend.length;
     if (weeks < 4) {
       // Needs history before a trend line is honest.
       return AppCard(
         child: Text(
-          'Trend data: need at least 4 weeks of history to show a trend.',
+          l10n.trendNeedsHistory,
           style: Theme.of(context).textTheme.bodyMedium,
         ),
       );
@@ -415,18 +424,18 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
         children: [
           Row(
             children: [
-              Text('Trends', style: Theme.of(context).textTheme.titleMedium),
+              Text(l10n.trendsTitle, style: Theme.of(context).textTheme.titleMedium),
               const Spacer(),
               if (latestCompletion != null)
                 Text(
-                  '${(latestCompletion * 100).round()}% completed',
+                  l10n.completedPercentChip((latestCompletion * 100).round()),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
             ],
           ),
           const SizedBox(height: 4),
           Text(
-            'Per-venue weekly completion · last $weeks weeks',
+            l10n.perVenueWeeklyCompletion(weeks),
             style: Theme.of(
               context,
             ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
@@ -442,7 +451,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
           const Divider(),
           const SizedBox(height: 8),
           _TrendRow(
-            venueName: 'All venues combined',
+            venueName: l10n.allVenuesCombined,
             series: _combinedWeeklyTrend,
             emphasised: true,
           ),
@@ -451,7 +460,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
     );
   }
 
-  Widget _buildSiteSummary(_SiteDashboardSummary summary) {
+  Widget _buildSiteSummary(_SiteDashboardSummary summary, AppLocalizations l10n) {
     final overall = summary.reliability.overall;
     final staff = [...summary.reliability.staff]
       ..sort(
@@ -472,42 +481,46 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
             if (overall.completionRate != null)
               MetricChip(
                 icon: Icons.check_circle_outline,
-                label: '${(overall.completionRate! * 100).round()}% completed',
+                label: l10n.completedPercentChip(
+                  (overall.completionRate! * 100).round(),
+                ),
               ),
             StatusBadge(
               kind: StatusKind.critical,
-              label:
-                  '${summary.failCount} FAIL${summary.failCount == 1 ? '' : 's'}',
+              label: l10n.failCountBadge(summary.failCount),
             ),
             StatusBadge(
               kind: StatusKind.overdue,
-              label: '${summary.overdueCount} overdue',
+              label: l10n.overdueCountLabel(summary.overdueCount),
             ),
           ],
         ),
         children: [
           if (staff.isEmpty)
-            const ListTile(title: Text('No staff at this venue yet.'))
+            ListTile(title: Text(l10n.noStaffAtVenue))
           else
             ...staff.map(
               (member) => ListTile(
                 dense: true,
                 title: Text(member.userName),
                 subtitle: member.reliability.totalPeriods == 0
-                    ? const Text('Not enough data yet')
+                    ? Text(l10n.notEnoughDataYet)
                     : Wrap(
                         spacing: 8,
                         runSpacing: 4,
                         children: [
                           MetricChip(
                             icon: Icons.check_circle_outline,
-                            label:
-                                '${(member.reliability.completionRate! * 100).round()}% completed',
+                            label: l10n.completedPercentChip(
+                              (member.reliability.completionRate! * 100)
+                                  .round(),
+                            ),
                           ),
                           MetricChip(
                             icon: Icons.schedule,
-                            label:
-                                '${(member.reliability.onTimeRate! * 100).round()}% on time',
+                            label: l10n.onTimePercentChip(
+                              (member.reliability.onTimeRate! * 100).round(),
+                            ),
                           ),
                           // Same leadership-only neutral cue as the Team
                           // list above — this venue's own staff drill-down.
@@ -528,9 +541,9 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
   // Director), the cards are grouped under each Region's name — the natural
   // hierarchy for a large operator. A single region (or a mix where some
   // sites attach directly to the org, regionId == null) stays flat.
-  List<Widget> _buildVenueSection() {
+  List<Widget> _buildVenueSection(AppLocalizations l10n) {
     if (_siteSummaries.isEmpty) {
-      return const [Text('No venues yet.')];
+      return [Text(l10n.noVenuesYet)];
     }
 
     // Only group when there are at least two DISTINCT region-labelled
@@ -542,7 +555,9 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
     final groupable = regionNames.length > 1;
 
     if (!groupable) {
-      return _siteSummaries.map(_buildSiteSummary).toList();
+      return _siteSummaries
+          .map((summary) => _buildSiteSummary(summary, l10n))
+          .toList();
     }
 
     final widgets = <Widget>[];
@@ -568,7 +583,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
           .where((s) => _regionNameBySiteId[s.site.id] == regionName)
           .toList();
       for (final summary in grouped) {
-        widgets.add(_buildSiteSummary(summary));
+        widgets.add(_buildSiteSummary(summary, l10n));
         remaining.remove(summary);
       }
     }
@@ -578,12 +593,14 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
     // view.
     if (remaining.isNotEmpty) {
       widgets.add(
-        const Padding(
-          padding: EdgeInsets.only(top: 8, bottom: 4),
-          child: SectionHeader(title: 'Other venues'),
+        Padding(
+          padding: const EdgeInsets.only(top: 8, bottom: 4),
+          child: SectionHeader(title: l10n.otherVenuesLabel),
         ),
       );
-      widgets.addAll(remaining.map(_buildSiteSummary));
+      widgets.addAll(
+        remaining.map((summary) => _buildSiteSummary(summary, l10n)),
+      );
     }
 
     return widgets;
@@ -601,7 +618,7 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
     if (total == 0) return null;
     final completed = member.reliability.completedPeriods;
     if (completed >= total ~/ 2) return null;
-    return '$completed of $total checks logged';
+    return AppLocalizations.of(context)!.lowLoggingFlagLabel(completed, total);
   }
 }
 

@@ -648,4 +648,79 @@ class AppLocalizationsPl extends AppLocalizations {
   String savedToLabel(String path) {
     return 'Zapisano w:\n$path';
   }
+
+  @override
+  String get dashboardTitle => 'Panel';
+
+  @override
+  String get noVenueFound => 'Nie znaleziono lokalu.';
+
+  @override
+  String get allPermittedVenuesLast30Days =>
+      'Wszystkie dozwolone lokale · ostatnie 30 dni';
+
+  @override
+  String get last30Days => 'Ostatnie 30 dni';
+
+  @override
+  String failCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count NIEZALICZONYCH (30 dni)',
+      one: '1 NIEZALICZONE (30 dni)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String overdueCountLabel(int count) {
+    return '$count zaległych';
+  }
+
+  @override
+  String get venuesSectionTitle => 'Lokale';
+
+  @override
+  String get teamSectionTitle => 'Zespół';
+
+  @override
+  String get noStaffAtVenue => 'Brak personelu w tym lokalu.';
+
+  @override
+  String get notEnoughDataYet => 'Za mało danych';
+
+  @override
+  String get venueFallbackLabel => 'Lokal';
+
+  @override
+  String get trendsTitle => 'Trendy';
+
+  @override
+  String get trendNeedsHistory =>
+      'Dane trendu: potrzeba co najmniej 4 tygodni historii, aby pokazać trend.';
+
+  @override
+  String perVenueWeeklyCompletion(int weeks) {
+    return 'Tygodniowa realizacja wg lokalu · ostatnie $weeks tyg.';
+  }
+
+  @override
+  String get allVenuesCombined => 'Wszystkie lokale łącznie';
+
+  @override
+  String get noVenuesYet => 'Brak lokali.';
+
+  @override
+  String get otherVenuesLabel => 'Inne lokale';
+
+  @override
+  String lowLoggingFlagLabel(int completed, int total) {
+    return 'Zarejestrowano $completed z $total kontroli';
+  }
+
+  @override
+  String regionFallbackLabel(int id) {
+    return 'Region #$id';
+  }
 }

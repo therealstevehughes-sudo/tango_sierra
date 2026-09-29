@@ -646,4 +646,79 @@ class AppLocalizationsHr extends AppLocalizations {
   String savedToLabel(String path) {
     return 'Spremljeno u:\n$path';
   }
+
+  @override
+  String get dashboardTitle => 'Nadzorna ploča';
+
+  @override
+  String get noVenueFound => 'Nije pronađena lokacija.';
+
+  @override
+  String get allPermittedVenuesLast30Days =>
+      'Sve dopuštene lokacije · posljednjih 30 dana';
+
+  @override
+  String get last30Days => 'Posljednjih 30 dana';
+
+  @override
+  String failCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count PALO (30 dana)',
+      one: '1 PALO (30 dana)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String overdueCountLabel(int count) {
+    return '$count zakašnjelo';
+  }
+
+  @override
+  String get venuesSectionTitle => 'Lokacije';
+
+  @override
+  String get teamSectionTitle => 'Tim';
+
+  @override
+  String get noStaffAtVenue => 'Još nema osoblja na ovoj lokaciji.';
+
+  @override
+  String get notEnoughDataYet => 'Nedovoljno podataka';
+
+  @override
+  String get venueFallbackLabel => 'Lokacija';
+
+  @override
+  String get trendsTitle => 'Trendovi';
+
+  @override
+  String get trendNeedsHistory =>
+      'Podaci o trendu: potrebno je najmanje 4 tjedna povijesti za prikaz trenda.';
+
+  @override
+  String perVenueWeeklyCompletion(int weeks) {
+    return 'Tjedno dovršavanje po lokaciji · posljednjih $weeks tjedana';
+  }
+
+  @override
+  String get allVenuesCombined => 'Sve lokacije zajedno';
+
+  @override
+  String get noVenuesYet => 'Još nema lokacija.';
+
+  @override
+  String get otherVenuesLabel => 'Ostale lokacije';
+
+  @override
+  String lowLoggingFlagLabel(int completed, int total) {
+    return 'Zabilježeno $completed od $total provjera';
+  }
+
+  @override
+  String regionFallbackLabel(int id) {
+    return 'Regija #$id';
+  }
 }
