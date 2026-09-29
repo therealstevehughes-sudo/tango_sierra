@@ -3350,4 +3350,104 @@ class AppLocalizationsDe extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get regionalManagerAssignedTitle => 'Regionalleiter zugewiesen';
+
+  @override
+  String get noOrganisationOnSessionError => 'Keine Firma in dieser Sitzung.';
+
+  @override
+  String get newRegionNameTitle => 'Neuer Regionsname';
+
+  @override
+  String get renameRegionTitle => 'Region umbenennen';
+
+  @override
+  String get renameVenueTitle => 'Standort umbenennen';
+
+  @override
+  String get newVenueNameTitle => 'Neuer Standortname';
+
+  @override
+  String get doneButton => 'Fertig';
+
+  @override
+  String get resetPasswordQuestionTitle => 'Passwort zurücksetzen?';
+
+  @override
+  String get resetButton => 'Zurücksetzen';
+
+  @override
+  String get passwordResetTitle => 'Passwort zurückgesetzt';
+
+  @override
+  String get giveNewTempPasswordText =>
+      'Gib dieser Person ihr neues temporäres Passwort.';
+
+  @override
+  String get organisationTitle => 'Firma';
+
+  @override
+  String get headOfficeLabel => 'Hauptsitz';
+
+  @override
+  String get addRegionMenuItem => 'Region hinzufügen';
+
+  @override
+  String get addVenueNoRegionMenuItem => 'Standort hinzufügen (keine Region)';
+
+  @override
+  String get venuesNoRegionLabel => 'Standorte (keine Region)';
+
+  @override
+  String get resetPasswordTooltip => 'Passwort zurücksetzen';
+
+  @override
+  String get addVenueMenuItem => 'Standort hinzufügen';
+
+  @override
+  String get assignRegionalManagerMenuItem => 'Regionalleiter zuweisen';
+
+  @override
+  String get reassignRegionalManagerMenuItem => 'Regionalleiter neu zuweisen';
+
+  @override
+  String get noRegionalManagerYetText => 'Noch kein Regionalleiter';
+
+  @override
+  String get noVenuesInRegionText => 'Noch keine Standorte in dieser Region.';
+
+  @override
+  String get noVenueManagerYetText => 'Noch kein Standortleiter';
+
+  @override
+  String assignRegionalManagerTitle(String region) {
+    return 'Regionalleiter zuweisen - $region';
+  }
+
+  @override
+  String accountLiveGiveSignInDetails(String name) {
+    return 'Das Konto ist jetzt aktiv. Gib $name die Anmeldedaten - sie nutzen den Leitungszugang.';
+  }
+
+  @override
+  String emailColonLabel(String email) {
+    return 'E-Mail: $email';
+  }
+
+  @override
+  String temporaryPasswordColonLabel(String password) {
+    return 'Temporäres Passwort: $password';
+  }
+
+  @override
+  String resetPasswordConfirmText(String name) {
+    return 'Dies macht sofort das aktuelle Passwort von $name ungültig. Du erhältst ein neues temporäres Passwort zum Weitergeben.';
+  }
+
+  @override
+  String venueManagerSuffixLabel(String name) {
+    return '$name  ·  Standortleiter';
+  }
 }

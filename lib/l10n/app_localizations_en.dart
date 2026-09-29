@@ -3322,4 +3322,104 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get regionalManagerAssignedTitle => 'Regional Manager assigned';
+
+  @override
+  String get noOrganisationOnSessionError => 'No organisation on this session.';
+
+  @override
+  String get newRegionNameTitle => 'New region name';
+
+  @override
+  String get renameRegionTitle => 'Rename region';
+
+  @override
+  String get renameVenueTitle => 'Rename venue';
+
+  @override
+  String get newVenueNameTitle => 'New venue name';
+
+  @override
+  String get doneButton => 'Done';
+
+  @override
+  String get resetPasswordQuestionTitle => 'Reset password?';
+
+  @override
+  String get resetButton => 'Reset';
+
+  @override
+  String get passwordResetTitle => 'Password reset';
+
+  @override
+  String get giveNewTempPasswordText =>
+      'Give this person their new temporary password.';
+
+  @override
+  String get organisationTitle => 'Organisation';
+
+  @override
+  String get headOfficeLabel => 'Head Office';
+
+  @override
+  String get addRegionMenuItem => 'Add Region';
+
+  @override
+  String get addVenueNoRegionMenuItem => 'Add Venue (no region)';
+
+  @override
+  String get venuesNoRegionLabel => 'Venues (no region)';
+
+  @override
+  String get resetPasswordTooltip => 'Reset password';
+
+  @override
+  String get addVenueMenuItem => 'Add Venue';
+
+  @override
+  String get assignRegionalManagerMenuItem => 'Assign Regional Manager';
+
+  @override
+  String get reassignRegionalManagerMenuItem => 'Reassign Regional Manager';
+
+  @override
+  String get noRegionalManagerYetText => 'No regional manager yet';
+
+  @override
+  String get noVenuesInRegionText => 'No venues in this region yet.';
+
+  @override
+  String get noVenueManagerYetText => 'No venue manager yet';
+
+  @override
+  String assignRegionalManagerTitle(String region) {
+    return 'Assign Regional Manager - $region';
+  }
+
+  @override
+  String accountLiveGiveSignInDetails(String name) {
+    return 'The account is live now. Give $name their sign-in details - they use Leadership Access.';
+  }
+
+  @override
+  String emailColonLabel(String email) {
+    return 'Email: $email';
+  }
+
+  @override
+  String temporaryPasswordColonLabel(String password) {
+    return 'Temporary password: $password';
+  }
+
+  @override
+  String resetPasswordConfirmText(String name) {
+    return 'This immediately invalidates $name\'s current password. You\'ll get a new temporary password to pass along.';
+  }
+
+  @override
+  String venueManagerSuffixLabel(String name) {
+    return '$name  ·  Venue Manager';
+  }
 }

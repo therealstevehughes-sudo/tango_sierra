@@ -14,6 +14,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Phase C3 (2026-09-14, redesigned same day after live feedback) — the
 /// "interactive org-builder/organogram." First pass showed structure
@@ -69,7 +70,7 @@ class _OrganisationTreeScreenState
     if (orgId == null) {
       setState(() {
         _loading = false;
-        _error = 'No organisation on this session.';
+        _error = AppLocalizations.of(context)!.noOrganisationOnSessionError;
       });
       return;
     }
@@ -110,7 +111,10 @@ class _OrganisationTreeScreenState
   Future<void> _addRegion() async {
     final orgId = _orgId;
     if (orgId == null) return;
-    final name = await _promptText(context, title: 'New region name');
+    final name = await _promptText(
+      context,
+      title: AppLocalizations.of(context)!.newRegionNameTitle,
+    );
     if (name == null || name.trim().isEmpty) return;
     await ref
         .read(regionRepositoryProvider)
@@ -121,7 +125,7 @@ class _OrganisationTreeScreenState
   Future<void> _renameRegion(Region region) async {
     final name = await _promptText(
       context,
-      title: 'Rename region',
+      title: AppLocalizations.of(context)!.renameRegionTitle,
       initial: region.name,
     );
     if (name == null || name.trim().isEmpty || name.trim() == region.name) {
@@ -134,7 +138,7 @@ class _OrganisationTreeScreenState
   Future<void> _renameSite(Site site) async {
     final name = await _promptText(
       context,
-      title: 'Rename venue',
+      title: AppLocalizations.of(context)!.renameVenueTitle,
       initial: site.name,
     );
     if (name == null || name.trim().isEmpty || name.trim() == site.name) {
@@ -150,7 +154,10 @@ class _OrganisationTreeScreenState
   Future<void> _addVenue({int? regionId}) async {
     final orgId = _orgId;
     if (orgId == null) return;
-    final name = await _promptText(context, title: 'New venue name');
+    final name = await _promptText(
+      context,
+      title: AppLocalizations.of(context)!.newVenueNameTitle,
+    );
     if (name == null || name.trim().isEmpty) return;
     await ref
         .read(siteRepositoryProvider)
@@ -177,36 +184,39 @@ class _OrganisationTreeScreenState
     final emailController = TextEditingController();
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Assign Regional Manager - ${region.name}'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(labelText: 'Name'),
-              autofocus: true,
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.assignRegionalManagerTitle(region.name)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: nameController,
+                decoration: InputDecoration(labelText: l10n.nameAxisLabel),
+                autofocus: true,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(labelText: l10n.emailLabel),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
             ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(labelText: 'Email'),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.assignButton),
             ),
           ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Assign'),
-          ),
-        ],
-      ),
+        );
+      },
     );
     final name = nameController.text.trim();
     final email = emailController.text.trim();
@@ -227,30 +237,30 @@ class _OrganisationTreeScreenState
       if (!mounted) return;
       await showDialog<void>(
         context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Regional Manager assigned'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'The account is live now. Give $name their sign-in details '
-                '- they use Leadership Access.',
-              ),
-              const SizedBox(height: 16),
-              SelectableText('Email: ${result.email}'),
-              SelectableText(
-                'Temporary password: ${result.temporaryPassword}',
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.regionalManagerAssignedTitle),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.accountLiveGiveSignInDetails(name)),
+                const SizedBox(height: 16),
+                SelectableText(l10n.emailColonLabel(result.email)),
+                SelectableText(
+                  l10n.temporaryPasswordColonLabel(result.temporaryPassword),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(l10n.doneButton),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Done'),
-            ),
-          ],
-        ),
+          );
+        },
       );
       await _load();
     } on SeniorInviteException catch (e) {
@@ -264,23 +274,23 @@ class _OrganisationTreeScreenState
   Future<void> _resetPassword(User account) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Reset password?'),
-        content: Text(
-          "This immediately invalidates ${account.name}'s current "
-          "password. You'll get a new temporary password to pass along.",
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Reset'),
-          ),
-        ],
-      ),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.resetPasswordQuestionTitle),
+          content: Text(l10n.resetPasswordConfirmText(account.name)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.resetButton),
+            ),
+          ],
+        );
+      },
     );
     if (confirmed != true || !mounted) return;
     try {
@@ -290,27 +300,30 @@ class _OrganisationTreeScreenState
       if (!mounted) return;
       await showDialog<void>(
         context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Password reset'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text('Give this person their new temporary password.'),
-              const SizedBox(height: 16),
-              SelectableText('Email: ${result.email}'),
-              SelectableText(
-                'Temporary password: ${result.temporaryPassword}',
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.passwordResetTitle),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.giveNewTempPasswordText),
+                const SizedBox(height: 16),
+                SelectableText(l10n.emailColonLabel(result.email)),
+                SelectableText(
+                  l10n.temporaryPasswordColonLabel(result.temporaryPassword),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(l10n.doneButton),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Done'),
-            ),
-          ],
-        ),
+          );
+        },
       );
     } on SeniorPasswordResetException catch (e) {
       if (!mounted) return;
@@ -322,12 +335,13 @@ class _OrganisationTreeScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Organisation'),
+        title: Text(l10n.organisationTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Organisation'),
+      drawer: ManagementDrawer(title: l10n.organisationTitle),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -345,6 +359,7 @@ class _OrganisationTreeScreenState
   }
 
   Widget _buildTree() {
+    final l10n = AppLocalizations.of(context)!;
     final unregionedSites = _sites.where((s) => s.regionId == null).toList();
     final headOfficePeople = _leadershipAccounts
         .where((u) => u.roleTier == RoleTier.executive)
@@ -372,7 +387,7 @@ class _OrganisationTreeScreenState
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Text(
-                          'Head Office',
+                          l10n.headOfficeLabel,
                           style: Theme.of(context).textTheme.bodySmall
                               ?.copyWith(color: AppColors.muted),
                         ),
@@ -384,14 +399,14 @@ class _OrganisationTreeScreenState
                       if (value == 'region') _addRegion();
                       if (value == 'venue') _addVenue();
                     },
-                    itemBuilder: (_) => const [
+                    itemBuilder: (_) => [
                       PopupMenuItem(
                         value: 'region',
-                        child: Text('Add Region'),
+                        child: Text(l10n.addRegionMenuItem),
                       ),
                       PopupMenuItem(
                         value: 'venue',
-                        child: Text('Add Venue (no region)'),
+                        child: Text(l10n.addVenueNoRegionMenuItem),
                       ),
                     ],
                   ),
@@ -401,7 +416,7 @@ class _OrganisationTreeScreenState
               for (final person in headOfficePeople)
                 _buildPersonRow(
                   person,
-                  subtitle: 'Director',
+                  subtitle: l10n.tierDirector,
                   onResetPassword: () => _resetPassword(person),
                 ),
             ],
@@ -414,11 +429,11 @@ class _OrganisationTreeScreenState
         // Venues attached directly to the Organisation (no region) —
         // the gap this screen closes: previously uncreatable via any UI.
         if (unregionedSites.isNotEmpty) ...[
-          const Padding(
-            padding: EdgeInsets.only(left: 16, top: 12, bottom: 4),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, top: 12, bottom: 4),
             child: Text(
-              'Venues (no region)',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              l10n.venuesNoRegionLabel,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
           for (final site in unregionedSites) _buildSiteNode(site, indent: 1),
@@ -457,7 +472,7 @@ class _OrganisationTreeScreenState
           if (onResetPassword != null)
             IconButton(
               icon: const Icon(Icons.lock_reset, size: 18),
-              tooltip: 'Reset password',
+              tooltip: AppLocalizations.of(context)!.resetPasswordTooltip,
               onPressed: onResetPassword,
             ),
         ],
@@ -466,6 +481,7 @@ class _OrganisationTreeScreenState
   }
 
   Widget _buildRegionNode(Region region) {
+    final l10n = AppLocalizations.of(context)!;
     final sitesInRegion = _sites
         .where((s) => s.regionId == region.id)
         .toList();
@@ -505,20 +521,20 @@ class _OrganisationTreeScreenState
                       if (value == 'assign') _assignRegionalManager(region);
                     },
                     itemBuilder: (_) => [
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: 'venue',
-                        child: Text('Add Venue'),
+                        child: Text(l10n.addVenueMenuItem),
                       ),
-                      const PopupMenuItem(
+                      PopupMenuItem(
                         value: 'rename',
-                        child: Text('Rename Region'),
+                        child: Text(l10n.renameRegionTitle),
                       ),
                       PopupMenuItem(
                         value: 'assign',
                         child: Text(
                           manager == null
-                              ? 'Assign Regional Manager'
-                              : 'Reassign Regional Manager',
+                              ? l10n.assignRegionalManagerMenuItem
+                              : l10n.reassignRegionalManagerMenuItem,
                         ),
                       ),
                     ],
@@ -528,24 +544,24 @@ class _OrganisationTreeScreenState
               if (manager != null)
                 _buildPersonRow(
                   manager,
-                  subtitle: 'Regional Manager',
+                  subtitle: l10n.tierRegionalManager,
                   onResetPassword: () => _resetPassword(manager),
                 )
               else
-                const Padding(
-                  padding: EdgeInsets.only(left: 40, top: 2, bottom: 2),
+                Padding(
+                  padding: const EdgeInsets.only(left: 40, top: 2, bottom: 2),
                   child: Text(
-                    'No regional manager yet',
-                    style: TextStyle(color: AppColors.muted),
+                    l10n.noRegionalManagerYetText,
+                    style: const TextStyle(color: AppColors.muted),
                   ),
                 ),
               const SizedBox(height: 8),
               if (sitesInRegion.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.only(left: 16, bottom: 8),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, bottom: 8),
                   child: Text(
-                    'No venues in this region yet.',
-                    style: TextStyle(color: AppColors.muted),
+                    l10n.noVenuesInRegionText,
+                    style: const TextStyle(color: AppColors.muted),
                   ),
                 )
               else
@@ -559,6 +575,7 @@ class _OrganisationTreeScreenState
   }
 
   Widget _buildSiteNode(Site site, {required int indent}) {
+    final l10n = AppLocalizations.of(context)!;
     final managers = _venueManagersBySite[site.id] ?? const <User>[];
     return Padding(
       padding: EdgeInsets.only(left: indent * 16.0, top: 8),
@@ -584,17 +601,17 @@ class _OrganisationTreeScreenState
                 ),
                 IconButton(
                   icon: const Icon(Icons.edit_outlined, size: 16),
-                  tooltip: 'Rename venue',
+                  tooltip: l10n.renameVenueTitle,
                   onPressed: () => _renameSite(site),
                 ),
               ],
             ),
             if (managers.isEmpty)
-              const Padding(
-                padding: EdgeInsets.only(left: 26, bottom: 4),
+              Padding(
+                padding: const EdgeInsets.only(left: 26, bottom: 4),
                 child: Text(
-                  'No venue manager yet',
-                  style: TextStyle(color: AppColors.muted, fontSize: 13),
+                  l10n.noVenueManagerYetText,
+                  style: const TextStyle(color: AppColors.muted, fontSize: 13),
                 ),
               )
             else
@@ -602,7 +619,7 @@ class _OrganisationTreeScreenState
                 Padding(
                   padding: const EdgeInsets.only(left: 26, bottom: 4),
                   child: Text(
-                    '${manager.name}  ·  Venue Manager',
+                    l10n.venueManagerSuffixLabel(manager.name),
                     style: const TextStyle(color: AppColors.muted),
                   ),
                 ),
@@ -621,19 +638,22 @@ Future<String?> _promptText(
   final controller = TextEditingController(text: initial);
   return showDialog<String>(
     context: context,
-    builder: (_) => AlertDialog(
-      title: Text(title),
-      content: TextField(controller: controller, autofocus: true),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(
-          onPressed: () => Navigator.pop(context, controller.text),
-          child: const Text('Save'),
-        ),
-      ],
-    ),
+    builder: (context) {
+      final l10n = AppLocalizations.of(context)!;
+      return AlertDialog(
+        title: Text(title),
+        content: TextField(controller: controller, autofocus: true),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, controller.text),
+            child: Text(l10n.saveButton),
+          ),
+        ],
+      );
+    },
   );
 }

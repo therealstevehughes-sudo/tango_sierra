@@ -3164,4 +3164,103 @@ class AppLocalizationsZh extends AppLocalizations {
   String reportsCountBadge(int count) {
     return '$count 名下属';
   }
+
+  @override
+  String get regionalManagerAssignedTitle => '区域经理已分配';
+
+  @override
+  String get noOrganisationOnSessionError => '此会话没有公司。';
+
+  @override
+  String get newRegionNameTitle => '新地区名称';
+
+  @override
+  String get renameRegionTitle => '重命名地区';
+
+  @override
+  String get renameVenueTitle => '重命名场所';
+
+  @override
+  String get newVenueNameTitle => '新场所名称';
+
+  @override
+  String get doneButton => '完成';
+
+  @override
+  String get resetPasswordQuestionTitle => '重置密码?';
+
+  @override
+  String get resetButton => '重置';
+
+  @override
+  String get passwordResetTitle => '密码已重置';
+
+  @override
+  String get giveNewTempPasswordText => '把新的临时密码提供给此人。';
+
+  @override
+  String get organisationTitle => '公司';
+
+  @override
+  String get headOfficeLabel => '总部';
+
+  @override
+  String get addRegionMenuItem => '添加地区';
+
+  @override
+  String get addVenueNoRegionMenuItem => '添加场所(无地区)';
+
+  @override
+  String get venuesNoRegionLabel => '场所(无地区)';
+
+  @override
+  String get resetPasswordTooltip => '重置密码';
+
+  @override
+  String get addVenueMenuItem => '添加场所';
+
+  @override
+  String get assignRegionalManagerMenuItem => '分配区域经理';
+
+  @override
+  String get reassignRegionalManagerMenuItem => '重新分配区域经理';
+
+  @override
+  String get noRegionalManagerYetText => '尚无区域经理';
+
+  @override
+  String get noVenuesInRegionText => '此地区尚无场所。';
+
+  @override
+  String get noVenueManagerYetText => '尚无场所经理';
+
+  @override
+  String assignRegionalManagerTitle(String region) {
+    return '分配区域经理 - $region';
+  }
+
+  @override
+  String accountLiveGiveSignInDetails(String name) {
+    return '账户现已激活。请将登录信息提供给 $name - 他们使用管理层访问登录。';
+  }
+
+  @override
+  String emailColonLabel(String email) {
+    return '邮箱:$email';
+  }
+
+  @override
+  String temporaryPasswordColonLabel(String password) {
+    return '临时密码:$password';
+  }
+
+  @override
+  String resetPasswordConfirmText(String name) {
+    return '这将立即使 $name 的当前密码失效。你将获得一个新的临时密码以转达给他们。';
+  }
+
+  @override
+  String venueManagerSuffixLabel(String name) {
+    return '$name  ·  场所经理';
+  }
 }

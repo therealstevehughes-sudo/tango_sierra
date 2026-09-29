@@ -3263,4 +3263,105 @@ class AppLocalizationsUr extends AppLocalizations {
   String reportsCountBadge(int count) {
     return '$count ماتحت';
   }
+
+  @override
+  String get regionalManagerAssignedTitle => 'علاقائی مینیجر تفویض ہو گیا';
+
+  @override
+  String get noOrganisationOnSessionError => 'اس سیشن میں کوئی کمپنی نہیں ہے۔';
+
+  @override
+  String get newRegionNameTitle => 'نیا علاقہ نام';
+
+  @override
+  String get renameRegionTitle => 'علاقے کا نام تبدیل کریں';
+
+  @override
+  String get renameVenueTitle => 'وینیو کا نام تبدیل کریں';
+
+  @override
+  String get newVenueNameTitle => 'نیا وینیو نام';
+
+  @override
+  String get doneButton => 'ہو گیا';
+
+  @override
+  String get resetPasswordQuestionTitle => 'پاس ورڈ ری سیٹ کریں؟';
+
+  @override
+  String get resetButton => 'ری سیٹ کریں';
+
+  @override
+  String get passwordResetTitle => 'پاس ورڈ ری سیٹ ہو گیا';
+
+  @override
+  String get giveNewTempPasswordText =>
+      'اس شخص کو ان کا نیا عارضی پاس ورڈ دیں۔';
+
+  @override
+  String get organisationTitle => 'کمپنی';
+
+  @override
+  String get headOfficeLabel => 'ہیڈ آفس';
+
+  @override
+  String get addRegionMenuItem => 'علاقہ شامل کریں';
+
+  @override
+  String get addVenueNoRegionMenuItem => 'وینیو شامل کریں (کوئی علاقہ نہیں)';
+
+  @override
+  String get venuesNoRegionLabel => 'وینیوز (کوئی علاقہ نہیں)';
+
+  @override
+  String get resetPasswordTooltip => 'پاس ورڈ ری سیٹ کریں';
+
+  @override
+  String get addVenueMenuItem => 'وینیو شامل کریں';
+
+  @override
+  String get assignRegionalManagerMenuItem => 'علاقائی مینیجر تفویض کریں';
+
+  @override
+  String get reassignRegionalManagerMenuItem =>
+      'علاقائی مینیجر دوبارہ تفویض کریں';
+
+  @override
+  String get noRegionalManagerYetText => 'ابھی تک کوئی علاقائی مینیجر نہیں';
+
+  @override
+  String get noVenuesInRegionText => 'اس علاقے میں ابھی تک کوئی وینیو نہیں ہے۔';
+
+  @override
+  String get noVenueManagerYetText => 'ابھی تک کوئی وینیو مینیجر نہیں';
+
+  @override
+  String assignRegionalManagerTitle(String region) {
+    return 'علاقائی مینیجر تفویض کریں - $region';
+  }
+
+  @override
+  String accountLiveGiveSignInDetails(String name) {
+    return 'اکاؤنٹ اب فعال ہے۔ $name کو ان کی سائن ان تفصیلات دیں - وہ قیادت رسائی استعمال کرتے ہیں۔';
+  }
+
+  @override
+  String emailColonLabel(String email) {
+    return 'ای میل: $email';
+  }
+
+  @override
+  String temporaryPasswordColonLabel(String password) {
+    return 'عارضی پاس ورڈ: $password';
+  }
+
+  @override
+  String resetPasswordConfirmText(String name) {
+    return 'یہ فوری طور پر $name کا موجودہ پاس ورڈ غیر فعال کر دیتا ہے۔ تمہیں آگے دینے کے لیے ایک نیا عارضی پاس ورڈ ملے گا۔';
+  }
+
+  @override
+  String venueManagerSuffixLabel(String name) {
+    return '$name  ·  وینیو مینیجر';
+  }
 }

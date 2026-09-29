@@ -3291,4 +3291,105 @@ class AppLocalizationsHr extends AppLocalizations {
   String reportsCountBadge(int count) {
     return '$count podređenih';
   }
+
+  @override
+  String get regionalManagerAssignedTitle => 'Regionalni voditelj dodijeljen';
+
+  @override
+  String get noOrganisationOnSessionError => 'Nema tvrtke u ovoj sesiji.';
+
+  @override
+  String get newRegionNameTitle => 'Naziv nove regije';
+
+  @override
+  String get renameRegionTitle => 'Preimenuj regiju';
+
+  @override
+  String get renameVenueTitle => 'Preimenuj poslovnicu';
+
+  @override
+  String get newVenueNameTitle => 'Naziv nove poslovnice';
+
+  @override
+  String get doneButton => 'Gotovo';
+
+  @override
+  String get resetPasswordQuestionTitle => 'Resetirati lozinku?';
+
+  @override
+  String get resetButton => 'Resetiraj';
+
+  @override
+  String get passwordResetTitle => 'Lozinka resetirana';
+
+  @override
+  String get giveNewTempPasswordText =>
+      'Daj ovoj osobi njezinu novu privremenu lozinku.';
+
+  @override
+  String get organisationTitle => 'Tvrtka';
+
+  @override
+  String get headOfficeLabel => 'Sjedište';
+
+  @override
+  String get addRegionMenuItem => 'Dodaj regiju';
+
+  @override
+  String get addVenueNoRegionMenuItem => 'Dodaj poslovnicu (bez regije)';
+
+  @override
+  String get venuesNoRegionLabel => 'Poslovnice (bez regije)';
+
+  @override
+  String get resetPasswordTooltip => 'Resetiraj lozinku';
+
+  @override
+  String get addVenueMenuItem => 'Dodaj poslovnicu';
+
+  @override
+  String get assignRegionalManagerMenuItem => 'Dodijeli regionalnog voditelja';
+
+  @override
+  String get reassignRegionalManagerMenuItem =>
+      'Ponovno dodijeli regionalnog voditelja';
+
+  @override
+  String get noRegionalManagerYetText => 'Još nema regionalnog voditelja';
+
+  @override
+  String get noVenuesInRegionText => 'Još nema poslovnica u ovoj regiji.';
+
+  @override
+  String get noVenueManagerYetText => 'Još nema voditelja poslovnice';
+
+  @override
+  String assignRegionalManagerTitle(String region) {
+    return 'Dodijeli regionalnog voditelja - $region';
+  }
+
+  @override
+  String accountLiveGiveSignInDetails(String name) {
+    return 'Račun je sada aktivan. Daj $name podatke za prijavu - koriste Pristup uprave.';
+  }
+
+  @override
+  String emailColonLabel(String email) {
+    return 'E-pošta: $email';
+  }
+
+  @override
+  String temporaryPasswordColonLabel(String password) {
+    return 'Privremena lozinka: $password';
+  }
+
+  @override
+  String resetPasswordConfirmText(String name) {
+    return 'Ovo odmah poništava trenutnu lozinku korisnika $name. Dobit ćeš novu privremenu lozinku za proslijediti.';
+  }
+
+  @override
+  String venueManagerSuffixLabel(String name) {
+    return '$name  ·  Voditelj poslovnice';
+  }
 }

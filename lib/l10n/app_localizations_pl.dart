@@ -3337,4 +3337,105 @@ class AppLocalizationsPl extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get regionalManagerAssignedTitle => 'Kierownik regionalny przypisany';
+
+  @override
+  String get noOrganisationOnSessionError => 'Brak organizacji w tej sesji.';
+
+  @override
+  String get newRegionNameTitle => 'Nazwa nowego regionu';
+
+  @override
+  String get renameRegionTitle => 'Zmień nazwę regionu';
+
+  @override
+  String get renameVenueTitle => 'Zmień nazwę lokalu';
+
+  @override
+  String get newVenueNameTitle => 'Nazwa nowego lokalu';
+
+  @override
+  String get doneButton => 'Gotowe';
+
+  @override
+  String get resetPasswordQuestionTitle => 'Zresetować hasło?';
+
+  @override
+  String get resetButton => 'Resetuj';
+
+  @override
+  String get passwordResetTitle => 'Hasło zresetowane';
+
+  @override
+  String get giveNewTempPasswordText =>
+      'Podaj tej osobie jej nowe tymczasowe hasło.';
+
+  @override
+  String get organisationTitle => 'Organizacja';
+
+  @override
+  String get headOfficeLabel => 'Siedziba główna';
+
+  @override
+  String get addRegionMenuItem => 'Dodaj region';
+
+  @override
+  String get addVenueNoRegionMenuItem => 'Dodaj lokal (bez regionu)';
+
+  @override
+  String get venuesNoRegionLabel => 'Lokale (bez regionu)';
+
+  @override
+  String get resetPasswordTooltip => 'Resetuj hasło';
+
+  @override
+  String get addVenueMenuItem => 'Dodaj lokal';
+
+  @override
+  String get assignRegionalManagerMenuItem =>
+      'Przypisz kierownika regionalnego';
+
+  @override
+  String get reassignRegionalManagerMenuItem => 'Zmień kierownika regionalnego';
+
+  @override
+  String get noRegionalManagerYetText => 'Brak jeszcze kierownika regionalnego';
+
+  @override
+  String get noVenuesInRegionText => 'Brak jeszcze lokali w tym regionie.';
+
+  @override
+  String get noVenueManagerYetText => 'Brak jeszcze kierownika lokalu';
+
+  @override
+  String assignRegionalManagerTitle(String region) {
+    return 'Przypisz kierownika regionalnego - $region';
+  }
+
+  @override
+  String accountLiveGiveSignInDetails(String name) {
+    return 'Konto jest już aktywne. Przekaż $name dane logowania - używa Dostępu kierownictwa.';
+  }
+
+  @override
+  String emailColonLabel(String email) {
+    return 'E-mail: $email';
+  }
+
+  @override
+  String temporaryPasswordColonLabel(String password) {
+    return 'Hasło tymczasowe: $password';
+  }
+
+  @override
+  String resetPasswordConfirmText(String name) {
+    return 'To natychmiast unieważnia obecne hasło $name. Otrzymasz nowe hasło tymczasowe do przekazania.';
+  }
+
+  @override
+  String venueManagerSuffixLabel(String name) {
+    return '$name  ·  Kierownik lokalu';
+  }
 }

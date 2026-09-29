@@ -3270,4 +3270,106 @@ class AppLocalizationsHi extends AppLocalizations {
   String reportsCountBadge(int count) {
     return '$count अधीनस्थ';
   }
+
+  @override
+  String get regionalManagerAssignedTitle => 'क्षेत्रीय प्रबंधक असाइन किया गया';
+
+  @override
+  String get noOrganisationOnSessionError => 'इस सत्र में कोई कंपनी नहीं है।';
+
+  @override
+  String get newRegionNameTitle => 'नया क्षेत्र नाम';
+
+  @override
+  String get renameRegionTitle => 'क्षेत्र का नाम बदलें';
+
+  @override
+  String get renameVenueTitle => 'वेन्यू का नाम बदलें';
+
+  @override
+  String get newVenueNameTitle => 'नया वेन्यू नाम';
+
+  @override
+  String get doneButton => 'हो गया';
+
+  @override
+  String get resetPasswordQuestionTitle => 'पासवर्ड रीसेट करें?';
+
+  @override
+  String get resetButton => 'रीसेट करें';
+
+  @override
+  String get passwordResetTitle => 'पासवर्ड रीसेट किया गया';
+
+  @override
+  String get giveNewTempPasswordText =>
+      'इस व्यक्ति को उनका नया अस्थायी पासवर्ड दें।';
+
+  @override
+  String get organisationTitle => 'कंपनी';
+
+  @override
+  String get headOfficeLabel => 'मुख्यालय';
+
+  @override
+  String get addRegionMenuItem => 'क्षेत्र जोड़ें';
+
+  @override
+  String get addVenueNoRegionMenuItem => 'वेन्यू जोड़ें (कोई क्षेत्र नहीं)';
+
+  @override
+  String get venuesNoRegionLabel => 'वेन्यूज़ (कोई क्षेत्र नहीं)';
+
+  @override
+  String get resetPasswordTooltip => 'पासवर्ड रीसेट करें';
+
+  @override
+  String get addVenueMenuItem => 'वेन्यू जोड़ें';
+
+  @override
+  String get assignRegionalManagerMenuItem => 'क्षेत्रीय प्रबंधक असाइन करें';
+
+  @override
+  String get reassignRegionalManagerMenuItem =>
+      'क्षेत्रीय प्रबंधक पुनः असाइन करें';
+
+  @override
+  String get noRegionalManagerYetText => 'अभी तक कोई क्षेत्रीय प्रबंधक नहीं';
+
+  @override
+  String get noVenuesInRegionText =>
+      'इस क्षेत्र में अभी तक कोई वेन्यू नहीं है।';
+
+  @override
+  String get noVenueManagerYetText => 'अभी तक कोई वेन्यू प्रबंधक नहीं';
+
+  @override
+  String assignRegionalManagerTitle(String region) {
+    return 'क्षेत्रीय प्रबंधक असाइन करें - $region';
+  }
+
+  @override
+  String accountLiveGiveSignInDetails(String name) {
+    return 'खाता अब सक्रिय है। $name को उनके साइन-इन विवरण दें - वे लीडरशिप एक्सेस का उपयोग करते हैं।';
+  }
+
+  @override
+  String emailColonLabel(String email) {
+    return 'ईमेल: $email';
+  }
+
+  @override
+  String temporaryPasswordColonLabel(String password) {
+    return 'अस्थायी पासवर्ड: $password';
+  }
+
+  @override
+  String resetPasswordConfirmText(String name) {
+    return 'यह तुरंत $name का मौजूदा पासवर्ड अमान्य कर देता है। तुम्हें आगे देने के लिए एक नया अस्थायी पासवर्ड मिलेगा।';
+  }
+
+  @override
+  String venueManagerSuffixLabel(String name) {
+    return '$name  ·  वेन्यू प्रबंधक';
+  }
 }

@@ -3252,4 +3252,104 @@ class AppLocalizationsAr extends AppLocalizations {
   String reportsCountBadge(int count) {
     return '$count تابع';
   }
+
+  @override
+  String get regionalManagerAssignedTitle => 'تم تعيين المدير الإقليمي';
+
+  @override
+  String get noOrganisationOnSessionError => 'لا توجد شركة في هذه الجلسة.';
+
+  @override
+  String get newRegionNameTitle => 'اسم المنطقة الجديدة';
+
+  @override
+  String get renameRegionTitle => 'إعادة تسمية المنطقة';
+
+  @override
+  String get renameVenueTitle => 'إعادة تسمية الموقع';
+
+  @override
+  String get newVenueNameTitle => 'اسم الموقع الجديد';
+
+  @override
+  String get doneButton => 'تم';
+
+  @override
+  String get resetPasswordQuestionTitle => 'إعادة تعيين كلمة المرور؟';
+
+  @override
+  String get resetButton => 'إعادة تعيين';
+
+  @override
+  String get passwordResetTitle => 'تمت إعادة تعيين كلمة المرور';
+
+  @override
+  String get giveNewTempPasswordText =>
+      'أعطِ هذا الشخص كلمة مروره المؤقتة الجديدة.';
+
+  @override
+  String get organisationTitle => 'الشركة';
+
+  @override
+  String get headOfficeLabel => 'المكتب الرئيسي';
+
+  @override
+  String get addRegionMenuItem => 'إضافة منطقة';
+
+  @override
+  String get addVenueNoRegionMenuItem => 'إضافة موقع (بدون منطقة)';
+
+  @override
+  String get venuesNoRegionLabel => 'المواقع (بدون منطقة)';
+
+  @override
+  String get resetPasswordTooltip => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get addVenueMenuItem => 'إضافة موقع';
+
+  @override
+  String get assignRegionalManagerMenuItem => 'تعيين مدير إقليمي';
+
+  @override
+  String get reassignRegionalManagerMenuItem => 'إعادة تعيين مدير إقليمي';
+
+  @override
+  String get noRegionalManagerYetText => 'لا يوجد مدير إقليمي بعد';
+
+  @override
+  String get noVenuesInRegionText => 'لا توجد مواقع في هذه المنطقة بعد.';
+
+  @override
+  String get noVenueManagerYetText => 'لا يوجد مدير موقع بعد';
+
+  @override
+  String assignRegionalManagerTitle(String region) {
+    return 'تعيين مدير إقليمي - $region';
+  }
+
+  @override
+  String accountLiveGiveSignInDetails(String name) {
+    return 'الحساب نشط الآن. أعطِ $name بيانات تسجيل الدخول الخاصة به - يستخدم وصول القيادة.';
+  }
+
+  @override
+  String emailColonLabel(String email) {
+    return 'البريد الإلكتروني: $email';
+  }
+
+  @override
+  String temporaryPasswordColonLabel(String password) {
+    return 'كلمة المرور المؤقتة: $password';
+  }
+
+  @override
+  String resetPasswordConfirmText(String name) {
+    return 'سيؤدي هذا إلى إبطال كلمة مرور $name الحالية فورًا. ستحصل على كلمة مرور مؤقتة جديدة لتسليمها.';
+  }
+
+  @override
+  String venueManagerSuffixLabel(String name) {
+    return '$name  ·  مدير الموقع';
+  }
 }

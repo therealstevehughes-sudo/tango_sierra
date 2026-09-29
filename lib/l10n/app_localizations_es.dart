@@ -3337,4 +3337,104 @@ class AppLocalizationsEs extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get regionalManagerAssignedTitle => 'Gerente regional asignado';
+
+  @override
+  String get noOrganisationOnSessionError => 'No hay empresa en esta sesión.';
+
+  @override
+  String get newRegionNameTitle => 'Nombre de la nueva región';
+
+  @override
+  String get renameRegionTitle => 'Renombrar región';
+
+  @override
+  String get renameVenueTitle => 'Renombrar local';
+
+  @override
+  String get newVenueNameTitle => 'Nombre del nuevo local';
+
+  @override
+  String get doneButton => 'Hecho';
+
+  @override
+  String get resetPasswordQuestionTitle => '¿Restablecer contraseña?';
+
+  @override
+  String get resetButton => 'Restablecer';
+
+  @override
+  String get passwordResetTitle => 'Contraseña restablecida';
+
+  @override
+  String get giveNewTempPasswordText =>
+      'Dale a esta persona su nueva contraseña temporal.';
+
+  @override
+  String get organisationTitle => 'Empresa';
+
+  @override
+  String get headOfficeLabel => 'Oficina Central';
+
+  @override
+  String get addRegionMenuItem => 'Añadir región';
+
+  @override
+  String get addVenueNoRegionMenuItem => 'Añadir local (sin región)';
+
+  @override
+  String get venuesNoRegionLabel => 'Locales (sin región)';
+
+  @override
+  String get resetPasswordTooltip => 'Restablecer contraseña';
+
+  @override
+  String get addVenueMenuItem => 'Añadir local';
+
+  @override
+  String get assignRegionalManagerMenuItem => 'Asignar gerente regional';
+
+  @override
+  String get reassignRegionalManagerMenuItem => 'Reasignar gerente regional';
+
+  @override
+  String get noRegionalManagerYetText => 'Todavía no hay gerente regional';
+
+  @override
+  String get noVenuesInRegionText => 'Todavía no hay locales en esta región.';
+
+  @override
+  String get noVenueManagerYetText => 'Todavía no hay gerente de local';
+
+  @override
+  String assignRegionalManagerTitle(String region) {
+    return 'Asignar gerente regional - $region';
+  }
+
+  @override
+  String accountLiveGiveSignInDetails(String name) {
+    return 'La cuenta ya está activa. Dale a $name sus datos de inicio de sesión - usa Acceso de dirección.';
+  }
+
+  @override
+  String emailColonLabel(String email) {
+    return 'Correo: $email';
+  }
+
+  @override
+  String temporaryPasswordColonLabel(String password) {
+    return 'Contraseña temporal: $password';
+  }
+
+  @override
+  String resetPasswordConfirmText(String name) {
+    return 'Esto invalida inmediatamente la contraseña actual de $name. Obtendrás una nueva contraseña temporal para transmitir.';
+  }
+
+  @override
+  String venueManagerSuffixLabel(String name) {
+    return '$name  ·  Gerente de local';
+  }
 }

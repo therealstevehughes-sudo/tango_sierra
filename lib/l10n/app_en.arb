@@ -2944,5 +2944,145 @@
         "type": "int"
       }
     }
+  },
+  "regionalManagerAssignedTitle": "Regional Manager assigned",
+  "@regionalManagerAssignedTitle": {
+    "description": ""
+  },
+  "noOrganisationOnSessionError": "No organisation on this session.",
+  "@noOrganisationOnSessionError": {
+    "description": ""
+  },
+  "newRegionNameTitle": "New region name",
+  "@newRegionNameTitle": {
+    "description": ""
+  },
+  "renameRegionTitle": "Rename region",
+  "@renameRegionTitle": {
+    "description": ""
+  },
+  "renameVenueTitle": "Rename venue",
+  "@renameVenueTitle": {
+    "description": ""
+  },
+  "newVenueNameTitle": "New venue name",
+  "@newVenueNameTitle": {
+    "description": ""
+  },
+  "doneButton": "Done",
+  "@doneButton": {
+    "description": ""
+  },
+  "resetPasswordQuestionTitle": "Reset password?",
+  "@resetPasswordQuestionTitle": {
+    "description": ""
+  },
+  "resetButton": "Reset",
+  "@resetButton": {
+    "description": ""
+  },
+  "passwordResetTitle": "Password reset",
+  "@passwordResetTitle": {
+    "description": ""
+  },
+  "giveNewTempPasswordText": "Give this person their new temporary password.",
+  "@giveNewTempPasswordText": {
+    "description": ""
+  },
+  "organisationTitle": "Organisation",
+  "@organisationTitle": {
+    "description": ""
+  },
+  "headOfficeLabel": "Head Office",
+  "@headOfficeLabel": {
+    "description": ""
+  },
+  "addRegionMenuItem": "Add Region",
+  "@addRegionMenuItem": {
+    "description": ""
+  },
+  "addVenueNoRegionMenuItem": "Add Venue (no region)",
+  "@addVenueNoRegionMenuItem": {
+    "description": ""
+  },
+  "venuesNoRegionLabel": "Venues (no region)",
+  "@venuesNoRegionLabel": {
+    "description": ""
+  },
+  "resetPasswordTooltip": "Reset password",
+  "@resetPasswordTooltip": {
+    "description": ""
+  },
+  "addVenueMenuItem": "Add Venue",
+  "@addVenueMenuItem": {
+    "description": ""
+  },
+  "assignRegionalManagerMenuItem": "Assign Regional Manager",
+  "@assignRegionalManagerMenuItem": {
+    "description": ""
+  },
+  "reassignRegionalManagerMenuItem": "Reassign Regional Manager",
+  "@reassignRegionalManagerMenuItem": {
+    "description": ""
+  },
+  "noRegionalManagerYetText": "No regional manager yet",
+  "@noRegionalManagerYetText": {
+    "description": ""
+  },
+  "noVenuesInRegionText": "No venues in this region yet.",
+  "@noVenuesInRegionText": {
+    "description": ""
+  },
+  "noVenueManagerYetText": "No venue manager yet",
+  "@noVenueManagerYetText": {
+    "description": ""
+  },
+  "assignRegionalManagerTitle": "Assign Regional Manager - {region}",
+  "@assignRegionalManagerTitle": {
+    "placeholders": {
+      "region": {
+        "type": "String"
+      }
+    }
+  },
+  "accountLiveGiveSignInDetails": "The account is live now. Give {name} their sign-in details - they use Leadership Access.",
+  "@accountLiveGiveSignInDetails": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "emailColonLabel": "Email: {email}",
+  "@emailColonLabel": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "temporaryPasswordColonLabel": "Temporary password: {password}",
+  "@temporaryPasswordColonLabel": {
+    "placeholders": {
+      "password": {
+        "type": "String"
+      }
+    }
+  },
+  "resetPasswordConfirmText": "This immediately invalidates {name}'s current password. You'll get a new temporary password to pass along.",
+  "@resetPasswordConfirmText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "venueManagerSuffixLabel": "{name}  ·  Venue Manager",
+  "@venueManagerSuffixLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -5797,6 +5797,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, one{{count} report} other{{count} reports}}'**
   String reportsCountBadge(int count);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Regional Manager assigned'**
+  String get regionalManagerAssignedTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No organisation on this session.'**
+  String get noOrganisationOnSessionError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'New region name'**
+  String get newRegionNameTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rename region'**
+  String get renameRegionTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rename venue'**
+  String get renameVenueTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'New venue name'**
+  String get newVenueNameTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password?'**
+  String get resetPasswordQuestionTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get resetButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset'**
+  String get passwordResetTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Give this person their new temporary password.'**
+  String get giveNewTempPasswordText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Organisation'**
+  String get organisationTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Head Office'**
+  String get headOfficeLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Region'**
+  String get addRegionMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Venue (no region)'**
+  String get addVenueNoRegionMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Venues (no region)'**
+  String get venuesNoRegionLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reset password'**
+  String get resetPasswordTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Venue'**
+  String get addVenueMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Regional Manager'**
+  String get assignRegionalManagerMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reassign Regional Manager'**
+  String get reassignRegionalManagerMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No regional manager yet'**
+  String get noRegionalManagerYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No venues in this region yet.'**
+  String get noVenuesInRegionText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No venue manager yet'**
+  String get noVenueManagerYetText;
+
+  /// No description provided for @assignRegionalManagerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign Regional Manager - {region}'**
+  String assignRegionalManagerTitle(String region);
+
+  /// No description provided for @accountLiveGiveSignInDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'The account is live now. Give {name} their sign-in details - they use Leadership Access.'**
+  String accountLiveGiveSignInDetails(String name);
+
+  /// No description provided for @emailColonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email: {email}'**
+  String emailColonLabel(String email);
+
+  /// No description provided for @temporaryPasswordColonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Temporary password: {password}'**
+  String temporaryPasswordColonLabel(String password);
+
+  /// No description provided for @resetPasswordConfirmText.
+  ///
+  /// In en, this message translates to:
+  /// **'This immediately invalidates {name}\'s current password. You\'ll get a new temporary password to pass along.'**
+  String resetPasswordConfirmText(String name);
+
+  /// No description provided for @venueManagerSuffixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}  ·  Venue Manager'**
+  String venueManagerSuffixLabel(String name);
 }
 
 class _AppLocalizationsDelegate

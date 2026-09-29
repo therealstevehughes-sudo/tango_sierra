@@ -3339,4 +3339,105 @@ class AppLocalizationsRo extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get regionalManagerAssignedTitle => 'Manager regional atribuit';
+
+  @override
+  String get noOrganisationOnSessionError =>
+      'Nicio companie în această sesiune.';
+
+  @override
+  String get newRegionNameTitle => 'Nume regiune nouă';
+
+  @override
+  String get renameRegionTitle => 'Redenumește regiunea';
+
+  @override
+  String get renameVenueTitle => 'Redenumește localul';
+
+  @override
+  String get newVenueNameTitle => 'Nume local nou';
+
+  @override
+  String get doneButton => 'Gata';
+
+  @override
+  String get resetPasswordQuestionTitle => 'Resetezi parola?';
+
+  @override
+  String get resetButton => 'Resetează';
+
+  @override
+  String get passwordResetTitle => 'Parolă resetată';
+
+  @override
+  String get giveNewTempPasswordText =>
+      'Dă-i acestei persoane noua parolă temporară.';
+
+  @override
+  String get organisationTitle => 'Companie';
+
+  @override
+  String get headOfficeLabel => 'Sediu Central';
+
+  @override
+  String get addRegionMenuItem => 'Adaugă regiune';
+
+  @override
+  String get addVenueNoRegionMenuItem => 'Adaugă local (fără regiune)';
+
+  @override
+  String get venuesNoRegionLabel => 'Localuri (fără regiune)';
+
+  @override
+  String get resetPasswordTooltip => 'Resetează parola';
+
+  @override
+  String get addVenueMenuItem => 'Adaugă local';
+
+  @override
+  String get assignRegionalManagerMenuItem => 'Atribuie manager regional';
+
+  @override
+  String get reassignRegionalManagerMenuItem => 'Reatribuie manager regional';
+
+  @override
+  String get noRegionalManagerYetText => 'Niciun manager regional încă';
+
+  @override
+  String get noVenuesInRegionText => 'Niciun local în această regiune încă.';
+
+  @override
+  String get noVenueManagerYetText => 'Niciun manager de local încă';
+
+  @override
+  String assignRegionalManagerTitle(String region) {
+    return 'Atribuie manager regional - $region';
+  }
+
+  @override
+  String accountLiveGiveSignInDetails(String name) {
+    return 'Contul este acum activ. Dă-i lui $name detaliile de autentificare - folosește Acces conducere.';
+  }
+
+  @override
+  String emailColonLabel(String email) {
+    return 'Email: $email';
+  }
+
+  @override
+  String temporaryPasswordColonLabel(String password) {
+    return 'Parolă temporară: $password';
+  }
+
+  @override
+  String resetPasswordConfirmText(String name) {
+    return 'Aceasta invalidează imediat parola curentă a lui $name. Vei primi o nouă parolă temporară de transmis.';
+  }
+
+  @override
+  String venueManagerSuffixLabel(String name) {
+    return '$name  ·  Manager local';
+  }
 }
