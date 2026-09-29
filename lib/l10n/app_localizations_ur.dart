@@ -3191,4 +3191,76 @@ class AppLocalizationsUr extends AppLocalizations {
   String enableRosterConfirmText(String amount) {
     return 'تمہارے موجودہ اسٹاف کی تعداد کی بنیاد پر، یہ تمہارے ماہانہ ڈائریکٹ ڈیبٹ میں $amount شامل کر دے گا۔';
   }
+
+  @override
+  String get departmentLabel => 'شعبہ';
+
+  @override
+  String get noDepartmentOption => 'کوئی شعبہ نہیں';
+
+  @override
+  String get removeAnywayButton => 'پھر بھی ہٹائیں';
+
+  @override
+  String get branchTeamStructureTitle => 'برانچ ٹیم کا ڈھانچہ';
+
+  @override
+  String get noStaffAtBranchText => 'اس برانچ میں ابھی تک کوئی اسٹاف نہیں ہے۔';
+
+  @override
+  String get changeManagerMenuItem => 'مینیجر تبدیل کریں';
+
+  @override
+  String get moveDepartmentMenuItem => 'شعبہ/ٹیم منتقل کریں';
+
+  @override
+  String get editJobTitleMenuItem => 'عہدہ ترمیم کریں';
+
+  @override
+  String get removeFromBranchMenuItem => 'اس برانچ سے ہٹائیں';
+
+  @override
+  String changeManagerTitle(String name) {
+    return 'مینیجر تبدیل کریں - $name';
+  }
+
+  @override
+  String moveDepartmentTitle(String name) {
+    return 'شعبہ/ٹیم منتقل کریں - $name';
+  }
+
+  @override
+  String changeTierTitle2(String name) {
+    return 'سطح تبدیل کریں - $name';
+  }
+
+  @override
+  String editJobTitleTitle(String name) {
+    return 'عہدہ ترمیم کریں - $name';
+  }
+
+  @override
+  String removeFromBranchTitle(String name) {
+    return '$name کو اس برانچ سے ہٹائیں';
+  }
+
+  @override
+  String removeFromBranchConfirmText(String name) {
+    return '$name اب لاگ ان نہیں کر سکیں گے۔ اسے بعد میں واپس پلٹا جا سکتا ہے۔';
+  }
+
+  @override
+  String reportsWillBeUnassignedText(int count, String name, String names) {
+    return 'فی الحال $count لوگ $name کو رپورٹ کرتے ہیں: $names۔ $name کو ہٹانے سے وہ دوبارہ تفویض ہونے تک غیر تفویض رہیں گے۔';
+  }
+
+  @override
+  String reassignToManagerLabel(String name) {
+    return 'اس کے بجائے انہیں $name کے اپنے مینیجر کو دوبارہ تفویض کریں';
+  }
+
+  @override
+  String reportsCountBadge(int count) {
+    return '$count ماتحت';
+  }
 }

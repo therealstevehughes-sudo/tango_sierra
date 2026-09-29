@@ -3180,4 +3180,76 @@ class AppLocalizationsAr extends AppLocalizations {
   String enableRosterConfirmText(String amount) {
     return 'بناءً على عدد موظفيك الحالي، سيضيف هذا $amount إلى الخصم المباشر الشهري الخاص بك.';
   }
+
+  @override
+  String get departmentLabel => 'القسم';
+
+  @override
+  String get noDepartmentOption => 'بدون قسم';
+
+  @override
+  String get removeAnywayButton => 'إزالة على أي حال';
+
+  @override
+  String get branchTeamStructureTitle => 'هيكل فريق الفرع';
+
+  @override
+  String get noStaffAtBranchText => 'لا يوجد موظفون في هذا الفرع بعد.';
+
+  @override
+  String get changeManagerMenuItem => 'تغيير المدير';
+
+  @override
+  String get moveDepartmentMenuItem => 'نقل القسم/الفريق';
+
+  @override
+  String get editJobTitleMenuItem => 'تعديل المسمى الوظيفي';
+
+  @override
+  String get removeFromBranchMenuItem => 'إزالة من هذا الفرع';
+
+  @override
+  String changeManagerTitle(String name) {
+    return 'تغيير المدير - $name';
+  }
+
+  @override
+  String moveDepartmentTitle(String name) {
+    return 'نقل القسم/الفريق - $name';
+  }
+
+  @override
+  String changeTierTitle2(String name) {
+    return 'تغيير المستوى - $name';
+  }
+
+  @override
+  String editJobTitleTitle(String name) {
+    return 'تعديل المسمى الوظيفي - $name';
+  }
+
+  @override
+  String removeFromBranchTitle(String name) {
+    return 'إزالة $name من هذا الفرع';
+  }
+
+  @override
+  String removeFromBranchConfirmText(String name) {
+    return 'لن يتمكن $name بعد الآن من تسجيل الدخول. يمكن التراجع عن هذا لاحقًا.';
+  }
+
+  @override
+  String reportsWillBeUnassignedText(int count, String name, String names) {
+    return 'يتبع حاليًا $count شخص لـ $name: $names. ستؤدي إزالة $name إلى تركهم بدون تعيين حتى تتم إعادة تعيينهم.';
+  }
+
+  @override
+  String reassignToManagerLabel(String name) {
+    return 'أعد تعيينهم بدلاً من ذلك إلى مدير $name نفسه';
+  }
+
+  @override
+  String reportsCountBadge(int count) {
+    return '$count تابع';
+  }
 }

@@ -3198,4 +3198,76 @@ class AppLocalizationsHi extends AppLocalizations {
   String enableRosterConfirmText(String amount) {
     return 'तुम्हारे मौजूदा स्टाफ की संख्या के आधार पर, यह तुम्हारे मासिक डायरेक्ट डेबिट में $amount जोड़ देगा।';
   }
+
+  @override
+  String get departmentLabel => 'विभाग';
+
+  @override
+  String get noDepartmentOption => 'कोई विभाग नहीं';
+
+  @override
+  String get removeAnywayButton => 'फिर भी हटाएं';
+
+  @override
+  String get branchTeamStructureTitle => 'शाखा टीम संरचना';
+
+  @override
+  String get noStaffAtBranchText => 'इस शाखा में अभी तक कोई स्टाफ नहीं है।';
+
+  @override
+  String get changeManagerMenuItem => 'प्रबंधक बदलें';
+
+  @override
+  String get moveDepartmentMenuItem => 'विभाग/टीम बदलें';
+
+  @override
+  String get editJobTitleMenuItem => 'पद संपादित करें';
+
+  @override
+  String get removeFromBranchMenuItem => 'इस शाखा से हटाएं';
+
+  @override
+  String changeManagerTitle(String name) {
+    return 'प्रबंधक बदलें - $name';
+  }
+
+  @override
+  String moveDepartmentTitle(String name) {
+    return 'विभाग/टीम बदलें - $name';
+  }
+
+  @override
+  String changeTierTitle2(String name) {
+    return 'स्तर बदलें - $name';
+  }
+
+  @override
+  String editJobTitleTitle(String name) {
+    return 'पद संपादित करें - $name';
+  }
+
+  @override
+  String removeFromBranchTitle(String name) {
+    return '$name को इस शाखा से हटाएं';
+  }
+
+  @override
+  String removeFromBranchConfirmText(String name) {
+    return '$name अब लॉग इन नहीं कर पाएंगे। इसे बाद में वापस पलटा जा सकता है।';
+  }
+
+  @override
+  String reportsWillBeUnassignedText(int count, String name, String names) {
+    return 'फिलहाल $count लोग $name को रिपोर्ट करते हैं: $names। $name को हटाने से वे तब तक अनअसाइन रह जाएंगे जब तक पुनः असाइन न किया जाए।';
+  }
+
+  @override
+  String reassignToManagerLabel(String name) {
+    return 'इसके बजाय उन्हें $name के अपने प्रबंधक को पुनः सौंपें';
+  }
+
+  @override
+  String reportsCountBadge(int count) {
+    return '$count अधीनस्थ';
+  }
 }

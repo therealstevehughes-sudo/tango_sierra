@@ -3219,4 +3219,76 @@ class AppLocalizationsHr extends AppLocalizations {
   String enableRosterConfirmText(String amount) {
     return 'Na temelju tvog trenutnog broja zaposlenika, ovo će dodati $amount tvom mjesečnom izravnom terećenju.';
   }
+
+  @override
+  String get departmentLabel => 'Odjel';
+
+  @override
+  String get noDepartmentOption => 'Bez odjela';
+
+  @override
+  String get removeAnywayButton => 'Ukloni ipak';
+
+  @override
+  String get branchTeamStructureTitle => 'Struktura tima poslovnice';
+
+  @override
+  String get noStaffAtBranchText => 'Još nema osoblja u ovoj poslovnici.';
+
+  @override
+  String get changeManagerMenuItem => 'Promijeni voditelja';
+
+  @override
+  String get moveDepartmentMenuItem => 'Premjesti odjel/tim';
+
+  @override
+  String get editJobTitleMenuItem => 'Uredi radno mjesto';
+
+  @override
+  String get removeFromBranchMenuItem => 'Ukloni iz ove poslovnice';
+
+  @override
+  String changeManagerTitle(String name) {
+    return 'Promijeni voditelja - $name';
+  }
+
+  @override
+  String moveDepartmentTitle(String name) {
+    return 'Premjesti odjel/tim - $name';
+  }
+
+  @override
+  String changeTierTitle2(String name) {
+    return 'Promijeni razinu - $name';
+  }
+
+  @override
+  String editJobTitleTitle(String name) {
+    return 'Uredi radno mjesto - $name';
+  }
+
+  @override
+  String removeFromBranchTitle(String name) {
+    return 'Ukloni $name iz ove poslovnice';
+  }
+
+  @override
+  String removeFromBranchConfirmText(String name) {
+    return '$name se više neće moći prijaviti. Ovo se kasnije može poništiti.';
+  }
+
+  @override
+  String reportsWillBeUnassignedText(int count, String name, String names) {
+    return 'Trenutno se $count osoba izvještava $name: $names. Uklanjanje $name ostavit će ih nedodijeljenima dok se ponovno ne dodijele.';
+  }
+
+  @override
+  String reassignToManagerLabel(String name) {
+    return 'Umjesto toga, ponovno ih dodijeli $name vlastitom voditelju';
+  }
+
+  @override
+  String reportsCountBadge(int count) {
+    return '$count podređenih';
+  }
 }

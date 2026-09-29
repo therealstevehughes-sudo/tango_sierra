@@ -3253,4 +3253,88 @@ class AppLocalizationsEs extends AppLocalizations {
   String enableRosterConfirmText(String amount) {
     return 'Según tu número actual de empleados, esto añadirá $amount a tu domiciliación bancaria mensual.';
   }
+
+  @override
+  String get departmentLabel => 'Departamento';
+
+  @override
+  String get noDepartmentOption => 'Sin departamento';
+
+  @override
+  String get removeAnywayButton => 'Eliminar de todos modos';
+
+  @override
+  String get branchTeamStructureTitle => 'Estructura del equipo del local';
+
+  @override
+  String get noStaffAtBranchText => 'Todavía no hay personal en este local.';
+
+  @override
+  String get changeManagerMenuItem => 'Cambiar gerente';
+
+  @override
+  String get moveDepartmentMenuItem => 'Mover departamento/equipo';
+
+  @override
+  String get editJobTitleMenuItem => 'Editar puesto';
+
+  @override
+  String get removeFromBranchMenuItem => 'Eliminar de este local';
+
+  @override
+  String changeManagerTitle(String name) {
+    return 'Cambiar gerente - $name';
+  }
+
+  @override
+  String moveDepartmentTitle(String name) {
+    return 'Mover departamento/equipo - $name';
+  }
+
+  @override
+  String changeTierTitle2(String name) {
+    return 'Cambiar nivel - $name';
+  }
+
+  @override
+  String editJobTitleTitle(String name) {
+    return 'Editar puesto - $name';
+  }
+
+  @override
+  String removeFromBranchTitle(String name) {
+    return 'Eliminar a $name de este local';
+  }
+
+  @override
+  String removeFromBranchConfirmText(String name) {
+    return '$name ya no podrá iniciar sesión. Esto se puede revertir más tarde.';
+  }
+
+  @override
+  String reportsWillBeUnassignedText(int count, String name, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count personas reportan',
+      one: '$count persona reporta',
+    );
+    return '$_temp0 actualmente a $name: $names. Eliminar a $name los dejará sin asignar hasta que se reasignen.';
+  }
+
+  @override
+  String reassignToManagerLabel(String name) {
+    return 'Reasignarlos en su lugar al propio gerente de $name';
+  }
+
+  @override
+  String reportsCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count subordinados',
+      one: '$count subordinado',
+    );
+    return '$_temp0';
+  }
 }

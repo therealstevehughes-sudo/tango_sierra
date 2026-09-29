@@ -3266,4 +3266,88 @@ class AppLocalizationsDe extends AppLocalizations {
   String enableRosterConfirmText(String amount) {
     return 'Basierend auf deiner aktuellen Mitarbeiterzahl wird dies $amount zu deinem monatlichen Lastschrifteinzug hinzufügen.';
   }
+
+  @override
+  String get departmentLabel => 'Abteilung';
+
+  @override
+  String get noDepartmentOption => 'Keine Abteilung';
+
+  @override
+  String get removeAnywayButton => 'Trotzdem entfernen';
+
+  @override
+  String get branchTeamStructureTitle => 'Team-Struktur der Filiale';
+
+  @override
+  String get noStaffAtBranchText => 'Noch kein Personal in dieser Filiale.';
+
+  @override
+  String get changeManagerMenuItem => 'Vorgesetzten ändern';
+
+  @override
+  String get moveDepartmentMenuItem => 'Abteilung/Team verschieben';
+
+  @override
+  String get editJobTitleMenuItem => 'Position bearbeiten';
+
+  @override
+  String get removeFromBranchMenuItem => 'Aus dieser Filiale entfernen';
+
+  @override
+  String changeManagerTitle(String name) {
+    return 'Vorgesetzten ändern - $name';
+  }
+
+  @override
+  String moveDepartmentTitle(String name) {
+    return 'Abteilung/Team verschieben - $name';
+  }
+
+  @override
+  String changeTierTitle2(String name) {
+    return 'Ebene ändern - $name';
+  }
+
+  @override
+  String editJobTitleTitle(String name) {
+    return 'Position bearbeiten - $name';
+  }
+
+  @override
+  String removeFromBranchTitle(String name) {
+    return '$name aus dieser Filiale entfernen';
+  }
+
+  @override
+  String removeFromBranchConfirmText(String name) {
+    return '$name kann sich nicht mehr anmelden. Dies kann später rückgängig gemacht werden.';
+  }
+
+  @override
+  String reportsWillBeUnassignedText(int count, String name, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Personen berichten',
+      one: '$count Person berichtet',
+    );
+    return '$_temp0 derzeit an $name: $names. Das Entfernen von $name lässt sie bis zur Neuzuweisung ohne Zuordnung.';
+  }
+
+  @override
+  String reassignToManagerLabel(String name) {
+    return 'Sie stattdessen dem eigenen Vorgesetzten von $name neu zuweisen';
+  }
+
+  @override
+  String reportsCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Untergebene',
+      one: '$count Untergebener',
+    );
+    return '$_temp0';
+  }
 }

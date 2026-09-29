@@ -3092,4 +3092,76 @@ class AppLocalizationsZh extends AppLocalizations {
   String enableRosterConfirmText(String amount) {
     return '根据你目前的员工数量,这将在你的每月直接借记中增加 $amount。';
   }
+
+  @override
+  String get departmentLabel => '部门';
+
+  @override
+  String get noDepartmentOption => '无部门';
+
+  @override
+  String get removeAnywayButton => '仍然移除';
+
+  @override
+  String get branchTeamStructureTitle => '分店团队结构';
+
+  @override
+  String get noStaffAtBranchText => '此分店尚无员工。';
+
+  @override
+  String get changeManagerMenuItem => '更改上级';
+
+  @override
+  String get moveDepartmentMenuItem => '移动部门/团队';
+
+  @override
+  String get editJobTitleMenuItem => '编辑职位';
+
+  @override
+  String get removeFromBranchMenuItem => '从此分店移除';
+
+  @override
+  String changeManagerTitle(String name) {
+    return '更改上级 - $name';
+  }
+
+  @override
+  String moveDepartmentTitle(String name) {
+    return '移动部门/团队 - $name';
+  }
+
+  @override
+  String changeTierTitle2(String name) {
+    return '更改级别 - $name';
+  }
+
+  @override
+  String editJobTitleTitle(String name) {
+    return '编辑职位 - $name';
+  }
+
+  @override
+  String removeFromBranchTitle(String name) {
+    return '从此分店移除 $name';
+  }
+
+  @override
+  String removeFromBranchConfirmText(String name) {
+    return '$name 将无法再登录。此操作以后可以撤销。';
+  }
+
+  @override
+  String reportsWillBeUnassignedText(int count, String name, String names) {
+    return '目前有 $count 人向 $name 汇报:$names。移除 $name 将使他们处于未分配状态,直到重新分配。';
+  }
+
+  @override
+  String reassignToManagerLabel(String name) {
+    return '改为将他们重新分配给 $name 的上级';
+  }
+
+  @override
+  String reportsCountBadge(int count) {
+    return '$count 名下属';
+  }
 }

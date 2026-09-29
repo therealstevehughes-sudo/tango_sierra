@@ -15,6 +15,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/team_providers.dart';
 import '../settings/widgets/add_staff_dialog.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 // Chain of command / branch organogram (2026-09-15, upgraded 2026-09-27
 // from read-only to interactive per the founder's original ask: "people
@@ -114,30 +115,33 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('Change manager - ${user.name}'),
-          content: DropdownButtonFormField<int?>(
-            initialValue: selected,
-            decoration: const InputDecoration(labelText: 'Reports to'),
-            items: [
-              const DropdownMenuItem<int?>(value: null, child: Text('Not set')),
-              ...options.map(
-                (u) => DropdownMenuItem<int?>(value: u.id, child: Text(u.name)),
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.changeManagerTitle(user.name)),
+            content: DropdownButtonFormField<int?>(
+              initialValue: selected,
+              decoration: InputDecoration(labelText: l10n.reportsToFieldLabel),
+              items: [
+                DropdownMenuItem<int?>(value: null, child: Text(l10n.notSetOption)),
+                ...options.map(
+                  (u) => DropdownMenuItem<int?>(value: u.id, child: Text(u.name)),
+                ),
+              ],
+              onChanged: (value) => setDialogState(() => selected = value),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.saveButton),
               ),
             ],
-            onChanged: (value) => setDialogState(() => selected = value),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
     if (confirmed != true || selected == user.reportsToUserId) return;
@@ -179,27 +183,30 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
           final teamOptions = selectedDepartment == null
               ? const <Team>[]
               : (teamsByDept[selectedDepartment] ?? const <Team>[]);
           return AlertDialog(
-            title: Text('Move department/team - ${user.name}'),
+            title: Text(l10n.moveDepartmentTitle(user.name)),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 DropdownButtonFormField<int?>(
                   initialValue: selectedDepartment,
-                  decoration: const InputDecoration(labelText: 'Department'),
+                  decoration: InputDecoration(labelText: l10n.departmentLabel),
                   items: [
-                    const DropdownMenuItem<int?>(
+                    DropdownMenuItem<int?>(
                       value: null,
-                      child: Text('No department'),
+                      child: Text(l10n.noDepartmentOption),
                     ),
                     ...departmentOptions.map(
                       (d) => DropdownMenuItem<int?>(
                         value: d.id,
-                        child: Text(d.active ? d.name : '${d.name} (inactive)'),
+                        child: Text(
+                          d.active ? d.name : '${d.name}${l10n.inactiveParenSuffix}',
+                        ),
                       ),
                     ),
                   ],
@@ -216,18 +223,20 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
                 const SizedBox(height: 12),
                 DropdownButtonFormField<int?>(
                   initialValue: selectedTeam,
-                  decoration: const InputDecoration(
-                    labelText: 'Team (optional)',
+                  decoration: InputDecoration(
+                    labelText: l10n.teamOptionalLabel,
                   ),
                   items: [
-                    const DropdownMenuItem<int?>(
+                    DropdownMenuItem<int?>(
                       value: null,
-                      child: Text('No specific team'),
+                      child: Text(l10n.noSpecificTeamOption),
                     ),
                     ...teamOptions.map(
                       (t) => DropdownMenuItem<int?>(
                         value: t.id,
-                        child: Text(t.active ? t.name : '${t.name} (inactive)'),
+                        child: Text(
+                          t.active ? t.name : '${t.name}${l10n.inactiveParenSuffix}',
+                        ),
                       ),
                     ),
                   ],
@@ -239,11 +248,11 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: const Text('Cancel'),
+                child: Text(l10n.cancel),
               ),
               ElevatedButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: const Text('Save'),
+                child: Text(l10n.saveButton),
               ),
             ],
           );
@@ -292,33 +301,36 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('Change tier - ${user.name}'),
-          content: DropdownButtonFormField<RoleTier>(
-            initialValue: selected,
-            decoration: const InputDecoration(labelText: 'Role tier'),
-            items: allowedTiers
-                .map(
-                  (t) => DropdownMenuItem(
-                    value: t,
-                    child: Text(roleTierDisplayName(t)),
-                  ),
-                )
-                .toList(),
-            onChanged: (value) =>
-                setDialogState(() => selected = value ?? selected),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.changeTierTitle2(user.name)),
+            content: DropdownButtonFormField<RoleTier>(
+              initialValue: selected,
+              decoration: InputDecoration(labelText: l10n.roleTierLabel),
+              items: allowedTiers
+                  .map(
+                    (t) => DropdownMenuItem(
+                      value: t,
+                      child: Text(roleTierDisplayName(t, l10n)),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) =>
+                  setDialogState(() => selected = value ?? selected),
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.saveButton),
+              ),
+            ],
+          );
+        },
       ),
     );
     if (confirmed != true || selected == user.roleTier) return;
@@ -341,24 +353,27 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
     final controller = TextEditingController(text: user.jobTitle);
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Edit job title - ${user.name}'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(labelText: 'Job title'),
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.editJobTitleTitle(user.name)),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(labelText: l10n.jobTitleLabel),
+            autofocus: true,
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.saveButton),
+            ),
+          ],
+        );
+      },
     );
     final newTitle = controller.text.trim();
     controller.dispose();
@@ -392,50 +407,50 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('Remove ${user.name} from this branch'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${user.name} will no longer be able to log in. This can be '
-                'reversed later.',
-              ),
-              if (reports.isNotEmpty) ...[
-                const SizedBox(height: 12),
-                Text(
-                  '${reports.length} ${reports.length == 1 ? 'person' : 'people'} '
-                  'currently report to ${user.name}: '
-                  '${reports.map((r) => r.name).join(', ')}. '
-                  'Removing ${user.name} will leave them unassigned until '
-                  'reassigned.',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                CheckboxListTile(
-                  contentPadding: EdgeInsets.zero,
-                  value: reassign,
-                  onChanged: (v) =>
-                      setDialogState(() => reassign = v ?? false),
-                  title: Text(
-                    'Reassign them to ${user.name}\'s own manager instead',
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.removeFromBranchTitle(user.name)),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.removeFromBranchConfirmText(user.name)),
+                if (reports.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.reportsWillBeUnassignedText(
+                      reports.length,
+                      user.name,
+                      reports.map((r) => r.name).join(', '),
+                    ),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
-                ),
+                  CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    value: reassign,
+                    onChanged: (v) =>
+                        setDialogState(() => reassign = v ?? false),
+                    title: Text(
+                      l10n.reassignToManagerLabel(user.name),
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+                ],
               ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.removeAnywayButton),
+              ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Remove anyway'),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
     if (confirmed != true) return;
@@ -460,6 +475,7 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final staffIds = _staff.map((u) => u.id).toSet();
     final childrenOf = <int, List<User>>{};
     for (final u in _staff) {
@@ -498,21 +514,21 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Branch Team Structure'),
+        title: Text(l10n.branchTeamStructureTitle),
         actions: [
           IconButton(
             icon: const Icon(Icons.person_add_alt),
-            tooltip: 'Add Staff',
+            tooltip: l10n.addStaffTooltip,
             onPressed: _addStaff,
           ),
           const AssistantIconButton(),
         ],
       ),
-      drawer: const ManagementDrawer(title: 'Branch Team Structure'),
+      drawer: ManagementDrawer(title: l10n.branchTeamStructureTitle),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _staff.isEmpty
-          ? const Center(child: Text('No staff at this branch yet.'))
+          ? Center(child: Text(l10n.noStaffAtBranchText))
           : ResponsiveContent(
               child: ListView(
                 padding: const EdgeInsets.all(16),
@@ -576,13 +592,14 @@ class _PersonNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final reports = childrenOf[user.id] ?? const <User>[];
     final department = user.departmentId == null
         ? null
         : departmentsById[user.departmentId];
     final team = user.teamId == null ? null : teamsById[user.teamId];
     final subtitleParts = [
-      '${user.jobTitle} · ${roleTierDisplayName(user.roleTier)}',
+      '${user.jobTitle} · ${roleTierDisplayName(user.roleTier, l10n)}',
       if (department != null)
         team != null ? '${department.name} · ${team.name}' : department.name,
     ];
@@ -638,7 +655,7 @@ class _PersonNode extends StatelessWidget {
                   borderRadius: BorderRadius.circular(999),
                 ),
                 child: Text(
-                  '${reports.length} report${reports.length == 1 ? '' : 's'}',
+                  l10n.reportsCountBadge(reports.length),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: AppColors.tealInk,
                     fontWeight: FontWeight.w600,
@@ -646,7 +663,7 @@ class _PersonNode extends StatelessWidget {
                 ),
               ),
             PopupMenuButton<_NodeAction>(
-              tooltip: 'More actions',
+              tooltip: l10n.moreActionsTooltip,
               onSelected: (action) {
                 switch (action) {
                   case _NodeAction.changeManager:
@@ -662,28 +679,28 @@ class _PersonNode extends StatelessWidget {
                 }
               },
               itemBuilder: (context) => [
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: _NodeAction.changeManager,
-                  child: Text('Change manager'),
+                  child: Text(l10n.changeManagerMenuItem),
                 ),
                 if (canMoveThis)
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: _NodeAction.changeDepartment,
-                    child: Text('Move department/team'),
+                    child: Text(l10n.moveDepartmentMenuItem),
                   ),
                 if (canChangeThisTier)
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: _NodeAction.changeTier,
-                    child: Text('Change tier'),
+                    child: Text(l10n.changeTierMenuItem),
                   ),
-                const PopupMenuItem(
+                PopupMenuItem(
                   value: _NodeAction.editJobTitle,
-                  child: Text('Edit job title'),
+                  child: Text(l10n.editJobTitleMenuItem),
                 ),
                 if (canRemoveThis)
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: _NodeAction.remove,
-                    child: Text('Remove from this branch'),
+                    child: Text(l10n.removeFromBranchMenuItem),
                   ),
               ],
             ),

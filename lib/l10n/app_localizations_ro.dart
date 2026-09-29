@@ -3255,4 +3255,88 @@ class AppLocalizationsRo extends AppLocalizations {
   String enableRosterConfirmText(String amount) {
     return 'Pe baza numărului actual de angajați, aceasta va adăuga $amount la Direct Debit-ul tău lunar.';
   }
+
+  @override
+  String get departmentLabel => 'Departament';
+
+  @override
+  String get noDepartmentOption => 'Niciun departament';
+
+  @override
+  String get removeAnywayButton => 'Elimină oricum';
+
+  @override
+  String get branchTeamStructureTitle => 'Structura echipei filialei';
+
+  @override
+  String get noStaffAtBranchText => 'Niciun angajat la această filială încă.';
+
+  @override
+  String get changeManagerMenuItem => 'Schimbă managerul';
+
+  @override
+  String get moveDepartmentMenuItem => 'Mută departamentul/echipa';
+
+  @override
+  String get editJobTitleMenuItem => 'Editează funcția';
+
+  @override
+  String get removeFromBranchMenuItem => 'Elimină din această filială';
+
+  @override
+  String changeManagerTitle(String name) {
+    return 'Schimbă managerul - $name';
+  }
+
+  @override
+  String moveDepartmentTitle(String name) {
+    return 'Mută departamentul/echipa - $name';
+  }
+
+  @override
+  String changeTierTitle2(String name) {
+    return 'Schimbă nivelul - $name';
+  }
+
+  @override
+  String editJobTitleTitle(String name) {
+    return 'Editează funcția - $name';
+  }
+
+  @override
+  String removeFromBranchTitle(String name) {
+    return 'Elimină $name din această filială';
+  }
+
+  @override
+  String removeFromBranchConfirmText(String name) {
+    return '$name nu se va mai putea autentifica. Aceasta poate fi anulată ulterior.';
+  }
+
+  @override
+  String reportsWillBeUnassignedText(int count, String name, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count persoane raportează',
+      one: '$count persoană raportează',
+    );
+    return '$_temp0 în prezent către $name: $names. Eliminarea $name îi va lăsa neatribuiți până la reatribuire.';
+  }
+
+  @override
+  String reassignToManagerLabel(String name) {
+    return 'Reatribuie-i în schimb managerului lui $name';
+  }
+
+  @override
+  String reportsCountBadge(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count subordonați',
+      one: '$count subordonat',
+    );
+    return '$_temp0';
+  }
 }

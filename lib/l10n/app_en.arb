@@ -2830,5 +2830,119 @@
         "type": "String"
       }
     }
+  },
+  "departmentLabel": "Department",
+  "@departmentLabel": {
+    "description": ""
+  },
+  "noDepartmentOption": "No department",
+  "@noDepartmentOption": {
+    "description": ""
+  },
+  "removeAnywayButton": "Remove anyway",
+  "@removeAnywayButton": {
+    "description": ""
+  },
+  "branchTeamStructureTitle": "Branch Team Structure",
+  "@branchTeamStructureTitle": {
+    "description": ""
+  },
+  "noStaffAtBranchText": "No staff at this branch yet.",
+  "@noStaffAtBranchText": {
+    "description": ""
+  },
+  "changeManagerMenuItem": "Change manager",
+  "@changeManagerMenuItem": {
+    "description": ""
+  },
+  "moveDepartmentMenuItem": "Move department/team",
+  "@moveDepartmentMenuItem": {
+    "description": ""
+  },
+  "editJobTitleMenuItem": "Edit job title",
+  "@editJobTitleMenuItem": {
+    "description": ""
+  },
+  "removeFromBranchMenuItem": "Remove from this branch",
+  "@removeFromBranchMenuItem": {
+    "description": ""
+  },
+  "changeManagerTitle": "Change manager - {name}",
+  "@changeManagerTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moveDepartmentTitle": "Move department/team - {name}",
+  "@moveDepartmentTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "changeTierTitle2": "Change tier - {name}",
+  "@changeTierTitle2": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "editJobTitleTitle": "Edit job title - {name}",
+  "@editJobTitleTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFromBranchTitle": "Remove {name} from this branch",
+  "@removeFromBranchTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "removeFromBranchConfirmText": "{name} will no longer be able to log in. This can be reversed later.",
+  "@removeFromBranchConfirmText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reportsWillBeUnassignedText": "{count, plural, one{{count} person} other{{count} people}} currently report to {name}: {names}. Removing {name} will leave them unassigned until reassigned.",
+  "@reportsWillBeUnassignedText": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      },
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "reassignToManagerLabel": "Reassign them to {name}'s own manager instead",
+  "@reassignToManagerLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "reportsCountBadge": "{count, plural, one{{count} report} other{{count} reports}}",
+  "@reportsCountBadge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

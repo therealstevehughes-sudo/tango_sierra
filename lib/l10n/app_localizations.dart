@@ -5689,6 +5689,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Based on your current staff numbers, this will add {amount} to your monthly Direct Debit.'**
   String enableRosterConfirmText(String amount);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Department'**
+  String get departmentLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No department'**
+  String get noDepartmentOption;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Remove anyway'**
+  String get removeAnywayButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Branch Team Structure'**
+  String get branchTeamStructureTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No staff at this branch yet.'**
+  String get noStaffAtBranchText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Change manager'**
+  String get changeManagerMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Move department/team'**
+  String get moveDepartmentMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Edit job title'**
+  String get editJobTitleMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from this branch'**
+  String get removeFromBranchMenuItem;
+
+  /// No description provided for @changeManagerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change manager - {name}'**
+  String changeManagerTitle(String name);
+
+  /// No description provided for @moveDepartmentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Move department/team - {name}'**
+  String moveDepartmentTitle(String name);
+
+  /// No description provided for @changeTierTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Change tier - {name}'**
+  String changeTierTitle2(String name);
+
+  /// No description provided for @editJobTitleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit job title - {name}'**
+  String editJobTitleTitle(String name);
+
+  /// No description provided for @removeFromBranchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name} from this branch'**
+  String removeFromBranchTitle(String name);
+
+  /// No description provided for @removeFromBranchConfirmText.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} will no longer be able to log in. This can be reversed later.'**
+  String removeFromBranchConfirmText(String name);
+
+  /// No description provided for @reportsWillBeUnassignedText.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} person} other{{count} people}} currently report to {name}: {names}. Removing {name} will leave them unassigned until reassigned.'**
+  String reportsWillBeUnassignedText(int count, String name, String names);
+
+  /// No description provided for @reassignToManagerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reassign them to {name}\'s own manager instead'**
+  String reassignToManagerLabel(String name);
+
+  /// No description provided for @reportsCountBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} report} other{{count} reports}}'**
+  String reportsCountBadge(int count);
 }
 
 class _AppLocalizationsDelegate
