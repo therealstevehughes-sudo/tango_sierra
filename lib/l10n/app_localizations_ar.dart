@@ -859,7 +859,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'أدخل بريدك الإلكتروني وسنرسل لك رمزًا لإعادة تعيين كلمة المرور.';
 
   @override
-  String get emailLabel => 'البريد الإلكتروني';
+  String get emailLabel => 'بريد إلكتروني';
 
   @override
   String get sendCodeButton => 'إرسال الرمز';
@@ -1688,4 +1688,149 @@ class AppLocalizationsAr extends AppLocalizations {
   String categoryCountLabel(String category, int count) {
     return '$category: $count';
   }
+
+  @override
+  String get backupExplanation =>
+      'ينشئ هذا نسخة كاملة من قاعدة البيانات المحلية في مجلد المستندات لديك. نقلها إلى محرك أقراص USB أو مجلد متزامن مع السحابة لاحقًا هو خطوة يدوية منفصلة.';
+
+  @override
+  String get backupNameOptional => 'اسم النسخة الاحتياطية (اختياري)';
+
+  @override
+  String get backupNameHint => 'مثال: نسخة قبل التفتيش';
+
+  @override
+  String get backupCreatedTitle => 'تم إنشاء النسخة الاحتياطية';
+
+  @override
+  String get tierTeamMember => 'عضو الفريق';
+
+  @override
+  String get tierSupervisor => 'مشرف';
+
+  @override
+  String get tierManager => 'مدير';
+
+  @override
+  String get tierRegionalManager => 'مدير إقليمي';
+
+  @override
+  String get tierDirector => 'مدير تنفيذي';
+
+  @override
+  String get anyTaskFail => 'أي فشل في مهمة';
+
+  @override
+  String taskFailLabel(String title) {
+    return 'فشل: $title';
+  }
+
+  @override
+  String get taskFailTemplateStale => 'فشل مهمة (النموذج لم يعد حاليًا)';
+
+  @override
+  String get unknownUserLabel => 'مستخدم غير معروف';
+
+  @override
+  String tierSuffixLabel(String tier) {
+    return 'مستوى $tier';
+  }
+
+  @override
+  String get unsetLabel => 'غير محدد';
+
+  @override
+  String get pushChannelLabel => 'إشعار فوري';
+
+  @override
+  String get emailChannelLabel => 'بريد إلكتروني';
+
+  @override
+  String get inAppOnlyLabel => 'داخل التطبيق فقط';
+
+  @override
+  String inAppPlusChannelsLabel(String channels) {
+    return 'داخل التطبيق + $channels';
+  }
+
+  @override
+  String get tierColumnTeam => 'الفريق';
+
+  @override
+  String get tierColumnSupv => 'مشرف';
+
+  @override
+  String get tierColumnMgr => 'مدير';
+
+  @override
+  String get tierColumnRegnl => 'إقليمي';
+
+  @override
+  String get tierColumnDir => 'تنفيذي';
+
+  @override
+  String get quickSetupSectionTitle => 'إعداد سريع: إشعارات فشل المهام';
+
+  @override
+  String get tickTierNotified =>
+      'حدد المستوى الذي يتم إعلامه عند فشل مهمة معينة.';
+
+  @override
+  String get noTaskTemplatesSetUp => 'لم يتم إعداد أي قوالب مهام بعد.';
+
+  @override
+  String notifyPrefixLabel(String target, String channels) {
+    return 'إعلام: $target ($channels)';
+  }
+
+  @override
+  String setByTierLabel(String tier) {
+    return 'تم التعيين بواسطة مستوى $tier';
+  }
+
+  @override
+  String get inactiveSuffixLabel => ' - غير نشط';
+
+  @override
+  String get deactivateButton => 'إلغاء التنشيط';
+
+  @override
+  String get reactivateButton => 'إعادة التنشيط';
+
+  @override
+  String get newRuleTitle => 'قاعدة جديدة';
+
+  @override
+  String get triggerLabel => 'المُحفّز';
+
+  @override
+  String get notifyLabel => 'إعلام';
+
+  @override
+  String get wholeRoleTierOption => 'مستوى دور كامل';
+
+  @override
+  String get specificPersonOption => 'شخص محدد';
+
+  @override
+  String get roleTierLabel => 'مستوى الدور';
+
+  @override
+  String get personLabel => 'الشخص';
+
+  @override
+  String get pushLabel => 'إشعار فوري';
+
+  @override
+  String get rulesInAppNotice =>
+      'يتم عرض القواعد الآن داخل التطبيق فقط؛ لم يتم ربط التسليم عبر الإشعارات الفورية/البريد الإلكتروني بخادم بعد وسيُضاف في نسخة لاحقة.';
+
+  @override
+  String get saveRuleButton => 'حفظ القاعدة';
+
+  @override
+  String get addRuleButton => 'إضافة قاعدة';
+
+  @override
+  String get noNotificationRulesYet => 'لم يتم إعداد أي قواعد إشعارات بعد.';
 }

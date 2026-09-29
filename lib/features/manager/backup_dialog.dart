@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../shared/providers/backup_providers.dart';
 
 // Menu redesign (2026-09-17) — extracted from manager_screen.dart's private
@@ -23,38 +24,37 @@ Future<void> showBackupDialog(
 
   final confirmed = await showDialog<bool>(
     context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Back Up Now'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'This creates a complete copy of the local database in your '
-            'Documents folder. Moving it to a USB drive or cloud-synced '
-            'folder afterward is a separate manual step.',
-          ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: nameController,
-            decoration: const InputDecoration(
-              labelText: 'Backup name (optional)',
-              hintText: 'e.g. Pre-inspection backup',
+    builder: (context) {
+      final l10n = AppLocalizations.of(context)!;
+      return AlertDialog(
+        title: Text(l10n.backUpNow),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.backupExplanation),
+            const SizedBox(height: 12),
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(
+                labelText: l10n.backupNameOptional,
+                hintText: l10n.backupNameHint,
+              ),
             ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancel),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l10n.backUpNow),
           ),
         ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, false),
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () => Navigator.pop(context, true),
-          child: const Text('Back Up Now'),
-        ),
-      ],
-    ),
+      );
+    },
   );
 
   if (confirmed != true) return;
@@ -69,15 +69,18 @@ Future<void> showBackupDialog(
   if (!context.mounted) return;
   await showDialog(
     context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Backup Created'),
-      content: Text('Saved to:\n$path'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('OK'),
-        ),
-      ],
-    ),
+    builder: (context) {
+      final l10n = AppLocalizations.of(context)!;
+      return AlertDialog(
+        title: Text(l10n.backupCreatedTitle),
+        content: Text(l10n.savedToLabel(path)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.okLabel),
+          ),
+        ],
+      );
+    },
   );
 }

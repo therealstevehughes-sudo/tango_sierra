@@ -1640,4 +1640,147 @@ class AppLocalizationsZh extends AppLocalizations {
   String categoryCountLabel(String category, int count) {
     return '$category: $count';
   }
+
+  @override
+  String get backupExplanation =>
+      '这将在您的文档文件夹中创建本地数据库的完整副本。之后将其移动到U盘或云同步文件夹是单独的手动步骤。';
+
+  @override
+  String get backupNameOptional => '备份名称(可选)';
+
+  @override
+  String get backupNameHint => '例如:检查前备份';
+
+  @override
+  String get backupCreatedTitle => '备份已创建';
+
+  @override
+  String get tierTeamMember => '团队成员';
+
+  @override
+  String get tierSupervisor => '主管';
+
+  @override
+  String get tierManager => '经理';
+
+  @override
+  String get tierRegionalManager => '区域经理';
+
+  @override
+  String get tierDirector => '董事';
+
+  @override
+  String get anyTaskFail => '任何任务未通过';
+
+  @override
+  String taskFailLabel(String title) {
+    return '未通过:$title';
+  }
+
+  @override
+  String get taskFailTemplateStale => '任务未通过(模板已不是最新版本)';
+
+  @override
+  String get unknownUserLabel => '未知用户';
+
+  @override
+  String tierSuffixLabel(String tier) {
+    return '$tier 级别';
+  }
+
+  @override
+  String get unsetLabel => '未设置';
+
+  @override
+  String get pushChannelLabel => '推送';
+
+  @override
+  String get emailChannelLabel => '电子邮件';
+
+  @override
+  String get inAppOnlyLabel => '仅应用内';
+
+  @override
+  String inAppPlusChannelsLabel(String channels) {
+    return '应用内 + $channels';
+  }
+
+  @override
+  String get tierColumnTeam => '团队';
+
+  @override
+  String get tierColumnSupv => '主管';
+
+  @override
+  String get tierColumnMgr => '经理';
+
+  @override
+  String get tierColumnRegnl => '区域';
+
+  @override
+  String get tierColumnDir => '董事';
+
+  @override
+  String get quickSetupSectionTitle => '快速设置:每任务未通过通知';
+
+  @override
+  String get tickTierNotified => '勾选当特定任务未通过时应通知哪个级别。';
+
+  @override
+  String get noTaskTemplatesSetUp => '尚未设置任何任务模板。';
+
+  @override
+  String notifyPrefixLabel(String target, String channels) {
+    return '通知:$target($channels)';
+  }
+
+  @override
+  String setByTierLabel(String tier) {
+    return '由 $tier 级别设置';
+  }
+
+  @override
+  String get inactiveSuffixLabel => ' - 未启用';
+
+  @override
+  String get deactivateButton => '停用';
+
+  @override
+  String get reactivateButton => '重新启用';
+
+  @override
+  String get newRuleTitle => '新规则';
+
+  @override
+  String get triggerLabel => '触发条件';
+
+  @override
+  String get notifyLabel => '通知';
+
+  @override
+  String get wholeRoleTierOption => '整个角色级别';
+
+  @override
+  String get specificPersonOption => '特定人员';
+
+  @override
+  String get roleTierLabel => '角色级别';
+
+  @override
+  String get personLabel => '人员';
+
+  @override
+  String get pushLabel => '推送';
+
+  @override
+  String get rulesInAppNotice => '规则目前仅在应用内显示;推送/电子邮件传送尚未连接到后端,将在以后的版本中添加。';
+
+  @override
+  String get saveRuleButton => '保存规则';
+
+  @override
+  String get addRuleButton => '添加规则';
+
+  @override
+  String get noNotificationRulesYet => '尚未设置任何通知规则。';
 }

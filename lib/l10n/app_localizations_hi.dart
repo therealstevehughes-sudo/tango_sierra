@@ -1701,4 +1701,151 @@ class AppLocalizationsHi extends AppLocalizations {
   String categoryCountLabel(String category, int count) {
     return '$category: $count';
   }
+
+  @override
+  String get backupExplanation =>
+      'यह आपके Documents फ़ोल्डर में स्थानीय डेटाबेस की एक पूर्ण प्रति बनाता है। इसे बाद में USB ड्राइव या क्लाउड-सिंक्ड फ़ोल्डर में ले जाना एक अलग मैन्युअल चरण है।';
+
+  @override
+  String get backupNameOptional => 'बैकअप नाम (वैकल्पिक)';
+
+  @override
+  String get backupNameHint => 'जैसे, निरीक्षण-पूर्व बैकअप';
+
+  @override
+  String get backupCreatedTitle => 'बैकअप बनाया गया';
+
+  @override
+  String get tierTeamMember => 'टीम सदस्य';
+
+  @override
+  String get tierSupervisor => 'सुपरवाइज़र';
+
+  @override
+  String get tierManager => 'प्रबंधक';
+
+  @override
+  String get tierRegionalManager => 'क्षेत्रीय प्रबंधक';
+
+  @override
+  String get tierDirector => 'डायरेक्टर';
+
+  @override
+  String get anyTaskFail => 'कोई भी कार्य फेल';
+
+  @override
+  String taskFailLabel(String title) {
+    return 'फेल: $title';
+  }
+
+  @override
+  String get taskFailTemplateStale => 'कार्य फेल (टेम्पलेट अब मौजूदा नहीं है)';
+
+  @override
+  String get unknownUserLabel => 'अज्ञात उपयोगकर्ता';
+
+  @override
+  String tierSuffixLabel(String tier) {
+    return '$tier स्तर';
+  }
+
+  @override
+  String get unsetLabel => 'सेट नहीं';
+
+  @override
+  String get pushChannelLabel => 'पुश';
+
+  @override
+  String get emailChannelLabel => 'ईमेल';
+
+  @override
+  String get inAppOnlyLabel => 'केवल इन-ऐप';
+
+  @override
+  String inAppPlusChannelsLabel(String channels) {
+    return 'इन-ऐप + $channels';
+  }
+
+  @override
+  String get tierColumnTeam => 'टीम';
+
+  @override
+  String get tierColumnSupv => 'सुपर';
+
+  @override
+  String get tierColumnMgr => 'प्रबं';
+
+  @override
+  String get tierColumnRegnl => 'क्षेत्र';
+
+  @override
+  String get tierColumnDir => 'डायर';
+
+  @override
+  String get quickSetupSectionTitle => 'त्वरित सेटअप: प्रति-कार्य फेल सूचनाएं';
+
+  @override
+  String get tickTierNotified =>
+      'चुनें कि किसी विशिष्ट कार्य के फेल होने पर किस स्तर को सूचित किया जाए।';
+
+  @override
+  String get noTaskTemplatesSetUp =>
+      'अभी तक कोई कार्य टेम्पलेट सेट नहीं किया गया है।';
+
+  @override
+  String notifyPrefixLabel(String target, String channels) {
+    return 'सूचित करें: $target ($channels)';
+  }
+
+  @override
+  String setByTierLabel(String tier) {
+    return '$tier स्तर द्वारा सेट किया गया';
+  }
+
+  @override
+  String get inactiveSuffixLabel => ' - निष्क्रिय';
+
+  @override
+  String get deactivateButton => 'निष्क्रिय करें';
+
+  @override
+  String get reactivateButton => 'पुनः सक्रिय करें';
+
+  @override
+  String get newRuleTitle => 'नया नियम';
+
+  @override
+  String get triggerLabel => 'ट्रिगर';
+
+  @override
+  String get notifyLabel => 'सूचित करें';
+
+  @override
+  String get wholeRoleTierOption => 'एक पूरा भूमिका स्तर';
+
+  @override
+  String get specificPersonOption => 'एक विशिष्ट व्यक्ति';
+
+  @override
+  String get roleTierLabel => 'भूमिका स्तर';
+
+  @override
+  String get personLabel => 'व्यक्ति';
+
+  @override
+  String get pushLabel => 'पुश';
+
+  @override
+  String get rulesInAppNotice =>
+      'नियम अभी इन-ऐप दिखाए जाते हैं; पुश/ईमेल डिलीवरी अभी बैकएंड से जुड़ी नहीं है और बाद के स्प्रिंट में जोड़ी जाएगी।';
+
+  @override
+  String get saveRuleButton => 'नियम सहेजें';
+
+  @override
+  String get addRuleButton => 'नियम जोड़ें';
+
+  @override
+  String get noNotificationRulesYet =>
+      'अभी तक कोई सूचना नियम सेट नहीं किया गया है।';
 }

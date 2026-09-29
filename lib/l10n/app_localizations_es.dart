@@ -874,7 +874,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Introduce tu correo y te enviaremos un código para restablecer tu contraseña.';
 
   @override
-  String get emailLabel => 'Correo electrónico';
+  String get emailLabel => 'Correo';
 
   @override
   String get sendCodeButton => 'ENVIAR CÓDIGO';
@@ -1710,4 +1710,152 @@ class AppLocalizationsEs extends AppLocalizations {
   String categoryCountLabel(String category, int count) {
     return '$category: $count';
   }
+
+  @override
+  String get backupExplanation =>
+      'Esto crea una copia completa de la base de datos local en tu carpeta Documentos. Moverla a una unidad USB o carpeta sincronizada en la nube es un paso manual aparte.';
+
+  @override
+  String get backupNameOptional => 'Nombre de la copia de seguridad (opcional)';
+
+  @override
+  String get backupNameHint => 'p. ej. Copia antes de la inspección';
+
+  @override
+  String get backupCreatedTitle => 'Copia de seguridad creada';
+
+  @override
+  String get tierTeamMember => 'Miembro del equipo';
+
+  @override
+  String get tierSupervisor => 'Supervisor';
+
+  @override
+  String get tierManager => 'Responsable';
+
+  @override
+  String get tierRegionalManager => 'Responsable regional';
+
+  @override
+  String get tierDirector => 'Director';
+
+  @override
+  String get anyTaskFail => 'Cualquier tarea no apta';
+
+  @override
+  String taskFailLabel(String title) {
+    return 'No apta: $title';
+  }
+
+  @override
+  String get taskFailTemplateStale => 'Tarea no apta (plantilla ya no vigente)';
+
+  @override
+  String get unknownUserLabel => 'Usuario desconocido';
+
+  @override
+  String tierSuffixLabel(String tier) {
+    return 'nivel $tier';
+  }
+
+  @override
+  String get unsetLabel => 'Sin definir';
+
+  @override
+  String get pushChannelLabel => 'push';
+
+  @override
+  String get emailChannelLabel => 'correo';
+
+  @override
+  String get inAppOnlyLabel => 'solo en la app';
+
+  @override
+  String inAppPlusChannelsLabel(String channels) {
+    return 'en la app + $channels';
+  }
+
+  @override
+  String get tierColumnTeam => 'Equipo';
+
+  @override
+  String get tierColumnSupv => 'Superv';
+
+  @override
+  String get tierColumnMgr => 'Resp';
+
+  @override
+  String get tierColumnRegnl => 'Region';
+
+  @override
+  String get tierColumnDir => 'Dir';
+
+  @override
+  String get quickSetupSectionTitle =>
+      'Configuración rápida: notificaciones de tareas no aptas';
+
+  @override
+  String get tickTierNotified =>
+      'Marca qué nivel recibe notificación cuando una tarea concreta no sea apta.';
+
+  @override
+  String get noTaskTemplatesSetUp =>
+      'Aún no hay plantillas de tareas configuradas.';
+
+  @override
+  String notifyPrefixLabel(String target, String channels) {
+    return 'Notificar: $target ($channels)';
+  }
+
+  @override
+  String setByTierLabel(String tier) {
+    return 'Establecido por el nivel $tier';
+  }
+
+  @override
+  String get inactiveSuffixLabel => ' - inactiva';
+
+  @override
+  String get deactivateButton => 'Desactivar';
+
+  @override
+  String get reactivateButton => 'Reactivar';
+
+  @override
+  String get newRuleTitle => 'Nueva regla';
+
+  @override
+  String get triggerLabel => 'Disparador';
+
+  @override
+  String get notifyLabel => 'Notificar';
+
+  @override
+  String get wholeRoleTierOption => 'Todo un nivel de rol';
+
+  @override
+  String get specificPersonOption => 'Una persona concreta';
+
+  @override
+  String get roleTierLabel => 'Nivel de rol';
+
+  @override
+  String get personLabel => 'Persona';
+
+  @override
+  String get pushLabel => 'Push';
+
+  @override
+  String get rulesInAppNotice =>
+      'Las reglas ahora se muestran solo en la app; el envío por push/correo aún no está conectado a un backend y se añadirá en un sprint posterior.';
+
+  @override
+  String get saveRuleButton => 'Guardar regla';
+
+  @override
+  String get addRuleButton => 'Añadir regla';
+
+  @override
+  String get noNotificationRulesYet =>
+      'Aún no hay reglas de notificación configuradas.';
 }

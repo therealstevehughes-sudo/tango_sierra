@@ -871,7 +871,7 @@ class AppLocalizationsHr extends AppLocalizations {
       'Unesi svoj e-mail i poslat ćemo ti kod za resetiranje lozinke.';
 
   @override
-  String get emailLabel => 'E-mail';
+  String get emailLabel => 'E-pošta';
 
   @override
   String get sendCodeButton => 'POŠALJI KOD';
@@ -1710,4 +1710,153 @@ class AppLocalizationsHr extends AppLocalizations {
   String categoryCountLabel(String category, int count) {
     return '$category: $count';
   }
+
+  @override
+  String get backupExplanation =>
+      'Ovo stvara potpunu kopiju lokalne baze podataka u tvojoj mapi Dokumenti. Premještanje na USB pogon ili mapu sinkroniziranu s oblakom naknadno je zaseban ručni korak.';
+
+  @override
+  String get backupNameOptional => 'Naziv sigurnosne kopije (neobavezno)';
+
+  @override
+  String get backupNameHint => 'npr. Sigurnosna kopija prije inspekcije';
+
+  @override
+  String get backupCreatedTitle => 'Sigurnosna kopija stvorena';
+
+  @override
+  String get tierTeamMember => 'Član tima';
+
+  @override
+  String get tierSupervisor => 'Voditelj smjene';
+
+  @override
+  String get tierManager => 'Voditelj';
+
+  @override
+  String get tierRegionalManager => 'Regionalni voditelj';
+
+  @override
+  String get tierDirector => 'Direktor';
+
+  @override
+  String get anyTaskFail => 'Bilo koji pad zadatka';
+
+  @override
+  String taskFailLabel(String title) {
+    return 'Palo: $title';
+  }
+
+  @override
+  String get taskFailTemplateStale =>
+      'Zadatak nije prošao (predložak više nije aktualan)';
+
+  @override
+  String get unknownUserLabel => 'Nepoznati korisnik';
+
+  @override
+  String tierSuffixLabel(String tier) {
+    return 'razina $tier';
+  }
+
+  @override
+  String get unsetLabel => 'Nije postavljeno';
+
+  @override
+  String get pushChannelLabel => 'push';
+
+  @override
+  String get emailChannelLabel => 'e-pošta';
+
+  @override
+  String get inAppOnlyLabel => 'samo unutar aplikacije';
+
+  @override
+  String inAppPlusChannelsLabel(String channels) {
+    return 'unutar aplikacije + $channels';
+  }
+
+  @override
+  String get tierColumnTeam => 'Tim';
+
+  @override
+  String get tierColumnSupv => 'Vod.sm';
+
+  @override
+  String get tierColumnMgr => 'Vod';
+
+  @override
+  String get tierColumnRegnl => 'Regija';
+
+  @override
+  String get tierColumnDir => 'Dir';
+
+  @override
+  String get quickSetupSectionTitle =>
+      'Brzo postavljanje: obavijesti o padu po zadatku';
+
+  @override
+  String get tickTierNotified =>
+      'Označi koja razina prima obavijest kad određeni zadatak ne prođe.';
+
+  @override
+  String get noTaskTemplatesSetUp =>
+      'Još nema postavljenih predložaka zadataka.';
+
+  @override
+  String notifyPrefixLabel(String target, String channels) {
+    return 'Obavijesti: $target ($channels)';
+  }
+
+  @override
+  String setByTierLabel(String tier) {
+    return 'Postavio/la razina $tier';
+  }
+
+  @override
+  String get inactiveSuffixLabel => ' - neaktivno';
+
+  @override
+  String get deactivateButton => 'Deaktiviraj';
+
+  @override
+  String get reactivateButton => 'Ponovno aktiviraj';
+
+  @override
+  String get newRuleTitle => 'Novo pravilo';
+
+  @override
+  String get triggerLabel => 'Okidač';
+
+  @override
+  String get notifyLabel => 'Obavijesti';
+
+  @override
+  String get wholeRoleTierOption => 'Cijela razina uloge';
+
+  @override
+  String get specificPersonOption => 'Određena osoba';
+
+  @override
+  String get roleTierLabel => 'Razina uloge';
+
+  @override
+  String get personLabel => 'Osoba';
+
+  @override
+  String get pushLabel => 'Push';
+
+  @override
+  String get rulesInAppNotice =>
+      'Pravila se sada prikazuju samo unutar aplikacije; push/e-pošta dostava još nije povezana s pozadinskim sustavom i bit će dodana u kasnijem sprintu.';
+
+  @override
+  String get saveRuleButton => 'Spremi pravilo';
+
+  @override
+  String get addRuleButton => 'Dodaj pravilo';
+
+  @override
+  String get noNotificationRulesYet =>
+      'Još nema postavljenih pravila obavijesti.';
 }

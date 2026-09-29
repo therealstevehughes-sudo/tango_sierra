@@ -1694,4 +1694,151 @@ class AppLocalizationsUr extends AppLocalizations {
   String categoryCountLabel(String category, int count) {
     return '$category: $count';
   }
+
+  @override
+  String get backupExplanation =>
+      'یہ آپ کے دستاویزات فولڈر میں مقامی ڈیٹا بیس کی مکمل کاپی بناتا ہے۔ اسے بعد میں USB ڈرائیو یا کلاؤڈ سنک شدہ فولڈر میں منتقل کرنا ایک الگ دستی مرحلہ ہے۔';
+
+  @override
+  String get backupNameOptional => 'بیک اپ کا نام (اختیاری)';
+
+  @override
+  String get backupNameHint => 'مثلاً معائنے سے پہلے بیک اپ';
+
+  @override
+  String get backupCreatedTitle => 'بیک اپ بن گیا';
+
+  @override
+  String get tierTeamMember => 'ٹیم ممبر';
+
+  @override
+  String get tierSupervisor => 'سپروائزر';
+
+  @override
+  String get tierManager => 'منیجر';
+
+  @override
+  String get tierRegionalManager => 'علاقائی منیجر';
+
+  @override
+  String get tierDirector => 'ڈائریکٹر';
+
+  @override
+  String get anyTaskFail => 'کوئی بھی کام فیل';
+
+  @override
+  String taskFailLabel(String title) {
+    return 'فیل: $title';
+  }
+
+  @override
+  String get taskFailTemplateStale => 'کام فیل (ٹیمپلیٹ اب موجودہ نہیں ہے)';
+
+  @override
+  String get unknownUserLabel => 'نامعلوم صارف';
+
+  @override
+  String tierSuffixLabel(String tier) {
+    return '$tier سطح';
+  }
+
+  @override
+  String get unsetLabel => 'سیٹ نہیں';
+
+  @override
+  String get pushChannelLabel => 'پش';
+
+  @override
+  String get emailChannelLabel => 'ای میل';
+
+  @override
+  String get inAppOnlyLabel => 'صرف ایپ میں';
+
+  @override
+  String inAppPlusChannelsLabel(String channels) {
+    return 'ایپ میں + $channels';
+  }
+
+  @override
+  String get tierColumnTeam => 'ٹیم';
+
+  @override
+  String get tierColumnSupv => 'سپر';
+
+  @override
+  String get tierColumnMgr => 'منیجر';
+
+  @override
+  String get tierColumnRegnl => 'علاقہ';
+
+  @override
+  String get tierColumnDir => 'ڈائر';
+
+  @override
+  String get quickSetupSectionTitle => 'فوری سیٹ اپ: فی کام فیل اطلاعات';
+
+  @override
+  String get tickTierNotified =>
+      'منتخب کریں کہ کسی مخصوص کام کے فیل ہونے پر کس سطح کو مطلع کیا جائے۔';
+
+  @override
+  String get noTaskTemplatesSetUp =>
+      'ابھی تک کوئی کام ٹیمپلیٹ سیٹ نہیں کیا گیا۔';
+
+  @override
+  String notifyPrefixLabel(String target, String channels) {
+    return 'مطلع کریں: $target ($channels)';
+  }
+
+  @override
+  String setByTierLabel(String tier) {
+    return '$tier سطح کی طرف سے سیٹ کیا گیا';
+  }
+
+  @override
+  String get inactiveSuffixLabel => ' - غیر فعال';
+
+  @override
+  String get deactivateButton => 'غیر فعال کریں';
+
+  @override
+  String get reactivateButton => 'دوبارہ فعال کریں';
+
+  @override
+  String get newRuleTitle => 'نیا اصول';
+
+  @override
+  String get triggerLabel => 'محرک';
+
+  @override
+  String get notifyLabel => 'مطلع کریں';
+
+  @override
+  String get wholeRoleTierOption => 'پورا کردار کی سطح';
+
+  @override
+  String get specificPersonOption => 'ایک مخصوص شخص';
+
+  @override
+  String get roleTierLabel => 'کردار کی سطح';
+
+  @override
+  String get personLabel => 'شخص';
+
+  @override
+  String get pushLabel => 'پش';
+
+  @override
+  String get rulesInAppNotice =>
+      'اصول اب ایپ میں دکھائے جاتے ہیں؛ پش/ای میل ترسیل ابھی بیک اینڈ سے منسلک نہیں ہے اور بعد کے سپرنٹ میں شامل کی جائے گی۔';
+
+  @override
+  String get saveRuleButton => 'اصول محفوظ کریں';
+
+  @override
+  String get addRuleButton => 'اصول شامل کریں';
+
+  @override
+  String get noNotificationRulesYet =>
+      'ابھی تک کوئی اطلاع کا اصول سیٹ نہیں کیا گیا۔';
 }

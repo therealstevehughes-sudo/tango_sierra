@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import 'job_role.dart';
 
 // Five-tier model (Sprint 027, supersedes the original 3-tier top/mid/base).
@@ -22,18 +23,32 @@ RoleTier? nextRoleTierUp(RoleTier tier) {
 // e.g. 'venueManager') never changes — only what's rendered on screen.
 // Every call site that puts a RoleTier in front of a user should go
 // through this, not `tier.name` directly.
-String roleTierDisplayName(RoleTier tier) {
+String roleTierDisplayName(RoleTier tier, [AppLocalizations? l10n]) {
+  if (l10n == null) {
+    switch (tier) {
+      case RoleTier.base:
+        return 'Team Member';
+      case RoleTier.supervisor:
+        return 'Supervisor';
+      case RoleTier.venueManager:
+        return 'Manager';
+      case RoleTier.regional:
+        return 'Regional Manager';
+      case RoleTier.executive:
+        return 'Director';
+    }
+  }
   switch (tier) {
     case RoleTier.base:
-      return 'Team Member';
+      return l10n.tierTeamMember;
     case RoleTier.supervisor:
-      return 'Supervisor';
+      return l10n.tierSupervisor;
     case RoleTier.venueManager:
-      return 'Manager';
+      return l10n.tierManager;
     case RoleTier.regional:
-      return 'Regional Manager';
+      return l10n.tierRegionalManager;
     case RoleTier.executive:
-      return 'Director';
+      return l10n.tierDirector;
   }
 }
 

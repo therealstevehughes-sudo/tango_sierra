@@ -16,6 +16,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
+import '../../l10n/app_localizations.dart';
 
 enum _TargetMode { tier, user }
 
@@ -153,35 +154,38 @@ class _NotificationRulesScreenState
   }
 
   String _triggerLabel(NotificationRule rule) {
-    if (rule.taskTemplateGroupId == null) return 'Any task fail';
+    final l10n = AppLocalizations.of(context)!;
+    if (rule.taskTemplateGroupId == null) return l10n.anyTaskFail;
     for (final template in templates) {
       if (template.templateGroupId == rule.taskTemplateGroupId) {
-        return '${template.title} fail';
+        return l10n.taskFailLabel(template.title);
       }
     }
-    return 'Task fail (template no longer current)';
+    return l10n.taskFailTemplateStale;
   }
 
   String _targetLabel(NotificationRule rule) {
+    final l10n = AppLocalizations.of(context)!;
     if (rule.targetUserId != null) {
       for (final user in allUsers) {
         if (user.id == rule.targetUserId) return user.name;
       }
-      return 'Unknown user';
+      return l10n.unknownUserLabel;
     }
     if (rule.targetRoleTier != null) {
-      return '${roleTierDisplayName(rule.targetRoleTier!)} tier';
+      return l10n.tierSuffixLabel(roleTierDisplayName(rule.targetRoleTier!, l10n));
     }
-    return 'Unset';
+    return l10n.unsetLabel;
   }
 
   String _channelsLabel(NotificationRule rule) {
+    final l10n = AppLocalizations.of(context)!;
     final channels = <String>[
-      if (rule.channelPush) 'push',
-      if (rule.channelEmail) 'email',
+      if (rule.channelPush) l10n.pushChannelLabel,
+      if (rule.channelEmail) l10n.emailChannelLabel,
     ];
-    if (channels.isEmpty) return 'in-app only';
-    return 'in-app + ${channels.join(' + ')}';
+    if (channels.isEmpty) return l10n.inAppOnlyLabel;
+    return l10n.inAppPlusChannelsLabel(channels.join(' + '));
   }
 
   // Short labels so all 5 tier columns fit the quick-setup grid (Sprint 027
@@ -190,17 +194,18 @@ class _NotificationRulesScreenState
   // not the raw enum — 'Exec' would now contradict 'Director' shown
   // everywhere else for the same tier.
   String _tierColumnLabel(RoleTier tier) {
+    final l10n = AppLocalizations.of(context)!;
     switch (tier) {
       case RoleTier.base:
-        return 'Team';
+        return l10n.tierColumnTeam;
       case RoleTier.supervisor:
-        return 'Supv';
+        return l10n.tierColumnSupv;
       case RoleTier.venueManager:
-        return 'Mgr';
+        return l10n.tierColumnMgr;
       case RoleTier.regional:
-        return 'Regnl';
+        return l10n.tierColumnRegnl;
       case RoleTier.executive:
-        return 'Dir';
+        return l10n.tierColumnDir;
     }
   }
 
@@ -243,12 +248,13 @@ class _NotificationRulesScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Notification Rules'),
+        title: Text(l10n.notificationRules),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Notification Rules'),
+      drawer: ManagementDrawer(title: l10n.notificationRules),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : loadError != null
@@ -270,16 +276,16 @@ class _NotificationRulesScreenState
                   _buildQuickSetupSection(),
                   const Divider(),
                   if (rules.isEmpty)
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                      child: Text('No notification rules set up yet.'),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: Text(l10n.noNotificationRulesYet),
                     )
                   else
                     ...rules.map(_buildRuleTile),
                   const Divider(),
                   if (!showForm)
                     PrimaryActionButton(
-                      label: 'Add Rule',
+                      label: l10n.addRuleButton,
                       onPressed: () => setState(() => showForm = true),
                     )
                   else
@@ -294,19 +300,20 @@ class _NotificationRulesScreenState
   }
 
   Widget _buildQuickSetupSection() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const SectionHeader(title: 'Quick setup: per-task fail notifications'),
+        SectionHeader(title: l10n.quickSetupSectionTitle),
         Text(
-          'Tick which tier gets notified when a specific task fails.',
+          l10n.tickTierNotified,
           style: Theme.of(context).textTheme.bodySmall,
         ),
         const SizedBox(height: 8),
         if (templates.isEmpty)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8),
-            child: Text('No task templates set up yet.'),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Text(l10n.noTaskTemplatesSetUp),
           )
         else
           SingleChildScrollView(
@@ -364,41 +371,43 @@ class _NotificationRulesScreenState
   }
 
   Widget _buildRuleTile(NotificationRule rule) {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       child: ListTile(
         title: Text(_triggerLabel(rule)),
         subtitle: Text(
-          'Notify: ${_targetLabel(rule)} (${_channelsLabel(rule)})\n'
-          'Set by ${roleTierDisplayName(rule.setByTier)} tier'
-          '${rule.active ? '' : ' - inactive'}',
+          '${l10n.notifyPrefixLabel(_targetLabel(rule), _channelsLabel(rule))}\n'
+          '${l10n.setByTierLabel(roleTierDisplayName(rule.setByTier, l10n))}'
+          '${rule.active ? '' : l10n.inactiveSuffixLabel}',
         ),
         isThreeLine: true,
         trailing: TextButton(
           onPressed: () => _setActive(rule, !rule.active),
-          child: Text(rule.active ? 'Deactivate' : 'Reactivate'),
+          child: Text(rule.active ? l10n.deactivateButton : l10n.reactivateButton),
         ),
       ),
     );
   }
 
   Widget _buildForm() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 12),
-        const SectionHeader(title: 'New Rule'),
+        SectionHeader(title: l10n.newRuleTitle),
         DropdownButtonFormField<int?>(
           initialValue: formTaskTemplateGroupId,
-          decoration: const InputDecoration(labelText: 'Trigger'),
+          decoration: InputDecoration(labelText: l10n.triggerLabel),
           items: [
-            const DropdownMenuItem<int?>(
+            DropdownMenuItem<int?>(
               value: null,
-              child: Text('Any task fail'),
+              child: Text(l10n.anyTaskFail),
             ),
             ...templates.map(
               (t) => DropdownMenuItem<int?>(
                 value: t.templateGroupId,
-                child: Text('${t.title} fail'),
+                child: Text(l10n.taskFailLabel(t.title)),
               ),
             ),
           ],
@@ -407,15 +416,15 @@ class _NotificationRulesScreenState
         const SizedBox(height: 12),
         DropdownButtonFormField<_TargetMode>(
           initialValue: formTargetMode,
-          decoration: const InputDecoration(labelText: 'Notify'),
-          items: const [
+          decoration: InputDecoration(labelText: l10n.notifyLabel),
+          items: [
             DropdownMenuItem(
               value: _TargetMode.tier,
-              child: Text('A whole role tier'),
+              child: Text(l10n.wholeRoleTierOption),
             ),
             DropdownMenuItem(
               value: _TargetMode.user,
-              child: Text('A specific person'),
+              child: Text(l10n.specificPersonOption),
             ),
           ],
           onChanged: (value) {
@@ -426,12 +435,12 @@ class _NotificationRulesScreenState
         if (formTargetMode == _TargetMode.tier)
           DropdownButtonFormField<RoleTier>(
             initialValue: formTargetTier,
-            decoration: const InputDecoration(labelText: 'Role tier'),
+            decoration: InputDecoration(labelText: l10n.roleTierLabel),
             items: RoleTier.values
                 .map(
                   (t) => DropdownMenuItem(
                     value: t,
-                    child: Text(roleTierDisplayName(t)),
+                    child: Text(roleTierDisplayName(t, l10n)),
                   ),
                 )
                 .toList(),
@@ -442,7 +451,7 @@ class _NotificationRulesScreenState
         else
           DropdownButtonFormField<int?>(
             initialValue: formTargetUserId,
-            decoration: const InputDecoration(labelText: 'Person'),
+            decoration: InputDecoration(labelText: l10n.personLabel),
             items: allUsers
                 .map(
                   (u) => DropdownMenuItem<int?>(
@@ -454,20 +463,19 @@ class _NotificationRulesScreenState
             onChanged: (value) => setState(() => formTargetUserId = value),
           ),
         CheckboxListTile(
-          title: const Text('Push'),
+          title: Text(l10n.pushLabel),
           value: formChannelPush,
           onChanged: (v) => setState(() => formChannelPush = v ?? false),
         ),
         CheckboxListTile(
-          title: const Text('Email'),
+          title: Text(l10n.emailLabel),
           value: formChannelEmail,
           onChanged: (v) => setState(() => formChannelEmail = v ?? false),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Text(
-            'Rules are shown in-app now; push/email delivery is not yet '
-            'connected to a backend and will be added in a later sprint.',
+            l10n.rulesInAppNotice,
             style: Theme.of(context).textTheme.bodySmall,
           ),
         ),
@@ -477,10 +485,10 @@ class _NotificationRulesScreenState
           children: [
             TextButton(
               onPressed: () => setState(() => showForm = false),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             PrimaryActionButton(
-              label: 'Save Rule',
+              label: l10n.saveRuleButton,
               onPressed:
                   formTargetMode == _TargetMode.user && formTargetUserId == null
                   ? null

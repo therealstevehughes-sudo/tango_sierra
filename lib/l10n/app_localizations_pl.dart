@@ -1707,4 +1707,153 @@ class AppLocalizationsPl extends AppLocalizations {
   String categoryCountLabel(String category, int count) {
     return '$category: $count';
   }
+
+  @override
+  String get backupExplanation =>
+      'Tworzy to pełną kopię lokalnej bazy danych w folderze Dokumenty. Przeniesienie jej na dysk USB lub folder synchronizowany z chmurą to osobny, ręczny krok.';
+
+  @override
+  String get backupNameOptional => 'Nazwa kopii zapasowej (opcjonalnie)';
+
+  @override
+  String get backupNameHint => 'np. Kopia przed inspekcją';
+
+  @override
+  String get backupCreatedTitle => 'Kopia zapasowa utworzona';
+
+  @override
+  String get tierTeamMember => 'Członek zespołu';
+
+  @override
+  String get tierSupervisor => 'Kierownik zmiany';
+
+  @override
+  String get tierManager => 'Kierownik';
+
+  @override
+  String get tierRegionalManager => 'Kierownik regionalny';
+
+  @override
+  String get tierDirector => 'Dyrektor';
+
+  @override
+  String get anyTaskFail => 'Dowolne niezaliczenie zadania';
+
+  @override
+  String taskFailLabel(String title) {
+    return 'Niezaliczenie: $title';
+  }
+
+  @override
+  String get taskFailTemplateStale =>
+      'Niezaliczenie zadania (szablon nieaktualny)';
+
+  @override
+  String get unknownUserLabel => 'Nieznany użytkownik';
+
+  @override
+  String tierSuffixLabel(String tier) {
+    return 'poziom $tier';
+  }
+
+  @override
+  String get unsetLabel => 'Nieustawione';
+
+  @override
+  String get pushChannelLabel => 'powiadomienie push';
+
+  @override
+  String get emailChannelLabel => 'e-mail';
+
+  @override
+  String get inAppOnlyLabel => 'tylko w aplikacji';
+
+  @override
+  String inAppPlusChannelsLabel(String channels) {
+    return 'w aplikacji + $channels';
+  }
+
+  @override
+  String get tierColumnTeam => 'Zespół';
+
+  @override
+  String get tierColumnSupv => 'Kier.zm.';
+
+  @override
+  String get tierColumnMgr => 'Kier.';
+
+  @override
+  String get tierColumnRegnl => 'Region.';
+
+  @override
+  String get tierColumnDir => 'Dyr.';
+
+  @override
+  String get quickSetupSectionTitle =>
+      'Szybka konfiguracja: powiadomienia o niezaliczeniu zadań';
+
+  @override
+  String get tickTierNotified =>
+      'Zaznacz, który poziom ma być powiadamiany, gdy dane zadanie zostanie niezaliczone.';
+
+  @override
+  String get noTaskTemplatesSetUp =>
+      'Nie skonfigurowano jeszcze żadnych szablonów zadań.';
+
+  @override
+  String notifyPrefixLabel(String target, String channels) {
+    return 'Powiadom: $target ($channels)';
+  }
+
+  @override
+  String setByTierLabel(String tier) {
+    return 'Ustawione przez poziom $tier';
+  }
+
+  @override
+  String get inactiveSuffixLabel => ' - nieaktywne';
+
+  @override
+  String get deactivateButton => 'Dezaktywuj';
+
+  @override
+  String get reactivateButton => 'Reaktywuj';
+
+  @override
+  String get newRuleTitle => 'Nowa reguła';
+
+  @override
+  String get triggerLabel => 'Wyzwalacz';
+
+  @override
+  String get notifyLabel => 'Powiadom';
+
+  @override
+  String get wholeRoleTierOption => 'Cały poziom roli';
+
+  @override
+  String get specificPersonOption => 'Konkretną osobę';
+
+  @override
+  String get roleTierLabel => 'Poziom roli';
+
+  @override
+  String get personLabel => 'Osoba';
+
+  @override
+  String get pushLabel => 'Push';
+
+  @override
+  String get rulesInAppNotice =>
+      'Reguły są obecnie pokazywane w aplikacji; dostarczanie push/e-mail nie jest jeszcze połączone z backendem i zostanie dodane w kolejnym sprincie.';
+
+  @override
+  String get saveRuleButton => 'Zapisz regułę';
+
+  @override
+  String get addRuleButton => 'Dodaj regułę';
+
+  @override
+  String get noNotificationRulesYet =>
+      'Nie skonfigurowano jeszcze żadnych reguł powiadomień.';
 }

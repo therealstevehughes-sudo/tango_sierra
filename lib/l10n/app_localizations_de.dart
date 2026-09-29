@@ -1717,4 +1717,153 @@ class AppLocalizationsDe extends AppLocalizations {
   String categoryCountLabel(String category, int count) {
     return '$category: $count';
   }
+
+  @override
+  String get backupExplanation =>
+      'Dies erstellt eine vollständige Kopie der lokalen Datenbank in deinem Dokumente-Ordner. Sie anschließend auf ein USB-Laufwerk oder einen Cloud-synchronisierten Ordner zu verschieben, ist ein separater manueller Schritt.';
+
+  @override
+  String get backupNameOptional => 'Backup-Name (optional)';
+
+  @override
+  String get backupNameHint => 'z. B. Backup vor der Inspektion';
+
+  @override
+  String get backupCreatedTitle => 'Backup erstellt';
+
+  @override
+  String get tierTeamMember => 'Teammitglied';
+
+  @override
+  String get tierSupervisor => 'Vorgesetzter';
+
+  @override
+  String get tierManager => 'Manager';
+
+  @override
+  String get tierRegionalManager => 'Regionalleiter';
+
+  @override
+  String get tierDirector => 'Direktor';
+
+  @override
+  String get anyTaskFail => 'Beliebige nicht bestandene Aufgabe';
+
+  @override
+  String taskFailLabel(String title) {
+    return 'Nicht bestanden: $title';
+  }
+
+  @override
+  String get taskFailTemplateStale =>
+      'Aufgabe nicht bestanden (Vorlage nicht mehr aktuell)';
+
+  @override
+  String get unknownUserLabel => 'Unbekannter Benutzer';
+
+  @override
+  String tierSuffixLabel(String tier) {
+    return 'Ebene $tier';
+  }
+
+  @override
+  String get unsetLabel => 'Nicht festgelegt';
+
+  @override
+  String get pushChannelLabel => 'Push';
+
+  @override
+  String get emailChannelLabel => 'E-Mail';
+
+  @override
+  String get inAppOnlyLabel => 'nur in der App';
+
+  @override
+  String inAppPlusChannelsLabel(String channels) {
+    return 'In-App + $channels';
+  }
+
+  @override
+  String get tierColumnTeam => 'Team';
+
+  @override
+  String get tierColumnSupv => 'Vorg.';
+
+  @override
+  String get tierColumnMgr => 'Mgr';
+
+  @override
+  String get tierColumnRegnl => 'Region';
+
+  @override
+  String get tierColumnDir => 'Dir';
+
+  @override
+  String get quickSetupSectionTitle =>
+      'Schnelleinrichtung: Benachrichtigungen bei nicht bestandenen Aufgaben';
+
+  @override
+  String get tickTierNotified =>
+      'Wähle aus, welche Ebene benachrichtigt wird, wenn eine bestimmte Aufgabe nicht besteht.';
+
+  @override
+  String get noTaskTemplatesSetUp =>
+      'Noch keine Aufgabenvorlagen eingerichtet.';
+
+  @override
+  String notifyPrefixLabel(String target, String channels) {
+    return 'Benachrichtigen: $target ($channels)';
+  }
+
+  @override
+  String setByTierLabel(String tier) {
+    return 'Festgelegt von Ebene $tier';
+  }
+
+  @override
+  String get inactiveSuffixLabel => ' - inaktiv';
+
+  @override
+  String get deactivateButton => 'Deaktivieren';
+
+  @override
+  String get reactivateButton => 'Reaktivieren';
+
+  @override
+  String get newRuleTitle => 'Neue Regel';
+
+  @override
+  String get triggerLabel => 'Auslöser';
+
+  @override
+  String get notifyLabel => 'Benachrichtigen';
+
+  @override
+  String get wholeRoleTierOption => 'Eine ganze Rollenebene';
+
+  @override
+  String get specificPersonOption => 'Eine bestimmte Person';
+
+  @override
+  String get roleTierLabel => 'Rollenebene';
+
+  @override
+  String get personLabel => 'Person';
+
+  @override
+  String get pushLabel => 'Push';
+
+  @override
+  String get rulesInAppNotice =>
+      'Regeln werden jetzt nur in der App angezeigt; Push-/E-Mail-Zustellung ist noch nicht mit einem Backend verbunden und wird in einem späteren Sprint hinzugefügt.';
+
+  @override
+  String get saveRuleButton => 'Regel speichern';
+
+  @override
+  String get addRuleButton => 'Regel hinzufügen';
+
+  @override
+  String get noNotificationRulesYet =>
+      'Noch keine Benachrichtigungsregeln eingerichtet.';
 }

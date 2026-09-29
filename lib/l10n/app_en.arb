@@ -905,5 +905,87 @@
         "type": "int"
       }
     }
-  }
+  },
+  "backupExplanation": "This creates a complete copy of the local database in your Documents folder. Moving it to a USB drive or cloud-synced folder afterward is a separate manual step.",
+  "backupNameOptional": "Backup name (optional)",
+  "backupNameHint": "e.g. Pre-inspection backup",
+  "backupCreatedTitle": "Backup Created",
+  "tierTeamMember": "Team Member",
+  "tierSupervisor": "Supervisor",
+  "tierManager": "Manager",
+  "tierRegionalManager": "Regional Manager",
+  "tierDirector": "Director",
+  "anyTaskFail": "Any task fail",
+  "taskFailLabel": "{title} fail",
+  "@taskFailLabel": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "taskFailTemplateStale": "Task fail (template no longer current)",
+  "unknownUserLabel": "Unknown user",
+  "tierSuffixLabel": "{tier} tier",
+  "@tierSuffixLabel": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      }
+    }
+  },
+  "unsetLabel": "Unset",
+  "pushChannelLabel": "push",
+  "emailChannelLabel": "email",
+  "inAppOnlyLabel": "in-app only",
+  "inAppPlusChannelsLabel": "in-app + {channels}",
+  "@inAppPlusChannelsLabel": {
+    "placeholders": {
+      "channels": {
+        "type": "String"
+      }
+    }
+  },
+  "tierColumnTeam": "Team",
+  "tierColumnSupv": "Supv",
+  "tierColumnMgr": "Mgr",
+  "tierColumnRegnl": "Regnl",
+  "tierColumnDir": "Dir",
+  "quickSetupSectionTitle": "Quick setup: per-task fail notifications",
+  "tickTierNotified": "Tick which tier gets notified when a specific task fails.",
+  "noTaskTemplatesSetUp": "No task templates set up yet.",
+  "notifyPrefixLabel": "Notify: {target} ({channels})",
+  "@notifyPrefixLabel": {
+    "placeholders": {
+      "target": {
+        "type": "String"
+      },
+      "channels": {
+        "type": "String"
+      }
+    }
+  },
+  "setByTierLabel": "Set by {tier} tier",
+  "@setByTierLabel": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      }
+    }
+  },
+  "inactiveSuffixLabel": " - inactive",
+  "deactivateButton": "Deactivate",
+  "reactivateButton": "Reactivate",
+  "newRuleTitle": "New Rule",
+  "triggerLabel": "Trigger",
+  "notifyLabel": "Notify",
+  "wholeRoleTierOption": "A whole role tier",
+  "specificPersonOption": "A specific person",
+  "roleTierLabel": "Role tier",
+  "personLabel": "Person",
+  "pushLabel": "Push",
+  "rulesInAppNotice": "Rules are shown in-app now; push/email delivery is not yet connected to a backend and will be added in a later sprint.",
+  "saveRuleButton": "Save Rule",
+  "addRuleButton": "Add Rule",
+  "noNotificationRulesYet": "No notification rules set up yet."
 }

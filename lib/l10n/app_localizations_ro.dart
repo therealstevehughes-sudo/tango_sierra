@@ -1712,4 +1712,153 @@ class AppLocalizationsRo extends AppLocalizations {
   String categoryCountLabel(String category, int count) {
     return '$category: $count';
   }
+
+  @override
+  String get backupExplanation =>
+      'Aceasta creează o copie completă a bazei de date locale în folderul Documente. Mutarea acesteia pe o unitate USB sau un folder sincronizat cloud ulterior este un pas manual separat.';
+
+  @override
+  String get backupNameOptional => 'Nume backup (opțional)';
+
+  @override
+  String get backupNameHint => 'ex. Backup înainte de inspecție';
+
+  @override
+  String get backupCreatedTitle => 'Backup creat';
+
+  @override
+  String get tierTeamMember => 'Membru al echipei';
+
+  @override
+  String get tierSupervisor => 'Supervizor';
+
+  @override
+  String get tierManager => 'Manager';
+
+  @override
+  String get tierRegionalManager => 'Manager regional';
+
+  @override
+  String get tierDirector => 'Director';
+
+  @override
+  String get anyTaskFail => 'Orice sarcină nereușită';
+
+  @override
+  String taskFailLabel(String title) {
+    return 'Eșec: $title';
+  }
+
+  @override
+  String get taskFailTemplateStale =>
+      'Eșec sarcină (șablon nu mai este curent)';
+
+  @override
+  String get unknownUserLabel => 'Utilizator necunoscut';
+
+  @override
+  String tierSuffixLabel(String tier) {
+    return 'nivel $tier';
+  }
+
+  @override
+  String get unsetLabel => 'Nesetat';
+
+  @override
+  String get pushChannelLabel => 'push';
+
+  @override
+  String get emailChannelLabel => 'e-mail';
+
+  @override
+  String get inAppOnlyLabel => 'doar în aplicație';
+
+  @override
+  String inAppPlusChannelsLabel(String channels) {
+    return 'în aplicație + $channels';
+  }
+
+  @override
+  String get tierColumnTeam => 'Echipă';
+
+  @override
+  String get tierColumnSupv => 'Sprv';
+
+  @override
+  String get tierColumnMgr => 'Mgr';
+
+  @override
+  String get tierColumnRegnl => 'Regnl';
+
+  @override
+  String get tierColumnDir => 'Dir';
+
+  @override
+  String get quickSetupSectionTitle =>
+      'Configurare rapidă: notificări pentru eșecul sarcinilor';
+
+  @override
+  String get tickTierNotified =>
+      'Bifează ce nivel este notificat când o anumită sarcină eșuează.';
+
+  @override
+  String get noTaskTemplatesSetUp =>
+      'Niciun șablon de sarcină configurat încă.';
+
+  @override
+  String notifyPrefixLabel(String target, String channels) {
+    return 'Notifică: $target ($channels)';
+  }
+
+  @override
+  String setByTierLabel(String tier) {
+    return 'Setat de nivelul $tier';
+  }
+
+  @override
+  String get inactiveSuffixLabel => ' - inactiv';
+
+  @override
+  String get deactivateButton => 'Dezactivează';
+
+  @override
+  String get reactivateButton => 'Reactivează';
+
+  @override
+  String get newRuleTitle => 'Regulă nouă';
+
+  @override
+  String get triggerLabel => 'Declanșator';
+
+  @override
+  String get notifyLabel => 'Notifică';
+
+  @override
+  String get wholeRoleTierOption => 'Un întreg nivel de rol';
+
+  @override
+  String get specificPersonOption => 'O anumită persoană';
+
+  @override
+  String get roleTierLabel => 'Nivel de rol';
+
+  @override
+  String get personLabel => 'Persoană';
+
+  @override
+  String get pushLabel => 'Push';
+
+  @override
+  String get rulesInAppNotice =>
+      'Regulile sunt afișate acum doar în aplicație; livrarea push/e-mail nu este încă conectată la un backend și va fi adăugată într-un sprint viitor.';
+
+  @override
+  String get saveRuleButton => 'Salvează regula';
+
+  @override
+  String get addRuleButton => 'Adaugă regulă';
+
+  @override
+  String get noNotificationRulesYet =>
+      'Nicio regulă de notificare configurată încă.';
 }

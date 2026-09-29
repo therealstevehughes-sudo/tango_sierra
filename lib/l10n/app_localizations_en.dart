@@ -1690,4 +1690,150 @@ class AppLocalizationsEn extends AppLocalizations {
   String categoryCountLabel(String category, int count) {
     return '$category: $count';
   }
+
+  @override
+  String get backupExplanation =>
+      'This creates a complete copy of the local database in your Documents folder. Moving it to a USB drive or cloud-synced folder afterward is a separate manual step.';
+
+  @override
+  String get backupNameOptional => 'Backup name (optional)';
+
+  @override
+  String get backupNameHint => 'e.g. Pre-inspection backup';
+
+  @override
+  String get backupCreatedTitle => 'Backup Created';
+
+  @override
+  String get tierTeamMember => 'Team Member';
+
+  @override
+  String get tierSupervisor => 'Supervisor';
+
+  @override
+  String get tierManager => 'Manager';
+
+  @override
+  String get tierRegionalManager => 'Regional Manager';
+
+  @override
+  String get tierDirector => 'Director';
+
+  @override
+  String get anyTaskFail => 'Any task fail';
+
+  @override
+  String taskFailLabel(String title) {
+    return '$title fail';
+  }
+
+  @override
+  String get taskFailTemplateStale => 'Task fail (template no longer current)';
+
+  @override
+  String get unknownUserLabel => 'Unknown user';
+
+  @override
+  String tierSuffixLabel(String tier) {
+    return '$tier tier';
+  }
+
+  @override
+  String get unsetLabel => 'Unset';
+
+  @override
+  String get pushChannelLabel => 'push';
+
+  @override
+  String get emailChannelLabel => 'email';
+
+  @override
+  String get inAppOnlyLabel => 'in-app only';
+
+  @override
+  String inAppPlusChannelsLabel(String channels) {
+    return 'in-app + $channels';
+  }
+
+  @override
+  String get tierColumnTeam => 'Team';
+
+  @override
+  String get tierColumnSupv => 'Supv';
+
+  @override
+  String get tierColumnMgr => 'Mgr';
+
+  @override
+  String get tierColumnRegnl => 'Regnl';
+
+  @override
+  String get tierColumnDir => 'Dir';
+
+  @override
+  String get quickSetupSectionTitle =>
+      'Quick setup: per-task fail notifications';
+
+  @override
+  String get tickTierNotified =>
+      'Tick which tier gets notified when a specific task fails.';
+
+  @override
+  String get noTaskTemplatesSetUp => 'No task templates set up yet.';
+
+  @override
+  String notifyPrefixLabel(String target, String channels) {
+    return 'Notify: $target ($channels)';
+  }
+
+  @override
+  String setByTierLabel(String tier) {
+    return 'Set by $tier tier';
+  }
+
+  @override
+  String get inactiveSuffixLabel => ' - inactive';
+
+  @override
+  String get deactivateButton => 'Deactivate';
+
+  @override
+  String get reactivateButton => 'Reactivate';
+
+  @override
+  String get newRuleTitle => 'New Rule';
+
+  @override
+  String get triggerLabel => 'Trigger';
+
+  @override
+  String get notifyLabel => 'Notify';
+
+  @override
+  String get wholeRoleTierOption => 'A whole role tier';
+
+  @override
+  String get specificPersonOption => 'A specific person';
+
+  @override
+  String get roleTierLabel => 'Role tier';
+
+  @override
+  String get personLabel => 'Person';
+
+  @override
+  String get pushLabel => 'Push';
+
+  @override
+  String get rulesInAppNotice =>
+      'Rules are shown in-app now; push/email delivery is not yet connected to a backend and will be added in a later sprint.';
+
+  @override
+  String get saveRuleButton => 'Save Rule';
+
+  @override
+  String get addRuleButton => 'Add Rule';
+
+  @override
+  String get noNotificationRulesYet => 'No notification rules set up yet.';
 }

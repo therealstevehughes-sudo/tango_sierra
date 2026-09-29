@@ -3047,6 +3047,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{category}: {count}'**
   String categoryCountLabel(String category, int count);
+
+  /// No description provided for @backupExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'This creates a complete copy of the local database in your Documents folder. Moving it to a USB drive or cloud-synced folder afterward is a separate manual step.'**
+  String get backupExplanation;
+
+  /// No description provided for @backupNameOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup name (optional)'**
+  String get backupNameOptional;
+
+  /// No description provided for @backupNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Pre-inspection backup'**
+  String get backupNameHint;
+
+  /// No description provided for @backupCreatedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Created'**
+  String get backupCreatedTitle;
+
+  /// No description provided for @tierTeamMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Team Member'**
+  String get tierTeamMember;
+
+  /// No description provided for @tierSupervisor.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor'**
+  String get tierSupervisor;
+
+  /// No description provided for @tierManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager'**
+  String get tierManager;
+
+  /// No description provided for @tierRegionalManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Regional Manager'**
+  String get tierRegionalManager;
+
+  /// No description provided for @tierDirector.
+  ///
+  /// In en, this message translates to:
+  /// **'Director'**
+  String get tierDirector;
+
+  /// No description provided for @anyTaskFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Any task fail'**
+  String get anyTaskFail;
+
+  /// No description provided for @taskFailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} fail'**
+  String taskFailLabel(String title);
+
+  /// No description provided for @taskFailTemplateStale.
+  ///
+  /// In en, this message translates to:
+  /// **'Task fail (template no longer current)'**
+  String get taskFailTemplateStale;
+
+  /// No description provided for @unknownUserLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown user'**
+  String get unknownUserLabel;
+
+  /// No description provided for @tierSuffixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{tier} tier'**
+  String tierSuffixLabel(String tier);
+
+  /// No description provided for @unsetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unset'**
+  String get unsetLabel;
+
+  /// No description provided for @pushChannelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'push'**
+  String get pushChannelLabel;
+
+  /// No description provided for @emailChannelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'email'**
+  String get emailChannelLabel;
+
+  /// No description provided for @inAppOnlyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'in-app only'**
+  String get inAppOnlyLabel;
+
+  /// No description provided for @inAppPlusChannelsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'in-app + {channels}'**
+  String inAppPlusChannelsLabel(String channels);
+
+  /// No description provided for @tierColumnTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Team'**
+  String get tierColumnTeam;
+
+  /// No description provided for @tierColumnSupv.
+  ///
+  /// In en, this message translates to:
+  /// **'Supv'**
+  String get tierColumnSupv;
+
+  /// No description provided for @tierColumnMgr.
+  ///
+  /// In en, this message translates to:
+  /// **'Mgr'**
+  String get tierColumnMgr;
+
+  /// No description provided for @tierColumnRegnl.
+  ///
+  /// In en, this message translates to:
+  /// **'Regnl'**
+  String get tierColumnRegnl;
+
+  /// No description provided for @tierColumnDir.
+  ///
+  /// In en, this message translates to:
+  /// **'Dir'**
+  String get tierColumnDir;
+
+  /// No description provided for @quickSetupSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick setup: per-task fail notifications'**
+  String get quickSetupSectionTitle;
+
+  /// No description provided for @tickTierNotified.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick which tier gets notified when a specific task fails.'**
+  String get tickTierNotified;
+
+  /// No description provided for @noTaskTemplatesSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'No task templates set up yet.'**
+  String get noTaskTemplatesSetUp;
+
+  /// No description provided for @notifyPrefixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify: {target} ({channels})'**
+  String notifyPrefixLabel(String target, String channels);
+
+  /// No description provided for @setByTierLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Set by {tier} tier'**
+  String setByTierLabel(String tier);
+
+  /// No description provided for @inactiveSuffixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **' - inactive'**
+  String get inactiveSuffixLabel;
+
+  /// No description provided for @deactivateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Deactivate'**
+  String get deactivateButton;
+
+  /// No description provided for @reactivateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Reactivate'**
+  String get reactivateButton;
+
+  /// No description provided for @newRuleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Rule'**
+  String get newRuleTitle;
+
+  /// No description provided for @triggerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Trigger'**
+  String get triggerLabel;
+
+  /// No description provided for @notifyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify'**
+  String get notifyLabel;
+
+  /// No description provided for @wholeRoleTierOption.
+  ///
+  /// In en, this message translates to:
+  /// **'A whole role tier'**
+  String get wholeRoleTierOption;
+
+  /// No description provided for @specificPersonOption.
+  ///
+  /// In en, this message translates to:
+  /// **'A specific person'**
+  String get specificPersonOption;
+
+  /// No description provided for @roleTierLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Role tier'**
+  String get roleTierLabel;
+
+  /// No description provided for @personLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Person'**
+  String get personLabel;
+
+  /// No description provided for @pushLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Push'**
+  String get pushLabel;
+
+  /// No description provided for @rulesInAppNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Rules are shown in-app now; push/email delivery is not yet connected to a backend and will be added in a later sprint.'**
+  String get rulesInAppNotice;
+
+  /// No description provided for @saveRuleButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Rule'**
+  String get saveRuleButton;
+
+  /// No description provided for @addRuleButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Rule'**
+  String get addRuleButton;
+
+  /// No description provided for @noNotificationRulesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No notification rules set up yet.'**
+  String get noNotificationRulesYet;
 }
 
 class _AppLocalizationsDelegate
