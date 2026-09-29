@@ -833,4 +833,86 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get urgentLabel => 'عاجل';
+
+  @override
+  String get signInFailed => 'فشل تسجيل الدخول';
+
+  @override
+  String get twoFactorRequiredNoFactor =>
+      'التحقق بخطوتين مطلوب ولكن لم يتم العثور على أي عامل مصادقة.';
+
+  @override
+  String get couldNotVerifyCode => 'تعذر التحقق من هذا الرمز';
+
+  @override
+  String get codeDidntWork => 'هذا الرمز لم ينجح.';
+
+  @override
+  String get accountNotLinkedToStaff =>
+      'هذا الحساب غير مرتبط بملف موظف بعد - تواصل مع المسؤول.';
+
+  @override
+  String get resetPasswordTitle => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get enterEmailForResetCode =>
+      'أدخل بريدك الإلكتروني وسنرسل لك رمزًا لإعادة تعيين كلمة المرور.';
+
+  @override
+  String get emailLabel => 'البريد الإلكتروني';
+
+  @override
+  String get sendCodeButton => 'إرسال الرمز';
+
+  @override
+  String get backToSignIn => 'العودة لتسجيل الدخول';
+
+  @override
+  String sentCodeToEmail(String email) {
+    return 'أرسلنا رمزًا إلى $email. أدخله أدناه مع كلمة المرور الجديدة.';
+  }
+
+  @override
+  String get sixDigitCodeLabel => 'رمز مكون من 6 أرقام';
+
+  @override
+  String get newPasswordLabel => 'كلمة المرور الجديدة';
+
+  @override
+  String get resetPasswordButton => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get twoFactorVerificationTitle => 'التحقق بخطوتين';
+
+  @override
+  String get enterAuthenticatorCode => 'أدخل الرمز من تطبيق المصادقة.';
+
+  @override
+  String get verifyButton => 'تحقق';
+
+  @override
+  String get regionalDirectorSignIn => 'تسجيل دخول المدير الإقليمي/التنفيذي.';
+
+  @override
+  String get passwordLabel => 'كلمة المرور';
+
+  @override
+  String get signInButton => 'تسجيل الدخول';
+
+  @override
+  String get forgotPasswordLink => 'هل نسيت كلمة المرور؟';
+
+  @override
+  String get noBackendConfiguredPin =>
+      'لا يوجد خادم خلفي مُهيأ لهذا التثبيت - سجّل الدخول باستخدام رمز PIN مثل أي شخص آخر.';
+
+  @override
+  String get noDirectorRegionalAccounts =>
+      'لا توجد حسابات مدير/إقليمي على هذا الجهاز.';
+
+  @override
+  String get directorLabel => 'مدير تنفيذي';
+
+  @override
+  String get regionalManagerLabel => 'مدير إقليمي';
 }

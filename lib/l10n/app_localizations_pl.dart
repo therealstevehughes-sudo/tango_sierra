@@ -843,4 +843,87 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get urgentLabel => 'Pilne';
+
+  @override
+  String get signInFailed => 'Logowanie nie powiodło się';
+
+  @override
+  String get twoFactorRequiredNoFactor =>
+      'Wymagana jest weryfikacja dwuetapowa, ale nie znaleziono metody.';
+
+  @override
+  String get couldNotVerifyCode => 'Nie udało się zweryfikować tego kodu';
+
+  @override
+  String get codeDidntWork => 'Ten kod nie zadziałał.';
+
+  @override
+  String get accountNotLinkedToStaff =>
+      'To konto nie jest jeszcze powiązane z profilem pracownika - skontaktuj się z administratorem.';
+
+  @override
+  String get resetPasswordTitle => 'Resetuj hasło';
+
+  @override
+  String get enterEmailForResetCode =>
+      'Podaj swój e-mail, a wyślemy Ci kod do zresetowania hasła.';
+
+  @override
+  String get emailLabel => 'E-mail';
+
+  @override
+  String get sendCodeButton => 'WYŚLIJ KOD';
+
+  @override
+  String get backToSignIn => 'Wróć do logowania';
+
+  @override
+  String sentCodeToEmail(String email) {
+    return 'Wysłaliśmy kod na adres $email. Wpisz go poniżej razem z nowym hasłem.';
+  }
+
+  @override
+  String get sixDigitCodeLabel => '6-cyfrowy kod';
+
+  @override
+  String get newPasswordLabel => 'Nowe hasło';
+
+  @override
+  String get resetPasswordButton => 'ZRESETUJ HASŁO';
+
+  @override
+  String get twoFactorVerificationTitle => 'Weryfikacja dwuetapowa';
+
+  @override
+  String get enterAuthenticatorCode =>
+      'Wprowadź kod z aplikacji uwierzytelniającej.';
+
+  @override
+  String get verifyButton => 'ZWERYFIKUJ';
+
+  @override
+  String get regionalDirectorSignIn => 'Logowanie dla regionu i dyrekcji.';
+
+  @override
+  String get passwordLabel => 'Hasło';
+
+  @override
+  String get signInButton => 'ZALOGUJ SIĘ';
+
+  @override
+  String get forgotPasswordLink => 'Zapomniałeś hasła?';
+
+  @override
+  String get noBackendConfiguredPin =>
+      'Dla tej instalacji nie skonfigurowano backendu - zaloguj się kodem PIN, tak jak wszyscy inni.';
+
+  @override
+  String get noDirectorRegionalAccounts =>
+      'Brak kont dyrektora/regionalnego na tym urządzeniu.';
+
+  @override
+  String get directorLabel => 'Dyrektor';
+
+  @override
+  String get regionalManagerLabel => 'Kierownik regionalny';
 }

@@ -845,4 +845,88 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get urgentLabel => 'Hitno';
+
+  @override
+  String get signInFailed => 'Prijava nije uspjela';
+
+  @override
+  String get twoFactorRequiredNoFactor =>
+      'Potrebna je dvofaktorska provjera, ali nije pronađen nijedan faktor.';
+
+  @override
+  String get couldNotVerifyCode => 'Taj kod nije bilo moguće provjeriti';
+
+  @override
+  String get codeDidntWork => 'Taj kod nije funkcionirao.';
+
+  @override
+  String get accountNotLinkedToStaff =>
+      'Ovaj račun još nije povezan s profilom osoblja - kontaktiraj administratora.';
+
+  @override
+  String get resetPasswordTitle => 'Resetiraj lozinku';
+
+  @override
+  String get enterEmailForResetCode =>
+      'Unesi svoj e-mail i poslat ćemo ti kod za resetiranje lozinke.';
+
+  @override
+  String get emailLabel => 'E-mail';
+
+  @override
+  String get sendCodeButton => 'POŠALJI KOD';
+
+  @override
+  String get backToSignIn => 'Natrag na prijavu';
+
+  @override
+  String sentCodeToEmail(String email) {
+    return 'Poslali smo kod na $email. Unesi ga u nastavku zajedno s novom lozinkom.';
+  }
+
+  @override
+  String get sixDigitCodeLabel => '6-znamenkasti kod';
+
+  @override
+  String get newPasswordLabel => 'Nova lozinka';
+
+  @override
+  String get resetPasswordButton => 'RESETIRAJ LOZINKU';
+
+  @override
+  String get twoFactorVerificationTitle => 'Dvofaktorska provjera';
+
+  @override
+  String get enterAuthenticatorCode =>
+      'Unesi kod iz svoje aplikacije za autentifikaciju.';
+
+  @override
+  String get verifyButton => 'PROVJERI';
+
+  @override
+  String get regionalDirectorSignIn =>
+      'Prijava za regionalnog voditelja i direktora.';
+
+  @override
+  String get passwordLabel => 'Lozinka';
+
+  @override
+  String get signInButton => 'PRIJAVA';
+
+  @override
+  String get forgotPasswordLink => 'Zaboravio/la si lozinku?';
+
+  @override
+  String get noBackendConfiguredPin =>
+      'Za ovu instalaciju nije konfiguriran backend - prijavi se PIN-om, kao i svi ostali.';
+
+  @override
+  String get noDirectorRegionalAccounts =>
+      'Na ovom uređaju nema računa direktora/regionalnog voditelja.';
+
+  @override
+  String get directorLabel => 'Direktor';
+
+  @override
+  String get regionalManagerLabel => 'Regionalni voditelj';
 }

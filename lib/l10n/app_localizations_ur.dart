@@ -836,4 +836,86 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get urgentLabel => 'فوری';
+
+  @override
+  String get signInFailed => 'سائن ان ناکام';
+
+  @override
+  String get twoFactorRequiredNoFactor =>
+      'دو مرحلہ تصدیق درکار ہے لیکن کوئی طریقہ نہیں ملا۔';
+
+  @override
+  String get couldNotVerifyCode => 'وہ کوڈ تصدیق نہیں ہو سکا';
+
+  @override
+  String get codeDidntWork => 'وہ کوڈ کام نہیں کیا۔';
+
+  @override
+  String get accountNotLinkedToStaff =>
+      'یہ اکاؤنٹ ابھی تک کسی اسٹاف پروفائل سے منسلک نہیں - ایڈمن سے رابطہ کریں۔';
+
+  @override
+  String get resetPasswordTitle => 'پاس ورڈ ری سیٹ کریں';
+
+  @override
+  String get enterEmailForResetCode =>
+      'اپنا ای میل درج کریں اور ہم آپ کو پاس ورڈ ری سیٹ کرنے کے لیے ایک کوڈ بھیجیں گے۔';
+
+  @override
+  String get emailLabel => 'ای میل';
+
+  @override
+  String get sendCodeButton => 'کوڈ بھیجیں';
+
+  @override
+  String get backToSignIn => 'سائن ان پر واپس جائیں';
+
+  @override
+  String sentCodeToEmail(String email) {
+    return 'ہم نے $email پر ایک کوڈ بھیجا ہے۔ اسے اپنے نئے پاس ورڈ کے ساتھ نیچے درج کریں۔';
+  }
+
+  @override
+  String get sixDigitCodeLabel => '6 ہندسوں کا کوڈ';
+
+  @override
+  String get newPasswordLabel => 'نیا پاس ورڈ';
+
+  @override
+  String get resetPasswordButton => 'پاس ورڈ ری سیٹ کریں';
+
+  @override
+  String get twoFactorVerificationTitle => 'دو مرحلہ تصدیق';
+
+  @override
+  String get enterAuthenticatorCode => 'اپنی آتھینٹیکیٹر ایپ سے کوڈ درج کریں۔';
+
+  @override
+  String get verifyButton => 'تصدیق کریں';
+
+  @override
+  String get regionalDirectorSignIn => 'علاقائی اور ڈائریکٹر سائن ان۔';
+
+  @override
+  String get passwordLabel => 'پاس ورڈ';
+
+  @override
+  String get signInButton => 'سائن ان کریں';
+
+  @override
+  String get forgotPasswordLink => 'پاس ورڈ بھول گئے؟';
+
+  @override
+  String get noBackendConfiguredPin =>
+      'اس تنصیب کے لیے کوئی بیک اینڈ کنفیگر نہیں ہے - باقی سب کی طرح PIN سے سائن ان کریں۔';
+
+  @override
+  String get noDirectorRegionalAccounts =>
+      'اس ڈیوائس پر کوئی ڈائریکٹر/علاقائی اکاؤنٹ نہیں ہے۔';
+
+  @override
+  String get directorLabel => 'ڈائریکٹر';
+
+  @override
+  String get regionalManagerLabel => 'علاقائی منیجر';
 }

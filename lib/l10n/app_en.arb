@@ -448,5 +448,37 @@
   "resolvedLabel": "Resolved",
   "unresolvedLabel": "Unresolved",
   "escalatedLabel": "Escalated",
-  "urgentLabel": "Urgent"
+  "urgentLabel": "Urgent",
+  "signInFailed": "Sign-in failed",
+  "twoFactorRequiredNoFactor": "Two-factor verification is required but no factor was found.",
+  "couldNotVerifyCode": "Could not verify that code",
+  "codeDidntWork": "That code didn't work.",
+  "accountNotLinkedToStaff": "This account isn't linked to a staff profile yet - contact an admin.",
+  "resetPasswordTitle": "Reset Password",
+  "enterEmailForResetCode": "Enter your email and we'll send you a code to reset your password.",
+  "emailLabel": "Email",
+  "sendCodeButton": "SEND CODE",
+  "backToSignIn": "Back to sign in",
+  "sentCodeToEmail": "We sent a code to {email}. Enter it below with your new password.",
+  "@sentCodeToEmail": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "sixDigitCodeLabel": "6-digit code",
+  "newPasswordLabel": "New password",
+  "resetPasswordButton": "RESET PASSWORD",
+  "twoFactorVerificationTitle": "Two-Factor Verification",
+  "enterAuthenticatorCode": "Enter the code from your authenticator app.",
+  "verifyButton": "VERIFY",
+  "regionalDirectorSignIn": "Regional & Director sign-in.",
+  "passwordLabel": "Password",
+  "signInButton": "SIGN IN",
+  "forgotPasswordLink": "Forgot password?",
+  "noBackendConfiguredPin": "No backend is configured for this install - sign in with a PIN, same as everyone else.",
+  "noDirectorRegionalAccounts": "No Director/Regional accounts on this device.",
+  "directorLabel": "Director",
+  "regionalManagerLabel": "Regional Manager"
 }

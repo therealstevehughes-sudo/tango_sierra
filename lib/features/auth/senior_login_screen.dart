@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -117,6 +118,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     );
 
     if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
 
     switch (outcome) {
       case PinAuthSuccess(:final user, :final accessToken):
@@ -125,19 +127,19 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
         Navigator.of(context).popUntil((route) => route.isFirst);
       case PinAuthIncorrect():
         setState(() {
-          error = 'Incorrect PIN';
+          error = l10n.incorrectPin;
           submitting = false;
         });
       case PinAuthLocked(:final lockedUntil):
         final minutesLeft =
             lockedUntil.difference(DateTime.now()).inMinutes + 1;
         setState(() {
-          error = 'Too many wrong attempts. Try again in $minutesLeft min.';
+          error = l10n.tooManyWrongAttempts(minutesLeft);
           submitting = false;
         });
       case PinAuthNotFound():
         setState(() {
-          error = 'Account not found';
+          error = l10n.accountNotFound;
           submitting = false;
         });
       case PinAuthError(:final message):
@@ -166,7 +168,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
 
       if (authUserId == null || session == null) {
         setState(() {
-          error = 'Sign-in failed';
+          error = AppLocalizations.of(context)!.signInFailed;
           submitting = false;
         });
         return;
@@ -191,7 +193,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
           // exists) but fail closed rather than silently let the sign-in
           // through if it somehow does.
           setState(() {
-            error = 'Two-factor verification is required but no factor was found.';
+            error = AppLocalizations.of(context)!.twoFactorRequiredNoFactor;
             submitting = false;
           });
           return;
@@ -214,7 +216,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     } catch (_) {
       if (!mounted) return;
       setState(() {
-        error = 'Could not reach the server';
+        error = AppLocalizations.of(context)!.couldNotReachServer;
         submitting = false;
       });
     }
@@ -245,7 +247,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     } catch (_) {
       if (!mounted) return;
       setState(() {
-        error = 'Could not verify that code';
+        error = AppLocalizations.of(context)!.couldNotVerifyCode;
         submitting = false;
       });
     }
@@ -276,7 +278,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     } catch (_) {
       if (!mounted) return;
       setState(() {
-        error = 'Could not reach the server';
+        error = AppLocalizations.of(context)!.couldNotReachServer;
         submitting = false;
       });
     }
@@ -304,7 +306,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
       if (authUserId == null || session == null) {
         if (!mounted) return;
         setState(() {
-          error = "That code didn't work.";
+          error = AppLocalizations.of(context)!.codeDidntWork;
           submitting = false;
         });
         return;
@@ -325,7 +327,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
     } catch (_) {
       if (!mounted) return;
       setState(() {
-        error = "That code didn't work.";
+        error = AppLocalizations.of(context)!.codeDidntWork;
         submitting = false;
       });
     }
@@ -350,8 +352,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
 
     if (localUser == null) {
       setState(() {
-        error =
-            "This account isn't linked to a staff profile yet - contact an admin.";
+        error = AppLocalizations.of(context)!.accountNotLinkedToStaff;
         submitting = false;
       });
       return;
@@ -371,9 +372,10 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
   }
 
   Widget _buildForgotEmailStep(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Reset Password'),
+        title: Text(l10n.resetPasswordTitle),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -386,12 +388,9 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const AppBanner(
+                AppBanner(
                   kind: BannerKind.info,
-                  child: Text(
-                    "Enter your email and we'll send you a code to reset "
-                    'your password.',
-                  ),
+                  child: Text(l10n.enterEmailForResetCode),
                 ),
                 const SizedBox(height: 24),
                 TextField(
@@ -399,9 +398,9 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   autofillHints: const [AutofillHints.email],
                   autofocus: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.email_outlined),
+                  decoration: InputDecoration(
+                    labelText: l10n.emailLabel,
+                    prefixIcon: const Icon(Icons.email_outlined),
                   ),
                   onSubmitted: (_) => _sendResetCode(),
                 ),
@@ -423,11 +422,11 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                           height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text('SEND CODE'),
+                      : Text(l10n.sendCodeButton),
                 ),
                 TextButton(
                   onPressed: submitting ? null : _exitForgotPasswordFlow,
-                  child: const Text('Back to sign in'),
+                  child: Text(l10n.backToSignIn),
                 ),
               ],
             ),
@@ -438,9 +437,10 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
   }
 
   Widget _buildResetCodeStep(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Reset Password'),
+        title: Text(l10n.resetPasswordTitle),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -456,8 +456,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                 AppBanner(
                   kind: BannerKind.info,
                   child: Text(
-                    'We sent a code to ${forgotEmailController.text.trim()}. '
-                    'Enter it below with your new password.',
+                    l10n.sentCodeToEmail(forgotEmailController.text.trim()),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -465,7 +464,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                   controller: resetCodeController,
                   keyboardType: TextInputType.number,
                   autofocus: true,
-                  decoration: const InputDecoration(labelText: '6-digit code'),
+                  decoration: InputDecoration(labelText: l10n.sixDigitCodeLabel),
                 ),
                 const SizedBox(height: 12),
                 TextField(
@@ -473,7 +472,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                   obscureText: obscureNewPassword,
                   autofillHints: const [AutofillHints.newPassword],
                   decoration: InputDecoration(
-                    labelText: 'New password',
+                    labelText: l10n.newPasswordLabel,
                     prefixIcon: const Icon(Icons.lock_outline),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -506,11 +505,11 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                           height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text('RESET PASSWORD'),
+                      : Text(l10n.resetPasswordButton),
                 ),
                 TextButton(
                   onPressed: submitting ? null : _exitForgotPasswordFlow,
-                  child: const Text('Back to sign in'),
+                  child: Text(l10n.backToSignIn),
                 ),
               ],
             ),
@@ -521,9 +520,10 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
   }
 
   Widget _buildMfaStep(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Two-Factor Verification'),
+        title: Text(l10n.twoFactorVerificationTitle),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -536,16 +536,16 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const AppBanner(
+                AppBanner(
                   kind: BannerKind.info,
-                  child: Text('Enter the code from your authenticator app.'),
+                  child: Text(l10n.enterAuthenticatorCode),
                 ),
                 const SizedBox(height: 24),
                 TextField(
                   controller: mfaCodeController,
                   keyboardType: TextInputType.number,
                   autofocus: true,
-                  decoration: const InputDecoration(labelText: '6-digit code'),
+                  decoration: InputDecoration(labelText: l10n.sixDigitCodeLabel),
                   onSubmitted: (_) => _submitMfaCode(),
                 ),
                 if (error != null) ...[
@@ -566,7 +566,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                           height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text('VERIFY'),
+                      : Text(l10n.verifyButton),
                 ),
                 TextButton(
                   onPressed: () => setState(() {
@@ -575,7 +575,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                     mfaCodeController.clear();
                     error = null;
                   }),
-                  child: const Text('Back'),
+                  child: Text(l10n.back),
                 ),
               ],
             ),
@@ -598,9 +598,10 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
           ? _buildResetCodeStep(context)
           : _buildForgotEmailStep(context);
     }
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Leadership Access'),
+        title: Text(l10n.leadershipAccess),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -613,18 +614,18 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const AppBanner(
+                AppBanner(
                   kind: BannerKind.info,
-                  child: Text('Regional & Director sign-in.'),
+                  child: Text(l10n.regionalDirectorSignIn),
                 ),
                 const SizedBox(height: 24),
                 TextField(
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
                   autofillHints: const [AutofillHints.email],
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.email_outlined),
+                  decoration: InputDecoration(
+                    labelText: l10n.emailLabel,
+                    prefixIcon: const Icon(Icons.email_outlined),
                   ),
                   onSubmitted: (_) => submit(),
                 ),
@@ -634,7 +635,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                   obscureText: obscurePassword,
                   autofillHints: const [AutofillHints.password],
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: l10n.passwordLabel,
                     prefixIcon: const Icon(Icons.lock_outline),
                     suffixIcon: IconButton(
                       icon: Icon(
@@ -666,7 +667,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                           height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text('SIGN IN'),
+                      : Text(l10n.signInButton),
                 ),
                 TextButton(
                   onPressed: submitting
@@ -679,7 +680,7 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                             error = null;
                           });
                         },
-                  child: const Text('Forgot password?'),
+                  child: Text(l10n.forgotPasswordLink),
                 ),
               ],
             ),
@@ -701,10 +702,11 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
           .toList(),
       orElse: () => const <User>[],
     );
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Leadership Access'),
+        title: Text(l10n.leadershipAccess),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -728,18 +730,13 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const AppBanner(
+                      AppBanner(
                         kind: BannerKind.info,
-                        child: Text(
-                          'No backend is configured for this install - '
-                          'sign in with a PIN, same as everyone else.',
-                        ),
+                        child: Text(l10n.noBackendConfiguredPin),
                       ),
                       const SizedBox(height: 24),
                       if (seniorStaff.isEmpty)
-                        const Text(
-                          'No Director/Regional accounts on this device.',
-                        )
+                        Text(l10n.noDirectorRegionalAccounts)
                       else
                         for (final user in seniorStaff)
                           Card(
@@ -747,8 +744,8 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
                               title: Text(user.name),
                               subtitle: Text(
                                 user.roleTier == RoleTier.executive
-                                    ? 'Director'
-                                    : 'Regional Manager',
+                                    ? l10n.directorLabel
+                                    : l10n.regionalManagerLabel,
                               ),
                               onTap: () => selectUser(user),
                             ),

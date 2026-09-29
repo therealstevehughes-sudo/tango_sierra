@@ -834,4 +834,87 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get urgentLabel => 'Urgent';
+
+  @override
+  String get signInFailed => 'Sign-in failed';
+
+  @override
+  String get twoFactorRequiredNoFactor =>
+      'Two-factor verification is required but no factor was found.';
+
+  @override
+  String get couldNotVerifyCode => 'Could not verify that code';
+
+  @override
+  String get codeDidntWork => 'That code didn\'t work.';
+
+  @override
+  String get accountNotLinkedToStaff =>
+      'This account isn\'t linked to a staff profile yet - contact an admin.';
+
+  @override
+  String get resetPasswordTitle => 'Reset Password';
+
+  @override
+  String get enterEmailForResetCode =>
+      'Enter your email and we\'ll send you a code to reset your password.';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get sendCodeButton => 'SEND CODE';
+
+  @override
+  String get backToSignIn => 'Back to sign in';
+
+  @override
+  String sentCodeToEmail(String email) {
+    return 'We sent a code to $email. Enter it below with your new password.';
+  }
+
+  @override
+  String get sixDigitCodeLabel => '6-digit code';
+
+  @override
+  String get newPasswordLabel => 'New password';
+
+  @override
+  String get resetPasswordButton => 'RESET PASSWORD';
+
+  @override
+  String get twoFactorVerificationTitle => 'Two-Factor Verification';
+
+  @override
+  String get enterAuthenticatorCode =>
+      'Enter the code from your authenticator app.';
+
+  @override
+  String get verifyButton => 'VERIFY';
+
+  @override
+  String get regionalDirectorSignIn => 'Regional & Director sign-in.';
+
+  @override
+  String get passwordLabel => 'Password';
+
+  @override
+  String get signInButton => 'SIGN IN';
+
+  @override
+  String get forgotPasswordLink => 'Forgot password?';
+
+  @override
+  String get noBackendConfiguredPin =>
+      'No backend is configured for this install - sign in with a PIN, same as everyone else.';
+
+  @override
+  String get noDirectorRegionalAccounts =>
+      'No Director/Regional accounts on this device.';
+
+  @override
+  String get directorLabel => 'Director';
+
+  @override
+  String get regionalManagerLabel => 'Regional Manager';
 }

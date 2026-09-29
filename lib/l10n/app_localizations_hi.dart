@@ -839,4 +839,86 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get urgentLabel => 'तत्काल';
+
+  @override
+  String get signInFailed => 'साइन-इन विफल';
+
+  @override
+  String get twoFactorRequiredNoFactor =>
+      'टू-फैक्टर सत्यापन आवश्यक है लेकिन कोई फैक्टर नहीं मिला।';
+
+  @override
+  String get couldNotVerifyCode => 'उस कोड को सत्यापित नहीं किया जा सका';
+
+  @override
+  String get codeDidntWork => 'वह कोड काम नहीं किया।';
+
+  @override
+  String get accountNotLinkedToStaff =>
+      'यह खाता अभी तक किसी स्टाफ प्रोफ़ाइल से जुड़ा नहीं है - किसी व्यवस्थापक से संपर्क करें।';
+
+  @override
+  String get resetPasswordTitle => 'पासवर्ड रीसेट करें';
+
+  @override
+  String get enterEmailForResetCode =>
+      'अपना ईमेल दर्ज करें और हम आपको पासवर्ड रीसेट करने के लिए एक कोड भेजेंगे।';
+
+  @override
+  String get emailLabel => 'ईमेल';
+
+  @override
+  String get sendCodeButton => 'कोड भेजें';
+
+  @override
+  String get backToSignIn => 'साइन इन पर वापस जाएं';
+
+  @override
+  String sentCodeToEmail(String email) {
+    return 'हमने $email पर एक कोड भेजा है। इसे नीचे अपने नए पासवर्ड के साथ दर्ज करें।';
+  }
+
+  @override
+  String get sixDigitCodeLabel => '6-अंकीय कोड';
+
+  @override
+  String get newPasswordLabel => 'नया पासवर्ड';
+
+  @override
+  String get resetPasswordButton => 'पासवर्ड रीसेट करें';
+
+  @override
+  String get twoFactorVerificationTitle => 'टू-फैक्टर सत्यापन';
+
+  @override
+  String get enterAuthenticatorCode => 'अपने ऑथेंटिकेटर ऐप से कोड दर्ज करें।';
+
+  @override
+  String get verifyButton => 'सत्यापित करें';
+
+  @override
+  String get regionalDirectorSignIn => 'क्षेत्रीय और डायरेक्टर साइन-इन।';
+
+  @override
+  String get passwordLabel => 'पासवर्ड';
+
+  @override
+  String get signInButton => 'साइन इन करें';
+
+  @override
+  String get forgotPasswordLink => 'पासवर्ड भूल गए?';
+
+  @override
+  String get noBackendConfiguredPin =>
+      'इस इंस्टॉलेशन के लिए कोई बैकएंड कॉन्फ़िगर नहीं है - बाकी सभी की तरह PIN से साइन इन करें।';
+
+  @override
+  String get noDirectorRegionalAccounts =>
+      'इस डिवाइस पर कोई डायरेक्टर/क्षेत्रीय खाता नहीं है।';
+
+  @override
+  String get directorLabel => 'डायरेक्टर';
+
+  @override
+  String get regionalManagerLabel => 'क्षेत्रीय प्रबंधक';
 }

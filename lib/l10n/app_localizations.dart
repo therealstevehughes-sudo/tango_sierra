@@ -1577,6 +1577,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Urgent'**
   String get urgentLabel;
+
+  /// No description provided for @signInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in failed'**
+  String get signInFailed;
+
+  /// No description provided for @twoFactorRequiredNoFactor.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor verification is required but no factor was found.'**
+  String get twoFactorRequiredNoFactor;
+
+  /// No description provided for @couldNotVerifyCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not verify that code'**
+  String get couldNotVerifyCode;
+
+  /// No description provided for @codeDidntWork.
+  ///
+  /// In en, this message translates to:
+  /// **'That code didn\'t work.'**
+  String get codeDidntWork;
+
+  /// No description provided for @accountNotLinkedToStaff.
+  ///
+  /// In en, this message translates to:
+  /// **'This account isn\'t linked to a staff profile yet - contact an admin.'**
+  String get accountNotLinkedToStaff;
+
+  /// No description provided for @resetPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get resetPasswordTitle;
+
+  /// No description provided for @enterEmailForResetCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email and we\'ll send you a code to reset your password.'**
+  String get enterEmailForResetCode;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailLabel;
+
+  /// No description provided for @sendCodeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'SEND CODE'**
+  String get sendCodeButton;
+
+  /// No description provided for @backToSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to sign in'**
+  String get backToSignIn;
+
+  /// No description provided for @sentCodeToEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a code to {email}. Enter it below with your new password.'**
+  String sentCodeToEmail(String email);
+
+  /// No description provided for @sixDigitCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'6-digit code'**
+  String get sixDigitCodeLabel;
+
+  /// No description provided for @newPasswordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get newPasswordLabel;
+
+  /// No description provided for @resetPasswordButton.
+  ///
+  /// In en, this message translates to:
+  /// **'RESET PASSWORD'**
+  String get resetPasswordButton;
+
+  /// No description provided for @twoFactorVerificationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-Factor Verification'**
+  String get twoFactorVerificationTitle;
+
+  /// No description provided for @enterAuthenticatorCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the code from your authenticator app.'**
+  String get enterAuthenticatorCode;
+
+  /// No description provided for @verifyButton.
+  ///
+  /// In en, this message translates to:
+  /// **'VERIFY'**
+  String get verifyButton;
+
+  /// No description provided for @regionalDirectorSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Regional & Director sign-in.'**
+  String get regionalDirectorSignIn;
+
+  /// No description provided for @passwordLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get passwordLabel;
+
+  /// No description provided for @signInButton.
+  ///
+  /// In en, this message translates to:
+  /// **'SIGN IN'**
+  String get signInButton;
+
+  /// No description provided for @forgotPasswordLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get forgotPasswordLink;
+
+  /// No description provided for @noBackendConfiguredPin.
+  ///
+  /// In en, this message translates to:
+  /// **'No backend is configured for this install - sign in with a PIN, same as everyone else.'**
+  String get noBackendConfiguredPin;
+
+  /// No description provided for @noDirectorRegionalAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'No Director/Regional accounts on this device.'**
+  String get noDirectorRegionalAccounts;
+
+  /// No description provided for @directorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Director'**
+  String get directorLabel;
+
+  /// No description provided for @regionalManagerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Regional Manager'**
+  String get regionalManagerLabel;
 }
 
 class _AppLocalizationsDelegate

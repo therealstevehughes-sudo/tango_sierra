@@ -846,4 +846,87 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get urgentLabel => 'Urgent';
+
+  @override
+  String get signInFailed => 'Autentificarea a eșuat';
+
+  @override
+  String get twoFactorRequiredNoFactor =>
+      'Este necesară verificarea în doi pași, dar nu a fost găsită nicio metodă.';
+
+  @override
+  String get couldNotVerifyCode => 'Codul nu a putut fi verificat';
+
+  @override
+  String get codeDidntWork => 'Acel cod nu a funcționat.';
+
+  @override
+  String get accountNotLinkedToStaff =>
+      'Acest cont nu este încă asociat unui profil de angajat - contactează un administrator.';
+
+  @override
+  String get resetPasswordTitle => 'Resetează parola';
+
+  @override
+  String get enterEmailForResetCode =>
+      'Introdu adresa de e-mail și îți vom trimite un cod pentru a-ți reseta parola.';
+
+  @override
+  String get emailLabel => 'E-mail';
+
+  @override
+  String get sendCodeButton => 'TRIMITE COD';
+
+  @override
+  String get backToSignIn => 'Înapoi la autentificare';
+
+  @override
+  String sentCodeToEmail(String email) {
+    return 'Am trimis un cod la $email. Introdu-l mai jos împreună cu noua parolă.';
+  }
+
+  @override
+  String get sixDigitCodeLabel => 'Cod din 6 cifre';
+
+  @override
+  String get newPasswordLabel => 'Parolă nouă';
+
+  @override
+  String get resetPasswordButton => 'RESETEAZĂ PAROLA';
+
+  @override
+  String get twoFactorVerificationTitle => 'Verificare în doi pași';
+
+  @override
+  String get enterAuthenticatorCode =>
+      'Introdu codul din aplicația de autentificare.';
+
+  @override
+  String get verifyButton => 'VERIFICĂ';
+
+  @override
+  String get regionalDirectorSignIn => 'Autentificare Regional și Director.';
+
+  @override
+  String get passwordLabel => 'Parolă';
+
+  @override
+  String get signInButton => 'AUTENTIFICARE';
+
+  @override
+  String get forgotPasswordLink => 'Ai uitat parola?';
+
+  @override
+  String get noBackendConfiguredPin =>
+      'Nu este configurat niciun backend pentru această instalare - autentifică-te cu un PIN, la fel ca toți ceilalți.';
+
+  @override
+  String get noDirectorRegionalAccounts =>
+      'Niciun cont de Director/Regional pe acest dispozitiv.';
+
+  @override
+  String get directorLabel => 'Director';
+
+  @override
+  String get regionalManagerLabel => 'Manager regional';
 }

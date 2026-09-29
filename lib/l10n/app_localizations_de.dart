@@ -851,4 +851,89 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get urgentLabel => 'Dringend';
+
+  @override
+  String get signInFailed => 'Anmeldung fehlgeschlagen';
+
+  @override
+  String get twoFactorRequiredNoFactor =>
+      'Zwei-Faktor-Verifizierung ist erforderlich, aber es wurde kein Faktor gefunden.';
+
+  @override
+  String get couldNotVerifyCode =>
+      'Dieser Code konnte nicht verifiziert werden';
+
+  @override
+  String get codeDidntWork => 'Dieser Code hat nicht funktioniert.';
+
+  @override
+  String get accountNotLinkedToStaff =>
+      'Dieses Konto ist noch keinem Mitarbeiterprofil zugeordnet - kontaktiere einen Administrator.';
+
+  @override
+  String get resetPasswordTitle => 'Passwort zurücksetzen';
+
+  @override
+  String get enterEmailForResetCode =>
+      'Gib deine E-Mail-Adresse ein und wir senden dir einen Code zum Zurücksetzen deines Passworts.';
+
+  @override
+  String get emailLabel => 'E-Mail';
+
+  @override
+  String get sendCodeButton => 'CODE SENDEN';
+
+  @override
+  String get backToSignIn => 'Zurück zur Anmeldung';
+
+  @override
+  String sentCodeToEmail(String email) {
+    return 'Wir haben einen Code an $email gesendet. Gib ihn unten zusammen mit deinem neuen Passwort ein.';
+  }
+
+  @override
+  String get sixDigitCodeLabel => '6-stelliger Code';
+
+  @override
+  String get newPasswordLabel => 'Neues Passwort';
+
+  @override
+  String get resetPasswordButton => 'PASSWORT ZURÜCKSETZEN';
+
+  @override
+  String get twoFactorVerificationTitle => 'Zwei-Faktor-Verifizierung';
+
+  @override
+  String get enterAuthenticatorCode =>
+      'Gib den Code aus deiner Authenticator-App ein.';
+
+  @override
+  String get verifyButton => 'VERIFIZIEREN';
+
+  @override
+  String get regionalDirectorSignIn =>
+      'Anmeldung für Regional- und Direktionsebene.';
+
+  @override
+  String get passwordLabel => 'Passwort';
+
+  @override
+  String get signInButton => 'ANMELDEN';
+
+  @override
+  String get forgotPasswordLink => 'Passwort vergessen?';
+
+  @override
+  String get noBackendConfiguredPin =>
+      'Für diese Installation ist kein Backend konfiguriert - melde dich wie alle anderen mit einer PIN an.';
+
+  @override
+  String get noDirectorRegionalAccounts =>
+      'Keine Direktions-/Regionalkonten auf diesem Gerät.';
+
+  @override
+  String get directorLabel => 'Direktor';
+
+  @override
+  String get regionalManagerLabel => 'Regionalleiter';
 }

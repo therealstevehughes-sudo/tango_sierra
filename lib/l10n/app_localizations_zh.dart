@@ -809,4 +809,81 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get urgentLabel => '紧急';
+
+  @override
+  String get signInFailed => '登录失败';
+
+  @override
+  String get twoFactorRequiredNoFactor => '需要双重验证,但未找到验证方式。';
+
+  @override
+  String get couldNotVerifyCode => '无法验证该代码';
+
+  @override
+  String get codeDidntWork => '该代码无效。';
+
+  @override
+  String get accountNotLinkedToStaff => '此账户尚未关联员工档案 - 请联系管理员。';
+
+  @override
+  String get resetPasswordTitle => '重置密码';
+
+  @override
+  String get enterEmailForResetCode => '输入您的电子邮件,我们将发送重置密码的验证码。';
+
+  @override
+  String get emailLabel => '电子邮件';
+
+  @override
+  String get sendCodeButton => '发送验证码';
+
+  @override
+  String get backToSignIn => '返回登录';
+
+  @override
+  String sentCodeToEmail(String email) {
+    return '我们已将验证码发送至 $email。请在下方输入验证码及新密码。';
+  }
+
+  @override
+  String get sixDigitCodeLabel => '6位验证码';
+
+  @override
+  String get newPasswordLabel => '新密码';
+
+  @override
+  String get resetPasswordButton => '重置密码';
+
+  @override
+  String get twoFactorVerificationTitle => '双重验证';
+
+  @override
+  String get enterAuthenticatorCode => '输入身份验证器应用中的代码。';
+
+  @override
+  String get verifyButton => '验证';
+
+  @override
+  String get regionalDirectorSignIn => '区域经理与董事登录。';
+
+  @override
+  String get passwordLabel => '密码';
+
+  @override
+  String get signInButton => '登录';
+
+  @override
+  String get forgotPasswordLink => '忘记密码?';
+
+  @override
+  String get noBackendConfiguredPin => '此安装未配置后端 - 请像其他人一样使用PIN登录。';
+
+  @override
+  String get noDirectorRegionalAccounts => '此设备上没有董事/区域经理账户。';
+
+  @override
+  String get directorLabel => '董事';
+
+  @override
+  String get regionalManagerLabel => '区域经理';
 }

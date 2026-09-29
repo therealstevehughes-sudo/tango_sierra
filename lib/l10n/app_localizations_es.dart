@@ -848,4 +848,87 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get urgentLabel => 'Urgente';
+
+  @override
+  String get signInFailed => 'Error al iniciar sesión';
+
+  @override
+  String get twoFactorRequiredNoFactor =>
+      'Se requiere verificación en dos pasos, pero no se encontró ningún factor.';
+
+  @override
+  String get couldNotVerifyCode => 'No se pudo verificar ese código';
+
+  @override
+  String get codeDidntWork => 'Ese código no funcionó.';
+
+  @override
+  String get accountNotLinkedToStaff =>
+      'Esta cuenta aún no está vinculada a un perfil de personal - contacta con un administrador.';
+
+  @override
+  String get resetPasswordTitle => 'Restablecer contraseña';
+
+  @override
+  String get enterEmailForResetCode =>
+      'Introduce tu correo y te enviaremos un código para restablecer tu contraseña.';
+
+  @override
+  String get emailLabel => 'Correo electrónico';
+
+  @override
+  String get sendCodeButton => 'ENVIAR CÓDIGO';
+
+  @override
+  String get backToSignIn => 'Volver a iniciar sesión';
+
+  @override
+  String sentCodeToEmail(String email) {
+    return 'Enviamos un código a $email. Introdúcelo a continuación junto con tu nueva contraseña.';
+  }
+
+  @override
+  String get sixDigitCodeLabel => 'Código de 6 dígitos';
+
+  @override
+  String get newPasswordLabel => 'Nueva contraseña';
+
+  @override
+  String get resetPasswordButton => 'RESTABLECER CONTRASEÑA';
+
+  @override
+  String get twoFactorVerificationTitle => 'Verificación en dos pasos';
+
+  @override
+  String get enterAuthenticatorCode =>
+      'Introduce el código de tu aplicación de autenticación.';
+
+  @override
+  String get verifyButton => 'VERIFICAR';
+
+  @override
+  String get regionalDirectorSignIn => 'Inicio de sesión Regional y Director.';
+
+  @override
+  String get passwordLabel => 'Contraseña';
+
+  @override
+  String get signInButton => 'INICIAR SESIÓN';
+
+  @override
+  String get forgotPasswordLink => '¿Olvidaste tu contraseña?';
+
+  @override
+  String get noBackendConfiguredPin =>
+      'No hay ningún backend configurado para esta instalación - inicia sesión con un PIN, igual que todos los demás.';
+
+  @override
+  String get noDirectorRegionalAccounts =>
+      'No hay cuentas de Director/Regional en este dispositivo.';
+
+  @override
+  String get directorLabel => 'Director';
+
+  @override
+  String get regionalManagerLabel => 'Gerente regional';
 }
