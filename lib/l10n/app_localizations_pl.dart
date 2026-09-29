@@ -1582,4 +1582,129 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get claimedLabel => 'Zgłoszono';
+
+  @override
+  String requestDateOffTitle(String date) {
+    return 'Poproś o wolne $date';
+  }
+
+  @override
+  String get reasonOptionalLabel => 'Powód (opcjonalnie)';
+
+  @override
+  String get submitRequestButton => 'Wyślij prośbę';
+
+  @override
+  String get offDayRequestsNotEnabled =>
+      'Prośby o dzień wolny nie są jeszcze włączone dla tego lokalu. Poproś kierownika o włączenie Grafiku w Ustawieniach.';
+
+  @override
+  String get noOffDayRequestsYet =>
+      'Nie masz jeszcze żadnych próśb o dzień wolny.';
+
+  @override
+  String get yourRequestsLabel => 'Twoje prośby';
+
+  @override
+  String get approvedLabel => 'Zatwierdzono';
+
+  @override
+  String get deniedLabel => 'Odrzucono';
+
+  @override
+  String get pendingLabel => 'Oczekujące';
+
+  @override
+  String get postAShiftTitle => 'Opublikuj zmianę';
+
+  @override
+  String get categoryHint => 'Kategoria (np. otwarcie, zamknięcie)';
+
+  @override
+  String get pickStartTime => 'Wybierz godzinę rozpoczęcia';
+
+  @override
+  String get pickEndTime => 'Wybierz godzinę zakończenia';
+
+  @override
+  String get postLabel => 'Opublikuj';
+
+  @override
+  String get assignShiftToTitle => 'Przypisz tę zmianę do';
+
+  @override
+  String get unknownLabel => 'Nieznany';
+
+  @override
+  String get shiftsTabLabel => 'Zmiany';
+
+  @override
+  String get offDayRequestsTabLabel => 'Prośby o dzień wolny';
+
+  @override
+  String get rosterAddonNotEnabledManager =>
+      'Dodatek Grafik nie jest włączony dla tego lokalu. Włącz go w Ustawienia > Firma, aby zacząć publikować zmiany.';
+
+  @override
+  String get noShiftsTapPlus =>
+      'Nie opublikowano jeszcze żadnych zmian. Dotknij +, aby dodać.';
+
+  @override
+  String get openStatusLabel => 'Wolna';
+
+  @override
+  String get assignedStatusPrefix => 'Przypisana';
+
+  @override
+  String get claimedStatusPrefix => 'Zgłoszona';
+
+  @override
+  String get assignDirectlyLabel => 'Przypisz bezpośrednio';
+
+  @override
+  String get removeClaimLabel => 'Usuń zgłoszenie';
+
+  @override
+  String couldNotLoadOffDayRequests(String error) {
+    return 'Nie udało się załadować próśb o dzień wolny: $error';
+  }
+
+  @override
+  String get noOffDayRequests => 'Brak próśb o dzień wolny.';
+
+  @override
+  String get approveLabel => 'Zatwierdź';
+
+  @override
+  String get denyLabel => 'Odrzuć';
+
+  @override
+  String get rosterAddonNotEnabledPlain =>
+      'Dodatek Grafik nie jest włączony dla tego lokalu.';
+
+  @override
+  String get noActiveStaffVenue => 'Brak aktywnego personelu w tym lokalu.';
+
+  @override
+  String get last90DaysAlphabetical =>
+      'Ostatnie 90 dni, według kategorii zmian. Alfabetycznie - nie ranking.';
+
+  @override
+  String shiftsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count zmian',
+      one: '1 zmiana',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noShiftsInPeriod => 'Brak zmian w tym okresie.';
+
+  @override
+  String categoryCountLabel(String category, int count) {
+    return '$category: $count';
+  }
 }

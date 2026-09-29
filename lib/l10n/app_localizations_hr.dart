@@ -1585,4 +1585,129 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get claimedLabel => 'Preuzeto';
+
+  @override
+  String requestDateOffTitle(String date) {
+    return 'Zatraži slobodan dan $date';
+  }
+
+  @override
+  String get reasonOptionalLabel => 'Razlog (neobavezno)';
+
+  @override
+  String get submitRequestButton => 'Pošalji zahtjev';
+
+  @override
+  String get offDayRequestsNotEnabled =>
+      'Zahtjevi za slobodan dan još nisu omogućeni za ovu lokaciju. Zamoli voditelja da omogući Raspored u Postavkama.';
+
+  @override
+  String get noOffDayRequestsYet => 'Još nemaš zahtjeve za slobodan dan.';
+
+  @override
+  String get yourRequestsLabel => 'Tvoji zahtjevi';
+
+  @override
+  String get approvedLabel => 'Odobreno';
+
+  @override
+  String get deniedLabel => 'Odbijeno';
+
+  @override
+  String get pendingLabel => 'Na čekanju';
+
+  @override
+  String get postAShiftTitle => 'Objavi smjenu';
+
+  @override
+  String get categoryHint => 'Kategorija (npr. otvaranje, zatvaranje)';
+
+  @override
+  String get pickStartTime => 'Odaberi vrijeme početka';
+
+  @override
+  String get pickEndTime => 'Odaberi vrijeme završetka';
+
+  @override
+  String get postLabel => 'Objavi';
+
+  @override
+  String get assignShiftToTitle => 'Dodijeli ovu smjenu';
+
+  @override
+  String get unknownLabel => 'Nepoznato';
+
+  @override
+  String get shiftsTabLabel => 'Smjene';
+
+  @override
+  String get offDayRequestsTabLabel => 'Zahtjevi za slobodan dan';
+
+  @override
+  String get rosterAddonNotEnabledManager =>
+      'Dodatak Raspored nije omogućen za ovu lokaciju. Omogući ga u Postavke > Tvrtka da počneš objavljivati smjene.';
+
+  @override
+  String get noShiftsTapPlus =>
+      'Još nema objavljenih smjena. Dodirni + za dodavanje.';
+
+  @override
+  String get openStatusLabel => 'Otvoreno';
+
+  @override
+  String get assignedStatusPrefix => 'Dodijeljeno';
+
+  @override
+  String get claimedStatusPrefix => 'Preuzeto';
+
+  @override
+  String get assignDirectlyLabel => 'Dodijeli izravno';
+
+  @override
+  String get removeClaimLabel => 'Ukloni preuzimanje';
+
+  @override
+  String couldNotLoadOffDayRequests(String error) {
+    return 'Zahtjeve za slobodan dan nije bilo moguće učitati: $error';
+  }
+
+  @override
+  String get noOffDayRequests => 'Nema zahtjeva za slobodan dan.';
+
+  @override
+  String get approveLabel => 'Odobri';
+
+  @override
+  String get denyLabel => 'Odbij';
+
+  @override
+  String get rosterAddonNotEnabledPlain =>
+      'Dodatak Raspored nije omogućen za ovu lokaciju.';
+
+  @override
+  String get noActiveStaffVenue =>
+      'Još nema aktivnog osoblja na ovoj lokaciji.';
+
+  @override
+  String get last90DaysAlphabetical =>
+      'Posljednjih 90 dana, prema kategoriji smjene. Abecedno - nije ljestvica.';
+
+  @override
+  String shiftsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count smjena',
+      one: '1 smjena',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noShiftsInPeriod => 'Nema smjena u ovom razdoblju.';
+
+  @override
+  String categoryCountLabel(String category, int count) {
+    return '$category: $count';
+  }
 }

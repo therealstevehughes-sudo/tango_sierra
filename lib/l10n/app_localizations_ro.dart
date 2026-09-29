@@ -1588,4 +1588,128 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get claimedLabel => 'Revendicat';
+
+  @override
+  String requestDateOffTitle(String date) {
+    return 'Solicită liber $date';
+  }
+
+  @override
+  String get reasonOptionalLabel => 'Motiv (opțional)';
+
+  @override
+  String get submitRequestButton => 'Trimite cererea';
+
+  @override
+  String get offDayRequestsNotEnabled =>
+      'Cererile de zi liberă nu sunt încă activate pentru acest local. Roagă un manager să activeze Tura din Setări.';
+
+  @override
+  String get noOffDayRequestsYet => 'Nu ai nicio cerere de zi liberă încă.';
+
+  @override
+  String get yourRequestsLabel => 'Cererile tale';
+
+  @override
+  String get approvedLabel => 'Aprobat';
+
+  @override
+  String get deniedLabel => 'Refuzat';
+
+  @override
+  String get pendingLabel => 'În așteptare';
+
+  @override
+  String get postAShiftTitle => 'Publică o tură';
+
+  @override
+  String get categoryHint => 'Categorie (ex. deschidere, închidere)';
+
+  @override
+  String get pickStartTime => 'Alege ora de început';
+
+  @override
+  String get pickEndTime => 'Alege ora de sfârșit';
+
+  @override
+  String get postLabel => 'Publică';
+
+  @override
+  String get assignShiftToTitle => 'Atribuie această tură lui';
+
+  @override
+  String get unknownLabel => 'Necunoscut';
+
+  @override
+  String get shiftsTabLabel => 'Ture';
+
+  @override
+  String get offDayRequestsTabLabel => 'Cereri de zi liberă';
+
+  @override
+  String get rosterAddonNotEnabledManager =>
+      'Add-on-ul Tură nu este activat pentru acest local. Activează-l din Setări > Companie pentru a începe să publici ture.';
+
+  @override
+  String get noShiftsTapPlus =>
+      'Nicio tură publicată încă. Atinge + pentru a adăuga una.';
+
+  @override
+  String get openStatusLabel => 'Liberă';
+
+  @override
+  String get assignedStatusPrefix => 'Atribuită';
+
+  @override
+  String get claimedStatusPrefix => 'Revendicată';
+
+  @override
+  String get assignDirectlyLabel => 'Atribuie direct';
+
+  @override
+  String get removeClaimLabel => 'Elimină revendicarea';
+
+  @override
+  String couldNotLoadOffDayRequests(String error) {
+    return 'Cererile de zi liberă nu au putut fi încărcate: $error';
+  }
+
+  @override
+  String get noOffDayRequests => 'Nicio cerere de zi liberă.';
+
+  @override
+  String get approveLabel => 'Aprobă';
+
+  @override
+  String get denyLabel => 'Refuză';
+
+  @override
+  String get rosterAddonNotEnabledPlain =>
+      'Add-on-ul Tură nu este activat pentru acest local.';
+
+  @override
+  String get noActiveStaffVenue => 'Niciun personal activ la acest local încă.';
+
+  @override
+  String get last90DaysAlphabetical =>
+      'Ultimele 90 de zile, pe categorie de tură. Alfabetic - nu un clasament.';
+
+  @override
+  String shiftsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ture',
+      one: '1 tură',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noShiftsInPeriod => 'Nicio tură în această perioadă.';
+
+  @override
+  String categoryCountLabel(String category, int count) {
+    return '$category: $count';
+  }
 }

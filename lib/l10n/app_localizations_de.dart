@@ -1592,4 +1592,129 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get claimedLabel => 'Übernommen';
+
+  @override
+  String requestDateOffTitle(String date) {
+    return '$date freinehmen beantragen';
+  }
+
+  @override
+  String get reasonOptionalLabel => 'Grund (optional)';
+
+  @override
+  String get submitRequestButton => 'Antrag senden';
+
+  @override
+  String get offDayRequestsNotEnabled =>
+      'Freistellungsanträge sind für diesen Standort noch nicht aktiviert. Bitte deinen Manager, den Dienstplan in den Einstellungen zu aktivieren.';
+
+  @override
+  String get noOffDayRequestsYet => 'Du hast noch keine Freistellungsanträge.';
+
+  @override
+  String get yourRequestsLabel => 'Deine Anträge';
+
+  @override
+  String get approvedLabel => 'Genehmigt';
+
+  @override
+  String get deniedLabel => 'Abgelehnt';
+
+  @override
+  String get pendingLabel => 'Ausstehend';
+
+  @override
+  String get postAShiftTitle => 'Schicht veröffentlichen';
+
+  @override
+  String get categoryHint => 'Kategorie (z. B. Öffnung, Schließung)';
+
+  @override
+  String get pickStartTime => 'Startzeit wählen';
+
+  @override
+  String get pickEndTime => 'Endzeit wählen';
+
+  @override
+  String get postLabel => 'Veröffentlichen';
+
+  @override
+  String get assignShiftToTitle => 'Diese Schicht zuweisen an';
+
+  @override
+  String get unknownLabel => 'Unbekannt';
+
+  @override
+  String get shiftsTabLabel => 'Schichten';
+
+  @override
+  String get offDayRequestsTabLabel => 'Freistellungsanträge';
+
+  @override
+  String get rosterAddonNotEnabledManager =>
+      'Das Dienstplan-Add-on ist für diesen Standort nicht aktiviert. Aktiviere es unter Einstellungen > Unternehmen, um Schichten zu veröffentlichen.';
+
+  @override
+  String get noShiftsTapPlus =>
+      'Noch keine Schichten veröffentlicht. Tippe auf +, um eine hinzuzufügen.';
+
+  @override
+  String get openStatusLabel => 'Offen';
+
+  @override
+  String get assignedStatusPrefix => 'Zugewiesen';
+
+  @override
+  String get claimedStatusPrefix => 'Übernommen';
+
+  @override
+  String get assignDirectlyLabel => 'Direkt zuweisen';
+
+  @override
+  String get removeClaimLabel => 'Übernahme entfernen';
+
+  @override
+  String couldNotLoadOffDayRequests(String error) {
+    return 'Freistellungsanträge konnten nicht geladen werden: $error';
+  }
+
+  @override
+  String get noOffDayRequests => 'Keine Freistellungsanträge.';
+
+  @override
+  String get approveLabel => 'Genehmigen';
+
+  @override
+  String get denyLabel => 'Ablehnen';
+
+  @override
+  String get rosterAddonNotEnabledPlain =>
+      'Das Dienstplan-Add-on ist für diesen Standort nicht aktiviert.';
+
+  @override
+  String get noActiveStaffVenue =>
+      'Noch kein aktives Personal an diesem Standort.';
+
+  @override
+  String get last90DaysAlphabetical =>
+      'Letzte 90 Tage, nach Schichtkategorie. Alphabetisch - keine Rangliste.';
+
+  @override
+  String shiftsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Schichten',
+      one: '1 Schicht',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noShiftsInPeriod => 'Keine Schichten in diesem Zeitraum.';
+
+  @override
+  String categoryCountLabel(String category, int count) {
+    return '$category: $count';
+  }
 }

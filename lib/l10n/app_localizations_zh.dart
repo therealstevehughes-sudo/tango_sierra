@@ -1521,4 +1521,123 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get claimedLabel => '已认领';
+
+  @override
+  String requestDateOffTitle(String date) {
+    return '申请 $date 休假';
+  }
+
+  @override
+  String get reasonOptionalLabel => '原因(可选)';
+
+  @override
+  String get submitRequestButton => '提交申请';
+
+  @override
+  String get offDayRequestsNotEnabled => '此场所尚未启用休假申请功能。请经理在设置中启用排班。';
+
+  @override
+  String get noOffDayRequestsYet => '您还没有任何休假申请。';
+
+  @override
+  String get yourRequestsLabel => '您的申请';
+
+  @override
+  String get approvedLabel => '已批准';
+
+  @override
+  String get deniedLabel => '已拒绝';
+
+  @override
+  String get pendingLabel => '待处理';
+
+  @override
+  String get postAShiftTitle => '发布班次';
+
+  @override
+  String get categoryHint => '类别(例如开店、关店)';
+
+  @override
+  String get pickStartTime => '选择开始时间';
+
+  @override
+  String get pickEndTime => '选择结束时间';
+
+  @override
+  String get postLabel => '发布';
+
+  @override
+  String get assignShiftToTitle => '将此班次分配给';
+
+  @override
+  String get unknownLabel => '未知';
+
+  @override
+  String get shiftsTabLabel => '班次';
+
+  @override
+  String get offDayRequestsTabLabel => '休假申请';
+
+  @override
+  String get rosterAddonNotEnabledManager =>
+      '此场所尚未启用排班附加功能。请在设置 > 公司中启用以开始发布班次。';
+
+  @override
+  String get noShiftsTapPlus => '尚未发布任何班次。点击 + 添加一个。';
+
+  @override
+  String get openStatusLabel => '空缺';
+
+  @override
+  String get assignedStatusPrefix => '已分配';
+
+  @override
+  String get claimedStatusPrefix => '已认领';
+
+  @override
+  String get assignDirectlyLabel => '直接分配';
+
+  @override
+  String get removeClaimLabel => '移除认领';
+
+  @override
+  String couldNotLoadOffDayRequests(String error) {
+    return '无法加载休假申请: $error';
+  }
+
+  @override
+  String get noOffDayRequests => '没有休假申请。';
+
+  @override
+  String get approveLabel => '批准';
+
+  @override
+  String get denyLabel => '拒绝';
+
+  @override
+  String get rosterAddonNotEnabledPlain => '此场所尚未启用排班附加功能。';
+
+  @override
+  String get noActiveStaffVenue => '此场所尚无在职员工。';
+
+  @override
+  String get last90DaysAlphabetical => '最近90天,按班次类别。按字母顺序排列 - 非排名。';
+
+  @override
+  String shiftsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个班次',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noShiftsInPeriod => '此期间没有班次。';
+
+  @override
+  String categoryCountLabel(String category, int count) {
+    return '$category: $count';
+  }
 }

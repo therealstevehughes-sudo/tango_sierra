@@ -1567,4 +1567,127 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get claimedLabel => 'Claimed';
+
+  @override
+  String requestDateOffTitle(String date) {
+    return 'Request $date off';
+  }
+
+  @override
+  String get reasonOptionalLabel => 'Reason (optional)';
+
+  @override
+  String get submitRequestButton => 'Submit request';
+
+  @override
+  String get offDayRequestsNotEnabled =>
+      'Off-day requests aren\'t switched on for this venue yet. Ask your manager to enable Roster in Settings.';
+
+  @override
+  String get noOffDayRequestsYet => 'You have no off-day requests yet.';
+
+  @override
+  String get yourRequestsLabel => 'Your requests';
+
+  @override
+  String get approvedLabel => 'Approved';
+
+  @override
+  String get deniedLabel => 'Denied';
+
+  @override
+  String get pendingLabel => 'Pending';
+
+  @override
+  String get postAShiftTitle => 'Post a shift';
+
+  @override
+  String get categoryHint => 'Category (e.g. opening, closing)';
+
+  @override
+  String get pickStartTime => 'Pick start time';
+
+  @override
+  String get pickEndTime => 'Pick end time';
+
+  @override
+  String get postLabel => 'Post';
+
+  @override
+  String get assignShiftToTitle => 'Assign this shift to';
+
+  @override
+  String get unknownLabel => 'Unknown';
+
+  @override
+  String get shiftsTabLabel => 'Shifts';
+
+  @override
+  String get offDayRequestsTabLabel => 'Off-Day Requests';
+
+  @override
+  String get rosterAddonNotEnabledManager =>
+      'The Roster add-on isn\'t switched on for this venue. Enable it in Settings > Company to start posting shifts.';
+
+  @override
+  String get noShiftsTapPlus => 'No shifts posted yet. Tap + to add one.';
+
+  @override
+  String get openStatusLabel => 'Open';
+
+  @override
+  String get assignedStatusPrefix => 'Assigned';
+
+  @override
+  String get claimedStatusPrefix => 'Claimed';
+
+  @override
+  String get assignDirectlyLabel => 'Assign directly';
+
+  @override
+  String get removeClaimLabel => 'Remove claim';
+
+  @override
+  String couldNotLoadOffDayRequests(String error) {
+    return 'Could not load off-day requests: $error';
+  }
+
+  @override
+  String get noOffDayRequests => 'No off-day requests.';
+
+  @override
+  String get approveLabel => 'Approve';
+
+  @override
+  String get denyLabel => 'Deny';
+
+  @override
+  String get rosterAddonNotEnabledPlain =>
+      'The Roster add-on isn\'t switched on for this venue.';
+
+  @override
+  String get noActiveStaffVenue => 'No active staff at this venue yet.';
+
+  @override
+  String get last90DaysAlphabetical =>
+      'Last 90 days, by shift category. Alphabetical - not a ranking.';
+
+  @override
+  String shiftsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count shifts',
+      one: '1 shift',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noShiftsInPeriod => 'No shifts in this period.';
+
+  @override
+  String categoryCountLabel(String category, int count) {
+    return '$category: $count';
+  }
 }

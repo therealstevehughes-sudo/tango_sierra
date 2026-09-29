@@ -1569,4 +1569,129 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get claimedLabel => 'دعویٰ کر لیا گیا';
+
+  @override
+  String requestDateOffTitle(String date) {
+    return '$date کی چھٹی کی درخواست دیں';
+  }
+
+  @override
+  String get reasonOptionalLabel => 'وجہ (اختیاری)';
+
+  @override
+  String get submitRequestButton => 'درخواست جمع کروائیں';
+
+  @override
+  String get offDayRequestsNotEnabled =>
+      'اس مقام کے لیے چھٹی کی درخواستیں ابھی فعال نہیں ہیں۔ اپنے منیجر سے ترتیبات میں روسٹر فعال کرنے کو کہیں۔';
+
+  @override
+  String get noOffDayRequestsYet =>
+      'آپ کے پاس ابھی تک کوئی چھٹی کی درخواست نہیں ہے۔';
+
+  @override
+  String get yourRequestsLabel => 'آپ کی درخواستیں';
+
+  @override
+  String get approvedLabel => 'منظور شدہ';
+
+  @override
+  String get deniedLabel => 'مسترد شدہ';
+
+  @override
+  String get pendingLabel => 'زیر التوا';
+
+  @override
+  String get postAShiftTitle => 'شفٹ پوسٹ کریں';
+
+  @override
+  String get categoryHint => 'قسم (مثلاً کھولنا، بند کرنا)';
+
+  @override
+  String get pickStartTime => 'شروع کا وقت منتخب کریں';
+
+  @override
+  String get pickEndTime => 'اختتام کا وقت منتخب کریں';
+
+  @override
+  String get postLabel => 'پوسٹ کریں';
+
+  @override
+  String get assignShiftToTitle => 'اس شفٹ کو تفویض کریں';
+
+  @override
+  String get unknownLabel => 'نامعلوم';
+
+  @override
+  String get shiftsTabLabel => 'شفٹس';
+
+  @override
+  String get offDayRequestsTabLabel => 'چھٹی کی درخواستیں';
+
+  @override
+  String get rosterAddonNotEnabledManager =>
+      'اس مقام کے لیے روسٹر ایڈ آن فعال نہیں ہے۔ شفٹس پوسٹ کرنا شروع کرنے کے لیے ترتیبات > کمپنی میں اسے فعال کریں۔';
+
+  @override
+  String get noShiftsTapPlus =>
+      'ابھی تک کوئی شفٹ پوسٹ نہیں ہوئی۔ ایک شامل کرنے کے لیے + دبائیں۔';
+
+  @override
+  String get openStatusLabel => 'کھلی';
+
+  @override
+  String get assignedStatusPrefix => 'تفویض شدہ';
+
+  @override
+  String get claimedStatusPrefix => 'دعویٰ شدہ';
+
+  @override
+  String get assignDirectlyLabel => 'براہ راست تفویض کریں';
+
+  @override
+  String get removeClaimLabel => 'دعویٰ ہٹائیں';
+
+  @override
+  String couldNotLoadOffDayRequests(String error) {
+    return 'چھٹی کی درخواستیں لوڈ نہیں ہو سکیں: $error';
+  }
+
+  @override
+  String get noOffDayRequests => 'کوئی چھٹی کی درخواست نہیں۔';
+
+  @override
+  String get approveLabel => 'منظور کریں';
+
+  @override
+  String get denyLabel => 'مسترد کریں';
+
+  @override
+  String get rosterAddonNotEnabledPlain =>
+      'اس مقام کے لیے روسٹر ایڈ آن فعال نہیں ہے۔';
+
+  @override
+  String get noActiveStaffVenue => 'اس مقام پر ابھی تک کوئی فعال عملہ نہیں ہے۔';
+
+  @override
+  String get last90DaysAlphabetical =>
+      'پچھلے 90 دن، شفٹ کیٹیگری کے مطابق۔ حروف تہجی کی ترتیب میں - درجہ بندی نہیں۔';
+
+  @override
+  String shiftsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count شفٹیں',
+      one: '1 شفٹ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noShiftsInPeriod => 'اس مدت میں کوئی شفٹ نہیں۔';
+
+  @override
+  String categoryCountLabel(String category, int count) {
+    return '$category: $count';
+  }
 }

@@ -6,6 +6,7 @@ import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/off_day_request.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/off_day_request_providers.dart';
@@ -89,23 +90,26 @@ class _RequestOffDayScreenState extends ConsumerState<RequestOffDayScreen> {
     final reasonController = TextEditingController();
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Request ${formatDate(date)} off'),
-        content: TextField(
-          controller: reasonController,
-          decoration: const InputDecoration(labelText: 'Reason (optional)'),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.requestDateOffTitle(formatDate(date))),
+          content: TextField(
+            controller: reasonController,
+            decoration: InputDecoration(labelText: l10n.reasonOptionalLabel),
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Submit request'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.submitRequestButton),
+            ),
+          ],
+        );
+      },
     );
     final reason = reasonController.text.trim();
     reasonController.dispose();
@@ -127,20 +131,20 @@ class _RequestOffDayScreenState extends ConsumerState<RequestOffDayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Request a day off'),
+        title: Text(l10n.requestADayOff),
         actions: const [AssistantIconButton()],
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : !_addonEnabled
-          ? const Center(
+          ? Center(
               child: Padding(
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 child: Text(
-                  "Off-day requests aren't switched on for this venue yet. "
-                  'Ask your manager to enable Roster in Settings.',
+                  l10n.offDayRequestsNotEnabled,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -152,14 +156,14 @@ class _RequestOffDayScreenState extends ConsumerState<RequestOffDayScreen> {
                   FilledButton.icon(
                     onPressed: _busy ? null : _requestOffDay,
                     icon: const Icon(Icons.event_busy_outlined),
-                    label: const Text('Request a day off'),
+                    label: Text(l10n.requestADayOff),
                   ),
                   const SizedBox(height: 20),
                   if (_myRequests.isEmpty)
-                    const Text('You have no off-day requests yet.')
+                    Text(l10n.noOffDayRequestsYet)
                   else ...[
                     Text(
-                      'Your requests',
+                      l10n.yourRequestsLabel,
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     const SizedBox(height: 8),
@@ -213,10 +217,11 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final (StatusKind kind, String label) = switch (status) {
-      OffDayRequestStatus.approved => (StatusKind.pass, 'Approved'),
-      OffDayRequestStatus.denied => (StatusKind.critical, 'Denied'),
-      OffDayRequestStatus.pending => (StatusKind.caution, 'Pending'),
+      OffDayRequestStatus.approved => (StatusKind.pass, l10n.approvedLabel),
+      OffDayRequestStatus.denied => (StatusKind.critical, l10n.deniedLabel),
+      OffDayRequestStatus.pending => (StatusKind.caution, l10n.pendingLabel),
     };
     return StatusBadge(kind: kind, label: label);
   }

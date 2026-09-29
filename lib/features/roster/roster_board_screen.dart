@@ -7,6 +7,7 @@ import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/off_day_request.dart';
 import '../../shared/models/shift.dart';
 import '../../shared/models/user.dart';
@@ -91,69 +92,72 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Post a shift'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: categoryController,
-                  decoration: const InputDecoration(
-                    labelText: 'Category (e.g. opening, closing)',
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.postAShiftTitle),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextField(
+                    controller: categoryController,
+                    decoration: InputDecoration(
+                      labelText: l10n.categoryHint,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 12),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    startsAt == null
-                        ? 'Pick start time'
-                        : formatDateTime(startsAt!),
+                  const SizedBox(height: 12),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      startsAt == null
+                          ? l10n.pickStartTime
+                          : formatDateTime(startsAt!),
+                    ),
+                    trailing: const Icon(Icons.calendar_today, size: 18),
+                    onTap: () async {
+                      final picked = await _pickDateTime(context);
+                      if (picked != null) {
+                        setDialogState(() => startsAt = picked);
+                      }
+                    },
                   ),
-                  trailing: const Icon(Icons.calendar_today, size: 18),
-                  onTap: () async {
-                    final picked = await _pickDateTime(context);
-                    if (picked != null) {
-                      setDialogState(() => startsAt = picked);
-                    }
-                  },
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(
-                    endsAt == null ? 'Pick end time' : formatDateTime(endsAt!),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      endsAt == null ? l10n.pickEndTime : formatDateTime(endsAt!),
+                    ),
+                    trailing: const Icon(Icons.calendar_today, size: 18),
+                    onTap: () async {
+                      final picked = await _pickDateTime(context);
+                      if (picked != null) {
+                        setDialogState(() => endsAt = picked);
+                      }
+                    },
                   ),
-                  trailing: const Icon(Icons.calendar_today, size: 18),
-                  onTap: () async {
-                    final picked = await _pickDateTime(context);
-                    if (picked != null) {
-                      setDialogState(() => endsAt = picked);
-                    }
-                  },
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: notesController,
-                  decoration: const InputDecoration(labelText: 'Notes (optional)'),
-                ),
-              ],
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: notesController,
+                    decoration: InputDecoration(labelText: l10n.notesOptionalLabel),
+                  ),
+                ],
+              ),
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: startsAt != null && endsAt != null
-                  ? () => Navigator.pop(context, true)
-                  : null,
-              child: const Text('Post'),
-            ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: startsAt != null && endsAt != null
+                    ? () => Navigator.pop(context, true)
+                    : null,
+                child: Text(l10n.postLabel),
+              ),
+            ],
+          );
+        },
       ),
     );
 
@@ -198,7 +202,7 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
     final selected = await showDialog<User>(
       context: context,
       builder: (context) => SimpleDialog(
-        title: const Text('Assign this shift to'),
+        title: Text(AppLocalizations.of(context)!.assignShiftToTitle),
         children: [
           for (final u in _staff)
             SimpleDialogOption(
@@ -231,7 +235,8 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
 
   String _staffName(int? userId) {
     if (userId == null) return '';
-    return _staff.where((u) => u.id == userId).firstOrNull?.name ?? 'Unknown';
+    return _staff.where((u) => u.id == userId).firstOrNull?.name ??
+        AppLocalizations.of(context)!.unknownLabel;
   }
 
   Future<void> _decideOffDay(int requestId, OffDayRequestStatus status) async {
@@ -254,6 +259,7 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final shiftsAsync = _siteId == null
         ? const AsyncValue<List<Shift>>.loading()
         : ref.watch(shiftsStreamForSiteProvider(_siteId!));
@@ -265,35 +271,34 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppScreenHeader(
-          title: const Text('Roster Board'),
+          title: Text(l10n.rosterBoard),
           actions: [
             if (_addonEnabled)
               IconButton(
                 icon: const Icon(Icons.add),
-                tooltip: 'Post a shift',
+                tooltip: l10n.postAShiftTitle,
                 onPressed: _postShift,
               ),
             const AssistantIconButton(),
           ],
           bottom: _addonEnabled
-              ? const TabBar(
+              ? TabBar(
                   tabs: [
-                    Tab(text: 'Shifts'),
-                    Tab(text: 'Off-Day Requests'),
+                    Tab(text: l10n.shiftsTabLabel),
+                    Tab(text: l10n.offDayRequestsTabLabel),
                   ],
                 )
               : null,
         ),
-        drawer: const ManagementDrawer(title: 'Roster Board'),
+        drawer: ManagementDrawer(title: l10n.rosterBoard),
         body: _loading
             ? const Center(child: CircularProgressIndicator())
             : !_addonEnabled
-            ? const Center(
+            ? Center(
                 child: Padding(
-                  padding: EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(24),
                   child: Text(
-                    'The Roster add-on isn\'t switched on for this venue. '
-                    'Enable it in Settings > Company to start posting shifts.',
+                    l10n.rosterAddonNotEnabledManager,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -312,13 +317,14 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
     BuildContext context,
     AsyncValue<List<Shift>> shiftsAsync,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return shiftsAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) =>
-                  Center(child: Text('Could not load shifts: $error')),
+                  Center(child: Text(l10n.couldNotLoadShifts('$error'))),
               data: (shifts) => shifts.isEmpty
-                  ? const Center(
-                      child: Text('No shifts posted yet. Tap + to add one.'),
+                  ? Center(
+                      child: Text(l10n.noShiftsTapPlus),
                     )
                   : ResponsiveContent(
                       child: ListView(
@@ -351,8 +357,8 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
                                               if (shift.category != null)
                                                 shift.category!,
                                               shift.status == ShiftStatus.open
-                                                  ? 'Open'
-                                                  : '${shift.status == ShiftStatus.assigned ? 'Assigned' : 'Claimed'} - ${_staffName(shift.claimedByUserId)}',
+                                                  ? l10n.openStatusLabel
+                                                  : '${shift.status == ShiftStatus.assigned ? l10n.assignedStatusPrefix : l10n.claimedStatusPrefix} - ${_staffName(shift.claimedByUserId)}',
                                             ].join(' · '),
                                             style: Theme.of(
                                               context,
@@ -371,14 +377,14 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
                                         }
                                       },
                                       itemBuilder: (context) => [
-                                        const PopupMenuItem(
+                                        PopupMenuItem(
                                           value: 'assign',
-                                          child: Text('Assign directly'),
+                                          child: Text(l10n.assignDirectlyLabel),
                                         ),
                                         if (shift.status != ShiftStatus.open)
-                                          const PopupMenuItem(
+                                          PopupMenuItem(
                                             value: 'remove',
-                                            child: Text('Remove claim'),
+                                            child: Text(l10n.removeClaimLabel),
                                           ),
                                       ],
                                     ),
@@ -396,12 +402,13 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
     BuildContext context,
     AsyncValue<List<OffDayRequest>> requestsAsync,
   ) {
+    final l10n = AppLocalizations.of(context)!;
     return requestsAsync.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, _) =>
-          Center(child: Text('Could not load off-day requests: $error')),
+          Center(child: Text(l10n.couldNotLoadOffDayRequests('$error'))),
       data: (requests) => requests.isEmpty
-          ? const Center(child: Text('No off-day requests.'))
+          ? Center(child: Text(l10n.noOffDayRequests))
           : ResponsiveContent(
               child: ListView(
                 padding: const EdgeInsets.all(16),
@@ -450,14 +457,14 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
                                     );
                                   }
                                 },
-                                itemBuilder: (context) => const [
+                                itemBuilder: (context) => [
                                   PopupMenuItem(
                                     value: 'approve',
-                                    child: Text('Approve'),
+                                    child: Text(l10n.approveLabel),
                                   ),
                                   PopupMenuItem(
                                     value: 'deny',
-                                    child: Text('Deny'),
+                                    child: Text(l10n.denyLabel),
                                   ),
                                 ],
                               )
@@ -481,10 +488,11 @@ class _OffDayStatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final (StatusKind kind, String label) = switch (status) {
-      OffDayRequestStatus.approved => (StatusKind.pass, 'Approved'),
-      OffDayRequestStatus.denied => (StatusKind.critical, 'Denied'),
-      OffDayRequestStatus.pending => (StatusKind.caution, 'Pending'),
+      OffDayRequestStatus.approved => (StatusKind.pass, l10n.approvedLabel),
+      OffDayRequestStatus.denied => (StatusKind.critical, l10n.deniedLabel),
+      OffDayRequestStatus.pending => (StatusKind.caution, l10n.pendingLabel),
     };
     return StatusBadge(kind: kind, label: label);
   }

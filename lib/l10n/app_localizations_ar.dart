@@ -1564,4 +1564,128 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get claimedLabel => 'تمت المطالبة';
+
+  @override
+  String requestDateOffTitle(String date) {
+    return 'طلب إجازة يوم $date';
+  }
+
+  @override
+  String get reasonOptionalLabel => 'السبب (اختياري)';
+
+  @override
+  String get submitRequestButton => 'إرسال الطلب';
+
+  @override
+  String get offDayRequestsNotEnabled =>
+      'طلبات أيام الإجازة غير مفعّلة بعد لهذا الموقع. اطلب من مديرك تفعيل الجدول الزمني في الإعدادات.';
+
+  @override
+  String get noOffDayRequestsYet => 'ليس لديك أي طلبات إجازة بعد.';
+
+  @override
+  String get yourRequestsLabel => 'طلباتك';
+
+  @override
+  String get approvedLabel => 'تمت الموافقة';
+
+  @override
+  String get deniedLabel => 'مرفوض';
+
+  @override
+  String get pendingLabel => 'قيد الانتظار';
+
+  @override
+  String get postAShiftTitle => 'نشر مناوبة';
+
+  @override
+  String get categoryHint => 'الفئة (مثل الفتح، الإغلاق)';
+
+  @override
+  String get pickStartTime => 'اختر وقت البدء';
+
+  @override
+  String get pickEndTime => 'اختر وقت الانتهاء';
+
+  @override
+  String get postLabel => 'نشر';
+
+  @override
+  String get assignShiftToTitle => 'تعيين هذه المناوبة إلى';
+
+  @override
+  String get unknownLabel => 'غير معروف';
+
+  @override
+  String get shiftsTabLabel => 'المناوبات';
+
+  @override
+  String get offDayRequestsTabLabel => 'طلبات أيام الإجازة';
+
+  @override
+  String get rosterAddonNotEnabledManager =>
+      'إضافة الجدول الزمني غير مفعّلة لهذا الموقع. فعّلها في الإعدادات > الشركة لبدء نشر المناوبات.';
+
+  @override
+  String get noShiftsTapPlus =>
+      'لم يتم نشر أي مناوبات بعد. اضغط على + لإضافة واحدة.';
+
+  @override
+  String get openStatusLabel => 'مفتوحة';
+
+  @override
+  String get assignedStatusPrefix => 'معيّنة';
+
+  @override
+  String get claimedStatusPrefix => 'تمت المطالبة';
+
+  @override
+  String get assignDirectlyLabel => 'تعيين مباشر';
+
+  @override
+  String get removeClaimLabel => 'إزالة المطالبة';
+
+  @override
+  String couldNotLoadOffDayRequests(String error) {
+    return 'تعذر تحميل طلبات أيام الإجازة: $error';
+  }
+
+  @override
+  String get noOffDayRequests => 'لا توجد طلبات إجازة.';
+
+  @override
+  String get approveLabel => 'موافقة';
+
+  @override
+  String get denyLabel => 'رفض';
+
+  @override
+  String get rosterAddonNotEnabledPlain =>
+      'إضافة الجدول الزمني غير مفعّلة لهذا الموقع.';
+
+  @override
+  String get noActiveStaffVenue => 'لا يوجد موظفون نشطون في هذا الموقع بعد.';
+
+  @override
+  String get last90DaysAlphabetical =>
+      'آخر 90 يومًا، حسب فئة المناوبة. أبجديًا - وليس ترتيبًا.';
+
+  @override
+  String shiftsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مناوبات',
+      one: 'مناوبة واحدة',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noShiftsInPeriod => 'لا توجد مناوبات في هذه الفترة.';
+
+  @override
+  String categoryCountLabel(String category, int count) {
+    return '$category: $count';
+  }
 }

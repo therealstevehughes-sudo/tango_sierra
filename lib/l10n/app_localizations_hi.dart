@@ -1575,4 +1575,130 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get claimedLabel => 'दावा किया गया';
+
+  @override
+  String requestDateOffTitle(String date) {
+    return '$date की छुट्टी का अनुरोध करें';
+  }
+
+  @override
+  String get reasonOptionalLabel => 'कारण (वैकल्पिक)';
+
+  @override
+  String get submitRequestButton => 'अनुरोध सबमिट करें';
+
+  @override
+  String get offDayRequestsNotEnabled =>
+      'इस वेन्यू के लिए छुट्टी के अनुरोध अभी तक सक्षम नहीं हैं। अपने प्रबंधक से सेटिंग्स में रोस्टर सक्षम करने के लिए कहें।';
+
+  @override
+  String get noOffDayRequestsYet =>
+      'आपके पास अभी तक कोई छुट्टी अनुरोध नहीं है।';
+
+  @override
+  String get yourRequestsLabel => 'आपके अनुरोध';
+
+  @override
+  String get approvedLabel => 'स्वीकृत';
+
+  @override
+  String get deniedLabel => 'अस्वीकृत';
+
+  @override
+  String get pendingLabel => 'लंबित';
+
+  @override
+  String get postAShiftTitle => 'शिफ्ट पोस्ट करें';
+
+  @override
+  String get categoryHint => 'श्रेणी (जैसे, खोलना, बंद करना)';
+
+  @override
+  String get pickStartTime => 'प्रारंभ समय चुनें';
+
+  @override
+  String get pickEndTime => 'समाप्ति समय चुनें';
+
+  @override
+  String get postLabel => 'पोस्ट करें';
+
+  @override
+  String get assignShiftToTitle => 'इस शिफ्ट को असाइन करें';
+
+  @override
+  String get unknownLabel => 'अज्ञात';
+
+  @override
+  String get shiftsTabLabel => 'शिफ्ट';
+
+  @override
+  String get offDayRequestsTabLabel => 'छुट्टी के अनुरोध';
+
+  @override
+  String get rosterAddonNotEnabledManager =>
+      'इस वेन्यू के लिए रोस्टर ऐड-ऑन सक्षम नहीं है। शिफ्ट पोस्ट करना शुरू करने के लिए सेटिंग्स > कंपनी में इसे सक्षम करें।';
+
+  @override
+  String get noShiftsTapPlus =>
+      'अभी तक कोई शिफ्ट पोस्ट नहीं हुई। एक जोड़ने के लिए + टैप करें।';
+
+  @override
+  String get openStatusLabel => 'खुला';
+
+  @override
+  String get assignedStatusPrefix => 'असाइन किया गया';
+
+  @override
+  String get claimedStatusPrefix => 'दावा किया गया';
+
+  @override
+  String get assignDirectlyLabel => 'सीधे असाइन करें';
+
+  @override
+  String get removeClaimLabel => 'दावा हटाएं';
+
+  @override
+  String couldNotLoadOffDayRequests(String error) {
+    return 'छुट्टी के अनुरोध लोड नहीं हो सके: $error';
+  }
+
+  @override
+  String get noOffDayRequests => 'कोई छुट्टी अनुरोध नहीं।';
+
+  @override
+  String get approveLabel => 'स्वीकृत करें';
+
+  @override
+  String get denyLabel => 'अस्वीकार करें';
+
+  @override
+  String get rosterAddonNotEnabledPlain =>
+      'इस वेन्यू के लिए रोस्टर ऐड-ऑन सक्षम नहीं है।';
+
+  @override
+  String get noActiveStaffVenue =>
+      'इस वेन्यू में अभी तक कोई सक्रिय स्टाफ नहीं है।';
+
+  @override
+  String get last90DaysAlphabetical =>
+      'पिछले 90 दिन, शिफ्ट श्रेणी अनुसार। वर्णानुक्रम में - रैंकिंग नहीं।';
+
+  @override
+  String shiftsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count शिफ्ट',
+      one: '1 शिफ्ट',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noShiftsInPeriod => 'इस अवधि में कोई शिफ्ट नहीं।';
+
+  @override
+  String categoryCountLabel(String category, int count) {
+    return '$category: $count';
+  }
 }

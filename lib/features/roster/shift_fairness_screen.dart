@@ -7,6 +7,7 @@ import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart'
     show organisationRepositoryProvider, currentSiteProvider, activeSiteProvider;
@@ -69,35 +70,35 @@ class _ShiftFairnessScreenState extends ConsumerState<ShiftFairnessScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final summary = _summary;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Shift Fairness Review'),
+        title: Text(l10n.shiftFairnessReview),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Shift Fairness Review'),
+      drawer: ManagementDrawer(title: l10n.shiftFairnessReview),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : !_addonEnabled
-          ? const Center(
+          ? Center(
               child: Padding(
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 child: Text(
-                  'The Roster add-on isn\'t switched on for this venue.',
+                  l10n.rosterAddonNotEnabledPlain,
                   textAlign: TextAlign.center,
                 ),
               ),
             )
           : summary == null || summary.staff.isEmpty
-          ? const Center(child: Text('No active staff at this venue yet.'))
+          ? Center(child: Text(l10n.noActiveStaffVenue))
           : SafeArea(
               child: ResponsiveContent(
                 child: ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
                     Text(
-                      'Last 90 days, by shift category. Alphabetical - not '
-                      'a ranking.',
+                      l10n.last90DaysAlphabetical,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: AppColors.muted,
                       ),
@@ -125,7 +126,7 @@ class _ShiftFairnessScreenState extends ConsumerState<ShiftFairnessScreen> {
                                   ),
                                   MetricChip(
                                     icon: Icons.event_available_outlined,
-                                    label: '${person.total} shifts',
+                                    label: l10n.shiftsCountLabel(person.total),
                                   ),
                                 ],
                               ),
@@ -133,7 +134,7 @@ class _ShiftFairnessScreenState extends ConsumerState<ShiftFairnessScreen> {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 8),
                                   child: Text(
-                                    'No shifts in this period.',
+                                    l10n.noShiftsInPeriod,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall
@@ -154,9 +155,10 @@ class _ShiftFairnessScreenState extends ConsumerState<ShiftFairnessScreen> {
                                             0)
                                           MetricChip(
                                             icon: Icons.label_outline,
-                                            label:
-                                                '$category: '
-                                                '${person.countsByCategory[category]}',
+                                            label: l10n.categoryCountLabel(
+                                              category,
+                                              person.countsByCategory[category]!,
+                                            ),
                                           ),
                                     ],
                                   ),

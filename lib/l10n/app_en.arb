@@ -839,5 +839,71 @@
   "yourShiftRecordNeedsImprovement": "Your shift record: Needs improvement",
   "yourShiftRecordBuilding": "Your shift record: Building a track record",
   "claimLabel": "Claim",
-  "claimedLabel": "Claimed"
+  "claimedLabel": "Claimed",
+  "requestDateOffTitle": "Request {date} off",
+  "@requestDateOffTitle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "reasonOptionalLabel": "Reason (optional)",
+  "submitRequestButton": "Submit request",
+  "offDayRequestsNotEnabled": "Off-day requests aren't switched on for this venue yet. Ask your manager to enable Roster in Settings.",
+  "noOffDayRequestsYet": "You have no off-day requests yet.",
+  "yourRequestsLabel": "Your requests",
+  "approvedLabel": "Approved",
+  "deniedLabel": "Denied",
+  "pendingLabel": "Pending",
+  "postAShiftTitle": "Post a shift",
+  "categoryHint": "Category (e.g. opening, closing)",
+  "pickStartTime": "Pick start time",
+  "pickEndTime": "Pick end time",
+  "postLabel": "Post",
+  "assignShiftToTitle": "Assign this shift to",
+  "unknownLabel": "Unknown",
+  "shiftsTabLabel": "Shifts",
+  "offDayRequestsTabLabel": "Off-Day Requests",
+  "rosterAddonNotEnabledManager": "The Roster add-on isn't switched on for this venue. Enable it in Settings > Company to start posting shifts.",
+  "noShiftsTapPlus": "No shifts posted yet. Tap + to add one.",
+  "openStatusLabel": "Open",
+  "assignedStatusPrefix": "Assigned",
+  "claimedStatusPrefix": "Claimed",
+  "assignDirectlyLabel": "Assign directly",
+  "removeClaimLabel": "Remove claim",
+  "couldNotLoadOffDayRequests": "Could not load off-day requests: {error}",
+  "@couldNotLoadOffDayRequests": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "noOffDayRequests": "No off-day requests.",
+  "approveLabel": "Approve",
+  "denyLabel": "Deny",
+  "rosterAddonNotEnabledPlain": "The Roster add-on isn't switched on for this venue.",
+  "noActiveStaffVenue": "No active staff at this venue yet.",
+  "last90DaysAlphabetical": "Last 90 days, by shift category. Alphabetical - not a ranking.",
+  "shiftsCountLabel": "{count, plural, one{1 shift} other{{count} shifts}}",
+  "@shiftsCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noShiftsInPeriod": "No shifts in this period.",
+  "categoryCountLabel": "{category}: {count}",
+  "@categoryCountLabel": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

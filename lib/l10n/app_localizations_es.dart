@@ -1586,4 +1586,128 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get claimedLabel => 'Reclamado';
+
+  @override
+  String requestDateOffTitle(String date) {
+    return 'Solicitar $date libre';
+  }
+
+  @override
+  String get reasonOptionalLabel => 'Motivo (opcional)';
+
+  @override
+  String get submitRequestButton => 'Enviar solicitud';
+
+  @override
+  String get offDayRequestsNotEnabled =>
+      'Las solicitudes de días libres aún no están activadas para este local. Pide a tu responsable que active Turnos en Ajustes.';
+
+  @override
+  String get noOffDayRequestsYet => 'Aún no tienes solicitudes de días libres.';
+
+  @override
+  String get yourRequestsLabel => 'Tus solicitudes';
+
+  @override
+  String get approvedLabel => 'Aprobada';
+
+  @override
+  String get deniedLabel => 'Denegada';
+
+  @override
+  String get pendingLabel => 'Pendiente';
+
+  @override
+  String get postAShiftTitle => 'Publicar un turno';
+
+  @override
+  String get categoryHint => 'Categoría (p. ej. apertura, cierre)';
+
+  @override
+  String get pickStartTime => 'Elegir hora de inicio';
+
+  @override
+  String get pickEndTime => 'Elegir hora de fin';
+
+  @override
+  String get postLabel => 'Publicar';
+
+  @override
+  String get assignShiftToTitle => 'Asignar este turno a';
+
+  @override
+  String get unknownLabel => 'Desconocido';
+
+  @override
+  String get shiftsTabLabel => 'Turnos';
+
+  @override
+  String get offDayRequestsTabLabel => 'Solicitudes de días libres';
+
+  @override
+  String get rosterAddonNotEnabledManager =>
+      'El complemento Turnos no está activado para este local. Actívalo en Ajustes > Empresa para empezar a publicar turnos.';
+
+  @override
+  String get noShiftsTapPlus =>
+      'Aún no se han publicado turnos. Toca + para añadir uno.';
+
+  @override
+  String get openStatusLabel => 'Abierto';
+
+  @override
+  String get assignedStatusPrefix => 'Asignado';
+
+  @override
+  String get claimedStatusPrefix => 'Reclamado';
+
+  @override
+  String get assignDirectlyLabel => 'Asignar directamente';
+
+  @override
+  String get removeClaimLabel => 'Eliminar reclamación';
+
+  @override
+  String couldNotLoadOffDayRequests(String error) {
+    return 'No se pudieron cargar las solicitudes de días libres: $error';
+  }
+
+  @override
+  String get noOffDayRequests => 'No hay solicitudes de días libres.';
+
+  @override
+  String get approveLabel => 'Aprobar';
+
+  @override
+  String get denyLabel => 'Denegar';
+
+  @override
+  String get rosterAddonNotEnabledPlain =>
+      'El complemento Turnos no está activado para este local.';
+
+  @override
+  String get noActiveStaffVenue => 'Aún no hay personal activo en este local.';
+
+  @override
+  String get last90DaysAlphabetical =>
+      'Últimos 90 días, por categoría de turno. Alfabético - no es una clasificación.';
+
+  @override
+  String shiftsCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count turnos',
+      one: '1 turno',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get noShiftsInPeriod => 'Sin turnos en este periodo.';
+
+  @override
+  String categoryCountLabel(String category, int count) {
+    return '$category: $count';
+  }
 }

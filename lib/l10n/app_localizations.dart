@@ -2837,6 +2837,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Claimed'**
   String get claimedLabel;
+
+  /// No description provided for @requestDateOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Request {date} off'**
+  String requestDateOffTitle(String date);
+
+  /// No description provided for @reasonOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason (optional)'**
+  String get reasonOptionalLabel;
+
+  /// No description provided for @submitRequestButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit request'**
+  String get submitRequestButton;
+
+  /// No description provided for @offDayRequestsNotEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Off-day requests aren\'t switched on for this venue yet. Ask your manager to enable Roster in Settings.'**
+  String get offDayRequestsNotEnabled;
+
+  /// No description provided for @noOffDayRequestsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'You have no off-day requests yet.'**
+  String get noOffDayRequestsYet;
+
+  /// No description provided for @yourRequestsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your requests'**
+  String get yourRequestsLabel;
+
+  /// No description provided for @approvedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get approvedLabel;
+
+  /// No description provided for @deniedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Denied'**
+  String get deniedLabel;
+
+  /// No description provided for @pendingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pendingLabel;
+
+  /// No description provided for @postAShiftTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Post a shift'**
+  String get postAShiftTitle;
+
+  /// No description provided for @categoryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Category (e.g. opening, closing)'**
+  String get categoryHint;
+
+  /// No description provided for @pickStartTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick start time'**
+  String get pickStartTime;
+
+  /// No description provided for @pickEndTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick end time'**
+  String get pickEndTime;
+
+  /// No description provided for @postLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Post'**
+  String get postLabel;
+
+  /// No description provided for @assignShiftToTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign this shift to'**
+  String get assignShiftToTitle;
+
+  /// No description provided for @unknownLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknownLabel;
+
+  /// No description provided for @shiftsTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Shifts'**
+  String get shiftsTabLabel;
+
+  /// No description provided for @offDayRequestsTabLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Off-Day Requests'**
+  String get offDayRequestsTabLabel;
+
+  /// No description provided for @rosterAddonNotEnabledManager.
+  ///
+  /// In en, this message translates to:
+  /// **'The Roster add-on isn\'t switched on for this venue. Enable it in Settings > Company to start posting shifts.'**
+  String get rosterAddonNotEnabledManager;
+
+  /// No description provided for @noShiftsTapPlus.
+  ///
+  /// In en, this message translates to:
+  /// **'No shifts posted yet. Tap + to add one.'**
+  String get noShiftsTapPlus;
+
+  /// No description provided for @openStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get openStatusLabel;
+
+  /// No description provided for @assignedStatusPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Assigned'**
+  String get assignedStatusPrefix;
+
+  /// No description provided for @claimedStatusPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Claimed'**
+  String get claimedStatusPrefix;
+
+  /// No description provided for @assignDirectlyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign directly'**
+  String get assignDirectlyLabel;
+
+  /// No description provided for @removeClaimLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove claim'**
+  String get removeClaimLabel;
+
+  /// No description provided for @couldNotLoadOffDayRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load off-day requests: {error}'**
+  String couldNotLoadOffDayRequests(String error);
+
+  /// No description provided for @noOffDayRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'No off-day requests.'**
+  String get noOffDayRequests;
+
+  /// No description provided for @approveLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get approveLabel;
+
+  /// No description provided for @denyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Deny'**
+  String get denyLabel;
+
+  /// No description provided for @rosterAddonNotEnabledPlain.
+  ///
+  /// In en, this message translates to:
+  /// **'The Roster add-on isn\'t switched on for this venue.'**
+  String get rosterAddonNotEnabledPlain;
+
+  /// No description provided for @noActiveStaffVenue.
+  ///
+  /// In en, this message translates to:
+  /// **'No active staff at this venue yet.'**
+  String get noActiveStaffVenue;
+
+  /// No description provided for @last90DaysAlphabetical.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 90 days, by shift category. Alphabetical - not a ranking.'**
+  String get last90DaysAlphabetical;
+
+  /// No description provided for @shiftsCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{1 shift} other{{count} shifts}}'**
+  String shiftsCountLabel(int count);
+
+  /// No description provided for @noShiftsInPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'No shifts in this period.'**
+  String get noShiftsInPeriod;
+
+  /// No description provided for @categoryCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{category}: {count}'**
+  String categoryCountLabel(String category, int count);
 }
 
 class _AppLocalizationsDelegate
