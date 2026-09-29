@@ -100,5 +100,16 @@
   "submitButton": "ABSENDEN",
   "availableFrom": "Verfügbar ab {time}",
   "backToList": "Zurück zur Liste",
-  "skipComesBackLater": "Überspringen - kommt später zurück"
+  "skipComesBackLater": "Überspringen - kommt später zurück",
+  "noAdHocTaskTypesSetUp": "An diesem Standort sind noch keine Ad-hoc-Aufgabentypen eingerichtet - bitte zuerst einen Manager, eine Liefer- oder Temperaturprüfungsvorlage zuzuweisen.",
+  "whatKindOfThing": "Was für eine Sache machst du gerade?",
+  "notesOptionalLabel": "Notizen (optional)",
+  "noteOptionalLabel": "Notiz (optional)",
+  "temperatureCelsiusLabel": "Temperatur (°C)",
+  "submitLabel": "Absenden",
+  "logReadingButton": "Messwert erfassen",
+  "loggedThanksMessage": "Erfasst. Danke, dass du das festgehalten hast.",
+  "logAnotherAdHocTask": "Weitere Ad-hoc-Aufgabe erfassen",
+  "deliveryCheckLabel": "Lieferprüfung",
+  "temperatureCheckLabel": "Temperaturprüfung"
 }

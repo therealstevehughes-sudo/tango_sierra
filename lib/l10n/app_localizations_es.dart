@@ -342,4 +342,38 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get skipComesBackLater => 'Omitir - vuelve más tarde';
+
+  @override
+  String get noAdHocTaskTypesSetUp =>
+      'Todavía no hay tipos de tareas puntuales configurados en este local - pide a un responsable que asigne primero una plantilla de control de entrega o de temperatura.';
+
+  @override
+  String get whatKindOfThing => '¿Qué tipo de cosa estás haciendo?';
+
+  @override
+  String get notesOptionalLabel => 'Notas (opcional)';
+
+  @override
+  String get noteOptionalLabel => 'Nota (opcional)';
+
+  @override
+  String get temperatureCelsiusLabel => 'Temperatura (°C)';
+
+  @override
+  String get submitLabel => 'Enviar';
+
+  @override
+  String get logReadingButton => 'Registrar lectura';
+
+  @override
+  String get loggedThanksMessage => 'Registrado. Gracias por anotarlo.';
+
+  @override
+  String get logAnotherAdHocTask => 'Registrar otra tarea puntual';
+
+  @override
+  String get deliveryCheckLabel => 'Control de entrega';
+
+  @override
+  String get temperatureCheckLabel => 'Control de temperatura';
 }

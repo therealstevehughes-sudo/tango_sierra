@@ -337,4 +337,38 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get skipComesBackLater => 'تخطي - سيعود لاحقًا';
+
+  @override
+  String get noAdHocTaskTypesSetUp =>
+      'لم يتم إعداد أي أنواع مهام عشوائية في هذا الموقع بعد - اطلب من المدير تعيين نموذج فحص توصيل أو فحص درجة حرارة أولاً.';
+
+  @override
+  String get whatKindOfThing => 'ما نوع الشيء الذي تقوم به؟';
+
+  @override
+  String get notesOptionalLabel => 'ملاحظات (اختياري)';
+
+  @override
+  String get noteOptionalLabel => 'ملاحظة (اختياري)';
+
+  @override
+  String get temperatureCelsiusLabel => 'درجة الحرارة (°م)';
+
+  @override
+  String get submitLabel => 'إرسال';
+
+  @override
+  String get logReadingButton => 'تسجيل القراءة';
+
+  @override
+  String get loggedThanksMessage => 'تم التسجيل. شكرًا لتسجيل ذلك.';
+
+  @override
+  String get logAnotherAdHocTask => 'تسجيل مهمة عشوائية أخرى';
+
+  @override
+  String get deliveryCheckLabel => 'فحص التوصيل';
+
+  @override
+  String get temperatureCheckLabel => 'فحص درجة الحرارة';
 }

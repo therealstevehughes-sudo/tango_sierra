@@ -341,4 +341,38 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get skipComesBackLater => 'Omite - revine mai târziu';
+
+  @override
+  String get noAdHocTaskTypesSetUp =>
+      'Niciun tip de sarcină ad-hoc nu este configurat la acest site încă - roagă un manager să atribuie mai întâi un șablon de verificare a livrării sau a temperaturii.';
+
+  @override
+  String get whatKindOfThing => 'Ce fel de lucru faci?';
+
+  @override
+  String get notesOptionalLabel => 'Note (opțional)';
+
+  @override
+  String get noteOptionalLabel => 'Notă (opțional)';
+
+  @override
+  String get temperatureCelsiusLabel => 'Temperatură (°C)';
+
+  @override
+  String get submitLabel => 'Trimite';
+
+  @override
+  String get logReadingButton => 'Înregistrează citirea';
+
+  @override
+  String get loggedThanksMessage => 'Înregistrat. Mulțumim că ai notat asta.';
+
+  @override
+  String get logAnotherAdHocTask => 'Înregistrează altă sarcină ad-hoc';
+
+  @override
+  String get deliveryCheckLabel => 'Verificare livrare';
+
+  @override
+  String get temperatureCheckLabel => 'Verificare temperatură';
 }

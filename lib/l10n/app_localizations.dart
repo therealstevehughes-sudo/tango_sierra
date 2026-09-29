@@ -719,6 +719,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Skip - comes back later'**
   String get skipComesBackLater;
+
+  /// No description provided for @noAdHocTaskTypesSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'No ad-hoc task types are set up at this site yet - ask a manager to assign a delivery-check or temperature-check task template first.'**
+  String get noAdHocTaskTypesSetUp;
+
+  /// No description provided for @whatKindOfThing.
+  ///
+  /// In en, this message translates to:
+  /// **'What kind of thing are you doing?'**
+  String get whatKindOfThing;
+
+  /// No description provided for @notesOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes (optional)'**
+  String get notesOptionalLabel;
+
+  /// No description provided for @noteOptionalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get noteOptionalLabel;
+
+  /// No description provided for @temperatureCelsiusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature (°C)'**
+  String get temperatureCelsiusLabel;
+
+  /// No description provided for @submitLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit'**
+  String get submitLabel;
+
+  /// No description provided for @logReadingButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Log reading'**
+  String get logReadingButton;
+
+  /// No description provided for @loggedThanksMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged. Thanks for recording this.'**
+  String get loggedThanksMessage;
+
+  /// No description provided for @logAnotherAdHocTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Log another ad-hoc task'**
+  String get logAnotherAdHocTask;
+
+  /// No description provided for @deliveryCheckLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery check'**
+  String get deliveryCheckLabel;
+
+  /// No description provided for @temperatureCheckLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Temperature check'**
+  String get temperatureCheckLabel;
 }
 
 class _AppLocalizationsDelegate

@@ -100,5 +100,16 @@
   "submitButton": "إرسال",
   "availableFrom": "متاح من {time}",
   "backToList": "العودة إلى القائمة",
-  "skipComesBackLater": "تخطي - سيعود لاحقًا"
+  "skipComesBackLater": "تخطي - سيعود لاحقًا",
+  "noAdHocTaskTypesSetUp": "لم يتم إعداد أي أنواع مهام عشوائية في هذا الموقع بعد - اطلب من المدير تعيين نموذج فحص توصيل أو فحص درجة حرارة أولاً.",
+  "whatKindOfThing": "ما نوع الشيء الذي تقوم به؟",
+  "notesOptionalLabel": "ملاحظات (اختياري)",
+  "noteOptionalLabel": "ملاحظة (اختياري)",
+  "temperatureCelsiusLabel": "درجة الحرارة (°م)",
+  "submitLabel": "إرسال",
+  "logReadingButton": "تسجيل القراءة",
+  "loggedThanksMessage": "تم التسجيل. شكرًا لتسجيل ذلك.",
+  "logAnotherAdHocTask": "تسجيل مهمة عشوائية أخرى",
+  "deliveryCheckLabel": "فحص التوصيل",
+  "temperatureCheckLabel": "فحص درجة الحرارة"
 }

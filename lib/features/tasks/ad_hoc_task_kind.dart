@@ -1,3 +1,4 @@
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/user.dart' show RoleTier;
 
@@ -8,7 +9,7 @@ import '../../shared/models/user.dart' show RoleTier;
 sealed class AdHocTaskKind {
   const AdHocTaskKind();
 
-  String get label;
+  String label(AppLocalizations l10n);
 
   /// Whether [template] belongs to this kind — used both to build the
   /// template picker and to decide whether this kind has anything to show
@@ -23,7 +24,7 @@ class DeliveryCheckKind extends AdHocTaskKind {
   const DeliveryCheckKind();
 
   @override
-  String get label => 'Delivery check';
+  String label(AppLocalizations l10n) => l10n.deliveryCheckLabel;
 
   @override
   bool matches(TaskTemplate template) => template.requiresSupplierSelection;
@@ -38,7 +39,7 @@ class TemperatureCheckKind extends AdHocTaskKind {
   const TemperatureCheckKind();
 
   @override
-  String get label => 'Temperature check';
+  String label(AppLocalizations l10n) => l10n.temperatureCheckLabel;
 
   @override
   bool matches(TaskTemplate template) =>

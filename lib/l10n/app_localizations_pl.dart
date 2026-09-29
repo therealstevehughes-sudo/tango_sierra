@@ -340,4 +340,38 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get skipComesBackLater => 'Pomiń - wróci później';
+
+  @override
+  String get noAdHocTaskTypesSetUp =>
+      'W tym miejscu nie skonfigurowano jeszcze żadnych zadań doraźnych - poproś kierownika o przypisanie szablonu kontroli dostawy lub kontroli temperatury.';
+
+  @override
+  String get whatKindOfThing => 'Jakiego rodzaju czynność wykonujesz?';
+
+  @override
+  String get notesOptionalLabel => 'Notatki (opcjonalnie)';
+
+  @override
+  String get noteOptionalLabel => 'Notatka (opcjonalnie)';
+
+  @override
+  String get temperatureCelsiusLabel => 'Temperatura (°C)';
+
+  @override
+  String get submitLabel => 'Wyślij';
+
+  @override
+  String get logReadingButton => 'Zapisz odczyt';
+
+  @override
+  String get loggedThanksMessage => 'Zapisano. Dziękujemy za odnotowanie tego.';
+
+  @override
+  String get logAnotherAdHocTask => 'Zarejestruj kolejne zadanie doraźne';
+
+  @override
+  String get deliveryCheckLabel => 'Kontrola dostawy';
+
+  @override
+  String get temperatureCheckLabel => 'Kontrola temperatury';
 }

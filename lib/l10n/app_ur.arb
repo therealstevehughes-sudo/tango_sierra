@@ -100,5 +100,16 @@
   "submitButton": "جمع کروائیں",
   "availableFrom": "{time} سے دستیاب",
   "backToList": "فہرست پر واپس جائیں",
-  "skipComesBackLater": "چھوڑیں - بعد میں واپس آئے گا"
+  "skipComesBackLater": "چھوڑیں - بعد میں واپس آئے گا",
+  "noAdHocTaskTypesSetUp": "اس سائٹ پر ابھی تک کوئی فوری کام کی قسم سیٹ نہیں کی گئی - پہلے کسی منیجر سے ڈیلیوری چیک یا درجہ حرارت چیک ٹیمپلیٹ تفویض کرنے کو کہیں۔",
+  "whatKindOfThing": "آپ کس قسم کا کام کر رہے ہیں؟",
+  "notesOptionalLabel": "نوٹس (اختیاری)",
+  "noteOptionalLabel": "نوٹ (اختیاری)",
+  "temperatureCelsiusLabel": "درجہ حرارت (°C)",
+  "submitLabel": "جمع کروائیں",
+  "logReadingButton": "ریڈنگ درج کریں",
+  "loggedThanksMessage": "درج کر لیا گیا۔ اسے ریکارڈ کرنے کا شکریہ۔",
+  "logAnotherAdHocTask": "ایک اور فوری کام درج کریں",
+  "deliveryCheckLabel": "ڈیلیوری چیک",
+  "temperatureCheckLabel": "درجہ حرارت چیک"
 }

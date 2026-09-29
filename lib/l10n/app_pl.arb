@@ -100,5 +100,16 @@
   "submitButton": "WYŚLIJ",
   "availableFrom": "Dostępne od {time}",
   "backToList": "Wróć do listy",
-  "skipComesBackLater": "Pomiń - wróci później"
+  "skipComesBackLater": "Pomiń - wróci później",
+  "noAdHocTaskTypesSetUp": "W tym miejscu nie skonfigurowano jeszcze żadnych zadań doraźnych - poproś kierownika o przypisanie szablonu kontroli dostawy lub kontroli temperatury.",
+  "whatKindOfThing": "Jakiego rodzaju czynność wykonujesz?",
+  "notesOptionalLabel": "Notatki (opcjonalnie)",
+  "noteOptionalLabel": "Notatka (opcjonalnie)",
+  "temperatureCelsiusLabel": "Temperatura (°C)",
+  "submitLabel": "Wyślij",
+  "logReadingButton": "Zapisz odczyt",
+  "loggedThanksMessage": "Zapisano. Dziękujemy za odnotowanie tego.",
+  "logAnotherAdHocTask": "Zarejestruj kolejne zadanie doraźne",
+  "deliveryCheckLabel": "Kontrola dostawy",
+  "temperatureCheckLabel": "Kontrola temperatury"
 }

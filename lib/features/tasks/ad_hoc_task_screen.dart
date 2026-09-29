@@ -18,6 +18,7 @@ import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import '../../l10n/app_localizations.dart';
 import 'ad_hoc_task_kind.dart';
 import 'billing_gate.dart';
 import 'delivery_detail_form.dart';
@@ -225,9 +226,10 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Do an ad-hoc task'),
+        title: Text(l10n.doAdHocTask),
         actions: const [AssistantIconButton()],
       ),
       body: _loading
@@ -235,37 +237,31 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
           : ResponsiveContent(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
-                child: _buildBody(),
+                child: _buildBody(l10n),
               ),
             ),
     );
   }
 
-  Widget _buildBody() {
-    if (_submitted) return _buildDone();
+  Widget _buildBody(AppLocalizations l10n) {
+    if (_submitted) return _buildDone(l10n);
     final template = _selectedTemplate;
-    if (template != null) return _buildForm(template);
+    if (template != null) return _buildForm(template, l10n);
     final kind = _selectedKind;
-    if (kind != null) return _buildTemplatePicker(kind);
-    return _buildKindChooser();
+    if (kind != null) return _buildTemplatePicker(kind, l10n);
+    return _buildKindChooser(l10n);
   }
 
-  Widget _buildKindChooser() {
+  Widget _buildKindChooser(AppLocalizations l10n) {
     if (_templatesByKind.isEmpty) {
-      return const AppCard(
-        child: Text(
-          'No ad-hoc task types are set up at this site yet - ask a '
-          'manager to assign a delivery-check or temperature-check task '
-          'template first.',
-        ),
-      );
+      return AppCard(child: Text(l10n.noAdHocTaskTypesSetUp));
     }
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            'What kind of thing are you doing?',
+            l10n.whatKindOfThing,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 12),
@@ -276,7 +272,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
                 onPressed: () => setState(() => _selectedKind = kind),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(kind.label),
+                  child: Text(kind.label(l10n)),
                 ),
               ),
             ),
@@ -285,7 +281,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
     );
   }
 
-  Widget _buildTemplatePicker(AdHocTaskKind kind) {
+  Widget _buildTemplatePicker(AdHocTaskKind kind, AppLocalizations l10n) {
     final templates = _templatesByKind[kind] ?? const [];
     return AppCard(
       child: Column(
@@ -299,7 +295,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
               ),
               Expanded(
                 child: Text(
-                  kind.label,
+                  kind.label(l10n),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               ),
@@ -324,7 +320,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
     );
   }
 
-  Widget _buildForm(TaskTemplate template) {
+  Widget _buildForm(TaskTemplate template, AppLocalizations l10n) {
     final kind = _selectedKind!;
     return AppCard(
       child: Column(
@@ -345,14 +341,14 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
             ],
           ),
           const SizedBox(height: 8),
-          if (kind is DeliveryCheckKind) ..._buildDeliveryForm(),
-          if (kind is TemperatureCheckKind) ..._buildTemperatureForm(),
+          if (kind is DeliveryCheckKind) ..._buildDeliveryForm(l10n),
+          if (kind is TemperatureCheckKind) ..._buildTemperatureForm(l10n),
         ],
       ),
     );
   }
 
-  List<Widget> _buildDeliveryForm() {
+  List<Widget> _buildDeliveryForm(AppLocalizations l10n) {
     return [
       DeliveryDetailForm(
         suppliers: _suppliers,
@@ -362,7 +358,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
       TextField(
         controller: _noteController,
         decoration: InputDecoration(
-          labelText: 'Notes (optional)',
+          labelText: l10n.notesOptionalLabel,
           suffixIcon: VoiceNoteMicButton(controller: _noteController),
         ),
         maxLines: 2,
@@ -388,7 +384,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
                     )
                   : null,
               onPressed: () => setState(() => _deliveryResult = 'PASS'),
-              child: const Text('PASS'),
+              child: Text(l10n.passLabel),
             ),
           ),
           const SizedBox(width: 8),
@@ -402,7 +398,7 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
                     )
                   : null,
               onPressed: () => setState(() => _deliveryResult = 'FAIL'),
-              child: const Text('FAIL'),
+              child: Text(l10n.failLabel),
             ),
           ),
         ],
@@ -416,12 +412,12 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
                 height: 20,
                 child: CircularProgressIndicator(strokeWidth: 2),
               )
-            : const Text('Submit'),
+            : Text(l10n.submitLabel),
       ),
     ];
   }
 
-  List<Widget> _buildTemperatureForm() {
+  List<Widget> _buildTemperatureForm(AppLocalizations l10n) {
     return [
       // Deliberately no "safe range" label and no PASS/FAIL badge here —
       // this records the reading only. See verified_threshold_judgment.dart.
@@ -431,13 +427,13 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
           decimal: true,
           signed: true,
         ),
-        decoration: const InputDecoration(labelText: 'Temperature (°C)'),
+        decoration: InputDecoration(labelText: l10n.temperatureCelsiusLabel),
       ),
       const SizedBox(height: 12),
       TextField(
         controller: _noteController,
         decoration: InputDecoration(
-          labelText: 'Note (optional)',
+          labelText: l10n.noteOptionalLabel,
           suffixIcon: VoiceNoteMicButton(controller: _noteController),
         ),
         maxLines: 2,
@@ -459,21 +455,21 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
                 height: 20,
                 child: CircularProgressIndicator(strokeWidth: 2),
               )
-            : const Text('Log reading'),
+            : Text(l10n.logReadingButton),
       ),
     ];
   }
 
-  Widget _buildDone() {
+  Widget _buildDone(AppLocalizations l10n) {
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Text('Logged. Thanks for recording this.'),
+          Text(l10n.loggedThanksMessage),
           const SizedBox(height: 12),
           OutlinedButton(
             onPressed: _reset,
-            child: const Text('Log another ad-hoc task'),
+            child: Text(l10n.logAnotherAdHocTask),
           ),
         ],
       ),

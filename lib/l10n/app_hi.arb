@@ -100,5 +100,16 @@
   "submitButton": "सबमिट करें",
   "availableFrom": "{time} से उपलब्ध",
   "backToList": "सूची पर वापस जाएं",
-  "skipComesBackLater": "छोड़ें - बाद में वापस आएगा"
+  "skipComesBackLater": "छोड़ें - बाद में वापस आएगा",
+  "noAdHocTaskTypesSetUp": "इस साइट पर अभी तक कोई तदर्थ कार्य प्रकार सेट नहीं किया गया है - पहले किसी प्रबंधक से डिलीवरी-जांच या तापमान-जांच टेम्पलेट असाइन करने के लिए कहें।",
+  "whatKindOfThing": "आप किस तरह का काम कर रहे हैं?",
+  "notesOptionalLabel": "टिप्पणियाँ (वैकल्पिक)",
+  "noteOptionalLabel": "टिप्पणी (वैकल्पिक)",
+  "temperatureCelsiusLabel": "तापमान (°C)",
+  "submitLabel": "सबमिट करें",
+  "logReadingButton": "रीडिंग दर्ज करें",
+  "loggedThanksMessage": "दर्ज किया गया। इसे रिकॉर्ड करने के लिए धन्यवाद।",
+  "logAnotherAdHocTask": "एक और तदर्थ कार्य दर्ज करें",
+  "deliveryCheckLabel": "डिलीवरी जांच",
+  "temperatureCheckLabel": "तापमान जांच"
 }

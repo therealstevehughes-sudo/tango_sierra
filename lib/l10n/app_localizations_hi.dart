@@ -339,4 +339,39 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get skipComesBackLater => 'छोड़ें - बाद में वापस आएगा';
+
+  @override
+  String get noAdHocTaskTypesSetUp =>
+      'इस साइट पर अभी तक कोई तदर्थ कार्य प्रकार सेट नहीं किया गया है - पहले किसी प्रबंधक से डिलीवरी-जांच या तापमान-जांच टेम्पलेट असाइन करने के लिए कहें।';
+
+  @override
+  String get whatKindOfThing => 'आप किस तरह का काम कर रहे हैं?';
+
+  @override
+  String get notesOptionalLabel => 'टिप्पणियाँ (वैकल्पिक)';
+
+  @override
+  String get noteOptionalLabel => 'टिप्पणी (वैकल्पिक)';
+
+  @override
+  String get temperatureCelsiusLabel => 'तापमान (°C)';
+
+  @override
+  String get submitLabel => 'सबमिट करें';
+
+  @override
+  String get logReadingButton => 'रीडिंग दर्ज करें';
+
+  @override
+  String get loggedThanksMessage =>
+      'दर्ज किया गया। इसे रिकॉर्ड करने के लिए धन्यवाद।';
+
+  @override
+  String get logAnotherAdHocTask => 'एक और तदर्थ कार्य दर्ज करें';
+
+  @override
+  String get deliveryCheckLabel => 'डिलीवरी जांच';
+
+  @override
+  String get temperatureCheckLabel => 'तापमान जांच';
 }

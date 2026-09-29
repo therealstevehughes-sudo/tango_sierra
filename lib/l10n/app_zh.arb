@@ -100,5 +100,16 @@
   "submitButton": "提交",
   "availableFrom": "{time} 后可用",
   "backToList": "返回列表",
-  "skipComesBackLater": "跳过 - 稍后再来"
+  "skipComesBackLater": "跳过 - 稍后再来",
+  "noAdHocTaskTypesSetUp": "该站点尚未设置任何临时任务类型 - 请先让经理分配一个送货检查或温度检查模板。",
+  "whatKindOfThing": "您在做哪种类型的事情?",
+  "notesOptionalLabel": "备注(可选)",
+  "noteOptionalLabel": "备注(可选)",
+  "temperatureCelsiusLabel": "温度 (°C)",
+  "submitLabel": "提交",
+  "logReadingButton": "记录读数",
+  "loggedThanksMessage": "已记录,感谢您的记录。",
+  "logAnotherAdHocTask": "记录另一个临时任务",
+  "deliveryCheckLabel": "送货检查",
+  "temperatureCheckLabel": "温度检查"
 }

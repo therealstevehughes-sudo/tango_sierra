@@ -100,5 +100,16 @@
   "submitButton": "TRIMITE",
   "availableFrom": "Disponibil de la {time}",
   "backToList": "Înapoi la listă",
-  "skipComesBackLater": "Omite - revine mai târziu"
+  "skipComesBackLater": "Omite - revine mai târziu",
+  "noAdHocTaskTypesSetUp": "Niciun tip de sarcină ad-hoc nu este configurat la acest site încă - roagă un manager să atribuie mai întâi un șablon de verificare a livrării sau a temperaturii.",
+  "whatKindOfThing": "Ce fel de lucru faci?",
+  "notesOptionalLabel": "Note (opțional)",
+  "noteOptionalLabel": "Notă (opțional)",
+  "temperatureCelsiusLabel": "Temperatură (°C)",
+  "submitLabel": "Trimite",
+  "logReadingButton": "Înregistrează citirea",
+  "loggedThanksMessage": "Înregistrat. Mulțumim că ai notat asta.",
+  "logAnotherAdHocTask": "Înregistrează altă sarcină ad-hoc",
+  "deliveryCheckLabel": "Verificare livrare",
+  "temperatureCheckLabel": "Verificare temperatură"
 }

@@ -343,4 +343,39 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get skipComesBackLater => 'Überspringen - kommt später zurück';
+
+  @override
+  String get noAdHocTaskTypesSetUp =>
+      'An diesem Standort sind noch keine Ad-hoc-Aufgabentypen eingerichtet - bitte zuerst einen Manager, eine Liefer- oder Temperaturprüfungsvorlage zuzuweisen.';
+
+  @override
+  String get whatKindOfThing => 'Was für eine Sache machst du gerade?';
+
+  @override
+  String get notesOptionalLabel => 'Notizen (optional)';
+
+  @override
+  String get noteOptionalLabel => 'Notiz (optional)';
+
+  @override
+  String get temperatureCelsiusLabel => 'Temperatur (°C)';
+
+  @override
+  String get submitLabel => 'Absenden';
+
+  @override
+  String get logReadingButton => 'Messwert erfassen';
+
+  @override
+  String get loggedThanksMessage =>
+      'Erfasst. Danke, dass du das festgehalten hast.';
+
+  @override
+  String get logAnotherAdHocTask => 'Weitere Ad-hoc-Aufgabe erfassen';
+
+  @override
+  String get deliveryCheckLabel => 'Lieferprüfung';
+
+  @override
+  String get temperatureCheckLabel => 'Temperaturprüfung';
 }

@@ -336,4 +336,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get skipComesBackLater => 'Skip - comes back later';
+
+  @override
+  String get noAdHocTaskTypesSetUp =>
+      'No ad-hoc task types are set up at this site yet - ask a manager to assign a delivery-check or temperature-check task template first.';
+
+  @override
+  String get whatKindOfThing => 'What kind of thing are you doing?';
+
+  @override
+  String get notesOptionalLabel => 'Notes (optional)';
+
+  @override
+  String get noteOptionalLabel => 'Note (optional)';
+
+  @override
+  String get temperatureCelsiusLabel => 'Temperature (°C)';
+
+  @override
+  String get submitLabel => 'Submit';
+
+  @override
+  String get logReadingButton => 'Log reading';
+
+  @override
+  String get loggedThanksMessage => 'Logged. Thanks for recording this.';
+
+  @override
+  String get logAnotherAdHocTask => 'Log another ad-hoc task';
+
+  @override
+  String get deliveryCheckLabel => 'Delivery check';
+
+  @override
+  String get temperatureCheckLabel => 'Temperature check';
 }

@@ -326,4 +326,37 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get skipComesBackLater => '跳过 - 稍后再来';
+
+  @override
+  String get noAdHocTaskTypesSetUp => '该站点尚未设置任何临时任务类型 - 请先让经理分配一个送货检查或温度检查模板。';
+
+  @override
+  String get whatKindOfThing => '您在做哪种类型的事情?';
+
+  @override
+  String get notesOptionalLabel => '备注(可选)';
+
+  @override
+  String get noteOptionalLabel => '备注(可选)';
+
+  @override
+  String get temperatureCelsiusLabel => '温度 (°C)';
+
+  @override
+  String get submitLabel => '提交';
+
+  @override
+  String get logReadingButton => '记录读数';
+
+  @override
+  String get loggedThanksMessage => '已记录,感谢您的记录。';
+
+  @override
+  String get logAnotherAdHocTask => '记录另一个临时任务';
+
+  @override
+  String get deliveryCheckLabel => '送货检查';
+
+  @override
+  String get temperatureCheckLabel => '温度检查';
 }

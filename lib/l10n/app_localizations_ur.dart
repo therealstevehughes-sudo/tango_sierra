@@ -339,4 +339,38 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get skipComesBackLater => 'چھوڑیں - بعد میں واپس آئے گا';
+
+  @override
+  String get noAdHocTaskTypesSetUp =>
+      'اس سائٹ پر ابھی تک کوئی فوری کام کی قسم سیٹ نہیں کی گئی - پہلے کسی منیجر سے ڈیلیوری چیک یا درجہ حرارت چیک ٹیمپلیٹ تفویض کرنے کو کہیں۔';
+
+  @override
+  String get whatKindOfThing => 'آپ کس قسم کا کام کر رہے ہیں؟';
+
+  @override
+  String get notesOptionalLabel => 'نوٹس (اختیاری)';
+
+  @override
+  String get noteOptionalLabel => 'نوٹ (اختیاری)';
+
+  @override
+  String get temperatureCelsiusLabel => 'درجہ حرارت (°C)';
+
+  @override
+  String get submitLabel => 'جمع کروائیں';
+
+  @override
+  String get logReadingButton => 'ریڈنگ درج کریں';
+
+  @override
+  String get loggedThanksMessage => 'درج کر لیا گیا۔ اسے ریکارڈ کرنے کا شکریہ۔';
+
+  @override
+  String get logAnotherAdHocTask => 'ایک اور فوری کام درج کریں';
+
+  @override
+  String get deliveryCheckLabel => 'ڈیلیوری چیک';
+
+  @override
+  String get temperatureCheckLabel => 'درجہ حرارت چیک';
 }

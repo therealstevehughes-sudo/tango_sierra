@@ -100,5 +100,16 @@
   "submitButton": "ENVIAR",
   "availableFrom": "Disponible desde las {time}",
   "backToList": "Volver a la lista",
-  "skipComesBackLater": "Omitir - vuelve más tarde"
+  "skipComesBackLater": "Omitir - vuelve más tarde",
+  "noAdHocTaskTypesSetUp": "Todavía no hay tipos de tareas puntuales configurados en este local - pide a un responsable que asigne primero una plantilla de control de entrega o de temperatura.",
+  "whatKindOfThing": "¿Qué tipo de cosa estás haciendo?",
+  "notesOptionalLabel": "Notas (opcional)",
+  "noteOptionalLabel": "Nota (opcional)",
+  "temperatureCelsiusLabel": "Temperatura (°C)",
+  "submitLabel": "Enviar",
+  "logReadingButton": "Registrar lectura",
+  "loggedThanksMessage": "Registrado. Gracias por anotarlo.",
+  "logAnotherAdHocTask": "Registrar otra tarea puntual",
+  "deliveryCheckLabel": "Control de entrega",
+  "temperatureCheckLabel": "Control de temperatura"
 }

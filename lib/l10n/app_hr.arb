@@ -100,5 +100,16 @@
   "submitButton": "POŠALJI",
   "availableFrom": "Dostupno od {time}",
   "backToList": "Natrag na popis",
-  "skipComesBackLater": "Preskoči - vraća se kasnije"
+  "skipComesBackLater": "Preskoči - vraća se kasnije",
+  "noAdHocTaskTypesSetUp": "Na ovoj lokaciji još nisu postavljene vrste ad hoc zadataka - zamoli voditelja da prvo dodijeli predložak provjere dostave ili temperature.",
+  "whatKindOfThing": "Kakvu vrstu stvari radiš?",
+  "notesOptionalLabel": "Bilješke (neobavezno)",
+  "noteOptionalLabel": "Bilješka (neobavezno)",
+  "temperatureCelsiusLabel": "Temperatura (°C)",
+  "submitLabel": "Pošalji",
+  "logReadingButton": "Zabilježi očitanje",
+  "loggedThanksMessage": "Zabilježeno. Hvala što si to zabilježio/la.",
+  "logAnotherAdHocTask": "Zabilježi još jedan ad hoc zadatak",
+  "deliveryCheckLabel": "Provjera dostave",
+  "temperatureCheckLabel": "Provjera temperature"
 }

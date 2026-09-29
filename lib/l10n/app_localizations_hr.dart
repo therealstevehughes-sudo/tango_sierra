@@ -339,4 +339,39 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get skipComesBackLater => 'Preskoči - vraća se kasnije';
+
+  @override
+  String get noAdHocTaskTypesSetUp =>
+      'Na ovoj lokaciji još nisu postavljene vrste ad hoc zadataka - zamoli voditelja da prvo dodijeli predložak provjere dostave ili temperature.';
+
+  @override
+  String get whatKindOfThing => 'Kakvu vrstu stvari radiš?';
+
+  @override
+  String get notesOptionalLabel => 'Bilješke (neobavezno)';
+
+  @override
+  String get noteOptionalLabel => 'Bilješka (neobavezno)';
+
+  @override
+  String get temperatureCelsiusLabel => 'Temperatura (°C)';
+
+  @override
+  String get submitLabel => 'Pošalji';
+
+  @override
+  String get logReadingButton => 'Zabilježi očitanje';
+
+  @override
+  String get loggedThanksMessage =>
+      'Zabilježeno. Hvala što si to zabilježio/la.';
+
+  @override
+  String get logAnotherAdHocTask => 'Zabilježi još jedan ad hoc zadatak';
+
+  @override
+  String get deliveryCheckLabel => 'Provjera dostave';
+
+  @override
+  String get temperatureCheckLabel => 'Provjera temperature';
 }
