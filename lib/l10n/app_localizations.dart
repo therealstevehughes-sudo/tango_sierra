@@ -2898,10 +2898,10 @@ abstract class AppLocalizations {
   /// **'Post a shift'**
   String get postAShiftTitle;
 
-  /// No description provided for @categoryHint.
+  ///
   ///
   /// In en, this message translates to:
-  /// **'Category (e.g. opening, closing)'**
+  /// **'e.g. Refrigeration Repair, Pest Control'**
   String get categoryHint;
 
   /// No description provided for @pickStartTime.
@@ -4574,6 +4574,317 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **' ({count} skipped - already assigned or role mismatch)'**
   String skippedNoteLabel(int count);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Service Providers'**
+  String get serviceProvidersTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'My Providers'**
+  String get myProvidersTab;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Find a Provider'**
+  String get findProviderTab;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Browsing other venues\' shared providers needs a real company account signed in - this can\'t work from the local demo login alone. Your own contacts under \"My Providers\" work either way.'**
+  String get noBackendProviderNotice1;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in via Leadership Access with a real company account to use this.'**
+  String get noBackendProviderNotice2;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'VenuRite doesn\'t vet or endorse any listed provider. Reviews are from other venues, not from VenuRite.'**
+  String get providerDisclaimerText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add a Provider'**
+  String get addProviderButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t added any service providers yet.'**
+  String get noProvidersYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add a Service Provider'**
+  String get addServiceProviderDialogTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get categoryLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Phone (optional)'**
+  String get phoneOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Email (optional)'**
+  String get emailOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Notes (optional, private to you)'**
+  String get notesOptionalPrivateLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m happy to review and share'**
+  String get happyToReviewShareLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Other venues will see your ratings and reviews, with the name/contact blurred until they unlock it.'**
+  String get shareVisibilityExplanation;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rate this provider'**
+  String get rateThisProviderLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get priceRatingLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Punctuality'**
+  String get punctualityRatingLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Quality'**
+  String get qualityRatingLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Availability'**
+  String get availabilityRatingLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Review (optional)'**
+  String get reviewOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your experience - please don\'t name the business or include contact details.'**
+  String get reviewHintText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your session has expired - please sign in again.'**
+  String get sessionExpiredMessage;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Shared with other venues'**
+  String get sharedWithOtherVenuesLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Private'**
+  String get privateLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rate / Reviews'**
+  String get rateReviewsButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Search by category or name'**
+  String get searchByCategoryOrNameHint;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No contacts unlocked yet this month.'**
+  String get noContactsUnlockedThisMonth;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No shared providers yet - be the first to share one from \"My Providers.\"'**
+  String get noSharedProvidersYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No providers match your search.'**
+  String get noProvidersMatchSearchText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No ratings yet'**
+  String get noRatingsYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden until unlocked'**
+  String get hiddenUntilUnlockedText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'(unnamed)'**
+  String get unnamedPlaceholder;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Read reviews'**
+  String get readReviewsButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Unlock contact details'**
+  String get unlockContactDetailsButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reviews'**
+  String get reviewsTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No reviews yet.'**
+  String get noReviewsYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add your rating'**
+  String get addYourRatingLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting...'**
+  String get submittingEllipsis;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Submit Rating'**
+  String get submitRatingButton;
+
+  /// No description provided for @reviewContainsInfoWarningShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Your review looks like it includes {found}. Please remove contact details or business names before submitting.'**
+  String reviewContainsInfoWarningShort(String found);
+
+  /// No description provided for @reviewContainsInfoWarningLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Your review looks like it includes {found}. Please remove contact details or business names before submitting - reviews stay useful (and fair) when they describe the experience, not who to call directly.'**
+  String reviewContainsInfoWarningLong(String found);
+
+  /// No description provided for @contactsUnlockedThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} contact unlocked this month.} other{{count} contacts unlocked this month.}}'**
+  String contactsUnlockedThisMonth(int count);
+
+  /// No description provided for @priceValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Price {value}'**
+  String priceValueLabel(String value);
+
+  /// No description provided for @punctualityValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Punctuality {value}'**
+  String punctualityValueLabel(String value);
+
+  /// No description provided for @qualityValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quality {value}'**
+  String qualityValueLabel(String value);
+
+  /// No description provided for @availabilityValueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability {value}'**
+  String availabilityValueLabel(String value);
+
+  /// No description provided for @ratingReviewCountSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'{parts} ({count, plural, one{{count} review} other{{count} reviews}})'**
+  String ratingReviewCountSuffix(String parts, int count);
+
+  /// No description provided for @reviewRatingsLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Price {price} - Punctuality {punctuality} - Quality {quality} - Availability {availability}'**
+  String reviewRatingsLine(
+    int price,
+    int punctuality,
+    int quality,
+    int availability,
+  );
+
+  /// No description provided for @phonePrefixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone: {value}'**
+  String phonePrefixLabel(String value);
+
+  /// No description provided for @emailPrefixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email: {value}'**
+  String emailPrefixLabel(String value);
 }
 
 class _AppLocalizationsDelegate

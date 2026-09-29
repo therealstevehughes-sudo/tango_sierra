@@ -9,6 +9,7 @@ import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/service_provider.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/service_provider_providers.dart';
@@ -31,6 +32,7 @@ class ServiceProvidersScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final hasBackendOrg =
         ref.watch(currentBackendOrganisationIdProvider) != null;
 
@@ -38,16 +40,16 @@ class ServiceProvidersScreen extends ConsumerWidget {
       length: 2,
       child: Scaffold(
         appBar: AppScreenHeader(
-          title: const Text('Service Providers'),
+          title: Text(l10n.serviceProvidersTitle),
           actions: const [AssistantIconButton()],
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
-              Tab(text: 'My Providers'),
-              Tab(text: 'Find a Provider'),
+              Tab(text: l10n.myProvidersTab),
+              Tab(text: l10n.findProviderTab),
             ],
           ),
         ),
-        drawer: const ManagementDrawer(title: 'Service Providers'),
+        drawer: ManagementDrawer(title: l10n.serviceProvidersTitle),
         body: TabBarView(
           children: [
             _MyProvidersTab(canShare: hasBackendOrg),
@@ -66,6 +68,7 @@ class _NoBackendAccountNotice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -81,19 +84,12 @@ class _NoBackendAccountNotice extends StatelessWidget {
                   color: AppColors.muted,
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  "Browsing other venues' shared providers needs a real "
-                  "company account signed in - this can't work from the "
-                  'local demo login alone. Your own contacts under "My '
-                  'Providers" work either way.',
-                  textAlign: TextAlign.center,
-                ),
+                Text(l10n.noBackendProviderNotice1, textAlign: TextAlign.center),
                 const SizedBox(height: 8),
-                const Text(
-                  'Sign in via Leadership Access with a real company '
-                  'account to use this.',
+                Text(
+                  l10n.noBackendProviderNotice2,
                   textAlign: TextAlign.center,
-                  style: TextStyle(color: AppColors.muted, fontSize: 13),
+                  style: const TextStyle(color: AppColors.muted, fontSize: 13),
                 ),
               ],
             ),
@@ -119,16 +115,15 @@ class _DisclaimerBanner extends StatelessWidget {
         color: AppColors.cautionBg,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.info_outline, color: AppColors.caution, size: 20),
-          SizedBox(width: 8),
+          const Icon(Icons.info_outline, color: AppColors.caution, size: 20),
+          const SizedBox(width: 8),
           Expanded(
             child: Text(
-              "VenuRite doesn't vet or endorse any listed provider. "
-              'Reviews are from other venues, not from VenuRite.',
-              style: TextStyle(color: AppColors.caution, fontSize: 13),
+              AppLocalizations.of(context)!.providerDisclaimerText,
+              style: const TextStyle(color: AppColors.caution, fontSize: 13),
             ),
           ),
         ],
@@ -185,6 +180,7 @@ class _MyProvidersTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final providersAsync = ref.watch(myServiceProvidersProvider);
     return SafeArea(
       child: Padding(
@@ -195,7 +191,7 @@ class _MyProvidersTab extends ConsumerWidget {
             children: [
               const _DisclaimerBanner(),
               PrimaryActionButton(
-                label: 'Add a Provider',
+                label: l10n.addProviderButton,
                 onPressed: () => _showAddProviderDialog(context, ref),
               ),
               const SizedBox(height: 12),
@@ -208,10 +204,8 @@ class _MyProvidersTab extends ConsumerWidget {
                     onRetry: () => ref.invalidate(myServiceProvidersProvider),
                   ),
                   data: (providers) => providers.isEmpty
-                      ? const Center(
-                          child: Text(
-                            "You haven't added any service providers yet.",
-                          ),
+                      ? Center(
+                          child: Text(l10n.noProvidersYetText),
                         )
                       : ListView.builder(
                           itemCount: providers.length,
@@ -246,140 +240,135 @@ class _MyProvidersTab extends ConsumerWidget {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Add a Service Provider'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(labelText: 'Name'),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: categoryController,
-                  decoration: const InputDecoration(
-                    labelText: 'Category',
-                    hintText: 'e.g. Refrigeration Repair, Pest Control',
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: phoneController,
-                  decoration: const InputDecoration(
-                    labelText: 'Phone (optional)',
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(
-                    labelText: 'Email (optional)',
-                  ),
-                ),
-                const SizedBox(height: 8),
-                TextField(
-                  controller: notesController,
-                  decoration: const InputDecoration(
-                    labelText: 'Notes (optional, private to you)',
-                  ),
-                  maxLines: 2,
-                ),
-                // Hidden entirely in local/demo mode (2026-09-29) — no
-                // other organisation exists to share with on a purely
-                // local install.
-                if (canShare) ...[
-                  const SizedBox(height: 8),
-                  SwitchListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: const Text("I'm happy to review and share"),
-                    subtitle: const Text(
-                      'Other venues will see your ratings and reviews, with '
-                      'the name/contact blurred until they unlock it.',
-                    ),
-                    value: shared,
-                    onChanged: (v) => setDialogState(() => shared = v),
-                  ),
-                ],
-                // Opens immediately once "share" is on (2026-09-29,
-                // direct founder report) — a shared listing with zero
-                // ratings isn't useful to anyone else browsing it, so
-                // sharing and rating happen in the same step rather than
-                // a separate screen visited afterward.
-                if (canShare && shared) ...[
-                  const Divider(height: 24),
-                  const Text(
-                    'Rate this provider',
-                    style: TextStyle(fontWeight: FontWeight.w600),
-                  ),
-                  const SizedBox(height: 8),
-                  _StarRow(
-                    label: 'Price',
-                    value: price,
-                    onChanged: (v) => setDialogState(() => price = v),
-                  ),
-                  _StarRow(
-                    label: 'Punctuality',
-                    value: punctuality,
-                    onChanged: (v) => setDialogState(() => punctuality = v),
-                  ),
-                  _StarRow(
-                    label: 'Quality',
-                    value: quality,
-                    onChanged: (v) => setDialogState(() => quality = v),
-                  ),
-                  _StarRow(
-                    label: 'Availability',
-                    value: availability,
-                    onChanged: (v) => setDialogState(() => availability = v),
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.addServiceProviderDialogTitle),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(labelText: l10n.nameAxisLabel),
                   ),
                   const SizedBox(height: 8),
                   TextField(
-                    controller: reviewController,
-                    maxLines: 3,
-                    decoration: const InputDecoration(
-                      labelText: 'Review (optional)',
-                      hintText:
-                          "Describe your experience - please don't name "
-                          'the business or include contact details.',
+                    controller: categoryController,
+                    decoration: InputDecoration(
+                      labelText: l10n.categoryLabel,
+                      hintText: l10n.categoryHint,
                     ),
                   ),
-                ],
-                if (error != null) ...[
                   const SizedBox(height: 8),
-                  Text(
-                    error!,
-                    style: const TextStyle(color: AppColors.critical),
+                  TextField(
+                    controller: phoneController,
+                    decoration: InputDecoration(
+                      labelText: l10n.phoneOptionalLabel,
+                    ),
                   ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      labelText: l10n.emailOptionalLabel,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: notesController,
+                    decoration: InputDecoration(
+                      labelText: l10n.notesOptionalPrivateLabel,
+                    ),
+                    maxLines: 2,
+                  ),
+                  // Hidden entirely in local/demo mode (2026-09-29) — no
+                  // other organisation exists to share with on a purely
+                  // local install.
+                  if (canShare) ...[
+                    const SizedBox(height: 8),
+                    SwitchListTile(
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(l10n.happyToReviewShareLabel),
+                      subtitle: Text(l10n.shareVisibilityExplanation),
+                      value: shared,
+                      onChanged: (v) => setDialogState(() => shared = v),
+                    ),
+                  ],
+                  // Opens immediately once "share" is on (2026-09-29,
+                  // direct founder report) — a shared listing with zero
+                  // ratings isn't useful to anyone else browsing it, so
+                  // sharing and rating happen in the same step rather than
+                  // a separate screen visited afterward.
+                  if (canShare && shared) ...[
+                    const Divider(height: 24),
+                    Text(
+                      l10n.rateThisProviderLabel,
+                      style: const TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    _StarRow(
+                      label: l10n.priceRatingLabel,
+                      value: price,
+                      onChanged: (v) => setDialogState(() => price = v),
+                    ),
+                    _StarRow(
+                      label: l10n.punctualityRatingLabel,
+                      value: punctuality,
+                      onChanged: (v) => setDialogState(() => punctuality = v),
+                    ),
+                    _StarRow(
+                      label: l10n.qualityRatingLabel,
+                      value: quality,
+                      onChanged: (v) => setDialogState(() => quality = v),
+                    ),
+                    _StarRow(
+                      label: l10n.availabilityRatingLabel,
+                      value: availability,
+                      onChanged: (v) => setDialogState(() => availability = v),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: reviewController,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        labelText: l10n.reviewOptionalLabel,
+                        hintText: l10n.reviewHintText,
+                      ),
+                    ),
+                  ],
+                  if (error != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      error!,
+                      style: const TextStyle(color: AppColors.critical),
+                    ),
+                  ],
                 ],
-              ],
+              ),
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            FilledButton(
-              onPressed: () {
-                final found = identifyingInfoIn(reviewController.text.trim());
-                if (shared && found != null) {
-                  setDialogState(
-                    () => error =
-                        "Your review looks like it includes $found. Please "
-                        'remove contact details or business names before '
-                        'submitting.',
-                  );
-                  return;
-                }
-                Navigator.pop(context, true);
-              },
-              child: const Text('Add'),
-            ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              FilledButton(
+                onPressed: () {
+                  final found = identifyingInfoIn(reviewController.text.trim());
+                  if (shared && found != null) {
+                    setDialogState(
+                      () => error = l10n.reviewContainsInfoWarningShort(found),
+                    );
+                    return;
+                  }
+                  Navigator.pop(context, true);
+                },
+                child: Text(l10n.addLabel),
+              ),
+            ],
+          );
+        },
       ),
     );
 
@@ -397,8 +386,8 @@ class _MyProvidersTab extends ConsumerWidget {
       // silently no-op again.
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Your session has expired - please sign in again.'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.sessionExpiredMessage),
           ),
         );
       }
@@ -446,6 +435,7 @@ class _MyProviderTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -495,14 +485,18 @@ class _MyProviderTile extends ConsumerWidget {
                 ),
             ],
           ),
-          if (provider.phone != null) Text('Phone: ${provider.phone}'),
-          if (provider.email != null) Text('Email: ${provider.email}'),
+          if (provider.phone != null)
+            Text(l10n.phonePrefixLabel(provider.phone!)),
+          if (provider.email != null)
+            Text(l10n.emailPrefixLabel(provider.email!)),
           const SizedBox(height: 8),
           Row(
             children: [
               if (canShare)
                 Text(
-                  provider.shared ? 'Shared with other venues' : 'Private',
+                  provider.shared
+                      ? l10n.sharedWithOtherVenuesLabel
+                      : l10n.privateLabel,
                   style: TextStyle(
                     color: provider.shared ? AppColors.pass : AppColors.muted,
                     fontSize: 12,
@@ -518,7 +512,7 @@ class _MyProviderTile extends ConsumerWidget {
                     canRate: true,
                   ),
                 ),
-                child: const Text('Rate / Reviews'),
+                child: Text(l10n.rateReviewsButton),
               ),
             ],
           ),
@@ -567,6 +561,7 @@ class _DirectoryTabState extends ConsumerState<_DirectoryTab> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final directoryAsync = ref.watch(sharedProviderDirectoryProvider);
     final unlockCountAsync = ref.watch(unlocksThisMonthProvider);
     return SafeArea(
@@ -579,9 +574,9 @@ class _DirectoryTabState extends ConsumerState<_DirectoryTab> {
               const _DisclaimerBanner(),
               TextField(
                 controller: _searchController,
-                decoration: const InputDecoration(
-                  labelText: 'Search by category or name',
-                  prefixIcon: Icon(Icons.search),
+                decoration: InputDecoration(
+                  labelText: l10n.searchByCategoryOrNameHint,
+                  prefixIcon: const Icon(Icons.search),
                   isDense: true,
                 ),
                 onChanged: (v) => setState(() => _query = v.trim()),
@@ -597,9 +592,8 @@ class _DirectoryTabState extends ConsumerState<_DirectoryTab> {
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Text(
                     count == 0
-                        ? 'No contacts unlocked yet this month.'
-                        : '$count contact${count == 1 ? '' : 's'} unlocked '
-                              'this month.',
+                        ? l10n.noContactsUnlockedThisMonth
+                        : l10n.contactsUnlockedThisMonth(count),
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       color: AppColors.muted,
@@ -620,16 +614,13 @@ class _DirectoryTabState extends ConsumerState<_DirectoryTab> {
                   data: (allListings) {
                     final listings = _filtered(allListings);
                     if (allListings.isEmpty) {
-                      return const Center(
-                        child: Text(
-                          'No shared providers yet - be the first to '
-                          'share one from "My Providers."',
-                        ),
+                      return Center(
+                        child: Text(l10n.noSharedProvidersYetText),
                       );
                     }
                     if (listings.isEmpty) {
-                      return const Center(
-                        child: Text('No providers match your search.'),
+                      return Center(
+                        child: Text(l10n.noProvidersMatchSearchText),
                       );
                     }
                     return ListView.builder(
@@ -679,23 +670,28 @@ class _DirectoryTile extends ConsumerWidget {
 
   final SharedProviderListing listing;
 
-  String _ratingLine() {
+  String _ratingLine(AppLocalizations l10n) {
     final parts = <String>[];
-    if (listing.avgPrice != null) parts.add('Price ${listing.avgPrice}');
-    if (listing.avgPunctuality != null) {
-      parts.add('Punctuality ${listing.avgPunctuality}');
+    if (listing.avgPrice != null) {
+      parts.add(l10n.priceValueLabel(listing.avgPrice!.toString()));
     }
-    if (listing.avgQuality != null) parts.add('Quality ${listing.avgQuality}');
+    if (listing.avgPunctuality != null) {
+      parts.add(l10n.punctualityValueLabel(listing.avgPunctuality!.toString()));
+    }
+    if (listing.avgQuality != null) {
+      parts.add(l10n.qualityValueLabel(listing.avgQuality!.toString()));
+    }
     if (listing.avgAvailability != null) {
-      parts.add('Availability ${listing.avgAvailability}');
+      parts.add(l10n.availabilityValueLabel(listing.avgAvailability!.toString()));
     }
     return parts.isEmpty
-        ? 'No ratings yet'
-        : '${parts.join(' - ')} (${listing.reviewCount} review${listing.reviewCount == 1 ? '' : 's'})';
+        ? l10n.noRatingsYetText
+        : l10n.ratingReviewCountSuffix(parts.join(' - '), listing.reviewCount);
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -708,8 +704,8 @@ class _DirectoryTile extends ConsumerWidget {
                   children: [
                     Text(
                       listing.isRevealed
-                          ? (listing.name ?? '(unnamed)')
-                          : 'Hidden until unlocked',
+                          ? (listing.name ?? l10n.unnamedPlaceholder)
+                          : l10n.hiddenUntilUnlockedText,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontStyle: listing.isRevealed
@@ -730,10 +726,10 @@ class _DirectoryTile extends ConsumerWidget {
             ],
           ),
           const SizedBox(height: 4),
-          Text(_ratingLine(), style: const TextStyle(fontSize: 13)),
+          Text(_ratingLine(l10n), style: const TextStyle(fontSize: 13)),
           if (listing.isRevealed) ...[
-            if (listing.phone != null) Text('Phone: ${listing.phone}'),
-            if (listing.email != null) Text('Email: ${listing.email}'),
+            if (listing.phone != null) Text(l10n.phonePrefixLabel(listing.phone!)),
+            if (listing.email != null) Text(l10n.emailPrefixLabel(listing.email!)),
           ],
           const SizedBox(height: 8),
           Row(
@@ -747,7 +743,7 @@ class _DirectoryTile extends ConsumerWidget {
                     canRate: listing.isOwn,
                   ),
                 ),
-                child: const Text('Read reviews'),
+                child: Text(l10n.readReviewsButton),
               ),
               const Spacer(),
               if (!listing.isOwn && !listing.isUnlocked)
@@ -759,7 +755,7 @@ class _DirectoryTile extends ConsumerWidget {
                     ref.invalidate(sharedProviderDirectoryProvider);
                     ref.invalidate(unlocksThisMonthProvider);
                   },
-                  child: const Text('Unlock contact details'),
+                  child: Text(l10n.unlockContactDetailsButton),
                 ),
             ],
           ),
@@ -803,10 +799,7 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
     if (found != null) {
       setState(
         () => _error =
-            "Your review looks like it includes $found. Please remove "
-            "contact details or business names before submitting - reviews "
-            'stay useful (and fair) when they describe the experience, not '
-            'who to call directly.',
+            AppLocalizations.of(context)!.reviewContainsInfoWarningLong(found),
       );
       return;
     }
@@ -860,6 +853,7 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final reviewsAsync = ref.watch(providerReviewsProvider(widget.providerId));
     return DraggableScrollableSheet(
       initialChildSize: 0.75,
@@ -869,9 +863,9 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Reviews',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            Text(
+              l10n.reviewsTitle,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
             Expanded(
@@ -882,9 +876,9 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
                   controller: scrollController,
                   children: [
                     if (reviews.isEmpty)
-                      const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        child: Text('No reviews yet.'),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        child: Text(l10n.noReviewsYetText),
                       )
                     else
                       for (final r in reviews)
@@ -895,10 +889,12 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Price ${r.priceRating} - Punctuality '
-                                  '${r.punctualityRating} - Quality '
-                                  '${r.qualityRating} - Availability '
-                                  '${r.availabilityRating}',
+                                  l10n.reviewRatingsLine(
+                                    r.priceRating,
+                                    r.punctualityRating,
+                                    r.qualityRating,
+                                    r.availabilityRating,
+                                  ),
                                   style: const TextStyle(fontSize: 12),
                                 ),
                                 if (r.reviewText != null &&
@@ -912,28 +908,28 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
                         ),
                     if (widget.canRate) ...[
                       const Divider(height: 32),
-                      const Text(
-                        'Add your rating',
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                      Text(
+                        l10n.addYourRatingLabel,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(height: 8),
                       _starRow(
-                        'Price',
+                        l10n.priceRatingLabel,
                         price,
                         (v) => setState(() => price = v),
                       ),
                       _starRow(
-                        'Punctuality',
+                        l10n.punctualityRatingLabel,
                         punctuality,
                         (v) => setState(() => punctuality = v),
                       ),
                       _starRow(
-                        'Quality',
+                        l10n.qualityRatingLabel,
                         quality,
                         (v) => setState(() => quality = v),
                       ),
                       _starRow(
-                        'Availability',
+                        l10n.availabilityRatingLabel,
                         availability,
                         (v) => setState(() => availability = v),
                       ),
@@ -941,11 +937,9 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
                       TextField(
                         controller: _reviewController,
                         maxLines: 3,
-                        decoration: const InputDecoration(
-                          labelText: 'Review (optional)',
-                          hintText:
-                              "Describe your experience - please don't name "
-                              'the business or include contact details.',
+                        decoration: InputDecoration(
+                          labelText: l10n.reviewOptionalLabel,
+                          hintText: l10n.reviewHintText,
                         ),
                       ),
                       if (_error != null) ...[
@@ -957,7 +951,9 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
                       ],
                       const SizedBox(height: 12),
                       PrimaryActionButton(
-                        label: _submitting ? 'Submitting...' : 'Submit Rating',
+                        label: _submitting
+                            ? l10n.submittingEllipsis
+                            : l10n.submitRatingButton,
                         onPressed: _submitting ? null : _submit,
                       ),
                     ],

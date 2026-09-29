@@ -1620,7 +1620,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get postAShiftTitle => 'Objavi smjenu';
 
   @override
-  String get categoryHint => 'Kategorija (npr. otvaranje, zatvaranje)';
+  String get categoryHint => 'npr. Popravak hlađenja, Suzbijanje štetočina';
 
   @override
   String get pickStartTime => 'Odaberi vrijeme početka';
@@ -2576,5 +2576,196 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String skippedNoteLabel(int count) {
     return ' (preskočeno $count - već dodijeljeno ili neusklađena uloga)';
+  }
+
+  @override
+  String get serviceProvidersTitle => 'Pružatelji usluga';
+
+  @override
+  String get myProvidersTab => 'Moji pružatelji';
+
+  @override
+  String get findProviderTab => 'Pronađi pružatelja';
+
+  @override
+  String get noBackendProviderNotice1 =>
+      'Pregledavanje pružatelja koje su podijelile druge poslovnice zahtijeva prijavljen pravi poslovni račun - to ne može raditi samo s lokalnom demo prijavom. Tvoji vlastiti kontakti pod \"Moji pružatelji\" rade u oba slučaja.';
+
+  @override
+  String get noBackendProviderNotice2 =>
+      'Prijavi se putem Pristupa uprave s pravim poslovnim računom da bi ovo koristio/koristila.';
+
+  @override
+  String get providerDisclaimerText =>
+      'VenuRite ne provjerava niti podržava nijednog navedenog pružatelja. Recenzije dolaze od drugih poslovnica, ne od VenuRitea.';
+
+  @override
+  String get addProviderButton => 'Dodaj pružatelja';
+
+  @override
+  String get noProvidersYetText =>
+      'Još nisi dodao/dodala nijednog pružatelja usluga.';
+
+  @override
+  String get addServiceProviderDialogTitle => 'Dodaj pružatelja usluga';
+
+  @override
+  String get categoryLabel => 'Kategorija';
+
+  @override
+  String get phoneOptionalLabel => 'Telefon (neobavezno)';
+
+  @override
+  String get emailOptionalLabel => 'E-pošta (neobavezno)';
+
+  @override
+  String get notesOptionalPrivateLabel =>
+      'Bilješke (neobavezno, privatno za tebe)';
+
+  @override
+  String get happyToReviewShareLabel => 'Rado ću ocijeniti i podijeliti';
+
+  @override
+  String get shareVisibilityExplanation =>
+      'Druge poslovnice vidjet će tvoje ocjene i recenzije, s imenom/kontaktom zamagljenim dok ih ne otključaju.';
+
+  @override
+  String get rateThisProviderLabel => 'Ocijeni ovog pružatelja';
+
+  @override
+  String get priceRatingLabel => 'Cijena';
+
+  @override
+  String get punctualityRatingLabel => 'Točnost';
+
+  @override
+  String get qualityRatingLabel => 'Kvaliteta';
+
+  @override
+  String get availabilityRatingLabel => 'Dostupnost';
+
+  @override
+  String get reviewOptionalLabel => 'Recenzija (neobavezno)';
+
+  @override
+  String get reviewHintText =>
+      'Opiši svoje iskustvo - molimo nemoj navoditi naziv tvrtke ili kontakt podatke.';
+
+  @override
+  String get sessionExpiredMessage =>
+      'Tvoja sesija je istekla - prijavi se ponovno.';
+
+  @override
+  String get sharedWithOtherVenuesLabel => 'Podijeljeno s drugim poslovnicama';
+
+  @override
+  String get privateLabel => 'Privatno';
+
+  @override
+  String get rateReviewsButton => 'Ocijeni / Recenzije';
+
+  @override
+  String get searchByCategoryOrNameHint => 'Pretraži po kategoriji ili nazivu';
+
+  @override
+  String get noContactsUnlockedThisMonth =>
+      'Ovaj mjesec još nema otključanih kontakata.';
+
+  @override
+  String get noSharedProvidersYetText =>
+      'Još nema podijeljenih pružatelja - budi prvi koji će podijeliti jednog iz \"Moji pružatelji.\"';
+
+  @override
+  String get noProvidersMatchSearchText =>
+      'Nijedan pružatelj ne odgovara tvojoj pretrazi.';
+
+  @override
+  String get noRatingsYetText => 'Još nema ocjena';
+
+  @override
+  String get hiddenUntilUnlockedText => 'Skriveno do otključavanja';
+
+  @override
+  String get unnamedPlaceholder => '(bez naziva)';
+
+  @override
+  String get readReviewsButton => 'Pročitaj recenzije';
+
+  @override
+  String get unlockContactDetailsButton => 'Otključaj kontakt podatke';
+
+  @override
+  String get reviewsTitle => 'Recenzije';
+
+  @override
+  String get noReviewsYetText => 'Još nema recenzija.';
+
+  @override
+  String get addYourRatingLabel => 'Dodaj svoju ocjenu';
+
+  @override
+  String get submittingEllipsis => 'Slanje...';
+
+  @override
+  String get submitRatingButton => 'Pošalji ocjenu';
+
+  @override
+  String reviewContainsInfoWarningShort(String found) {
+    return 'Čini se da tvoja recenzija sadrži $found. Ukloni kontakt podatke ili nazive tvrtki prije slanja.';
+  }
+
+  @override
+  String reviewContainsInfoWarningLong(String found) {
+    return 'Čini se da tvoja recenzija sadrži $found. Ukloni kontakt podatke ili nazive tvrtki prije slanja - recenzije ostaju korisne (i poštene) kad opisuju iskustvo, a ne koga izravno nazvati.';
+  }
+
+  @override
+  String contactsUnlockedThisMonth(int count) {
+    return 'Ovaj mjesec otključano $count kontakata.';
+  }
+
+  @override
+  String priceValueLabel(String value) {
+    return 'Cijena $value';
+  }
+
+  @override
+  String punctualityValueLabel(String value) {
+    return 'Točnost $value';
+  }
+
+  @override
+  String qualityValueLabel(String value) {
+    return 'Kvaliteta $value';
+  }
+
+  @override
+  String availabilityValueLabel(String value) {
+    return 'Dostupnost $value';
+  }
+
+  @override
+  String ratingReviewCountSuffix(String parts, int count) {
+    return '$parts ($count recenzija)';
+  }
+
+  @override
+  String reviewRatingsLine(
+    int price,
+    int punctuality,
+    int quality,
+    int availability,
+  ) {
+    return 'Cijena $price - Točnost $punctuality - Kvaliteta $quality - Dostupnost $availability';
+  }
+
+  @override
+  String phonePrefixLabel(String value) {
+    return 'Telefon: $value';
+  }
+
+  @override
+  String emailPrefixLabel(String value) {
+    return 'E-pošta: $value';
   }
 }

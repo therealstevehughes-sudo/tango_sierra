@@ -1623,7 +1623,7 @@ class AppLocalizationsRo extends AppLocalizations {
   String get postAShiftTitle => 'Publică o tură';
 
   @override
-  String get categoryHint => 'Categorie (ex. deschidere, închidere)';
+  String get categoryHint => 'ex. Reparații refrigerare, Deratizare';
 
   @override
   String get pickStartTime => 'Alege ora de început';
@@ -2597,5 +2597,209 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String skippedNoteLabel(int count) {
     return ' ($count omise - deja atribuite sau nepotrivire de rol)';
+  }
+
+  @override
+  String get serviceProvidersTitle => 'Furnizori de servicii';
+
+  @override
+  String get myProvidersTab => 'Furnizorii mei';
+
+  @override
+  String get findProviderTab => 'Găsește un furnizor';
+
+  @override
+  String get noBackendProviderNotice1 =>
+      'Răsfoirea furnizorilor partajați de alte localuri necesită autentificare cu un cont real de companie - nu poate funcționa doar cu autentificarea demo locală. Contactele tale proprii din \"Furnizorii mei\" funcționează oricum.';
+
+  @override
+  String get noBackendProviderNotice2 =>
+      'Autentifică-te prin Acces conducere cu un cont real de companie pentru a folosi asta.';
+
+  @override
+  String get providerDisclaimerText =>
+      'VenuRite nu verifică și nu recomandă niciun furnizor listat. Recenziile provin de la alte localuri, nu de la VenuRite.';
+
+  @override
+  String get addProviderButton => 'Adaugă un furnizor';
+
+  @override
+  String get noProvidersYetText =>
+      'Nu ai adăugat încă niciun furnizor de servicii.';
+
+  @override
+  String get addServiceProviderDialogTitle => 'Adaugă un furnizor de servicii';
+
+  @override
+  String get categoryLabel => 'Categorie';
+
+  @override
+  String get phoneOptionalLabel => 'Telefon (opțional)';
+
+  @override
+  String get emailOptionalLabel => 'Email (opțional)';
+
+  @override
+  String get notesOptionalPrivateLabel =>
+      'Note (opțional, private pentru tine)';
+
+  @override
+  String get happyToReviewShareLabel =>
+      'Sunt bucuros să recenzez și să partajez';
+
+  @override
+  String get shareVisibilityExplanation =>
+      'Alte localuri îți vor vedea evaluările și recenziile, cu numele/contactul neclare până le deblochează.';
+
+  @override
+  String get rateThisProviderLabel => 'Evaluează acest furnizor';
+
+  @override
+  String get priceRatingLabel => 'Preț';
+
+  @override
+  String get punctualityRatingLabel => 'Punctualitate';
+
+  @override
+  String get qualityRatingLabel => 'Calitate';
+
+  @override
+  String get availabilityRatingLabel => 'Disponibilitate';
+
+  @override
+  String get reviewOptionalLabel => 'Recenzie (opțional)';
+
+  @override
+  String get reviewHintText =>
+      'Descrie experiența ta - te rugăm să nu numești afacerea sau să incluzi detalii de contact.';
+
+  @override
+  String get sessionExpiredMessage =>
+      'Sesiunea ta a expirat - te rugăm să te autentifici din nou.';
+
+  @override
+  String get sharedWithOtherVenuesLabel => 'Partajat cu alte localuri';
+
+  @override
+  String get privateLabel => 'Privat';
+
+  @override
+  String get rateReviewsButton => 'Evaluează / Recenzii';
+
+  @override
+  String get searchByCategoryOrNameHint => 'Caută după categorie sau nume';
+
+  @override
+  String get noContactsUnlockedThisMonth =>
+      'Niciun contact deblocat încă luna aceasta.';
+
+  @override
+  String get noSharedProvidersYetText =>
+      'Niciun furnizor partajat încă - fii primul care partajează unul din \"Furnizorii mei.\"';
+
+  @override
+  String get noProvidersMatchSearchText =>
+      'Niciun furnizor nu se potrivește căutării tale.';
+
+  @override
+  String get noRatingsYetText => 'Nicio evaluare încă';
+
+  @override
+  String get hiddenUntilUnlockedText => 'Ascuns până la deblocare';
+
+  @override
+  String get unnamedPlaceholder => '(fără nume)';
+
+  @override
+  String get readReviewsButton => 'Citește recenziile';
+
+  @override
+  String get unlockContactDetailsButton => 'Deblochează detaliile de contact';
+
+  @override
+  String get reviewsTitle => 'Recenzii';
+
+  @override
+  String get noReviewsYetText => 'Nicio recenzie încă.';
+
+  @override
+  String get addYourRatingLabel => 'Adaugă evaluarea ta';
+
+  @override
+  String get submittingEllipsis => 'Se trimite...';
+
+  @override
+  String get submitRatingButton => 'Trimite evaluarea';
+
+  @override
+  String reviewContainsInfoWarningShort(String found) {
+    return 'Recenzia ta pare să includă $found. Te rugăm să elimini detaliile de contact sau numele afacerii înainte de a trimite.';
+  }
+
+  @override
+  String reviewContainsInfoWarningLong(String found) {
+    return 'Recenzia ta pare să includă $found. Te rugăm să elimini detaliile de contact sau numele afacerii înainte de a trimite - recenziile rămân utile (și corecte) atunci când descriu experiența, nu pe cine să suni direct.';
+  }
+
+  @override
+  String contactsUnlockedThisMonth(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count contacte deblocate luna aceasta.',
+      one: '$count contact deblocat luna aceasta.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String priceValueLabel(String value) {
+    return 'Preț $value';
+  }
+
+  @override
+  String punctualityValueLabel(String value) {
+    return 'Punctualitate $value';
+  }
+
+  @override
+  String qualityValueLabel(String value) {
+    return 'Calitate $value';
+  }
+
+  @override
+  String availabilityValueLabel(String value) {
+    return 'Disponibilitate $value';
+  }
+
+  @override
+  String ratingReviewCountSuffix(String parts, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recenzii',
+      one: '$count recenzie',
+    );
+    return '$parts ($_temp0)';
+  }
+
+  @override
+  String reviewRatingsLine(
+    int price,
+    int punctuality,
+    int quality,
+    int availability,
+  ) {
+    return 'Preț $price - Punctualitate $punctuality - Calitate $quality - Disponibilitate $availability';
+  }
+
+  @override
+  String phonePrefixLabel(String value) {
+    return 'Telefon: $value';
+  }
+
+  @override
+  String emailPrefixLabel(String value) {
+    return 'Email: $value';
   }
 }

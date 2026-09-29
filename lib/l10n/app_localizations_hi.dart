@@ -1611,7 +1611,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get postAShiftTitle => 'शिफ्ट पोस्ट करें';
 
   @override
-  String get categoryHint => 'श्रेणी (जैसे, खोलना, बंद करना)';
+  String get categoryHint => 'जैसे रेफ्रिजरेशन मरम्मत, कीट नियंत्रण';
 
   @override
   String get pickStartTime => 'प्रारंभ समय चुनें';
@@ -2557,5 +2557,197 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String skippedNoteLabel(int count) {
     return ' ($count छोड़े गए - पहले से असाइन या भूमिका बेमेल)';
+  }
+
+  @override
+  String get serviceProvidersTitle => 'सेवा प्रदाता';
+
+  @override
+  String get myProvidersTab => 'मेरे प्रदाता';
+
+  @override
+  String get findProviderTab => 'प्रदाता खोजें';
+
+  @override
+  String get noBackendProviderNotice1 =>
+      'अन्य वेन्यू के साझा प्रदाताओं को ब्राउज़ करने के लिए वास्तविक कंपनी खाता लॉग इन होना ज़रूरी है - यह केवल लोकल डेमो लॉगिन से काम नहीं कर सकता। \"मेरे प्रदाता\" के तहत तुम्हारे अपने संपर्क दोनों तरह से काम करते हैं।';
+
+  @override
+  String get noBackendProviderNotice2 =>
+      'इसका उपयोग करने के लिए वास्तविक कंपनी खाते के साथ लीडरशिप एक्सेस से लॉग इन करो।';
+
+  @override
+  String get providerDisclaimerText =>
+      'VenuRite किसी भी सूचीबद्ध प्रदाता की जांच या समर्थन नहीं करता। समीक्षाएं अन्य वेन्यू से हैं, VenuRite से नहीं।';
+
+  @override
+  String get addProviderButton => 'प्रदाता जोड़ें';
+
+  @override
+  String get noProvidersYetText =>
+      'तुमने अभी तक कोई सेवा प्रदाता नहीं जोड़ा है।';
+
+  @override
+  String get addServiceProviderDialogTitle => 'एक सेवा प्रदाता जोड़ें';
+
+  @override
+  String get categoryLabel => 'श्रेणी';
+
+  @override
+  String get phoneOptionalLabel => 'फोन (वैकल्पिक)';
+
+  @override
+  String get emailOptionalLabel => 'ईमेल (वैकल्पिक)';
+
+  @override
+  String get notesOptionalPrivateLabel =>
+      'नोट्स (वैकल्पिक, केवल तुम्हारे लिए निजी)';
+
+  @override
+  String get happyToReviewShareLabel =>
+      'मुझे समीक्षा और साझा करने में खुशी होगी';
+
+  @override
+  String get shareVisibilityExplanation =>
+      'अन्य वेन्यू तुम्हारी रेटिंग और समीक्षाएं देखेंगे, नाम/संपर्क तब तक धुंधला रहेगा जब तक वे इसे अनलॉक न करें।';
+
+  @override
+  String get rateThisProviderLabel => 'इस प्रदाता को रेट करें';
+
+  @override
+  String get priceRatingLabel => 'कीमत';
+
+  @override
+  String get punctualityRatingLabel => 'समयपालन';
+
+  @override
+  String get qualityRatingLabel => 'गुणवत्ता';
+
+  @override
+  String get availabilityRatingLabel => 'उपलब्धता';
+
+  @override
+  String get reviewOptionalLabel => 'समीक्षा (वैकल्पिक)';
+
+  @override
+  String get reviewHintText =>
+      'अपने अनुभव का वर्णन करें - कृपया व्यवसाय का नाम न बताएं या संपर्क विवरण शामिल न करें।';
+
+  @override
+  String get sessionExpiredMessage =>
+      'तुम्हारा सत्र समाप्त हो गया है - कृपया फिर से लॉग इन करो।';
+
+  @override
+  String get sharedWithOtherVenuesLabel => 'अन्य वेन्यू के साथ साझा किया गया';
+
+  @override
+  String get privateLabel => 'निजी';
+
+  @override
+  String get rateReviewsButton => 'रेट करें / समीक्षाएं';
+
+  @override
+  String get searchByCategoryOrNameHint => 'श्रेणी या नाम से खोजें';
+
+  @override
+  String get noContactsUnlockedThisMonth =>
+      'इस महीने अभी तक कोई संपर्क अनलॉक नहीं हुआ।';
+
+  @override
+  String get noSharedProvidersYetText =>
+      'अभी तक कोई साझा प्रदाता नहीं - \"मेरे प्रदाता\" से एक साझा करने वाले पहले व्यक्ति बनो।';
+
+  @override
+  String get noProvidersMatchSearchText =>
+      'तुम्हारी खोज से कोई प्रदाता मेल नहीं खाता।';
+
+  @override
+  String get noRatingsYetText => 'अभी तक कोई रेटिंग नहीं';
+
+  @override
+  String get hiddenUntilUnlockedText => 'अनलॉक होने तक छिपा हुआ';
+
+  @override
+  String get unnamedPlaceholder => '(अनाम)';
+
+  @override
+  String get readReviewsButton => 'समीक्षाएं पढ़ें';
+
+  @override
+  String get unlockContactDetailsButton => 'संपर्क विवरण अनलॉक करें';
+
+  @override
+  String get reviewsTitle => 'समीक्षाएं';
+
+  @override
+  String get noReviewsYetText => 'अभी तक कोई समीक्षा नहीं।';
+
+  @override
+  String get addYourRatingLabel => 'अपनी रेटिंग जोड़ें';
+
+  @override
+  String get submittingEllipsis => 'सबमिट हो रहा है...';
+
+  @override
+  String get submitRatingButton => 'रेटिंग सबमिट करें';
+
+  @override
+  String reviewContainsInfoWarningShort(String found) {
+    return 'तुम्हारी समीक्षा में $found शामिल लगता है। सबमिट करने से पहले कृपया संपर्क विवरण या व्यवसाय के नाम हटा दो।';
+  }
+
+  @override
+  String reviewContainsInfoWarningLong(String found) {
+    return 'तुम्हारी समीक्षा में $found शामिल लगता है। सबमिट करने से पहले कृपया संपर्क विवरण या व्यवसाय के नाम हटा दो - समीक्षाएं तब उपयोगी (और निष्पक्ष) रहती हैं जब वे अनुभव का वर्णन करती हैं, न कि सीधे किसे कॉल करें।';
+  }
+
+  @override
+  String contactsUnlockedThisMonth(int count) {
+    return 'इस महीने $count संपर्क अनलॉक किए गए।';
+  }
+
+  @override
+  String priceValueLabel(String value) {
+    return 'कीमत $value';
+  }
+
+  @override
+  String punctualityValueLabel(String value) {
+    return 'समयपालन $value';
+  }
+
+  @override
+  String qualityValueLabel(String value) {
+    return 'गुणवत्ता $value';
+  }
+
+  @override
+  String availabilityValueLabel(String value) {
+    return 'उपलब्धता $value';
+  }
+
+  @override
+  String ratingReviewCountSuffix(String parts, int count) {
+    return '$parts ($count समीक्षाएं)';
+  }
+
+  @override
+  String reviewRatingsLine(
+    int price,
+    int punctuality,
+    int quality,
+    int availability,
+  ) {
+    return 'कीमत $price - समयपालन $punctuality - गुणवत्ता $quality - उपलब्धता $availability';
+  }
+
+  @override
+  String phonePrefixLabel(String value) {
+    return 'फोन: $value';
+  }
+
+  @override
+  String emailPrefixLabel(String value) {
+    return 'ईमेल: $value';
   }
 }

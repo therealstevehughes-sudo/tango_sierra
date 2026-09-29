@@ -1621,7 +1621,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get postAShiftTitle => 'Publicar un turno';
 
   @override
-  String get categoryHint => 'Categoría (p. ej. apertura, cierre)';
+  String get categoryHint =>
+      'p. ej. Reparación de refrigeración, Control de plagas';
 
   @override
   String get pickStartTime => 'Elegir hora de inicio';
@@ -2595,5 +2596,208 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String skippedNoteLabel(int count) {
     return ' ($count omitidas - ya asignadas o el puesto no coincide)';
+  }
+
+  @override
+  String get serviceProvidersTitle => 'Proveedores de servicios';
+
+  @override
+  String get myProvidersTab => 'Mis proveedores';
+
+  @override
+  String get findProviderTab => 'Buscar un proveedor';
+
+  @override
+  String get noBackendProviderNotice1 =>
+      'Explorar los proveedores compartidos de otros locales necesita una cuenta de empresa real iniciada - no puede funcionar solo con el inicio de sesión de demostración local. Tus propios contactos en \"Mis proveedores\" funcionan de todas formas.';
+
+  @override
+  String get noBackendProviderNotice2 =>
+      'Inicia sesión mediante Acceso de dirección con una cuenta de empresa real para usar esto.';
+
+  @override
+  String get providerDisclaimerText =>
+      'VenuRite no verifica ni respalda a ningún proveedor listado. Las reseñas son de otros locales, no de VenuRite.';
+
+  @override
+  String get addProviderButton => 'Añadir un proveedor';
+
+  @override
+  String get noProvidersYetText =>
+      'Todavía no has añadido ningún proveedor de servicios.';
+
+  @override
+  String get addServiceProviderDialogTitle =>
+      'Añadir un proveedor de servicios';
+
+  @override
+  String get categoryLabel => 'Categoría';
+
+  @override
+  String get phoneOptionalLabel => 'Teléfono (opcional)';
+
+  @override
+  String get emailOptionalLabel => 'Correo (opcional)';
+
+  @override
+  String get notesOptionalPrivateLabel => 'Notas (opcional, privadas para ti)';
+
+  @override
+  String get happyToReviewShareLabel => 'Estoy dispuesto a reseñar y compartir';
+
+  @override
+  String get shareVisibilityExplanation =>
+      'Otros locales verán tus valoraciones y reseñas, con el nombre/contacto difuminado hasta que lo desbloqueen.';
+
+  @override
+  String get rateThisProviderLabel => 'Valora este proveedor';
+
+  @override
+  String get priceRatingLabel => 'Precio';
+
+  @override
+  String get punctualityRatingLabel => 'Puntualidad';
+
+  @override
+  String get qualityRatingLabel => 'Calidad';
+
+  @override
+  String get availabilityRatingLabel => 'Disponibilidad';
+
+  @override
+  String get reviewOptionalLabel => 'Reseña (opcional)';
+
+  @override
+  String get reviewHintText =>
+      'Describe tu experiencia - por favor no menciones el nombre del negocio ni incluyas datos de contacto.';
+
+  @override
+  String get sessionExpiredMessage =>
+      'Tu sesión ha caducado - inicia sesión de nuevo.';
+
+  @override
+  String get sharedWithOtherVenuesLabel => 'Compartido con otros locales';
+
+  @override
+  String get privateLabel => 'Privado';
+
+  @override
+  String get rateReviewsButton => 'Valorar / Reseñas';
+
+  @override
+  String get searchByCategoryOrNameHint => 'Buscar por categoría o nombre';
+
+  @override
+  String get noContactsUnlockedThisMonth =>
+      'Ningún contacto desbloqueado este mes todavía.';
+
+  @override
+  String get noSharedProvidersYetText =>
+      'Todavía no hay proveedores compartidos - sé el primero en compartir uno desde \"Mis proveedores.\"';
+
+  @override
+  String get noProvidersMatchSearchText =>
+      'Ningún proveedor coincide con tu búsqueda.';
+
+  @override
+  String get noRatingsYetText => 'Sin valoraciones todavía';
+
+  @override
+  String get hiddenUntilUnlockedText => 'Oculto hasta desbloquear';
+
+  @override
+  String get unnamedPlaceholder => '(sin nombre)';
+
+  @override
+  String get readReviewsButton => 'Leer reseñas';
+
+  @override
+  String get unlockContactDetailsButton => 'Desbloquear datos de contacto';
+
+  @override
+  String get reviewsTitle => 'Reseñas';
+
+  @override
+  String get noReviewsYetText => 'Todavía no hay reseñas.';
+
+  @override
+  String get addYourRatingLabel => 'Añade tu valoración';
+
+  @override
+  String get submittingEllipsis => 'Enviando...';
+
+  @override
+  String get submitRatingButton => 'Enviar valoración';
+
+  @override
+  String reviewContainsInfoWarningShort(String found) {
+    return 'Tu reseña parece incluir $found. Elimina los datos de contacto o el nombre del negocio antes de enviarla.';
+  }
+
+  @override
+  String reviewContainsInfoWarningLong(String found) {
+    return 'Tu reseña parece incluir $found. Elimina los datos de contacto o el nombre del negocio antes de enviarla - las reseñas siguen siendo útiles (y justas) cuando describen la experiencia, no a quién llamar directamente.';
+  }
+
+  @override
+  String contactsUnlockedThisMonth(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count contactos desbloqueados este mes.',
+      one: '$count contacto desbloqueado este mes.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String priceValueLabel(String value) {
+    return 'Precio $value';
+  }
+
+  @override
+  String punctualityValueLabel(String value) {
+    return 'Puntualidad $value';
+  }
+
+  @override
+  String qualityValueLabel(String value) {
+    return 'Calidad $value';
+  }
+
+  @override
+  String availabilityValueLabel(String value) {
+    return 'Disponibilidad $value';
+  }
+
+  @override
+  String ratingReviewCountSuffix(String parts, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reseñas',
+      one: '$count reseña',
+    );
+    return '$parts ($_temp0)';
+  }
+
+  @override
+  String reviewRatingsLine(
+    int price,
+    int punctuality,
+    int quality,
+    int availability,
+  ) {
+    return 'Precio $price - Puntualidad $punctuality - Calidad $quality - Disponibilidad $availability';
+  }
+
+  @override
+  String phonePrefixLabel(String value) {
+    return 'Teléfono: $value';
+  }
+
+  @override
+  String emailPrefixLabel(String value) {
+    return 'Correo: $value';
   }
 }

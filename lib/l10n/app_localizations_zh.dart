@@ -1555,7 +1555,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get postAShiftTitle => '发布班次';
 
   @override
-  String get categoryHint => '类别(例如开店、关店)';
+  String get categoryHint => '例如:制冷维修、虫害防治';
 
   @override
   String get pickStartTime => '选择开始时间';
@@ -2470,5 +2470,187 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String skippedNoteLabel(int count) {
     return ' (已跳过 $count 个 - 已分配或角色不匹配)';
+  }
+
+  @override
+  String get serviceProvidersTitle => '服务商';
+
+  @override
+  String get myProvidersTab => '我的服务商';
+
+  @override
+  String get findProviderTab => '寻找服务商';
+
+  @override
+  String get noBackendProviderNotice1 =>
+      '浏览其他场所共享的服务商需要登录真实的公司账户 - 仅凭本地演示登录无法实现。您在\"我的服务商\"下的私人联系人始终可用。';
+
+  @override
+  String get noBackendProviderNotice2 => '请通过管理层访问使用真实公司账户登录以使用此功能。';
+
+  @override
+  String get providerDisclaimerText =>
+      'VenuRite 不对任何列出的服务商进行审核或背书。评价均来自其他场所,而非 VenuRite。';
+
+  @override
+  String get addProviderButton => '添加服务商';
+
+  @override
+  String get noProvidersYetText => '您尚未添加任何服务商。';
+
+  @override
+  String get addServiceProviderDialogTitle => '添加服务商';
+
+  @override
+  String get categoryLabel => '类别';
+
+  @override
+  String get phoneOptionalLabel => '电话(可选)';
+
+  @override
+  String get emailOptionalLabel => '邮箱(可选)';
+
+  @override
+  String get notesOptionalPrivateLabel => '备注(可选,仅自己可见)';
+
+  @override
+  String get happyToReviewShareLabel => '我愿意评价并共享';
+
+  @override
+  String get shareVisibilityExplanation => '其他场所将看到您的评分和评价,名称/联系方式在解锁前会被打码。';
+
+  @override
+  String get rateThisProviderLabel => '评价此服务商';
+
+  @override
+  String get priceRatingLabel => '价格';
+
+  @override
+  String get punctualityRatingLabel => '准时性';
+
+  @override
+  String get qualityRatingLabel => '质量';
+
+  @override
+  String get availabilityRatingLabel => '可用性';
+
+  @override
+  String get reviewOptionalLabel => '评价(可选)';
+
+  @override
+  String get reviewHintText => '描述您的体验 - 请不要提及商家名称或包含联系方式。';
+
+  @override
+  String get sessionExpiredMessage => '您的会话已过期 - 请重新登录。';
+
+  @override
+  String get sharedWithOtherVenuesLabel => '已与其他场所共享';
+
+  @override
+  String get privateLabel => '私密';
+
+  @override
+  String get rateReviewsButton => '评分/评价';
+
+  @override
+  String get searchByCategoryOrNameHint => '按类别或名称搜索';
+
+  @override
+  String get noContactsUnlockedThisMonth => '本月尚未解锁任何联系人。';
+
+  @override
+  String get noSharedProvidersYetText => '尚无共享服务商 - 成为第一个在\"我的服务商\"中共享的人。';
+
+  @override
+  String get noProvidersMatchSearchText => '没有服务商匹配您的搜索。';
+
+  @override
+  String get noRatingsYetText => '尚无评分';
+
+  @override
+  String get hiddenUntilUnlockedText => '解锁前隐藏';
+
+  @override
+  String get unnamedPlaceholder => '(未命名)';
+
+  @override
+  String get readReviewsButton => '查看评价';
+
+  @override
+  String get unlockContactDetailsButton => '解锁联系方式';
+
+  @override
+  String get reviewsTitle => '评价';
+
+  @override
+  String get noReviewsYetText => '暂无评价。';
+
+  @override
+  String get addYourRatingLabel => '添加您的评分';
+
+  @override
+  String get submittingEllipsis => '提交中...';
+
+  @override
+  String get submitRatingButton => '提交评分';
+
+  @override
+  String reviewContainsInfoWarningShort(String found) {
+    return '您的评价似乎包含 $found。请在提交前删除联系方式或商家名称。';
+  }
+
+  @override
+  String reviewContainsInfoWarningLong(String found) {
+    return '您的评价似乎包含 $found。请在提交前删除联系方式或商家名称 - 描述体验而非直接联系方式,评价才更有用(也更公平)。';
+  }
+
+  @override
+  String contactsUnlockedThisMonth(int count) {
+    return '本月已解锁 $count 个联系人。';
+  }
+
+  @override
+  String priceValueLabel(String value) {
+    return '价格 $value';
+  }
+
+  @override
+  String punctualityValueLabel(String value) {
+    return '准时性 $value';
+  }
+
+  @override
+  String qualityValueLabel(String value) {
+    return '质量 $value';
+  }
+
+  @override
+  String availabilityValueLabel(String value) {
+    return '可用性 $value';
+  }
+
+  @override
+  String ratingReviewCountSuffix(String parts, int count) {
+    return '$parts($count 条评价)';
+  }
+
+  @override
+  String reviewRatingsLine(
+    int price,
+    int punctuality,
+    int quality,
+    int availability,
+  ) {
+    return '价格 $price - 准时性 $punctuality - 质量 $quality - 可用性 $availability';
+  }
+
+  @override
+  String phonePrefixLabel(String value) {
+    return '电话:$value';
+  }
+
+  @override
+  String emailPrefixLabel(String value) {
+    return '邮箱:$value';
   }
 }

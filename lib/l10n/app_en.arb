@@ -857,7 +857,7 @@
   "deniedLabel": "Denied",
   "pendingLabel": "Pending",
   "postAShiftTitle": "Post a shift",
-  "categoryHint": "Category (e.g. opening, closing)",
+  "categoryHint": "e.g. Refrigeration Repair, Pest Control",
   "pickStartTime": "Pick start time",
   "pickEndTime": "Pick end time",
   "postLabel": "Post",
@@ -1949,6 +1949,269 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "serviceProvidersTitle": "Service Providers",
+  "@serviceProvidersTitle": {
+    "description": ""
+  },
+  "myProvidersTab": "My Providers",
+  "@myProvidersTab": {
+    "description": ""
+  },
+  "findProviderTab": "Find a Provider",
+  "@findProviderTab": {
+    "description": ""
+  },
+  "noBackendProviderNotice1": "Browsing other venues' shared providers needs a real company account signed in - this can't work from the local demo login alone. Your own contacts under \"My Providers\" work either way.",
+  "@noBackendProviderNotice1": {
+    "description": ""
+  },
+  "noBackendProviderNotice2": "Sign in via Leadership Access with a real company account to use this.",
+  "@noBackendProviderNotice2": {
+    "description": ""
+  },
+  "providerDisclaimerText": "VenuRite doesn't vet or endorse any listed provider. Reviews are from other venues, not from VenuRite.",
+  "@providerDisclaimerText": {
+    "description": ""
+  },
+  "addProviderButton": "Add a Provider",
+  "@addProviderButton": {
+    "description": ""
+  },
+  "noProvidersYetText": "You haven't added any service providers yet.",
+  "@noProvidersYetText": {
+    "description": ""
+  },
+  "addServiceProviderDialogTitle": "Add a Service Provider",
+  "@addServiceProviderDialogTitle": {
+    "description": ""
+  },
+  "categoryLabel": "Category",
+  "@categoryLabel": {
+    "description": ""
+  },
+  "@categoryHint": {
+    "description": ""
+  },
+  "phoneOptionalLabel": "Phone (optional)",
+  "@phoneOptionalLabel": {
+    "description": ""
+  },
+  "emailOptionalLabel": "Email (optional)",
+  "@emailOptionalLabel": {
+    "description": ""
+  },
+  "notesOptionalPrivateLabel": "Notes (optional, private to you)",
+  "@notesOptionalPrivateLabel": {
+    "description": ""
+  },
+  "happyToReviewShareLabel": "I'm happy to review and share",
+  "@happyToReviewShareLabel": {
+    "description": ""
+  },
+  "shareVisibilityExplanation": "Other venues will see your ratings and reviews, with the name/contact blurred until they unlock it.",
+  "@shareVisibilityExplanation": {
+    "description": ""
+  },
+  "rateThisProviderLabel": "Rate this provider",
+  "@rateThisProviderLabel": {
+    "description": ""
+  },
+  "priceRatingLabel": "Price",
+  "@priceRatingLabel": {
+    "description": ""
+  },
+  "punctualityRatingLabel": "Punctuality",
+  "@punctualityRatingLabel": {
+    "description": ""
+  },
+  "qualityRatingLabel": "Quality",
+  "@qualityRatingLabel": {
+    "description": ""
+  },
+  "availabilityRatingLabel": "Availability",
+  "@availabilityRatingLabel": {
+    "description": ""
+  },
+  "reviewOptionalLabel": "Review (optional)",
+  "@reviewOptionalLabel": {
+    "description": ""
+  },
+  "reviewHintText": "Describe your experience - please don't name the business or include contact details.",
+  "@reviewHintText": {
+    "description": ""
+  },
+  "sessionExpiredMessage": "Your session has expired - please sign in again.",
+  "@sessionExpiredMessage": {
+    "description": ""
+  },
+  "sharedWithOtherVenuesLabel": "Shared with other venues",
+  "@sharedWithOtherVenuesLabel": {
+    "description": ""
+  },
+  "privateLabel": "Private",
+  "@privateLabel": {
+    "description": ""
+  },
+  "rateReviewsButton": "Rate / Reviews",
+  "@rateReviewsButton": {
+    "description": ""
+  },
+  "searchByCategoryOrNameHint": "Search by category or name",
+  "@searchByCategoryOrNameHint": {
+    "description": ""
+  },
+  "noContactsUnlockedThisMonth": "No contacts unlocked yet this month.",
+  "@noContactsUnlockedThisMonth": {
+    "description": ""
+  },
+  "noSharedProvidersYetText": "No shared providers yet - be the first to share one from \"My Providers.\"",
+  "@noSharedProvidersYetText": {
+    "description": ""
+  },
+  "noProvidersMatchSearchText": "No providers match your search.",
+  "@noProvidersMatchSearchText": {
+    "description": ""
+  },
+  "noRatingsYetText": "No ratings yet",
+  "@noRatingsYetText": {
+    "description": ""
+  },
+  "hiddenUntilUnlockedText": "Hidden until unlocked",
+  "@hiddenUntilUnlockedText": {
+    "description": ""
+  },
+  "unnamedPlaceholder": "(unnamed)",
+  "@unnamedPlaceholder": {
+    "description": ""
+  },
+  "readReviewsButton": "Read reviews",
+  "@readReviewsButton": {
+    "description": ""
+  },
+  "unlockContactDetailsButton": "Unlock contact details",
+  "@unlockContactDetailsButton": {
+    "description": ""
+  },
+  "reviewsTitle": "Reviews",
+  "@reviewsTitle": {
+    "description": ""
+  },
+  "noReviewsYetText": "No reviews yet.",
+  "@noReviewsYetText": {
+    "description": ""
+  },
+  "addYourRatingLabel": "Add your rating",
+  "@addYourRatingLabel": {
+    "description": ""
+  },
+  "submittingEllipsis": "Submitting...",
+  "@submittingEllipsis": {
+    "description": ""
+  },
+  "submitRatingButton": "Submit Rating",
+  "@submitRatingButton": {
+    "description": ""
+  },
+  "reviewContainsInfoWarningShort": "Your review looks like it includes {found}. Please remove contact details or business names before submitting.",
+  "@reviewContainsInfoWarningShort": {
+    "placeholders": {
+      "found": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewContainsInfoWarningLong": "Your review looks like it includes {found}. Please remove contact details or business names before submitting - reviews stay useful (and fair) when they describe the experience, not who to call directly.",
+  "@reviewContainsInfoWarningLong": {
+    "placeholders": {
+      "found": {
+        "type": "String"
+      }
+    }
+  },
+  "contactsUnlockedThisMonth": "{count, plural, one{{count} contact unlocked this month.} other{{count} contacts unlocked this month.}}",
+  "@contactsUnlockedThisMonth": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "priceValueLabel": "Price {value}",
+  "@priceValueLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "punctualityValueLabel": "Punctuality {value}",
+  "@punctualityValueLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "qualityValueLabel": "Quality {value}",
+  "@qualityValueLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "availabilityValueLabel": "Availability {value}",
+  "@availabilityValueLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "ratingReviewCountSuffix": "{parts} ({count, plural, one{{count} review} other{{count} reviews}})",
+  "@ratingReviewCountSuffix": {
+    "placeholders": {
+      "parts": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewRatingsLine": "Price {price} - Punctuality {punctuality} - Quality {quality} - Availability {availability}",
+  "@reviewRatingsLine": {
+    "placeholders": {
+      "price": {
+        "type": "int"
+      },
+      "punctuality": {
+        "type": "int"
+      },
+      "quality": {
+        "type": "int"
+      },
+      "availability": {
+        "type": "int"
+      }
+    }
+  },
+  "phonePrefixLabel": "Phone: {value}",
+  "@phonePrefixLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "emailPrefixLabel": "Email: {value}",
+  "@emailPrefixLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
       }
     }
   }

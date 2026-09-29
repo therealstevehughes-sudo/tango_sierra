@@ -1599,7 +1599,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get postAShiftTitle => 'نشر مناوبة';
 
   @override
-  String get categoryHint => 'الفئة (مثل الفتح، الإغلاق)';
+  String get categoryHint => 'مثال: إصلاح التبريد، مكافحة الآفات';
 
   @override
   String get pickStartTime => 'اختر وقت البدء';
@@ -2541,5 +2541,193 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String skippedNoteLabel(int count) {
     return ' (تم تخطي $count - معينة بالفعل أو عدم تطابق في الدور)';
+  }
+
+  @override
+  String get serviceProvidersTitle => 'مقدمو الخدمات';
+
+  @override
+  String get myProvidersTab => 'مقدمو خدماتي';
+
+  @override
+  String get findProviderTab => 'البحث عن مقدم خدمة';
+
+  @override
+  String get noBackendProviderNotice1 =>
+      'يتطلب تصفح مقدمي الخدمات الذين تشاركهم أماكن أخرى تسجيل الدخول بحساب شركة حقيقي - لا يمكن أن يعمل هذا فقط من تسجيل الدخول التجريبي المحلي. جهات اتصالك الخاصة ضمن \"مقدمو خدماتي\" تعمل في كلتا الحالتين.';
+
+  @override
+  String get noBackendProviderNotice2 =>
+      'سجّل الدخول عبر وصول القيادة بحساب شركة حقيقي لاستخدام هذا.';
+
+  @override
+  String get providerDisclaimerText =>
+      'لا يقوم VenuRite بفحص أو المصادقة على أي مقدم خدمة مدرج. المراجعات من أماكن أخرى، وليست من VenuRite.';
+
+  @override
+  String get addProviderButton => 'إضافة مقدم خدمة';
+
+  @override
+  String get noProvidersYetText => 'لم تقم بإضافة أي مقدم خدمة بعد.';
+
+  @override
+  String get addServiceProviderDialogTitle => 'إضافة مقدم خدمة';
+
+  @override
+  String get categoryLabel => 'الفئة';
+
+  @override
+  String get phoneOptionalLabel => 'الهاتف (اختياري)';
+
+  @override
+  String get emailOptionalLabel => 'البريد الإلكتروني (اختياري)';
+
+  @override
+  String get notesOptionalPrivateLabel => 'ملاحظات (اختياري، خاصة بك)';
+
+  @override
+  String get happyToReviewShareLabel => 'يسعدني المراجعة والمشاركة';
+
+  @override
+  String get shareVisibilityExplanation =>
+      'ستشاهد الأماكن الأخرى تقييماتك ومراجعاتك، مع تعتيم الاسم/جهة الاتصال حتى يتم فتحها.';
+
+  @override
+  String get rateThisProviderLabel => 'قيّم مقدم الخدمة هذا';
+
+  @override
+  String get priceRatingLabel => 'السعر';
+
+  @override
+  String get punctualityRatingLabel => 'الالتزام بالمواعيد';
+
+  @override
+  String get qualityRatingLabel => 'الجودة';
+
+  @override
+  String get availabilityRatingLabel => 'التوفر';
+
+  @override
+  String get reviewOptionalLabel => 'مراجعة (اختياري)';
+
+  @override
+  String get reviewHintText =>
+      'صف تجربتك - يرجى عدم ذكر اسم النشاط التجاري أو تضمين تفاصيل الاتصال.';
+
+  @override
+  String get sessionExpiredMessage =>
+      'انتهت صلاحية جلستك - يرجى تسجيل الدخول مرة أخرى.';
+
+  @override
+  String get sharedWithOtherVenuesLabel => 'تمت مشاركته مع أماكن أخرى';
+
+  @override
+  String get privateLabel => 'خاص';
+
+  @override
+  String get rateReviewsButton => 'تقييم / مراجعات';
+
+  @override
+  String get searchByCategoryOrNameHint => 'البحث حسب الفئة أو الاسم';
+
+  @override
+  String get noContactsUnlockedThisMonth =>
+      'لم يتم فتح أي جهة اتصال بعد هذا الشهر.';
+
+  @override
+  String get noSharedProvidersYetText =>
+      'لا يوجد مقدمو خدمات مشتركون بعد - كن أول من يشارك واحدًا من \"مقدمو خدماتي.\"';
+
+  @override
+  String get noProvidersMatchSearchText => 'لا يوجد مقدم خدمة يطابق بحثك.';
+
+  @override
+  String get noRatingsYetText => 'لا توجد تقييمات بعد';
+
+  @override
+  String get hiddenUntilUnlockedText => 'مخفي حتى يتم فتحه';
+
+  @override
+  String get unnamedPlaceholder => '(بدون اسم)';
+
+  @override
+  String get readReviewsButton => 'قراءة المراجعات';
+
+  @override
+  String get unlockContactDetailsButton => 'فتح تفاصيل الاتصال';
+
+  @override
+  String get reviewsTitle => 'المراجعات';
+
+  @override
+  String get noReviewsYetText => 'لا توجد مراجعات بعد.';
+
+  @override
+  String get addYourRatingLabel => 'أضف تقييمك';
+
+  @override
+  String get submittingEllipsis => 'جارٍ الإرسال...';
+
+  @override
+  String get submitRatingButton => 'إرسال التقييم';
+
+  @override
+  String reviewContainsInfoWarningShort(String found) {
+    return 'يبدو أن مراجعتك تتضمن $found. يرجى إزالة تفاصيل الاتصال أو أسماء الأعمال قبل الإرسال.';
+  }
+
+  @override
+  String reviewContainsInfoWarningLong(String found) {
+    return 'يبدو أن مراجعتك تتضمن $found. يرجى إزالة تفاصيل الاتصال أو أسماء الأعمال قبل الإرسال - تظل المراجعات مفيدة (وعادلة) عندما تصف التجربة، وليس من يجب الاتصال به مباشرة.';
+  }
+
+  @override
+  String contactsUnlockedThisMonth(int count) {
+    return 'تم فتح $count جهة اتصال هذا الشهر.';
+  }
+
+  @override
+  String priceValueLabel(String value) {
+    return 'السعر $value';
+  }
+
+  @override
+  String punctualityValueLabel(String value) {
+    return 'الالتزام بالمواعيد $value';
+  }
+
+  @override
+  String qualityValueLabel(String value) {
+    return 'الجودة $value';
+  }
+
+  @override
+  String availabilityValueLabel(String value) {
+    return 'التوفر $value';
+  }
+
+  @override
+  String ratingReviewCountSuffix(String parts, int count) {
+    return '$parts ($count مراجعة)';
+  }
+
+  @override
+  String reviewRatingsLine(
+    int price,
+    int punctuality,
+    int quality,
+    int availability,
+  ) {
+    return 'السعر $price - الالتزام بالمواعيد $punctuality - الجودة $quality - التوفر $availability';
+  }
+
+  @override
+  String phonePrefixLabel(String value) {
+    return 'الهاتف: $value';
+  }
+
+  @override
+  String emailPrefixLabel(String value) {
+    return 'البريد الإلكتروني: $value';
   }
 }

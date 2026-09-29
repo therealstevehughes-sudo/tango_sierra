@@ -1602,7 +1602,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get postAShiftTitle => 'Post a shift';
 
   @override
-  String get categoryHint => 'Category (e.g. opening, closing)';
+  String get categoryHint => 'e.g. Refrigeration Repair, Pest Control';
 
   @override
   String get pickStartTime => 'Pick start time';
@@ -2589,5 +2589,206 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String skippedNoteLabel(int count) {
     return ' ($count skipped - already assigned or role mismatch)';
+  }
+
+  @override
+  String get serviceProvidersTitle => 'Service Providers';
+
+  @override
+  String get myProvidersTab => 'My Providers';
+
+  @override
+  String get findProviderTab => 'Find a Provider';
+
+  @override
+  String get noBackendProviderNotice1 =>
+      'Browsing other venues\' shared providers needs a real company account signed in - this can\'t work from the local demo login alone. Your own contacts under \"My Providers\" work either way.';
+
+  @override
+  String get noBackendProviderNotice2 =>
+      'Sign in via Leadership Access with a real company account to use this.';
+
+  @override
+  String get providerDisclaimerText =>
+      'VenuRite doesn\'t vet or endorse any listed provider. Reviews are from other venues, not from VenuRite.';
+
+  @override
+  String get addProviderButton => 'Add a Provider';
+
+  @override
+  String get noProvidersYetText =>
+      'You haven\'t added any service providers yet.';
+
+  @override
+  String get addServiceProviderDialogTitle => 'Add a Service Provider';
+
+  @override
+  String get categoryLabel => 'Category';
+
+  @override
+  String get phoneOptionalLabel => 'Phone (optional)';
+
+  @override
+  String get emailOptionalLabel => 'Email (optional)';
+
+  @override
+  String get notesOptionalPrivateLabel => 'Notes (optional, private to you)';
+
+  @override
+  String get happyToReviewShareLabel => 'I\'m happy to review and share';
+
+  @override
+  String get shareVisibilityExplanation =>
+      'Other venues will see your ratings and reviews, with the name/contact blurred until they unlock it.';
+
+  @override
+  String get rateThisProviderLabel => 'Rate this provider';
+
+  @override
+  String get priceRatingLabel => 'Price';
+
+  @override
+  String get punctualityRatingLabel => 'Punctuality';
+
+  @override
+  String get qualityRatingLabel => 'Quality';
+
+  @override
+  String get availabilityRatingLabel => 'Availability';
+
+  @override
+  String get reviewOptionalLabel => 'Review (optional)';
+
+  @override
+  String get reviewHintText =>
+      'Describe your experience - please don\'t name the business or include contact details.';
+
+  @override
+  String get sessionExpiredMessage =>
+      'Your session has expired - please sign in again.';
+
+  @override
+  String get sharedWithOtherVenuesLabel => 'Shared with other venues';
+
+  @override
+  String get privateLabel => 'Private';
+
+  @override
+  String get rateReviewsButton => 'Rate / Reviews';
+
+  @override
+  String get searchByCategoryOrNameHint => 'Search by category or name';
+
+  @override
+  String get noContactsUnlockedThisMonth =>
+      'No contacts unlocked yet this month.';
+
+  @override
+  String get noSharedProvidersYetText =>
+      'No shared providers yet - be the first to share one from \"My Providers.\"';
+
+  @override
+  String get noProvidersMatchSearchText => 'No providers match your search.';
+
+  @override
+  String get noRatingsYetText => 'No ratings yet';
+
+  @override
+  String get hiddenUntilUnlockedText => 'Hidden until unlocked';
+
+  @override
+  String get unnamedPlaceholder => '(unnamed)';
+
+  @override
+  String get readReviewsButton => 'Read reviews';
+
+  @override
+  String get unlockContactDetailsButton => 'Unlock contact details';
+
+  @override
+  String get reviewsTitle => 'Reviews';
+
+  @override
+  String get noReviewsYetText => 'No reviews yet.';
+
+  @override
+  String get addYourRatingLabel => 'Add your rating';
+
+  @override
+  String get submittingEllipsis => 'Submitting...';
+
+  @override
+  String get submitRatingButton => 'Submit Rating';
+
+  @override
+  String reviewContainsInfoWarningShort(String found) {
+    return 'Your review looks like it includes $found. Please remove contact details or business names before submitting.';
+  }
+
+  @override
+  String reviewContainsInfoWarningLong(String found) {
+    return 'Your review looks like it includes $found. Please remove contact details or business names before submitting - reviews stay useful (and fair) when they describe the experience, not who to call directly.';
+  }
+
+  @override
+  String contactsUnlockedThisMonth(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count contacts unlocked this month.',
+      one: '$count contact unlocked this month.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String priceValueLabel(String value) {
+    return 'Price $value';
+  }
+
+  @override
+  String punctualityValueLabel(String value) {
+    return 'Punctuality $value';
+  }
+
+  @override
+  String qualityValueLabel(String value) {
+    return 'Quality $value';
+  }
+
+  @override
+  String availabilityValueLabel(String value) {
+    return 'Availability $value';
+  }
+
+  @override
+  String ratingReviewCountSuffix(String parts, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count reviews',
+      one: '$count review',
+    );
+    return '$parts ($_temp0)';
+  }
+
+  @override
+  String reviewRatingsLine(
+    int price,
+    int punctuality,
+    int quality,
+    int availability,
+  ) {
+    return 'Price $price - Punctuality $punctuality - Quality $quality - Availability $availability';
+  }
+
+  @override
+  String phonePrefixLabel(String value) {
+    return 'Phone: $value';
+  }
+
+  @override
+  String emailPrefixLabel(String value) {
+    return 'Email: $value';
   }
 }
