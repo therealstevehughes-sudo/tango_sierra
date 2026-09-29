@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/status_badge.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/user.dart';
 
 /// PIN-entry step shared by the main login screen and Leadership Access
@@ -29,6 +30,7 @@ class PinEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -43,7 +45,7 @@ class PinEntry extends StatelessWidget {
           keyboardType: TextInputType.number,
           obscureText: true,
           textAlign: TextAlign.center,
-          decoration: const InputDecoration(labelText: "Enter PIN"),
+          decoration: InputDecoration(labelText: l10n.enterPin),
         ),
         const SizedBox(height: 20),
         if (error != null)
@@ -52,10 +54,10 @@ class PinEntry extends StatelessWidget {
             child: StatusBadge(kind: StatusKind.critical, label: error!),
           ),
         PrimaryActionButton(
-          label: "LOGIN",
+          label: l10n.login,
           onPressed: submitting ? null : onSubmit,
         ),
-        TextButton(onPressed: onBack, child: const Text("Back")),
+        TextButton(onPressed: onBack, child: Text(l10n.back)),
       ],
     );
   }

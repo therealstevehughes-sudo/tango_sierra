@@ -1467,6 +1467,17 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _preferredLocaleMeta = const VerificationMeta(
+    'preferredLocale',
+  );
+  @override
+  late final GeneratedColumn<String> preferredLocale = GeneratedColumn<String>(
+    'preferred_locale',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -1487,6 +1498,7 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
     regionId,
     reportsToUserId,
     fcmToken,
+    preferredLocale,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1633,6 +1645,15 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         fcmToken.isAcceptableOrUnknown(data['fcm_token']!, _fcmTokenMeta),
       );
     }
+    if (data.containsKey('preferred_locale')) {
+      context.handle(
+        _preferredLocaleMeta,
+        preferredLocale.isAcceptableOrUnknown(
+          data['preferred_locale']!,
+          _preferredLocaleMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -1714,6 +1735,10 @@ class $UsersTable extends Users with TableInfo<$UsersTable, UserEntity> {
         DriftSqlType.string,
         data['${effectivePrefix}fcm_token'],
       ),
+      preferredLocale: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}preferred_locale'],
+      ),
     );
   }
 
@@ -1742,6 +1767,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
   final int? regionId;
   final int? reportsToUserId;
   final String? fcmToken;
+  final String? preferredLocale;
   const UserEntity({
     required this.id,
     required this.name,
@@ -1761,6 +1787,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     this.regionId,
     this.reportsToUserId,
     this.fcmToken,
+    this.preferredLocale,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -1805,6 +1832,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     if (!nullToAbsent || fcmToken != null) {
       map['fcm_token'] = Variable<String>(fcmToken);
     }
+    if (!nullToAbsent || preferredLocale != null) {
+      map['preferred_locale'] = Variable<String>(preferredLocale);
+    }
     return map;
   }
 
@@ -1848,6 +1878,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       fcmToken: fcmToken == null && nullToAbsent
           ? const Value.absent()
           : Value(fcmToken),
+      preferredLocale: preferredLocale == null && nullToAbsent
+          ? const Value.absent()
+          : Value(preferredLocale),
     );
   }
 
@@ -1879,6 +1912,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       regionId: serializer.fromJson<int?>(json['regionId']),
       reportsToUserId: serializer.fromJson<int?>(json['reportsToUserId']),
       fcmToken: serializer.fromJson<String?>(json['fcmToken']),
+      preferredLocale: serializer.fromJson<String?>(json['preferredLocale']),
     );
   }
   @override
@@ -1905,6 +1939,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
       'regionId': serializer.toJson<int?>(regionId),
       'reportsToUserId': serializer.toJson<int?>(reportsToUserId),
       'fcmToken': serializer.toJson<String?>(fcmToken),
+      'preferredLocale': serializer.toJson<String?>(preferredLocale),
     };
   }
 
@@ -1927,6 +1962,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     Value<int?> regionId = const Value.absent(),
     Value<int?> reportsToUserId = const Value.absent(),
     Value<String?> fcmToken = const Value.absent(),
+    Value<String?> preferredLocale = const Value.absent(),
   }) => UserEntity(
     id: id ?? this.id,
     name: name ?? this.name,
@@ -1955,6 +1991,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
         ? reportsToUserId.value
         : this.reportsToUserId,
     fcmToken: fcmToken.present ? fcmToken.value : this.fcmToken,
+    preferredLocale: preferredLocale.present
+        ? preferredLocale.value
+        : this.preferredLocale,
   );
   UserEntity copyWithCompanion(UsersCompanion data) {
     return UserEntity(
@@ -1988,6 +2027,9 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ? data.reportsToUserId.value
           : this.reportsToUserId,
       fcmToken: data.fcmToken.present ? data.fcmToken.value : this.fcmToken,
+      preferredLocale: data.preferredLocale.present
+          ? data.preferredLocale.value
+          : this.preferredLocale,
     );
   }
 
@@ -2011,7 +2053,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           ..write('supabaseUserId: $supabaseUserId, ')
           ..write('regionId: $regionId, ')
           ..write('reportsToUserId: $reportsToUserId, ')
-          ..write('fcmToken: $fcmToken')
+          ..write('fcmToken: $fcmToken, ')
+          ..write('preferredLocale: $preferredLocale')
           ..write(')'))
         .toString();
   }
@@ -2036,6 +2079,7 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
     regionId,
     reportsToUserId,
     fcmToken,
+    preferredLocale,
   );
   @override
   bool operator ==(Object other) =>
@@ -2058,7 +2102,8 @@ class UserEntity extends DataClass implements Insertable<UserEntity> {
           other.supabaseUserId == this.supabaseUserId &&
           other.regionId == this.regionId &&
           other.reportsToUserId == this.reportsToUserId &&
-          other.fcmToken == this.fcmToken);
+          other.fcmToken == this.fcmToken &&
+          other.preferredLocale == this.preferredLocale);
 }
 
 class UsersCompanion extends UpdateCompanion<UserEntity> {
@@ -2080,6 +2125,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
   final Value<int?> regionId;
   final Value<int?> reportsToUserId;
   final Value<String?> fcmToken;
+  final Value<String?> preferredLocale;
   const UsersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -2099,6 +2145,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.regionId = const Value.absent(),
     this.reportsToUserId = const Value.absent(),
     this.fcmToken = const Value.absent(),
+    this.preferredLocale = const Value.absent(),
   });
   UsersCompanion.insert({
     this.id = const Value.absent(),
@@ -2119,6 +2166,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     this.regionId = const Value.absent(),
     this.reportsToUserId = const Value.absent(),
     this.fcmToken = const Value.absent(),
+    this.preferredLocale = const Value.absent(),
   }) : name = Value(name),
        jobTitle = Value(jobTitle),
        roleTier = Value(roleTier),
@@ -2143,6 +2191,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Expression<int>? regionId,
     Expression<int>? reportsToUserId,
     Expression<String>? fcmToken,
+    Expression<String>? preferredLocale,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2165,6 +2214,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       if (regionId != null) 'region_id': regionId,
       if (reportsToUserId != null) 'reports_to_user_id': reportsToUserId,
       if (fcmToken != null) 'fcm_token': fcmToken,
+      if (preferredLocale != null) 'preferred_locale': preferredLocale,
     });
   }
 
@@ -2187,6 +2237,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     Value<int?>? regionId,
     Value<int?>? reportsToUserId,
     Value<String?>? fcmToken,
+    Value<String?>? preferredLocale,
   }) {
     return UsersCompanion(
       id: id ?? this.id,
@@ -2208,6 +2259,7 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
       regionId: regionId ?? this.regionId,
       reportsToUserId: reportsToUserId ?? this.reportsToUserId,
       fcmToken: fcmToken ?? this.fcmToken,
+      preferredLocale: preferredLocale ?? this.preferredLocale,
     );
   }
 
@@ -2270,6 +2322,9 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
     if (fcmToken.present) {
       map['fcm_token'] = Variable<String>(fcmToken.value);
     }
+    if (preferredLocale.present) {
+      map['preferred_locale'] = Variable<String>(preferredLocale.value);
+    }
     return map;
   }
 
@@ -2293,7 +2348,8 @@ class UsersCompanion extends UpdateCompanion<UserEntity> {
           ..write('supabaseUserId: $supabaseUserId, ')
           ..write('regionId: $regionId, ')
           ..write('reportsToUserId: $reportsToUserId, ')
-          ..write('fcmToken: $fcmToken')
+          ..write('fcmToken: $fcmToken, ')
+          ..write('preferredLocale: $preferredLocale')
           ..write(')'))
         .toString();
   }
@@ -24914,6 +24970,7 @@ typedef $$UsersTableCreateCompanionBuilder =
       Value<int?> regionId,
       Value<int?> reportsToUserId,
       Value<String?> fcmToken,
+      Value<String?> preferredLocale,
     });
 typedef $$UsersTableUpdateCompanionBuilder =
     UsersCompanion Function({
@@ -24935,6 +24992,7 @@ typedef $$UsersTableUpdateCompanionBuilder =
       Value<int?> regionId,
       Value<int?> reportsToUserId,
       Value<String?> fcmToken,
+      Value<String?> preferredLocale,
     });
 
 final class $$UsersTableReferences
@@ -25419,6 +25477,11 @@ class $$UsersTableFilterComposer extends Composer<_$AppDatabase, $UsersTable> {
 
   ColumnFilters<String> get fcmToken => $composableBuilder(
     column: $table.fcmToken,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get preferredLocale => $composableBuilder(
+    column: $table.preferredLocale,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -25992,6 +26055,11 @@ class $$UsersTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get preferredLocale => $composableBuilder(
+    column: $table.preferredLocale,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$UsersTableOrderingComposer get deactivatedByUserId {
     final $$UsersTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -26161,6 +26229,11 @@ class $$UsersTableAnnotationComposer
 
   GeneratedColumn<String> get fcmToken =>
       $composableBuilder(column: $table.fcmToken, builder: (column) => column);
+
+  GeneratedColumn<String> get preferredLocale => $composableBuilder(
+    column: $table.preferredLocale,
+    builder: (column) => column,
+  );
 
   $$UsersTableAnnotationComposer get deactivatedByUserId {
     final $$UsersTableAnnotationComposer composer = $composerBuilder(
@@ -26730,6 +26803,7 @@ class $$UsersTableTableManager
                 Value<int?> regionId = const Value.absent(),
                 Value<int?> reportsToUserId = const Value.absent(),
                 Value<String?> fcmToken = const Value.absent(),
+                Value<String?> preferredLocale = const Value.absent(),
               }) => UsersCompanion(
                 id: id,
                 name: name,
@@ -26749,6 +26823,7 @@ class $$UsersTableTableManager
                 regionId: regionId,
                 reportsToUserId: reportsToUserId,
                 fcmToken: fcmToken,
+                preferredLocale: preferredLocale,
               ),
           createCompanionCallback:
               ({
@@ -26770,6 +26845,7 @@ class $$UsersTableTableManager
                 Value<int?> regionId = const Value.absent(),
                 Value<int?> reportsToUserId = const Value.absent(),
                 Value<String?> fcmToken = const Value.absent(),
+                Value<String?> preferredLocale = const Value.absent(),
               }) => UsersCompanion.insert(
                 id: id,
                 name: name,
@@ -26789,6 +26865,7 @@ class $$UsersTableTableManager
                 regionId: regionId,
                 reportsToUserId: reportsToUserId,
                 fcmToken: fcmToken,
+                preferredLocale: preferredLocale,
               ),
           withReferenceMapper: (p0) => p0
               .map(

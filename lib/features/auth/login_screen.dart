@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/localization/language_picker.dart';
 import '../../core/utils/greeting.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
@@ -20,6 +21,7 @@ import '../onboarding/join_company_screen.dart';
 import 'pin_entry.dart';
 import 'senior_login_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -83,19 +85,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ref.read(justLoggedInForShiftProvider.notifier).state = true;
       case PinAuthIncorrect():
         setState(() {
-          error = "Incorrect PIN";
+          error = AppLocalizations.of(context)!.incorrectPin;
           submitting = false;
         });
       case PinAuthLocked(:final lockedUntil):
         final minutesLeft =
             lockedUntil.difference(DateTime.now()).inMinutes + 1;
         setState(() {
-          error = "Too many wrong attempts. Try again in $minutesLeft min.";
+          error = AppLocalizations.of(
+            context,
+          )!.tooManyWrongAttempts(minutesLeft);
           submitting = false;
         });
       case PinAuthNotFound():
         setState(() {
-          error = "Account not found";
+          error = AppLocalizations.of(context)!.accountNotFound;
           submitting = false;
         });
       case PinAuthError(:final message):
@@ -108,6 +112,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final staffAsync = ref.watch(staffDirectoryProvider);
     // Section picker (2026-09-23) — fails open: while loading or on error,
     // this is just an empty list, meaning _StaffList falls back to today's
@@ -171,19 +176,27 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         Positioned(
                           top: 0,
                           right: 0,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.lock_outline,
-                              color: AppColors.muted,
-                            ),
-                            iconSize: 20,
-                            tooltip: 'Leadership Access',
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => const SeniorLoginScreen(),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const LanguageIconButton(
+                                iconColor: AppColors.muted,
                               ),
-                            ),
+                              IconButton(
+                                icon: const Icon(
+                                  Icons.lock_outline,
+                                  color: AppColors.muted,
+                                ),
+                                iconSize: 20,
+                                tooltip: l10n.leadershipAccess,
+                                onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const SeniorLoginScreen(),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -214,7 +227,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 err is DeviceNotPairedException
                                 ? const _DevicePairingPrompt()
                                 : Center(
-                                    child: Text('Error loading staff: $err'),
+                                    child: Text(
+                                      l10n.errorLoadingStaff(err.toString()),
+                                    ),
                                   ),
                           )
                         : ResponsiveContent(

@@ -31,6 +31,7 @@ import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/models/task_extra_field.dart';
 import '../../shared/providers/venue_setup_providers.dart';
+import '../../l10n/app_localizations.dart';
 import 'billing_gate.dart';
 import 'camera_capture_screen.dart';
 import 'delivery_detail_form.dart';
@@ -255,12 +256,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     if (!mounted) return;
     if (noteToShow == null && (summary == null || summary.isEmpty)) return;
 
+    final l10n = AppLocalizations.of(context)!;
     var repeatForNextShift = false;
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => StatefulBuilder(
         builder: (dialogContext, setDialogState) => AlertDialog(
-          title: const Text('Shift Handover'),
+          title: Text(l10n.shiftHandoverTitle),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -276,14 +278,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                     onChanged: (value) => setDialogState(
                       () => repeatForNextShift = value ?? false,
                     ),
-                    title: const Text(
-                      'This still needs the next shift\'s attention',
-                    ),
+                    title: Text(l10n.shiftHandoverNeedsAttention),
                   ),
                   if (summary != null && !summary.isEmpty)
                     const Divider(height: 24),
                 ],
-                if (summary != null) ..._buildHandoverSummarySections(summary),
+                if (summary != null)
+                  ..._buildHandoverSummarySections(summary, l10n),
               ],
             ),
           ),
@@ -299,7 +300,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 }
                 if (dialogContext.mounted) Navigator.pop(dialogContext);
               },
-              child: const Text('Got it'),
+              child: Text(l10n.gotIt),
             ),
           ],
         ),
@@ -307,7 +308,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     );
   }
 
-  List<Widget> _buildHandoverSummarySections(ShiftHandoverSummary summary) {
+  List<Widget> _buildHandoverSummarySections(
+    ShiftHandoverSummary summary,
+    AppLocalizations l10n,
+  ) {
     Widget section(String title, List<String> lines) {
       if (lines.isEmpty) return const SizedBox.shrink();
       return Padding(
@@ -331,17 +335,17 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     }
 
     return [
-      section('Open issues', [
+      section(l10n.openIssues, [
         for (final i in summary.openIssues)
           i.subtype != null
               ? '${issueTypeDisplayName(i.type)} · ${i.subtype}'
               : issueTypeDisplayName(i.type),
       ]),
-      section('Flagged equipment', [
+      section(l10n.flaggedEquipment, [
         for (final s in summary.flaggedEquipment)
           s.equipmentInstanceName ?? s.taskTitle,
       ]),
-      section('Not yet done today', [
+      section(l10n.notYetDoneToday, [
         for (final t in summary.outstandingTasks)
           t.equipmentInstanceName != null
               ? '${t.taskTitle} - ${t.equipmentInstanceName}'
@@ -372,6 +376,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // `photoTaken`) — never a fake "Photo Added" without a real file behind
   // it.
   Future<void> _capturePhoto() async {
+    final l10n = AppLocalizations.of(context)!;
     final choice = await showModalBottomSheet<_PhotoSource>(
       context: context,
       builder: (context) => SafeArea(
@@ -380,12 +385,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           children: [
             ListTile(
               leading: const Icon(Icons.camera_alt_outlined),
-              title: const Text('Take Photo'),
+              title: Text(l10n.takePhoto),
               onTap: () => Navigator.pop(context, _PhotoSource.camera),
             ),
             ListTile(
               leading: const Icon(Icons.upload_file_outlined),
-              title: const Text('Upload from Files'),
+              title: Text(l10n.uploadFromFiles),
               onTap: () => Navigator.pop(context, _PhotoSource.upload),
             ),
           ],
@@ -440,6 +445,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     // just came from, and Log out has no place on a screen that isn't the
     // actual session entry point.
     if (widget.returnToListAfterSubmit) return const [];
+    final l10n = AppLocalizations.of(context)!;
     return [
       // Hybrid task view (roadmap v1.1, 2026-09-15) — read-only, doesn't
       // touch the exit-path discipline above (a normal push the worker
@@ -452,7 +458,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           ),
         ),
         icon: const Icon(Icons.view_list_outlined),
-        tooltip: 'See all tasks',
+        tooltip: l10n.seeAllTasksTooltip,
       ),
       // Omnipresent assistant icon (2026-09-25) — every screen is getting
       // the same one addition.
@@ -460,7 +466,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       TextButton.icon(
         onPressed: _confirmLogOut,
         icon: const Icon(Icons.logout, size: 18),
-        label: const Text('Log out'),
+        label: Text(l10n.logOut),
       ),
     ];
   }
@@ -470,22 +476,20 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // ever fires for an EARLY exit, while tasks remain.
   Future<void> _confirmLogOut() async {
     if (controller.hasRemainingTasks) {
+      final l10n = AppLocalizations.of(context)!;
       final leave = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Leave before finishing?'),
-          content: const Text(
-            "Some checks aren't complete. This will be recorded. You can "
-            "return and finish anytime this shift.",
-          ),
+          title: Text(l10n.leaveBeforeFinishingTitle),
+          content: Text(l10n.leaveBeforeFinishingBody),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
+              child: Text(l10n.cancel),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Log Out'),
+              child: Text(l10n.logOut),
             ),
           ],
         ),
@@ -536,11 +540,12 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
   String get _numericFieldLabel {
     final task = controller.getCurrentTask();
-    if (task.unit == null) return "Enter value";
+    final l10n = AppLocalizations.of(context)!;
+    if (task.unit == null) return l10n.enterValue;
     final unitLabel = _displayInFahrenheit
         ? '°F'
         : (task.unit == 'celsius' ? '°C' : task.unit!);
-    return "Enter value ($unitLabel)";
+    return l10n.enterValueWithUnit(unitLabel);
   }
 
   double? get _numberInTemplateUnit {
@@ -586,7 +591,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     final maxLabel = _displayInFahrenheit && task.unit == 'celsius'
         ? max.toStringAsFixed(1)
         : _formatLimit(task.maxLimit!);
-    return 'Safe: $minLabel$unitLabel - $maxLabel$unitLabel';
+    return AppLocalizations.of(context)!.safeRangeLabel(
+      '$minLabel$unitLabel',
+      '$maxLabel$unitLabel',
+    );
   }
 
   // Fixed-decimal formatting for range labels — temperature limits almost
@@ -626,35 +634,36 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
 
   Future<void> validateAndSubmit() async {
     final task = controller.getCurrentTask();
+    final l10n = AppLocalizations.of(context)!;
 
     setState(() {
       error = null;
     });
 
     if (task.hasNumericRange && _numberInTemplateUnit == null) {
-      setState(() => error = "A valid numeric value is required");
+      setState(() => error = l10n.errorNumericRequired);
       return;
     }
 
     if (task.hasChoice && selectedChoice == null) {
-      setState(() => error = "Please select an option");
+      setState(() => error = l10n.errorSelectOption);
       return;
     }
 
     if (task.requiresNotes && notesController.text.trim().isEmpty) {
-      setState(() => error = "Notes required");
+      setState(() => error = l10n.errorNotesRequired);
       return;
     }
 
     if (task.requiresPhoto && !photoTaken) {
-      setState(() => error = "Photo required");
+      setState(() => error = l10n.errorPhotoRequired);
       return;
     }
 
     if (task.requiresCorrectiveActionOnFail &&
         effectiveResult == "FAIL" &&
         correctiveActionOutcome == null) {
-      setState(() => error = "Choose how the corrective action was handled");
+      setState(() => error = l10n.errorCorrectiveActionRequired);
       return;
     }
 
@@ -794,6 +803,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   @override
   Widget build(BuildContext context) {
     final currentUser = ref.watch(currentUserProvider);
+    final l10n = AppLocalizations.of(context)!;
     // Navigation-consistency pass (Sprint 031): the drawer is base-tier's
     // one deliberate exception — a Kitchen Porter still just sees tasks +
     // Log out, no menu, per the Staff Task Screen Rule's minimalism.
@@ -804,7 +814,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         currentUser != null &&
             currentUser.roleTier != RoleTier.base &&
             !widget.returnToListAfterSubmit
-        ? ManagementDrawer(title: 'My Tasks', onLogout: _confirmLogOut)
+        ? ManagementDrawer(title: l10n.myTasksTitle, onLogout: _confirmLogOut)
         : null;
     // automaticallyImplyLeading: false (below, kept from Sub-sprint A's
     // back-arrow suppression) also hides the drawer's own auto-hamburger,
@@ -836,7 +846,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           leading: drawerLeading,
           title: currentUser != null
               ? UserTitle(user: currentUser)
-              : const Text('Task'),
+              : Text(l10n.taskTitleFallback),
         ),
         drawer: drawer,
         body: loadError != null
@@ -858,11 +868,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
             leading: drawerLeading,
             title: currentUser != null
                 ? UserTitle(user: currentUser)
-                : const Text("Task"),
+                : Text(l10n.taskTitleFallback),
             actions: _appBarActions(),
           ),
           drawer: drawer,
-          body: const Center(child: Text("No tasks assigned yet.")),
+          body: Center(child: Text(l10n.noTasksAssigned)),
         ),
       );
     }
@@ -922,7 +932,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           leading: drawerLeading,
           title: currentUser != null
               ? UserTitle(user: currentUser)
-              : const Text("Task"),
+              : Text(l10n.taskTitleFallback),
           actions: _appBarActions(),
         ),
         drawer: drawer,
@@ -979,8 +989,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           StatusBadge(
                             kind: StatusKind.overdue,
                             label: task.overdueSince == null
-                                ? 'Overdue'
-                                : 'Overdue since ${formatDate(task.overdueSince!)}',
+                                ? l10n.overdueLabel
+                                : l10n.overdueSinceLabel(
+                                    formatDate(task.overdueSince!),
+                                  ),
                           ),
                         ],
                         if (task.guidanceText != null &&
@@ -1017,15 +1029,15 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                   ? StatusKind.pass
                                   : StatusKind.critical,
                               label: _derivedResultFromNumber == "PASS"
-                                  ? "Within range - PASS"
-                                  : "Outside range - FAIL",
+                                  ? l10n.withinRangePass
+                                  : l10n.outsideRangeFail,
                             ),
                           ),
                         if (task.hasChoice)
                           DropdownButtonFormField<String>(
                             initialValue: selectedChoice,
-                            decoration: const InputDecoration(
-                              labelText: "Select option",
+                            decoration: InputDecoration(
+                              labelText: l10n.selectOptionLabel,
                             ),
                             items: task.choiceOptions!
                                 .map(
@@ -1043,7 +1055,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           TextField(
                             controller: notesController,
                             decoration: InputDecoration(
-                              labelText: "Notes",
+                              labelText: l10n.notesLabel,
                               suffixIcon: VoiceNoteMicButton(
                                 controller: notesController,
                               ),
@@ -1065,15 +1077,11 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           // mechanism existing, without ever revealing
                           // which future days will be checked).
                           if (task.isRandomPhotoCheck)
-                            const Padding(
-                              padding: EdgeInsets.only(top: 12),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12),
                               child: AppBanner(
                                 kind: BannerKind.info,
-                                child: Text(
-                                  "Today's spot-check - a photo is needed "
-                                  'this time to confirm this was actually '
-                                  'done.',
-                                ),
+                                child: Text(l10n.spotCheckPhotoNotice),
                               ),
                             ),
                           Padding(
@@ -1083,7 +1091,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                   ? null
                                   : () => _capturePhoto(),
                               child: Text(
-                                photoTaken ? 'Photo Added' : 'Add Photo',
+                                photoTaken ? l10n.photoAdded : l10n.addPhoto,
                               ),
                             ),
                           ),
@@ -1115,7 +1123,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                       children: [
                         Expanded(
                           child: _ResultOption(
-                            label: 'PASS',
+                            label: l10n.passLabel,
                             icon: Icons.check_circle_outline,
                             color: AppColors.pass,
                             bgColor: AppColors.passBg,
@@ -1126,7 +1134,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                         const SizedBox(width: 12),
                         Expanded(
                           child: _ResultOption(
-                            label: 'FAIL',
+                            label: l10n.failLabel,
                             icon: Icons.cancel_outlined,
                             color: AppColors.critical,
                             bgColor: AppColors.criticalBg,
@@ -1151,9 +1159,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const StatusBadge(
+                        StatusBadge(
                           kind: StatusKind.critical,
-                          label: 'Reading is outside the safe range',
+                          label: l10n.readingOutsideSafeRange,
                         ),
                         if (task.fixInstructions != null) ...[
                           const SizedBox(height: 12),
@@ -1169,7 +1177,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Here's what to do:",
+                                  l10n.hereIsWhatToDo,
                                   style: Theme.of(context).textTheme.titleLarge
                                       ?.copyWith(color: AppColors.critical),
                                 ),
@@ -1195,9 +1203,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const StatusBadge(
+                        StatusBadge(
                           kind: StatusKind.critical,
-                          label: 'Corrective action required',
+                          label: l10n.correctiveActionRequired,
                         ),
                         if (task.fixInstructions != null) ...[
                           const SizedBox(height: 12),
@@ -1213,7 +1221,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Here's what to do:",
+                                  l10n.hereIsWhatToDo,
                                   style: Theme.of(context).textTheme.titleLarge
                                       ?.copyWith(color: AppColors.critical),
                                 ),
@@ -1231,7 +1239,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           children: [
                             Expanded(
                               child: _ResultOption(
-                                label: 'I fixed it',
+                                label: l10n.iFixedIt,
                                 icon: Icons.build_circle_outlined,
                                 color: AppColors.pass,
                                 bgColor: AppColors.passBg,
@@ -1244,7 +1252,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                             const SizedBox(width: 12),
                             Expanded(
                               child: _ResultOption(
-                                label: 'Reported to manager',
+                                label: l10n.reportedToManager,
                                 icon: Icons.campaign_outlined,
                                 color: AppColors.teal,
                                 bgColor: AppColors.tealTint,
@@ -1261,7 +1269,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           TextField(
                             controller: correctiveNoteController,
                             decoration: InputDecoration(
-                              labelText: 'What did you do? (optional)',
+                              labelText: l10n.correctiveActionNoteLabel,
                               suffixIcon: VoiceNoteMicButton(
                                 controller: correctiveNoteController,
                               ),
@@ -1271,7 +1279,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                         if (correctiveActionOutcome == 'reported') ...[
                           const SizedBox(height: 12),
                           Text(
-                            'Your manager will be notified.',
+                            l10n.managerWillBeNotified,
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
@@ -1290,7 +1298,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: PrimaryActionButton(
-                      label: "SUBMIT",
+                      label: l10n.submitButton,
                       icon: Icons.check,
                       onPressed: canSubmit ? validateAndSubmit : null,
                     ),
@@ -1317,6 +1325,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   ) {
     final start = task.windowStartMinutes!;
     final startTime = TimeOfDay(hour: start ~/ 60, minute: start % 60);
+    final l10n = AppLocalizations.of(context)!;
 
     return PopScope(
       canPop: false,
@@ -1326,7 +1335,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           leading: drawerLeading,
           title: currentUser != null
               ? UserTitle(user: currentUser)
-              : const Text("Task"),
+              : Text(l10n.taskTitleFallback),
           actions: _appBarActions(),
         ),
         drawer: drawer,
@@ -1356,8 +1365,10 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                           StatusBadge(
                             kind: StatusKind.overdue,
                             label: task.overdueSince == null
-                                ? 'Overdue'
-                                : 'Overdue since ${formatDate(task.overdueSince!)}',
+                                ? l10n.overdueLabel
+                                : l10n.overdueSinceLabel(
+                                    formatDate(task.overdueSince!),
+                                  ),
                           ),
                         ],
                       ],
@@ -1366,15 +1377,15 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                   const SizedBox(height: 20),
                   AppBanner(
                     kind: BannerKind.caution,
-                    child: Text('Available from ${startTime.format(context)}'),
+                    child: Text(l10n.availableFrom(startTime.format(context))),
                   ),
                   const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
                     child: PrimaryActionButton(
                       label: widget.returnToListAfterSubmit
-                          ? 'Back to list'
-                          : 'Skip - comes back later',
+                          ? l10n.backToList
+                          : l10n.skipComesBackLater,
                       icon: Icons.skip_next,
                       // Complete-from-the-list (2026-09-25): skipLockedTask
                       // calls nextTask(), which would move the shared

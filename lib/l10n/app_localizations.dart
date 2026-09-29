@@ -1,0 +1,782 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart' as intl;
+
+import 'app_localizations_ar.dart';
+import 'app_localizations_de.dart';
+import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
+import 'app_localizations_hi.dart';
+import 'app_localizations_hr.dart';
+import 'app_localizations_pl.dart';
+import 'app_localizations_ro.dart';
+import 'app_localizations_ur.dart';
+import 'app_localizations_zh.dart';
+
+// ignore_for_file: type=lint
+
+/// Callers can lookup localized strings with an instance of AppLocalizations
+/// returned by `AppLocalizations.of(context)`.
+///
+/// Applications need to include `AppLocalizations.delegate()` in their app's
+/// `localizationDelegates` list, and the locales they support in the app's
+/// `supportedLocales` list. For example:
+///
+/// ```dart
+/// import 'l10n/app_localizations.dart';
+///
+/// return MaterialApp(
+///   localizationsDelegates: AppLocalizations.localizationsDelegates,
+///   supportedLocales: AppLocalizations.supportedLocales,
+///   home: MyApplicationHome(),
+/// );
+/// ```
+///
+/// ## Update pubspec.yaml
+///
+/// Please make sure to update your pubspec.yaml to include the following
+/// packages:
+///
+/// ```yaml
+/// dependencies:
+///   # Internationalization support.
+///   flutter_localizations:
+///     sdk: flutter
+///   intl: any # Use the pinned version from flutter_localizations
+///
+///   # Rest of dependencies
+/// ```
+///
+/// ## iOS Applications
+///
+/// iOS applications define key application metadata, including supported
+/// locales, in an Info.plist file that is built into the application bundle.
+/// To configure the locales supported by your app, you’ll need to edit this
+/// file.
+///
+/// First, open your project’s ios/Runner.xcworkspace Xcode workspace file.
+/// Then, in the Project Navigator, open the Info.plist file under the Runner
+/// project’s Runner folder.
+///
+/// Next, select the Information Property List item, select Add Item from the
+/// Editor menu, then select Localizations from the pop-up menu.
+///
+/// Select and expand the newly-created Localizations item then, for each
+/// locale your application supports, add a new item and select the locale
+/// you wish to add from the pop-up menu in the Value field. This list should
+/// be consistent with the languages listed in the AppLocalizations.supportedLocales
+/// property.
+abstract class AppLocalizations {
+  AppLocalizations(String locale)
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+
+  final String localeName;
+
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
+  }
+
+  static const LocalizationsDelegate<AppLocalizations> delegate =
+      _AppLocalizationsDelegate();
+
+  /// A list of this localizations delegate along with the default localizations
+  /// delegates.
+  ///
+  /// Returns a list of localizations delegates containing this delegate along with
+  /// GlobalMaterialLocalizations.delegate, GlobalCupertinoLocalizations.delegate,
+  /// and GlobalWidgetsLocalizations.delegate.
+  ///
+  /// Additional delegates can be added by appending to this list in
+  /// MaterialApp. This list does not have to be used at all if a custom list
+  /// of delegates is preferred or required.
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
+      <LocalizationsDelegate<dynamic>>[
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
+
+  /// A list of this localizations delegate's supported locales.
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
+    Locale('de'),
+    Locale('en'),
+    Locale('es'),
+    Locale('hi'),
+    Locale('hr'),
+    Locale('pl'),
+    Locale('ro'),
+    Locale('ur'),
+    Locale('zh'),
+  ];
+
+  /// No description provided for @appTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'VenuRite'**
+  String get appTitle;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
+
+  /// No description provided for @personalSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal'**
+  String get personalSection;
+
+  /// No description provided for @languageSettingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get languageSettingTitle;
+
+  /// No description provided for @languageSettingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the language VenuRite uses for you.'**
+  String get languageSettingSubtitle;
+
+  /// No description provided for @languageUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Language updated.'**
+  String get languageUpdated;
+
+  /// No description provided for @chooseLanguageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose language'**
+  String get chooseLanguageTitle;
+
+  /// No description provided for @languageDeviceScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Used on this device before staff sign in.'**
+  String get languageDeviceScope;
+
+  /// No description provided for @languageUserScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved for {name}.'**
+  String languageUserScope(String name);
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @login.
+  ///
+  /// In en, this message translates to:
+  /// **'LOGIN'**
+  String get login;
+
+  /// No description provided for @back.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get back;
+
+  /// No description provided for @enterPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter PIN'**
+  String get enterPin;
+
+  /// No description provided for @leadershipAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Leadership Access'**
+  String get leadershipAccess;
+
+  /// No description provided for @notOnThisList.
+  ///
+  /// In en, this message translates to:
+  /// **'Not on this list? Sign in another way'**
+  String get notOnThisList;
+
+  /// No description provided for @errorLoadingStaff.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading staff: {error}'**
+  String errorLoadingStaff(String error);
+
+  /// No description provided for @incorrectPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect PIN'**
+  String get incorrectPin;
+
+  /// No description provided for @tooManyWrongAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many wrong attempts. Try again in {minutes} min.'**
+  String tooManyWrongAttempts(int minutes);
+
+  /// No description provided for @accountNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Account not found'**
+  String get accountNotFound;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get getStarted;
+
+  /// No description provided for @kitchenComplianceDoneRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Kitchen compliance, done right'**
+  String get kitchenComplianceDoneRight;
+
+  /// No description provided for @valuePointEhoReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Always EHO-ready - real-time compliance, not a once-a-year scramble'**
+  String get valuePointEhoReady;
+
+  /// No description provided for @valuePointHonestRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Built so results can\'t be gamed - every check is honest, every record stands up'**
+  String get valuePointHonestRecords;
+
+  /// No description provided for @valuePointAuditExport.
+  ///
+  /// In en, this message translates to:
+  /// **'One-tap audit export - hand an inspector a real record, instantly'**
+  String get valuePointAuditExport;
+
+  /// No description provided for @howGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'How would you like to get started?'**
+  String get howGetStarted;
+
+  /// No description provided for @setUpMyBusiness.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up my business'**
+  String get setUpMyBusiness;
+
+  /// No description provided for @teamAlreadyUses.
+  ///
+  /// In en, this message translates to:
+  /// **'My team already uses VenuRite'**
+  String get teamAlreadyUses;
+
+  /// No description provided for @alreadyHaveAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? Sign in'**
+  String get alreadyHaveAccount;
+
+  /// No description provided for @needHelpContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Need help? Contact VenuRite'**
+  String get needHelpContact;
+
+  /// No description provided for @signInAnotherWay.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in another way'**
+  String get signInAnotherWay;
+
+  /// No description provided for @deviceNotSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'This tablet isn\'t set up yet'**
+  String get deviceNotSetUp;
+
+  /// No description provided for @askManagerSetupCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a manager for this venue\'s setup code.'**
+  String get askManagerSetupCode;
+
+  /// No description provided for @setupCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Setup code'**
+  String get setupCode;
+
+  /// No description provided for @connectTablet.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect this tablet'**
+  String get connectTablet;
+
+  /// No description provided for @couldNotReachServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server'**
+  String get couldNotReachServer;
+
+  /// No description provided for @stillStuckSetupCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Still stuck? A manager can find this in Settings -> Venue Details.'**
+  String get stillStuckSetupCode;
+
+  /// No description provided for @askQuestionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask a question'**
+  String get askQuestionTitle;
+
+  /// No description provided for @askQuestionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What do you want to know?'**
+  String get askQuestionLabel;
+
+  /// No description provided for @askQuestionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. What temperature should a fridge be?'**
+  String get askQuestionHint;
+
+  /// No description provided for @ask.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask'**
+  String get ask;
+
+  /// No description provided for @aiQuestionLimitReached.
+  ///
+  /// In en, this message translates to:
+  /// **'AI question limit reached this month'**
+  String get aiQuestionLimitReached;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logOut;
+
+  /// No description provided for @endShift.
+  ///
+  /// In en, this message translates to:
+  /// **'End shift'**
+  String get endShift;
+
+  /// No description provided for @workerHubPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'What would you like to do?'**
+  String get workerHubPrompt;
+
+  /// No description provided for @myScheduledTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'My scheduled tasks'**
+  String get myScheduledTasks;
+
+  /// No description provided for @doAdHocTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Do an ad-hoc task'**
+  String get doAdHocTask;
+
+  /// No description provided for @logSomethingHappened.
+  ///
+  /// In en, this message translates to:
+  /// **'Log something that just happened'**
+  String get logSomethingHappened;
+
+  /// No description provided for @claimShift.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim a shift'**
+  String get claimShift;
+
+  /// No description provided for @requestDayOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Request a day off'**
+  String get requestDayOff;
+
+  /// No description provided for @thingsIReported.
+  ///
+  /// In en, this message translates to:
+  /// **'Things I\'ve reported'**
+  String get thingsIReported;
+
+  /// No description provided for @shiftWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {firstName}'**
+  String shiftWelcome(String firstName);
+
+  /// No description provided for @shiftPlanIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Here\'s what\'s on for your shift:'**
+  String get shiftPlanIntro;
+
+  /// No description provided for @startOfShift.
+  ///
+  /// In en, this message translates to:
+  /// **'Start of shift'**
+  String get startOfShift;
+
+  /// No description provided for @duringYourShift.
+  ///
+  /// In en, this message translates to:
+  /// **'During your shift'**
+  String get duringYourShift;
+
+  /// No description provided for @endOfShift.
+  ///
+  /// In en, this message translates to:
+  /// **'End of shift'**
+  String get endOfShift;
+
+  /// No description provided for @shiftHandoverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift Handover'**
+  String get shiftHandoverTitle;
+
+  /// No description provided for @shiftHandoverNeedsAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'This still needs the next shift\'s attention'**
+  String get shiftHandoverNeedsAttention;
+
+  /// No description provided for @gotIt.
+  ///
+  /// In en, this message translates to:
+  /// **'Got it'**
+  String get gotIt;
+
+  /// No description provided for @openIssues.
+  ///
+  /// In en, this message translates to:
+  /// **'Open issues'**
+  String get openIssues;
+
+  /// No description provided for @flaggedEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Flagged equipment'**
+  String get flaggedEquipment;
+
+  /// No description provided for @notYetDoneToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet done today'**
+  String get notYetDoneToday;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get takePhoto;
+
+  /// No description provided for @uploadFromFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload from Files'**
+  String get uploadFromFiles;
+
+  /// No description provided for @seeAllTasksTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'See all tasks'**
+  String get seeAllTasksTooltip;
+
+  /// No description provided for @leaveBeforeFinishingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave before finishing?'**
+  String get leaveBeforeFinishingTitle;
+
+  /// No description provided for @leaveBeforeFinishingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Some checks aren\'t complete. This will be recorded. You can return and finish anytime this shift.'**
+  String get leaveBeforeFinishingBody;
+
+  /// No description provided for @enterValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter value'**
+  String get enterValue;
+
+  /// No description provided for @enterValueWithUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter value ({unit})'**
+  String enterValueWithUnit(String unit);
+
+  /// No description provided for @safeRangeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Safe: {min} - {max}'**
+  String safeRangeLabel(String min, String max);
+
+  /// No description provided for @errorNumericRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'A valid numeric value is required'**
+  String get errorNumericRequired;
+
+  /// No description provided for @errorSelectOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an option'**
+  String get errorSelectOption;
+
+  /// No description provided for @errorNotesRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes required'**
+  String get errorNotesRequired;
+
+  /// No description provided for @errorPhotoRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo required'**
+  String get errorPhotoRequired;
+
+  /// No description provided for @errorCorrectiveActionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how the corrective action was handled'**
+  String get errorCorrectiveActionRequired;
+
+  /// No description provided for @myTasksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Tasks'**
+  String get myTasksTitle;
+
+  /// No description provided for @taskTitleFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get taskTitleFallback;
+
+  /// No description provided for @noTasksAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks assigned yet.'**
+  String get noTasksAssigned;
+
+  /// No description provided for @overdueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get overdueLabel;
+
+  /// No description provided for @overdueSinceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue since {date}'**
+  String overdueSinceLabel(String date);
+
+  /// No description provided for @withinRangePass.
+  ///
+  /// In en, this message translates to:
+  /// **'Within range - PASS'**
+  String get withinRangePass;
+
+  /// No description provided for @outsideRangeFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Outside range - FAIL'**
+  String get outsideRangeFail;
+
+  /// No description provided for @selectOptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select option'**
+  String get selectOptionLabel;
+
+  /// No description provided for @notesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notesLabel;
+
+  /// No description provided for @spotCheckPhotoNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s spot-check - a photo is needed this time to confirm this was actually done.'**
+  String get spotCheckPhotoNotice;
+
+  /// No description provided for @photoAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Added'**
+  String get photoAdded;
+
+  /// No description provided for @addPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Photo'**
+  String get addPhoto;
+
+  /// No description provided for @passLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PASS'**
+  String get passLabel;
+
+  /// No description provided for @failLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FAIL'**
+  String get failLabel;
+
+  /// No description provided for @readingOutsideSafeRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading is outside the safe range'**
+  String get readingOutsideSafeRange;
+
+  /// No description provided for @hereIsWhatToDo.
+  ///
+  /// In en, this message translates to:
+  /// **'Here\'s what to do:'**
+  String get hereIsWhatToDo;
+
+  /// No description provided for @correctiveActionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Corrective action required'**
+  String get correctiveActionRequired;
+
+  /// No description provided for @iFixedIt.
+  ///
+  /// In en, this message translates to:
+  /// **'I fixed it'**
+  String get iFixedIt;
+
+  /// No description provided for @reportedToManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Reported to manager'**
+  String get reportedToManager;
+
+  /// No description provided for @correctiveActionNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you do? (optional)'**
+  String get correctiveActionNoteLabel;
+
+  /// No description provided for @managerWillBeNotified.
+  ///
+  /// In en, this message translates to:
+  /// **'Your manager will be notified.'**
+  String get managerWillBeNotified;
+
+  /// No description provided for @submitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'SUBMIT'**
+  String get submitButton;
+
+  /// No description provided for @availableFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Available from {time}'**
+  String availableFrom(String time);
+
+  /// No description provided for @backToList.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to list'**
+  String get backToList;
+
+  /// No description provided for @skipComesBackLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip - comes back later'**
+  String get skipComesBackLater;
+}
+
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
+  const _AppLocalizationsDelegate();
+
+  @override
+  Future<AppLocalizations> load(Locale locale) {
+    return SynchronousFuture<AppLocalizations>(lookupAppLocalizations(locale));
+  }
+
+  @override
+  bool isSupported(Locale locale) => <String>[
+    'ar',
+    'de',
+    'en',
+    'es',
+    'hi',
+    'hr',
+    'pl',
+    'ro',
+    'ur',
+    'zh',
+  ].contains(locale.languageCode);
+
+  @override
+  bool shouldReload(_AppLocalizationsDelegate old) => false;
+}
+
+AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when only language code is specified.
+  switch (locale.languageCode) {
+    case 'ar':
+      return AppLocalizationsAr();
+    case 'de':
+      return AppLocalizationsDe();
+    case 'en':
+      return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
+    case 'hi':
+      return AppLocalizationsHi();
+    case 'hr':
+      return AppLocalizationsHr();
+    case 'pl':
+      return AppLocalizationsPl();
+    case 'ro':
+      return AppLocalizationsRo();
+    case 'ur':
+      return AppLocalizationsUr();
+    case 'zh':
+      return AppLocalizationsZh();
+  }
+
+  throw FlutterError(
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
+}

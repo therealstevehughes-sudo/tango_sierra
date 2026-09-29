@@ -107,6 +107,9 @@ class User {
   // rows predate this feature, and a local-only install has nowhere to
   // send a push anyway. "Last device wins," not a device list.
   final String? fcmToken;
+  // Preferred app display language for this person, e.g. "en", "pl",
+  // "ar". Null means "use the device/site default."
+  final String? preferredLocale;
 
   const User({
     required this.id,
@@ -124,12 +127,16 @@ class User {
     this.regionId,
     this.reportsToUserId,
     this.fcmToken,
+    this.preferredLocale,
   });
 
   // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — needed
   // so a self-serve preference change (temperature unit) can update the
   // already-logged-in currentUserProvider in place, without a re-login.
-  User copyWith({TemperatureUnit? preferredTemperatureUnit}) {
+  User copyWith({
+    TemperatureUnit? preferredTemperatureUnit,
+    String? preferredLocale,
+  }) {
     return User(
       id: id,
       name: name,
@@ -147,6 +154,7 @@ class User {
       regionId: regionId,
       reportsToUserId: reportsToUserId,
       fcmToken: fcmToken,
+      preferredLocale: preferredLocale ?? this.preferredLocale,
     );
   }
 }

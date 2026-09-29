@@ -9,6 +9,7 @@ import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_background.dart';
 import '../../core/widgets/user_title.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
 import '../../shared/providers/site_providers.dart';
@@ -38,6 +39,7 @@ class WorkerHubScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.watch(currentUserProvider);
     final branding = ref
         .watch(brandingConfigProvider)
@@ -59,7 +61,7 @@ class WorkerHubScreen extends ConsumerWidget {
       appBar: AppScreenHeader(
         title: currentUser != null
             ? UserTitle(user: currentUser)
-            : const Text('Home'),
+            : Text(l10n.home),
         actions: [
           // Omnipresent assistant icon (2026-09-25) — replaces the plain
           // "?" every screen is getting the same one addition.
@@ -77,13 +79,11 @@ class WorkerHubScreen extends ConsumerWidget {
             onPressed: currentUser == null
                 ? null
                 : () {
-                    Navigator.of(
-                      context,
-                    ).popUntil((route) => route.isFirst);
+                    Navigator.of(context).popUntil((route) => route.isFirst);
                     ref.read(currentUserProvider.notifier).state = null;
                   },
             icon: const Icon(Icons.logout, size: 18),
-            label: const Text('Log out'),
+            label: Text(l10n.logOut),
           ),
           // "End shift" (2026-09-24, direct user request) — a "here's
           // what's still not done" check, plus records the clock-out on
@@ -94,7 +94,7 @@ class WorkerHubScreen extends ConsumerWidget {
                 ? null
                 : () => endShift(context, ref, currentUser),
             icon: const Icon(Icons.event_available, size: 18),
-            label: const Text('End shift'),
+            label: Text(l10n.endShift),
           ),
         ],
       ),
@@ -133,7 +133,7 @@ class WorkerHubScreen extends ConsumerWidget {
                         // would read as clutter, not polish, on a screen this
                         // frequently used.
                         Text(
-                          'What would you like to do?',
+                          l10n.workerHubPrompt,
                           style: const TextStyle(
                             fontFamily: 'Fraunces',
                             fontWeight: FontWeight.w600,
@@ -144,7 +144,7 @@ class WorkerHubScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 20),
                         PrimaryActionButton(
-                          label: 'My scheduled tasks',
+                          label: l10n.myScheduledTasks,
                           icon: Icons.checklist,
                           // Logout bug fix (2026-09-17): this was pushReplacement,
                           // which destroys WorkerHubScreen's route entirely rather
@@ -187,7 +187,7 @@ class WorkerHubScreen extends ConsumerWidget {
                             ),
                           ),
                           icon: const Icon(Icons.add_task),
-                          label: const Text('Do an ad-hoc task'),
+                          label: Text(l10n.doAdHocTask),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             minimumSize: const Size.fromHeight(48),
@@ -210,7 +210,7 @@ class WorkerHubScreen extends ConsumerWidget {
                                   ),
                                 ),
                           icon: const Icon(Icons.report_problem_outlined),
-                          label: const Text('Log something that just happened'),
+                          label: Text(l10n.logSomethingHappened),
                           style: OutlinedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
                             minimumSize: const Size.fromHeight(48),
@@ -236,7 +236,7 @@ class WorkerHubScreen extends ConsumerWidget {
                                     ),
                                   ),
                             icon: const Icon(Icons.event_available_outlined),
-                            label: const Text('Claim a shift'),
+                            label: Text(l10n.claimShift),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               minimumSize: const Size.fromHeight(48),
@@ -254,11 +254,12 @@ class WorkerHubScreen extends ConsumerWidget {
                                 : () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => const RequestOffDayScreen(),
+                                      builder: (_) =>
+                                          const RequestOffDayScreen(),
                                     ),
                                   ),
                             icon: const Icon(Icons.event_busy_outlined),
-                            label: const Text('Request a day off'),
+                            label: Text(l10n.requestDayOff),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               minimumSize: const Size.fromHeight(48),
@@ -280,7 +281,7 @@ class WorkerHubScreen extends ConsumerWidget {
                                     ),
                                   ),
                                 ),
-                          child: const Text('Things I\'ve reported'),
+                          child: Text(l10n.thingsIReported),
                         ),
                       ],
                     ),

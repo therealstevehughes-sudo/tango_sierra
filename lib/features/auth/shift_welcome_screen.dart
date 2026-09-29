@@ -6,6 +6,7 @@ import '../../core/data/motivational_quote_service.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
@@ -32,8 +33,7 @@ class ShiftWelcomeScreen extends ConsumerStatefulWidget {
   final User user;
 
   @override
-  ConsumerState<ShiftWelcomeScreen> createState() =>
-      _ShiftWelcomeScreenState();
+  ConsumerState<ShiftWelcomeScreen> createState() => _ShiftWelcomeScreenState();
 }
 
 class _ShiftWelcomeScreenState extends ConsumerState<ShiftWelcomeScreen> {
@@ -126,6 +126,9 @@ class _ShiftWelcomeScreenState extends ConsumerState<ShiftWelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final firstName = widget.user.name.split(' ').first;
+
     return Scaffold(
       backgroundColor: AppColors.teal,
       body: SafeArea(
@@ -142,7 +145,7 @@ class _ShiftWelcomeScreenState extends ConsumerState<ShiftWelcomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'Welcome, ${widget.user.name.split(' ').first}',
+                      l10n.shiftWelcome(firstName),
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontFamily: 'Fraunces',
@@ -167,30 +170,27 @@ class _ShiftWelcomeScreenState extends ConsumerState<ShiftWelcomeScreen> {
                         child: Center(child: CircularProgressIndicator()),
                       )
                     else ...[
-                      const Text(
-                        "Here's what's on for your shift:",
-                        textAlign: TextAlign.center,
-                      ),
+                      Text(l10n.shiftPlanIntro, textAlign: TextAlign.center),
                       const SizedBox(height: 12),
                       _ShiftCountRow(
                         icon: Icons.wb_twilight_outlined,
-                        label: 'Start of shift',
+                        label: l10n.startOfShift,
                         count: _startCount,
                       ),
                       _ShiftCountRow(
                         icon: Icons.checklist_outlined,
-                        label: 'During your shift',
+                        label: l10n.duringYourShift,
                         count: _duringCount,
                       ),
                       _ShiftCountRow(
                         icon: Icons.nightlight_outlined,
-                        label: 'End of shift',
+                        label: l10n.endOfShift,
                         count: _endCount,
                       ),
                     ],
                     const SizedBox(height: 24),
                     PrimaryActionButton(
-                      label: 'Get started',
+                      label: l10n.getStarted,
                       onPressed: _continue,
                     ),
                   ],
@@ -224,10 +224,7 @@ class _ShiftCountRow extends StatelessWidget {
           Icon(icon, color: AppColors.teal, size: 20),
           const SizedBox(width: 10),
           Expanded(child: Text(label)),
-          Text(
-            '$count',
-            style: const TextStyle(fontWeight: FontWeight.w700),
-          ),
+          Text('$count', style: const TextStyle(fontWeight: FontWeight.w700)),
         ],
       ),
     );

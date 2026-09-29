@@ -1,0 +1,342 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Hindi (`hi`).
+class AppLocalizationsHi extends AppLocalizations {
+  AppLocalizationsHi([String locale = 'hi']) : super(locale);
+
+  @override
+  String get appTitle => 'VenuRite';
+
+  @override
+  String get settingsTitle => 'सेटिंग्स';
+
+  @override
+  String get personalSection => 'व्यक्तिगत';
+
+  @override
+  String get languageSettingTitle => 'भाषा';
+
+  @override
+  String get languageSettingSubtitle =>
+      'वह भाषा चुनें जिसमें आप VenuRite इस्तेमाल करना चाहते हैं.';
+
+  @override
+  String get languageUpdated => 'भाषा अपडेट हो गई.';
+
+  @override
+  String get chooseLanguageTitle => 'भाषा चुनें';
+
+  @override
+  String get languageDeviceScope =>
+      'स्टाफ के साइन इन करने से पहले इस डिवाइस पर यही भाषा इस्तेमाल होगी.';
+
+  @override
+  String languageUserScope(String name) {
+    return '$name के लिए सेव किया गया.';
+  }
+
+  @override
+  String get cancel => 'रद्द करें';
+
+  @override
+  String get done => 'हो गया';
+
+  @override
+  String get login => 'लॉग इन';
+
+  @override
+  String get back => 'वापस';
+
+  @override
+  String get enterPin => 'PIN दर्ज करें';
+
+  @override
+  String get leadershipAccess => 'प्रबंधन की पहुंच';
+
+  @override
+  String get notOnThisList =>
+      'इस सूची में नहीं हैं? दूसरे तरीके से साइन इन करें';
+
+  @override
+  String errorLoadingStaff(String error) {
+    return 'स्टाफ लोड करते समय त्रुटि: $error';
+  }
+
+  @override
+  String get incorrectPin => 'गलत PIN';
+
+  @override
+  String tooManyWrongAttempts(int minutes) {
+    return 'बहुत अधिक गलत प्रयास. $minutes मिनट बाद फिर कोशिश करें.';
+  }
+
+  @override
+  String get accountNotFound => 'खाता नहीं मिला';
+
+  @override
+  String get getStarted => 'शुरू करें';
+
+  @override
+  String get kitchenComplianceDoneRight => 'किचन अनुपालन, साफ और भरोसेमंद';
+
+  @override
+  String get valuePointEhoReady =>
+      'स्वास्थ्य निरीक्षण के लिए हमेशा तैयार - आखिरी समय की भागदौड़ नहीं, रियल-टाइम रिकॉर्ड';
+
+  @override
+  String get valuePointHonestRecords =>
+      'इस तरह बनाया गया कि परिणामों से छेड़छाड़ न हो सके - हर जांच का भरोसेमंद रिकॉर्ड';
+
+  @override
+  String get valuePointAuditExport =>
+      'एक टैप में ऑडिट एक्सपोर्ट - निरीक्षक को तुरंत असली रिकॉर्ड दें';
+
+  @override
+  String get howGetStarted => 'आप कैसे शुरू करना चाहेंगे?';
+
+  @override
+  String get setUpMyBusiness => 'मेरा स्थान सेट अप करें';
+
+  @override
+  String get teamAlreadyUses => 'मेरी टीम पहले से VenuRite इस्तेमाल करती है';
+
+  @override
+  String get alreadyHaveAccount => 'पहले से खाता है? साइन इन करें';
+
+  @override
+  String get needHelpContact => 'मदद चाहिए? VenuRite से संपर्क करें';
+
+  @override
+  String get signInAnotherWay => 'दूसरे तरीके से साइन इन करें';
+
+  @override
+  String get deviceNotSetUp => 'यह टैबलेट अभी सेट अप नहीं है';
+
+  @override
+  String get askManagerSetupCode =>
+      'इस स्थान के सेटअप कोड के लिए मैनेजर से पूछें.';
+
+  @override
+  String get setupCode => 'सेटअप कोड';
+
+  @override
+  String get connectTablet => 'इस टैबलेट को कनेक्ट करें';
+
+  @override
+  String get couldNotReachServer => 'सर्वर से संपर्क नहीं हो सका';
+
+  @override
+  String get stillStuckSetupCode =>
+      'अभी भी आगे नहीं बढ़ पा रहे? मैनेजर इसे Settings -> Venue Details में ढूंढ सकता है.';
+
+  @override
+  String get askQuestionTitle => 'सवाल पूछें';
+
+  @override
+  String get askQuestionLabel => 'आप क्या जानना चाहते हैं?';
+
+  @override
+  String get askQuestionHint => 'जैसे: फ्रिज का तापमान कितना होना चाहिए?';
+
+  @override
+  String get ask => 'पूछें';
+
+  @override
+  String get aiQuestionLimitReached =>
+      'इस महीने AI सवालों की सीमा पूरी हो गई है';
+
+  @override
+  String get home => 'होम';
+
+  @override
+  String get logOut => 'लॉग आउट';
+
+  @override
+  String get endShift => 'शिफ्ट समाप्त करें';
+
+  @override
+  String get workerHubPrompt => 'आप क्या करना चाहते हैं?';
+
+  @override
+  String get myScheduledTasks => 'मेरे तय किए गए काम';
+
+  @override
+  String get doAdHocTask => 'एक ad-hoc काम करें';
+
+  @override
+  String get logSomethingHappened => 'अभी हुई बात दर्ज करें';
+
+  @override
+  String get claimShift => 'शिफ्ट लें';
+
+  @override
+  String get requestDayOff => 'छुट्टी का दिन मांगें';
+
+  @override
+  String get thingsIReported => 'मेरी रिपोर्ट की गई बातें';
+
+  @override
+  String shiftWelcome(String firstName) {
+    return 'स्वागत है, $firstName';
+  }
+
+  @override
+  String get shiftPlanIntro => 'आपकी शिफ्ट के लिए ये काम हैं:';
+
+  @override
+  String get startOfShift => 'शिफ्ट की शुरुआत';
+
+  @override
+  String get duringYourShift => 'आपकी शिफ्ट के दौरान';
+
+  @override
+  String get endOfShift => 'शिफ्ट का अंत';
+
+  @override
+  String get shiftHandoverTitle => 'शिफ्ट हैंडओवर';
+
+  @override
+  String get shiftHandoverNeedsAttention =>
+      'इस पर अभी भी अगली शिफ्ट का ध्यान चाहिए';
+
+  @override
+  String get gotIt => 'समझ गया';
+
+  @override
+  String get openIssues => 'खुली समस्याएं';
+
+  @override
+  String get flaggedEquipment => 'चिह्नित उपकरण';
+
+  @override
+  String get notYetDoneToday => 'आज अभी तक नहीं हुआ';
+
+  @override
+  String get takePhoto => 'फ़ोटो लें';
+
+  @override
+  String get uploadFromFiles => 'फ़ाइलों से अपलोड करें';
+
+  @override
+  String get seeAllTasksTooltip => 'सभी कार्य देखें';
+
+  @override
+  String get leaveBeforeFinishingTitle => 'पूरा करने से पहले बाहर जाएं?';
+
+  @override
+  String get leaveBeforeFinishingBody =>
+      'कुछ जांचें पूरी नहीं हुई हैं। इसे रिकॉर्ड किया जाएगा। आप इस शिफ्ट में कभी भी लौटकर पूरा कर सकते हैं।';
+
+  @override
+  String get enterValue => 'मान दर्ज करें';
+
+  @override
+  String enterValueWithUnit(String unit) {
+    return 'मान दर्ज करें ($unit)';
+  }
+
+  @override
+  String safeRangeLabel(String min, String max) {
+    return 'सुरक्षित सीमा: $min - $max';
+  }
+
+  @override
+  String get errorNumericRequired => 'एक मान्य संख्यात्मक मान आवश्यक है';
+
+  @override
+  String get errorSelectOption => 'कृपया एक विकल्प चुनें';
+
+  @override
+  String get errorNotesRequired => 'टिप्पणी आवश्यक है';
+
+  @override
+  String get errorPhotoRequired => 'फ़ोटो आवश्यक है';
+
+  @override
+  String get errorCorrectiveActionRequired =>
+      'चुनें कि सुधारात्मक कार्रवाई कैसे की गई';
+
+  @override
+  String get myTasksTitle => 'मेरे कार्य';
+
+  @override
+  String get taskTitleFallback => 'कार्य';
+
+  @override
+  String get noTasksAssigned => 'अभी तक कोई कार्य नहीं सौंपा गया है।';
+
+  @override
+  String get overdueLabel => 'बकाया';
+
+  @override
+  String overdueSinceLabel(String date) {
+    return '$date से बकाया';
+  }
+
+  @override
+  String get withinRangePass => 'सीमा के भीतर - पास';
+
+  @override
+  String get outsideRangeFail => 'सीमा से बाहर - फेल';
+
+  @override
+  String get selectOptionLabel => 'एक विकल्प चुनें';
+
+  @override
+  String get notesLabel => 'टिप्पणियाँ';
+
+  @override
+  String get spotCheckPhotoNotice =>
+      'आज की औचक जांच - यह पुष्टि करने के लिए इस बार फ़ोटो की आवश्यकता है कि यह वास्तव में किया गया था।';
+
+  @override
+  String get photoAdded => 'फ़ोटो जोड़ी गई';
+
+  @override
+  String get addPhoto => 'फ़ोटो जोड़ें';
+
+  @override
+  String get passLabel => 'पास';
+
+  @override
+  String get failLabel => 'फेल';
+
+  @override
+  String get readingOutsideSafeRange => 'रीडिंग सुरक्षित सीमा से बाहर है';
+
+  @override
+  String get hereIsWhatToDo => 'यहाँ बताया गया है कि क्या करना है:';
+
+  @override
+  String get correctiveActionRequired => 'सुधारात्मक कार्रवाई आवश्यक है';
+
+  @override
+  String get iFixedIt => 'मैंने इसे ठीक कर दिया';
+
+  @override
+  String get reportedToManager => 'प्रबंधक को सूचित किया गया';
+
+  @override
+  String get correctiveActionNoteLabel => 'आपने क्या किया? (वैकल्पिक)';
+
+  @override
+  String get managerWillBeNotified => 'आपके प्रबंधक को सूचित किया जाएगा।';
+
+  @override
+  String get submitButton => 'सबमिट करें';
+
+  @override
+  String availableFrom(String time) {
+    return '$time से उपलब्ध';
+  }
+
+  @override
+  String get backToList => 'सूची पर वापस जाएं';
+
+  @override
+  String get skipComesBackLater => 'छोड़ें - बाद में वापस आएगा';
+}

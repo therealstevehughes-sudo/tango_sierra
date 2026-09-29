@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/localization/locale_controller.dart';
+import '../../core/localization/supported_language.dart';
 import '../../core/widgets/app_card.dart';
+import '../../l10n/app_localizations.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/providers/backend_providers.dart';
 import 'help_screen.dart' show showAiOfflineNotice;
@@ -53,8 +56,11 @@ class _AskQuestionScreenState extends ConsumerState<AskQuestionScreen> {
 
     try {
       final client = ref.read(backendRestClientProvider);
+      final language = languageForLocale(ref.read(localeControllerProvider));
       final response = await client.invokeFunction('ai-assistant', {
         'question': question,
+        'response_locale': language.storageCode,
+        'response_language': language.englishName,
       });
 
       if (!mounted) return;
@@ -91,8 +97,10 @@ class _AskQuestionScreenState extends ConsumerState<AskQuestionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppScreenHeader(title: const Text('Ask a question')),
+      appBar: AppScreenHeader(title: Text(l10n.askQuestionTitle)),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 560,
@@ -107,10 +115,10 @@ class _AskQuestionScreenState extends ConsumerState<AskQuestionScreen> {
                 textInputAction: TextInputAction.send,
                 onSubmitted: (_) => _ask(),
                 enabled: _state != _AskState.asking,
-                decoration: const InputDecoration(
-                  labelText: 'What do you want to know?',
-                  hintText: 'e.g. What temperature should a fridge be?',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: l10n.askQuestionLabel,
+                  hintText: l10n.askQuestionHint,
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 12),
@@ -122,18 +130,18 @@ class _AskQuestionScreenState extends ConsumerState<AskQuestionScreen> {
                         height: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text('Ask'),
+                    : Text(l10n.ask),
               ),
               const SizedBox(height: 20),
-              if (_state == _AskState.answered) _AnswerCard(
-                answer: _answer!,
-                citationDocument: _citationDocument,
-                citationUrl: _citationUrl,
-                fromCache: _fromCache,
-              ),
-              if (_state == _AskState.limitReached) _LimitReachedCard(
-                answer: _answer,
-              ),
+              if (_state == _AskState.answered)
+                _AnswerCard(
+                  answer: _answer!,
+                  citationDocument: _citationDocument,
+                  citationUrl: _citationUrl,
+                  fromCache: _fromCache,
+                ),
+              if (_state == _AskState.limitReached)
+                _LimitReachedCard(answer: _answer),
             ],
           ),
         ),
@@ -199,6 +207,8 @@ class _LimitReachedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,7 +219,7 @@ class _LimitReachedCard extends StatelessWidget {
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
-                  'AI question limit reached this month',
+                  l10n.aiQuestionLimitReached,
                   style: Theme.of(
                     context,
                   ).textTheme.titleSmall?.copyWith(color: AppColors.muted),

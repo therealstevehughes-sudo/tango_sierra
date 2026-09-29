@@ -1,0 +1,339 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
+class AppLocalizationsEn extends AppLocalizations {
+  AppLocalizationsEn([String locale = 'en']) : super(locale);
+
+  @override
+  String get appTitle => 'VenuRite';
+
+  @override
+  String get settingsTitle => 'Settings';
+
+  @override
+  String get personalSection => 'Personal';
+
+  @override
+  String get languageSettingTitle => 'Language';
+
+  @override
+  String get languageSettingSubtitle =>
+      'Choose the language VenuRite uses for you.';
+
+  @override
+  String get languageUpdated => 'Language updated.';
+
+  @override
+  String get chooseLanguageTitle => 'Choose language';
+
+  @override
+  String get languageDeviceScope => 'Used on this device before staff sign in.';
+
+  @override
+  String languageUserScope(String name) {
+    return 'Saved for $name.';
+  }
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get login => 'LOGIN';
+
+  @override
+  String get back => 'Back';
+
+  @override
+  String get enterPin => 'Enter PIN';
+
+  @override
+  String get leadershipAccess => 'Leadership Access';
+
+  @override
+  String get notOnThisList => 'Not on this list? Sign in another way';
+
+  @override
+  String errorLoadingStaff(String error) {
+    return 'Error loading staff: $error';
+  }
+
+  @override
+  String get incorrectPin => 'Incorrect PIN';
+
+  @override
+  String tooManyWrongAttempts(int minutes) {
+    return 'Too many wrong attempts. Try again in $minutes min.';
+  }
+
+  @override
+  String get accountNotFound => 'Account not found';
+
+  @override
+  String get getStarted => 'Get started';
+
+  @override
+  String get kitchenComplianceDoneRight => 'Kitchen compliance, done right';
+
+  @override
+  String get valuePointEhoReady =>
+      'Always EHO-ready - real-time compliance, not a once-a-year scramble';
+
+  @override
+  String get valuePointHonestRecords =>
+      'Built so results can\'t be gamed - every check is honest, every record stands up';
+
+  @override
+  String get valuePointAuditExport =>
+      'One-tap audit export - hand an inspector a real record, instantly';
+
+  @override
+  String get howGetStarted => 'How would you like to get started?';
+
+  @override
+  String get setUpMyBusiness => 'Set up my business';
+
+  @override
+  String get teamAlreadyUses => 'My team already uses VenuRite';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account? Sign in';
+
+  @override
+  String get needHelpContact => 'Need help? Contact VenuRite';
+
+  @override
+  String get signInAnotherWay => 'Sign in another way';
+
+  @override
+  String get deviceNotSetUp => 'This tablet isn\'t set up yet';
+
+  @override
+  String get askManagerSetupCode =>
+      'Ask a manager for this venue\'s setup code.';
+
+  @override
+  String get setupCode => 'Setup code';
+
+  @override
+  String get connectTablet => 'Connect this tablet';
+
+  @override
+  String get couldNotReachServer => 'Could not reach the server';
+
+  @override
+  String get stillStuckSetupCode =>
+      'Still stuck? A manager can find this in Settings -> Venue Details.';
+
+  @override
+  String get askQuestionTitle => 'Ask a question';
+
+  @override
+  String get askQuestionLabel => 'What do you want to know?';
+
+  @override
+  String get askQuestionHint => 'e.g. What temperature should a fridge be?';
+
+  @override
+  String get ask => 'Ask';
+
+  @override
+  String get aiQuestionLimitReached => 'AI question limit reached this month';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get logOut => 'Log out';
+
+  @override
+  String get endShift => 'End shift';
+
+  @override
+  String get workerHubPrompt => 'What would you like to do?';
+
+  @override
+  String get myScheduledTasks => 'My scheduled tasks';
+
+  @override
+  String get doAdHocTask => 'Do an ad-hoc task';
+
+  @override
+  String get logSomethingHappened => 'Log something that just happened';
+
+  @override
+  String get claimShift => 'Claim a shift';
+
+  @override
+  String get requestDayOff => 'Request a day off';
+
+  @override
+  String get thingsIReported => 'Things I\'ve reported';
+
+  @override
+  String shiftWelcome(String firstName) {
+    return 'Welcome, $firstName';
+  }
+
+  @override
+  String get shiftPlanIntro => 'Here\'s what\'s on for your shift:';
+
+  @override
+  String get startOfShift => 'Start of shift';
+
+  @override
+  String get duringYourShift => 'During your shift';
+
+  @override
+  String get endOfShift => 'End of shift';
+
+  @override
+  String get shiftHandoverTitle => 'Shift Handover';
+
+  @override
+  String get shiftHandoverNeedsAttention =>
+      'This still needs the next shift\'s attention';
+
+  @override
+  String get gotIt => 'Got it';
+
+  @override
+  String get openIssues => 'Open issues';
+
+  @override
+  String get flaggedEquipment => 'Flagged equipment';
+
+  @override
+  String get notYetDoneToday => 'Not yet done today';
+
+  @override
+  String get takePhoto => 'Take Photo';
+
+  @override
+  String get uploadFromFiles => 'Upload from Files';
+
+  @override
+  String get seeAllTasksTooltip => 'See all tasks';
+
+  @override
+  String get leaveBeforeFinishingTitle => 'Leave before finishing?';
+
+  @override
+  String get leaveBeforeFinishingBody =>
+      'Some checks aren\'t complete. This will be recorded. You can return and finish anytime this shift.';
+
+  @override
+  String get enterValue => 'Enter value';
+
+  @override
+  String enterValueWithUnit(String unit) {
+    return 'Enter value ($unit)';
+  }
+
+  @override
+  String safeRangeLabel(String min, String max) {
+    return 'Safe: $min - $max';
+  }
+
+  @override
+  String get errorNumericRequired => 'A valid numeric value is required';
+
+  @override
+  String get errorSelectOption => 'Please select an option';
+
+  @override
+  String get errorNotesRequired => 'Notes required';
+
+  @override
+  String get errorPhotoRequired => 'Photo required';
+
+  @override
+  String get errorCorrectiveActionRequired =>
+      'Choose how the corrective action was handled';
+
+  @override
+  String get myTasksTitle => 'My Tasks';
+
+  @override
+  String get taskTitleFallback => 'Task';
+
+  @override
+  String get noTasksAssigned => 'No tasks assigned yet.';
+
+  @override
+  String get overdueLabel => 'Overdue';
+
+  @override
+  String overdueSinceLabel(String date) {
+    return 'Overdue since $date';
+  }
+
+  @override
+  String get withinRangePass => 'Within range - PASS';
+
+  @override
+  String get outsideRangeFail => 'Outside range - FAIL';
+
+  @override
+  String get selectOptionLabel => 'Select option';
+
+  @override
+  String get notesLabel => 'Notes';
+
+  @override
+  String get spotCheckPhotoNotice =>
+      'Today\'s spot-check - a photo is needed this time to confirm this was actually done.';
+
+  @override
+  String get photoAdded => 'Photo Added';
+
+  @override
+  String get addPhoto => 'Add Photo';
+
+  @override
+  String get passLabel => 'PASS';
+
+  @override
+  String get failLabel => 'FAIL';
+
+  @override
+  String get readingOutsideSafeRange => 'Reading is outside the safe range';
+
+  @override
+  String get hereIsWhatToDo => 'Here\'s what to do:';
+
+  @override
+  String get correctiveActionRequired => 'Corrective action required';
+
+  @override
+  String get iFixedIt => 'I fixed it';
+
+  @override
+  String get reportedToManager => 'Reported to manager';
+
+  @override
+  String get correctiveActionNoteLabel => 'What did you do? (optional)';
+
+  @override
+  String get managerWillBeNotified => 'Your manager will be notified.';
+
+  @override
+  String get submitButton => 'SUBMIT';
+
+  @override
+  String availableFrom(String time) {
+    return 'Available from $time';
+  }
+
+  @override
+  String get backToList => 'Back to list';
+
+  @override
+  String get skipComesBackLater => 'Skip - comes back later';
+}

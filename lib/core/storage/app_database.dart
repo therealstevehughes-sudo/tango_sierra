@@ -297,6 +297,9 @@ class Users extends Table {
   // a list of devices; this app has no concept of a person having
   // multiple registered devices to push to at once.
   TextColumn get fcmToken => text().nullable()();
+  // Preferred app display language for this person. Null means the app
+  // falls back to the device/site default.
+  TextColumn get preferredLocale => text().nullable()();
 }
 
 @DataClassName('EquipmentTypeEntity')
@@ -1145,7 +1148,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 57;
+  int get schemaVersion => 58;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1184,6 +1187,9 @@ class AppDatabase extends _$AppDatabase {
           taskSubmissions.customFieldValuesJson,
         );
         await m.addColumn(users, users.preferredTemperatureUnit);
+      }
+      if (from < 58) {
+        await m.addColumn(users, users.preferredLocale);
       }
       if (from < 8) {
         await m.addColumn(taskSubmissions, taskSubmissions.completedByUserId);

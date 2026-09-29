@@ -58,7 +58,107 @@ const WARNING_QUESTIONS_PER_BRANCH = 500
 const CEILING_QUESTIONS_PER_BRANCH = 1500
 const FOUNDER_EMAIL = "steve@venurite.com"
 
+const SUPPORTED_RESPONSE_LANGUAGES: Record<string, string> = {
+  en: "English",
+  pl: "Polish",
+  ro: "Romanian",
+  es: "Spanish",
+  hr: "Croatian",
+  de: "German",
+  ar: "Arabic",
+  zh: "Simplified Chinese",
+  hi: "Hindi",
+  ur: "Urdu",
+}
+
+const FALLBACK_ANSWERS: Record<string, { noContext: string; limitReached: string }> = {
+  en: {
+    noContext:
+      "I don't have anything in my compliance library that covers this. Please check with your manager or local Environmental Health Officer.",
+    limitReached:
+      "This venue has reached its AI question limit for this month. Contact VenuRite if you need this raised.",
+  },
+  pl: {
+    noContext:
+      "Nie mam w bibliotece zgodnosci informacji, ktore jasno to wyjasniaja. Sprawdz to z kierownikiem albo wlasciwa lokalna inspekcja sanitarna.",
+    limitReached:
+      "Ten lokal osiagnal miesieczny limit pytan AI. Skontaktuj sie z VenuRite, jesli limit trzeba zwiekszyc.",
+  },
+  ro: {
+    noContext:
+      "Nu am in biblioteca de conformitate informatii care sa raspunda clar la aceasta intrebare. Verifica impreuna cu managerul sau cu autoritatea sanitara locala.",
+    limitReached:
+      "Aceasta locatie a atins limita lunara pentru intrebari AI. Contacteaza VenuRite daca ai nevoie de o limita mai mare.",
+  },
+  es: {
+    noContext:
+      "No tengo informacion en la biblioteca de cumplimiento que responda claramente a esto. Consultalo con un responsable o con la autoridad sanitaria local.",
+    limitReached:
+      "Este local ha alcanzado el limite mensual de preguntas de IA. Contacta con VenuRite si necesitas aumentarlo.",
+  },
+  hr: {
+    noContext:
+      "U biblioteci uskladenosti nemam informacije koje jasno pokrivaju ovo pitanje. Provjerite s voditeljem ili nadleznom sanitarnom inspekcijom.",
+    limitReached:
+      "Ovaj objekt dosegnuo je mjesecno ogranicenje za AI pitanja. Kontaktirajte VenuRite ako trebate povecanje limita.",
+  },
+  de: {
+    noContext:
+      "In meiner Compliance-Bibliothek finde ich dazu keine eindeutige Grundlage. Bitte pruefen Sie das mit einer Fuehrungskraft oder der zustaendigen Lebensmittelueberwachung.",
+    limitReached:
+      "Dieser Standort hat das monatliche Limit fuer KI-Fragen erreicht. Kontaktieren Sie VenuRite, wenn das Limit erhoeht werden soll.",
+  },
+  ar: {
+    noContext:
+      "لا توجد لدي معلومات في مكتبة الامتثال تجيب عن هذا السؤال بوضوح. يرجى التحقق مع المدير أو الجهة الصحية المحلية المختصة.",
+    limitReached:
+      "وصل هذا الموقع إلى الحد الشهري لأسئلة الذكاء الاصطناعي. تواصل مع VenuRite إذا كنت بحاجة إلى زيادة هذا الحد.",
+  },
+  zh: {
+    noContext:
+      "我的合规资料库中没有能明确回答这个问题的内容。请向经理或当地卫生监管机构确认。",
+    limitReached: "此场所本月的 AI 提问次数已达上限。如需提高上限，请联系 VenuRite。",
+  },
+  hi: {
+    noContext:
+      "मेरी अनुपालन लाइब्रेरी में इसका स्पष्ट उत्तर देने वाली जानकारी नहीं है. कृपया अपने मैनेजर या स्थानीय स्वास्थ्य निरीक्षण प्राधिकरण से जांच लें.",
+    limitReached:
+      "इस स्थान ने इस महीने AI सवालों की सीमा पूरी कर ली है. सीमा बढ़वाने की जरूरत हो तो VenuRite से संपर्क करें.",
+  },
+  ur: {
+    noContext:
+      "میری کمپلائنس لائبریری میں اس سوال کا واضح جواب دینے والی معلومات موجود نہیں ہیں. براہ کرم اپنے مینیجر یا مقامی صحت کے معائنے کے ادارے سے تصدیق کریں.",
+    limitReached:
+      "اس مقام نے اس مہینے AI سوالات کی حد پوری کر لی ہے. حد بڑھوانے کی ضرورت ہو تو VenuRite سے رابطہ کریں.",
+  },
+}
+
 const SYSTEM_PROMPT = `You are VenuRite's kitchen-compliance assistant. Answer ONLY using the provided context below. Every factual claim must be traceable to the context. Do not mention or name the source document in your answer text — the source is shown separately in the app's own citation display. If the context does not clearly answer the question, say so explicitly and tell the user to check with their manager or local Environmental Health Officer — never guess or use general knowledge.`
+
+function normalizeResponseLanguage(
+  locale?: string,
+  language?: string,
+): { locale: string; language: string } {
+  const normalizedLocale = (locale ?? "en").replace("-", "_").split("_")[0].toLowerCase()
+  if (SUPPORTED_RESPONSE_LANGUAGES[normalizedLocale]) {
+    return {
+      locale: normalizedLocale,
+      language: SUPPORTED_RESPONSE_LANGUAGES[normalizedLocale],
+    }
+  }
+
+  const normalizedLanguage = (language ?? "").trim()
+  const matched = Object.entries(SUPPORTED_RESPONSE_LANGUAGES).find(
+    ([, value]) => value.toLowerCase() === normalizedLanguage.toLowerCase(),
+  )
+  if (matched) return { locale: matched[0], language: matched[1] }
+
+  return { locale: "en", language: "English" }
+}
+
+function fallback(locale: string, key: "noContext" | "limitReached"): string {
+  return (FALLBACK_ANSWERS[locale] ?? FALLBACK_ANSWERS.en)[key]
+}
 
 const supabaseAdmin = createClient(DB_URL, SERVICE_ROLE_KEY)
 
@@ -110,7 +210,11 @@ async function retrieveChunks(embedding: number[], organisationId: number): Prom
   return [...(guidance.data ?? []), ...(legislation.data ?? [])]
 }
 
-async function callChatModel(question: string, chunks: ChunkResult[]): Promise<string> {
+async function callChatModel(
+  question: string,
+  chunks: ChunkResult[],
+  responseLanguage: string,
+): Promise<string> {
   const contextBlock = chunks
     .map((c, i) => `[${i + 1}] Source: ${c.document_title}\n${c.content}`)
     .join("\n\n")
@@ -128,7 +232,9 @@ async function callChatModel(question: string, chunks: ChunkResult[]): Promise<s
         { role: "system", content: SYSTEM_PROMPT },
         {
           role: "user",
-          content: `Context:\n\n${contextBlock}\n\nQuestion: ${question}`,
+          content:
+            `Respond in ${responseLanguage}. If the user's question is in a different language, still respond in ${responseLanguage} unless the user explicitly asks for another language. Keep numbers, temperatures, legal thresholds, and safety-critical detail exact.\n\n` +
+            `Context:\n\n${contextBlock}\n\nQuestion: ${question}`,
         },
       ],
     }),
@@ -272,7 +378,7 @@ Deno.serve(async (req: Request) => {
   }
   const organisationId = claims.organisation_id
 
-  let body: { question?: string }
+  let body: { question?: string; response_locale?: string; response_language?: string }
   try {
     body = await req.json()
   } catch {
@@ -282,6 +388,7 @@ Deno.serve(async (req: Request) => {
   if (!question) {
     return Response.json({ outcome: "error", error: "question is required" }, { status: 400 })
   }
+  const responseLanguage = normalizeResponseLanguage(body.response_locale, body.response_language)
 
   try {
     const questionEmbedding = await embedText(question)
@@ -290,6 +397,7 @@ Deno.serve(async (req: Request) => {
     const cacheMatch = await supabaseAdmin.rpc("match_ai_answer_cache", {
       query_embedding: questionEmbedding,
       match_threshold: CACHE_SIMILARITY_THRESHOLD,
+      response_locale_filter: responseLanguage.locale,
     })
     if (cacheMatch.error) throw new Error(`cache lookup failed: ${cacheMatch.error.message}`)
 
@@ -297,7 +405,7 @@ Deno.serve(async (req: Request) => {
       const hit = cacheMatch.data[0]
       await supabaseAdmin
         .from("ai_answer_cache")
-        .update({ hit_count: (hit as any).hit_count ?? 1, last_hit_at: new Date().toISOString() })
+        .update({ hit_count: ((hit as any).hit_count ?? 0) + 1, last_hit_at: new Date().toISOString() })
         .eq("id", hit.id)
       await bumpUsage(organisationId, "cache_hit_count")
       return Response.json({
@@ -313,8 +421,7 @@ Deno.serve(async (req: Request) => {
     if (cap.atCeiling) {
       return Response.json({
         outcome: "limit_reached",
-        answer:
-          "This venue has reached its AI question limit for this month. Contact VenuRite if you need this raised.",
+        answer: fallback(responseLanguage.locale, "limitReached"),
       })
     }
 
@@ -323,19 +430,20 @@ Deno.serve(async (req: Request) => {
     if (chunks.length === 0) {
       return Response.json({
         outcome: "answer",
-        answer:
-          "I don't have anything in my compliance library that covers this. Please check with your manager or local Environmental Health Officer.",
+        answer: fallback(responseLanguage.locale, "noContext"),
         citation: null,
       })
     }
 
-    const answer = await callChatModel(question, chunks)
+    const answer = await callChatModel(question, chunks, responseLanguage.language)
     const primaryChunk = chunks[0]
 
     await supabaseAdmin.from("ai_answer_cache").insert({
       question_embedding: questionEmbedding,
       question_text: question,
       answer_text: answer,
+      response_locale: responseLanguage.locale,
+      response_language: responseLanguage.language,
       citation_document: primaryChunk.document_title,
       citation_url: primaryChunk.source_url,
       model_used: CHAT_MODEL,

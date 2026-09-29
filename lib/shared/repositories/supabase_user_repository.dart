@@ -322,6 +322,18 @@ class SupabaseUserRepository implements UserRepository {
     );
   }
 
+  @override
+  Future<void> setPreferredLocale({
+    required int userId,
+    required String? localeCode,
+  }) async {
+    await _client.update(
+      'users',
+      filter: 'id=eq.$userId',
+      body: {'preferred_locale': localeCode},
+    );
+  }
+
   User _toModel(Map<String, dynamic> row) => User(
     id: row['id'] as int,
     name: row['name'] as String,
@@ -344,5 +356,6 @@ class SupabaseUserRepository implements UserRepository {
     regionId: row['region_id'] as int?,
     reportsToUserId: row['reports_to_user_id'] as int?,
     fcmToken: row['fcm_token'] as String?,
+    preferredLocale: row['preferred_locale'] as String?,
   );
 }

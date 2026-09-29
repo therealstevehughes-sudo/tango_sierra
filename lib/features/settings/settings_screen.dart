@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../app/theme/contrast.dart';
 import '../../core/config/build_flags.dart';
+import '../../core/localization/language_picker.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
@@ -22,6 +23,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_submission_providers.dart' show appDatabaseProvider;
 import '../roster/roster_billing_service.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C; Company
 // section added for branding, finalized beta build order item 7). Three
@@ -42,6 +44,7 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.watch(currentUserProvider);
     final canSeeCompanySettings =
         currentUser != null &&
@@ -49,15 +52,15 @@ class SettingsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Settings'),
+        title: Text(l10n.settingsTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Settings'),
+      drawer: ManagementDrawer(title: l10n.settingsTitle),
       body: ResponsiveContent(
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            const SectionHeader(title: 'Personal'),
+            SectionHeader(title: l10n.personalSection),
             AppCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,8 +68,9 @@ class SettingsScreen extends ConsumerWidget {
                   if (currentUser != null)
                     _TemperatureUnitSetting(currentUser: currentUser),
                   const Divider(height: 24),
+                  const _LanguageSetting(),
+                  const Divider(height: 24),
                   const _ComingSoonTile(label: 'Dark Mode'),
-                  const _ComingSoonTile(label: 'Language'),
                 ],
               ),
             ),
@@ -107,6 +111,23 @@ const _presetColors = <String, int>{
   'Umber': 0xFF6B4423,
   'Charcoal': 0xFF2B2B2B,
 };
+
+class _LanguageSetting extends ConsumerWidget {
+  const _LanguageSetting();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: const Icon(Icons.language),
+      title: Text(l10n.languageSettingTitle),
+      subtitle: Text(l10n.languageSettingSubtitle),
+      trailing: const Icon(Icons.chevron_right),
+      onTap: () => showLanguagePicker(context, ref),
+    );
+  }
+}
 
 class _CompanyBrandingSection extends ConsumerStatefulWidget {
   const _CompanyBrandingSection({required this.currentUser});

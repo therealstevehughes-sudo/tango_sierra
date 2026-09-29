@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
+import '../core/localization/locale_controller.dart';
 import '../core/services/push_token_service.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/shift_welcome_screen.dart';
 import '../features/home/tier_home_screen.dart';
 import '../features/onboarding/splash_screen.dart';
 import '../features/tasks/worker_hub_screen.dart';
+import '../l10n/app_localizations.dart';
 import '../shared/models/user.dart';
 import '../shared/providers/auth_providers.dart';
 import '../shared/providers/branding_providers.dart';
@@ -110,6 +112,13 @@ class _MyAppState extends ConsumerState<MyApp> {
             .read(pushTokenServiceProvider)
             .registerForCurrentUser(ref.read(userRepositoryProvider), next.id);
       }
+      if (next != null) {
+        ref
+            .read(localeControllerProvider.notifier)
+            .applyUserLocale(next.preferredLocale);
+      } else if (previous != null) {
+        ref.read(localeControllerProvider.notifier).restoreDeviceLocale();
+      }
     });
     // Branding (Sprint 031, finalized beta build order item 7) — watching
     // this StreamProvider directly means saving a new brand colour
@@ -123,6 +132,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           orElse: () => null,
         );
     final brandAccent = brandAccentArgb == null ? null : Color(brandAccentArgb);
+    final locale = ref.watch(localeControllerProvider);
 
     // Tier home screen (Sprint 031, Build Order item 5, Sub-sprint A):
     // every non-base tier now lands on TierHomeScreen (My Tasks /
@@ -157,6 +167,9 @@ class _MyAppState extends ConsumerState<MyApp> {
       navigatorKey: rootNavigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'VenuRite',
+      locale: locale,
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme: AppTheme.light(brandAccent: brandAccent),
       home: home,
     );

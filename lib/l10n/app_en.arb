@@ -1,0 +1,163 @@
+{
+  "@@locale": "en",
+  "appTitle": "VenuRite",
+  "settingsTitle": "Settings",
+  "personalSection": "Personal",
+  "languageSettingTitle": "Language",
+  "languageSettingSubtitle": "Choose the language VenuRite uses for you.",
+  "languageUpdated": "Language updated.",
+  "chooseLanguageTitle": "Choose language",
+  "languageDeviceScope": "Used on this device before staff sign in.",
+  "languageUserScope": "Saved for {name}.",
+  "@languageUserScope": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Cancel",
+  "done": "Done",
+  "login": "LOGIN",
+  "back": "Back",
+  "enterPin": "Enter PIN",
+  "leadershipAccess": "Leadership Access",
+  "notOnThisList": "Not on this list? Sign in another way",
+  "errorLoadingStaff": "Error loading staff: {error}",
+  "@errorLoadingStaff": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "incorrectPin": "Incorrect PIN",
+  "tooManyWrongAttempts": "Too many wrong attempts. Try again in {minutes} min.",
+  "@tooManyWrongAttempts": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "accountNotFound": "Account not found",
+  "getStarted": "Get started",
+  "kitchenComplianceDoneRight": "Kitchen compliance, done right",
+  "valuePointEhoReady": "Always EHO-ready - real-time compliance, not a once-a-year scramble",
+  "valuePointHonestRecords": "Built so results can't be gamed - every check is honest, every record stands up",
+  "valuePointAuditExport": "One-tap audit export - hand an inspector a real record, instantly",
+  "howGetStarted": "How would you like to get started?",
+  "setUpMyBusiness": "Set up my business",
+  "teamAlreadyUses": "My team already uses VenuRite",
+  "alreadyHaveAccount": "Already have an account? Sign in",
+  "needHelpContact": "Need help? Contact VenuRite",
+  "signInAnotherWay": "Sign in another way",
+  "deviceNotSetUp": "This tablet isn't set up yet",
+  "askManagerSetupCode": "Ask a manager for this venue's setup code.",
+  "setupCode": "Setup code",
+  "connectTablet": "Connect this tablet",
+  "couldNotReachServer": "Could not reach the server",
+  "stillStuckSetupCode": "Still stuck? A manager can find this in Settings -> Venue Details.",
+  "askQuestionTitle": "Ask a question",
+  "askQuestionLabel": "What do you want to know?",
+  "askQuestionHint": "e.g. What temperature should a fridge be?",
+  "ask": "Ask",
+  "aiQuestionLimitReached": "AI question limit reached this month",
+  "home": "Home",
+  "logOut": "Log out",
+  "endShift": "End shift",
+  "workerHubPrompt": "What would you like to do?",
+  "myScheduledTasks": "My scheduled tasks",
+  "doAdHocTask": "Do an ad-hoc task",
+  "logSomethingHappened": "Log something that just happened",
+  "claimShift": "Claim a shift",
+  "requestDayOff": "Request a day off",
+  "thingsIReported": "Things I've reported",
+  "shiftWelcome": "Welcome, {firstName}",
+  "@shiftWelcome": {
+    "placeholders": {
+      "firstName": {
+        "type": "String"
+      }
+    }
+  },
+  "shiftPlanIntro": "Here's what's on for your shift:",
+  "startOfShift": "Start of shift",
+  "duringYourShift": "During your shift",
+  "endOfShift": "End of shift",
+  "shiftHandoverTitle": "Shift Handover",
+  "shiftHandoverNeedsAttention": "This still needs the next shift's attention",
+  "gotIt": "Got it",
+  "openIssues": "Open issues",
+  "flaggedEquipment": "Flagged equipment",
+  "notYetDoneToday": "Not yet done today",
+  "takePhoto": "Take Photo",
+  "uploadFromFiles": "Upload from Files",
+  "seeAllTasksTooltip": "See all tasks",
+  "leaveBeforeFinishingTitle": "Leave before finishing?",
+  "leaveBeforeFinishingBody": "Some checks aren't complete. This will be recorded. You can return and finish anytime this shift.",
+  "enterValue": "Enter value",
+  "enterValueWithUnit": "Enter value ({unit})",
+  "@enterValueWithUnit": {
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "safeRangeLabel": "Safe: {min} - {max}",
+  "@safeRangeLabel": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "errorNumericRequired": "A valid numeric value is required",
+  "errorSelectOption": "Please select an option",
+  "errorNotesRequired": "Notes required",
+  "errorPhotoRequired": "Photo required",
+  "errorCorrectiveActionRequired": "Choose how the corrective action was handled",
+  "myTasksTitle": "My Tasks",
+  "taskTitleFallback": "Task",
+  "noTasksAssigned": "No tasks assigned yet.",
+  "overdueLabel": "Overdue",
+  "overdueSinceLabel": "Overdue since {date}",
+  "@overdueSinceLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "withinRangePass": "Within range - PASS",
+  "outsideRangeFail": "Outside range - FAIL",
+  "selectOptionLabel": "Select option",
+  "notesLabel": "Notes",
+  "spotCheckPhotoNotice": "Today's spot-check - a photo is needed this time to confirm this was actually done.",
+  "photoAdded": "Photo Added",
+  "addPhoto": "Add Photo",
+  "passLabel": "PASS",
+  "failLabel": "FAIL",
+  "readingOutsideSafeRange": "Reading is outside the safe range",
+  "hereIsWhatToDo": "Here's what to do:",
+  "correctiveActionRequired": "Corrective action required",
+  "iFixedIt": "I fixed it",
+  "reportedToManager": "Reported to manager",
+  "correctiveActionNoteLabel": "What did you do? (optional)",
+  "managerWillBeNotified": "Your manager will be notified.",
+  "submitButton": "SUBMIT",
+  "availableFrom": "Available from {time}",
+  "@availableFrom": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "backToList": "Back to list",
+  "skipComesBackLater": "Skip - comes back later"
+}

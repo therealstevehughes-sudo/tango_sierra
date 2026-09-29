@@ -108,6 +108,10 @@ abstract class UserRepository {
     required int userId,
     required TemperatureUnit unit,
   });
+  Future<void> setPreferredLocale({
+    required int userId,
+    required String? localeCode,
+  });
 }
 
 class DriftUserRepository implements UserRepository {
@@ -360,6 +364,16 @@ class DriftUserRepository implements UserRepository {
     );
   }
 
+  @override
+  Future<void> setPreferredLocale({
+    required int userId,
+    required String? localeCode,
+  }) async {
+    await (_db.update(_db.users)..where((u) => u.id.equals(userId))).write(
+      UsersCompanion(preferredLocale: Value(localeCode)),
+    );
+  }
+
   User _toModel(UserEntity row) {
     return User(
       id: row.id,
@@ -379,6 +393,7 @@ class DriftUserRepository implements UserRepository {
       regionId: row.regionId,
       reportsToUserId: row.reportsToUserId,
       fcmToken: row.fcmToken,
+      preferredLocale: row.preferredLocale,
     );
   }
 }
