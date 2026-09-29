@@ -2923,3 +2923,13 @@ Removed the card from `tier_home_screen.dart` entirely (not just hidden) and del
 Verified: `flutter analyze` clean, all 63 tests passing, real `flutter build windows --debug` succeeded, relaunched.
 
 Files: `lib/features/home/tier_home_screen.dart`, `lib/features/onboarding/setup_checklist_card.dart` (deleted).
+
+## Service Providers moved out of Company, into Venue Setup (2026-09-29)
+
+Direct founder report with screenshot: "not sure if I like the way the service provider thing sits as it feels apart from the other menu elements." Real, ironic side effect of the SAME DAY's own "single-item sections skip the header" fix: Service Providers' `venueManager` tier floor is lower than its former section-mates (Organisation/Branches, both executive/regional-only), so a venueManager saw it as the ONLY visible item in "Company" — which then renders as a header-less lone row per that fix, looking randomly placed with no section context, exactly as described.
+
+Fixed by moving it, not by reverting the header fix (which is correct behaviour elsewhere): Service Providers now sits in "Venue Setup," right next to Maintenance Contacts/Supplier Management — a better conceptual fit anyway (same "who to call" flavour), and every item in that section already shares its venueManager+ floor, so it always renders properly grouped regardless of tier.
+
+Verified: `flutter analyze` clean, all 63 tests passing, real `flutter build windows --debug` succeeded, relaunched.
+
+Files: `lib/core/widgets/management_drawer.dart`.

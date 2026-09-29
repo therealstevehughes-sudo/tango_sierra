@@ -227,6 +227,20 @@ final List<_DrawerItemDef> _venueSetupItems = [
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const ThirdPartyContactsScreen(),
   ),
+  // Trusted Service Provider directory, phase 1 (2026-09-29) — moved here
+  // from Company (2026-09-29, direct founder report): its lower tier
+  // floor than Organisation/Branches meant a venueManager only ever saw
+  // it as a lone, header-less item there (see _section()'s single-item
+  // rule), looking randomly placed. Sits naturally next to Maintenance
+  // Contacts/Supplier Management instead — same "who to call" flavour,
+  // and every item in this section already shares its venueManager+
+  // floor, so it always renders properly grouped.
+  _DrawerItemDef(
+    icon: Icons.handshake_outlined,
+    label: 'Service Providers',
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const ServiceProvidersScreen(),
+  ),
   _DrawerItemDef(
     icon: Icons.notifications,
     label: 'Notification Rules',
@@ -277,17 +291,6 @@ final List<_DrawerItemDef> _companyItems = [
     label: 'Branches',
     minTier: RoleTier.regional,
     screenBuilder: (_) => const BranchManagementScreen(),
-  ),
-  // Trusted Service Provider directory, phase 1 (2026-09-29) — venueManager+
-  // (not executive-only like the other two items here): a single-branch
-  // GM wants this just as much as a Director does. Placed under Company
-  // per the agreed design (a company-wide, paid feature), even though its
-  // tier floor is lower than its section-mates.
-  _DrawerItemDef(
-    icon: Icons.handshake_outlined,
-    label: 'Service Providers',
-    minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const ServiceProvidersScreen(),
   ),
 ];
 
