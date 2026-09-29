@@ -371,4 +371,62 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get temperatureCheckLabel => 'فحص درجة الحرارة';
+
+  @override
+  String get sessionSummaryTitle => 'ملخص المناوبة';
+
+  @override
+  String tasksCompletedCount(int count) {
+    return 'المهام المكتملة: $count';
+  }
+
+  @override
+  String get passedLabel => 'ناجح';
+
+  @override
+  String get failedLabel => 'راسب';
+
+  @override
+  String get triggersFailedTasks => 'المحفزات / المهام الراسبة';
+
+  @override
+  String get yourReliability => 'موثوقيتك';
+
+  @override
+  String get reliabilityExplanation =>
+      'آخر 30 يومًا - الفحوصات المكتملة والمسجلة في الوقت المحدد. يُحتسب الفشل المسجل بنفس طريقة النجاح المسجل: هذا يقيس فقط ما إذا كنت قد قمت بالفحص ومتى.';
+
+  @override
+  String completedPercentChip(int percent) {
+    return '$percent٪ مكتمل';
+  }
+
+  @override
+  String onTimePercentChip(int percent) {
+    return '$percent٪ في الوقت المحدد';
+  }
+
+  @override
+  String get sendSummaryToManager => 'أرسل هذا الملخص إلى مدير (اختياري)';
+
+  @override
+  String get noManagersSetUp => 'لم يتم إعداد أي مديرين بعد.';
+
+  @override
+  String get managerLabel => 'المدير';
+
+  @override
+  String get sentLabel => 'تم الإرسال';
+
+  @override
+  String get sendLabel => 'إرسال';
+
+  @override
+  String get leaveNoteForNextShift => 'اترك ملاحظة للمناوبة التالية (اختياري)';
+
+  @override
+  String get handoverNoteLabel => 'ملاحظة التسليم';
+
+  @override
+  String get doneLabel => 'تم';
 }

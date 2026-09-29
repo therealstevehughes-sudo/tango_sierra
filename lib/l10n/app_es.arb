@@ -111,5 +111,22 @@
   "loggedThanksMessage": "Registrado. Gracias por anotarlo.",
   "logAnotherAdHocTask": "Registrar otra tarea puntual",
   "deliveryCheckLabel": "Control de entrega",
-  "temperatureCheckLabel": "Control de temperatura"
+  "temperatureCheckLabel": "Control de temperatura",
+  "sessionSummaryTitle": "Resumen del turno",
+  "tasksCompletedCount": "Tareas completadas: {count}",
+  "passedLabel": "Aptas",
+  "failedLabel": "No aptas",
+  "triggersFailedTasks": "Alertas / Tareas no aptas",
+  "yourReliability": "Tu fiabilidad",
+  "reliabilityExplanation": "Últimos 30 días: comprobaciones realizadas y registradas a tiempo. Un fallo registrado cuenta igual que un resultado apto registrado: esto solo mide si y cuándo comprobaste.",
+  "completedPercentChip": "{percent}% completado",
+  "onTimePercentChip": "{percent}% a tiempo",
+  "sendSummaryToManager": "Enviar este resumen a un responsable (opcional)",
+  "noManagersSetUp": "Aún no hay responsables configurados.",
+  "managerLabel": "Responsable",
+  "sentLabel": "Enviado",
+  "sendLabel": "Enviar",
+  "leaveNoteForNextShift": "Deja una nota para el siguiente turno (opcional)",
+  "handoverNoteLabel": "Nota de traspaso",
+  "doneLabel": "Hecho"
 }

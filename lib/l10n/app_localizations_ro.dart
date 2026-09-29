@@ -375,4 +375,64 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get temperatureCheckLabel => 'Verificare temperatură';
+
+  @override
+  String get sessionSummaryTitle => 'Rezumatul turei';
+
+  @override
+  String tasksCompletedCount(int count) {
+    return 'Sarcini finalizate: $count';
+  }
+
+  @override
+  String get passedLabel => 'Trecut';
+
+  @override
+  String get failedLabel => 'Nereușit';
+
+  @override
+  String get triggersFailedTasks => 'Declanșatoare / Sarcini nereușite';
+
+  @override
+  String get yourReliability => 'Fiabilitatea ta';
+
+  @override
+  String get reliabilityExplanation =>
+      'Ultimele 30 de zile - verificări efectuate și înregistrate la timp. Un eșec înregistrat contează la fel ca un succes înregistrat: aceasta măsoară doar dacă și când ai verificat.';
+
+  @override
+  String completedPercentChip(int percent) {
+    return '$percent% finalizat';
+  }
+
+  @override
+  String onTimePercentChip(int percent) {
+    return '$percent% la timp';
+  }
+
+  @override
+  String get sendSummaryToManager =>
+      'Trimite acest rezumat unui manager (opțional)';
+
+  @override
+  String get noManagersSetUp => 'Niciun manager configurat încă.';
+
+  @override
+  String get managerLabel => 'Manager';
+
+  @override
+  String get sentLabel => 'Trimis';
+
+  @override
+  String get sendLabel => 'Trimite';
+
+  @override
+  String get leaveNoteForNextShift =>
+      'Lasă o notă pentru tura următoare (opțional)';
+
+  @override
+  String get handoverNoteLabel => 'Notă de predare';
+
+  @override
+  String get doneLabel => 'Gata';
 }

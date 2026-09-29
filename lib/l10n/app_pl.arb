@@ -111,5 +111,22 @@
   "loggedThanksMessage": "Zapisano. Dziękujemy za odnotowanie tego.",
   "logAnotherAdHocTask": "Zarejestruj kolejne zadanie doraźne",
   "deliveryCheckLabel": "Kontrola dostawy",
-  "temperatureCheckLabel": "Kontrola temperatury"
+  "temperatureCheckLabel": "Kontrola temperatury",
+  "sessionSummaryTitle": "Podsumowanie zmiany",
+  "tasksCompletedCount": "Ukończone zadania: {count}",
+  "passedLabel": "Zaliczone",
+  "failedLabel": "Niezaliczone",
+  "triggersFailedTasks": "Wyzwalacze / Niezaliczone zadania",
+  "yourReliability": "Twoja rzetelność",
+  "reliabilityExplanation": "Ostatnie 30 dni - kontrole wykonane i zapisane na czas. Zapisana porażka liczy się tak samo jak zapisany sukces: to mierzy tylko, czy i kiedy sprawdzono.",
+  "completedPercentChip": "{percent}% ukończono",
+  "onTimePercentChip": "{percent}% na czas",
+  "sendSummaryToManager": "Wyślij to podsumowanie do kierownika (opcjonalnie)",
+  "noManagersSetUp": "Nie skonfigurowano jeszcze żadnych kierowników.",
+  "managerLabel": "Kierownik",
+  "sentLabel": "Wysłano",
+  "sendLabel": "Wyślij",
+  "leaveNoteForNextShift": "Zostaw notatkę dla następnej zmiany (opcjonalnie)",
+  "handoverNoteLabel": "Notatka przekazania zmiany",
+  "doneLabel": "Gotowe"
 }

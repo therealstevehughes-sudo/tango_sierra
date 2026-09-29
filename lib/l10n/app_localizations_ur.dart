@@ -373,4 +373,62 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get temperatureCheckLabel => 'درجہ حرارت چیک';
+
+  @override
+  String get sessionSummaryTitle => 'شفٹ کا خلاصہ';
+
+  @override
+  String tasksCompletedCount(int count) {
+    return 'مکمل شدہ کام: $count';
+  }
+
+  @override
+  String get passedLabel => 'پاس';
+
+  @override
+  String get failedLabel => 'فیل';
+
+  @override
+  String get triggersFailedTasks => 'ٹرگرز / فیل کام';
+
+  @override
+  String get yourReliability => 'آپ کی وشوسنییتا';
+
+  @override
+  String get reliabilityExplanation =>
+      'پچھلے 30 دن - بروقت مکمل اور درج کی گئی جانچیں۔ درج شدہ فیل کو درج شدہ پاس کی طرح ہی شمار کیا جاتا ہے: یہ صرف یہ ناپتا ہے کہ آپ نے جانچ کی یا نہیں اور کب کی۔';
+
+  @override
+  String completedPercentChip(int percent) {
+    return '$percent% مکمل';
+  }
+
+  @override
+  String onTimePercentChip(int percent) {
+    return '$percent% بروقت';
+  }
+
+  @override
+  String get sendSummaryToManager => 'یہ خلاصہ منیجر کو بھیجیں (اختیاری)';
+
+  @override
+  String get noManagersSetUp => 'ابھی تک کوئی منیجر سیٹ نہیں کیا گیا۔';
+
+  @override
+  String get managerLabel => 'منیجر';
+
+  @override
+  String get sentLabel => 'بھیج دیا گیا';
+
+  @override
+  String get sendLabel => 'بھیجیں';
+
+  @override
+  String get leaveNoteForNextShift => 'اگلی شفٹ کے لیے نوٹ چھوڑیں (اختیاری)';
+
+  @override
+  String get handoverNoteLabel => 'ہینڈ اوور نوٹ';
+
+  @override
+  String get doneLabel => 'مکمل';
 }

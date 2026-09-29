@@ -111,5 +111,22 @@
   "loggedThanksMessage": "Zabilježeno. Hvala što si to zabilježio/la.",
   "logAnotherAdHocTask": "Zabilježi još jedan ad hoc zadatak",
   "deliveryCheckLabel": "Provjera dostave",
-  "temperatureCheckLabel": "Provjera temperature"
+  "temperatureCheckLabel": "Provjera temperature",
+  "sessionSummaryTitle": "Sažetak smjene",
+  "tasksCompletedCount": "Dovršeni zadaci: {count}",
+  "passedLabel": "Prošlo",
+  "failedLabel": "Palo",
+  "triggersFailedTasks": "Okidači / Zadaci koji nisu prošli",
+  "yourReliability": "Tvoja pouzdanost",
+  "reliabilityExplanation": "Zadnjih 30 dana - provjere dovršene i zabilježene na vrijeme. Zabilježeni neuspjeh broji se jednako kao zabilježeni uspjeh: ovo mjeri samo jesi li i kada provjerio/la.",
+  "completedPercentChip": "{percent}% dovršeno",
+  "onTimePercentChip": "{percent}% na vrijeme",
+  "sendSummaryToManager": "Pošalji ovaj sažetak voditelju (neobavezno)",
+  "noManagersSetUp": "Još nema postavljenih voditelja.",
+  "managerLabel": "Voditelj",
+  "sentLabel": "Poslano",
+  "sendLabel": "Pošalji",
+  "leaveNoteForNextShift": "Ostavi bilješku za sljedeću smjenu (neobavezno)",
+  "handoverNoteLabel": "Bilješka predaje",
+  "doneLabel": "Gotovo"
 }

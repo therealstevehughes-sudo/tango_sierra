@@ -370,4 +370,64 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get temperatureCheckLabel => 'Temperature check';
+
+  @override
+  String get sessionSummaryTitle => 'Session Summary';
+
+  @override
+  String tasksCompletedCount(int count) {
+    return 'Tasks completed: $count';
+  }
+
+  @override
+  String get passedLabel => 'Passed';
+
+  @override
+  String get failedLabel => 'Failed';
+
+  @override
+  String get triggersFailedTasks => 'Triggers / Failed tasks';
+
+  @override
+  String get yourReliability => 'Your reliability';
+
+  @override
+  String get reliabilityExplanation =>
+      'Last 30 days - checks completed and logged on time. A logged fail counts the same as a logged pass: this only measures whether you checked and when.';
+
+  @override
+  String completedPercentChip(int percent) {
+    return '$percent% completed';
+  }
+
+  @override
+  String onTimePercentChip(int percent) {
+    return '$percent% on time';
+  }
+
+  @override
+  String get sendSummaryToManager =>
+      'Send this summary to a manager (optional)';
+
+  @override
+  String get noManagersSetUp => 'No managers set up yet.';
+
+  @override
+  String get managerLabel => 'Manager';
+
+  @override
+  String get sentLabel => 'Sent';
+
+  @override
+  String get sendLabel => 'Send';
+
+  @override
+  String get leaveNoteForNextShift =>
+      'Leave a note for the next shift (optional)';
+
+  @override
+  String get handoverNoteLabel => 'Handover note';
+
+  @override
+  String get doneLabel => 'Done';
 }

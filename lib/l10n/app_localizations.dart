@@ -785,6 +785,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Temperature check'**
   String get temperatureCheckLabel;
+
+  /// No description provided for @sessionSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Session Summary'**
+  String get sessionSummaryTitle;
+
+  /// No description provided for @tasksCompletedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks completed: {count}'**
+  String tasksCompletedCount(int count);
+
+  /// No description provided for @passedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed'**
+  String get passedLabel;
+
+  /// No description provided for @failedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get failedLabel;
+
+  /// No description provided for @triggersFailedTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Triggers / Failed tasks'**
+  String get triggersFailedTasks;
+
+  /// No description provided for @yourReliability.
+  ///
+  /// In en, this message translates to:
+  /// **'Your reliability'**
+  String get yourReliability;
+
+  /// No description provided for @reliabilityExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days - checks completed and logged on time. A logged fail counts the same as a logged pass: this only measures whether you checked and when.'**
+  String get reliabilityExplanation;
+
+  /// No description provided for @completedPercentChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% completed'**
+  String completedPercentChip(int percent);
+
+  /// No description provided for @onTimePercentChip.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% on time'**
+  String onTimePercentChip(int percent);
+
+  /// No description provided for @sendSummaryToManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Send this summary to a manager (optional)'**
+  String get sendSummaryToManager;
+
+  /// No description provided for @noManagersSetUp.
+  ///
+  /// In en, this message translates to:
+  /// **'No managers set up yet.'**
+  String get noManagersSetUp;
+
+  /// No description provided for @managerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager'**
+  String get managerLabel;
+
+  /// No description provided for @sentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get sentLabel;
+
+  /// No description provided for @sendLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get sendLabel;
+
+  /// No description provided for @leaveNoteForNextShift.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave a note for the next shift (optional)'**
+  String get leaveNoteForNextShift;
+
+  /// No description provided for @handoverNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Handover note'**
+  String get handoverNoteLabel;
+
+  /// No description provided for @doneLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get doneLabel;
 }
 
 class _AppLocalizationsDelegate

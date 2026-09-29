@@ -13,6 +13,7 @@ import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../dashboard/reliability_service.dart';
+import '../../l10n/app_localizations.dart';
 import 'task_model.dart';
 import '../../core/widgets/app_screen_header.dart';
 
@@ -125,10 +126,11 @@ class _EndOfSessionSummaryScreenState
   @override
   Widget build(BuildContext context) {
     final total = widget.stats.passCount + widget.stats.failCount;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Session Summary'),
+        title: Text(l10n.sessionSummaryTitle),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -149,7 +151,7 @@ class _EndOfSessionSummaryScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Tasks completed: $total',
+                          l10n.tasksCompletedCount(total),
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                         const SizedBox(height: 12),
@@ -167,7 +169,7 @@ class _EndOfSessionSummaryScreenState
                                 icon: Icons.check_circle,
                                 color: AppColors.pass,
                                 count: widget.stats.passCount,
-                                label: 'Passed',
+                                label: l10n.passedLabel,
                               ),
                             ),
                             const SizedBox(width: 12),
@@ -176,14 +178,14 @@ class _EndOfSessionSummaryScreenState
                                 icon: Icons.cancel,
                                 color: AppColors.critical,
                                 count: widget.stats.failCount,
-                                label: 'Failed',
+                                label: l10n.failedLabel,
                               ),
                             ),
                           ],
                         ),
                         if (widget.stats.failedTaskTitles.isNotEmpty) ...[
                           const SizedBox(height: 16),
-                          const SectionHeader(title: 'Triggers / Failed tasks'),
+                          SectionHeader(title: l10n.triggersFailedTasks),
                           ...widget.stats.failedTaskTitles.map(
                             (title) => Padding(
                               padding: const EdgeInsets.only(bottom: 4),
@@ -209,16 +211,14 @@ class _EndOfSessionSummaryScreenState
                       reliability != null &&
                       reliability!.totalPeriods > 0) ...[
                     const SizedBox(height: 24),
-                    const SectionHeader(title: 'Your reliability'),
+                    SectionHeader(title: l10n.yourReliability),
                     const SizedBox(height: 8),
                     AppCard(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Last 30 days - checks completed and logged on time.'
-                            ' A logged fail counts the same as a logged pass:'
-                            ' this only measures whether you checked and when.',
+                            l10n.reliabilityExplanation,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           const SizedBox(height: 12),
@@ -228,13 +228,15 @@ class _EndOfSessionSummaryScreenState
                             children: [
                               MetricChip(
                                 icon: Icons.check_circle_outline,
-                                label:
-                                    '${(reliability!.completionRate! * 100).round()}% completed',
+                                label: l10n.completedPercentChip(
+                                  (reliability!.completionRate! * 100).round(),
+                                ),
                               ),
                               MetricChip(
                                 icon: Icons.schedule,
-                                label:
-                                    '${(reliability!.onTimeRate! * 100).round()}% on time',
+                                label: l10n.onTimePercentChip(
+                                  (reliability!.onTimeRate! * 100).round(),
+                                ),
                               ),
                             ],
                           ),
@@ -243,18 +245,18 @@ class _EndOfSessionSummaryScreenState
                     ),
                   ],
                   const SizedBox(height: 24),
-                  const SectionHeader(
-                    title: 'Send this summary to a manager (optional)',
-                  ),
+                  SectionHeader(title: l10n.sendSummaryToManager),
                   const SizedBox(height: 8),
                   if (loadingManagers)
                     const Center(child: CircularProgressIndicator())
                   else if (managers.isEmpty)
-                    const Text('No managers set up yet.')
+                    Text(l10n.noManagersSetUp)
                   else ...[
                     DropdownButtonFormField<int>(
                       initialValue: selectedManagerId,
-                      decoration: const InputDecoration(labelText: 'Manager'),
+                      decoration: InputDecoration(
+                        labelText: l10n.managerLabel,
+                      ),
                       items: managers
                           .map(
                             (m) => DropdownMenuItem(
@@ -273,7 +275,7 @@ class _EndOfSessionSummaryScreenState
                       controller: summaryNoteController,
                       enabled: !sent,
                       decoration: InputDecoration(
-                        labelText: 'Note (optional)',
+                        labelText: l10n.noteOptionalLabel,
                         suffixIcon: sent
                             ? null
                             : VoiceNoteMicButton(
@@ -286,26 +288,24 @@ class _EndOfSessionSummaryScreenState
                       onPressed: (sent || selectedManagerId == null)
                           ? null
                           : _sendToManager,
-                      child: Text(sent ? 'Sent' : 'Send'),
+                      child: Text(sent ? l10n.sentLabel : l10n.sendLabel),
                     ),
                   ],
                   const SizedBox(height: 24),
-                  const SectionHeader(
-                    title: 'Leave a note for the next shift (optional)',
-                  ),
+                  SectionHeader(title: l10n.leaveNoteForNextShift),
                   const SizedBox(height: 8),
                   TextField(
                     controller: handoverNoteController,
                     maxLines: 3,
                     decoration: InputDecoration(
-                      labelText: 'Handover note',
+                      labelText: l10n.handoverNoteLabel,
                       suffixIcon: VoiceNoteMicButton(
                         controller: handoverNoteController,
                       ),
                     ),
                   ),
                   const SizedBox(height: 24),
-                  PrimaryActionButton(label: 'Done', onPressed: _finish),
+                  PrimaryActionButton(label: l10n.doneLabel, onPressed: _finish),
                 ],
               ),
             ),

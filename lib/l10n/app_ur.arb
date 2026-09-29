@@ -111,5 +111,22 @@
   "loggedThanksMessage": "درج کر لیا گیا۔ اسے ریکارڈ کرنے کا شکریہ۔",
   "logAnotherAdHocTask": "ایک اور فوری کام درج کریں",
   "deliveryCheckLabel": "ڈیلیوری چیک",
-  "temperatureCheckLabel": "درجہ حرارت چیک"
+  "temperatureCheckLabel": "درجہ حرارت چیک",
+  "sessionSummaryTitle": "شفٹ کا خلاصہ",
+  "tasksCompletedCount": "مکمل شدہ کام: {count}",
+  "passedLabel": "پاس",
+  "failedLabel": "فیل",
+  "triggersFailedTasks": "ٹرگرز / فیل کام",
+  "yourReliability": "آپ کی وشوسنییتا",
+  "reliabilityExplanation": "پچھلے 30 دن - بروقت مکمل اور درج کی گئی جانچیں۔ درج شدہ فیل کو درج شدہ پاس کی طرح ہی شمار کیا جاتا ہے: یہ صرف یہ ناپتا ہے کہ آپ نے جانچ کی یا نہیں اور کب کی۔",
+  "completedPercentChip": "{percent}% مکمل",
+  "onTimePercentChip": "{percent}% بروقت",
+  "sendSummaryToManager": "یہ خلاصہ منیجر کو بھیجیں (اختیاری)",
+  "noManagersSetUp": "ابھی تک کوئی منیجر سیٹ نہیں کیا گیا۔",
+  "managerLabel": "منیجر",
+  "sentLabel": "بھیج دیا گیا",
+  "sendLabel": "بھیجیں",
+  "leaveNoteForNextShift": "اگلی شفٹ کے لیے نوٹ چھوڑیں (اختیاری)",
+  "handoverNoteLabel": "ہینڈ اوور نوٹ",
+  "doneLabel": "مکمل"
 }

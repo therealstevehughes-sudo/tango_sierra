@@ -378,4 +378,64 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get temperatureCheckLabel => 'Temperaturprüfung';
+
+  @override
+  String get sessionSummaryTitle => 'Schichtzusammenfassung';
+
+  @override
+  String tasksCompletedCount(int count) {
+    return 'Erledigte Aufgaben: $count';
+  }
+
+  @override
+  String get passedLabel => 'Bestanden';
+
+  @override
+  String get failedLabel => 'Nicht bestanden';
+
+  @override
+  String get triggersFailedTasks => 'Auslöser / Nicht bestandene Aufgaben';
+
+  @override
+  String get yourReliability => 'Deine Zuverlässigkeit';
+
+  @override
+  String get reliabilityExplanation =>
+      'Letzte 30 Tage - Prüfungen, die durchgeführt und rechtzeitig erfasst wurden. Ein erfasstes Nichtbestehen zählt genauso wie ein erfasstes Bestehen: Dies misst nur, ob und wann du geprüft hast.';
+
+  @override
+  String completedPercentChip(int percent) {
+    return '$percent% abgeschlossen';
+  }
+
+  @override
+  String onTimePercentChip(int percent) {
+    return '$percent% pünktlich';
+  }
+
+  @override
+  String get sendSummaryToManager =>
+      'Diese Zusammenfassung an einen Manager senden (optional)';
+
+  @override
+  String get noManagersSetUp => 'Noch keine Manager eingerichtet.';
+
+  @override
+  String get managerLabel => 'Manager';
+
+  @override
+  String get sentLabel => 'Gesendet';
+
+  @override
+  String get sendLabel => 'Senden';
+
+  @override
+  String get leaveNoteForNextShift =>
+      'Eine Notiz für die nächste Schicht hinterlassen (optional)';
+
+  @override
+  String get handoverNoteLabel => 'Übergabenotiz';
+
+  @override
+  String get doneLabel => 'Fertig';
 }

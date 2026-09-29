@@ -374,4 +374,65 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get temperatureCheckLabel => 'Kontrola temperatury';
+
+  @override
+  String get sessionSummaryTitle => 'Podsumowanie zmiany';
+
+  @override
+  String tasksCompletedCount(int count) {
+    return 'Ukończone zadania: $count';
+  }
+
+  @override
+  String get passedLabel => 'Zaliczone';
+
+  @override
+  String get failedLabel => 'Niezaliczone';
+
+  @override
+  String get triggersFailedTasks => 'Wyzwalacze / Niezaliczone zadania';
+
+  @override
+  String get yourReliability => 'Twoja rzetelność';
+
+  @override
+  String get reliabilityExplanation =>
+      'Ostatnie 30 dni - kontrole wykonane i zapisane na czas. Zapisana porażka liczy się tak samo jak zapisany sukces: to mierzy tylko, czy i kiedy sprawdzono.';
+
+  @override
+  String completedPercentChip(int percent) {
+    return '$percent% ukończono';
+  }
+
+  @override
+  String onTimePercentChip(int percent) {
+    return '$percent% na czas';
+  }
+
+  @override
+  String get sendSummaryToManager =>
+      'Wyślij to podsumowanie do kierownika (opcjonalnie)';
+
+  @override
+  String get noManagersSetUp =>
+      'Nie skonfigurowano jeszcze żadnych kierowników.';
+
+  @override
+  String get managerLabel => 'Kierownik';
+
+  @override
+  String get sentLabel => 'Wysłano';
+
+  @override
+  String get sendLabel => 'Wyślij';
+
+  @override
+  String get leaveNoteForNextShift =>
+      'Zostaw notatkę dla następnej zmiany (opcjonalnie)';
+
+  @override
+  String get handoverNoteLabel => 'Notatka przekazania zmiany';
+
+  @override
+  String get doneLabel => 'Gotowe';
 }

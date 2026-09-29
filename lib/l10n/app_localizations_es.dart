@@ -376,4 +376,64 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get temperatureCheckLabel => 'Control de temperatura';
+
+  @override
+  String get sessionSummaryTitle => 'Resumen del turno';
+
+  @override
+  String tasksCompletedCount(int count) {
+    return 'Tareas completadas: $count';
+  }
+
+  @override
+  String get passedLabel => 'Aptas';
+
+  @override
+  String get failedLabel => 'No aptas';
+
+  @override
+  String get triggersFailedTasks => 'Alertas / Tareas no aptas';
+
+  @override
+  String get yourReliability => 'Tu fiabilidad';
+
+  @override
+  String get reliabilityExplanation =>
+      'Últimos 30 días: comprobaciones realizadas y registradas a tiempo. Un fallo registrado cuenta igual que un resultado apto registrado: esto solo mide si y cuándo comprobaste.';
+
+  @override
+  String completedPercentChip(int percent) {
+    return '$percent% completado';
+  }
+
+  @override
+  String onTimePercentChip(int percent) {
+    return '$percent% a tiempo';
+  }
+
+  @override
+  String get sendSummaryToManager =>
+      'Enviar este resumen a un responsable (opcional)';
+
+  @override
+  String get noManagersSetUp => 'Aún no hay responsables configurados.';
+
+  @override
+  String get managerLabel => 'Responsable';
+
+  @override
+  String get sentLabel => 'Enviado';
+
+  @override
+  String get sendLabel => 'Enviar';
+
+  @override
+  String get leaveNoteForNextShift =>
+      'Deja una nota para el siguiente turno (opcional)';
+
+  @override
+  String get handoverNoteLabel => 'Nota de traspaso';
+
+  @override
+  String get doneLabel => 'Hecho';
 }

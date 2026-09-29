@@ -111,5 +111,22 @@
   "loggedThanksMessage": "تم التسجيل. شكرًا لتسجيل ذلك.",
   "logAnotherAdHocTask": "تسجيل مهمة عشوائية أخرى",
   "deliveryCheckLabel": "فحص التوصيل",
-  "temperatureCheckLabel": "فحص درجة الحرارة"
+  "temperatureCheckLabel": "فحص درجة الحرارة",
+  "sessionSummaryTitle": "ملخص المناوبة",
+  "tasksCompletedCount": "المهام المكتملة: {count}",
+  "passedLabel": "ناجح",
+  "failedLabel": "راسب",
+  "triggersFailedTasks": "المحفزات / المهام الراسبة",
+  "yourReliability": "موثوقيتك",
+  "reliabilityExplanation": "آخر 30 يومًا - الفحوصات المكتملة والمسجلة في الوقت المحدد. يُحتسب الفشل المسجل بنفس طريقة النجاح المسجل: هذا يقيس فقط ما إذا كنت قد قمت بالفحص ومتى.",
+  "completedPercentChip": "{percent}٪ مكتمل",
+  "onTimePercentChip": "{percent}٪ في الوقت المحدد",
+  "sendSummaryToManager": "أرسل هذا الملخص إلى مدير (اختياري)",
+  "noManagersSetUp": "لم يتم إعداد أي مديرين بعد.",
+  "managerLabel": "المدير",
+  "sentLabel": "تم الإرسال",
+  "sendLabel": "إرسال",
+  "leaveNoteForNextShift": "اترك ملاحظة للمناوبة التالية (اختياري)",
+  "handoverNoteLabel": "ملاحظة التسليم",
+  "doneLabel": "تم"
 }

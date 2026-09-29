@@ -359,4 +359,62 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get temperatureCheckLabel => '温度检查';
+
+  @override
+  String get sessionSummaryTitle => '班次总结';
+
+  @override
+  String tasksCompletedCount(int count) {
+    return '已完成任务: $count';
+  }
+
+  @override
+  String get passedLabel => '通过';
+
+  @override
+  String get failedLabel => '未通过';
+
+  @override
+  String get triggersFailedTasks => '触发项 / 未通过的任务';
+
+  @override
+  String get yourReliability => '您的可靠性';
+
+  @override
+  String get reliabilityExplanation =>
+      '过去30天 - 按时完成并记录的检查。已记录的未通过与已记录的通过计算方式相同:这仅衡量您是否以及何时进行了检查。';
+
+  @override
+  String completedPercentChip(int percent) {
+    return '$percent% 已完成';
+  }
+
+  @override
+  String onTimePercentChip(int percent) {
+    return '$percent% 按时';
+  }
+
+  @override
+  String get sendSummaryToManager => '将此总结发送给经理(可选)';
+
+  @override
+  String get noManagersSetUp => '尚未设置任何经理。';
+
+  @override
+  String get managerLabel => '经理';
+
+  @override
+  String get sentLabel => '已发送';
+
+  @override
+  String get sendLabel => '发送';
+
+  @override
+  String get leaveNoteForNextShift => '给下一班留言(可选)';
+
+  @override
+  String get handoverNoteLabel => '交接备注';
+
+  @override
+  String get doneLabel => '完成';
 }

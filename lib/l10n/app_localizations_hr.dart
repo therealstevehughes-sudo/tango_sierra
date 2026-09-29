@@ -374,4 +374,64 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get temperatureCheckLabel => 'Provjera temperature';
+
+  @override
+  String get sessionSummaryTitle => 'Sažetak smjene';
+
+  @override
+  String tasksCompletedCount(int count) {
+    return 'Dovršeni zadaci: $count';
+  }
+
+  @override
+  String get passedLabel => 'Prošlo';
+
+  @override
+  String get failedLabel => 'Palo';
+
+  @override
+  String get triggersFailedTasks => 'Okidači / Zadaci koji nisu prošli';
+
+  @override
+  String get yourReliability => 'Tvoja pouzdanost';
+
+  @override
+  String get reliabilityExplanation =>
+      'Zadnjih 30 dana - provjere dovršene i zabilježene na vrijeme. Zabilježeni neuspjeh broji se jednako kao zabilježeni uspjeh: ovo mjeri samo jesi li i kada provjerio/la.';
+
+  @override
+  String completedPercentChip(int percent) {
+    return '$percent% dovršeno';
+  }
+
+  @override
+  String onTimePercentChip(int percent) {
+    return '$percent% na vrijeme';
+  }
+
+  @override
+  String get sendSummaryToManager =>
+      'Pošalji ovaj sažetak voditelju (neobavezno)';
+
+  @override
+  String get noManagersSetUp => 'Još nema postavljenih voditelja.';
+
+  @override
+  String get managerLabel => 'Voditelj';
+
+  @override
+  String get sentLabel => 'Poslano';
+
+  @override
+  String get sendLabel => 'Pošalji';
+
+  @override
+  String get leaveNoteForNextShift =>
+      'Ostavi bilješku za sljedeću smjenu (neobavezno)';
+
+  @override
+  String get handoverNoteLabel => 'Bilješka predaje';
+
+  @override
+  String get doneLabel => 'Gotovo';
 }

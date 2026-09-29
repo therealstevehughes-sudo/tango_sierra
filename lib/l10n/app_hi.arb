@@ -111,5 +111,22 @@
   "loggedThanksMessage": "दर्ज किया गया। इसे रिकॉर्ड करने के लिए धन्यवाद।",
   "logAnotherAdHocTask": "एक और तदर्थ कार्य दर्ज करें",
   "deliveryCheckLabel": "डिलीवरी जांच",
-  "temperatureCheckLabel": "तापमान जांच"
+  "temperatureCheckLabel": "तापमान जांच",
+  "sessionSummaryTitle": "सत्र सारांश",
+  "tasksCompletedCount": "पूर्ण किए गए कार्य: {count}",
+  "passedLabel": "पास",
+  "failedLabel": "फेल",
+  "triggersFailedTasks": "ट्रिगर / फेल कार्य",
+  "yourReliability": "आपकी विश्वसनीयता",
+  "reliabilityExplanation": "पिछले 30 दिन - समय पर पूरी और दर्ज की गई जांचें। दर्ज किया गया फेल दर्ज किए गए पास के समान ही गिना जाता है: यह केवल यह मापता है कि आपने जांच की या नहीं और कब की।",
+  "completedPercentChip": "{percent}% पूर्ण",
+  "onTimePercentChip": "{percent}% समय पर",
+  "sendSummaryToManager": "यह सारांश किसी प्रबंधक को भेजें (वैकल्पिक)",
+  "noManagersSetUp": "अभी तक कोई प्रबंधक सेट नहीं किया गया है।",
+  "managerLabel": "प्रबंधक",
+  "sentLabel": "भेजा गया",
+  "sendLabel": "भेजें",
+  "leaveNoteForNextShift": "अगली शिफ्ट के लिए एक टिप्पणी छोड़ें (वैकल्पिक)",
+  "handoverNoteLabel": "हैंडओवर टिप्पणी",
+  "doneLabel": "पूर्ण"
 }

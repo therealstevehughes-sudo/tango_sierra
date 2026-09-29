@@ -111,5 +111,22 @@
   "loggedThanksMessage": "Înregistrat. Mulțumim că ai notat asta.",
   "logAnotherAdHocTask": "Înregistrează altă sarcină ad-hoc",
   "deliveryCheckLabel": "Verificare livrare",
-  "temperatureCheckLabel": "Verificare temperatură"
+  "temperatureCheckLabel": "Verificare temperatură",
+  "sessionSummaryTitle": "Rezumatul turei",
+  "tasksCompletedCount": "Sarcini finalizate: {count}",
+  "passedLabel": "Trecut",
+  "failedLabel": "Nereușit",
+  "triggersFailedTasks": "Declanșatoare / Sarcini nereușite",
+  "yourReliability": "Fiabilitatea ta",
+  "reliabilityExplanation": "Ultimele 30 de zile - verificări efectuate și înregistrate la timp. Un eșec înregistrat contează la fel ca un succes înregistrat: aceasta măsoară doar dacă și când ai verificat.",
+  "completedPercentChip": "{percent}% finalizat",
+  "onTimePercentChip": "{percent}% la timp",
+  "sendSummaryToManager": "Trimite acest rezumat unui manager (opțional)",
+  "noManagersSetUp": "Niciun manager configurat încă.",
+  "managerLabel": "Manager",
+  "sentLabel": "Trimis",
+  "sendLabel": "Trimite",
+  "leaveNoteForNextShift": "Lasă o notă pentru tura următoare (opțional)",
+  "handoverNoteLabel": "Notă de predare",
+  "doneLabel": "Gata"
 }

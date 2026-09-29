@@ -374,4 +374,64 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get temperatureCheckLabel => 'तापमान जांच';
+
+  @override
+  String get sessionSummaryTitle => 'सत्र सारांश';
+
+  @override
+  String tasksCompletedCount(int count) {
+    return 'पूर्ण किए गए कार्य: $count';
+  }
+
+  @override
+  String get passedLabel => 'पास';
+
+  @override
+  String get failedLabel => 'फेल';
+
+  @override
+  String get triggersFailedTasks => 'ट्रिगर / फेल कार्य';
+
+  @override
+  String get yourReliability => 'आपकी विश्वसनीयता';
+
+  @override
+  String get reliabilityExplanation =>
+      'पिछले 30 दिन - समय पर पूरी और दर्ज की गई जांचें। दर्ज किया गया फेल दर्ज किए गए पास के समान ही गिना जाता है: यह केवल यह मापता है कि आपने जांच की या नहीं और कब की।';
+
+  @override
+  String completedPercentChip(int percent) {
+    return '$percent% पूर्ण';
+  }
+
+  @override
+  String onTimePercentChip(int percent) {
+    return '$percent% समय पर';
+  }
+
+  @override
+  String get sendSummaryToManager =>
+      'यह सारांश किसी प्रबंधक को भेजें (वैकल्पिक)';
+
+  @override
+  String get noManagersSetUp => 'अभी तक कोई प्रबंधक सेट नहीं किया गया है।';
+
+  @override
+  String get managerLabel => 'प्रबंधक';
+
+  @override
+  String get sentLabel => 'भेजा गया';
+
+  @override
+  String get sendLabel => 'भेजें';
+
+  @override
+  String get leaveNoteForNextShift =>
+      'अगली शिफ्ट के लिए एक टिप्पणी छोड़ें (वैकल्पिक)';
+
+  @override
+  String get handoverNoteLabel => 'हैंडओवर टिप्पणी';
+
+  @override
+  String get doneLabel => 'पूर्ण';
 }

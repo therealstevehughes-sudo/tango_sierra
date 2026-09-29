@@ -111,5 +111,22 @@
   "loggedThanksMessage": "已记录,感谢您的记录。",
   "logAnotherAdHocTask": "记录另一个临时任务",
   "deliveryCheckLabel": "送货检查",
-  "temperatureCheckLabel": "温度检查"
+  "temperatureCheckLabel": "温度检查",
+  "sessionSummaryTitle": "班次总结",
+  "tasksCompletedCount": "已完成任务: {count}",
+  "passedLabel": "通过",
+  "failedLabel": "未通过",
+  "triggersFailedTasks": "触发项 / 未通过的任务",
+  "yourReliability": "您的可靠性",
+  "reliabilityExplanation": "过去30天 - 按时完成并记录的检查。已记录的未通过与已记录的通过计算方式相同:这仅衡量您是否以及何时进行了检查。",
+  "completedPercentChip": "{percent}% 已完成",
+  "onTimePercentChip": "{percent}% 按时",
+  "sendSummaryToManager": "将此总结发送给经理(可选)",
+  "noManagersSetUp": "尚未设置任何经理。",
+  "managerLabel": "经理",
+  "sentLabel": "已发送",
+  "sendLabel": "发送",
+  "leaveNoteForNextShift": "给下一班留言(可选)",
+  "handoverNoteLabel": "交接备注",
+  "doneLabel": "完成"
 }

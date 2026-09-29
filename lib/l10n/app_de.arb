@@ -111,5 +111,22 @@
   "loggedThanksMessage": "Erfasst. Danke, dass du das festgehalten hast.",
   "logAnotherAdHocTask": "Weitere Ad-hoc-Aufgabe erfassen",
   "deliveryCheckLabel": "Lieferprüfung",
-  "temperatureCheckLabel": "Temperaturprüfung"
+  "temperatureCheckLabel": "Temperaturprüfung",
+  "sessionSummaryTitle": "Schichtzusammenfassung",
+  "tasksCompletedCount": "Erledigte Aufgaben: {count}",
+  "passedLabel": "Bestanden",
+  "failedLabel": "Nicht bestanden",
+  "triggersFailedTasks": "Auslöser / Nicht bestandene Aufgaben",
+  "yourReliability": "Deine Zuverlässigkeit",
+  "reliabilityExplanation": "Letzte 30 Tage - Prüfungen, die durchgeführt und rechtzeitig erfasst wurden. Ein erfasstes Nichtbestehen zählt genauso wie ein erfasstes Bestehen: Dies misst nur, ob und wann du geprüft hast.",
+  "completedPercentChip": "{percent}% abgeschlossen",
+  "onTimePercentChip": "{percent}% pünktlich",
+  "sendSummaryToManager": "Diese Zusammenfassung an einen Manager senden (optional)",
+  "noManagersSetUp": "Noch keine Manager eingerichtet.",
+  "managerLabel": "Manager",
+  "sentLabel": "Gesendet",
+  "sendLabel": "Senden",
+  "leaveNoteForNextShift": "Eine Notiz für die nächste Schicht hinterlassen (optional)",
+  "handoverNoteLabel": "Übergabenotiz",
+  "doneLabel": "Fertig"
 }

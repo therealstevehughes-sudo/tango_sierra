@@ -170,5 +170,43 @@
   "loggedThanksMessage": "Logged. Thanks for recording this.",
   "logAnotherAdHocTask": "Log another ad-hoc task",
   "deliveryCheckLabel": "Delivery check",
-  "temperatureCheckLabel": "Temperature check"
+  "temperatureCheckLabel": "Temperature check",
+  "sessionSummaryTitle": "Session Summary",
+  "tasksCompletedCount": "Tasks completed: {count}",
+  "@tasksCompletedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "passedLabel": "Passed",
+  "failedLabel": "Failed",
+  "triggersFailedTasks": "Triggers / Failed tasks",
+  "yourReliability": "Your reliability",
+  "reliabilityExplanation": "Last 30 days - checks completed and logged on time. A logged fail counts the same as a logged pass: this only measures whether you checked and when.",
+  "completedPercentChip": "{percent}% completed",
+  "@completedPercentChip": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "onTimePercentChip": "{percent}% on time",
+  "@onTimePercentChip": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "sendSummaryToManager": "Send this summary to a manager (optional)",
+  "noManagersSetUp": "No managers set up yet.",
+  "managerLabel": "Manager",
+  "sentLabel": "Sent",
+  "sendLabel": "Send",
+  "leaveNoteForNextShift": "Leave a note for the next shift (optional)",
+  "handoverNoteLabel": "Handover note",
+  "doneLabel": "Done"
 }
