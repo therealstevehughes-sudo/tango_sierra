@@ -1139,5 +1139,15 @@
   "twoFactorOffText": "此账户的双重身份验证已关闭 - 为该高级账户添加额外的保护层。",
   "enableTwoFactorButton": "启用双重身份验证",
   "scanAuthenticatorText": "使用你的身份验证器应用(Google Authenticator、Authy 等)扫描此图,然后输入其显示的 6 位数代码。",
-  "cantScanManualEntryText": "无法扫描?手动输入此代码:"
+  "cantScanManualEntryText": "无法扫描?手动输入此代码:",
+  "requiredFieldError": "必填",
+  "joinExistingCompanyTitle": "加入现有公司",
+  "enterInviteCodeText": "请输入你的经理提供给你的邀请码。",
+  "inviteCodeLabel": "邀请码",
+  "yourNameLabel": "你的姓名",
+  "yourEmailLabel": "你的邮箱",
+  "enterValidEmailError": "请输入有效的邮箱",
+  "choosePasswordLabel": "选择密码",
+  "joinButton": "加入",
+  "youreInSignInText": "你已加入。请使用你的邮箱和刚刚选择的密码登录。"
 }

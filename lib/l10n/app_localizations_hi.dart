@@ -3963,4 +3963,36 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get cantScanManualEntryText =>
       'स्कैन नहीं कर सकते? इस कोड को मैन्युअल रूप से दर्ज करें:';
+
+  @override
+  String get requiredFieldError => 'आवश्यक';
+
+  @override
+  String get joinExistingCompanyTitle => 'मौजूदा कंपनी से जुड़ें';
+
+  @override
+  String get enterInviteCodeText =>
+      'तुम्हारे मैनेजर द्वारा दिया गया आमंत्रण कोड दर्ज करो।';
+
+  @override
+  String get inviteCodeLabel => 'आमंत्रण कोड';
+
+  @override
+  String get yourNameLabel => 'तुम्हारा नाम';
+
+  @override
+  String get yourEmailLabel => 'तुम्हारा ईमेल';
+
+  @override
+  String get enterValidEmailError => 'एक मान्य ईमेल दर्ज करो';
+
+  @override
+  String get choosePasswordLabel => 'पासवर्ड चुनो';
+
+  @override
+  String get joinButton => 'जुड़ें';
+
+  @override
+  String get youreInSignInText =>
+      'तुम अंदर हो। अपने ईमेल और अभी चुने गए पासवर्ड से लॉग इन करो।';
 }

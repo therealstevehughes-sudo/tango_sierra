@@ -1139,5 +1139,15 @@
   "twoFactorOffText": "Uwierzytelnianie dwuskładnikowe jest WYŁĄCZONE - dodaj je jako dodatkową warstwę ochrony tego konta kierowniczego.",
   "enableTwoFactorButton": "Włącz uwierzytelnianie dwuskładnikowe",
   "scanAuthenticatorText": "Zeskanuj to aplikacją uwierzytelniającą (Google Authenticator, Authy itp.), a następnie wprowadź wyświetlony 6-cyfrowy kod.",
-  "cantScanManualEntryText": "Nie możesz zeskanować? Wprowadź ten kod ręcznie:"
+  "cantScanManualEntryText": "Nie możesz zeskanować? Wprowadź ten kod ręcznie:",
+  "requiredFieldError": "Wymagane",
+  "joinExistingCompanyTitle": "Dołącz do istniejącej firmy",
+  "enterInviteCodeText": "Wprowadź kod zaproszenia, który dał ci menedżer.",
+  "inviteCodeLabel": "Kod zaproszenia",
+  "yourNameLabel": "Twoje imię",
+  "yourEmailLabel": "Twój e-mail",
+  "enterValidEmailError": "Wprowadź prawidłowy e-mail",
+  "choosePasswordLabel": "Wybierz hasło",
+  "joinButton": "Dołącz",
+  "youreInSignInText": "Gotowe. Zaloguj się swoim e-mailem i hasłem, które właśnie wybrałeś."
 }

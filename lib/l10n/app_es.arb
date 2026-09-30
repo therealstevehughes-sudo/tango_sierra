@@ -1139,5 +1139,15 @@
   "twoFactorOffText": "La autenticación de dos factores está DESACTIVADA - actívala para una capa extra de protección en esta cuenta directiva.",
   "enableTwoFactorButton": "Activar autenticación de dos factores",
   "scanAuthenticatorText": "Escanea esto con tu app de autenticación (Google Authenticator, Authy, etc.), luego introduce el código de 6 dígitos que muestra.",
-  "cantScanManualEntryText": "¿No puedes escanear? Introduce este código manualmente:"
+  "cantScanManualEntryText": "¿No puedes escanear? Introduce este código manualmente:",
+  "requiredFieldError": "Obligatorio",
+  "joinExistingCompanyTitle": "Unirse a una empresa existente",
+  "enterInviteCodeText": "Introduce el código de invitación que te dio tu gerente.",
+  "inviteCodeLabel": "Código de invitación",
+  "yourNameLabel": "Tu nombre",
+  "yourEmailLabel": "Tu correo",
+  "enterValidEmailError": "Introduce un correo válido",
+  "choosePasswordLabel": "Elige una contraseña",
+  "joinButton": "Unirse",
+  "youreInSignInText": "Ya estás dentro. Inicia sesión con tu correo y la contraseña que acabas de elegir."
 }

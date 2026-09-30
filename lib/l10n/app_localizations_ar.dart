@@ -3937,4 +3937,35 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get cantScanManualEntryText =>
       'لا يمكنك المسح؟ أدخل هذا الرمز يدويًا:';
+
+  @override
+  String get requiredFieldError => 'مطلوب';
+
+  @override
+  String get joinExistingCompanyTitle => 'الانضمام إلى شركة قائمة';
+
+  @override
+  String get enterInviteCodeText => 'أدخل رمز الدعوة الذي أعطاك إياه مديرك.';
+
+  @override
+  String get inviteCodeLabel => 'رمز الدعوة';
+
+  @override
+  String get yourNameLabel => 'اسمك';
+
+  @override
+  String get yourEmailLabel => 'بريدك الإلكتروني';
+
+  @override
+  String get enterValidEmailError => 'أدخل بريدًا إلكترونيًا صالحًا';
+
+  @override
+  String get choosePasswordLabel => 'اختر كلمة مرور';
+
+  @override
+  String get joinButton => 'انضمام';
+
+  @override
+  String get youreInSignInText =>
+      'لقد انضممت. سجّل الدخول ببريدك الإلكتروني وكلمة المرور التي اخترتها للتو.';
 }

@@ -3836,4 +3836,34 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get cantScanManualEntryText => '无法扫描?手动输入此代码:';
+
+  @override
+  String get requiredFieldError => '必填';
+
+  @override
+  String get joinExistingCompanyTitle => '加入现有公司';
+
+  @override
+  String get enterInviteCodeText => '请输入你的经理提供给你的邀请码。';
+
+  @override
+  String get inviteCodeLabel => '邀请码';
+
+  @override
+  String get yourNameLabel => '你的姓名';
+
+  @override
+  String get yourEmailLabel => '你的邮箱';
+
+  @override
+  String get enterValidEmailError => '请输入有效的邮箱';
+
+  @override
+  String get choosePasswordLabel => '选择密码';
+
+  @override
+  String get joinButton => '加入';
+
+  @override
+  String get youreInSignInText => '你已加入。请使用你的邮箱和刚刚选择的密码登录。';
 }

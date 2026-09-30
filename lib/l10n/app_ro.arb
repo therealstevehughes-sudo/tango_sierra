@@ -1139,5 +1139,15 @@
   "twoFactorOffText": "Autentificarea în doi pași este DEZACTIVATĂ - adaug-o pentru un nivel suplimentar de protecție pe acest cont de conducere.",
   "enableTwoFactorButton": "Activează autentificarea în doi pași",
   "scanAuthenticatorText": "Scanează asta cu aplicația ta de autentificare (Google Authenticator, Authy etc.), apoi introdu codul din 6 cifre pe care îl afișează.",
-  "cantScanManualEntryText": "Nu poți scana? Introdu acest cod manual:"
+  "cantScanManualEntryText": "Nu poți scana? Introdu acest cod manual:",
+  "requiredFieldError": "Obligatoriu",
+  "joinExistingCompanyTitle": "Alătură-te unei companii existente",
+  "enterInviteCodeText": "Introdu codul de invitație primit de la managerul tău.",
+  "inviteCodeLabel": "Cod de invitație",
+  "yourNameLabel": "Numele tău",
+  "yourEmailLabel": "Emailul tău",
+  "enterValidEmailError": "Introdu un email valid",
+  "choosePasswordLabel": "Alege o parolă",
+  "joinButton": "Alătură-te",
+  "youreInSignInText": "Ai intrat. Autentifică-te cu emailul tău și parola pe care tocmai ai ales-o."
 }

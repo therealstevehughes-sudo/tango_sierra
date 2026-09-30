@@ -4047,4 +4047,36 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get cantScanManualEntryText =>
       'Can\'t scan? Enter this code manually:';
+
+  @override
+  String get requiredFieldError => 'Required';
+
+  @override
+  String get joinExistingCompanyTitle => 'Join existing company';
+
+  @override
+  String get enterInviteCodeText =>
+      'Enter the invite code your manager gave you.';
+
+  @override
+  String get inviteCodeLabel => 'Invite code';
+
+  @override
+  String get yourNameLabel => 'Your name';
+
+  @override
+  String get yourEmailLabel => 'Your email';
+
+  @override
+  String get enterValidEmailError => 'Enter a valid email';
+
+  @override
+  String get choosePasswordLabel => 'Choose a password';
+
+  @override
+  String get joinButton => 'Join';
+
+  @override
+  String get youreInSignInText =>
+      'You\'re in. Sign in with your email and the password you just chose.';
 }

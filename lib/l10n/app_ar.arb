@@ -1139,5 +1139,15 @@
   "twoFactorOffText": "المصادقة الثنائية مُعطّلة - أضفها لطبقة حماية إضافية لهذا الحساب القيادي.",
   "enableTwoFactorButton": "تفعيل المصادقة الثنائية",
   "scanAuthenticatorText": "امسح هذا باستخدام تطبيق المصادقة الخاص بك (Google Authenticator أو Authy وغيرها)، ثم أدخل الرمز المكون من 6 أرقام الذي يعرضه.",
-  "cantScanManualEntryText": "لا يمكنك المسح؟ أدخل هذا الرمز يدويًا:"
+  "cantScanManualEntryText": "لا يمكنك المسح؟ أدخل هذا الرمز يدويًا:",
+  "requiredFieldError": "مطلوب",
+  "joinExistingCompanyTitle": "الانضمام إلى شركة قائمة",
+  "enterInviteCodeText": "أدخل رمز الدعوة الذي أعطاك إياه مديرك.",
+  "inviteCodeLabel": "رمز الدعوة",
+  "yourNameLabel": "اسمك",
+  "yourEmailLabel": "بريدك الإلكتروني",
+  "enterValidEmailError": "أدخل بريدًا إلكترونيًا صالحًا",
+  "choosePasswordLabel": "اختر كلمة مرور",
+  "joinButton": "انضمام",
+  "youreInSignInText": "لقد انضممت. سجّل الدخول ببريدك الإلكتروني وكلمة المرور التي اخترتها للتو."
 }

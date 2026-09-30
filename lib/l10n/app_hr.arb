@@ -1139,5 +1139,15 @@
   "twoFactorOffText": "Dvofaktorska autentifikacija je ISKLJUČENA - dodaj je za dodatni sloj zaštite ovog rukovodećeg računa.",
   "enableTwoFactorButton": "Omogući dvofaktorsku autentifikaciju",
   "scanAuthenticatorText": "Skeniraj ovo svojom aplikacijom za autentifikaciju (Google Authenticator, Authy itd.), a zatim unesi prikazani 6-znamenkasti kod.",
-  "cantScanManualEntryText": "Ne možeš skenirati? Unesi ovaj kod ručno:"
+  "cantScanManualEntryText": "Ne možeš skenirati? Unesi ovaj kod ručno:",
+  "requiredFieldError": "Obavezno",
+  "joinExistingCompanyTitle": "Pridruži se postojećoj tvrtki",
+  "enterInviteCodeText": "Unesi pozivni kod koji ti je dao voditelj.",
+  "inviteCodeLabel": "Pozivni kod",
+  "yourNameLabel": "Tvoje ime",
+  "yourEmailLabel": "Tvoja e-pošta",
+  "enterValidEmailError": "Unesi valjanu e-poštu",
+  "choosePasswordLabel": "Odaberi lozinku",
+  "joinButton": "Pridruži se",
+  "youreInSignInText": "Unutra si. Prijavi se svojom e-poštom i lozinkom koju si upravo odabrao/la."
 }

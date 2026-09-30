@@ -3913,5 +3913,45 @@
   },
   "@sixDigitCodeLabel": {
     "description": ""
+  },
+  "requiredFieldError": "Required",
+  "@requiredFieldError": {
+    "description": ""
+  },
+  "joinExistingCompanyTitle": "Join existing company",
+  "@joinExistingCompanyTitle": {
+    "description": ""
+  },
+  "enterInviteCodeText": "Enter the invite code your manager gave you.",
+  "@enterInviteCodeText": {
+    "description": ""
+  },
+  "inviteCodeLabel": "Invite code",
+  "@inviteCodeLabel": {
+    "description": ""
+  },
+  "yourNameLabel": "Your name",
+  "@yourNameLabel": {
+    "description": ""
+  },
+  "yourEmailLabel": "Your email",
+  "@yourEmailLabel": {
+    "description": ""
+  },
+  "enterValidEmailError": "Enter a valid email",
+  "@enterValidEmailError": {
+    "description": ""
+  },
+  "choosePasswordLabel": "Choose a password",
+  "@choosePasswordLabel": {
+    "description": ""
+  },
+  "joinButton": "Join",
+  "@joinButton": {
+    "description": ""
+  },
+  "youreInSignInText": "You're in. Sign in with your email and the password you just chose.",
+  "@youreInSignInText": {
+    "description": ""
   }
 }

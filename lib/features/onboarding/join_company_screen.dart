@@ -10,6 +10,7 @@ import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
 import '../auth/senior_login_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Sprint 034 — "Join existing company", the redeem side. For staff,
 /// managers, or anyone else whose company already has a VenuRite
@@ -114,14 +115,15 @@ class _JoinCompanyScreenState extends ConsumerState<JoinCompanyScreen> {
     }
   }
 
-  static String? _required(String? v) =>
-      (v == null || v.trim().isEmpty) ? 'Required' : null;
+  String? _required(String? v, AppLocalizations l10n) =>
+      (v == null || v.trim().isEmpty) ? l10n.requiredFieldError : null;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Join existing company'),
+        title: Text(l10n.joinExistingCompanyTitle),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -138,43 +140,41 @@ class _JoinCompanyScreenState extends ConsumerState<JoinCompanyScreen> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const AppBanner(
+                        AppBanner(
                           kind: BannerKind.info,
-                          child: Text(
-                            'Enter the invite code your manager gave you.',
-                          ),
+                          child: Text(l10n.enterInviteCodeText),
                         ),
                         const SizedBox(height: 16),
                         TextFormField(
                           controller: _token,
-                          decoration: const InputDecoration(
-                            labelText: 'Invite code',
+                          decoration: InputDecoration(
+                            labelText: l10n.inviteCodeLabel,
                           ),
                           autocorrect: false,
-                          validator: _required,
+                          validator: (v) => _required(v, l10n),
                         ),
                         const SizedBox(height: 12),
                         TextFormField(
                           controller: _name,
-                          decoration: const InputDecoration(
-                            labelText: 'Your name',
+                          decoration: InputDecoration(
+                            labelText: l10n.yourNameLabel,
                           ),
                           textCapitalization: TextCapitalization.words,
-                          validator: _required,
+                          validator: (v) => _required(v, l10n),
                         ),
                         const SizedBox(height: 12),
                         TextFormField(
                           controller: _email,
-                          decoration: const InputDecoration(
-                            labelText: 'Your email',
+                          decoration: InputDecoration(
+                            labelText: l10n.yourEmailLabel,
                           ),
                           keyboardType: TextInputType.emailAddress,
                           autocorrect: false,
                           validator: (v) {
                             final t = v?.trim() ?? '';
-                            if (t.isEmpty) return 'Required';
+                            if (t.isEmpty) return l10n.requiredFieldError;
                             if (!t.contains('@') || !t.contains('.')) {
-                              return 'Enter a valid email';
+                              return l10n.enterValidEmailError;
                             }
                             return null;
                           },
@@ -184,8 +184,8 @@ class _JoinCompanyScreenState extends ConsumerState<JoinCompanyScreen> {
                           controller: _password,
                           obscureText: _obscure,
                           decoration: InputDecoration(
-                            labelText: 'Choose a password',
-                            helperText: 'At least 8 characters',
+                            labelText: l10n.choosePasswordLabel,
+                            helperText: l10n.passwordMinCharsHelper,
                             suffixIcon: IconButton(
                               icon: Icon(
                                 _obscure
@@ -197,7 +197,7 @@ class _JoinCompanyScreenState extends ConsumerState<JoinCompanyScreen> {
                             ),
                           ),
                           validator: (v) => (v ?? '').length < 8
-                              ? 'At least 8 characters'
+                              ? l10n.passwordMinCharsHelper
                               : null,
                         ),
                         if (_error != null) ...[
@@ -218,7 +218,7 @@ class _JoinCompanyScreenState extends ConsumerState<JoinCompanyScreen> {
                                     strokeWidth: 2,
                                   ),
                                 )
-                              : const Text('Join'),
+                              : Text(l10n.joinButton),
                         ),
                       ],
                     ),
@@ -237,16 +237,14 @@ class _SuccessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const AppBanner(
+        AppBanner(
           kind: BannerKind.info,
-          child: Text(
-            "You're in. Sign in with your email and the password you "
-            'just chose.',
-          ),
+          child: Text(l10n.youreInSignInText),
         ),
         const SizedBox(height: 24),
         FilledButton(
@@ -255,7 +253,7 @@ class _SuccessView extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const SeniorLoginScreen()),
             );
           },
-          child: const Text('Go to sign in'),
+          child: Text(l10n.goToSignInButton),
         ),
       ],
     );

@@ -6967,6 +6967,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Can\'t scan? Enter this code manually:'**
   String get cantScanManualEntryText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get requiredFieldError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Join existing company'**
+  String get joinExistingCompanyTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the invite code your manager gave you.'**
+  String get enterInviteCodeText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Invite code'**
+  String get inviteCodeLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your name'**
+  String get yourNameLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your email'**
+  String get yourEmailLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email'**
+  String get enterValidEmailError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a password'**
+  String get choosePasswordLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Join'**
+  String get joinButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re in. Sign in with your email and the password you just chose.'**
+  String get youreInSignInText;
 }
 
 class _AppLocalizationsDelegate

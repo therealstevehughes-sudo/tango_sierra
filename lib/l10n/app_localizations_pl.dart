@@ -4046,4 +4046,36 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get cantScanManualEntryText =>
       'Nie możesz zeskanować? Wprowadź ten kod ręcznie:';
+
+  @override
+  String get requiredFieldError => 'Wymagane';
+
+  @override
+  String get joinExistingCompanyTitle => 'Dołącz do istniejącej firmy';
+
+  @override
+  String get enterInviteCodeText =>
+      'Wprowadź kod zaproszenia, który dał ci menedżer.';
+
+  @override
+  String get inviteCodeLabel => 'Kod zaproszenia';
+
+  @override
+  String get yourNameLabel => 'Twoje imię';
+
+  @override
+  String get yourEmailLabel => 'Twój e-mail';
+
+  @override
+  String get enterValidEmailError => 'Wprowadź prawidłowy e-mail';
+
+  @override
+  String get choosePasswordLabel => 'Wybierz hasło';
+
+  @override
+  String get joinButton => 'Dołącz';
+
+  @override
+  String get youreInSignInText =>
+      'Gotowe. Zaloguj się swoim e-mailem i hasłem, które właśnie wybrałeś.';
 }

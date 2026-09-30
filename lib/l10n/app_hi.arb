@@ -1139,5 +1139,15 @@
   "twoFactorOffText": "टू-फैक्टर प्रमाणीकरण बंद है - इस वरिष्ठ खाते पर सुरक्षा की एक अतिरिक्त परत के लिए इसे जोड़ें।",
   "enableTwoFactorButton": "टू-फैक्टर प्रमाणीकरण सक्षम करें",
   "scanAuthenticatorText": "इसे अपने ऑथेंटिकेटर ऐप (Google Authenticator, Authy, आदि) से स्कैन करें, फिर दिखाया गया 6 अंकों का कोड दर्ज करें।",
-  "cantScanManualEntryText": "स्कैन नहीं कर सकते? इस कोड को मैन्युअल रूप से दर्ज करें:"
+  "cantScanManualEntryText": "स्कैन नहीं कर सकते? इस कोड को मैन्युअल रूप से दर्ज करें:",
+  "requiredFieldError": "आवश्यक",
+  "joinExistingCompanyTitle": "मौजूदा कंपनी से जुड़ें",
+  "enterInviteCodeText": "तुम्हारे मैनेजर द्वारा दिया गया आमंत्रण कोड दर्ज करो।",
+  "inviteCodeLabel": "आमंत्रण कोड",
+  "yourNameLabel": "तुम्हारा नाम",
+  "yourEmailLabel": "तुम्हारा ईमेल",
+  "enterValidEmailError": "एक मान्य ईमेल दर्ज करो",
+  "choosePasswordLabel": "पासवर्ड चुनो",
+  "joinButton": "जुड़ें",
+  "youreInSignInText": "तुम अंदर हो। अपने ईमेल और अभी चुने गए पासवर्ड से लॉग इन करो।"
 }

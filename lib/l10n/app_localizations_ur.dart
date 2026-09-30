@@ -3954,4 +3954,36 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get cantScanManualEntryText =>
       'اسکین نہیں کر سکتے؟ یہ کوڈ دستی طور پر درج کریں:';
+
+  @override
+  String get requiredFieldError => 'درکار';
+
+  @override
+  String get joinExistingCompanyTitle => 'موجودہ کمپنی میں شامل ہوں';
+
+  @override
+  String get enterInviteCodeText =>
+      'وہ دعوتی کوڈ درج کرو جو تمہارے مینیجر نے دیا۔';
+
+  @override
+  String get inviteCodeLabel => 'دعوتی کوڈ';
+
+  @override
+  String get yourNameLabel => 'تمہارا نام';
+
+  @override
+  String get yourEmailLabel => 'تمہارا ای میل';
+
+  @override
+  String get enterValidEmailError => 'ایک درست ای میل درج کرو';
+
+  @override
+  String get choosePasswordLabel => 'پاس ورڈ منتخب کرو';
+
+  @override
+  String get joinButton => 'شامل ہوں';
+
+  @override
+  String get youreInSignInText =>
+      'تم اندر ہو۔ اپنے ای میل اور ابھی منتخب کردہ پاس ورڈ سے لاگ ان کرو۔';
 }

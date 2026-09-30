@@ -4044,4 +4044,36 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get cantScanManualEntryText =>
       'Nu poți scana? Introdu acest cod manual:';
+
+  @override
+  String get requiredFieldError => 'Obligatoriu';
+
+  @override
+  String get joinExistingCompanyTitle => 'Alătură-te unei companii existente';
+
+  @override
+  String get enterInviteCodeText =>
+      'Introdu codul de invitație primit de la managerul tău.';
+
+  @override
+  String get inviteCodeLabel => 'Cod de invitație';
+
+  @override
+  String get yourNameLabel => 'Numele tău';
+
+  @override
+  String get yourEmailLabel => 'Emailul tău';
+
+  @override
+  String get enterValidEmailError => 'Introdu un email valid';
+
+  @override
+  String get choosePasswordLabel => 'Alege o parolă';
+
+  @override
+  String get joinButton => 'Alătură-te';
+
+  @override
+  String get youreInSignInText =>
+      'Ai intrat. Autentifică-te cu emailul tău și parola pe care tocmai ai ales-o.';
 }

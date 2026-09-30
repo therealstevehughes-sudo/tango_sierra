@@ -3985,4 +3985,36 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get cantScanManualEntryText =>
       'Ne možeš skenirati? Unesi ovaj kod ručno:';
+
+  @override
+  String get requiredFieldError => 'Obavezno';
+
+  @override
+  String get joinExistingCompanyTitle => 'Pridruži se postojećoj tvrtki';
+
+  @override
+  String get enterInviteCodeText =>
+      'Unesi pozivni kod koji ti je dao voditelj.';
+
+  @override
+  String get inviteCodeLabel => 'Pozivni kod';
+
+  @override
+  String get yourNameLabel => 'Tvoje ime';
+
+  @override
+  String get yourEmailLabel => 'Tvoja e-pošta';
+
+  @override
+  String get enterValidEmailError => 'Unesi valjanu e-poštu';
+
+  @override
+  String get choosePasswordLabel => 'Odaberi lozinku';
+
+  @override
+  String get joinButton => 'Pridruži se';
+
+  @override
+  String get youreInSignInText =>
+      'Unutra si. Prijavi se svojom e-poštom i lozinkom koju si upravo odabrao/la.';
 }

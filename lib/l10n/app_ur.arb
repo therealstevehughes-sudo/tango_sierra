@@ -1139,5 +1139,15 @@
   "twoFactorOffText": "ٹو فیکٹر توثیق غیر فعال ہے - اس سینئر اکاؤنٹ پر تحفظ کی اضافی پرت کے لیے اسے شامل کریں۔",
   "enableTwoFactorButton": "ٹو فیکٹر توثیق فعال کریں",
   "scanAuthenticatorText": "اسے اپنی توثیق کنندہ ایپ (Google Authenticator، Authy، وغیرہ) سے اسکین کریں، پھر دکھایا گیا 6 ہندسوں کا کوڈ درج کریں۔",
-  "cantScanManualEntryText": "اسکین نہیں کر سکتے؟ یہ کوڈ دستی طور پر درج کریں:"
+  "cantScanManualEntryText": "اسکین نہیں کر سکتے؟ یہ کوڈ دستی طور پر درج کریں:",
+  "requiredFieldError": "درکار",
+  "joinExistingCompanyTitle": "موجودہ کمپنی میں شامل ہوں",
+  "enterInviteCodeText": "وہ دعوتی کوڈ درج کرو جو تمہارے مینیجر نے دیا۔",
+  "inviteCodeLabel": "دعوتی کوڈ",
+  "yourNameLabel": "تمہارا نام",
+  "yourEmailLabel": "تمہارا ای میل",
+  "enterValidEmailError": "ایک درست ای میل درج کرو",
+  "choosePasswordLabel": "پاس ورڈ منتخب کرو",
+  "joinButton": "شامل ہوں",
+  "youreInSignInText": "تم اندر ہو۔ اپنے ای میل اور ابھی منتخب کردہ پاس ورڈ سے لاگ ان کرو۔"
 }
