@@ -19,7 +19,9 @@ insert into storage.buckets (id, name, public)
 values ('certification-documents', 'certification-documents', false)
 on conflict (id) do nothing;
 
-create policy if not exists "certification_documents_tenant_isolation"
+drop policy if exists "certification_documents_tenant_isolation" on storage.objects;
+
+create policy "certification_documents_tenant_isolation"
   on storage.objects
   for all
   using (
