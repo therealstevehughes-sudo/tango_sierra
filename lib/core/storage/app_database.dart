@@ -1689,6 +1689,13 @@ class AppDatabase extends _$AppDatabase {
         final organisationId = existingOrg.isNotEmpty
             ? existingOrg.first.id
             : (await select(organisations).get()).first.id;
+        // Founder test accounts (2026-09-30) — flips Roster on for an
+        // existing demo install too, not just a brand-new one (the
+        // org-insert default above only applies to a fresh
+        // `_ensureDefaultOrganisationAndSite` call). Idempotent no-op once
+        // already true.
+        await (update(organisations)..where((o) => o.id.equals(organisationId)))
+            .write(const OrganisationsCompanion(rosterAddonEnabled: Value(true)));
         await _ensureSecondDemoSite(organisationId);
       }
 
@@ -1814,6 +1821,10 @@ class AppDatabase extends _$AppDatabase {
     'Dave Kowalski': 'bar',
     'Sofia Martins': 'frontOfHouse',
     'Tom Baker': 'frontOfHouse',
+    // Founder test accounts (2026-09-30) — see _ensureSeedUsers' own doc
+    // comment on the two full-access MD accounts these belong to.
+    'Stephen Hughes': 'management',
+    'Tom': 'management',
   };
 
   Future<void> _ensureSeedUsers(int siteId) async {
@@ -1943,6 +1954,23 @@ class AppDatabase extends _$AppDatabase {
         jobTitle: 'Waiter',
         roleTier: 'base',
         pin: '1212',
+      );
+      // Founder test accounts (2026-09-30, direct request) — full-access
+      // MD/executive-tier accounts for the two founders to test the whole
+      // app (including Roster, gated on above) across every tier's view.
+      // Demo-only, same as every other seed user: removed entirely via
+      // "Clear Demo Data" in Settings once real beta testing starts.
+      await ensure(
+        name: 'Stephen Hughes',
+        jobTitle: 'Managing Director',
+        roleTier: 'executive',
+        pin: '0000',
+      );
+      await ensure(
+        name: 'Tom',
+        jobTitle: 'Managing Director',
+        roleTier: 'executive',
+        pin: '0000',
       );
     });
   }
@@ -6281,6 +6309,12 @@ class AppDatabase extends _$AppDatabase {
       OrganisationsCompanion.insert(
         name: 'My Organisation',
         createdAt: DateTime.now(),
+        // Founder test accounts (2026-09-30, direct request) — Roster is a
+        // paid add-on everywhere else, but the two founder MD accounts
+        // below need it on from first launch to test the shift builder
+        // without an extra manual toggle. Local/demo-only: a real tenant
+        // signup never touches this seeding path at all.
+        rosterAddonEnabled: const Value(true),
       ),
     );
     return into(sites).insert(
