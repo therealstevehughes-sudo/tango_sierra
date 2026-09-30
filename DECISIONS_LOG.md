@@ -2995,3 +2995,6 @@ Localized throughout as each piece was built (allergen names, UI strings, matrix
 Known gap, not fixed here: no integration into the existing EHO export PDF (`eho_export_service.dart`, 500+ lines, already shipped) - adding a section there needs its own careful read-the-whole-file pass, not a rushed addition. Logged as a follow-up in PHASE_2_ROADMAP.md.
 
 Full schema/RLS detail: `tools/phase2_allergen_module_migration.sql` (staged, not yet applied to the live server as of this entry).
+
+## EHO export allergen matrix integration — CLOSED (2026-09-30)
+Read the full eho_export_service.dart (1100+ lines) before touching it, per the earlier decision not to risk a rushed edit to an already-shipped compliance document. Added the allergen matrix as its own resilient PDF block, reusing the file's existing _chunkedTable/_cell helpers and addResilientPage pattern unchanged - no changes to the existing Summary/Exceptions/Full-Log blocks at all. Only fires when the site has at least one approved dish. MenuItemRepository added as a new constructor dependency. Not smoke-tested end-to-end with real data (no existing test harness for this file) - flagged, recommend one real export run to visually confirm.
