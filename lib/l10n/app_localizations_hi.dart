@@ -4252,4 +4252,17 @@ class AppLocalizationsHi extends AppLocalizations {
   String taskOverdueSinceLabel(String title, String date) {
     return '$title - $date से लंबित';
   }
+
+  @override
+  String get uploadCertificateDocumentButton => 'प्रमाणपत्र फ़ोटो अपलोड करें';
+
+  @override
+  String get certificateDocumentUploadedLabel => 'प्रमाणपत्र अपलोड हो गया';
+
+  @override
+  String get viewCertificateDocumentTooltip => 'प्रमाणपत्र दस्तावेज़ देखें';
+
+  @override
+  String get certificateUploadFailed =>
+      'प्रमाणपत्र अपलोड नहीं हो सका। कृपया पुनः प्रयास करें।';
 }

@@ -1216,5 +1216,9 @@
   "troubleA5": "Versuche, sie zu schließen und wieder zu öffnen. Dein Fortschritt bis zu deiner letzten abgeschlossenen Aufgabe wird immer laufend gespeichert, sodass nichts bereits Gesendetes verloren geht.",
   "troubleQ6": "Ich sehe nicht dieselben Aufgaben wie gestern",
   "troubleA6": "Das ist zu erwarten, wenn dein Zeitplan Ad-hoc-Aufgaben oder an ein Zeitfenster gebundene Aufgaben enthält - sie erscheinen nur, wenn sie fällig sind. Frag deinen Manager, wenn etwas wirklich falsch aussieht.",
-  "taskOverdueSinceLabel": "{title} - überfällig seit {date}"
+  "taskOverdueSinceLabel": "{title} - überfällig seit {date}",
+  "uploadCertificateDocumentButton": "Zertifikatsfoto hochladen",
+  "certificateDocumentUploadedLabel": "Zertifikat hochgeladen",
+  "viewCertificateDocumentTooltip": "Zertifikatsdokument ansehen",
+  "certificateUploadFailed": "Zertifikat konnte nicht hochgeladen werden. Bitte erneut versuchen."
 }

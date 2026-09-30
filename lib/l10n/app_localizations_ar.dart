@@ -4222,4 +4222,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String taskOverdueSinceLabel(String title, String date) {
     return '$title - متأخرة منذ $date';
   }
+
+  @override
+  String get uploadCertificateDocumentButton => 'رفع صورة الشهادة';
+
+  @override
+  String get certificateDocumentUploadedLabel => 'تم رفع الشهادة';
+
+  @override
+  String get viewCertificateDocumentTooltip => 'عرض مستند الشهادة';
+
+  @override
+  String get certificateUploadFailed =>
+      'تعذر رفع الشهادة. يرجى المحاولة مرة أخرى.';
 }

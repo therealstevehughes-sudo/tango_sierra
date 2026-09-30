@@ -4356,4 +4356,19 @@ class AppLocalizationsRo extends AppLocalizations {
   String taskOverdueSinceLabel(String title, String date) {
     return '$title - restantă din $date';
   }
+
+  @override
+  String get uploadCertificateDocumentButton =>
+      'Încarcă fotografia certificatului';
+
+  @override
+  String get certificateDocumentUploadedLabel => 'Certificat încărcat';
+
+  @override
+  String get viewCertificateDocumentTooltip =>
+      'Vizualizează documentul certificatului';
+
+  @override
+  String get certificateUploadFailed =>
+      'Certificatul nu a putut fi încărcat. Vă rugăm să încercați din nou.';
 }

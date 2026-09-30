@@ -1216,5 +1216,9 @@
   "troubleA5": "Intenta cerrarla y volver a abrirla. Tu progreso hasta tu última tarea completada siempre se guarda a medida que avanzas, así que nada ya enviado se pierde.",
   "troubleQ6": "No veo las mismas tareas que ayer",
   "troubleA6": "Eso es normal si tu horario incluye tareas puntuales, o tareas ligadas a una franja horaria - solo aparecen cuando vencen. Pregunta a tu gerente si algo parece realmente incorrecto.",
-  "taskOverdueSinceLabel": "{title} - atrasada desde {date}"
+  "taskOverdueSinceLabel": "{title} - atrasada desde {date}",
+  "uploadCertificateDocumentButton": "Subir foto del certificado",
+  "certificateDocumentUploadedLabel": "Certificado subido",
+  "viewCertificateDocumentTooltip": "Ver documento del certificado",
+  "certificateUploadFailed": "No se pudo subir el certificado. Inténtalo de nuevo."
 }

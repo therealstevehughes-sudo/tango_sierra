@@ -4307,5 +4307,9 @@
         "type": "String"
       }
     }
-  }
+  },
+  "uploadCertificateDocumentButton": "Upload certificate photo",
+  "certificateDocumentUploadedLabel": "Certificate uploaded",
+  "viewCertificateDocumentTooltip": "View certificate document",
+  "certificateUploadFailed": "Couldn't upload the certificate. Please try again."
 }

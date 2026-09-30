@@ -4413,4 +4413,17 @@ class AppLocalizationsDe extends AppLocalizations {
   String taskOverdueSinceLabel(String title, String date) {
     return '$title - überfällig seit $date';
   }
+
+  @override
+  String get uploadCertificateDocumentButton => 'Zertifikatsfoto hochladen';
+
+  @override
+  String get certificateDocumentUploadedLabel => 'Zertifikat hochgeladen';
+
+  @override
+  String get viewCertificateDocumentTooltip => 'Zertifikatsdokument ansehen';
+
+  @override
+  String get certificateUploadFailed =>
+      'Zertifikat konnte nicht hochgeladen werden. Bitte erneut versuchen.';
 }

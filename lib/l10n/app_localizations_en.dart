@@ -4384,4 +4384,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String taskOverdueSinceLabel(String title, String date) {
     return '$title - overdue since $date';
   }
+
+  @override
+  String get uploadCertificateDocumentButton => 'Upload certificate photo';
+
+  @override
+  String get certificateDocumentUploadedLabel => 'Certificate uploaded';
+
+  @override
+  String get viewCertificateDocumentTooltip => 'View certificate document';
+
+  @override
+  String get certificateUploadFailed =>
+      'Couldn\'t upload the certificate. Please try again.';
 }

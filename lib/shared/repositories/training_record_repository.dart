@@ -34,6 +34,7 @@ class DriftTrainingRecordRepository implements TrainingRecordRepository {
             expiresAt: Value(record.expiresAt),
             signedOffByUserId: record.signedOffByUserId,
             certificateReference: Value(record.certificateReference),
+            certificateFileUrl: Value(record.certificateFileUrl),
             createdAt: record.createdAt,
           ),
         );
@@ -68,6 +69,7 @@ class DriftTrainingRecordRepository implements TrainingRecordRepository {
       expiresAt: row.expiresAt,
       signedOffByUserId: row.signedOffByUserId,
       certificateReference: row.certificateReference,
+      certificateFileUrl: row.certificateFileUrl,
       createdAt: row.createdAt,
     );
   }

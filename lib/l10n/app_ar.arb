@@ -1216,5 +1216,9 @@
   "troubleA5": "حاول إغلاقه وإعادة فتحه. يتم دائمًا حفظ تقدمك حتى آخر مهمة أكملتها أثناء المتابعة، لذا لن يُفقد أي شيء تم إرساله بالفعل.",
   "troubleQ6": "لا أرى نفس المهام كالأمس",
   "troubleA6": "هذا متوقع إذا كان جدولك يتضمن مهام مخصصة، أو مهام مرتبطة بنافذة زمنية - تظهر فقط عند استحقاقها. اسأل مديرك إذا بدا شيء ما خاطئًا حقًا.",
-  "taskOverdueSinceLabel": "{title} - متأخرة منذ {date}"
+  "taskOverdueSinceLabel": "{title} - متأخرة منذ {date}",
+  "uploadCertificateDocumentButton": "رفع صورة الشهادة",
+  "certificateDocumentUploadedLabel": "تم رفع الشهادة",
+  "viewCertificateDocumentTooltip": "عرض مستند الشهادة",
+  "certificateUploadFailed": "تعذر رفع الشهادة. يرجى المحاولة مرة أخرى."
 }

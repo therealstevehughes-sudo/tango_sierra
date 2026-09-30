@@ -4364,4 +4364,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String taskOverdueSinceLabel(String title, String date) {
     return '$title - atrasada desde $date';
   }
+
+  @override
+  String get uploadCertificateDocumentButton => 'Subir foto del certificado';
+
+  @override
+  String get certificateDocumentUploadedLabel => 'Certificado subido';
+
+  @override
+  String get viewCertificateDocumentTooltip => 'Ver documento del certificado';
+
+  @override
+  String get certificateUploadFailed =>
+      'No se pudo subir el certificado. Inténtalo de nuevo.';
 }

@@ -7429,6 +7429,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{title} - overdue since {date}'**
   String taskOverdueSinceLabel(String title, String date);
+
+  /// No description provided for @uploadCertificateDocumentButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload certificate photo'**
+  String get uploadCertificateDocumentButton;
+
+  /// No description provided for @certificateDocumentUploadedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate uploaded'**
+  String get certificateDocumentUploadedLabel;
+
+  /// No description provided for @viewCertificateDocumentTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'View certificate document'**
+  String get viewCertificateDocumentTooltip;
+
+  /// No description provided for @certificateUploadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t upload the certificate. Please try again.'**
+  String get certificateUploadFailed;
 }
 
 class _AppLocalizationsDelegate

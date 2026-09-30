@@ -507,6 +507,13 @@ class TrainingRecords extends Table {
   DateTimeColumn get expiresAt => dateTime().nullable()();
   IntColumn get signedOffByUserId => integer().references(Users, #id)();
   TextColumn get certificateReference => text().nullable()();
+  // Uploaded certificate photo/scan (Phase 2, 2026-09-30, direct founder
+  // request) — a durable record on file, not just a free-text reference.
+  // Stored in Supabase Storage (certification-documents bucket); this
+  // column holds the storage path/URL. Null on records predating this
+  // column, or on local-only (non-backend) installs where upload isn't
+  // available.
+  TextColumn get certificateFileUrl => text().nullable()();
   DateTimeColumn get createdAt => dateTime()();
 }
 
@@ -1148,7 +1155,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.executor);
 
   @override
-  int get schemaVersion => 58;
+  int get schemaVersion => 59;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -1645,6 +1652,10 @@ class AppDatabase extends _$AppDatabase {
         // see ThirdPartyContacts' own doc comment for why this table now
         // also backs the Service Provider directory's local mode.
         await m.createTable(localProviderRatings);
+      }
+      if (from < 59) {
+        // Certificate document upload (Phase 2, 2026-09-30).
+        await m.addColumn(trainingRecords, trainingRecords.certificateFileUrl);
       }
     },
     beforeOpen: (details) async {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/assistant_icon_button.dart';
@@ -8,11 +10,18 @@ import '../../core/widgets/status_badge.dart';
 import '../../shared/models/training_item.dart';
 import '../../shared/models/training_record.dart';
 import '../../shared/models/user.dart';
-import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/auth_providers.dart' show backendDataEnabledProvider, currentUserProvider;
+import '../../shared/providers/backend_providers.dart' show backendRestClientProvider;
 import '../../shared/providers/training_record_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
 import '../../l10n/app_localizations.dart';
+
+// Certificate document upload bucket (Phase 2, 2026-09-30) — private (not
+// public), since these are personal staff records. Created manually in
+// Supabase Studio, not by app code — see PHASE_2_ROADMAP.md/BACKEND_INFRA.md
+// for the exact bucket + RLS policy this relies on.
+const _certificateBucket = 'certification-documents';
 
 class TrainingRecordsScreen extends ConsumerStatefulWidget {
   const TrainingRecordsScreen({super.key, required this.staffMember});
@@ -64,12 +73,63 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
     var completedAt = DateTime.now();
     DateTime? expiresAt;
     final certificateController = TextEditingController();
+    String? uploadedFilePath;
+    var uploading = false;
+    final canUpload = ref.read(backendDataEnabledProvider);
 
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) {
           final l10n = AppLocalizations.of(context)!;
+
+          Future<void> pickAndUploadCertificate() async {
+            final picker = ImagePicker();
+            XFile? file;
+            try {
+              file = await picker.pickImage(
+                source: ImageSource.camera,
+                imageQuality: 80,
+              );
+            } catch (_) {
+              // Camera unavailable (e.g. desktop) — fall through to gallery,
+              // same fallback EvidenceStore uses for task photo evidence.
+            }
+            file ??= await picker.pickImage(
+              source: ImageSource.gallery,
+              imageQuality: 80,
+            );
+            if (file == null) return;
+
+            setDialogState(() => uploading = true);
+            try {
+              final bytes = await file.readAsBytes();
+              final client = ref.read(backendRestClientProvider);
+              final ext = file.name.contains('.')
+                  ? file.name.split('.').last
+                  : 'jpg';
+              final path =
+                  '${widget.staffMember.siteId}/${widget.staffMember.id}/'
+                  '${DateTime.now().millisecondsSinceEpoch}.$ext';
+              await client.uploadToStorage(
+                _certificateBucket,
+                path,
+                bytes,
+                contentType: 'image/$ext',
+              );
+              setDialogState(() {
+                uploadedFilePath = path;
+                uploading = false;
+              });
+            } catch (_) {
+              setDialogState(() => uploading = false);
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(l10n.certificateUploadFailed)),
+              );
+            }
+          }
+
           return AlertDialog(
             title: Text(l10n.addTrainingRecordTitle(widget.staffMember.name)),
             content: SingleChildScrollView(
@@ -158,6 +218,28 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
                       hintText: l10n.certificateReferenceHint,
                     ),
                   ),
+                  if (canUpload) ...[
+                    const SizedBox(height: 12),
+                    OutlinedButton.icon(
+                      onPressed: uploading ? null : pickAndUploadCertificate,
+                      icon: uploading
+                          ? const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : Icon(
+                              uploadedFilePath == null
+                                  ? Icons.upload_file
+                                  : Icons.check_circle,
+                            ),
+                      label: Text(
+                        uploadedFilePath == null
+                            ? l10n.uploadCertificateDocumentButton
+                            : l10n.certificateDocumentUploadedLabel,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
@@ -201,6 +283,7 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
         certificateReference: certificateController.text.trim().isEmpty
             ? null
             : certificateController.text.trim(),
+        certificateFileUrl: uploadedFilePath,
         createdAt: DateTime.now(),
       ),
     );
@@ -280,9 +363,37 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
         title: Text(record.displayTitle),
         subtitle: Text(_subtitleFor(record)),
         isThreeLine: true,
-        trailing: StatusBadge(kind: kind, label: label),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (record.certificateFileUrl != null)
+              IconButton(
+                icon: const Icon(Icons.description_outlined),
+                tooltip: l10n.viewCertificateDocumentTooltip,
+                onPressed: () => _viewCertificate(record.certificateFileUrl!),
+              ),
+            StatusBadge(kind: kind, label: label),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> _viewCertificate(String storagePath) async {
+    final l10n = AppLocalizations.of(context)!;
+    try {
+      final client = ref.read(backendRestClientProvider);
+      final signedUrl = await client.createSignedStorageUrl(
+        _certificateBucket,
+        storagePath,
+      );
+      await launchUrl(Uri.parse(signedUrl));
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.certificateUploadFailed)));
+    }
   }
 
   Widget _buildHistoryTile(TrainingRecord record) {

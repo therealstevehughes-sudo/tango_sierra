@@ -1216,5 +1216,9 @@
   "troubleA5": "请尝试关闭并重新打开它。你的进度会一直保存到你最后完成的任务为止,因此已提交的内容不会丢失。",
   "troubleQ6": "我看到的任务和昨天不一样",
   "troubleA6": "如果你的日程包含临时任务,或与时间窗口相关的任务,这是正常的 - 它们只会在到期时出现。如果确实感觉有问题,请询问你的经理。",
-  "taskOverdueSinceLabel": "{title} - 自 {date} 起逾期"
+  "taskOverdueSinceLabel": "{title} - 自 {date} 起逾期",
+  "uploadCertificateDocumentButton": "上传证书照片",
+  "certificateDocumentUploadedLabel": "证书已上传",
+  "viewCertificateDocumentTooltip": "查看证书文件",
+  "certificateUploadFailed": "证书上传失败,请重试。"
 }

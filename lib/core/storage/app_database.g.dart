@@ -9810,6 +9810,17 @@ class $TrainingRecordsTable extends TrainingRecords
         type: DriftSqlType.string,
         requiredDuringInsert: false,
       );
+  static const VerificationMeta _certificateFileUrlMeta =
+      const VerificationMeta('certificateFileUrl');
+  @override
+  late final GeneratedColumn<String> certificateFileUrl =
+      GeneratedColumn<String>(
+        'certificate_file_url',
+        aliasedName,
+        true,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+      );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
   );
@@ -9832,6 +9843,7 @@ class $TrainingRecordsTable extends TrainingRecords
     expiresAt,
     signedOffByUserId,
     certificateReference,
+    certificateFileUrl,
     createdAt,
   ];
   @override
@@ -9917,6 +9929,15 @@ class $TrainingRecordsTable extends TrainingRecords
         ),
       );
     }
+    if (data.containsKey('certificate_file_url')) {
+      context.handle(
+        _certificateFileUrlMeta,
+        certificateFileUrl.isAcceptableOrUnknown(
+          data['certificate_file_url']!,
+          _certificateFileUrlMeta,
+        ),
+      );
+    }
     if (data.containsKey('created_at')) {
       context.handle(
         _createdAtMeta,
@@ -9970,6 +9991,10 @@ class $TrainingRecordsTable extends TrainingRecords
         DriftSqlType.string,
         data['${effectivePrefix}certificate_reference'],
       ),
+      certificateFileUrl: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}certificate_file_url'],
+      ),
       createdAt: attachedDatabase.typeMapping.read(
         DriftSqlType.dateTime,
         data['${effectivePrefix}created_at'],
@@ -9994,6 +10019,7 @@ class TrainingRecordEntity extends DataClass
   final DateTime? expiresAt;
   final int signedOffByUserId;
   final String? certificateReference;
+  final String? certificateFileUrl;
   final DateTime createdAt;
   const TrainingRecordEntity({
     required this.id,
@@ -10005,6 +10031,7 @@ class TrainingRecordEntity extends DataClass
     this.expiresAt,
     required this.signedOffByUserId,
     this.certificateReference,
+    this.certificateFileUrl,
     required this.createdAt,
   });
   @override
@@ -10026,6 +10053,9 @@ class TrainingRecordEntity extends DataClass
     map['signed_off_by_user_id'] = Variable<int>(signedOffByUserId);
     if (!nullToAbsent || certificateReference != null) {
       map['certificate_reference'] = Variable<String>(certificateReference);
+    }
+    if (!nullToAbsent || certificateFileUrl != null) {
+      map['certificate_file_url'] = Variable<String>(certificateFileUrl);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
     return map;
@@ -10050,6 +10080,9 @@ class TrainingRecordEntity extends DataClass
       certificateReference: certificateReference == null && nullToAbsent
           ? const Value.absent()
           : Value(certificateReference),
+      certificateFileUrl: certificateFileUrl == null && nullToAbsent
+          ? const Value.absent()
+          : Value(certificateFileUrl),
       createdAt: Value(createdAt),
     );
   }
@@ -10071,6 +10104,9 @@ class TrainingRecordEntity extends DataClass
       certificateReference: serializer.fromJson<String?>(
         json['certificateReference'],
       ),
+      certificateFileUrl: serializer.fromJson<String?>(
+        json['certificateFileUrl'],
+      ),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
   }
@@ -10087,6 +10123,7 @@ class TrainingRecordEntity extends DataClass
       'expiresAt': serializer.toJson<DateTime?>(expiresAt),
       'signedOffByUserId': serializer.toJson<int>(signedOffByUserId),
       'certificateReference': serializer.toJson<String?>(certificateReference),
+      'certificateFileUrl': serializer.toJson<String?>(certificateFileUrl),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
   }
@@ -10101,6 +10138,7 @@ class TrainingRecordEntity extends DataClass
     Value<DateTime?> expiresAt = const Value.absent(),
     int? signedOffByUserId,
     Value<String?> certificateReference = const Value.absent(),
+    Value<String?> certificateFileUrl = const Value.absent(),
     DateTime? createdAt,
   }) => TrainingRecordEntity(
     id: id ?? this.id,
@@ -10116,6 +10154,9 @@ class TrainingRecordEntity extends DataClass
     certificateReference: certificateReference.present
         ? certificateReference.value
         : this.certificateReference,
+    certificateFileUrl: certificateFileUrl.present
+        ? certificateFileUrl.value
+        : this.certificateFileUrl,
     createdAt: createdAt ?? this.createdAt,
   );
   TrainingRecordEntity copyWithCompanion(TrainingRecordsCompanion data) {
@@ -10137,6 +10178,9 @@ class TrainingRecordEntity extends DataClass
       certificateReference: data.certificateReference.present
           ? data.certificateReference.value
           : this.certificateReference,
+      certificateFileUrl: data.certificateFileUrl.present
+          ? data.certificateFileUrl.value
+          : this.certificateFileUrl,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
     );
   }
@@ -10153,6 +10197,7 @@ class TrainingRecordEntity extends DataClass
           ..write('expiresAt: $expiresAt, ')
           ..write('signedOffByUserId: $signedOffByUserId, ')
           ..write('certificateReference: $certificateReference, ')
+          ..write('certificateFileUrl: $certificateFileUrl, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -10169,6 +10214,7 @@ class TrainingRecordEntity extends DataClass
     expiresAt,
     signedOffByUserId,
     certificateReference,
+    certificateFileUrl,
     createdAt,
   );
   @override
@@ -10184,6 +10230,7 @@ class TrainingRecordEntity extends DataClass
           other.expiresAt == this.expiresAt &&
           other.signedOffByUserId == this.signedOffByUserId &&
           other.certificateReference == this.certificateReference &&
+          other.certificateFileUrl == this.certificateFileUrl &&
           other.createdAt == this.createdAt);
 }
 
@@ -10197,6 +10244,7 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
   final Value<DateTime?> expiresAt;
   final Value<int> signedOffByUserId;
   final Value<String?> certificateReference;
+  final Value<String?> certificateFileUrl;
   final Value<DateTime> createdAt;
   const TrainingRecordsCompanion({
     this.id = const Value.absent(),
@@ -10208,6 +10256,7 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
     this.expiresAt = const Value.absent(),
     this.signedOffByUserId = const Value.absent(),
     this.certificateReference = const Value.absent(),
+    this.certificateFileUrl = const Value.absent(),
     this.createdAt = const Value.absent(),
   });
   TrainingRecordsCompanion.insert({
@@ -10220,6 +10269,7 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
     this.expiresAt = const Value.absent(),
     required int signedOffByUserId,
     this.certificateReference = const Value.absent(),
+    this.certificateFileUrl = const Value.absent(),
     required DateTime createdAt,
   }) : userId = Value(userId),
        itemType = Value(itemType),
@@ -10236,6 +10286,7 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
     Expression<DateTime>? expiresAt,
     Expression<int>? signedOffByUserId,
     Expression<String>? certificateReference,
+    Expression<String>? certificateFileUrl,
     Expression<DateTime>? createdAt,
   }) {
     return RawValuesInsertable({
@@ -10249,6 +10300,8 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
       if (signedOffByUserId != null) 'signed_off_by_user_id': signedOffByUserId,
       if (certificateReference != null)
         'certificate_reference': certificateReference,
+      if (certificateFileUrl != null)
+        'certificate_file_url': certificateFileUrl,
       if (createdAt != null) 'created_at': createdAt,
     });
   }
@@ -10263,6 +10316,7 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
     Value<DateTime?>? expiresAt,
     Value<int>? signedOffByUserId,
     Value<String?>? certificateReference,
+    Value<String?>? certificateFileUrl,
     Value<DateTime>? createdAt,
   }) {
     return TrainingRecordsCompanion(
@@ -10275,6 +10329,7 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
       expiresAt: expiresAt ?? this.expiresAt,
       signedOffByUserId: signedOffByUserId ?? this.signedOffByUserId,
       certificateReference: certificateReference ?? this.certificateReference,
+      certificateFileUrl: certificateFileUrl ?? this.certificateFileUrl,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -10311,6 +10366,9 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
         certificateReference.value,
       );
     }
+    if (certificateFileUrl.present) {
+      map['certificate_file_url'] = Variable<String>(certificateFileUrl.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -10329,6 +10387,7 @@ class TrainingRecordsCompanion extends UpdateCompanion<TrainingRecordEntity> {
           ..write('expiresAt: $expiresAt, ')
           ..write('signedOffByUserId: $signedOffByUserId, ')
           ..write('certificateReference: $certificateReference, ')
+          ..write('certificateFileUrl: $certificateFileUrl, ')
           ..write('createdAt: $createdAt')
           ..write(')'))
         .toString();
@@ -35572,6 +35631,7 @@ typedef $$TrainingRecordsTableCreateCompanionBuilder =
       Value<DateTime?> expiresAt,
       required int signedOffByUserId,
       Value<String?> certificateReference,
+      Value<String?> certificateFileUrl,
       required DateTime createdAt,
     });
 typedef $$TrainingRecordsTableUpdateCompanionBuilder =
@@ -35585,6 +35645,7 @@ typedef $$TrainingRecordsTableUpdateCompanionBuilder =
       Value<DateTime?> expiresAt,
       Value<int> signedOffByUserId,
       Value<String?> certificateReference,
+      Value<String?> certificateFileUrl,
       Value<DateTime> createdAt,
     });
 
@@ -35689,6 +35750,11 @@ class $$TrainingRecordsTableFilterComposer
 
   ColumnFilters<String> get certificateReference => $composableBuilder(
     column: $table.certificateReference,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get certificateFileUrl => $composableBuilder(
+    column: $table.certificateFileUrl,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -35806,6 +35872,11 @@ class $$TrainingRecordsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get certificateFileUrl => $composableBuilder(
+    column: $table.certificateFileUrl,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
     column: $table.createdAt,
     builder: (column) => ColumnOrderings(column),
@@ -35911,6 +35982,11 @@ class $$TrainingRecordsTableAnnotationComposer
 
   GeneratedColumn<String> get certificateReference => $composableBuilder(
     column: $table.certificateReference,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get certificateFileUrl => $composableBuilder(
+    column: $table.certificateFileUrl,
     builder: (column) => column,
   );
 
@@ -36030,6 +36106,7 @@ class $$TrainingRecordsTableTableManager
                 Value<DateTime?> expiresAt = const Value.absent(),
                 Value<int> signedOffByUserId = const Value.absent(),
                 Value<String?> certificateReference = const Value.absent(),
+                Value<String?> certificateFileUrl = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
               }) => TrainingRecordsCompanion(
                 id: id,
@@ -36041,6 +36118,7 @@ class $$TrainingRecordsTableTableManager
                 expiresAt: expiresAt,
                 signedOffByUserId: signedOffByUserId,
                 certificateReference: certificateReference,
+                certificateFileUrl: certificateFileUrl,
                 createdAt: createdAt,
               ),
           createCompanionCallback:
@@ -36054,6 +36132,7 @@ class $$TrainingRecordsTableTableManager
                 Value<DateTime?> expiresAt = const Value.absent(),
                 required int signedOffByUserId,
                 Value<String?> certificateReference = const Value.absent(),
+                Value<String?> certificateFileUrl = const Value.absent(),
                 required DateTime createdAt,
               }) => TrainingRecordsCompanion.insert(
                 id: id,
@@ -36065,6 +36144,7 @@ class $$TrainingRecordsTableTableManager
                 expiresAt: expiresAt,
                 signedOffByUserId: signedOffByUserId,
                 certificateReference: certificateReference,
+                certificateFileUrl: certificateFileUrl,
                 createdAt: createdAt,
               ),
           withReferenceMapper: (p0) => p0

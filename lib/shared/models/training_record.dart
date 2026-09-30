@@ -20,6 +20,10 @@ class TrainingRecord {
   // evidence: don't fake local file storage for something that needs a
   // trusted, persistent store to be meaningful.
   final String? certificateReference;
+  // Uploaded certificate photo/scan storage path (Phase 2, 2026-09-30) —
+  // "on hand always" record of the actual document, not just a reference
+  // string. Null if nothing was uploaded for this record.
+  final String? certificateFileUrl;
   final DateTime createdAt;
 
   const TrainingRecord({
@@ -32,6 +36,7 @@ class TrainingRecord {
     this.expiresAt,
     required this.signedOffByUserId,
     this.certificateReference,
+    this.certificateFileUrl,
     required this.createdAt,
   });
 

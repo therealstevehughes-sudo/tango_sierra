@@ -4110,4 +4110,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String taskOverdueSinceLabel(String title, String date) {
     return '$title - 自 $date 起逾期';
   }
+
+  @override
+  String get uploadCertificateDocumentButton => '上传证书照片';
+
+  @override
+  String get certificateDocumentUploadedLabel => '证书已上传';
+
+  @override
+  String get viewCertificateDocumentTooltip => '查看证书文件';
+
+  @override
+  String get certificateUploadFailed => '证书上传失败,请重试。';
 }

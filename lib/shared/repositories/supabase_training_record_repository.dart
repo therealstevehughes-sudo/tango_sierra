@@ -22,6 +22,7 @@ class SupabaseTrainingRecordRepository implements TrainingRecordRepository {
       'expires_at': record.expiresAt?.toIso8601String(),
       'signed_off_by_user_id': record.signedOffByUserId,
       'certificate_reference': record.certificateReference,
+      'certificate_file_url': record.certificateFileUrl,
       'created_at': record.createdAt.toIso8601String(),
     });
     return row['id'] as int;
@@ -57,6 +58,7 @@ class SupabaseTrainingRecordRepository implements TrainingRecordRepository {
         : DateTime.parse(row['expires_at'] as String),
     signedOffByUserId: row['signed_off_by_user_id'] as int,
     certificateReference: row['certificate_reference'] as String?,
+    certificateFileUrl: row['certificate_file_url'] as String?,
     createdAt: DateTime.parse(row['created_at'] as String),
   );
 }

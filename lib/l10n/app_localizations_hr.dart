@@ -4274,4 +4274,18 @@ class AppLocalizationsHr extends AppLocalizations {
   String taskOverdueSinceLabel(String title, String date) {
     return '$title - zakašnjelo od $date';
   }
+
+  @override
+  String get uploadCertificateDocumentButton =>
+      'Prenesi fotografiju certifikata';
+
+  @override
+  String get certificateDocumentUploadedLabel => 'Certifikat prenesen';
+
+  @override
+  String get viewCertificateDocumentTooltip => 'Prikaži dokument certifikata';
+
+  @override
+  String get certificateUploadFailed =>
+      'Slanje certifikata nije uspjelo. Pokušajte ponovno.';
 }

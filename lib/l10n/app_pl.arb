@@ -1216,5 +1216,9 @@
   "troubleA5": "Spróbuj ją zamknąć i otworzyć ponownie. Twój postęp do ostatniego ukończonego zadania jest zawsze zapisywany na bieżąco, więc nic już przesłanego nie zostanie utracone.",
   "troubleQ6": "Nie widzę tych samych zadań co wczoraj",
   "troubleA6": "To normalne, jeśli twój harmonogram zawiera zadania doraźne lub zadania powiązane z oknem czasowym - pojawiają się tylko wtedy, gdy są należne. Zapytaj przełożonego, jeśli coś wygląda naprawdę nie tak.",
-  "taskOverdueSinceLabel": "{title} - zaległe od {date}"
+  "taskOverdueSinceLabel": "{title} - zaległe od {date}",
+  "uploadCertificateDocumentButton": "Prześlij zdjęcie certyfikatu",
+  "certificateDocumentUploadedLabel": "Certyfikat przesłany",
+  "viewCertificateDocumentTooltip": "Zobacz dokument certyfikatu",
+  "certificateUploadFailed": "Nie udało się przesłać certyfikatu. Spróbuj ponownie."
 }

@@ -189,4 +189,53 @@ class BackendRestClient {
     final response = await http.Response.fromStream(streamedResponse);
     return jsonDecode(response.body) as Map<String, dynamic>;
   }
+
+  // Certificate document upload (Phase 2, 2026-09-30) — the first direct
+  // Supabase Storage call this client makes (everything else above talks
+  // to PostgREST or Edge Functions). Storage's REST API takes the same
+  // apikey/bearer headers as PostgREST, just a different base path
+  // (`/storage/v1/object/<bucket>/<path>`), so this reuses _headers()
+  // rather than adding a second auth mechanism. `x-upsert: true` lets a
+  // re-upload against the same path replace the old file instead of
+  // erroring, matching this app's "a renewal creates evidence, doesn't
+  // need a new filename" pattern.
+  Future<void> uploadToStorage(
+    String bucket,
+    String path,
+    List<int> bytes, {
+    required String contentType,
+  }) async {
+    final response = await http.post(
+      Uri.parse('${BackendConfig.supabaseUrl}/storage/v1/object/$bucket/$path'),
+      headers: {
+        ..._headers(),
+        'Content-Type': contentType,
+        'x-upsert': 'true',
+      },
+      body: bytes,
+    );
+    _checkOk(response);
+  }
+
+  /// A short-lived signed URL for a file in a PRIVATE Storage bucket
+  /// (certification-documents is private — these are personal staff
+  /// records, not public files). Supabase's RLS on storage.objects still
+  /// applies to who can request a sign at all; the URL it returns is then
+  /// usable directly (no further auth header needed) until it expires.
+  Future<String> createSignedStorageUrl(
+    String bucket,
+    String path, {
+    int expiresInSeconds = 300,
+  }) async {
+    final response = await http.post(
+      Uri.parse(
+        '${BackendConfig.supabaseUrl}/storage/v1/object/sign/$bucket/$path',
+      ),
+      headers: _headers(json: true),
+      body: jsonEncode({'expiresIn': expiresInSeconds}),
+    );
+    _checkOk(response);
+    final decoded = jsonDecode(response.body) as Map<String, dynamic>;
+    return '${BackendConfig.supabaseUrl}/storage/v1${decoded['signedURL']}';
+  }
 }
