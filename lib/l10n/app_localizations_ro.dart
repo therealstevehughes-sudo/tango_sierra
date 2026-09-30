@@ -4544,4 +4544,54 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get assignmentRejectedMessage =>
       'Aceasta atribuire a fost respinsa. Verifica rolul si certificarile angajatului si incearca din nou.';
+
+  @override
+  String get sopTemplateCleaningSchedule => 'Program de curatenie';
+
+  @override
+  String get sopTemplateAllergenControl => 'Controlul alergenilor';
+
+  @override
+  String get sopTemplateDeliveryAndStorage => 'Livrare si depozitare';
+
+  @override
+  String get sopTemplatePersonalHygiene => 'Igiena personala';
+
+  @override
+  String get sopTemplatePestControl => 'Combaterea daunatorilor';
+
+  @override
+  String get generateSopTitle => 'Genereaza document SOP';
+
+  @override
+  String get sopGenerationDisclaimer =>
+      'Aceasta creeaza o prima versiune a unui document de procedura, redactata de AI, folosind practici generale de siguranta alimentara din UK. Este doar un punct de plecare - citeste cu atentie si editeaza orice specific unitatii tale inainte de a-l salva ca document activ.';
+
+  @override
+  String get sopTemplateFieldLabel => 'Tip document';
+
+  @override
+  String get sopExtraContextLabel => 'Detalii suplimentare (optional)';
+
+  @override
+  String get sopExtraContextHint =>
+      'ex. echipamente specifice, roluri ale personalului sau reguli proprii de inclus';
+
+  @override
+  String get generatingText => 'Se genereaza...';
+
+  @override
+  String get generateDraftButton => 'Genereaza ciorna';
+
+  @override
+  String get documentTitleLabel => 'Titlul documentului';
+
+  @override
+  String get reviewAndEditDraftLabel => 'Verifica si editeaza ciorna';
+
+  @override
+  String get saveAsDocumentButton => 'Salveaza in Centrul de Documente';
+
+  @override
+  String get generateWithAiButton => 'Genereaza cu AI';
 }

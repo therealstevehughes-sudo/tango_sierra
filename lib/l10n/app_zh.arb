@@ -1273,5 +1273,21 @@
   "noApprovedDishesYetText": "尚无已批准的菜品。请让经理在“菜单与过敏原”中审核并批准菜品。",
   "exportAsPdfButton": "导出为 PDF",
   "allergenMatrixSubtitle": "在菜品送达顾客前检查其成分",
-  "assignmentRejectedMessage": "此分配已被拒绝。请检查员工的职位和证书后重试。"
+  "assignmentRejectedMessage": "此分配已被拒绝。请检查员工的职位和证书后重试。",
+  "sopTemplateCleaningSchedule": "清洁时间表",
+  "sopTemplateAllergenControl": "过敏原控制",
+  "sopTemplateDeliveryAndStorage": "配送与存储",
+  "sopTemplatePersonalHygiene": "个人卫生",
+  "sopTemplatePestControl": "虫害防治",
+  "generateSopTitle": "生成标准作业程序文件",
+  "sopGenerationDisclaimer": "这将使用英国通用食品安全规范,由AI起草一份程序文件的初稿。这仅是一个起点——请仔细阅读并编辑任何特定于您场所的内容,然后再将其保存为正式文件。",
+  "sopTemplateFieldLabel": "文件类型",
+  "sopExtraContextLabel": "补充信息(可选)",
+  "sopExtraContextHint": "例如需要包含的特定设备、员工职责或场所规定",
+  "generatingText": "正在生成...",
+  "generateDraftButton": "生成草稿",
+  "documentTitleLabel": "文件标题",
+  "reviewAndEditDraftLabel": "查看并编辑草稿",
+  "saveAsDocumentButton": "保存到文档中心",
+  "generateWithAiButton": "使用AI生成"
 }

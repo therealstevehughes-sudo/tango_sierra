@@ -4601,4 +4601,54 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get assignmentRejectedMessage =>
       'Diese Zuweisung wurde abgelehnt. Bitte pruefen Sie die Rolle und Zertifikate des Mitarbeiters und versuchen Sie es erneut.';
+
+  @override
+  String get sopTemplateCleaningSchedule => 'Reinigungsplan';
+
+  @override
+  String get sopTemplateAllergenControl => 'Allergenkontrolle';
+
+  @override
+  String get sopTemplateDeliveryAndStorage => 'Lieferung und Lagerung';
+
+  @override
+  String get sopTemplatePersonalHygiene => 'Personliche Hygiene';
+
+  @override
+  String get sopTemplatePestControl => 'Schadlingsbekampfung';
+
+  @override
+  String get generateSopTitle => 'SOP-Dokument erstellen';
+
+  @override
+  String get sopGenerationDisclaimer =>
+      'Dies erstellt einen von KI verfassten ersten Entwurf eines Verfahrensdokuments anhand allgemeiner britischer Lebensmittelsicherheitspraktiken. Dies ist nur ein Ausgangspunkt - lesen Sie ihn sorgfaltig und bearbeiten Sie alles, was fur Ihren Standort spezifisch ist, bevor Sie ihn als aktives Dokument speichern.';
+
+  @override
+  String get sopTemplateFieldLabel => 'Dokumenttyp';
+
+  @override
+  String get sopExtraContextLabel => 'Zusatzliche Details (optional)';
+
+  @override
+  String get sopExtraContextHint =>
+      'z. B. bestimmte Ausrustung, Mitarbeiterrollen oder eigene Regeln zum Einbeziehen';
+
+  @override
+  String get generatingText => 'Wird erstellt...';
+
+  @override
+  String get generateDraftButton => 'Entwurf erstellen';
+
+  @override
+  String get documentTitleLabel => 'Dokumenttitel';
+
+  @override
+  String get reviewAndEditDraftLabel => 'Entwurf prufen und bearbeiten';
+
+  @override
+  String get saveAsDocumentButton => 'Im Dokumentenzentrum speichern';
+
+  @override
+  String get generateWithAiButton => 'Mit KI erstellen';
 }

@@ -4429,4 +4429,54 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get assignmentRejectedMessage =>
       'یہ تفویض مسترد کر دی گئی۔ براہ کرم عملے کے کردار اور سرٹیفیکیٹس چیک کریں اور دوبارہ کوشش کریں۔';
+
+  @override
+  String get sopTemplateCleaningSchedule => 'صفائی شیڈول';
+
+  @override
+  String get sopTemplateAllergenControl => 'الرجن کنٹرول';
+
+  @override
+  String get sopTemplateDeliveryAndStorage => 'ترسیل اور ذخیرہ';
+
+  @override
+  String get sopTemplatePersonalHygiene => 'ذاتی صفائی';
+
+  @override
+  String get sopTemplatePestControl => 'کیڑوں پر قابو';
+
+  @override
+  String get generateSopTitle => 'ایس او پی دستاویز بنائیں';
+
+  @override
+  String get sopGenerationDisclaimer =>
+      'یہ عمومی برطانوی فوڈ سیفٹی طریقوں کا استعمال کرتے ہوئے AI کا تیار کردہ طریقہ کار دستاویز کا پہلا مسودہ بناتا ہے۔ یہ صرف ایک نقطہ آغاز ہے - اسے لائیو دستاویز کے طور پر محفوظ کرنے سے پہلے احتیاط سے پڑھیں اور اپنے مقام سے متعلق کسی بھی چیز میں ترمیم کریں۔';
+
+  @override
+  String get sopTemplateFieldLabel => 'دستاویز کی قسم';
+
+  @override
+  String get sopExtraContextLabel => 'اضافی تفصیلات (اختیاری)';
+
+  @override
+  String get sopExtraContextHint =>
+      'مثلاً مخصوص آلات، عملے کے کردار، یا شامل کرنے کے قواعد';
+
+  @override
+  String get generatingText => 'تیار کیا جا رہا ہے...';
+
+  @override
+  String get generateDraftButton => 'مسودہ بنائیں';
+
+  @override
+  String get documentTitleLabel => 'دستاویز کا عنوان';
+
+  @override
+  String get reviewAndEditDraftLabel => 'مسودے کا جائزہ لیں اور ترمیم کریں';
+
+  @override
+  String get saveAsDocumentButton => 'دستاویز مرکز میں محفوظ کریں';
+
+  @override
+  String get generateWithAiButton => 'AI سے بنائیں';
 }

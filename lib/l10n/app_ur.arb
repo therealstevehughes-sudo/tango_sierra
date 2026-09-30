@@ -1273,5 +1273,21 @@
   "noApprovedDishesYetText": "ابھی تک کوئی ڈش منظور نہیں ہوئی۔ مینیجر سے مینو اور الرجنز میں ڈشز کا جائزہ لینے اور منظور کرنے کے لیے کہیں۔",
   "exportAsPdfButton": "PDF کے طور پر برآمد کریں",
   "allergenMatrixSubtitle": "گاہک تک پہنچنے سے پہلے ڈش میں کیا ہے، چیک کریں",
-  "assignmentRejectedMessage": "یہ تفویض مسترد کر دی گئی۔ براہ کرم عملے کے کردار اور سرٹیفیکیٹس چیک کریں اور دوبارہ کوشش کریں۔"
+  "assignmentRejectedMessage": "یہ تفویض مسترد کر دی گئی۔ براہ کرم عملے کے کردار اور سرٹیفیکیٹس چیک کریں اور دوبارہ کوشش کریں۔",
+  "sopTemplateCleaningSchedule": "صفائی شیڈول",
+  "sopTemplateAllergenControl": "الرجن کنٹرول",
+  "sopTemplateDeliveryAndStorage": "ترسیل اور ذخیرہ",
+  "sopTemplatePersonalHygiene": "ذاتی صفائی",
+  "sopTemplatePestControl": "کیڑوں پر قابو",
+  "generateSopTitle": "ایس او پی دستاویز بنائیں",
+  "sopGenerationDisclaimer": "یہ عمومی برطانوی فوڈ سیفٹی طریقوں کا استعمال کرتے ہوئے AI کا تیار کردہ طریقہ کار دستاویز کا پہلا مسودہ بناتا ہے۔ یہ صرف ایک نقطہ آغاز ہے - اسے لائیو دستاویز کے طور پر محفوظ کرنے سے پہلے احتیاط سے پڑھیں اور اپنے مقام سے متعلق کسی بھی چیز میں ترمیم کریں۔",
+  "sopTemplateFieldLabel": "دستاویز کی قسم",
+  "sopExtraContextLabel": "اضافی تفصیلات (اختیاری)",
+  "sopExtraContextHint": "مثلاً مخصوص آلات، عملے کے کردار، یا شامل کرنے کے قواعد",
+  "generatingText": "تیار کیا جا رہا ہے...",
+  "generateDraftButton": "مسودہ بنائیں",
+  "documentTitleLabel": "دستاویز کا عنوان",
+  "reviewAndEditDraftLabel": "مسودے کا جائزہ لیں اور ترمیم کریں",
+  "saveAsDocumentButton": "دستاویز مرکز میں محفوظ کریں",
+  "generateWithAiButton": "AI سے بنائیں"
 }

@@ -4406,4 +4406,54 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get assignmentRejectedMessage =>
       'تم رفض هذا التعيين. يرجى التحقق من دور الموظف وشهاداته والمحاولة مرة أخرى.';
+
+  @override
+  String get sopTemplateCleaningSchedule => 'جدول التنظيف';
+
+  @override
+  String get sopTemplateAllergenControl => 'التحكم في مسببات الحساسية';
+
+  @override
+  String get sopTemplateDeliveryAndStorage => 'التوصيل والتخزين';
+
+  @override
+  String get sopTemplatePersonalHygiene => 'النظافة الشخصية';
+
+  @override
+  String get sopTemplatePestControl => 'مكافحة الآفات';
+
+  @override
+  String get generateSopTitle => 'إنشاء مستند إجراء';
+
+  @override
+  String get sopGenerationDisclaimer =>
+      'ينشئ هذا مسودة أولى لمستند إجراء بواسطة الذكاء الاصطناعي، باستخدام ممارسات السلامة الغذائية العامة في المملكة المتحدة. هذه نقطة انطلاق فقط - اقرأها بعناية وعدّل أي شيء خاص بمنشأتك قبل حفظها كمستند نشط.';
+
+  @override
+  String get sopTemplateFieldLabel => 'نوع المستند';
+
+  @override
+  String get sopExtraContextLabel => 'تفاصيل إضافية (اختياري)';
+
+  @override
+  String get sopExtraContextHint =>
+      'مثال: معدات محددة، أدوار الموظفين، أو قواعد خاصة لإدراجها';
+
+  @override
+  String get generatingText => 'جارٍ الإنشاء...';
+
+  @override
+  String get generateDraftButton => 'إنشاء مسودة';
+
+  @override
+  String get documentTitleLabel => 'عنوان المستند';
+
+  @override
+  String get reviewAndEditDraftLabel => 'راجع وعدّل المسودة';
+
+  @override
+  String get saveAsDocumentButton => 'حفظ في مركز المستندات';
+
+  @override
+  String get generateWithAiButton => 'إنشاء بالذكاء الاصطناعي';
 }

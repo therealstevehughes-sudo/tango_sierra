@@ -1273,5 +1273,21 @@
   "noApprovedDishesYetText": "Niciun fel de mâncare aprobat încă. Cere unui manager să revizuiască și să aprobe felurile de mâncare în Meniu și alergeni.",
   "exportAsPdfButton": "Exportă ca PDF",
   "allergenMatrixSubtitle": "Verifica ce contine un fel de mancare inainte sa ajunga la client",
-  "assignmentRejectedMessage": "Aceasta atribuire a fost respinsa. Verifica rolul si certificarile angajatului si incearca din nou."
+  "assignmentRejectedMessage": "Aceasta atribuire a fost respinsa. Verifica rolul si certificarile angajatului si incearca din nou.",
+  "sopTemplateCleaningSchedule": "Program de curatenie",
+  "sopTemplateAllergenControl": "Controlul alergenilor",
+  "sopTemplateDeliveryAndStorage": "Livrare si depozitare",
+  "sopTemplatePersonalHygiene": "Igiena personala",
+  "sopTemplatePestControl": "Combaterea daunatorilor",
+  "generateSopTitle": "Genereaza document SOP",
+  "sopGenerationDisclaimer": "Aceasta creeaza o prima versiune a unui document de procedura, redactata de AI, folosind practici generale de siguranta alimentara din UK. Este doar un punct de plecare - citeste cu atentie si editeaza orice specific unitatii tale inainte de a-l salva ca document activ.",
+  "sopTemplateFieldLabel": "Tip document",
+  "sopExtraContextLabel": "Detalii suplimentare (optional)",
+  "sopExtraContextHint": "ex. echipamente specifice, roluri ale personalului sau reguli proprii de inclus",
+  "generatingText": "Se genereaza...",
+  "generateDraftButton": "Genereaza ciorna",
+  "documentTitleLabel": "Titlul documentului",
+  "reviewAndEditDraftLabel": "Verifica si editeaza ciorna",
+  "saveAsDocumentButton": "Salveaza in Centrul de Documente",
+  "generateWithAiButton": "Genereaza cu AI"
 }

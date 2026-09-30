@@ -1273,5 +1273,21 @@
   "noApprovedDishesYetText": "Aún no hay platos aprobados. Pide a un gerente que revise y apruebe los platos en Menú y alérgenos.",
   "exportAsPdfButton": "Exportar como PDF",
   "allergenMatrixSubtitle": "Comprueba que contiene un plato antes de que llegue al cliente",
-  "assignmentRejectedMessage": "Esta asignacion fue rechazada. Comprueba el puesto y los certificados del empleado e intentalo de nuevo."
+  "assignmentRejectedMessage": "Esta asignacion fue rechazada. Comprueba el puesto y los certificados del empleado e intentalo de nuevo.",
+  "sopTemplateCleaningSchedule": "Horario de limpieza",
+  "sopTemplateAllergenControl": "Control de alergenos",
+  "sopTemplateDeliveryAndStorage": "Entrega y almacenamiento",
+  "sopTemplatePersonalHygiene": "Higiene personal",
+  "sopTemplatePestControl": "Control de plagas",
+  "generateSopTitle": "Generar documento SOP",
+  "sopGenerationDisclaimer": "Esto crea una primera version redactada por IA de un documento de procedimiento, usando practicas generales de seguridad alimentaria del Reino Unido. Es solo un punto de partida - leelo con atencion y edita cualquier cosa especifica de tu local antes de guardarlo como documento activo.",
+  "sopTemplateFieldLabel": "Tipo de documento",
+  "sopExtraContextLabel": "Detalles adicionales (opcional)",
+  "sopExtraContextHint": "ej. equipo especifico, roles del personal o normas propias a incluir",
+  "generatingText": "Generando...",
+  "generateDraftButton": "Generar borrador",
+  "documentTitleLabel": "Titulo del documento",
+  "reviewAndEditDraftLabel": "Revisa y edita el borrador",
+  "saveAsDocumentButton": "Guardar en el Centro de Documentos",
+  "generateWithAiButton": "Generar con IA"
 }

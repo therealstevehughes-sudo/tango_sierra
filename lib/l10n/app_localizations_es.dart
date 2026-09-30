@@ -4549,4 +4549,54 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get assignmentRejectedMessage =>
       'Esta asignacion fue rechazada. Comprueba el puesto y los certificados del empleado e intentalo de nuevo.';
+
+  @override
+  String get sopTemplateCleaningSchedule => 'Horario de limpieza';
+
+  @override
+  String get sopTemplateAllergenControl => 'Control de alergenos';
+
+  @override
+  String get sopTemplateDeliveryAndStorage => 'Entrega y almacenamiento';
+
+  @override
+  String get sopTemplatePersonalHygiene => 'Higiene personal';
+
+  @override
+  String get sopTemplatePestControl => 'Control de plagas';
+
+  @override
+  String get generateSopTitle => 'Generar documento SOP';
+
+  @override
+  String get sopGenerationDisclaimer =>
+      'Esto crea una primera version redactada por IA de un documento de procedimiento, usando practicas generales de seguridad alimentaria del Reino Unido. Es solo un punto de partida - leelo con atencion y edita cualquier cosa especifica de tu local antes de guardarlo como documento activo.';
+
+  @override
+  String get sopTemplateFieldLabel => 'Tipo de documento';
+
+  @override
+  String get sopExtraContextLabel => 'Detalles adicionales (opcional)';
+
+  @override
+  String get sopExtraContextHint =>
+      'ej. equipo especifico, roles del personal o normas propias a incluir';
+
+  @override
+  String get generatingText => 'Generando...';
+
+  @override
+  String get generateDraftButton => 'Generar borrador';
+
+  @override
+  String get documentTitleLabel => 'Titulo del documento';
+
+  @override
+  String get reviewAndEditDraftLabel => 'Revisa y edita el borrador';
+
+  @override
+  String get saveAsDocumentButton => 'Guardar en el Centro de Documentos';
+
+  @override
+  String get generateWithAiButton => 'Generar con IA';
 }

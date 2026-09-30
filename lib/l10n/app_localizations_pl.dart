@@ -4547,4 +4547,54 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get assignmentRejectedMessage =>
       'To przypisanie zostalo odrzucone. Sprawdz role i certyfikaty pracownika i sprobuj ponownie.';
+
+  @override
+  String get sopTemplateCleaningSchedule => 'Harmonogram sprzatania';
+
+  @override
+  String get sopTemplateAllergenControl => 'Kontrola alergenow';
+
+  @override
+  String get sopTemplateDeliveryAndStorage => 'Dostawy i przechowywanie';
+
+  @override
+  String get sopTemplatePersonalHygiene => 'Higiena osobista';
+
+  @override
+  String get sopTemplatePestControl => 'Kontrola szkodnikow';
+
+  @override
+  String get generateSopTitle => 'Generuj dokument procedury';
+
+  @override
+  String get sopGenerationDisclaimer =>
+      'To tworzy pierwsza wersje dokumentu procedury wygenerowana przez AI, opartego na ogolnych brytyjskich zasadach bezpieczenstwa zywnosci. To tylko punkt wyjscia - przeczytaj uwaznie i edytuj wszystko specyficzne dla Twojego lokalu przed zapisaniem jako aktywny dokument.';
+
+  @override
+  String get sopTemplateFieldLabel => 'Typ dokumentu';
+
+  @override
+  String get sopExtraContextLabel => 'Dodatkowe szczegoly (opcjonalnie)';
+
+  @override
+  String get sopExtraContextHint =>
+      'np. konkretny sprzet, role personelu lub zasady lokalu do uwzglednienia';
+
+  @override
+  String get generatingText => 'Generowanie...';
+
+  @override
+  String get generateDraftButton => 'Generuj szkic';
+
+  @override
+  String get documentTitleLabel => 'Tytul dokumentu';
+
+  @override
+  String get reviewAndEditDraftLabel => 'Przejrzyj i edytuj szkic';
+
+  @override
+  String get saveAsDocumentButton => 'Zapisz w Centrum Dokumentow';
+
+  @override
+  String get generateWithAiButton => 'Generuj z AI';
 }

@@ -4569,4 +4569,54 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get assignmentRejectedMessage =>
       'This assignment was rejected. Please check the staff member\'s role and certifications and try again.';
+
+  @override
+  String get sopTemplateCleaningSchedule => 'Cleaning Schedule';
+
+  @override
+  String get sopTemplateAllergenControl => 'Allergen Control';
+
+  @override
+  String get sopTemplateDeliveryAndStorage => 'Delivery and Storage';
+
+  @override
+  String get sopTemplatePersonalHygiene => 'Personal Hygiene';
+
+  @override
+  String get sopTemplatePestControl => 'Pest Control';
+
+  @override
+  String get generateSopTitle => 'Generate SOP document';
+
+  @override
+  String get sopGenerationDisclaimer =>
+      'This creates an AI-drafted first version of a procedure document, using general UK food safety practice. It is a starting point only - read it carefully and edit anything specific to your venue before saving it as a live document.';
+
+  @override
+  String get sopTemplateFieldLabel => 'Document type';
+
+  @override
+  String get sopExtraContextLabel => 'Extra details (optional)';
+
+  @override
+  String get sopExtraContextHint =>
+      'e.g. specific equipment, staff roles, or house rules to include';
+
+  @override
+  String get generatingText => 'Generating...';
+
+  @override
+  String get generateDraftButton => 'Generate draft';
+
+  @override
+  String get documentTitleLabel => 'Document title';
+
+  @override
+  String get reviewAndEditDraftLabel => 'Review and edit the draft';
+
+  @override
+  String get saveAsDocumentButton => 'Save to Document Centre';
+
+  @override
+  String get generateWithAiButton => 'Generate with AI';
 }

@@ -6,6 +6,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/services/document_store.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/assistant_icon_button.dart';
+import 'generate_sop_document_screen.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -195,6 +196,19 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
         title: Text(l10n.documentCentreTitle),
         actions: [
           const AssistantIconButton(),
+          IconButton(
+            icon: const Icon(Icons.auto_awesome),
+            tooltip: l10n.generateWithAiButton,
+            onPressed: () async {
+              final saved = await Navigator.push<bool>(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const GenerateSopDocumentScreen(),
+                ),
+              );
+              if (saved == true) await _load();
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.upload_file),
             tooltip: l10n.addDocumentTitle,

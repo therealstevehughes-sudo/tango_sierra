@@ -4436,4 +4436,54 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get assignmentRejectedMessage =>
       'यह असाइनमेंट अस्वीकृत कर दिया गया। कृपया कर्मचारी की भूमिका और प्रमाणपत्र जांचें और पुनः प्रयास करें।';
+
+  @override
+  String get sopTemplateCleaningSchedule => 'सफाई अनुसूची';
+
+  @override
+  String get sopTemplateAllergenControl => 'एलर्जन नियंत्रण';
+
+  @override
+  String get sopTemplateDeliveryAndStorage => 'डिलीवरी और भंडारण';
+
+  @override
+  String get sopTemplatePersonalHygiene => 'व्यक्तिगत स्वच्छता';
+
+  @override
+  String get sopTemplatePestControl => 'कीट नियंत्रण';
+
+  @override
+  String get generateSopTitle => 'एसओपी दस्तावेज़ बनाएं';
+
+  @override
+  String get sopGenerationDisclaimer =>
+      'यह सामान्य यूके खाद्य सुरक्षा प्रथाओं का उपयोग करके AI द्वारा तैयार एक प्रक्रिया दस्तावेज़ का पहला मसौदा बनाता है। यह केवल एक शुरुआती बिंदु है - इसे लाइव दस्तावेज़ के रूप में सहेजने से पहले ध्यान से पढ़ें और अपने स्थान के लिए विशिष्ट किसी भी चीज़ को संपादित करें।';
+
+  @override
+  String get sopTemplateFieldLabel => 'दस्तावेज़ प्रकार';
+
+  @override
+  String get sopExtraContextLabel => 'अतिरिक्त विवरण (वैकल्पिक)';
+
+  @override
+  String get sopExtraContextHint =>
+      'जैसे विशिष्ट उपकरण, कर्मचारी भूमिकाएं, या शामिल करने के लिए नियम';
+
+  @override
+  String get generatingText => 'बनाया जा रहा है...';
+
+  @override
+  String get generateDraftButton => 'मसौदा बनाएं';
+
+  @override
+  String get documentTitleLabel => 'दस्तावेज़ शीर्षक';
+
+  @override
+  String get reviewAndEditDraftLabel => 'मसौदे की समीक्षा करें और संपादित करें';
+
+  @override
+  String get saveAsDocumentButton => 'दस्तावेज़ केंद्र में सहेजें';
+
+  @override
+  String get generateWithAiButton => 'AI से बनाएं';
 }

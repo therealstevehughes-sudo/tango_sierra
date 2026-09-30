@@ -7771,6 +7771,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This assignment was rejected. Please check the staff member\'s role and certifications and try again.'**
   String get assignmentRejectedMessage;
+
+  /// No description provided for @sopTemplateCleaningSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaning Schedule'**
+  String get sopTemplateCleaningSchedule;
+
+  /// No description provided for @sopTemplateAllergenControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Allergen Control'**
+  String get sopTemplateAllergenControl;
+
+  /// No description provided for @sopTemplateDeliveryAndStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery and Storage'**
+  String get sopTemplateDeliveryAndStorage;
+
+  /// No description provided for @sopTemplatePersonalHygiene.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal Hygiene'**
+  String get sopTemplatePersonalHygiene;
+
+  /// No description provided for @sopTemplatePestControl.
+  ///
+  /// In en, this message translates to:
+  /// **'Pest Control'**
+  String get sopTemplatePestControl;
+
+  /// No description provided for @generateSopTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate SOP document'**
+  String get generateSopTitle;
+
+  /// No description provided for @sopGenerationDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'This creates an AI-drafted first version of a procedure document, using general UK food safety practice. It is a starting point only - read it carefully and edit anything specific to your venue before saving it as a live document.'**
+  String get sopGenerationDisclaimer;
+
+  /// No description provided for @sopTemplateFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Document type'**
+  String get sopTemplateFieldLabel;
+
+  /// No description provided for @sopExtraContextLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra details (optional)'**
+  String get sopExtraContextLabel;
+
+  /// No description provided for @sopExtraContextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. specific equipment, staff roles, or house rules to include'**
+  String get sopExtraContextHint;
+
+  /// No description provided for @generatingText.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating...'**
+  String get generatingText;
+
+  /// No description provided for @generateDraftButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate draft'**
+  String get generateDraftButton;
+
+  /// No description provided for @documentTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Document title'**
+  String get documentTitleLabel;
+
+  /// No description provided for @reviewAndEditDraftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Review and edit the draft'**
+  String get reviewAndEditDraftLabel;
+
+  /// No description provided for @saveAsDocumentButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Document Centre'**
+  String get saveAsDocumentButton;
+
+  /// No description provided for @generateWithAiButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate with AI'**
+  String get generateWithAiButton;
 }
 
 class _AppLocalizationsDelegate

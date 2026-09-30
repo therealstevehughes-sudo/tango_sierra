@@ -4287,4 +4287,53 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get assignmentRejectedMessage => '此分配已被拒绝。请检查员工的职位和证书后重试。';
+
+  @override
+  String get sopTemplateCleaningSchedule => '清洁时间表';
+
+  @override
+  String get sopTemplateAllergenControl => '过敏原控制';
+
+  @override
+  String get sopTemplateDeliveryAndStorage => '配送与存储';
+
+  @override
+  String get sopTemplatePersonalHygiene => '个人卫生';
+
+  @override
+  String get sopTemplatePestControl => '虫害防治';
+
+  @override
+  String get generateSopTitle => '生成标准作业程序文件';
+
+  @override
+  String get sopGenerationDisclaimer =>
+      '这将使用英国通用食品安全规范,由AI起草一份程序文件的初稿。这仅是一个起点——请仔细阅读并编辑任何特定于您场所的内容,然后再将其保存为正式文件。';
+
+  @override
+  String get sopTemplateFieldLabel => '文件类型';
+
+  @override
+  String get sopExtraContextLabel => '补充信息(可选)';
+
+  @override
+  String get sopExtraContextHint => '例如需要包含的特定设备、员工职责或场所规定';
+
+  @override
+  String get generatingText => '正在生成...';
+
+  @override
+  String get generateDraftButton => '生成草稿';
+
+  @override
+  String get documentTitleLabel => '文件标题';
+
+  @override
+  String get reviewAndEditDraftLabel => '查看并编辑草稿';
+
+  @override
+  String get saveAsDocumentButton => '保存到文档中心';
+
+  @override
+  String get generateWithAiButton => '使用AI生成';
 }

@@ -1273,5 +1273,21 @@
   "noApprovedDishesYetText": "Brak jeszcze zatwierdzonych dań. Poproś kierownika o sprawdzenie i zatwierdzenie dań w sekcji Menu i alergeny.",
   "exportAsPdfButton": "Eksportuj jako PDF",
   "allergenMatrixSubtitle": "Sprawdz, co znajduje sie w daniu, zanim trafi do klienta",
-  "assignmentRejectedMessage": "To przypisanie zostalo odrzucone. Sprawdz role i certyfikaty pracownika i sprobuj ponownie."
+  "assignmentRejectedMessage": "To przypisanie zostalo odrzucone. Sprawdz role i certyfikaty pracownika i sprobuj ponownie.",
+  "sopTemplateCleaningSchedule": "Harmonogram sprzatania",
+  "sopTemplateAllergenControl": "Kontrola alergenow",
+  "sopTemplateDeliveryAndStorage": "Dostawy i przechowywanie",
+  "sopTemplatePersonalHygiene": "Higiena osobista",
+  "sopTemplatePestControl": "Kontrola szkodnikow",
+  "generateSopTitle": "Generuj dokument procedury",
+  "sopGenerationDisclaimer": "To tworzy pierwsza wersje dokumentu procedury wygenerowana przez AI, opartego na ogolnych brytyjskich zasadach bezpieczenstwa zywnosci. To tylko punkt wyjscia - przeczytaj uwaznie i edytuj wszystko specyficzne dla Twojego lokalu przed zapisaniem jako aktywny dokument.",
+  "sopTemplateFieldLabel": "Typ dokumentu",
+  "sopExtraContextLabel": "Dodatkowe szczegoly (opcjonalnie)",
+  "sopExtraContextHint": "np. konkretny sprzet, role personelu lub zasady lokalu do uwzglednienia",
+  "generatingText": "Generowanie...",
+  "generateDraftButton": "Generuj szkic",
+  "documentTitleLabel": "Tytul dokumentu",
+  "reviewAndEditDraftLabel": "Przejrzyj i edytuj szkic",
+  "saveAsDocumentButton": "Zapisz w Centrum Dokumentow",
+  "generateWithAiButton": "Generuj z AI"
 }

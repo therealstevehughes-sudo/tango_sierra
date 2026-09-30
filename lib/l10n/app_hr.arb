@@ -1273,5 +1273,21 @@
   "noApprovedDishesYetText": "Još nema odobrenih jela. Zamolite voditelja da pregleda i odobri jela u Jelovnik i alergeni.",
   "exportAsPdfButton": "Izvezi kao PDF",
   "allergenMatrixSubtitle": "Provjerite sto se nalazi u jelu prije nego sto stigne do gosta",
-  "assignmentRejectedMessage": "Ovo dodjeljivanje je odbijeno. Provjerite ulogu i certifikate zaposlenika i pokusajte ponovno."
+  "assignmentRejectedMessage": "Ovo dodjeljivanje je odbijeno. Provjerite ulogu i certifikate zaposlenika i pokusajte ponovno.",
+  "sopTemplateCleaningSchedule": "Raspored ciscenja",
+  "sopTemplateAllergenControl": "Kontrola alergena",
+  "sopTemplateDeliveryAndStorage": "Dostava i skladistenje",
+  "sopTemplatePersonalHygiene": "Osobna higijena",
+  "sopTemplatePestControl": "Suzbijanje stetnika",
+  "generateSopTitle": "Generiraj SOP dokument",
+  "sopGenerationDisclaimer": "Ovo stvara prvu verziju dokumenta postupka koju je izradila AI, koristeci opce britanske prakse sigurnosti hrane. Ovo je samo polazna tocka - pazljivo procitajte i uredite sve specificno za vasu poslovnicu prije spremanja kao aktivnog dokumenta.",
+  "sopTemplateFieldLabel": "Vrsta dokumenta",
+  "sopExtraContextLabel": "Dodatni detalji (neobavezno)",
+  "sopExtraContextHint": "npr. specificna oprema, uloge osoblja ili vlastita pravila za ukljucivanje",
+  "generatingText": "Generiranje...",
+  "generateDraftButton": "Generiraj nacrt",
+  "documentTitleLabel": "Naziv dokumenta",
+  "reviewAndEditDraftLabel": "Pregledajte i uredite nacrt",
+  "saveAsDocumentButton": "Spremi u Centar dokumenata",
+  "generateWithAiButton": "Generiraj s AI"
 }

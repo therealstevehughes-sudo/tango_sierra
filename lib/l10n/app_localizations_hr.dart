@@ -4459,4 +4459,54 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get assignmentRejectedMessage =>
       'Ovo dodjeljivanje je odbijeno. Provjerite ulogu i certifikate zaposlenika i pokusajte ponovno.';
+
+  @override
+  String get sopTemplateCleaningSchedule => 'Raspored ciscenja';
+
+  @override
+  String get sopTemplateAllergenControl => 'Kontrola alergena';
+
+  @override
+  String get sopTemplateDeliveryAndStorage => 'Dostava i skladistenje';
+
+  @override
+  String get sopTemplatePersonalHygiene => 'Osobna higijena';
+
+  @override
+  String get sopTemplatePestControl => 'Suzbijanje stetnika';
+
+  @override
+  String get generateSopTitle => 'Generiraj SOP dokument';
+
+  @override
+  String get sopGenerationDisclaimer =>
+      'Ovo stvara prvu verziju dokumenta postupka koju je izradila AI, koristeci opce britanske prakse sigurnosti hrane. Ovo je samo polazna tocka - pazljivo procitajte i uredite sve specificno za vasu poslovnicu prije spremanja kao aktivnog dokumenta.';
+
+  @override
+  String get sopTemplateFieldLabel => 'Vrsta dokumenta';
+
+  @override
+  String get sopExtraContextLabel => 'Dodatni detalji (neobavezno)';
+
+  @override
+  String get sopExtraContextHint =>
+      'npr. specificna oprema, uloge osoblja ili vlastita pravila za ukljucivanje';
+
+  @override
+  String get generatingText => 'Generiranje...';
+
+  @override
+  String get generateDraftButton => 'Generiraj nacrt';
+
+  @override
+  String get documentTitleLabel => 'Naziv dokumenta';
+
+  @override
+  String get reviewAndEditDraftLabel => 'Pregledajte i uredite nacrt';
+
+  @override
+  String get saveAsDocumentButton => 'Spremi u Centar dokumenata';
+
+  @override
+  String get generateWithAiButton => 'Generiraj s AI';
 }

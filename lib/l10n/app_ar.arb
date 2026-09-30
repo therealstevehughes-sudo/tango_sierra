@@ -1273,5 +1273,21 @@
   "noApprovedDishesYetText": "لا توجد أطباق معتمدة بعد. اطلب من المدير مراجعة الأطباق والموافقة عليها في القائمة ومسببات الحساسية.",
   "exportAsPdfButton": "تصدير كملف PDF",
   "allergenMatrixSubtitle": "تحقق مما يحتويه الطبق قبل وصوله إلى العميل",
-  "assignmentRejectedMessage": "تم رفض هذا التعيين. يرجى التحقق من دور الموظف وشهاداته والمحاولة مرة أخرى."
+  "assignmentRejectedMessage": "تم رفض هذا التعيين. يرجى التحقق من دور الموظف وشهاداته والمحاولة مرة أخرى.",
+  "sopTemplateCleaningSchedule": "جدول التنظيف",
+  "sopTemplateAllergenControl": "التحكم في مسببات الحساسية",
+  "sopTemplateDeliveryAndStorage": "التوصيل والتخزين",
+  "sopTemplatePersonalHygiene": "النظافة الشخصية",
+  "sopTemplatePestControl": "مكافحة الآفات",
+  "generateSopTitle": "إنشاء مستند إجراء",
+  "sopGenerationDisclaimer": "ينشئ هذا مسودة أولى لمستند إجراء بواسطة الذكاء الاصطناعي، باستخدام ممارسات السلامة الغذائية العامة في المملكة المتحدة. هذه نقطة انطلاق فقط - اقرأها بعناية وعدّل أي شيء خاص بمنشأتك قبل حفظها كمستند نشط.",
+  "sopTemplateFieldLabel": "نوع المستند",
+  "sopExtraContextLabel": "تفاصيل إضافية (اختياري)",
+  "sopExtraContextHint": "مثال: معدات محددة، أدوار الموظفين، أو قواعد خاصة لإدراجها",
+  "generatingText": "جارٍ الإنشاء...",
+  "generateDraftButton": "إنشاء مسودة",
+  "documentTitleLabel": "عنوان المستند",
+  "reviewAndEditDraftLabel": "راجع وعدّل المسودة",
+  "saveAsDocumentButton": "حفظ في مركز المستندات",
+  "generateWithAiButton": "إنشاء بالذكاء الاصطناعي"
 }

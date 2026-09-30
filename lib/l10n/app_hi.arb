@@ -1273,5 +1273,21 @@
   "noApprovedDishesYetText": "अभी तक कोई व्यंजन स्वीकृत नहीं हुआ। मेनू और एलर्जन में व्यंजनों की समीक्षा और स्वीकृति के लिए मैनेजर से कहें।",
   "exportAsPdfButton": "PDF के रूप में निर्यात करें",
   "allergenMatrixSubtitle": "ग्राहक तक पहुंचने से पहले व्यंजन में क्या है, जांच लें",
-  "assignmentRejectedMessage": "यह असाइनमेंट अस्वीकृत कर दिया गया। कृपया कर्मचारी की भूमिका और प्रमाणपत्र जांचें और पुनः प्रयास करें।"
+  "assignmentRejectedMessage": "यह असाइनमेंट अस्वीकृत कर दिया गया। कृपया कर्मचारी की भूमिका और प्रमाणपत्र जांचें और पुनः प्रयास करें।",
+  "sopTemplateCleaningSchedule": "सफाई अनुसूची",
+  "sopTemplateAllergenControl": "एलर्जन नियंत्रण",
+  "sopTemplateDeliveryAndStorage": "डिलीवरी और भंडारण",
+  "sopTemplatePersonalHygiene": "व्यक्तिगत स्वच्छता",
+  "sopTemplatePestControl": "कीट नियंत्रण",
+  "generateSopTitle": "एसओपी दस्तावेज़ बनाएं",
+  "sopGenerationDisclaimer": "यह सामान्य यूके खाद्य सुरक्षा प्रथाओं का उपयोग करके AI द्वारा तैयार एक प्रक्रिया दस्तावेज़ का पहला मसौदा बनाता है। यह केवल एक शुरुआती बिंदु है - इसे लाइव दस्तावेज़ के रूप में सहेजने से पहले ध्यान से पढ़ें और अपने स्थान के लिए विशिष्ट किसी भी चीज़ को संपादित करें।",
+  "sopTemplateFieldLabel": "दस्तावेज़ प्रकार",
+  "sopExtraContextLabel": "अतिरिक्त विवरण (वैकल्पिक)",
+  "sopExtraContextHint": "जैसे विशिष्ट उपकरण, कर्मचारी भूमिकाएं, या शामिल करने के लिए नियम",
+  "generatingText": "बनाया जा रहा है...",
+  "generateDraftButton": "मसौदा बनाएं",
+  "documentTitleLabel": "दस्तावेज़ शीर्षक",
+  "reviewAndEditDraftLabel": "मसौदे की समीक्षा करें और संपादित करें",
+  "saveAsDocumentButton": "दस्तावेज़ केंद्र में सहेजें",
+  "generateWithAiButton": "AI से बनाएं"
 }

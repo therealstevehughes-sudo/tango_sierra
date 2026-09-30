@@ -1273,5 +1273,21 @@
   "noApprovedDishesYetText": "Noch keine genehmigten Gerichte. Bitten Sie einen Manager, Gerichte in Menü & Allergene zu prüfen und zu genehmigen.",
   "exportAsPdfButton": "Als PDF exportieren",
   "allergenMatrixSubtitle": "Pruefen Sie, was in einem Gericht enthalten ist, bevor es den Kunden erreicht",
-  "assignmentRejectedMessage": "Diese Zuweisung wurde abgelehnt. Bitte pruefen Sie die Rolle und Zertifikate des Mitarbeiters und versuchen Sie es erneut."
+  "assignmentRejectedMessage": "Diese Zuweisung wurde abgelehnt. Bitte pruefen Sie die Rolle und Zertifikate des Mitarbeiters und versuchen Sie es erneut.",
+  "sopTemplateCleaningSchedule": "Reinigungsplan",
+  "sopTemplateAllergenControl": "Allergenkontrolle",
+  "sopTemplateDeliveryAndStorage": "Lieferung und Lagerung",
+  "sopTemplatePersonalHygiene": "Personliche Hygiene",
+  "sopTemplatePestControl": "Schadlingsbekampfung",
+  "generateSopTitle": "SOP-Dokument erstellen",
+  "sopGenerationDisclaimer": "Dies erstellt einen von KI verfassten ersten Entwurf eines Verfahrensdokuments anhand allgemeiner britischer Lebensmittelsicherheitspraktiken. Dies ist nur ein Ausgangspunkt - lesen Sie ihn sorgfaltig und bearbeiten Sie alles, was fur Ihren Standort spezifisch ist, bevor Sie ihn als aktives Dokument speichern.",
+  "sopTemplateFieldLabel": "Dokumenttyp",
+  "sopExtraContextLabel": "Zusatzliche Details (optional)",
+  "sopExtraContextHint": "z. B. bestimmte Ausrustung, Mitarbeiterrollen oder eigene Regeln zum Einbeziehen",
+  "generatingText": "Wird erstellt...",
+  "generateDraftButton": "Entwurf erstellen",
+  "documentTitleLabel": "Dokumenttitel",
+  "reviewAndEditDraftLabel": "Entwurf prufen und bearbeiten",
+  "saveAsDocumentButton": "Im Dokumentenzentrum speichern",
+  "generateWithAiButton": "Mit KI erstellen"
 }
