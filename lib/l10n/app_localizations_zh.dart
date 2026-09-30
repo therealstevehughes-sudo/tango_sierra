@@ -3628,4 +3628,92 @@ class AppLocalizationsZh extends AppLocalizations {
   String countPercentLabel(int count, int rate) {
     return '$count($rate%)';
   }
+
+  @override
+  String get missingNameError => '缺少姓名';
+
+  @override
+  String get missingJobTitleError => '缺少职位';
+
+  @override
+  String get pinMustBe4DigitsError => 'PIN 必须恰好为 4 位数字(或留空)';
+
+  @override
+  String get bulkStaffImportTitle => '批量导入员工';
+
+  @override
+  String get csvColumnsInstructionsText =>
+      'CSV 列:姓名、职位、职级、工作角色(可选)、PIN(可选)。表头行没关系 - 会自动检测。将 PIN 留空即可自动为你生成。';
+
+  @override
+  String get chooseCsvFileButton => '选择CSV文件';
+
+  @override
+  String get chooseDifferentFileButton => '选择其他文件';
+
+  @override
+  String get noteDownPinsText => ' 离开此屏幕前,请记下下方每个 PIN 码。';
+
+  @override
+  String get importingEllipsisLabel => '导入中...';
+
+  @override
+  String roleTierMustBeOneOfError(String list) {
+    return '职级必须是以下之一:$list';
+  }
+
+  @override
+  String notAllowedToCreateTierError(String tier) {
+    return '你无权创建 $tier 账户';
+  }
+
+  @override
+  String jobRoleMustBeOneOfError(String list) {
+    return '工作角色必须是以下之一:$list';
+  }
+
+  @override
+  String csvExampleText(String example) {
+    return '示例:$example';
+  }
+
+  @override
+  String rowsFoundLabel(String fileName, int count) {
+    return '$fileName - 找到 $count 行';
+  }
+
+  @override
+  String needFixingSuffix(int count) {
+    return ',$count 行需要修正';
+  }
+
+  @override
+  String createdCountLabel(int count) {
+    return '已创建 $count 个';
+  }
+
+  @override
+  String failedSuffixLabel(int count) {
+    return ',$count 个失败';
+  }
+
+  @override
+  String importStaffCountButton(int count) {
+    return '导入 $count 名员工';
+  }
+
+  @override
+  String rowNumberFallback(int number) {
+    return '第 $number 行';
+  }
+
+  @override
+  String jobTitleTierLabel(String jobTitle, String tier) {
+    return '$jobTitle - $tier';
+  }
+
+  @override
+  String pinSuffixLabel(String pin) {
+    return ' - PIN码:$pin';
+  }
 }

@@ -3724,4 +3724,94 @@ class AppLocalizationsAr extends AppLocalizations {
   String countPercentLabel(int count, int rate) {
     return '$count ($rate%)';
   }
+
+  @override
+  String get missingNameError => 'الاسم مفقود';
+
+  @override
+  String get missingJobTitleError => 'المسمى الوظيفي مفقود';
+
+  @override
+  String get pinMustBe4DigitsError =>
+      'يجب أن يتكون الرمز السري من 4 أرقام بالضبط (أو يُترك فارغًا)';
+
+  @override
+  String get bulkStaffImportTitle => 'استيراد جماعي للموظفين';
+
+  @override
+  String get csvColumnsInstructionsText =>
+      'أعمدة CSV: الاسم، المسمى الوظيفي، مستوى الدور، الدور الوظيفي (اختياري)، الرمز السري (اختياري). صف العنوان مقبول - يتم اكتشافه تلقائيًا. اترك الرمز السري فارغًا ليتم إنشاء واحد لك.';
+
+  @override
+  String get chooseCsvFileButton => 'اختيار ملف CSV';
+
+  @override
+  String get chooseDifferentFileButton => 'اختيار ملف مختلف';
+
+  @override
+  String get noteDownPinsText =>
+      ' دوّن كل رمز سري أدناه قبل مغادرة هذه الشاشة.';
+
+  @override
+  String get importingEllipsisLabel => 'جارٍ الاستيراد...';
+
+  @override
+  String roleTierMustBeOneOfError(String list) {
+    return 'يجب أن يكون مستوى الدور واحدًا من: $list';
+  }
+
+  @override
+  String notAllowedToCreateTierError(String tier) {
+    return 'غير مسموح لك بإنشاء حساب $tier';
+  }
+
+  @override
+  String jobRoleMustBeOneOfError(String list) {
+    return 'يجب أن يكون الدور الوظيفي واحدًا من: $list';
+  }
+
+  @override
+  String csvExampleText(String example) {
+    return 'مثال: $example';
+  }
+
+  @override
+  String rowsFoundLabel(String fileName, int count) {
+    return '$fileName - تم العثور على $count صف';
+  }
+
+  @override
+  String needFixingSuffix(int count) {
+    return '، $count بحاجة إلى إصلاح';
+  }
+
+  @override
+  String createdCountLabel(int count) {
+    return 'تم إنشاء $count';
+  }
+
+  @override
+  String failedSuffixLabel(int count) {
+    return '، فشل $count';
+  }
+
+  @override
+  String importStaffCountButton(int count) {
+    return 'استيراد $count موظف';
+  }
+
+  @override
+  String rowNumberFallback(int number) {
+    return 'الصف $number';
+  }
+
+  @override
+  String jobTitleTierLabel(String jobTitle, String tier) {
+    return '$jobTitle - $tier';
+  }
+
+  @override
+  String pinSuffixLabel(String pin) {
+    return ' - الرمز السري: $pin';
+  }
 }

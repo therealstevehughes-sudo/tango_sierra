@@ -3741,4 +3741,94 @@ class AppLocalizationsUr extends AppLocalizations {
   String countPercentLabel(int count, int rate) {
     return '$count ($rate%)';
   }
+
+  @override
+  String get missingNameError => 'نام غائب ہے';
+
+  @override
+  String get missingJobTitleError => 'عہدہ غائب ہے';
+
+  @override
+  String get pinMustBe4DigitsError =>
+      'پن بالکل 4 ہندسوں کا ہونا چاہیے (یا خالی چھوڑیں)';
+
+  @override
+  String get bulkStaffImportTitle => 'بلک اسٹاف درآمد';
+
+  @override
+  String get csvColumnsInstructionsText =>
+      'CSV کالمز: نام، عہدہ، کردار کی سطح، ملازمت کا کردار (اختیاری)، پن (اختیاری)۔ ہیڈر قطار ٹھیک ہے - یہ خودکار طور پر پہچانی جاتی ہے۔ تمہارے لیے ایک بنانے کے لیے پن خالی چھوڑ دو۔';
+
+  @override
+  String get chooseCsvFileButton => 'CSV فائل منتخب کریں';
+
+  @override
+  String get chooseDifferentFileButton => 'ایک مختلف فائل منتخب کریں';
+
+  @override
+  String get noteDownPinsText =>
+      ' اس اسکرین کو چھوڑنے سے پہلے ذیل میں ہر پن نوٹ کر لیں۔';
+
+  @override
+  String get importingEllipsisLabel => 'درآمد ہو رہا ہے...';
+
+  @override
+  String roleTierMustBeOneOfError(String list) {
+    return 'کردار کی سطح ان میں سے ایک ہونی چاہیے: $list';
+  }
+
+  @override
+  String notAllowedToCreateTierError(String tier) {
+    return 'تمہیں $tier اکاؤنٹ بنانے کی اجازت نہیں ہے';
+  }
+
+  @override
+  String jobRoleMustBeOneOfError(String list) {
+    return 'ملازمت کا کردار ان میں سے ایک ہونا چاہیے: $list';
+  }
+
+  @override
+  String csvExampleText(String example) {
+    return 'مثال: $example';
+  }
+
+  @override
+  String rowsFoundLabel(String fileName, int count) {
+    return '$fileName - $count قطاریں ملیں';
+  }
+
+  @override
+  String needFixingSuffix(int count) {
+    return '، $count کو درست کرنے کی ضرورت ہے';
+  }
+
+  @override
+  String createdCountLabel(int count) {
+    return '$count بنائے گئے';
+  }
+
+  @override
+  String failedSuffixLabel(int count) {
+    return '، $count ناکام';
+  }
+
+  @override
+  String importStaffCountButton(int count) {
+    return '$count اسٹاف اراکین درآمد کریں';
+  }
+
+  @override
+  String rowNumberFallback(int number) {
+    return 'قطار $number';
+  }
+
+  @override
+  String jobTitleTierLabel(String jobTitle, String tier) {
+    return '$jobTitle - $tier';
+  }
+
+  @override
+  String pinSuffixLabel(String pin) {
+    return ' - پن: $pin';
+  }
 }

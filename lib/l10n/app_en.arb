@@ -3604,5 +3604,143 @@
         "type": "int"
       }
     }
+  },
+  "missingNameError": "Missing name",
+  "@missingNameError": {
+    "description": ""
+  },
+  "missingJobTitleError": "Missing job title",
+  "@missingJobTitleError": {
+    "description": ""
+  },
+  "pinMustBe4DigitsError": "PIN must be exactly 4 digits (or left blank)",
+  "@pinMustBe4DigitsError": {
+    "description": ""
+  },
+  "bulkStaffImportTitle": "Bulk Staff Import",
+  "@bulkStaffImportTitle": {
+    "description": ""
+  },
+  "csvColumnsInstructionsText": "CSV columns: name, job title, role tier, job role (optional), pin (optional). A header row is fine - it's detected automatically. Leave the PIN blank to have one generated for you.",
+  "@csvColumnsInstructionsText": {
+    "description": ""
+  },
+  "chooseCsvFileButton": "Choose CSV file",
+  "@chooseCsvFileButton": {
+    "description": ""
+  },
+  "chooseDifferentFileButton": "Choose a different file",
+  "@chooseDifferentFileButton": {
+    "description": ""
+  },
+  "noteDownPinsText": " Note down each PIN below before leaving this screen.",
+  "@noteDownPinsText": {
+    "description": ""
+  },
+  "importingEllipsisLabel": "Importing...",
+  "@importingEllipsisLabel": {
+    "description": ""
+  },
+  "roleTierMustBeOneOfError": "Role tier must be one of: {list}",
+  "@roleTierMustBeOneOfError": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "notAllowedToCreateTierError": "You aren't allowed to create a {tier} account",
+  "@notAllowedToCreateTierError": {
+    "placeholders": {
+      "tier": {
+        "type": "String"
+      }
+    }
+  },
+  "jobRoleMustBeOneOfError": "Job role must be one of: {list}",
+  "@jobRoleMustBeOneOfError": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "csvExampleText": "Example: {example}",
+  "@csvExampleText": {
+    "placeholders": {
+      "example": {
+        "type": "String"
+      }
+    }
+  },
+  "rowsFoundLabel": "{fileName} - {count, plural, one{{count} row found} other{{count} rows found}}",
+  "@rowsFoundLabel": {
+    "placeholders": {
+      "fileName": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "needFixingSuffix": ", {count, plural, one{{count} needs fixing} other{{count} need fixing}}",
+  "@needFixingSuffix": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "createdCountLabel": "{count} created",
+  "@createdCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "failedSuffixLabel": ", {count} failed",
+  "@failedSuffixLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importStaffCountButton": "Import {count, plural, one{{count} staff member} other{{count} staff members}}",
+  "@importStaffCountButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "rowNumberFallback": "Row {number}",
+  "@rowNumberFallback": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "jobTitleTierLabel": "{jobTitle} - {tier}",
+  "@jobTitleTierLabel": {
+    "placeholders": {
+      "jobTitle": {
+        "type": "String"
+      },
+      "tier": {
+        "type": "String"
+      }
+    }
+  },
+  "pinSuffixLabel": " - PIN: {pin}",
+  "@pinSuffixLabel": {
+    "placeholders": {
+      "pin": {
+        "type": "String"
+      }
+    }
   }
 }

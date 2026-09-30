@@ -3834,4 +3834,112 @@ class AppLocalizationsDe extends AppLocalizations {
   String countPercentLabel(int count, int rate) {
     return '$count ($rate %)';
   }
+
+  @override
+  String get missingNameError => 'Name fehlt';
+
+  @override
+  String get missingJobTitleError => 'Position fehlt';
+
+  @override
+  String get pinMustBe4DigitsError =>
+      'PIN muss genau 4 Ziffern haben (oder leer bleiben)';
+
+  @override
+  String get bulkStaffImportTitle => 'Massenimport von Mitarbeitern';
+
+  @override
+  String get csvColumnsInstructionsText =>
+      'CSV-Spalten: Name, Position, Rollenebene, Jobrolle (optional), PIN (optional). Eine Kopfzeile ist in Ordnung - sie wird automatisch erkannt. Lasse die PIN leer, damit eine für dich generiert wird.';
+
+  @override
+  String get chooseCsvFileButton => 'CSV-Datei wählen';
+
+  @override
+  String get chooseDifferentFileButton => 'Andere Datei wählen';
+
+  @override
+  String get noteDownPinsText =>
+      ' Notiere jede PIN unten, bevor du diesen Bildschirm verlässt.';
+
+  @override
+  String get importingEllipsisLabel => 'Wird importiert...';
+
+  @override
+  String roleTierMustBeOneOfError(String list) {
+    return 'Die Rollenebene muss eine der folgenden sein: $list';
+  }
+
+  @override
+  String notAllowedToCreateTierError(String tier) {
+    return 'Du darfst kein $tier-Konto erstellen';
+  }
+
+  @override
+  String jobRoleMustBeOneOfError(String list) {
+    return 'Die Jobrolle muss eine der folgenden sein: $list';
+  }
+
+  @override
+  String csvExampleText(String example) {
+    return 'Beispiel: $example';
+  }
+
+  @override
+  String rowsFoundLabel(String fileName, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Zeilen gefunden',
+      one: '$count Zeile gefunden',
+    );
+    return '$fileName - $_temp0';
+  }
+
+  @override
+  String needFixingSuffix(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count müssen korrigiert werden',
+      one: '$count muss korrigiert werden',
+    );
+    return ', $_temp0';
+  }
+
+  @override
+  String createdCountLabel(int count) {
+    return '$count erstellt';
+  }
+
+  @override
+  String failedSuffixLabel(int count) {
+    return ', $count fehlgeschlagen';
+  }
+
+  @override
+  String importStaffCountButton(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Mitarbeiter importieren',
+      one: '$count Mitarbeiter importieren',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String rowNumberFallback(int number) {
+    return 'Zeile $number';
+  }
+
+  @override
+  String jobTitleTierLabel(String jobTitle, String tier) {
+    return '$jobTitle - $tier';
+  }
+
+  @override
+  String pinSuffixLabel(String pin) {
+    return ' - PIN: $pin';
+  }
 }

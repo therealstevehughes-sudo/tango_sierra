@@ -3808,4 +3808,112 @@ class AppLocalizationsEn extends AppLocalizations {
   String countPercentLabel(int count, int rate) {
     return '$count ($rate%)';
   }
+
+  @override
+  String get missingNameError => 'Missing name';
+
+  @override
+  String get missingJobTitleError => 'Missing job title';
+
+  @override
+  String get pinMustBe4DigitsError =>
+      'PIN must be exactly 4 digits (or left blank)';
+
+  @override
+  String get bulkStaffImportTitle => 'Bulk Staff Import';
+
+  @override
+  String get csvColumnsInstructionsText =>
+      'CSV columns: name, job title, role tier, job role (optional), pin (optional). A header row is fine - it\'s detected automatically. Leave the PIN blank to have one generated for you.';
+
+  @override
+  String get chooseCsvFileButton => 'Choose CSV file';
+
+  @override
+  String get chooseDifferentFileButton => 'Choose a different file';
+
+  @override
+  String get noteDownPinsText =>
+      ' Note down each PIN below before leaving this screen.';
+
+  @override
+  String get importingEllipsisLabel => 'Importing...';
+
+  @override
+  String roleTierMustBeOneOfError(String list) {
+    return 'Role tier must be one of: $list';
+  }
+
+  @override
+  String notAllowedToCreateTierError(String tier) {
+    return 'You aren\'t allowed to create a $tier account';
+  }
+
+  @override
+  String jobRoleMustBeOneOfError(String list) {
+    return 'Job role must be one of: $list';
+  }
+
+  @override
+  String csvExampleText(String example) {
+    return 'Example: $example';
+  }
+
+  @override
+  String rowsFoundLabel(String fileName, int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rows found',
+      one: '$count row found',
+    );
+    return '$fileName - $_temp0';
+  }
+
+  @override
+  String needFixingSuffix(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count need fixing',
+      one: '$count needs fixing',
+    );
+    return ', $_temp0';
+  }
+
+  @override
+  String createdCountLabel(int count) {
+    return '$count created';
+  }
+
+  @override
+  String failedSuffixLabel(int count) {
+    return ', $count failed';
+  }
+
+  @override
+  String importStaffCountButton(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count staff members',
+      one: '$count staff member',
+    );
+    return 'Import $_temp0';
+  }
+
+  @override
+  String rowNumberFallback(int number) {
+    return 'Row $number';
+  }
+
+  @override
+  String jobTitleTierLabel(String jobTitle, String tier) {
+    return '$jobTitle - $tier';
+  }
+
+  @override
+  String pinSuffixLabel(String pin) {
+    return ' - PIN: $pin';
+  }
 }

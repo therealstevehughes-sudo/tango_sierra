@@ -3768,4 +3768,94 @@ class AppLocalizationsHr extends AppLocalizations {
   String countPercentLabel(int count, int rate) {
     return '$count ($rate%)';
   }
+
+  @override
+  String get missingNameError => 'Nedostaje ime';
+
+  @override
+  String get missingJobTitleError => 'Nedostaje radno mjesto';
+
+  @override
+  String get pinMustBe4DigitsError =>
+      'PIN mora imati točno 4 znamenke (ili ostati prazan)';
+
+  @override
+  String get bulkStaffImportTitle => 'Skupni uvoz osoblja';
+
+  @override
+  String get csvColumnsInstructionsText =>
+      'CSV stupci: ime, radno mjesto, razina uloge, radna uloga (neobavezno), PIN (neobavezno). Redak zaglavlja je u redu - automatski se otkriva. Ostavi PIN prazan da bude generiran umjesto tebe.';
+
+  @override
+  String get chooseCsvFileButton => 'Odaberi CSV datoteku';
+
+  @override
+  String get chooseDifferentFileButton => 'Odaberi drugu datoteku';
+
+  @override
+  String get noteDownPinsText =>
+      ' Zabilježi svaki PIN u nastavku prije napuštanja ovog zaslona.';
+
+  @override
+  String get importingEllipsisLabel => 'Uvoženje...';
+
+  @override
+  String roleTierMustBeOneOfError(String list) {
+    return 'Razina uloge mora biti jedna od: $list';
+  }
+
+  @override
+  String notAllowedToCreateTierError(String tier) {
+    return 'Nije ti dopušteno stvoriti $tier račun';
+  }
+
+  @override
+  String jobRoleMustBeOneOfError(String list) {
+    return 'Radna uloga mora biti jedna od: $list';
+  }
+
+  @override
+  String csvExampleText(String example) {
+    return 'Primjer: $example';
+  }
+
+  @override
+  String rowsFoundLabel(String fileName, int count) {
+    return '$fileName - pronađeno $count redaka';
+  }
+
+  @override
+  String needFixingSuffix(int count) {
+    return ', $count treba ispraviti';
+  }
+
+  @override
+  String createdCountLabel(int count) {
+    return 'Stvoreno $count';
+  }
+
+  @override
+  String failedSuffixLabel(int count) {
+    return ', $count neuspješno';
+  }
+
+  @override
+  String importStaffCountButton(int count) {
+    return 'Uvezi $count zaposlenika';
+  }
+
+  @override
+  String rowNumberFallback(int number) {
+    return 'Redak $number';
+  }
+
+  @override
+  String jobTitleTierLabel(String jobTitle, String tier) {
+    return '$jobTitle - $tier';
+  }
+
+  @override
+  String pinSuffixLabel(String pin) {
+    return ' - PIN: $pin';
+  }
 }

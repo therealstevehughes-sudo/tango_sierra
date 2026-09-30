@@ -3749,4 +3749,94 @@ class AppLocalizationsHi extends AppLocalizations {
   String countPercentLabel(int count, int rate) {
     return '$count ($rate%)';
   }
+
+  @override
+  String get missingNameError => 'नाम गायब है';
+
+  @override
+  String get missingJobTitleError => 'पद गायब है';
+
+  @override
+  String get pinMustBe4DigitsError =>
+      'पिन बिल्कुल 4 अंकों का होना चाहिए (या खाली छोड़ें)';
+
+  @override
+  String get bulkStaffImportTitle => 'बल्क स्टाफ आयात';
+
+  @override
+  String get csvColumnsInstructionsText =>
+      'CSV कॉलम: नाम, पद, भूमिका स्तर, नौकरी भूमिका (वैकल्पिक), पिन (वैकल्पिक)। हेडर पंक्ति ठीक है - यह स्वचालित रूप से पहचानी जाती है। तुम्हारे लिए एक जनरेट करने के लिए पिन खाली छोड़ें।';
+
+  @override
+  String get chooseCsvFileButton => 'CSV फ़ाइल चुनें';
+
+  @override
+  String get chooseDifferentFileButton => 'एक अलग फ़ाइल चुनें';
+
+  @override
+  String get noteDownPinsText =>
+      ' इस स्क्रीन को छोड़ने से पहले नीचे प्रत्येक पिन नोट कर लें।';
+
+  @override
+  String get importingEllipsisLabel => 'आयात हो रहा है...';
+
+  @override
+  String roleTierMustBeOneOfError(String list) {
+    return 'भूमिका स्तर इनमें से एक होना चाहिए: $list';
+  }
+
+  @override
+  String notAllowedToCreateTierError(String tier) {
+    return 'तुम्हें $tier खाता बनाने की अनुमति नहीं है';
+  }
+
+  @override
+  String jobRoleMustBeOneOfError(String list) {
+    return 'नौकरी भूमिका इनमें से एक होनी चाहिए: $list';
+  }
+
+  @override
+  String csvExampleText(String example) {
+    return 'उदाहरण: $example';
+  }
+
+  @override
+  String rowsFoundLabel(String fileName, int count) {
+    return '$fileName - $count पंक्तियां मिलीं';
+  }
+
+  @override
+  String needFixingSuffix(int count) {
+    return ', $count को ठीक करने की ज़रूरत है';
+  }
+
+  @override
+  String createdCountLabel(int count) {
+    return '$count बनाए गए';
+  }
+
+  @override
+  String failedSuffixLabel(int count) {
+    return ', $count विफल';
+  }
+
+  @override
+  String importStaffCountButton(int count) {
+    return '$count स्टाफ सदस्यों को आयात करें';
+  }
+
+  @override
+  String rowNumberFallback(int number) {
+    return 'पंक्ति $number';
+  }
+
+  @override
+  String jobTitleTierLabel(String jobTitle, String tier) {
+    return '$jobTitle - $tier';
+  }
+
+  @override
+  String pinSuffixLabel(String pin) {
+    return ' - पिन: $pin';
+  }
 }

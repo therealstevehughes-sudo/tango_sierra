@@ -6631,6 +6631,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} ({rate}%)'**
   String countPercentLabel(int count, int rate);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Missing name'**
+  String get missingNameError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Missing job title'**
+  String get missingJobTitleError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'PIN must be exactly 4 digits (or left blank)'**
+  String get pinMustBe4DigitsError;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Bulk Staff Import'**
+  String get bulkStaffImportTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'CSV columns: name, job title, role tier, job role (optional), pin (optional). A header row is fine - it\'s detected automatically. Leave the PIN blank to have one generated for you.'**
+  String get csvColumnsInstructionsText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Choose CSV file'**
+  String get chooseCsvFileButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a different file'**
+  String get chooseDifferentFileButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **' Note down each PIN below before leaving this screen.'**
+  String get noteDownPinsText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Importing...'**
+  String get importingEllipsisLabel;
+
+  /// No description provided for @roleTierMustBeOneOfError.
+  ///
+  /// In en, this message translates to:
+  /// **'Role tier must be one of: {list}'**
+  String roleTierMustBeOneOfError(String list);
+
+  /// No description provided for @notAllowedToCreateTierError.
+  ///
+  /// In en, this message translates to:
+  /// **'You aren\'t allowed to create a {tier} account'**
+  String notAllowedToCreateTierError(String tier);
+
+  /// No description provided for @jobRoleMustBeOneOfError.
+  ///
+  /// In en, this message translates to:
+  /// **'Job role must be one of: {list}'**
+  String jobRoleMustBeOneOfError(String list);
+
+  /// No description provided for @csvExampleText.
+  ///
+  /// In en, this message translates to:
+  /// **'Example: {example}'**
+  String csvExampleText(String example);
+
+  /// No description provided for @rowsFoundLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{fileName} - {count, plural, one{{count} row found} other{{count} rows found}}'**
+  String rowsFoundLabel(String fileName, int count);
+
+  /// No description provided for @needFixingSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **', {count, plural, one{{count} needs fixing} other{{count} need fixing}}'**
+  String needFixingSuffix(int count);
+
+  /// No description provided for @createdCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} created'**
+  String createdCountLabel(int count);
+
+  /// No description provided for @failedSuffixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **', {count} failed'**
+  String failedSuffixLabel(int count);
+
+  /// No description provided for @importStaffCountButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Import {count, plural, one{{count} staff member} other{{count} staff members}}'**
+  String importStaffCountButton(int count);
+
+  /// No description provided for @rowNumberFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Row {number}'**
+  String rowNumberFallback(int number);
+
+  /// No description provided for @jobTitleTierLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{jobTitle} - {tier}'**
+  String jobTitleTierLabel(String jobTitle, String tier);
+
+  /// No description provided for @pinSuffixLabel.
+  ///
+  /// In en, this message translates to:
+  /// **' - PIN: {pin}'**
+  String pinSuffixLabel(String pin);
 }
 
 class _AppLocalizationsDelegate

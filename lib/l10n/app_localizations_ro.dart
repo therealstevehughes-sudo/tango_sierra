@@ -3821,4 +3821,94 @@ class AppLocalizationsRo extends AppLocalizations {
   String countPercentLabel(int count, int rate) {
     return '$count ($rate%)';
   }
+
+  @override
+  String get missingNameError => 'Lipsește numele';
+
+  @override
+  String get missingJobTitleError => 'Lipsește funcția';
+
+  @override
+  String get pinMustBe4DigitsError =>
+      'PIN-ul trebuie să aibă exact 4 cifre (sau lăsat gol)';
+
+  @override
+  String get bulkStaffImportTitle => 'Import în masă a personalului';
+
+  @override
+  String get csvColumnsInstructionsText =>
+      'Coloane CSV: nume, funcție, nivel rol, rol de post (opțional), PIN (opțional). Un rând de antet e în regulă - e detectat automat. Lasă PIN-ul gol pentru a fi generat automat.';
+
+  @override
+  String get chooseCsvFileButton => 'Alege fișierul CSV';
+
+  @override
+  String get chooseDifferentFileButton => 'Alege alt fișier';
+
+  @override
+  String get noteDownPinsText =>
+      ' Notează fiecare PIN mai jos înainte de a părăsi acest ecran.';
+
+  @override
+  String get importingEllipsisLabel => 'Se importă...';
+
+  @override
+  String roleTierMustBeOneOfError(String list) {
+    return 'Nivelul rolului trebuie să fie unul dintre: $list';
+  }
+
+  @override
+  String notAllowedToCreateTierError(String tier) {
+    return 'Nu ai voie să creezi un cont $tier';
+  }
+
+  @override
+  String jobRoleMustBeOneOfError(String list) {
+    return 'Rolul de post trebuie să fie unul dintre: $list';
+  }
+
+  @override
+  String csvExampleText(String example) {
+    return 'Exemplu: $example';
+  }
+
+  @override
+  String rowsFoundLabel(String fileName, int count) {
+    return '$fileName - $count rânduri găsite';
+  }
+
+  @override
+  String needFixingSuffix(int count) {
+    return ', $count necesită corectare';
+  }
+
+  @override
+  String createdCountLabel(int count) {
+    return '$count create';
+  }
+
+  @override
+  String failedSuffixLabel(int count) {
+    return ', $count eșuate';
+  }
+
+  @override
+  String importStaffCountButton(int count) {
+    return 'Importă $count angajați';
+  }
+
+  @override
+  String rowNumberFallback(int number) {
+    return 'Rândul $number';
+  }
+
+  @override
+  String jobTitleTierLabel(String jobTitle, String tier) {
+    return '$jobTitle - $tier';
+  }
+
+  @override
+  String pinSuffixLabel(String pin) {
+    return ' - PIN: $pin';
+  }
 }

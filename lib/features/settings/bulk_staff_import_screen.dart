@@ -9,6 +9,7 @@ import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/job_role.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
@@ -88,13 +89,15 @@ class _BulkStaffImportScreenState
     final bytes = file.bytes;
     if (bytes == null) return;
     final content = String.fromCharCodes(bytes);
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
     setState(() {
       fileName = file.name;
-      rows = _parse(content);
+      rows = _parse(content, l10n);
     });
   }
 
-  List<_ImportRow> _parse(String content) {
+  List<_ImportRow> _parse(String content, AppLocalizations l10n) {
     final lines = content
         .split(RegExp(r'\r?\n'))
         .map((l) => l.trim())
@@ -120,8 +123,8 @@ class _BulkStaffImportScreenState
       final pinRaw = fields.length > 4 ? fields[4] : '';
 
       String? error;
-      if (name.isEmpty) error = 'Missing name';
-      if (error == null && jobTitle.isEmpty) error = 'Missing job title';
+      if (name.isEmpty) error = l10n.missingNameError;
+      if (error == null && jobTitle.isEmpty) error = l10n.missingJobTitleError;
 
       RoleTier? roleTier;
       if (error == null) {
@@ -129,10 +132,11 @@ class _BulkStaffImportScreenState
             .where((t) => t.name.toLowerCase() == roleTierRaw.toLowerCase())
             .firstOrNull;
         if (roleTier == null) {
-          error =
-              "Role tier must be one of: ${RoleTier.values.map((t) => t.name).join(', ')}";
+          error = l10n.roleTierMustBeOneOfError(
+            RoleTier.values.map((t) => t.name).join(', '),
+          );
         } else if (!widget.allowedTiers.contains(roleTier)) {
-          error = "You aren't allowed to create a ${roleTier.name} account";
+          error = l10n.notAllowedToCreateTierError(roleTier.name);
         }
       }
 
@@ -142,8 +146,9 @@ class _BulkStaffImportScreenState
             .where((r) => r.name.toLowerCase() == jobRoleRaw.toLowerCase())
             .firstOrNull;
         if (match == null) {
-          error =
-              "Job role must be one of: ${JobRole.values.map((r) => r.name).join(', ')}";
+          error = l10n.jobRoleMustBeOneOfError(
+            JobRole.values.map((r) => r.name).join(', '),
+          );
         } else {
           jobRole = match;
         }
@@ -154,7 +159,7 @@ class _BulkStaffImportScreenState
         if (pin.isEmpty) {
           pin = _randomPin();
         } else if (!RegExp(r'^\d{4}$').hasMatch(pin)) {
-          error = 'PIN must be exactly 4 digits (or left blank)';
+          error = l10n.pinMustBe4DigitsError;
         }
       }
 
@@ -213,16 +218,17 @@ class _BulkStaffImportScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final successCount = rows.where((r) => r.status == _RowStatus.success).length;
     final invalidCount = rows.where((r) => r.status == _RowStatus.invalid).length;
     final failedCount = rows.where((r) => r.status == _RowStatus.failed).length;
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Bulk Staff Import'),
+        title: Text(l10n.bulkStaffImportTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Staff Management'),
+      drawer: ManagementDrawer(title: l10n.staffManagementTitle),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -235,16 +241,13 @@ class _BulkStaffImportScreenState
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'CSV columns: name, job title, role tier, job role '
-                        '(optional), pin (optional). A header row is fine — '
-                        "it's detected automatically. Leave the PIN blank "
-                        'to have one generated for you.',
-                      ),
+                      Text(l10n.csvColumnsInstructionsText),
                       const SizedBox(height: 8),
                       Text(
-                        'Example: Jane Smith, Waiter, base, frontOfHouse, 1234',
-                        style: TextStyle(
+                        l10n.csvExampleText(
+                          'Jane Smith, Waiter, base, frontOfHouse, 1234',
+                        ),
+                        style: const TextStyle(
                           color: AppColors.muted,
                           fontStyle: FontStyle.italic,
                         ),
@@ -252,15 +255,15 @@ class _BulkStaffImportScreenState
                       const SizedBox(height: 16),
                       PrimaryActionButton(
                         label: fileName == null
-                            ? 'Choose CSV file'
-                            : 'Choose a different file',
+                            ? l10n.chooseCsvFileButton
+                            : l10n.chooseDifferentFileButton,
                         onPressed: importing ? null : _pickFile,
                       ),
                       if (fileName != null) ...[
                         const SizedBox(height: 8),
                         Text(
-                          '$fileName - ${rows.length} row(s) found'
-                          '${invalidCount > 0 ? ', $invalidCount need fixing' : ''}',
+                          '${l10n.rowsFoundLabel(fileName!, rows.length)}'
+                          '${invalidCount > 0 ? l10n.needFixingSuffix(invalidCount) : ''}',
                           style: const TextStyle(color: AppColors.muted),
                         ),
                       ],
@@ -280,16 +283,18 @@ class _BulkStaffImportScreenState
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
-                        '$successCount created'
-                        '${failedCount > 0 ? ', $failedCount failed' : ''}.'
-                        '${successCount > 0 ? ' Note down each PIN below before leaving this screen.' : ''}',
+                        '${l10n.createdCountLabel(successCount)}'
+                        '${failedCount > 0 ? l10n.failedSuffixLabel(failedCount) : ''}.'
+                        '${successCount > 0 ? l10n.noteDownPinsText : ''}',
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
                   PrimaryActionButton(
                     label: importing
-                        ? 'Importing...'
-                        : 'Import ${rows.where((r) => r.status == _RowStatus.pending).length} staff member(s)',
+                        ? l10n.importingEllipsisLabel
+                        : l10n.importStaffCountButton(
+                            rows.where((r) => r.status == _RowStatus.pending).length,
+                          ),
                     onPressed: (!importing && _hasValidRows) ? _importAll : null,
                   ),
                 ],
@@ -309,6 +314,7 @@ class _RowTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final (icon, color) = switch (row.status) {
       _RowStatus.pending => (Icons.radio_button_unchecked, AppColors.muted),
       _RowStatus.invalid => (Icons.error_outline, AppColors.critical),
@@ -320,11 +326,11 @@ class _RowTile extends StatelessWidget {
     return Card(
       child: ListTile(
         leading: Icon(icon, color: color),
-        title: Text(row.name.isEmpty ? 'Row ${row.rowNumber}' : row.name),
+        title: Text(row.name.isEmpty ? l10n.rowNumberFallback(row.rowNumber) : row.name),
         subtitle: Text(
           row.error ??
-              '${row.jobTitle} - ${row.roleTier.name}'
-                  '${row.status == _RowStatus.success ? ' - PIN: ${row.pin}' : ''}',
+              '${l10n.jobTitleTierLabel(row.jobTitle, row.roleTier.name)}'
+              '${row.status == _RowStatus.success ? l10n.pinSuffixLabel(row.pin) : ''}',
           style: row.error != null
               ? const TextStyle(color: AppColors.critical)
               : null,

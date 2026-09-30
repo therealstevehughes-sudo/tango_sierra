@@ -3821,4 +3821,94 @@ class AppLocalizationsPl extends AppLocalizations {
   String countPercentLabel(int count, int rate) {
     return '$count ($rate%)';
   }
+
+  @override
+  String get missingNameError => 'Brak imienia';
+
+  @override
+  String get missingJobTitleError => 'Brak stanowiska';
+
+  @override
+  String get pinMustBe4DigitsError =>
+      'PIN musi mieć dokładnie 4 cyfry (lub być pusty)';
+
+  @override
+  String get bulkStaffImportTitle => 'Zbiorczy import personelu';
+
+  @override
+  String get csvColumnsInstructionsText =>
+      'Kolumny CSV: imię i nazwisko, stanowisko, poziom stanowiska, rola zawodowa (opcjonalnie), PIN (opcjonalnie). Wiersz nagłówka jest w porządku - jest wykrywany automatycznie. Zostaw PIN pusty, aby został wygenerowany za ciebie.';
+
+  @override
+  String get chooseCsvFileButton => 'Wybierz plik CSV';
+
+  @override
+  String get chooseDifferentFileButton => 'Wybierz inny plik';
+
+  @override
+  String get noteDownPinsText =>
+      ' Zapisz każdy PIN poniżej przed opuszczeniem tego ekranu.';
+
+  @override
+  String get importingEllipsisLabel => 'Importowanie...';
+
+  @override
+  String roleTierMustBeOneOfError(String list) {
+    return 'Poziom stanowiska musi być jednym z: $list';
+  }
+
+  @override
+  String notAllowedToCreateTierError(String tier) {
+    return 'Nie możesz utworzyć konta $tier';
+  }
+
+  @override
+  String jobRoleMustBeOneOfError(String list) {
+    return 'Rola zawodowa musi być jedną z: $list';
+  }
+
+  @override
+  String csvExampleText(String example) {
+    return 'Przykład: $example';
+  }
+
+  @override
+  String rowsFoundLabel(String fileName, int count) {
+    return '$fileName - znaleziono $count wierszy';
+  }
+
+  @override
+  String needFixingSuffix(int count) {
+    return ', $count wymaga poprawy';
+  }
+
+  @override
+  String createdCountLabel(int count) {
+    return 'Utworzono $count';
+  }
+
+  @override
+  String failedSuffixLabel(int count) {
+    return ', $count nie powiodło się';
+  }
+
+  @override
+  String importStaffCountButton(int count) {
+    return 'Importuj $count pracowników';
+  }
+
+  @override
+  String rowNumberFallback(int number) {
+    return 'Wiersz $number';
+  }
+
+  @override
+  String jobTitleTierLabel(String jobTitle, String tier) {
+    return '$jobTitle - $tier';
+  }
+
+  @override
+  String pinSuffixLabel(String pin) {
+    return ' - PIN: $pin';
+  }
 }
