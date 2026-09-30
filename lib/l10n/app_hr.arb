@@ -1231,5 +1231,21 @@
   "removeButton": "Ukloni",
   "cannotClaimShiftTitle": "Ovu smjenu još ne možete preuzeti",
   "missingCertificationsMessage": "Ova uloga zahtijeva sljedeće, što nedostaje ili je isteklo: {certs}. Pitajte svog voditelja o obnavljanju.",
-  "cannotAssignShiftTitle": "Ovu smjenu nije moguće dodijeliti osobi {name}"
+  "cannotAssignShiftTitle": "Ovu smjenu nije moguće dodijeliti osobi {name}",
+  "allergenCelery": "Celer",
+  "allergenGluten": "Žitarice koje sadrže gluten",
+  "allergenCrustaceans": "Rakovi",
+  "allergenEggs": "Jaja",
+  "allergenFish": "Riba",
+  "allergenLupin": "Lupina",
+  "allergenMilk": "Mlijeko",
+  "allergenMolluscs": "Mekušci",
+  "allergenMustard": "Gorušica",
+  "allergenTreeNuts": "Orašasti plodovi",
+  "allergenPeanuts": "Kikiriki",
+  "allergenSesame": "Sjemenke sezama",
+  "allergenSoya": "Soja",
+  "allergenSulphites": "Sumporov dioksid i sulfiti",
+  "allergenStatusContains": "Sadrži",
+  "allergenStatusMayContain": "Može sadržavati"
 }

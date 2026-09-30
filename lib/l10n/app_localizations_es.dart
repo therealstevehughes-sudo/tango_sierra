@@ -4418,4 +4418,52 @@ class AppLocalizationsEs extends AppLocalizations {
   String cannotAssignShiftTitle(String name) {
     return 'No se puede asignar este turno a $name';
   }
+
+  @override
+  String get allergenCelery => 'Apio';
+
+  @override
+  String get allergenGluten => 'Cereales que contienen gluten';
+
+  @override
+  String get allergenCrustaceans => 'Crustáceos';
+
+  @override
+  String get allergenEggs => 'Huevos';
+
+  @override
+  String get allergenFish => 'Pescado';
+
+  @override
+  String get allergenLupin => 'Altramuces';
+
+  @override
+  String get allergenMilk => 'Leche';
+
+  @override
+  String get allergenMolluscs => 'Moluscos';
+
+  @override
+  String get allergenMustard => 'Mostaza';
+
+  @override
+  String get allergenTreeNuts => 'Frutos de cáscara';
+
+  @override
+  String get allergenPeanuts => 'Cacahuetes';
+
+  @override
+  String get allergenSesame => 'Granos de sésamo';
+
+  @override
+  String get allergenSoya => 'Soja';
+
+  @override
+  String get allergenSulphites => 'Dióxido de azufre y sulfitos';
+
+  @override
+  String get allergenStatusContains => 'Contiene';
+
+  @override
+  String get allergenStatusMayContain => 'Puede contener';
 }

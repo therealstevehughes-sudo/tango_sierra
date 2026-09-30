@@ -4298,4 +4298,52 @@ class AppLocalizationsUr extends AppLocalizations {
   String cannotAssignShiftTitle(String name) {
     return 'یہ شفٹ $name کو تفویض نہیں کی جا سکتی';
   }
+
+  @override
+  String get allergenCelery => 'اجوائن';
+
+  @override
+  String get allergenGluten => 'گلوٹین والے اناج';
+
+  @override
+  String get allergenCrustaceans => 'کرسٹیشین';
+
+  @override
+  String get allergenEggs => 'انڈے';
+
+  @override
+  String get allergenFish => 'مچھلی';
+
+  @override
+  String get allergenLupin => 'لیوپن';
+
+  @override
+  String get allergenMilk => 'دودھ';
+
+  @override
+  String get allergenMolluscs => 'مولسک';
+
+  @override
+  String get allergenMustard => 'سرسوں';
+
+  @override
+  String get allergenTreeNuts => 'خشک میوہ جات';
+
+  @override
+  String get allergenPeanuts => 'مونگ پھلی';
+
+  @override
+  String get allergenSesame => 'تل کے بیج';
+
+  @override
+  String get allergenSoya => 'سویا';
+
+  @override
+  String get allergenSulphites => 'سلفر ڈائی آکسائیڈ اور سلفائٹس';
+
+  @override
+  String get allergenStatusContains => 'اس میں شامل ہے';
+
+  @override
+  String get allergenStatusMayContain => 'ممکنہ طور پر شامل ہو';
 }

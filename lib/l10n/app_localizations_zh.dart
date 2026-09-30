@@ -4161,4 +4161,52 @@ class AppLocalizationsZh extends AppLocalizations {
   String cannotAssignShiftTitle(String name) {
     return '无法将此班次分配给 $name';
   }
+
+  @override
+  String get allergenCelery => '芹菜';
+
+  @override
+  String get allergenGluten => '含麸质谷物';
+
+  @override
+  String get allergenCrustaceans => '甲壳类动物';
+
+  @override
+  String get allergenEggs => '鸡蛋';
+
+  @override
+  String get allergenFish => '鱼类';
+
+  @override
+  String get allergenLupin => '羽扇豆';
+
+  @override
+  String get allergenMilk => '牛奶';
+
+  @override
+  String get allergenMolluscs => '软体动物';
+
+  @override
+  String get allergenMustard => '芥末';
+
+  @override
+  String get allergenTreeNuts => '坚果';
+
+  @override
+  String get allergenPeanuts => '花生';
+
+  @override
+  String get allergenSesame => '芝麻籽';
+
+  @override
+  String get allergenSoya => '大豆';
+
+  @override
+  String get allergenSulphites => '二氧化硫和亚硫酸盐';
+
+  @override
+  String get allergenStatusContains => '含有';
+
+  @override
+  String get allergenStatusMayContain => '可能含有';
 }

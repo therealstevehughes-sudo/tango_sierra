@@ -1231,5 +1231,21 @@
   "removeButton": "ہٹائیں",
   "cannotClaimShiftTitle": "آپ ابھی یہ شفٹ نہیں لے سکتے",
   "missingCertificationsMessage": "اس کردار کے لیے درج ذیل درکار ہیں، جو غائب یا میعاد ختم ہیں: {certs}۔ ان کی تجدید کے بارے میں اپنے مینیجر سے پوچھیں۔",
-  "cannotAssignShiftTitle": "یہ شفٹ {name} کو تفویض نہیں کی جا سکتی"
+  "cannotAssignShiftTitle": "یہ شفٹ {name} کو تفویض نہیں کی جا سکتی",
+  "allergenCelery": "اجوائن",
+  "allergenGluten": "گلوٹین والے اناج",
+  "allergenCrustaceans": "کرسٹیشین",
+  "allergenEggs": "انڈے",
+  "allergenFish": "مچھلی",
+  "allergenLupin": "لیوپن",
+  "allergenMilk": "دودھ",
+  "allergenMolluscs": "مولسک",
+  "allergenMustard": "سرسوں",
+  "allergenTreeNuts": "خشک میوہ جات",
+  "allergenPeanuts": "مونگ پھلی",
+  "allergenSesame": "تل کے بیج",
+  "allergenSoya": "سویا",
+  "allergenSulphites": "سلفر ڈائی آکسائیڈ اور سلفائٹس",
+  "allergenStatusContains": "اس میں شامل ہے",
+  "allergenStatusMayContain": "ممکنہ طور پر شامل ہو"
 }

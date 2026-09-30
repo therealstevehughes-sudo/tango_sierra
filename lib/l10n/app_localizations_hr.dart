@@ -4328,4 +4328,52 @@ class AppLocalizationsHr extends AppLocalizations {
   String cannotAssignShiftTitle(String name) {
     return 'Ovu smjenu nije moguće dodijeliti osobi $name';
   }
+
+  @override
+  String get allergenCelery => 'Celer';
+
+  @override
+  String get allergenGluten => 'Žitarice koje sadrže gluten';
+
+  @override
+  String get allergenCrustaceans => 'Rakovi';
+
+  @override
+  String get allergenEggs => 'Jaja';
+
+  @override
+  String get allergenFish => 'Riba';
+
+  @override
+  String get allergenLupin => 'Lupina';
+
+  @override
+  String get allergenMilk => 'Mlijeko';
+
+  @override
+  String get allergenMolluscs => 'Mekušci';
+
+  @override
+  String get allergenMustard => 'Gorušica';
+
+  @override
+  String get allergenTreeNuts => 'Orašasti plodovi';
+
+  @override
+  String get allergenPeanuts => 'Kikiriki';
+
+  @override
+  String get allergenSesame => 'Sjemenke sezama';
+
+  @override
+  String get allergenSoya => 'Soja';
+
+  @override
+  String get allergenSulphites => 'Sumporov dioksid i sulfiti';
+
+  @override
+  String get allergenStatusContains => 'Sadrži';
+
+  @override
+  String get allergenStatusMayContain => 'Može sadržavati';
 }

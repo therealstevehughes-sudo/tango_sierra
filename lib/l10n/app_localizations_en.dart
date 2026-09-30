@@ -4438,4 +4438,52 @@ class AppLocalizationsEn extends AppLocalizations {
   String cannotAssignShiftTitle(String name) {
     return 'Can\'t assign this shift to $name';
   }
+
+  @override
+  String get allergenCelery => 'Celery';
+
+  @override
+  String get allergenGluten => 'Cereals containing gluten';
+
+  @override
+  String get allergenCrustaceans => 'Crustaceans';
+
+  @override
+  String get allergenEggs => 'Eggs';
+
+  @override
+  String get allergenFish => 'Fish';
+
+  @override
+  String get allergenLupin => 'Lupin';
+
+  @override
+  String get allergenMilk => 'Milk';
+
+  @override
+  String get allergenMolluscs => 'Molluscs';
+
+  @override
+  String get allergenMustard => 'Mustard';
+
+  @override
+  String get allergenTreeNuts => 'Tree nuts';
+
+  @override
+  String get allergenPeanuts => 'Peanuts';
+
+  @override
+  String get allergenSesame => 'Sesame seeds';
+
+  @override
+  String get allergenSoya => 'Soya';
+
+  @override
+  String get allergenSulphites => 'Sulphur dioxide and sulphites';
+
+  @override
+  String get allergenStatusContains => 'Contains';
+
+  @override
+  String get allergenStatusMayContain => 'May contain';
 }

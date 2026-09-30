@@ -1231,5 +1231,21 @@
   "removeButton": "Usuń",
   "cannotClaimShiftTitle": "Nie możesz jeszcze zająć tej zmiany",
   "missingCertificationsMessage": "Ta rola wymaga następujących certyfikatów, które są brakujące lub wygasłe: {certs}. Zapytaj kierownika o ich odnowienie.",
-  "cannotAssignShiftTitle": "Nie można przydzielić tej zmiany osobie {name}"
+  "cannotAssignShiftTitle": "Nie można przydzielić tej zmiany osobie {name}",
+  "allergenCelery": "Seler",
+  "allergenGluten": "Zboża zawierające gluten",
+  "allergenCrustaceans": "Skorupiaki",
+  "allergenEggs": "Jaja",
+  "allergenFish": "Ryby",
+  "allergenLupin": "Łubin",
+  "allergenMilk": "Mleko",
+  "allergenMolluscs": "Mięczaki",
+  "allergenMustard": "Gorczyca",
+  "allergenTreeNuts": "Orzechy",
+  "allergenPeanuts": "Orzeszki ziemne",
+  "allergenSesame": "Nasiona sezamu",
+  "allergenSoya": "Soja",
+  "allergenSulphites": "Dwutlenek siarki i siarczyny",
+  "allergenStatusContains": "Zawiera",
+  "allergenStatusMayContain": "Może zawierać"
 }

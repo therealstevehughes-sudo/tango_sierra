@@ -4275,4 +4275,52 @@ class AppLocalizationsAr extends AppLocalizations {
   String cannotAssignShiftTitle(String name) {
     return 'لا يمكن تعيين هذه الوردية لـ $name';
   }
+
+  @override
+  String get allergenCelery => 'الكرفس';
+
+  @override
+  String get allergenGluten => 'الحبوب المحتوية على الغلوتين';
+
+  @override
+  String get allergenCrustaceans => 'القشريات';
+
+  @override
+  String get allergenEggs => 'البيض';
+
+  @override
+  String get allergenFish => 'الأسماك';
+
+  @override
+  String get allergenLupin => 'الترمس';
+
+  @override
+  String get allergenMilk => 'الحليب';
+
+  @override
+  String get allergenMolluscs => 'الرخويات';
+
+  @override
+  String get allergenMustard => 'الخردل';
+
+  @override
+  String get allergenTreeNuts => 'المكسرات';
+
+  @override
+  String get allergenPeanuts => 'الفول السوداني';
+
+  @override
+  String get allergenSesame => 'بذور السمسم';
+
+  @override
+  String get allergenSoya => 'الصويا';
+
+  @override
+  String get allergenSulphites => 'ثاني أكسيد الكبريت والكبريتيت';
+
+  @override
+  String get allergenStatusContains => 'يحتوي على';
+
+  @override
+  String get allergenStatusMayContain => 'قد يحتوي على';
 }

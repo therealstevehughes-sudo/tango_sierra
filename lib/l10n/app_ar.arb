@@ -1231,5 +1231,21 @@
   "removeButton": "إزالة",
   "cannotClaimShiftTitle": "لا يمكنك المطالبة بهذه الوردية بعد",
   "missingCertificationsMessage": "يتطلب هذا الدور ما يلي، وهو مفقود أو منتهي الصلاحية: {certs}. اسأل مديرك عن تجديد هذه الشهادات.",
-  "cannotAssignShiftTitle": "لا يمكن تعيين هذه الوردية لـ {name}"
+  "cannotAssignShiftTitle": "لا يمكن تعيين هذه الوردية لـ {name}",
+  "allergenCelery": "الكرفس",
+  "allergenGluten": "الحبوب المحتوية على الغلوتين",
+  "allergenCrustaceans": "القشريات",
+  "allergenEggs": "البيض",
+  "allergenFish": "الأسماك",
+  "allergenLupin": "الترمس",
+  "allergenMilk": "الحليب",
+  "allergenMolluscs": "الرخويات",
+  "allergenMustard": "الخردل",
+  "allergenTreeNuts": "المكسرات",
+  "allergenPeanuts": "الفول السوداني",
+  "allergenSesame": "بذور السمسم",
+  "allergenSoya": "الصويا",
+  "allergenSulphites": "ثاني أكسيد الكبريت والكبريتيت",
+  "allergenStatusContains": "يحتوي على",
+  "allergenStatusMayContain": "قد يحتوي على"
 }

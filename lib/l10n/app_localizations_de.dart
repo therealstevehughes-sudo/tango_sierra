@@ -4469,4 +4469,52 @@ class AppLocalizationsDe extends AppLocalizations {
   String cannotAssignShiftTitle(String name) {
     return 'Diese Schicht kann $name nicht zugewiesen werden';
   }
+
+  @override
+  String get allergenCelery => 'Sellerie';
+
+  @override
+  String get allergenGluten => 'Glutenhaltiges Getreide';
+
+  @override
+  String get allergenCrustaceans => 'Krebstiere';
+
+  @override
+  String get allergenEggs => 'Eier';
+
+  @override
+  String get allergenFish => 'Fisch';
+
+  @override
+  String get allergenLupin => 'Lupinen';
+
+  @override
+  String get allergenMilk => 'Milch';
+
+  @override
+  String get allergenMolluscs => 'Weichtiere';
+
+  @override
+  String get allergenMustard => 'Senf';
+
+  @override
+  String get allergenTreeNuts => 'Schalenfrüchte';
+
+  @override
+  String get allergenPeanuts => 'Erdnüsse';
+
+  @override
+  String get allergenSesame => 'Sesamsamen';
+
+  @override
+  String get allergenSoya => 'Soja';
+
+  @override
+  String get allergenSulphites => 'Schwefeldioxid und Sulfite';
+
+  @override
+  String get allergenStatusContains => 'Enthält';
+
+  @override
+  String get allergenStatusMayContain => 'Kann enthalten';
 }

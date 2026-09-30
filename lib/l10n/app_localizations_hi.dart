@@ -4305,4 +4305,52 @@ class AppLocalizationsHi extends AppLocalizations {
   String cannotAssignShiftTitle(String name) {
     return '$name को यह शिफ्ट नहीं सौंपी जा सकती';
   }
+
+  @override
+  String get allergenCelery => 'अजवाइन';
+
+  @override
+  String get allergenGluten => 'ग्लूटेन युक्त अनाज';
+
+  @override
+  String get allergenCrustaceans => 'क्रस्टेशियन';
+
+  @override
+  String get allergenEggs => 'अंडे';
+
+  @override
+  String get allergenFish => 'मछली';
+
+  @override
+  String get allergenLupin => 'ल्यूपिन';
+
+  @override
+  String get allergenMilk => 'दूध';
+
+  @override
+  String get allergenMolluscs => 'मोलस्क';
+
+  @override
+  String get allergenMustard => 'सरसों';
+
+  @override
+  String get allergenTreeNuts => 'मेवे';
+
+  @override
+  String get allergenPeanuts => 'मूंगफली';
+
+  @override
+  String get allergenSesame => 'तिल के बीज';
+
+  @override
+  String get allergenSoya => 'सोया';
+
+  @override
+  String get allergenSulphites => 'सल्फर डाइऑक्साइड और सल्फाइट्स';
+
+  @override
+  String get allergenStatusContains => 'इसमें है';
+
+  @override
+  String get allergenStatusMayContain => 'हो सकता है';
 }

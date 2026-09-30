@@ -4413,4 +4413,52 @@ class AppLocalizationsRo extends AppLocalizations {
   String cannotAssignShiftTitle(String name) {
     return 'Nu se poate atribui acest tur lui $name';
   }
+
+  @override
+  String get allergenCelery => 'Țelină';
+
+  @override
+  String get allergenGluten => 'Cereale care conțin gluten';
+
+  @override
+  String get allergenCrustaceans => 'Crustacee';
+
+  @override
+  String get allergenEggs => 'Ouă';
+
+  @override
+  String get allergenFish => 'Pește';
+
+  @override
+  String get allergenLupin => 'Lupin';
+
+  @override
+  String get allergenMilk => 'Lapte';
+
+  @override
+  String get allergenMolluscs => 'Moluște';
+
+  @override
+  String get allergenMustard => 'Muștar';
+
+  @override
+  String get allergenTreeNuts => 'Fructe cu coajă lemnoasă';
+
+  @override
+  String get allergenPeanuts => 'Arahide';
+
+  @override
+  String get allergenSesame => 'Semințe de susan';
+
+  @override
+  String get allergenSoya => 'Soia';
+
+  @override
+  String get allergenSulphites => 'Dioxid de sulf și sulfiți';
+
+  @override
+  String get allergenStatusContains => 'Conține';
+
+  @override
+  String get allergenStatusMayContain => 'Poate conține';
 }

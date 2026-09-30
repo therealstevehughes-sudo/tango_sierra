@@ -4416,4 +4416,52 @@ class AppLocalizationsPl extends AppLocalizations {
   String cannotAssignShiftTitle(String name) {
     return 'Nie można przydzielić tej zmiany osobie $name';
   }
+
+  @override
+  String get allergenCelery => 'Seler';
+
+  @override
+  String get allergenGluten => 'Zboża zawierające gluten';
+
+  @override
+  String get allergenCrustaceans => 'Skorupiaki';
+
+  @override
+  String get allergenEggs => 'Jaja';
+
+  @override
+  String get allergenFish => 'Ryby';
+
+  @override
+  String get allergenLupin => 'Łubin';
+
+  @override
+  String get allergenMilk => 'Mleko';
+
+  @override
+  String get allergenMolluscs => 'Mięczaki';
+
+  @override
+  String get allergenMustard => 'Gorczyca';
+
+  @override
+  String get allergenTreeNuts => 'Orzechy';
+
+  @override
+  String get allergenPeanuts => 'Orzeszki ziemne';
+
+  @override
+  String get allergenSesame => 'Nasiona sezamu';
+
+  @override
+  String get allergenSoya => 'Soja';
+
+  @override
+  String get allergenSulphites => 'Dwutlenek siarki i siarczyny';
+
+  @override
+  String get allergenStatusContains => 'Zawiera';
+
+  @override
+  String get allergenStatusMayContain => 'Może zawierać';
 }

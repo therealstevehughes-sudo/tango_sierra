@@ -4336,5 +4336,21 @@
         "type": "String"
       }
     }
-  }
+  },
+  "allergenCelery": "Celery",
+  "allergenGluten": "Cereals containing gluten",
+  "allergenCrustaceans": "Crustaceans",
+  "allergenEggs": "Eggs",
+  "allergenFish": "Fish",
+  "allergenLupin": "Lupin",
+  "allergenMilk": "Milk",
+  "allergenMolluscs": "Molluscs",
+  "allergenMustard": "Mustard",
+  "allergenTreeNuts": "Tree nuts",
+  "allergenPeanuts": "Peanuts",
+  "allergenSesame": "Sesame seeds",
+  "allergenSoya": "Soya",
+  "allergenSulphites": "Sulphur dioxide and sulphites",
+  "allergenStatusContains": "Contains",
+  "allergenStatusMayContain": "May contain"
 }

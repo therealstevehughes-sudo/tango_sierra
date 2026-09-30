@@ -1231,5 +1231,21 @@
   "removeButton": "移除",
   "cannotClaimShiftTitle": "您暂时无法认领此班次",
   "missingCertificationsMessage": "此岗位需要以下证书,但缺失或已过期:{certs}。请向您的经理咨询如何续期。",
-  "cannotAssignShiftTitle": "无法将此班次分配给 {name}"
+  "cannotAssignShiftTitle": "无法将此班次分配给 {name}",
+  "allergenCelery": "芹菜",
+  "allergenGluten": "含麸质谷物",
+  "allergenCrustaceans": "甲壳类动物",
+  "allergenEggs": "鸡蛋",
+  "allergenFish": "鱼类",
+  "allergenLupin": "羽扇豆",
+  "allergenMilk": "牛奶",
+  "allergenMolluscs": "软体动物",
+  "allergenMustard": "芥末",
+  "allergenTreeNuts": "坚果",
+  "allergenPeanuts": "花生",
+  "allergenSesame": "芝麻籽",
+  "allergenSoya": "大豆",
+  "allergenSulphites": "二氧化硫和亚硫酸盐",
+  "allergenStatusContains": "含有",
+  "allergenStatusMayContain": "可能含有"
 }

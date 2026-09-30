@@ -1231,5 +1231,21 @@
   "removeButton": "Eliminar",
   "cannotClaimShiftTitle": "Aún no puedes reclamar este turno",
   "missingCertificationsMessage": "Este puesto requiere lo siguiente, que falta o ha caducado: {certs}. Pregunta a tu gerente sobre cómo renovarlo.",
-  "cannotAssignShiftTitle": "No se puede asignar este turno a {name}"
+  "cannotAssignShiftTitle": "No se puede asignar este turno a {name}",
+  "allergenCelery": "Apio",
+  "allergenGluten": "Cereales que contienen gluten",
+  "allergenCrustaceans": "Crustáceos",
+  "allergenEggs": "Huevos",
+  "allergenFish": "Pescado",
+  "allergenLupin": "Altramuces",
+  "allergenMilk": "Leche",
+  "allergenMolluscs": "Moluscos",
+  "allergenMustard": "Mostaza",
+  "allergenTreeNuts": "Frutos de cáscara",
+  "allergenPeanuts": "Cacahuetes",
+  "allergenSesame": "Granos de sésamo",
+  "allergenSoya": "Soja",
+  "allergenSulphites": "Dióxido de azufre y sulfitos",
+  "allergenStatusContains": "Contiene",
+  "allergenStatusMayContain": "Puede contener"
 }

@@ -1231,5 +1231,21 @@
   "removeButton": "Elimină",
   "cannotClaimShiftTitle": "Nu poți prelua încă acest tur",
   "missingCertificationsMessage": "Acest rol necesită următoarele, care lipsesc sau au expirat: {certs}. Întreabă-ți managerul despre reînnoirea acestora.",
-  "cannotAssignShiftTitle": "Nu se poate atribui acest tur lui {name}"
+  "cannotAssignShiftTitle": "Nu se poate atribui acest tur lui {name}",
+  "allergenCelery": "Țelină",
+  "allergenGluten": "Cereale care conțin gluten",
+  "allergenCrustaceans": "Crustacee",
+  "allergenEggs": "Ouă",
+  "allergenFish": "Pește",
+  "allergenLupin": "Lupin",
+  "allergenMilk": "Lapte",
+  "allergenMolluscs": "Moluște",
+  "allergenMustard": "Muștar",
+  "allergenTreeNuts": "Fructe cu coajă lemnoasă",
+  "allergenPeanuts": "Arahide",
+  "allergenSesame": "Semințe de susan",
+  "allergenSoya": "Soia",
+  "allergenSulphites": "Dioxid de sulf și sulfiți",
+  "allergenStatusContains": "Conține",
+  "allergenStatusMayContain": "Poate conține"
 }

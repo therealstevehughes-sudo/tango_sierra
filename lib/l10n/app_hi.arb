@@ -1231,5 +1231,21 @@
   "removeButton": "हटाएं",
   "cannotClaimShiftTitle": "आप अभी इस शिफ्ट को नहीं ले सकते",
   "missingCertificationsMessage": "इस भूमिका के लिए निम्नलिखित आवश्यक हैं, जो गुम या समाप्त हो चुके हैं: {certs}। इन्हें नवीनीकृत करने के बारे में अपने मैनेजर से पूछें।",
-  "cannotAssignShiftTitle": "{name} को यह शिफ्ट नहीं सौंपी जा सकती"
+  "cannotAssignShiftTitle": "{name} को यह शिफ्ट नहीं सौंपी जा सकती",
+  "allergenCelery": "अजवाइन",
+  "allergenGluten": "ग्लूटेन युक्त अनाज",
+  "allergenCrustaceans": "क्रस्टेशियन",
+  "allergenEggs": "अंडे",
+  "allergenFish": "मछली",
+  "allergenLupin": "ल्यूपिन",
+  "allergenMilk": "दूध",
+  "allergenMolluscs": "मोलस्क",
+  "allergenMustard": "सरसों",
+  "allergenTreeNuts": "मेवे",
+  "allergenPeanuts": "मूंगफली",
+  "allergenSesame": "तिल के बीज",
+  "allergenSoya": "सोया",
+  "allergenSulphites": "सल्फर डाइऑक्साइड और सल्फाइट्स",
+  "allergenStatusContains": "इसमें है",
+  "allergenStatusMayContain": "हो सकता है"
 }
