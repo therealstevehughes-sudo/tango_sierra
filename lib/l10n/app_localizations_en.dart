@@ -3629,4 +3629,54 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get documentCategoryPolicy => 'Policy';
+
+  @override
+  String get documentCategoryCertificate => 'Certificate';
+
+  @override
+  String get documentCategoryProcedure => 'Procedure';
+
+  @override
+  String get documentCategoryEhoReport => 'EHO Report';
+
+  @override
+  String get addDocumentTitle => 'Add Document';
+
+  @override
+  String get noExpiryDateText => 'No expiry date';
+
+  @override
+  String get setExpiryButton => 'Set expiry';
+
+  @override
+  String get couldNotOpenFileText => 'Could not open this file.';
+
+  @override
+  String get documentCentreTitle => 'Document Centre';
+
+  @override
+  String get validLabel => 'Valid';
+
+  @override
+  String get expiringSoonLabel => 'Expiring soon';
+
+  @override
+  String get expiredLabel => 'Expired';
+
+  @override
+  String get allFilterLabel => 'All';
+
+  @override
+  String get noDocumentsYetText => 'No documents yet.';
+
+  @override
+  String get openMenuItem => 'Open';
+
+  @override
+  String expiresOnLabel(String date) {
+    return 'Expires $date';
+  }
 }

@@ -14,6 +14,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/document_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 // Document Centre (roadmap v1.1, built 2026-09-15) — policies, certs,
 // procedures, EHO reports, plus an expiry summary so a manager sees
@@ -73,68 +74,71 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Add Document'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: titleController,
-                decoration: const InputDecoration(labelText: 'Title'),
-                autofocus: true,
-              ),
-              const SizedBox(height: 12),
-              DropdownButtonFormField<DocumentCategory>(
-                initialValue: category,
-                decoration: const InputDecoration(labelText: 'Category'),
-                items: DocumentCategory.values
-                    .map(
-                      (c) => DropdownMenuItem(
-                        value: c,
-                        child: Text(documentCategoryDisplayName(c)),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (v) =>
-                    setDialogState(() => category = v ?? category),
-              ),
-              const SizedBox(height: 12),
-              ListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Text(
-                  expiryDate == null
-                      ? 'No expiry date'
-                      : 'Expires ${formatDate(expiryDate!)}',
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.addDocumentTitle),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: titleController,
+                  decoration: InputDecoration(labelText: l10n.titleFieldLabel),
+                  autofocus: true,
                 ),
-                trailing: TextButton(
-                  onPressed: () async {
-                    final picked = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime.now().add(const Duration(days: 3650)),
-                    );
-                    if (picked != null) {
-                      setDialogState(() => expiryDate = picked);
-                    }
-                  },
-                  child: const Text('Set expiry'),
+                const SizedBox(height: 12),
+                DropdownButtonFormField<DocumentCategory>(
+                  initialValue: category,
+                  decoration: InputDecoration(labelText: l10n.categoryLabel),
+                  items: DocumentCategory.values
+                      .map(
+                        (c) => DropdownMenuItem(
+                          value: c,
+                          child: Text(documentCategoryDisplayName(c, l10n)),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (v) =>
+                      setDialogState(() => category = v ?? category),
                 ),
+                const SizedBox(height: 12),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(
+                    expiryDate == null
+                        ? l10n.noExpiryDateText
+                        : l10n.expiresOnLabel(formatDate(expiryDate!)),
+                  ),
+                  trailing: TextButton(
+                    onPressed: () async {
+                      final picked = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime.now().add(const Duration(days: 3650)),
+                      );
+                      if (picked != null) {
+                        setDialogState(() => expiryDate = picked);
+                      }
+                    },
+                    child: Text(l10n.setExpiryButton),
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.saveButton),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
 
@@ -160,7 +164,7 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
     final opened = await launchUrl(uri);
     if (!opened && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Could not open this file.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.couldNotOpenFileText)),
       );
     }
   }
@@ -174,6 +178,7 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final visible = _categoryFilter == null
         ? _documents
         : _documents.where((d) => d.category == _categoryFilter).toList();
@@ -187,17 +192,17 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Document Centre'),
+        title: Text(l10n.documentCentreTitle),
         actions: [
           const AssistantIconButton(),
           IconButton(
             icon: const Icon(Icons.upload_file),
-            tooltip: 'Add Document',
+            tooltip: l10n.addDocumentTitle,
             onPressed: _upload,
           ),
         ],
       ),
-      drawer: const ManagementDrawer(title: 'Document Centre'),
+      drawer: ManagementDrawer(title: l10n.documentCentreTitle),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : ResponsiveContent(
@@ -211,21 +216,21 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
                           Expanded(
                             child: _ExpiryCount(
                               count: _documents.length - expiringCount - expiredCount,
-                              label: 'Valid',
+                              label: l10n.validLabel,
                               color: AppColors.pass,
                             ),
                           ),
                           Expanded(
                             child: _ExpiryCount(
                               count: expiringCount,
-                              label: 'Expiring soon',
+                              label: l10n.expiringSoonLabel,
                               color: AppColors.caution,
                             ),
                           ),
                           Expanded(
                             child: _ExpiryCount(
                               count: expiredCount,
-                              label: 'Expired',
+                              label: l10n.expiredLabel,
                               color: AppColors.critical,
                             ),
                           ),
@@ -239,14 +244,14 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
                       spacing: 8,
                       children: [
                         ChoiceChip(
-                          label: const Text('All'),
+                          label: Text(l10n.allFilterLabel),
                           selected: _categoryFilter == null,
                           onSelected: (_) =>
                               setState(() => _categoryFilter = null),
                         ),
                         for (final c in DocumentCategory.values)
                           ChoiceChip(
-                            label: Text(documentCategoryDisplayName(c)),
+                            label: Text(documentCategoryDisplayName(c, l10n)),
                             selected: _categoryFilter == c,
                             onSelected: (_) =>
                                 setState(() => _categoryFilter = c),
@@ -256,7 +261,7 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
                   ),
                   Expanded(
                     child: visible.isEmpty
-                        ? const Center(child: Text('No documents yet.'))
+                        ? Center(child: Text(l10n.noDocumentsYetText))
                         : ListView.separated(
                             padding: const EdgeInsets.all(16),
                             itemCount: visible.length,
@@ -316,17 +321,18 @@ class _DocumentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final (Color fg, Color bg, String label) = switch (document.expiryStatus) {
-      DocumentExpiryStatus.valid => (AppColors.pass, AppColors.passBg, 'Valid'),
+      DocumentExpiryStatus.valid => (AppColors.pass, AppColors.passBg, l10n.validLabel),
       DocumentExpiryStatus.expiringSoon => (
         AppColors.caution,
         AppColors.cautionBg,
-        'Expiring soon',
+        l10n.expiringSoonLabel,
       ),
       DocumentExpiryStatus.expired => (
         AppColors.critical,
         AppColors.criticalBg,
-        'Expired',
+        l10n.expiredLabel,
       ),
     };
 
@@ -346,12 +352,12 @@ class _DocumentTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  documentCategoryDisplayName(document.category),
+                  documentCategoryDisplayName(document.category, l10n),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 if (document.expiryDate != null)
                   Text(
-                    'Expires ${formatDate(document.expiryDate!)}',
+                    l10n.expiresOnLabel(formatDate(document.expiryDate!)),
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
               ],
@@ -372,9 +378,9 @@ class _DocumentTile extends StatelessWidget {
           ),
           PopupMenuButton<String>(
             onSelected: (v) => v == 'open' ? onOpen() : onRetire(),
-            itemBuilder: (context) => const [
-              PopupMenuItem(value: 'open', child: Text('Open')),
-              PopupMenuItem(value: 'retire', child: Text('Retire')),
+            itemBuilder: (context) => [
+              PopupMenuItem(value: 'open', child: Text(l10n.openMenuItem)),
+              PopupMenuItem(value: 'retire', child: Text(l10n.retireButton)),
             ],
           ),
         ],

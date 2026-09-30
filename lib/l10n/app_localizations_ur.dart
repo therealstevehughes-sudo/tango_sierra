@@ -3568,4 +3568,54 @@ class AppLocalizationsUr extends AppLocalizations {
   String teamCountLabel(int count) {
     return '$count ٹیمیں';
   }
+
+  @override
+  String get documentCategoryPolicy => 'پالیسی';
+
+  @override
+  String get documentCategoryCertificate => 'سرٹیفکیٹ';
+
+  @override
+  String get documentCategoryProcedure => 'طریقہ کار';
+
+  @override
+  String get documentCategoryEhoReport => 'EHO رپورٹ';
+
+  @override
+  String get addDocumentTitle => 'دستاویز شامل کریں';
+
+  @override
+  String get noExpiryDateText => 'کوئی میعاد ختم ہونے کی تاریخ نہیں';
+
+  @override
+  String get setExpiryButton => 'میعاد مقرر کریں';
+
+  @override
+  String get couldNotOpenFileText => 'یہ فائل نہیں کھولی جا سکی۔';
+
+  @override
+  String get documentCentreTitle => 'دستاویزات مرکز';
+
+  @override
+  String get validLabel => 'درست';
+
+  @override
+  String get expiringSoonLabel => 'جلد ختم ہونے والا';
+
+  @override
+  String get expiredLabel => 'ختم شدہ';
+
+  @override
+  String get allFilterLabel => 'تمام';
+
+  @override
+  String get noDocumentsYetText => 'ابھی تک کوئی دستاویز نہیں۔';
+
+  @override
+  String get openMenuItem => 'کھولیں';
+
+  @override
+  String expiresOnLabel(String date) {
+    return '$date کو ختم ہوتا ہے';
+  }
 }

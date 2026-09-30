@@ -1033,5 +1033,21 @@
   "editDepartmentTitle": "编辑 - {name}",
   "addTeamTitle": "添加团队 - {name}",
   "renameTeamTitle": "重命名 - {name}",
-  "teamCountLabel": "{count} 个团队"
+  "teamCountLabel": "{count} 个团队",
+  "documentCategoryPolicy": "政策",
+  "documentCategoryCertificate": "证书",
+  "documentCategoryProcedure": "程序",
+  "documentCategoryEhoReport": "EHO报告",
+  "addDocumentTitle": "添加文档",
+  "noExpiryDateText": "无到期日期",
+  "setExpiryButton": "设置到期日",
+  "couldNotOpenFileText": "无法打开此文件。",
+  "documentCentreTitle": "文档中心",
+  "validLabel": "有效",
+  "expiringSoonLabel": "即将到期",
+  "expiredLabel": "已过期",
+  "allFilterLabel": "全部",
+  "noDocumentsYetText": "尚无文档。",
+  "openMenuItem": "打开",
+  "expiresOnLabel": "有效期至 {date}"
 }

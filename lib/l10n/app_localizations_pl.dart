@@ -3648,4 +3648,54 @@ class AppLocalizationsPl extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get documentCategoryPolicy => 'Polityka';
+
+  @override
+  String get documentCategoryCertificate => 'Certyfikat';
+
+  @override
+  String get documentCategoryProcedure => 'Procedura';
+
+  @override
+  String get documentCategoryEhoReport => 'Raport EHO';
+
+  @override
+  String get addDocumentTitle => 'Dodaj dokument';
+
+  @override
+  String get noExpiryDateText => 'Brak daty ważności';
+
+  @override
+  String get setExpiryButton => 'Ustaw termin ważności';
+
+  @override
+  String get couldNotOpenFileText => 'Nie można otworzyć tego pliku.';
+
+  @override
+  String get documentCentreTitle => 'Centrum dokumentów';
+
+  @override
+  String get validLabel => 'Ważny';
+
+  @override
+  String get expiringSoonLabel => 'Wkrótce wygasa';
+
+  @override
+  String get expiredLabel => 'Wygasł';
+
+  @override
+  String get allFilterLabel => 'Wszystkie';
+
+  @override
+  String get noDocumentsYetText => 'Brak jeszcze dokumentów.';
+
+  @override
+  String get openMenuItem => 'Otwórz';
+
+  @override
+  String expiresOnLabel(String date) {
+    return 'Wygasa $date';
+  }
 }

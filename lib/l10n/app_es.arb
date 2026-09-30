@@ -1033,5 +1033,21 @@
   "editDepartmentTitle": "Editar - {name}",
   "addTeamTitle": "Añadir equipo - {name}",
   "renameTeamTitle": "Renombrar - {name}",
-  "teamCountLabel": "{count, plural, one{{count} equipo} other{{count} equipos}}"
+  "teamCountLabel": "{count, plural, one{{count} equipo} other{{count} equipos}}",
+  "documentCategoryPolicy": "Política",
+  "documentCategoryCertificate": "Certificado",
+  "documentCategoryProcedure": "Procedimiento",
+  "documentCategoryEhoReport": "Informe EHO",
+  "addDocumentTitle": "Añadir documento",
+  "noExpiryDateText": "Sin fecha de caducidad",
+  "setExpiryButton": "Establecer caducidad",
+  "couldNotOpenFileText": "No se pudo abrir este archivo.",
+  "documentCentreTitle": "Centro de documentos",
+  "validLabel": "Válido",
+  "expiringSoonLabel": "Caduca pronto",
+  "expiredLabel": "Caducado",
+  "allFilterLabel": "Todos",
+  "noDocumentsYetText": "Todavía no hay documentos.",
+  "openMenuItem": "Abrir",
+  "expiresOnLabel": "Caduca {date}"
 }

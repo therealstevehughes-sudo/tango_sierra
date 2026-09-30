@@ -3359,5 +3359,73 @@
         "type": "int"
       }
     }
+  },
+  "documentCategoryPolicy": "Policy",
+  "@documentCategoryPolicy": {
+    "description": ""
+  },
+  "documentCategoryCertificate": "Certificate",
+  "@documentCategoryCertificate": {
+    "description": ""
+  },
+  "documentCategoryProcedure": "Procedure",
+  "@documentCategoryProcedure": {
+    "description": ""
+  },
+  "documentCategoryEhoReport": "EHO Report",
+  "@documentCategoryEhoReport": {
+    "description": ""
+  },
+  "addDocumentTitle": "Add Document",
+  "@addDocumentTitle": {
+    "description": ""
+  },
+  "noExpiryDateText": "No expiry date",
+  "@noExpiryDateText": {
+    "description": ""
+  },
+  "setExpiryButton": "Set expiry",
+  "@setExpiryButton": {
+    "description": ""
+  },
+  "couldNotOpenFileText": "Could not open this file.",
+  "@couldNotOpenFileText": {
+    "description": ""
+  },
+  "documentCentreTitle": "Document Centre",
+  "@documentCentreTitle": {
+    "description": ""
+  },
+  "validLabel": "Valid",
+  "@validLabel": {
+    "description": ""
+  },
+  "expiringSoonLabel": "Expiring soon",
+  "@expiringSoonLabel": {
+    "description": ""
+  },
+  "expiredLabel": "Expired",
+  "@expiredLabel": {
+    "description": ""
+  },
+  "allFilterLabel": "All",
+  "@allFilterLabel": {
+    "description": ""
+  },
+  "noDocumentsYetText": "No documents yet.",
+  "@noDocumentsYetText": {
+    "description": ""
+  },
+  "openMenuItem": "Open",
+  "@openMenuItem": {
+    "description": ""
+  },
+  "expiresOnLabel": "Expires {date}",
+  "@expiresOnLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -1033,5 +1033,21 @@
   "editDepartmentTitle": "Bearbeiten - {name}",
   "addTeamTitle": "Team hinzufügen - {name}",
   "renameTeamTitle": "Umbenennen - {name}",
-  "teamCountLabel": "{count, plural, one{{count} Team} other{{count} Teams}}"
+  "teamCountLabel": "{count, plural, one{{count} Team} other{{count} Teams}}",
+  "documentCategoryPolicy": "Richtlinie",
+  "documentCategoryCertificate": "Zertifikat",
+  "documentCategoryProcedure": "Verfahren",
+  "documentCategoryEhoReport": "EHO-Bericht",
+  "addDocumentTitle": "Dokument hinzufügen",
+  "noExpiryDateText": "Kein Ablaufdatum",
+  "setExpiryButton": "Ablauf festlegen",
+  "couldNotOpenFileText": "Diese Datei konnte nicht geöffnet werden.",
+  "documentCentreTitle": "Dokumentenzentrale",
+  "validLabel": "Gültig",
+  "expiringSoonLabel": "Läuft bald ab",
+  "expiredLabel": "Abgelaufen",
+  "allFilterLabel": "Alle",
+  "noDocumentsYetText": "Noch keine Dokumente.",
+  "openMenuItem": "Öffnen",
+  "expiresOnLabel": "Läuft ab am {date}"
 }

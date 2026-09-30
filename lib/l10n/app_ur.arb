@@ -1033,5 +1033,21 @@
   "editDepartmentTitle": "ترمیم کریں - {name}",
   "addTeamTitle": "ٹیم شامل کریں - {name}",
   "renameTeamTitle": "نام تبدیل کریں - {name}",
-  "teamCountLabel": "{count} ٹیمیں"
+  "teamCountLabel": "{count} ٹیمیں",
+  "documentCategoryPolicy": "پالیسی",
+  "documentCategoryCertificate": "سرٹیفکیٹ",
+  "documentCategoryProcedure": "طریقہ کار",
+  "documentCategoryEhoReport": "EHO رپورٹ",
+  "addDocumentTitle": "دستاویز شامل کریں",
+  "noExpiryDateText": "کوئی میعاد ختم ہونے کی تاریخ نہیں",
+  "setExpiryButton": "میعاد مقرر کریں",
+  "couldNotOpenFileText": "یہ فائل نہیں کھولی جا سکی۔",
+  "documentCentreTitle": "دستاویزات مرکز",
+  "validLabel": "درست",
+  "expiringSoonLabel": "جلد ختم ہونے والا",
+  "expiredLabel": "ختم شدہ",
+  "allFilterLabel": "تمام",
+  "noDocumentsYetText": "ابھی تک کوئی دستاویز نہیں۔",
+  "openMenuItem": "کھولیں",
+  "expiresOnLabel": "{date} کو ختم ہوتا ہے"
 }

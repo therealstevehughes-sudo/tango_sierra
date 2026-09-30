@@ -6331,6 +6331,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, one{{count} team} other{{count} teams}}'**
   String teamCountLabel(int count);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Policy'**
+  String get documentCategoryPolicy;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate'**
+  String get documentCategoryCertificate;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Procedure'**
+  String get documentCategoryProcedure;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'EHO Report'**
+  String get documentCategoryEhoReport;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Document'**
+  String get addDocumentTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No expiry date'**
+  String get noExpiryDateText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Set expiry'**
+  String get setExpiryButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open this file.'**
+  String get couldNotOpenFileText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Document Centre'**
+  String get documentCentreTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Valid'**
+  String get validLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Expiring soon'**
+  String get expiringSoonLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get expiredLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get allFilterLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No documents yet.'**
+  String get noDocumentsYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get openMenuItem;
+
+  /// No description provided for @expiresOnLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expires {date}'**
+  String expiresOnLabel(String date);
 }
 
 class _AppLocalizationsDelegate

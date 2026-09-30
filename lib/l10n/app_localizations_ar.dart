@@ -3553,4 +3553,54 @@ class AppLocalizationsAr extends AppLocalizations {
   String teamCountLabel(int count) {
     return '$count فريق';
   }
+
+  @override
+  String get documentCategoryPolicy => 'سياسة';
+
+  @override
+  String get documentCategoryCertificate => 'شهادة';
+
+  @override
+  String get documentCategoryProcedure => 'إجراء';
+
+  @override
+  String get documentCategoryEhoReport => 'تقرير EHO';
+
+  @override
+  String get addDocumentTitle => 'إضافة مستند';
+
+  @override
+  String get noExpiryDateText => 'بدون تاريخ انتهاء';
+
+  @override
+  String get setExpiryButton => 'تعيين تاريخ الانتهاء';
+
+  @override
+  String get couldNotOpenFileText => 'تعذر فتح هذا الملف.';
+
+  @override
+  String get documentCentreTitle => 'مركز المستندات';
+
+  @override
+  String get validLabel => 'صالح';
+
+  @override
+  String get expiringSoonLabel => 'ينتهي قريبًا';
+
+  @override
+  String get expiredLabel => 'منتهي الصلاحية';
+
+  @override
+  String get allFilterLabel => 'الكل';
+
+  @override
+  String get noDocumentsYetText => 'لا توجد مستندات بعد.';
+
+  @override
+  String get openMenuItem => 'فتح';
+
+  @override
+  String expiresOnLabel(String date) {
+    return 'تنتهي في $date';
+  }
 }

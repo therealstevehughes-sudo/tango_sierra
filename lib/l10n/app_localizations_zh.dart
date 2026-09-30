@@ -3462,4 +3462,54 @@ class AppLocalizationsZh extends AppLocalizations {
   String teamCountLabel(int count) {
     return '$count 个团队';
   }
+
+  @override
+  String get documentCategoryPolicy => '政策';
+
+  @override
+  String get documentCategoryCertificate => '证书';
+
+  @override
+  String get documentCategoryProcedure => '程序';
+
+  @override
+  String get documentCategoryEhoReport => 'EHO报告';
+
+  @override
+  String get addDocumentTitle => '添加文档';
+
+  @override
+  String get noExpiryDateText => '无到期日期';
+
+  @override
+  String get setExpiryButton => '设置到期日';
+
+  @override
+  String get couldNotOpenFileText => '无法打开此文件。';
+
+  @override
+  String get documentCentreTitle => '文档中心';
+
+  @override
+  String get validLabel => '有效';
+
+  @override
+  String get expiringSoonLabel => '即将到期';
+
+  @override
+  String get expiredLabel => '已过期';
+
+  @override
+  String get allFilterLabel => '全部';
+
+  @override
+  String get noDocumentsYetText => '尚无文档。';
+
+  @override
+  String get openMenuItem => '打开';
+
+  @override
+  String expiresOnLabel(String date) {
+    return '有效期至 $date';
+  }
 }

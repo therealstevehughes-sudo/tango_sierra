@@ -1033,5 +1033,21 @@
   "editDepartmentTitle": "Uredi - {name}",
   "addTeamTitle": "Dodaj tim - {name}",
   "renameTeamTitle": "Preimenuj - {name}",
-  "teamCountLabel": "{count} timova"
+  "teamCountLabel": "{count} timova",
+  "documentCategoryPolicy": "Politika",
+  "documentCategoryCertificate": "Certifikat",
+  "documentCategoryProcedure": "Postupak",
+  "documentCategoryEhoReport": "EHO izvještaj",
+  "addDocumentTitle": "Dodaj dokument",
+  "noExpiryDateText": "Bez datuma isteka",
+  "setExpiryButton": "Postavi istek",
+  "couldNotOpenFileText": "Nije moguće otvoriti ovu datoteku.",
+  "documentCentreTitle": "Centar za dokumente",
+  "validLabel": "Vrijedi",
+  "expiringSoonLabel": "Uskoro istječe",
+  "expiredLabel": "Istekao",
+  "allFilterLabel": "Sve",
+  "noDocumentsYetText": "Još nema dokumenata.",
+  "openMenuItem": "Otvori",
+  "expiresOnLabel": "Istječe {date}"
 }

@@ -3648,4 +3648,54 @@ class AppLocalizationsRo extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get documentCategoryPolicy => 'Politică';
+
+  @override
+  String get documentCategoryCertificate => 'Certificat';
+
+  @override
+  String get documentCategoryProcedure => 'Procedură';
+
+  @override
+  String get documentCategoryEhoReport => 'Raport EHO';
+
+  @override
+  String get addDocumentTitle => 'Adaugă document';
+
+  @override
+  String get noExpiryDateText => 'Fără dată de expirare';
+
+  @override
+  String get setExpiryButton => 'Setează expirarea';
+
+  @override
+  String get couldNotOpenFileText => 'Nu s-a putut deschide acest fișier.';
+
+  @override
+  String get documentCentreTitle => 'Centrul de documente';
+
+  @override
+  String get validLabel => 'Valid';
+
+  @override
+  String get expiringSoonLabel => 'Expiră curând';
+
+  @override
+  String get expiredLabel => 'Expirat';
+
+  @override
+  String get allFilterLabel => 'Toate';
+
+  @override
+  String get noDocumentsYetText => 'Niciun document încă.';
+
+  @override
+  String get openMenuItem => 'Deschide';
+
+  @override
+  String expiresOnLabel(String date) {
+    return 'Expiră $date';
+  }
 }

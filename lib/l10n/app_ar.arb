@@ -1033,5 +1033,21 @@
   "editDepartmentTitle": "تعديل - {name}",
   "addTeamTitle": "إضافة فريق - {name}",
   "renameTeamTitle": "إعادة تسمية - {name}",
-  "teamCountLabel": "{count} فريق"
+  "teamCountLabel": "{count} فريق",
+  "documentCategoryPolicy": "سياسة",
+  "documentCategoryCertificate": "شهادة",
+  "documentCategoryProcedure": "إجراء",
+  "documentCategoryEhoReport": "تقرير EHO",
+  "addDocumentTitle": "إضافة مستند",
+  "noExpiryDateText": "بدون تاريخ انتهاء",
+  "setExpiryButton": "تعيين تاريخ الانتهاء",
+  "couldNotOpenFileText": "تعذر فتح هذا الملف.",
+  "documentCentreTitle": "مركز المستندات",
+  "validLabel": "صالح",
+  "expiringSoonLabel": "ينتهي قريبًا",
+  "expiredLabel": "منتهي الصلاحية",
+  "allFilterLabel": "الكل",
+  "noDocumentsYetText": "لا توجد مستندات بعد.",
+  "openMenuItem": "فتح",
+  "expiresOnLabel": "تنتهي في {date}"
 }

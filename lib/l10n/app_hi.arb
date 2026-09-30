@@ -1033,5 +1033,21 @@
   "editDepartmentTitle": "संपादित करें - {name}",
   "addTeamTitle": "टीम जोड़ें - {name}",
   "renameTeamTitle": "नाम बदलें - {name}",
-  "teamCountLabel": "{count} टीमें"
+  "teamCountLabel": "{count} टीमें",
+  "documentCategoryPolicy": "नीति",
+  "documentCategoryCertificate": "प्रमाणपत्र",
+  "documentCategoryProcedure": "प्रक्रिया",
+  "documentCategoryEhoReport": "EHO रिपोर्ट",
+  "addDocumentTitle": "दस्तावेज़ जोड़ें",
+  "noExpiryDateText": "कोई समाप्ति तिथि नहीं",
+  "setExpiryButton": "समाप्ति निर्धारित करें",
+  "couldNotOpenFileText": "यह फ़ाइल नहीं खोली जा सकी।",
+  "documentCentreTitle": "दस्तावेज़ केंद्र",
+  "validLabel": "मान्य",
+  "expiringSoonLabel": "जल्द समाप्त होने वाला",
+  "expiredLabel": "समाप्त",
+  "allFilterLabel": "सभी",
+  "noDocumentsYetText": "अभी तक कोई दस्तावेज़ नहीं।",
+  "openMenuItem": "खोलें",
+  "expiresOnLabel": "{date} को समाप्त होता है"
 }

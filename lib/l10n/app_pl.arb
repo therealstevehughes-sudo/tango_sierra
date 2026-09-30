@@ -1033,5 +1033,21 @@
   "editDepartmentTitle": "Edytuj - {name}",
   "addTeamTitle": "Dodaj zespół - {name}",
   "renameTeamTitle": "Zmień nazwę - {name}",
-  "teamCountLabel": "{count, plural, one{{count} zespół} few{{count} zespoły} other{{count} zespołów}}"
+  "teamCountLabel": "{count, plural, one{{count} zespół} few{{count} zespoły} other{{count} zespołów}}",
+  "documentCategoryPolicy": "Polityka",
+  "documentCategoryCertificate": "Certyfikat",
+  "documentCategoryProcedure": "Procedura",
+  "documentCategoryEhoReport": "Raport EHO",
+  "addDocumentTitle": "Dodaj dokument",
+  "noExpiryDateText": "Brak daty ważności",
+  "setExpiryButton": "Ustaw termin ważności",
+  "couldNotOpenFileText": "Nie można otworzyć tego pliku.",
+  "documentCentreTitle": "Centrum dokumentów",
+  "validLabel": "Ważny",
+  "expiringSoonLabel": "Wkrótce wygasa",
+  "expiredLabel": "Wygasł",
+  "allFilterLabel": "Wszystkie",
+  "noDocumentsYetText": "Brak jeszcze dokumentów.",
+  "openMenuItem": "Otwórz",
+  "expiresOnLabel": "Wygasa {date}"
 }

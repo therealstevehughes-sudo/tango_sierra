@@ -1033,5 +1033,21 @@
   "editDepartmentTitle": "Editează - {name}",
   "addTeamTitle": "Adaugă echipă - {name}",
   "renameTeamTitle": "Redenumește - {name}",
-  "teamCountLabel": "{count, plural, one{{count} echipă} other{{count} echipe}}"
+  "teamCountLabel": "{count, plural, one{{count} echipă} other{{count} echipe}}",
+  "documentCategoryPolicy": "Politică",
+  "documentCategoryCertificate": "Certificat",
+  "documentCategoryProcedure": "Procedură",
+  "documentCategoryEhoReport": "Raport EHO",
+  "addDocumentTitle": "Adaugă document",
+  "noExpiryDateText": "Fără dată de expirare",
+  "setExpiryButton": "Setează expirarea",
+  "couldNotOpenFileText": "Nu s-a putut deschide acest fișier.",
+  "documentCentreTitle": "Centrul de documente",
+  "validLabel": "Valid",
+  "expiringSoonLabel": "Expiră curând",
+  "expiredLabel": "Expirat",
+  "allFilterLabel": "Toate",
+  "noDocumentsYetText": "Niciun document încă.",
+  "openMenuItem": "Deschide",
+  "expiresOnLabel": "Expiră {date}"
 }

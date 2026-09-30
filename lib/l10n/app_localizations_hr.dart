@@ -3595,4 +3595,54 @@ class AppLocalizationsHr extends AppLocalizations {
   String teamCountLabel(int count) {
     return '$count timova';
   }
+
+  @override
+  String get documentCategoryPolicy => 'Politika';
+
+  @override
+  String get documentCategoryCertificate => 'Certifikat';
+
+  @override
+  String get documentCategoryProcedure => 'Postupak';
+
+  @override
+  String get documentCategoryEhoReport => 'EHO izvještaj';
+
+  @override
+  String get addDocumentTitle => 'Dodaj dokument';
+
+  @override
+  String get noExpiryDateText => 'Bez datuma isteka';
+
+  @override
+  String get setExpiryButton => 'Postavi istek';
+
+  @override
+  String get couldNotOpenFileText => 'Nije moguće otvoriti ovu datoteku.';
+
+  @override
+  String get documentCentreTitle => 'Centar za dokumente';
+
+  @override
+  String get validLabel => 'Vrijedi';
+
+  @override
+  String get expiringSoonLabel => 'Uskoro istječe';
+
+  @override
+  String get expiredLabel => 'Istekao';
+
+  @override
+  String get allFilterLabel => 'Sve';
+
+  @override
+  String get noDocumentsYetText => 'Još nema dokumenata.';
+
+  @override
+  String get openMenuItem => 'Otvori';
+
+  @override
+  String expiresOnLabel(String date) {
+    return 'Istječe $date';
+  }
 }

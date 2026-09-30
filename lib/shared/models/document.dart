@@ -1,21 +1,40 @@
+import '../../l10n/app_localizations.dart';
+
 // Document Centre (roadmap v1.1, built 2026-09-15) — policies, certs,
 // procedures, and EHO reports, plus an expiry dashboard so a manager sees
 // what's valid/expiring/expired at a glance rather than finding out a
 // certificate lapsed when an inspector asks for it.
 enum DocumentCategory { policy, certificate, procedure, ehoReport, other }
 
-String documentCategoryDisplayName(DocumentCategory category) {
+String documentCategoryDisplayName(
+  DocumentCategory category, [
+  AppLocalizations? l10n,
+]) {
+  if (l10n == null) {
+    switch (category) {
+      case DocumentCategory.policy:
+        return 'Policy';
+      case DocumentCategory.certificate:
+        return 'Certificate';
+      case DocumentCategory.procedure:
+        return 'Procedure';
+      case DocumentCategory.ehoReport:
+        return 'EHO Report';
+      case DocumentCategory.other:
+        return 'Other';
+    }
+  }
   switch (category) {
     case DocumentCategory.policy:
-      return 'Policy';
+      return l10n.documentCategoryPolicy;
     case DocumentCategory.certificate:
-      return 'Certificate';
+      return l10n.documentCategoryCertificate;
     case DocumentCategory.procedure:
-      return 'Procedure';
+      return l10n.documentCategoryProcedure;
     case DocumentCategory.ehoReport:
-      return 'EHO Report';
+      return l10n.documentCategoryEhoReport;
     case DocumentCategory.other:
-      return 'Other';
+      return l10n.supplierCategoryOther;
   }
 }
 
