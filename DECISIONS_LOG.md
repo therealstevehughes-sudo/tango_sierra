@@ -2983,3 +2983,15 @@ Built across 4 sprints, all committed and applied to the live server:
 Known gap, not fixed here: `managerAssign` is a plain table UPDATE, not routed through `claim_shift`, so the RPC-level server enforcement currently only covers self-claims. Manager-side assignment relies on the client-side check alone until a follow-up RPC closes this.
 
 Full schema/RLS/function detail: `tools/phase2_certification_migration.sql`, `tools/phase2_cert_requirements_migration.sql`, `tools/phase2_claim_shift_cert_check_migration.sql`, `supabase_functions_staging/cert-expiry-notifications/`.
+
+## Natasha's Law / allergen matrix module — CLOSED except one follow-up (2026-09-30)
+Built across 3 sprints (data model, manager UI, staff matrix), all committed:
+1. Data model: the 14 UK legally-defined allergens (fixed list) + contains/mayContain status (founder confirmed both essential - a single yes/no per allergen wasn't enough). A shared, site-wide Ingredient library, not per-dish free text - new ingredients get a keyword-matched starting allergen suggestion (simple substring matching against common ingredient names, deliberately not framed as AI/ML) that a chef reviews and can correct, and that correction then applies to every future dish using that ingredient. MenuItem is draft/approved, not append-only or soft-delete - editing an approved item's ingredients always drops it back to draft, since a previously-published allergen tag set can't stay "current" once what's actually in the dish has changed.
+2. Approval workflow, matching the founder's own design: any site-accessible staff member can draft a dish and build its ingredient list; only supervisor tier and above can review and approve, which is the ONLY moment allergen tags actually publish (frozen from suggestedTagsFromIngredients() at approval time, not a live derivation that could silently drift). Enforced both in the UI (approve button hidden below supervisor) and server-side via RLS (only supervisor+ can set menu_items.status='approved' or write menu_item_allergen_tags at all).
+3. Staff-facing AllergenMatrixScreen, reached through HelpScreen specifically because that's the one hub base tier can reach at all (WorkerHubScreen has no drawer) - a server or kitchen porter needs to be able to check this for a customer regardless of tier. Read-only, only approved/published tags shown. Own standalone PDF export.
+
+Localized throughout as each piece was built (allergen names, UI strings, matrix screen), not deferred to a separate pass.
+
+Known gap, not fixed here: no integration into the existing EHO export PDF (`eho_export_service.dart`, 500+ lines, already shipped) - adding a section there needs its own careful read-the-whole-file pass, not a rushed addition. Logged as a follow-up in PHASE_2_ROADMAP.md.
+
+Full schema/RLS detail: `tools/phase2_allergen_module_migration.sql` (staged, not yet applied to the live server as of this entry).
