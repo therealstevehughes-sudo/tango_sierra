@@ -1129,5 +1129,15 @@
   "trainingRecordsTitle": "Schulungsnachweise - {name}",
   "fullHistoryLabel": "{count, plural, one{Vollständiger Verlauf ({count} früherer Eintrag)} other{Vollständiger Verlauf ({count} frühere Einträge)}}",
   "completedDateLabel": "Abgeschlossen am {date}",
-  "certRefLabel": "Ref.: {ref}"
+  "certRefLabel": "Ref.: {ref}",
+  "twoFactorNowOnText": "Die Zwei-Faktor-Authentifizierung ist jetzt aktiviert.",
+  "turnOffTwoFactorTitle": "Zwei-Faktor-Authentifizierung deaktivieren?",
+  "turnOffTwoFactorConfirmText": "Dieses Konto meldet sich wieder nur mit einem Passwort an.",
+  "turnOffButton": "Deaktivieren",
+  "twoFactorAuthTitle": "Zwei-Faktor-Authentifizierung",
+  "twoFactorOnText": "Die Zwei-Faktor-Authentifizierung ist für dieses Konto AKTIVIERT.",
+  "twoFactorOffText": "Die Zwei-Faktor-Authentifizierung ist DEAKTIVIERT - aktiviere sie für eine zusätzliche Schutzebene für dieses Führungskonto.",
+  "enableTwoFactorButton": "Zwei-Faktor-Authentifizierung aktivieren",
+  "scanAuthenticatorText": "Scanne dies mit deiner Authenticator-App (Google Authenticator, Authy usw.) und gib dann den angezeigten 6-stelligen Code ein.",
+  "cantScanManualEntryText": "Kannst du nicht scannen? Gib diesen Code manuell ein:"
 }

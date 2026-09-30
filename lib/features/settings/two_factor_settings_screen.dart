@@ -7,6 +7,7 @@ import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 // Two-factor authentication for senior (regional/executive) GoTrue
 // accounts (roadmap v1.1, built 2026-09-15) — the "planned fast-follow"
@@ -107,7 +108,7 @@ class _TwoFactorSettingsScreenState extends State<TwoFactorSettingsScreen> {
       await _load();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Two-factor authentication is now on.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.twoFactorNowOnText)),
       );
     } on gotrue.AuthException catch (e) {
       if (!mounted) return;
@@ -143,22 +144,23 @@ class _TwoFactorSettingsScreenState extends State<TwoFactorSettingsScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Turn off two-factor authentication?'),
-        content: const Text(
-          'This account will sign in with just a password again.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Turn Off'),
-          ),
-        ],
-      ),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.turnOffTwoFactorTitle),
+          content: Text(l10n.turnOffTwoFactorConfirmText),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.turnOffButton),
+            ),
+          ],
+        );
+      },
     );
     if (confirmed != true) return;
 
@@ -171,12 +173,13 @@ class _TwoFactorSettingsScreenState extends State<TwoFactorSettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Two-Factor Authentication'),
+        title: Text(l10n.twoFactorAuthTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Two-Factor Authentication'),
+      drawer: ManagementDrawer(title: l10n.twoFactorAuthTitle),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : ResponsiveContent(
@@ -191,44 +194,38 @@ class _TwoFactorSettingsScreenState extends State<TwoFactorSettingsScreen> {
   }
 
   Widget _buildStatus() {
+    final l10n = AppLocalizations.of(context)!;
     final on = _verifiedFactor != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         AppBanner(
           kind: on ? BannerKind.info : BannerKind.caution,
-          child: Text(
-            on
-                ? 'Two-factor authentication is ON for this account.'
-                : 'Two-factor authentication is OFF - add it for an extra '
-                      'layer of protection on this senior account.',
-          ),
+          child: Text(on ? l10n.twoFactorOnText : l10n.twoFactorOffText),
         ),
         const SizedBox(height: 20),
         if (on)
           ElevatedButton(
             onPressed: _submitting ? null : _turnOff,
-            child: const Text('Turn Off'),
+            child: Text(l10n.turnOffButton),
           )
         else
           ElevatedButton(
             onPressed: _submitting ? null : _startEnroll,
-            child: const Text('Enable Two-Factor Authentication'),
+            child: Text(l10n.enableTwoFactorButton),
           ),
       ],
     );
   }
 
   Widget _buildEnrollStep() {
+    final l10n = AppLocalizations.of(context)!;
     final enrollment = _pendingEnrollment!;
     final totp = enrollment.totp!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          'Scan this with your authenticator app (Google Authenticator, '
-          'Authy, etc.), then enter the 6-digit code it shows.',
-        ),
+        Text(l10n.scanAuthenticatorText),
         const SizedBox(height: 16),
         Center(
           child: Container(
@@ -241,7 +238,7 @@ class _TwoFactorSettingsScreenState extends State<TwoFactorSettingsScreen> {
           ),
         ),
         const SizedBox(height: 12),
-        const Text('Can\'t scan? Enter this code manually:'),
+        Text(l10n.cantScanManualEntryText),
         const SizedBox(height: 4),
         SelectableText(
           totp.secret,
@@ -251,7 +248,7 @@ class _TwoFactorSettingsScreenState extends State<TwoFactorSettingsScreen> {
         TextField(
           controller: _codeController,
           keyboardType: TextInputType.number,
-          decoration: const InputDecoration(labelText: '6-digit code'),
+          decoration: InputDecoration(labelText: l10n.sixDigitCodeLabel),
           onSubmitted: (_) => _confirmEnroll(),
         ),
         if (_error != null) ...[
@@ -269,7 +266,7 @@ class _TwoFactorSettingsScreenState extends State<TwoFactorSettingsScreen> {
             Expanded(
               child: OutlinedButton(
                 onPressed: _submitting ? null : _cancelEnroll,
-                child: const Text('Cancel'),
+                child: Text(l10n.cancel),
               ),
             ),
             const SizedBox(width: 12),
@@ -282,7 +279,7 @@ class _TwoFactorSettingsScreenState extends State<TwoFactorSettingsScreen> {
                         height: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : const Text('Confirm'),
+                    : Text(l10n.confirmButton),
               ),
             ),
           ],

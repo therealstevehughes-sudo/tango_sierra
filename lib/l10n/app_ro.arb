@@ -1129,5 +1129,15 @@
   "trainingRecordsTitle": "Înregistrări de instruire - {name}",
   "fullHistoryLabel": "{count, plural, one{Istoric complet ({count} înregistrare anterioară)} other{Istoric complet ({count} înregistrări anterioare)}}",
   "completedDateLabel": "Finalizat {date}",
-  "certRefLabel": "Ref: {ref}"
+  "certRefLabel": "Ref: {ref}",
+  "twoFactorNowOnText": "Autentificarea în doi pași este acum activă.",
+  "turnOffTwoFactorTitle": "Dezactivezi autentificarea în doi pași?",
+  "turnOffTwoFactorConfirmText": "Acest cont se va autentifica din nou doar cu o parolă.",
+  "turnOffButton": "Dezactivează",
+  "twoFactorAuthTitle": "Autentificare în doi pași",
+  "twoFactorOnText": "Autentificarea în doi pași este ACTIVATĂ pentru acest cont.",
+  "twoFactorOffText": "Autentificarea în doi pași este DEZACTIVATĂ - adaug-o pentru un nivel suplimentar de protecție pe acest cont de conducere.",
+  "enableTwoFactorButton": "Activează autentificarea în doi pași",
+  "scanAuthenticatorText": "Scanează asta cu aplicația ta de autentificare (Google Authenticator, Authy etc.), apoi introdu codul din 6 cifre pe care îl afișează.",
+  "cantScanManualEntryText": "Nu poți scana? Introdu acest cod manual:"
 }

@@ -255,7 +255,7 @@
   "sendCodeButton": "发送验证码",
   "backToSignIn": "返回登录",
   "sentCodeToEmail": "我们已将验证码发送至 {email}。请在下方输入验证码及新密码。",
-  "sixDigitCodeLabel": "6位验证码",
+  "sixDigitCodeLabel": "6 位数代码",
   "newPasswordLabel": "新密码",
   "resetPasswordButton": "重置密码",
   "twoFactorVerificationTitle": "双重验证",
@@ -1129,5 +1129,15 @@
   "trainingRecordsTitle": "培训记录 - {name}",
   "fullHistoryLabel": "完整历史记录({count} 条较早记录)",
   "completedDateLabel": "完成于 {date}",
-  "certRefLabel": "参考编号:{ref}"
+  "certRefLabel": "参考编号:{ref}",
+  "twoFactorNowOnText": "双重身份验证现已开启。",
+  "turnOffTwoFactorTitle": "关闭双重身份验证?",
+  "turnOffTwoFactorConfirmText": "此账户将再次仅使用密码登录。",
+  "turnOffButton": "关闭",
+  "twoFactorAuthTitle": "双重身份验证",
+  "twoFactorOnText": "此账户的双重身份验证已开启。",
+  "twoFactorOffText": "此账户的双重身份验证已关闭 - 为该高级账户添加额外的保护层。",
+  "enableTwoFactorButton": "启用双重身份验证",
+  "scanAuthenticatorText": "使用你的身份验证器应用(Google Authenticator、Authy 等)扫描此图,然后输入其显示的 6 位数代码。",
+  "cantScanManualEntryText": "无法扫描?手动输入此代码:"
 }

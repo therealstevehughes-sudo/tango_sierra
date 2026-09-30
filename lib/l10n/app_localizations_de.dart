@@ -4039,4 +4039,42 @@ class AppLocalizationsDe extends AppLocalizations {
   String certRefLabel(String ref) {
     return 'Ref.: $ref';
   }
+
+  @override
+  String get twoFactorNowOnText =>
+      'Die Zwei-Faktor-Authentifizierung ist jetzt aktiviert.';
+
+  @override
+  String get turnOffTwoFactorTitle =>
+      'Zwei-Faktor-Authentifizierung deaktivieren?';
+
+  @override
+  String get turnOffTwoFactorConfirmText =>
+      'Dieses Konto meldet sich wieder nur mit einem Passwort an.';
+
+  @override
+  String get turnOffButton => 'Deaktivieren';
+
+  @override
+  String get twoFactorAuthTitle => 'Zwei-Faktor-Authentifizierung';
+
+  @override
+  String get twoFactorOnText =>
+      'Die Zwei-Faktor-Authentifizierung ist für dieses Konto AKTIVIERT.';
+
+  @override
+  String get twoFactorOffText =>
+      'Die Zwei-Faktor-Authentifizierung ist DEAKTIVIERT - aktiviere sie für eine zusätzliche Schutzebene für dieses Führungskonto.';
+
+  @override
+  String get enableTwoFactorButton =>
+      'Zwei-Faktor-Authentifizierung aktivieren';
+
+  @override
+  String get scanAuthenticatorText =>
+      'Scanne dies mit deiner Authenticator-App (Google Authenticator, Authy usw.) und gib dann den angezeigten 6-stelligen Code ein.';
+
+  @override
+  String get cantScanManualEntryText =>
+      'Kannst du nicht scannen? Gib diesen Code manuell ein:';
 }

@@ -4008,4 +4008,40 @@ class AppLocalizationsRo extends AppLocalizations {
   String certRefLabel(String ref) {
     return 'Ref: $ref';
   }
+
+  @override
+  String get twoFactorNowOnText =>
+      'Autentificarea în doi pași este acum activă.';
+
+  @override
+  String get turnOffTwoFactorTitle => 'Dezactivezi autentificarea în doi pași?';
+
+  @override
+  String get turnOffTwoFactorConfirmText =>
+      'Acest cont se va autentifica din nou doar cu o parolă.';
+
+  @override
+  String get turnOffButton => 'Dezactivează';
+
+  @override
+  String get twoFactorAuthTitle => 'Autentificare în doi pași';
+
+  @override
+  String get twoFactorOnText =>
+      'Autentificarea în doi pași este ACTIVATĂ pentru acest cont.';
+
+  @override
+  String get twoFactorOffText =>
+      'Autentificarea în doi pași este DEZACTIVATĂ - adaug-o pentru un nivel suplimentar de protecție pe acest cont de conducere.';
+
+  @override
+  String get enableTwoFactorButton => 'Activează autentificarea în doi pași';
+
+  @override
+  String get scanAuthenticatorText =>
+      'Scanează asta cu aplicația ta de autentificare (Google Authenticator, Authy etc.), apoi introdu codul din 6 cifre pe care îl afișează.';
+
+  @override
+  String get cantScanManualEntryText =>
+      'Nu poți scana? Introdu acest cod manual:';
 }

@@ -4009,4 +4009,41 @@ class AppLocalizationsPl extends AppLocalizations {
   String certRefLabel(String ref) {
     return 'Nr ref.: $ref';
   }
+
+  @override
+  String get twoFactorNowOnText =>
+      'Uwierzytelnianie dwuskładnikowe jest teraz włączone.';
+
+  @override
+  String get turnOffTwoFactorTitle =>
+      'Wyłączyć uwierzytelnianie dwuskładnikowe?';
+
+  @override
+  String get turnOffTwoFactorConfirmText =>
+      'To konto będzie logować się ponownie tylko za pomocą hasła.';
+
+  @override
+  String get turnOffButton => 'Wyłącz';
+
+  @override
+  String get twoFactorAuthTitle => 'Uwierzytelnianie dwuskładnikowe';
+
+  @override
+  String get twoFactorOnText =>
+      'Uwierzytelnianie dwuskładnikowe jest WŁĄCZONE dla tego konta.';
+
+  @override
+  String get twoFactorOffText =>
+      'Uwierzytelnianie dwuskładnikowe jest WYŁĄCZONE - dodaj je jako dodatkową warstwę ochrony tego konta kierowniczego.';
+
+  @override
+  String get enableTwoFactorButton => 'Włącz uwierzytelnianie dwuskładnikowe';
+
+  @override
+  String get scanAuthenticatorText =>
+      'Zeskanuj to aplikacją uwierzytelniającą (Google Authenticator, Authy itp.), a następnie wprowadź wyświetlony 6-cyfrowy kod.';
+
+  @override
+  String get cantScanManualEntryText =>
+      'Nie możesz zeskanować? Wprowadź ten kod ręcznie:';
 }

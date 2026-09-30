@@ -1644,7 +1644,7 @@ abstract class AppLocalizations {
   /// **'We sent a code to {email}. Enter it below with your new password.'**
   String sentCodeToEmail(String email);
 
-  /// No description provided for @sixDigitCodeLabel.
+  ///
   ///
   /// In en, this message translates to:
   /// **'6-digit code'**
@@ -6907,6 +6907,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ref: {ref}'**
   String certRefLabel(String ref);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor authentication is now on.'**
+  String get twoFactorNowOnText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off two-factor authentication?'**
+  String get turnOffTwoFactorTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'This account will sign in with just a password again.'**
+  String get turnOffTwoFactorConfirmText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Turn Off'**
+  String get turnOffButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Two-Factor Authentication'**
+  String get twoFactorAuthTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor authentication is ON for this account.'**
+  String get twoFactorOnText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Two-factor authentication is OFF - add it for an extra layer of protection on this senior account.'**
+  String get twoFactorOffText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Two-Factor Authentication'**
+  String get enableTwoFactorButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Scan this with your authenticator app (Google Authenticator, Authy, etc.), then enter the 6-digit code it shows.'**
+  String get scanAuthenticatorText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t scan? Enter this code manually:'**
+  String get cantScanManualEntryText;
 }
 
 class _AppLocalizationsDelegate

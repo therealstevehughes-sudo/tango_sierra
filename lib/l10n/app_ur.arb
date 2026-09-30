@@ -1129,5 +1129,15 @@
   "trainingRecordsTitle": "تربیتی ریکارڈ - {name}",
   "fullHistoryLabel": "مکمل تاریخ ({count} پرانے ریکارڈز)",
   "completedDateLabel": "{date} کو مکمل",
-  "certRefLabel": "حوالہ: {ref}"
+  "certRefLabel": "حوالہ: {ref}",
+  "twoFactorNowOnText": "ٹو فیکٹر توثیق اب فعال ہے۔",
+  "turnOffTwoFactorTitle": "ٹو فیکٹر توثیق بند کریں؟",
+  "turnOffTwoFactorConfirmText": "یہ اکاؤنٹ دوبارہ صرف پاس ورڈ کے ساتھ سائن ان کرے گا۔",
+  "turnOffButton": "بند کریں",
+  "twoFactorAuthTitle": "ٹو فیکٹر توثیق",
+  "twoFactorOnText": "اس اکاؤنٹ کے لیے ٹو فیکٹر توثیق فعال ہے۔",
+  "twoFactorOffText": "ٹو فیکٹر توثیق غیر فعال ہے - اس سینئر اکاؤنٹ پر تحفظ کی اضافی پرت کے لیے اسے شامل کریں۔",
+  "enableTwoFactorButton": "ٹو فیکٹر توثیق فعال کریں",
+  "scanAuthenticatorText": "اسے اپنی توثیق کنندہ ایپ (Google Authenticator، Authy، وغیرہ) سے اسکین کریں، پھر دکھایا گیا 6 ہندسوں کا کوڈ درج کریں۔",
+  "cantScanManualEntryText": "اسکین نہیں کر سکتے؟ یہ کوڈ دستی طور پر درج کریں:"
 }

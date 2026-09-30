@@ -846,7 +846,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get sixDigitCodeLabel => '6位验证码';
+  String get sixDigitCodeLabel => '6 位数代码';
 
   @override
   String get newPasswordLabel => '新密码';
@@ -3805,4 +3805,35 @@ class AppLocalizationsZh extends AppLocalizations {
   String certRefLabel(String ref) {
     return '参考编号:$ref';
   }
+
+  @override
+  String get twoFactorNowOnText => '双重身份验证现已开启。';
+
+  @override
+  String get turnOffTwoFactorTitle => '关闭双重身份验证?';
+
+  @override
+  String get turnOffTwoFactorConfirmText => '此账户将再次仅使用密码登录。';
+
+  @override
+  String get turnOffButton => '关闭';
+
+  @override
+  String get twoFactorAuthTitle => '双重身份验证';
+
+  @override
+  String get twoFactorOnText => '此账户的双重身份验证已开启。';
+
+  @override
+  String get twoFactorOffText => '此账户的双重身份验证已关闭 - 为该高级账户添加额外的保护层。';
+
+  @override
+  String get enableTwoFactorButton => '启用双重身份验证';
+
+  @override
+  String get scanAuthenticatorText =>
+      '使用你的身份验证器应用(Google Authenticator、Authy 等)扫描此图,然后输入其显示的 6 位数代码。';
+
+  @override
+  String get cantScanManualEntryText => '无法扫描?手动输入此代码:';
 }

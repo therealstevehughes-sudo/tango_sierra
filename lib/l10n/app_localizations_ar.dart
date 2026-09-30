@@ -873,7 +873,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get sixDigitCodeLabel => 'رمز مكون من 6 أرقام';
+  String get sixDigitCodeLabel => 'رمز من 6 أرقام';
 
   @override
   String get newPasswordLabel => 'كلمة المرور الجديدة';
@@ -3903,4 +3903,38 @@ class AppLocalizationsAr extends AppLocalizations {
   String certRefLabel(String ref) {
     return 'المرجع: $ref';
   }
+
+  @override
+  String get twoFactorNowOnText => 'المصادقة الثنائية مفعّلة الآن.';
+
+  @override
+  String get turnOffTwoFactorTitle => 'إيقاف المصادقة الثنائية؟';
+
+  @override
+  String get turnOffTwoFactorConfirmText =>
+      'سيقوم هذا الحساب بتسجيل الدخول بكلمة مرور فقط مرة أخرى.';
+
+  @override
+  String get turnOffButton => 'إيقاف';
+
+  @override
+  String get twoFactorAuthTitle => 'المصادقة الثنائية';
+
+  @override
+  String get twoFactorOnText => 'المصادقة الثنائية مُفعّلة لهذا الحساب.';
+
+  @override
+  String get twoFactorOffText =>
+      'المصادقة الثنائية مُعطّلة - أضفها لطبقة حماية إضافية لهذا الحساب القيادي.';
+
+  @override
+  String get enableTwoFactorButton => 'تفعيل المصادقة الثنائية';
+
+  @override
+  String get scanAuthenticatorText =>
+      'امسح هذا باستخدام تطبيق المصادقة الخاص بك (Google Authenticator أو Authy وغيرها)، ثم أدخل الرمز المكون من 6 أرقام الذي يعرضه.';
+
+  @override
+  String get cantScanManualEntryText =>
+      'لا يمكنك المسح؟ أدخل هذا الرمز يدويًا:';
 }

@@ -1129,5 +1129,15 @@
   "trainingRecordsTitle": "Rejestry szkoleń - {name}",
   "fullHistoryLabel": "{count, plural, one{Pełna historia ({count} wcześniejszy rekord)} few{Pełna historia ({count} wcześniejsze rekordy)} other{Pełna historia ({count} wcześniejszych rekordów)}}",
   "completedDateLabel": "Ukończono {date}",
-  "certRefLabel": "Nr ref.: {ref}"
+  "certRefLabel": "Nr ref.: {ref}",
+  "twoFactorNowOnText": "Uwierzytelnianie dwuskładnikowe jest teraz włączone.",
+  "turnOffTwoFactorTitle": "Wyłączyć uwierzytelnianie dwuskładnikowe?",
+  "turnOffTwoFactorConfirmText": "To konto będzie logować się ponownie tylko za pomocą hasła.",
+  "turnOffButton": "Wyłącz",
+  "twoFactorAuthTitle": "Uwierzytelnianie dwuskładnikowe",
+  "twoFactorOnText": "Uwierzytelnianie dwuskładnikowe jest WŁĄCZONE dla tego konta.",
+  "twoFactorOffText": "Uwierzytelnianie dwuskładnikowe jest WYŁĄCZONE - dodaj je jako dodatkową warstwę ochrony tego konta kierowniczego.",
+  "enableTwoFactorButton": "Włącz uwierzytelnianie dwuskładnikowe",
+  "scanAuthenticatorText": "Zeskanuj to aplikacją uwierzytelniającą (Google Authenticator, Authy itp.), a następnie wprowadź wyświetlony 6-cyfrowy kod.",
+  "cantScanManualEntryText": "Nie możesz zeskanować? Wprowadź ten kod ręcznie:"
 }

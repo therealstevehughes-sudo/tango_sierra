@@ -879,7 +879,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get sixDigitCodeLabel => '6-अंकीय कोड';
+  String get sixDigitCodeLabel => '6 अंकों का कोड';
 
   @override
   String get newPasswordLabel => 'नया पासवर्ड';
@@ -3929,4 +3929,38 @@ class AppLocalizationsHi extends AppLocalizations {
   String certRefLabel(String ref) {
     return 'संदर्भ: $ref';
   }
+
+  @override
+  String get twoFactorNowOnText => 'टू-फैक्टर प्रमाणीकरण अब चालू है।';
+
+  @override
+  String get turnOffTwoFactorTitle => 'टू-फैक्टर प्रमाणीकरण बंद करें?';
+
+  @override
+  String get turnOffTwoFactorConfirmText =>
+      'यह खाता फिर से केवल पासवर्ड के साथ साइन इन करेगा।';
+
+  @override
+  String get turnOffButton => 'बंद करें';
+
+  @override
+  String get twoFactorAuthTitle => 'टू-फैक्टर प्रमाणीकरण';
+
+  @override
+  String get twoFactorOnText => 'इस खाते के लिए टू-फैक्टर प्रमाणीकरण चालू है।';
+
+  @override
+  String get twoFactorOffText =>
+      'टू-फैक्टर प्रमाणीकरण बंद है - इस वरिष्ठ खाते पर सुरक्षा की एक अतिरिक्त परत के लिए इसे जोड़ें।';
+
+  @override
+  String get enableTwoFactorButton => 'टू-फैक्टर प्रमाणीकरण सक्षम करें';
+
+  @override
+  String get scanAuthenticatorText =>
+      'इसे अपने ऑथेंटिकेटर ऐप (Google Authenticator, Authy, आदि) से स्कैन करें, फिर दिखाया गया 6 अंकों का कोड दर्ज करें।';
+
+  @override
+  String get cantScanManualEntryText =>
+      'स्कैन नहीं कर सकते? इस कोड को मैन्युअल रूप से दर्ज करें:';
 }

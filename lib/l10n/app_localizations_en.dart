@@ -4012,4 +4012,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String certRefLabel(String ref) {
     return 'Ref: $ref';
   }
+
+  @override
+  String get twoFactorNowOnText => 'Two-factor authentication is now on.';
+
+  @override
+  String get turnOffTwoFactorTitle => 'Turn off two-factor authentication?';
+
+  @override
+  String get turnOffTwoFactorConfirmText =>
+      'This account will sign in with just a password again.';
+
+  @override
+  String get turnOffButton => 'Turn Off';
+
+  @override
+  String get twoFactorAuthTitle => 'Two-Factor Authentication';
+
+  @override
+  String get twoFactorOnText =>
+      'Two-factor authentication is ON for this account.';
+
+  @override
+  String get twoFactorOffText =>
+      'Two-factor authentication is OFF - add it for an extra layer of protection on this senior account.';
+
+  @override
+  String get enableTwoFactorButton => 'Enable Two-Factor Authentication';
+
+  @override
+  String get scanAuthenticatorText =>
+      'Scan this with your authenticator app (Google Authenticator, Authy, etc.), then enter the 6-digit code it shows.';
+
+  @override
+  String get cantScanManualEntryText =>
+      'Can\'t scan? Enter this code manually:';
 }

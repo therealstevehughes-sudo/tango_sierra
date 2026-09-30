@@ -3948,4 +3948,41 @@ class AppLocalizationsHr extends AppLocalizations {
   String certRefLabel(String ref) {
     return 'Ref.: $ref';
   }
+
+  @override
+  String get twoFactorNowOnText =>
+      'Dvofaktorska autentifikacija sada je uključena.';
+
+  @override
+  String get turnOffTwoFactorTitle =>
+      'Isključiti dvofaktorsku autentifikaciju?';
+
+  @override
+  String get turnOffTwoFactorConfirmText =>
+      'Ovaj račun će se ponovno prijavljivati samo lozinkom.';
+
+  @override
+  String get turnOffButton => 'Isključi';
+
+  @override
+  String get twoFactorAuthTitle => 'Dvofaktorska autentifikacija';
+
+  @override
+  String get twoFactorOnText =>
+      'Dvofaktorska autentifikacija je UKLJUČENA za ovaj račun.';
+
+  @override
+  String get twoFactorOffText =>
+      'Dvofaktorska autentifikacija je ISKLJUČENA - dodaj je za dodatni sloj zaštite ovog rukovodećeg računa.';
+
+  @override
+  String get enableTwoFactorButton => 'Omogući dvofaktorsku autentifikaciju';
+
+  @override
+  String get scanAuthenticatorText =>
+      'Skeniraj ovo svojom aplikacijom za autentifikaciju (Google Authenticator, Authy itd.), a zatim unesi prikazani 6-znamenkasti kod.';
+
+  @override
+  String get cantScanManualEntryText =>
+      'Ne možeš skenirati? Unesi ovaj kod ručno:';
 }

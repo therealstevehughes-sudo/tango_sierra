@@ -255,7 +255,7 @@
   "sendCodeButton": "कोड भेजें",
   "backToSignIn": "साइन इन पर वापस जाएं",
   "sentCodeToEmail": "हमने {email} पर एक कोड भेजा है। इसे नीचे अपने नए पासवर्ड के साथ दर्ज करें।",
-  "sixDigitCodeLabel": "6-अंकीय कोड",
+  "sixDigitCodeLabel": "6 अंकों का कोड",
   "newPasswordLabel": "नया पासवर्ड",
   "resetPasswordButton": "पासवर्ड रीसेट करें",
   "twoFactorVerificationTitle": "टू-फैक्टर सत्यापन",
@@ -1129,5 +1129,15 @@
   "trainingRecordsTitle": "प्रशिक्षण रिकॉर्ड - {name}",
   "fullHistoryLabel": "पूरा इतिहास ({count} पुराने रिकॉर्ड)",
   "completedDateLabel": "{date} को पूर्ण",
-  "certRefLabel": "संदर्भ: {ref}"
+  "certRefLabel": "संदर्भ: {ref}",
+  "twoFactorNowOnText": "टू-फैक्टर प्रमाणीकरण अब चालू है।",
+  "turnOffTwoFactorTitle": "टू-फैक्टर प्रमाणीकरण बंद करें?",
+  "turnOffTwoFactorConfirmText": "यह खाता फिर से केवल पासवर्ड के साथ साइन इन करेगा।",
+  "turnOffButton": "बंद करें",
+  "twoFactorAuthTitle": "टू-फैक्टर प्रमाणीकरण",
+  "twoFactorOnText": "इस खाते के लिए टू-फैक्टर प्रमाणीकरण चालू है।",
+  "twoFactorOffText": "टू-फैक्टर प्रमाणीकरण बंद है - इस वरिष्ठ खाते पर सुरक्षा की एक अतिरिक्त परत के लिए इसे जोड़ें।",
+  "enableTwoFactorButton": "टू-फैक्टर प्रमाणीकरण सक्षम करें",
+  "scanAuthenticatorText": "इसे अपने ऑथेंटिकेटर ऐप (Google Authenticator, Authy, आदि) से स्कैन करें, फिर दिखाया गया 6 अंकों का कोड दर्ज करें।",
+  "cantScanManualEntryText": "स्कैन नहीं कर सकते? इस कोड को मैन्युअल रूप से दर्ज करें:"
 }

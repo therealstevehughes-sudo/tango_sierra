@@ -255,7 +255,7 @@
   "sendCodeButton": "إرسال الرمز",
   "backToSignIn": "العودة لتسجيل الدخول",
   "sentCodeToEmail": "أرسلنا رمزًا إلى {email}. أدخله أدناه مع كلمة المرور الجديدة.",
-  "sixDigitCodeLabel": "رمز مكون من 6 أرقام",
+  "sixDigitCodeLabel": "رمز من 6 أرقام",
   "newPasswordLabel": "كلمة المرور الجديدة",
   "resetPasswordButton": "إعادة تعيين كلمة المرور",
   "twoFactorVerificationTitle": "التحقق بخطوتين",
@@ -1129,5 +1129,15 @@
   "trainingRecordsTitle": "سجلات التدريب - {name}",
   "fullHistoryLabel": "السجل الكامل ({count} سجل سابق)",
   "completedDateLabel": "اكتمل {date}",
-  "certRefLabel": "المرجع: {ref}"
+  "certRefLabel": "المرجع: {ref}",
+  "twoFactorNowOnText": "المصادقة الثنائية مفعّلة الآن.",
+  "turnOffTwoFactorTitle": "إيقاف المصادقة الثنائية؟",
+  "turnOffTwoFactorConfirmText": "سيقوم هذا الحساب بتسجيل الدخول بكلمة مرور فقط مرة أخرى.",
+  "turnOffButton": "إيقاف",
+  "twoFactorAuthTitle": "المصادقة الثنائية",
+  "twoFactorOnText": "المصادقة الثنائية مُفعّلة لهذا الحساب.",
+  "twoFactorOffText": "المصادقة الثنائية مُعطّلة - أضفها لطبقة حماية إضافية لهذا الحساب القيادي.",
+  "enableTwoFactorButton": "تفعيل المصادقة الثنائية",
+  "scanAuthenticatorText": "امسح هذا باستخدام تطبيق المصادقة الخاص بك (Google Authenticator أو Authy وغيرها)، ثم أدخل الرمز المكون من 6 أرقام الذي يعرضه.",
+  "cantScanManualEntryText": "لا يمكنك المسح؟ أدخل هذا الرمز يدويًا:"
 }

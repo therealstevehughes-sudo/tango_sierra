@@ -3920,4 +3920,38 @@ class AppLocalizationsUr extends AppLocalizations {
   String certRefLabel(String ref) {
     return 'حوالہ: $ref';
   }
+
+  @override
+  String get twoFactorNowOnText => 'ٹو فیکٹر توثیق اب فعال ہے۔';
+
+  @override
+  String get turnOffTwoFactorTitle => 'ٹو فیکٹر توثیق بند کریں؟';
+
+  @override
+  String get turnOffTwoFactorConfirmText =>
+      'یہ اکاؤنٹ دوبارہ صرف پاس ورڈ کے ساتھ سائن ان کرے گا۔';
+
+  @override
+  String get turnOffButton => 'بند کریں';
+
+  @override
+  String get twoFactorAuthTitle => 'ٹو فیکٹر توثیق';
+
+  @override
+  String get twoFactorOnText => 'اس اکاؤنٹ کے لیے ٹو فیکٹر توثیق فعال ہے۔';
+
+  @override
+  String get twoFactorOffText =>
+      'ٹو فیکٹر توثیق غیر فعال ہے - اس سینئر اکاؤنٹ پر تحفظ کی اضافی پرت کے لیے اسے شامل کریں۔';
+
+  @override
+  String get enableTwoFactorButton => 'ٹو فیکٹر توثیق فعال کریں';
+
+  @override
+  String get scanAuthenticatorText =>
+      'اسے اپنی توثیق کنندہ ایپ (Google Authenticator، Authy، وغیرہ) سے اسکین کریں، پھر دکھایا گیا 6 ہندسوں کا کوڈ درج کریں۔';
+
+  @override
+  String get cantScanManualEntryText =>
+      'اسکین نہیں کر سکتے؟ یہ کوڈ دستی طور پر درج کریں:';
 }

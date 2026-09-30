@@ -1129,5 +1129,15 @@
   "trainingRecordsTitle": "Registros de formación - {name}",
   "fullHistoryLabel": "{count, plural, one{Historial completo ({count} registro anterior)} other{Historial completo ({count} registros anteriores)}}",
   "completedDateLabel": "Completado {date}",
-  "certRefLabel": "Ref.: {ref}"
+  "certRefLabel": "Ref.: {ref}",
+  "twoFactorNowOnText": "La autenticación de dos factores ya está activada.",
+  "turnOffTwoFactorTitle": "¿Desactivar la autenticación de dos factores?",
+  "turnOffTwoFactorConfirmText": "Esta cuenta iniciará sesión solo con una contraseña de nuevo.",
+  "turnOffButton": "Desactivar",
+  "twoFactorAuthTitle": "Autenticación de dos factores",
+  "twoFactorOnText": "La autenticación de dos factores está ACTIVADA para esta cuenta.",
+  "twoFactorOffText": "La autenticación de dos factores está DESACTIVADA - actívala para una capa extra de protección en esta cuenta directiva.",
+  "enableTwoFactorButton": "Activar autenticación de dos factores",
+  "scanAuthenticatorText": "Escanea esto con tu app de autenticación (Google Authenticator, Authy, etc.), luego introduce el código de 6 dígitos que muestra.",
+  "cantScanManualEntryText": "¿No puedes escanear? Introduce este código manualmente:"
 }

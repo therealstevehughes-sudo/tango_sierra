@@ -3870,5 +3870,48 @@
         "type": "String"
       }
     }
+  },
+  "twoFactorNowOnText": "Two-factor authentication is now on.",
+  "@twoFactorNowOnText": {
+    "description": ""
+  },
+  "turnOffTwoFactorTitle": "Turn off two-factor authentication?",
+  "@turnOffTwoFactorTitle": {
+    "description": ""
+  },
+  "turnOffTwoFactorConfirmText": "This account will sign in with just a password again.",
+  "@turnOffTwoFactorConfirmText": {
+    "description": ""
+  },
+  "turnOffButton": "Turn Off",
+  "@turnOffButton": {
+    "description": ""
+  },
+  "twoFactorAuthTitle": "Two-Factor Authentication",
+  "@twoFactorAuthTitle": {
+    "description": ""
+  },
+  "twoFactorOnText": "Two-factor authentication is ON for this account.",
+  "@twoFactorOnText": {
+    "description": ""
+  },
+  "twoFactorOffText": "Two-factor authentication is OFF - add it for an extra layer of protection on this senior account.",
+  "@twoFactorOffText": {
+    "description": ""
+  },
+  "enableTwoFactorButton": "Enable Two-Factor Authentication",
+  "@enableTwoFactorButton": {
+    "description": ""
+  },
+  "scanAuthenticatorText": "Scan this with your authenticator app (Google Authenticator, Authy, etc.), then enter the 6-digit code it shows.",
+  "@scanAuthenticatorText": {
+    "description": ""
+  },
+  "cantScanManualEntryText": "Can't scan? Enter this code manually:",
+  "@cantScanManualEntryText": {
+    "description": ""
+  },
+  "@sixDigitCodeLabel": {
+    "description": ""
   }
 }

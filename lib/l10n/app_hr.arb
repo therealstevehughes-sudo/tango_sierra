@@ -1129,5 +1129,15 @@
   "trainingRecordsTitle": "Evidencija osposobljavanja - {name}",
   "fullHistoryLabel": "Puna povijest ({count} ranijih zapisa)",
   "completedDateLabel": "Dovršeno {date}",
-  "certRefLabel": "Ref.: {ref}"
+  "certRefLabel": "Ref.: {ref}",
+  "twoFactorNowOnText": "Dvofaktorska autentifikacija sada je uključena.",
+  "turnOffTwoFactorTitle": "Isključiti dvofaktorsku autentifikaciju?",
+  "turnOffTwoFactorConfirmText": "Ovaj račun će se ponovno prijavljivati samo lozinkom.",
+  "turnOffButton": "Isključi",
+  "twoFactorAuthTitle": "Dvofaktorska autentifikacija",
+  "twoFactorOnText": "Dvofaktorska autentifikacija je UKLJUČENA za ovaj račun.",
+  "twoFactorOffText": "Dvofaktorska autentifikacija je ISKLJUČENA - dodaj je za dodatni sloj zaštite ovog rukovodećeg računa.",
+  "enableTwoFactorButton": "Omogući dvofaktorsku autentifikaciju",
+  "scanAuthenticatorText": "Skeniraj ovo svojom aplikacijom za autentifikaciju (Google Authenticator, Authy itd.), a zatim unesi prikazani 6-znamenkasti kod.",
+  "cantScanManualEntryText": "Ne možeš skenirati? Unesi ovaj kod ručno:"
 }
