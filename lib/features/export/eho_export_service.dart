@@ -10,18 +10,23 @@ import 'package:pdf/widgets.dart' as pw;
 
 import '../../core/services/evidence_store.dart';
 import '../../core/utils/date_format.dart';
+import '../../shared/models/allergen.dart';
 import '../../shared/models/branding_config.dart';
+import '../../shared/models/menu_item.dart';
+import '../../shared/models/menu_item_allergen_tag.dart';
 import '../../shared/models/supplier.dart';
 import '../../shared/models/task_submission.dart';
 import '../../shared/models/training_record.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
+import '../../shared/providers/menu_item_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supplier_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/training_record_providers.dart';
 import '../../shared/repositories/branding_config_repository.dart';
+import '../../shared/repositories/menu_item_repository.dart';
 import '../../shared/repositories/site_repository.dart';
 import '../../shared/repositories/supplier_repository.dart';
 import '../../shared/repositories/task_submission_repository.dart';
@@ -109,6 +114,7 @@ class EhoExportService {
     this._supplierRepository,
     this._brandingConfigRepository,
     this._evidenceStore,
+    this._menuItemRepository,
   );
 
   final TaskSubmissionRepository _submissionRepository;
@@ -120,6 +126,7 @@ class EhoExportService {
   final UserRepository _userRepository;
   final BrandingConfigRepository _brandingConfigRepository;
   final EvidenceStore _evidenceStore;
+  final MenuItemRepository _menuItemRepository;
 
   Future<String> generate({
     required int siteId,
@@ -265,6 +272,24 @@ class EhoExportService {
           approvalStatus: supplier.approvalStatus,
         ),
       );
+    }
+
+    // Allergen matrix (Phase 2, 2026-09-30) — every APPROVED dish's
+    // published allergen tags, same "never silently hidden" treatment as
+    // expired training/flagged deliveries above. Only approved items:
+    // a draft's unreviewed keyword-suggested allergens have no place in
+    // an inspector-facing compliance record. Site-scoped, not date-range
+    // scoped — a menu doesn't have a "submission date," it's whatever is
+    // currently published, same reasoning outstanding tasks (from
+    // OverdueSummaryService) already uses above.
+    final allMenuItems = await _menuItemRepository.getForSite(siteId);
+    final approvedMenuItems = allMenuItems
+        .where((m) => m.status == MenuItemStatus.approved)
+        .toList();
+    final allergenTagsByMenuItem = <int, List<MenuItemAllergenTag>>{};
+    for (final item in approvedMenuItems) {
+      allergenTagsByMenuItem[item.id!] = await _menuItemRepository
+          .getAllergenTags(item.id!);
     }
 
     final bySegment = <String, List<TaskSubmission>>{};
@@ -421,6 +446,71 @@ class EhoExportService {
         ],
       ),
     );
+
+    // Allergen matrix (Phase 2, 2026-09-30) — its own resilient block,
+    // added only when there's at least one approved dish (never an empty
+    // page for a site that hasn't set this up). Same all-or-nothing
+    // per-block reasoning as the Full Detailed Log below — the pdf
+    // package has no partial-fit callback, so a clear "omitted" notice
+    // beats a table cut off mid-row.
+    if (approvedMenuItems.isNotEmpty) {
+      addResilientPage(
+        doc,
+        () => pw.MultiPage(
+          maxPages: maxPages,
+          header: (context) => _buildCondensedHeader(
+            companyName,
+            accentColor,
+            siteName,
+            start,
+            end,
+          ),
+          build: (context) => [
+            pw.Text(
+              'Allergen Matrix',
+              style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 4),
+            pw.Text(
+              'Published allergen information for every approved dish, '
+              'per the Food Information (Amendment) (England) Regulations '
+              '2021 ("Natasha\'s Law").',
+              style: const pw.TextStyle(fontSize: 9),
+            ),
+            pw.SizedBox(height: 8),
+            _buildAllergenMatrixTable(approvedMenuItems, allergenTagsByMenuItem),
+            pw.SizedBox(height: 6),
+            pw.Text(
+              'Key: check mark = contains, ? = may contain (cross-contamination risk).',
+              style: const pw.TextStyle(fontSize: 9),
+            ),
+          ],
+        ),
+        () => pw.MultiPage(
+          maxPages: maxPages,
+          header: (context) => _buildCondensedHeader(
+            companyName,
+            accentColor,
+            siteName,
+            start,
+            end,
+          ),
+          build: (context) => [
+            pw.Text(
+              'Allergen Matrix - omitted',
+              style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold),
+            ),
+            pw.SizedBox(height: 4),
+            pw.Text(
+              'Too many approved dishes to list in full '
+              '(${approvedMenuItems.length} dishes). See the in-app '
+              'Allergen Matrix screen for the complete, up-to-date list.',
+            ),
+          ],
+        ),
+        isRecoverable: (e) => e is PdfTooBigPageException,
+      );
+    }
 
     if (includeFullLog) {
       addResilientPage(
@@ -933,6 +1023,55 @@ class EhoExportService {
     );
   }
 
+  // Allergen matrix table (Phase 2, 2026-09-30) — reuses _chunkedTable so
+  // this table is subject to the exact same page-overflow-bug workaround
+  // as every other table in this file (see _chunkedTable's own doc
+  // comment). Fixed 15 columns (dish name + all 14 allergens) always -
+  // never narrowed to only the allergens actually in use, so the matrix
+  // reads the same way every time regardless of which allergens this
+  // site's menu happens to contain.
+  pw.Widget _buildAllergenMatrixTable(
+    List<MenuItem> items,
+    Map<int, List<MenuItemAllergenTag>> tagsByItem,
+  ) {
+    final columnWidths = <int, pw.TableColumnWidth>{
+      0: const pw.FlexColumnWidth(3),
+      for (var i = 1; i <= Allergen.values.length; i++)
+        i: const pw.FlexColumnWidth(1),
+    };
+    final headerRow = pw.TableRow(
+      decoration: const pw.BoxDecoration(color: PdfColors.grey200),
+      children: [
+        _cell('Dish', bold: true),
+        for (final allergen in Allergen.values)
+          pw.Padding(
+            padding: const pw.EdgeInsets.all(2),
+            child: pw.Text(
+              allergenDisplayName(allergen),
+              style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 6),
+            ),
+          ),
+      ],
+    );
+    final rows = [
+      for (final item in items)
+        pw.TableRow(
+          children: [
+            _cell(item.name),
+            for (final allergen in Allergen.values)
+              _cell(_matrixSymbol(tagsByItem[item.id!], allergen)),
+          ],
+        ),
+    ];
+    return pw.Column(children: _chunkedTable(rows, headerRow, columnWidths));
+  }
+
+  String _matrixSymbol(List<MenuItemAllergenTag>? tags, Allergen allergen) {
+    final tag = tags?.where((t) => t.allergen == allergen).firstOrNull;
+    if (tag == null) return '';
+    return tag.status == AllergenTagStatus.contains ? 'Y' : '?';
+  }
+
   pw.Widget _buildSegmentSection(
     String segment,
     List<TaskSubmission> submissions,
@@ -1098,5 +1237,6 @@ final ehoExportServiceProvider = Provider<EhoExportService>((ref) {
     ref.watch(supplierRepositoryProvider),
     ref.watch(brandingConfigRepositoryProvider),
     ref.watch(evidenceStoreProvider),
+    ref.watch(menuItemRepositoryProvider),
   );
 });
