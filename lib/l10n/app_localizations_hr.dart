@@ -3533,4 +3533,66 @@ class AppLocalizationsHr extends AppLocalizations {
   String taskFallback(String id) {
     return 'Zadatak #$id';
   }
+
+  @override
+  String get departmentCategoryKitchen => 'Kuhinja';
+
+  @override
+  String get departmentCategoryFrontOfHouse => 'Sala';
+
+  @override
+  String get departmentCategoryBar => 'Šank';
+
+  @override
+  String get departmentCategoryManagement => 'Uprava';
+
+  @override
+  String get departmentCategoryMaintenance => 'Održavanje';
+
+  @override
+  String get departmentCategoryHousekeeping => 'Čišćenje';
+
+  @override
+  String get departmentCategoryReception => 'Recepcija';
+
+  @override
+  String get departmentCategorySecurity => 'Zaštitarska služba';
+
+  @override
+  String get addDepartmentButton => 'Dodaj odjel';
+
+  @override
+  String get departmentManagementTitle => 'Upravljanje odjelima';
+
+  @override
+  String get noDepartmentsAddedYetText => 'Još nema dodanih odjela.';
+
+  @override
+  String get noTeamsYetText => 'Još nema timova';
+
+  @override
+  String get editMenuItem => 'Uredi';
+
+  @override
+  String get addTeamButton => 'Dodaj tim';
+
+  @override
+  String editDepartmentTitle(String name) {
+    return 'Uredi - $name';
+  }
+
+  @override
+  String addTeamTitle(String name) {
+    return 'Dodaj tim - $name';
+  }
+
+  @override
+  String renameTeamTitle(String name) {
+    return 'Preimenuj - $name';
+  }
+
+  @override
+  String teamCountLabel(int count) {
+    return '$count timova';
+  }
 }

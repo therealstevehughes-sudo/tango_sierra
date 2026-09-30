@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 // Departments (Sprint 031, Build Order item 5, Sub-sprint B) — a
 // venue-defined grouping, set up per-venue. Distinct from both a user's
 // jobRole ("what you do") and roleTier ("how much you can see/escalate
@@ -26,24 +28,47 @@ enum DepartmentCategory {
   security,
 }
 
-String departmentCategoryDisplayName(DepartmentCategory category) {
+String departmentCategoryDisplayName(
+  DepartmentCategory category, [
+  AppLocalizations? l10n,
+]) {
+  if (l10n == null) {
+    switch (category) {
+      case DepartmentCategory.kitchen:
+        return 'Kitchen';
+      case DepartmentCategory.frontOfHouse:
+        return 'Front of House';
+      case DepartmentCategory.bar:
+        return 'Bar';
+      case DepartmentCategory.management:
+        return 'Management';
+      case DepartmentCategory.maintenance:
+        return 'Maintenance';
+      case DepartmentCategory.housekeeping:
+        return 'Housekeeping';
+      case DepartmentCategory.reception:
+        return 'Reception';
+      case DepartmentCategory.security:
+        return 'Security';
+    }
+  }
   switch (category) {
     case DepartmentCategory.kitchen:
-      return 'Kitchen';
+      return l10n.departmentCategoryKitchen;
     case DepartmentCategory.frontOfHouse:
-      return 'Front of House';
+      return l10n.departmentCategoryFrontOfHouse;
     case DepartmentCategory.bar:
-      return 'Bar';
+      return l10n.departmentCategoryBar;
     case DepartmentCategory.management:
-      return 'Management';
+      return l10n.departmentCategoryManagement;
     case DepartmentCategory.maintenance:
-      return 'Maintenance';
+      return l10n.departmentCategoryMaintenance;
     case DepartmentCategory.housekeeping:
-      return 'Housekeeping';
+      return l10n.departmentCategoryHousekeeping;
     case DepartmentCategory.reception:
-      return 'Reception';
+      return l10n.departmentCategoryReception;
     case DepartmentCategory.security:
-      return 'Security';
+      return l10n.departmentCategorySecurity;
   }
 }
 

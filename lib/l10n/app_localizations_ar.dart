@@ -3491,4 +3491,66 @@ class AppLocalizationsAr extends AppLocalizations {
   String taskFallback(String id) {
     return 'المهمة #$id';
   }
+
+  @override
+  String get departmentCategoryKitchen => 'المطبخ';
+
+  @override
+  String get departmentCategoryFrontOfHouse => 'صالة الخدمة';
+
+  @override
+  String get departmentCategoryBar => 'البار';
+
+  @override
+  String get departmentCategoryManagement => 'الإدارة';
+
+  @override
+  String get departmentCategoryMaintenance => 'الصيانة';
+
+  @override
+  String get departmentCategoryHousekeeping => 'التدبير المنزلي';
+
+  @override
+  String get departmentCategoryReception => 'الاستقبال';
+
+  @override
+  String get departmentCategorySecurity => 'الأمن';
+
+  @override
+  String get addDepartmentButton => 'إضافة قسم';
+
+  @override
+  String get departmentManagementTitle => 'إدارة الأقسام';
+
+  @override
+  String get noDepartmentsAddedYetText => 'لم تتم إضافة أي قسم بعد.';
+
+  @override
+  String get noTeamsYetText => 'لا توجد فرق بعد';
+
+  @override
+  String get editMenuItem => 'تعديل';
+
+  @override
+  String get addTeamButton => 'إضافة فريق';
+
+  @override
+  String editDepartmentTitle(String name) {
+    return 'تعديل - $name';
+  }
+
+  @override
+  String addTeamTitle(String name) {
+    return 'إضافة فريق - $name';
+  }
+
+  @override
+  String renameTeamTitle(String name) {
+    return 'إعادة تسمية - $name';
+  }
+
+  @override
+  String teamCountLabel(int count) {
+    return '$count فريق';
+  }
 }

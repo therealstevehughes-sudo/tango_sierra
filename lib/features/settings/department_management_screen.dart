@@ -13,6 +13,7 @@ import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/team_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
+import '../../l10n/app_localizations.dart';
 
 enum _DepartmentAction { rename, toggleActive }
 
@@ -54,7 +55,7 @@ class _DepartmentManagementScreenState
       final currentUser = ref.read(currentUserProvider);
       if (currentUser == null) {
         setState(() {
-          loadError = 'No signed-in user found.';
+          loadError = AppLocalizations.of(context)!.noSignedInUserError;
           loading = false;
         });
         return;
@@ -95,24 +96,27 @@ class _DepartmentManagementScreenState
     final nameController = TextEditingController(text: initial);
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: TextField(
-          controller: nameController,
-          decoration: const InputDecoration(labelText: 'Name'),
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(title),
+          content: TextField(
+            controller: nameController,
+            decoration: InputDecoration(labelText: l10n.nameAxisLabel),
+            autofocus: true,
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.saveButton),
+            ),
+          ],
+        );
+      },
     );
     if (confirmed != true) return null;
     final name = nameController.text.trim();
@@ -136,45 +140,48 @@ class _DepartmentManagementScreenState
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text(title),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
-                autofocus: true,
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(title),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(labelText: l10n.nameAxisLabel),
+                  autofocus: true,
+                ),
+                const SizedBox(height: 16),
+                DropdownButtonFormField<DepartmentCategory?>(
+                  initialValue: selectedCategory,
+                  decoration: InputDecoration(labelText: l10n.categoryLabel),
+                  items: [
+                    DropdownMenuItem(value: null, child: Text(l10n.noneLabel)),
+                    for (final category in DepartmentCategory.values)
+                      DropdownMenuItem(
+                        value: category,
+                        child: Text(departmentCategoryDisplayName(category, l10n)),
+                      ),
+                  ],
+                  onChanged: (value) =>
+                      setDialogState(() => selectedCategory = value),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
               ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<DepartmentCategory?>(
-                initialValue: selectedCategory,
-                decoration: const InputDecoration(labelText: 'Category'),
-                items: [
-                  const DropdownMenuItem(value: null, child: Text('None')),
-                  for (final category in DepartmentCategory.values)
-                    DropdownMenuItem(
-                      value: category,
-                      child: Text(departmentCategoryDisplayName(category)),
-                    ),
-                ],
-                onChanged: (value) =>
-                    setDialogState(() => selectedCategory = value),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(l10n.saveButton),
               ),
             ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
     if (confirmed != true) return null;
@@ -184,7 +191,9 @@ class _DepartmentManagementScreenState
   }
 
   Future<void> _addDepartment() async {
-    final result = await _promptForDepartment(title: 'Add Department');
+    final result = await _promptForDepartment(
+      title: AppLocalizations.of(context)!.addDepartmentButton,
+    );
     if (result == null) return;
     final (name, category) = result;
 
@@ -204,7 +213,7 @@ class _DepartmentManagementScreenState
 
   Future<void> _renameDepartment(Department department) async {
     final result = await _promptForDepartment(
-      title: 'Edit - ${department.name}',
+      title: AppLocalizations.of(context)!.editDepartmentTitle(department.name),
       initialName: department.name,
       initialCategory: department.category,
     );
@@ -232,7 +241,9 @@ class _DepartmentManagementScreenState
   }
 
   Future<void> _addTeam(Department department) async {
-    final name = await _promptForName(title: 'Add Team - ${department.name}');
+    final name = await _promptForName(
+      title: AppLocalizations.of(context)!.addTeamTitle(department.name),
+    );
     if (name == null) return;
 
     final repo = ref.read(teamRepositoryProvider);
@@ -244,7 +255,7 @@ class _DepartmentManagementScreenState
 
   Future<void> _renameTeam(Team team) async {
     final name = await _promptForName(
-      title: 'Rename - ${team.name}',
+      title: AppLocalizations.of(context)!.renameTeamTitle(team.name),
       initial: team.name,
     );
     if (name == null) return;
@@ -266,12 +277,13 @@ class _DepartmentManagementScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Department Management'),
+        title: Text(l10n.departmentManagementTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Department Management'),
+      drawer: ManagementDrawer(title: l10n.departmentManagementTitle),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : loadError != null
@@ -279,7 +291,7 @@ class _DepartmentManagementScreenState
           : SafeArea(
         child: ResponsiveContent(
           child: departments.isEmpty
-              ? const Center(child: Text('No departments added yet.'))
+              ? Center(child: Text(l10n.noDepartmentsAddedYetText))
               : ListView.builder(
                   padding: const EdgeInsets.all(16),
                   itemCount: departments.length,
@@ -291,12 +303,13 @@ class _DepartmentManagementScreenState
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addDepartment,
         icon: const Icon(Icons.add),
-        label: const Text('Add Department'),
+        label: Text(l10n.addDepartmentButton),
       ),
     );
   }
 
   Widget _buildDepartmentTile(Department department) {
+    final l10n = AppLocalizations.of(context)!;
     final teams = teamsByDepartment[department.id] ?? const <Team>[];
     return AppCard(
       padding: EdgeInsets.zero,
@@ -309,16 +322,16 @@ class _DepartmentManagementScreenState
         subtitle: Text(
           [
             if (department.category != null)
-              departmentCategoryDisplayName(department.category!),
+              departmentCategoryDisplayName(department.category!, l10n),
             department.active
                 ? (teams.isEmpty
-                      ? 'No teams yet'
-                      : '${teams.length} team${teams.length == 1 ? '' : 's'}')
-                : '(inactive)',
+                      ? l10n.noTeamsYetText
+                      : l10n.teamCountLabel(teams.length))
+                : l10n.inactiveStandaloneLabel,
           ].join(' · '),
         ),
         trailing: PopupMenuButton<_DepartmentAction>(
-          tooltip: 'More actions',
+          tooltip: l10n.moreActionsTooltip,
           onSelected: (action) {
             switch (action) {
               case _DepartmentAction.rename:
@@ -328,13 +341,13 @@ class _DepartmentManagementScreenState
             }
           },
           itemBuilder: (context) => [
-            const PopupMenuItem(
+            PopupMenuItem(
               value: _DepartmentAction.rename,
-              child: Text('Edit'),
+              child: Text(l10n.editMenuItem),
             ),
             PopupMenuItem(
               value: _DepartmentAction.toggleActive,
-              child: Text(department.active ? 'Deactivate' : 'Reactivate'),
+              child: Text(department.active ? l10n.deactivateButton : l10n.reactivateButton),
             ),
           ],
         ),
@@ -343,9 +356,9 @@ class _DepartmentManagementScreenState
             ListTile(
               contentPadding: const EdgeInsets.only(left: 32, right: 16),
               title: Text(team.name),
-              subtitle: team.active ? null : const Text('(inactive)'),
+              subtitle: team.active ? null : Text(l10n.inactiveStandaloneLabel),
               trailing: PopupMenuButton<_TeamAction>(
-                tooltip: 'More actions',
+                tooltip: l10n.moreActionsTooltip,
                 onSelected: (action) {
                   switch (action) {
                     case _TeamAction.rename:
@@ -355,13 +368,13 @@ class _DepartmentManagementScreenState
                   }
                 },
                 itemBuilder: (context) => [
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: _TeamAction.rename,
-                    child: Text('Rename'),
+                    child: Text(l10n.renameTooltip),
                   ),
                   PopupMenuItem(
                     value: _TeamAction.toggleActive,
-                    child: Text(team.active ? 'Deactivate' : 'Reactivate'),
+                    child: Text(team.active ? l10n.deactivateButton : l10n.reactivateButton),
                   ),
                 ],
               ),
@@ -373,7 +386,7 @@ class _DepartmentManagementScreenState
               child: TextButton.icon(
                 onPressed: () => _addTeam(department),
                 icon: const Icon(Icons.add, size: 18),
-                label: const Text('Add Team'),
+                label: Text(l10n.addTeamButton),
                 style: TextButton.styleFrom(foregroundColor: AppColors.muted),
               ),
             ),

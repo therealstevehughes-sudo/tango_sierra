@@ -3513,4 +3513,66 @@ class AppLocalizationsHi extends AppLocalizations {
   String taskFallback(String id) {
     return 'कार्य #$id';
   }
+
+  @override
+  String get departmentCategoryKitchen => 'रसोई';
+
+  @override
+  String get departmentCategoryFrontOfHouse => 'फ्रंट ऑफ हाउस';
+
+  @override
+  String get departmentCategoryBar => 'बार';
+
+  @override
+  String get departmentCategoryManagement => 'प्रबंधन';
+
+  @override
+  String get departmentCategoryMaintenance => 'रखरखाव';
+
+  @override
+  String get departmentCategoryHousekeeping => 'हाउसकीपिंग';
+
+  @override
+  String get departmentCategoryReception => 'रिसेप्शन';
+
+  @override
+  String get departmentCategorySecurity => 'सुरक्षा';
+
+  @override
+  String get addDepartmentButton => 'विभाग जोड़ें';
+
+  @override
+  String get departmentManagementTitle => 'विभाग प्रबंधन';
+
+  @override
+  String get noDepartmentsAddedYetText => 'अभी तक कोई विभाग नहीं जोड़ा गया।';
+
+  @override
+  String get noTeamsYetText => 'अभी तक कोई टीम नहीं';
+
+  @override
+  String get editMenuItem => 'संपादित करें';
+
+  @override
+  String get addTeamButton => 'टीम जोड़ें';
+
+  @override
+  String editDepartmentTitle(String name) {
+    return 'संपादित करें - $name';
+  }
+
+  @override
+  String addTeamTitle(String name) {
+    return 'टीम जोड़ें - $name';
+  }
+
+  @override
+  String renameTeamTitle(String name) {
+    return 'नाम बदलें - $name';
+  }
+
+  @override
+  String teamCountLabel(int count) {
+    return '$count टीमें';
+  }
 }

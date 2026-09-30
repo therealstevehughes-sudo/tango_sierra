@@ -6223,6 +6223,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Task #{id}'**
   String taskFallback(String id);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Kitchen'**
+  String get departmentCategoryKitchen;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Front of House'**
+  String get departmentCategoryFrontOfHouse;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Bar'**
+  String get departmentCategoryBar;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Management'**
+  String get departmentCategoryManagement;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance'**
+  String get departmentCategoryMaintenance;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Housekeeping'**
+  String get departmentCategoryHousekeeping;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reception'**
+  String get departmentCategoryReception;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get departmentCategorySecurity;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Department'**
+  String get addDepartmentButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Department Management'**
+  String get departmentManagementTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No departments added yet.'**
+  String get noDepartmentsAddedYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No teams yet'**
+  String get noTeamsYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get editMenuItem;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Team'**
+  String get addTeamButton;
+
+  /// No description provided for @editDepartmentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit - {name}'**
+  String editDepartmentTitle(String name);
+
+  /// No description provided for @addTeamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Team - {name}'**
+  String addTeamTitle(String name);
+
+  /// No description provided for @renameTeamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename - {name}'**
+  String renameTeamTitle(String name);
+
+  /// No description provided for @teamCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} team} other{{count} teams}}'**
+  String teamCountLabel(int count);
 }
 
 class _AppLocalizationsDelegate

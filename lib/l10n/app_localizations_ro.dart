@@ -3580,4 +3580,72 @@ class AppLocalizationsRo extends AppLocalizations {
   String taskFallback(String id) {
     return 'Sarcină #$id';
   }
+
+  @override
+  String get departmentCategoryKitchen => 'Bucătărie';
+
+  @override
+  String get departmentCategoryFrontOfHouse => 'Sală';
+
+  @override
+  String get departmentCategoryBar => 'Bar';
+
+  @override
+  String get departmentCategoryManagement => 'Management';
+
+  @override
+  String get departmentCategoryMaintenance => 'Întreținere';
+
+  @override
+  String get departmentCategoryHousekeeping => 'Menaj';
+
+  @override
+  String get departmentCategoryReception => 'Recepție';
+
+  @override
+  String get departmentCategorySecurity => 'Securitate';
+
+  @override
+  String get addDepartmentButton => 'Adaugă departament';
+
+  @override
+  String get departmentManagementTitle => 'Managementul departamentelor';
+
+  @override
+  String get noDepartmentsAddedYetText => 'Niciun departament adăugat încă.';
+
+  @override
+  String get noTeamsYetText => 'Nicio echipă încă';
+
+  @override
+  String get editMenuItem => 'Editează';
+
+  @override
+  String get addTeamButton => 'Adaugă echipă';
+
+  @override
+  String editDepartmentTitle(String name) {
+    return 'Editează - $name';
+  }
+
+  @override
+  String addTeamTitle(String name) {
+    return 'Adaugă echipă - $name';
+  }
+
+  @override
+  String renameTeamTitle(String name) {
+    return 'Redenumește - $name';
+  }
+
+  @override
+  String teamCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count echipe',
+      one: '$count echipă',
+    );
+    return '$_temp0';
+  }
 }

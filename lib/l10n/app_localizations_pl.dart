@@ -3579,4 +3579,73 @@ class AppLocalizationsPl extends AppLocalizations {
   String taskFallback(String id) {
     return 'Zadanie #$id';
   }
+
+  @override
+  String get departmentCategoryKitchen => 'Kuchnia';
+
+  @override
+  String get departmentCategoryFrontOfHouse => 'Sala';
+
+  @override
+  String get departmentCategoryBar => 'Bar';
+
+  @override
+  String get departmentCategoryManagement => 'Kierownictwo';
+
+  @override
+  String get departmentCategoryMaintenance => 'Konserwacja';
+
+  @override
+  String get departmentCategoryHousekeeping => 'Utrzymanie czystości';
+
+  @override
+  String get departmentCategoryReception => 'Recepcja';
+
+  @override
+  String get departmentCategorySecurity => 'Ochrona';
+
+  @override
+  String get addDepartmentButton => 'Dodaj dział';
+
+  @override
+  String get departmentManagementTitle => 'Zarządzanie działami';
+
+  @override
+  String get noDepartmentsAddedYetText => 'Nie dodano jeszcze żadnych działów.';
+
+  @override
+  String get noTeamsYetText => 'Brak jeszcze zespołów';
+
+  @override
+  String get editMenuItem => 'Edytuj';
+
+  @override
+  String get addTeamButton => 'Dodaj zespół';
+
+  @override
+  String editDepartmentTitle(String name) {
+    return 'Edytuj - $name';
+  }
+
+  @override
+  String addTeamTitle(String name) {
+    return 'Dodaj zespół - $name';
+  }
+
+  @override
+  String renameTeamTitle(String name) {
+    return 'Zmień nazwę - $name';
+  }
+
+  @override
+  String teamCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count zespołów',
+      few: '$count zespoły',
+      one: '$count zespół',
+    );
+    return '$_temp0';
+  }
 }

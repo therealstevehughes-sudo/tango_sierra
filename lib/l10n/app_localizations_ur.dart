@@ -3505,4 +3505,67 @@ class AppLocalizationsUr extends AppLocalizations {
   String taskFallback(String id) {
     return 'کام #$id';
   }
+
+  @override
+  String get departmentCategoryKitchen => 'باورچی خانہ';
+
+  @override
+  String get departmentCategoryFrontOfHouse => 'فرنٹ آف ہاؤس';
+
+  @override
+  String get departmentCategoryBar => 'بار';
+
+  @override
+  String get departmentCategoryManagement => 'انتظامیہ';
+
+  @override
+  String get departmentCategoryMaintenance => 'دیکھ بھال';
+
+  @override
+  String get departmentCategoryHousekeeping => 'ہاؤس کیپنگ';
+
+  @override
+  String get departmentCategoryReception => 'استقبالیہ';
+
+  @override
+  String get departmentCategorySecurity => 'سیکیورٹی';
+
+  @override
+  String get addDepartmentButton => 'شعبہ شامل کریں';
+
+  @override
+  String get departmentManagementTitle => 'شعبہ جاتی انتظام';
+
+  @override
+  String get noDepartmentsAddedYetText =>
+      'ابھی تک کوئی شعبہ شامل نہیں کیا گیا۔';
+
+  @override
+  String get noTeamsYetText => 'ابھی تک کوئی ٹیم نہیں';
+
+  @override
+  String get editMenuItem => 'ترمیم کریں';
+
+  @override
+  String get addTeamButton => 'ٹیم شامل کریں';
+
+  @override
+  String editDepartmentTitle(String name) {
+    return 'ترمیم کریں - $name';
+  }
+
+  @override
+  String addTeamTitle(String name) {
+    return 'ٹیم شامل کریں - $name';
+  }
+
+  @override
+  String renameTeamTitle(String name) {
+    return 'نام تبدیل کریں - $name';
+  }
+
+  @override
+  String teamCountLabel(int count) {
+    return '$count ٹیمیں';
+  }
 }

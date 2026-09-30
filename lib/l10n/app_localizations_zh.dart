@@ -3400,4 +3400,66 @@ class AppLocalizationsZh extends AppLocalizations {
   String taskFallback(String id) {
     return '任务 #$id';
   }
+
+  @override
+  String get departmentCategoryKitchen => '厨房';
+
+  @override
+  String get departmentCategoryFrontOfHouse => '前厅';
+
+  @override
+  String get departmentCategoryBar => '吧台';
+
+  @override
+  String get departmentCategoryManagement => '管理层';
+
+  @override
+  String get departmentCategoryMaintenance => '维护';
+
+  @override
+  String get departmentCategoryHousekeeping => '客房清洁';
+
+  @override
+  String get departmentCategoryReception => '前台';
+
+  @override
+  String get departmentCategorySecurity => '安保';
+
+  @override
+  String get addDepartmentButton => '添加部门';
+
+  @override
+  String get departmentManagementTitle => '部门管理';
+
+  @override
+  String get noDepartmentsAddedYetText => '尚未添加部门。';
+
+  @override
+  String get noTeamsYetText => '尚无团队';
+
+  @override
+  String get editMenuItem => '编辑';
+
+  @override
+  String get addTeamButton => '添加团队';
+
+  @override
+  String editDepartmentTitle(String name) {
+    return '编辑 - $name';
+  }
+
+  @override
+  String addTeamTitle(String name) {
+    return '添加团队 - $name';
+  }
+
+  @override
+  String renameTeamTitle(String name) {
+    return '重命名 - $name';
+  }
+
+  @override
+  String teamCountLabel(int count) {
+    return '$count 个团队';
+  }
 }

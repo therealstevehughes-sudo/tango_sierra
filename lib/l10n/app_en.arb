@@ -3271,5 +3271,93 @@
         "type": "String"
       }
     }
+  },
+  "departmentCategoryKitchen": "Kitchen",
+  "@departmentCategoryKitchen": {
+    "description": ""
+  },
+  "departmentCategoryFrontOfHouse": "Front of House",
+  "@departmentCategoryFrontOfHouse": {
+    "description": ""
+  },
+  "departmentCategoryBar": "Bar",
+  "@departmentCategoryBar": {
+    "description": ""
+  },
+  "departmentCategoryManagement": "Management",
+  "@departmentCategoryManagement": {
+    "description": ""
+  },
+  "departmentCategoryMaintenance": "Maintenance",
+  "@departmentCategoryMaintenance": {
+    "description": ""
+  },
+  "departmentCategoryHousekeeping": "Housekeeping",
+  "@departmentCategoryHousekeeping": {
+    "description": ""
+  },
+  "departmentCategoryReception": "Reception",
+  "@departmentCategoryReception": {
+    "description": ""
+  },
+  "departmentCategorySecurity": "Security",
+  "@departmentCategorySecurity": {
+    "description": ""
+  },
+  "addDepartmentButton": "Add Department",
+  "@addDepartmentButton": {
+    "description": ""
+  },
+  "departmentManagementTitle": "Department Management",
+  "@departmentManagementTitle": {
+    "description": ""
+  },
+  "noDepartmentsAddedYetText": "No departments added yet.",
+  "@noDepartmentsAddedYetText": {
+    "description": ""
+  },
+  "noTeamsYetText": "No teams yet",
+  "@noTeamsYetText": {
+    "description": ""
+  },
+  "editMenuItem": "Edit",
+  "@editMenuItem": {
+    "description": ""
+  },
+  "addTeamButton": "Add Team",
+  "@addTeamButton": {
+    "description": ""
+  },
+  "editDepartmentTitle": "Edit - {name}",
+  "@editDepartmentTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "addTeamTitle": "Add Team - {name}",
+  "@addTeamTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "renameTeamTitle": "Rename - {name}",
+  "@renameTeamTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "teamCountLabel": "{count, plural, one{{count} team} other{{count} teams}}",
+  "@teamCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }
