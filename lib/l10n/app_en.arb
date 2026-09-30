@@ -3742,5 +3742,133 @@
         "type": "String"
       }
     }
+  },
+  "trainingLevel2FoodHygiene": "Level 2 Food Hygiene & Safety",
+  "@trainingLevel2FoodHygiene": {
+    "description": ""
+  },
+  "trainingAllergenAwareness": "Allergen Awareness",
+  "@trainingAllergenAwareness": {
+    "description": ""
+  },
+  "trainingCoshh": "COSHH (Control of Substances Hazardous to Health)",
+  "@trainingCoshh": {
+    "description": ""
+  },
+  "trainingFireSafety": "Fire Safety",
+  "@trainingFireSafety": {
+    "description": ""
+  },
+  "trainingManualHandling": "Manual Handling",
+  "@trainingManualHandling": {
+    "description": ""
+  },
+  "trainingFirstAid": "First Aid at Work",
+  "@trainingFirstAid": {
+    "description": ""
+  },
+  "trainingInduction": "Induction Completed",
+  "@trainingInduction": {
+    "description": ""
+  },
+  "itemFieldLabel": "Item",
+  "@itemFieldLabel": {
+    "description": ""
+  },
+  "customItemTitleLabel": "Custom item title",
+  "@customItemTitleLabel": {
+    "description": ""
+  },
+  "expiryNoneLabel": "Expiry: none",
+  "@expiryNoneLabel": {
+    "description": ""
+  },
+  "clearExpiryTooltip": "Clear expiry",
+  "@clearExpiryTooltip": {
+    "description": ""
+  },
+  "certificateReferenceLabel": "Certificate reference (optional)",
+  "@certificateReferenceLabel": {
+    "description": ""
+  },
+  "certificateReferenceHint": "e.g. certificate number, provider",
+  "@certificateReferenceHint": {
+    "description": ""
+  },
+  "noTrainingRecordsYetText": "No training records yet.",
+  "@noTrainingRecordsYetText": {
+    "description": ""
+  },
+  "addRecordButton": "Add Record",
+  "@addRecordButton": {
+    "description": ""
+  },
+  "currentLabel": "Current",
+  "@currentLabel": {
+    "description": ""
+  },
+  "supersededLabel": "(superseded)",
+  "@supersededLabel": {
+    "description": ""
+  },
+  "noExpiryLabel": "No expiry",
+  "@noExpiryLabel": {
+    "description": ""
+  },
+  "addTrainingRecordTitle": "Add Training Record - {name}",
+  "@addTrainingRecordTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "completedOnLabel": "Completed: {date}",
+  "@completedOnLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "expiryOnLabel": "Expiry: {date}",
+  "@expiryOnLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "trainingRecordsTitle": "Training Records - {name}",
+  "@trainingRecordsTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "fullHistoryLabel": "{count, plural, one{Full history ({count} earlier record)} other{Full history ({count} earlier records)}}",
+  "@fullHistoryLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "completedDateLabel": "Completed {date}",
+  "@completedDateLabel": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "certRefLabel": "Ref: {ref}",
+  "@certRefLabel": {
+    "placeholders": {
+      "ref": {
+        "type": "String"
+      }
+    }
   }
 }

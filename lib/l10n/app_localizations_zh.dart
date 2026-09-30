@@ -3716,4 +3716,93 @@ class AppLocalizationsZh extends AppLocalizations {
   String pinSuffixLabel(String pin) {
     return ' - PIN码:$pin';
   }
+
+  @override
+  String get trainingLevel2FoodHygiene => '二级食品卫生与安全';
+
+  @override
+  String get trainingAllergenAwareness => '过敏原意识';
+
+  @override
+  String get trainingCoshh => 'COSHH(有害健康物质控制)';
+
+  @override
+  String get trainingFireSafety => '消防安全';
+
+  @override
+  String get trainingManualHandling => '人工搬运';
+
+  @override
+  String get trainingFirstAid => '工作场所急救';
+
+  @override
+  String get trainingInduction => '入职培训已完成';
+
+  @override
+  String get itemFieldLabel => '项目';
+
+  @override
+  String get customItemTitleLabel => '自定义项目标题';
+
+  @override
+  String get expiryNoneLabel => '到期:无';
+
+  @override
+  String get clearExpiryTooltip => '清除到期日';
+
+  @override
+  String get certificateReferenceLabel => '证书编号(可选)';
+
+  @override
+  String get certificateReferenceHint => '例如证书编号、颁发机构';
+
+  @override
+  String get noTrainingRecordsYetText => '尚无培训记录。';
+
+  @override
+  String get addRecordButton => '添加记录';
+
+  @override
+  String get currentLabel => '有效';
+
+  @override
+  String get supersededLabel => '(已被取代)';
+
+  @override
+  String get noExpiryLabel => '无到期日';
+
+  @override
+  String addTrainingRecordTitle(String name) {
+    return '添加培训记录 - $name';
+  }
+
+  @override
+  String completedOnLabel(String date) {
+    return '完成日期:$date';
+  }
+
+  @override
+  String expiryOnLabel(String date) {
+    return '到期:$date';
+  }
+
+  @override
+  String trainingRecordsTitle(String name) {
+    return '培训记录 - $name';
+  }
+
+  @override
+  String fullHistoryLabel(int count) {
+    return '完整历史记录($count 条较早记录)';
+  }
+
+  @override
+  String completedDateLabel(String date) {
+    return '完成于 $date';
+  }
+
+  @override
+  String certRefLabel(String ref) {
+    return '参考编号:$ref';
+  }
 }

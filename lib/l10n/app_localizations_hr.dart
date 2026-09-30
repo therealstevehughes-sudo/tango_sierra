@@ -3858,4 +3858,94 @@ class AppLocalizationsHr extends AppLocalizations {
   String pinSuffixLabel(String pin) {
     return ' - PIN: $pin';
   }
+
+  @override
+  String get trainingLevel2FoodHygiene =>
+      'Razina 2 higijene i sigurnosti hrane';
+
+  @override
+  String get trainingAllergenAwareness => 'Svijest o alergenima';
+
+  @override
+  String get trainingCoshh => 'COSHH (kontrola tvari opasnih za zdravlje)';
+
+  @override
+  String get trainingFireSafety => 'Sigurnost od požara';
+
+  @override
+  String get trainingManualHandling => 'Ručno rukovanje';
+
+  @override
+  String get trainingFirstAid => 'Prva pomoć na radu';
+
+  @override
+  String get trainingInduction => 'Uvođenje dovršeno';
+
+  @override
+  String get itemFieldLabel => 'Stavka';
+
+  @override
+  String get customItemTitleLabel => 'Prilagođeni naziv stavke';
+
+  @override
+  String get expiryNoneLabel => 'Istek: nema';
+
+  @override
+  String get clearExpiryTooltip => 'Ukloni istek';
+
+  @override
+  String get certificateReferenceLabel => 'Referenca certifikata (neobavezno)';
+
+  @override
+  String get certificateReferenceHint => 'npr. broj certifikata, pružatelj';
+
+  @override
+  String get noTrainingRecordsYetText => 'Još nema evidencije osposobljavanja.';
+
+  @override
+  String get addRecordButton => 'Dodaj zapis';
+
+  @override
+  String get currentLabel => 'Trenutačno';
+
+  @override
+  String get supersededLabel => '(zamijenjeno)';
+
+  @override
+  String get noExpiryLabel => 'Bez isteka';
+
+  @override
+  String addTrainingRecordTitle(String name) {
+    return 'Dodaj zapis o osposobljavanju - $name';
+  }
+
+  @override
+  String completedOnLabel(String date) {
+    return 'Dovršeno: $date';
+  }
+
+  @override
+  String expiryOnLabel(String date) {
+    return 'Istek: $date';
+  }
+
+  @override
+  String trainingRecordsTitle(String name) {
+    return 'Evidencija osposobljavanja - $name';
+  }
+
+  @override
+  String fullHistoryLabel(int count) {
+    return 'Puna povijest ($count ranijih zapisa)';
+  }
+
+  @override
+  String completedDateLabel(String date) {
+    return 'Dovršeno $date';
+  }
+
+  @override
+  String certRefLabel(String ref) {
+    return 'Ref.: $ref';
+  }
 }

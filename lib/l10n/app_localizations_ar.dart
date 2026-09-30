@@ -3814,4 +3814,93 @@ class AppLocalizationsAr extends AppLocalizations {
   String pinSuffixLabel(String pin) {
     return ' - الرمز السري: $pin';
   }
+
+  @override
+  String get trainingLevel2FoodHygiene => 'المستوى 2 لسلامة وصحة الأغذية';
+
+  @override
+  String get trainingAllergenAwareness => 'التوعية بمسببات الحساسية';
+
+  @override
+  String get trainingCoshh => 'COSHH (التحكم في المواد الخطرة على الصحة)';
+
+  @override
+  String get trainingFireSafety => 'السلامة من الحرائق';
+
+  @override
+  String get trainingManualHandling => 'المناولة اليدوية';
+
+  @override
+  String get trainingFirstAid => 'الإسعافات الأولية في العمل';
+
+  @override
+  String get trainingInduction => 'التأهيل مكتمل';
+
+  @override
+  String get itemFieldLabel => 'العنصر';
+
+  @override
+  String get customItemTitleLabel => 'عنوان عنصر مخصص';
+
+  @override
+  String get expiryNoneLabel => 'الانتهاء: لا يوجد';
+
+  @override
+  String get clearExpiryTooltip => 'مسح تاريخ الانتهاء';
+
+  @override
+  String get certificateReferenceLabel => 'مرجع الشهادة (اختياري)';
+
+  @override
+  String get certificateReferenceHint => 'مثال: رقم الشهادة، الجهة المانحة';
+
+  @override
+  String get noTrainingRecordsYetText => 'لا توجد سجلات تدريب بعد.';
+
+  @override
+  String get addRecordButton => 'إضافة سجل';
+
+  @override
+  String get currentLabel => 'حالي';
+
+  @override
+  String get supersededLabel => '(تم استبداله)';
+
+  @override
+  String get noExpiryLabel => 'بدون انتهاء';
+
+  @override
+  String addTrainingRecordTitle(String name) {
+    return 'إضافة سجل تدريب - $name';
+  }
+
+  @override
+  String completedOnLabel(String date) {
+    return 'اكتمل: $date';
+  }
+
+  @override
+  String expiryOnLabel(String date) {
+    return 'الانتهاء: $date';
+  }
+
+  @override
+  String trainingRecordsTitle(String name) {
+    return 'سجلات التدريب - $name';
+  }
+
+  @override
+  String fullHistoryLabel(int count) {
+    return 'السجل الكامل ($count سجل سابق)';
+  }
+
+  @override
+  String completedDateLabel(String date) {
+    return 'اكتمل $date';
+  }
+
+  @override
+  String certRefLabel(String ref) {
+    return 'المرجع: $ref';
+  }
 }

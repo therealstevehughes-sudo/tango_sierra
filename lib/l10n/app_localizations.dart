@@ -6757,6 +6757,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **' - PIN: {pin}'**
   String pinSuffixLabel(String pin);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Level 2 Food Hygiene & Safety'**
+  String get trainingLevel2FoodHygiene;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Allergen Awareness'**
+  String get trainingAllergenAwareness;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'COSHH (Control of Substances Hazardous to Health)'**
+  String get trainingCoshh;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Fire Safety'**
+  String get trainingFireSafety;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Manual Handling'**
+  String get trainingManualHandling;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'First Aid at Work'**
+  String get trainingFirstAid;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Induction Completed'**
+  String get trainingInduction;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Item'**
+  String get itemFieldLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Custom item title'**
+  String get customItemTitleLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry: none'**
+  String get expiryNoneLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Clear expiry'**
+  String get clearExpiryTooltip;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate reference (optional)'**
+  String get certificateReferenceLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. certificate number, provider'**
+  String get certificateReferenceHint;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No training records yet.'**
+  String get noTrainingRecordsYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Record'**
+  String get addRecordButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get currentLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'(superseded)'**
+  String get supersededLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No expiry'**
+  String get noExpiryLabel;
+
+  /// No description provided for @addTrainingRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Training Record - {name}'**
+  String addTrainingRecordTitle(String name);
+
+  /// No description provided for @completedOnLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed: {date}'**
+  String completedOnLabel(String date);
+
+  /// No description provided for @expiryOnLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry: {date}'**
+  String expiryOnLabel(String date);
+
+  /// No description provided for @trainingRecordsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Training Records - {name}'**
+  String trainingRecordsTitle(String name);
+
+  /// No description provided for @fullHistoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Full history ({count} earlier record)} other{Full history ({count} earlier records)}}'**
+  String fullHistoryLabel(int count);
+
+  /// No description provided for @completedDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed {date}'**
+  String completedDateLabel(String date);
+
+  /// No description provided for @certRefLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ref: {ref}'**
+  String certRefLabel(String ref);
 }
 
 class _AppLocalizationsDelegate

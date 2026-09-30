@@ -3839,4 +3839,94 @@ class AppLocalizationsHi extends AppLocalizations {
   String pinSuffixLabel(String pin) {
     return ' - पिन: $pin';
   }
+
+  @override
+  String get trainingLevel2FoodHygiene => 'स्तर 2 खाद्य स्वच्छता और सुरक्षा';
+
+  @override
+  String get trainingAllergenAwareness => 'एलर्जन जागरूकता';
+
+  @override
+  String get trainingCoshh =>
+      'COSHH (स्वास्थ्य के लिए खतरनाक पदार्थों का नियंत्रण)';
+
+  @override
+  String get trainingFireSafety => 'अग्नि सुरक्षा';
+
+  @override
+  String get trainingManualHandling => 'मैनुअल हैंडलिंग';
+
+  @override
+  String get trainingFirstAid => 'कार्यस्थल पर प्राथमिक चिकित्सा';
+
+  @override
+  String get trainingInduction => 'इंडक्शन पूर्ण';
+
+  @override
+  String get itemFieldLabel => 'आइटम';
+
+  @override
+  String get customItemTitleLabel => 'कस्टम आइटम शीर्षक';
+
+  @override
+  String get expiryNoneLabel => 'समाप्ति: कोई नहीं';
+
+  @override
+  String get clearExpiryTooltip => 'समाप्ति साफ़ करें';
+
+  @override
+  String get certificateReferenceLabel => 'प्रमाणपत्र संदर्भ (वैकल्पिक)';
+
+  @override
+  String get certificateReferenceHint => 'जैसे प्रमाणपत्र संख्या, प्रदाता';
+
+  @override
+  String get noTrainingRecordsYetText => 'अभी तक कोई प्रशिक्षण रिकॉर्ड नहीं।';
+
+  @override
+  String get addRecordButton => 'रिकॉर्ड जोड़ें';
+
+  @override
+  String get currentLabel => 'वर्तमान';
+
+  @override
+  String get supersededLabel => '(प्रतिस्थापित)';
+
+  @override
+  String get noExpiryLabel => 'कोई समाप्ति नहीं';
+
+  @override
+  String addTrainingRecordTitle(String name) {
+    return 'प्रशिक्षण रिकॉर्ड जोड़ें - $name';
+  }
+
+  @override
+  String completedOnLabel(String date) {
+    return 'पूर्ण: $date';
+  }
+
+  @override
+  String expiryOnLabel(String date) {
+    return 'समाप्ति: $date';
+  }
+
+  @override
+  String trainingRecordsTitle(String name) {
+    return 'प्रशिक्षण रिकॉर्ड - $name';
+  }
+
+  @override
+  String fullHistoryLabel(int count) {
+    return 'पूरा इतिहास ($count पुराने रिकॉर्ड)';
+  }
+
+  @override
+  String completedDateLabel(String date) {
+    return '$date को पूर्ण';
+  }
+
+  @override
+  String certRefLabel(String ref) {
+    return 'संदर्भ: $ref';
+  }
 }

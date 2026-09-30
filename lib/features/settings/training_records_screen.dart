@@ -12,6 +12,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/training_record_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
+import '../../l10n/app_localizations.dart';
 
 class TrainingRecordsScreen extends ConsumerStatefulWidget {
   const TrainingRecordsScreen({super.key, required this.staffMember});
@@ -67,112 +68,115 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('Add Training Record - ${widget.staffMember.name}'),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                DropdownButtonFormField<TrainingItemType>(
-                  initialValue: itemType,
-                  decoration: const InputDecoration(labelText: 'Item'),
-                  items: TrainingItemType.values
-                      .map(
-                        (t) => DropdownMenuItem(
-                          value: t,
-                          child: Text(trainingItemTypeLabel(t)),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) =>
-                      setDialogState(() => itemType = value ?? itemType),
-                ),
-                if (itemType == TrainingItemType.other) ...[
+        builder: (context, setDialogState) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.addTrainingRecordTitle(widget.staffMember.name)),
+            content: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DropdownButtonFormField<TrainingItemType>(
+                    initialValue: itemType,
+                    decoration: InputDecoration(labelText: l10n.itemFieldLabel),
+                    items: TrainingItemType.values
+                        .map(
+                          (t) => DropdownMenuItem(
+                            value: t,
+                            child: Text(trainingItemTypeLabel(t, l10n)),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) =>
+                        setDialogState(() => itemType = value ?? itemType),
+                  ),
+                  if (itemType == TrainingItemType.other) ...[
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: customTitleController,
+                      decoration: InputDecoration(
+                        labelText: l10n.customItemTitleLabel,
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 12),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.calendar_today),
+                    title: Text(l10n.completedOnLabel(formatDate(completedAt))),
+                    onTap: () async {
+                      final picked = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime.now(),
+                        initialDate: completedAt,
+                      );
+                      if (picked != null) {
+                        setDialogState(() => completedAt = picked);
+                      }
+                    },
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: const Icon(Icons.event_busy),
+                    title: Text(
+                      expiresAt == null
+                          ? l10n.expiryNoneLabel
+                          : l10n.expiryOnLabel(formatDate(expiresAt!)),
+                    ),
+                    trailing: expiresAt == null
+                        ? null
+                        : IconButton(
+                            icon: const Icon(Icons.clear),
+                            tooltip: l10n.clearExpiryTooltip,
+                            onPressed: () =>
+                                setDialogState(() => expiresAt = null),
+                          ),
+                    onTap: () async {
+                      // firstDate deliberately not restricted to today/later —
+                      // a record can legitimately already be expired (e.g.
+                      // backfilling a lapsed item that hasn't been renewed
+                      // yet), and that's exactly the case this field needs to
+                      // support for the expired-training flagging to work.
+                      final picked = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(2100),
+                        initialDate: expiresAt ?? DateTime.now(),
+                      );
+                      if (picked != null) {
+                        setDialogState(() => expiresAt = picked);
+                      }
+                    },
+                  ),
                   const SizedBox(height: 12),
                   TextField(
-                    controller: customTitleController,
-                    decoration: const InputDecoration(
-                      labelText: 'Custom item title',
+                    controller: certificateController,
+                    decoration: InputDecoration(
+                      labelText: l10n.certificateReferenceLabel,
+                      hintText: l10n.certificateReferenceHint,
                     ),
                   ),
                 ],
-                const SizedBox(height: 12),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: const Icon(Icons.calendar_today),
-                  title: Text('Completed: ${formatDate(completedAt)}'),
-                  onTap: () async {
-                    final picked = await showDatePicker(
-                      context: context,
-                      firstDate: DateTime(2020),
-                      lastDate: DateTime.now(),
-                      initialDate: completedAt,
-                    );
-                    if (picked != null) {
-                      setDialogState(() => completedAt = picked);
-                    }
-                  },
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: const Icon(Icons.event_busy),
-                  title: Text(
-                    expiresAt == null
-                        ? 'Expiry: none'
-                        : 'Expiry: ${formatDate(expiresAt!)}',
-                  ),
-                  trailing: expiresAt == null
-                      ? null
-                      : IconButton(
-                          icon: const Icon(Icons.clear),
-                          tooltip: 'Clear expiry',
-                          onPressed: () =>
-                              setDialogState(() => expiresAt = null),
-                        ),
-                  onTap: () async {
-                    // firstDate deliberately not restricted to today/later —
-                    // a record can legitimately already be expired (e.g.
-                    // backfilling a lapsed item that hasn't been renewed
-                    // yet), and that's exactly the case this field needs to
-                    // support for the expired-training flagging to work.
-                    final picked = await showDatePicker(
-                      context: context,
-                      firstDate: DateTime(2020),
-                      lastDate: DateTime(2100),
-                      initialDate: expiresAt ?? DateTime.now(),
-                    );
-                    if (picked != null) {
-                      setDialogState(() => expiresAt = picked);
-                    }
-                  },
-                ),
-                const SizedBox(height: 12),
-                TextField(
-                  controller: certificateController,
-                  decoration: const InputDecoration(
-                    labelText: 'Certificate reference (optional)',
-                    hintText: 'e.g. certificate number, provider',
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed:
-                  (itemType != TrainingItemType.other ||
-                      customTitleController.text.trim().isNotEmpty)
-                  ? () => Navigator.pop(context, true)
-                  : null,
-              child: const Text('Save'),
-            ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(l10n.cancel),
+              ),
+              ElevatedButton(
+                onPressed:
+                    (itemType != TrainingItemType.other ||
+                        customTitleController.text.trim().isNotEmpty)
+                    ? () => Navigator.pop(context, true)
+                    : null,
+                child: Text(l10n.saveButton),
+              ),
+            ],
+          );
+        },
       ),
     );
 
@@ -207,13 +211,14 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final current = latestPerItem(records);
     current.sort((a, b) => a.displayTitle.compareTo(b.displayTitle));
     final supersededCount = records.length - current.length;
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: Text('Training Records - ${widget.staffMember.name}'),
+        title: Text(l10n.trainingRecordsTitle(widget.staffMember.name)),
         actions: const [AssistantIconButton()],
       ),
       body: loading
@@ -223,7 +228,7 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
           : SafeArea(
         child: ResponsiveContent(
           child: records.isEmpty
-              ? const Center(child: Text('No training records yet.'))
+              ? Center(child: Text(l10n.noTrainingRecordsYetText))
               : ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
@@ -241,10 +246,7 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
                           collapsedShape: const RoundedRectangleBorder(
                             side: BorderSide.none,
                           ),
-                          title: Text(
-                            'Full history ($supersededCount earlier record'
-                            '${supersededCount == 1 ? '' : 's'})',
-                          ),
+                          title: Text(l10n.fullHistoryLabel(supersededCount)),
                           children: records
                               .where((r) => !current.contains(r))
                               .map(_buildHistoryTile)
@@ -259,17 +261,18 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addRecord,
         icon: const Icon(Icons.add),
-        label: const Text('Add Record'),
+        label: Text(l10n.addRecordButton),
       ),
     );
   }
 
   Widget _buildCurrentTile(TrainingRecord record) {
+    final l10n = AppLocalizations.of(context)!;
     final status = computeTrainingStatus(record.expiresAt);
     final (kind, label) = switch (status) {
-      TrainingStatus.current => (StatusKind.pass, 'Current'),
-      TrainingStatus.expiringSoon => (StatusKind.caution, 'Expiring soon'),
-      TrainingStatus.expired => (StatusKind.critical, 'Expired'),
+      TrainingStatus.current => (StatusKind.pass, l10n.currentLabel),
+      TrainingStatus.expiringSoon => (StatusKind.caution, l10n.expiringSoonLabel),
+      TrainingStatus.expired => (StatusKind.critical, l10n.expiredLabel),
     };
 
     return Card(
@@ -283,10 +286,11 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
   }
 
   Widget _buildHistoryTile(TrainingRecord record) {
+    final l10n = AppLocalizations.of(context)!;
     return ListTile(
       title: Text(record.displayTitle),
       subtitle: Text(
-        '${_subtitleFor(record)}\n(superseded)',
+        '${_subtitleFor(record)}\n${l10n.supersededLabel}',
         style: Theme.of(context).textTheme.bodySmall,
       ),
       isThreeLine: true,
@@ -294,14 +298,15 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
   }
 
   String _subtitleFor(TrainingRecord record) {
+    final l10n = AppLocalizations.of(context)!;
     final parts = <String>[
-      'Completed ${formatDate(record.completedAt)}',
+      l10n.completedDateLabel(formatDate(record.completedAt)),
       record.expiresAt == null
-          ? 'No expiry'
-          : 'Expires ${formatDate(record.expiresAt!)}',
+          ? l10n.noExpiryLabel
+          : l10n.expiresOnLabel(formatDate(record.expiresAt!)),
     ];
     if (record.certificateReference != null) {
-      parts.add('Ref: ${record.certificateReference}');
+      parts.add(l10n.certRefLabel(record.certificateReference!));
     }
     return parts.join(' · ');
   }

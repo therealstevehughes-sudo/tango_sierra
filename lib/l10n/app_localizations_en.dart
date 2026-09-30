@@ -3916,4 +3916,100 @@ class AppLocalizationsEn extends AppLocalizations {
   String pinSuffixLabel(String pin) {
     return ' - PIN: $pin';
   }
+
+  @override
+  String get trainingLevel2FoodHygiene => 'Level 2 Food Hygiene & Safety';
+
+  @override
+  String get trainingAllergenAwareness => 'Allergen Awareness';
+
+  @override
+  String get trainingCoshh =>
+      'COSHH (Control of Substances Hazardous to Health)';
+
+  @override
+  String get trainingFireSafety => 'Fire Safety';
+
+  @override
+  String get trainingManualHandling => 'Manual Handling';
+
+  @override
+  String get trainingFirstAid => 'First Aid at Work';
+
+  @override
+  String get trainingInduction => 'Induction Completed';
+
+  @override
+  String get itemFieldLabel => 'Item';
+
+  @override
+  String get customItemTitleLabel => 'Custom item title';
+
+  @override
+  String get expiryNoneLabel => 'Expiry: none';
+
+  @override
+  String get clearExpiryTooltip => 'Clear expiry';
+
+  @override
+  String get certificateReferenceLabel => 'Certificate reference (optional)';
+
+  @override
+  String get certificateReferenceHint => 'e.g. certificate number, provider';
+
+  @override
+  String get noTrainingRecordsYetText => 'No training records yet.';
+
+  @override
+  String get addRecordButton => 'Add Record';
+
+  @override
+  String get currentLabel => 'Current';
+
+  @override
+  String get supersededLabel => '(superseded)';
+
+  @override
+  String get noExpiryLabel => 'No expiry';
+
+  @override
+  String addTrainingRecordTitle(String name) {
+    return 'Add Training Record - $name';
+  }
+
+  @override
+  String completedOnLabel(String date) {
+    return 'Completed: $date';
+  }
+
+  @override
+  String expiryOnLabel(String date) {
+    return 'Expiry: $date';
+  }
+
+  @override
+  String trainingRecordsTitle(String name) {
+    return 'Training Records - $name';
+  }
+
+  @override
+  String fullHistoryLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Full history ($count earlier records)',
+      one: 'Full history ($count earlier record)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String completedDateLabel(String date) {
+    return 'Completed $date';
+  }
+
+  @override
+  String certRefLabel(String ref) {
+    return 'Ref: $ref';
+  }
 }

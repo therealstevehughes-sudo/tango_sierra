@@ -3942,4 +3942,101 @@ class AppLocalizationsDe extends AppLocalizations {
   String pinSuffixLabel(String pin) {
     return ' - PIN: $pin';
   }
+
+  @override
+  String get trainingLevel2FoodHygiene =>
+      'Stufe 2 Lebensmittelhygiene & -sicherheit';
+
+  @override
+  String get trainingAllergenAwareness => 'Allergenbewusstsein';
+
+  @override
+  String get trainingCoshh =>
+      'COSHH (Kontrolle gesundheitsgefährdender Stoffe)';
+
+  @override
+  String get trainingFireSafety => 'Brandschutz';
+
+  @override
+  String get trainingManualHandling => 'Manuelle Handhabung';
+
+  @override
+  String get trainingFirstAid => 'Erste Hilfe am Arbeitsplatz';
+
+  @override
+  String get trainingInduction => 'Einarbeitung abgeschlossen';
+
+  @override
+  String get itemFieldLabel => 'Element';
+
+  @override
+  String get customItemTitleLabel => 'Benutzerdefinierter Elementtitel';
+
+  @override
+  String get expiryNoneLabel => 'Ablauf: keiner';
+
+  @override
+  String get clearExpiryTooltip => 'Ablauf löschen';
+
+  @override
+  String get certificateReferenceLabel => 'Zertifikatsreferenz (optional)';
+
+  @override
+  String get certificateReferenceHint => 'z. B. Zertifikatsnummer, Anbieter';
+
+  @override
+  String get noTrainingRecordsYetText => 'Noch keine Schulungsnachweise.';
+
+  @override
+  String get addRecordButton => 'Eintrag hinzufügen';
+
+  @override
+  String get currentLabel => 'Aktuell';
+
+  @override
+  String get supersededLabel => '(ersetzt)';
+
+  @override
+  String get noExpiryLabel => 'Kein Ablauf';
+
+  @override
+  String addTrainingRecordTitle(String name) {
+    return 'Schulungsnachweis hinzufügen - $name';
+  }
+
+  @override
+  String completedOnLabel(String date) {
+    return 'Abgeschlossen: $date';
+  }
+
+  @override
+  String expiryOnLabel(String date) {
+    return 'Ablauf: $date';
+  }
+
+  @override
+  String trainingRecordsTitle(String name) {
+    return 'Schulungsnachweise - $name';
+  }
+
+  @override
+  String fullHistoryLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Vollständiger Verlauf ($count frühere Einträge)',
+      one: 'Vollständiger Verlauf ($count früherer Eintrag)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String completedDateLabel(String date) {
+    return 'Abgeschlossen am $date';
+  }
+
+  @override
+  String certRefLabel(String ref) {
+    return 'Ref.: $ref';
+  }
 }

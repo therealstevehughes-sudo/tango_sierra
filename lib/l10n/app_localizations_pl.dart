@@ -3911,4 +3911,102 @@ class AppLocalizationsPl extends AppLocalizations {
   String pinSuffixLabel(String pin) {
     return ' - PIN: $pin';
   }
+
+  @override
+  String get trainingLevel2FoodHygiene =>
+      'Poziom 2 Higieny i Bezpieczeństwa Żywności';
+
+  @override
+  String get trainingAllergenAwareness => 'Świadomość alergenowa';
+
+  @override
+  String get trainingCoshh =>
+      'COSHH (kontrola substancji niebezpiecznych dla zdrowia)';
+
+  @override
+  String get trainingFireSafety => 'Bezpieczeństwo przeciwpożarowe';
+
+  @override
+  String get trainingManualHandling => 'Ręczne podnoszenie i przenoszenie';
+
+  @override
+  String get trainingFirstAid => 'Pierwsza pomoc w pracy';
+
+  @override
+  String get trainingInduction => 'Wdrożenie ukończone';
+
+  @override
+  String get itemFieldLabel => 'Element';
+
+  @override
+  String get customItemTitleLabel => 'Niestandardowy tytuł elementu';
+
+  @override
+  String get expiryNoneLabel => 'Ważność: brak';
+
+  @override
+  String get clearExpiryTooltip => 'Usuń datę ważności';
+
+  @override
+  String get certificateReferenceLabel => 'Numer certyfikatu (opcjonalnie)';
+
+  @override
+  String get certificateReferenceHint => 'np. numer certyfikatu, dostawca';
+
+  @override
+  String get noTrainingRecordsYetText => 'Brak jeszcze rejestrów szkoleń.';
+
+  @override
+  String get addRecordButton => 'Dodaj rekord';
+
+  @override
+  String get currentLabel => 'Aktualny';
+
+  @override
+  String get supersededLabel => '(zastąpiony)';
+
+  @override
+  String get noExpiryLabel => 'Brak ważności';
+
+  @override
+  String addTrainingRecordTitle(String name) {
+    return 'Dodaj rekord szkolenia - $name';
+  }
+
+  @override
+  String completedOnLabel(String date) {
+    return 'Ukończono: $date';
+  }
+
+  @override
+  String expiryOnLabel(String date) {
+    return 'Ważność: $date';
+  }
+
+  @override
+  String trainingRecordsTitle(String name) {
+    return 'Rejestry szkoleń - $name';
+  }
+
+  @override
+  String fullHistoryLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Pełna historia ($count wcześniejszych rekordów)',
+      few: 'Pełna historia ($count wcześniejsze rekordy)',
+      one: 'Pełna historia ($count wcześniejszy rekord)',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String completedDateLabel(String date) {
+    return 'Ukończono $date';
+  }
+
+  @override
+  String certRefLabel(String ref) {
+    return 'Nr ref.: $ref';
+  }
 }

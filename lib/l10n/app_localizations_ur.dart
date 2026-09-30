@@ -3831,4 +3831,93 @@ class AppLocalizationsUr extends AppLocalizations {
   String pinSuffixLabel(String pin) {
     return ' - پن: $pin';
   }
+
+  @override
+  String get trainingLevel2FoodHygiene => 'لیول 2 فوڈ ہائجین اینڈ سیفٹی';
+
+  @override
+  String get trainingAllergenAwareness => 'الرجن آگاہی';
+
+  @override
+  String get trainingCoshh => 'COSHH (صحت کے لیے خطرناک مادوں کا کنٹرول)';
+
+  @override
+  String get trainingFireSafety => 'آگ کی حفاظت';
+
+  @override
+  String get trainingManualHandling => 'دستی ہینڈلنگ';
+
+  @override
+  String get trainingFirstAid => 'کام کی جگہ پر ابتدائی طبی امداد';
+
+  @override
+  String get trainingInduction => 'انڈکشن مکمل';
+
+  @override
+  String get itemFieldLabel => 'آئٹم';
+
+  @override
+  String get customItemTitleLabel => 'کسٹم آئٹم کا عنوان';
+
+  @override
+  String get expiryNoneLabel => 'میعاد: کوئی نہیں';
+
+  @override
+  String get clearExpiryTooltip => 'میعاد صاف کریں';
+
+  @override
+  String get certificateReferenceLabel => 'سرٹیفکیٹ حوالہ (اختیاری)';
+
+  @override
+  String get certificateReferenceHint => 'جیسے سرٹیفکیٹ نمبر، فراہم کنندہ';
+
+  @override
+  String get noTrainingRecordsYetText => 'ابھی تک کوئی تربیتی ریکارڈ نہیں۔';
+
+  @override
+  String get addRecordButton => 'ریکارڈ شامل کریں';
+
+  @override
+  String get currentLabel => 'موجودہ';
+
+  @override
+  String get supersededLabel => '(تبدیل شدہ)';
+
+  @override
+  String get noExpiryLabel => 'کوئی میعاد نہیں';
+
+  @override
+  String addTrainingRecordTitle(String name) {
+    return 'تربیتی ریکارڈ شامل کریں - $name';
+  }
+
+  @override
+  String completedOnLabel(String date) {
+    return 'مکمل: $date';
+  }
+
+  @override
+  String expiryOnLabel(String date) {
+    return 'میعاد: $date';
+  }
+
+  @override
+  String trainingRecordsTitle(String name) {
+    return 'تربیتی ریکارڈ - $name';
+  }
+
+  @override
+  String fullHistoryLabel(int count) {
+    return 'مکمل تاریخ ($count پرانے ریکارڈز)';
+  }
+
+  @override
+  String completedDateLabel(String date) {
+    return '$date کو مکمل';
+  }
+
+  @override
+  String certRefLabel(String ref) {
+    return 'حوالہ: $ref';
+  }
 }
