@@ -1272,5 +1272,6 @@
   "allergenMatrixLegend": "Legenda",
   "noApprovedDishesYetText": "Brak jeszcze zatwierdzonych dań. Poproś kierownika o sprawdzenie i zatwierdzenie dań w sekcji Menu i alergeny.",
   "exportAsPdfButton": "Eksportuj jako PDF",
-  "allergenMatrixSubtitle": "Sprawdz, co znajduje sie w daniu, zanim trafi do klienta"
+  "allergenMatrixSubtitle": "Sprawdz, co znajduje sie w daniu, zanim trafi do klienta",
+  "assignmentRejectedMessage": "To przypisanie zostalo odrzucone. Sprawdz role i certyfikaty pracownika i sprobuj ponownie."
 }

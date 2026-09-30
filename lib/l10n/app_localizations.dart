@@ -7765,6 +7765,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Check what\'s in a dish before it reaches a customer'**
   String get allergenMatrixSubtitle;
+
+  /// No description provided for @assignmentRejectedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This assignment was rejected. Please check the staff member\'s role and certifications and try again.'**
+  String get assignmentRejectedMessage;
 }
 
 class _AppLocalizationsDelegate

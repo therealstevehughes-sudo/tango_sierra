@@ -1272,5 +1272,6 @@
   "allergenMatrixLegend": "Legendă",
   "noApprovedDishesYetText": "Niciun fel de mâncare aprobat încă. Cere unui manager să revizuiască și să aprobe felurile de mâncare în Meniu și alergeni.",
   "exportAsPdfButton": "Exportă ca PDF",
-  "allergenMatrixSubtitle": "Verifica ce contine un fel de mancare inainte sa ajunga la client"
+  "allergenMatrixSubtitle": "Verifica ce contine un fel de mancare inainte sa ajunga la client",
+  "assignmentRejectedMessage": "Aceasta atribuire a fost respinsa. Verifica rolul si certificarile angajatului si incearca din nou."
 }

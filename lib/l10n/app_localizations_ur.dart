@@ -4425,4 +4425,8 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get allergenMatrixSubtitle =>
       'گاہک تک پہنچنے سے پہلے ڈش میں کیا ہے، چیک کریں';
+
+  @override
+  String get assignmentRejectedMessage =>
+      'یہ تفویض مسترد کر دی گئی۔ براہ کرم عملے کے کردار اور سرٹیفیکیٹس چیک کریں اور دوبارہ کوشش کریں۔';
 }

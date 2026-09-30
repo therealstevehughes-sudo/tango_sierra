@@ -4377,5 +4377,6 @@
   "allergenMatrixLegend": "Key",
   "noApprovedDishesYetText": "No approved dishes yet. Ask a manager to review and approve dishes in Menu & Allergens.",
   "exportAsPdfButton": "Export as PDF",
-  "allergenMatrixSubtitle": "Check what's in a dish before it reaches a customer"
+  "allergenMatrixSubtitle": "Check what's in a dish before it reaches a customer",
+  "assignmentRejectedMessage": "This assignment was rejected. Please check the staff member's role and certifications and try again."
 }

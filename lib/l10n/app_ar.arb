@@ -1272,5 +1272,6 @@
   "allergenMatrixLegend": "المفتاح",
   "noApprovedDishesYetText": "لا توجد أطباق معتمدة بعد. اطلب من المدير مراجعة الأطباق والموافقة عليها في القائمة ومسببات الحساسية.",
   "exportAsPdfButton": "تصدير كملف PDF",
-  "allergenMatrixSubtitle": "تحقق مما يحتويه الطبق قبل وصوله إلى العميل"
+  "allergenMatrixSubtitle": "تحقق مما يحتويه الطبق قبل وصوله إلى العميل",
+  "assignmentRejectedMessage": "تم رفض هذا التعيين. يرجى التحقق من دور الموظف وشهاداته والمحاولة مرة أخرى."
 }

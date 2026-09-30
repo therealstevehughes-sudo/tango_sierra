@@ -4432,4 +4432,8 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get allergenMatrixSubtitle =>
       'ग्राहक तक पहुंचने से पहले व्यंजन में क्या है, जांच लें';
+
+  @override
+  String get assignmentRejectedMessage =>
+      'यह असाइनमेंट अस्वीकृत कर दिया गया। कृपया कर्मचारी की भूमिका और प्रमाणपत्र जांचें और पुनः प्रयास करें।';
 }

@@ -4597,4 +4597,8 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get allergenMatrixSubtitle =>
       'Pruefen Sie, was in einem Gericht enthalten ist, bevor es den Kunden erreicht';
+
+  @override
+  String get assignmentRejectedMessage =>
+      'Diese Zuweisung wurde abgelehnt. Bitte pruefen Sie die Rolle und Zertifikate des Mitarbeiters und versuchen Sie es erneut.';
 }

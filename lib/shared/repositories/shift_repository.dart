@@ -27,7 +27,12 @@ abstract class ShiftRepository {
   /// race was lost, not an error).
   Future<Shift?> claimShift({required int shiftId, required int userId});
 
-  Future<void> managerAssign({
+  /// Returns the updated [Shift] on success, or null if the assignment was
+  /// rejected server-side — role gate (venueManager+) or certification
+  /// eligibility failed. See manager_assign_shift's own SQL doc comment
+  /// (tools/phase2_manager_assign_shift_rpc_migration.sql) for why this is
+  /// a real RPC now, not a plain table update.
+  Future<Shift?> managerAssign({
     required int shiftId,
     required int userId,
     required int assignedByUserId,
@@ -140,26 +145,26 @@ class SupabaseShiftRepository implements ShiftRepository {
   }
 
   @override
-  Future<void> managerAssign({
+  Future<Shift?> managerAssign({
     required int shiftId,
     required int userId,
     required int assignedByUserId,
   }) async {
-    await _client.update(
-      'shifts',
-      filter: 'id=eq.$shiftId',
-      body: {
-        'status': 'assigned',
-        'claimed_by_user_id': userId,
-        'assigned_by_user_id': assignedByUserId,
-      },
-    );
+    final rows = await _client.rpc('manager_assign_shift', {
+      'p_shift_id': shiftId,
+      'p_user_id': userId,
+      'p_assigned_by_user_id': assignedByUserId,
+    });
+    if (rows.isEmpty) return null;
+    // Audit trail, same not-perfectly-atomic-but-established convention
+    // as claimShift's own comment on this exact pattern.
     await _client.insertOne('shift_claims', {
       'shift_id': shiftId,
       'user_id': userId,
       'event_type': 'manager_assigned',
       'actor_user_id': assignedByUserId,
     });
+    return _toModel(rows.first as Map<String, dynamic>);
   }
 
   @override

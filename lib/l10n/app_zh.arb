@@ -1272,5 +1272,6 @@
   "allergenMatrixLegend": "图例",
   "noApprovedDishesYetText": "尚无已批准的菜品。请让经理在“菜单与过敏原”中审核并批准菜品。",
   "exportAsPdfButton": "导出为 PDF",
-  "allergenMatrixSubtitle": "在菜品送达顾客前检查其成分"
+  "allergenMatrixSubtitle": "在菜品送达顾客前检查其成分",
+  "assignmentRejectedMessage": "此分配已被拒绝。请检查员工的职位和证书后重试。"
 }

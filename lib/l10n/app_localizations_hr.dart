@@ -4455,4 +4455,8 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get allergenMatrixSubtitle =>
       'Provjerite sto se nalazi u jelu prije nego sto stigne do gosta';
+
+  @override
+  String get assignmentRejectedMessage =>
+      'Ovo dodjeljivanje je odbijeno. Provjerite ulogu i certifikate zaposlenika i pokusajte ponovno.';
 }

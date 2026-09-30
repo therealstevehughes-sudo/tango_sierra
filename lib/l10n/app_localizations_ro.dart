@@ -4540,4 +4540,8 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get allergenMatrixSubtitle =>
       'Verifica ce contine un fel de mancare inainte sa ajunga la client';
+
+  @override
+  String get assignmentRejectedMessage =>
+      'Aceasta atribuire a fost respinsa. Verifica rolul si certificarile angajatului si incearca din nou.';
 }

@@ -4284,4 +4284,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get allergenMatrixSubtitle => '在菜品送达顾客前检查其成分';
+
+  @override
+  String get assignmentRejectedMessage => '此分配已被拒绝。请检查员工的职位和证书后重试。';
 }

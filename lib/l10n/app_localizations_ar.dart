@@ -4402,4 +4402,8 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get allergenMatrixSubtitle =>
       'تحقق مما يحتويه الطبق قبل وصوله إلى العميل';
+
+  @override
+  String get assignmentRejectedMessage =>
+      'تم رفض هذا التعيين. يرجى التحقق من دور الموظف وشهاداته والمحاولة مرة أخرى.';
 }

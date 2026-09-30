@@ -4543,4 +4543,8 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get allergenMatrixSubtitle =>
       'Sprawdz, co znajduje sie w daniu, zanim trafi do klienta';
+
+  @override
+  String get assignmentRejectedMessage =>
+      'To przypisanie zostalo odrzucone. Sprawdz role i certyfikaty pracownika i sprobuj ponownie.';
 }

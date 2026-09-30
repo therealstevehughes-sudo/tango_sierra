@@ -4565,4 +4565,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get allergenMatrixSubtitle =>
       'Check what\'s in a dish before it reaches a customer';
+
+  @override
+  String get assignmentRejectedMessage =>
+      'This assignment was rejected. Please check the staff member\'s role and certifications and try again.';
 }

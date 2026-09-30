@@ -254,11 +254,21 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
       return;
     }
 
-    await ref.read(shiftRepositoryProvider).managerAssign(
+    final result = await ref.read(shiftRepositoryProvider).managerAssign(
       shiftId: shift.id,
       userId: selected.id,
       assignedByUserId: manager.id,
     );
+    // The client-side check above is the specific "you need X" UX; this
+    // covers the server rejecting it anyway (e.g. a role check failure,
+    // or the eligibility changed between the check and this call — same
+    // race-safety reasoning as claim_shift's own atomic check).
+    if (result == null && mounted) {
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.assignmentRejectedMessage)));
+    }
     // No manual reload — see _postShift's comment.
   }
 
