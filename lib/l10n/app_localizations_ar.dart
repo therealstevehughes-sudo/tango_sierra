@@ -4385,4 +4385,21 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reviewAndReapproveButton => 'مراجعة والموافقة مجددًا';
+
+  @override
+  String get allergenMatrixTitle => 'مصفوفة مسببات الحساسية';
+
+  @override
+  String get allergenMatrixLegend => 'المفتاح';
+
+  @override
+  String get noApprovedDishesYetText =>
+      'لا توجد أطباق معتمدة بعد. اطلب من المدير مراجعة الأطباق والموافقة عليها في القائمة ومسببات الحساسية.';
+
+  @override
+  String get exportAsPdfButton => 'تصدير كملف PDF';
+
+  @override
+  String get allergenMatrixSubtitle =>
+      'تحقق مما يحتويه الطبق قبل وصوله إلى العميل';
 }

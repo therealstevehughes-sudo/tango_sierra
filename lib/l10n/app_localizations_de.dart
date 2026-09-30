@@ -4580,4 +4580,21 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get reviewAndReapproveButton => 'Prüfen & erneut genehmigen';
+
+  @override
+  String get allergenMatrixTitle => 'Allergenmatrix';
+
+  @override
+  String get allergenMatrixLegend => 'Legende';
+
+  @override
+  String get noApprovedDishesYetText =>
+      'Noch keine genehmigten Gerichte. Bitten Sie einen Manager, Gerichte in Menü & Allergene zu prüfen und zu genehmigen.';
+
+  @override
+  String get exportAsPdfButton => 'Als PDF exportieren';
+
+  @override
+  String get allergenMatrixSubtitle =>
+      'Pruefen Sie, was in einem Gericht enthalten ist, bevor es den Kunden erreicht';
 }

@@ -1267,5 +1267,10 @@
   "allergenStatusNone": "कोई नहीं",
   "approveButton": "स्वीकृत करें और प्रकाशित करें",
   "reviewAndApproveButton": "समीक्षा करें और स्वीकृत करें",
-  "reviewAndReapproveButton": "समीक्षा करें और पुनः स्वीकृत करें"
+  "reviewAndReapproveButton": "समीक्षा करें और पुनः स्वीकृत करें",
+  "allergenMatrixTitle": "एलर्जन मैट्रिक्स",
+  "allergenMatrixLegend": "संकेत",
+  "noApprovedDishesYetText": "अभी तक कोई व्यंजन स्वीकृत नहीं हुआ। मेनू और एलर्जन में व्यंजनों की समीक्षा और स्वीकृति के लिए मैनेजर से कहें।",
+  "exportAsPdfButton": "PDF के रूप में निर्यात करें",
+  "allergenMatrixSubtitle": "ग्राहक तक पहुंचने से पहले व्यंजन में क्या है, जांच लें"
 }

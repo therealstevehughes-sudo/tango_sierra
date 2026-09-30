@@ -1267,5 +1267,10 @@
   "allergenStatusNone": "کوئی نہیں",
   "approveButton": "منظور کریں اور شائع کریں",
   "reviewAndApproveButton": "جائزہ لیں اور منظور کریں",
-  "reviewAndReapproveButton": "جائزہ لیں اور دوبارہ منظور کریں"
+  "reviewAndReapproveButton": "جائزہ لیں اور دوبارہ منظور کریں",
+  "allergenMatrixTitle": "الرجن میٹرکس",
+  "allergenMatrixLegend": "اشارہ",
+  "noApprovedDishesYetText": "ابھی تک کوئی ڈش منظور نہیں ہوئی۔ مینیجر سے مینو اور الرجنز میں ڈشز کا جائزہ لینے اور منظور کرنے کے لیے کہیں۔",
+  "exportAsPdfButton": "PDF کے طور پر برآمد کریں",
+  "allergenMatrixSubtitle": "گاہک تک پہنچنے سے پہلے ڈش میں کیا ہے، چیک کریں"
 }

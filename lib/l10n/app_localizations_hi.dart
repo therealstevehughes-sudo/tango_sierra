@@ -4415,4 +4415,21 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get reviewAndReapproveButton => 'समीक्षा करें और पुनः स्वीकृत करें';
+
+  @override
+  String get allergenMatrixTitle => 'एलर्जन मैट्रिक्स';
+
+  @override
+  String get allergenMatrixLegend => 'संकेत';
+
+  @override
+  String get noApprovedDishesYetText =>
+      'अभी तक कोई व्यंजन स्वीकृत नहीं हुआ। मेनू और एलर्जन में व्यंजनों की समीक्षा और स्वीकृति के लिए मैनेजर से कहें।';
+
+  @override
+  String get exportAsPdfButton => 'PDF के रूप में निर्यात करें';
+
+  @override
+  String get allergenMatrixSubtitle =>
+      'ग्राहक तक पहुंचने से पहले व्यंजन में क्या है, जांच लें';
 }

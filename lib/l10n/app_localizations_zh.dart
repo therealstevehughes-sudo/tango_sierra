@@ -4269,4 +4269,19 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get reviewAndReapproveButton => '核查并重新批准';
+
+  @override
+  String get allergenMatrixTitle => '过敏原矩阵';
+
+  @override
+  String get allergenMatrixLegend => '图例';
+
+  @override
+  String get noApprovedDishesYetText => '尚无已批准的菜品。请让经理在“菜单与过敏原”中审核并批准菜品。';
+
+  @override
+  String get exportAsPdfButton => '导出为 PDF';
+
+  @override
+  String get allergenMatrixSubtitle => '在菜品送达顾客前检查其成分';
 }

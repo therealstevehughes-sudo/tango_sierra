@@ -4548,4 +4548,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewAndReapproveButton => 'Review & re-approve';
+
+  @override
+  String get allergenMatrixTitle => 'Allergen matrix';
+
+  @override
+  String get allergenMatrixLegend => 'Key';
+
+  @override
+  String get noApprovedDishesYetText =>
+      'No approved dishes yet. Ask a manager to review and approve dishes in Menu & Allergens.';
+
+  @override
+  String get exportAsPdfButton => 'Export as PDF';
+
+  @override
+  String get allergenMatrixSubtitle =>
+      'Check what\'s in a dish before it reaches a customer';
 }

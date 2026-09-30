@@ -1267,5 +1267,10 @@
   "allergenStatusNone": "لا شيء",
   "approveButton": "الموافقة والنشر",
   "reviewAndApproveButton": "مراجعة والموافقة",
-  "reviewAndReapproveButton": "مراجعة والموافقة مجددًا"
+  "reviewAndReapproveButton": "مراجعة والموافقة مجددًا",
+  "allergenMatrixTitle": "مصفوفة مسببات الحساسية",
+  "allergenMatrixLegend": "المفتاح",
+  "noApprovedDishesYetText": "لا توجد أطباق معتمدة بعد. اطلب من المدير مراجعة الأطباق والموافقة عليها في القائمة ومسببات الحساسية.",
+  "exportAsPdfButton": "تصدير كملف PDF",
+  "allergenMatrixSubtitle": "تحقق مما يحتويه الطبق قبل وصوله إلى العميل"
 }

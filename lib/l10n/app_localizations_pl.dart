@@ -4526,4 +4526,21 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get reviewAndReapproveButton => 'Przejrzyj i zatwierdź ponownie';
+
+  @override
+  String get allergenMatrixTitle => 'Tabela alergenów';
+
+  @override
+  String get allergenMatrixLegend => 'Legenda';
+
+  @override
+  String get noApprovedDishesYetText =>
+      'Brak jeszcze zatwierdzonych dań. Poproś kierownika o sprawdzenie i zatwierdzenie dań w sekcji Menu i alergeny.';
+
+  @override
+  String get exportAsPdfButton => 'Eksportuj jako PDF';
+
+  @override
+  String get allergenMatrixSubtitle =>
+      'Sprawdz, co znajduje sie w daniu, zanim trafi do klienta';
 }

@@ -1267,5 +1267,10 @@
   "allergenStatusNone": "Nijedan",
   "approveButton": "Odobri i objavi",
   "reviewAndApproveButton": "Pregledaj i odobri",
-  "reviewAndReapproveButton": "Pregledaj i ponovno odobri"
+  "reviewAndReapproveButton": "Pregledaj i ponovno odobri",
+  "allergenMatrixTitle": "Matrica alergena",
+  "allergenMatrixLegend": "Legenda",
+  "noApprovedDishesYetText": "Još nema odobrenih jela. Zamolite voditelja da pregleda i odobri jela u Jelovnik i alergeni.",
+  "exportAsPdfButton": "Izvezi kao PDF",
+  "allergenMatrixSubtitle": "Provjerite sto se nalazi u jelu prije nego sto stigne do gosta"
 }

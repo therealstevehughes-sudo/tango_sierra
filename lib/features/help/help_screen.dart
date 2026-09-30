@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../l10n/app_localizations.dart';
 import '../onboarding/contact_venurite_screen.dart';
+import 'allergen_matrix_screen.dart';
 import 'ask_question_screen.dart';
 import 'faq_screen.dart';
 import 'troubleshooting_screen.dart';
@@ -103,6 +104,20 @@ class HelpScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) => const TroubleshootingScreen(),
+                    ),
+                  ),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.restaurant_menu_outlined),
+                  title: Text(l10n.allergenMatrixTitle),
+                  subtitle: Text(l10n.allergenMatrixSubtitle),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const AllergenMatrixScreen(),
                     ),
                   ),
                 ),

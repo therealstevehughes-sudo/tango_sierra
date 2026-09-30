@@ -4438,4 +4438,21 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get reviewAndReapproveButton => 'Pregledaj i ponovno odobri';
+
+  @override
+  String get allergenMatrixTitle => 'Matrica alergena';
+
+  @override
+  String get allergenMatrixLegend => 'Legenda';
+
+  @override
+  String get noApprovedDishesYetText =>
+      'Još nema odobrenih jela. Zamolite voditelja da pregleda i odobri jela u Jelovnik i alergeni.';
+
+  @override
+  String get exportAsPdfButton => 'Izvezi kao PDF';
+
+  @override
+  String get allergenMatrixSubtitle =>
+      'Provjerite sto se nalazi u jelu prije nego sto stigne do gosta';
 }

@@ -4372,5 +4372,10 @@
   "allergenStatusNone": "None",
   "approveButton": "Approve & publish",
   "reviewAndApproveButton": "Review & approve",
-  "reviewAndReapproveButton": "Review & re-approve"
+  "reviewAndReapproveButton": "Review & re-approve",
+  "allergenMatrixTitle": "Allergen matrix",
+  "allergenMatrixLegend": "Key",
+  "noApprovedDishesYetText": "No approved dishes yet. Ask a manager to review and approve dishes in Menu & Allergens.",
+  "exportAsPdfButton": "Export as PDF",
+  "allergenMatrixSubtitle": "Check what's in a dish before it reaches a customer"
 }

@@ -1267,5 +1267,10 @@
   "allergenStatusNone": "Brak",
   "approveButton": "Zatwierdź i opublikuj",
   "reviewAndApproveButton": "Przejrzyj i zatwierdź",
-  "reviewAndReapproveButton": "Przejrzyj i zatwierdź ponownie"
+  "reviewAndReapproveButton": "Przejrzyj i zatwierdź ponownie",
+  "allergenMatrixTitle": "Tabela alergenów",
+  "allergenMatrixLegend": "Legenda",
+  "noApprovedDishesYetText": "Brak jeszcze zatwierdzonych dań. Poproś kierownika o sprawdzenie i zatwierdzenie dań w sekcji Menu i alergeny.",
+  "exportAsPdfButton": "Eksportuj jako PDF",
+  "allergenMatrixSubtitle": "Sprawdz, co znajduje sie w daniu, zanim trafi do klienta"
 }

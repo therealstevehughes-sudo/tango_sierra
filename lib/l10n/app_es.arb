@@ -1267,5 +1267,10 @@
   "allergenStatusNone": "Ninguno",
   "approveButton": "Aprobar y publicar",
   "reviewAndApproveButton": "Revisar y aprobar",
-  "reviewAndReapproveButton": "Revisar y volver a aprobar"
+  "reviewAndReapproveButton": "Revisar y volver a aprobar",
+  "allergenMatrixTitle": "Matriz de alérgenos",
+  "allergenMatrixLegend": "Leyenda",
+  "noApprovedDishesYetText": "Aún no hay platos aprobados. Pide a un gerente que revise y apruebe los platos en Menú y alérgenos.",
+  "exportAsPdfButton": "Exportar como PDF",
+  "allergenMatrixSubtitle": "Comprueba que contiene un plato antes de que llegue al cliente"
 }

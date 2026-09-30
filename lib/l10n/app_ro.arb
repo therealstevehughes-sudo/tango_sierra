@@ -1267,5 +1267,10 @@
   "allergenStatusNone": "Niciunul",
   "approveButton": "Aprobă și publică",
   "reviewAndApproveButton": "Verifică și aprobă",
-  "reviewAndReapproveButton": "Verifică și reaprobă"
+  "reviewAndReapproveButton": "Verifică și reaprobă",
+  "allergenMatrixTitle": "Matrice de alergeni",
+  "allergenMatrixLegend": "Legendă",
+  "noApprovedDishesYetText": "Niciun fel de mâncare aprobat încă. Cere unui manager să revizuiască și să aprobe felurile de mâncare în Meniu și alergeni.",
+  "exportAsPdfButton": "Exportă ca PDF",
+  "allergenMatrixSubtitle": "Verifica ce contine un fel de mancare inainte sa ajunga la client"
 }

@@ -4408,4 +4408,21 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get reviewAndReapproveButton => 'جائزہ لیں اور دوبارہ منظور کریں';
+
+  @override
+  String get allergenMatrixTitle => 'الرجن میٹرکس';
+
+  @override
+  String get allergenMatrixLegend => 'اشارہ';
+
+  @override
+  String get noApprovedDishesYetText =>
+      'ابھی تک کوئی ڈش منظور نہیں ہوئی۔ مینیجر سے مینو اور الرجنز میں ڈشز کا جائزہ لینے اور منظور کرنے کے لیے کہیں۔';
+
+  @override
+  String get exportAsPdfButton => 'PDF کے طور پر برآمد کریں';
+
+  @override
+  String get allergenMatrixSubtitle =>
+      'گاہک تک پہنچنے سے پہلے ڈش میں کیا ہے، چیک کریں';
 }

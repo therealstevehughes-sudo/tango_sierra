@@ -4523,4 +4523,21 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get reviewAndReapproveButton => 'Verifică și reaprobă';
+
+  @override
+  String get allergenMatrixTitle => 'Matrice de alergeni';
+
+  @override
+  String get allergenMatrixLegend => 'Legendă';
+
+  @override
+  String get noApprovedDishesYetText =>
+      'Niciun fel de mâncare aprobat încă. Cere unui manager să revizuiască și să aprobe felurile de mâncare în Meniu și alergeni.';
+
+  @override
+  String get exportAsPdfButton => 'Exportă ca PDF';
+
+  @override
+  String get allergenMatrixSubtitle =>
+      'Verifica ce contine un fel de mancare inainte sa ajunga la client';
 }

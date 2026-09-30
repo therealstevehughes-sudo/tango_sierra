@@ -7735,6 +7735,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Review & re-approve'**
   String get reviewAndReapproveButton;
+
+  /// No description provided for @allergenMatrixTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allergen matrix'**
+  String get allergenMatrixTitle;
+
+  /// No description provided for @allergenMatrixLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Key'**
+  String get allergenMatrixLegend;
+
+  /// No description provided for @noApprovedDishesYetText.
+  ///
+  /// In en, this message translates to:
+  /// **'No approved dishes yet. Ask a manager to review and approve dishes in Menu & Allergens.'**
+  String get noApprovedDishesYetText;
+
+  /// No description provided for @exportAsPdfButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Export as PDF'**
+  String get exportAsPdfButton;
+
+  /// No description provided for @allergenMatrixSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check what\'s in a dish before it reaches a customer'**
+  String get allergenMatrixSubtitle;
 }
 
 class _AppLocalizationsDelegate
