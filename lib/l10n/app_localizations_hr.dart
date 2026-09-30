@@ -4017,4 +4017,43 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get youreInSignInText =>
       'Unutra si. Prijavi se svojom e-poštom i lozinkom koju si upravo odabrao/la.';
+
+  @override
+  String get newBranchNameTitle => 'Naziv nove poslovnice';
+
+  @override
+  String get renameBranchTitle => 'Preimenuj poslovnicu';
+
+  @override
+  String get branchManagerNameTitle => 'Ime voditelja poslovnice';
+
+  @override
+  String get accountCreatedTitle => 'Račun stvoren';
+
+  @override
+  String get giveNameAndPinText =>
+      'Daj ovoj osobi njezino ime (za dodir na ekranu za prijavu) i ovaj PIN.';
+
+  @override
+  String get branchesTitle => 'Poslovnice';
+
+  @override
+  String get noRegionSetText =>
+      'Tvoj račun nema postavljenu regiju - kontaktiraj svog direktora.';
+
+  @override
+  String get noBranchesInRegionText => 'Još nema poslovnica u tvojoj regiji.';
+
+  @override
+  String get addBranchManagerMenuItem => 'Dodaj voditelja poslovnice';
+
+  @override
+  String nameColonLabel(String name) {
+    return 'Ime: $name';
+  }
+
+  @override
+  String pinColonLabel(String pin) {
+    return 'PIN: $pin';
+  }
 }

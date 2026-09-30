@@ -1149,5 +1149,16 @@
   "enterValidEmailError": "请输入有效的邮箱",
   "choosePasswordLabel": "选择密码",
   "joinButton": "加入",
-  "youreInSignInText": "你已加入。请使用你的邮箱和刚刚选择的密码登录。"
+  "youreInSignInText": "你已加入。请使用你的邮箱和刚刚选择的密码登录。",
+  "newBranchNameTitle": "新分店名称",
+  "renameBranchTitle": "重命名分店",
+  "branchManagerNameTitle": "分店经理姓名",
+  "accountCreatedTitle": "账户已创建",
+  "giveNameAndPinText": "请把姓名(用于在登录界面点选)和此 PIN 码提供给此人。",
+  "branchesTitle": "分店",
+  "noRegionSetText": "你的账户尚未设置地区 - 请联系你的总监。",
+  "noBranchesInRegionText": "你所在地区尚无分店。",
+  "addBranchManagerMenuItem": "添加分店经理",
+  "nameColonLabel": "姓名:{name}",
+  "pinColonLabel": "PIN码:{pin}"
 }

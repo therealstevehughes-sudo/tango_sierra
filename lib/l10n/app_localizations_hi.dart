@@ -3995,4 +3995,44 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get youreInSignInText =>
       'तुम अंदर हो। अपने ईमेल और अभी चुने गए पासवर्ड से लॉग इन करो।';
+
+  @override
+  String get newBranchNameTitle => 'नई शाखा का नाम';
+
+  @override
+  String get renameBranchTitle => 'शाखा का नाम बदलें';
+
+  @override
+  String get branchManagerNameTitle => 'शाखा प्रबंधक का नाम';
+
+  @override
+  String get accountCreatedTitle => 'खाता बनाया गया';
+
+  @override
+  String get giveNameAndPinText =>
+      'इस व्यक्ति को उनका नाम (लॉगिन स्क्रीन पर टैप करने के लिए) और यह पिन दें।';
+
+  @override
+  String get branchesTitle => 'शाखाएं';
+
+  @override
+  String get noRegionSetText =>
+      'तुम्हारे खाते में कोई क्षेत्र सेट नहीं है - अपने डायरेक्टर से संपर्क करो।';
+
+  @override
+  String get noBranchesInRegionText =>
+      'तुम्हारे क्षेत्र में अभी तक कोई शाखा नहीं है।';
+
+  @override
+  String get addBranchManagerMenuItem => 'शाखा प्रबंधक जोड़ें';
+
+  @override
+  String nameColonLabel(String name) {
+    return 'नाम: $name';
+  }
+
+  @override
+  String pinColonLabel(String pin) {
+    return 'पिन: $pin';
+  }
 }

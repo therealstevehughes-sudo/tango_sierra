@@ -7027,6 +7027,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You\'re in. Sign in with your email and the password you just chose.'**
   String get youreInSignInText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'New branch name'**
+  String get newBranchNameTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rename branch'**
+  String get renameBranchTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Branch manager\'s name'**
+  String get branchManagerNameTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Account created'**
+  String get accountCreatedTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Give this person their name (to tap on the login screen) and this PIN.'**
+  String get giveNameAndPinText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Branches'**
+  String get branchesTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your account has no region set - contact your Director.'**
+  String get noRegionSetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No branches in your region yet.'**
+  String get noBranchesInRegionText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add branch manager'**
+  String get addBranchManagerMenuItem;
+
+  /// No description provided for @nameColonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name: {name}'**
+  String nameColonLabel(String name);
+
+  /// No description provided for @pinColonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN: {pin}'**
+  String pinColonLabel(String pin);
 }
 
 class _AppLocalizationsDelegate

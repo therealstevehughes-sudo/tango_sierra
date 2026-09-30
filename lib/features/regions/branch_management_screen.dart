@@ -11,6 +11,7 @@ import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Phase C1c/C1d — regional-tier. Builds branches (Sites) within the
 /// manager's OWN region — RLS scopes `siteRepositoryProvider.getAll()` to
@@ -52,7 +53,10 @@ class _BranchManagementScreenState
     final orgId = await ref.read(currentOrganisationIdProvider.future);
     final regionId = currentUser?.regionId;
     if (orgId == null || regionId == null || !mounted) return;
-    final name = await _promptText(context, title: 'New branch name');
+    final name = await _promptText(
+      context,
+      title: AppLocalizations.of(context)!.newBranchNameTitle,
+    );
     if (name == null || name.trim().isEmpty) return;
     await ref.read(siteRepositoryProvider).create(
           name: name.trim(),
@@ -65,7 +69,7 @@ class _BranchManagementScreenState
   Future<void> _renameBranch(Site site) async {
     final name = await _promptText(
       context,
-      title: 'Rename branch',
+      title: AppLocalizations.of(context)!.renameBranchTitle,
       initial: site.name,
     );
     if (name == null || name.trim().isEmpty || name.trim() == site.name) {
@@ -80,7 +84,7 @@ class _BranchManagementScreenState
     if (token == null) return;
     final name = await _promptText(
       context,
-      title: 'Branch manager\'s name',
+      title: AppLocalizations.of(context)!.branchManagerNameTitle,
     );
     if (name == null || name.trim().isEmpty) return;
     try {
@@ -94,28 +98,28 @@ class _BranchManagementScreenState
       if (!mounted) return;
       await showDialog<void>(
         context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Account created'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Give this person their name (to tap on the login screen) '
-                'and this PIN.',
-              ),
-              const SizedBox(height: 16),
-              SelectableText('Name: ${result.name}'),
-              SelectableText('PIN: ${result.pin}'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Done'),
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.accountCreatedTitle),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.giveNameAndPinText),
+                const SizedBox(height: 16),
+                SelectableText(l10n.nameColonLabel(result.name)),
+                SelectableText(l10n.pinColonLabel(result.pin)),
+              ],
             ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(l10n.doneButton),
+              ),
+            ],
+          );
+        },
       );
     } on StaffPinProvisionException catch (e) {
       if (!mounted) return;
@@ -127,15 +131,16 @@ class _BranchManagementScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.watch(currentUserProvider);
     final hasRegion = currentUser?.regionId != null;
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Branches'),
+        title: Text(l10n.branchesTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Branches'),
+      drawer: ManagementDrawer(title: l10n.branchesTitle),
       floatingActionButton: hasRegion
           ? FloatingActionButton(
               onPressed: _addBranch,
@@ -147,18 +152,15 @@ class _BranchManagementScreenState
           padding: const EdgeInsets.all(16),
           child: ResponsiveContent(
             child: !hasRegion
-                ? const AppBanner(
+                ? AppBanner(
                     kind: BannerKind.info,
-                    child: Text(
-                      'Your account has no region set - contact your '
-                      'Director.',
-                    ),
+                    child: Text(l10n.noRegionSetText),
                   )
                 : _loading
                     ? const Center(child: CircularProgressIndicator())
                     : (_sites ?? []).isEmpty
-                        ? const Center(
-                            child: Text('No branches in your region yet.'),
+                        ? Center(
+                            child: Text(l10n.noBranchesInRegionText),
                           )
                         : ListView.separated(
                             itemCount: _sites!.length,
@@ -178,14 +180,14 @@ class _BranchManagementScreenState
                                       _renameBranch(site);
                                     }
                                   },
-                                  itemBuilder: (_) => const [
+                                  itemBuilder: (_) => [
                                     PopupMenuItem(
                                       value: 'invite',
-                                      child: Text('Add branch manager'),
+                                      child: Text(l10n.addBranchManagerMenuItem),
                                     ),
                                     PopupMenuItem(
                                       value: 'rename',
-                                      child: Text('Rename'),
+                                      child: Text(l10n.renameTooltip),
                                     ),
                                   ],
                                 ),
@@ -207,19 +209,22 @@ Future<String?> _promptText(
   final controller = TextEditingController(text: initial);
   return showDialog<String>(
     context: context,
-    builder: (_) => AlertDialog(
-      title: Text(title),
-      content: TextField(controller: controller, autofocus: true),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        FilledButton(
-          onPressed: () => Navigator.pop(context, controller.text),
-          child: const Text('Save'),
-        ),
-      ],
-    ),
+    builder: (context) {
+      final l10n = AppLocalizations.of(context)!;
+      return AlertDialog(
+        title: Text(title),
+        content: TextField(controller: controller, autofocus: true),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, controller.text),
+            child: Text(l10n.saveButton),
+          ),
+        ],
+      );
+    },
   );
 }

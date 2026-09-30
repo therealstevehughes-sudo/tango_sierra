@@ -4079,4 +4079,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get youreInSignInText =>
       'You\'re in. Sign in with your email and the password you just chose.';
+
+  @override
+  String get newBranchNameTitle => 'New branch name';
+
+  @override
+  String get renameBranchTitle => 'Rename branch';
+
+  @override
+  String get branchManagerNameTitle => 'Branch manager\'s name';
+
+  @override
+  String get accountCreatedTitle => 'Account created';
+
+  @override
+  String get giveNameAndPinText =>
+      'Give this person their name (to tap on the login screen) and this PIN.';
+
+  @override
+  String get branchesTitle => 'Branches';
+
+  @override
+  String get noRegionSetText =>
+      'Your account has no region set - contact your Director.';
+
+  @override
+  String get noBranchesInRegionText => 'No branches in your region yet.';
+
+  @override
+  String get addBranchManagerMenuItem => 'Add branch manager';
+
+  @override
+  String nameColonLabel(String name) {
+    return 'Name: $name';
+  }
+
+  @override
+  String pinColonLabel(String pin) {
+    return 'PIN: $pin';
+  }
 }

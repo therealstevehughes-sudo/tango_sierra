@@ -3953,5 +3953,57 @@
   "youreInSignInText": "You're in. Sign in with your email and the password you just chose.",
   "@youreInSignInText": {
     "description": ""
+  },
+  "newBranchNameTitle": "New branch name",
+  "@newBranchNameTitle": {
+    "description": ""
+  },
+  "renameBranchTitle": "Rename branch",
+  "@renameBranchTitle": {
+    "description": ""
+  },
+  "branchManagerNameTitle": "Branch manager's name",
+  "@branchManagerNameTitle": {
+    "description": ""
+  },
+  "accountCreatedTitle": "Account created",
+  "@accountCreatedTitle": {
+    "description": ""
+  },
+  "giveNameAndPinText": "Give this person their name (to tap on the login screen) and this PIN.",
+  "@giveNameAndPinText": {
+    "description": ""
+  },
+  "branchesTitle": "Branches",
+  "@branchesTitle": {
+    "description": ""
+  },
+  "noRegionSetText": "Your account has no region set - contact your Director.",
+  "@noRegionSetText": {
+    "description": ""
+  },
+  "noBranchesInRegionText": "No branches in your region yet.",
+  "@noBranchesInRegionText": {
+    "description": ""
+  },
+  "addBranchManagerMenuItem": "Add branch manager",
+  "@addBranchManagerMenuItem": {
+    "description": ""
+  },
+  "nameColonLabel": "Name: {name}",
+  "@nameColonLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "pinColonLabel": "PIN: {pin}",
+  "@pinColonLabel": {
+    "placeholders": {
+      "pin": {
+        "type": "String"
+      }
+    }
   }
 }

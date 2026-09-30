@@ -4082,4 +4082,44 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get youreInSignInText =>
       'Ya estás dentro. Inicia sesión con tu correo y la contraseña que acabas de elegir.';
+
+  @override
+  String get newBranchNameTitle => 'Nombre de la nueva sucursal';
+
+  @override
+  String get renameBranchTitle => 'Renombrar sucursal';
+
+  @override
+  String get branchManagerNameTitle => 'Nombre del gerente de sucursal';
+
+  @override
+  String get accountCreatedTitle => 'Cuenta creada';
+
+  @override
+  String get giveNameAndPinText =>
+      'Dale a esta persona su nombre (para tocar en la pantalla de inicio de sesión) y este PIN.';
+
+  @override
+  String get branchesTitle => 'Sucursales';
+
+  @override
+  String get noRegionSetText =>
+      'Tu cuenta no tiene una región configurada - contacta a tu director.';
+
+  @override
+  String get noBranchesInRegionText =>
+      'Todavía no hay sucursales en tu región.';
+
+  @override
+  String get addBranchManagerMenuItem => 'Añadir gerente de sucursal';
+
+  @override
+  String nameColonLabel(String name) {
+    return 'Nombre: $name';
+  }
+
+  @override
+  String pinColonLabel(String pin) {
+    return 'PIN: $pin';
+  }
 }

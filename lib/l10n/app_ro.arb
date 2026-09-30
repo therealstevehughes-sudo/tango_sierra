@@ -1149,5 +1149,16 @@
   "enterValidEmailError": "Introdu un email valid",
   "choosePasswordLabel": "Alege o parolă",
   "joinButton": "Alătură-te",
-  "youreInSignInText": "Ai intrat. Autentifică-te cu emailul tău și parola pe care tocmai ai ales-o."
+  "youreInSignInText": "Ai intrat. Autentifică-te cu emailul tău și parola pe care tocmai ai ales-o.",
+  "newBranchNameTitle": "Nume filială nouă",
+  "renameBranchTitle": "Redenumește filiala",
+  "branchManagerNameTitle": "Numele managerului filialei",
+  "accountCreatedTitle": "Cont creat",
+  "giveNameAndPinText": "Dă-i acestei persoane numele (pentru a-l atinge pe ecranul de autentificare) și acest PIN.",
+  "branchesTitle": "Filiale",
+  "noRegionSetText": "Contul tău nu are o regiune setată - contactează-ți directorul.",
+  "noBranchesInRegionText": "Nicio filială în regiunea ta încă.",
+  "addBranchManagerMenuItem": "Adaugă manager de filială",
+  "nameColonLabel": "Nume: {name}",
+  "pinColonLabel": "PIN: {pin}"
 }

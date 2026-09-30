@@ -1149,5 +1149,16 @@
   "enterValidEmailError": "Gib eine gültige E-Mail ein",
   "choosePasswordLabel": "Wähle ein Passwort",
   "joinButton": "Beitreten",
-  "youreInSignInText": "Du bist drin. Melde dich mit deiner E-Mail und dem gerade gewählten Passwort an."
+  "youreInSignInText": "Du bist drin. Melde dich mit deiner E-Mail und dem gerade gewählten Passwort an.",
+  "newBranchNameTitle": "Name der neuen Filiale",
+  "renameBranchTitle": "Filiale umbenennen",
+  "branchManagerNameTitle": "Name des Filialleiters",
+  "accountCreatedTitle": "Konto erstellt",
+  "giveNameAndPinText": "Gib dieser Person ihren Namen (zum Antippen auf dem Anmeldebildschirm) und diese PIN.",
+  "branchesTitle": "Filialen",
+  "noRegionSetText": "Für dein Konto ist keine Region festgelegt - wende dich an deinen Direktor.",
+  "noBranchesInRegionText": "Noch keine Filialen in deiner Region.",
+  "addBranchManagerMenuItem": "Filialleiter hinzufügen",
+  "nameColonLabel": "Name: {name}",
+  "pinColonLabel": "PIN: {pin}"
 }

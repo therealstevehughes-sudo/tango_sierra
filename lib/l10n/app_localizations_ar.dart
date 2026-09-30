@@ -3968,4 +3968,42 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get youreInSignInText =>
       'لقد انضممت. سجّل الدخول ببريدك الإلكتروني وكلمة المرور التي اخترتها للتو.';
+
+  @override
+  String get newBranchNameTitle => 'اسم الفرع الجديد';
+
+  @override
+  String get renameBranchTitle => 'إعادة تسمية الفرع';
+
+  @override
+  String get branchManagerNameTitle => 'اسم مدير الفرع';
+
+  @override
+  String get accountCreatedTitle => 'تم إنشاء الحساب';
+
+  @override
+  String get giveNameAndPinText =>
+      'أعطِ هذا الشخص اسمه (للنقر عليه في شاشة تسجيل الدخول) وهذا الرمز السري.';
+
+  @override
+  String get branchesTitle => 'الفروع';
+
+  @override
+  String get noRegionSetText => 'لا توجد منطقة محددة لحسابك - تواصل مع مديرك.';
+
+  @override
+  String get noBranchesInRegionText => 'لا توجد فروع في منطقتك بعد.';
+
+  @override
+  String get addBranchManagerMenuItem => 'إضافة مدير فرع';
+
+  @override
+  String nameColonLabel(String name) {
+    return 'الاسم: $name';
+  }
+
+  @override
+  String pinColonLabel(String pin) {
+    return 'الرمز السري: $pin';
+  }
 }

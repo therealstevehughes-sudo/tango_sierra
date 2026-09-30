@@ -3866,4 +3866,41 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get youreInSignInText => '你已加入。请使用你的邮箱和刚刚选择的密码登录。';
+
+  @override
+  String get newBranchNameTitle => '新分店名称';
+
+  @override
+  String get renameBranchTitle => '重命名分店';
+
+  @override
+  String get branchManagerNameTitle => '分店经理姓名';
+
+  @override
+  String get accountCreatedTitle => '账户已创建';
+
+  @override
+  String get giveNameAndPinText => '请把姓名(用于在登录界面点选)和此 PIN 码提供给此人。';
+
+  @override
+  String get branchesTitle => '分店';
+
+  @override
+  String get noRegionSetText => '你的账户尚未设置地区 - 请联系你的总监。';
+
+  @override
+  String get noBranchesInRegionText => '你所在地区尚无分店。';
+
+  @override
+  String get addBranchManagerMenuItem => '添加分店经理';
+
+  @override
+  String nameColonLabel(String name) {
+    return '姓名:$name';
+  }
+
+  @override
+  String pinColonLabel(String pin) {
+    return 'PIN码:$pin';
+  }
 }

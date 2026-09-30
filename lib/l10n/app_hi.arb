@@ -1149,5 +1149,16 @@
   "enterValidEmailError": "एक मान्य ईमेल दर्ज करो",
   "choosePasswordLabel": "पासवर्ड चुनो",
   "joinButton": "जुड़ें",
-  "youreInSignInText": "तुम अंदर हो। अपने ईमेल और अभी चुने गए पासवर्ड से लॉग इन करो।"
+  "youreInSignInText": "तुम अंदर हो। अपने ईमेल और अभी चुने गए पासवर्ड से लॉग इन करो।",
+  "newBranchNameTitle": "नई शाखा का नाम",
+  "renameBranchTitle": "शाखा का नाम बदलें",
+  "branchManagerNameTitle": "शाखा प्रबंधक का नाम",
+  "accountCreatedTitle": "खाता बनाया गया",
+  "giveNameAndPinText": "इस व्यक्ति को उनका नाम (लॉगिन स्क्रीन पर टैप करने के लिए) और यह पिन दें।",
+  "branchesTitle": "शाखाएं",
+  "noRegionSetText": "तुम्हारे खाते में कोई क्षेत्र सेट नहीं है - अपने डायरेक्टर से संपर्क करो।",
+  "noBranchesInRegionText": "तुम्हारे क्षेत्र में अभी तक कोई शाखा नहीं है।",
+  "addBranchManagerMenuItem": "शाखा प्रबंधक जोड़ें",
+  "nameColonLabel": "नाम: {name}",
+  "pinColonLabel": "पिन: {pin}"
 }

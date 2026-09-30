@@ -1149,5 +1149,16 @@
   "enterValidEmailError": "ایک درست ای میل درج کرو",
   "choosePasswordLabel": "پاس ورڈ منتخب کرو",
   "joinButton": "شامل ہوں",
-  "youreInSignInText": "تم اندر ہو۔ اپنے ای میل اور ابھی منتخب کردہ پاس ورڈ سے لاگ ان کرو۔"
+  "youreInSignInText": "تم اندر ہو۔ اپنے ای میل اور ابھی منتخب کردہ پاس ورڈ سے لاگ ان کرو۔",
+  "newBranchNameTitle": "نئی برانچ کا نام",
+  "renameBranchTitle": "برانچ کا نام تبدیل کریں",
+  "branchManagerNameTitle": "برانچ مینیجر کا نام",
+  "accountCreatedTitle": "اکاؤنٹ بن گیا",
+  "giveNameAndPinText": "اس شخص کو ان کا نام (لاگ ان اسکرین پر ٹیپ کرنے کے لیے) اور یہ پن دیں۔",
+  "branchesTitle": "برانچیں",
+  "noRegionSetText": "تمہارے اکاؤنٹ میں کوئی علاقہ سیٹ نہیں ہے - اپنے ڈائریکٹر سے رابطہ کرو۔",
+  "noBranchesInRegionText": "تمہارے علاقے میں ابھی تک کوئی برانچ نہیں ہے۔",
+  "addBranchManagerMenuItem": "برانچ مینیجر شامل کریں",
+  "nameColonLabel": "نام: {name}",
+  "pinColonLabel": "پن: {pin}"
 }

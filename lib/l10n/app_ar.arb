@@ -1149,5 +1149,16 @@
   "enterValidEmailError": "أدخل بريدًا إلكترونيًا صالحًا",
   "choosePasswordLabel": "اختر كلمة مرور",
   "joinButton": "انضمام",
-  "youreInSignInText": "لقد انضممت. سجّل الدخول ببريدك الإلكتروني وكلمة المرور التي اخترتها للتو."
+  "youreInSignInText": "لقد انضممت. سجّل الدخول ببريدك الإلكتروني وكلمة المرور التي اخترتها للتو.",
+  "newBranchNameTitle": "اسم الفرع الجديد",
+  "renameBranchTitle": "إعادة تسمية الفرع",
+  "branchManagerNameTitle": "اسم مدير الفرع",
+  "accountCreatedTitle": "تم إنشاء الحساب",
+  "giveNameAndPinText": "أعطِ هذا الشخص اسمه (للنقر عليه في شاشة تسجيل الدخول) وهذا الرمز السري.",
+  "branchesTitle": "الفروع",
+  "noRegionSetText": "لا توجد منطقة محددة لحسابك - تواصل مع مديرك.",
+  "noBranchesInRegionText": "لا توجد فروع في منطقتك بعد.",
+  "addBranchManagerMenuItem": "إضافة مدير فرع",
+  "nameColonLabel": "الاسم: {name}",
+  "pinColonLabel": "الرمز السري: {pin}"
 }

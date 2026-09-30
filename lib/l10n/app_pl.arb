@@ -1149,5 +1149,16 @@
   "enterValidEmailError": "Wprowadź prawidłowy e-mail",
   "choosePasswordLabel": "Wybierz hasło",
   "joinButton": "Dołącz",
-  "youreInSignInText": "Gotowe. Zaloguj się swoim e-mailem i hasłem, które właśnie wybrałeś."
+  "youreInSignInText": "Gotowe. Zaloguj się swoim e-mailem i hasłem, które właśnie wybrałeś.",
+  "newBranchNameTitle": "Nazwa nowego oddziału",
+  "renameBranchTitle": "Zmień nazwę oddziału",
+  "branchManagerNameTitle": "Imię kierownika oddziału",
+  "accountCreatedTitle": "Konto utworzone",
+  "giveNameAndPinText": "Podaj tej osobie jej imię (do wybrania na ekranie logowania) i ten PIN.",
+  "branchesTitle": "Oddziały",
+  "noRegionSetText": "Twoje konto nie ma ustawionego regionu - skontaktuj się z dyrektorem.",
+  "noBranchesInRegionText": "Brak jeszcze oddziałów w twoim regionie.",
+  "addBranchManagerMenuItem": "Dodaj kierownika oddziału",
+  "nameColonLabel": "Imię: {name}",
+  "pinColonLabel": "PIN: {pin}"
 }

@@ -3986,4 +3986,44 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get youreInSignInText =>
       'تم اندر ہو۔ اپنے ای میل اور ابھی منتخب کردہ پاس ورڈ سے لاگ ان کرو۔';
+
+  @override
+  String get newBranchNameTitle => 'نئی برانچ کا نام';
+
+  @override
+  String get renameBranchTitle => 'برانچ کا نام تبدیل کریں';
+
+  @override
+  String get branchManagerNameTitle => 'برانچ مینیجر کا نام';
+
+  @override
+  String get accountCreatedTitle => 'اکاؤنٹ بن گیا';
+
+  @override
+  String get giveNameAndPinText =>
+      'اس شخص کو ان کا نام (لاگ ان اسکرین پر ٹیپ کرنے کے لیے) اور یہ پن دیں۔';
+
+  @override
+  String get branchesTitle => 'برانچیں';
+
+  @override
+  String get noRegionSetText =>
+      'تمہارے اکاؤنٹ میں کوئی علاقہ سیٹ نہیں ہے - اپنے ڈائریکٹر سے رابطہ کرو۔';
+
+  @override
+  String get noBranchesInRegionText =>
+      'تمہارے علاقے میں ابھی تک کوئی برانچ نہیں ہے۔';
+
+  @override
+  String get addBranchManagerMenuItem => 'برانچ مینیجر شامل کریں';
+
+  @override
+  String nameColonLabel(String name) {
+    return 'نام: $name';
+  }
+
+  @override
+  String pinColonLabel(String pin) {
+    return 'پن: $pin';
+  }
 }

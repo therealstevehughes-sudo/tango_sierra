@@ -4078,4 +4078,44 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get youreInSignInText =>
       'Gotowe. Zaloguj się swoim e-mailem i hasłem, które właśnie wybrałeś.';
+
+  @override
+  String get newBranchNameTitle => 'Nazwa nowego oddziału';
+
+  @override
+  String get renameBranchTitle => 'Zmień nazwę oddziału';
+
+  @override
+  String get branchManagerNameTitle => 'Imię kierownika oddziału';
+
+  @override
+  String get accountCreatedTitle => 'Konto utworzone';
+
+  @override
+  String get giveNameAndPinText =>
+      'Podaj tej osobie jej imię (do wybrania na ekranie logowania) i ten PIN.';
+
+  @override
+  String get branchesTitle => 'Oddziały';
+
+  @override
+  String get noRegionSetText =>
+      'Twoje konto nie ma ustawionego regionu - skontaktuj się z dyrektorem.';
+
+  @override
+  String get noBranchesInRegionText =>
+      'Brak jeszcze oddziałów w twoim regionie.';
+
+  @override
+  String get addBranchManagerMenuItem => 'Dodaj kierownika oddziału';
+
+  @override
+  String nameColonLabel(String name) {
+    return 'Imię: $name';
+  }
+
+  @override
+  String pinColonLabel(String pin) {
+    return 'PIN: $pin';
+  }
 }

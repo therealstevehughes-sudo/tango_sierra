@@ -1149,5 +1149,16 @@
   "enterValidEmailError": "Unesi valjanu e-poštu",
   "choosePasswordLabel": "Odaberi lozinku",
   "joinButton": "Pridruži se",
-  "youreInSignInText": "Unutra si. Prijavi se svojom e-poštom i lozinkom koju si upravo odabrao/la."
+  "youreInSignInText": "Unutra si. Prijavi se svojom e-poštom i lozinkom koju si upravo odabrao/la.",
+  "newBranchNameTitle": "Naziv nove poslovnice",
+  "renameBranchTitle": "Preimenuj poslovnicu",
+  "branchManagerNameTitle": "Ime voditelja poslovnice",
+  "accountCreatedTitle": "Račun stvoren",
+  "giveNameAndPinText": "Daj ovoj osobi njezino ime (za dodir na ekranu za prijavu) i ovaj PIN.",
+  "branchesTitle": "Poslovnice",
+  "noRegionSetText": "Tvoj račun nema postavljenu regiju - kontaktiraj svog direktora.",
+  "noBranchesInRegionText": "Još nema poslovnica u tvojoj regiji.",
+  "addBranchManagerMenuItem": "Dodaj voditelja poslovnice",
+  "nameColonLabel": "Ime: {name}",
+  "pinColonLabel": "PIN: {pin}"
 }

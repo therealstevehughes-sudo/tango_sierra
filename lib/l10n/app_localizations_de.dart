@@ -4109,4 +4109,43 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get youreInSignInText =>
       'Du bist drin. Melde dich mit deiner E-Mail und dem gerade gewählten Passwort an.';
+
+  @override
+  String get newBranchNameTitle => 'Name der neuen Filiale';
+
+  @override
+  String get renameBranchTitle => 'Filiale umbenennen';
+
+  @override
+  String get branchManagerNameTitle => 'Name des Filialleiters';
+
+  @override
+  String get accountCreatedTitle => 'Konto erstellt';
+
+  @override
+  String get giveNameAndPinText =>
+      'Gib dieser Person ihren Namen (zum Antippen auf dem Anmeldebildschirm) und diese PIN.';
+
+  @override
+  String get branchesTitle => 'Filialen';
+
+  @override
+  String get noRegionSetText =>
+      'Für dein Konto ist keine Region festgelegt - wende dich an deinen Direktor.';
+
+  @override
+  String get noBranchesInRegionText => 'Noch keine Filialen in deiner Region.';
+
+  @override
+  String get addBranchManagerMenuItem => 'Filialleiter hinzufügen';
+
+  @override
+  String nameColonLabel(String name) {
+    return 'Name: $name';
+  }
+
+  @override
+  String pinColonLabel(String pin) {
+    return 'PIN: $pin';
+  }
 }

@@ -4076,4 +4076,43 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get youreInSignInText =>
       'Ai intrat. Autentifică-te cu emailul tău și parola pe care tocmai ai ales-o.';
+
+  @override
+  String get newBranchNameTitle => 'Nume filială nouă';
+
+  @override
+  String get renameBranchTitle => 'Redenumește filiala';
+
+  @override
+  String get branchManagerNameTitle => 'Numele managerului filialei';
+
+  @override
+  String get accountCreatedTitle => 'Cont creat';
+
+  @override
+  String get giveNameAndPinText =>
+      'Dă-i acestei persoane numele (pentru a-l atinge pe ecranul de autentificare) și acest PIN.';
+
+  @override
+  String get branchesTitle => 'Filiale';
+
+  @override
+  String get noRegionSetText =>
+      'Contul tău nu are o regiune setată - contactează-ți directorul.';
+
+  @override
+  String get noBranchesInRegionText => 'Nicio filială în regiunea ta încă.';
+
+  @override
+  String get addBranchManagerMenuItem => 'Adaugă manager de filială';
+
+  @override
+  String nameColonLabel(String name) {
+    return 'Nume: $name';
+  }
+
+  @override
+  String pinColonLabel(String pin) {
+    return 'PIN: $pin';
+  }
 }

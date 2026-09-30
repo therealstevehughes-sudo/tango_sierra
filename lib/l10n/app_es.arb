@@ -1149,5 +1149,16 @@
   "enterValidEmailError": "Introduce un correo válido",
   "choosePasswordLabel": "Elige una contraseña",
   "joinButton": "Unirse",
-  "youreInSignInText": "Ya estás dentro. Inicia sesión con tu correo y la contraseña que acabas de elegir."
+  "youreInSignInText": "Ya estás dentro. Inicia sesión con tu correo y la contraseña que acabas de elegir.",
+  "newBranchNameTitle": "Nombre de la nueva sucursal",
+  "renameBranchTitle": "Renombrar sucursal",
+  "branchManagerNameTitle": "Nombre del gerente de sucursal",
+  "accountCreatedTitle": "Cuenta creada",
+  "giveNameAndPinText": "Dale a esta persona su nombre (para tocar en la pantalla de inicio de sesión) y este PIN.",
+  "branchesTitle": "Sucursales",
+  "noRegionSetText": "Tu cuenta no tiene una región configurada - contacta a tu director.",
+  "noBranchesInRegionText": "Todavía no hay sucursales en tu región.",
+  "addBranchManagerMenuItem": "Añadir gerente de sucursal",
+  "nameColonLabel": "Nombre: {name}",
+  "pinColonLabel": "PIN: {pin}"
 }
