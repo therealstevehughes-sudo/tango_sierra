@@ -1429,7 +1429,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get allLabel => 'Todas';
 
   @override
-  String get dateRangeLabel => 'Intervalo de fechas';
+  String get dateRangeLabel => 'Rango de fechas';
 
   @override
   String get allDatesLabel => 'Todas las fechas';
@@ -3791,5 +3791,36 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String onTrialUntilText(String date) {
     return 'En periodo de prueba hasta $date';
+  }
+
+  @override
+  String get reportedIssuesTitle => 'Problemas reportados';
+
+  @override
+  String get noDeliveriesLoggedText =>
+      'No se han registrado entregas para este proveedor en este período.';
+
+  @override
+  String get scorecardCategoriesExplanation =>
+      'Cada categoría a continuación cuenta de forma independiente - una entrega puede aparecer en más de una fila (p. ej. tardía Y dañada).';
+
+  @override
+  String get rejectedOutrightLabel => 'Rechazada por completo';
+
+  @override
+  String get acceptedPartiallyLabel => 'Aceptada parcialmente';
+
+  @override
+  String get reportedIssuesExplanation =>
+      'Problemas de suministro reportados contra este proveedor - un registro separado del cuadro de mando de entregas anterior, no combinado con él.';
+
+  @override
+  String deliveryScorecardTitle(int count) {
+    return 'Cuadro de mando de entregas ($count entregas)';
+  }
+
+  @override
+  String countPercentLabel(int count, int rate) {
+    return '$count ($rate%)';
   }
 }

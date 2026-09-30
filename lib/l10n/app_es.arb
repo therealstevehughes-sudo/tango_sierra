@@ -408,7 +408,7 @@
   "phaseUpdateLabel": "Actualización",
   "phaseOutcomeLabel": "Resultado",
   "allLabel": "Todas",
-  "dateRangeLabel": "Intervalo de fechas",
+  "dateRangeLabel": "Rango de fechas",
   "allDatesLabel": "Todas las fechas",
   "typeLabel": "Tipo",
   "anyTypeLabel": "Cualquier tipo",
@@ -1075,5 +1075,13 @@
   "paymentOverdueRestrictedText": "El pago lleva demasiado tiempo pendiente. El acceso está restringido a solo lectura hasta que se resuelva.",
   "couldNotLoadBillingDetailsError": "No se pudieron cargar los detalles de facturación: {error}",
   "pricePerMonthBilledLabel": "{price} GBP/mes ({units} locales facturados)",
-  "onTrialUntilText": "En periodo de prueba hasta {date}"
+  "onTrialUntilText": "En periodo de prueba hasta {date}",
+  "reportedIssuesTitle": "Problemas reportados",
+  "noDeliveriesLoggedText": "No se han registrado entregas para este proveedor en este período.",
+  "scorecardCategoriesExplanation": "Cada categoría a continuación cuenta de forma independiente - una entrega puede aparecer en más de una fila (p. ej. tardía Y dañada).",
+  "rejectedOutrightLabel": "Rechazada por completo",
+  "acceptedPartiallyLabel": "Aceptada parcialmente",
+  "reportedIssuesExplanation": "Problemas de suministro reportados contra este proveedor - un registro separado del cuadro de mando de entregas anterior, no combinado con él.",
+  "deliveryScorecardTitle": "Cuadro de mando de entregas ({count} entregas)",
+  "countPercentLabel": "{count} ({rate}%)"
 }

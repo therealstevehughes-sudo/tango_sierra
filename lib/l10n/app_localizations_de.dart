@@ -1435,7 +1435,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get allLabel => 'Alle';
 
   @override
-  String get dateRangeLabel => 'Datumsbereich';
+  String get dateRangeLabel => 'Zeitraum';
 
   @override
   String get allDatesLabel => 'Alle Daten';
@@ -3802,5 +3802,36 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String onTrialUntilText(String date) {
     return 'In der Testphase bis $date';
+  }
+
+  @override
+  String get reportedIssuesTitle => 'Gemeldete Probleme';
+
+  @override
+  String get noDeliveriesLoggedText =>
+      'Für diesen Lieferanten sind in diesem Zeitraum keine Lieferungen erfasst.';
+
+  @override
+  String get scorecardCategoriesExplanation =>
+      'Jede Kategorie unten zählt unabhängig - eine Lieferung kann in mehr als einer Zeile erscheinen (z. B. verspätet UND beschädigt).';
+
+  @override
+  String get rejectedOutrightLabel => 'Vollständig abgelehnt';
+
+  @override
+  String get acceptedPartiallyLabel => 'Teilweise angenommen';
+
+  @override
+  String get reportedIssuesExplanation =>
+      'Gegen diesen Lieferanten gemeldete Lieferprobleme - ein separates Protokoll von der obigen Liefer-Scorecard, nicht damit zusammengeführt.';
+
+  @override
+  String deliveryScorecardTitle(int count) {
+    return 'Liefer-Scorecard ($count Lieferungen)';
+  }
+
+  @override
+  String countPercentLabel(int count, int rate) {
+    return '$count ($rate %)';
   }
 }

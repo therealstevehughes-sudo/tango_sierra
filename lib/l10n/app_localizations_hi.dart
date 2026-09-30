@@ -454,16 +454,16 @@ class AppLocalizationsHi extends AppLocalizations {
   String get problemsTickAnyApply => 'समस्याएं (जो भी लागू हों उन्हें चुनें)';
 
   @override
-  String get shortDeliveryLabel => 'कम डिलीवरी';
+  String get shortDeliveryLabel => 'अधूरी डिलीवरी';
 
   @override
-  String get damagedStockLabel => 'क्षतिग्रस्त सामान';
+  String get damagedStockLabel => 'क्षतिग्रस्त स्टॉक';
 
   @override
   String get lateDeliveryLabel => 'देर से डिलीवरी';
 
   @override
-  String get qualityProblemLabel => 'गुणवत्ता की समस्या';
+  String get qualityProblemLabel => 'गुणवत्ता समस्या';
 
   @override
   String get outcomeLabel => 'परिणाम';
@@ -1420,7 +1420,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get allLabel => 'सभी';
 
   @override
-  String get dateRangeLabel => 'तिथि सीमा';
+  String get dateRangeLabel => 'तारीख सीमा';
 
   @override
   String get allDatesLabel => 'सभी तिथियां';
@@ -3717,5 +3717,36 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String onTrialUntilText(String date) {
     return '$date तक ट्रायल पर';
+  }
+
+  @override
+  String get reportedIssuesTitle => 'रिपोर्ट की गई समस्याएं';
+
+  @override
+  String get noDeliveriesLoggedText =>
+      'इस अवधि में इस आपूर्तिकर्ता के लिए कोई डिलीवरी दर्ज नहीं की गई।';
+
+  @override
+  String get scorecardCategoriesExplanation =>
+      'नीचे दी गई प्रत्येक श्रेणी स्वतंत्र रूप से गिनी जाती है - एक डिलीवरी एक से अधिक पंक्ति में दिखाई दे सकती है (जैसे देर से और क्षतिग्रस्त दोनों)।';
+
+  @override
+  String get rejectedOutrightLabel => 'पूरी तरह अस्वीकृत';
+
+  @override
+  String get acceptedPartiallyLabel => 'आंशिक रूप से स्वीकृत';
+
+  @override
+  String get reportedIssuesExplanation =>
+      'इस आपूर्तिकर्ता के खिलाफ रिपोर्ट की गई आपूर्ति-समस्या के मुद्दे - ऊपर दिए गए डिलीवरी स्कोरकार्ड से एक अलग लॉग, इसमें मिलाया नहीं गया।';
+
+  @override
+  String deliveryScorecardTitle(int count) {
+    return 'डिलीवरी स्कोरकार्ड ($count डिलीवरी)';
+  }
+
+  @override
+  String countPercentLabel(int count, int rate) {
+    return '$count ($rate%)';
   }
 }

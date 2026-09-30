@@ -3790,4 +3790,35 @@ class AppLocalizationsRo extends AppLocalizations {
   String onTrialUntilText(String date) {
     return 'În perioadă de probă până la $date';
   }
+
+  @override
+  String get reportedIssuesTitle => 'Probleme raportate';
+
+  @override
+  String get noDeliveriesLoggedText =>
+      'Nicio livrare înregistrată pentru acest furnizor în această perioadă.';
+
+  @override
+  String get scorecardCategoriesExplanation =>
+      'Fiecare categorie de mai jos se numără independent - o livrare poate apărea în mai multe rânduri (ex. întârziată ȘI deteriorată).';
+
+  @override
+  String get rejectedOutrightLabel => 'Respinsă complet';
+
+  @override
+  String get acceptedPartiallyLabel => 'Acceptată parțial';
+
+  @override
+  String get reportedIssuesExplanation =>
+      'Probleme de aprovizionare raportate împotriva acestui furnizor - un jurnal separat de cardul de scor al livrărilor de mai sus, nefuzionat cu acesta.';
+
+  @override
+  String deliveryScorecardTitle(int count) {
+    return 'Card de scor livrări ($count livrări)';
+  }
+
+  @override
+  String countPercentLabel(int count, int rate) {
+    return '$count ($rate%)';
+  }
 }

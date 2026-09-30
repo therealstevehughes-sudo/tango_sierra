@@ -136,7 +136,7 @@
   "problemsTickAnyApply": "Problemi (označi sve koji se odnose)",
   "shortDeliveryLabel": "Nepotpuna dostava",
   "damagedStockLabel": "Oštećena roba",
-  "lateDeliveryLabel": "Zakašnjela dostava",
+  "lateDeliveryLabel": "Kasna dostava",
   "qualityProblemLabel": "Problem s kvalitetom",
   "outcomeLabel": "Ishod",
   "acceptedLabel": "Prihvaćeno",
@@ -408,7 +408,7 @@
   "phaseUpdateLabel": "Ažuriranje",
   "phaseOutcomeLabel": "Ishod",
   "allLabel": "Sve",
-  "dateRangeLabel": "Vremenski raspon",
+  "dateRangeLabel": "Raspon datuma",
   "allDatesLabel": "Svi datumi",
   "typeLabel": "Vrsta",
   "anyTypeLabel": "Bilo koja vrsta",
@@ -1075,5 +1075,13 @@
   "paymentOverdueRestrictedText": "Plaćanje kasni predugo. Pristup je ograničen na samo čitanje dok se to ne riješi.",
   "couldNotLoadBillingDetailsError": "Nije moguće učitati podatke o naplati: {error}",
   "pricePerMonthBilledLabel": "{price} GBP/mjesečno (naplaćeno {units} poslovnica)",
-  "onTrialUntilText": "Na probnom razdoblju do {date}"
+  "onTrialUntilText": "Na probnom razdoblju do {date}",
+  "reportedIssuesTitle": "Prijavljeni problemi",
+  "noDeliveriesLoggedText": "U ovom razdoblju nema evidentiranih dostava za ovog dobavljača.",
+  "scorecardCategoriesExplanation": "Svaka kategorija u nastavku broji se neovisno - dostava se može pojaviti u više od jednog retka (npr. kasna I oštećena).",
+  "rejectedOutrightLabel": "U potpunosti odbijeno",
+  "acceptedPartiallyLabel": "Djelomično prihvaćeno",
+  "reportedIssuesExplanation": "Problemi s opskrbom prijavljeni protiv ovog dobavljača - zaseban zapis od gornje kartice ocjena dostave, nije spojen s njom.",
+  "deliveryScorecardTitle": "Kartica ocjena dostave ({count} dostava)",
+  "countPercentLabel": "{count} ({rate}%)"
 }

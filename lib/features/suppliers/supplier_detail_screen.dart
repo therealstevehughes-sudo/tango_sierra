@@ -13,6 +13,7 @@ import '../../shared/models/supplier.dart';
 import '../../shared/models/task_submission.dart';
 import 'supplier_scorecard_service.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 // Supplier/Delivery Scorecard (Sprint 038, 2026-09-17) — reachable both
 // from Supplier Management (tap a supplier) and from a raised
@@ -108,18 +109,19 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
   }
 
   void _showIssueBreakdown() {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       builder: (context) => BreakdownSheet(
-        title: 'Reported issues',
+        title: l10n.reportedIssuesTitle,
         count: _reportedIssues.length,
         rows: [
           for (final i in _reportedIssues)
             BreakdownRow(
               title: i.deliveryProblemType != null
-                  ? deliveryProblemTypeDisplayName(i.deliveryProblemType!)
-                  : issueTypeDisplayName(i.type),
+                  ? deliveryProblemTypeDisplayName(i.deliveryProblemType!, l10n)
+                  : issueTypeDisplayName(i.type, l10n),
               subtitle: '${i.details} - ${formatDateTime(i.raisedAt)}',
             ),
         ],
@@ -165,11 +167,12 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
   }
 
   Widget _buildHeaderCard() {
+    final l10n = AppLocalizations.of(context)!;
     final supplier = widget.supplier;
     final (kind, label) = switch (supplier.approvalStatus) {
-      SupplierApprovalStatus.approved => (StatusKind.pass, 'Approved'),
-      SupplierApprovalStatus.pending => (StatusKind.caution, 'Pending'),
-      SupplierApprovalStatus.suspended => (StatusKind.critical, 'Suspended'),
+      SupplierApprovalStatus.approved => (StatusKind.pass, l10n.supplierStatusApproved),
+      SupplierApprovalStatus.pending => (StatusKind.caution, l10n.supplierStatusPending),
+      SupplierApprovalStatus.suspended => (StatusKind.critical, l10n.supplierStatusSuspended),
     };
     return AppCard(
       child: Row(
@@ -200,10 +203,10 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
     return InkWell(
       onTap: _pickDateRange,
       child: InputDecorator(
-        decoration: const InputDecoration(
-          labelText: 'Date range',
+        decoration: InputDecoration(
+          labelText: AppLocalizations.of(context)!.dateRangeLabel,
           isDense: true,
-          suffixIcon: Icon(Icons.date_range),
+          suffixIcon: const Icon(Icons.date_range),
         ),
         child: Text('${formatDate(_range.start)} - ${formatDate(_range.end)}'),
       ),
@@ -211,12 +214,11 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
   }
 
   Widget _buildDeliveryScorecard() {
+    final l10n = AppLocalizations.of(context)!;
     final scorecard = _scorecard;
     if (scorecard == null || scorecard.total == 0) {
-      return const AppCard(
-        child: Text(
-          'No deliveries logged against this supplier in this period.',
-        ),
+      return AppCard(
+        child: Text(l10n.noDeliveriesLoggedText),
       );
     }
     return AppCard(
@@ -224,48 +226,47 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Delivery scorecard (${scorecard.total} deliveries)',
+            l10n.deliveryScorecardTitle(scorecard.total),
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 4),
           Text(
-            'Each category below counts independently - a delivery can '
-            'appear in more than one row (e.g. late AND damaged).',
+            l10n.scorecardCategoriesExplanation,
             style: Theme.of(context).textTheme.bodySmall,
           ),
           const SizedBox(height: 12),
           _scoreRow(
-            'Late delivery',
+            l10n.lateDeliveryLabel,
             scorecard.late,
             scorecard.lateRate,
             AppColors.caution,
           ),
           _scoreRow(
-            'Short delivery',
+            l10n.shortDeliveryLabel,
             scorecard.short,
             scorecard.shortRate,
             AppColors.caution,
           ),
           _scoreRow(
-            'Damaged stock',
+            l10n.damagedStockLabel,
             scorecard.damaged,
             scorecard.damagedRate,
             AppColors.critical,
           ),
           _scoreRow(
-            'Quality problem',
+            l10n.qualityProblemLabel,
             scorecard.qualityProblem,
             scorecard.qualityProblemRate,
             AppColors.critical,
           ),
           _scoreRow(
-            'Rejected outright',
+            l10n.rejectedOutrightLabel,
             scorecard.rejected,
             scorecard.rejectedRate,
             AppColors.critical,
           ),
           _scoreRow(
-            'Accepted partially',
+            l10n.acceptedPartiallyLabel,
             scorecard.partial,
             scorecard.partialRate,
             AppColors.caution,
@@ -299,7 +300,10 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
             const SizedBox(width: 8),
             Expanded(child: Text(label)),
             Text(
-              '${items.length} (${(rate * 100).round()}%)',
+              AppLocalizations.of(context)!.countPercentLabel(
+                items.length,
+                (rate * 100).round(),
+              ),
               style: Theme.of(
                 context,
               ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
@@ -311,6 +315,7 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
   }
 
   Widget _buildReportedIssuesCard() {
+    final l10n = AppLocalizations.of(context)!;
     return AppCard(
       child: InkWell(
         onTap: _reportedIssues.isEmpty ? null : _showIssueBreakdown,
@@ -322,14 +327,12 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Reported issues',
+                    l10n.reportedIssuesTitle,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Supply-problem issues raised against this supplier - a '
-                    'separate log from the delivery scorecard above, not '
-                    'merged into it.',
+                    l10n.reportedIssuesExplanation,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],

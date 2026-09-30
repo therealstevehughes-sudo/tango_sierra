@@ -460,7 +460,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get damagedStockLabel => 'Oštećena roba';
 
   @override
-  String get lateDeliveryLabel => 'Zakašnjela dostava';
+  String get lateDeliveryLabel => 'Kasna dostava';
 
   @override
   String get qualityProblemLabel => 'Problem s kvalitetom';
@@ -1427,7 +1427,7 @@ class AppLocalizationsHr extends AppLocalizations {
   String get allLabel => 'Sve';
 
   @override
-  String get dateRangeLabel => 'Vremenski raspon';
+  String get dateRangeLabel => 'Raspon datuma';
 
   @override
   String get allDatesLabel => 'Svi datumi';
@@ -3736,5 +3736,36 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String onTrialUntilText(String date) {
     return 'Na probnom razdoblju do $date';
+  }
+
+  @override
+  String get reportedIssuesTitle => 'Prijavljeni problemi';
+
+  @override
+  String get noDeliveriesLoggedText =>
+      'U ovom razdoblju nema evidentiranih dostava za ovog dobavljača.';
+
+  @override
+  String get scorecardCategoriesExplanation =>
+      'Svaka kategorija u nastavku broji se neovisno - dostava se može pojaviti u više od jednog retka (npr. kasna I oštećena).';
+
+  @override
+  String get rejectedOutrightLabel => 'U potpunosti odbijeno';
+
+  @override
+  String get acceptedPartiallyLabel => 'Djelomično prihvaćeno';
+
+  @override
+  String get reportedIssuesExplanation =>
+      'Problemi s opskrbom prijavljeni protiv ovog dobavljača - zaseban zapis od gornje kartice ocjena dostave, nije spojen s njom.';
+
+  @override
+  String deliveryScorecardTitle(int count) {
+    return 'Kartica ocjena dostave ($count dostava)';
+  }
+
+  @override
+  String countPercentLabel(int count, int rate) {
+    return '$count ($rate%)';
   }
 }

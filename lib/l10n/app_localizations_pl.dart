@@ -456,13 +456,13 @@ class AppLocalizationsPl extends AppLocalizations {
       'Problemy (zaznacz wszystkie, które dotyczą)';
 
   @override
-  String get shortDeliveryLabel => 'Niekompletna dostawa';
+  String get shortDeliveryLabel => 'Niepełna dostawa';
 
   @override
   String get damagedStockLabel => 'Uszkodzony towar';
 
   @override
-  String get lateDeliveryLabel => 'Spóźniona dostawa';
+  String get lateDeliveryLabel => 'Opóźniona dostawa';
 
   @override
   String get qualityProblemLabel => 'Problem z jakością';
@@ -3789,5 +3789,36 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String onTrialUntilText(String date) {
     return 'Okres próbny do $date';
+  }
+
+  @override
+  String get reportedIssuesTitle => 'Zgłoszone problemy';
+
+  @override
+  String get noDeliveriesLoggedText =>
+      'Brak zarejestrowanych dostaw od tego dostawcy w tym okresie.';
+
+  @override
+  String get scorecardCategoriesExplanation =>
+      'Każda kategoria poniżej liczona jest niezależnie - dostawa może pojawić się w więcej niż jednym wierszu (np. spóźniona I uszkodzona).';
+
+  @override
+  String get rejectedOutrightLabel => 'Odrzucone całkowicie';
+
+  @override
+  String get acceptedPartiallyLabel => 'Przyjęte częściowo';
+
+  @override
+  String get reportedIssuesExplanation =>
+      'Problemy dotyczące dostaw zgłoszone przeciwko temu dostawcy - osobny rejestr niż karta wyników dostaw powyżej, niepołączony z nią.';
+
+  @override
+  String deliveryScorecardTitle(int count) {
+    return 'Karta wyników dostaw ($count dostaw)';
+  }
+
+  @override
+  String countPercentLabel(int count, int rate) {
+    return '$count ($rate%)';
   }
 }

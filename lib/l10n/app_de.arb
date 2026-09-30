@@ -408,7 +408,7 @@
   "phaseUpdateLabel": "Update",
   "phaseOutcomeLabel": "Ergebnis",
   "allLabel": "Alle",
-  "dateRangeLabel": "Datumsbereich",
+  "dateRangeLabel": "Zeitraum",
   "allDatesLabel": "Alle Daten",
   "typeLabel": "Typ",
   "anyTypeLabel": "Beliebiger Typ",
@@ -1075,5 +1075,13 @@
   "paymentOverdueRestrictedText": "Die Zahlung ist zu lange überfällig. Der Zugang ist auf Nur-Lesen beschränkt, bis dies behoben ist.",
   "couldNotLoadBillingDetailsError": "Abrechnungsdetails konnten nicht geladen werden: {error}",
   "pricePerMonthBilledLabel": "{price} £/Monat ({units} Filialen abgerechnet)",
-  "onTrialUntilText": "In der Testphase bis {date}"
+  "onTrialUntilText": "In der Testphase bis {date}",
+  "reportedIssuesTitle": "Gemeldete Probleme",
+  "noDeliveriesLoggedText": "Für diesen Lieferanten sind in diesem Zeitraum keine Lieferungen erfasst.",
+  "scorecardCategoriesExplanation": "Jede Kategorie unten zählt unabhängig - eine Lieferung kann in mehr als einer Zeile erscheinen (z. B. verspätet UND beschädigt).",
+  "rejectedOutrightLabel": "Vollständig abgelehnt",
+  "acceptedPartiallyLabel": "Teilweise angenommen",
+  "reportedIssuesExplanation": "Gegen diesen Lieferanten gemeldete Lieferprobleme - ein separates Protokoll von der obigen Liefer-Scorecard, nicht damit zusammengeführt.",
+  "deliveryScorecardTitle": "Liefer-Scorecard ({count} Lieferungen)",
+  "countPercentLabel": "{count} ({rate} %)"
 }

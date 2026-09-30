@@ -134,10 +134,10 @@
   "reportProblemWithDelivery": "الإبلاغ عن مشكلة في هذا التوصيل",
   "temperatureOnArrivalLabel": "درجة الحرارة عند الوصول (°م، اختياري)",
   "problemsTickAnyApply": "المشاكل (حدد كل ما ينطبق)",
-  "shortDeliveryLabel": "توصيل ناقص",
+  "shortDeliveryLabel": "تسليم ناقص",
   "damagedStockLabel": "بضاعة تالفة",
-  "lateDeliveryLabel": "توصيل متأخر",
-  "qualityProblemLabel": "مشكلة في الجودة",
+  "lateDeliveryLabel": "تسليم متأخر",
+  "qualityProblemLabel": "مشكلة جودة",
   "outcomeLabel": "النتيجة",
   "acceptedLabel": "مقبول",
   "rejectedLabel": "مرفوض",
@@ -1075,5 +1075,13 @@
   "paymentOverdueRestrictedText": "تأخر الدفع لفترة طويلة جدًا. الوصول مقيد بالقراءة فقط حتى يتم حل هذا الأمر.",
   "couldNotLoadBillingDetailsError": "تعذر تحميل تفاصيل الفوترة: {error}",
   "pricePerMonthBilledLabel": "{price} جنيه إسترليني/شهريًا ({units} مواقع مفوترة)",
-  "onTrialUntilText": "في الفترة التجريبية حتى {date}"
+  "onTrialUntilText": "في الفترة التجريبية حتى {date}",
+  "reportedIssuesTitle": "المشاكل المبلغ عنها",
+  "noDeliveriesLoggedText": "لا توجد عمليات تسليم مسجلة لهذا المورد في هذه الفترة.",
+  "scorecardCategoriesExplanation": "تُحتسب كل فئة أدناه بشكل مستقل - يمكن أن يظهر التسليم في أكثر من صف واحد (مثال: متأخر وتالف معًا).",
+  "rejectedOutrightLabel": "مرفوض بالكامل",
+  "acceptedPartiallyLabel": "مقبول جزئيًا",
+  "reportedIssuesExplanation": "مشاكل التوريد المبلغ عنها ضد هذا المورد - سجل منفصل عن بطاقة أداء التسليم أعلاه، وغير مدمج معه.",
+  "deliveryScorecardTitle": "بطاقة أداء التسليم ({count} عمليات تسليم)",
+  "countPercentLabel": "{count} ({rate}%)"
 }

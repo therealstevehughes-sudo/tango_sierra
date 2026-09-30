@@ -3546,5 +3546,63 @@
         "type": "String"
       }
     }
+  },
+  "reportedIssuesTitle": "Reported issues",
+  "@reportedIssuesTitle": {
+    "description": ""
+  },
+  "@dateRangeLabel": {
+    "description": ""
+  },
+  "noDeliveriesLoggedText": "No deliveries logged against this supplier in this period.",
+  "@noDeliveriesLoggedText": {
+    "description": ""
+  },
+  "scorecardCategoriesExplanation": "Each category below counts independently - a delivery can appear in more than one row (e.g. late AND damaged).",
+  "@scorecardCategoriesExplanation": {
+    "description": ""
+  },
+  "@lateDeliveryLabel": {
+    "description": ""
+  },
+  "@shortDeliveryLabel": {
+    "description": ""
+  },
+  "@damagedStockLabel": {
+    "description": ""
+  },
+  "@qualityProblemLabel": {
+    "description": ""
+  },
+  "rejectedOutrightLabel": "Rejected outright",
+  "@rejectedOutrightLabel": {
+    "description": ""
+  },
+  "acceptedPartiallyLabel": "Accepted partially",
+  "@acceptedPartiallyLabel": {
+    "description": ""
+  },
+  "reportedIssuesExplanation": "Supply-problem issues raised against this supplier - a separate log from the delivery scorecard above, not merged into it.",
+  "@reportedIssuesExplanation": {
+    "description": ""
+  },
+  "deliveryScorecardTitle": "Delivery scorecard ({count} deliveries)",
+  "@deliveryScorecardTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "countPercentLabel": "{count} ({rate}%)",
+  "@countPercentLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "rate": {
+        "type": "int"
+      }
+    }
   }
 }

@@ -134,9 +134,9 @@
   "reportProblemWithDelivery": "Zgłoś problem z tą dostawą",
   "temperatureOnArrivalLabel": "Temperatura przy odbiorze (°C, opcjonalnie)",
   "problemsTickAnyApply": "Problemy (zaznacz wszystkie, które dotyczą)",
-  "shortDeliveryLabel": "Niekompletna dostawa",
+  "shortDeliveryLabel": "Niepełna dostawa",
   "damagedStockLabel": "Uszkodzony towar",
-  "lateDeliveryLabel": "Spóźniona dostawa",
+  "lateDeliveryLabel": "Opóźniona dostawa",
   "qualityProblemLabel": "Problem z jakością",
   "outcomeLabel": "Wynik",
   "acceptedLabel": "Przyjęto",
@@ -1075,5 +1075,13 @@
   "paymentOverdueRestrictedText": "Płatność jest zaległa zbyt długo. Dostęp jest ograniczony do trybu tylko do odczytu, dopóki to nie zostanie rozwiązane.",
   "couldNotLoadBillingDetailsError": "Nie udało się załadować danych rozliczeniowych: {error}",
   "pricePerMonthBilledLabel": "{price} GBP/miesiąc (rozliczane {units} lokali)",
-  "onTrialUntilText": "Okres próbny do {date}"
+  "onTrialUntilText": "Okres próbny do {date}",
+  "reportedIssuesTitle": "Zgłoszone problemy",
+  "noDeliveriesLoggedText": "Brak zarejestrowanych dostaw od tego dostawcy w tym okresie.",
+  "scorecardCategoriesExplanation": "Każda kategoria poniżej liczona jest niezależnie - dostawa może pojawić się w więcej niż jednym wierszu (np. spóźniona I uszkodzona).",
+  "rejectedOutrightLabel": "Odrzucone całkowicie",
+  "acceptedPartiallyLabel": "Przyjęte częściowo",
+  "reportedIssuesExplanation": "Problemy dotyczące dostaw zgłoszone przeciwko temu dostawcy - osobny rejestr niż karta wyników dostaw powyżej, niepołączony z nią.",
+  "deliveryScorecardTitle": "Karta wyników dostaw ({count} dostaw)",
+  "countPercentLabel": "{count} ({rate}%)"
 }

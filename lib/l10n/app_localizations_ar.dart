@@ -449,16 +449,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get problemsTickAnyApply => 'المشاكل (حدد كل ما ينطبق)';
 
   @override
-  String get shortDeliveryLabel => 'توصيل ناقص';
+  String get shortDeliveryLabel => 'تسليم ناقص';
 
   @override
   String get damagedStockLabel => 'بضاعة تالفة';
 
   @override
-  String get lateDeliveryLabel => 'توصيل متأخر';
+  String get lateDeliveryLabel => 'تسليم متأخر';
 
   @override
-  String get qualityProblemLabel => 'مشكلة في الجودة';
+  String get qualityProblemLabel => 'مشكلة جودة';
 
   @override
   String get outcomeLabel => 'النتيجة';
@@ -3692,5 +3692,36 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String onTrialUntilText(String date) {
     return 'في الفترة التجريبية حتى $date';
+  }
+
+  @override
+  String get reportedIssuesTitle => 'المشاكل المبلغ عنها';
+
+  @override
+  String get noDeliveriesLoggedText =>
+      'لا توجد عمليات تسليم مسجلة لهذا المورد في هذه الفترة.';
+
+  @override
+  String get scorecardCategoriesExplanation =>
+      'تُحتسب كل فئة أدناه بشكل مستقل - يمكن أن يظهر التسليم في أكثر من صف واحد (مثال: متأخر وتالف معًا).';
+
+  @override
+  String get rejectedOutrightLabel => 'مرفوض بالكامل';
+
+  @override
+  String get acceptedPartiallyLabel => 'مقبول جزئيًا';
+
+  @override
+  String get reportedIssuesExplanation =>
+      'مشاكل التوريد المبلغ عنها ضد هذا المورد - سجل منفصل عن بطاقة أداء التسليم أعلاه، وغير مدمج معه.';
+
+  @override
+  String deliveryScorecardTitle(int count) {
+    return 'بطاقة أداء التسليم ($count عمليات تسليم)';
+  }
+
+  @override
+  String countPercentLabel(int count, int rate) {
+    return '$count ($rate%)';
   }
 }

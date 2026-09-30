@@ -450,13 +450,13 @@ class AppLocalizationsUr extends AppLocalizations {
   String get problemsTickAnyApply => 'مسائل (جو بھی لاگو ہوں منتخب کریں)';
 
   @override
-  String get shortDeliveryLabel => 'کم ڈیلیوری';
+  String get shortDeliveryLabel => 'نامکمل ڈیلیوری';
 
   @override
-  String get damagedStockLabel => 'خراب شدہ سامان';
+  String get damagedStockLabel => 'خراب سٹاک';
 
   @override
-  String get lateDeliveryLabel => 'تاخیر سے ڈیلیوری';
+  String get lateDeliveryLabel => 'دیر سے ڈیلیوری';
 
   @override
   String get qualityProblemLabel => 'معیار کا مسئلہ';
@@ -3709,5 +3709,36 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String onTrialUntilText(String date) {
     return '$date تک ٹرائل پر';
+  }
+
+  @override
+  String get reportedIssuesTitle => 'رپورٹ شدہ مسائل';
+
+  @override
+  String get noDeliveriesLoggedText =>
+      'اس مدت میں اس سپلائر کے لیے کوئی ڈیلیوری درج نہیں کی گئی۔';
+
+  @override
+  String get scorecardCategoriesExplanation =>
+      'ذیل میں ہر قسم آزادانہ طور پر شمار ہوتی ہے - ایک ڈیلیوری ایک سے زیادہ قطار میں ظاہر ہو سکتی ہے (مثلاً دیر سے اور خراب دونوں)۔';
+
+  @override
+  String get rejectedOutrightLabel => 'مکمل طور پر مسترد';
+
+  @override
+  String get acceptedPartiallyLabel => 'جزوی طور پر قبول';
+
+  @override
+  String get reportedIssuesExplanation =>
+      'اس سپلائر کے خلاف رپورٹ کیے گئے سپلائی کے مسائل - اوپر دیے گئے ڈیلیوری سکور کارڈ سے ایک الگ لاگ، اس میں شامل نہیں کیا گیا۔';
+
+  @override
+  String deliveryScorecardTitle(int count) {
+    return 'ڈیلیوری سکور کارڈ ($count ڈیلیوریز)';
+  }
+
+  @override
+  String countPercentLabel(int count, int rate) {
+    return '$count ($rate%)';
   }
 }

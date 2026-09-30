@@ -134,9 +134,9 @@
   "reportProblemWithDelivery": "اس ڈیلیوری میں مسئلے کی اطلاع دیں",
   "temperatureOnArrivalLabel": "آمد پر درجہ حرارت (°C، اختیاری)",
   "problemsTickAnyApply": "مسائل (جو بھی لاگو ہوں منتخب کریں)",
-  "shortDeliveryLabel": "کم ڈیلیوری",
-  "damagedStockLabel": "خراب شدہ سامان",
-  "lateDeliveryLabel": "تاخیر سے ڈیلیوری",
+  "shortDeliveryLabel": "نامکمل ڈیلیوری",
+  "damagedStockLabel": "خراب سٹاک",
+  "lateDeliveryLabel": "دیر سے ڈیلیوری",
   "qualityProblemLabel": "معیار کا مسئلہ",
   "outcomeLabel": "نتیجہ",
   "acceptedLabel": "قبول شدہ",
@@ -1075,5 +1075,13 @@
   "paymentOverdueRestrictedText": "ادائیگی بہت طویل عرصے سے واجب الادا ہے۔ اس کے حل ہونے تک رسائی صرف پڑھنے تک محدود ہے۔",
   "couldNotLoadBillingDetailsError": "بلنگ کی تفصیلات لوڈ نہیں ہو سکیں: {error}",
   "pricePerMonthBilledLabel": "£{price}/مہینہ ({units} شاخیں بل کی گئیں)",
-  "onTrialUntilText": "{date} تک ٹرائل پر"
+  "onTrialUntilText": "{date} تک ٹرائل پر",
+  "reportedIssuesTitle": "رپورٹ شدہ مسائل",
+  "noDeliveriesLoggedText": "اس مدت میں اس سپلائر کے لیے کوئی ڈیلیوری درج نہیں کی گئی۔",
+  "scorecardCategoriesExplanation": "ذیل میں ہر قسم آزادانہ طور پر شمار ہوتی ہے - ایک ڈیلیوری ایک سے زیادہ قطار میں ظاہر ہو سکتی ہے (مثلاً دیر سے اور خراب دونوں)۔",
+  "rejectedOutrightLabel": "مکمل طور پر مسترد",
+  "acceptedPartiallyLabel": "جزوی طور پر قبول",
+  "reportedIssuesExplanation": "اس سپلائر کے خلاف رپورٹ کیے گئے سپلائی کے مسائل - اوپر دیے گئے ڈیلیوری سکور کارڈ سے ایک الگ لاگ، اس میں شامل نہیں کیا گیا۔",
+  "deliveryScorecardTitle": "ڈیلیوری سکور کارڈ ({count} ڈیلیوریز)",
+  "countPercentLabel": "{count} ({rate}%)"
 }

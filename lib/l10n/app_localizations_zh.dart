@@ -436,13 +436,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get problemsTickAnyApply => '问题(勾选所有适用项)';
 
   @override
-  String get shortDeliveryLabel => '短缺送货';
+  String get shortDeliveryLabel => '短装送货';
 
   @override
   String get damagedStockLabel => '货物损坏';
 
   @override
-  String get lateDeliveryLabel => '送货延迟';
+  String get lateDeliveryLabel => '延误送货';
 
   @override
   String get qualityProblemLabel => '质量问题';
@@ -3597,5 +3597,35 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String onTrialUntilText(String date) {
     return '试用期至 $date';
+  }
+
+  @override
+  String get reportedIssuesTitle => '已报告的问题';
+
+  @override
+  String get noDeliveriesLoggedText => '此期间未记录该供应商的送货记录。';
+
+  @override
+  String get scorecardCategoriesExplanation =>
+      '以下每个类别都独立计数 - 一次送货可能出现在多行中(例如既延误又损坏)。';
+
+  @override
+  String get rejectedOutrightLabel => '完全拒收';
+
+  @override
+  String get acceptedPartiallyLabel => '部分接受';
+
+  @override
+  String get reportedIssuesExplanation =>
+      '针对此供应商报告的供应问题 - 与上面的送货记分卡是独立的记录,不会合并。';
+
+  @override
+  String deliveryScorecardTitle(int count) {
+    return '送货记分卡($count 次送货)';
+  }
+
+  @override
+  String countPercentLabel(int count, int rate) {
+    return '$count($rate%)';
   }
 }

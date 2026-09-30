@@ -918,25 +918,25 @@ abstract class AppLocalizations {
   /// **'Problems (tick any that apply)'**
   String get problemsTickAnyApply;
 
-  /// No description provided for @shortDeliveryLabel.
+  ///
   ///
   /// In en, this message translates to:
   /// **'Short delivery'**
   String get shortDeliveryLabel;
 
-  /// No description provided for @damagedStockLabel.
+  ///
   ///
   /// In en, this message translates to:
   /// **'Damaged stock'**
   String get damagedStockLabel;
 
-  /// No description provided for @lateDeliveryLabel.
+  ///
   ///
   /// In en, this message translates to:
   /// **'Late delivery'**
   String get lateDeliveryLabel;
 
-  /// No description provided for @qualityProblemLabel.
+  ///
   ///
   /// In en, this message translates to:
   /// **'Quality problem'**
@@ -2562,7 +2562,7 @@ abstract class AppLocalizations {
   /// **'All'**
   String get allLabel;
 
-  /// No description provided for @dateRangeLabel.
+  ///
   ///
   /// In en, this message translates to:
   /// **'Date range'**
@@ -6583,6 +6583,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'On trial until {date}'**
   String onTrialUntilText(String date);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reported issues'**
+  String get reportedIssuesTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No deliveries logged against this supplier in this period.'**
+  String get noDeliveriesLoggedText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Each category below counts independently - a delivery can appear in more than one row (e.g. late AND damaged).'**
+  String get scorecardCategoriesExplanation;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected outright'**
+  String get rejectedOutrightLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted partially'**
+  String get acceptedPartiallyLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Supply-problem issues raised against this supplier - a separate log from the delivery scorecard above, not merged into it.'**
+  String get reportedIssuesExplanation;
+
+  /// No description provided for @deliveryScorecardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery scorecard ({count} deliveries)'**
+  String deliveryScorecardTitle(int count);
+
+  /// No description provided for @countPercentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} ({rate}%)'**
+  String countPercentLabel(int count, int rate);
 }
 
 class _AppLocalizationsDelegate

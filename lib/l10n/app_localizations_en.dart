@@ -3777,4 +3777,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String onTrialUntilText(String date) {
     return 'On trial until $date';
   }
+
+  @override
+  String get reportedIssuesTitle => 'Reported issues';
+
+  @override
+  String get noDeliveriesLoggedText =>
+      'No deliveries logged against this supplier in this period.';
+
+  @override
+  String get scorecardCategoriesExplanation =>
+      'Each category below counts independently - a delivery can appear in more than one row (e.g. late AND damaged).';
+
+  @override
+  String get rejectedOutrightLabel => 'Rejected outright';
+
+  @override
+  String get acceptedPartiallyLabel => 'Accepted partially';
+
+  @override
+  String get reportedIssuesExplanation =>
+      'Supply-problem issues raised against this supplier - a separate log from the delivery scorecard above, not merged into it.';
+
+  @override
+  String deliveryScorecardTitle(int count) {
+    return 'Delivery scorecard ($count deliveries)';
+  }
+
+  @override
+  String countPercentLabel(int count, int rate) {
+    return '$count ($rate%)';
+  }
 }
