@@ -1220,5 +1220,13 @@
   "uploadCertificateDocumentButton": "Prenesi fotografiju certifikata",
   "certificateDocumentUploadedLabel": "Certifikat prenesen",
   "viewCertificateDocumentTooltip": "Prikaži dokument certifikata",
-  "certificateUploadFailed": "Slanje certifikata nije uspjelo. Pokušajte ponovno."
+  "certificateUploadFailed": "Slanje certifikata nije uspjelo. Pokušajte ponovno.",
+  "certificationRequirementsTitle": "Zahtjevi za certifikate",
+  "certificationRequirementsFloorNotice": "Neki certifikati uvijek su obavezni za određene uloge i ne mogu se ovdje ukloniti (npr. uloge rukovanja hranom uvijek zahtijevaju Higijenu hrane razine 2 i Svijest o alergenima). Ispod možete dodati dodatne zahtjeve.",
+  "noExtraCertificationRequirementsText": "Još nisu dodani dodatni zahtjevi.",
+  "addRequirementButton": "Dodaj zahtjev",
+  "addCertificationRequirementTitle": "Dodaj zahtjev za certifikat",
+  "removeCertificationRequirementTitle": "Ukloniti ovaj zahtjev?",
+  "removeCertificationRequirementBody": "Osoblje u ovoj ulozi više neće trebati ovaj certifikat za raspoređivanje. To ne utječe na certifikate koji su uvijek obavezni.",
+  "removeButton": "Ukloni"
 }

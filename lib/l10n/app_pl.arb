@@ -1220,5 +1220,13 @@
   "uploadCertificateDocumentButton": "Prześlij zdjęcie certyfikatu",
   "certificateDocumentUploadedLabel": "Certyfikat przesłany",
   "viewCertificateDocumentTooltip": "Zobacz dokument certyfikatu",
-  "certificateUploadFailed": "Nie udało się przesłać certyfikatu. Spróbuj ponownie."
+  "certificateUploadFailed": "Nie udało się przesłać certyfikatu. Spróbuj ponownie.",
+  "certificationRequirementsTitle": "Wymagane certyfikaty",
+  "certificationRequirementsFloorNotice": "Niektóre certyfikaty są zawsze wymagane dla określonych ról i nie można ich tu usunąć (np. role związane z obsługą żywności zawsze wymagają certyfikatu Higiena Żywności Poziom 2 i Świadomość Alergenów). Poniżej możesz dodać dodatkowe wymagania.",
+  "noExtraCertificationRequirementsText": "Nie dodano jeszcze dodatkowych wymagań.",
+  "addRequirementButton": "Dodaj wymóg",
+  "addCertificationRequirementTitle": "Dodaj wymagany certyfikat",
+  "removeCertificationRequirementTitle": "Usunąć ten wymóg?",
+  "removeCertificationRequirementBody": "Pracownicy na tym stanowisku nie będą już potrzebować tego certyfikatu do zaplanowania zmiany. Nie wpływa to na certyfikaty zawsze wymagane.",
+  "removeButton": "Usuń"
 }

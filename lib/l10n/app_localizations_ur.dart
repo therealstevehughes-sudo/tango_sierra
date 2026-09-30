@@ -4257,4 +4257,32 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get certificateUploadFailed =>
       'سرٹیفکیٹ اپ لوڈ نہیں ہو سکا۔ دوبارہ کوشش کریں۔';
+
+  @override
+  String get certificationRequirementsTitle => 'سرٹیفیکیشن کی ضروریات';
+
+  @override
+  String get certificationRequirementsFloorNotice =>
+      'کچھ سرٹیفیکیٹس مخصوص کرداروں کے لیے ہمیشہ ضروری ہوتے ہیں اور یہاں سے ہٹائے نہیں جا سکتے (مثلاً، کھانا سنبھالنے والے کرداروں کے لیے ہمیشہ لیول 2 فوڈ ہائیجین اور ایلرجن اویئرنیس درکار ہوتی ہے)۔ آپ نیچے اضافی ضروریات شامل کر سکتے ہیں۔';
+
+  @override
+  String get noExtraCertificationRequirementsText =>
+      'ابھی تک کوئی اضافی ضرورت شامل نہیں کی گئی۔';
+
+  @override
+  String get addRequirementButton => 'ضرورت شامل کریں';
+
+  @override
+  String get addCertificationRequirementTitle =>
+      'سرٹیفیکیشن کی ضرورت شامل کریں';
+
+  @override
+  String get removeCertificationRequirementTitle => 'اس ضرورت کو ہٹائیں؟';
+
+  @override
+  String get removeCertificationRequirementBody =>
+      'اس کردار کے عملے کو شیڈول ہونے کے لیے اب اس سرٹیفیکیٹ کی ضرورت نہیں ہوگی۔ اس سے ہمیشہ درکار سرٹیفیکیٹس پر کوئی اثر نہیں پڑتا۔';
+
+  @override
+  String get removeButton => 'ہٹائیں';
 }

@@ -1220,5 +1220,13 @@
   "uploadCertificateDocumentButton": "Zertifikatsfoto hochladen",
   "certificateDocumentUploadedLabel": "Zertifikat hochgeladen",
   "viewCertificateDocumentTooltip": "Zertifikatsdokument ansehen",
-  "certificateUploadFailed": "Zertifikat konnte nicht hochgeladen werden. Bitte erneut versuchen."
+  "certificateUploadFailed": "Zertifikat konnte nicht hochgeladen werden. Bitte erneut versuchen.",
+  "certificationRequirementsTitle": "Zertifizierungsanforderungen",
+  "certificationRequirementsFloorNotice": "Einige Zertifizierungen sind für bestimmte Rollen immer erforderlich und können hier nicht entfernt werden (z. B. benötigen Rollen im Lebensmittelbereich immer Lebensmittelhygiene Level 2 und Allergenbewusstsein). Unten können Sie zusätzliche Anforderungen hinzufügen.",
+  "noExtraCertificationRequirementsText": "Noch keine zusätzlichen Anforderungen hinzugefügt.",
+  "addRequirementButton": "Anforderung hinzufügen",
+  "addCertificationRequirementTitle": "Zertifizierungsanforderung hinzufügen",
+  "removeCertificationRequirementTitle": "Diese Anforderung entfernen?",
+  "removeCertificationRequirementBody": "Mitarbeiter in dieser Rolle benötigen dieses Zertifikat dann nicht mehr, um eingeteilt zu werden. Dies betrifft nicht die immer erforderlichen Zertifizierungen.",
+  "removeButton": "Entfernen"
 }

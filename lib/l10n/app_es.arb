@@ -1220,5 +1220,13 @@
   "uploadCertificateDocumentButton": "Subir foto del certificado",
   "certificateDocumentUploadedLabel": "Certificado subido",
   "viewCertificateDocumentTooltip": "Ver documento del certificado",
-  "certificateUploadFailed": "No se pudo subir el certificado. Inténtalo de nuevo."
+  "certificateUploadFailed": "No se pudo subir el certificado. Inténtalo de nuevo.",
+  "certificationRequirementsTitle": "Requisitos de certificación",
+  "certificationRequirementsFloorNotice": "Algunas certificaciones siempre son obligatorias para ciertos roles y no se pueden eliminar aquí (por ejemplo, los roles de manipulación de alimentos siempre requieren Higiene Alimentaria Nivel 2 y Conocimiento de Alérgenos). Puedes añadir requisitos adicionales a continuación.",
+  "noExtraCertificationRequirementsText": "Aún no se han añadido requisitos adicionales.",
+  "addRequirementButton": "Añadir requisito",
+  "addCertificationRequirementTitle": "Añadir requisito de certificación",
+  "removeCertificationRequirementTitle": "¿Eliminar este requisito?",
+  "removeCertificationRequirementBody": "El personal en este rol ya no necesitará esta certificación para ser programado. Esto no afecta a las certificaciones siempre obligatorias.",
+  "removeButton": "Eliminar"
 }

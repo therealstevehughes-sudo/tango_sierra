@@ -4288,4 +4288,31 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get certificateUploadFailed =>
       'Slanje certifikata nije uspjelo. Pokušajte ponovno.';
+
+  @override
+  String get certificationRequirementsTitle => 'Zahtjevi za certifikate';
+
+  @override
+  String get certificationRequirementsFloorNotice =>
+      'Neki certifikati uvijek su obavezni za određene uloge i ne mogu se ovdje ukloniti (npr. uloge rukovanja hranom uvijek zahtijevaju Higijenu hrane razine 2 i Svijest o alergenima). Ispod možete dodati dodatne zahtjeve.';
+
+  @override
+  String get noExtraCertificationRequirementsText =>
+      'Još nisu dodani dodatni zahtjevi.';
+
+  @override
+  String get addRequirementButton => 'Dodaj zahtjev';
+
+  @override
+  String get addCertificationRequirementTitle => 'Dodaj zahtjev za certifikat';
+
+  @override
+  String get removeCertificationRequirementTitle => 'Ukloniti ovaj zahtjev?';
+
+  @override
+  String get removeCertificationRequirementBody =>
+      'Osoblje u ovoj ulozi više neće trebati ovaj certifikat za raspoređivanje. To ne utječe na certifikate koji su uvijek obavezni.';
+
+  @override
+  String get removeButton => 'Ukloni';
 }

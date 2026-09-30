@@ -1220,5 +1220,13 @@
   "uploadCertificateDocumentButton": "Încarcă fotografia certificatului",
   "certificateDocumentUploadedLabel": "Certificat încărcat",
   "viewCertificateDocumentTooltip": "Vizualizează documentul certificatului",
-  "certificateUploadFailed": "Certificatul nu a putut fi încărcat. Vă rugăm să încercați din nou."
+  "certificateUploadFailed": "Certificatul nu a putut fi încărcat. Vă rugăm să încercați din nou.",
+  "certificationRequirementsTitle": "Cerințe de certificare",
+  "certificationRequirementsFloorNotice": "Unele certificări sunt întotdeauna necesare pentru anumite roluri și nu pot fi eliminate aici (de ex. rolurile de manipulare a alimentelor necesită întotdeauna Igiena Alimentară Nivel 2 și Conștientizarea Alergenilor). Puteți adăuga cerințe suplimentare mai jos.",
+  "noExtraCertificationRequirementsText": "Nu au fost adăugate cerințe suplimentare încă.",
+  "addRequirementButton": "Adaugă cerință",
+  "addCertificationRequirementTitle": "Adaugă cerință de certificare",
+  "removeCertificationRequirementTitle": "Eliminați această cerință?",
+  "removeCertificationRequirementBody": "Personalul din acest rol nu va mai avea nevoie de această certificare pentru a fi programat. Acest lucru nu afectează certificările întotdeauna necesare.",
+  "removeButton": "Elimină"
 }

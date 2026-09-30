@@ -7453,6 +7453,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t upload the certificate. Please try again.'**
   String get certificateUploadFailed;
+
+  /// No description provided for @certificationRequirementsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Certification requirements'**
+  String get certificationRequirementsTitle;
+
+  /// No description provided for @certificationRequirementsFloorNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Some certifications are always required for certain roles and can\'t be removed here (e.g. food handling roles always require Level 2 Food Hygiene and Allergen Awareness). You can add extra requirements on top of those below.'**
+  String get certificationRequirementsFloorNotice;
+
+  /// No description provided for @noExtraCertificationRequirementsText.
+  ///
+  /// In en, this message translates to:
+  /// **'No extra requirements added yet.'**
+  String get noExtraCertificationRequirementsText;
+
+  /// No description provided for @addRequirementButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add requirement'**
+  String get addRequirementButton;
+
+  /// No description provided for @addCertificationRequirementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add certification requirement'**
+  String get addCertificationRequirementTitle;
+
+  /// No description provided for @removeCertificationRequirementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this requirement?'**
+  String get removeCertificationRequirementTitle;
+
+  /// No description provided for @removeCertificationRequirementBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff in this role will no longer need this certification to be scheduled. This doesn\'t affect the certifications that are always required.'**
+  String get removeCertificationRequirementBody;
+
+  /// No description provided for @removeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeButton;
 }
 
 class _AppLocalizationsDelegate

@@ -4397,4 +4397,32 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get certificateUploadFailed =>
       'Couldn\'t upload the certificate. Please try again.';
+
+  @override
+  String get certificationRequirementsTitle => 'Certification requirements';
+
+  @override
+  String get certificationRequirementsFloorNotice =>
+      'Some certifications are always required for certain roles and can\'t be removed here (e.g. food handling roles always require Level 2 Food Hygiene and Allergen Awareness). You can add extra requirements on top of those below.';
+
+  @override
+  String get noExtraCertificationRequirementsText =>
+      'No extra requirements added yet.';
+
+  @override
+  String get addRequirementButton => 'Add requirement';
+
+  @override
+  String get addCertificationRequirementTitle =>
+      'Add certification requirement';
+
+  @override
+  String get removeCertificationRequirementTitle => 'Remove this requirement?';
+
+  @override
+  String get removeCertificationRequirementBody =>
+      'Staff in this role will no longer need this certification to be scheduled. This doesn\'t affect the certifications that are always required.';
+
+  @override
+  String get removeButton => 'Remove';
 }

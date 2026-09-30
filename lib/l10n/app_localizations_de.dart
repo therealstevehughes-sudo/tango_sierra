@@ -4426,4 +4426,33 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get certificateUploadFailed =>
       'Zertifikat konnte nicht hochgeladen werden. Bitte erneut versuchen.';
+
+  @override
+  String get certificationRequirementsTitle => 'Zertifizierungsanforderungen';
+
+  @override
+  String get certificationRequirementsFloorNotice =>
+      'Einige Zertifizierungen sind für bestimmte Rollen immer erforderlich und können hier nicht entfernt werden (z. B. benötigen Rollen im Lebensmittelbereich immer Lebensmittelhygiene Level 2 und Allergenbewusstsein). Unten können Sie zusätzliche Anforderungen hinzufügen.';
+
+  @override
+  String get noExtraCertificationRequirementsText =>
+      'Noch keine zusätzlichen Anforderungen hinzugefügt.';
+
+  @override
+  String get addRequirementButton => 'Anforderung hinzufügen';
+
+  @override
+  String get addCertificationRequirementTitle =>
+      'Zertifizierungsanforderung hinzufügen';
+
+  @override
+  String get removeCertificationRequirementTitle =>
+      'Diese Anforderung entfernen?';
+
+  @override
+  String get removeCertificationRequirementBody =>
+      'Mitarbeiter in dieser Rolle benötigen dieses Zertifikat dann nicht mehr, um eingeteilt zu werden. Dies betrifft nicht die immer erforderlichen Zertifizierungen.';
+
+  @override
+  String get removeButton => 'Entfernen';
 }

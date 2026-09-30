@@ -4122,4 +4122,30 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get certificateUploadFailed => '证书上传失败,请重试。';
+
+  @override
+  String get certificationRequirementsTitle => '证书要求';
+
+  @override
+  String get certificationRequirementsFloorNotice =>
+      '某些证书对特定岗位始终是必需的,此处无法移除(例如,食品处理岗位始终需要二级食品卫生证书和过敏原意识证书)。您可以在下方添加额外要求。';
+
+  @override
+  String get noExtraCertificationRequirementsText => '尚未添加额外要求。';
+
+  @override
+  String get addRequirementButton => '添加要求';
+
+  @override
+  String get addCertificationRequirementTitle => '添加证书要求';
+
+  @override
+  String get removeCertificationRequirementTitle => '移除此要求?';
+
+  @override
+  String get removeCertificationRequirementBody =>
+      '此岗位的员工将不再需要此证书才能排班。这不会影响始终必需的证书。';
+
+  @override
+  String get removeButton => '移除';
 }

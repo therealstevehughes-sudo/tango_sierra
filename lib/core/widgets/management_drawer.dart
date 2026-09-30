@@ -23,6 +23,7 @@ import '../../features/roster/roster_billing_service.dart' show rosterAddonEnabl
 import '../../features/roster/roster_board_screen.dart';
 import '../../features/roster/roster_upsell_screen.dart';
 import '../../features/roster/shift_fairness_screen.dart';
+import '../../features/settings/certification_requirements_screen.dart';
 import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/document_centre_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
@@ -289,6 +290,16 @@ List<_DrawerItemDef> _companyItems(AppLocalizations l10n) => [
     label: l10n.branchesLabel,
     minTier: RoleTier.regional,
     screenBuilder: (_) => const BranchManagementScreen(),
+  ),
+  // Certification requirements (Phase 2, 2026-09-30) — leadership-only:
+  // adds EXTRA required certifications per job role on top of the fixed
+  // floor (see certification_requirement.dart). Regional+ per the agreed
+  // "leadership can add, nobody can remove the floor" design.
+  _DrawerItemDef(
+    icon: Icons.verified_outlined,
+    label: l10n.certificationRequirementsTitle,
+    minTier: RoleTier.regional,
+    screenBuilder: (_) => const CertificationRequirementsScreen(),
   ),
 ];
 

@@ -4311,5 +4311,13 @@
   "uploadCertificateDocumentButton": "Upload certificate photo",
   "certificateDocumentUploadedLabel": "Certificate uploaded",
   "viewCertificateDocumentTooltip": "View certificate document",
-  "certificateUploadFailed": "Couldn't upload the certificate. Please try again."
+  "certificateUploadFailed": "Couldn't upload the certificate. Please try again.",
+  "certificationRequirementsTitle": "Certification requirements",
+  "certificationRequirementsFloorNotice": "Some certifications are always required for certain roles and can't be removed here (e.g. food handling roles always require Level 2 Food Hygiene and Allergen Awareness). You can add extra requirements on top of those below.",
+  "noExtraCertificationRequirementsText": "No extra requirements added yet.",
+  "addRequirementButton": "Add requirement",
+  "addCertificationRequirementTitle": "Add certification requirement",
+  "removeCertificationRequirementTitle": "Remove this requirement?",
+  "removeCertificationRequirementBody": "Staff in this role will no longer need this certification to be scheduled. This doesn't affect the certifications that are always required.",
+  "removeButton": "Remove"
 }

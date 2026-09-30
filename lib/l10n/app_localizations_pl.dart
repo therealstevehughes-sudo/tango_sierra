@@ -4376,4 +4376,31 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get certificateUploadFailed =>
       'Nie udało się przesłać certyfikatu. Spróbuj ponownie.';
+
+  @override
+  String get certificationRequirementsTitle => 'Wymagane certyfikaty';
+
+  @override
+  String get certificationRequirementsFloorNotice =>
+      'Niektóre certyfikaty są zawsze wymagane dla określonych ról i nie można ich tu usunąć (np. role związane z obsługą żywności zawsze wymagają certyfikatu Higiena Żywności Poziom 2 i Świadomość Alergenów). Poniżej możesz dodać dodatkowe wymagania.';
+
+  @override
+  String get noExtraCertificationRequirementsText =>
+      'Nie dodano jeszcze dodatkowych wymagań.';
+
+  @override
+  String get addRequirementButton => 'Dodaj wymóg';
+
+  @override
+  String get addCertificationRequirementTitle => 'Dodaj wymagany certyfikat';
+
+  @override
+  String get removeCertificationRequirementTitle => 'Usunąć ten wymóg?';
+
+  @override
+  String get removeCertificationRequirementBody =>
+      'Pracownicy na tym stanowisku nie będą już potrzebować tego certyfikatu do zaplanowania zmiany. Nie wpływa to na certyfikaty zawsze wymagane.';
+
+  @override
+  String get removeButton => 'Usuń';
 }

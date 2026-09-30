@@ -4265,4 +4265,31 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get certificateUploadFailed =>
       'प्रमाणपत्र अपलोड नहीं हो सका। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get certificationRequirementsTitle => 'प्रमाणन आवश्यकताएं';
+
+  @override
+  String get certificationRequirementsFloorNotice =>
+      'कुछ प्रमाणपत्र कुछ भूमिकाओं के लिए हमेशा आवश्यक होते हैं और यहां हटाए नहीं जा सकते (जैसे, खाद्य प्रबंधन भूमिकाओं के लिए हमेशा लेवल 2 फूड हाइजीन और एलर्जन अवेयरनेस आवश्यक है)। आप नीचे अतिरिक्त आवश्यकताएं जोड़ सकते हैं।';
+
+  @override
+  String get noExtraCertificationRequirementsText =>
+      'अभी तक कोई अतिरिक्त आवश्यकता नहीं जोड़ी गई।';
+
+  @override
+  String get addRequirementButton => 'आवश्यकता जोड़ें';
+
+  @override
+  String get addCertificationRequirementTitle => 'प्रमाणन आवश्यकता जोड़ें';
+
+  @override
+  String get removeCertificationRequirementTitle => 'इस आवश्यकता को हटाएं?';
+
+  @override
+  String get removeCertificationRequirementBody =>
+      'इस भूमिका के कर्मचारियों को अब शेड्यूल होने के लिए इस प्रमाणपत्र की आवश्यकता नहीं होगी। इससे हमेशा आवश्यक प्रमाणपत्रों पर कोई असर नहीं पड़ता।';
+
+  @override
+  String get removeButton => 'हटाएं';
 }

@@ -4235,4 +4235,31 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get certificateUploadFailed =>
       'تعذر رفع الشهادة. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get certificationRequirementsTitle => 'متطلبات الشهادات';
+
+  @override
+  String get certificationRequirementsFloorNotice =>
+      'بعض الشهادات مطلوبة دائمًا لأدوار معينة ولا يمكن إزالتها هنا (مثلاً، أدوار التعامل مع الطعام تتطلب دائمًا شهادة سلامة الغذاء المستوى 2 والتوعية بالمواد المسببة للحساسية). يمكنك إضافة متطلبات إضافية أدناه.';
+
+  @override
+  String get noExtraCertificationRequirementsText =>
+      'لم تتم إضافة أي متطلبات إضافية بعد.';
+
+  @override
+  String get addRequirementButton => 'إضافة متطلب';
+
+  @override
+  String get addCertificationRequirementTitle => 'إضافة متطلب شهادة';
+
+  @override
+  String get removeCertificationRequirementTitle => 'إزالة هذا المتطلب؟';
+
+  @override
+  String get removeCertificationRequirementBody =>
+      'لن يحتاج الموظفون في هذا الدور بعد الآن إلى هذه الشهادة ليتم جدولتهم. هذا لا يؤثر على الشهادات المطلوبة دائمًا.';
+
+  @override
+  String get removeButton => 'إزالة';
 }

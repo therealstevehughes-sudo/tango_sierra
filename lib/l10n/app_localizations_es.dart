@@ -4377,4 +4377,32 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get certificateUploadFailed =>
       'No se pudo subir el certificado. Inténtalo de nuevo.';
+
+  @override
+  String get certificationRequirementsTitle => 'Requisitos de certificación';
+
+  @override
+  String get certificationRequirementsFloorNotice =>
+      'Algunas certificaciones siempre son obligatorias para ciertos roles y no se pueden eliminar aquí (por ejemplo, los roles de manipulación de alimentos siempre requieren Higiene Alimentaria Nivel 2 y Conocimiento de Alérgenos). Puedes añadir requisitos adicionales a continuación.';
+
+  @override
+  String get noExtraCertificationRequirementsText =>
+      'Aún no se han añadido requisitos adicionales.';
+
+  @override
+  String get addRequirementButton => 'Añadir requisito';
+
+  @override
+  String get addCertificationRequirementTitle =>
+      'Añadir requisito de certificación';
+
+  @override
+  String get removeCertificationRequirementTitle => '¿Eliminar este requisito?';
+
+  @override
+  String get removeCertificationRequirementBody =>
+      'El personal en este rol ya no necesitará esta certificación para ser programado. Esto no afecta a las certificaciones siempre obligatorias.';
+
+  @override
+  String get removeButton => 'Eliminar';
 }

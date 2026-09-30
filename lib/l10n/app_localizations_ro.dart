@@ -4371,4 +4371,33 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get certificateUploadFailed =>
       'Certificatul nu a putut fi încărcat. Vă rugăm să încercați din nou.';
+
+  @override
+  String get certificationRequirementsTitle => 'Cerințe de certificare';
+
+  @override
+  String get certificationRequirementsFloorNotice =>
+      'Unele certificări sunt întotdeauna necesare pentru anumite roluri și nu pot fi eliminate aici (de ex. rolurile de manipulare a alimentelor necesită întotdeauna Igiena Alimentară Nivel 2 și Conștientizarea Alergenilor). Puteți adăuga cerințe suplimentare mai jos.';
+
+  @override
+  String get noExtraCertificationRequirementsText =>
+      'Nu au fost adăugate cerințe suplimentare încă.';
+
+  @override
+  String get addRequirementButton => 'Adaugă cerință';
+
+  @override
+  String get addCertificationRequirementTitle =>
+      'Adaugă cerință de certificare';
+
+  @override
+  String get removeCertificationRequirementTitle =>
+      'Eliminați această cerință?';
+
+  @override
+  String get removeCertificationRequirementBody =>
+      'Personalul din acest rol nu va mai avea nevoie de această certificare pentru a fi programat. Acest lucru nu afectează certificările întotdeauna necesare.';
+
+  @override
+  String get removeButton => 'Elimină';
 }
