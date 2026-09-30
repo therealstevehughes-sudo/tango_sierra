@@ -677,7 +677,7 @@ class AppLocalizationsHr extends AppLocalizations {
   }
 
   @override
-  String get venuesSectionTitle => 'Lokacije';
+  String get venuesSectionTitle => 'Poslovnice';
 
   @override
   String get teamSectionTitle => 'Tim';
@@ -3424,4 +3424,58 @@ class AppLocalizationsHr extends AppLocalizations {
   String changeApprovalStatusTitle(String name) {
     return 'Promijeni status odobrenja - $name';
   }
+
+  @override
+  String get newVenueTypeTitle => 'Nova vrsta poslovnice';
+
+  @override
+  String get renameOrganisationTitle => 'Preimenuj tvrtku';
+
+  @override
+  String get resetSetupCodeTitle => 'Resetirati kod postavljanja?';
+
+  @override
+  String get resetSetupCodeConfirmText =>
+      'Ovo će odspojiti svaki tablet koji trenutno koristi ovu poslovnicu dok mu se ne da novi kod. Nastaviti?';
+
+  @override
+  String get resetCodeButton => 'Resetiraj kod';
+
+  @override
+  String get createNewVenueTitle => 'Stvori novu poslovnicu';
+
+  @override
+  String get multiSiteSupportPartialText =>
+      'Podrška za više poslovnica je djelomična: oprema, osoblje i popisi zadataka još nisu filtrirani po poslovnici, pa svakodnevno korištenje druge poslovnice još nije u potpunosti podržano. Stvaranje jedne je sigurno, ali ćeš vidjeti podatke ove poslovnice i izvorne poslovnice pomiješane na zajedničkim popisima dok se to ne izgradi.';
+
+  @override
+  String get createButton => 'Stvori';
+
+  @override
+  String get venueDetailsTitle => 'Detalji poslovnice';
+
+  @override
+  String get billingLabel => 'Naplata';
+
+  @override
+  String get billingSubtitleText => 'Plan, status, izravno terećenje';
+
+  @override
+  String get activeLabel => 'Aktivno';
+
+  @override
+  String get setAsActiveButton => 'Postavi kao aktivno';
+
+  @override
+  String get tabletSetupCodeTitle => 'Kod postavljanja tableta';
+
+  @override
+  String get tabletSetupCodeExplanation =>
+      'Unesi ovo jednom na novom tabletu kako bi mogao prikazati popis osoblja ove poslovnice.';
+
+  @override
+  String get generateCodeButton => 'Generiraj kod';
+
+  @override
+  String get venueTypeSectionTitle => 'Vrsta poslovnice';
 }

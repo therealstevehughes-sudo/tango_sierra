@@ -3383,4 +3383,58 @@ class AppLocalizationsAr extends AppLocalizations {
   String changeApprovalStatusTitle(String name) {
     return 'تغيير حالة الموافقة - $name';
   }
+
+  @override
+  String get newVenueTypeTitle => 'نوع موقع جديد';
+
+  @override
+  String get renameOrganisationTitle => 'إعادة تسمية الشركة';
+
+  @override
+  String get resetSetupCodeTitle => 'إعادة تعيين رمز الإعداد؟';
+
+  @override
+  String get resetSetupCodeConfirmText =>
+      'سيؤدي هذا إلى قطع الاتصال بكل جهاز لوحي يستخدم هذا الموقع حاليًا حتى يحصل على الرمز الجديد. متابعة؟';
+
+  @override
+  String get resetCodeButton => 'إعادة تعيين الرمز';
+
+  @override
+  String get createNewVenueTitle => 'إنشاء موقع جديد';
+
+  @override
+  String get multiSiteSupportPartialText =>
+      'دعم المواقع المتعددة جزئي: لم تتم تصفية المعدات والموظفين وقوائم المهام حسب الموقع بعد، لذا فإن الاستخدام اليومي لموقع ثانٍ غير مدعوم بالكامل بعد. إنشاء واحد آمن، لكنك سترى بيانات هذا الموقع والموقع الأصلي مختلطة في القوائم المشتركة حتى يتم بناء ذلك.';
+
+  @override
+  String get createButton => 'إنشاء';
+
+  @override
+  String get venueDetailsTitle => 'تفاصيل الموقع';
+
+  @override
+  String get billingLabel => 'الفوترة';
+
+  @override
+  String get billingSubtitleText => 'الخطة، الحالة، الخصم المباشر';
+
+  @override
+  String get activeLabel => 'نشط';
+
+  @override
+  String get setAsActiveButton => 'تعيين كنشط';
+
+  @override
+  String get tabletSetupCodeTitle => 'رمز إعداد الجهاز اللوحي';
+
+  @override
+  String get tabletSetupCodeExplanation =>
+      'أدخل هذا مرة واحدة على جهاز لوحي جديد حتى يتمكن من عرض قائمة موظفي هذا الموقع.';
+
+  @override
+  String get generateCodeButton => 'إنشاء رمز';
+
+  @override
+  String get venueTypeSectionTitle => 'نوع الموقع';
 }

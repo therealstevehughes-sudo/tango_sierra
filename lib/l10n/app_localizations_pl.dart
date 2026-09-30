@@ -3470,4 +3470,58 @@ class AppLocalizationsPl extends AppLocalizations {
   String changeApprovalStatusTitle(String name) {
     return 'Zmień status zatwierdzenia - $name';
   }
+
+  @override
+  String get newVenueTypeTitle => 'Nowy typ lokalu';
+
+  @override
+  String get renameOrganisationTitle => 'Zmień nazwę organizacji';
+
+  @override
+  String get resetSetupCodeTitle => 'Zresetować kod konfiguracji?';
+
+  @override
+  String get resetSetupCodeConfirmText =>
+      'To odłączy każdy tablet obecnie korzystający z tego lokalu, dopóki nie otrzyma nowego kodu. Kontynuować?';
+
+  @override
+  String get resetCodeButton => 'Resetuj kod';
+
+  @override
+  String get createNewVenueTitle => 'Utwórz nowy lokal';
+
+  @override
+  String get multiSiteSupportPartialText =>
+      'Obsługa wielu lokali jest częściowa: sprzęt, personel i listy zadań nie są jeszcze filtrowane według lokalu, więc codzienne korzystanie z drugiego lokalu nie jest jeszcze w pełni obsługiwane. Utworzenie go jest bezpieczne, ale zobaczysz dane tego lokalu i oryginalnego lokalu pomieszane na wspólnych listach, dopóki to nie zostanie zbudowane.';
+
+  @override
+  String get createButton => 'Utwórz';
+
+  @override
+  String get venueDetailsTitle => 'Szczegóły lokalu';
+
+  @override
+  String get billingLabel => 'Rozliczenia';
+
+  @override
+  String get billingSubtitleText => 'Plan, status, polecenie zapłaty';
+
+  @override
+  String get activeLabel => 'Aktywny';
+
+  @override
+  String get setAsActiveButton => 'Ustaw jako aktywny';
+
+  @override
+  String get tabletSetupCodeTitle => 'Kod konfiguracji tabletu';
+
+  @override
+  String get tabletSetupCodeExplanation =>
+      'Wprowadź to raz na nowym tablecie, aby mógł wyświetlić listę personelu tego lokalu.';
+
+  @override
+  String get generateCodeButton => 'Wygeneruj kod';
+
+  @override
+  String get venueTypeSectionTitle => 'Typ lokalu';
 }

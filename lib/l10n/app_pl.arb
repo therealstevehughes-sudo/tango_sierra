@@ -982,5 +982,22 @@
   "inactiveStandaloneLabel": "(nieaktywny)",
   "changeApprovalStatusMenuItem": "Zmień status zatwierdzenia",
   "editDetailsForSupplierTitle": "Edytuj dane - {name}",
-  "changeApprovalStatusTitle": "Zmień status zatwierdzenia - {name}"
+  "changeApprovalStatusTitle": "Zmień status zatwierdzenia - {name}",
+  "newVenueTypeTitle": "Nowy typ lokalu",
+  "renameOrganisationTitle": "Zmień nazwę organizacji",
+  "resetSetupCodeTitle": "Zresetować kod konfiguracji?",
+  "resetSetupCodeConfirmText": "To odłączy każdy tablet obecnie korzystający z tego lokalu, dopóki nie otrzyma nowego kodu. Kontynuować?",
+  "resetCodeButton": "Resetuj kod",
+  "createNewVenueTitle": "Utwórz nowy lokal",
+  "multiSiteSupportPartialText": "Obsługa wielu lokali jest częściowa: sprzęt, personel i listy zadań nie są jeszcze filtrowane według lokalu, więc codzienne korzystanie z drugiego lokalu nie jest jeszcze w pełni obsługiwane. Utworzenie go jest bezpieczne, ale zobaczysz dane tego lokalu i oryginalnego lokalu pomieszane na wspólnych listach, dopóki to nie zostanie zbudowane.",
+  "createButton": "Utwórz",
+  "venueDetailsTitle": "Szczegóły lokalu",
+  "billingLabel": "Rozliczenia",
+  "billingSubtitleText": "Plan, status, polecenie zapłaty",
+  "activeLabel": "Aktywny",
+  "setAsActiveButton": "Ustaw jako aktywny",
+  "tabletSetupCodeTitle": "Kod konfiguracji tabletu",
+  "tabletSetupCodeExplanation": "Wprowadź to raz na nowym tablecie, aby mógł wyświetlić listę personelu tego lokalu.",
+  "generateCodeButton": "Wygeneruj kod",
+  "venueTypeSectionTitle": "Typ lokalu"
 }

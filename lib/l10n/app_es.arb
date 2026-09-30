@@ -982,5 +982,22 @@
   "inactiveStandaloneLabel": "(inactivo)",
   "changeApprovalStatusMenuItem": "Cambiar estado de aprobación",
   "editDetailsForSupplierTitle": "Editar datos - {name}",
-  "changeApprovalStatusTitle": "Cambiar estado de aprobación - {name}"
+  "changeApprovalStatusTitle": "Cambiar estado de aprobación - {name}",
+  "newVenueTypeTitle": "Nuevo tipo de local",
+  "renameOrganisationTitle": "Renombrar empresa",
+  "resetSetupCodeTitle": "¿Restablecer código de configuración?",
+  "resetSetupCodeConfirmText": "Esto desconectará todas las tabletas que usan actualmente este local hasta que reciban el nuevo código. ¿Continuar?",
+  "resetCodeButton": "Restablecer código",
+  "createNewVenueTitle": "Crear nuevo local",
+  "multiSiteSupportPartialText": "El soporte multi-local es parcial: el equipamiento, el personal y las listas de tareas todavía no se filtran por local, así que el uso diario de un segundo local todavía no está totalmente soportado. Crear uno es seguro, pero verás los datos de este local y del local original mezclados en listas compartidas hasta que eso se implemente.",
+  "createButton": "Crear",
+  "venueDetailsTitle": "Detalles del local",
+  "billingLabel": "Facturación",
+  "billingSubtitleText": "Plan, estado, domiciliación bancaria",
+  "activeLabel": "Activo",
+  "setAsActiveButton": "Establecer como activo",
+  "tabletSetupCodeTitle": "Código de configuración de la tableta",
+  "tabletSetupCodeExplanation": "Introduce esto una vez en una tableta nueva para que pueda mostrar la lista de personal de este local.",
+  "generateCodeButton": "Generar código",
+  "venueTypeSectionTitle": "Tipo de local"
 }

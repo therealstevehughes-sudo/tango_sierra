@@ -982,5 +982,22 @@
   "inactiveStandaloneLabel": "(غير نشط)",
   "changeApprovalStatusMenuItem": "تغيير حالة الموافقة",
   "editDetailsForSupplierTitle": "تعديل التفاصيل - {name}",
-  "changeApprovalStatusTitle": "تغيير حالة الموافقة - {name}"
+  "changeApprovalStatusTitle": "تغيير حالة الموافقة - {name}",
+  "newVenueTypeTitle": "نوع موقع جديد",
+  "renameOrganisationTitle": "إعادة تسمية الشركة",
+  "resetSetupCodeTitle": "إعادة تعيين رمز الإعداد؟",
+  "resetSetupCodeConfirmText": "سيؤدي هذا إلى قطع الاتصال بكل جهاز لوحي يستخدم هذا الموقع حاليًا حتى يحصل على الرمز الجديد. متابعة؟",
+  "resetCodeButton": "إعادة تعيين الرمز",
+  "createNewVenueTitle": "إنشاء موقع جديد",
+  "multiSiteSupportPartialText": "دعم المواقع المتعددة جزئي: لم تتم تصفية المعدات والموظفين وقوائم المهام حسب الموقع بعد، لذا فإن الاستخدام اليومي لموقع ثانٍ غير مدعوم بالكامل بعد. إنشاء واحد آمن، لكنك سترى بيانات هذا الموقع والموقع الأصلي مختلطة في القوائم المشتركة حتى يتم بناء ذلك.",
+  "createButton": "إنشاء",
+  "venueDetailsTitle": "تفاصيل الموقع",
+  "billingLabel": "الفوترة",
+  "billingSubtitleText": "الخطة، الحالة، الخصم المباشر",
+  "activeLabel": "نشط",
+  "setAsActiveButton": "تعيين كنشط",
+  "tabletSetupCodeTitle": "رمز إعداد الجهاز اللوحي",
+  "tabletSetupCodeExplanation": "أدخل هذا مرة واحدة على جهاز لوحي جديد حتى يتمكن من عرض قائمة موظفي هذا الموقع.",
+  "generateCodeButton": "إنشاء رمز",
+  "venueTypeSectionTitle": "نوع الموقع"
 }

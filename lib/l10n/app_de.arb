@@ -982,5 +982,22 @@
   "inactiveStandaloneLabel": "(inaktiv)",
   "changeApprovalStatusMenuItem": "Genehmigungsstatus ändern",
   "editDetailsForSupplierTitle": "Details bearbeiten - {name}",
-  "changeApprovalStatusTitle": "Genehmigungsstatus ändern - {name}"
+  "changeApprovalStatusTitle": "Genehmigungsstatus ändern - {name}",
+  "newVenueTypeTitle": "Neuer Standorttyp",
+  "renameOrganisationTitle": "Firma umbenennen",
+  "resetSetupCodeTitle": "Einrichtungscode zurücksetzen?",
+  "resetSetupCodeConfirmText": "Dies trennt jedes Tablet, das derzeit diesen Standort verwendet, bis ihm der neue Code gegeben wird. Fortfahren?",
+  "resetCodeButton": "Code zurücksetzen",
+  "createNewVenueTitle": "Neuen Standort erstellen",
+  "multiSiteSupportPartialText": "Die Unterstützung mehrerer Standorte ist teilweise: Ausrüstung, Personal und Aufgabenlisten werden noch nicht nach Standort gefiltert, daher wird die tägliche Nutzung eines zweiten Standorts noch nicht vollständig unterstützt. Einen zu erstellen ist sicher, aber du wirst die Daten dieses Standorts und des ursprünglichen Standorts in gemeinsamen Listen vermischt sehen, bis das gebaut ist.",
+  "createButton": "Erstellen",
+  "venueDetailsTitle": "Standortdetails",
+  "billingLabel": "Abrechnung",
+  "billingSubtitleText": "Plan, Status, Lastschrift",
+  "activeLabel": "Aktiv",
+  "setAsActiveButton": "Als aktiv festlegen",
+  "tabletSetupCodeTitle": "Tablet-Einrichtungscode",
+  "tabletSetupCodeExplanation": "Gib dies einmal auf einem neuen Tablet ein, damit es die Mitarbeiterliste dieses Standorts anzeigen kann.",
+  "generateCodeButton": "Code generieren",
+  "venueTypeSectionTitle": "Standorttyp"
 }

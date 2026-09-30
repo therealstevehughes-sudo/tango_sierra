@@ -3128,5 +3128,76 @@
         "type": "String"
       }
     }
+  },
+  "newVenueTypeTitle": "New Venue Type",
+  "@newVenueTypeTitle": {
+    "description": ""
+  },
+  "renameOrganisationTitle": "Rename Organisation",
+  "@renameOrganisationTitle": {
+    "description": ""
+  },
+  "resetSetupCodeTitle": "Reset setup code?",
+  "@resetSetupCodeTitle": {
+    "description": ""
+  },
+  "resetSetupCodeConfirmText": "This will disconnect every tablet currently using this venue until they're given the new code. Continue?",
+  "@resetSetupCodeConfirmText": {
+    "description": ""
+  },
+  "resetCodeButton": "Reset code",
+  "@resetCodeButton": {
+    "description": ""
+  },
+  "createNewVenueTitle": "Create New Venue",
+  "@createNewVenueTitle": {
+    "description": ""
+  },
+  "multiSiteSupportPartialText": "Multi-site support is partial: equipment, staff, and task lists are not yet filtered by venue, so day-to-day use of a second venue is not fully supported yet. Creating one is safe, but you'll see this venue's and the original venue's data mixed together in shared lists until that's built.",
+  "@multiSiteSupportPartialText": {
+    "description": ""
+  },
+  "createButton": "Create",
+  "@createButton": {
+    "description": ""
+  },
+  "venueDetailsTitle": "Venue Details",
+  "@venueDetailsTitle": {
+    "description": ""
+  },
+  "billingLabel": "Billing",
+  "@billingLabel": {
+    "description": ""
+  },
+  "billingSubtitleText": "Plan, status, Direct Debit",
+  "@billingSubtitleText": {
+    "description": ""
+  },
+  "@venuesSectionTitle": {
+    "description": ""
+  },
+  "activeLabel": "Active",
+  "@activeLabel": {
+    "description": ""
+  },
+  "setAsActiveButton": "Set as Active",
+  "@setAsActiveButton": {
+    "description": ""
+  },
+  "tabletSetupCodeTitle": "Tablet setup code",
+  "@tabletSetupCodeTitle": {
+    "description": ""
+  },
+  "tabletSetupCodeExplanation": "Enter this once on a new tablet so it can show this venue's staff list.",
+  "@tabletSetupCodeExplanation": {
+    "description": ""
+  },
+  "generateCodeButton": "Generate code",
+  "@generateCodeButton": {
+    "description": ""
+  },
+  "venueTypeSectionTitle": "Venue type",
+  "@venueTypeSectionTitle": {
+    "description": ""
   }
 }

@@ -677,7 +677,7 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get venuesSectionTitle => 'वेन्यू';
+  String get venuesSectionTitle => 'वेन्यूज़';
 
   @override
   String get teamSectionTitle => 'टीम';
@@ -3404,4 +3404,58 @@ class AppLocalizationsHi extends AppLocalizations {
   String changeApprovalStatusTitle(String name) {
     return 'अनुमोदन स्थिति बदलें - $name';
   }
+
+  @override
+  String get newVenueTypeTitle => 'नया वेन्यू प्रकार';
+
+  @override
+  String get renameOrganisationTitle => 'कंपनी का नाम बदलें';
+
+  @override
+  String get resetSetupCodeTitle => 'सेटअप कोड रीसेट करें?';
+
+  @override
+  String get resetSetupCodeConfirmText =>
+      'यह इस वेन्यू का उपयोग करने वाले हर टैबलेट को तब तक डिस्कनेक्ट कर देगा जब तक उन्हें नया कोड नहीं दिया जाता। जारी रखें?';
+
+  @override
+  String get resetCodeButton => 'कोड रीसेट करें';
+
+  @override
+  String get createNewVenueTitle => 'नया वेन्यू बनाएं';
+
+  @override
+  String get multiSiteSupportPartialText =>
+      'मल्टी-साइट समर्थन आंशिक है: उपकरण, स्टाफ और कार्य सूचियां अभी तक वेन्यू के अनुसार फ़िल्टर नहीं की गई हैं, इसलिए दूसरे वेन्यू के दैनिक उपयोग को अभी पूरी तरह समर्थित नहीं किया गया है। एक बनाना सुरक्षित है, लेकिन जब तक यह नहीं बन जाता, तुम इस वेन्यू और मूल वेन्यू का डेटा साझा सूचियों में मिला हुआ देखोगे।';
+
+  @override
+  String get createButton => 'बनाएं';
+
+  @override
+  String get venueDetailsTitle => 'वेन्यू विवरण';
+
+  @override
+  String get billingLabel => 'बिलिंग';
+
+  @override
+  String get billingSubtitleText => 'प्लान, स्थिति, डायरेक्ट डेबिट';
+
+  @override
+  String get activeLabel => 'सक्रिय';
+
+  @override
+  String get setAsActiveButton => 'सक्रिय के रूप में सेट करें';
+
+  @override
+  String get tabletSetupCodeTitle => 'टैबलेट सेटअप कोड';
+
+  @override
+  String get tabletSetupCodeExplanation =>
+      'इसे एक बार नए टैबलेट पर दर्ज करें ताकि वह इस वेन्यू की स्टाफ सूची दिखा सके।';
+
+  @override
+  String get generateCodeButton => 'कोड जनरेट करें';
+
+  @override
+  String get venueTypeSectionTitle => 'वेन्यू प्रकार';
 }

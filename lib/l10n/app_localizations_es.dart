@@ -3471,4 +3471,58 @@ class AppLocalizationsEs extends AppLocalizations {
   String changeApprovalStatusTitle(String name) {
     return 'Cambiar estado de aprobación - $name';
   }
+
+  @override
+  String get newVenueTypeTitle => 'Nuevo tipo de local';
+
+  @override
+  String get renameOrganisationTitle => 'Renombrar empresa';
+
+  @override
+  String get resetSetupCodeTitle => '¿Restablecer código de configuración?';
+
+  @override
+  String get resetSetupCodeConfirmText =>
+      'Esto desconectará todas las tabletas que usan actualmente este local hasta que reciban el nuevo código. ¿Continuar?';
+
+  @override
+  String get resetCodeButton => 'Restablecer código';
+
+  @override
+  String get createNewVenueTitle => 'Crear nuevo local';
+
+  @override
+  String get multiSiteSupportPartialText =>
+      'El soporte multi-local es parcial: el equipamiento, el personal y las listas de tareas todavía no se filtran por local, así que el uso diario de un segundo local todavía no está totalmente soportado. Crear uno es seguro, pero verás los datos de este local y del local original mezclados en listas compartidas hasta que eso se implemente.';
+
+  @override
+  String get createButton => 'Crear';
+
+  @override
+  String get venueDetailsTitle => 'Detalles del local';
+
+  @override
+  String get billingLabel => 'Facturación';
+
+  @override
+  String get billingSubtitleText => 'Plan, estado, domiciliación bancaria';
+
+  @override
+  String get activeLabel => 'Activo';
+
+  @override
+  String get setAsActiveButton => 'Establecer como activo';
+
+  @override
+  String get tabletSetupCodeTitle => 'Código de configuración de la tableta';
+
+  @override
+  String get tabletSetupCodeExplanation =>
+      'Introduce esto una vez en una tableta nueva para que pueda mostrar la lista de personal de este local.';
+
+  @override
+  String get generateCodeButton => 'Generar código';
+
+  @override
+  String get venueTypeSectionTitle => 'Tipo de local';
 }

@@ -1284,7 +1284,7 @@ abstract class AppLocalizations {
   /// **'{count} overdue'**
   String overdueCountLabel(int count);
 
-  /// No description provided for @venuesSectionTitle.
+  ///
   ///
   /// In en, this message translates to:
   /// **'Venues'**
@@ -6025,6 +6025,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change Approval Status - {name}'**
   String changeApprovalStatusTitle(String name);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'New Venue Type'**
+  String get newVenueTypeTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Organisation'**
+  String get renameOrganisationTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reset setup code?'**
+  String get resetSetupCodeTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'This will disconnect every tablet currently using this venue until they\'re given the new code. Continue?'**
+  String get resetSetupCodeConfirmText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Reset code'**
+  String get resetCodeButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Venue'**
+  String get createNewVenueTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-site support is partial: equipment, staff, and task lists are not yet filtered by venue, so day-to-day use of a second venue is not fully supported yet. Creating one is safe, but you\'ll see this venue\'s and the original venue\'s data mixed together in shared lists until that\'s built.'**
+  String get multiSiteSupportPartialText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get createButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Venue Details'**
+  String get venueDetailsTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Billing'**
+  String get billingLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Plan, status, Direct Debit'**
+  String get billingSubtitleText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get activeLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Set as Active'**
+  String get setAsActiveButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Tablet setup code'**
+  String get tabletSetupCodeTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Enter this once on a new tablet so it can show this venue\'s staff list.'**
+  String get tabletSetupCodeExplanation;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Generate code'**
+  String get generateCodeButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Venue type'**
+  String get venueTypeSectionTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -674,7 +674,7 @@ class AppLocalizationsUr extends AppLocalizations {
   }
 
   @override
-  String get venuesSectionTitle => 'مقامات';
+  String get venuesSectionTitle => 'وینیوز';
 
   @override
   String get teamSectionTitle => 'ٹیم';
@@ -3396,4 +3396,58 @@ class AppLocalizationsUr extends AppLocalizations {
   String changeApprovalStatusTitle(String name) {
     return 'منظوری کی حیثیت تبدیل کریں - $name';
   }
+
+  @override
+  String get newVenueTypeTitle => 'نئی وینیو قسم';
+
+  @override
+  String get renameOrganisationTitle => 'کمپنی کا نام تبدیل کریں';
+
+  @override
+  String get resetSetupCodeTitle => 'سیٹ اپ کوڈ ری سیٹ کریں؟';
+
+  @override
+  String get resetSetupCodeConfirmText =>
+      'یہ اس وینیو کو استعمال کرنے والے ہر ٹیبلیٹ کو اس وقت تک منقطع کر دے گا جب تک انہیں نیا کوڈ نہیں دیا جاتا۔ جاری رکھیں؟';
+
+  @override
+  String get resetCodeButton => 'کوڈ ری سیٹ کریں';
+
+  @override
+  String get createNewVenueTitle => 'نیا وینیو بنائیں';
+
+  @override
+  String get multiSiteSupportPartialText =>
+      'ملٹی سائٹ سپورٹ جزوی ہے: سامان، اسٹاف اور کام کی فہرستیں ابھی تک وینیو کے مطابق فلٹر نہیں کی گئیں، اس لیے دوسرے وینیو کے روزمرہ استعمال کی ابھی مکمل حمایت نہیں ہے۔ ایک بنانا محفوظ ہے، لیکن جب تک یہ نہیں بنتا، تم اس وینیو اور اصل وینیو کا ڈیٹا مشترکہ فہرستوں میں ملا ہوا دیکھو گے۔';
+
+  @override
+  String get createButton => 'بنائیں';
+
+  @override
+  String get venueDetailsTitle => 'وینیو تفصیلات';
+
+  @override
+  String get billingLabel => 'بلنگ';
+
+  @override
+  String get billingSubtitleText => 'پلان، حیثیت، ڈائریکٹ ڈیبٹ';
+
+  @override
+  String get activeLabel => 'فعال';
+
+  @override
+  String get setAsActiveButton => 'فعال کے طور پر سیٹ کریں';
+
+  @override
+  String get tabletSetupCodeTitle => 'ٹیبلیٹ سیٹ اپ کوڈ';
+
+  @override
+  String get tabletSetupCodeExplanation =>
+      'اسے ایک بار نئے ٹیبلیٹ پر درج کریں تاکہ یہ اس وینیو کی اسٹاف فہرست دکھا سکے۔';
+
+  @override
+  String get generateCodeButton => 'کوڈ بنائیں';
+
+  @override
+  String get venueTypeSectionTitle => 'وینیو کی قسم';
 }

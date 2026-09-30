@@ -3453,4 +3453,58 @@ class AppLocalizationsEn extends AppLocalizations {
   String changeApprovalStatusTitle(String name) {
     return 'Change Approval Status - $name';
   }
+
+  @override
+  String get newVenueTypeTitle => 'New Venue Type';
+
+  @override
+  String get renameOrganisationTitle => 'Rename Organisation';
+
+  @override
+  String get resetSetupCodeTitle => 'Reset setup code?';
+
+  @override
+  String get resetSetupCodeConfirmText =>
+      'This will disconnect every tablet currently using this venue until they\'re given the new code. Continue?';
+
+  @override
+  String get resetCodeButton => 'Reset code';
+
+  @override
+  String get createNewVenueTitle => 'Create New Venue';
+
+  @override
+  String get multiSiteSupportPartialText =>
+      'Multi-site support is partial: equipment, staff, and task lists are not yet filtered by venue, so day-to-day use of a second venue is not fully supported yet. Creating one is safe, but you\'ll see this venue\'s and the original venue\'s data mixed together in shared lists until that\'s built.';
+
+  @override
+  String get createButton => 'Create';
+
+  @override
+  String get venueDetailsTitle => 'Venue Details';
+
+  @override
+  String get billingLabel => 'Billing';
+
+  @override
+  String get billingSubtitleText => 'Plan, status, Direct Debit';
+
+  @override
+  String get activeLabel => 'Active';
+
+  @override
+  String get setAsActiveButton => 'Set as Active';
+
+  @override
+  String get tabletSetupCodeTitle => 'Tablet setup code';
+
+  @override
+  String get tabletSetupCodeExplanation =>
+      'Enter this once on a new tablet so it can show this venue\'s staff list.';
+
+  @override
+  String get generateCodeButton => 'Generate code';
+
+  @override
+  String get venueTypeSectionTitle => 'Venue type';
 }

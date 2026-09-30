@@ -3471,4 +3471,58 @@ class AppLocalizationsRo extends AppLocalizations {
   String changeApprovalStatusTitle(String name) {
     return 'Schimbă starea de aprobare - $name';
   }
+
+  @override
+  String get newVenueTypeTitle => 'Tip de local nou';
+
+  @override
+  String get renameOrganisationTitle => 'Redenumește compania';
+
+  @override
+  String get resetSetupCodeTitle => 'Resetezi codul de configurare?';
+
+  @override
+  String get resetSetupCodeConfirmText =>
+      'Aceasta va deconecta fiecare tabletă care folosește în prezent acest local, până când primesc noul cod. Continui?';
+
+  @override
+  String get resetCodeButton => 'Resetează codul';
+
+  @override
+  String get createNewVenueTitle => 'Creează local nou';
+
+  @override
+  String get multiSiteSupportPartialText =>
+      'Suportul pentru mai multe locații este parțial: echipamentele, personalul și listele de sarcini nu sunt încă filtrate pe local, deci utilizarea zilnică a unui al doilea local nu este încă complet susținută. Crearea unuia este sigură, dar vei vedea datele acestui local și ale localului original amestecate în liste comune până când asta va fi construit.';
+
+  @override
+  String get createButton => 'Creează';
+
+  @override
+  String get venueDetailsTitle => 'Detalii local';
+
+  @override
+  String get billingLabel => 'Facturare';
+
+  @override
+  String get billingSubtitleText => 'Plan, stare, Direct Debit';
+
+  @override
+  String get activeLabel => 'Activ';
+
+  @override
+  String get setAsActiveButton => 'Setează ca activ';
+
+  @override
+  String get tabletSetupCodeTitle => 'Cod de configurare tabletă';
+
+  @override
+  String get tabletSetupCodeExplanation =>
+      'Introdu acest cod o dată pe o tabletă nouă ca să poată afișa lista de personal a acestui local.';
+
+  @override
+  String get generateCodeButton => 'Generează codul';
+
+  @override
+  String get venueTypeSectionTitle => 'Tip de local';
 }

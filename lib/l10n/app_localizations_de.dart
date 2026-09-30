@@ -3482,4 +3482,58 @@ class AppLocalizationsDe extends AppLocalizations {
   String changeApprovalStatusTitle(String name) {
     return 'Genehmigungsstatus ändern - $name';
   }
+
+  @override
+  String get newVenueTypeTitle => 'Neuer Standorttyp';
+
+  @override
+  String get renameOrganisationTitle => 'Firma umbenennen';
+
+  @override
+  String get resetSetupCodeTitle => 'Einrichtungscode zurücksetzen?';
+
+  @override
+  String get resetSetupCodeConfirmText =>
+      'Dies trennt jedes Tablet, das derzeit diesen Standort verwendet, bis ihm der neue Code gegeben wird. Fortfahren?';
+
+  @override
+  String get resetCodeButton => 'Code zurücksetzen';
+
+  @override
+  String get createNewVenueTitle => 'Neuen Standort erstellen';
+
+  @override
+  String get multiSiteSupportPartialText =>
+      'Die Unterstützung mehrerer Standorte ist teilweise: Ausrüstung, Personal und Aufgabenlisten werden noch nicht nach Standort gefiltert, daher wird die tägliche Nutzung eines zweiten Standorts noch nicht vollständig unterstützt. Einen zu erstellen ist sicher, aber du wirst die Daten dieses Standorts und des ursprünglichen Standorts in gemeinsamen Listen vermischt sehen, bis das gebaut ist.';
+
+  @override
+  String get createButton => 'Erstellen';
+
+  @override
+  String get venueDetailsTitle => 'Standortdetails';
+
+  @override
+  String get billingLabel => 'Abrechnung';
+
+  @override
+  String get billingSubtitleText => 'Plan, Status, Lastschrift';
+
+  @override
+  String get activeLabel => 'Aktiv';
+
+  @override
+  String get setAsActiveButton => 'Als aktiv festlegen';
+
+  @override
+  String get tabletSetupCodeTitle => 'Tablet-Einrichtungscode';
+
+  @override
+  String get tabletSetupCodeExplanation =>
+      'Gib dies einmal auf einem neuen Tablet ein, damit es die Mitarbeiterliste dieses Standorts anzeigen kann.';
+
+  @override
+  String get generateCodeButton => 'Code generieren';
+
+  @override
+  String get venueTypeSectionTitle => 'Standorttyp';
 }

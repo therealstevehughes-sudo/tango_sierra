@@ -3294,4 +3294,57 @@ class AppLocalizationsZh extends AppLocalizations {
   String changeApprovalStatusTitle(String name) {
     return '更改审批状态 - $name';
   }
+
+  @override
+  String get newVenueTypeTitle => '新场所类型';
+
+  @override
+  String get renameOrganisationTitle => '重命名公司';
+
+  @override
+  String get resetSetupCodeTitle => '重置设置代码?';
+
+  @override
+  String get resetSetupCodeConfirmText =>
+      '这将断开当前使用此场所的所有平板电脑的连接,直到它们获得新代码。是否继续?';
+
+  @override
+  String get resetCodeButton => '重置代码';
+
+  @override
+  String get createNewVenueTitle => '创建新场所';
+
+  @override
+  String get multiSiteSupportPartialText =>
+      '多场所支持尚不完整:设备、员工和任务列表尚未按场所过滤,因此第二个场所的日常使用尚未完全支持。创建一个是安全的,但在此功能构建完成之前,你会在共享列表中看到此场所与原场所的数据混在一起。';
+
+  @override
+  String get createButton => '创建';
+
+  @override
+  String get venueDetailsTitle => '场所详情';
+
+  @override
+  String get billingLabel => '账单';
+
+  @override
+  String get billingSubtitleText => '套餐、状态、直接借记';
+
+  @override
+  String get activeLabel => '活动';
+
+  @override
+  String get setAsActiveButton => '设为活动';
+
+  @override
+  String get tabletSetupCodeTitle => '平板电脑设置代码';
+
+  @override
+  String get tabletSetupCodeExplanation => '在新平板电脑上输入一次,即可显示此场所的员工名单。';
+
+  @override
+  String get generateCodeButton => '生成代码';
+
+  @override
+  String get venueTypeSectionTitle => '场所类型';
 }

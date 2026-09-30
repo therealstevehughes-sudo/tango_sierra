@@ -982,5 +982,22 @@
   "inactiveStandaloneLabel": "(inactiv)",
   "changeApprovalStatusMenuItem": "Schimbă starea de aprobare",
   "editDetailsForSupplierTitle": "Editează detaliile - {name}",
-  "changeApprovalStatusTitle": "Schimbă starea de aprobare - {name}"
+  "changeApprovalStatusTitle": "Schimbă starea de aprobare - {name}",
+  "newVenueTypeTitle": "Tip de local nou",
+  "renameOrganisationTitle": "Redenumește compania",
+  "resetSetupCodeTitle": "Resetezi codul de configurare?",
+  "resetSetupCodeConfirmText": "Aceasta va deconecta fiecare tabletă care folosește în prezent acest local, până când primesc noul cod. Continui?",
+  "resetCodeButton": "Resetează codul",
+  "createNewVenueTitle": "Creează local nou",
+  "multiSiteSupportPartialText": "Suportul pentru mai multe locații este parțial: echipamentele, personalul și listele de sarcini nu sunt încă filtrate pe local, deci utilizarea zilnică a unui al doilea local nu este încă complet susținută. Crearea unuia este sigură, dar vei vedea datele acestui local și ale localului original amestecate în liste comune până când asta va fi construit.",
+  "createButton": "Creează",
+  "venueDetailsTitle": "Detalii local",
+  "billingLabel": "Facturare",
+  "billingSubtitleText": "Plan, stare, Direct Debit",
+  "activeLabel": "Activ",
+  "setAsActiveButton": "Setează ca activ",
+  "tabletSetupCodeTitle": "Cod de configurare tabletă",
+  "tabletSetupCodeExplanation": "Introdu acest cod o dată pe o tabletă nouă ca să poată afișa lista de personal a acestui local.",
+  "generateCodeButton": "Generează codul",
+  "venueTypeSectionTitle": "Tip de local"
 }

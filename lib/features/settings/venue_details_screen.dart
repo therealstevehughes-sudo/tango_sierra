@@ -16,6 +16,7 @@ import '../../shared/providers/venue_type_providers.dart';
 import 'billing_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
+import '../../l10n/app_localizations.dart';
 
 class VenueDetailsScreen extends ConsumerStatefulWidget {
   const VenueDetailsScreen({super.key});
@@ -104,7 +105,10 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
   }
 
   Future<void> _addCustomVenueType(Site site) async {
-    final name = await _promptForName('New Venue Type', '');
+    final name = await _promptForName(
+      AppLocalizations.of(context)!.newVenueTypeTitle,
+      '',
+    );
     if (name == null || name.isEmpty) return;
 
     final venueTypeRepo = ref.read(venueTypeRepositoryProvider);
@@ -129,31 +133,37 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
     final controller = TextEditingController(text: currentName);
     return showDialog<String>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(labelText: 'Name'),
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(title),
+          content: TextField(
+            controller: controller,
+            decoration: InputDecoration(labelText: l10n.nameAxisLabel),
+            autofocus: true,
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, controller.text.trim()),
-            child: const Text('Save'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, controller.text.trim()),
+              child: Text(l10n.saveButton),
+            ),
+          ],
+        );
+      },
     );
   }
 
   Future<void> _renameOrganisation() async {
     final org = organisation;
     if (org == null) return;
-    final newName = await _promptForName('Rename Organisation', org.name);
+    final newName = await _promptForName(
+      AppLocalizations.of(context)!.renameOrganisationTitle,
+      org.name,
+    );
     if (newName == null || newName.isEmpty || newName == org.name) return;
 
     final repo = ref.read(organisationRepositoryProvider);
@@ -162,7 +172,10 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
   }
 
   Future<void> _renameSite(Site site) async {
-    final newName = await _promptForName('Rename Venue', site.name);
+    final newName = await _promptForName(
+      AppLocalizations.of(context)!.renameVenueTitle,
+      site.name,
+    );
     if (newName == null || newName.isEmpty || newName == site.name) return;
 
     final repo = ref.read(siteRepositoryProvider);
@@ -182,23 +195,23 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
   Future<void> _regenerateDeviceCode(Site site) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Reset setup code?'),
-        content: const Text(
-          'This will disconnect every tablet currently using this venue '
-          "until they're given the new code. Continue?",
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Reset code'),
-          ),
-        ],
-      ),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.resetSetupCodeTitle),
+          content: Text(l10n.resetSetupCodeConfirmText),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.resetCodeButton),
+            ),
+          ],
+        );
+      },
     );
     if (confirmed != true) return;
 
@@ -218,47 +231,45 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Create New Venue'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Multi-site support is partial: equipment, staff, and task '
-              'lists are not yet filtered by venue, so day-to-day use of a '
-              'second venue is not fully supported yet. Creating one is '
-              'safe, but you\'ll see this venue\'s and the original '
-              'venue\'s data mixed together in shared lists until that\'s '
-              'built.',
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: newSiteNameController,
-              decoration: const InputDecoration(labelText: 'Venue name'),
-              autofocus: true,
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: newSiteAddressController,
-              decoration: const InputDecoration(
-                labelText: 'Address (optional)',
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.createNewVenueTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.multiSiteSupportPartialText,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: newSiteNameController,
+                decoration: InputDecoration(labelText: l10n.venueNameLabel),
+                autofocus: true,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: newSiteAddressController,
+                decoration: InputDecoration(
+                  labelText: l10n.addressOptionalLabel,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.createButton),
             ),
           ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Create'),
-          ),
-        ],
-      ),
+        );
+      },
     );
 
     if (confirmed != true) return;
@@ -282,6 +293,7 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.watch(currentUserProvider);
     final backendDataEnabled = ref.watch(backendDataEnabledProvider);
     final activeSite = ref.watch(activeSiteProvider);
@@ -289,10 +301,10 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Venue Details'),
+        title: Text(l10n.venueDetailsTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Venue Details'),
+      drawer: ManagementDrawer(title: l10n.venueDetailsTitle),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : loadError != null
@@ -305,11 +317,11 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
               children: [
                 Card(
                   child: ListTile(
-                    title: const Text('Organisation'),
+                    title: Text(l10n.organisationTitle),
                     subtitle: Text(organisation?.name ?? ''),
                     trailing: IconButton(
                       icon: const Icon(Icons.edit),
-                      tooltip: 'Rename',
+                      tooltip: l10n.renameTooltip,
                       onPressed: _renameOrganisation,
                     ),
                   ),
@@ -321,8 +333,8 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                     currentUser?.roleTier == RoleTier.executive)
                   Card(
                     child: ListTile(
-                      title: const Text('Billing'),
-                      subtitle: const Text('Plan, status, Direct Debit'),
+                      title: Text(l10n.billingLabel),
+                      subtitle: Text(l10n.billingSubtitleText),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () => Navigator.push(
                         context,
@@ -331,7 +343,7 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                     ),
                   ),
                 const SizedBox(height: 12),
-                const SectionHeader(title: 'Venues'),
+                SectionHeader(title: l10n.venuesSectionTitle),
                 ...sites.map((site) {
                   final isActive = site.id == effectiveActiveId;
                   final taggedIds = siteVenueTypeIds[site.id] ?? const {};
@@ -354,23 +366,23 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                               Text(site.address ?? ''),
                               const SizedBox(height: 4),
                               if (isActive)
-                                const Align(
+                                Align(
                                   alignment: Alignment.centerLeft,
-                                  child: Chip(label: Text('Active')),
+                                  child: Chip(label: Text(l10n.activeLabel)),
                                 )
                               else
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: TextButton(
                                     onPressed: () => _setActive(site),
-                                    child: const Text('Set as Active'),
+                                    child: Text(l10n.setAsActiveButton),
                                   ),
                                 ),
                             ],
                           ),
                           trailing: IconButton(
                             icon: const Icon(Icons.edit),
-                            tooltip: 'Rename',
+                            tooltip: l10n.renameTooltip,
                             onPressed: () => _renameSite(site),
                           ),
                         ),
@@ -383,11 +395,10 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const SectionHeader(title: 'Tablet setup code'),
+                                SectionHeader(title: l10n.tabletSetupCodeTitle),
                                 const SizedBox(height: 4),
                                 Text(
-                                  'Enter this once on a new tablet so it can '
-                                  'show this venue\'s staff list.',
+                                  l10n.tabletSetupCodeExplanation,
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                                 const SizedBox(height: 8),
@@ -409,8 +420,8 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                                           _regenerateDeviceCode(site),
                                       child: Text(
                                         site.deviceCredential == null
-                                            ? 'Generate code'
-                                            : 'Reset code',
+                                            ? l10n.generateCodeButton
+                                            : l10n.resetCodeButton,
                                       ),
                                     ),
                                   ],
@@ -423,7 +434,7 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SectionHeader(title: 'Venue type'),
+                              SectionHeader(title: l10n.venueTypeSectionTitle),
                               Wrap(
                                 spacing: 8,
                                 runSpacing: 4,
@@ -438,7 +449,7 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                                   ),
                                   ActionChip(
                                     avatar: const Icon(Icons.add, size: 18),
-                                    label: const Text('Something else...'),
+                                    label: Text(l10n.somethingElseOption),
                                     onPressed: () => _addCustomVenueType(site),
                                   ),
                                 ],
@@ -453,7 +464,7 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                 if (currentUser?.roleTier == RoleTier.executive) ...[
                   const SizedBox(height: 12),
                   PrimaryActionButton(
-                    label: 'Create New Venue',
+                    label: l10n.createNewVenueTitle,
                     onPressed: _createVenue,
                   ),
                 ],
