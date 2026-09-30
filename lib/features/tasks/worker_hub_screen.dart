@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/brand_header.dart';
+import '../../core/localization/language_picker.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_background.dart';
@@ -66,6 +67,11 @@ class WorkerHubScreen extends ConsumerWidget {
           // Omnipresent assistant icon (2026-09-25) — replaces the plain
           // "?" every screen is getting the same one addition.
           const AssistantIconButton(),
+          // Language picker (2026-09-30, direct founder report) — base
+          // tier has no Settings/drawer access at all (see the class doc
+          // comment above), so this top bar is the only place a junior
+          // worker could ever reach it.
+          const LanguageIconButton(),
           // Log out vs. End shift, kept as two genuinely separate actions
           // (2026-09-29, direct founder report) — "End shift" alone forced
           // anyone stepping away mid-shift (device swap, a quick break)
