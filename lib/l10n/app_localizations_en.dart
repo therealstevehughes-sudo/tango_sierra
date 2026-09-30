@@ -4228,4 +4228,160 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emailUsButton => 'Email us';
+
+  @override
+  String taskCountOverdueLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tasks overdue',
+      one: '$count task overdue',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String acrossStaffMembersLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Across $count staff members',
+      one: 'Across $count staff member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String moreStaffMembersLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+$count more staff members',
+      one: '+$count more staff member',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fails',
+      one: '$count fail',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notCompletedCountLabel(int count) {
+    return '$count not completed';
+  }
+
+  @override
+  String issuesRaisedCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count issues raised',
+      one: '$count issue raised',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shiftSummaryTitle(String name) {
+    return 'Shift summary - $name';
+  }
+
+  @override
+  String get faqQ1 => 'Who can see what I log?';
+
+  @override
+  String get faqA1 =>
+      'Your manager and anyone above them in your venue can see the tasks you complete. A named individual is never shown a graded score or league table - only a plain list of what they did and when.';
+
+  @override
+  String get faqQ2 => 'What happens if I miss a task during my shift?';
+
+  @override
+  String get faqA2 =>
+      'It\'s recorded as not completed, not as a fail - an abandoned mid-shift task is expected, allowed behaviour, just never hidden. Your manager sees it as its own distinct status.';
+
+  @override
+  String get faqQ3 => 'Can I go back and finish a task I skipped?';
+
+  @override
+  String get faqA3 =>
+      'Yes, any time before the end of your shift - it stays available in your task list until you complete it or your shift ends.';
+
+  @override
+  String get faqQ4 => 'What if I fail a check (e.g. a fridge is too warm)?';
+
+  @override
+  String get faqA4 =>
+      'Log it as a FAIL, record the corrective action you took (or that you reported it), and add a photo if asked. This is exactly what the system is for - a logged FAIL with a fix is a success story for an inspector, not a problem for you.';
+
+  @override
+  String get faqQ5 =>
+      'Do I need to clock in and out separately from logging in?';
+
+  @override
+  String get faqA5 =>
+      'No - logging in with your PIN at the start of your shift is your clock-in. Use \'End shift\' when you finish, which also shows you anything you still need to complete.';
+
+  @override
+  String get faqQ6 => 'I raised an issue - what happens to it?';
+
+  @override
+  String get faqA6 =>
+      'It goes to your manager (or escalates further if not handled in time). You can check its status any time from \"My Raised Issues.\"';
+
+  @override
+  String get troubleQ1 => 'My PIN isn\'t working';
+
+  @override
+  String get troubleA1 =>
+      'Double check you\'re tapping your own name first, then entering the PIN - a wrong PIN on the right name gives a clear rejection message. If it still doesn\'t work, ask a manager to check your account is active and reset your PIN if needed.';
+
+  @override
+  String get troubleQ2 => 'A task I should have is missing from my list';
+
+  @override
+  String get troubleA2 =>
+      'Ask your manager to check it\'s assigned to your role/section in Assign Tasks. Tasks only appear for the roles and departments they\'ve been switched on for.';
+
+  @override
+  String get troubleQ3 => 'The app won\'t let me take a photo';
+
+  @override
+  String get troubleA3 =>
+      'Make sure the app has camera permission (check your device settings). On Windows, if no camera is detected you\'ll be offered a file picker instead.';
+
+  @override
+  String get troubleQ4 =>
+      'I can\'t submit a check / nothing happens when I press Submit';
+
+  @override
+  String get troubleA4 =>
+      'This can happen if your organisation\'s account needs billing attention - you\'ll see a clear message if so. Otherwise, check every required field (including any photo) is filled in.';
+
+  @override
+  String get troubleQ5 => 'The app looks like it\'s stuck / frozen';
+
+  @override
+  String get troubleA5 =>
+      'Try closing and reopening it. Your progress up to your last completed task is always saved as you go, so nothing already submitted is lost.';
+
+  @override
+  String get troubleQ6 => 'I\'m not seeing the same tasks as yesterday';
+
+  @override
+  String get troubleA6 =>
+      'That\'s expected if your schedule includes ad hoc tasks, or tasks tied to a time window - they only appear when due. Ask your manager if something looks genuinely wrong.';
+
+  @override
+  String taskOverdueSinceLabel(String title, String date) {
+    return '$title - overdue since $date';
+  }
 }

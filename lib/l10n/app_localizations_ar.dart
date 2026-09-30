@@ -4096,4 +4096,130 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get emailUsButton => 'راسلنا عبر البريد الإلكتروني';
+
+  @override
+  String taskCountOverdueLabel(int count) {
+    return '$count مهمة متأخرة';
+  }
+
+  @override
+  String acrossStaffMembersLabel(int count) {
+    return 'عبر $count موظف';
+  }
+
+  @override
+  String moreStaffMembersLabel(int count) {
+    return '+$count موظف إضافي';
+  }
+
+  @override
+  String failCountLabel(int count) {
+    return '$count فشل';
+  }
+
+  @override
+  String notCompletedCountLabel(int count) {
+    return '$count غير مكتمل';
+  }
+
+  @override
+  String issuesRaisedCountLabel(int count) {
+    return '$count مشكلة تم الإبلاغ عنها';
+  }
+
+  @override
+  String shiftSummaryTitle(String name) {
+    return 'ملخص النوبة - $name';
+  }
+
+  @override
+  String get faqQ1 => 'من يمكنه رؤية ما أسجله؟';
+
+  @override
+  String get faqA1 =>
+      'يمكن لمديرك وأي شخص أعلى منه في موقعك رؤية المهام التي تكملها. لا يُعرض أبدًا للشخص المسمى درجة مُقيّمة أو جدول ترتيب - فقط قائمة بسيطة بما فعله ومتى.';
+
+  @override
+  String get faqQ2 => 'ماذا يحدث إذا فاتتني مهمة أثناء نوبتي؟';
+
+  @override
+  String get faqA2 =>
+      'يتم تسجيلها كغير مكتملة، وليس كفشل - مهمة متروكة في منتصف النوبة سلوك متوقع ومسموح به، فقط لا يتم إخفاؤه أبدًا. يراها مديرك كحالة منفصلة ومميزة خاصة بها.';
+
+  @override
+  String get faqQ3 => 'هل يمكنني العودة وإنهاء مهمة تخطيتها؟';
+
+  @override
+  String get faqA3 =>
+      'نعم، في أي وقت قبل نهاية نوبتك - تظل متاحة في قائمة مهامك حتى تكملها أو تنتهي نوبتك.';
+
+  @override
+  String get faqQ4 => 'ماذا لو فشلت في فحص (مثل ثلاجة شديدة الحرارة)؟';
+
+  @override
+  String get faqA4 =>
+      'سجّلها كـ فشل، ودوّن الإجراء التصحيحي الذي اتخذته (أو أنك أبلغت عنه)، وأضف صورة إذا طُلب منك ذلك. هذا بالضبط ما صُمم النظام من أجله - فشل مُسجل مع إصلاح هو قصة نجاح للمفتش، وليس مشكلة لك.';
+
+  @override
+  String get faqQ5 =>
+      'هل أحتاج إلى تسجيل الحضور والانصراف بشكل منفصل عن تسجيل الدخول؟';
+
+  @override
+  String get faqA5 =>
+      'لا - تسجيل الدخول برمزك السري في بداية نوبتك هو تسجيل حضورك. استخدم \'إنهاء النوبة\' عند الانتهاء، والذي يُظهر لك أيضًا أي شيء ما زلت بحاجة إلى إكماله.';
+
+  @override
+  String get faqQ6 => 'أثرت مشكلة - ماذا يحدث لها؟';
+
+  @override
+  String get faqA6 =>
+      'تذهب إلى مديرك (أو تتصاعد أكثر إذا لم تُعالج في الوقت المناسب). يمكنك التحقق من حالتها في أي وقت من \"مشاكلي المُبلغ عنها.\"';
+
+  @override
+  String get troubleQ1 => 'رمزي السري لا يعمل';
+
+  @override
+  String get troubleA1 =>
+      'تحقق مرة أخرى من أنك تنقر على اسمك أولاً، ثم تُدخل الرمز السري - رمز سري خاطئ على الاسم الصحيح يعطي رسالة رفض واضحة. إذا استمر عدم العمل، اطلب من المدير التحقق من أن حسابك نشط وإعادة تعيين رمزك السري إذا لزم الأمر.';
+
+  @override
+  String get troubleQ2 => 'مهمة يجب أن أملكها مفقودة من قائمتي';
+
+  @override
+  String get troubleA2 =>
+      'اطلب من مديرك التحقق من أنها مُعيّنة لدورك/قسمك في تعيين المهام. تظهر المهام فقط للأدوار والأقسام التي تم تفعيلها من أجلها.';
+
+  @override
+  String get troubleQ3 => 'التطبيق لا يسمح لي بالتقاط صورة';
+
+  @override
+  String get troubleA3 =>
+      'تأكد من أن التطبيق لديه إذن الكاميرا (تحقق من إعدادات جهازك). على Windows، إذا لم يتم اكتشاف كاميرا، سيُعرض عليك منتقي ملفات بدلاً من ذلك.';
+
+  @override
+  String get troubleQ4 =>
+      'لا يمكنني إرسال فحص / لا يحدث شيء عند الضغط على إرسال';
+
+  @override
+  String get troubleA4 =>
+      'يمكن أن يحدث هذا إذا كان حساب مؤسستك بحاجة إلى اهتمام بالفوترة - سترى رسالة واضحة إذا كان الأمر كذلك. وإلا، تحقق من ملء كل حقل مطلوب (بما في ذلك أي صورة).';
+
+  @override
+  String get troubleQ5 => 'يبدو أن التطبيق عالق / متجمد';
+
+  @override
+  String get troubleA5 =>
+      'حاول إغلاقه وإعادة فتحه. يتم دائمًا حفظ تقدمك حتى آخر مهمة أكملتها أثناء المتابعة، لذا لن يُفقد أي شيء تم إرساله بالفعل.';
+
+  @override
+  String get troubleQ6 => 'لا أرى نفس المهام كالأمس';
+
+  @override
+  String get troubleA6 =>
+      'هذا متوقع إذا كان جدولك يتضمن مهام مخصصة، أو مهام مرتبطة بنافذة زمنية - تظهر فقط عند استحقاقها. اسأل مديرك إذا بدا شيء ما خاطئًا حقًا.';
+
+  @override
+  String taskOverdueSinceLabel(String title, String date) {
+    return '$title - متأخرة منذ $date';
+  }
 }

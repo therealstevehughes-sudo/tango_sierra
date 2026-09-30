@@ -4208,4 +4208,159 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get emailUsButton => 'Napisz do nas';
+
+  @override
+  String taskCountOverdueLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count zaległych zadań',
+      few: '$count zaległe zadania',
+      one: '$count zaległe zadanie',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String acrossStaffMembersLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Wśród $count pracowników',
+      few: 'Wśród $count pracowników',
+      one: 'Wśród $count pracownika',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String moreStaffMembersLabel(int count) {
+    return '+$count więcej pracowników';
+  }
+
+  @override
+  String failCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count niepowodzeń',
+      few: '$count niepowodzenia',
+      one: '$count niepowodzenie',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notCompletedCountLabel(int count) {
+    return '$count nieukończonych';
+  }
+
+  @override
+  String issuesRaisedCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count zgłoszonych problemów',
+      few: '$count zgłoszone problemy',
+      one: '$count zgłoszony problem',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shiftSummaryTitle(String name) {
+    return 'Podsumowanie zmiany - $name';
+  }
+
+  @override
+  String get faqQ1 => 'Kto widzi to, co zapisuję?';
+
+  @override
+  String get faqA1 =>
+      'Twój przełożony i każdy powyżej niego w twoim lokalu widzi zadania, które wykonujesz. Nazwana osoba nigdy nie jest pokazywana z oceną punktową ani na tabeli wyników - tylko zwykła lista tego, co i kiedy zrobiła.';
+
+  @override
+  String get faqQ2 => 'Co się dzieje, jeśli przegapię zadanie podczas zmiany?';
+
+  @override
+  String get faqA2 =>
+      'Zostaje zapisane jako nieukończone, nie jako niepowodzenie - porzucone w trakcie zmiany zadanie jest oczekiwanym, dopuszczalnym zachowaniem, po prostu nigdy nieukrywanym. Twój przełożony widzi to jako osobny, odrębny status.';
+
+  @override
+  String get faqQ3 => 'Czy mogę wrócić i dokończyć zadanie, które pominąłem?';
+
+  @override
+  String get faqA3 =>
+      'Tak, w dowolnym momencie przed końcem zmiany - pozostaje dostępne na twojej liście zadań, dopóki go nie ukończysz lub zmiana się nie skończy.';
+
+  @override
+  String get faqQ4 =>
+      'Co jeśli nie zaliczę kontroli (np. lodówka jest za ciepła)?';
+
+  @override
+  String get faqA4 =>
+      'Zapisz to jako NIEPOWODZENIE, zanotuj podjęte działanie naprawcze (lub że to zgłosiłeś) i dodaj zdjęcie, jeśli jest wymagane. Dokładnie do tego służy system - zapisane NIEPOWODZENIE z naprawą to historia sukcesu dla inspektora, a nie problem dla ciebie.';
+
+  @override
+  String get faqQ5 =>
+      'Czy muszę oddzielnie rejestrować wejście i wyjście od logowania?';
+
+  @override
+  String get faqA5 =>
+      'Nie - zalogowanie się PIN-em na początku zmiany jest twoim wejściem. Użyj \'Zakończ zmianę\', gdy kończysz, co pokaże ci też wszystko, co jeszcze musisz ukończyć.';
+
+  @override
+  String get faqQ6 => 'Zgłosiłem problem - co się z nim dzieje?';
+
+  @override
+  String get faqA6 =>
+      'Trafia do twojego przełożonego (lub eskaluje dalej, jeśli nie zostanie obsłużony na czas). Możesz sprawdzić jego status w dowolnym momencie w \"Moje zgłoszone problemy.\"';
+
+  @override
+  String get troubleQ1 => 'Mój PIN nie działa';
+
+  @override
+  String get troubleA1 =>
+      'Sprawdź dokładnie, czy najpierw stukasz w swoje imię, a potem wpisujesz PIN - błędny PIN przy właściwym imieniu daje jasny komunikat odrzucenia. Jeśli nadal nie działa, poproś przełożonego o sprawdzenie, czy twoje konto jest aktywne, i zresetowanie PIN-u w razie potrzeby.';
+
+  @override
+  String get troubleQ2 => 'Brakuje mi zadania, które powinienem mieć na liście';
+
+  @override
+  String get troubleA2 =>
+      'Poproś przełożonego o sprawdzenie, czy jest ono przypisane do twojej roli/sekcji w Przypisywaniu zadań. Zadania pojawiają się tylko dla ról i działów, dla których zostały włączone.';
+
+  @override
+  String get troubleQ3 => 'Aplikacja nie pozwala mi zrobić zdjęcia';
+
+  @override
+  String get troubleA3 =>
+      'Upewnij się, że aplikacja ma uprawnienia do aparatu (sprawdź ustawienia urządzenia). W systemie Windows, jeśli nie wykryto aparatu, zamiast tego zaproponowany zostanie wybór pliku.';
+
+  @override
+  String get troubleQ4 =>
+      'Nie mogę przesłać kontroli / nic się nie dzieje po naciśnięciu Wyślij';
+
+  @override
+  String get troubleA4 =>
+      'Może się to zdarzyć, jeśli konto twojej organizacji wymaga uwagi w kwestii rozliczeń - jeśli tak jest, zobaczysz jasny komunikat. W przeciwnym razie sprawdź, czy każde wymagane pole (w tym ewentualne zdjęcie) jest wypełnione.';
+
+  @override
+  String get troubleQ5 => 'Aplikacja wygląda, jakby się zawiesiła';
+
+  @override
+  String get troubleA5 =>
+      'Spróbuj ją zamknąć i otworzyć ponownie. Twój postęp do ostatniego ukończonego zadania jest zawsze zapisywany na bieżąco, więc nic już przesłanego nie zostanie utracone.';
+
+  @override
+  String get troubleQ6 => 'Nie widzę tych samych zadań co wczoraj';
+
+  @override
+  String get troubleA6 =>
+      'To normalne, jeśli twój harmonogram zawiera zadania doraźne lub zadania powiązane z oknem czasowym - pojawiają się tylko wtedy, gdy są należne. Zapytaj przełożonego, jeśli coś wygląda naprawdę nie tak.';
+
+  @override
+  String taskOverdueSinceLabel(String title, String date) {
+    return '$title - zaległe od $date';
+  }
 }

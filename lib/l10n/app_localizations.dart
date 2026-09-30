@@ -7237,6 +7237,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email us'**
   String get emailUsButton;
+
+  /// No description provided for @taskCountOverdueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} task overdue} other{{count} tasks overdue}}'**
+  String taskCountOverdueLabel(int count);
+
+  /// No description provided for @acrossStaffMembersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Across {count} staff member} other{Across {count} staff members}}'**
+  String acrossStaffMembersLabel(int count);
+
+  /// No description provided for @moreStaffMembersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{+{count} more staff member} other{+{count} more staff members}}'**
+  String moreStaffMembersLabel(int count);
+
+  /// No description provided for @failCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} fail} other{{count} fails}}'**
+  String failCountLabel(int count);
+
+  /// No description provided for @notCompletedCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} not completed'**
+  String notCompletedCountLabel(int count);
+
+  /// No description provided for @issuesRaisedCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} issue raised} other{{count} issues raised}}'**
+  String issuesRaisedCountLabel(int count);
+
+  /// No description provided for @shiftSummaryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift summary - {name}'**
+  String shiftSummaryTitle(String name);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Who can see what I log?'**
+  String get faqQ1;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your manager and anyone above them in your venue can see the tasks you complete. A named individual is never shown a graded score or league table - only a plain list of what they did and when.'**
+  String get faqA1;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'What happens if I miss a task during my shift?'**
+  String get faqQ2;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s recorded as not completed, not as a fail - an abandoned mid-shift task is expected, allowed behaviour, just never hidden. Your manager sees it as its own distinct status.'**
+  String get faqA2;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Can I go back and finish a task I skipped?'**
+  String get faqQ3;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, any time before the end of your shift - it stays available in your task list until you complete it or your shift ends.'**
+  String get faqA3;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'What if I fail a check (e.g. a fridge is too warm)?'**
+  String get faqQ4;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Log it as a FAIL, record the corrective action you took (or that you reported it), and add a photo if asked. This is exactly what the system is for - a logged FAIL with a fix is a success story for an inspector, not a problem for you.'**
+  String get faqA4;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Do I need to clock in and out separately from logging in?'**
+  String get faqQ5;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No - logging in with your PIN at the start of your shift is your clock-in. Use \'End shift\' when you finish, which also shows you anything you still need to complete.'**
+  String get faqA5;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'I raised an issue - what happens to it?'**
+  String get faqQ6;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'It goes to your manager (or escalates further if not handled in time). You can check its status any time from \"My Raised Issues.\"'**
+  String get faqA6;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'My PIN isn\'t working'**
+  String get troubleQ1;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Double check you\'re tapping your own name first, then entering the PIN - a wrong PIN on the right name gives a clear rejection message. If it still doesn\'t work, ask a manager to check your account is active and reset your PIN if needed.'**
+  String get troubleA1;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'A task I should have is missing from my list'**
+  String get troubleQ2;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Ask your manager to check it\'s assigned to your role/section in Assign Tasks. Tasks only appear for the roles and departments they\'ve been switched on for.'**
+  String get troubleA2;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'The app won\'t let me take a photo'**
+  String get troubleQ3;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure the app has camera permission (check your device settings). On Windows, if no camera is detected you\'ll be offered a file picker instead.'**
+  String get troubleA3;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'I can\'t submit a check / nothing happens when I press Submit'**
+  String get troubleQ4;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'This can happen if your organisation\'s account needs billing attention - you\'ll see a clear message if so. Otherwise, check every required field (including any photo) is filled in.'**
+  String get troubleA4;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'The app looks like it\'s stuck / frozen'**
+  String get troubleQ5;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Try closing and reopening it. Your progress up to your last completed task is always saved as you go, so nothing already submitted is lost.'**
+  String get troubleA5;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m not seeing the same tasks as yesterday'**
+  String get troubleQ6;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'That\'s expected if your schedule includes ad hoc tasks, or tasks tied to a time window - they only appear when due. Ask your manager if something looks genuinely wrong.'**
+  String get troubleA6;
+
+  /// No description provided for @taskOverdueSinceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} - overdue since {date}'**
+  String taskOverdueSinceLabel(String title, String date);
 }
 
 class _AppLocalizationsDelegate

@@ -4213,4 +4213,155 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get emailUsButton => 'Envíanos un correo';
+
+  @override
+  String taskCountOverdueLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tareas atrasadas',
+      one: '$count tarea atrasada',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String acrossStaffMembersLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Entre $count empleados',
+      one: 'Entre $count empleado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String moreStaffMembersLabel(int count) {
+    return '+$count empleados más';
+  }
+
+  @override
+  String failCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count fallos',
+      one: '$count fallo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notCompletedCountLabel(int count) {
+    return '$count sin completar';
+  }
+
+  @override
+  String issuesRaisedCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count problemas notificados',
+      one: '$count problema notificado',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shiftSummaryTitle(String name) {
+    return 'Resumen del turno - $name';
+  }
+
+  @override
+  String get faqQ1 => '¿Quién puede ver lo que registro?';
+
+  @override
+  String get faqA1 =>
+      'Tu gerente y cualquiera por encima de él en tu local pueden ver las tareas que completas. A una persona identificada nunca se le muestra una puntuación calificada ni una tabla de clasificación - solo una lista simple de lo que hizo y cuándo.';
+
+  @override
+  String get faqQ2 => '¿Qué pasa si me pierdo una tarea durante mi turno?';
+
+  @override
+  String get faqA2 =>
+      'Se registra como no completada, no como fallo - una tarea abandonada a mitad de turno es un comportamiento esperado y permitido, simplemente nunca oculto. Tu gerente la ve como su propio estado distinto.';
+
+  @override
+  String get faqQ3 => '¿Puedo volver y terminar una tarea que me salté?';
+
+  @override
+  String get faqA3 =>
+      'Sí, en cualquier momento antes de que termine tu turno - permanece disponible en tu lista de tareas hasta que la completes o termine tu turno.';
+
+  @override
+  String get faqQ4 =>
+      '¿Qué pasa si fallo una comprobación (p. ej. una nevera está demasiado caliente)?';
+
+  @override
+  String get faqA4 =>
+      'Regístrala como FALLO, anota la acción correctiva que tomaste (o que la reportaste), y añade una foto si se te pide. Para esto es exactamente el sistema - un FALLO registrado con una solución es una historia de éxito para un inspector, no un problema para ti.';
+
+  @override
+  String get faqQ5 =>
+      '¿Necesito fichar entrada y salida por separado de iniciar sesión?';
+
+  @override
+  String get faqA5 =>
+      'No - iniciar sesión con tu PIN al principio de tu turno es tu fichaje de entrada. Usa \'Terminar turno\' cuando acabes, lo que también te muestra cualquier cosa que aún necesites completar.';
+
+  @override
+  String get faqQ6 => 'Reporté un problema - ¿qué le pasa?';
+
+  @override
+  String get faqA6 =>
+      'Va a tu gerente (o escala más si no se gestiona a tiempo). Puedes comprobar su estado en cualquier momento desde \"Mis problemas reportados.\"';
+
+  @override
+  String get troubleQ1 => 'Mi PIN no funciona';
+
+  @override
+  String get troubleA1 =>
+      'Comprueba que estás tocando primero tu propio nombre, y luego introduciendo el PIN - un PIN incorrecto en el nombre correcto da un mensaje claro de rechazo. Si sigue sin funcionar, pide a un gerente que compruebe que tu cuenta está activa y que restablezca tu PIN si es necesario.';
+
+  @override
+  String get troubleQ2 => 'Falta en mi lista una tarea que debería tener';
+
+  @override
+  String get troubleA2 =>
+      'Pide a tu gerente que compruebe que está asignada a tu puesto/sección en Asignar Tareas. Las tareas solo aparecen para los puestos y departamentos para los que se han activado.';
+
+  @override
+  String get troubleQ3 => 'La app no me deja hacer una foto';
+
+  @override
+  String get troubleA3 =>
+      'Asegúrate de que la app tiene permiso de cámara (comprueba los ajustes de tu dispositivo). En Windows, si no se detecta ninguna cámara, se te ofrecerá un selector de archivos en su lugar.';
+
+  @override
+  String get troubleQ4 =>
+      'No puedo enviar una comprobación / no pasa nada al pulsar Enviar';
+
+  @override
+  String get troubleA4 =>
+      'Esto puede pasar si la cuenta de tu empresa necesita atención de facturación - verás un mensaje claro si es así. Si no, comprueba que cada campo obligatorio (incluida cualquier foto) esté completado.';
+
+  @override
+  String get troubleQ5 => 'La app parece atascada / congelada';
+
+  @override
+  String get troubleA5 =>
+      'Intenta cerrarla y volver a abrirla. Tu progreso hasta tu última tarea completada siempre se guarda a medida que avanzas, así que nada ya enviado se pierde.';
+
+  @override
+  String get troubleQ6 => 'No veo las mismas tareas que ayer';
+
+  @override
+  String get troubleA6 =>
+      'Eso es normal si tu horario incluye tareas puntuales, o tareas ligadas a una franja horaria - solo aparecen cuando vencen. Pregunta a tu gerente si algo parece realmente incorrecto.';
+
+  @override
+  String taskOverdueSinceLabel(String title, String date) {
+    return '$title - atrasada desde $date';
+  }
 }

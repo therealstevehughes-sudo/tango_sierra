@@ -4205,4 +4205,155 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get emailUsButton => 'Trimite-ne un email';
+
+  @override
+  String taskCountOverdueLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sarcini restante',
+      one: '$count sarcină restantă',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String acrossStaffMembersLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'La $count angajați',
+      one: 'La $count angajat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String moreStaffMembersLabel(int count) {
+    return '+$count angajați în plus';
+  }
+
+  @override
+  String failCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count eșecuri',
+      one: '$count eșec',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notCompletedCountLabel(int count) {
+    return '$count neefectuate';
+  }
+
+  @override
+  String issuesRaisedCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count probleme raportate',
+      one: '$count problemă raportată',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shiftSummaryTitle(String name) {
+    return 'Rezumatul turei - $name';
+  }
+
+  @override
+  String get faqQ1 => 'Cine poate vedea ce înregistrez?';
+
+  @override
+  String get faqA1 =>
+      'Managerul tău și oricine este deasupra lui în localul tău pot vedea sarcinile pe care le finalizezi. Unei persoane numite nu i se arată niciodată un scor evaluat sau un clasament - doar o listă simplă a ceea ce a făcut și când.';
+
+  @override
+  String get faqQ2 => 'Ce se întâmplă dacă ratez o sarcină în timpul turei?';
+
+  @override
+  String get faqA2 =>
+      'Este înregistrată ca neefectuată, nu ca eșec - o sarcină abandonată la mijlocul turei este un comportament așteptat, permis, doar niciodată ascuns. Managerul tău o vede ca statut distinct, separat.';
+
+  @override
+  String get faqQ3 => 'Mă pot întoarce să termin o sarcină pe care am sărit-o?';
+
+  @override
+  String get faqA3 =>
+      'Da, oricând înainte de sfârșitul turei - rămâne disponibilă în lista ta de sarcini până o finalizezi sau se termină tura.';
+
+  @override
+  String get faqQ4 =>
+      'Ce se întâmplă dacă pic o verificare (ex. un frigider e prea cald)?';
+
+  @override
+  String get faqA4 =>
+      'Înregistreaz-o ca EȘEC, notează acțiunea corectivă pe care ai luat-o (sau că ai raportat-o) și adaugă o fotografie dacă ți se cere. Exact pentru asta există sistemul - un EȘEC înregistrat cu o remediere este o poveste de succes pentru un inspector, nu o problemă pentru tine.';
+
+  @override
+  String get faqQ5 => 'Trebuie să pontez separat de autentificare?';
+
+  @override
+  String get faqA5 =>
+      'Nu - autentificarea cu PIN-ul tău la începutul turei este pontarea ta de intrare. Folosește \'Încheie tura\' când termini, ceea ce îți arată și orice mai trebuie să finalizezi.';
+
+  @override
+  String get faqQ6 => 'Am raportat o problemă - ce se întâmplă cu ea?';
+
+  @override
+  String get faqA6 =>
+      'Ajunge la managerul tău (sau escaladează mai departe dacă nu este gestionată la timp). Îi poți verifica starea oricând din \"Problemele mele raportate.\"';
+
+  @override
+  String get troubleQ1 => 'PIN-ul meu nu funcționează';
+
+  @override
+  String get troubleA1 =>
+      'Verifică din nou dacă atingi mai întâi propriul nume, apoi introduci PIN-ul - un PIN greșit pe numele corect dă un mesaj clar de respingere. Dacă tot nu funcționează, cere unui manager să verifice dacă contul tău este activ și să-ți reseteze PIN-ul dacă e nevoie.';
+
+  @override
+  String get troubleQ2 =>
+      'O sarcină pe care ar trebui să o am lipsește din lista mea';
+
+  @override
+  String get troubleA2 =>
+      'Cere managerului tău să verifice dacă e atribuită rolului/secțiunii tale în Atribuire Sarcini. Sarcinile apar doar pentru rolurile și departamentele pentru care au fost activate.';
+
+  @override
+  String get troubleQ3 => 'Aplicația nu mă lasă să fac o fotografie';
+
+  @override
+  String get troubleA3 =>
+      'Asigură-te că aplicația are permisiunea camerei (verifică setările dispozitivului). Pe Windows, dacă nu este detectată nicio cameră, ți se va oferi în schimb un selector de fișiere.';
+
+  @override
+  String get troubleQ4 =>
+      'Nu pot trimite o verificare / nu se întâmplă nimic când apăs Trimite';
+
+  @override
+  String get troubleA4 =>
+      'Acest lucru se poate întâmpla dacă contul companiei tale necesită atenție la facturare - vei vedea un mesaj clar dacă e cazul. Altfel, verifică dacă fiecare câmp obligatoriu (inclusiv orice fotografie) este completat.';
+
+  @override
+  String get troubleQ5 => 'Aplicația pare blocată / înghețată';
+
+  @override
+  String get troubleA5 =>
+      'Încearcă să o închizi și să o redeschizi. Progresul tău până la ultima sarcină finalizată este mereu salvat pe măsură ce avansezi, așa că nimic deja trimis nu se pierde.';
+
+  @override
+  String get troubleQ6 => 'Nu văd aceleași sarcini ca ieri';
+
+  @override
+  String get troubleA6 =>
+      'Este normal dacă programul tău include sarcini ad hoc sau sarcini legate de o fereastră de timp - apar doar când sunt scadente. Întreabă-ți managerul dacă ceva pare cu adevărat în neregulă.';
+
+  @override
+  String taskOverdueSinceLabel(String title, String date) {
+    return '$title - restantă din $date';
+  }
 }

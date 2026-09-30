@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/network/backend_rest_client.dart';
+import '../../l10n/app_localizations.dart';
 import '../../shared/models/issue.dart';
 import '../../shared/providers/backend_providers.dart';
 import '../../shared/providers/issue_providers.dart';
@@ -63,30 +65,33 @@ class EndOfShiftDigestService {
         return;
       }
 
-      final parts = <String>[];
-      if (stats.failCount > 0) {
-        parts.add('${stats.failCount} fail${stats.failCount == 1 ? '' : 's'}');
-      }
-      if (notCompletedCount > 0) {
-        parts.add('$notCompletedCount not completed');
-      }
-      if (routineIssues.isNotEmpty) {
-        parts.add(
-          '${routineIssues.length} issue${routineIssues.length == 1 ? '' : 's'} raised',
-        );
-      }
-
       final managers = await _client.select(
         'users',
         query:
             'site_id=eq.$siteId'
             '&role_tier=in.(supervisor,venueManager,regional,executive)'
-            '&active=eq.true&select=id',
+            '&active=eq.true&select=id,preferred_locale',
       );
       for (final manager in managers) {
+        // Each manager's push renders in their own preferred language, not
+        // the shift worker's — resolved per-recipient via lookupAppLocalizations
+        // (no BuildContext available in this backend-only service).
+        final l10n = lookupAppLocalizations(
+          Locale((manager['preferred_locale'] as String?) ?? 'en'),
+        );
+        final parts = <String>[];
+        if (stats.failCount > 0) {
+          parts.add(l10n.failCountLabel(stats.failCount));
+        }
+        if (notCompletedCount > 0) {
+          parts.add(l10n.notCompletedCountLabel(notCompletedCount));
+        }
+        if (routineIssues.isNotEmpty) {
+          parts.add(l10n.issuesRaisedCountLabel(routineIssues.length));
+        }
         await _client.invokeFunction('send-push', {
           'user_id': manager['id'],
-          'title': 'Shift summary - $workerName',
+          'title': l10n.shiftSummaryTitle(workerName),
           'body': parts.join(', '),
         });
       }

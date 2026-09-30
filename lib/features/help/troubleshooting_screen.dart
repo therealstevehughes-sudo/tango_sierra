@@ -13,18 +13,20 @@ class TroubleshootingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final entries = troubleshootingEntries(l10n);
     return Scaffold(
       appBar: AppScreenHeader(
-        title: Text(AppLocalizations.of(context)!.troubleshootingTitle),
+        title: Text(l10n.troubleshootingTitle),
       ),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 640,
           child: ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: troubleshootingEntries.length,
+            itemCount: entries.length,
             itemBuilder: (context, index) {
-              final entry = troubleshootingEntries[index];
+              final entry = entries[index];
               return Card(
                 child: ExpansionTile(
                   // Layout fix (2026-09-25) — see faq_screen.dart's own

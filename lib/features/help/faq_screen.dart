@@ -13,18 +13,20 @@ class FaqScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final entries = faqEntries(l10n);
     return Scaffold(
       appBar: AppScreenHeader(
-        title: Text(AppLocalizations.of(context)!.faqTitle),
+        title: Text(l10n.faqTitle),
       ),
       body: SafeArea(
         child: ResponsiveContent(
           maxWidth: 640,
           child: ListView.builder(
             padding: const EdgeInsets.all(16),
-            itemCount: faqEntries.length,
+            itemCount: entries.length,
             itemBuilder: (context, index) {
-              final entry = faqEntries[index];
+              final entry = entries[index];
               return Card(
                 child: ExpansionTile(
                   // Layout fix (2026-09-25, direct user report) —

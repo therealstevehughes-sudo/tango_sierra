@@ -4146,4 +4146,132 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get emailUsButton => 'Pošalji nam e-poštu';
+
+  @override
+  String taskCountOverdueLabel(int count) {
+    return '$count zakašnjelih zadataka';
+  }
+
+  @override
+  String acrossStaffMembersLabel(int count) {
+    return 'Kod $count zaposlenika';
+  }
+
+  @override
+  String moreStaffMembersLabel(int count) {
+    return '+$count više zaposlenika';
+  }
+
+  @override
+  String failCountLabel(int count) {
+    return '$count neuspjeha';
+  }
+
+  @override
+  String notCompletedCountLabel(int count) {
+    return '$count nedovršeno';
+  }
+
+  @override
+  String issuesRaisedCountLabel(int count) {
+    return '$count prijavljenih problema';
+  }
+
+  @override
+  String shiftSummaryTitle(String name) {
+    return 'Sažetak smjene - $name';
+  }
+
+  @override
+  String get faqQ1 => 'Tko može vidjeti što bilježim?';
+
+  @override
+  String get faqA1 =>
+      'Tvoj voditelj i svi iznad njega u tvojoj poslovnici mogu vidjeti zadatke koje dovršavaš. Imenovanoj osobi nikada se ne prikazuje ocijenjeni rezultat ili ljestvica - samo jednostavan popis onoga što je i kada napravila.';
+
+  @override
+  String get faqQ2 => 'Što se događa ako propustim zadatak tijekom smjene?';
+
+  @override
+  String get faqA2 =>
+      'Bilježi se kao nedovršeno, ne kao neuspjeh - napušten zadatak usred smjene je očekivano, dopušteno ponašanje, samo se nikad ne skriva. Tvoj voditelj to vidi kao vlastiti, poseban status.';
+
+  @override
+  String get faqQ3 =>
+      'Mogu li se vratiti i dovršiti zadatak koji sam preskočio/la?';
+
+  @override
+  String get faqA3 =>
+      'Da, bilo kada prije kraja smjene - ostaje dostupan na tvom popisu zadataka dok ga ne dovršiš ili smjena ne završi.';
+
+  @override
+  String get faqQ4 => 'Što ako ne prođem provjeru (npr. hladnjak je pretopao)?';
+
+  @override
+  String get faqA4 =>
+      'Zabilježi to kao NEUSPJEH, zabilježi korektivnu radnju koju si poduzeo/la (ili da si to prijavio/la), i dodaj fotografiju ako se traži. Upravo za to služi sustav - zabilježen NEUSPJEH s popravkom je uspješna priča za inspektora, a ne problem za tebe.';
+
+  @override
+  String get faqQ5 =>
+      'Moram li se odjavljivati/prijavljivati odvojeno od prijave u smjenu?';
+
+  @override
+  String get faqA5 =>
+      'Ne - prijava PIN-om na početku smjene je tvoja prijava na posao. Koristi \'Završi smjenu\' kad završiš, što ti također pokazuje sve što još trebaš dovršiti.';
+
+  @override
+  String get faqQ6 => 'Prijavio/la sam problem - što se s njim događa?';
+
+  @override
+  String get faqA6 =>
+      'Ide tvom voditelju (ili se dalje eskalira ako se ne riješi na vrijeme). Status možeš provjeriti bilo kada u \"Moji prijavljeni problemi.\"';
+
+  @override
+  String get troubleQ1 => 'Moj PIN ne radi';
+
+  @override
+  String get troubleA1 =>
+      'Provjeri dodiruješ li prvo svoje ime, a zatim unosiš PIN - pogrešan PIN na pravom imenu daje jasnu poruku odbijanja. Ako i dalje ne radi, zamoli voditelja da provjeri je li tvoj račun aktivan i resetira tvoj PIN ako je potrebno.';
+
+  @override
+  String get troubleQ2 =>
+      'Zadatak koji bih trebao/la imati nedostaje s mog popisa';
+
+  @override
+  String get troubleA2 =>
+      'Zamoli voditelja da provjeri je li dodijeljen tvojoj ulozi/odjelu u Dodjeli zadataka. Zadaci se pojavljuju samo za uloge i odjele za koje su uključeni.';
+
+  @override
+  String get troubleQ3 => 'Aplikacija mi ne dopušta fotografirati';
+
+  @override
+  String get troubleA3 =>
+      'Provjeri ima li aplikacija dopuštenje za kameru (provjeri postavke uređaja). Na Windowsima, ako kamera nije otkrivena, umjesto toga ćeš dobiti birač datoteka.';
+
+  @override
+  String get troubleQ4 =>
+      'Ne mogu poslati provjeru / ništa se ne događa kad pritisnem Pošalji';
+
+  @override
+  String get troubleA4 =>
+      'To se može dogoditi ako račun tvoje organizacije zahtijeva pažnju vezanu uz naplatu - vidjet ćeš jasnu poruku ako je tako. Inače, provjeri je li svako obavezno polje (uključujući fotografiju) ispunjeno.';
+
+  @override
+  String get troubleQ5 => 'Aplikacija izgleda kao da je zapela / zamrznuta';
+
+  @override
+  String get troubleA5 =>
+      'Pokušaj je zatvoriti i ponovno otvoriti. Tvoj napredak do posljednjeg dovršenog zadatka uvijek se sprema usput, tako da se ništa već poslano ne gubi.';
+
+  @override
+  String get troubleQ6 => 'Ne vidim iste zadatke kao jučer';
+
+  @override
+  String get troubleA6 =>
+      'To je očekivano ako tvoj raspored uključuje zadatke prema potrebi ili zadatke vezane uz vremenski okvir - pojavljuju se samo kad dospiju. Pitaj voditelja ako nešto izgleda stvarno pogrešno.';
+
+  @override
+  String taskOverdueSinceLabel(String title, String date) {
+    return '$title - zakašnjelo od $date';
+  }
 }

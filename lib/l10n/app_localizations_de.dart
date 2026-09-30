@@ -4252,4 +4252,165 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get emailUsButton => 'E-Mail senden';
+
+  @override
+  String taskCountOverdueLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count überfällige Aufgaben',
+      one: '$count überfällige Aufgabe',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String acrossStaffMembersLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Bei $count Mitarbeitern',
+      one: 'Bei $count Mitarbeiter',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String moreStaffMembersLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '+$count weitere Mitarbeiter',
+      one: '+$count weiterer Mitarbeiter',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String failCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Fehlschläge',
+      one: '$count Fehlschlag',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notCompletedCountLabel(int count) {
+    return '$count nicht abgeschlossen';
+  }
+
+  @override
+  String issuesRaisedCountLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count gemeldete Probleme',
+      one: '$count gemeldetes Problem',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String shiftSummaryTitle(String name) {
+    return 'Schichtzusammenfassung - $name';
+  }
+
+  @override
+  String get faqQ1 => 'Wer kann sehen, was ich protokolliere?';
+
+  @override
+  String get faqA1 =>
+      'Dein Manager und alle über ihm in deinem Standort können die Aufgaben sehen, die du erledigst. Einer namentlich genannten Person wird niemals eine bewertete Punktzahl oder eine Rangliste gezeigt - nur eine einfache Liste dessen, was sie wann getan hat.';
+
+  @override
+  String get faqQ2 =>
+      'Was passiert, wenn ich eine Aufgabe während meiner Schicht verpasse?';
+
+  @override
+  String get faqA2 =>
+      'Sie wird als nicht abgeschlossen erfasst, nicht als Fehlschlag - eine mitten in der Schicht abgebrochene Aufgabe ist erwartetes, erlaubtes Verhalten, nur nie versteckt. Dein Manager sieht sie als eigenen, eindeutigen Status.';
+
+  @override
+  String get faqQ3 =>
+      'Kann ich zurückgehen und eine übersprungene Aufgabe fertigstellen?';
+
+  @override
+  String get faqA3 =>
+      'Ja, jederzeit vor Ende deiner Schicht - sie bleibt in deiner Aufgabenliste verfügbar, bis du sie abschließt oder deine Schicht endet.';
+
+  @override
+  String get faqQ4 =>
+      'Was, wenn ich eine Prüfung nicht bestehe (z. B. ein Kühlschrank ist zu warm)?';
+
+  @override
+  String get faqA4 =>
+      'Protokolliere es als FEHLSCHLAG, notiere die Korrekturmaßnahme, die du ergriffen hast (oder dass du es gemeldet hast), und füge bei Bedarf ein Foto hinzu. Genau dafür ist das System da - ein protokollierter FEHLSCHLAG mit einer Behebung ist eine Erfolgsgeschichte für einen Inspektor, kein Problem für dich.';
+
+  @override
+  String get faqQ5 =>
+      'Muss ich getrennt von der Anmeldung ein- und ausstempeln?';
+
+  @override
+  String get faqA5 =>
+      'Nein - die Anmeldung mit deiner PIN zu Beginn deiner Schicht ist dein Einstempeln. Verwende \'Schicht beenden\', wenn du fertig bist, was dir auch alles zeigt, was du noch erledigen musst.';
+
+  @override
+  String get faqQ6 => 'Ich habe ein Problem gemeldet - was passiert damit?';
+
+  @override
+  String get faqA6 =>
+      'Es geht an deinen Manager (oder wird weiter eskaliert, wenn es nicht rechtzeitig bearbeitet wird). Du kannst den Status jederzeit unter \"Meine gemeldeten Probleme\" prüfen.';
+
+  @override
+  String get troubleQ1 => 'Meine PIN funktioniert nicht';
+
+  @override
+  String get troubleA1 =>
+      'Überprüfe, ob du zuerst auf deinen eigenen Namen tippst und dann die PIN eingibst - eine falsche PIN beim richtigen Namen gibt eine klare Ablehnungsmeldung. Wenn es immer noch nicht funktioniert, bitte einen Manager, zu prüfen, ob dein Konto aktiv ist, und deine PIN bei Bedarf zurückzusetzen.';
+
+  @override
+  String get troubleQ2 =>
+      'Eine Aufgabe, die ich haben sollte, fehlt in meiner Liste';
+
+  @override
+  String get troubleA2 =>
+      'Bitte deinen Manager zu prüfen, ob sie deiner Rolle/Abteilung in Aufgaben zuweisen zugewiesen ist. Aufgaben erscheinen nur für die Rollen und Abteilungen, für die sie aktiviert wurden.';
+
+  @override
+  String get troubleQ3 => 'Die App lässt mich kein Foto machen';
+
+  @override
+  String get troubleA3 =>
+      'Stelle sicher, dass die App Kamerazugriff hat (prüfe deine Geräteeinstellungen). Unter Windows wird dir stattdessen eine Dateiauswahl angeboten, wenn keine Kamera erkannt wird.';
+
+  @override
+  String get troubleQ4 =>
+      'Ich kann eine Prüfung nicht absenden / nichts passiert, wenn ich auf Absenden drücke';
+
+  @override
+  String get troubleA4 =>
+      'Das kann passieren, wenn das Konto deiner Firma Aufmerksamkeit bei der Abrechnung benötigt - du wirst in diesem Fall eine klare Meldung sehen. Andernfalls prüfe, ob jedes Pflichtfeld (einschließlich eines etwaigen Fotos) ausgefüllt ist.';
+
+  @override
+  String get troubleQ5 =>
+      'Die App scheint hängen geblieben / eingefroren zu sein';
+
+  @override
+  String get troubleA5 =>
+      'Versuche, sie zu schließen und wieder zu öffnen. Dein Fortschritt bis zu deiner letzten abgeschlossenen Aufgabe wird immer laufend gespeichert, sodass nichts bereits Gesendetes verloren geht.';
+
+  @override
+  String get troubleQ6 => 'Ich sehe nicht dieselben Aufgaben wie gestern';
+
+  @override
+  String get troubleA6 =>
+      'Das ist zu erwarten, wenn dein Zeitplan Ad-hoc-Aufgaben oder an ein Zeitfenster gebundene Aufgaben enthält - sie erscheinen nur, wenn sie fällig sind. Frag deinen Manager, wenn etwas wirklich falsch aussieht.';
+
+  @override
+  String taskOverdueSinceLabel(String title, String date) {
+    return '$title - überfällig seit $date';
+  }
 }

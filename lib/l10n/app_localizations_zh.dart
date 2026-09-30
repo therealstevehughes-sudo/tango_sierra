@@ -3990,4 +3990,124 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get emailUsButton => '给我们发邮件';
+
+  @override
+  String taskCountOverdueLabel(int count) {
+    return '$count 项逾期任务';
+  }
+
+  @override
+  String acrossStaffMembersLabel(int count) {
+    return '涉及 $count 名员工';
+  }
+
+  @override
+  String moreStaffMembersLabel(int count) {
+    return '还有 $count 名员工';
+  }
+
+  @override
+  String failCountLabel(int count) {
+    return '$count 次失败';
+  }
+
+  @override
+  String notCompletedCountLabel(int count) {
+    return '$count 项未完成';
+  }
+
+  @override
+  String issuesRaisedCountLabel(int count) {
+    return '$count 个问题已提出';
+  }
+
+  @override
+  String shiftSummaryTitle(String name) {
+    return '班次摘要 - $name';
+  }
+
+  @override
+  String get faqQ1 => '谁能看到我记录的内容?';
+
+  @override
+  String get faqA1 =>
+      '你的经理以及你场所中级别高于他们的人都能看到你完成的任务。个人从不会被显示评分或排行榜 - 只有一份关于做了什么、何时做的简单列表。';
+
+  @override
+  String get faqQ2 => '如果我在班次中漏掉一项任务会怎样?';
+
+  @override
+  String get faqA2 =>
+      '它会被记录为未完成,而不是失败 - 班次中途放弃的任务是预期且允许的行为,只是从不被隐藏。你的经理会看到它作为一个独立、明确的状态。';
+
+  @override
+  String get faqQ3 => '我可以回去完成之前跳过的任务吗?';
+
+  @override
+  String get faqA3 => '可以,在班次结束前的任何时间都可以 - 它会一直保留在你的任务列表中,直到你完成它或班次结束。';
+
+  @override
+  String get faqQ4 => '如果检查未通过怎么办(例如冰箱温度过高)?';
+
+  @override
+  String get faqA4 =>
+      '将其记录为\"失败\",记录你采取的纠正措施(或你已报告此事),并按要求添加照片。这正是该系统的用途所在 - 一个带有修复措施的失败记录,对检查员来说是一个成功案例,而不是你的问题。';
+
+  @override
+  String get faqQ5 => '我需要在登录之外单独打卡上下班吗?';
+
+  @override
+  String get faqA5 =>
+      '不需要 - 在班次开始时用你的PIN码登录就是你的打卡上班。完成时使用\"结束班次\",它还会显示你仍需完成的所有事项。';
+
+  @override
+  String get faqQ6 => '我提出了一个问题 - 它会怎样处理?';
+
+  @override
+  String get faqA6 => '它会发送给你的经理(如果未及时处理会进一步升级)。你可以随时在\"我提出的问题\"中查看其状态。';
+
+  @override
+  String get troubleQ1 => '我的PIN码不起作用';
+
+  @override
+  String get troubleA1 =>
+      '请仔细检查你是否先点选了自己的姓名,然后再输入PIN码 - 正确姓名下的错误PIN码会给出明确的拒绝提示。如果仍然不行,请管理者检查你的账户是否处于活动状态,并在需要时重置你的PIN码。';
+
+  @override
+  String get troubleQ2 => '我应该有的一项任务从列表中消失了';
+
+  @override
+  String get troubleA2 => '请你的经理在\"分配任务\"中检查它是否已分配给你的角色/部门。任务只会显示给已为其启用的角色和部门。';
+
+  @override
+  String get troubleQ3 => '应用不让我拍照';
+
+  @override
+  String get troubleA3 =>
+      '请确保应用已获得相机权限(检查你的设备设置)。在Windows上,如果未检测到摄像头,将改为提供文件选择器。';
+
+  @override
+  String get troubleQ4 => '我无法提交检查 / 按下提交后没有任何反应';
+
+  @override
+  String get troubleA4 =>
+      '如果你所在机构的账户需要处理账单问题,可能会出现这种情况 - 若是如此,你会看到明确的提示信息。否则,请检查每个必填字段(包括任何照片)是否已填写。';
+
+  @override
+  String get troubleQ5 => '应用看起来卡住了/冻结了';
+
+  @override
+  String get troubleA5 => '请尝试关闭并重新打开它。你的进度会一直保存到你最后完成的任务为止,因此已提交的内容不会丢失。';
+
+  @override
+  String get troubleQ6 => '我看到的任务和昨天不一样';
+
+  @override
+  String get troubleA6 =>
+      '如果你的日程包含临时任务,或与时间窗口相关的任务,这是正常的 - 它们只会在到期时出现。如果确实感觉有问题,请询问你的经理。';
+
+  @override
+  String taskOverdueSinceLabel(String title, String date) {
+    return '$title - 自 $date 起逾期';
+  }
 }

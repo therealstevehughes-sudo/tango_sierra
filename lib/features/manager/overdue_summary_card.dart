@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
+import '../../l10n/app_localizations.dart';
 import '../tasks/overdue_summary_service.dart';
 
 // Manager-facing overdue tracking (Sprint 031, Sub-sprint D). Collapsed by
@@ -20,6 +21,7 @@ class OverdueSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (entries.isEmpty) return const SizedBox.shrink();
+    final l10n = AppLocalizations.of(context)!;
 
     final byStaff = <String, List<OverdueSummaryEntry>>{};
     for (final entry in entries) {
@@ -36,13 +38,8 @@ class OverdueSummaryCard extends StatelessWidget {
         shape: const RoundedRectangleBorder(side: BorderSide.none),
         collapsedShape: const RoundedRectangleBorder(side: BorderSide.none),
         leading: const Icon(Icons.schedule, color: AppColors.caution),
-        title: Text(
-          '${entries.length} task${entries.length == 1 ? '' : 's'} overdue',
-        ),
-        subtitle: Text(
-          'Across ${staffNames.length} staff member'
-          '${staffNames.length == 1 ? '' : 's'}',
-        ),
+        title: Text(l10n.taskCountOverdueLabel(entries.length)),
+        subtitle: Text(l10n.acrossStaffMembersLabel(staffNames.length)),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         children: [
           for (final staffName in shown)
@@ -78,8 +75,10 @@ class OverdueSummaryCard extends StatelessWidget {
                             TextSpan(
                               text: entry.overdueSince == null
                                   ? entry.taskTitle
-                                  : '${entry.taskTitle} - overdue since '
-                                        '${formatDate(entry.overdueSince!)}',
+                                  : l10n.taskOverdueSinceLabel(
+                                      entry.taskTitle,
+                                      formatDate(entry.overdueSince!),
+                                    ),
                             ),
                           ],
                         ),
@@ -90,7 +89,7 @@ class OverdueSummaryCard extends StatelessWidget {
             ),
           if (remaining > 0)
             Text(
-              '+$remaining more staff member${remaining == 1 ? '' : 's'}',
+              l10n.moreStaffMembersLabel(remaining),
               style: Theme.of(context).textTheme.bodySmall,
             ),
         ],
