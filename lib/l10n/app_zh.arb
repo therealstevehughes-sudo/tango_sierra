@@ -1228,5 +1228,8 @@
   "addCertificationRequirementTitle": "添加证书要求",
   "removeCertificationRequirementTitle": "移除此要求?",
   "removeCertificationRequirementBody": "此岗位的员工将不再需要此证书才能排班。这不会影响始终必需的证书。",
-  "removeButton": "移除"
+  "removeButton": "移除",
+  "cannotClaimShiftTitle": "您暂时无法认领此班次",
+  "missingCertificationsMessage": "此岗位需要以下证书,但缺失或已过期:{certs}。请向您的经理咨询如何续期。",
+  "cannotAssignShiftTitle": "无法将此班次分配给 {name}"
 }

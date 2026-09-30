@@ -4262,4 +4262,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get removeButton => 'إزالة';
+
+  @override
+  String get cannotClaimShiftTitle => 'لا يمكنك المطالبة بهذه الوردية بعد';
+
+  @override
+  String missingCertificationsMessage(String certs) {
+    return 'يتطلب هذا الدور ما يلي، وهو مفقود أو منتهي الصلاحية: $certs. اسأل مديرك عن تجديد هذه الشهادات.';
+  }
+
+  @override
+  String cannotAssignShiftTitle(String name) {
+    return 'لا يمكن تعيين هذه الوردية لـ $name';
+  }
 }

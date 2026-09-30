@@ -1228,5 +1228,8 @@
   "addCertificationRequirementTitle": "Zertifizierungsanforderung hinzufügen",
   "removeCertificationRequirementTitle": "Diese Anforderung entfernen?",
   "removeCertificationRequirementBody": "Mitarbeiter in dieser Rolle benötigen dieses Zertifikat dann nicht mehr, um eingeteilt zu werden. Dies betrifft nicht die immer erforderlichen Zertifizierungen.",
-  "removeButton": "Entfernen"
+  "removeButton": "Entfernen",
+  "cannotClaimShiftTitle": "Diese Schicht kann noch nicht übernommen werden",
+  "missingCertificationsMessage": "Diese Rolle erfordert Folgendes, das fehlt oder abgelaufen ist: {certs}. Fragen Sie Ihren Manager nach einer Erneuerung.",
+  "cannotAssignShiftTitle": "Diese Schicht kann {name} nicht zugewiesen werden"
 }

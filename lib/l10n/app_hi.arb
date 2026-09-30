@@ -1228,5 +1228,8 @@
   "addCertificationRequirementTitle": "प्रमाणन आवश्यकता जोड़ें",
   "removeCertificationRequirementTitle": "इस आवश्यकता को हटाएं?",
   "removeCertificationRequirementBody": "इस भूमिका के कर्मचारियों को अब शेड्यूल होने के लिए इस प्रमाणपत्र की आवश्यकता नहीं होगी। इससे हमेशा आवश्यक प्रमाणपत्रों पर कोई असर नहीं पड़ता।",
-  "removeButton": "हटाएं"
+  "removeButton": "हटाएं",
+  "cannotClaimShiftTitle": "आप अभी इस शिफ्ट को नहीं ले सकते",
+  "missingCertificationsMessage": "इस भूमिका के लिए निम्नलिखित आवश्यक हैं, जो गुम या समाप्त हो चुके हैं: {certs}। इन्हें नवीनीकृत करने के बारे में अपने मैनेजर से पूछें।",
+  "cannotAssignShiftTitle": "{name} को यह शिफ्ट नहीं सौंपी जा सकती"
 }

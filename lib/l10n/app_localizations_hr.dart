@@ -4315,4 +4315,17 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get removeButton => 'Ukloni';
+
+  @override
+  String get cannotClaimShiftTitle => 'Ovu smjenu još ne možete preuzeti';
+
+  @override
+  String missingCertificationsMessage(String certs) {
+    return 'Ova uloga zahtijeva sljedeće, što nedostaje ili je isteklo: $certs. Pitajte svog voditelja o obnavljanju.';
+  }
+
+  @override
+  String cannotAssignShiftTitle(String name) {
+    return 'Ovu smjenu nije moguće dodijeliti osobi $name';
+  }
 }

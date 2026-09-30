@@ -4405,4 +4405,17 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get removeButton => 'Eliminar';
+
+  @override
+  String get cannotClaimShiftTitle => 'Aún no puedes reclamar este turno';
+
+  @override
+  String missingCertificationsMessage(String certs) {
+    return 'Este puesto requiere lo siguiente, que falta o ha caducado: $certs. Pregunta a tu gerente sobre cómo renovarlo.';
+  }
+
+  @override
+  String cannotAssignShiftTitle(String name) {
+    return 'No se puede asignar este turno a $name';
+  }
 }

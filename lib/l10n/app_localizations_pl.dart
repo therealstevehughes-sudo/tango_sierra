@@ -4403,4 +4403,17 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get removeButton => 'Usuń';
+
+  @override
+  String get cannotClaimShiftTitle => 'Nie możesz jeszcze zająć tej zmiany';
+
+  @override
+  String missingCertificationsMessage(String certs) {
+    return 'Ta rola wymaga następujących certyfikatów, które są brakujące lub wygasłe: $certs. Zapytaj kierownika o ich odnowienie.';
+  }
+
+  @override
+  String cannotAssignShiftTitle(String name) {
+    return 'Nie można przydzielić tej zmiany osobie $name';
+  }
 }

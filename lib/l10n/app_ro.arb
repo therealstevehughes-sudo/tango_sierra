@@ -1228,5 +1228,8 @@
   "addCertificationRequirementTitle": "Adaugă cerință de certificare",
   "removeCertificationRequirementTitle": "Eliminați această cerință?",
   "removeCertificationRequirementBody": "Personalul din acest rol nu va mai avea nevoie de această certificare pentru a fi programat. Acest lucru nu afectează certificările întotdeauna necesare.",
-  "removeButton": "Elimină"
+  "removeButton": "Elimină",
+  "cannotClaimShiftTitle": "Nu poți prelua încă acest tur",
+  "missingCertificationsMessage": "Acest rol necesită următoarele, care lipsesc sau au expirat: {certs}. Întreabă-ți managerul despre reînnoirea acestora.",
+  "cannotAssignShiftTitle": "Nu se poate atribui acest tur lui {name}"
 }

@@ -4400,4 +4400,17 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get removeButton => 'Elimină';
+
+  @override
+  String get cannotClaimShiftTitle => 'Nu poți prelua încă acest tur';
+
+  @override
+  String missingCertificationsMessage(String certs) {
+    return 'Acest rol necesită următoarele, care lipsesc sau au expirat: $certs. Întreabă-ți managerul despre reînnoirea acestora.';
+  }
+
+  @override
+  String cannotAssignShiftTitle(String name) {
+    return 'Nu se poate atribui acest tur lui $name';
+  }
 }

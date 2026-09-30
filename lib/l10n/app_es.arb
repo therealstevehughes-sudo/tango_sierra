@@ -1228,5 +1228,8 @@
   "addCertificationRequirementTitle": "Añadir requisito de certificación",
   "removeCertificationRequirementTitle": "¿Eliminar este requisito?",
   "removeCertificationRequirementBody": "El personal en este rol ya no necesitará esta certificación para ser programado. Esto no afecta a las certificaciones siempre obligatorias.",
-  "removeButton": "Eliminar"
+  "removeButton": "Eliminar",
+  "cannotClaimShiftTitle": "Aún no puedes reclamar este turno",
+  "missingCertificationsMessage": "Este puesto requiere lo siguiente, que falta o ha caducado: {certs}. Pregunta a tu gerente sobre cómo renovarlo.",
+  "cannotAssignShiftTitle": "No se puede asignar este turno a {name}"
 }

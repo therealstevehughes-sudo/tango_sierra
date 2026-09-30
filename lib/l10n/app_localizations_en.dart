@@ -4425,4 +4425,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get removeButton => 'Remove';
+
+  @override
+  String get cannotClaimShiftTitle => 'You can\'t claim this shift yet';
+
+  @override
+  String missingCertificationsMessage(String certs) {
+    return 'This role requires the following, which are missing or expired: $certs. Ask your manager about getting these renewed.';
+  }
+
+  @override
+  String cannotAssignShiftTitle(String name) {
+    return 'Can\'t assign this shift to $name';
+  }
 }

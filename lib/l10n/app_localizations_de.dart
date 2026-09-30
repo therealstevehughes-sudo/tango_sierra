@@ -4455,4 +4455,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get removeButton => 'Entfernen';
+
+  @override
+  String get cannotClaimShiftTitle =>
+      'Diese Schicht kann noch nicht übernommen werden';
+
+  @override
+  String missingCertificationsMessage(String certs) {
+    return 'Diese Rolle erfordert Folgendes, das fehlt oder abgelaufen ist: $certs. Fragen Sie Ihren Manager nach einer Erneuerung.';
+  }
+
+  @override
+  String cannotAssignShiftTitle(String name) {
+    return 'Diese Schicht kann $name nicht zugewiesen werden';
+  }
 }

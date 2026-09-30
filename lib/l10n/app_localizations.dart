@@ -7501,6 +7501,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remove'**
   String get removeButton;
+
+  /// No description provided for @cannotClaimShiftTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You can\'t claim this shift yet'**
+  String get cannotClaimShiftTitle;
+
+  /// No description provided for @missingCertificationsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This role requires the following, which are missing or expired: {certs}. Ask your manager about getting these renewed.'**
+  String missingCertificationsMessage(String certs);
+
+  /// No description provided for @cannotAssignShiftTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Can\'t assign this shift to {name}'**
+  String cannotAssignShiftTitle(String name);
 }
 
 class _AppLocalizationsDelegate

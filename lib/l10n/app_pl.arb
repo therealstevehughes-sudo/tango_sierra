@@ -1228,5 +1228,8 @@
   "addCertificationRequirementTitle": "Dodaj wymagany certyfikat",
   "removeCertificationRequirementTitle": "Usunąć ten wymóg?",
   "removeCertificationRequirementBody": "Pracownicy na tym stanowisku nie będą już potrzebować tego certyfikatu do zaplanowania zmiany. Nie wpływa to na certyfikaty zawsze wymagane.",
-  "removeButton": "Usuń"
+  "removeButton": "Usuń",
+  "cannotClaimShiftTitle": "Nie możesz jeszcze zająć tej zmiany",
+  "missingCertificationsMessage": "Ta rola wymaga następujących certyfikatów, które są brakujące lub wygasłe: {certs}. Zapytaj kierownika o ich odnowienie.",
+  "cannotAssignShiftTitle": "Nie można przydzielić tej zmiany osobie {name}"
 }

@@ -1228,5 +1228,8 @@
   "addCertificationRequirementTitle": "سرٹیفیکیشن کی ضرورت شامل کریں",
   "removeCertificationRequirementTitle": "اس ضرورت کو ہٹائیں؟",
   "removeCertificationRequirementBody": "اس کردار کے عملے کو شیڈول ہونے کے لیے اب اس سرٹیفیکیٹ کی ضرورت نہیں ہوگی۔ اس سے ہمیشہ درکار سرٹیفیکیٹس پر کوئی اثر نہیں پڑتا۔",
-  "removeButton": "ہٹائیں"
+  "removeButton": "ہٹائیں",
+  "cannotClaimShiftTitle": "آپ ابھی یہ شفٹ نہیں لے سکتے",
+  "missingCertificationsMessage": "اس کردار کے لیے درج ذیل درکار ہیں، جو غائب یا میعاد ختم ہیں: {certs}۔ ان کی تجدید کے بارے میں اپنے مینیجر سے پوچھیں۔",
+  "cannotAssignShiftTitle": "یہ شفٹ {name} کو تفویض نہیں کی جا سکتی"
 }

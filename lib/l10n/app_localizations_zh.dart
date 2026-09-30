@@ -4148,4 +4148,17 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get removeButton => '移除';
+
+  @override
+  String get cannotClaimShiftTitle => '您暂时无法认领此班次';
+
+  @override
+  String missingCertificationsMessage(String certs) {
+    return '此岗位需要以下证书,但缺失或已过期:$certs。请向您的经理咨询如何续期。';
+  }
+
+  @override
+  String cannotAssignShiftTitle(String name) {
+    return '无法将此班次分配给 $name';
+  }
 }

@@ -4285,4 +4285,17 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get removeButton => 'ہٹائیں';
+
+  @override
+  String get cannotClaimShiftTitle => 'آپ ابھی یہ شفٹ نہیں لے سکتے';
+
+  @override
+  String missingCertificationsMessage(String certs) {
+    return 'اس کردار کے لیے درج ذیل درکار ہیں، جو غائب یا میعاد ختم ہیں: $certs۔ ان کی تجدید کے بارے میں اپنے مینیجر سے پوچھیں۔';
+  }
+
+  @override
+  String cannotAssignShiftTitle(String name) {
+    return 'یہ شفٹ $name کو تفویض نہیں کی جا سکتی';
+  }
 }

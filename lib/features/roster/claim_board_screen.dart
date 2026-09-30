@@ -8,11 +8,15 @@ import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../l10n/app_localizations.dart';
+import '../../shared/models/certification_requirement.dart';
 import '../../shared/models/shift.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_providers.dart';
 import '../../shared/providers/site_providers.dart'
     show organisationRepositoryProvider, currentSiteProvider, activeSiteProvider;
+import '../../shared/providers/site_role_certification_requirement_providers.dart';
+import '../../shared/providers/training_record_providers.dart';
+import '../../shared/models/training_item.dart';
 import 'shift_reliability_service.dart';
 import '../../core/widgets/app_screen_header.dart';
 
@@ -83,6 +87,45 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
   Future<void> _claim(Shift shift) async {
     final user = ref.read(currentUserProvider);
     if (user == null) return;
+
+    // Certification-expiry shift eligibility (Phase 2, 2026-09-30) —
+    // client-side check for a clear, specific "you need X" message before
+    // even attempting the claim. Not the real enforcement on its own (see
+    // claim_shift RPC follow-up) - just the honest UX for the normal path.
+    final records = await ref
+        .read(trainingRecordRepositoryProvider)
+        .getForUser(user.id);
+    final siteAdditions = await ref.read(
+      siteRoleCertificationRequirementsForSiteProvider(shift.siteId).future,
+    );
+    final missing = missingCertificationsForRole(
+      role: user.jobRole,
+      records: records,
+      siteAdditions: siteAdditions,
+    );
+    if (!mounted) return;
+    if (missing.isNotEmpty) {
+      final l10n = AppLocalizations.of(context)!;
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(l10n.cannotClaimShiftTitle),
+          content: Text(
+            l10n.missingCertificationsMessage(
+              missing.map((t) => trainingItemTypeLabel(t, l10n)).join(', '),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.okLabel),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
     setState(() => _busy = true);
     final result = await ref
         .read(shiftRepositoryProvider)

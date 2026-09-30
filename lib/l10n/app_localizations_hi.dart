@@ -4292,4 +4292,17 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get removeButton => 'हटाएं';
+
+  @override
+  String get cannotClaimShiftTitle => 'आप अभी इस शिफ्ट को नहीं ले सकते';
+
+  @override
+  String missingCertificationsMessage(String certs) {
+    return 'इस भूमिका के लिए निम्नलिखित आवश्यक हैं, जो गुम या समाप्त हो चुके हैं: $certs। इन्हें नवीनीकृत करने के बारे में अपने मैनेजर से पूछें।';
+  }
+
+  @override
+  String cannotAssignShiftTitle(String name) {
+    return '$name को यह शिफ्ट नहीं सौंपी जा सकती';
+  }
 }

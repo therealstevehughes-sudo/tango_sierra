@@ -8,12 +8,16 @@ import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../l10n/app_localizations.dart';
+import '../../shared/models/certification_requirement.dart';
 import '../../shared/models/off_day_request.dart';
 import '../../shared/models/shift.dart';
+import '../../shared/models/training_item.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/off_day_request_providers.dart';
 import '../../shared/providers/shift_providers.dart';
+import '../../shared/providers/site_role_certification_requirement_providers.dart';
+import '../../shared/providers/training_record_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../shared/providers/site_providers.dart'
     show organisationRepositoryProvider, currentSiteProvider, activeSiteProvider;
@@ -213,6 +217,42 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
       ),
     );
     if (selected == null) return;
+
+    // Same certification-expiry check as ClaimBoardScreen's own _claim —
+    // a manager assigning someone directly shouldn't bypass it.
+    final records = await ref
+        .read(trainingRecordRepositoryProvider)
+        .getForUser(selected.id);
+    final siteAdditions = await ref.read(
+      siteRoleCertificationRequirementsForSiteProvider(shift.siteId).future,
+    );
+    final missing = missingCertificationsForRole(
+      role: selected.jobRole,
+      records: records,
+      siteAdditions: siteAdditions,
+    );
+    if (!mounted) return;
+    if (missing.isNotEmpty) {
+      final l10n = AppLocalizations.of(context)!;
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(l10n.cannotAssignShiftTitle(selected.name)),
+          content: Text(
+            l10n.missingCertificationsMessage(
+              missing.map((t) => trainingItemTypeLabel(t, l10n)).join(', '),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.okLabel),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
 
     await ref.read(shiftRepositoryProvider).managerAssign(
       shiftId: shift.id,

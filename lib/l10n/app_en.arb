@@ -4319,5 +4319,22 @@
   "addCertificationRequirementTitle": "Add certification requirement",
   "removeCertificationRequirementTitle": "Remove this requirement?",
   "removeCertificationRequirementBody": "Staff in this role will no longer need this certification to be scheduled. This doesn't affect the certifications that are always required.",
-  "removeButton": "Remove"
+  "removeButton": "Remove",
+  "cannotClaimShiftTitle": "You can't claim this shift yet",
+  "missingCertificationsMessage": "This role requires the following, which are missing or expired: {certs}. Ask your manager about getting these renewed.",
+  "@missingCertificationsMessage": {
+    "placeholders": {
+      "certs": {
+        "type": "String"
+      }
+    }
+  },
+  "cannotAssignShiftTitle": "Can't assign this shift to {name}",
+  "@cannotAssignShiftTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  }
 }
