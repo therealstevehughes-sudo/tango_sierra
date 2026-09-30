@@ -1160,5 +1160,14 @@
   "noBranchesInRegionText": "Nicio filială în regiunea ta încă.",
   "addBranchManagerMenuItem": "Adaugă manager de filială",
   "nameColonLabel": "Nume: {name}",
-  "pinColonLabel": "PIN: {pin}"
+  "pinColonLabel": "PIN: {pin}",
+  "deleteSelectedEvidenceTitle": "Ștergi dovezile selectate?",
+  "deleteButton": "Șterge",
+  "photoEvidenceTitle": "Dovezi foto",
+  "onThisDeviceLabel": "Pe acest dispozitiv",
+  "deletingFreesSpaceText": "Ștergerea eliberează și spațiu pe dispozitiv. PDF-urile EHO exportate conțin deja propriile copii și nu sunt afectate.",
+  "noEvidencePhotosYetText": "Nicio fotografie dovadă încă.",
+  "deleteEvidenceConfirmText": "Aceasta șterge definitiv {count} fotografii ({bytes}) de pe acest dispozitiv. PDF-urile deja exportate nu sunt afectate. Aceasta nu poate fi anulată.",
+  "evidencePhotosCountLabel": "{count} fotografii dovadă · {bytes} total",
+  "deleteSelectedButton": "Șterge {count} selectate ({bytes})"
 }

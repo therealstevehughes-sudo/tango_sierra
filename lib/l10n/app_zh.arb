@@ -1160,5 +1160,14 @@
   "noBranchesInRegionText": "你所在地区尚无分店。",
   "addBranchManagerMenuItem": "添加分店经理",
   "nameColonLabel": "姓名:{name}",
-  "pinColonLabel": "PIN码:{pin}"
+  "pinColonLabel": "PIN码:{pin}",
+  "deleteSelectedEvidenceTitle": "删除所选证据?",
+  "deleteButton": "删除",
+  "photoEvidenceTitle": "照片证据",
+  "onThisDeviceLabel": "此设备上",
+  "deletingFreesSpaceText": "删除还会释放设备空间。已导出的EHO PDF文件已包含各自的副本,不受影响。",
+  "noEvidencePhotosYetText": "尚无证据照片。",
+  "deleteEvidenceConfirmText": "这将从此设备永久删除 {count} 张照片({bytes})。已导出的 PDF 不受影响。此操作无法撤销。",
+  "evidencePhotosCountLabel": "{count} 张证据照片 · 共 {bytes}",
+  "deleteSelectedButton": "删除已选 {count} 项({bytes})"
 }

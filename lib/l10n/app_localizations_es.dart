@@ -4122,4 +4122,39 @@ class AppLocalizationsEs extends AppLocalizations {
   String pinColonLabel(String pin) {
     return 'PIN: $pin';
   }
+
+  @override
+  String get deleteSelectedEvidenceTitle =>
+      '¿Eliminar las evidencias seleccionadas?';
+
+  @override
+  String get deleteButton => 'Eliminar';
+
+  @override
+  String get photoEvidenceTitle => 'Evidencia fotográfica';
+
+  @override
+  String get onThisDeviceLabel => 'En este dispositivo';
+
+  @override
+  String get deletingFreesSpaceText =>
+      'Eliminar también libera espacio en el dispositivo. Los PDF de EHO exportados ya contienen sus propias copias y no se ven afectados.';
+
+  @override
+  String get noEvidencePhotosYetText => 'Todavía no hay fotos de evidencia.';
+
+  @override
+  String deleteEvidenceConfirmText(int count, String bytes) {
+    return 'Esto elimina permanentemente $count fotos ($bytes) de este dispositivo. Los PDF ya exportados no se ven afectados. Esto no se puede deshacer.';
+  }
+
+  @override
+  String evidencePhotosCountLabel(int count, String bytes) {
+    return '$count fotos de evidencia · $bytes en total';
+  }
+
+  @override
+  String deleteSelectedButton(int count, String bytes) {
+    return 'Eliminar $count seleccionadas ($bytes)';
+  }
 }

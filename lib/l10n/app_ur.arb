@@ -1160,5 +1160,14 @@
   "noBranchesInRegionText": "تمہارے علاقے میں ابھی تک کوئی برانچ نہیں ہے۔",
   "addBranchManagerMenuItem": "برانچ مینیجر شامل کریں",
   "nameColonLabel": "نام: {name}",
-  "pinColonLabel": "پن: {pin}"
+  "pinColonLabel": "پن: {pin}",
+  "deleteSelectedEvidenceTitle": "منتخب شواہد حذف کریں؟",
+  "deleteButton": "حذف کریں",
+  "photoEvidenceTitle": "فوٹو شواہد",
+  "onThisDeviceLabel": "اس ڈیوائس پر",
+  "deletingFreesSpaceText": "حذف کرنے سے ڈیوائس کی جگہ بھی خالی ہوتی ہے۔ ایکسپورٹ شدہ EHO PDF میں پہلے سے ہی اپنی کاپیاں موجود ہیں اور متاثر نہیں ہوں گی۔",
+  "noEvidencePhotosYetText": "ابھی تک کوئی شواہد فوٹو نہیں۔",
+  "deleteEvidenceConfirmText": "یہ اس ڈیوائس سے {count} تصاویر ({bytes}) کو مستقل طور پر حذف کر دیتا ہے۔ پہلے سے ایکسپورٹ شدہ PDF متاثر نہیں ہوں گی۔ اسے واپس نہیں کیا جا سکتا۔",
+  "evidencePhotosCountLabel": "{count} شواہد تصاویر · کل {bytes}",
+  "deleteSelectedButton": "{count} منتخب شدہ حذف کریں ({bytes})"
 }

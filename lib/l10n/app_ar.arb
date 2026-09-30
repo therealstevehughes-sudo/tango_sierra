@@ -1160,5 +1160,14 @@
   "noBranchesInRegionText": "لا توجد فروع في منطقتك بعد.",
   "addBranchManagerMenuItem": "إضافة مدير فرع",
   "nameColonLabel": "الاسم: {name}",
-  "pinColonLabel": "الرمز السري: {pin}"
+  "pinColonLabel": "الرمز السري: {pin}",
+  "deleteSelectedEvidenceTitle": "حذف الأدلة المحددة؟",
+  "deleteButton": "حذف",
+  "photoEvidenceTitle": "أدلة الصور",
+  "onThisDeviceLabel": "على هذا الجهاز",
+  "deletingFreesSpaceText": "يؤدي الحذف أيضًا إلى تحرير مساحة الجهاز. ملفات PDF الخاصة بـ EHO المُصدَّرة تحتوي بالفعل على نسخها الخاصة ولن تتأثر.",
+  "noEvidencePhotosYetText": "لا توجد صور أدلة بعد.",
+  "deleteEvidenceConfirmText": "سيؤدي هذا إلى حذف {count} صورة ({bytes}) نهائيًا من هذا الجهاز. ملفات PDF المُصدَّرة مسبقًا لن تتأثر. لا يمكن التراجع عن هذا.",
+  "evidencePhotosCountLabel": "{count} صورة دليل · إجمالي {bytes}",
+  "deleteSelectedButton": "حذف {count} محدد ({bytes})"
 }

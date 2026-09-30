@@ -4005,5 +4005,62 @@
         "type": "String"
       }
     }
+  },
+  "deleteSelectedEvidenceTitle": "Delete selected evidence?",
+  "@deleteSelectedEvidenceTitle": {
+    "description": ""
+  },
+  "deleteButton": "Delete",
+  "@deleteButton": {
+    "description": ""
+  },
+  "photoEvidenceTitle": "Photo Evidence",
+  "@photoEvidenceTitle": {
+    "description": ""
+  },
+  "onThisDeviceLabel": "On this device",
+  "@onThisDeviceLabel": {
+    "description": ""
+  },
+  "deletingFreesSpaceText": "Deleting also frees device space. Exported EHO PDFs already contain their copies and are unaffected.",
+  "@deletingFreesSpaceText": {
+    "description": ""
+  },
+  "noEvidencePhotosYetText": "No evidence photos yet.",
+  "@noEvidencePhotosYetText": {
+    "description": ""
+  },
+  "deleteEvidenceConfirmText": "This permanently deletes {count, plural, one{{count} photo} other{{count} photos}} ({bytes}) from this device. Already-exported PDFs are unaffected. This cannot be undone.",
+  "@deleteEvidenceConfirmText": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "evidencePhotosCountLabel": "{count, plural, one{{count} evidence photo} other{{count} evidence photos}} · {bytes} total",
+  "@evidencePhotosCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "bytes": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteSelectedButton": "Delete {count} selected ({bytes})",
+  "@deleteSelectedButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "bytes": {
+        "type": "String"
+      }
+    }
   }
 }

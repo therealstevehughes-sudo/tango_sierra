@@ -7093,6 +7093,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PIN: {pin}'**
   String pinColonLabel(String pin);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Delete selected evidence?'**
+  String get deleteSelectedEvidenceTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get deleteButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Photo Evidence'**
+  String get photoEvidenceTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'On this device'**
+  String get onThisDeviceLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting also frees device space. Exported EHO PDFs already contain their copies and are unaffected.'**
+  String get deletingFreesSpaceText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No evidence photos yet.'**
+  String get noEvidencePhotosYetText;
+
+  /// No description provided for @deleteEvidenceConfirmText.
+  ///
+  /// In en, this message translates to:
+  /// **'This permanently deletes {count, plural, one{{count} photo} other{{count} photos}} ({bytes}) from this device. Already-exported PDFs are unaffected. This cannot be undone.'**
+  String deleteEvidenceConfirmText(int count, String bytes);
+
+  /// No description provided for @evidencePhotosCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} evidence photo} other{{count} evidence photos}} · {bytes} total'**
+  String evidencePhotosCountLabel(int count, String bytes);
+
+  /// No description provided for @deleteSelectedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {count} selected ({bytes})'**
+  String deleteSelectedButton(int count, String bytes);
 }
 
 class _AppLocalizationsDelegate

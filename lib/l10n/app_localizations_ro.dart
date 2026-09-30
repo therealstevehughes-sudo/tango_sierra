@@ -4115,4 +4115,38 @@ class AppLocalizationsRo extends AppLocalizations {
   String pinColonLabel(String pin) {
     return 'PIN: $pin';
   }
+
+  @override
+  String get deleteSelectedEvidenceTitle => 'Ștergi dovezile selectate?';
+
+  @override
+  String get deleteButton => 'Șterge';
+
+  @override
+  String get photoEvidenceTitle => 'Dovezi foto';
+
+  @override
+  String get onThisDeviceLabel => 'Pe acest dispozitiv';
+
+  @override
+  String get deletingFreesSpaceText =>
+      'Ștergerea eliberează și spațiu pe dispozitiv. PDF-urile EHO exportate conțin deja propriile copii și nu sunt afectate.';
+
+  @override
+  String get noEvidencePhotosYetText => 'Nicio fotografie dovadă încă.';
+
+  @override
+  String deleteEvidenceConfirmText(int count, String bytes) {
+    return 'Aceasta șterge definitiv $count fotografii ($bytes) de pe acest dispozitiv. PDF-urile deja exportate nu sunt afectate. Aceasta nu poate fi anulată.';
+  }
+
+  @override
+  String evidencePhotosCountLabel(int count, String bytes) {
+    return '$count fotografii dovadă · $bytes total';
+  }
+
+  @override
+  String deleteSelectedButton(int count, String bytes) {
+    return 'Șterge $count selectate ($bytes)';
+  }
 }

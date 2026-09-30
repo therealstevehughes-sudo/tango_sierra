@@ -1160,5 +1160,14 @@
   "noBranchesInRegionText": "तुम्हारे क्षेत्र में अभी तक कोई शाखा नहीं है।",
   "addBranchManagerMenuItem": "शाखा प्रबंधक जोड़ें",
   "nameColonLabel": "नाम: {name}",
-  "pinColonLabel": "पिन: {pin}"
+  "pinColonLabel": "पिन: {pin}",
+  "deleteSelectedEvidenceTitle": "चयनित साक्ष्य हटाएं?",
+  "deleteButton": "हटाएं",
+  "photoEvidenceTitle": "फोटो साक्ष्य",
+  "onThisDeviceLabel": "इस डिवाइस पर",
+  "deletingFreesSpaceText": "हटाने से डिवाइस की जगह भी खाली होती है। निर्यात की गई EHO PDF में पहले से ही अपनी प्रतियां हैं और प्रभावित नहीं होंगी।",
+  "noEvidencePhotosYetText": "अभी तक कोई साक्ष्य फोटो नहीं।",
+  "deleteEvidenceConfirmText": "यह इस डिवाइस से {count} फ़ोटो ({bytes}) को स्थायी रूप से हटा देता है। पहले से निर्यात की गई PDF प्रभावित नहीं होंगी। इसे वापस नहीं किया जा सकता।",
+  "evidencePhotosCountLabel": "{count} साक्ष्य फ़ोटो · कुल {bytes}",
+  "deleteSelectedButton": "{count} चयनित हटाएं ({bytes})"
 }

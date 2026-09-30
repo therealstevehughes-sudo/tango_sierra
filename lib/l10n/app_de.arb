@@ -1160,5 +1160,14 @@
   "noBranchesInRegionText": "Noch keine Filialen in deiner Region.",
   "addBranchManagerMenuItem": "Filialleiter hinzufügen",
   "nameColonLabel": "Name: {name}",
-  "pinColonLabel": "PIN: {pin}"
+  "pinColonLabel": "PIN: {pin}",
+  "deleteSelectedEvidenceTitle": "Ausgewählte Nachweise löschen?",
+  "deleteButton": "Löschen",
+  "photoEvidenceTitle": "Fotonachweis",
+  "onThisDeviceLabel": "Auf diesem Gerät",
+  "deletingFreesSpaceText": "Das Löschen gibt auch Gerätespeicher frei. Exportierte EHO-PDFs enthalten bereits ihre eigenen Kopien und sind nicht betroffen.",
+  "noEvidencePhotosYetText": "Noch keine Nachweisfotos.",
+  "deleteEvidenceConfirmText": "Dies löscht dauerhaft {count} Fotos ({bytes}) von diesem Gerät. Bereits exportierte PDFs sind nicht betroffen. Dies kann nicht rückgängig gemacht werden.",
+  "evidencePhotosCountLabel": "{count, plural, one{{count} Nachweisfoto} other{{count} Nachweisfotos}} · {bytes} insgesamt",
+  "deleteSelectedButton": "{count} ausgewählte löschen ({bytes})"
 }

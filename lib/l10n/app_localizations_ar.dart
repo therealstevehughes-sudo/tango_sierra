@@ -4006,4 +4006,38 @@ class AppLocalizationsAr extends AppLocalizations {
   String pinColonLabel(String pin) {
     return 'الرمز السري: $pin';
   }
+
+  @override
+  String get deleteSelectedEvidenceTitle => 'حذف الأدلة المحددة؟';
+
+  @override
+  String get deleteButton => 'حذف';
+
+  @override
+  String get photoEvidenceTitle => 'أدلة الصور';
+
+  @override
+  String get onThisDeviceLabel => 'على هذا الجهاز';
+
+  @override
+  String get deletingFreesSpaceText =>
+      'يؤدي الحذف أيضًا إلى تحرير مساحة الجهاز. ملفات PDF الخاصة بـ EHO المُصدَّرة تحتوي بالفعل على نسخها الخاصة ولن تتأثر.';
+
+  @override
+  String get noEvidencePhotosYetText => 'لا توجد صور أدلة بعد.';
+
+  @override
+  String deleteEvidenceConfirmText(int count, String bytes) {
+    return 'سيؤدي هذا إلى حذف $count صورة ($bytes) نهائيًا من هذا الجهاز. ملفات PDF المُصدَّرة مسبقًا لن تتأثر. لا يمكن التراجع عن هذا.';
+  }
+
+  @override
+  String evidencePhotosCountLabel(int count, String bytes) {
+    return '$count صورة دليل · إجمالي $bytes';
+  }
+
+  @override
+  String deleteSelectedButton(int count, String bytes) {
+    return 'حذف $count محدد ($bytes)';
+  }
 }

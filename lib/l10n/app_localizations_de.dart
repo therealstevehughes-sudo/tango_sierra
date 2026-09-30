@@ -4148,4 +4148,44 @@ class AppLocalizationsDe extends AppLocalizations {
   String pinColonLabel(String pin) {
     return 'PIN: $pin';
   }
+
+  @override
+  String get deleteSelectedEvidenceTitle => 'Ausgewählte Nachweise löschen?';
+
+  @override
+  String get deleteButton => 'Löschen';
+
+  @override
+  String get photoEvidenceTitle => 'Fotonachweis';
+
+  @override
+  String get onThisDeviceLabel => 'Auf diesem Gerät';
+
+  @override
+  String get deletingFreesSpaceText =>
+      'Das Löschen gibt auch Gerätespeicher frei. Exportierte EHO-PDFs enthalten bereits ihre eigenen Kopien und sind nicht betroffen.';
+
+  @override
+  String get noEvidencePhotosYetText => 'Noch keine Nachweisfotos.';
+
+  @override
+  String deleteEvidenceConfirmText(int count, String bytes) {
+    return 'Dies löscht dauerhaft $count Fotos ($bytes) von diesem Gerät. Bereits exportierte PDFs sind nicht betroffen. Dies kann nicht rückgängig gemacht werden.';
+  }
+
+  @override
+  String evidencePhotosCountLabel(int count, String bytes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Nachweisfotos',
+      one: '$count Nachweisfoto',
+    );
+    return '$_temp0 · $bytes insgesamt';
+  }
+
+  @override
+  String deleteSelectedButton(int count, String bytes) {
+    return '$count ausgewählte löschen ($bytes)';
+  }
 }

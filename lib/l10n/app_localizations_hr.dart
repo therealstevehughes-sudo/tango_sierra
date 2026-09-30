@@ -4056,4 +4056,38 @@ class AppLocalizationsHr extends AppLocalizations {
   String pinColonLabel(String pin) {
     return 'PIN: $pin';
   }
+
+  @override
+  String get deleteSelectedEvidenceTitle => 'Izbrisati odabrane dokaze?';
+
+  @override
+  String get deleteButton => 'Izbriši';
+
+  @override
+  String get photoEvidenceTitle => 'Fotografski dokazi';
+
+  @override
+  String get onThisDeviceLabel => 'Na ovom uređaju';
+
+  @override
+  String get deletingFreesSpaceText =>
+      'Brisanje također oslobađa prostor na uređaju. Izvezeni EHO PDF-ovi već sadrže vlastite kopije i nisu pogođeni.';
+
+  @override
+  String get noEvidencePhotosYetText => 'Još nema fotografija dokaza.';
+
+  @override
+  String deleteEvidenceConfirmText(int count, String bytes) {
+    return 'Ovo trajno briše $count fotografija ($bytes) s ovog uređaja. Već izvezeni PDF-ovi nisu pogođeni. Ovo se ne može poništiti.';
+  }
+
+  @override
+  String evidencePhotosCountLabel(int count, String bytes) {
+    return '$count fotografija dokaza · ukupno $bytes';
+  }
+
+  @override
+  String deleteSelectedButton(int count, String bytes) {
+    return 'Izbriši $count odabranih ($bytes)';
+  }
 }

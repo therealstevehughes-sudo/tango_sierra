@@ -4035,4 +4035,38 @@ class AppLocalizationsHi extends AppLocalizations {
   String pinColonLabel(String pin) {
     return 'पिन: $pin';
   }
+
+  @override
+  String get deleteSelectedEvidenceTitle => 'चयनित साक्ष्य हटाएं?';
+
+  @override
+  String get deleteButton => 'हटाएं';
+
+  @override
+  String get photoEvidenceTitle => 'फोटो साक्ष्य';
+
+  @override
+  String get onThisDeviceLabel => 'इस डिवाइस पर';
+
+  @override
+  String get deletingFreesSpaceText =>
+      'हटाने से डिवाइस की जगह भी खाली होती है। निर्यात की गई EHO PDF में पहले से ही अपनी प्रतियां हैं और प्रभावित नहीं होंगी।';
+
+  @override
+  String get noEvidencePhotosYetText => 'अभी तक कोई साक्ष्य फोटो नहीं।';
+
+  @override
+  String deleteEvidenceConfirmText(int count, String bytes) {
+    return 'यह इस डिवाइस से $count फ़ोटो ($bytes) को स्थायी रूप से हटा देता है। पहले से निर्यात की गई PDF प्रभावित नहीं होंगी। इसे वापस नहीं किया जा सकता।';
+  }
+
+  @override
+  String evidencePhotosCountLabel(int count, String bytes) {
+    return '$count साक्ष्य फ़ोटो · कुल $bytes';
+  }
+
+  @override
+  String deleteSelectedButton(int count, String bytes) {
+    return '$count चयनित हटाएं ($bytes)';
+  }
 }

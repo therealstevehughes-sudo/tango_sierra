@@ -11,6 +11,7 @@ import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 // Photo-evidence P1 (Sprint 032, after P0): the "back up to free space"
 // flow PHOTO_EVIDENCE_PLAN.md deliberately deferred so the P0 sprint never
@@ -105,24 +106,25 @@ class _EvidencePruneScreenState extends ConsumerState<EvidencePruneScreen> {
     final reclaimed = _selectedBytes();
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete selected evidence?'),
-        content: Text(
-          'This permanently deletes $count photo${count == 1 ? '' : 's'} '
-          '(${_formatBytes(reclaimed)}) from this device. Already-exported '
-          'PDFs are unaffected. This cannot be undone.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+      builder: (context) {
+        final l10n = AppLocalizations.of(context)!;
+        return AlertDialog(
+          title: Text(l10n.deleteSelectedEvidenceTitle),
+          content: Text(
+            l10n.deleteEvidenceConfirmText(count, _formatBytes(reclaimed)),
           ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.deleteButton),
+            ),
+          ],
+        );
+      },
     );
     if (confirmed != true || !mounted) return;
 
@@ -136,12 +138,13 @@ class _EvidencePruneScreenState extends ConsumerState<EvidencePruneScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Photo Evidence'),
+        title: Text(l10n.photoEvidenceTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Photo Evidence'),
+      drawer: ManagementDrawer(title: l10n.photoEvidenceTitle),
       body: SafeArea(
         child: ResponsiveContent(
           child: _loading
@@ -158,21 +161,21 @@ class _EvidencePruneScreenState extends ConsumerState<EvidencePruneScreen> {
                               const Icon(Icons.photo_camera_back_outlined),
                               const SizedBox(width: 8),
                               Text(
-                                'On this device',
+                                l10n.onThisDeviceLabel,
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ],
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            '${_files.length} evidence photo${_files.length == 1 ? '' : 's'} · '
-                            '${_formatBytes(_totalBytes)} total',
+                            l10n.evidencePhotosCountLabel(
+                              _files.length,
+                              _formatBytes(_totalBytes),
+                            ),
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Deleting also frees device space. Exported EHO '
-                            'PDFs already contain their copies and are '
-                            'unaffected.',
+                            l10n.deletingFreesSpaceText,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
@@ -180,7 +183,7 @@ class _EvidencePruneScreenState extends ConsumerState<EvidencePruneScreen> {
                     ),
                     const SizedBox(height: 12),
                     if (_files.isEmpty)
-                      const AppCard(child: Text('No evidence photos yet.'))
+                      AppCard(child: Text(l10n.noEvidencePhotosYetText))
                     else ...[
                       for (final file in _files)
                         CheckboxListTile(
@@ -201,9 +204,10 @@ class _EvidencePruneScreenState extends ConsumerState<EvidencePruneScreen> {
                       const SizedBox(height: 12),
                       if (_selected.isNotEmpty)
                         PrimaryActionButton(
-                          label:
-                              'Delete ${_selected.length} selected '
-                              '(${_formatBytes(_selectedBytes())})',
+                          label: l10n.deleteSelectedButton(
+                            _selected.length,
+                            _formatBytes(_selectedBytes()),
+                          ),
                           onPressed: _deleteSelected,
                         ),
                     ],

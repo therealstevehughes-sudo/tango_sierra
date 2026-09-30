@@ -1160,5 +1160,14 @@
   "noBranchesInRegionText": "Još nema poslovnica u tvojoj regiji.",
   "addBranchManagerMenuItem": "Dodaj voditelja poslovnice",
   "nameColonLabel": "Ime: {name}",
-  "pinColonLabel": "PIN: {pin}"
+  "pinColonLabel": "PIN: {pin}",
+  "deleteSelectedEvidenceTitle": "Izbrisati odabrane dokaze?",
+  "deleteButton": "Izbriši",
+  "photoEvidenceTitle": "Fotografski dokazi",
+  "onThisDeviceLabel": "Na ovom uređaju",
+  "deletingFreesSpaceText": "Brisanje također oslobađa prostor na uređaju. Izvezeni EHO PDF-ovi već sadrže vlastite kopije i nisu pogođeni.",
+  "noEvidencePhotosYetText": "Još nema fotografija dokaza.",
+  "deleteEvidenceConfirmText": "Ovo trajno briše {count} fotografija ({bytes}) s ovog uređaja. Već izvezeni PDF-ovi nisu pogođeni. Ovo se ne može poništiti.",
+  "evidencePhotosCountLabel": "{count} fotografija dokaza · ukupno {bytes}",
+  "deleteSelectedButton": "Izbriši {count} odabranih ({bytes})"
 }

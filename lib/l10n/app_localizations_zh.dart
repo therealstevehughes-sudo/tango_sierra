@@ -3903,4 +3903,37 @@ class AppLocalizationsZh extends AppLocalizations {
   String pinColonLabel(String pin) {
     return 'PIN码:$pin';
   }
+
+  @override
+  String get deleteSelectedEvidenceTitle => '删除所选证据?';
+
+  @override
+  String get deleteButton => '删除';
+
+  @override
+  String get photoEvidenceTitle => '照片证据';
+
+  @override
+  String get onThisDeviceLabel => '此设备上';
+
+  @override
+  String get deletingFreesSpaceText => '删除还会释放设备空间。已导出的EHO PDF文件已包含各自的副本,不受影响。';
+
+  @override
+  String get noEvidencePhotosYetText => '尚无证据照片。';
+
+  @override
+  String deleteEvidenceConfirmText(int count, String bytes) {
+    return '这将从此设备永久删除 $count 张照片($bytes)。已导出的 PDF 不受影响。此操作无法撤销。';
+  }
+
+  @override
+  String evidencePhotosCountLabel(int count, String bytes) {
+    return '$count 张证据照片 · 共 $bytes';
+  }
+
+  @override
+  String deleteSelectedButton(int count, String bytes) {
+    return '删除已选 $count 项($bytes)';
+  }
 }

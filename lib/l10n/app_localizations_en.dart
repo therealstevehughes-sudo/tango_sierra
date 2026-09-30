@@ -4118,4 +4118,50 @@ class AppLocalizationsEn extends AppLocalizations {
   String pinColonLabel(String pin) {
     return 'PIN: $pin';
   }
+
+  @override
+  String get deleteSelectedEvidenceTitle => 'Delete selected evidence?';
+
+  @override
+  String get deleteButton => 'Delete';
+
+  @override
+  String get photoEvidenceTitle => 'Photo Evidence';
+
+  @override
+  String get onThisDeviceLabel => 'On this device';
+
+  @override
+  String get deletingFreesSpaceText =>
+      'Deleting also frees device space. Exported EHO PDFs already contain their copies and are unaffected.';
+
+  @override
+  String get noEvidencePhotosYetText => 'No evidence photos yet.';
+
+  @override
+  String deleteEvidenceConfirmText(int count, String bytes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count photos',
+      one: '$count photo',
+    );
+    return 'This permanently deletes $_temp0 ($bytes) from this device. Already-exported PDFs are unaffected. This cannot be undone.';
+  }
+
+  @override
+  String evidencePhotosCountLabel(int count, String bytes) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count evidence photos',
+      one: '$count evidence photo',
+    );
+    return '$_temp0 · $bytes total';
+  }
+
+  @override
+  String deleteSelectedButton(int count, String bytes) {
+    return 'Delete $count selected ($bytes)';
+  }
 }

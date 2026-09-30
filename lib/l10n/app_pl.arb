@@ -1160,5 +1160,14 @@
   "noBranchesInRegionText": "Brak jeszcze oddziałów w twoim regionie.",
   "addBranchManagerMenuItem": "Dodaj kierownika oddziału",
   "nameColonLabel": "Imię: {name}",
-  "pinColonLabel": "PIN: {pin}"
+  "pinColonLabel": "PIN: {pin}",
+  "deleteSelectedEvidenceTitle": "Usunąć wybrane dowody?",
+  "deleteButton": "Usuń",
+  "photoEvidenceTitle": "Dowody fotograficzne",
+  "onThisDeviceLabel": "Na tym urządzeniu",
+  "deletingFreesSpaceText": "Usuwanie zwalnia też miejsce na urządzeniu. Wyeksportowane pliki PDF EHO już zawierają swoje kopie i nie są naruszane.",
+  "noEvidencePhotosYetText": "Brak jeszcze zdjęć dowodowych.",
+  "deleteEvidenceConfirmText": "To trwale usuwa {count} zdjęć ({bytes}) z tego urządzenia. Wyeksportowane pliki PDF nie są naruszane. Tego nie można cofnąć.",
+  "evidencePhotosCountLabel": "{count} zdjęć dowodowych · łącznie {bytes}",
+  "deleteSelectedButton": "Usuń {count} zaznaczonych ({bytes})"
 }
