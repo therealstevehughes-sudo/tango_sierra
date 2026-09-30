@@ -4090,4 +4090,14 @@ class AppLocalizationsHr extends AppLocalizations {
   String deleteSelectedButton(int count, String bytes) {
     return 'Izbriši $count odabranih ($bytes)';
   }
+
+  @override
+  String get addTeamMemberTitle => 'Dodaj člana tima';
+
+  @override
+  String get createsTapNamePinAccountText =>
+      'Stvara račun s odabirom imena + PIN-om za tvoju vlastitu poslovnicu.';
+
+  @override
+  String get createAccountButton => 'Stvori račun';
 }

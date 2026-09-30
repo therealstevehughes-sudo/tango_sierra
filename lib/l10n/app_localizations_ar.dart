@@ -4040,4 +4040,14 @@ class AppLocalizationsAr extends AppLocalizations {
   String deleteSelectedButton(int count, String bytes) {
     return 'حذف $count محدد ($bytes)';
   }
+
+  @override
+  String get addTeamMemberTitle => 'إضافة عضو فريق';
+
+  @override
+  String get createsTapNamePinAccountText =>
+      'ينشئ حساب اسم-نقر + رمز سري لموقعك الخاص.';
+
+  @override
+  String get createAccountButton => 'إنشاء حساب';
 }

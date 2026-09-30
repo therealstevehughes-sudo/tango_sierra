@@ -1169,5 +1169,8 @@
   "noEvidencePhotosYetText": "Noch keine Nachweisfotos.",
   "deleteEvidenceConfirmText": "Dies löscht dauerhaft {count} Fotos ({bytes}) von diesem Gerät. Bereits exportierte PDFs sind nicht betroffen. Dies kann nicht rückgängig gemacht werden.",
   "evidencePhotosCountLabel": "{count, plural, one{{count} Nachweisfoto} other{{count} Nachweisfotos}} · {bytes} insgesamt",
-  "deleteSelectedButton": "{count} ausgewählte löschen ({bytes})"
+  "deleteSelectedButton": "{count} ausgewählte löschen ({bytes})",
+  "addTeamMemberTitle": "Teammitglied hinzufügen",
+  "createsTapNamePinAccountText": "Erstellt ein Konto mit Namensauswahl + PIN für deinen eigenen Standort.",
+  "createAccountButton": "Konto erstellen"
 }

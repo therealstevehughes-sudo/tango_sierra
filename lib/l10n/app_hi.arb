@@ -1169,5 +1169,8 @@
   "noEvidencePhotosYetText": "अभी तक कोई साक्ष्य फोटो नहीं।",
   "deleteEvidenceConfirmText": "यह इस डिवाइस से {count} फ़ोटो ({bytes}) को स्थायी रूप से हटा देता है। पहले से निर्यात की गई PDF प्रभावित नहीं होंगी। इसे वापस नहीं किया जा सकता।",
   "evidencePhotosCountLabel": "{count} साक्ष्य फ़ोटो · कुल {bytes}",
-  "deleteSelectedButton": "{count} चयनित हटाएं ({bytes})"
+  "deleteSelectedButton": "{count} चयनित हटाएं ({bytes})",
+  "addTeamMemberTitle": "टीम सदस्य जोड़ें",
+  "createsTapNamePinAccountText": "तुम्हारे अपने वेन्यू के लिए टैप-नाम + पिन खाता बनाता है।",
+  "createAccountButton": "खाता बनाएं"
 }

@@ -4149,4 +4149,14 @@ class AppLocalizationsRo extends AppLocalizations {
   String deleteSelectedButton(int count, String bytes) {
     return 'Șterge $count selectate ($bytes)';
   }
+
+  @override
+  String get addTeamMemberTitle => 'Adaugă membru al echipei';
+
+  @override
+  String get createsTapNamePinAccountText =>
+      'Creează un cont cu nume-atins + PIN pentru propriul tău local.';
+
+  @override
+  String get createAccountButton => 'Creează cont';
 }

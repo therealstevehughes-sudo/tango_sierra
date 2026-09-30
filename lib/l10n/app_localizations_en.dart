@@ -4164,4 +4164,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String deleteSelectedButton(int count, String bytes) {
     return 'Delete $count selected ($bytes)';
   }
+
+  @override
+  String get addTeamMemberTitle => 'Add Team Member';
+
+  @override
+  String get createsTapNamePinAccountText =>
+      'Creates a tap-name + PIN account for your own venue.';
+
+  @override
+  String get createAccountButton => 'Create account';
 }

@@ -1169,5 +1169,8 @@
   "noEvidencePhotosYetText": "尚无证据照片。",
   "deleteEvidenceConfirmText": "这将从此设备永久删除 {count} 张照片({bytes})。已导出的 PDF 不受影响。此操作无法撤销。",
   "evidencePhotosCountLabel": "{count} 张证据照片 · 共 {bytes}",
-  "deleteSelectedButton": "删除已选 {count} 项({bytes})"
+  "deleteSelectedButton": "删除已选 {count} 项({bytes})",
+  "addTeamMemberTitle": "添加团队成员",
+  "createsTapNamePinAccountText": "为你自己的场所创建一个点选姓名+PIN码的账户。",
+  "createAccountButton": "创建账户"
 }

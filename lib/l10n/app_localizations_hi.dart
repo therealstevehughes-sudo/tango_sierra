@@ -4069,4 +4069,14 @@ class AppLocalizationsHi extends AppLocalizations {
   String deleteSelectedButton(int count, String bytes) {
     return '$count चयनित हटाएं ($bytes)';
   }
+
+  @override
+  String get addTeamMemberTitle => 'टीम सदस्य जोड़ें';
+
+  @override
+  String get createsTapNamePinAccountText =>
+      'तुम्हारे अपने वेन्यू के लिए टैप-नाम + पिन खाता बनाता है।';
+
+  @override
+  String get createAccountButton => 'खाता बनाएं';
 }

@@ -3936,4 +3936,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String deleteSelectedButton(int count, String bytes) {
     return '删除已选 $count 项($bytes)';
   }
+
+  @override
+  String get addTeamMemberTitle => '添加团队成员';
+
+  @override
+  String get createsTapNamePinAccountText => '为你自己的场所创建一个点选姓名+PIN码的账户。';
+
+  @override
+  String get createAccountButton => '创建账户';
 }

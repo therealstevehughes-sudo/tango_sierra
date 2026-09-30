@@ -1169,5 +1169,8 @@
   "noEvidencePhotosYetText": "لا توجد صور أدلة بعد.",
   "deleteEvidenceConfirmText": "سيؤدي هذا إلى حذف {count} صورة ({bytes}) نهائيًا من هذا الجهاز. ملفات PDF المُصدَّرة مسبقًا لن تتأثر. لا يمكن التراجع عن هذا.",
   "evidencePhotosCountLabel": "{count} صورة دليل · إجمالي {bytes}",
-  "deleteSelectedButton": "حذف {count} محدد ({bytes})"
+  "deleteSelectedButton": "حذف {count} محدد ({bytes})",
+  "addTeamMemberTitle": "إضافة عضو فريق",
+  "createsTapNamePinAccountText": "ينشئ حساب اسم-نقر + رمز سري لموقعك الخاص.",
+  "createAccountButton": "إنشاء حساب"
 }

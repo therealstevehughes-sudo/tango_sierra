@@ -4060,4 +4060,14 @@ class AppLocalizationsUr extends AppLocalizations {
   String deleteSelectedButton(int count, String bytes) {
     return '$count منتخب شدہ حذف کریں ($bytes)';
   }
+
+  @override
+  String get addTeamMemberTitle => 'ٹیم رکن شامل کریں';
+
+  @override
+  String get createsTapNamePinAccountText =>
+      'تمہارے اپنے وینیو کے لیے ٹیپ نام + پن اکاؤنٹ بناتا ہے۔';
+
+  @override
+  String get createAccountButton => 'اکاؤنٹ بنائیں';
 }

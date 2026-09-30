@@ -7147,6 +7147,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete {count} selected ({bytes})'**
   String deleteSelectedButton(int count, String bytes);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Team Member'**
+  String get addTeamMemberTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Creates a tap-name + PIN account for your own venue.'**
+  String get createsTapNamePinAccountText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get createAccountButton;
 }
 
 class _AppLocalizationsDelegate

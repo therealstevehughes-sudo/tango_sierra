@@ -1169,5 +1169,8 @@
   "noEvidencePhotosYetText": "ابھی تک کوئی شواہد فوٹو نہیں۔",
   "deleteEvidenceConfirmText": "یہ اس ڈیوائس سے {count} تصاویر ({bytes}) کو مستقل طور پر حذف کر دیتا ہے۔ پہلے سے ایکسپورٹ شدہ PDF متاثر نہیں ہوں گی۔ اسے واپس نہیں کیا جا سکتا۔",
   "evidencePhotosCountLabel": "{count} شواہد تصاویر · کل {bytes}",
-  "deleteSelectedButton": "{count} منتخب شدہ حذف کریں ({bytes})"
+  "deleteSelectedButton": "{count} منتخب شدہ حذف کریں ({bytes})",
+  "addTeamMemberTitle": "ٹیم رکن شامل کریں",
+  "createsTapNamePinAccountText": "تمہارے اپنے وینیو کے لیے ٹیپ نام + پن اکاؤنٹ بناتا ہے۔",
+  "createAccountButton": "اکاؤنٹ بنائیں"
 }

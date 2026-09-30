@@ -1169,5 +1169,8 @@
   "noEvidencePhotosYetText": "Brak jeszcze zdjęć dowodowych.",
   "deleteEvidenceConfirmText": "To trwale usuwa {count} zdjęć ({bytes}) z tego urządzenia. Wyeksportowane pliki PDF nie są naruszane. Tego nie można cofnąć.",
   "evidencePhotosCountLabel": "{count} zdjęć dowodowych · łącznie {bytes}",
-  "deleteSelectedButton": "Usuń {count} zaznaczonych ({bytes})"
+  "deleteSelectedButton": "Usuń {count} zaznaczonych ({bytes})",
+  "addTeamMemberTitle": "Dodaj członka zespołu",
+  "createsTapNamePinAccountText": "Tworzy konto z wyborem imienia i PIN-em dla twojego lokalu.",
+  "createAccountButton": "Utwórz konto"
 }

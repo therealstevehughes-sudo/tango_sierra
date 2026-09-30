@@ -1169,5 +1169,8 @@
   "noEvidencePhotosYetText": "Nicio fotografie dovadă încă.",
   "deleteEvidenceConfirmText": "Aceasta șterge definitiv {count} fotografii ({bytes}) de pe acest dispozitiv. PDF-urile deja exportate nu sunt afectate. Aceasta nu poate fi anulată.",
   "evidencePhotosCountLabel": "{count} fotografii dovadă · {bytes} total",
-  "deleteSelectedButton": "Șterge {count} selectate ({bytes})"
+  "deleteSelectedButton": "Șterge {count} selectate ({bytes})",
+  "addTeamMemberTitle": "Adaugă membru al echipei",
+  "createsTapNamePinAccountText": "Creează un cont cu nume-atins + PIN pentru propriul tău local.",
+  "createAccountButton": "Creează cont"
 }

@@ -4157,4 +4157,14 @@ class AppLocalizationsEs extends AppLocalizations {
   String deleteSelectedButton(int count, String bytes) {
     return 'Eliminar $count seleccionadas ($bytes)';
   }
+
+  @override
+  String get addTeamMemberTitle => 'Añadir miembro del equipo';
+
+  @override
+  String get createsTapNamePinAccountText =>
+      'Crea una cuenta de nombre-táctil + PIN para tu propio local.';
+
+  @override
+  String get createAccountButton => 'Crear cuenta';
 }

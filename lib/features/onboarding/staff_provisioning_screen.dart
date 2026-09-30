@@ -10,6 +10,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/tenant_provisioning_providers.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Phase C1d — venueManager (branch manager) adds supervisor/base staff
 /// at their OWN site via `provision-staff-pin`. This is the backend-first
@@ -66,28 +67,28 @@ class _StaffProvisioningScreenState
       setState(() => _submitting = false);
       await showDialog<void>(
         context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Account created'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Give this person their name (to tap on the login screen) '
-                'and this PIN.',
-              ),
-              const SizedBox(height: 16),
-              SelectableText('Name: ${result.name}'),
-              SelectableText('PIN: ${result.pin}'),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Done'),
+        builder: (context) {
+          final l10n = AppLocalizations.of(context)!;
+          return AlertDialog(
+            title: Text(l10n.accountCreatedTitle),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.giveNameAndPinText),
+                const SizedBox(height: 16),
+                SelectableText(l10n.nameColonLabel(result.name)),
+                SelectableText(l10n.pinColonLabel(result.pin)),
+              ],
             ),
-          ],
-        ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text(l10n.doneButton),
+              ),
+            ],
+          );
+        },
       );
       if (!mounted) return;
       _name.clear();
@@ -103,12 +104,13 @@ class _StaffProvisioningScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Add Team Member'),
+        title: Text(l10n.addTeamMemberTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Add Team Member'),
+      drawer: ManagementDrawer(title: l10n.addTeamMemberTitle),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -121,28 +123,25 @@ class _StaffProvisioningScreenState
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const AppBanner(
+                  AppBanner(
                     kind: BannerKind.info,
-                    child: Text(
-                      'Creates a tap-name + PIN account for your own '
-                      'venue.',
-                    ),
+                    child: Text(l10n.createsTapNamePinAccountText),
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _name,
-                    decoration: const InputDecoration(labelText: 'Name'),
+                    decoration: InputDecoration(labelText: l10n.nameAxisLabel),
                     textCapitalization: TextCapitalization.words,
                     validator: (v) =>
-                        (v ?? '').trim().isEmpty ? 'Required' : null,
+                        (v ?? '').trim().isEmpty ? l10n.requiredFieldError : null,
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _jobTitle,
-                    decoration: const InputDecoration(labelText: 'Job title'),
+                    decoration: InputDecoration(labelText: l10n.jobTitleLabel),
                     textCapitalization: TextCapitalization.words,
                     validator: (v) =>
-                        (v ?? '').trim().isEmpty ? 'Required' : null,
+                        (v ?? '').trim().isEmpty ? l10n.requiredFieldError : null,
                   ),
                   const SizedBox(height: 12),
                   // Pressure-test audit fix (2026-09-22) — hand-typed
@@ -152,12 +151,12 @@ class _StaffProvisioningScreenState
                   // dropdown bug that triggered this audit).
                   DropdownButtonFormField<String>(
                     initialValue: _roleTier,
-                    decoration: const InputDecoration(labelText: 'Tier'),
+                    decoration: InputDecoration(labelText: l10n.tierFieldLabel),
                     items: [RoleTier.base, RoleTier.supervisor]
                         .map(
                           (tier) => DropdownMenuItem(
                             value: tier.name,
-                            child: Text(roleTierDisplayName(tier)),
+                            child: Text(roleTierDisplayName(tier, l10n)),
                           ),
                         )
                         .toList(),
@@ -178,7 +177,7 @@ class _StaffProvisioningScreenState
                             width: 20,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text('Create account'),
+                        : Text(l10n.createAccountButton),
                   ),
                 ],
               ),

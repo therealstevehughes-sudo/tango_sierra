@@ -4062,5 +4062,17 @@
         "type": "String"
       }
     }
+  },
+  "addTeamMemberTitle": "Add Team Member",
+  "@addTeamMemberTitle": {
+    "description": ""
+  },
+  "createsTapNamePinAccountText": "Creates a tap-name + PIN account for your own venue.",
+  "@createsTapNamePinAccountText": {
+    "description": ""
+  },
+  "createAccountButton": "Create account",
+  "@createAccountButton": {
+    "description": ""
   }
 }

@@ -1169,5 +1169,8 @@
   "noEvidencePhotosYetText": "Todavía no hay fotos de evidencia.",
   "deleteEvidenceConfirmText": "Esto elimina permanentemente {count} fotos ({bytes}) de este dispositivo. Los PDF ya exportados no se ven afectados. Esto no se puede deshacer.",
   "evidencePhotosCountLabel": "{count} fotos de evidencia · {bytes} en total",
-  "deleteSelectedButton": "Eliminar {count} seleccionadas ({bytes})"
+  "deleteSelectedButton": "Eliminar {count} seleccionadas ({bytes})",
+  "addTeamMemberTitle": "Añadir miembro del equipo",
+  "createsTapNamePinAccountText": "Crea una cuenta de nombre-táctil + PIN para tu propio local.",
+  "createAccountButton": "Crear cuenta"
 }
