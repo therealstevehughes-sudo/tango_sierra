@@ -3710,4 +3710,97 @@ class AppLocalizationsDe extends AppLocalizations {
   String expiresOnLabel(String date) {
     return 'Läuft ab am $date';
   }
+
+  @override
+  String get planFriends => 'Friends';
+
+  @override
+  String get planStandard => 'Standard';
+
+  @override
+  String get planPremier => 'Premier';
+
+  @override
+  String get noPlanSelectedText => 'Kein Plan ausgewählt';
+
+  @override
+  String get codeNotRecognisedText => 'Dieser Code wurde nicht erkannt.';
+
+  @override
+  String get couldNotReachServerText => 'Server konnte nicht erreicht werden.';
+
+  @override
+  String get discountAppliedText => 'Rabattcode angewendet.';
+
+  @override
+  String get couldNotOpenBrowserText => 'Browser konnte nicht geöffnet werden';
+
+  @override
+  String get noSubscriptionFoundText =>
+      'Kein Abonnement für diese Firma gefunden.';
+
+  @override
+  String get discountAppliedBadge => 'Rabatt angewendet';
+
+  @override
+  String get directDebitSetUpText =>
+      'Der Lastschrifteinzug ist für diese Firma eingerichtet.';
+
+  @override
+  String get directDebitNotSetUpText =>
+      'Du hast den Lastschrifteinzug noch nicht eingerichtet. Du wirst zu GoCardless weitergeleitet - VenuRite sieht deine Bankdaten niemals direkt.';
+
+  @override
+  String get discountCodeOptionalLabel => 'Rabattcode (optional)';
+
+  @override
+  String get discountCodeHintText =>
+      'Hast du einen \'Friends\'-Code? Gib ihn hier ein';
+
+  @override
+  String get setUpDirectDebitButton => 'Lastschrifteinzug einrichten';
+
+  @override
+  String get freeAccessCodeTitle => 'Kostenloser Zugangscode';
+
+  @override
+  String get freeAccessActiveText =>
+      'Der kostenlose Zugang ist für diese Firma aktiv - kein Lastschrifteinzug oder Kartenzahlung erforderlich.';
+
+  @override
+  String get freeAccessPromptText =>
+      'Hast du einen kostenlosen Zugangscode? Gib ihn hier ein, um die App ohne Zahlungseinrichtung vollständig zu nutzen.';
+
+  @override
+  String get redeemCodeButton => 'Code einlösen';
+
+  @override
+  String get onTrialText => 'In der Testphase';
+
+  @override
+  String get paymentFailedGraceText =>
+      'Eine kürzliche Zahlung ist fehlgeschlagen. Bitte aktualisiere deinen Lastschrifteinzug - der Zugang bleibt während dieser Nachfrist bestehen.';
+
+  @override
+  String get directDebitCancelledRestrictedText =>
+      'Dein Lastschrifteinzug wurde gekündigt. Der Zugang ist auf Nur-Lesen beschränkt, bis die Abrechnung erneut eingerichtet wird.';
+
+  @override
+  String get paymentOverdueRestrictedText =>
+      'Die Zahlung ist zu lange überfällig. Der Zugang ist auf Nur-Lesen beschränkt, bis dies behoben ist.';
+
+  @override
+  String couldNotLoadBillingDetailsError(String error) {
+    return 'Abrechnungsdetails konnten nicht geladen werden: $error';
+  }
+
+  @override
+  String pricePerMonthBilledLabel(String price, int units) {
+    return '$price £/Monat ($units Filialen abgerechnet)';
+  }
+
+  @override
+  String onTrialUntilText(String date) {
+    return 'In der Testphase bis $date';
+  }
 }

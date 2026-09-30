@@ -3679,4 +3679,102 @@ class AppLocalizationsEn extends AppLocalizations {
   String expiresOnLabel(String date) {
     return 'Expires $date';
   }
+
+  @override
+  String get planFriends => 'Friends';
+
+  @override
+  String get planStandard => 'Standard';
+
+  @override
+  String get planPremier => 'Premier';
+
+  @override
+  String get noPlanSelectedText => 'No plan selected';
+
+  @override
+  String get codeNotRecognisedText => 'That code was not recognised.';
+
+  @override
+  String get couldNotReachServerText => 'Could not reach the server.';
+
+  @override
+  String get discountAppliedText => 'Discount code applied.';
+
+  @override
+  String get couldNotOpenBrowserText => 'Could not open the browser';
+
+  @override
+  String get noSubscriptionFoundText =>
+      'No subscription found for this organisation.';
+
+  @override
+  String get discountAppliedBadge => 'Discount applied';
+
+  @override
+  String get directDebitSetUpText =>
+      'Direct Debit is set up for this organisation.';
+
+  @override
+  String get directDebitNotSetUpText =>
+      'You haven\'t set up Direct Debit yet. You\'ll be taken to GoCardless - VenuRite never sees your bank details directly.';
+
+  @override
+  String get discountCodeOptionalLabel => 'Discount code (optional)';
+
+  @override
+  String get discountCodeHintText => 'Have a \'Friends\' code? Enter it here';
+
+  @override
+  String get setUpDirectDebitButton => 'Set up Direct Debit';
+
+  @override
+  String get freeAccessCodeTitle => 'Free-access code';
+
+  @override
+  String get freeAccessActiveText =>
+      'Free access is active for this organisation - no Direct Debit or card payment required.';
+
+  @override
+  String get freeAccessPromptText =>
+      'Have a free-access code? Enter it here to use the full app without setting up payment.';
+
+  @override
+  String get redeemCodeButton => 'Redeem code';
+
+  @override
+  String get onTrialText => 'On trial';
+
+  @override
+  String get paymentFailedGraceText =>
+      'A recent payment failed. Please update your Direct Debit - access continues during this grace period.';
+
+  @override
+  String get directDebitCancelledRestrictedText =>
+      'Your Direct Debit was cancelled. Access is restricted to read-only until billing is set up again.';
+
+  @override
+  String get paymentOverdueRestrictedText =>
+      'Payment has been overdue too long. Access is restricted to read-only until this is resolved.';
+
+  @override
+  String couldNotLoadBillingDetailsError(String error) {
+    return 'Could not load billing details: $error';
+  }
+
+  @override
+  String pricePerMonthBilledLabel(String price, int units) {
+    String _temp0 = intl.Intl.pluralLogic(
+      units,
+      locale: localeName,
+      other: '$units branches',
+      one: '$units branch',
+    );
+    return '£$price/month ($_temp0 billed)';
+  }
+
+  @override
+  String onTrialUntilText(String date) {
+    return 'On trial until $date';
+  }
 }

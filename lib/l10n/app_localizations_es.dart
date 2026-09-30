@@ -3699,4 +3699,97 @@ class AppLocalizationsEs extends AppLocalizations {
   String expiresOnLabel(String date) {
     return 'Caduca $date';
   }
+
+  @override
+  String get planFriends => 'Friends';
+
+  @override
+  String get planStandard => 'Standard';
+
+  @override
+  String get planPremier => 'Premier';
+
+  @override
+  String get noPlanSelectedText => 'Ningún plan seleccionado';
+
+  @override
+  String get codeNotRecognisedText => 'Ese código no fue reconocido.';
+
+  @override
+  String get couldNotReachServerText => 'No se pudo contactar con el servidor.';
+
+  @override
+  String get discountAppliedText => 'Código de descuento aplicado.';
+
+  @override
+  String get couldNotOpenBrowserText => 'No se pudo abrir el navegador';
+
+  @override
+  String get noSubscriptionFoundText =>
+      'No se encontró ninguna suscripción para esta empresa.';
+
+  @override
+  String get discountAppliedBadge => 'Descuento aplicado';
+
+  @override
+  String get directDebitSetUpText =>
+      'La domiciliación bancaria está configurada para esta empresa.';
+
+  @override
+  String get directDebitNotSetUpText =>
+      'Todavía no has configurado la domiciliación bancaria. Serás llevado a GoCardless - VenuRite nunca ve tus datos bancarios directamente.';
+
+  @override
+  String get discountCodeOptionalLabel => 'Código de descuento (opcional)';
+
+  @override
+  String get discountCodeHintText =>
+      '¿Tienes un código \'Friends\'? Introdúcelo aquí';
+
+  @override
+  String get setUpDirectDebitButton => 'Configurar domiciliación bancaria';
+
+  @override
+  String get freeAccessCodeTitle => 'Código de acceso gratuito';
+
+  @override
+  String get freeAccessActiveText =>
+      'El acceso gratuito está activo para esta empresa - no se requiere domiciliación bancaria ni pago con tarjeta.';
+
+  @override
+  String get freeAccessPromptText =>
+      '¿Tienes un código de acceso gratuito? Introdúcelo aquí para usar la app completa sin configurar el pago.';
+
+  @override
+  String get redeemCodeButton => 'Canjear código';
+
+  @override
+  String get onTrialText => 'En periodo de prueba';
+
+  @override
+  String get paymentFailedGraceText =>
+      'Un pago reciente falló. Actualiza tu domiciliación bancaria - el acceso continúa durante este periodo de gracia.';
+
+  @override
+  String get directDebitCancelledRestrictedText =>
+      'Tu domiciliación bancaria fue cancelada. El acceso está restringido a solo lectura hasta que se configure de nuevo la facturación.';
+
+  @override
+  String get paymentOverdueRestrictedText =>
+      'El pago lleva demasiado tiempo pendiente. El acceso está restringido a solo lectura hasta que se resuelva.';
+
+  @override
+  String couldNotLoadBillingDetailsError(String error) {
+    return 'No se pudieron cargar los detalles de facturación: $error';
+  }
+
+  @override
+  String pricePerMonthBilledLabel(String price, int units) {
+    return '$price GBP/mes ($units locales facturados)';
+  }
+
+  @override
+  String onTrialUntilText(String date) {
+    return 'En periodo de prueba hasta $date';
+  }
 }

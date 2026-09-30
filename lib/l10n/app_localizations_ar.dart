@@ -3603,4 +3603,94 @@ class AppLocalizationsAr extends AppLocalizations {
   String expiresOnLabel(String date) {
     return 'تنتهي في $date';
   }
+
+  @override
+  String get planFriends => 'Friends';
+
+  @override
+  String get planStandard => 'Standard';
+
+  @override
+  String get planPremier => 'Premier';
+
+  @override
+  String get noPlanSelectedText => 'لم يتم اختيار خطة';
+
+  @override
+  String get codeNotRecognisedText => 'لم يتم التعرف على هذا الرمز.';
+
+  @override
+  String get couldNotReachServerText => 'تعذر الوصول إلى الخادم.';
+
+  @override
+  String get discountAppliedText => 'تم تطبيق رمز الخصم.';
+
+  @override
+  String get couldNotOpenBrowserText => 'تعذر فتح المتصفح';
+
+  @override
+  String get noSubscriptionFoundText => 'لم يتم العثور على اشتراك لهذه الشركة.';
+
+  @override
+  String get discountAppliedBadge => 'تم تطبيق الخصم';
+
+  @override
+  String get directDebitSetUpText => 'الخصم المباشر مُعد لهذه الشركة.';
+
+  @override
+  String get directDebitNotSetUpText =>
+      'لم تقم بإعداد الخصم المباشر بعد. سيتم نقلك إلى GoCardless - لا يرى VenuRite تفاصيل حسابك المصرفي مباشرة أبدًا.';
+
+  @override
+  String get discountCodeOptionalLabel => 'رمز الخصم (اختياري)';
+
+  @override
+  String get discountCodeHintText => 'هل لديك رمز \'Friends\'؟ أدخله هنا';
+
+  @override
+  String get setUpDirectDebitButton => 'إعداد الخصم المباشر';
+
+  @override
+  String get freeAccessCodeTitle => 'رمز الوصول المجاني';
+
+  @override
+  String get freeAccessActiveText =>
+      'الوصول المجاني نشط لهذه الشركة - لا حاجة لخصم مباشر أو دفع بالبطاقة.';
+
+  @override
+  String get freeAccessPromptText =>
+      'هل لديك رمز وصول مجاني؟ أدخله هنا لاستخدام التطبيق الكامل دون إعداد الدفع.';
+
+  @override
+  String get redeemCodeButton => 'استرداد الرمز';
+
+  @override
+  String get onTrialText => 'في الفترة التجريبية';
+
+  @override
+  String get paymentFailedGraceText =>
+      'فشلت عملية دفع حديثة. يرجى تحديث الخصم المباشر الخاص بك - يستمر الوصول خلال فترة السماح هذه.';
+
+  @override
+  String get directDebitCancelledRestrictedText =>
+      'تم إلغاء الخصم المباشر الخاص بك. الوصول مقيد بالقراءة فقط حتى يتم إعداد الفوترة مرة أخرى.';
+
+  @override
+  String get paymentOverdueRestrictedText =>
+      'تأخر الدفع لفترة طويلة جدًا. الوصول مقيد بالقراءة فقط حتى يتم حل هذا الأمر.';
+
+  @override
+  String couldNotLoadBillingDetailsError(String error) {
+    return 'تعذر تحميل تفاصيل الفوترة: $error';
+  }
+
+  @override
+  String pricePerMonthBilledLabel(String price, int units) {
+    return '$price جنيه إسترليني/شهريًا ($units مواقع مفوترة)';
+  }
+
+  @override
+  String onTrialUntilText(String date) {
+    return 'في الفترة التجريبية حتى $date';
+  }
 }

@@ -3645,4 +3645,96 @@ class AppLocalizationsHr extends AppLocalizations {
   String expiresOnLabel(String date) {
     return 'Istječe $date';
   }
+
+  @override
+  String get planFriends => 'Friends';
+
+  @override
+  String get planStandard => 'Standard';
+
+  @override
+  String get planPremier => 'Premier';
+
+  @override
+  String get noPlanSelectedText => 'Nije odabran plan';
+
+  @override
+  String get codeNotRecognisedText => 'Taj kod nije prepoznat.';
+
+  @override
+  String get couldNotReachServerText => 'Nije moguće doći do poslužitelja.';
+
+  @override
+  String get discountAppliedText => 'Kod za popust primijenjen.';
+
+  @override
+  String get couldNotOpenBrowserText => 'Nije moguće otvoriti preglednik';
+
+  @override
+  String get noSubscriptionFoundText =>
+      'Nije pronađena pretplata za ovu tvrtku.';
+
+  @override
+  String get discountAppliedBadge => 'Popust primijenjen';
+
+  @override
+  String get directDebitSetUpText =>
+      'Izravno terećenje postavljeno je za ovu tvrtku.';
+
+  @override
+  String get directDebitNotSetUpText =>
+      'Još nisi postavio/postavila izravno terećenje. Bit ćeš odveden/odvedena na GoCardless - VenuRite nikada izravno ne vidi tvoje bankovne podatke.';
+
+  @override
+  String get discountCodeOptionalLabel => 'Kod za popust (neobavezno)';
+
+  @override
+  String get discountCodeHintText => 'Imaš \'Friends\' kod? Unesi ga ovdje';
+
+  @override
+  String get setUpDirectDebitButton => 'Postavi izravno terećenje';
+
+  @override
+  String get freeAccessCodeTitle => 'Kod za besplatan pristup';
+
+  @override
+  String get freeAccessActiveText =>
+      'Besplatan pristup je aktivan za ovu tvrtku - izravno terećenje ili plaćanje karticom nije potrebno.';
+
+  @override
+  String get freeAccessPromptText =>
+      'Imaš kod za besplatan pristup? Unesi ga ovdje da koristiš cijelu aplikaciju bez postavljanja plaćanja.';
+
+  @override
+  String get redeemCodeButton => 'Iskoristi kod';
+
+  @override
+  String get onTrialText => 'Na probnom razdoblju';
+
+  @override
+  String get paymentFailedGraceText =>
+      'Nedavno plaćanje nije uspjelo. Ažuriraj svoje izravno terećenje - pristup se nastavlja tijekom ovog razdoblja odgode.';
+
+  @override
+  String get directDebitCancelledRestrictedText =>
+      'Tvoje izravno terećenje je otkazano. Pristup je ograničen na samo čitanje dok se naplata ponovno ne postavi.';
+
+  @override
+  String get paymentOverdueRestrictedText =>
+      'Plaćanje kasni predugo. Pristup je ograničen na samo čitanje dok se to ne riješi.';
+
+  @override
+  String couldNotLoadBillingDetailsError(String error) {
+    return 'Nije moguće učitati podatke o naplati: $error';
+  }
+
+  @override
+  String pricePerMonthBilledLabel(String price, int units) {
+    return '$price GBP/mjesečno (naplaćeno $units poslovnica)';
+  }
+
+  @override
+  String onTrialUntilText(String date) {
+    return 'Na probnom razdoblju do $date';
+  }
 }

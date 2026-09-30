@@ -1,3 +1,5 @@
+import '../../l10n/app_localizations.dart';
+
 // GoCardless billing (2026-09-21) -- mirrors public.subscriptions exactly.
 // Backend-only concept: a local-only install has no subscription row at
 // all (see SubscriptionRepository's own doc comment) -- this model and
@@ -67,16 +69,28 @@ class Subscription {
 
 // Friendly labels for wherever a plan is shown to a user -- the stored
 // key (`planName`) never changes, only what's rendered.
-String planDisplayName(String? planName) {
+String planDisplayName(String? planName, [AppLocalizations? l10n]) {
+  if (l10n == null) {
+    switch (planName) {
+      case 'friends':
+        return 'Friends';
+      case 'standard':
+        return 'Standard';
+      case 'premier':
+        return 'Premier';
+      default:
+        return planName ?? 'No plan selected';
+    }
+  }
   switch (planName) {
     case 'friends':
-      return 'Friends';
+      return l10n.planFriends;
     case 'standard':
-      return 'Standard';
+      return l10n.planStandard;
     case 'premier':
-      return 'Premier';
+      return l10n.planPremier;
     default:
-      return planName ?? 'No plan selected';
+      return planName ?? l10n.noPlanSelectedText;
   }
 }
 

@@ -3698,4 +3698,96 @@ class AppLocalizationsRo extends AppLocalizations {
   String expiresOnLabel(String date) {
     return 'Expiră $date';
   }
+
+  @override
+  String get planFriends => 'Friends';
+
+  @override
+  String get planStandard => 'Standard';
+
+  @override
+  String get planPremier => 'Premier';
+
+  @override
+  String get noPlanSelectedText => 'Niciun plan selectat';
+
+  @override
+  String get codeNotRecognisedText => 'Acel cod nu a fost recunoscut.';
+
+  @override
+  String get couldNotReachServerText => 'Nu s-a putut contacta serverul.';
+
+  @override
+  String get discountAppliedText => 'Cod de reducere aplicat.';
+
+  @override
+  String get couldNotOpenBrowserText => 'Nu s-a putut deschide browserul';
+
+  @override
+  String get noSubscriptionFoundText =>
+      'Niciun abonament găsit pentru această companie.';
+
+  @override
+  String get discountAppliedBadge => 'Reducere aplicată';
+
+  @override
+  String get directDebitSetUpText =>
+      'Direct Debit este configurat pentru această companie.';
+
+  @override
+  String get directDebitNotSetUpText =>
+      'Încă nu ai configurat Direct Debit. Vei fi dus la GoCardless - VenuRite nu vede niciodată detaliile tale bancare direct.';
+
+  @override
+  String get discountCodeOptionalLabel => 'Cod de reducere (opțional)';
+
+  @override
+  String get discountCodeHintText => 'Ai un cod \'Friends\'? Introdu-l aici';
+
+  @override
+  String get setUpDirectDebitButton => 'Configurează Direct Debit';
+
+  @override
+  String get freeAccessCodeTitle => 'Cod de acces gratuit';
+
+  @override
+  String get freeAccessActiveText =>
+      'Accesul gratuit este activ pentru această companie - nu este necesar Direct Debit sau plată cu cardul.';
+
+  @override
+  String get freeAccessPromptText =>
+      'Ai un cod de acces gratuit? Introdu-l aici pentru a folosi aplicația completă fără a configura plata.';
+
+  @override
+  String get redeemCodeButton => 'Revendică codul';
+
+  @override
+  String get onTrialText => 'În perioadă de probă';
+
+  @override
+  String get paymentFailedGraceText =>
+      'O plată recentă a eșuat. Actualizează-ți Direct Debit-ul - accesul continuă în această perioadă de grație.';
+
+  @override
+  String get directDebitCancelledRestrictedText =>
+      'Direct Debit-ul tău a fost anulat. Accesul este restricționat doar la citire până când facturarea este configurată din nou.';
+
+  @override
+  String get paymentOverdueRestrictedText =>
+      'Plata este restantă de prea mult timp. Accesul este restricționat doar la citire până când aceasta este rezolvată.';
+
+  @override
+  String couldNotLoadBillingDetailsError(String error) {
+    return 'Nu s-au putut încărca detaliile de facturare: $error';
+  }
+
+  @override
+  String pricePerMonthBilledLabel(String price, int units) {
+    return '$price GBP/lună ($units locații facturate)';
+  }
+
+  @override
+  String onTrialUntilText(String date) {
+    return 'În perioadă de probă până la $date';
+  }
 }

@@ -3427,5 +3427,124 @@
         "type": "String"
       }
     }
+  },
+  "planFriends": "Friends",
+  "@planFriends": {
+    "description": ""
+  },
+  "planStandard": "Standard",
+  "@planStandard": {
+    "description": ""
+  },
+  "planPremier": "Premier",
+  "@planPremier": {
+    "description": ""
+  },
+  "noPlanSelectedText": "No plan selected",
+  "@noPlanSelectedText": {
+    "description": ""
+  },
+  "codeNotRecognisedText": "That code was not recognised.",
+  "@codeNotRecognisedText": {
+    "description": ""
+  },
+  "couldNotReachServerText": "Could not reach the server.",
+  "@couldNotReachServerText": {
+    "description": ""
+  },
+  "discountAppliedText": "Discount code applied.",
+  "@discountAppliedText": {
+    "description": ""
+  },
+  "couldNotOpenBrowserText": "Could not open the browser",
+  "@couldNotOpenBrowserText": {
+    "description": ""
+  },
+  "noSubscriptionFoundText": "No subscription found for this organisation.",
+  "@noSubscriptionFoundText": {
+    "description": ""
+  },
+  "discountAppliedBadge": "Discount applied",
+  "@discountAppliedBadge": {
+    "description": ""
+  },
+  "directDebitSetUpText": "Direct Debit is set up for this organisation.",
+  "@directDebitSetUpText": {
+    "description": ""
+  },
+  "directDebitNotSetUpText": "You haven't set up Direct Debit yet. You'll be taken to GoCardless - VenuRite never sees your bank details directly.",
+  "@directDebitNotSetUpText": {
+    "description": ""
+  },
+  "discountCodeOptionalLabel": "Discount code (optional)",
+  "@discountCodeOptionalLabel": {
+    "description": ""
+  },
+  "discountCodeHintText": "Have a 'Friends' code? Enter it here",
+  "@discountCodeHintText": {
+    "description": ""
+  },
+  "setUpDirectDebitButton": "Set up Direct Debit",
+  "@setUpDirectDebitButton": {
+    "description": ""
+  },
+  "freeAccessCodeTitle": "Free-access code",
+  "@freeAccessCodeTitle": {
+    "description": ""
+  },
+  "freeAccessActiveText": "Free access is active for this organisation - no Direct Debit or card payment required.",
+  "@freeAccessActiveText": {
+    "description": ""
+  },
+  "freeAccessPromptText": "Have a free-access code? Enter it here to use the full app without setting up payment.",
+  "@freeAccessPromptText": {
+    "description": ""
+  },
+  "redeemCodeButton": "Redeem code",
+  "@redeemCodeButton": {
+    "description": ""
+  },
+  "onTrialText": "On trial",
+  "@onTrialText": {
+    "description": ""
+  },
+  "paymentFailedGraceText": "A recent payment failed. Please update your Direct Debit - access continues during this grace period.",
+  "@paymentFailedGraceText": {
+    "description": ""
+  },
+  "directDebitCancelledRestrictedText": "Your Direct Debit was cancelled. Access is restricted to read-only until billing is set up again.",
+  "@directDebitCancelledRestrictedText": {
+    "description": ""
+  },
+  "paymentOverdueRestrictedText": "Payment has been overdue too long. Access is restricted to read-only until this is resolved.",
+  "@paymentOverdueRestrictedText": {
+    "description": ""
+  },
+  "couldNotLoadBillingDetailsError": "Could not load billing details: {error}",
+  "@couldNotLoadBillingDetailsError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "pricePerMonthBilledLabel": "£{price}/month ({units, plural, one{{units} branch} other{{units} branches}} billed)",
+  "@pricePerMonthBilledLabel": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "units": {
+        "type": "int"
+      }
+    }
+  },
+  "onTrialUntilText": "On trial until {date}",
+  "@onTrialUntilText": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }

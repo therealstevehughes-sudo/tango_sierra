@@ -6427,6 +6427,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expires {date}'**
   String expiresOnLabel(String date);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Friends'**
+  String get planFriends;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get planStandard;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Premier'**
+  String get planPremier;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No plan selected'**
+  String get noPlanSelectedText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'That code was not recognised.'**
+  String get codeNotRecognisedText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server.'**
+  String get couldNotReachServerText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code applied.'**
+  String get discountAppliedText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the browser'**
+  String get couldNotOpenBrowserText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No subscription found for this organisation.'**
+  String get noSubscriptionFoundText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Discount applied'**
+  String get discountAppliedBadge;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Debit is set up for this organisation.'**
+  String get directDebitSetUpText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t set up Direct Debit yet. You\'ll be taken to GoCardless - VenuRite never sees your bank details directly.'**
+  String get directDebitNotSetUpText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Discount code (optional)'**
+  String get discountCodeOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Have a \'Friends\' code? Enter it here'**
+  String get discountCodeHintText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Set up Direct Debit'**
+  String get setUpDirectDebitButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Free-access code'**
+  String get freeAccessCodeTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Free access is active for this organisation - no Direct Debit or card payment required.'**
+  String get freeAccessActiveText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Have a free-access code? Enter it here to use the full app without setting up payment.'**
+  String get freeAccessPromptText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Redeem code'**
+  String get redeemCodeButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'On trial'**
+  String get onTrialText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'A recent payment failed. Please update your Direct Debit - access continues during this grace period.'**
+  String get paymentFailedGraceText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Your Direct Debit was cancelled. Access is restricted to read-only until billing is set up again.'**
+  String get directDebitCancelledRestrictedText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Payment has been overdue too long. Access is restricted to read-only until this is resolved.'**
+  String get paymentOverdueRestrictedText;
+
+  /// No description provided for @couldNotLoadBillingDetailsError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load billing details: {error}'**
+  String couldNotLoadBillingDetailsError(String error);
+
+  /// No description provided for @pricePerMonthBilledLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'£{price}/month ({units, plural, one{{units} branch} other{{units} branches}} billed)'**
+  String pricePerMonthBilledLabel(String price, int units);
+
+  /// No description provided for @onTrialUntilText.
+  ///
+  /// In en, this message translates to:
+  /// **'On trial until {date}'**
+  String onTrialUntilText(String date);
 }
 
 class _AppLocalizationsDelegate

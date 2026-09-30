@@ -3618,4 +3618,96 @@ class AppLocalizationsUr extends AppLocalizations {
   String expiresOnLabel(String date) {
     return '$date کو ختم ہوتا ہے';
   }
+
+  @override
+  String get planFriends => 'Friends';
+
+  @override
+  String get planStandard => 'Standard';
+
+  @override
+  String get planPremier => 'Premier';
+
+  @override
+  String get noPlanSelectedText => 'کوئی پلان منتخب نہیں';
+
+  @override
+  String get codeNotRecognisedText => 'وہ کوڈ تسلیم نہیں کیا گیا۔';
+
+  @override
+  String get couldNotReachServerText => 'سرور تک نہیں پہنچا جا سکا۔';
+
+  @override
+  String get discountAppliedText => 'ڈسکاؤنٹ کوڈ لاگو کیا گیا۔';
+
+  @override
+  String get couldNotOpenBrowserText => 'براؤزر نہیں کھولا جا سکا';
+
+  @override
+  String get noSubscriptionFoundText =>
+      'اس کمپنی کے لیے کوئی سبسکرپشن نہیں ملی۔';
+
+  @override
+  String get discountAppliedBadge => 'رعایت لاگو';
+
+  @override
+  String get directDebitSetUpText => 'اس کمپنی کے لیے ڈائریکٹ ڈیبٹ سیٹ اپ ہے۔';
+
+  @override
+  String get directDebitNotSetUpText =>
+      'تم نے ابھی تک ڈائریکٹ ڈیبٹ سیٹ اپ نہیں کیا۔ تمہیں GoCardless پر لے جایا جائے گا - VenuRite تمہارے بینک کی تفصیلات کبھی براہ راست نہیں دیکھتا۔';
+
+  @override
+  String get discountCodeOptionalLabel => 'ڈسکاؤنٹ کوڈ (اختیاری)';
+
+  @override
+  String get discountCodeHintText =>
+      'کیا تمہارے پاس \'Friends\' کوڈ ہے؟ اسے یہاں درج کرو';
+
+  @override
+  String get setUpDirectDebitButton => 'ڈائریکٹ ڈیبٹ سیٹ کریں';
+
+  @override
+  String get freeAccessCodeTitle => 'مفت رسائی کوڈ';
+
+  @override
+  String get freeAccessActiveText =>
+      'اس کمپنی کے لیے مفت رسائی فعال ہے - کوئی ڈائریکٹ ڈیبٹ یا کارڈ ادائیگی درکار نہیں۔';
+
+  @override
+  String get freeAccessPromptText =>
+      'کیا تمہارے پاس مفت رسائی کوڈ ہے؟ ادائیگی سیٹ کیے بغیر مکمل ایپ استعمال کرنے کے لیے اسے یہاں درج کرو۔';
+
+  @override
+  String get redeemCodeButton => 'کوڈ ریڈیم کریں';
+
+  @override
+  String get onTrialText => 'ٹرائل پر';
+
+  @override
+  String get paymentFailedGraceText =>
+      'حالیہ ادائیگی ناکام ہوگئی۔ براہ کرم اپنا ڈائریکٹ ڈیبٹ اپ ڈیٹ کرو - اس رعایتی مدت کے دوران رسائی جاری رہتی ہے۔';
+
+  @override
+  String get directDebitCancelledRestrictedText =>
+      'تمہارا ڈائریکٹ ڈیبٹ منسوخ کر دیا گیا تھا۔ بلنگ دوبارہ سیٹ ہونے تک رسائی صرف پڑھنے تک محدود ہے۔';
+
+  @override
+  String get paymentOverdueRestrictedText =>
+      'ادائیگی بہت طویل عرصے سے واجب الادا ہے۔ اس کے حل ہونے تک رسائی صرف پڑھنے تک محدود ہے۔';
+
+  @override
+  String couldNotLoadBillingDetailsError(String error) {
+    return 'بلنگ کی تفصیلات لوڈ نہیں ہو سکیں: $error';
+  }
+
+  @override
+  String pricePerMonthBilledLabel(String price, int units) {
+    return '£$price/مہینہ ($units شاخیں بل کی گئیں)';
+  }
+
+  @override
+  String onTrialUntilText(String date) {
+    return '$date تک ٹرائل پر';
+  }
 }

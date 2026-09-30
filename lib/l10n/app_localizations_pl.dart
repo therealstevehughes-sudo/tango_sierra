@@ -3698,4 +3698,96 @@ class AppLocalizationsPl extends AppLocalizations {
   String expiresOnLabel(String date) {
     return 'Wygasa $date';
   }
+
+  @override
+  String get planFriends => 'Friends';
+
+  @override
+  String get planStandard => 'Standard';
+
+  @override
+  String get planPremier => 'Premier';
+
+  @override
+  String get noPlanSelectedText => 'Nie wybrano planu';
+
+  @override
+  String get codeNotRecognisedText => 'Ten kod nie został rozpoznany.';
+
+  @override
+  String get couldNotReachServerText => 'Nie udało się połączyć z serwerem.';
+
+  @override
+  String get discountAppliedText => 'Zastosowano kod rabatowy.';
+
+  @override
+  String get couldNotOpenBrowserText => 'Nie udało się otworzyć przeglądarki';
+
+  @override
+  String get noSubscriptionFoundText =>
+      'Nie znaleziono subskrypcji dla tej organizacji.';
+
+  @override
+  String get discountAppliedBadge => 'Rabat zastosowany';
+
+  @override
+  String get directDebitSetUpText =>
+      'Polecenie zapłaty jest skonfigurowane dla tej organizacji.';
+
+  @override
+  String get directDebitNotSetUpText =>
+      'Nie skonfigurowałeś jeszcze polecenia zapłaty. Zostaniesz przekierowany do GoCardless - VenuRite nigdy nie widzi twoich danych bankowych bezpośrednio.';
+
+  @override
+  String get discountCodeOptionalLabel => 'Kod rabatowy (opcjonalnie)';
+
+  @override
+  String get discountCodeHintText => 'Masz kod \'Friends\'? Wprowadź go tutaj';
+
+  @override
+  String get setUpDirectDebitButton => 'Skonfiguruj polecenie zapłaty';
+
+  @override
+  String get freeAccessCodeTitle => 'Kod darmowego dostępu';
+
+  @override
+  String get freeAccessActiveText =>
+      'Darmowy dostęp jest aktywny dla tej organizacji - polecenie zapłaty ani płatność kartą nie są wymagane.';
+
+  @override
+  String get freeAccessPromptText =>
+      'Masz kod darmowego dostępu? Wprowadź go tutaj, aby korzystać z pełnej aplikacji bez konfigurowania płatności.';
+
+  @override
+  String get redeemCodeButton => 'Wykorzystaj kod';
+
+  @override
+  String get onTrialText => 'Okres próbny';
+
+  @override
+  String get paymentFailedGraceText =>
+      'Ostatnia płatność nie powiodła się. Zaktualizuj polecenie zapłaty - dostęp jest kontynuowany w tym okresie karencji.';
+
+  @override
+  String get directDebitCancelledRestrictedText =>
+      'Twoje polecenie zapłaty zostało anulowane. Dostęp jest ograniczony do trybu tylko do odczytu, dopóki rozliczenia nie zostaną skonfigurowane ponownie.';
+
+  @override
+  String get paymentOverdueRestrictedText =>
+      'Płatność jest zaległa zbyt długo. Dostęp jest ograniczony do trybu tylko do odczytu, dopóki to nie zostanie rozwiązane.';
+
+  @override
+  String couldNotLoadBillingDetailsError(String error) {
+    return 'Nie udało się załadować danych rozliczeniowych: $error';
+  }
+
+  @override
+  String pricePerMonthBilledLabel(String price, int units) {
+    return '$price GBP/miesiąc (rozliczane $units lokali)';
+  }
+
+  @override
+  String onTrialUntilText(String date) {
+    return 'Okres próbny do $date';
+  }
 }

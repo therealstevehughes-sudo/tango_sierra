@@ -3625,4 +3625,97 @@ class AppLocalizationsHi extends AppLocalizations {
   String expiresOnLabel(String date) {
     return '$date को समाप्त होता है';
   }
+
+  @override
+  String get planFriends => 'Friends';
+
+  @override
+  String get planStandard => 'Standard';
+
+  @override
+  String get planPremier => 'Premier';
+
+  @override
+  String get noPlanSelectedText => 'कोई प्लान चयनित नहीं';
+
+  @override
+  String get codeNotRecognisedText => 'वह कोड पहचाना नहीं गया।';
+
+  @override
+  String get couldNotReachServerText => 'सर्वर तक नहीं पहुंचा जा सका।';
+
+  @override
+  String get discountAppliedText => 'डिस्काउंट कोड लागू किया गया।';
+
+  @override
+  String get couldNotOpenBrowserText => 'ब्राउज़र नहीं खोला जा सका';
+
+  @override
+  String get noSubscriptionFoundText =>
+      'इस कंपनी के लिए कोई सदस्यता नहीं मिली।';
+
+  @override
+  String get discountAppliedBadge => 'छूट लागू';
+
+  @override
+  String get directDebitSetUpText =>
+      'इस कंपनी के लिए डायरेक्ट डेबिट सेट अप है।';
+
+  @override
+  String get directDebitNotSetUpText =>
+      'तुमने अभी तक डायरेक्ट डेबिट सेट अप नहीं किया है। तुम्हें GoCardless पर ले जाया जाएगा - VenuRite तुम्हारे बैंक विवरण सीधे कभी नहीं देखता।';
+
+  @override
+  String get discountCodeOptionalLabel => 'डिस्काउंट कोड (वैकल्पिक)';
+
+  @override
+  String get discountCodeHintText =>
+      'क्या तुम्हारे पास \'Friends\' कोड है? इसे यहां दर्ज करो';
+
+  @override
+  String get setUpDirectDebitButton => 'डायरेक्ट डेबिट सेट करें';
+
+  @override
+  String get freeAccessCodeTitle => 'मुफ्त-पहुंच कोड';
+
+  @override
+  String get freeAccessActiveText =>
+      'इस कंपनी के लिए मुफ्त पहुंच सक्रिय है - कोई डायरेक्ट डेबिट या कार्ड भुगतान आवश्यक नहीं।';
+
+  @override
+  String get freeAccessPromptText =>
+      'क्या तुम्हारे पास मुफ्त-पहुंच कोड है? भुगतान सेट किए बिना पूरा ऐप उपयोग करने के लिए इसे यहां दर्ज करो।';
+
+  @override
+  String get redeemCodeButton => 'कोड रिडीम करें';
+
+  @override
+  String get onTrialText => 'ट्रायल पर';
+
+  @override
+  String get paymentFailedGraceText =>
+      'हाल ही में एक भुगतान विफल हुआ। कृपया अपना डायरेक्ट डेबिट अपडेट करो - इस छूट अवधि के दौरान पहुंच जारी रहती है।';
+
+  @override
+  String get directDebitCancelledRestrictedText =>
+      'तुम्हारा डायरेक्ट डेबिट रद्द कर दिया गया था। बिलिंग फिर से सेट होने तक पहुंच केवल पढ़ने तक सीमित है।';
+
+  @override
+  String get paymentOverdueRestrictedText =>
+      'भुगतान बहुत लंबे समय से बकाया है। इसका समाधान होने तक पहुंच केवल पढ़ने तक सीमित है।';
+
+  @override
+  String couldNotLoadBillingDetailsError(String error) {
+    return 'बिलिंग विवरण लोड नहीं हो सका: $error';
+  }
+
+  @override
+  String pricePerMonthBilledLabel(String price, int units) {
+    return '£$price/महीना ($units शाखाएं बिल की गईं)';
+  }
+
+  @override
+  String onTrialUntilText(String date) {
+    return '$date तक ट्रायल पर';
+  }
 }

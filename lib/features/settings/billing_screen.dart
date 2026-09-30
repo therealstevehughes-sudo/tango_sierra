@@ -11,6 +11,7 @@ import '../../shared/providers/subscription_providers.dart';
 import '../../shared/repositories/subscription_repository.dart';
 import '../../shared/services/billing_service.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 // GoCardless billing (2026-09-21) -- executive-only (enforced both by
 // Venue Details only linking here for that tier, and server-side by
@@ -65,11 +66,15 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
         // needing a manual pull-to-refresh.
         ref.invalidate(currentSubscriptionProvider);
       } else {
-        setState(() => _freeAccessError = 'That code was not recognised.');
+        setState(
+          () => _freeAccessError = AppLocalizations.of(context)!.codeNotRecognisedText,
+        );
       }
     } catch (_) {
       if (!mounted) return;
-      setState(() => _freeAccessError = 'Could not reach the server.');
+      setState(
+        () => _freeAccessError = AppLocalizations.of(context)!.couldNotReachServerText,
+      );
     } finally {
       if (mounted) setState(() => _redeemingFreeAccess = false);
     }
@@ -89,21 +94,27 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
       if (result.discountError != null && mounted) {
         setState(() => _discountNote = result.discountError);
       } else if (result.discountApplied && mounted) {
-        setState(() => _discountNote = 'Discount code applied.');
+        setState(
+          () => _discountNote = AppLocalizations.of(context)!.discountAppliedText,
+        );
       }
       final launched = await launchUrl(
         Uri.parse(result.redirectUrl),
         mode: LaunchMode.externalApplication,
       );
       if (!launched && mounted) {
-        setState(() => _error = 'Could not open the browser');
+        setState(
+          () => _error = AppLocalizations.of(context)!.couldNotOpenBrowserText,
+        );
       }
     } on DirectDebitSetupException catch (e) {
       if (!mounted) return;
       setState(() => _error = e.message);
     } catch (_) {
       if (!mounted) return;
-      setState(() => _error = 'Could not reach the server');
+      setState(
+        () => _error = AppLocalizations.of(context)!.couldNotReachServerText,
+      );
     } finally {
       if (mounted) setState(() => _startingSetup = false);
     }
@@ -111,11 +122,12 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final subscriptionAsync = ref.watch(currentSubscriptionProvider);
 
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Billing'),
+        title: Text(l10n.billingLabel),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -125,11 +137,11 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
             child: subscriptionAsync.when(
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (err, stack) =>
-                  Center(child: Text('Could not load billing details: $err')),
+                  Center(child: Text(l10n.couldNotLoadBillingDetailsError(err.toString()))),
               data: (subscription) {
                 if (subscription == null) {
-                  return const AppCard(
-                    child: Text('No subscription found for this organisation.'),
+                  return AppCard(
+                    child: Text(l10n.noSubscriptionFoundText),
                   );
                 }
                 return ListView(
@@ -150,14 +162,16 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
   }
 
   Widget _buildStatusCard(Subscription subscription) {
+    final l10n = AppLocalizations.of(context)!;
     final pricePence = totalMonthlyPricePence(
       subscription.billedSiteCount,
       foundingOffer: subscription.foundingOffer,
     );
     final branches = subscription.billedSiteCount;
-    final priceLabel =
-        '£${(pricePence / 100).toStringAsFixed(2)}/month '
-        '($branches branch${branches == 1 ? '' : 'es'} billed)';
+    final priceLabel = l10n.pricePerMonthBilledLabel(
+      (pricePence / 100).toStringAsFixed(2),
+      branches,
+    );
     final state = effectiveBillingState(subscription);
 
     return AppCard(
@@ -167,7 +181,7 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
           Row(
             children: [
               Text(
-                planDisplayName(subscription.planName),
+                planDisplayName(subscription.planName, l10n),
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               if (subscription.foundingOffer) ...[
@@ -182,7 +196,7 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
-                    'Discount applied',
+                    l10n.discountAppliedBadge,
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: AppColors.tealInk,
                       fontWeight: FontWeight.w700,
@@ -202,6 +216,7 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
   }
 
   Widget _buildDirectDebitCard(Subscription subscription) {
+    final l10n = AppLocalizations.of(context)!;
     final hasMandate =
         subscription.gocardlessMandateId != null &&
         subscription.mandateStatus == 'active';
@@ -210,22 +225,19 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Direct Debit', style: Theme.of(context).textTheme.titleMedium),
+          Text(l10n.directDebitTitle, style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           if (hasMandate)
-            const Text('Direct Debit is set up for this organisation.')
+            Text(l10n.directDebitSetUpText)
           else ...[
-            const Text(
-              "You haven't set up Direct Debit yet. You'll be taken to "
-              'GoCardless - VenuRite never sees your bank details directly.',
-            ),
+            Text(l10n.directDebitNotSetUpText),
             const SizedBox(height: 12),
             TextField(
               controller: _discountCodeController,
-              decoration: const InputDecoration(
-                labelText: 'Discount code (optional)',
-                hintText: "Have a 'Friends' code? Enter it here",
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.discountCodeOptionalLabel,
+                hintText: l10n.discountCodeHintText,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 12),
@@ -237,7 +249,7 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                       height: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Set up Direct Debit'),
+                  : Text(l10n.setUpDirectDebitButton),
             ),
             if (_discountNote != null) ...[
               const SizedBox(height: 8),
@@ -258,31 +270,26 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
   // which is about a real mandate) so it's usable regardless of whether
   // a mandate exists yet.
   Widget _buildFreeAccessCard(Subscription subscription) {
+    final l10n = AppLocalizations.of(context)!;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Free-access code',
+            l10n.freeAccessCodeTitle,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 8),
           if (subscription.freeAccessGranted)
-            const Text(
-              'Free access is active for this organisation - no Direct '
-              'Debit or card payment required.',
-            )
+            Text(l10n.freeAccessActiveText)
           else ...[
-            const Text(
-              'Have a free-access code? Enter it here to use the full app '
-              'without setting up payment.',
-            ),
+            Text(l10n.freeAccessPromptText),
             const SizedBox(height: 12),
             TextField(
               controller: _freeAccessCodeController,
-              decoration: const InputDecoration(
-                labelText: 'Free-access code',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.freeAccessCodeTitle,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 12),
@@ -296,7 +303,7 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                       height: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Redeem code'),
+                  : Text(l10n.redeemCodeButton),
             ),
             if (_freeAccessError != null) ...[
               const SizedBox(height: 8),
@@ -320,27 +327,25 @@ class _StatusBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final (String message, Color color) = switch (state) {
       BillingState.normal when subscription.status == 'trialing' => (
         subscription.trialEndsAt == null
-            ? 'On trial'
-            : 'On trial until ${_formatDate(subscription.trialEndsAt!)}',
+            ? l10n.onTrialText
+            : l10n.onTrialUntilText(_formatDate(subscription.trialEndsAt!)),
         AppColors.muted,
       ),
-      BillingState.normal => ('Active', AppColors.pass),
+      BillingState.normal => (l10n.activeLabel, AppColors.pass),
       BillingState.pastDueGrace => (
-        'A recent payment failed. Please update your Direct Debit - '
-            'access continues during this grace period.',
+        l10n.paymentFailedGraceText,
         AppColors.caution,
       ),
       BillingState.restricted when subscription.status == 'cancelled' => (
-        'Your Direct Debit was cancelled. Access is restricted to '
-            'read-only until billing is set up again.',
+        l10n.directDebitCancelledRestrictedText,
         AppColors.critical,
       ),
       BillingState.restricted => (
-        'Payment has been overdue too long. Access is restricted to '
-            'read-only until this is resolved.',
+        l10n.paymentOverdueRestrictedText,
         AppColors.critical,
       ),
     };

@@ -3512,4 +3512,90 @@ class AppLocalizationsZh extends AppLocalizations {
   String expiresOnLabel(String date) {
     return '有效期至 $date';
   }
+
+  @override
+  String get planFriends => 'Friends';
+
+  @override
+  String get planStandard => 'Standard';
+
+  @override
+  String get planPremier => 'Premier';
+
+  @override
+  String get noPlanSelectedText => '未选择套餐';
+
+  @override
+  String get codeNotRecognisedText => '该代码无法识别。';
+
+  @override
+  String get couldNotReachServerText => '无法连接到服务器。';
+
+  @override
+  String get discountAppliedText => '已应用折扣码。';
+
+  @override
+  String get couldNotOpenBrowserText => '无法打开浏览器';
+
+  @override
+  String get noSubscriptionFoundText => '未找到此公司的订阅。';
+
+  @override
+  String get discountAppliedBadge => '已应用折扣';
+
+  @override
+  String get directDebitSetUpText => '此公司已设置直接借记。';
+
+  @override
+  String get directDebitNotSetUpText =>
+      '你尚未设置直接借记。你将被引导至 GoCardless - VenuRite 绝不会直接看到你的银行信息。';
+
+  @override
+  String get discountCodeOptionalLabel => '折扣码(可选)';
+
+  @override
+  String get discountCodeHintText => '有\"Friends\"代码吗?在此输入';
+
+  @override
+  String get setUpDirectDebitButton => '设置直接借记';
+
+  @override
+  String get freeAccessCodeTitle => '免费访问代码';
+
+  @override
+  String get freeAccessActiveText => '此公司的免费访问已激活 - 无需直接借记或银行卡付款。';
+
+  @override
+  String get freeAccessPromptText => '有免费访问代码吗?在此输入即可在不设置付款的情况下使用完整应用。';
+
+  @override
+  String get redeemCodeButton => '兑换代码';
+
+  @override
+  String get onTrialText => '试用中';
+
+  @override
+  String get paymentFailedGraceText => '最近一次付款失败。请更新你的直接借记 - 在此宽限期内访问将继续。';
+
+  @override
+  String get directDebitCancelledRestrictedText =>
+      '你的直接借记已被取消。在重新设置账单之前,访问权限将限制为只读。';
+
+  @override
+  String get paymentOverdueRestrictedText => '付款逾期时间过长。在解决此问题之前,访问权限将限制为只读。';
+
+  @override
+  String couldNotLoadBillingDetailsError(String error) {
+    return '无法加载账单详情:$error';
+  }
+
+  @override
+  String pricePerMonthBilledLabel(String price, int units) {
+    return '£$price/月(计费 $units 个场所)';
+  }
+
+  @override
+  String onTrialUntilText(String date) {
+    return '试用期至 $date';
+  }
 }
