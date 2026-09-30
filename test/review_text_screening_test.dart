@@ -7,7 +7,7 @@
 // Run: flutter test test/review_text_screening_test.dart
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_1/features/providers/review_text_screening.dart';
+import 'package:venurite/features/providers/review_text_screening.dart';
 
 void main() {
   group('identifyingInfoIn', () {

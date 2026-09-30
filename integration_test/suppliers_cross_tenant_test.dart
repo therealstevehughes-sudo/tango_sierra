@@ -18,12 +18,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import 'package:flutter_application_1/core/network/backend_rest_client.dart';
-import 'package:flutter_application_1/core/network/supabase_client.dart';
-import 'package:flutter_application_1/shared/models/supplier.dart';
-import 'package:flutter_application_1/shared/models/supplier_category.dart';
-import 'package:flutter_application_1/shared/providers/auth_providers.dart';
-import 'package:flutter_application_1/shared/providers/supplier_providers.dart';
+import 'package:venurite/core/network/backend_rest_client.dart';
+import 'package:venurite/core/network/supabase_client.dart';
+import 'package:venurite/shared/models/supplier.dart';
+import 'package:venurite/shared/models/supplier_category.dart';
+import 'package:venurite/shared/providers/auth_providers.dart';
+import 'package:venurite/shared/providers/supplier_providers.dart';
 
 const _tokenA =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhYWwiOiJhYWwxIiwiYW1yIjpbeyJtZXRob2QiOiJwYXNzd29yZCIsInRpbWVzdGFtcCI6MTc4OTkwMDMyNX1dLCJhcHBfbWV0YWRhdGEiOnsib3JnYW5pc2F0aW9uX2lkIjo0NCwicHJvdmlkZXIiOiJlbWFpbCIsInByb3ZpZGVycyI6WyJlbWFpbCJdLCJyb2xlX3RpZXIiOiJleGVjdXRpdmUifSwiYXVkIjoiYXV0aGVudGljYXRlZCIsImVtYWlsIjoic3VwcGxpZXJzcHJvb2YuYUBleGFtcGxlLmNvbSIsImV4cCI6MTc4OTkwMzkyNSwiaWF0IjoxNzg5OTAwMzI1LCJpc19hbm9ueW1vdXMiOmZhbHNlLCJpc3MiOiJodHRwczovL2FwaS52ZW51cml0ZS5jb20vYXV0aC92MSIsInBob25lIjoiIiwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJzZXNzaW9uX2lkIjoiNGE0NzI0MTgtODNhOS00Zjk1LWFjYmItMGJlYWQwNmFjZTE3Iiwic3ViIjoiODk2OTg5MmYtNTRiNS00YzYxLWJlZGEtZWQ1MjU5ZTIyOWMzIiwidXNlcl9tZXRhZGF0YSI6eyJlbWFpbF92ZXJpZmllZCI6dHJ1ZX19.wOJPEyT5aUKMVLvHvm-iwfjsXPfMhOk6r1p7R0ebPbM';

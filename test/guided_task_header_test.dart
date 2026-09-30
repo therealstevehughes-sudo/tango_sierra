@@ -13,8 +13,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_1/core/widgets/guided_task_header.dart';
-import 'package:flutter_application_1/features/tasks/task_model.dart';
+import 'package:venurite/core/widgets/guided_task_header.dart';
+import 'package:venurite/features/tasks/task_model.dart';
 
 ResolvedTask _task({String? segment, String? instanceName}) => ResolvedTask(
   scheduleId: 1,

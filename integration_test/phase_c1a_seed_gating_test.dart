@@ -14,8 +14,8 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import 'package:flutter_application_1/core/config/build_flags.dart';
-import 'package:flutter_application_1/core/storage/app_database.dart';
+import 'package:venurite/core/config/build_flags.dart';
+import 'package:venurite/core/storage/app_database.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

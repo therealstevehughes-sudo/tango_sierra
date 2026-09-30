@@ -14,11 +14,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import 'package:flutter_application_1/core/storage/app_database.dart';
-import 'package:flutter_application_1/shared/models/duplicate_equipment_name_exception.dart';
-import 'package:flutter_application_1/shared/models/task_submission.dart';
-import 'package:flutter_application_1/shared/repositories/equipment_repository.dart';
-import 'package:flutter_application_1/shared/repositories/task_submission_repository.dart';
+import 'package:venurite/core/storage/app_database.dart';
+import 'package:venurite/shared/models/duplicate_equipment_name_exception.dart';
+import 'package:venurite/shared/models/task_submission.dart';
+import 'package:venurite/shared/repositories/equipment_repository.dart';
+import 'package:venurite/shared/repositories/task_submission_repository.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

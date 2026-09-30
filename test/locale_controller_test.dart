@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_application_1/core/localization/locale_controller.dart';
-import 'package:flutter_application_1/core/localization/supported_language.dart';
+import 'package:venurite/core/localization/locale_controller.dart';
+import 'package:venurite/core/localization/supported_language.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

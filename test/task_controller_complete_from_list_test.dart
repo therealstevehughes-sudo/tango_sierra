@@ -22,17 +22,17 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_1/core/storage/app_database.dart';
-import 'package:flutter_application_1/features/tasks/task_controller.dart';
-import 'package:flutter_application_1/shared/models/task_schedule.dart';
-import 'package:flutter_application_1/shared/repositories/equipment_repository.dart';
-import 'package:flutter_application_1/shared/repositories/notification_rule_repository.dart';
-import 'package:flutter_application_1/shared/repositories/problem_register_repository.dart';
-import 'package:flutter_application_1/shared/repositories/task_schedule_repository.dart';
-import 'package:flutter_application_1/shared/repositories/task_submission_repository.dart';
-import 'package:flutter_application_1/shared/repositories/task_template_repository.dart';
-import 'package:flutter_application_1/shared/repositories/trigger_notification_repository.dart';
-import 'package:flutter_application_1/shared/repositories/user_repository.dart';
+import 'package:venurite/core/storage/app_database.dart';
+import 'package:venurite/features/tasks/task_controller.dart';
+import 'package:venurite/shared/models/task_schedule.dart';
+import 'package:venurite/shared/repositories/equipment_repository.dart';
+import 'package:venurite/shared/repositories/notification_rule_repository.dart';
+import 'package:venurite/shared/repositories/problem_register_repository.dart';
+import 'package:venurite/shared/repositories/task_schedule_repository.dart';
+import 'package:venurite/shared/repositories/task_submission_repository.dart';
+import 'package:venurite/shared/repositories/task_template_repository.dart';
+import 'package:venurite/shared/repositories/trigger_notification_repository.dart';
+import 'package:venurite/shared/repositories/user_repository.dart';
 
 void main() {
   late AppDatabase db;

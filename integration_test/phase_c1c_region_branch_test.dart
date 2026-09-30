@@ -15,10 +15,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import 'package:flutter_application_1/core/network/supabase_client.dart';
-import 'package:flutter_application_1/shared/providers/auth_providers.dart';
-import 'package:flutter_application_1/shared/providers/site_providers.dart';
-import 'package:flutter_application_1/shared/providers/tenant_provisioning_providers.dart';
+import 'package:venurite/core/network/supabase_client.dart';
+import 'package:venurite/shared/providers/auth_providers.dart';
+import 'package:venurite/shared/providers/site_providers.dart';
+import 'package:venurite/shared/providers/tenant_provisioning_providers.dart';
 
 final _unique = DateTime.now().millisecondsSinceEpoch;
 final _directorEmail = 'c1c-it-director-$_unique@venurite.invalid';

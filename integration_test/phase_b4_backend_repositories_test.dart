@@ -17,11 +17,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import 'package:flutter_application_1/core/network/supabase_client.dart';
-import 'package:flutter_application_1/shared/models/task_template.dart';
-import 'package:flutter_application_1/shared/providers/auth_providers.dart';
-import 'package:flutter_application_1/shared/providers/task_schedule_providers.dart';
-import 'package:flutter_application_1/shared/providers/task_template_providers.dart';
+import 'package:venurite/core/network/supabase_client.dart';
+import 'package:venurite/shared/models/task_template.dart';
+import 'package:venurite/shared/providers/auth_providers.dart';
+import 'package:venurite/shared/providers/task_schedule_providers.dart';
+import 'package:venurite/shared/providers/task_template_providers.dart';
 
 // Throwaway fixture — Org G (id 13) / Site G1 (id 21), Org H (id 14) /
 // Site H1 (id 22), one shared task template (id 5, template_group_id 5,

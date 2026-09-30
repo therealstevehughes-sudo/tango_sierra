@@ -15,10 +15,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import 'package:flutter_application_1/core/network/supabase_client.dart';
-import 'package:flutter_application_1/core/storage/app_database.dart';
-import 'package:flutter_application_1/shared/models/pin_auth_outcome.dart';
-import 'package:flutter_application_1/shared/repositories/user_repository.dart';
+import 'package:venurite/core/network/supabase_client.dart';
+import 'package:venurite/core/storage/app_database.dart';
+import 'package:venurite/shared/models/pin_auth_outcome.dart';
+import 'package:venurite/shared/repositories/user_repository.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();

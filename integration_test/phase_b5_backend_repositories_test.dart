@@ -15,11 +15,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
-import 'package:flutter_application_1/core/network/supabase_client.dart';
-import 'package:flutter_application_1/shared/models/task_submission.dart';
-import 'package:flutter_application_1/shared/providers/auth_providers.dart';
-import 'package:flutter_application_1/shared/providers/task_submission_providers.dart';
-import 'package:flutter_application_1/shared/providers/venue_setup_providers.dart';
+import 'package:venurite/core/network/supabase_client.dart';
+import 'package:venurite/shared/models/task_submission.dart';
+import 'package:venurite/shared/providers/auth_providers.dart';
+import 'package:venurite/shared/providers/task_submission_providers.dart';
+import 'package:venurite/shared/providers/venue_setup_providers.dart';
 
 // Throwaway fixture — Org I (17) / Site I1 (25) / user id 8, Org J (18) /
 // Site J1 (26) / task_submission id 5 (FAIL, denormalised fields set).

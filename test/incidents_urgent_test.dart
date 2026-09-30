@@ -3,8 +3,8 @@
 // whole point is a specific, easy-to-get-wrong rule: additive-only,
 // resolution-status-orthogonal, and never counting an already-resolved
 // issue no matter how stale it once was.
-import 'package:flutter_application_1/features/dashboard/leadership_dashboard_service.dart';
-import 'package:flutter_application_1/shared/models/issue.dart';
+import 'package:venurite/features/dashboard/leadership_dashboard_service.dart';
+import 'package:venurite/shared/models/issue.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Issue _issue({

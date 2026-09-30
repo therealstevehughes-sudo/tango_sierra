@@ -13,7 +13,7 @@
 // Run: flutter test test/equipment_trend_service_test.dart
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_1/features/tasks/equipment_trend_service.dart';
+import 'package:venurite/features/tasks/equipment_trend_service.dart';
 
 void main() {
   group('evaluateEquipmentTrend', () {

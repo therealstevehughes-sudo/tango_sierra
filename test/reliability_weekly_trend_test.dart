@@ -13,14 +13,14 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_1/core/storage/app_database.dart';
-import 'package:flutter_application_1/features/dashboard/reliability_service.dart';
-import 'package:flutter_application_1/shared/models/task_schedule.dart';
-import 'package:flutter_application_1/shared/models/task_submission.dart';
-import 'package:flutter_application_1/shared/models/user.dart';
-import 'package:flutter_application_1/shared/repositories/task_schedule_repository.dart';
-import 'package:flutter_application_1/shared/repositories/task_submission_repository.dart';
-import 'package:flutter_application_1/shared/repositories/user_repository.dart';
+import 'package:venurite/core/storage/app_database.dart';
+import 'package:venurite/features/dashboard/reliability_service.dart';
+import 'package:venurite/shared/models/task_schedule.dart';
+import 'package:venurite/shared/models/task_submission.dart';
+import 'package:venurite/shared/models/user.dart';
+import 'package:venurite/shared/repositories/task_schedule_repository.dart';
+import 'package:venurite/shared/repositories/task_submission_repository.dart';
+import 'package:venurite/shared/repositories/user_repository.dart';
 
 void main() {
   late AppDatabase db;

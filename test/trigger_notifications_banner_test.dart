@@ -15,8 +15,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_1/core/widgets/trigger_notifications_banner.dart';
-import 'package:flutter_application_1/shared/models/trigger_notification.dart';
+import 'package:venurite/core/widgets/trigger_notifications_banner.dart';
+import 'package:venurite/shared/models/trigger_notification.dart';
 
 TriggerNotification _alert({
   required int id,

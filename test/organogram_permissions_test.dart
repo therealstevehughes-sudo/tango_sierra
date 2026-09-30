@@ -3,7 +3,7 @@
 // organogram and the retrofitted Staff Management actions. Pure functions,
 // easy to get subtly wrong (off-by-one on "at or above own rank"), so
 // covered directly rather than only exercised indirectly through a screen.
-import 'package:flutter_application_1/shared/models/user.dart';
+import 'package:venurite/shared/models/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

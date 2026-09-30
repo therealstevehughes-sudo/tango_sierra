@@ -1,8 +1,8 @@
 // GoCardless billing (2026-09-21) — pure-model coverage for
 // effectiveBillingState(), since it's the one place that decides whether
 // an overdue account is still fully usable (grace period) or restricted.
-import 'package:flutter_application_1/shared/models/subscription.dart';
-import 'package:flutter_application_1/shared/services/billing_service.dart';
+import 'package:venurite/shared/models/subscription.dart';
+import 'package:venurite/shared/services/billing_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Subscription _subscription({
