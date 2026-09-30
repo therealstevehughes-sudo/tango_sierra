@@ -3536,4 +3536,59 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get venueTypeSectionTitle => 'Standorttyp';
+
+  @override
+  String get renamePresetTitle => 'Vorlage umbenennen';
+
+  @override
+  String get noTaskTemplatesExistYetText =>
+      'Es gibt noch keine Aufgabenvorlagen.';
+
+  @override
+  String get addTaskToPresetTitle => 'Aufgabe zur Vorlage hinzufügen';
+
+  @override
+  String get taskFieldLabel => 'Aufgabe';
+
+  @override
+  String get defaultFrequencyLabel => 'Standardhäufigkeit';
+
+  @override
+  String get noPresetsYetText => 'Noch keine Vorlagen.';
+
+  @override
+  String get createPresetButton => 'Vorlage erstellen';
+
+  @override
+  String get presetVerificationBannerText =>
+      'Aufgabengrenzwerte sind recherchiert und belegt (mit [LAW]/[FSA]/[BEST] in den Anweisungen jeder Aufgabe gekennzeichnet), aber noch nicht von einer qualifizierten Lebensmittelsicherheitsfachkraft abgezeichnet. Behandle sie erst nach Verifizierung als rechtlich maßgeblich.';
+
+  @override
+  String get equipmentPresetsSectionTitle => 'Ausrüstungsvorlagen';
+
+  @override
+  String get sectionPresetsSectionTitle => 'Abteilungsvorlagen';
+
+  @override
+  String get addTaskButton => 'Aufgabe hinzufügen';
+
+  @override
+  String get newPresetSectionTitle => 'Neue Vorlage';
+
+  @override
+  String get sectionSegmentOptionalLabel => 'Abteilung / Bereich (optional)';
+
+  @override
+  String get setEquipmentOrSectionHint =>
+      'Lege einen Ausrüstungstyp oder eine Abteilung fest (mindestens eines).';
+
+  @override
+  String equipmentTypeFallback(String id) {
+    return 'Ausrüstungstyp #$id';
+  }
+
+  @override
+  String taskFallback(String id) {
+    return 'Aufgabe #$id';
+  }
 }

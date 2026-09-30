@@ -999,5 +999,21 @@
   "tabletSetupCodeTitle": "Código de configuración de la tableta",
   "tabletSetupCodeExplanation": "Introduce esto una vez en una tableta nueva para que pueda mostrar la lista de personal de este local.",
   "generateCodeButton": "Generar código",
-  "venueTypeSectionTitle": "Tipo de local"
+  "venueTypeSectionTitle": "Tipo de local",
+  "renamePresetTitle": "Renombrar conjunto",
+  "noTaskTemplatesExistYetText": "Todavía no existen plantillas de tareas.",
+  "addTaskToPresetTitle": "Añadir tarea al conjunto",
+  "taskFieldLabel": "Tarea",
+  "defaultFrequencyLabel": "Frecuencia predeterminada",
+  "noPresetsYetText": "Todavía no hay conjuntos.",
+  "createPresetButton": "Crear conjunto",
+  "presetVerificationBannerText": "Los límites de las tareas se han investigado y documentado (etiquetados [LAW]/[FSA]/[BEST] en las instrucciones de cada tarea) pero todavía no han sido aprobados por un profesional cualificado en seguridad alimentaria. No los trates como legalmente autorizados hasta que se verifiquen.",
+  "equipmentPresetsSectionTitle": "Conjuntos de equipamiento",
+  "sectionPresetsSectionTitle": "Conjuntos de sección",
+  "addTaskButton": "Añadir tarea",
+  "newPresetSectionTitle": "Nuevo conjunto",
+  "sectionSegmentOptionalLabel": "Sección / segmento (opcional)",
+  "setEquipmentOrSectionHint": "Define un tipo de equipamiento o una sección (al menos uno).",
+  "equipmentTypeFallback": "Tipo de equipamiento n.º {id}",
+  "taskFallback": "Tarea n.º {id}"
 }

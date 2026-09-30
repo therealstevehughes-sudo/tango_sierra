@@ -6127,6 +6127,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Venue type'**
   String get venueTypeSectionTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Rename Preset'**
+  String get renamePresetTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No task templates exist yet.'**
+  String get noTaskTemplatesExistYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add Task to Preset'**
+  String get addTaskToPresetTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get taskFieldLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Default frequency'**
+  String get defaultFrequencyLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No presets yet.'**
+  String get noPresetsYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Create Preset'**
+  String get createPresetButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Task limits are researched and sourced (tagged [LAW]/[FSA]/[BEST] in each task\'s instructions) but not yet signed off by a qualified food-safety professional. Do not treat them as legally authoritative until verified.'**
+  String get presetVerificationBannerText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment presets'**
+  String get equipmentPresetsSectionTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Section presets'**
+  String get sectionPresetsSectionTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Add task'**
+  String get addTaskButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'New Preset'**
+  String get newPresetSectionTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Section / segment (optional)'**
+  String get sectionSegmentOptionalLabel;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Set an equipment type or a section (at least one).'**
+  String get setEquipmentOrSectionHint;
+
+  /// No description provided for @equipmentTypeFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment type #{id}'**
+  String equipmentTypeFallback(String id);
+
+  /// No description provided for @taskFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Task #{id}'**
+  String taskFallback(String id);
 }
 
 class _AppLocalizationsDelegate

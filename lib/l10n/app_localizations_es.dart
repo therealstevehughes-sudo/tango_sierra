@@ -3525,4 +3525,59 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get venueTypeSectionTitle => 'Tipo de local';
+
+  @override
+  String get renamePresetTitle => 'Renombrar conjunto';
+
+  @override
+  String get noTaskTemplatesExistYetText =>
+      'Todavía no existen plantillas de tareas.';
+
+  @override
+  String get addTaskToPresetTitle => 'Añadir tarea al conjunto';
+
+  @override
+  String get taskFieldLabel => 'Tarea';
+
+  @override
+  String get defaultFrequencyLabel => 'Frecuencia predeterminada';
+
+  @override
+  String get noPresetsYetText => 'Todavía no hay conjuntos.';
+
+  @override
+  String get createPresetButton => 'Crear conjunto';
+
+  @override
+  String get presetVerificationBannerText =>
+      'Los límites de las tareas se han investigado y documentado (etiquetados [LAW]/[FSA]/[BEST] en las instrucciones de cada tarea) pero todavía no han sido aprobados por un profesional cualificado en seguridad alimentaria. No los trates como legalmente autorizados hasta que se verifiquen.';
+
+  @override
+  String get equipmentPresetsSectionTitle => 'Conjuntos de equipamiento';
+
+  @override
+  String get sectionPresetsSectionTitle => 'Conjuntos de sección';
+
+  @override
+  String get addTaskButton => 'Añadir tarea';
+
+  @override
+  String get newPresetSectionTitle => 'Nuevo conjunto';
+
+  @override
+  String get sectionSegmentOptionalLabel => 'Sección / segmento (opcional)';
+
+  @override
+  String get setEquipmentOrSectionHint =>
+      'Define un tipo de equipamiento o una sección (al menos uno).';
+
+  @override
+  String equipmentTypeFallback(String id) {
+    return 'Tipo de equipamiento n.º $id';
+  }
+
+  @override
+  String taskFallback(String id) {
+    return 'Tarea n.º $id';
+  }
 }

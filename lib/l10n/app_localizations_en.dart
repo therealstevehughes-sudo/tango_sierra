@@ -3507,4 +3507,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get venueTypeSectionTitle => 'Venue type';
+
+  @override
+  String get renamePresetTitle => 'Rename Preset';
+
+  @override
+  String get noTaskTemplatesExistYetText => 'No task templates exist yet.';
+
+  @override
+  String get addTaskToPresetTitle => 'Add Task to Preset';
+
+  @override
+  String get taskFieldLabel => 'Task';
+
+  @override
+  String get defaultFrequencyLabel => 'Default frequency';
+
+  @override
+  String get noPresetsYetText => 'No presets yet.';
+
+  @override
+  String get createPresetButton => 'Create Preset';
+
+  @override
+  String get presetVerificationBannerText =>
+      'Task limits are researched and sourced (tagged [LAW]/[FSA]/[BEST] in each task\'s instructions) but not yet signed off by a qualified food-safety professional. Do not treat them as legally authoritative until verified.';
+
+  @override
+  String get equipmentPresetsSectionTitle => 'Equipment presets';
+
+  @override
+  String get sectionPresetsSectionTitle => 'Section presets';
+
+  @override
+  String get addTaskButton => 'Add task';
+
+  @override
+  String get newPresetSectionTitle => 'New Preset';
+
+  @override
+  String get sectionSegmentOptionalLabel => 'Section / segment (optional)';
+
+  @override
+  String get setEquipmentOrSectionHint =>
+      'Set an equipment type or a section (at least one).';
+
+  @override
+  String equipmentTypeFallback(String id) {
+    return 'Equipment type #$id';
+  }
+
+  @override
+  String taskFallback(String id) {
+    return 'Task #$id';
+  }
 }

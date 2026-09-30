@@ -999,5 +999,21 @@
   "tabletSetupCodeTitle": "平板电脑设置代码",
   "tabletSetupCodeExplanation": "在新平板电脑上输入一次,即可显示此场所的员工名单。",
   "generateCodeButton": "生成代码",
-  "venueTypeSectionTitle": "场所类型"
+  "venueTypeSectionTitle": "场所类型",
+  "renamePresetTitle": "重命名预设",
+  "noTaskTemplatesExistYetText": "尚无任务模板。",
+  "addTaskToPresetTitle": "向预设添加任务",
+  "taskFieldLabel": "任务",
+  "defaultFrequencyLabel": "默认频率",
+  "noPresetsYetText": "尚无预设。",
+  "createPresetButton": "创建预设",
+  "presetVerificationBannerText": "任务限值已经过研究并注明来源(在每项任务说明中标注 [LAW]/[FSA]/[BEST]),但尚未经过合格食品安全专业人员的签核。在核实之前,请勿将其视为具有法律权威性。",
+  "equipmentPresetsSectionTitle": "设备预设组",
+  "sectionPresetsSectionTitle": "板块预设组",
+  "addTaskButton": "添加任务",
+  "newPresetSectionTitle": "新预设",
+  "sectionSegmentOptionalLabel": "板块/分区(可选)",
+  "setEquipmentOrSectionHint": "设置一个设备类型或一个板块(至少一个)。",
+  "equipmentTypeFallback": "设备类型 #{id}",
+  "taskFallback": "任务 #{id}"
 }

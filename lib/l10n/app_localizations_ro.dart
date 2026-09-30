@@ -3525,4 +3525,59 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get venueTypeSectionTitle => 'Tip de local';
+
+  @override
+  String get renamePresetTitle => 'Redenumește setul';
+
+  @override
+  String get noTaskTemplatesExistYetText =>
+      'Niciun șablon de sarcină nu există încă.';
+
+  @override
+  String get addTaskToPresetTitle => 'Adaugă sarcină la set';
+
+  @override
+  String get taskFieldLabel => 'Sarcină';
+
+  @override
+  String get defaultFrequencyLabel => 'Frecvență implicită';
+
+  @override
+  String get noPresetsYetText => 'Niciun set încă.';
+
+  @override
+  String get createPresetButton => 'Creează set';
+
+  @override
+  String get presetVerificationBannerText =>
+      'Limitele sarcinilor sunt cercetate și documentate (marcate [LAW]/[FSA]/[BEST] în instrucțiunile fiecărei sarcini), dar nu au fost încă aprobate de un profesionist calificat în siguranța alimentară. Nu le trata ca fiind autoritare din punct de vedere legal până la verificare.';
+
+  @override
+  String get equipmentPresetsSectionTitle => 'Seturi de echipamente';
+
+  @override
+  String get sectionPresetsSectionTitle => 'Seturi de secțiuni';
+
+  @override
+  String get addTaskButton => 'Adaugă sarcină';
+
+  @override
+  String get newPresetSectionTitle => 'Set nou';
+
+  @override
+  String get sectionSegmentOptionalLabel => 'Secțiune / segment (opțional)';
+
+  @override
+  String get setEquipmentOrSectionHint =>
+      'Setează un tip de echipament sau o secțiune (cel puțin una).';
+
+  @override
+  String equipmentTypeFallback(String id) {
+    return 'Tip de echipament #$id';
+  }
+
+  @override
+  String taskFallback(String id) {
+    return 'Sarcină #$id';
+  }
 }

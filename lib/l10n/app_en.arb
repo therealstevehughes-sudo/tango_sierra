@@ -3199,5 +3199,77 @@
   "venueTypeSectionTitle": "Venue type",
   "@venueTypeSectionTitle": {
     "description": ""
+  },
+  "renamePresetTitle": "Rename Preset",
+  "@renamePresetTitle": {
+    "description": ""
+  },
+  "noTaskTemplatesExistYetText": "No task templates exist yet.",
+  "@noTaskTemplatesExistYetText": {
+    "description": ""
+  },
+  "addTaskToPresetTitle": "Add Task to Preset",
+  "@addTaskToPresetTitle": {
+    "description": ""
+  },
+  "taskFieldLabel": "Task",
+  "@taskFieldLabel": {
+    "description": ""
+  },
+  "defaultFrequencyLabel": "Default frequency",
+  "@defaultFrequencyLabel": {
+    "description": ""
+  },
+  "noPresetsYetText": "No presets yet.",
+  "@noPresetsYetText": {
+    "description": ""
+  },
+  "createPresetButton": "Create Preset",
+  "@createPresetButton": {
+    "description": ""
+  },
+  "presetVerificationBannerText": "Task limits are researched and sourced (tagged [LAW]/[FSA]/[BEST] in each task's instructions) but not yet signed off by a qualified food-safety professional. Do not treat them as legally authoritative until verified.",
+  "@presetVerificationBannerText": {
+    "description": ""
+  },
+  "equipmentPresetsSectionTitle": "Equipment presets",
+  "@equipmentPresetsSectionTitle": {
+    "description": ""
+  },
+  "sectionPresetsSectionTitle": "Section presets",
+  "@sectionPresetsSectionTitle": {
+    "description": ""
+  },
+  "addTaskButton": "Add task",
+  "@addTaskButton": {
+    "description": ""
+  },
+  "newPresetSectionTitle": "New Preset",
+  "@newPresetSectionTitle": {
+    "description": ""
+  },
+  "sectionSegmentOptionalLabel": "Section / segment (optional)",
+  "@sectionSegmentOptionalLabel": {
+    "description": ""
+  },
+  "setEquipmentOrSectionHint": "Set an equipment type or a section (at least one).",
+  "@setEquipmentOrSectionHint": {
+    "description": ""
+  },
+  "equipmentTypeFallback": "Equipment type #{id}",
+  "@equipmentTypeFallback": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
+  },
+  "taskFallback": "Task #{id}",
+  "@taskFallback": {
+    "placeholders": {
+      "id": {
+        "type": "String"
+      }
+    }
   }
 }

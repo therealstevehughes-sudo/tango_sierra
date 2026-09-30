@@ -3347,4 +3347,57 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get venueTypeSectionTitle => '场所类型';
+
+  @override
+  String get renamePresetTitle => '重命名预设';
+
+  @override
+  String get noTaskTemplatesExistYetText => '尚无任务模板。';
+
+  @override
+  String get addTaskToPresetTitle => '向预设添加任务';
+
+  @override
+  String get taskFieldLabel => '任务';
+
+  @override
+  String get defaultFrequencyLabel => '默认频率';
+
+  @override
+  String get noPresetsYetText => '尚无预设。';
+
+  @override
+  String get createPresetButton => '创建预设';
+
+  @override
+  String get presetVerificationBannerText =>
+      '任务限值已经过研究并注明来源(在每项任务说明中标注 [LAW]/[FSA]/[BEST]),但尚未经过合格食品安全专业人员的签核。在核实之前,请勿将其视为具有法律权威性。';
+
+  @override
+  String get equipmentPresetsSectionTitle => '设备预设组';
+
+  @override
+  String get sectionPresetsSectionTitle => '板块预设组';
+
+  @override
+  String get addTaskButton => '添加任务';
+
+  @override
+  String get newPresetSectionTitle => '新预设';
+
+  @override
+  String get sectionSegmentOptionalLabel => '板块/分区(可选)';
+
+  @override
+  String get setEquipmentOrSectionHint => '设置一个设备类型或一个板块(至少一个)。';
+
+  @override
+  String equipmentTypeFallback(String id) {
+    return '设备类型 #$id';
+  }
+
+  @override
+  String taskFallback(String id) {
+    return '任务 #$id';
+  }
 }

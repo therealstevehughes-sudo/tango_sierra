@@ -3450,4 +3450,59 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get venueTypeSectionTitle => 'وینیو کی قسم';
+
+  @override
+  String get renamePresetTitle => 'پری سیٹ کا نام تبدیل کریں';
+
+  @override
+  String get noTaskTemplatesExistYetText =>
+      'ابھی تک کوئی کام کا سانچہ موجود نہیں ہے۔';
+
+  @override
+  String get addTaskToPresetTitle => 'پری سیٹ میں کام شامل کریں';
+
+  @override
+  String get taskFieldLabel => 'کام';
+
+  @override
+  String get defaultFrequencyLabel => 'طے شدہ تعدد';
+
+  @override
+  String get noPresetsYetText => 'ابھی تک کوئی پری سیٹ نہیں۔';
+
+  @override
+  String get createPresetButton => 'پری سیٹ بنائیں';
+
+  @override
+  String get presetVerificationBannerText =>
+      'کام کی حدود تحقیق شدہ اور ماخذ کے ساتھ ہیں (ہر کام کی ہدایات میں [LAW]/[FSA]/[BEST] کا نشان لگایا گیا ہے) لیکن ابھی تک کسی مستند فوڈ سیفٹی پیشہ ور کی طرف سے منظور شدہ نہیں ہیں۔ تصدیق ہونے تک انہیں قانونی طور پر مستند نہ سمجھیں۔';
+
+  @override
+  String get equipmentPresetsSectionTitle => 'سامان کے پری سیٹس';
+
+  @override
+  String get sectionPresetsSectionTitle => 'حصے کے پری سیٹس';
+
+  @override
+  String get addTaskButton => 'کام شامل کریں';
+
+  @override
+  String get newPresetSectionTitle => 'نیا پری سیٹ';
+
+  @override
+  String get sectionSegmentOptionalLabel => 'حصہ / سیگمنٹ (اختیاری)';
+
+  @override
+  String get setEquipmentOrSectionHint =>
+      'سامان کی قسم یا ایک حصہ سیٹ کریں (کم از کم ایک)۔';
+
+  @override
+  String equipmentTypeFallback(String id) {
+    return 'سامان کی قسم #$id';
+  }
+
+  @override
+  String taskFallback(String id) {
+    return 'کام #$id';
+  }
 }

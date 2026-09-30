@@ -999,5 +999,21 @@
   "tabletSetupCodeTitle": "رمز إعداد الجهاز اللوحي",
   "tabletSetupCodeExplanation": "أدخل هذا مرة واحدة على جهاز لوحي جديد حتى يتمكن من عرض قائمة موظفي هذا الموقع.",
   "generateCodeButton": "إنشاء رمز",
-  "venueTypeSectionTitle": "نوع الموقع"
+  "venueTypeSectionTitle": "نوع الموقع",
+  "renamePresetTitle": "إعادة تسمية المجموعة الجاهزة",
+  "noTaskTemplatesExistYetText": "لا توجد قوالب مهام بعد.",
+  "addTaskToPresetTitle": "إضافة مهمة إلى المجموعة الجاهزة",
+  "taskFieldLabel": "المهمة",
+  "defaultFrequencyLabel": "التكرار الافتراضي",
+  "noPresetsYetText": "لا توجد مجموعات جاهزة بعد.",
+  "createPresetButton": "إنشاء مجموعة جاهزة",
+  "presetVerificationBannerText": "تم البحث في حدود المهام وتوثيقها (موسومة بـ [LAW]/[FSA]/[BEST] في تعليمات كل مهمة) لكن لم يتم اعتمادها بعد من قبل أخصائي سلامة غذائية مؤهل. لا تعاملها كحجة قانونية حتى يتم التحقق منها.",
+  "equipmentPresetsSectionTitle": "مجموعات المعدات الجاهزة",
+  "sectionPresetsSectionTitle": "مجموعات الأقسام الجاهزة",
+  "addTaskButton": "إضافة مهمة",
+  "newPresetSectionTitle": "مجموعة جاهزة جديدة",
+  "sectionSegmentOptionalLabel": "القسم / الشعبة (اختياري)",
+  "setEquipmentOrSectionHint": "حدد نوع معدات أو قسمًا (واحد على الأقل).",
+  "equipmentTypeFallback": "نوع المعدات #{id}",
+  "taskFallback": "المهمة #{id}"
 }

@@ -3478,4 +3478,59 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get venueTypeSectionTitle => 'Vrsta poslovnice';
+
+  @override
+  String get renamePresetTitle => 'Preimenuj predložak';
+
+  @override
+  String get noTaskTemplatesExistYetText =>
+      'Još ne postoje predlošci zadataka.';
+
+  @override
+  String get addTaskToPresetTitle => 'Dodaj zadatak u predložak';
+
+  @override
+  String get taskFieldLabel => 'Zadatak';
+
+  @override
+  String get defaultFrequencyLabel => 'Zadana učestalost';
+
+  @override
+  String get noPresetsYetText => 'Još nema predložaka.';
+
+  @override
+  String get createPresetButton => 'Stvori predložak';
+
+  @override
+  String get presetVerificationBannerText =>
+      'Ograničenja zadataka su istražena i dokumentirana (označena s [LAW]/[FSA]/[BEST] u uputama svakog zadatka), ali ih još nije odobrio kvalificirani stručnjak za sigurnost hrane. Ne tretiraj ih kao pravno mjerodavne dok se ne provjere.';
+
+  @override
+  String get equipmentPresetsSectionTitle => 'Predlošci opreme';
+
+  @override
+  String get sectionPresetsSectionTitle => 'Predlošci odjela';
+
+  @override
+  String get addTaskButton => 'Dodaj zadatak';
+
+  @override
+  String get newPresetSectionTitle => 'Novi predložak';
+
+  @override
+  String get sectionSegmentOptionalLabel => 'Odjel / segment (neobavezno)';
+
+  @override
+  String get setEquipmentOrSectionHint =>
+      'Postavi vrstu opreme ili odjel (barem jedno).';
+
+  @override
+  String equipmentTypeFallback(String id) {
+    return 'Vrsta opreme #$id';
+  }
+
+  @override
+  String taskFallback(String id) {
+    return 'Zadatak #$id';
+  }
 }

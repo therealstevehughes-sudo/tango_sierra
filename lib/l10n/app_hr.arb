@@ -999,5 +999,21 @@
   "tabletSetupCodeTitle": "Kod postavljanja tableta",
   "tabletSetupCodeExplanation": "Unesi ovo jednom na novom tabletu kako bi mogao prikazati popis osoblja ove poslovnice.",
   "generateCodeButton": "Generiraj kod",
-  "venueTypeSectionTitle": "Vrsta poslovnice"
+  "venueTypeSectionTitle": "Vrsta poslovnice",
+  "renamePresetTitle": "Preimenuj predložak",
+  "noTaskTemplatesExistYetText": "Još ne postoje predlošci zadataka.",
+  "addTaskToPresetTitle": "Dodaj zadatak u predložak",
+  "taskFieldLabel": "Zadatak",
+  "defaultFrequencyLabel": "Zadana učestalost",
+  "noPresetsYetText": "Još nema predložaka.",
+  "createPresetButton": "Stvori predložak",
+  "presetVerificationBannerText": "Ograničenja zadataka su istražena i dokumentirana (označena s [LAW]/[FSA]/[BEST] u uputama svakog zadatka), ali ih još nije odobrio kvalificirani stručnjak za sigurnost hrane. Ne tretiraj ih kao pravno mjerodavne dok se ne provjere.",
+  "equipmentPresetsSectionTitle": "Predlošci opreme",
+  "sectionPresetsSectionTitle": "Predlošci odjela",
+  "addTaskButton": "Dodaj zadatak",
+  "newPresetSectionTitle": "Novi predložak",
+  "sectionSegmentOptionalLabel": "Odjel / segment (neobavezno)",
+  "setEquipmentOrSectionHint": "Postavi vrstu opreme ili odjel (barem jedno).",
+  "equipmentTypeFallback": "Vrsta opreme #{id}",
+  "taskFallback": "Zadatak #{id}"
 }

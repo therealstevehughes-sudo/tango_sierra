@@ -999,5 +999,21 @@
   "tabletSetupCodeTitle": "टैबलेट सेटअप कोड",
   "tabletSetupCodeExplanation": "इसे एक बार नए टैबलेट पर दर्ज करें ताकि वह इस वेन्यू की स्टाफ सूची दिखा सके।",
   "generateCodeButton": "कोड जनरेट करें",
-  "venueTypeSectionTitle": "वेन्यू प्रकार"
+  "venueTypeSectionTitle": "वेन्यू प्रकार",
+  "renamePresetTitle": "प्रीसेट का नाम बदलें",
+  "noTaskTemplatesExistYetText": "अभी तक कोई कार्य टेम्पलेट मौजूद नहीं है।",
+  "addTaskToPresetTitle": "प्रीसेट में कार्य जोड़ें",
+  "taskFieldLabel": "कार्य",
+  "defaultFrequencyLabel": "डिफ़ॉल्ट आवृत्ति",
+  "noPresetsYetText": "अभी तक कोई प्रीसेट नहीं।",
+  "createPresetButton": "प्रीसेट बनाएं",
+  "presetVerificationBannerText": "कार्य सीमाएं शोध की गई हैं और स्रोत सहित हैं (प्रत्येक कार्य के निर्देशों में [LAW]/[FSA]/[BEST] टैग की गई हैं) लेकिन अभी तक किसी योग्य खाद्य सुरक्षा पेशेवर द्वारा हस्ताक्षरित नहीं हैं। सत्यापित होने तक इन्हें कानूनी रूप से आधिकारिक न मानें।",
+  "equipmentPresetsSectionTitle": "उपकरण प्रीसेट",
+  "sectionPresetsSectionTitle": "अनुभाग प्रीसेट",
+  "addTaskButton": "कार्य जोड़ें",
+  "newPresetSectionTitle": "नया प्रीसेट",
+  "sectionSegmentOptionalLabel": "अनुभाग / सेगमेंट (वैकल्पिक)",
+  "setEquipmentOrSectionHint": "एक उपकरण प्रकार या एक अनुभाग सेट करें (कम से कम एक)।",
+  "equipmentTypeFallback": "उपकरण प्रकार #{id}",
+  "taskFallback": "कार्य #{id}"
 }

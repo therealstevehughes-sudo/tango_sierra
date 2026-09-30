@@ -999,5 +999,21 @@
   "tabletSetupCodeTitle": "Tablet-Einrichtungscode",
   "tabletSetupCodeExplanation": "Gib dies einmal auf einem neuen Tablet ein, damit es die Mitarbeiterliste dieses Standorts anzeigen kann.",
   "generateCodeButton": "Code generieren",
-  "venueTypeSectionTitle": "Standorttyp"
+  "venueTypeSectionTitle": "Standorttyp",
+  "renamePresetTitle": "Vorlage umbenennen",
+  "noTaskTemplatesExistYetText": "Es gibt noch keine Aufgabenvorlagen.",
+  "addTaskToPresetTitle": "Aufgabe zur Vorlage hinzufügen",
+  "taskFieldLabel": "Aufgabe",
+  "defaultFrequencyLabel": "Standardhäufigkeit",
+  "noPresetsYetText": "Noch keine Vorlagen.",
+  "createPresetButton": "Vorlage erstellen",
+  "presetVerificationBannerText": "Aufgabengrenzwerte sind recherchiert und belegt (mit [LAW]/[FSA]/[BEST] in den Anweisungen jeder Aufgabe gekennzeichnet), aber noch nicht von einer qualifizierten Lebensmittelsicherheitsfachkraft abgezeichnet. Behandle sie erst nach Verifizierung als rechtlich maßgeblich.",
+  "equipmentPresetsSectionTitle": "Ausrüstungsvorlagen",
+  "sectionPresetsSectionTitle": "Abteilungsvorlagen",
+  "addTaskButton": "Aufgabe hinzufügen",
+  "newPresetSectionTitle": "Neue Vorlage",
+  "sectionSegmentOptionalLabel": "Abteilung / Bereich (optional)",
+  "setEquipmentOrSectionHint": "Lege einen Ausrüstungstyp oder eine Abteilung fest (mindestens eines).",
+  "equipmentTypeFallback": "Ausrüstungstyp #{id}",
+  "taskFallback": "Aufgabe #{id}"
 }

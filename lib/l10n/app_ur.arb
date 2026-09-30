@@ -999,5 +999,21 @@
   "tabletSetupCodeTitle": "ٹیبلیٹ سیٹ اپ کوڈ",
   "tabletSetupCodeExplanation": "اسے ایک بار نئے ٹیبلیٹ پر درج کریں تاکہ یہ اس وینیو کی اسٹاف فہرست دکھا سکے۔",
   "generateCodeButton": "کوڈ بنائیں",
-  "venueTypeSectionTitle": "وینیو کی قسم"
+  "venueTypeSectionTitle": "وینیو کی قسم",
+  "renamePresetTitle": "پری سیٹ کا نام تبدیل کریں",
+  "noTaskTemplatesExistYetText": "ابھی تک کوئی کام کا سانچہ موجود نہیں ہے۔",
+  "addTaskToPresetTitle": "پری سیٹ میں کام شامل کریں",
+  "taskFieldLabel": "کام",
+  "defaultFrequencyLabel": "طے شدہ تعدد",
+  "noPresetsYetText": "ابھی تک کوئی پری سیٹ نہیں۔",
+  "createPresetButton": "پری سیٹ بنائیں",
+  "presetVerificationBannerText": "کام کی حدود تحقیق شدہ اور ماخذ کے ساتھ ہیں (ہر کام کی ہدایات میں [LAW]/[FSA]/[BEST] کا نشان لگایا گیا ہے) لیکن ابھی تک کسی مستند فوڈ سیفٹی پیشہ ور کی طرف سے منظور شدہ نہیں ہیں۔ تصدیق ہونے تک انہیں قانونی طور پر مستند نہ سمجھیں۔",
+  "equipmentPresetsSectionTitle": "سامان کے پری سیٹس",
+  "sectionPresetsSectionTitle": "حصے کے پری سیٹس",
+  "addTaskButton": "کام شامل کریں",
+  "newPresetSectionTitle": "نیا پری سیٹ",
+  "sectionSegmentOptionalLabel": "حصہ / سیگمنٹ (اختیاری)",
+  "setEquipmentOrSectionHint": "سامان کی قسم یا ایک حصہ سیٹ کریں (کم از کم ایک)۔",
+  "equipmentTypeFallback": "سامان کی قسم #{id}",
+  "taskFallback": "کام #{id}"
 }

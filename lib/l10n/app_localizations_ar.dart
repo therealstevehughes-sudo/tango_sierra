@@ -3437,4 +3437,58 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get venueTypeSectionTitle => 'نوع الموقع';
+
+  @override
+  String get renamePresetTitle => 'إعادة تسمية المجموعة الجاهزة';
+
+  @override
+  String get noTaskTemplatesExistYetText => 'لا توجد قوالب مهام بعد.';
+
+  @override
+  String get addTaskToPresetTitle => 'إضافة مهمة إلى المجموعة الجاهزة';
+
+  @override
+  String get taskFieldLabel => 'المهمة';
+
+  @override
+  String get defaultFrequencyLabel => 'التكرار الافتراضي';
+
+  @override
+  String get noPresetsYetText => 'لا توجد مجموعات جاهزة بعد.';
+
+  @override
+  String get createPresetButton => 'إنشاء مجموعة جاهزة';
+
+  @override
+  String get presetVerificationBannerText =>
+      'تم البحث في حدود المهام وتوثيقها (موسومة بـ [LAW]/[FSA]/[BEST] في تعليمات كل مهمة) لكن لم يتم اعتمادها بعد من قبل أخصائي سلامة غذائية مؤهل. لا تعاملها كحجة قانونية حتى يتم التحقق منها.';
+
+  @override
+  String get equipmentPresetsSectionTitle => 'مجموعات المعدات الجاهزة';
+
+  @override
+  String get sectionPresetsSectionTitle => 'مجموعات الأقسام الجاهزة';
+
+  @override
+  String get addTaskButton => 'إضافة مهمة';
+
+  @override
+  String get newPresetSectionTitle => 'مجموعة جاهزة جديدة';
+
+  @override
+  String get sectionSegmentOptionalLabel => 'القسم / الشعبة (اختياري)';
+
+  @override
+  String get setEquipmentOrSectionHint =>
+      'حدد نوع معدات أو قسمًا (واحد على الأقل).';
+
+  @override
+  String equipmentTypeFallback(String id) {
+    return 'نوع المعدات #$id';
+  }
+
+  @override
+  String taskFallback(String id) {
+    return 'المهمة #$id';
+  }
 }

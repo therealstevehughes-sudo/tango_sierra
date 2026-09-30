@@ -999,5 +999,21 @@
   "tabletSetupCodeTitle": "Kod konfiguracji tabletu",
   "tabletSetupCodeExplanation": "Wprowadź to raz na nowym tablecie, aby mógł wyświetlić listę personelu tego lokalu.",
   "generateCodeButton": "Wygeneruj kod",
-  "venueTypeSectionTitle": "Typ lokalu"
+  "venueTypeSectionTitle": "Typ lokalu",
+  "renamePresetTitle": "Zmień nazwę zestawu",
+  "noTaskTemplatesExistYetText": "Nie ma jeszcze żadnych szablonów zadań.",
+  "addTaskToPresetTitle": "Dodaj zadanie do zestawu",
+  "taskFieldLabel": "Zadanie",
+  "defaultFrequencyLabel": "Domyślna częstotliwość",
+  "noPresetsYetText": "Brak jeszcze zestawów.",
+  "createPresetButton": "Utwórz zestaw",
+  "presetVerificationBannerText": "Limity zadań są zbadane i udokumentowane (oznaczone [LAW]/[FSA]/[BEST] w instrukcjach każdego zadania), ale nie zostały jeszcze zatwierdzone przez wykwalifikowanego specjalistę ds. bezpieczeństwa żywności. Nie traktuj ich jako prawnie wiążących, dopóki nie zostaną zweryfikowane.",
+  "equipmentPresetsSectionTitle": "Zestawy sprzętowe",
+  "sectionPresetsSectionTitle": "Zestawy sekcyjne",
+  "addTaskButton": "Dodaj zadanie",
+  "newPresetSectionTitle": "Nowy zestaw",
+  "sectionSegmentOptionalLabel": "Sekcja / segment (opcjonalnie)",
+  "setEquipmentOrSectionHint": "Ustaw typ sprzętu lub sekcję (przynajmniej jedno).",
+  "equipmentTypeFallback": "Typ sprzętu #{id}",
+  "taskFallback": "Zadanie #{id}"
 }

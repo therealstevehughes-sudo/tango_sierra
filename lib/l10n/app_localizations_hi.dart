@@ -3458,4 +3458,59 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get venueTypeSectionTitle => 'वेन्यू प्रकार';
+
+  @override
+  String get renamePresetTitle => 'प्रीसेट का नाम बदलें';
+
+  @override
+  String get noTaskTemplatesExistYetText =>
+      'अभी तक कोई कार्य टेम्पलेट मौजूद नहीं है।';
+
+  @override
+  String get addTaskToPresetTitle => 'प्रीसेट में कार्य जोड़ें';
+
+  @override
+  String get taskFieldLabel => 'कार्य';
+
+  @override
+  String get defaultFrequencyLabel => 'डिफ़ॉल्ट आवृत्ति';
+
+  @override
+  String get noPresetsYetText => 'अभी तक कोई प्रीसेट नहीं।';
+
+  @override
+  String get createPresetButton => 'प्रीसेट बनाएं';
+
+  @override
+  String get presetVerificationBannerText =>
+      'कार्य सीमाएं शोध की गई हैं और स्रोत सहित हैं (प्रत्येक कार्य के निर्देशों में [LAW]/[FSA]/[BEST] टैग की गई हैं) लेकिन अभी तक किसी योग्य खाद्य सुरक्षा पेशेवर द्वारा हस्ताक्षरित नहीं हैं। सत्यापित होने तक इन्हें कानूनी रूप से आधिकारिक न मानें।';
+
+  @override
+  String get equipmentPresetsSectionTitle => 'उपकरण प्रीसेट';
+
+  @override
+  String get sectionPresetsSectionTitle => 'अनुभाग प्रीसेट';
+
+  @override
+  String get addTaskButton => 'कार्य जोड़ें';
+
+  @override
+  String get newPresetSectionTitle => 'नया प्रीसेट';
+
+  @override
+  String get sectionSegmentOptionalLabel => 'अनुभाग / सेगमेंट (वैकल्पिक)';
+
+  @override
+  String get setEquipmentOrSectionHint =>
+      'एक उपकरण प्रकार या एक अनुभाग सेट करें (कम से कम एक)।';
+
+  @override
+  String equipmentTypeFallback(String id) {
+    return 'उपकरण प्रकार #$id';
+  }
+
+  @override
+  String taskFallback(String id) {
+    return 'कार्य #$id';
+  }
 }

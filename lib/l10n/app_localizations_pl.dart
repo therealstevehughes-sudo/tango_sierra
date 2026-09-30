@@ -3524,4 +3524,59 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get venueTypeSectionTitle => 'Typ lokalu';
+
+  @override
+  String get renamePresetTitle => 'Zmień nazwę zestawu';
+
+  @override
+  String get noTaskTemplatesExistYetText =>
+      'Nie ma jeszcze żadnych szablonów zadań.';
+
+  @override
+  String get addTaskToPresetTitle => 'Dodaj zadanie do zestawu';
+
+  @override
+  String get taskFieldLabel => 'Zadanie';
+
+  @override
+  String get defaultFrequencyLabel => 'Domyślna częstotliwość';
+
+  @override
+  String get noPresetsYetText => 'Brak jeszcze zestawów.';
+
+  @override
+  String get createPresetButton => 'Utwórz zestaw';
+
+  @override
+  String get presetVerificationBannerText =>
+      'Limity zadań są zbadane i udokumentowane (oznaczone [LAW]/[FSA]/[BEST] w instrukcjach każdego zadania), ale nie zostały jeszcze zatwierdzone przez wykwalifikowanego specjalistę ds. bezpieczeństwa żywności. Nie traktuj ich jako prawnie wiążących, dopóki nie zostaną zweryfikowane.';
+
+  @override
+  String get equipmentPresetsSectionTitle => 'Zestawy sprzętowe';
+
+  @override
+  String get sectionPresetsSectionTitle => 'Zestawy sekcyjne';
+
+  @override
+  String get addTaskButton => 'Dodaj zadanie';
+
+  @override
+  String get newPresetSectionTitle => 'Nowy zestaw';
+
+  @override
+  String get sectionSegmentOptionalLabel => 'Sekcja / segment (opcjonalnie)';
+
+  @override
+  String get setEquipmentOrSectionHint =>
+      'Ustaw typ sprzętu lub sekcję (przynajmniej jedno).';
+
+  @override
+  String equipmentTypeFallback(String id) {
+    return 'Typ sprzętu #$id';
+  }
+
+  @override
+  String taskFallback(String id) {
+    return 'Zadanie #$id';
+  }
 }

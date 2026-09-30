@@ -999,5 +999,21 @@
   "tabletSetupCodeTitle": "Cod de configurare tabletă",
   "tabletSetupCodeExplanation": "Introdu acest cod o dată pe o tabletă nouă ca să poată afișa lista de personal a acestui local.",
   "generateCodeButton": "Generează codul",
-  "venueTypeSectionTitle": "Tip de local"
+  "venueTypeSectionTitle": "Tip de local",
+  "renamePresetTitle": "Redenumește setul",
+  "noTaskTemplatesExistYetText": "Niciun șablon de sarcină nu există încă.",
+  "addTaskToPresetTitle": "Adaugă sarcină la set",
+  "taskFieldLabel": "Sarcină",
+  "defaultFrequencyLabel": "Frecvență implicită",
+  "noPresetsYetText": "Niciun set încă.",
+  "createPresetButton": "Creează set",
+  "presetVerificationBannerText": "Limitele sarcinilor sunt cercetate și documentate (marcate [LAW]/[FSA]/[BEST] în instrucțiunile fiecărei sarcini), dar nu au fost încă aprobate de un profesionist calificat în siguranța alimentară. Nu le trata ca fiind autoritare din punct de vedere legal până la verificare.",
+  "equipmentPresetsSectionTitle": "Seturi de echipamente",
+  "sectionPresetsSectionTitle": "Seturi de secțiuni",
+  "addTaskButton": "Adaugă sarcină",
+  "newPresetSectionTitle": "Set nou",
+  "sectionSegmentOptionalLabel": "Secțiune / segment (opțional)",
+  "setEquipmentOrSectionHint": "Setează un tip de echipament sau o secțiune (cel puțin una).",
+  "equipmentTypeFallback": "Tip de echipament #{id}",
+  "taskFallback": "Sarcină #{id}"
 }
