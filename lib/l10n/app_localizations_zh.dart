@@ -3969,4 +3969,25 @@ class AppLocalizationsZh extends AppLocalizations {
   String durationHoursMinutesLabel(int hours, int minutes) {
     return '$hours小时$minutes分钟';
   }
+
+  @override
+  String get inviteCreatedTitle => '邀请已创建';
+
+  @override
+  String get orShareCodeText => '或分享此代码 - 对方将在\"加入现有公司\"界面输入:';
+
+  @override
+  String shareInviteExpiresText(int days) {
+    return '与加入的人分享此项 - 仅可使用一次,$days 天后过期。';
+  }
+
+  @override
+  String get contactVenuRiteTitle => '联系 VenuRite';
+
+  @override
+  String get contactVenuRiteIntroText =>
+      '无论你是需要设置帮助的大型集团,还是只有一个问题 - 我们都很乐意提供帮助。';
+
+  @override
+  String get emailUsButton => '给我们发邮件';
 }

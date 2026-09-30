@@ -1178,5 +1178,11 @@
   "stillClockedInText": "Încă pontat",
   "clockInLabel": "Intrare: {time}",
   "clockOutLabel": "Ieșire: {time}",
-  "durationHoursMinutesLabel": "{hours}h {minutes}m"
+  "durationHoursMinutesLabel": "{hours}h {minutes}m",
+  "inviteCreatedTitle": "Invitație creată",
+  "orShareCodeText": "Sau distribuie acest cod - îl introduc pe ecranul \"Alătură-te unei companii existente\":",
+  "shareInviteExpiresText": "Distribuie asta persoanei care se alătură - funcționează o dată și expiră în {days} zile.",
+  "contactVenuRiteTitle": "Contactează VenuRite",
+  "contactVenuRiteIntroText": "Fie că ești un grup mare care are nevoie de ajutor la configurare, fie că ai doar o întrebare - suntem bucuroși să ajutăm.",
+  "emailUsButton": "Trimite-ne un email"
 }

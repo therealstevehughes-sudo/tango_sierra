@@ -1178,5 +1178,11 @@
   "stillClockedInText": "Još prijavljen",
   "clockInLabel": "Ulaz: {time}",
   "clockOutLabel": "Izlaz: {time}",
-  "durationHoursMinutesLabel": "{hours}h {minutes}m"
+  "durationHoursMinutesLabel": "{hours}h {minutes}m",
+  "inviteCreatedTitle": "Poziv stvoren",
+  "orShareCodeText": "Ili podijeli ovaj kod - unijet će ga na ekranu \"Pridruži se postojećoj tvrtki\":",
+  "shareInviteExpiresText": "Podijeli ovo s osobom koja se pridružuje - radi jednom i istječe za {days} dana.",
+  "contactVenuRiteTitle": "Kontaktiraj VenuRite",
+  "contactVenuRiteIntroText": "Bilo da si velika grupa kojoj treba pomoć pri postavljanju ili samo imaš pitanje - rado ćemo pomoći.",
+  "emailUsButton": "Pošalji nam e-poštu"
 }

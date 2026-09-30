@@ -6,6 +6,7 @@ import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/repositories/tenant_provisioning_repository.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Sprint 034 — shown after successfully creating an invite (Regions,
 /// Branches, Staff management). Displays the real single-use token both
@@ -21,10 +22,11 @@ class InviteCodeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final daysLeft = invite.expiresAt.difference(DateTime.now()).inDays;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Invite created'),
+        title: Text(l10n.inviteCreatedTitle),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -39,10 +41,7 @@ class InviteCodeScreen extends StatelessWidget {
               children: [
                 AppBanner(
                   kind: BannerKind.info,
-                  child: Text(
-                    'Share this with the person joining - it works once '
-                    'and expires in $daysLeft day${daysLeft == 1 ? '' : 's'}.',
-                  ),
+                  child: Text(l10n.shareInviteExpiresText(daysLeft)),
                 ),
                 const SizedBox(height: 24),
                 Center(
@@ -60,10 +59,7 @@ class InviteCodeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 24),
-                const Text(
-                  'Or share this code - they enter it on the "Join '
-                  'existing company" screen:',
-                ),
+                Text(l10n.orShareCodeText),
                 const SizedBox(height: 8),
                 SelectableText(
                   invite.token,
@@ -74,7 +70,7 @@ class InviteCodeScreen extends StatelessWidget {
                 const SizedBox(height: 24),
                 FilledButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Done'),
+                  child: Text(l10n.doneButton),
                 ),
               ],
             ),

@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 /// First-launch "Contact VenuRite" (2026-09-14) — for anyone who doesn't
 /// fit cleanly into "sign up" or "join an existing company" (an
@@ -22,9 +23,10 @@ class ContactVenuRiteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Contact VenuRite'),
+        title: Text(l10n.contactVenuRiteTitle),
         actions: const [AssistantIconButton()],
       ),
       body: SafeArea(
@@ -39,9 +41,8 @@ class ContactVenuRiteScreen extends StatelessWidget {
               children: [
                 const Icon(Icons.mail_outline, size: 48),
                 const SizedBox(height: 16),
-                const Text(
-                  "Whether you're a large group wanting a hand setting up, "
-                  "or just have a question - we're happy to help.",
+                Text(
+                  l10n.contactVenuRiteIntroText,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
@@ -54,7 +55,7 @@ class ContactVenuRiteScreen extends StatelessWidget {
                 FilledButton.icon(
                   onPressed: _emailUs,
                   icon: const Icon(Icons.email_outlined),
-                  label: const Text('Email us'),
+                  label: Text(l10n.emailUsButton),
                 ),
               ],
             ),

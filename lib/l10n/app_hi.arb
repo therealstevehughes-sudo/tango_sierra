@@ -1178,5 +1178,11 @@
   "stillClockedInText": "अभी भी क्लॉक-इन",
   "clockInLabel": "अंदर: {time}",
   "clockOutLabel": "बाहर: {time}",
-  "durationHoursMinutesLabel": "{hours} घं {minutes} मि"
+  "durationHoursMinutesLabel": "{hours} घं {minutes} मि",
+  "inviteCreatedTitle": "आमंत्रण बनाया गया",
+  "orShareCodeText": "या यह कोड साझा करो - वे इसे \"मौजूदा कंपनी से जुड़ें\" स्क्रीन पर दर्ज करेंगे:",
+  "shareInviteExpiresText": "इसे शामिल होने वाले व्यक्ति के साथ साझा करो - यह एक बार काम करता है और {days} दिनों में समाप्त हो जाता है।",
+  "contactVenuRiteTitle": "VenuRite से संपर्क करें",
+  "contactVenuRiteIntroText": "चाहे तुम एक बड़ा समूह हो जिसे सेटअप में मदद चाहिए, या बस कोई सवाल हो - हमें मदद करने में खुशी होगी।",
+  "emailUsButton": "हमें ईमेल करें"
 }

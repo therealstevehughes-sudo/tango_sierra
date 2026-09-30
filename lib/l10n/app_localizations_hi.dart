@@ -4103,4 +4103,26 @@ class AppLocalizationsHi extends AppLocalizations {
   String durationHoursMinutesLabel(int hours, int minutes) {
     return '$hours घं $minutes मि';
   }
+
+  @override
+  String get inviteCreatedTitle => 'आमंत्रण बनाया गया';
+
+  @override
+  String get orShareCodeText =>
+      'या यह कोड साझा करो - वे इसे \"मौजूदा कंपनी से जुड़ें\" स्क्रीन पर दर्ज करेंगे:';
+
+  @override
+  String shareInviteExpiresText(int days) {
+    return 'इसे शामिल होने वाले व्यक्ति के साथ साझा करो - यह एक बार काम करता है और $days दिनों में समाप्त हो जाता है।';
+  }
+
+  @override
+  String get contactVenuRiteTitle => 'VenuRite से संपर्क करें';
+
+  @override
+  String get contactVenuRiteIntroText =>
+      'चाहे तुम एक बड़ा समूह हो जिसे सेटअप में मदद चाहिए, या बस कोई सवाल हो - हमें मदद करने में खुशी होगी।';
+
+  @override
+  String get emailUsButton => 'हमें ईमेल करें';
 }

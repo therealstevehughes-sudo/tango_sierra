@@ -4183,4 +4183,26 @@ class AppLocalizationsRo extends AppLocalizations {
   String durationHoursMinutesLabel(int hours, int minutes) {
     return '${hours}h ${minutes}m';
   }
+
+  @override
+  String get inviteCreatedTitle => 'Invitație creată';
+
+  @override
+  String get orShareCodeText =>
+      'Sau distribuie acest cod - îl introduc pe ecranul \"Alătură-te unei companii existente\":';
+
+  @override
+  String shareInviteExpiresText(int days) {
+    return 'Distribuie asta persoanei care se alătură - funcționează o dată și expiră în $days zile.';
+  }
+
+  @override
+  String get contactVenuRiteTitle => 'Contactează VenuRite';
+
+  @override
+  String get contactVenuRiteIntroText =>
+      'Fie că ești un grup mare care are nevoie de ajutor la configurare, fie că ai doar o întrebare - suntem bucuroși să ajutăm.';
+
+  @override
+  String get emailUsButton => 'Trimite-ne un email';
 }

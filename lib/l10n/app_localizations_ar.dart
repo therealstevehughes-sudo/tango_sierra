@@ -4074,4 +4074,26 @@ class AppLocalizationsAr extends AppLocalizations {
   String durationHoursMinutesLabel(int hours, int minutes) {
     return '$hours س $minutes د';
   }
+
+  @override
+  String get inviteCreatedTitle => 'تم إنشاء الدعوة';
+
+  @override
+  String get orShareCodeText =>
+      'أو شارك هذا الرمز - سيقومون بإدخاله في شاشة \"الانضمام إلى شركة قائمة\":';
+
+  @override
+  String shareInviteExpiresText(int days) {
+    return 'شارك هذا مع الشخص الذي ينضم - يعمل مرة واحدة وينتهي خلال $days يوم.';
+  }
+
+  @override
+  String get contactVenuRiteTitle => 'التواصل مع VenuRite';
+
+  @override
+  String get contactVenuRiteIntroText =>
+      'سواء كنت مجموعة كبيرة تريد مساعدة في الإعداد، أو لديك سؤال فقط - يسعدنا المساعدة.';
+
+  @override
+  String get emailUsButton => 'راسلنا عبر البريد الإلكتروني';
 }

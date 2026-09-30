@@ -1178,5 +1178,11 @@
   "stillClockedInText": "لا يزال مسجلاً للحضور",
   "clockInLabel": "الدخول: {time}",
   "clockOutLabel": "الخروج: {time}",
-  "durationHoursMinutesLabel": "{hours} س {minutes} د"
+  "durationHoursMinutesLabel": "{hours} س {minutes} د",
+  "inviteCreatedTitle": "تم إنشاء الدعوة",
+  "orShareCodeText": "أو شارك هذا الرمز - سيقومون بإدخاله في شاشة \"الانضمام إلى شركة قائمة\":",
+  "shareInviteExpiresText": "شارك هذا مع الشخص الذي ينضم - يعمل مرة واحدة وينتهي خلال {days} يوم.",
+  "contactVenuRiteTitle": "التواصل مع VenuRite",
+  "contactVenuRiteIntroText": "سواء كنت مجموعة كبيرة تريد مساعدة في الإعداد، أو لديك سؤال فقط - يسعدنا المساعدة.",
+  "emailUsButton": "راسلنا عبر البريد الإلكتروني"
 }

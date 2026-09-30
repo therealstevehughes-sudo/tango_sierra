@@ -1178,5 +1178,11 @@
   "stillClockedInText": "Nadal zalogowany",
   "clockInLabel": "Wejście: {time}",
   "clockOutLabel": "Wyjście: {time}",
-  "durationHoursMinutesLabel": "{hours}h {minutes}m"
+  "durationHoursMinutesLabel": "{hours}h {minutes}m",
+  "inviteCreatedTitle": "Zaproszenie utworzone",
+  "orShareCodeText": "Lub udostępnij ten kod - wpiszą go na ekranie \"Dołącz do istniejącej firmy\":",
+  "shareInviteExpiresText": "Udostępnij to osobie dołączającej - działa raz i wygasa za {days} dni.",
+  "contactVenuRiteTitle": "Skontaktuj się z VenuRite",
+  "contactVenuRiteIntroText": "Niezależnie od tego, czy jesteś dużą grupą potrzebującą pomocy w konfiguracji, czy po prostu masz pytanie - chętnie pomożemy.",
+  "emailUsButton": "Napisz do nas"
 }

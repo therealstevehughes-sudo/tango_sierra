@@ -4198,4 +4198,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String durationHoursMinutesLabel(int hours, int minutes) {
     return '${hours}h ${minutes}m';
   }
+
+  @override
+  String get inviteCreatedTitle => 'Invite created';
+
+  @override
+  String get orShareCodeText =>
+      'Or share this code - they enter it on the \"Join existing company\" screen:';
+
+  @override
+  String shareInviteExpiresText(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other:
+          'Share this with the person joining - it works once and expires in $days days.',
+      one:
+          'Share this with the person joining - it works once and expires in $days day.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get contactVenuRiteTitle => 'Contact VenuRite';
+
+  @override
+  String get contactVenuRiteIntroText =>
+      'Whether you\'re a large group wanting a hand setting up, or just have a question - we\'re happy to help.';
+
+  @override
+  String get emailUsButton => 'Email us';
 }

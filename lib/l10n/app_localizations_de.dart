@@ -4222,4 +4222,34 @@ class AppLocalizationsDe extends AppLocalizations {
   String durationHoursMinutesLabel(int hours, int minutes) {
     return '${hours}Std ${minutes}Min';
   }
+
+  @override
+  String get inviteCreatedTitle => 'Einladung erstellt';
+
+  @override
+  String get orShareCodeText =>
+      'Oder teile diesen Code - er wird auf dem Bildschirm \"Bestehender Firma beitreten\" eingegeben:';
+
+  @override
+  String shareInviteExpiresText(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other:
+          'Teile dies mit der beitretenden Person - es funktioniert einmal und läuft in $days Tagen ab.',
+      one:
+          'Teile dies mit der beitretenden Person - es funktioniert einmal und läuft in $days Tag ab.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get contactVenuRiteTitle => 'VenuRite kontaktieren';
+
+  @override
+  String get contactVenuRiteIntroText =>
+      'Egal ob du eine große Gruppe bist, die Hilfe bei der Einrichtung möchte, oder einfach eine Frage hast - wir helfen gerne.';
+
+  @override
+  String get emailUsButton => 'E-Mail senden';
 }

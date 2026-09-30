@@ -1178,5 +1178,11 @@
   "stillClockedInText": "Noch eingestempelt",
   "clockInLabel": "Ein: {time}",
   "clockOutLabel": "Aus: {time}",
-  "durationHoursMinutesLabel": "{hours}Std {minutes}Min"
+  "durationHoursMinutesLabel": "{hours}Std {minutes}Min",
+  "inviteCreatedTitle": "Einladung erstellt",
+  "orShareCodeText": "Oder teile diesen Code - er wird auf dem Bildschirm \"Bestehender Firma beitreten\" eingegeben:",
+  "shareInviteExpiresText": "{days, plural, one{Teile dies mit der beitretenden Person - es funktioniert einmal und läuft in {days} Tag ab.} other{Teile dies mit der beitretenden Person - es funktioniert einmal und läuft in {days} Tagen ab.}}",
+  "contactVenuRiteTitle": "VenuRite kontaktieren",
+  "contactVenuRiteIntroText": "Egal ob du eine große Gruppe bist, die Hilfe bei der Einrichtung möchte, oder einfach eine Frage hast - wir helfen gerne.",
+  "emailUsButton": "E-Mail senden"
 }

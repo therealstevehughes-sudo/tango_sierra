@@ -1178,5 +1178,11 @@
   "stillClockedInText": "ابھی بھی کلاک ان",
   "clockInLabel": "اندر: {time}",
   "clockOutLabel": "باہر: {time}",
-  "durationHoursMinutesLabel": "{hours} گھنٹے {minutes} منٹ"
+  "durationHoursMinutesLabel": "{hours} گھنٹے {minutes} منٹ",
+  "inviteCreatedTitle": "دعوت نامہ بن گیا",
+  "orShareCodeText": "یا یہ کوڈ شیئر کرو - وہ اسے \"موجودہ کمپنی میں شامل ہوں\" اسکرین پر درج کریں گے:",
+  "shareInviteExpiresText": "اسے شامل ہونے والے شخص کے ساتھ شیئر کرو - یہ ایک بار کام کرتا ہے اور {days} دنوں میں ختم ہو جاتا ہے۔",
+  "contactVenuRiteTitle": "VenuRite سے رابطہ کریں",
+  "contactVenuRiteIntroText": "چاہے تم ایک بڑا گروپ ہو جسے سیٹ اپ میں مدد چاہیے، یا بس کوئی سوال ہو - ہمیں مدد کرنے میں خوشی ہوگی۔",
+  "emailUsButton": "ہمیں ای میل کریں"
 }

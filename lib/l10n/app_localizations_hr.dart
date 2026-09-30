@@ -4124,4 +4124,26 @@ class AppLocalizationsHr extends AppLocalizations {
   String durationHoursMinutesLabel(int hours, int minutes) {
     return '${hours}h ${minutes}m';
   }
+
+  @override
+  String get inviteCreatedTitle => 'Poziv stvoren';
+
+  @override
+  String get orShareCodeText =>
+      'Ili podijeli ovaj kod - unijet će ga na ekranu \"Pridruži se postojećoj tvrtki\":';
+
+  @override
+  String shareInviteExpiresText(int days) {
+    return 'Podijeli ovo s osobom koja se pridružuje - radi jednom i istječe za $days dana.';
+  }
+
+  @override
+  String get contactVenuRiteTitle => 'Kontaktiraj VenuRite';
+
+  @override
+  String get contactVenuRiteIntroText =>
+      'Bilo da si velika grupa kojoj treba pomoć pri postavljanju ili samo imaš pitanje - rado ćemo pomoći.';
+
+  @override
+  String get emailUsButton => 'Pošalji nam e-poštu';
 }

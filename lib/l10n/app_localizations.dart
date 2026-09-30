@@ -7201,6 +7201,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{hours}h {minutes}m'**
   String durationHoursMinutesLabel(int hours, int minutes);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Invite created'**
+  String get inviteCreatedTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Or share this code - they enter it on the \"Join existing company\" screen:'**
+  String get orShareCodeText;
+
+  /// No description provided for @shareInviteExpiresText.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, one{Share this with the person joining - it works once and expires in {days} day.} other{Share this with the person joining - it works once and expires in {days} days.}}'**
+  String shareInviteExpiresText(int days);
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Contact VenuRite'**
+  String get contactVenuRiteTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Whether you\'re a large group wanting a hand setting up, or just have a question - we\'re happy to help.'**
+  String get contactVenuRiteIntroText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Email us'**
+  String get emailUsButton;
 }
 
 class _AppLocalizationsDelegate
