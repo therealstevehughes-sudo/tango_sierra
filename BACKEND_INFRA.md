@@ -11,6 +11,11 @@ this backend phase. This file is safe to read, share, and commit to git.
 
 ## Plan revision (2026-08-17): shared VPS, not a dedicated one
 
+**SUPERSEDED — see "Server migration to dedicated IONOS VPS" (2026-09-27)
+further down this file.** VenuRite now runs on its own dedicated server
+(`87.106.101.222`), not the shared box described below. Kept here only for
+history — do not read this section as current state.
+
 Superseded the earlier "maximum separation / new dedicated VPS" decision —
 Tango Sierra now shares Bloody Hell's existing VPS to avoid a second IONOS
 subscription. Isolation is now at the application/Docker level (own
