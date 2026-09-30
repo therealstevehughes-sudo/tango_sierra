@@ -4162,4 +4162,28 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get createAccountButton => 'Utwórz konto';
+
+  @override
+  String get shiftLogTitle => 'Rejestr zmian';
+
+  @override
+  String get noClockInsYetText => 'Brak jeszcze zarejestrowanych wejść.';
+
+  @override
+  String get stillClockedInText => 'Nadal zalogowany';
+
+  @override
+  String clockInLabel(String time) {
+    return 'Wejście: $time';
+  }
+
+  @override
+  String clockOutLabel(String time) {
+    return 'Wyjście: $time';
+  }
+
+  @override
+  String durationHoursMinutesLabel(int hours, int minutes) {
+    return '${hours}h ${minutes}m';
+  }
 }

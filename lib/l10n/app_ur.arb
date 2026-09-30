@@ -1172,5 +1172,11 @@
   "deleteSelectedButton": "{count} منتخب شدہ حذف کریں ({bytes})",
   "addTeamMemberTitle": "ٹیم رکن شامل کریں",
   "createsTapNamePinAccountText": "تمہارے اپنے وینیو کے لیے ٹیپ نام + پن اکاؤنٹ بناتا ہے۔",
-  "createAccountButton": "اکاؤنٹ بنائیں"
+  "createAccountButton": "اکاؤنٹ بنائیں",
+  "shiftLogTitle": "شفٹ لاگ",
+  "noClockInsYetText": "ابھی تک کوئی کلاک ان درج نہیں ہوا۔",
+  "stillClockedInText": "ابھی بھی کلاک ان",
+  "clockInLabel": "اندر: {time}",
+  "clockOutLabel": "باہر: {time}",
+  "durationHoursMinutesLabel": "{hours} گھنٹے {minutes} منٹ"
 }

@@ -4159,4 +4159,28 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get createAccountButton => 'Creează cont';
+
+  @override
+  String get shiftLogTitle => 'Jurnal ture';
+
+  @override
+  String get noClockInsYetText => 'Nicio pontare înregistrată încă.';
+
+  @override
+  String get stillClockedInText => 'Încă pontat';
+
+  @override
+  String clockInLabel(String time) {
+    return 'Intrare: $time';
+  }
+
+  @override
+  String clockOutLabel(String time) {
+    return 'Ieșire: $time';
+  }
+
+  @override
+  String durationHoursMinutesLabel(int hours, int minutes) {
+    return '${hours}h ${minutes}m';
+  }
 }

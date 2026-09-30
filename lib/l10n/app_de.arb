@@ -1172,5 +1172,11 @@
   "deleteSelectedButton": "{count} ausgewählte löschen ({bytes})",
   "addTeamMemberTitle": "Teammitglied hinzufügen",
   "createsTapNamePinAccountText": "Erstellt ein Konto mit Namensauswahl + PIN für deinen eigenen Standort.",
-  "createAccountButton": "Konto erstellen"
+  "createAccountButton": "Konto erstellen",
+  "shiftLogTitle": "Schichtprotokoll",
+  "noClockInsYetText": "Noch keine Einstempelungen erfasst.",
+  "stillClockedInText": "Noch eingestempelt",
+  "clockInLabel": "Ein: {time}",
+  "clockOutLabel": "Aus: {time}",
+  "durationHoursMinutesLabel": "{hours}Std {minutes}Min"
 }

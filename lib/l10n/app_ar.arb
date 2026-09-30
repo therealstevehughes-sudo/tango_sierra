@@ -1172,5 +1172,11 @@
   "deleteSelectedButton": "حذف {count} محدد ({bytes})",
   "addTeamMemberTitle": "إضافة عضو فريق",
   "createsTapNamePinAccountText": "ينشئ حساب اسم-نقر + رمز سري لموقعك الخاص.",
-  "createAccountButton": "إنشاء حساب"
+  "createAccountButton": "إنشاء حساب",
+  "shiftLogTitle": "سجل النوبات",
+  "noClockInsYetText": "لم يتم تسجيل أي حضور بعد.",
+  "stillClockedInText": "لا يزال مسجلاً للحضور",
+  "clockInLabel": "الدخول: {time}",
+  "clockOutLabel": "الخروج: {time}",
+  "durationHoursMinutesLabel": "{hours} س {minutes} د"
 }

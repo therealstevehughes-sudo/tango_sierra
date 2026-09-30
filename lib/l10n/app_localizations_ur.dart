@@ -4070,4 +4070,28 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get createAccountButton => 'اکاؤنٹ بنائیں';
+
+  @override
+  String get shiftLogTitle => 'شفٹ لاگ';
+
+  @override
+  String get noClockInsYetText => 'ابھی تک کوئی کلاک ان درج نہیں ہوا۔';
+
+  @override
+  String get stillClockedInText => 'ابھی بھی کلاک ان';
+
+  @override
+  String clockInLabel(String time) {
+    return 'اندر: $time';
+  }
+
+  @override
+  String clockOutLabel(String time) {
+    return 'باہر: $time';
+  }
+
+  @override
+  String durationHoursMinutesLabel(int hours, int minutes) {
+    return '$hours گھنٹے $minutes منٹ';
+  }
 }

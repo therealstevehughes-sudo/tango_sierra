@@ -1172,5 +1172,11 @@
   "deleteSelectedButton": "Șterge {count} selectate ({bytes})",
   "addTeamMemberTitle": "Adaugă membru al echipei",
   "createsTapNamePinAccountText": "Creează un cont cu nume-atins + PIN pentru propriul tău local.",
-  "createAccountButton": "Creează cont"
+  "createAccountButton": "Creează cont",
+  "shiftLogTitle": "Jurnal ture",
+  "noClockInsYetText": "Nicio pontare înregistrată încă.",
+  "stillClockedInText": "Încă pontat",
+  "clockInLabel": "Intrare: {time}",
+  "clockOutLabel": "Ieșire: {time}",
+  "durationHoursMinutesLabel": "{hours}h {minutes}m"
 }

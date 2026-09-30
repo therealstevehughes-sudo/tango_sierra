@@ -4198,4 +4198,28 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get createAccountButton => 'Konto erstellen';
+
+  @override
+  String get shiftLogTitle => 'Schichtprotokoll';
+
+  @override
+  String get noClockInsYetText => 'Noch keine Einstempelungen erfasst.';
+
+  @override
+  String get stillClockedInText => 'Noch eingestempelt';
+
+  @override
+  String clockInLabel(String time) {
+    return 'Ein: $time';
+  }
+
+  @override
+  String clockOutLabel(String time) {
+    return 'Aus: $time';
+  }
+
+  @override
+  String durationHoursMinutesLabel(int hours, int minutes) {
+    return '${hours}Std ${minutes}Min';
+  }
 }

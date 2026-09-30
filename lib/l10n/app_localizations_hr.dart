@@ -4100,4 +4100,28 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get createAccountButton => 'Stvori račun';
+
+  @override
+  String get shiftLogTitle => 'Evidencija smjena';
+
+  @override
+  String get noClockInsYetText => 'Još nema evidentiranih prijava.';
+
+  @override
+  String get stillClockedInText => 'Još prijavljen';
+
+  @override
+  String clockInLabel(String time) {
+    return 'Ulaz: $time';
+  }
+
+  @override
+  String clockOutLabel(String time) {
+    return 'Izlaz: $time';
+  }
+
+  @override
+  String durationHoursMinutesLabel(int hours, int minutes) {
+    return '${hours}h ${minutes}m';
+  }
 }

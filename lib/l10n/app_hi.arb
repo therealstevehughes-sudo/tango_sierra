@@ -1172,5 +1172,11 @@
   "deleteSelectedButton": "{count} चयनित हटाएं ({bytes})",
   "addTeamMemberTitle": "टीम सदस्य जोड़ें",
   "createsTapNamePinAccountText": "तुम्हारे अपने वेन्यू के लिए टैप-नाम + पिन खाता बनाता है।",
-  "createAccountButton": "खाता बनाएं"
+  "createAccountButton": "खाता बनाएं",
+  "shiftLogTitle": "शिफ्ट लॉग",
+  "noClockInsYetText": "अभी तक कोई क्लॉक-इन दर्ज नहीं किया गया।",
+  "stillClockedInText": "अभी भी क्लॉक-इन",
+  "clockInLabel": "अंदर: {time}",
+  "clockOutLabel": "बाहर: {time}",
+  "durationHoursMinutesLabel": "{hours} घं {minutes} मि"
 }

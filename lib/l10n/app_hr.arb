@@ -1172,5 +1172,11 @@
   "deleteSelectedButton": "Izbriši {count} odabranih ({bytes})",
   "addTeamMemberTitle": "Dodaj člana tima",
   "createsTapNamePinAccountText": "Stvara račun s odabirom imena + PIN-om za tvoju vlastitu poslovnicu.",
-  "createAccountButton": "Stvori račun"
+  "createAccountButton": "Stvori račun",
+  "shiftLogTitle": "Evidencija smjena",
+  "noClockInsYetText": "Još nema evidentiranih prijava.",
+  "stillClockedInText": "Još prijavljen",
+  "clockInLabel": "Ulaz: {time}",
+  "clockOutLabel": "Izlaz: {time}",
+  "durationHoursMinutesLabel": "{hours}h {minutes}m"
 }

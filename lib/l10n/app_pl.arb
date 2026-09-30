@@ -1172,5 +1172,11 @@
   "deleteSelectedButton": "Usuń {count} zaznaczonych ({bytes})",
   "addTeamMemberTitle": "Dodaj członka zespołu",
   "createsTapNamePinAccountText": "Tworzy konto z wyborem imienia i PIN-em dla twojego lokalu.",
-  "createAccountButton": "Utwórz konto"
+  "createAccountButton": "Utwórz konto",
+  "shiftLogTitle": "Rejestr zmian",
+  "noClockInsYetText": "Brak jeszcze zarejestrowanych wejść.",
+  "stillClockedInText": "Nadal zalogowany",
+  "clockInLabel": "Wejście: {time}",
+  "clockOutLabel": "Wyjście: {time}",
+  "durationHoursMinutesLabel": "{hours}h {minutes}m"
 }

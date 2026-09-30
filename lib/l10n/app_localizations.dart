@@ -2928,7 +2928,7 @@ abstract class AppLocalizations {
   /// **'Assign this shift to'**
   String get assignShiftToTitle;
 
-  /// No description provided for @unknownLabel.
+  ///
   ///
   /// In en, this message translates to:
   /// **'Unknown'**
@@ -7165,6 +7165,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create account'**
   String get createAccountButton;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Shift Log'**
+  String get shiftLogTitle;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'No clock-ins recorded yet.'**
+  String get noClockInsYetText;
+
+  ///
+  ///
+  /// In en, this message translates to:
+  /// **'Still clocked in'**
+  String get stillClockedInText;
+
+  /// No description provided for @clockInLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'In: {time}'**
+  String clockInLabel(String time);
+
+  /// No description provided for @clockOutLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Out: {time}'**
+  String clockOutLabel(String time);
+
+  /// No description provided for @durationHoursMinutesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours}h {minutes}m'**
+  String durationHoursMinutesLabel(int hours, int minutes);
 }
 
 class _AppLocalizationsDelegate

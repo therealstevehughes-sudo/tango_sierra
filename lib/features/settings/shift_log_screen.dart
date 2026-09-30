@@ -13,6 +13,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../l10n/app_localizations.dart';
 
 // Shift log (2026-09-24, direct user request) — a plain "who clocked in/
 // out when" list for management, a habit-tracking signal (see ShiftLog's
@@ -53,12 +54,13 @@ class _ShiftLogScreenState extends ConsumerState<ShiftLogScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppScreenHeader(
-        title: const Text('Shift Log'),
+        title: Text(l10n.shiftLogTitle),
         actions: const [AssistantIconButton()],
       ),
-      drawer: const ManagementDrawer(title: 'Shift Log'),
+      drawer: ManagementDrawer(title: l10n.shiftLogTitle),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -66,8 +68,8 @@ class _ShiftLogScreenState extends ConsumerState<ShiftLogScreen> {
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
                 : _logs.isEmpty
-                ? const AppCard(
-                    child: Text('No clock-ins recorded yet.'),
+                ? AppCard(
+                    child: Text(l10n.noClockInsYetText),
                   )
                 : ListView.separated(
                     itemCount: _logs.length,
@@ -93,6 +95,7 @@ class _ShiftLogTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final duration = log.duration;
     return AppCard(
       child: Row(
@@ -102,18 +105,18 @@ class _ShiftLogTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  user?.name ?? 'Unknown',
+                  user?.name ?? l10n.unknownLabel,
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'In: ${formatDateTime(log.clockInAt)}',
+                  l10n.clockInLabel(formatDateTime(log.clockInAt)),
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 Text(
                   log.clockOutAt == null
-                      ? 'Still clocked in'
-                      : 'Out: ${formatDateTime(log.clockOutAt!)}',
+                      ? l10n.stillClockedInText
+                      : l10n.clockOutLabel(formatDateTime(log.clockOutAt!)),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: log.clockOutAt == null ? AppColors.teal : null,
                   ),
@@ -123,7 +126,10 @@ class _ShiftLogTile extends StatelessWidget {
           ),
           if (duration != null)
             Text(
-              '${duration.inHours}h ${duration.inMinutes % 60}m',
+              l10n.durationHoursMinutesLabel(
+                duration.inHours,
+                duration.inMinutes % 60,
+              ),
               style: const TextStyle(fontWeight: FontWeight.w600),
             ),
         ],

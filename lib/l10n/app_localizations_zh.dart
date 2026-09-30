@@ -3945,4 +3945,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get createAccountButton => '创建账户';
+
+  @override
+  String get shiftLogTitle => '班次日志';
+
+  @override
+  String get noClockInsYetText => '尚无打卡记录。';
+
+  @override
+  String get stillClockedInText => '仍在打卡中';
+
+  @override
+  String clockInLabel(String time) {
+    return '打卡进:$time';
+  }
+
+  @override
+  String clockOutLabel(String time) {
+    return '打卡出:$time';
+  }
+
+  @override
+  String durationHoursMinutesLabel(int hours, int minutes) {
+    return '$hours小时$minutes分钟';
+  }
 }

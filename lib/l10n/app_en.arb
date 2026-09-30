@@ -4074,5 +4074,47 @@
   "createAccountButton": "Create account",
   "@createAccountButton": {
     "description": ""
+  },
+  "shiftLogTitle": "Shift Log",
+  "@shiftLogTitle": {
+    "description": ""
+  },
+  "noClockInsYetText": "No clock-ins recorded yet.",
+  "@noClockInsYetText": {
+    "description": ""
+  },
+  "@unknownLabel": {
+    "description": ""
+  },
+  "stillClockedInText": "Still clocked in",
+  "@stillClockedInText": {
+    "description": ""
+  },
+  "clockInLabel": "In: {time}",
+  "@clockInLabel": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "clockOutLabel": "Out: {time}",
+  "@clockOutLabel": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "durationHoursMinutesLabel": "{hours}h {minutes}m",
+  "@durationHoursMinutesLabel": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
   }
 }

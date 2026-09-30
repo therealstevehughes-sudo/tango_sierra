@@ -4050,4 +4050,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get createAccountButton => 'إنشاء حساب';
+
+  @override
+  String get shiftLogTitle => 'سجل النوبات';
+
+  @override
+  String get noClockInsYetText => 'لم يتم تسجيل أي حضور بعد.';
+
+  @override
+  String get stillClockedInText => 'لا يزال مسجلاً للحضور';
+
+  @override
+  String clockInLabel(String time) {
+    return 'الدخول: $time';
+  }
+
+  @override
+  String clockOutLabel(String time) {
+    return 'الخروج: $time';
+  }
+
+  @override
+  String durationHoursMinutesLabel(int hours, int minutes) {
+    return '$hours س $minutes د';
+  }
 }

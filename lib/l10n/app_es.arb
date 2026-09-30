@@ -1172,5 +1172,11 @@
   "deleteSelectedButton": "Eliminar {count} seleccionadas ({bytes})",
   "addTeamMemberTitle": "Añadir miembro del equipo",
   "createsTapNamePinAccountText": "Crea una cuenta de nombre-táctil + PIN para tu propio local.",
-  "createAccountButton": "Crear cuenta"
+  "createAccountButton": "Crear cuenta",
+  "shiftLogTitle": "Registro de turnos",
+  "noClockInsYetText": "Todavía no se han registrado fichajes.",
+  "stillClockedInText": "Todavía fichado",
+  "clockInLabel": "Entrada: {time}",
+  "clockOutLabel": "Salida: {time}",
+  "durationHoursMinutesLabel": "{hours}h {minutes}m"
 }

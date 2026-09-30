@@ -4079,4 +4079,28 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get createAccountButton => 'खाता बनाएं';
+
+  @override
+  String get shiftLogTitle => 'शिफ्ट लॉग';
+
+  @override
+  String get noClockInsYetText => 'अभी तक कोई क्लॉक-इन दर्ज नहीं किया गया।';
+
+  @override
+  String get stillClockedInText => 'अभी भी क्लॉक-इन';
+
+  @override
+  String clockInLabel(String time) {
+    return 'अंदर: $time';
+  }
+
+  @override
+  String clockOutLabel(String time) {
+    return 'बाहर: $time';
+  }
+
+  @override
+  String durationHoursMinutesLabel(int hours, int minutes) {
+    return '$hours घं $minutes मि';
+  }
 }

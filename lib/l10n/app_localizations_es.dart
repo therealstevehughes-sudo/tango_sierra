@@ -4167,4 +4167,28 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get createAccountButton => 'Crear cuenta';
+
+  @override
+  String get shiftLogTitle => 'Registro de turnos';
+
+  @override
+  String get noClockInsYetText => 'Todavía no se han registrado fichajes.';
+
+  @override
+  String get stillClockedInText => 'Todavía fichado';
+
+  @override
+  String clockInLabel(String time) {
+    return 'Entrada: $time';
+  }
+
+  @override
+  String clockOutLabel(String time) {
+    return 'Salida: $time';
+  }
+
+  @override
+  String durationHoursMinutesLabel(int hours, int minutes) {
+    return '${hours}h ${minutes}m';
+  }
 }
