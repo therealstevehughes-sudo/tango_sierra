@@ -4376,4 +4376,66 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get allergenStatusMayContain => 'Može sadržavati';
+
+  @override
+  String get menuManagementTitle => 'Jelovnik i alergeni';
+
+  @override
+  String get addDishButton => 'Dodaj jelo';
+
+  @override
+  String get addDishTitle => 'Dodaj jelo';
+
+  @override
+  String get dishNameLabel => 'Naziv jela';
+
+  @override
+  String get dishCategoryLabel => 'Kategorija (neobavezno)';
+
+  @override
+  String get noDishesYetText => 'Još nema dodanih jela.';
+
+  @override
+  String get draftLabel => 'Nacrt';
+
+  @override
+  String get addIngredientTitle => 'Dodaj sastojak';
+
+  @override
+  String get ingredientNameLabel => 'Naziv sastojka';
+
+  @override
+  String get addButton => 'Dodaj';
+
+  @override
+  String get addIngredientButton => 'Dodaj sastojak';
+
+  @override
+  String get ingredientsHeading => 'Sastojci';
+
+  @override
+  String get suggestedAllergensHeading =>
+      'Predloženi alergeni (još nisu objavljeni)';
+
+  @override
+  String get publishedAllergensHeading => 'Objavljeni alergeni';
+
+  @override
+  String get noAllergensIdentifiedText =>
+      'Iz trenutnih sastojaka nisu identificirani alergeni.';
+
+  @override
+  String get reviewAllergensTitle => 'Pregledajte alergene prije objave';
+
+  @override
+  String get allergenStatusNone => 'Nijedan';
+
+  @override
+  String get approveButton => 'Odobri i objavi';
+
+  @override
+  String get reviewAndApproveButton => 'Pregledaj i odobri';
+
+  @override
+  String get reviewAndReapproveButton => 'Pregledaj i ponovno odobri';
 }

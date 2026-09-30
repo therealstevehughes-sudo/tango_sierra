@@ -7615,6 +7615,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'May contain'**
   String get allergenStatusMayContain;
+
+  /// No description provided for @menuManagementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu & Allergens'**
+  String get menuManagementTitle;
+
+  /// No description provided for @addDishButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add dish'**
+  String get addDishButton;
+
+  /// No description provided for @addDishTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a dish'**
+  String get addDishTitle;
+
+  /// No description provided for @dishNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Dish name'**
+  String get dishNameLabel;
+
+  /// No description provided for @dishCategoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category (optional)'**
+  String get dishCategoryLabel;
+
+  /// No description provided for @noDishesYetText.
+  ///
+  /// In en, this message translates to:
+  /// **'No dishes added yet.'**
+  String get noDishesYetText;
+
+  /// No description provided for @draftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft'**
+  String get draftLabel;
+
+  /// No description provided for @addIngredientTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add ingredient'**
+  String get addIngredientTitle;
+
+  /// No description provided for @ingredientNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredient name'**
+  String get ingredientNameLabel;
+
+  /// No description provided for @addButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get addButton;
+
+  /// No description provided for @addIngredientButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add ingredient'**
+  String get addIngredientButton;
+
+  /// No description provided for @ingredientsHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredients'**
+  String get ingredientsHeading;
+
+  /// No description provided for @suggestedAllergensHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested allergens (not yet published)'**
+  String get suggestedAllergensHeading;
+
+  /// No description provided for @publishedAllergensHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Published allergens'**
+  String get publishedAllergensHeading;
+
+  /// No description provided for @noAllergensIdentifiedText.
+  ///
+  /// In en, this message translates to:
+  /// **'No allergens identified from the current ingredients.'**
+  String get noAllergensIdentifiedText;
+
+  /// No description provided for @reviewAllergensTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Review allergens before publishing'**
+  String get reviewAllergensTitle;
+
+  /// No description provided for @allergenStatusNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get allergenStatusNone;
+
+  /// No description provided for @approveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve & publish'**
+  String get approveButton;
+
+  /// No description provided for @reviewAndApproveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Review & approve'**
+  String get reviewAndApproveButton;
+
+  /// No description provided for @reviewAndReapproveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Review & re-approve'**
+  String get reviewAndReapproveButton;
 }
 
 class _AppLocalizationsDelegate

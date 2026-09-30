@@ -4323,4 +4323,66 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get allergenStatusMayContain => 'قد يحتوي على';
+
+  @override
+  String get menuManagementTitle => 'القائمة ومسببات الحساسية';
+
+  @override
+  String get addDishButton => 'إضافة طبق';
+
+  @override
+  String get addDishTitle => 'إضافة طبق';
+
+  @override
+  String get dishNameLabel => 'اسم الطبق';
+
+  @override
+  String get dishCategoryLabel => 'الفئة (اختياري)';
+
+  @override
+  String get noDishesYetText => 'لم تتم إضافة أي أطباق بعد.';
+
+  @override
+  String get draftLabel => 'مسودة';
+
+  @override
+  String get addIngredientTitle => 'إضافة مكون';
+
+  @override
+  String get ingredientNameLabel => 'اسم المكون';
+
+  @override
+  String get addButton => 'إضافة';
+
+  @override
+  String get addIngredientButton => 'إضافة مكون';
+
+  @override
+  String get ingredientsHeading => 'المكونات';
+
+  @override
+  String get suggestedAllergensHeading =>
+      'مسببات الحساسية المقترحة (غير منشورة بعد)';
+
+  @override
+  String get publishedAllergensHeading => 'مسببات الحساسية المنشورة';
+
+  @override
+  String get noAllergensIdentifiedText =>
+      'لم يتم تحديد أي مسببات حساسية من المكونات الحالية.';
+
+  @override
+  String get reviewAllergensTitle => 'راجع مسببات الحساسية قبل النشر';
+
+  @override
+  String get allergenStatusNone => 'لا شيء';
+
+  @override
+  String get approveButton => 'الموافقة والنشر';
+
+  @override
+  String get reviewAndApproveButton => 'مراجعة والموافقة';
+
+  @override
+  String get reviewAndReapproveButton => 'مراجعة والموافقة مجددًا';
 }

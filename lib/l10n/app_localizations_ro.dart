@@ -4461,4 +4461,66 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get allergenStatusMayContain => 'Poate conține';
+
+  @override
+  String get menuManagementTitle => 'Meniu și alergeni';
+
+  @override
+  String get addDishButton => 'Adaugă fel de mâncare';
+
+  @override
+  String get addDishTitle => 'Adaugă un fel de mâncare';
+
+  @override
+  String get dishNameLabel => 'Numele felului de mâncare';
+
+  @override
+  String get dishCategoryLabel => 'Categorie (opțional)';
+
+  @override
+  String get noDishesYetText => 'Nu au fost adăugate feluri de mâncare încă.';
+
+  @override
+  String get draftLabel => 'Ciornă';
+
+  @override
+  String get addIngredientTitle => 'Adaugă ingredient';
+
+  @override
+  String get ingredientNameLabel => 'Numele ingredientului';
+
+  @override
+  String get addButton => 'Adaugă';
+
+  @override
+  String get addIngredientButton => 'Adaugă ingredient';
+
+  @override
+  String get ingredientsHeading => 'Ingrediente';
+
+  @override
+  String get suggestedAllergensHeading =>
+      'Alergeni sugerați (încă nepublicați)';
+
+  @override
+  String get publishedAllergensHeading => 'Alergeni publicați';
+
+  @override
+  String get noAllergensIdentifiedText =>
+      'Niciun alergen identificat din ingredientele actuale.';
+
+  @override
+  String get reviewAllergensTitle => 'Verifică alergenii înainte de publicare';
+
+  @override
+  String get allergenStatusNone => 'Niciunul';
+
+  @override
+  String get approveButton => 'Aprobă și publică';
+
+  @override
+  String get reviewAndApproveButton => 'Verifică și aprobă';
+
+  @override
+  String get reviewAndReapproveButton => 'Verifică și reaprobă';
 }

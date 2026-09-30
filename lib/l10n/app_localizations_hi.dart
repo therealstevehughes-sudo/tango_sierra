@@ -4353,4 +4353,66 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get allergenStatusMayContain => 'हो सकता है';
+
+  @override
+  String get menuManagementTitle => 'मेनू और एलर्जन';
+
+  @override
+  String get addDishButton => 'व्यंजन जोड़ें';
+
+  @override
+  String get addDishTitle => 'एक व्यंजन जोड़ें';
+
+  @override
+  String get dishNameLabel => 'व्यंजन का नाम';
+
+  @override
+  String get dishCategoryLabel => 'श्रेणी (वैकल्पिक)';
+
+  @override
+  String get noDishesYetText => 'अभी तक कोई व्यंजन नहीं जोड़ा गया।';
+
+  @override
+  String get draftLabel => 'ड्राफ्ट';
+
+  @override
+  String get addIngredientTitle => 'सामग्री जोड़ें';
+
+  @override
+  String get ingredientNameLabel => 'सामग्री का नाम';
+
+  @override
+  String get addButton => 'जोड़ें';
+
+  @override
+  String get addIngredientButton => 'सामग्री जोड़ें';
+
+  @override
+  String get ingredientsHeading => 'सामग्री';
+
+  @override
+  String get suggestedAllergensHeading => 'सुझाए गए एलर्जन (अभी प्रकाशित नहीं)';
+
+  @override
+  String get publishedAllergensHeading => 'प्रकाशित एलर्जन';
+
+  @override
+  String get noAllergensIdentifiedText =>
+      'वर्तमान सामग्री से कोई एलर्जन नहीं पाया गया।';
+
+  @override
+  String get reviewAllergensTitle =>
+      'प्रकाशित करने से पहले एलर्जन की समीक्षा करें';
+
+  @override
+  String get allergenStatusNone => 'कोई नहीं';
+
+  @override
+  String get approveButton => 'स्वीकृत करें और प्रकाशित करें';
+
+  @override
+  String get reviewAndApproveButton => 'समीक्षा करें और स्वीकृत करें';
+
+  @override
+  String get reviewAndReapproveButton => 'समीक्षा करें और पुनः स्वीकृत करें';
 }

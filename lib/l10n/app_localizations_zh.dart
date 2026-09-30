@@ -4209,4 +4209,64 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get allergenStatusMayContain => '可能含有';
+
+  @override
+  String get menuManagementTitle => '菜单与过敏原';
+
+  @override
+  String get addDishButton => '添加菜品';
+
+  @override
+  String get addDishTitle => '添加菜品';
+
+  @override
+  String get dishNameLabel => '菜品名称';
+
+  @override
+  String get dishCategoryLabel => '类别(可选)';
+
+  @override
+  String get noDishesYetText => '尚未添加任何菜品。';
+
+  @override
+  String get draftLabel => '草稿';
+
+  @override
+  String get addIngredientTitle => '添加配料';
+
+  @override
+  String get ingredientNameLabel => '配料名称';
+
+  @override
+  String get addButton => '添加';
+
+  @override
+  String get addIngredientButton => '添加配料';
+
+  @override
+  String get ingredientsHeading => '配料';
+
+  @override
+  String get suggestedAllergensHeading => '建议的过敏原(尚未发布)';
+
+  @override
+  String get publishedAllergensHeading => '已发布的过敏原';
+
+  @override
+  String get noAllergensIdentifiedText => '根据当前配料未识别出过敏原。';
+
+  @override
+  String get reviewAllergensTitle => '发布前请核查过敏原';
+
+  @override
+  String get allergenStatusNone => '无';
+
+  @override
+  String get approveButton => '批准并发布';
+
+  @override
+  String get reviewAndApproveButton => '核查并批准';
+
+  @override
+  String get reviewAndReapproveButton => '核查并重新批准';
 }

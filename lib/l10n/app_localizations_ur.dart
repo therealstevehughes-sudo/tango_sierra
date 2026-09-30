@@ -4346,4 +4346,66 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get allergenStatusMayContain => 'ممکنہ طور پر شامل ہو';
+
+  @override
+  String get menuManagementTitle => 'مینو اور الرجنز';
+
+  @override
+  String get addDishButton => 'ڈش شامل کریں';
+
+  @override
+  String get addDishTitle => 'ایک ڈش شامل کریں';
+
+  @override
+  String get dishNameLabel => 'ڈش کا نام';
+
+  @override
+  String get dishCategoryLabel => 'قسم (اختیاری)';
+
+  @override
+  String get noDishesYetText => 'ابھی تک کوئی ڈش شامل نہیں کی گئی۔';
+
+  @override
+  String get draftLabel => 'ڈرافٹ';
+
+  @override
+  String get addIngredientTitle => 'اجزاء شامل کریں';
+
+  @override
+  String get ingredientNameLabel => 'جزو کا نام';
+
+  @override
+  String get addButton => 'شامل کریں';
+
+  @override
+  String get addIngredientButton => 'جزو شامل کریں';
+
+  @override
+  String get ingredientsHeading => 'اجزاء';
+
+  @override
+  String get suggestedAllergensHeading =>
+      'تجویز کردہ الرجنز (ابھی شائع نہیں ہوئے)';
+
+  @override
+  String get publishedAllergensHeading => 'شائع شدہ الرجنز';
+
+  @override
+  String get noAllergensIdentifiedText =>
+      'موجودہ اجزاء سے کوئی الرجن شناخت نہیں ہوا۔';
+
+  @override
+  String get reviewAllergensTitle => 'شائع کرنے سے پہلے الرجنز کا جائزہ لیں';
+
+  @override
+  String get allergenStatusNone => 'کوئی نہیں';
+
+  @override
+  String get approveButton => 'منظور کریں اور شائع کریں';
+
+  @override
+  String get reviewAndApproveButton => 'جائزہ لیں اور منظور کریں';
+
+  @override
+  String get reviewAndReapproveButton => 'جائزہ لیں اور دوبارہ منظور کریں';
 }

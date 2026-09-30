@@ -25,6 +25,7 @@ import '../../features/roster/roster_upsell_screen.dart';
 import '../../features/roster/shift_fairness_screen.dart';
 import '../../features/settings/certification_requirements_screen.dart';
 import '../../features/settings/department_management_screen.dart';
+import '../../features/settings/menu_management_screen.dart';
 import '../../features/settings/document_centre_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
 import '../../features/settings/settings_screen.dart';
@@ -141,6 +142,18 @@ List<_DrawerItemDef> _peopleItems(AppLocalizations l10n) => [
     label: l10n.departmentManagement,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const DepartmentManagementScreen(),
+  ),
+  // Menu & allergens (Phase 2, allergen module, 2026-09-30) — supervisor
+  // is the lowest tier with any drawer access at all (base tier has none,
+  // see WorkerHubScreen's own doc comment), so this is the practical
+  // floor for "anyone in the kitchen can draft a dish" per the agreed
+  // design; the actual approve gate (supervisor+) lives inside
+  // MenuItemDetailScreen itself.
+  _DrawerItemDef(
+    icon: Icons.restaurant_menu_outlined,
+    label: l10n.menuManagementTitle,
+    minTier: RoleTier.supervisor,
+    screenBuilder: (_) => const MenuManagementScreen(),
   ),
 ];
 

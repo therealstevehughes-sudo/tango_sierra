@@ -4486,4 +4486,66 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allergenStatusMayContain => 'May contain';
+
+  @override
+  String get menuManagementTitle => 'Menu & Allergens';
+
+  @override
+  String get addDishButton => 'Add dish';
+
+  @override
+  String get addDishTitle => 'Add a dish';
+
+  @override
+  String get dishNameLabel => 'Dish name';
+
+  @override
+  String get dishCategoryLabel => 'Category (optional)';
+
+  @override
+  String get noDishesYetText => 'No dishes added yet.';
+
+  @override
+  String get draftLabel => 'Draft';
+
+  @override
+  String get addIngredientTitle => 'Add ingredient';
+
+  @override
+  String get ingredientNameLabel => 'Ingredient name';
+
+  @override
+  String get addButton => 'Add';
+
+  @override
+  String get addIngredientButton => 'Add ingredient';
+
+  @override
+  String get ingredientsHeading => 'Ingredients';
+
+  @override
+  String get suggestedAllergensHeading =>
+      'Suggested allergens (not yet published)';
+
+  @override
+  String get publishedAllergensHeading => 'Published allergens';
+
+  @override
+  String get noAllergensIdentifiedText =>
+      'No allergens identified from the current ingredients.';
+
+  @override
+  String get reviewAllergensTitle => 'Review allergens before publishing';
+
+  @override
+  String get allergenStatusNone => 'None';
+
+  @override
+  String get approveButton => 'Approve & publish';
+
+  @override
+  String get reviewAndApproveButton => 'Review & approve';
+
+  @override
+  String get reviewAndReapproveButton => 'Review & re-approve';
 }
