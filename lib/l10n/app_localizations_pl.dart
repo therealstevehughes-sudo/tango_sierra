@@ -4743,4 +4743,34 @@ class AppLocalizationsPl extends AppLocalizations {
   String rotaUnfilledCountText(int count) {
     return 'Potrzeba jeszcze $count';
   }
+
+  @override
+  String get daysOffRequestedMessage => 'Zlozono wniosek o dni wolne.';
+
+  @override
+  String get bookDaysOffToggleLabel => 'Zarezerwuj dni wolne';
+
+  @override
+  String get submitDaysOffButton => 'Zglos dni wolne';
+
+  @override
+  String get alreadyRequestedOffText => 'Juz zgloszono';
+
+  @override
+  String get noShiftsThisPeriodText => 'Brak zmian';
+
+  @override
+  String get youAreStandbyText => 'Jestes w rezerwie';
+
+  @override
+  String get youAreAssignedText => 'Jestes na tej zmianie';
+
+  @override
+  String get joinStandbyButton => 'Dolacz jako rezerwa';
+
+  @override
+  String get shiftFullText => 'Pelna obsada';
+
+  @override
+  String get rotaClaimCalendarTitle => 'Zajmij zmiany (kalendarz)';
 }

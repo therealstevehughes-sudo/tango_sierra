@@ -4479,5 +4479,15 @@
         "type": "int"
       }
     }
-  }
+  },
+  "daysOffRequestedMessage": "Day(s) off requested.",
+  "bookDaysOffToggleLabel": "Book days off instead",
+  "submitDaysOffButton": "Submit days off",
+  "alreadyRequestedOffText": "Already requested",
+  "noShiftsThisPeriodText": "No shifts",
+  "youAreStandbyText": "You're standby",
+  "youAreAssignedText": "You're on this shift",
+  "joinStandbyButton": "Join standby",
+  "shiftFullText": "Full",
+  "rotaClaimCalendarTitle": "Claim shifts (calendar)"
 }

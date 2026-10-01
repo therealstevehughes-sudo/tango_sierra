@@ -1332,5 +1332,15 @@
   "rotaAssignedLabel": "تفویض شدہ",
   "rotaStandbyLabel": "اسٹینڈ بائی",
   "rotaNoneAssignedText": "ابھی تک کوئی نہیں",
-  "rotaUnfilledCountText": "ابھی بھی {count} درکار ہیں"
+  "rotaUnfilledCountText": "ابھی بھی {count} درکار ہیں",
+  "daysOffRequestedMessage": "چھٹی کے دن درخواست کر دیے گئے۔",
+  "bookDaysOffToggleLabel": "اس کے بجائے چھٹی بک کریں",
+  "submitDaysOffButton": "چھٹی جمع کرائیں",
+  "alreadyRequestedOffText": "پہلے ہی درخواست دی گئی",
+  "noShiftsThisPeriodText": "کوئی شفٹ نہیں",
+  "youAreStandbyText": "آپ اسٹینڈ بائی ہیں",
+  "youAreAssignedText": "آپ اس شفٹ پر ہیں",
+  "joinStandbyButton": "اسٹینڈ بائی میں شامل ہوں",
+  "shiftFullText": "مکمل",
+  "rotaClaimCalendarTitle": "شفٹ حاصل کریں (کیلنڈر)"
 }

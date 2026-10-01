@@ -1332,5 +1332,15 @@
   "rotaAssignedLabel": "Zugewiesen",
   "rotaStandbyLabel": "Bereitschaft",
   "rotaNoneAssignedText": "Noch niemand",
-  "rotaUnfilledCountText": "Noch {count} benoetigt"
+  "rotaUnfilledCountText": "Noch {count} benoetigt",
+  "daysOffRequestedMessage": "Freie Tage beantragt.",
+  "bookDaysOffToggleLabel": "Stattdessen freie Tage buchen",
+  "submitDaysOffButton": "Freie Tage einreichen",
+  "alreadyRequestedOffText": "Bereits beantragt",
+  "noShiftsThisPeriodText": "Keine Schichten",
+  "youAreStandbyText": "Sie sind in Bereitschaft",
+  "youAreAssignedText": "Sie sind fuer diese Schicht eingeteilt",
+  "joinStandbyButton": "Als Bereitschaft beitreten",
+  "shiftFullText": "Voll besetzt",
+  "rotaClaimCalendarTitle": "Schichten uebernehmen (Kalender)"
 }

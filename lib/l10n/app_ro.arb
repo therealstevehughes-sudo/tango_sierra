@@ -1332,5 +1332,15 @@
   "rotaAssignedLabel": "Alocati",
   "rotaStandbyLabel": "Rezerva",
   "rotaNoneAssignedText": "Niciunul inca",
-  "rotaUnfilledCountText": "Mai sunt necesari {count}"
+  "rotaUnfilledCountText": "Mai sunt necesari {count}",
+  "daysOffRequestedMessage": "Zilele libere au fost solicitate.",
+  "bookDaysOffToggleLabel": "Solicita zile libere",
+  "submitDaysOffButton": "Trimite zilele libere",
+  "alreadyRequestedOffText": "Deja solicitat",
+  "noShiftsThisPeriodText": "Fara ture",
+  "youAreStandbyText": "Esti rezerva",
+  "youAreAssignedText": "Esti pe aceasta tura",
+  "joinStandbyButton": "Alatura-te ca rezerva",
+  "shiftFullText": "Complet",
+  "rotaClaimCalendarTitle": "Preia ture (calendar)"
 }

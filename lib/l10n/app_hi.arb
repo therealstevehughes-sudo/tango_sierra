@@ -1332,5 +1332,15 @@
   "rotaAssignedLabel": "नियुक्त",
   "rotaStandbyLabel": "स्टैंडबाय",
   "rotaNoneAssignedText": "अभी तक कोई नहीं",
-  "rotaUnfilledCountText": "अभी भी {count} चाहिए"
+  "rotaUnfilledCountText": "अभी भी {count} चाहिए",
+  "daysOffRequestedMessage": "छुट्टी के दिन अनुरोधित किए गए।",
+  "bookDaysOffToggleLabel": "इसके बजाय छुट्टी बुक करें",
+  "submitDaysOffButton": "छुट्टी सबमिट करें",
+  "alreadyRequestedOffText": "पहले से अनुरोधित",
+  "noShiftsThisPeriodText": "कोई शिफ्ट नहीं",
+  "youAreStandbyText": "आप स्टैंडबाय हैं",
+  "youAreAssignedText": "आप इस शिफ्ट पर हैं",
+  "joinStandbyButton": "स्टैंडबाय में शामिल हों",
+  "shiftFullText": "पूर्ण",
+  "rotaClaimCalendarTitle": "शिफ्ट लें (कैलेंडर)"
 }

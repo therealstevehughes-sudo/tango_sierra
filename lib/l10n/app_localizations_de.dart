@@ -4796,4 +4796,34 @@ class AppLocalizationsDe extends AppLocalizations {
   String rotaUnfilledCountText(int count) {
     return 'Noch $count benoetigt';
   }
+
+  @override
+  String get daysOffRequestedMessage => 'Freie Tage beantragt.';
+
+  @override
+  String get bookDaysOffToggleLabel => 'Stattdessen freie Tage buchen';
+
+  @override
+  String get submitDaysOffButton => 'Freie Tage einreichen';
+
+  @override
+  String get alreadyRequestedOffText => 'Bereits beantragt';
+
+  @override
+  String get noShiftsThisPeriodText => 'Keine Schichten';
+
+  @override
+  String get youAreStandbyText => 'Sie sind in Bereitschaft';
+
+  @override
+  String get youAreAssignedText => 'Sie sind fuer diese Schicht eingeteilt';
+
+  @override
+  String get joinStandbyButton => 'Als Bereitschaft beitreten';
+
+  @override
+  String get shiftFullText => 'Voll besetzt';
+
+  @override
+  String get rotaClaimCalendarTitle => 'Schichten uebernehmen (Kalender)';
 }

@@ -1332,5 +1332,15 @@
   "rotaAssignedLabel": "Przypisani",
   "rotaStandbyLabel": "Rezerwa",
   "rotaNoneAssignedText": "Jeszcze nikt",
-  "rotaUnfilledCountText": "Potrzeba jeszcze {count}"
+  "rotaUnfilledCountText": "Potrzeba jeszcze {count}",
+  "daysOffRequestedMessage": "Zlozono wniosek o dni wolne.",
+  "bookDaysOffToggleLabel": "Zarezerwuj dni wolne",
+  "submitDaysOffButton": "Zglos dni wolne",
+  "alreadyRequestedOffText": "Juz zgloszono",
+  "noShiftsThisPeriodText": "Brak zmian",
+  "youAreStandbyText": "Jestes w rezerwie",
+  "youAreAssignedText": "Jestes na tej zmianie",
+  "joinStandbyButton": "Dolacz jako rezerwa",
+  "shiftFullText": "Pelna obsada",
+  "rotaClaimCalendarTitle": "Zajmij zmiany (kalendarz)"
 }

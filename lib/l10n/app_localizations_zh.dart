@@ -4479,4 +4479,34 @@ class AppLocalizationsZh extends AppLocalizations {
   String rotaUnfilledCountText(int count) {
     return '仍需$count人';
   }
+
+  @override
+  String get daysOffRequestedMessage => '休假申请已提交。';
+
+  @override
+  String get bookDaysOffToggleLabel => '改为申请休假';
+
+  @override
+  String get submitDaysOffButton => '提交休假申请';
+
+  @override
+  String get alreadyRequestedOffText => '已申请';
+
+  @override
+  String get noShiftsThisPeriodText => '无班次';
+
+  @override
+  String get youAreStandbyText => '您是候补';
+
+  @override
+  String get youAreAssignedText => '您已被安排此班次';
+
+  @override
+  String get joinStandbyButton => '加入候补';
+
+  @override
+  String get shiftFullText => '已满';
+
+  @override
+  String get rotaClaimCalendarTitle => '认领班次(日历)';
 }

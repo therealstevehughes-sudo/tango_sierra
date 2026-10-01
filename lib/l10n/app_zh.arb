@@ -1332,5 +1332,15 @@
   "rotaAssignedLabel": "已分配",
   "rotaStandbyLabel": "候补",
   "rotaNoneAssignedText": "暂无",
-  "rotaUnfilledCountText": "仍需{count}人"
+  "rotaUnfilledCountText": "仍需{count}人",
+  "daysOffRequestedMessage": "休假申请已提交。",
+  "bookDaysOffToggleLabel": "改为申请休假",
+  "submitDaysOffButton": "提交休假申请",
+  "alreadyRequestedOffText": "已申请",
+  "noShiftsThisPeriodText": "无班次",
+  "youAreStandbyText": "您是候补",
+  "youAreAssignedText": "您已被安排此班次",
+  "joinStandbyButton": "加入候补",
+  "shiftFullText": "已满",
+  "rotaClaimCalendarTitle": "认领班次(日历)"
 }

@@ -1332,5 +1332,15 @@
   "rotaAssignedLabel": "Asignados",
   "rotaStandbyLabel": "Reserva",
   "rotaNoneAssignedText": "Ninguno aun",
-  "rotaUnfilledCountText": "Aun se necesitan {count}"
+  "rotaUnfilledCountText": "Aun se necesitan {count}",
+  "daysOffRequestedMessage": "Dias libres solicitados.",
+  "bookDaysOffToggleLabel": "Solicitar dias libres",
+  "submitDaysOffButton": "Enviar dias libres",
+  "alreadyRequestedOffText": "Ya solicitado",
+  "noShiftsThisPeriodText": "Sin turnos",
+  "youAreStandbyText": "Estas en reserva",
+  "youAreAssignedText": "Estas en este turno",
+  "joinStandbyButton": "Unirse como reserva",
+  "shiftFullText": "Completo",
+  "rotaClaimCalendarTitle": "Reclamar turnos (calendario)"
 }

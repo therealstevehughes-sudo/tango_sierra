@@ -22,6 +22,7 @@ import '../../features/roster/request_off_day_screen.dart';
 import '../../features/roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
 import '../../features/roster/roster_board_screen.dart';
 import '../../features/roster/roster_upsell_screen.dart';
+import '../../features/roster/rota_claim_screen.dart';
 import '../../features/roster/rota_week_screen.dart';
 import '../../features/roster/shift_period_settings_screen.dart';
 import '../../features/roster/shift_requirements_screen.dart';
@@ -213,6 +214,16 @@ List<_DrawerItemDef> _rosterItems(AppLocalizations l10n) => [
     label: l10n.claimShifts,
     minTier: RoleTier.supervisor,
     screenBuilder: (_) => const ClaimBoardScreen(),
+    requiresRosterAddon: true,
+  ),
+  // Rota calendar, Sprint 6 (2026-10-01) — slot-based claiming + the
+  // integrated "book days off" toggle, additive alongside Claim Shifts'
+  // existing flat list.
+  _DrawerItemDef(
+    icon: Icons.view_week_outlined,
+    label: l10n.rotaClaimCalendarTitle,
+    minTier: RoleTier.supervisor,
+    screenBuilder: (_) => const RotaClaimScreen(),
     requiresRosterAddon: true,
   ),
   // Off-day requests (R5, 2026-09-27) — same supervisor+ floor as Claim

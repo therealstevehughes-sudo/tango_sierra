@@ -4624,4 +4624,34 @@ class AppLocalizationsUr extends AppLocalizations {
   String rotaUnfilledCountText(int count) {
     return 'ابھی بھی $count درکار ہیں';
   }
+
+  @override
+  String get daysOffRequestedMessage => 'چھٹی کے دن درخواست کر دیے گئے۔';
+
+  @override
+  String get bookDaysOffToggleLabel => 'اس کے بجائے چھٹی بک کریں';
+
+  @override
+  String get submitDaysOffButton => 'چھٹی جمع کرائیں';
+
+  @override
+  String get alreadyRequestedOffText => 'پہلے ہی درخواست دی گئی';
+
+  @override
+  String get noShiftsThisPeriodText => 'کوئی شفٹ نہیں';
+
+  @override
+  String get youAreStandbyText => 'آپ اسٹینڈ بائی ہیں';
+
+  @override
+  String get youAreAssignedText => 'آپ اس شفٹ پر ہیں';
+
+  @override
+  String get joinStandbyButton => 'اسٹینڈ بائی میں شامل ہوں';
+
+  @override
+  String get shiftFullText => 'مکمل';
+
+  @override
+  String get rotaClaimCalendarTitle => 'شفٹ حاصل کریں (کیلنڈر)';
 }

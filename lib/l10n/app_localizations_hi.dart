@@ -4631,4 +4631,34 @@ class AppLocalizationsHi extends AppLocalizations {
   String rotaUnfilledCountText(int count) {
     return 'अभी भी $count चाहिए';
   }
+
+  @override
+  String get daysOffRequestedMessage => 'छुट्टी के दिन अनुरोधित किए गए।';
+
+  @override
+  String get bookDaysOffToggleLabel => 'इसके बजाय छुट्टी बुक करें';
+
+  @override
+  String get submitDaysOffButton => 'छुट्टी सबमिट करें';
+
+  @override
+  String get alreadyRequestedOffText => 'पहले से अनुरोधित';
+
+  @override
+  String get noShiftsThisPeriodText => 'कोई शिफ्ट नहीं';
+
+  @override
+  String get youAreStandbyText => 'आप स्टैंडबाय हैं';
+
+  @override
+  String get youAreAssignedText => 'आप इस शिफ्ट पर हैं';
+
+  @override
+  String get joinStandbyButton => 'स्टैंडबाय में शामिल हों';
+
+  @override
+  String get shiftFullText => 'पूर्ण';
+
+  @override
+  String get rotaClaimCalendarTitle => 'शिफ्ट लें (कैलेंडर)';
 }

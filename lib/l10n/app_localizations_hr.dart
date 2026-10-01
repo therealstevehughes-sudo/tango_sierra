@@ -4654,4 +4654,34 @@ class AppLocalizationsHr extends AppLocalizations {
   String rotaUnfilledCountText(int count) {
     return 'Jos je potrebno $count';
   }
+
+  @override
+  String get daysOffRequestedMessage => 'Zatrazeni su slobodni dani.';
+
+  @override
+  String get bookDaysOffToggleLabel => 'Umjesto toga zatrazi slobodne dane';
+
+  @override
+  String get submitDaysOffButton => 'Posalji zahtjev za slobodne dane';
+
+  @override
+  String get alreadyRequestedOffText => 'Vec zatrazeno';
+
+  @override
+  String get noShiftsThisPeriodText => 'Nema smjena';
+
+  @override
+  String get youAreStandbyText => 'Vi ste pricuva';
+
+  @override
+  String get youAreAssignedText => 'Vi ste na ovoj smjeni';
+
+  @override
+  String get joinStandbyButton => 'Pridruzi se kao pricuva';
+
+  @override
+  String get shiftFullText => 'Popunjeno';
+
+  @override
+  String get rotaClaimCalendarTitle => 'Preuzmi smjene (kalendar)';
 }

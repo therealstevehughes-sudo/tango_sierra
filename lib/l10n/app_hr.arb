@@ -1332,5 +1332,15 @@
   "rotaAssignedLabel": "Dodijeljeno",
   "rotaStandbyLabel": "Pricuva",
   "rotaNoneAssignedText": "Jos nitko",
-  "rotaUnfilledCountText": "Jos je potrebno {count}"
+  "rotaUnfilledCountText": "Jos je potrebno {count}",
+  "daysOffRequestedMessage": "Zatrazeni su slobodni dani.",
+  "bookDaysOffToggleLabel": "Umjesto toga zatrazi slobodne dane",
+  "submitDaysOffButton": "Posalji zahtjev za slobodne dane",
+  "alreadyRequestedOffText": "Vec zatrazeno",
+  "noShiftsThisPeriodText": "Nema smjena",
+  "youAreStandbyText": "Vi ste pricuva",
+  "youAreAssignedText": "Vi ste na ovoj smjeni",
+  "joinStandbyButton": "Pridruzi se kao pricuva",
+  "shiftFullText": "Popunjeno",
+  "rotaClaimCalendarTitle": "Preuzmi smjene (kalendar)"
 }

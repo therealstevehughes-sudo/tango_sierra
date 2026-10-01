@@ -1332,5 +1332,15 @@
   "rotaAssignedLabel": "المعينون",
   "rotaStandbyLabel": "احتياط",
   "rotaNoneAssignedText": "لا أحد بعد",
-  "rotaUnfilledCountText": "لا يزال يلزم {count}"
+  "rotaUnfilledCountText": "لا يزال يلزم {count}",
+  "daysOffRequestedMessage": "تم طلب أيام الإجازة.",
+  "bookDaysOffToggleLabel": "احجز أيام إجازة بدلاً من ذلك",
+  "submitDaysOffButton": "إرسال طلب الإجازة",
+  "alreadyRequestedOffText": "تم الطلب مسبقاً",
+  "noShiftsThisPeriodText": "لا توجد ورديات",
+  "youAreStandbyText": "أنت احتياط",
+  "youAreAssignedText": "أنت في هذه الوردية",
+  "joinStandbyButton": "انضم كاحتياط",
+  "shiftFullText": "مكتمل",
+  "rotaClaimCalendarTitle": "احجز الورديات (تقويم)"
 }

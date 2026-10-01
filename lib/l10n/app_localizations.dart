@@ -8125,6 +8125,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} still needed'**
   String rotaUnfilledCountText(int count);
+
+  /// No description provided for @daysOffRequestedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Day(s) off requested.'**
+  String get daysOffRequestedMessage;
+
+  /// No description provided for @bookDaysOffToggleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Book days off instead'**
+  String get bookDaysOffToggleLabel;
+
+  /// No description provided for @submitDaysOffButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit days off'**
+  String get submitDaysOffButton;
+
+  /// No description provided for @alreadyRequestedOffText.
+  ///
+  /// In en, this message translates to:
+  /// **'Already requested'**
+  String get alreadyRequestedOffText;
+
+  /// No description provided for @noShiftsThisPeriodText.
+  ///
+  /// In en, this message translates to:
+  /// **'No shifts'**
+  String get noShiftsThisPeriodText;
+
+  /// No description provided for @youAreStandbyText.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re standby'**
+  String get youAreStandbyText;
+
+  /// No description provided for @youAreAssignedText.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re on this shift'**
+  String get youAreAssignedText;
+
+  /// No description provided for @joinStandbyButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Join standby'**
+  String get joinStandbyButton;
+
+  /// No description provided for @shiftFullText.
+  ///
+  /// In en, this message translates to:
+  /// **'Full'**
+  String get shiftFullText;
+
+  /// No description provided for @rotaClaimCalendarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Claim shifts (calendar)'**
+  String get rotaClaimCalendarTitle;
 }
 
 class _AppLocalizationsDelegate

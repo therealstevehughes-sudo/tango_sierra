@@ -4739,4 +4739,34 @@ class AppLocalizationsRo extends AppLocalizations {
   String rotaUnfilledCountText(int count) {
     return 'Mai sunt necesari $count';
   }
+
+  @override
+  String get daysOffRequestedMessage => 'Zilele libere au fost solicitate.';
+
+  @override
+  String get bookDaysOffToggleLabel => 'Solicita zile libere';
+
+  @override
+  String get submitDaysOffButton => 'Trimite zilele libere';
+
+  @override
+  String get alreadyRequestedOffText => 'Deja solicitat';
+
+  @override
+  String get noShiftsThisPeriodText => 'Fara ture';
+
+  @override
+  String get youAreStandbyText => 'Esti rezerva';
+
+  @override
+  String get youAreAssignedText => 'Esti pe aceasta tura';
+
+  @override
+  String get joinStandbyButton => 'Alatura-te ca rezerva';
+
+  @override
+  String get shiftFullText => 'Complet';
+
+  @override
+  String get rotaClaimCalendarTitle => 'Preia ture (calendar)';
 }

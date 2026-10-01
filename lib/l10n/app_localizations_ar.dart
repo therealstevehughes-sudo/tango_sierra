@@ -4601,4 +4601,34 @@ class AppLocalizationsAr extends AppLocalizations {
   String rotaUnfilledCountText(int count) {
     return 'لا يزال يلزم $count';
   }
+
+  @override
+  String get daysOffRequestedMessage => 'تم طلب أيام الإجازة.';
+
+  @override
+  String get bookDaysOffToggleLabel => 'احجز أيام إجازة بدلاً من ذلك';
+
+  @override
+  String get submitDaysOffButton => 'إرسال طلب الإجازة';
+
+  @override
+  String get alreadyRequestedOffText => 'تم الطلب مسبقاً';
+
+  @override
+  String get noShiftsThisPeriodText => 'لا توجد ورديات';
+
+  @override
+  String get youAreStandbyText => 'أنت احتياط';
+
+  @override
+  String get youAreAssignedText => 'أنت في هذه الوردية';
+
+  @override
+  String get joinStandbyButton => 'انضم كاحتياط';
+
+  @override
+  String get shiftFullText => 'مكتمل';
+
+  @override
+  String get rotaClaimCalendarTitle => 'احجز الورديات (تقويم)';
 }
