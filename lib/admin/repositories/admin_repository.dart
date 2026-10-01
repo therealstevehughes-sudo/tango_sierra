@@ -136,14 +136,14 @@ class AdminRepository {
   }
 
   Future<void> setRestricted(int organisationId, bool restricted) async {
-    await _client.rpc('admin_set_subscription_restricted', {
+    await _client.rpcVoid('admin_set_subscription_restricted', {
       'p_organisation_id': organisationId,
       'p_restricted': restricted,
     });
   }
 
   Future<void> setFreeAccess(int organisationId, bool granted) async {
-    await _client.rpc('admin_set_free_access', {
+    await _client.rpcVoid('admin_set_free_access', {
       'p_organisation_id': organisationId,
       'p_granted': granted,
     });

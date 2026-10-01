@@ -4,6 +4,18 @@ import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 import '../repositories/admin_repository.dart';
 import 'admin_org_detail_screen.dart';
 
+enum _SortColumn { business, branches, staff, joined }
+
+const _statusFilterOptions = [
+  'All',
+  'active',
+  'trialing',
+  'past_due',
+  'cancelled',
+  'Restricted',
+  'Free access',
+];
+
 class AdminHomeScreen extends StatefulWidget {
   const AdminHomeScreen({super.key, required this.repository});
 
@@ -15,15 +27,71 @@ class AdminHomeScreen extends StatefulWidget {
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   late Future<List<AdminOrgSummary>> _future;
+  final _searchController = TextEditingController();
+  String _statusFilter = 'All';
+  _SortColumn _sortColumn = _SortColumn.business;
+  bool _sortAscending = true;
 
   @override
   void initState() {
     super.initState();
     _load();
+    _searchController.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   void _load() {
     _future = widget.repository.getAllOrgSummaries();
+  }
+
+  List<AdminOrgSummary> _applyFiltersAndSort(List<AdminOrgSummary> orgs) {
+    final query = _searchController.text.trim().toLowerCase();
+    var filtered = orgs.where((o) {
+      if (query.isNotEmpty) {
+        final haystack = [
+          o.name,
+          o.ownerName ?? '',
+          o.billingEmail ?? '',
+        ].join(' ').toLowerCase();
+        if (!haystack.contains(query)) return false;
+      }
+      switch (_statusFilter) {
+        case 'All':
+          return true;
+        case 'Restricted':
+          return o.restrictedAt != null;
+        case 'Free access':
+          return o.freeAccessGranted;
+        default:
+          return o.subscriptionStatus == _statusFilter;
+      }
+    }).toList();
+
+    int compare(AdminOrgSummary a, AdminOrgSummary b) {
+      return switch (_sortColumn) {
+        _SortColumn.business => a.name.toLowerCase().compareTo(
+          b.name.toLowerCase(),
+        ),
+        _SortColumn.branches => a.branchCount.compareTo(b.branchCount),
+        _SortColumn.staff => a.staffCount.compareTo(b.staffCount),
+        _SortColumn.joined => a.createdAt.compareTo(b.createdAt),
+      };
+    }
+
+    filtered.sort(_sortAscending ? compare : (a, b) => compare(b, a));
+    return filtered;
+  }
+
+  void _onSort(_SortColumn column, bool ascending) {
+    setState(() {
+      _sortColumn = column;
+      _sortAscending = ascending;
+    });
   }
 
   @override
@@ -54,9 +122,13 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           if (snapshot.hasError) {
             return Center(child: Text('Failed to load: ${snapshot.error}'));
           }
-          final orgs = snapshot.data!;
-          final totalStaff = orgs.fold<int>(0, (sum, o) => sum + o.staffCount);
-          final activeCount = orgs
+          final allOrgs = snapshot.data!;
+          final orgs = _applyFiltersAndSort(allOrgs);
+          final totalStaff = allOrgs.fold<int>(
+            0,
+            (sum, o) => sum + o.staffCount,
+          );
+          final activeCount = allOrgs
               .where((o) => o.subscriptionStatus == 'active')
               .length;
           return Column(
@@ -67,26 +139,79 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   spacing: 24,
                   runSpacing: 12,
                   children: [
-                    _statTile('Total customers', orgs.length.toString()),
+                    _statTile('Total customers', allOrgs.length.toString()),
                     _statTile('Active subscriptions', activeCount.toString()),
                     _statTile('Total staff', totalStaff.toString()),
                   ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: const InputDecoration(
+                          prefixIcon: Icon(Icons.search),
+                          hintText: 'Search business, contact or email',
+                          isDense: true,
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    DropdownButton<String>(
+                      value: _statusFilter,
+                      items: _statusFilterOptions
+                          .map(
+                            (s) => DropdownMenuItem(value: s, child: Text(s)),
+                          )
+                          .toList(),
+                      onChanged: (value) =>
+                          setState(() => _statusFilter = value ?? 'All'),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 12),
               const Divider(height: 1),
               Expanded(
-                child: SingleChildScrollView(
+                child: orgs.isEmpty
+                    ? const Center(child: Text('No customers match this search/filter.'))
+                    : SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: SingleChildScrollView(
                     child: DataTable(
-                      columns: const [
-                        DataColumn(label: Text('Business')),
-                        DataColumn(label: Text('Key contact')),
-                        DataColumn(label: Text('Branches')),
-                        DataColumn(label: Text('Staff')),
-                        DataColumn(label: Text('Plan')),
-                        DataColumn(label: Text('Status')),
-                        DataColumn(label: Text('Joined')),
+                      sortColumnIndex: switch (_sortColumn) {
+                        _SortColumn.business => 0,
+                        _SortColumn.branches => 2,
+                        _SortColumn.staff => 3,
+                        _SortColumn.joined => 6,
+                      },
+                      sortAscending: _sortAscending,
+                      columns: [
+                        DataColumn(
+                          label: const Text('Business'),
+                          onSort: (_, asc) => _onSort(_SortColumn.business, asc),
+                        ),
+                        const DataColumn(label: Text('Key contact')),
+                        DataColumn(
+                          label: const Text('Branches'),
+                          numeric: true,
+                          onSort: (_, asc) => _onSort(_SortColumn.branches, asc),
+                        ),
+                        DataColumn(
+                          label: const Text('Staff'),
+                          numeric: true,
+                          onSort: (_, asc) => _onSort(_SortColumn.staff, asc),
+                        ),
+                        const DataColumn(label: Text('Plan')),
+                        const DataColumn(label: Text('Status')),
+                        DataColumn(
+                          label: const Text('Joined'),
+                          onSort: (_, asc) => _onSort(_SortColumn.joined, asc),
+                        ),
                       ],
                       rows: [
                         for (final org in orgs)

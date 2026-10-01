@@ -32,24 +32,42 @@ class _AdminOrgDetailScreenState extends State<AdminOrgDetailScreen> {
 
   Future<void> _toggleRestricted() async {
     setState(() => _busy = true);
-    await widget.repository.setRestricted(_org.id, _org.restrictedAt == null);
-    final refreshed = await widget.repository.getAllOrgSummaries();
-    if (!mounted) return;
-    setState(() {
-      _org = refreshed.firstWhere((o) => o.id == _org.id);
-      _busy = false;
-    });
+    try {
+      await widget.repository.setRestricted(
+        _org.id,
+        _org.restrictedAt == null,
+      );
+      final refreshed = await widget.repository.getAllOrgSummaries();
+      if (!mounted) return;
+      setState(() => _org = refreshed.firstWhere((o) => o.id == _org.id));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed: $e')));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
 
   Future<void> _toggleFreeAccess() async {
     setState(() => _busy = true);
-    await widget.repository.setFreeAccess(_org.id, !_org.freeAccessGranted);
-    final refreshed = await widget.repository.getAllOrgSummaries();
-    if (!mounted) return;
-    setState(() {
-      _org = refreshed.firstWhere((o) => o.id == _org.id);
-      _busy = false;
-    });
+    try {
+      await widget.repository.setFreeAccess(
+        _org.id,
+        !_org.freeAccessGranted,
+      );
+      final refreshed = await widget.repository.getAllOrgSummaries();
+      if (!mounted) return;
+      setState(() => _org = refreshed.firstWhere((o) => o.id == _org.id));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed: $e')));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
 
   @override

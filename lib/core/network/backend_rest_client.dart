@@ -158,6 +158,22 @@ class BackendRestClient {
     return jsonDecode(response.body) as List<dynamic>;
   }
 
+  // For an RPC whose Postgres function is `RETURNS void` (e.g. the admin
+  // tool's restrict/free-access toggles) — PostgREST sends back an empty
+  // body for these, which `rpc()` above can't handle (jsonDecode('')
+  // throws, since it expects a JSON array of returned rows). Found via a
+  // real bug report: the admin tool's toggle switches went permanently
+  // dim with no error shown, because that uncaught decode exception left
+  // the caller's `_busy` flag stuck true.
+  Future<void> rpcVoid(String functionName, Map<String, dynamic> params) async {
+    final response = await http.post(
+      Uri.parse('$_base/rpc/$functionName'),
+      headers: _headers(json: true),
+      body: jsonEncode(params),
+    );
+    _checkOk(response);
+  }
+
   // Voice-to-text notes (2026-09-27) — the first binary-upload call this
   // client makes. Sends the recorded clip as multipart/form-data (what
   // OpenAI's own transcription endpoint expects server-side anyway), so
