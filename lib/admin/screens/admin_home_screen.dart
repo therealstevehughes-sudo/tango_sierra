@@ -14,6 +14,7 @@ const _statusFilterOptions = [
   'cancelled',
   'Restricted',
   'Free access',
+  'Archived',
 ];
 
 class AdminHomeScreen extends StatefulWidget {
@@ -31,6 +32,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   String _statusFilter = 'All';
   _SortColumn _sortColumn = _SortColumn.business;
   bool _sortAscending = true;
+  final _selectedIds = <int>{};
+  bool _archiving = false;
 
   @override
   void initState() {
@@ -47,11 +50,17 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   void _load() {
     _future = widget.repository.getAllOrgSummaries();
+    _selectedIds.clear();
   }
 
   List<AdminOrgSummary> _applyFiltersAndSort(List<AdminOrgSummary> orgs) {
     final query = _searchController.text.trim().toLowerCase();
+    // Archived companies are hidden unless explicitly asked for (direct
+    // request, 2026-10-01) — "All" means all active customers, not a
+    // literal everything-including-archived dump.
     var filtered = orgs.where((o) {
+      if (_statusFilter == 'Archived') return o.archivedAt != null;
+      if (o.archivedAt != null) return false;
       if (query.isNotEmpty) {
         final haystack = [
           o.name,
@@ -94,6 +103,23 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     });
   }
 
+  Future<void> _archiveSelected({required bool archived}) async {
+    setState(() => _archiving = true);
+    try {
+      for (final id in _selectedIds) {
+        await widget.repository.setArchived(id, archived);
+      }
+      setState(_load);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed: $e')));
+    } finally {
+      if (mounted) setState(() => _archiving = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,12 +150,16 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
           }
           final allOrgs = snapshot.data!;
           final orgs = _applyFiltersAndSort(allOrgs);
-          final totalStaff = allOrgs.fold<int>(
+          final activeOrgs = allOrgs.where((o) => o.archivedAt == null);
+          final totalStaff = activeOrgs.fold<int>(
             0,
             (sum, o) => sum + o.staffCount,
           );
-          final activeCount = allOrgs
+          final activeCount = activeOrgs
               .where((o) => o.subscriptionStatus == 'active')
+              .length;
+          final visibleSelectedCount = _selectedIds
+              .where((id) => orgs.any((o) => o.id == id))
               .length;
           return Column(
             children: [
@@ -139,7 +169,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   spacing: 24,
                   runSpacing: 12,
                   children: [
-                    _statTile('Total customers', allOrgs.length.toString()),
+                    _statTile('Total customers', activeOrgs.length.toString()),
                     _statTile('Active subscriptions', activeCount.toString()),
                     _statTile('Total staff', totalStaff.toString()),
                   ],
@@ -168,9 +198,33 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                             (s) => DropdownMenuItem(value: s, child: Text(s)),
                           )
                           .toList(),
-                      onChanged: (value) =>
-                          setState(() => _statusFilter = value ?? 'All'),
+                      onChanged: (value) => setState(() {
+                        _statusFilter = value ?? 'All';
+                        _selectedIds.clear();
+                      }),
                     ),
+                    if (visibleSelectedCount > 0) ...[
+                      const SizedBox(width: 16),
+                      Text('$visibleSelectedCount selected'),
+                      const SizedBox(width: 8),
+                      OutlinedButton.icon(
+                        onPressed: _archiving
+                            ? null
+                            : () => _archiveSelected(
+                                archived: _statusFilter != 'Archived',
+                              ),
+                        icon: Icon(
+                          _statusFilter == 'Archived'
+                              ? Icons.unarchive_outlined
+                              : Icons.archive_outlined,
+                        ),
+                        label: Text(
+                          _statusFilter == 'Archived'
+                              ? 'Unarchive selected'
+                              : 'Archive selected',
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -190,6 +244,15 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         _SortColumn.joined => 6,
                       },
                       sortAscending: _sortAscending,
+                      onSelectAll: (selectAll) {
+                        setState(() {
+                          if (selectAll ?? false) {
+                            _selectedIds.addAll(orgs.map((o) => o.id));
+                          } else {
+                            _selectedIds.removeAll(orgs.map((o) => o.id));
+                          }
+                        });
+                      },
                       columns: [
                         DataColumn(
                           label: const Text('Business'),
@@ -216,17 +279,39 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                       rows: [
                         for (final org in orgs)
                           DataRow(
-                            onSelectChanged: (_) => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => AdminOrgDetailScreen(
-                                  repository: widget.repository,
-                                  org: org,
+                            // Checkbox ONLY selects for bulk actions now —
+                            // navigation moved to tapping the business
+                            // name specifically (direct bug report,
+                            // 2026-10-01: ticking the box used to also
+                            // open the detail screen).
+                            selected: _selectedIds.contains(org.id),
+                            onSelectChanged: (selected) => setState(() {
+                              if (selected ?? false) {
+                                _selectedIds.add(org.id);
+                              } else {
+                                _selectedIds.remove(org.id);
+                              }
+                            }),
+                            cells: [
+                              DataCell(
+                                InkWell(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => AdminOrgDetailScreen(
+                                        repository: widget.repository,
+                                        org: org,
+                                      ),
+                                    ),
+                                  ).then((_) => setState(_load)),
+                                  child: Text(
+                                    org.name,
+                                    style: const TextStyle(
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ).then((_) => setState(_load)),
-                            cells: [
-                              DataCell(Text(org.name)),
                               DataCell(
                                 Text(org.ownerName ?? org.billingEmail ?? '—'),
                               ),
@@ -269,6 +354,12 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   }
 
   Widget _statusChip(AdminOrgSummary org) {
+    if (org.archivedAt != null) {
+      return const Chip(
+        label: Text('Archived'),
+        backgroundColor: Color(0xFFE2E3E5),
+      );
+    }
     if (org.restrictedAt != null) {
       return const Chip(
         label: Text('Restricted'),

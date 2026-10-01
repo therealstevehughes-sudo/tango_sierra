@@ -24,6 +24,7 @@ class AdminOrgSummary {
     required this.freeAccessGranted,
     required this.serviceProviderUnlockCount,
     required this.createdAt,
+    required this.archivedAt,
   });
 
   final int id;
@@ -41,6 +42,7 @@ class AdminOrgSummary {
   final bool freeAccessGranted;
   final int serviceProviderUnlockCount;
   final DateTime createdAt;
+  final DateTime? archivedAt;
 }
 
 class AdminRepository {
@@ -51,7 +53,7 @@ class AdminRepository {
   Future<List<AdminOrgSummary>> getAllOrgSummaries() async {
     final orgs = await _client.select(
       'organisations',
-      query: 'select=id,name,billing_email,owner_user_id,created_at,roster_addon_enabled&order=created_at.desc',
+      query: 'select=id,name,billing_email,owner_user_id,created_at,roster_addon_enabled,archived_at&order=created_at.desc',
     );
     final subscriptions = await _client.select(
       'subscriptions',
@@ -131,8 +133,18 @@ class AdminRepository {
         freeAccessGranted: sub?['free_access_granted'] as bool? ?? false,
         serviceProviderUnlockCount: unlockCountByOrg[id] ?? 0,
         createdAt: DateTime.parse(org['created_at'] as String),
+        archivedAt: org['archived_at'] == null
+            ? null
+            : DateTime.parse(org['archived_at'] as String),
       );
     }).toList();
+  }
+
+  Future<void> setArchived(int organisationId, bool archived) async {
+    await _client.rpcVoid('admin_set_organisation_archived', {
+      'p_organisation_id': organisationId,
+      'p_archived': archived,
+    });
   }
 
   Future<void> setRestricted(int organisationId, bool restricted) async {
