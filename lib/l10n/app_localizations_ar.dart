@@ -4497,4 +4497,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get shiftPeriodDefaultAfternoon => 'بعد الظهر';
+
+  @override
+  String get rotaWeekTitle => 'تقويم الجدول';
+
+  @override
+  String get rosterAddonNotEnabledText =>
+      'إدارة الورديات غير مفعّلة لهذا الموقع بعد.';
+
+  @override
+  String get rotaTodayButton => 'اليوم';
+
+  @override
+  String get rotaFilterPeriodLabel => 'الفترة';
+
+  @override
+  String get rotaFilterAllLabel => 'الكل';
+
+  @override
+  String get rotaFilterDepartmentLabel => 'القسم';
+
+  @override
+  String get rotaFilterPersonLabel => 'الشخص';
+
+  @override
+  String get rotaUnassignedRowLabel => 'غير معيّن';
 }

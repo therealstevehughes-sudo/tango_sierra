@@ -4635,4 +4635,29 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get shiftPeriodDefaultAfternoon => 'Dupa-amiaza';
+
+  @override
+  String get rotaWeekTitle => 'Calendar tura';
+
+  @override
+  String get rosterAddonNotEnabledText =>
+      'Gestionarea Turelor nu este inca activata pentru aceasta locatie.';
+
+  @override
+  String get rotaTodayButton => 'Astazi';
+
+  @override
+  String get rotaFilterPeriodLabel => 'Perioada';
+
+  @override
+  String get rotaFilterAllLabel => 'Toate';
+
+  @override
+  String get rotaFilterDepartmentLabel => 'Departament';
+
+  @override
+  String get rotaFilterPersonLabel => 'Persoana';
+
+  @override
+  String get rotaUnassignedRowLabel => 'Neatribuit';
 }

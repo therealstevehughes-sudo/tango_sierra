@@ -4660,4 +4660,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shiftPeriodDefaultAfternoon => 'Afternoon';
+
+  @override
+  String get rotaWeekTitle => 'Rota calendar';
+
+  @override
+  String get rosterAddonNotEnabledText =>
+      'Shift & Rota Management isn\'t enabled for this site yet.';
+
+  @override
+  String get rotaTodayButton => 'Today';
+
+  @override
+  String get rotaFilterPeriodLabel => 'Period';
+
+  @override
+  String get rotaFilterAllLabel => 'All';
+
+  @override
+  String get rotaFilterDepartmentLabel => 'Department';
+
+  @override
+  String get rotaFilterPersonLabel => 'Person';
+
+  @override
+  String get rotaUnassignedRowLabel => 'Unassigned';
 }

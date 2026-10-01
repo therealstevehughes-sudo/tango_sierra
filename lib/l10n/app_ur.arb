@@ -1301,5 +1301,13 @@
   "shiftPeriodDefaultDay": "دن",
   "shiftPeriodDefaultNight": "رات",
   "shiftPeriodDefaultMorning": "صبح",
-  "shiftPeriodDefaultAfternoon": "دوپہر"
+  "shiftPeriodDefaultAfternoon": "دوپہر",
+  "rotaWeekTitle": "روٹا کیلنڈر",
+  "rosterAddonNotEnabledText": "اس سائٹ کے لیے شفٹ اور روٹا مینجمنٹ ابھی فعال نہیں ہے۔",
+  "rotaTodayButton": "آج",
+  "rotaFilterPeriodLabel": "مدت",
+  "rotaFilterAllLabel": "تمام",
+  "rotaFilterDepartmentLabel": "شعبہ",
+  "rotaFilterPersonLabel": "شخص",
+  "rotaUnassignedRowLabel": "غیر تفویض شدہ"
 }

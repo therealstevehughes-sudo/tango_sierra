@@ -22,6 +22,7 @@ import '../../features/roster/request_off_day_screen.dart';
 import '../../features/roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
 import '../../features/roster/roster_board_screen.dart';
 import '../../features/roster/roster_upsell_screen.dart';
+import '../../features/roster/rota_week_screen.dart';
 import '../../features/roster/shift_period_settings_screen.dart';
 import '../../features/roster/shift_fairness_screen.dart';
 import '../../features/settings/certification_requirements_screen.dart';
@@ -176,6 +177,16 @@ List<_DrawerItemDef> _rosterItems(AppLocalizations l10n) => [
     label: l10n.rosterBoard,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const RosterBoardScreen(),
+    requiresRosterAddon: true,
+  ),
+  // Rota calendar, Sprint 2 (2026-10-01) — the visual week-grid view,
+  // additive alongside the list-style Roster Board for now (Sprint 4
+  // covers consolidating entry points).
+  _DrawerItemDef(
+    icon: Icons.calendar_view_week_outlined,
+    label: l10n.rotaWeekTitle,
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const RotaWeekScreen(),
     requiresRosterAddon: true,
   ),
   // Rota calendar, Sprint 1 (2026-10-01) — leadership configures the

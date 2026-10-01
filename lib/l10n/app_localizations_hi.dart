@@ -4527,4 +4527,29 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get shiftPeriodDefaultAfternoon => 'दोपहर';
+
+  @override
+  String get rotaWeekTitle => 'रोटा कैलेंडर';
+
+  @override
+  String get rosterAddonNotEnabledText =>
+      'इस साइट के लिए शिफ्ट और रोटा प्रबंधन अभी सक्षम नहीं है।';
+
+  @override
+  String get rotaTodayButton => 'आज';
+
+  @override
+  String get rotaFilterPeriodLabel => 'अवधि';
+
+  @override
+  String get rotaFilterAllLabel => 'सभी';
+
+  @override
+  String get rotaFilterDepartmentLabel => 'विभाग';
+
+  @override
+  String get rotaFilterPersonLabel => 'व्यक्ति';
+
+  @override
+  String get rotaUnassignedRowLabel => 'असाइन नहीं किया गया';
 }

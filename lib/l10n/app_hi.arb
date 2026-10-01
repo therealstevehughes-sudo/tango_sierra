@@ -1301,5 +1301,13 @@
   "shiftPeriodDefaultDay": "दिन",
   "shiftPeriodDefaultNight": "रात",
   "shiftPeriodDefaultMorning": "सुबह",
-  "shiftPeriodDefaultAfternoon": "दोपहर"
+  "shiftPeriodDefaultAfternoon": "दोपहर",
+  "rotaWeekTitle": "रोटा कैलेंडर",
+  "rosterAddonNotEnabledText": "इस साइट के लिए शिफ्ट और रोटा प्रबंधन अभी सक्षम नहीं है।",
+  "rotaTodayButton": "आज",
+  "rotaFilterPeriodLabel": "अवधि",
+  "rotaFilterAllLabel": "सभी",
+  "rotaFilterDepartmentLabel": "विभाग",
+  "rotaFilterPersonLabel": "व्यक्ति",
+  "rotaUnassignedRowLabel": "असाइन नहीं किया गया"
 }

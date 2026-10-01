@@ -4638,4 +4638,29 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get shiftPeriodDefaultAfternoon => 'Popoludnie';
+
+  @override
+  String get rotaWeekTitle => 'Kalendarz grafiku';
+
+  @override
+  String get rosterAddonNotEnabledText =>
+      'Zarzadzanie zmianami i grafikiem nie jest jeszcze wlaczone dla tej lokalizacji.';
+
+  @override
+  String get rotaTodayButton => 'Dzis';
+
+  @override
+  String get rotaFilterPeriodLabel => 'Pora';
+
+  @override
+  String get rotaFilterAllLabel => 'Wszystkie';
+
+  @override
+  String get rotaFilterDepartmentLabel => 'Dzial';
+
+  @override
+  String get rotaFilterPersonLabel => 'Osoba';
+
+  @override
+  String get rotaUnassignedRowLabel => 'Nieprzypisane';
 }

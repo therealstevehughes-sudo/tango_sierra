@@ -1301,5 +1301,13 @@
   "shiftPeriodDefaultDay": "نهار",
   "shiftPeriodDefaultNight": "ليل",
   "shiftPeriodDefaultMorning": "صباح",
-  "shiftPeriodDefaultAfternoon": "بعد الظهر"
+  "shiftPeriodDefaultAfternoon": "بعد الظهر",
+  "rotaWeekTitle": "تقويم الجدول",
+  "rosterAddonNotEnabledText": "إدارة الورديات غير مفعّلة لهذا الموقع بعد.",
+  "rotaTodayButton": "اليوم",
+  "rotaFilterPeriodLabel": "الفترة",
+  "rotaFilterAllLabel": "الكل",
+  "rotaFilterDepartmentLabel": "القسم",
+  "rotaFilterPersonLabel": "الشخص",
+  "rotaUnassignedRowLabel": "غير معيّن"
 }

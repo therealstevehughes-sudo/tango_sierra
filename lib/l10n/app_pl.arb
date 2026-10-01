@@ -1301,5 +1301,13 @@
   "shiftPeriodDefaultDay": "Dzien",
   "shiftPeriodDefaultNight": "Noc",
   "shiftPeriodDefaultMorning": "Rano",
-  "shiftPeriodDefaultAfternoon": "Popoludnie"
+  "shiftPeriodDefaultAfternoon": "Popoludnie",
+  "rotaWeekTitle": "Kalendarz grafiku",
+  "rosterAddonNotEnabledText": "Zarzadzanie zmianami i grafikiem nie jest jeszcze wlaczone dla tej lokalizacji.",
+  "rotaTodayButton": "Dzis",
+  "rotaFilterPeriodLabel": "Pora",
+  "rotaFilterAllLabel": "Wszystkie",
+  "rotaFilterDepartmentLabel": "Dzial",
+  "rotaFilterPersonLabel": "Osoba",
+  "rotaUnassignedRowLabel": "Nieprzypisane"
 }

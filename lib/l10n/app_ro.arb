@@ -1301,5 +1301,13 @@
   "shiftPeriodDefaultDay": "Zi",
   "shiftPeriodDefaultNight": "Noapte",
   "shiftPeriodDefaultMorning": "Dimineata",
-  "shiftPeriodDefaultAfternoon": "Dupa-amiaza"
+  "shiftPeriodDefaultAfternoon": "Dupa-amiaza",
+  "rotaWeekTitle": "Calendar tura",
+  "rosterAddonNotEnabledText": "Gestionarea Turelor nu este inca activata pentru aceasta locatie.",
+  "rotaTodayButton": "Astazi",
+  "rotaFilterPeriodLabel": "Perioada",
+  "rotaFilterAllLabel": "Toate",
+  "rotaFilterDepartmentLabel": "Departament",
+  "rotaFilterPersonLabel": "Persoana",
+  "rotaUnassignedRowLabel": "Neatribuit"
 }

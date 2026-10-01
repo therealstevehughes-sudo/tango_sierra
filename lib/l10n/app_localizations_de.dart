@@ -4692,4 +4692,29 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get shiftPeriodDefaultAfternoon => 'Nachmittag';
+
+  @override
+  String get rotaWeekTitle => 'Dienstplankalender';
+
+  @override
+  String get rosterAddonNotEnabledText =>
+      'Schicht- und Dienstplanverwaltung ist fuer diesen Standort noch nicht aktiviert.';
+
+  @override
+  String get rotaTodayButton => 'Heute';
+
+  @override
+  String get rotaFilterPeriodLabel => 'Zeitraum';
+
+  @override
+  String get rotaFilterAllLabel => 'Alle';
+
+  @override
+  String get rotaFilterDepartmentLabel => 'Abteilung';
+
+  @override
+  String get rotaFilterPersonLabel => 'Person';
+
+  @override
+  String get rotaUnassignedRowLabel => 'Nicht zugewiesen';
 }

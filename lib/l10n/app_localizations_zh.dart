@@ -4377,4 +4377,28 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get shiftPeriodDefaultAfternoon => '下午';
+
+  @override
+  String get rotaWeekTitle => '排班日历';
+
+  @override
+  String get rosterAddonNotEnabledText => '此场所尚未启用排班管理功能。';
+
+  @override
+  String get rotaTodayButton => '今天';
+
+  @override
+  String get rotaFilterPeriodLabel => '时段';
+
+  @override
+  String get rotaFilterAllLabel => '全部';
+
+  @override
+  String get rotaFilterDepartmentLabel => '部门';
+
+  @override
+  String get rotaFilterPersonLabel => '人员';
+
+  @override
+  String get rotaUnassignedRowLabel => '未分配';
 }

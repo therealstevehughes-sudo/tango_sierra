@@ -4640,4 +4640,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get shiftPeriodDefaultAfternoon => 'Tarde';
+
+  @override
+  String get rotaWeekTitle => 'Calendario de turnos';
+
+  @override
+  String get rosterAddonNotEnabledText =>
+      'La gestion de turnos aun no esta activada para este local.';
+
+  @override
+  String get rotaTodayButton => 'Hoy';
+
+  @override
+  String get rotaFilterPeriodLabel => 'Periodo';
+
+  @override
+  String get rotaFilterAllLabel => 'Todos';
+
+  @override
+  String get rotaFilterDepartmentLabel => 'Departamento';
+
+  @override
+  String get rotaFilterPersonLabel => 'Persona';
+
+  @override
+  String get rotaUnassignedRowLabel => 'Sin asignar';
 }

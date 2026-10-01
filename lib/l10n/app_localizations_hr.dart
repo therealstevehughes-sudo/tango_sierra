@@ -4550,4 +4550,29 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get shiftPeriodDefaultAfternoon => 'Poslijepodne';
+
+  @override
+  String get rotaWeekTitle => 'Kalendar rasporeda';
+
+  @override
+  String get rosterAddonNotEnabledText =>
+      'Upravljanje smjenama i rasporedom jos nije omoguceno za ovu lokaciju.';
+
+  @override
+  String get rotaTodayButton => 'Danas';
+
+  @override
+  String get rotaFilterPeriodLabel => 'Razdoblje';
+
+  @override
+  String get rotaFilterAllLabel => 'Sve';
+
+  @override
+  String get rotaFilterDepartmentLabel => 'Odjel';
+
+  @override
+  String get rotaFilterPersonLabel => 'Osoba';
+
+  @override
+  String get rotaUnassignedRowLabel => 'Nedodijeljeno';
 }

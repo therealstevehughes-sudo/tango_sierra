@@ -4520,4 +4520,29 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get shiftPeriodDefaultAfternoon => 'دوپہر';
+
+  @override
+  String get rotaWeekTitle => 'روٹا کیلنڈر';
+
+  @override
+  String get rosterAddonNotEnabledText =>
+      'اس سائٹ کے لیے شفٹ اور روٹا مینجمنٹ ابھی فعال نہیں ہے۔';
+
+  @override
+  String get rotaTodayButton => 'آج';
+
+  @override
+  String get rotaFilterPeriodLabel => 'مدت';
+
+  @override
+  String get rotaFilterAllLabel => 'تمام';
+
+  @override
+  String get rotaFilterDepartmentLabel => 'شعبہ';
+
+  @override
+  String get rotaFilterPersonLabel => 'شخص';
+
+  @override
+  String get rotaUnassignedRowLabel => 'غیر تفویض شدہ';
 }

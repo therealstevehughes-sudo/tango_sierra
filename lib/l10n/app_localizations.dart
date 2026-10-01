@@ -7939,6 +7939,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Afternoon'**
   String get shiftPeriodDefaultAfternoon;
+
+  /// No description provided for @rotaWeekTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rota calendar'**
+  String get rotaWeekTitle;
+
+  /// No description provided for @rosterAddonNotEnabledText.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift & Rota Management isn\'t enabled for this site yet.'**
+  String get rosterAddonNotEnabledText;
+
+  /// No description provided for @rotaTodayButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get rotaTodayButton;
+
+  /// No description provided for @rotaFilterPeriodLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Period'**
+  String get rotaFilterPeriodLabel;
+
+  /// No description provided for @rotaFilterAllLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get rotaFilterAllLabel;
+
+  /// No description provided for @rotaFilterDepartmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Department'**
+  String get rotaFilterDepartmentLabel;
+
+  /// No description provided for @rotaFilterPersonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Person'**
+  String get rotaFilterPersonLabel;
+
+  /// No description provided for @rotaUnassignedRowLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unassigned'**
+  String get rotaUnassignedRowLabel;
 }
 
 class _AppLocalizationsDelegate

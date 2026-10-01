@@ -1301,5 +1301,13 @@
   "shiftPeriodDefaultDay": "Tag",
   "shiftPeriodDefaultNight": "Nacht",
   "shiftPeriodDefaultMorning": "Morgen",
-  "shiftPeriodDefaultAfternoon": "Nachmittag"
+  "shiftPeriodDefaultAfternoon": "Nachmittag",
+  "rotaWeekTitle": "Dienstplankalender",
+  "rosterAddonNotEnabledText": "Schicht- und Dienstplanverwaltung ist fuer diesen Standort noch nicht aktiviert.",
+  "rotaTodayButton": "Heute",
+  "rotaFilterPeriodLabel": "Zeitraum",
+  "rotaFilterAllLabel": "Alle",
+  "rotaFilterDepartmentLabel": "Abteilung",
+  "rotaFilterPersonLabel": "Person",
+  "rotaUnassignedRowLabel": "Nicht zugewiesen"
 }

@@ -1301,5 +1301,13 @@
   "shiftPeriodDefaultDay": "白天",
   "shiftPeriodDefaultNight": "夜晚",
   "shiftPeriodDefaultMorning": "早上",
-  "shiftPeriodDefaultAfternoon": "下午"
+  "shiftPeriodDefaultAfternoon": "下午",
+  "rotaWeekTitle": "排班日历",
+  "rosterAddonNotEnabledText": "此场所尚未启用排班管理功能。",
+  "rotaTodayButton": "今天",
+  "rotaFilterPeriodLabel": "时段",
+  "rotaFilterAllLabel": "全部",
+  "rotaFilterDepartmentLabel": "部门",
+  "rotaFilterPersonLabel": "人员",
+  "rotaUnassignedRowLabel": "未分配"
 }

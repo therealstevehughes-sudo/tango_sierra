@@ -1301,5 +1301,13 @@
   "shiftPeriodDefaultDay": "Dia",
   "shiftPeriodDefaultNight": "Noche",
   "shiftPeriodDefaultMorning": "Manana",
-  "shiftPeriodDefaultAfternoon": "Tarde"
+  "shiftPeriodDefaultAfternoon": "Tarde",
+  "rotaWeekTitle": "Calendario de turnos",
+  "rosterAddonNotEnabledText": "La gestion de turnos aun no esta activada para este local.",
+  "rotaTodayButton": "Hoy",
+  "rotaFilterPeriodLabel": "Periodo",
+  "rotaFilterAllLabel": "Todos",
+  "rotaFilterDepartmentLabel": "Departamento",
+  "rotaFilterPersonLabel": "Persona",
+  "rotaUnassignedRowLabel": "Sin asignar"
 }

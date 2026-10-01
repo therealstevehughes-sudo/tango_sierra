@@ -4420,5 +4420,13 @@
   "shiftPeriodDefaultDay": "Day",
   "shiftPeriodDefaultNight": "Night",
   "shiftPeriodDefaultMorning": "Morning",
-  "shiftPeriodDefaultAfternoon": "Afternoon"
+  "shiftPeriodDefaultAfternoon": "Afternoon",
+  "rotaWeekTitle": "Rota calendar",
+  "rosterAddonNotEnabledText": "Shift & Rota Management isn't enabled for this site yet.",
+  "rotaTodayButton": "Today",
+  "rotaFilterPeriodLabel": "Period",
+  "rotaFilterAllLabel": "All",
+  "rotaFilterDepartmentLabel": "Department",
+  "rotaFilterPersonLabel": "Person",
+  "rotaUnassignedRowLabel": "Unassigned"
 }

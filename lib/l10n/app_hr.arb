@@ -1301,5 +1301,13 @@
   "shiftPeriodDefaultDay": "Dan",
   "shiftPeriodDefaultNight": "Noc",
   "shiftPeriodDefaultMorning": "Jutro",
-  "shiftPeriodDefaultAfternoon": "Poslijepodne"
+  "shiftPeriodDefaultAfternoon": "Poslijepodne",
+  "rotaWeekTitle": "Kalendar rasporeda",
+  "rosterAddonNotEnabledText": "Upravljanje smjenama i rasporedom jos nije omoguceno za ovu lokaciju.",
+  "rotaTodayButton": "Danas",
+  "rotaFilterPeriodLabel": "Razdoblje",
+  "rotaFilterAllLabel": "Sve",
+  "rotaFilterDepartmentLabel": "Odjel",
+  "rotaFilterPersonLabel": "Osoba",
+  "rotaUnassignedRowLabel": "Nedodijeljeno"
 }
