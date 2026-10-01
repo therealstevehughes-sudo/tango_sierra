@@ -4522,4 +4522,57 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get rotaUnassignedRowLabel => 'غير معيّن';
+
+  @override
+  String get setUpShiftPeriodsFirstText =>
+      'قم بإعداد فترات الورديات أولاً (شاشة فترات الورديات).';
+
+  @override
+  String get addStaffingRequirementTitle => 'إضافة متطلب توظيف';
+
+  @override
+  String get anyDepartmentLabel => 'أي قسم';
+
+  @override
+  String get unknownDepartmentLabel => 'قسم غير معروف';
+
+  @override
+  String get anyRoleLabel => 'أي دور';
+
+  @override
+  String get staffNeededLabel => 'الموظفون المطلوبون';
+
+  @override
+  String get standbyNeededLabel => 'الاحتياط المطلوب';
+
+  @override
+  String shiftsGeneratedMessage(int count) {
+    return 'تم إنشاء $count وردية لذلك الأسبوع.';
+  }
+
+  @override
+  String shiftGenerationFailedMessage(String error) {
+    return 'فشل: $error';
+  }
+
+  @override
+  String plusStandbyCountLabel(int count) {
+    return ' + $count احتياط';
+  }
+
+  @override
+  String get masterRotaSettingsTitle => 'إعدادات الجدول الرئيسي';
+
+  @override
+  String get masterRotaSettingsDescription =>
+      'حدد عدد الموظفين (والاحتياط) المطلوبين لكل يوم/فترة/قسم أو دور، ثم أنشئ ورديات حقيقية لأسبوع كامل دفعة واحدة.';
+
+  @override
+  String get noRequirementsYetText => 'لم يتم إعداد أي متطلبات بعد.';
+
+  @override
+  String get generateThisWeekButton => 'إنشاء لهذا الأسبوع';
+
+  @override
+  String get generateNextWeekButton => 'إنشاء للأسبوع القادم';
 }

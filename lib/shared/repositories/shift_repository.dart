@@ -20,6 +20,7 @@ abstract class ShiftRepository {
     required DateTime endsAt,
     String? notes,
     required int createdByUserId,
+    bool isStandby = false,
   });
 
   /// Atomic claim — returns the updated [Shift] on success, or null if the
@@ -87,6 +88,7 @@ class SupabaseShiftRepository implements ShiftRepository {
         : DateTime.parse(row['cancelled_at'] as String),
     cancelledByUserId: row['cancelled_by_user_id'] as int?,
     cancellationReason: row['cancellation_reason'] as String?,
+    isStandby: row['is_standby'] as bool? ?? false,
   );
 
   @override
@@ -108,6 +110,7 @@ class SupabaseShiftRepository implements ShiftRepository {
     required DateTime endsAt,
     String? notes,
     required int createdByUserId,
+    bool isStandby = false,
   }) async {
     final row = await _client.insertOne('shifts', {
       'site_id': siteId,
@@ -118,6 +121,7 @@ class SupabaseShiftRepository implements ShiftRepository {
       'ends_at': endsAt.toIso8601String(),
       'notes': notes,
       'created_by_user_id': createdByUserId,
+      'is_standby': isStandby,
     });
     return _toModel(row);
   }

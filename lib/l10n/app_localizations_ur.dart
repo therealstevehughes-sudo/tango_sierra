@@ -4545,4 +4545,57 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get rotaUnassignedRowLabel => 'غیر تفویض شدہ';
+
+  @override
+  String get setUpShiftPeriodsFirstText =>
+      'پہلے شفٹ کے اوقات ترتیب دیں (شفٹ اوقات اسکرین)۔';
+
+  @override
+  String get addStaffingRequirementTitle => 'اسٹافنگ کی ضرورت شامل کریں';
+
+  @override
+  String get anyDepartmentLabel => 'کوئی بھی شعبہ';
+
+  @override
+  String get unknownDepartmentLabel => 'نامعلوم شعبہ';
+
+  @override
+  String get anyRoleLabel => 'کوئی بھی کردار';
+
+  @override
+  String get staffNeededLabel => 'درکار عملہ';
+
+  @override
+  String get standbyNeededLabel => 'درکار اسٹینڈ بائی';
+
+  @override
+  String shiftsGeneratedMessage(int count) {
+    return 'اس ہفتے کے لیے $count شفٹیں بنائی گئیں۔';
+  }
+
+  @override
+  String shiftGenerationFailedMessage(String error) {
+    return 'ناکام: $error';
+  }
+
+  @override
+  String plusStandbyCountLabel(int count) {
+    return ' + $count اسٹینڈ بائی';
+  }
+
+  @override
+  String get masterRotaSettingsTitle => 'ماسٹر روٹا کی ترتیبات';
+
+  @override
+  String get masterRotaSettingsDescription =>
+      'بتائیں کہ ہر دن/مدت/شعبہ یا کردار کے لیے کتنا عملہ (اور اسٹینڈ بائی) درکار ہے، پھر ایک ہفتے کے لیے حقیقی شفٹیں ایک ساتھ بنائیں۔';
+
+  @override
+  String get noRequirementsYetText => 'ابھی تک کوئی ضرورت ترتیب نہیں دی گئی۔';
+
+  @override
+  String get generateThisWeekButton => 'اس ہفتے کے لیے بنائیں';
+
+  @override
+  String get generateNextWeekButton => 'اگلے ہفتے کے لیے بنائیں';
 }

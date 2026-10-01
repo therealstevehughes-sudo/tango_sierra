@@ -1309,5 +1309,20 @@
   "rotaFilterAllLabel": "تمام",
   "rotaFilterDepartmentLabel": "شعبہ",
   "rotaFilterPersonLabel": "شخص",
-  "rotaUnassignedRowLabel": "غیر تفویض شدہ"
+  "rotaUnassignedRowLabel": "غیر تفویض شدہ",
+  "setUpShiftPeriodsFirstText": "پہلے شفٹ کے اوقات ترتیب دیں (شفٹ اوقات اسکرین)۔",
+  "addStaffingRequirementTitle": "اسٹافنگ کی ضرورت شامل کریں",
+  "anyDepartmentLabel": "کوئی بھی شعبہ",
+  "unknownDepartmentLabel": "نامعلوم شعبہ",
+  "anyRoleLabel": "کوئی بھی کردار",
+  "staffNeededLabel": "درکار عملہ",
+  "standbyNeededLabel": "درکار اسٹینڈ بائی",
+  "shiftsGeneratedMessage": "اس ہفتے کے لیے {count} شفٹیں بنائی گئیں۔",
+  "shiftGenerationFailedMessage": "ناکام: {error}",
+  "plusStandbyCountLabel": " + {count} اسٹینڈ بائی",
+  "masterRotaSettingsTitle": "ماسٹر روٹا کی ترتیبات",
+  "masterRotaSettingsDescription": "بتائیں کہ ہر دن/مدت/شعبہ یا کردار کے لیے کتنا عملہ (اور اسٹینڈ بائی) درکار ہے، پھر ایک ہفتے کے لیے حقیقی شفٹیں ایک ساتھ بنائیں۔",
+  "noRequirementsYetText": "ابھی تک کوئی ضرورت ترتیب نہیں دی گئی۔",
+  "generateThisWeekButton": "اس ہفتے کے لیے بنائیں",
+  "generateNextWeekButton": "اگلے ہفتے کے لیے بنائیں"
 }

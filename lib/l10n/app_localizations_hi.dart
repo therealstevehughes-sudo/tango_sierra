@@ -4552,4 +4552,57 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get rotaUnassignedRowLabel => 'असाइन नहीं किया गया';
+
+  @override
+  String get setUpShiftPeriodsFirstText =>
+      'पहले शिफ्ट अवधि सेट करें (शिफ्ट अवधि स्क्रीन)।';
+
+  @override
+  String get addStaffingRequirementTitle => 'स्टाफिंग आवश्यकता जोड़ें';
+
+  @override
+  String get anyDepartmentLabel => 'कोई भी विभाग';
+
+  @override
+  String get unknownDepartmentLabel => 'अज्ञात विभाग';
+
+  @override
+  String get anyRoleLabel => 'कोई भी भूमिका';
+
+  @override
+  String get staffNeededLabel => 'आवश्यक स्टाफ';
+
+  @override
+  String get standbyNeededLabel => 'आवश्यक स्टैंडबाय';
+
+  @override
+  String shiftsGeneratedMessage(int count) {
+    return 'उस सप्ताह के लिए $count शिफ्ट बनाई गईं।';
+  }
+
+  @override
+  String shiftGenerationFailedMessage(String error) {
+    return 'विफल: $error';
+  }
+
+  @override
+  String plusStandbyCountLabel(int count) {
+    return ' + $count स्टैंडबाय';
+  }
+
+  @override
+  String get masterRotaSettingsTitle => 'मास्टर रोटा सेटिंग्स';
+
+  @override
+  String get masterRotaSettingsDescription =>
+      'परिभाषित करें कि प्रत्येक दिन/अवधि/विभाग या भूमिका के लिए कितने कर्मचारी (और स्टैंडबाय) चाहिए, फिर एक सप्ताह के लिए वास्तविक शिफ्ट एक साथ बनाएं।';
+
+  @override
+  String get noRequirementsYetText => 'अभी तक कोई आवश्यकता सेट नहीं की गई।';
+
+  @override
+  String get generateThisWeekButton => 'इस सप्ताह के लिए बनाएं';
+
+  @override
+  String get generateNextWeekButton => 'अगले सप्ताह के लिए बनाएं';
 }

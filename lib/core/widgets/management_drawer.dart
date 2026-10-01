@@ -24,6 +24,7 @@ import '../../features/roster/roster_board_screen.dart';
 import '../../features/roster/roster_upsell_screen.dart';
 import '../../features/roster/rota_week_screen.dart';
 import '../../features/roster/shift_period_settings_screen.dart';
+import '../../features/roster/shift_requirements_screen.dart';
 import '../../features/roster/shift_fairness_screen.dart';
 import '../../features/settings/certification_requirements_screen.dart';
 import '../../features/settings/department_management_screen.dart';
@@ -197,6 +198,14 @@ List<_DrawerItemDef> _rosterItems(AppLocalizations l10n) => [
     label: l10n.shiftPeriodsTitle,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const ShiftPeriodSettingsScreen(),
+    requiresRosterAddon: true,
+  ),
+  // Master rota settings, Sprint 3 (2026-10-01).
+  _DrawerItemDef(
+    icon: Icons.rule_outlined,
+    label: l10n.masterRotaSettingsTitle,
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const ShiftRequirementsScreen(),
     requiresRosterAddon: true,
   ),
   _DrawerItemDef(

@@ -7987,6 +7987,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unassigned'**
   String get rotaUnassignedRowLabel;
+
+  /// No description provided for @setUpShiftPeriodsFirstText.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up shift periods first (Shift periods screen).'**
+  String get setUpShiftPeriodsFirstText;
+
+  /// No description provided for @addStaffingRequirementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add staffing requirement'**
+  String get addStaffingRequirementTitle;
+
+  /// No description provided for @anyDepartmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Any department'**
+  String get anyDepartmentLabel;
+
+  /// No description provided for @unknownDepartmentLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown department'**
+  String get unknownDepartmentLabel;
+
+  /// No description provided for @anyRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Any role'**
+  String get anyRoleLabel;
+
+  /// No description provided for @staffNeededLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff needed'**
+  String get staffNeededLabel;
+
+  /// No description provided for @standbyNeededLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Standby needed'**
+  String get standbyNeededLabel;
+
+  /// No description provided for @shiftsGeneratedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Created {count} shifts for that week.'**
+  String shiftsGeneratedMessage(int count);
+
+  /// No description provided for @shiftGenerationFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed: {error}'**
+  String shiftGenerationFailedMessage(String error);
+
+  /// No description provided for @plusStandbyCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **' + {count} standby'**
+  String plusStandbyCountLabel(int count);
+
+  /// No description provided for @masterRotaSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Master rota settings'**
+  String get masterRotaSettingsTitle;
+
+  /// No description provided for @masterRotaSettingsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Define how many staff (and standby) are needed per day/period/department or role, then generate real shifts for a week in one go.'**
+  String get masterRotaSettingsDescription;
+
+  /// No description provided for @noRequirementsYetText.
+  ///
+  /// In en, this message translates to:
+  /// **'No requirements set up yet.'**
+  String get noRequirementsYetText;
+
+  /// No description provided for @generateThisWeekButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate this week'**
+  String get generateThisWeekButton;
+
+  /// No description provided for @generateNextWeekButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate next week'**
+  String get generateNextWeekButton;
 }
 
 class _AppLocalizationsDelegate

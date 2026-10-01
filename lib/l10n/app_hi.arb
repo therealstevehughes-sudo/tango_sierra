@@ -1309,5 +1309,20 @@
   "rotaFilterAllLabel": "सभी",
   "rotaFilterDepartmentLabel": "विभाग",
   "rotaFilterPersonLabel": "व्यक्ति",
-  "rotaUnassignedRowLabel": "असाइन नहीं किया गया"
+  "rotaUnassignedRowLabel": "असाइन नहीं किया गया",
+  "setUpShiftPeriodsFirstText": "पहले शिफ्ट अवधि सेट करें (शिफ्ट अवधि स्क्रीन)।",
+  "addStaffingRequirementTitle": "स्टाफिंग आवश्यकता जोड़ें",
+  "anyDepartmentLabel": "कोई भी विभाग",
+  "unknownDepartmentLabel": "अज्ञात विभाग",
+  "anyRoleLabel": "कोई भी भूमिका",
+  "staffNeededLabel": "आवश्यक स्टाफ",
+  "standbyNeededLabel": "आवश्यक स्टैंडबाय",
+  "shiftsGeneratedMessage": "उस सप्ताह के लिए {count} शिफ्ट बनाई गईं।",
+  "shiftGenerationFailedMessage": "विफल: {error}",
+  "plusStandbyCountLabel": " + {count} स्टैंडबाय",
+  "masterRotaSettingsTitle": "मास्टर रोटा सेटिंग्स",
+  "masterRotaSettingsDescription": "परिभाषित करें कि प्रत्येक दिन/अवधि/विभाग या भूमिका के लिए कितने कर्मचारी (और स्टैंडबाय) चाहिए, फिर एक सप्ताह के लिए वास्तविक शिफ्ट एक साथ बनाएं।",
+  "noRequirementsYetText": "अभी तक कोई आवश्यकता सेट नहीं की गई।",
+  "generateThisWeekButton": "इस सप्ताह के लिए बनाएं",
+  "generateNextWeekButton": "अगले सप्ताह के लिए बनाएं"
 }

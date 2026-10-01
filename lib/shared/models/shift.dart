@@ -113,6 +113,13 @@ class Shift {
   final DateTime? cancelledAt;
   final int? cancelledByUserId;
   final String? cancellationReason;
+  // Standby support (Rota calendar Sprint 3, 2026-10-01) — a shift
+  // generated from a ShiftRequirement's standbyCount. Claims/assignment
+  // on a standby shift use the exact same mechanism as a regular one
+  // (claim_shift, managerAssign); this flag only affects how it's
+  // presented (Sprint 4: a separate "standby" list, not mixed in with
+  // the regular assigned count).
+  final bool isStandby;
 
   const Shift({
     required this.id,
@@ -132,5 +139,6 @@ class Shift {
     this.cancelledAt,
     this.cancelledByUserId,
     this.cancellationReason,
+    this.isStandby = false,
   });
 }

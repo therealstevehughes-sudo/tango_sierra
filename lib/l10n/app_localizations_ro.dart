@@ -4384,7 +4384,7 @@ class AppLocalizationsRo extends AppLocalizations {
       'Nu au fost adăugate cerințe suplimentare încă.';
 
   @override
-  String get addRequirementButton => 'Adaugă cerință';
+  String get addRequirementButton => 'Adauga cerinta';
 
   @override
   String get addCertificationRequirementTitle =>
@@ -4660,4 +4660,57 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get rotaUnassignedRowLabel => 'Neatribuit';
+
+  @override
+  String get setUpShiftPeriodsFirstText =>
+      'Configureaza mai intai perioadele de tura (ecranul Perioade de tura).';
+
+  @override
+  String get addStaffingRequirementTitle => 'Adauga cerinta de personal';
+
+  @override
+  String get anyDepartmentLabel => 'Orice departament';
+
+  @override
+  String get unknownDepartmentLabel => 'Departament necunoscut';
+
+  @override
+  String get anyRoleLabel => 'Orice rol';
+
+  @override
+  String get staffNeededLabel => 'Personal necesar';
+
+  @override
+  String get standbyNeededLabel => 'Rezerva necesara';
+
+  @override
+  String shiftsGeneratedMessage(int count) {
+    return 'S-au creat $count ture pentru acea saptamana.';
+  }
+
+  @override
+  String shiftGenerationFailedMessage(String error) {
+    return 'Esuat: $error';
+  }
+
+  @override
+  String plusStandbyCountLabel(int count) {
+    return ' + $count rezerva';
+  }
+
+  @override
+  String get masterRotaSettingsTitle => 'Setari tura principala';
+
+  @override
+  String get masterRotaSettingsDescription =>
+      'Defineste cati angajati (si rezerva) sunt necesari pe zi/perioada/departament sau rol, apoi genereaza ture reale pentru o saptamana dintr-o data.';
+
+  @override
+  String get noRequirementsYetText => 'Nu exista cerinte configurate inca.';
+
+  @override
+  String get generateThisWeekButton => 'Genereaza aceasta saptamana';
+
+  @override
+  String get generateNextWeekButton => 'Genereaza saptamana viitoare';
 }

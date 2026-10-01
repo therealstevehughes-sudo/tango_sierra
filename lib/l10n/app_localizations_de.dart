@@ -4439,7 +4439,7 @@ class AppLocalizationsDe extends AppLocalizations {
       'Noch keine zusätzlichen Anforderungen hinzugefügt.';
 
   @override
-  String get addRequirementButton => 'Anforderung hinzufügen';
+  String get addRequirementButton => 'Anforderung hinzufuegen';
 
   @override
   String get addCertificationRequirementTitle =>
@@ -4717,4 +4717,57 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get rotaUnassignedRowLabel => 'Nicht zugewiesen';
+
+  @override
+  String get setUpShiftPeriodsFirstText =>
+      'Richten Sie zuerst Schichtzeiten ein (Bildschirm Schichtzeiten).';
+
+  @override
+  String get addStaffingRequirementTitle => 'Personalbedarf hinzufuegen';
+
+  @override
+  String get anyDepartmentLabel => 'Beliebige Abteilung';
+
+  @override
+  String get unknownDepartmentLabel => 'Unbekannte Abteilung';
+
+  @override
+  String get anyRoleLabel => 'Beliebige Rolle';
+
+  @override
+  String get staffNeededLabel => 'Benoetigtes Personal';
+
+  @override
+  String get standbyNeededLabel => 'Benoetigte Bereitschaft';
+
+  @override
+  String shiftsGeneratedMessage(int count) {
+    return '$count Schichten fuer diese Woche erstellt.';
+  }
+
+  @override
+  String shiftGenerationFailedMessage(String error) {
+    return 'Fehlgeschlagen: $error';
+  }
+
+  @override
+  String plusStandbyCountLabel(int count) {
+    return ' + $count Bereitschaft';
+  }
+
+  @override
+  String get masterRotaSettingsTitle => 'Master-Dienstplan-Einstellungen';
+
+  @override
+  String get masterRotaSettingsDescription =>
+      'Legen Sie fest, wie viele Mitarbeiter (und Bereitschaft) pro Tag/Zeitraum/Abteilung oder Rolle benoetigt werden, und erstellen Sie dann echte Schichten fuer eine Woche auf einmal.';
+
+  @override
+  String get noRequirementsYetText => 'Noch keine Anforderungen eingerichtet.';
+
+  @override
+  String get generateThisWeekButton => 'Diese Woche erstellen';
+
+  @override
+  String get generateNextWeekButton => 'Naechste Woche erstellen';
 }

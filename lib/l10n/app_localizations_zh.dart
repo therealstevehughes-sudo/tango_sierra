@@ -4134,7 +4134,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get noExtraCertificationRequirementsText => '尚未添加额外要求。';
 
   @override
-  String get addRequirementButton => '添加要求';
+  String get addRequirementButton => '添加需求';
 
   @override
   String get addCertificationRequirementTitle => '添加证书要求';
@@ -4401,4 +4401,56 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get rotaUnassignedRowLabel => '未分配';
+
+  @override
+  String get setUpShiftPeriodsFirstText => '请先设置班次时段(班次时段界面)。';
+
+  @override
+  String get addStaffingRequirementTitle => '添加人员需求';
+
+  @override
+  String get anyDepartmentLabel => '任意部门';
+
+  @override
+  String get unknownDepartmentLabel => '未知部门';
+
+  @override
+  String get anyRoleLabel => '任意职位';
+
+  @override
+  String get staffNeededLabel => '所需人数';
+
+  @override
+  String get standbyNeededLabel => '所需候补人数';
+
+  @override
+  String shiftsGeneratedMessage(int count) {
+    return '已为该周创建$count个班次。';
+  }
+
+  @override
+  String shiftGenerationFailedMessage(String error) {
+    return '失败:$error';
+  }
+
+  @override
+  String plusStandbyCountLabel(int count) {
+    return ' + $count名候补';
+  }
+
+  @override
+  String get masterRotaSettingsTitle => '主排班设置';
+
+  @override
+  String get masterRotaSettingsDescription =>
+      '定义每天/时段/部门或职位所需的人数(及候补人数),然后一次性为一周生成实际班次。';
+
+  @override
+  String get noRequirementsYetText => '尚未设置任何需求。';
+
+  @override
+  String get generateThisWeekButton => '生成本周';
+
+  @override
+  String get generateNextWeekButton => '生成下周';
 }

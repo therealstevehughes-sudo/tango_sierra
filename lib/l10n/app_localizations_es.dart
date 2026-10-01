@@ -4390,7 +4390,7 @@ class AppLocalizationsEs extends AppLocalizations {
       'Aún no se han añadido requisitos adicionales.';
 
   @override
-  String get addRequirementButton => 'Añadir requisito';
+  String get addRequirementButton => 'Anadir requisito';
 
   @override
   String get addCertificationRequirementTitle =>
@@ -4665,4 +4665,57 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get rotaUnassignedRowLabel => 'Sin asignar';
+
+  @override
+  String get setUpShiftPeriodsFirstText =>
+      'Configura primero los periodos de turno (pantalla Periodos de turno).';
+
+  @override
+  String get addStaffingRequirementTitle => 'Anadir requisito de personal';
+
+  @override
+  String get anyDepartmentLabel => 'Cualquier departamento';
+
+  @override
+  String get unknownDepartmentLabel => 'Departamento desconocido';
+
+  @override
+  String get anyRoleLabel => 'Cualquier puesto';
+
+  @override
+  String get staffNeededLabel => 'Personal necesario';
+
+  @override
+  String get standbyNeededLabel => 'Reserva necesaria';
+
+  @override
+  String shiftsGeneratedMessage(int count) {
+    return 'Se crearon $count turnos para esa semana.';
+  }
+
+  @override
+  String shiftGenerationFailedMessage(String error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String plusStandbyCountLabel(int count) {
+    return ' + $count en reserva';
+  }
+
+  @override
+  String get masterRotaSettingsTitle => 'Ajustes del turno maestro';
+
+  @override
+  String get masterRotaSettingsDescription =>
+      'Define cuantas personas (y de reserva) se necesitan por dia/periodo/departamento o puesto, luego genera turnos reales para una semana de una vez.';
+
+  @override
+  String get noRequirementsYetText => 'Aun no se han configurado requisitos.';
+
+  @override
+  String get generateThisWeekButton => 'Generar esta semana';
+
+  @override
+  String get generateNextWeekButton => 'Generar la proxima semana';
 }

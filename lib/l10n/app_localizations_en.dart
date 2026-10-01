@@ -4685,4 +4685,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rotaUnassignedRowLabel => 'Unassigned';
+
+  @override
+  String get setUpShiftPeriodsFirstText =>
+      'Set up shift periods first (Shift periods screen).';
+
+  @override
+  String get addStaffingRequirementTitle => 'Add staffing requirement';
+
+  @override
+  String get anyDepartmentLabel => 'Any department';
+
+  @override
+  String get unknownDepartmentLabel => 'Unknown department';
+
+  @override
+  String get anyRoleLabel => 'Any role';
+
+  @override
+  String get staffNeededLabel => 'Staff needed';
+
+  @override
+  String get standbyNeededLabel => 'Standby needed';
+
+  @override
+  String shiftsGeneratedMessage(int count) {
+    return 'Created $count shifts for that week.';
+  }
+
+  @override
+  String shiftGenerationFailedMessage(String error) {
+    return 'Failed: $error';
+  }
+
+  @override
+  String plusStandbyCountLabel(int count) {
+    return ' + $count standby';
+  }
+
+  @override
+  String get masterRotaSettingsTitle => 'Master rota settings';
+
+  @override
+  String get masterRotaSettingsDescription =>
+      'Define how many staff (and standby) are needed per day/period/department or role, then generate real shifts for a week in one go.';
+
+  @override
+  String get noRequirementsYetText => 'No requirements set up yet.';
+
+  @override
+  String get generateThisWeekButton => 'Generate this week';
+
+  @override
+  String get generateNextWeekButton => 'Generate next week';
 }

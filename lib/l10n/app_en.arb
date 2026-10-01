@@ -4428,5 +4428,41 @@
   "rotaFilterAllLabel": "All",
   "rotaFilterDepartmentLabel": "Department",
   "rotaFilterPersonLabel": "Person",
-  "rotaUnassignedRowLabel": "Unassigned"
+  "rotaUnassignedRowLabel": "Unassigned",
+  "setUpShiftPeriodsFirstText": "Set up shift periods first (Shift periods screen).",
+  "addStaffingRequirementTitle": "Add staffing requirement",
+  "anyDepartmentLabel": "Any department",
+  "unknownDepartmentLabel": "Unknown department",
+  "anyRoleLabel": "Any role",
+  "staffNeededLabel": "Staff needed",
+  "standbyNeededLabel": "Standby needed",
+  "shiftsGeneratedMessage": "Created {count} shifts for that week.",
+  "@shiftsGeneratedMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shiftGenerationFailedMessage": "Failed: {error}",
+  "@shiftGenerationFailedMessage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "plusStandbyCountLabel": " + {count} standby",
+  "@plusStandbyCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "masterRotaSettingsTitle": "Master rota settings",
+  "masterRotaSettingsDescription": "Define how many staff (and standby) are needed per day/period/department or role, then generate real shifts for a week in one go.",
+  "noRequirementsYetText": "No requirements set up yet.",
+  "generateThisWeekButton": "Generate this week",
+  "generateNextWeekButton": "Generate next week"
 }

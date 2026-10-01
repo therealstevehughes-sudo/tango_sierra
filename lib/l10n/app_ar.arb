@@ -1309,5 +1309,20 @@
   "rotaFilterAllLabel": "الكل",
   "rotaFilterDepartmentLabel": "القسم",
   "rotaFilterPersonLabel": "الشخص",
-  "rotaUnassignedRowLabel": "غير معيّن"
+  "rotaUnassignedRowLabel": "غير معيّن",
+  "setUpShiftPeriodsFirstText": "قم بإعداد فترات الورديات أولاً (شاشة فترات الورديات).",
+  "addStaffingRequirementTitle": "إضافة متطلب توظيف",
+  "anyDepartmentLabel": "أي قسم",
+  "unknownDepartmentLabel": "قسم غير معروف",
+  "anyRoleLabel": "أي دور",
+  "staffNeededLabel": "الموظفون المطلوبون",
+  "standbyNeededLabel": "الاحتياط المطلوب",
+  "shiftsGeneratedMessage": "تم إنشاء {count} وردية لذلك الأسبوع.",
+  "shiftGenerationFailedMessage": "فشل: {error}",
+  "plusStandbyCountLabel": " + {count} احتياط",
+  "masterRotaSettingsTitle": "إعدادات الجدول الرئيسي",
+  "masterRotaSettingsDescription": "حدد عدد الموظفين (والاحتياط) المطلوبين لكل يوم/فترة/قسم أو دور، ثم أنشئ ورديات حقيقية لأسبوع كامل دفعة واحدة.",
+  "noRequirementsYetText": "لم يتم إعداد أي متطلبات بعد.",
+  "generateThisWeekButton": "إنشاء لهذا الأسبوع",
+  "generateNextWeekButton": "إنشاء للأسبوع القادم"
 }

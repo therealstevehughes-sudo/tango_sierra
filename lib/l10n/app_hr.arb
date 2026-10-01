@@ -1309,5 +1309,20 @@
   "rotaFilterAllLabel": "Sve",
   "rotaFilterDepartmentLabel": "Odjel",
   "rotaFilterPersonLabel": "Osoba",
-  "rotaUnassignedRowLabel": "Nedodijeljeno"
+  "rotaUnassignedRowLabel": "Nedodijeljeno",
+  "setUpShiftPeriodsFirstText": "Prvo postavite razdoblja smjena (zaslon Razdoblja smjena).",
+  "addStaffingRequirementTitle": "Dodaj zahtjev za osoblje",
+  "anyDepartmentLabel": "Bilo koji odjel",
+  "unknownDepartmentLabel": "Nepoznat odjel",
+  "anyRoleLabel": "Bilo koja uloga",
+  "staffNeededLabel": "Potrebno osoblje",
+  "standbyNeededLabel": "Potrebna pricuva",
+  "shiftsGeneratedMessage": "Stvoreno je {count} smjena za taj tjedan.",
+  "shiftGenerationFailedMessage": "Neuspjelo: {error}",
+  "plusStandbyCountLabel": " + {count} pricuva",
+  "masterRotaSettingsTitle": "Postavke glavnog rasporeda",
+  "masterRotaSettingsDescription": "Odredite koliko je osoblja (i pricuve) potrebno po danu/razdoblju/odjelu ili ulozi, a zatim generirajte stvarne smjene za tjedan odjednom.",
+  "noRequirementsYetText": "Jos nisu postavljeni zahtjevi.",
+  "generateThisWeekButton": "Generiraj za ovaj tjedan",
+  "generateNextWeekButton": "Generiraj za sljedeci tjedan"
 }

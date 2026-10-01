@@ -4575,4 +4575,57 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get rotaUnassignedRowLabel => 'Nedodijeljeno';
+
+  @override
+  String get setUpShiftPeriodsFirstText =>
+      'Prvo postavite razdoblja smjena (zaslon Razdoblja smjena).';
+
+  @override
+  String get addStaffingRequirementTitle => 'Dodaj zahtjev za osoblje';
+
+  @override
+  String get anyDepartmentLabel => 'Bilo koji odjel';
+
+  @override
+  String get unknownDepartmentLabel => 'Nepoznat odjel';
+
+  @override
+  String get anyRoleLabel => 'Bilo koja uloga';
+
+  @override
+  String get staffNeededLabel => 'Potrebno osoblje';
+
+  @override
+  String get standbyNeededLabel => 'Potrebna pricuva';
+
+  @override
+  String shiftsGeneratedMessage(int count) {
+    return 'Stvoreno je $count smjena za taj tjedan.';
+  }
+
+  @override
+  String shiftGenerationFailedMessage(String error) {
+    return 'Neuspjelo: $error';
+  }
+
+  @override
+  String plusStandbyCountLabel(int count) {
+    return ' + $count pricuva';
+  }
+
+  @override
+  String get masterRotaSettingsTitle => 'Postavke glavnog rasporeda';
+
+  @override
+  String get masterRotaSettingsDescription =>
+      'Odredite koliko je osoblja (i pricuve) potrebno po danu/razdoblju/odjelu ili ulozi, a zatim generirajte stvarne smjene za tjedan odjednom.';
+
+  @override
+  String get noRequirementsYetText => 'Jos nisu postavljeni zahtjevi.';
+
+  @override
+  String get generateThisWeekButton => 'Generiraj za ovaj tjedan';
+
+  @override
+  String get generateNextWeekButton => 'Generiraj za sljedeci tjedan';
 }

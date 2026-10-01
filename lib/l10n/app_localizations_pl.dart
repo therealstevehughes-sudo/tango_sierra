@@ -4389,7 +4389,7 @@ class AppLocalizationsPl extends AppLocalizations {
       'Nie dodano jeszcze dodatkowych wymagań.';
 
   @override
-  String get addRequirementButton => 'Dodaj wymóg';
+  String get addRequirementButton => 'Dodaj wymog';
 
   @override
   String get addCertificationRequirementTitle => 'Dodaj wymagany certyfikat';
@@ -4663,4 +4663,58 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get rotaUnassignedRowLabel => 'Nieprzypisane';
+
+  @override
+  String get setUpShiftPeriodsFirstText =>
+      'Najpierw skonfiguruj pory zmian (ekran Pory zmian).';
+
+  @override
+  String get addStaffingRequirementTitle => 'Dodaj wymog obsady';
+
+  @override
+  String get anyDepartmentLabel => 'Dowolny dzial';
+
+  @override
+  String get unknownDepartmentLabel => 'Nieznany dzial';
+
+  @override
+  String get anyRoleLabel => 'Dowolna rola';
+
+  @override
+  String get staffNeededLabel => 'Potrzebny personel';
+
+  @override
+  String get standbyNeededLabel => 'Potrzebna rezerwa';
+
+  @override
+  String shiftsGeneratedMessage(int count) {
+    return 'Utworzono $count zmian na ten tydzien.';
+  }
+
+  @override
+  String shiftGenerationFailedMessage(String error) {
+    return 'Nie udalo sie: $error';
+  }
+
+  @override
+  String plusStandbyCountLabel(int count) {
+    return ' + $count w rezerwie';
+  }
+
+  @override
+  String get masterRotaSettingsTitle => 'Ustawienia glownego grafiku';
+
+  @override
+  String get masterRotaSettingsDescription =>
+      'Okresl, ile osob (i w rezerwie) jest potrzebnych na dany dzien/pore/dzial lub role, a nastepnie wygeneruj realne zmiany na caly tydzien za jednym razem.';
+
+  @override
+  String get noRequirementsYetText =>
+      'Nie skonfigurowano jeszcze zadnych wymogow.';
+
+  @override
+  String get generateThisWeekButton => 'Generuj na ten tydzien';
+
+  @override
+  String get generateNextWeekButton => 'Generuj na przyszly tydzien';
 }
