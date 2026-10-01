@@ -4597,4 +4597,45 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get generateWithAiButton => 'Generuj z AI';
+
+  @override
+  String get shiftPeriodsTitle => 'Pory zmian';
+
+  @override
+  String get shiftPeriodsDescription =>
+      'Podziel dzien na 2 lub 3 pory (np. Rano/Popoludnie/Noc). Kalendarz grafiku i automatyczne przypisywanie korzystaja z nich do filtrowania i planowania wedlug pory dnia.';
+
+  @override
+  String shiftPeriodCountOption(int count) {
+    return '$count pory';
+  }
+
+  @override
+  String get shiftPeriodNameLabel => 'Nazwa pory';
+
+  @override
+  String get shiftPeriodStartsLabel => 'Początek';
+
+  @override
+  String get shiftPeriodEndsLabel => 'Koniec';
+
+  @override
+  String get shiftPeriodsSavedMessage => 'Pory zmian zapisane';
+
+  @override
+  String shiftPeriodsSaveFailedMessage(String error) {
+    return 'Nie udalo sie zapisac: $error';
+  }
+
+  @override
+  String get shiftPeriodDefaultDay => 'Dzien';
+
+  @override
+  String get shiftPeriodDefaultNight => 'Noc';
+
+  @override
+  String get shiftPeriodDefaultMorning => 'Rano';
+
+  @override
+  String get shiftPeriodDefaultAfternoon => 'Popoludnie';
 }

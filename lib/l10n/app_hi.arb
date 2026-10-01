@@ -1289,5 +1289,17 @@
   "documentTitleLabel": "दस्तावेज़ शीर्षक",
   "reviewAndEditDraftLabel": "मसौदे की समीक्षा करें और संपादित करें",
   "saveAsDocumentButton": "दस्तावेज़ केंद्र में सहेजें",
-  "generateWithAiButton": "AI से बनाएं"
+  "generateWithAiButton": "AI से बनाएं",
+  "shiftPeriodsTitle": "शिफ्ट अवधि",
+  "shiftPeriodsDescription": "दिन को 2 या 3 अवधियों में विभाजित करें (जैसे सुबह/दोपहर/रात)। रोटा कैलेंडर और ऑटो-असाइन इनका उपयोग समय के अनुसार फ़िल्टर और योजना बनाने के लिए करते हैं।",
+  "shiftPeriodCountOption": "{count} अवधियां",
+  "shiftPeriodNameLabel": "अवधि का नाम",
+  "shiftPeriodStartsLabel": "शुरू होता है",
+  "shiftPeriodEndsLabel": "समाप्त होता है",
+  "shiftPeriodsSavedMessage": "शिफ्ट अवधि सहेजी गई",
+  "shiftPeriodsSaveFailedMessage": "सहेजने में विफल: {error}",
+  "shiftPeriodDefaultDay": "दिन",
+  "shiftPeriodDefaultNight": "रात",
+  "shiftPeriodDefaultMorning": "सुबह",
+  "shiftPeriodDefaultAfternoon": "दोपहर"
 }

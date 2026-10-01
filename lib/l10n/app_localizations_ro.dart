@@ -4594,4 +4594,45 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get generateWithAiButton => 'Genereaza cu AI';
+
+  @override
+  String get shiftPeriodsTitle => 'Perioade de tura';
+
+  @override
+  String get shiftPeriodsDescription =>
+      'Imparte ziua in 2 sau 3 perioade (ex. Dimineata/Dupa-amiaza/Noapte). Calendarul turelor si alocarea automata folosesc acestea pentru filtrare si planificare pe perioade ale zilei.';
+
+  @override
+  String shiftPeriodCountOption(int count) {
+    return '$count perioade';
+  }
+
+  @override
+  String get shiftPeriodNameLabel => 'Numele perioadei';
+
+  @override
+  String get shiftPeriodStartsLabel => 'Incepe';
+
+  @override
+  String get shiftPeriodEndsLabel => 'Se termina';
+
+  @override
+  String get shiftPeriodsSavedMessage => 'Perioadele au fost salvate';
+
+  @override
+  String shiftPeriodsSaveFailedMessage(String error) {
+    return 'Salvare esuata: $error';
+  }
+
+  @override
+  String get shiftPeriodDefaultDay => 'Zi';
+
+  @override
+  String get shiftPeriodDefaultNight => 'Noapte';
+
+  @override
+  String get shiftPeriodDefaultMorning => 'Dimineata';
+
+  @override
+  String get shiftPeriodDefaultAfternoon => 'Dupa-amiaza';
 }

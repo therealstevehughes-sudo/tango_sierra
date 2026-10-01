@@ -1289,5 +1289,17 @@
   "documentTitleLabel": "Dokumenttitel",
   "reviewAndEditDraftLabel": "Entwurf prufen und bearbeiten",
   "saveAsDocumentButton": "Im Dokumentenzentrum speichern",
-  "generateWithAiButton": "Mit KI erstellen"
+  "generateWithAiButton": "Mit KI erstellen",
+  "shiftPeriodsTitle": "Schichtzeiten",
+  "shiftPeriodsDescription": "Teilen Sie den Tag in 2 oder 3 Zeitraeume (z. B. Morgen/Nachmittag/Nacht). Der Dienstplankalender und die automatische Zuweisung nutzen diese zum Filtern und Planen nach Tageszeit.",
+  "shiftPeriodCountOption": "{count} Zeitraeume",
+  "shiftPeriodNameLabel": "Name des Zeitraums",
+  "shiftPeriodStartsLabel": "Beginnt",
+  "shiftPeriodEndsLabel": "Endet",
+  "shiftPeriodsSavedMessage": "Schichtzeiten gespeichert",
+  "shiftPeriodsSaveFailedMessage": "Speichern fehlgeschlagen: {error}",
+  "shiftPeriodDefaultDay": "Tag",
+  "shiftPeriodDefaultNight": "Nacht",
+  "shiftPeriodDefaultMorning": "Morgen",
+  "shiftPeriodDefaultAfternoon": "Nachmittag"
 }

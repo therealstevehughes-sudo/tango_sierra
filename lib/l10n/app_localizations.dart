@@ -7867,6 +7867,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Generate with AI'**
   String get generateWithAiButton;
+
+  /// No description provided for @shiftPeriodsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift periods'**
+  String get shiftPeriodsTitle;
+
+  /// No description provided for @shiftPeriodsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Split the day into 2 or 3 periods (e.g. Morning/Afternoon/Night). The rota calendar and auto-assign use these to let you filter and plan by time of day.'**
+  String get shiftPeriodsDescription;
+
+  /// No description provided for @shiftPeriodCountOption.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} periods'**
+  String shiftPeriodCountOption(int count);
+
+  /// No description provided for @shiftPeriodNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Period name'**
+  String get shiftPeriodNameLabel;
+
+  /// No description provided for @shiftPeriodStartsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts'**
+  String get shiftPeriodStartsLabel;
+
+  /// No description provided for @shiftPeriodEndsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends'**
+  String get shiftPeriodEndsLabel;
+
+  /// No description provided for @shiftPeriodsSavedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift periods saved'**
+  String get shiftPeriodsSavedMessage;
+
+  /// No description provided for @shiftPeriodsSaveFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save: {error}'**
+  String shiftPeriodsSaveFailedMessage(String error);
+
+  /// No description provided for @shiftPeriodDefaultDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get shiftPeriodDefaultDay;
+
+  /// No description provided for @shiftPeriodDefaultNight.
+  ///
+  /// In en, this message translates to:
+  /// **'Night'**
+  String get shiftPeriodDefaultNight;
+
+  /// No description provided for @shiftPeriodDefaultMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning'**
+  String get shiftPeriodDefaultMorning;
+
+  /// No description provided for @shiftPeriodDefaultAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Afternoon'**
+  String get shiftPeriodDefaultAfternoon;
 }
 
 class _AppLocalizationsDelegate

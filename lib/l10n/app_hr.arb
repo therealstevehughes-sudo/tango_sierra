@@ -1289,5 +1289,17 @@
   "documentTitleLabel": "Naziv dokumenta",
   "reviewAndEditDraftLabel": "Pregledajte i uredite nacrt",
   "saveAsDocumentButton": "Spremi u Centar dokumenata",
-  "generateWithAiButton": "Generiraj s AI"
+  "generateWithAiButton": "Generiraj s AI",
+  "shiftPeriodsTitle": "Razdoblja smjena",
+  "shiftPeriodsDescription": "Podijelite dan na 2 ili 3 razdoblja (npr. Jutro/Poslijepodne/Noc). Kalendar rasporeda i automatsko dodjeljivanje koriste ih za filtriranje i planiranje prema dobu dana.",
+  "shiftPeriodCountOption": "{count} razdoblja",
+  "shiftPeriodNameLabel": "Naziv razdoblja",
+  "shiftPeriodStartsLabel": "Pocinje",
+  "shiftPeriodEndsLabel": "Zavrsava",
+  "shiftPeriodsSavedMessage": "Razdoblja smjena spremljena",
+  "shiftPeriodsSaveFailedMessage": "Spremanje nije uspjelo: {error}",
+  "shiftPeriodDefaultDay": "Dan",
+  "shiftPeriodDefaultNight": "Noc",
+  "shiftPeriodDefaultMorning": "Jutro",
+  "shiftPeriodDefaultAfternoon": "Poslijepodne"
 }

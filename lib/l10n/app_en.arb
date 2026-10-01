@@ -4394,5 +4394,31 @@
   "documentTitleLabel": "Document title",
   "reviewAndEditDraftLabel": "Review and edit the draft",
   "saveAsDocumentButton": "Save to Document Centre",
-  "generateWithAiButton": "Generate with AI"
+  "generateWithAiButton": "Generate with AI",
+  "shiftPeriodsTitle": "Shift periods",
+  "shiftPeriodsDescription": "Split the day into 2 or 3 periods (e.g. Morning/Afternoon/Night). The rota calendar and auto-assign use these to let you filter and plan by time of day.",
+  "shiftPeriodCountOption": "{count} periods",
+  "@shiftPeriodCountOption": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "shiftPeriodNameLabel": "Period name",
+  "shiftPeriodStartsLabel": "Starts",
+  "shiftPeriodEndsLabel": "Ends",
+  "shiftPeriodsSavedMessage": "Shift periods saved",
+  "shiftPeriodsSaveFailedMessage": "Failed to save: {error}",
+  "@shiftPeriodsSaveFailedMessage": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "shiftPeriodDefaultDay": "Day",
+  "shiftPeriodDefaultNight": "Night",
+  "shiftPeriodDefaultMorning": "Morning",
+  "shiftPeriodDefaultAfternoon": "Afternoon"
 }

@@ -4486,4 +4486,45 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get generateWithAiButton => 'AI से बनाएं';
+
+  @override
+  String get shiftPeriodsTitle => 'शिफ्ट अवधि';
+
+  @override
+  String get shiftPeriodsDescription =>
+      'दिन को 2 या 3 अवधियों में विभाजित करें (जैसे सुबह/दोपहर/रात)। रोटा कैलेंडर और ऑटो-असाइन इनका उपयोग समय के अनुसार फ़िल्टर और योजना बनाने के लिए करते हैं।';
+
+  @override
+  String shiftPeriodCountOption(int count) {
+    return '$count अवधियां';
+  }
+
+  @override
+  String get shiftPeriodNameLabel => 'अवधि का नाम';
+
+  @override
+  String get shiftPeriodStartsLabel => 'शुरू होता है';
+
+  @override
+  String get shiftPeriodEndsLabel => 'समाप्त होता है';
+
+  @override
+  String get shiftPeriodsSavedMessage => 'शिफ्ट अवधि सहेजी गई';
+
+  @override
+  String shiftPeriodsSaveFailedMessage(String error) {
+    return 'सहेजने में विफल: $error';
+  }
+
+  @override
+  String get shiftPeriodDefaultDay => 'दिन';
+
+  @override
+  String get shiftPeriodDefaultNight => 'रात';
+
+  @override
+  String get shiftPeriodDefaultMorning => 'सुबह';
+
+  @override
+  String get shiftPeriodDefaultAfternoon => 'दोपहर';
 }

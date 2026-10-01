@@ -4456,4 +4456,45 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get generateWithAiButton => 'إنشاء بالذكاء الاصطناعي';
+
+  @override
+  String get shiftPeriodsTitle => 'فترات الورديات';
+
+  @override
+  String get shiftPeriodsDescription =>
+      'قسّم اليوم إلى فترتين أو ثلاث فترات (مثل صباح/بعد الظهر/ليل). يستخدم تقويم الجدول والتعيين التلقائي هذه الفترات للتصفية والتخطيط حسب وقت اليوم.';
+
+  @override
+  String shiftPeriodCountOption(int count) {
+    return '$count فترات';
+  }
+
+  @override
+  String get shiftPeriodNameLabel => 'اسم الفترة';
+
+  @override
+  String get shiftPeriodStartsLabel => 'تبدأ';
+
+  @override
+  String get shiftPeriodEndsLabel => 'تنتهي';
+
+  @override
+  String get shiftPeriodsSavedMessage => 'تم حفظ فترات الورديات';
+
+  @override
+  String shiftPeriodsSaveFailedMessage(String error) {
+    return 'فشل الحفظ: $error';
+  }
+
+  @override
+  String get shiftPeriodDefaultDay => 'نهار';
+
+  @override
+  String get shiftPeriodDefaultNight => 'ليل';
+
+  @override
+  String get shiftPeriodDefaultMorning => 'صباح';
+
+  @override
+  String get shiftPeriodDefaultAfternoon => 'بعد الظهر';
 }

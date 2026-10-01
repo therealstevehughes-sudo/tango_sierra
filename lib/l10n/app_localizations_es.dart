@@ -4599,4 +4599,45 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get generateWithAiButton => 'Generar con IA';
+
+  @override
+  String get shiftPeriodsTitle => 'Periodos de turno';
+
+  @override
+  String get shiftPeriodsDescription =>
+      'Divide el dia en 2 o 3 periodos (p. ej. Manana/Tarde/Noche). El calendario de turnos y la asignacion automatica los usan para filtrar y planificar por franja horaria.';
+
+  @override
+  String shiftPeriodCountOption(int count) {
+    return '$count periodos';
+  }
+
+  @override
+  String get shiftPeriodNameLabel => 'Nombre del periodo';
+
+  @override
+  String get shiftPeriodStartsLabel => 'Empieza';
+
+  @override
+  String get shiftPeriodEndsLabel => 'Termina';
+
+  @override
+  String get shiftPeriodsSavedMessage => 'Periodos guardados';
+
+  @override
+  String shiftPeriodsSaveFailedMessage(String error) {
+    return 'Error al guardar: $error';
+  }
+
+  @override
+  String get shiftPeriodDefaultDay => 'Dia';
+
+  @override
+  String get shiftPeriodDefaultNight => 'Noche';
+
+  @override
+  String get shiftPeriodDefaultMorning => 'Manana';
+
+  @override
+  String get shiftPeriodDefaultAfternoon => 'Tarde';
 }

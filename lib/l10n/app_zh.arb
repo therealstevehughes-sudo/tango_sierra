@@ -1289,5 +1289,17 @@
   "documentTitleLabel": "文件标题",
   "reviewAndEditDraftLabel": "查看并编辑草稿",
   "saveAsDocumentButton": "保存到文档中心",
-  "generateWithAiButton": "使用AI生成"
+  "generateWithAiButton": "使用AI生成",
+  "shiftPeriodsTitle": "班次时段",
+  "shiftPeriodsDescription": "将一天分为2或3个时段(例如早上/下午/晚上)。排班日历和自动分配会使用这些时段进行按时间筛选和规划。",
+  "shiftPeriodCountOption": "{count}个时段",
+  "shiftPeriodNameLabel": "时段名称",
+  "shiftPeriodStartsLabel": "开始",
+  "shiftPeriodEndsLabel": "结束",
+  "shiftPeriodsSavedMessage": "班次时段已保存",
+  "shiftPeriodsSaveFailedMessage": "保存失败:{error}",
+  "shiftPeriodDefaultDay": "白天",
+  "shiftPeriodDefaultNight": "夜晚",
+  "shiftPeriodDefaultMorning": "早上",
+  "shiftPeriodDefaultAfternoon": "下午"
 }

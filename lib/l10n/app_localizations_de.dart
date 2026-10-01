@@ -4651,4 +4651,45 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get generateWithAiButton => 'Mit KI erstellen';
+
+  @override
+  String get shiftPeriodsTitle => 'Schichtzeiten';
+
+  @override
+  String get shiftPeriodsDescription =>
+      'Teilen Sie den Tag in 2 oder 3 Zeitraeume (z. B. Morgen/Nachmittag/Nacht). Der Dienstplankalender und die automatische Zuweisung nutzen diese zum Filtern und Planen nach Tageszeit.';
+
+  @override
+  String shiftPeriodCountOption(int count) {
+    return '$count Zeitraeume';
+  }
+
+  @override
+  String get shiftPeriodNameLabel => 'Name des Zeitraums';
+
+  @override
+  String get shiftPeriodStartsLabel => 'Beginnt';
+
+  @override
+  String get shiftPeriodEndsLabel => 'Endet';
+
+  @override
+  String get shiftPeriodsSavedMessage => 'Schichtzeiten gespeichert';
+
+  @override
+  String shiftPeriodsSaveFailedMessage(String error) {
+    return 'Speichern fehlgeschlagen: $error';
+  }
+
+  @override
+  String get shiftPeriodDefaultDay => 'Tag';
+
+  @override
+  String get shiftPeriodDefaultNight => 'Nacht';
+
+  @override
+  String get shiftPeriodDefaultMorning => 'Morgen';
+
+  @override
+  String get shiftPeriodDefaultAfternoon => 'Nachmittag';
 }

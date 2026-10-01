@@ -1289,5 +1289,17 @@
   "documentTitleLabel": "دستاویز کا عنوان",
   "reviewAndEditDraftLabel": "مسودے کا جائزہ لیں اور ترمیم کریں",
   "saveAsDocumentButton": "دستاویز مرکز میں محفوظ کریں",
-  "generateWithAiButton": "AI سے بنائیں"
+  "generateWithAiButton": "AI سے بنائیں",
+  "shiftPeriodsTitle": "شفٹ کے اوقات",
+  "shiftPeriodsDescription": "دن کو 2 یا 3 اوقات میں تقسیم کریں (مثلاً صبح/دوپہر/رات)۔ روٹا کیلنڈر اور آٹو اسائن انہیں وقت کے مطابق فلٹر اور منصوبہ بندی کے لیے استعمال کرتے ہیں۔",
+  "shiftPeriodCountOption": "{count} اوقات",
+  "shiftPeriodNameLabel": "وقت کا نام",
+  "shiftPeriodStartsLabel": "شروع",
+  "shiftPeriodEndsLabel": "ختم",
+  "shiftPeriodsSavedMessage": "شفٹ کے اوقات محفوظ ہو گئے",
+  "shiftPeriodsSaveFailedMessage": "محفوظ کرنے میں ناکام: {error}",
+  "shiftPeriodDefaultDay": "دن",
+  "shiftPeriodDefaultNight": "رات",
+  "shiftPeriodDefaultMorning": "صبح",
+  "shiftPeriodDefaultAfternoon": "دوپہر"
 }

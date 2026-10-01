@@ -1289,5 +1289,17 @@
   "documentTitleLabel": "Tytul dokumentu",
   "reviewAndEditDraftLabel": "Przejrzyj i edytuj szkic",
   "saveAsDocumentButton": "Zapisz w Centrum Dokumentow",
-  "generateWithAiButton": "Generuj z AI"
+  "generateWithAiButton": "Generuj z AI",
+  "shiftPeriodsTitle": "Pory zmian",
+  "shiftPeriodsDescription": "Podziel dzien na 2 lub 3 pory (np. Rano/Popoludnie/Noc). Kalendarz grafiku i automatyczne przypisywanie korzystaja z nich do filtrowania i planowania wedlug pory dnia.",
+  "shiftPeriodCountOption": "{count} pory",
+  "shiftPeriodNameLabel": "Nazwa pory",
+  "shiftPeriodStartsLabel": "Początek",
+  "shiftPeriodEndsLabel": "Koniec",
+  "shiftPeriodsSavedMessage": "Pory zmian zapisane",
+  "shiftPeriodsSaveFailedMessage": "Nie udalo sie zapisac: {error}",
+  "shiftPeriodDefaultDay": "Dzien",
+  "shiftPeriodDefaultNight": "Noc",
+  "shiftPeriodDefaultMorning": "Rano",
+  "shiftPeriodDefaultAfternoon": "Popoludnie"
 }

@@ -1289,5 +1289,17 @@
   "documentTitleLabel": "Titlul documentului",
   "reviewAndEditDraftLabel": "Verifica si editeaza ciorna",
   "saveAsDocumentButton": "Salveaza in Centrul de Documente",
-  "generateWithAiButton": "Genereaza cu AI"
+  "generateWithAiButton": "Genereaza cu AI",
+  "shiftPeriodsTitle": "Perioade de tura",
+  "shiftPeriodsDescription": "Imparte ziua in 2 sau 3 perioade (ex. Dimineata/Dupa-amiaza/Noapte). Calendarul turelor si alocarea automata folosesc acestea pentru filtrare si planificare pe perioade ale zilei.",
+  "shiftPeriodCountOption": "{count} perioade",
+  "shiftPeriodNameLabel": "Numele perioadei",
+  "shiftPeriodStartsLabel": "Incepe",
+  "shiftPeriodEndsLabel": "Se termina",
+  "shiftPeriodsSavedMessage": "Perioadele au fost salvate",
+  "shiftPeriodsSaveFailedMessage": "Salvare esuata: {error}",
+  "shiftPeriodDefaultDay": "Zi",
+  "shiftPeriodDefaultNight": "Noapte",
+  "shiftPeriodDefaultMorning": "Dimineata",
+  "shiftPeriodDefaultAfternoon": "Dupa-amiaza"
 }

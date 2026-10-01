@@ -1289,5 +1289,17 @@
   "documentTitleLabel": "Titulo del documento",
   "reviewAndEditDraftLabel": "Revisa y edita el borrador",
   "saveAsDocumentButton": "Guardar en el Centro de Documentos",
-  "generateWithAiButton": "Generar con IA"
+  "generateWithAiButton": "Generar con IA",
+  "shiftPeriodsTitle": "Periodos de turno",
+  "shiftPeriodsDescription": "Divide el dia en 2 o 3 periodos (p. ej. Manana/Tarde/Noche). El calendario de turnos y la asignacion automatica los usan para filtrar y planificar por franja horaria.",
+  "shiftPeriodCountOption": "{count} periodos",
+  "shiftPeriodNameLabel": "Nombre del periodo",
+  "shiftPeriodStartsLabel": "Empieza",
+  "shiftPeriodEndsLabel": "Termina",
+  "shiftPeriodsSavedMessage": "Periodos guardados",
+  "shiftPeriodsSaveFailedMessage": "Error al guardar: {error}",
+  "shiftPeriodDefaultDay": "Dia",
+  "shiftPeriodDefaultNight": "Noche",
+  "shiftPeriodDefaultMorning": "Manana",
+  "shiftPeriodDefaultAfternoon": "Tarde"
 }

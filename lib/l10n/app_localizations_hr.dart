@@ -4509,4 +4509,45 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get generateWithAiButton => 'Generiraj s AI';
+
+  @override
+  String get shiftPeriodsTitle => 'Razdoblja smjena';
+
+  @override
+  String get shiftPeriodsDescription =>
+      'Podijelite dan na 2 ili 3 razdoblja (npr. Jutro/Poslijepodne/Noc). Kalendar rasporeda i automatsko dodjeljivanje koriste ih za filtriranje i planiranje prema dobu dana.';
+
+  @override
+  String shiftPeriodCountOption(int count) {
+    return '$count razdoblja';
+  }
+
+  @override
+  String get shiftPeriodNameLabel => 'Naziv razdoblja';
+
+  @override
+  String get shiftPeriodStartsLabel => 'Pocinje';
+
+  @override
+  String get shiftPeriodEndsLabel => 'Zavrsava';
+
+  @override
+  String get shiftPeriodsSavedMessage => 'Razdoblja smjena spremljena';
+
+  @override
+  String shiftPeriodsSaveFailedMessage(String error) {
+    return 'Spremanje nije uspjelo: $error';
+  }
+
+  @override
+  String get shiftPeriodDefaultDay => 'Dan';
+
+  @override
+  String get shiftPeriodDefaultNight => 'Noc';
+
+  @override
+  String get shiftPeriodDefaultMorning => 'Jutro';
+
+  @override
+  String get shiftPeriodDefaultAfternoon => 'Poslijepodne';
 }

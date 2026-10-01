@@ -4336,4 +4336,45 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get generateWithAiButton => '使用AI生成';
+
+  @override
+  String get shiftPeriodsTitle => '班次时段';
+
+  @override
+  String get shiftPeriodsDescription =>
+      '将一天分为2或3个时段(例如早上/下午/晚上)。排班日历和自动分配会使用这些时段进行按时间筛选和规划。';
+
+  @override
+  String shiftPeriodCountOption(int count) {
+    return '$count个时段';
+  }
+
+  @override
+  String get shiftPeriodNameLabel => '时段名称';
+
+  @override
+  String get shiftPeriodStartsLabel => '开始';
+
+  @override
+  String get shiftPeriodEndsLabel => '结束';
+
+  @override
+  String get shiftPeriodsSavedMessage => '班次时段已保存';
+
+  @override
+  String shiftPeriodsSaveFailedMessage(String error) {
+    return '保存失败:$error';
+  }
+
+  @override
+  String get shiftPeriodDefaultDay => '白天';
+
+  @override
+  String get shiftPeriodDefaultNight => '夜晚';
+
+  @override
+  String get shiftPeriodDefaultMorning => '早上';
+
+  @override
+  String get shiftPeriodDefaultAfternoon => '下午';
 }

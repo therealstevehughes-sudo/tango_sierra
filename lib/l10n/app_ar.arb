@@ -1289,5 +1289,17 @@
   "documentTitleLabel": "عنوان المستند",
   "reviewAndEditDraftLabel": "راجع وعدّل المسودة",
   "saveAsDocumentButton": "حفظ في مركز المستندات",
-  "generateWithAiButton": "إنشاء بالذكاء الاصطناعي"
+  "generateWithAiButton": "إنشاء بالذكاء الاصطناعي",
+  "shiftPeriodsTitle": "فترات الورديات",
+  "shiftPeriodsDescription": "قسّم اليوم إلى فترتين أو ثلاث فترات (مثل صباح/بعد الظهر/ليل). يستخدم تقويم الجدول والتعيين التلقائي هذه الفترات للتصفية والتخطيط حسب وقت اليوم.",
+  "shiftPeriodCountOption": "{count} فترات",
+  "shiftPeriodNameLabel": "اسم الفترة",
+  "shiftPeriodStartsLabel": "تبدأ",
+  "shiftPeriodEndsLabel": "تنتهي",
+  "shiftPeriodsSavedMessage": "تم حفظ فترات الورديات",
+  "shiftPeriodsSaveFailedMessage": "فشل الحفظ: {error}",
+  "shiftPeriodDefaultDay": "نهار",
+  "shiftPeriodDefaultNight": "ليل",
+  "shiftPeriodDefaultMorning": "صباح",
+  "shiftPeriodDefaultAfternoon": "بعد الظهر"
 }

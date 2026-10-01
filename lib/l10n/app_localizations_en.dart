@@ -4619,4 +4619,45 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get generateWithAiButton => 'Generate with AI';
+
+  @override
+  String get shiftPeriodsTitle => 'Shift periods';
+
+  @override
+  String get shiftPeriodsDescription =>
+      'Split the day into 2 or 3 periods (e.g. Morning/Afternoon/Night). The rota calendar and auto-assign use these to let you filter and plan by time of day.';
+
+  @override
+  String shiftPeriodCountOption(int count) {
+    return '$count periods';
+  }
+
+  @override
+  String get shiftPeriodNameLabel => 'Period name';
+
+  @override
+  String get shiftPeriodStartsLabel => 'Starts';
+
+  @override
+  String get shiftPeriodEndsLabel => 'Ends';
+
+  @override
+  String get shiftPeriodsSavedMessage => 'Shift periods saved';
+
+  @override
+  String shiftPeriodsSaveFailedMessage(String error) {
+    return 'Failed to save: $error';
+  }
+
+  @override
+  String get shiftPeriodDefaultDay => 'Day';
+
+  @override
+  String get shiftPeriodDefaultNight => 'Night';
+
+  @override
+  String get shiftPeriodDefaultMorning => 'Morning';
+
+  @override
+  String get shiftPeriodDefaultAfternoon => 'Afternoon';
 }

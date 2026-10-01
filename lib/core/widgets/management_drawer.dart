@@ -22,6 +22,7 @@ import '../../features/roster/request_off_day_screen.dart';
 import '../../features/roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
 import '../../features/roster/roster_board_screen.dart';
 import '../../features/roster/roster_upsell_screen.dart';
+import '../../features/roster/shift_period_settings_screen.dart';
 import '../../features/roster/shift_fairness_screen.dart';
 import '../../features/settings/certification_requirements_screen.dart';
 import '../../features/settings/department_management_screen.dart';
@@ -175,6 +176,16 @@ List<_DrawerItemDef> _rosterItems(AppLocalizations l10n) => [
     label: l10n.rosterBoard,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const RosterBoardScreen(),
+    requiresRosterAddon: true,
+  ),
+  // Rota calendar, Sprint 1 (2026-10-01) — leadership configures the
+  // site's shift periods here; the upcoming week/month calendar and
+  // auto-assign both read this config.
+  _DrawerItemDef(
+    icon: Icons.schedule_outlined,
+    label: l10n.shiftPeriodsTitle,
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const ShiftPeriodSettingsScreen(),
     requiresRosterAddon: true,
   ),
   _DrawerItemDef(

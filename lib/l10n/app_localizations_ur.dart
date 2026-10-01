@@ -4479,4 +4479,45 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get generateWithAiButton => 'AI سے بنائیں';
+
+  @override
+  String get shiftPeriodsTitle => 'شفٹ کے اوقات';
+
+  @override
+  String get shiftPeriodsDescription =>
+      'دن کو 2 یا 3 اوقات میں تقسیم کریں (مثلاً صبح/دوپہر/رات)۔ روٹا کیلنڈر اور آٹو اسائن انہیں وقت کے مطابق فلٹر اور منصوبہ بندی کے لیے استعمال کرتے ہیں۔';
+
+  @override
+  String shiftPeriodCountOption(int count) {
+    return '$count اوقات';
+  }
+
+  @override
+  String get shiftPeriodNameLabel => 'وقت کا نام';
+
+  @override
+  String get shiftPeriodStartsLabel => 'شروع';
+
+  @override
+  String get shiftPeriodEndsLabel => 'ختم';
+
+  @override
+  String get shiftPeriodsSavedMessage => 'شفٹ کے اوقات محفوظ ہو گئے';
+
+  @override
+  String shiftPeriodsSaveFailedMessage(String error) {
+    return 'محفوظ کرنے میں ناکام: $error';
+  }
+
+  @override
+  String get shiftPeriodDefaultDay => 'دن';
+
+  @override
+  String get shiftPeriodDefaultNight => 'رات';
+
+  @override
+  String get shiftPeriodDefaultMorning => 'صبح';
+
+  @override
+  String get shiftPeriodDefaultAfternoon => 'دوپہر';
 }
