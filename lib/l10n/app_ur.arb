@@ -1324,5 +1324,13 @@
   "masterRotaSettingsDescription": "بتائیں کہ ہر دن/مدت/شعبہ یا کردار کے لیے کتنا عملہ (اور اسٹینڈ بائی) درکار ہے، پھر ایک ہفتے کے لیے حقیقی شفٹیں ایک ساتھ بنائیں۔",
   "noRequirementsYetText": "ابھی تک کوئی ضرورت ترتیب نہیں دی گئی۔",
   "generateThisWeekButton": "اس ہفتے کے لیے بنائیں",
-  "generateNextWeekButton": "اگلے ہفتے کے لیے بنائیں"
+  "generateNextWeekButton": "اگلے ہفتے کے لیے بنائیں",
+  "rotaFilterRoleLabel": "کردار",
+  "rotaStaffViewLabel": "عملے کا منظر",
+  "rotaSlotsViewLabel": "سلاٹس کا منظر",
+  "rotaSlotDetailTitle": "اس شفٹ میں کون ہے",
+  "rotaAssignedLabel": "تفویض شدہ",
+  "rotaStandbyLabel": "اسٹینڈ بائی",
+  "rotaNoneAssignedText": "ابھی تک کوئی نہیں",
+  "rotaUnfilledCountText": "ابھی بھی {count} درکار ہیں"
 }

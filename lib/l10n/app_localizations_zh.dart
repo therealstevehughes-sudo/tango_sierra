@@ -4453,4 +4453,30 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get generateNextWeekButton => '生成下周';
+
+  @override
+  String get rotaFilterRoleLabel => '职位';
+
+  @override
+  String get rotaStaffViewLabel => '员工视图';
+
+  @override
+  String get rotaSlotsViewLabel => '岗位视图';
+
+  @override
+  String get rotaSlotDetailTitle => '此班次的人员';
+
+  @override
+  String get rotaAssignedLabel => '已分配';
+
+  @override
+  String get rotaStandbyLabel => '候补';
+
+  @override
+  String get rotaNoneAssignedText => '暂无';
+
+  @override
+  String rotaUnfilledCountText(int count) {
+    return '仍需$count人';
+  }
 }

@@ -1324,5 +1324,13 @@
   "masterRotaSettingsDescription": "Legen Sie fest, wie viele Mitarbeiter (und Bereitschaft) pro Tag/Zeitraum/Abteilung oder Rolle benoetigt werden, und erstellen Sie dann echte Schichten fuer eine Woche auf einmal.",
   "noRequirementsYetText": "Noch keine Anforderungen eingerichtet.",
   "generateThisWeekButton": "Diese Woche erstellen",
-  "generateNextWeekButton": "Naechste Woche erstellen"
+  "generateNextWeekButton": "Naechste Woche erstellen",
+  "rotaFilterRoleLabel": "Rolle",
+  "rotaStaffViewLabel": "Mitarbeiteransicht",
+  "rotaSlotsViewLabel": "Slot-Ansicht",
+  "rotaSlotDetailTitle": "Wer ist in dieser Schicht",
+  "rotaAssignedLabel": "Zugewiesen",
+  "rotaStandbyLabel": "Bereitschaft",
+  "rotaNoneAssignedText": "Noch niemand",
+  "rotaUnfilledCountText": "Noch {count} benoetigt"
 }

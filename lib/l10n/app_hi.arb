@@ -1324,5 +1324,13 @@
   "masterRotaSettingsDescription": "परिभाषित करें कि प्रत्येक दिन/अवधि/विभाग या भूमिका के लिए कितने कर्मचारी (और स्टैंडबाय) चाहिए, फिर एक सप्ताह के लिए वास्तविक शिफ्ट एक साथ बनाएं।",
   "noRequirementsYetText": "अभी तक कोई आवश्यकता सेट नहीं की गई।",
   "generateThisWeekButton": "इस सप्ताह के लिए बनाएं",
-  "generateNextWeekButton": "अगले सप्ताह के लिए बनाएं"
+  "generateNextWeekButton": "अगले सप्ताह के लिए बनाएं",
+  "rotaFilterRoleLabel": "भूमिका",
+  "rotaStaffViewLabel": "स्टाफ दृश्य",
+  "rotaSlotsViewLabel": "स्लॉट दृश्य",
+  "rotaSlotDetailTitle": "इस शिफ्ट में कौन है",
+  "rotaAssignedLabel": "नियुक्त",
+  "rotaStandbyLabel": "स्टैंडबाय",
+  "rotaNoneAssignedText": "अभी तक कोई नहीं",
+  "rotaUnfilledCountText": "अभी भी {count} चाहिए"
 }

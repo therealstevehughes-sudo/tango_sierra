@@ -4770,4 +4770,30 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get generateNextWeekButton => 'Naechste Woche erstellen';
+
+  @override
+  String get rotaFilterRoleLabel => 'Rolle';
+
+  @override
+  String get rotaStaffViewLabel => 'Mitarbeiteransicht';
+
+  @override
+  String get rotaSlotsViewLabel => 'Slot-Ansicht';
+
+  @override
+  String get rotaSlotDetailTitle => 'Wer ist in dieser Schicht';
+
+  @override
+  String get rotaAssignedLabel => 'Zugewiesen';
+
+  @override
+  String get rotaStandbyLabel => 'Bereitschaft';
+
+  @override
+  String get rotaNoneAssignedText => 'Noch niemand';
+
+  @override
+  String rotaUnfilledCountText(int count) {
+    return 'Noch $count benoetigt';
+  }
 }

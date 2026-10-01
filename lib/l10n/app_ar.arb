@@ -1324,5 +1324,13 @@
   "masterRotaSettingsDescription": "حدد عدد الموظفين (والاحتياط) المطلوبين لكل يوم/فترة/قسم أو دور، ثم أنشئ ورديات حقيقية لأسبوع كامل دفعة واحدة.",
   "noRequirementsYetText": "لم يتم إعداد أي متطلبات بعد.",
   "generateThisWeekButton": "إنشاء لهذا الأسبوع",
-  "generateNextWeekButton": "إنشاء للأسبوع القادم"
+  "generateNextWeekButton": "إنشاء للأسبوع القادم",
+  "rotaFilterRoleLabel": "الدور",
+  "rotaStaffViewLabel": "عرض الموظفين",
+  "rotaSlotsViewLabel": "عرض الفتحات",
+  "rotaSlotDetailTitle": "من في هذه الوردية",
+  "rotaAssignedLabel": "المعينون",
+  "rotaStandbyLabel": "احتياط",
+  "rotaNoneAssignedText": "لا أحد بعد",
+  "rotaUnfilledCountText": "لا يزال يلزم {count}"
 }

@@ -4605,4 +4605,30 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get generateNextWeekButton => 'अगले सप्ताह के लिए बनाएं';
+
+  @override
+  String get rotaFilterRoleLabel => 'भूमिका';
+
+  @override
+  String get rotaStaffViewLabel => 'स्टाफ दृश्य';
+
+  @override
+  String get rotaSlotsViewLabel => 'स्लॉट दृश्य';
+
+  @override
+  String get rotaSlotDetailTitle => 'इस शिफ्ट में कौन है';
+
+  @override
+  String get rotaAssignedLabel => 'नियुक्त';
+
+  @override
+  String get rotaStandbyLabel => 'स्टैंडबाय';
+
+  @override
+  String get rotaNoneAssignedText => 'अभी तक कोई नहीं';
+
+  @override
+  String rotaUnfilledCountText(int count) {
+    return 'अभी भी $count चाहिए';
+  }
 }

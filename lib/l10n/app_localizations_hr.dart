@@ -4628,4 +4628,30 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get generateNextWeekButton => 'Generiraj za sljedeci tjedan';
+
+  @override
+  String get rotaFilterRoleLabel => 'Uloga';
+
+  @override
+  String get rotaStaffViewLabel => 'Prikaz osoblja';
+
+  @override
+  String get rotaSlotsViewLabel => 'Prikaz mjesta';
+
+  @override
+  String get rotaSlotDetailTitle => 'Tko je na ovoj smjeni';
+
+  @override
+  String get rotaAssignedLabel => 'Dodijeljeno';
+
+  @override
+  String get rotaStandbyLabel => 'Pricuva';
+
+  @override
+  String get rotaNoneAssignedText => 'Jos nitko';
+
+  @override
+  String rotaUnfilledCountText(int count) {
+    return 'Jos je potrebno $count';
+  }
 }

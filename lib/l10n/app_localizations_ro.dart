@@ -4713,4 +4713,30 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get generateNextWeekButton => 'Genereaza saptamana viitoare';
+
+  @override
+  String get rotaFilterRoleLabel => 'Rol';
+
+  @override
+  String get rotaStaffViewLabel => 'Vizualizare personal';
+
+  @override
+  String get rotaSlotsViewLabel => 'Vizualizare posturi';
+
+  @override
+  String get rotaSlotDetailTitle => 'Cine este in aceasta tura';
+
+  @override
+  String get rotaAssignedLabel => 'Alocati';
+
+  @override
+  String get rotaStandbyLabel => 'Rezerva';
+
+  @override
+  String get rotaNoneAssignedText => 'Niciunul inca';
+
+  @override
+  String rotaUnfilledCountText(int count) {
+    return 'Mai sunt necesari $count';
+  }
 }

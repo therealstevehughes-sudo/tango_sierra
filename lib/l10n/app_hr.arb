@@ -1324,5 +1324,13 @@
   "masterRotaSettingsDescription": "Odredite koliko je osoblja (i pricuve) potrebno po danu/razdoblju/odjelu ili ulozi, a zatim generirajte stvarne smjene za tjedan odjednom.",
   "noRequirementsYetText": "Jos nisu postavljeni zahtjevi.",
   "generateThisWeekButton": "Generiraj za ovaj tjedan",
-  "generateNextWeekButton": "Generiraj za sljedeci tjedan"
+  "generateNextWeekButton": "Generiraj za sljedeci tjedan",
+  "rotaFilterRoleLabel": "Uloga",
+  "rotaStaffViewLabel": "Prikaz osoblja",
+  "rotaSlotsViewLabel": "Prikaz mjesta",
+  "rotaSlotDetailTitle": "Tko je na ovoj smjeni",
+  "rotaAssignedLabel": "Dodijeljeno",
+  "rotaStandbyLabel": "Pricuva",
+  "rotaNoneAssignedText": "Jos nitko",
+  "rotaUnfilledCountText": "Jos je potrebno {count}"
 }

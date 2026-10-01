@@ -4598,4 +4598,30 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get generateNextWeekButton => 'اگلے ہفتے کے لیے بنائیں';
+
+  @override
+  String get rotaFilterRoleLabel => 'کردار';
+
+  @override
+  String get rotaStaffViewLabel => 'عملے کا منظر';
+
+  @override
+  String get rotaSlotsViewLabel => 'سلاٹس کا منظر';
+
+  @override
+  String get rotaSlotDetailTitle => 'اس شفٹ میں کون ہے';
+
+  @override
+  String get rotaAssignedLabel => 'تفویض شدہ';
+
+  @override
+  String get rotaStandbyLabel => 'اسٹینڈ بائی';
+
+  @override
+  String get rotaNoneAssignedText => 'ابھی تک کوئی نہیں';
+
+  @override
+  String rotaUnfilledCountText(int count) {
+    return 'ابھی بھی $count درکار ہیں';
+  }
 }

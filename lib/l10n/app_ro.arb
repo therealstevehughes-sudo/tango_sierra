@@ -1324,5 +1324,13 @@
   "masterRotaSettingsDescription": "Defineste cati angajati (si rezerva) sunt necesari pe zi/perioada/departament sau rol, apoi genereaza ture reale pentru o saptamana dintr-o data.",
   "noRequirementsYetText": "Nu exista cerinte configurate inca.",
   "generateThisWeekButton": "Genereaza aceasta saptamana",
-  "generateNextWeekButton": "Genereaza saptamana viitoare"
+  "generateNextWeekButton": "Genereaza saptamana viitoare",
+  "rotaFilterRoleLabel": "Rol",
+  "rotaStaffViewLabel": "Vizualizare personal",
+  "rotaSlotsViewLabel": "Vizualizare posturi",
+  "rotaSlotDetailTitle": "Cine este in aceasta tura",
+  "rotaAssignedLabel": "Alocati",
+  "rotaStandbyLabel": "Rezerva",
+  "rotaNoneAssignedText": "Niciunul inca",
+  "rotaUnfilledCountText": "Mai sunt necesari {count}"
 }

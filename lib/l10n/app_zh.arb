@@ -1324,5 +1324,13 @@
   "masterRotaSettingsDescription": "定义每天/时段/部门或职位所需的人数(及候补人数),然后一次性为一周生成实际班次。",
   "noRequirementsYetText": "尚未设置任何需求。",
   "generateThisWeekButton": "生成本周",
-  "generateNextWeekButton": "生成下周"
+  "generateNextWeekButton": "生成下周",
+  "rotaFilterRoleLabel": "职位",
+  "rotaStaffViewLabel": "员工视图",
+  "rotaSlotsViewLabel": "岗位视图",
+  "rotaSlotDetailTitle": "此班次的人员",
+  "rotaAssignedLabel": "已分配",
+  "rotaStandbyLabel": "候补",
+  "rotaNoneAssignedText": "暂无",
+  "rotaUnfilledCountText": "仍需{count}人"
 }

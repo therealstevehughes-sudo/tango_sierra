@@ -7,6 +7,7 @@ import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/models/department.dart';
+import '../../shared/models/job_role.dart';
 import '../../shared/models/shift.dart';
 import '../../shared/models/shift_period.dart';
 import '../../shared/models/user.dart';
@@ -30,6 +31,8 @@ class RotaWeekScreen extends ConsumerStatefulWidget {
   ConsumerState<RotaWeekScreen> createState() => _RotaWeekScreenState();
 }
 
+enum _ViewMode { staff, slots }
+
 class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
   bool _loading = true;
   bool _addonEnabled = false;
@@ -42,6 +45,8 @@ class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
   ShiftPeriod? _periodFilter;
   Department? _departmentFilter;
   User? _personFilter;
+  JobRole? _roleFilter;
+  _ViewMode _viewMode = _ViewMode.staff;
 
   @override
   void initState() {
@@ -113,12 +118,107 @@ class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
       if (_departmentFilter != null && s.departmentId != _departmentFilter!.id) {
         return false;
       }
+      if (_roleFilter != null && s.roleRequired != _roleFilter!.name) {
+        return false;
+      }
       if (_periodFilter != null) {
         final period = shiftPeriodFor(_periods, s.startsAt);
         if (period?.id != _periodFilter!.id) return false;
       }
       return true;
     }).toList();
+  }
+
+  /// Every shift on [day] matching the active department/role/period
+  /// filters, regardless of who (if anyone) has claimed it — the raw
+  /// material for the slot view's aggregated counts.
+  List<Shift> _allShiftsFor(DateTime day) {
+    return _shifts.where((s) {
+      if (s.startsAt.year != day.year ||
+          s.startsAt.month != day.month ||
+          s.startsAt.day != day.day) {
+        return false;
+      }
+      if (_departmentFilter != null && s.departmentId != _departmentFilter!.id) {
+        return false;
+      }
+      if (_roleFilter != null && s.roleRequired != _roleFilter!.name) {
+        return false;
+      }
+      if (_periodFilter != null) {
+        final period = shiftPeriodFor(_periods, s.startsAt);
+        if (period?.id != _periodFilter!.id) return false;
+      }
+      return true;
+    }).toList();
+  }
+
+  String _staffName(int? userId) =>
+      userId == null ? '' : _staff.where((u) => u.id == userId).firstOrNull?.name ?? '?';
+
+  Future<void> _showSlotDetail(
+    List<Shift> regular,
+    List<Shift> standby,
+  ) async {
+    final l10n = AppLocalizations.of(context)!;
+    final assignedNames = regular
+        .where((s) => s.claimedByUserId != null)
+        .map((s) => _staffName(s.claimedByUserId))
+        .toList();
+    final standbyNames = standby
+        .where((s) => s.claimedByUserId != null)
+        .map((s) => _staffName(s.claimedByUserId))
+        .toList();
+    final unfilledRegular = regular.length - assignedNames.length;
+    final unfilledStandby = standby.length - standbyNames.length;
+
+    await showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.rotaSlotDetailTitle),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              l10n.rotaAssignedLabel,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            if (assignedNames.isEmpty)
+              Text(l10n.rotaNoneAssignedText)
+            else
+              for (final name in assignedNames) Text(name),
+            if (unfilledRegular > 0)
+              Text(
+                l10n.rotaUnfilledCountText(unfilledRegular),
+                style: const TextStyle(color: AppColors.caution),
+              ),
+            if (standby.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Text(
+                l10n.rotaStandbyLabel,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              if (standbyNames.isEmpty)
+                Text(l10n.rotaNoneAssignedText)
+              else
+                for (final name in standbyNames) Text(name),
+              if (unfilledStandby > 0)
+                Text(
+                  l10n.rotaUnfilledCountText(unfilledStandby),
+                  style: const TextStyle(color: AppColors.caution),
+                ),
+            ],
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.okLabel),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _showShiftDetail(Shift shift, User? person) async {
@@ -271,6 +371,38 @@ class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
                             onChanged: (value) =>
                                 setState(() => _personFilter = value),
                           ),
+                          DropdownButton<JobRole?>(
+                            value: _roleFilter,
+                            hint: Text(l10n.rotaFilterRoleLabel),
+                            items: [
+                              DropdownMenuItem(
+                                value: null,
+                                child: Text(l10n.rotaFilterAllLabel),
+                              ),
+                              for (final role in JobRole.values)
+                                DropdownMenuItem(
+                                  value: role,
+                                  child: Text(jobRoleDisplayName(role, l10n)),
+                                ),
+                            ],
+                            onChanged: (value) =>
+                                setState(() => _roleFilter = value),
+                          ),
+                          SegmentedButton<_ViewMode>(
+                            segments: [
+                              ButtonSegment(
+                                value: _ViewMode.staff,
+                                label: Text(l10n.rotaStaffViewLabel),
+                              ),
+                              ButtonSegment(
+                                value: _ViewMode.slots,
+                                label: Text(l10n.rotaSlotsViewLabel),
+                              ),
+                            ],
+                            selected: {_viewMode},
+                            onSelectionChanged: (selection) =>
+                                setState(() => _viewMode = selection.first),
+                          ),
                         ],
                       ),
                     ),
@@ -280,34 +412,9 @@ class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
                         scrollDirection: Axis.horizontal,
                         child: SingleChildScrollView(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Table(
-                            defaultColumnWidth: const FixedColumnWidth(140),
-                            columnWidths: const {0: FixedColumnWidth(160)},
-                            children: [
-                              TableRow(
-                                children: [
-                                  _headerCell(l10n.rotaUnassignedRowLabel),
-                                  for (final day in days)
-                                    _headerCell(_formatDate(day)),
-                                ],
-                              ),
-                              TableRow(
-                                children: [
-                                  _staffCell(l10n.rotaUnassignedRowLabel, isUnassigned: true),
-                                  for (final day in days)
-                                    _dayCell(_shiftsFor(null, day), null),
-                                ],
-                              ),
-                              for (final person in visibleStaff)
-                                TableRow(
-                                  children: [
-                                    _staffCell(person.name),
-                                    for (final day in days)
-                                      _dayCell(_shiftsFor(person, day), person),
-                                  ],
-                                ),
-                            ],
-                          ),
+                          child: _viewMode == _ViewMode.staff
+                              ? _buildStaffTable(l10n, days, visibleStaff)
+                              : _buildSlotsTable(l10n, days),
                         ),
                       ),
                     ),
@@ -319,6 +426,145 @@ class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
   }
 
   String _formatDate(DateTime d) => '${d.day}/${d.month}';
+
+  Widget _buildStaffTable(
+    AppLocalizations l10n,
+    List<DateTime> days,
+    List<User> visibleStaff,
+  ) {
+    return Table(
+      defaultColumnWidth: const FixedColumnWidth(140),
+      columnWidths: const {0: FixedColumnWidth(160)},
+      children: [
+        TableRow(
+          children: [
+            _headerCell(l10n.rotaUnassignedRowLabel),
+            for (final day in days) _headerCell(_formatDate(day)),
+          ],
+        ),
+        TableRow(
+          children: [
+            _staffCell(l10n.rotaUnassignedRowLabel, isUnassigned: true),
+            for (final day in days) _dayCell(_shiftsFor(null, day), null),
+          ],
+        ),
+        for (final person in visibleStaff)
+          TableRow(
+            children: [
+              _staffCell(person.name),
+              for (final day in days)
+                _dayCell(_shiftsFor(person, day), person),
+            ],
+          ),
+      ],
+    );
+  }
+
+  Widget _buildSlotsTable(AppLocalizations l10n, List<DateTime> days) {
+    // Rows = departments present among the (filtered) shifts this week,
+    // plus a catch-all for shifts with no department. Each cell
+    // aggregates that department's shifts on that day into one badge per
+    // period present — "2/3" regular + a separate standby count — rather
+    // than one block per shift, since the ask here is "how many people
+    // are on this shift," not "who specifically" (that's the tap-through).
+    final deptIds = _shifts.map((s) => s.departmentId).toSet();
+    final rows = <Department?>[
+      for (final dept in _departments)
+        if (deptIds.contains(dept.id)) dept,
+      if (deptIds.contains(null)) null,
+    ];
+
+    return Table(
+      defaultColumnWidth: const FixedColumnWidth(160),
+      columnWidths: const {0: FixedColumnWidth(160)},
+      children: [
+        TableRow(
+          children: [
+            _headerCell(l10n.rotaFilterDepartmentLabel),
+            for (final day in days) _headerCell(_formatDate(day)),
+          ],
+        ),
+        for (final dept in rows)
+          TableRow(
+            children: [
+              _staffCell(dept?.name ?? l10n.anyDepartmentLabel),
+              for (final day in days) _buildSlotCell(dept, day),
+            ],
+          ),
+      ],
+    );
+  }
+
+  Widget _buildSlotCell(Department? dept, DateTime day) {
+    final dayShifts = _allShiftsFor(
+      day,
+    ).where((s) => s.departmentId == dept?.id).toList();
+    if (dayShifts.isEmpty) return const SizedBox.shrink();
+
+    // Group by period so a day with both a lunch and evening slot for the
+    // same department shows two badges, not one misleading combined count.
+    final byPeriod = <int?, List<Shift>>{};
+    for (final shift in dayShifts) {
+      final period = shiftPeriodFor(_periods, shift.startsAt);
+      byPeriod.putIfAbsent(period?.id, () => []).add(shift);
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(2),
+      child: Column(
+        children: [
+          for (final entry in byPeriod.entries)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 2),
+              child: Builder(
+                builder: (context) {
+                  final regular = entry.value
+                      .where((s) => !s.isStandby)
+                      .toList();
+                  final standby = entry.value
+                      .where((s) => s.isStandby)
+                      .toList();
+                  final filled = regular
+                      .where((s) => s.claimedByUserId != null)
+                      .length;
+                  final standbyFilled = standby
+                      .where((s) => s.claimedByUserId != null)
+                      .length;
+                  final full = regular.isNotEmpty && filled == regular.length;
+                  final period = _periods
+                      .where((p) => p.id == entry.key)
+                      .firstOrNull;
+                  return InkWell(
+                    onTap: () => _showSlotDetail(regular, standby),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 4,
+                        horizontal: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: (full ? AppColors.pass : AppColors.caution)
+                            .withValues(alpha: 0.18),
+                        border: Border.all(
+                          color: full ? AppColors.pass : AppColors.caution,
+                        ),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        '${period?.name ?? ''} $filled/${regular.length}'
+                        '${standby.isNotEmpty ? ' (+$standbyFilled/${standby.length})' : ''}',
+                        style: const TextStyle(fontSize: 11),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+        ],
+      ),
+    );
+  }
 
   Widget _headerCell(String text) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
@@ -357,11 +603,17 @@ class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
                     ),
                     decoration: BoxDecoration(
                       color: _blockColor(shift).withValues(alpha: 0.18),
-                      border: Border.all(color: _blockColor(shift)),
+                      border: Border.all(
+                        color: _blockColor(shift),
+                        width: shift.isStandby ? 2 : 1,
+                      ),
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
-                      '${_formatTime(shift.startsAt)}-${_formatTime(shift.endsAt)}',
+                      shift.isStandby
+                          ? '${AppLocalizations.of(context)!.rotaStandbyLabel}: '
+                              '${_formatTime(shift.startsAt)}-${_formatTime(shift.endsAt)}'
+                          : '${_formatTime(shift.startsAt)}-${_formatTime(shift.endsAt)}',
                       style: const TextStyle(fontSize: 11),
                       textAlign: TextAlign.center,
                     ),

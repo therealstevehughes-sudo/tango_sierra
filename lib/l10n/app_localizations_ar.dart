@@ -4575,4 +4575,30 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get generateNextWeekButton => 'إنشاء للأسبوع القادم';
+
+  @override
+  String get rotaFilterRoleLabel => 'الدور';
+
+  @override
+  String get rotaStaffViewLabel => 'عرض الموظفين';
+
+  @override
+  String get rotaSlotsViewLabel => 'عرض الفتحات';
+
+  @override
+  String get rotaSlotDetailTitle => 'من في هذه الوردية';
+
+  @override
+  String get rotaAssignedLabel => 'المعينون';
+
+  @override
+  String get rotaStandbyLabel => 'احتياط';
+
+  @override
+  String get rotaNoneAssignedText => 'لا أحد بعد';
+
+  @override
+  String rotaUnfilledCountText(int count) {
+    return 'لا يزال يلزم $count';
+  }
 }

@@ -8077,6 +8077,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Generate next week'**
   String get generateNextWeekButton;
+
+  /// No description provided for @rotaFilterRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get rotaFilterRoleLabel;
+
+  /// No description provided for @rotaStaffViewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff view'**
+  String get rotaStaffViewLabel;
+
+  /// No description provided for @rotaSlotsViewLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Slots view'**
+  String get rotaSlotsViewLabel;
+
+  /// No description provided for @rotaSlotDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Who\'s on this shift'**
+  String get rotaSlotDetailTitle;
+
+  /// No description provided for @rotaAssignedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Assigned'**
+  String get rotaAssignedLabel;
+
+  /// No description provided for @rotaStandbyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Standby'**
+  String get rotaStandbyLabel;
+
+  /// No description provided for @rotaNoneAssignedText.
+  ///
+  /// In en, this message translates to:
+  /// **'None yet'**
+  String get rotaNoneAssignedText;
+
+  /// No description provided for @rotaUnfilledCountText.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} still needed'**
+  String rotaUnfilledCountText(int count);
 }
 
 class _AppLocalizationsDelegate

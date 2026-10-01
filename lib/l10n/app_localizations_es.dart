@@ -4718,4 +4718,30 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get generateNextWeekButton => 'Generar la proxima semana';
+
+  @override
+  String get rotaFilterRoleLabel => 'Puesto';
+
+  @override
+  String get rotaStaffViewLabel => 'Vista de personal';
+
+  @override
+  String get rotaSlotsViewLabel => 'Vista de puestos';
+
+  @override
+  String get rotaSlotDetailTitle => 'Quien esta en este turno';
+
+  @override
+  String get rotaAssignedLabel => 'Asignados';
+
+  @override
+  String get rotaStandbyLabel => 'Reserva';
+
+  @override
+  String get rotaNoneAssignedText => 'Ninguno aun';
+
+  @override
+  String rotaUnfilledCountText(int count) {
+    return 'Aun se necesitan $count';
+  }
 }

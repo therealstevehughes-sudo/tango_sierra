@@ -4464,5 +4464,20 @@
   "masterRotaSettingsDescription": "Define how many staff (and standby) are needed per day/period/department or role, then generate real shifts for a week in one go.",
   "noRequirementsYetText": "No requirements set up yet.",
   "generateThisWeekButton": "Generate this week",
-  "generateNextWeekButton": "Generate next week"
+  "generateNextWeekButton": "Generate next week",
+  "rotaFilterRoleLabel": "Role",
+  "rotaStaffViewLabel": "Staff view",
+  "rotaSlotsViewLabel": "Slots view",
+  "rotaSlotDetailTitle": "Who's on this shift",
+  "rotaAssignedLabel": "Assigned",
+  "rotaStandbyLabel": "Standby",
+  "rotaNoneAssignedText": "None yet",
+  "rotaUnfilledCountText": "{count} still needed",
+  "@rotaUnfilledCountText": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

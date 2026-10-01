@@ -1324,5 +1324,13 @@
   "masterRotaSettingsDescription": "Okresl, ile osob (i w rezerwie) jest potrzebnych na dany dzien/pore/dzial lub role, a nastepnie wygeneruj realne zmiany na caly tydzien za jednym razem.",
   "noRequirementsYetText": "Nie skonfigurowano jeszcze zadnych wymogow.",
   "generateThisWeekButton": "Generuj na ten tydzien",
-  "generateNextWeekButton": "Generuj na przyszly tydzien"
+  "generateNextWeekButton": "Generuj na przyszly tydzien",
+  "rotaFilterRoleLabel": "Rola",
+  "rotaStaffViewLabel": "Widok personelu",
+  "rotaSlotsViewLabel": "Widok stanowisk",
+  "rotaSlotDetailTitle": "Kto jest na tej zmianie",
+  "rotaAssignedLabel": "Przypisani",
+  "rotaStandbyLabel": "Rezerwa",
+  "rotaNoneAssignedText": "Jeszcze nikt",
+  "rotaUnfilledCountText": "Potrzeba jeszcze {count}"
 }

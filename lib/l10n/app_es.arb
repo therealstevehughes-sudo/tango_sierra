@@ -1324,5 +1324,13 @@
   "masterRotaSettingsDescription": "Define cuantas personas (y de reserva) se necesitan por dia/periodo/departamento o puesto, luego genera turnos reales para una semana de una vez.",
   "noRequirementsYetText": "Aun no se han configurado requisitos.",
   "generateThisWeekButton": "Generar esta semana",
-  "generateNextWeekButton": "Generar la proxima semana"
+  "generateNextWeekButton": "Generar la proxima semana",
+  "rotaFilterRoleLabel": "Puesto",
+  "rotaStaffViewLabel": "Vista de personal",
+  "rotaSlotsViewLabel": "Vista de puestos",
+  "rotaSlotDetailTitle": "Quien esta en este turno",
+  "rotaAssignedLabel": "Asignados",
+  "rotaStandbyLabel": "Reserva",
+  "rotaNoneAssignedText": "Ninguno aun",
+  "rotaUnfilledCountText": "Aun se necesitan {count}"
 }

@@ -4717,4 +4717,30 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get generateNextWeekButton => 'Generuj na przyszly tydzien';
+
+  @override
+  String get rotaFilterRoleLabel => 'Rola';
+
+  @override
+  String get rotaStaffViewLabel => 'Widok personelu';
+
+  @override
+  String get rotaSlotsViewLabel => 'Widok stanowisk';
+
+  @override
+  String get rotaSlotDetailTitle => 'Kto jest na tej zmianie';
+
+  @override
+  String get rotaAssignedLabel => 'Przypisani';
+
+  @override
+  String get rotaStandbyLabel => 'Rezerwa';
+
+  @override
+  String get rotaNoneAssignedText => 'Jeszcze nikt';
+
+  @override
+  String rotaUnfilledCountText(int count) {
+    return 'Potrzeba jeszcze $count';
+  }
 }
