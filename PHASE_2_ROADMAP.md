@@ -10,7 +10,17 @@ Ideas and decisions for VenuRite's next phase, agreed 2026-09-30 following compe
 ## Committed Phase 2 ideas
 
 ### SOP / HACCP AI-assisted document generation
-FoodDocs is the only researched competitor with a credible "AI" story — auto-generating HACCP plans/SOPs from a venue's setup answers, not predictive risk AI. Founder confirmed this is a good fit for VenuRite. Not yet scoped — needs its own design pass (what triggers generation, what "AI-assisted" means concretely here, review/approval step before a generated SOP goes live).
+FoodDocs is the only researched competitor with a credible "AI" story — auto-generating HACCP plans/SOPs from a venue's setup answers, not predictive risk AI. Founder confirmed this is a good fit for VenuRite. **DONE, 2026-09-30**: new `generate-sop-document` Edge Function (genuine synthesis, not the citation-grounded `ai-assistant` RAG Q&A — a deliberately different trust level, flagged as such in the UI), 5 starter templates, generate → review/edit → save-as-PDF-to-Document-Centre flow. Every generated document is explicitly framed as an AI-drafted first draft requiring manager review before use.
+
+### Rota calendar + fair auto-assign
+Direct founder request (2026-10-01), after seeing Roster's current screens are flat claim/post lists with no visual calendar at all. Agreed scope:
+- **Shift periods**: leadership configures 2 or 3 named periods per site (e.g. Morning/Afternoon/Night) with time-of-day boundaries — a shift's period is always derived live from this config + its start time, never stored on the shift itself, so changing the config reclassifies everything automatically.
+- **Week grid** (primary view): rows = staff/department, columns = the 7 days, shifts as time blocks — the standard rota-tool layout (Deputy/When I Work).
+- **Month grid** (secondary view): compact per-day shift/unfilled counts, drill into a day or its week.
+- Both filterable by period, department, person.
+- **Fair auto-assign**: manager ticks staff to include + shifts/days to fill, hits one button. Hard constraints (cert-eligibility, no approved-day-off conflicts, no double-booking) always enforced; fairness is explainable round-robin (hardest-to-fill shifts assigned first, then whoever has the fewest hours assigned so far in that run gets each shift) — never a black-box score. **Always produces a preview the manager confirms before anything commits** — same "never auto-publish unreviewed" principle as the allergen tags and AI-drafted SOPs.
+
+Sequencing: shift period config → week grid → month grid → wire into staff/manager screens → auto-assign (depends on the calendar existing). Sprint 1 (shift period config) in progress.
 
 ### Bluetooth/WiFi temperature probe integration
 Middle step before any full IoT sensor network (JOLT/SmartSense's model — Bluetooth + LoRa hardware, opaque enterprise pricing $200-300+/mo). Achievable first step: Bluetooth temperature probes that write readings directly into the existing temperature-check task flow, removing manual entry. Hardware partner/SDK TBD.
