@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:venurite/core/widgets/trigger_notifications_banner.dart';
+import 'package:venurite/l10n/app_localizations.dart';
 import 'package:venurite/shared/models/trigger_notification.dart';
 
 TriggerNotification _alert({
@@ -47,6 +48,8 @@ Future<void> _pump(
   await tester.pumpWidget(
     MaterialApp(
       theme: ThemeData(useMaterial3: true),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: TriggerNotificationsBanner(
           notifications: notifications,
