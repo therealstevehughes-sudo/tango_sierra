@@ -13,14 +13,19 @@ Ideas and decisions for VenuRite's next phase, agreed 2026-09-30 following compe
 FoodDocs is the only researched competitor with a credible "AI" story — auto-generating HACCP plans/SOPs from a venue's setup answers, not predictive risk AI. Founder confirmed this is a good fit for VenuRite. **DONE, 2026-09-30**: new `generate-sop-document` Edge Function (genuine synthesis, not the citation-grounded `ai-assistant` RAG Q&A — a deliberately different trust level, flagged as such in the UI), 5 starter templates, generate → review/edit → save-as-PDF-to-Document-Centre flow. Every generated document is explicitly framed as an AI-drafted first draft requiring manager review before use.
 
 ### Rota calendar + fair auto-assign
-Direct founder request (2026-10-01), after seeing Roster's current screens are flat claim/post lists with no visual calendar at all. Agreed scope:
-- **Shift periods**: leadership configures 2 or 3 named periods per site (e.g. Morning/Afternoon/Night) with time-of-day boundaries — a shift's period is always derived live from this config + its start time, never stored on the shift itself, so changing the config reclassifies everything automatically.
-- **Week grid** (primary view): rows = staff/department, columns = the 7 days, shifts as time blocks — the standard rota-tool layout (Deputy/When I Work).
-- **Month grid** (secondary view): compact per-day shift/unfilled counts, drill into a day or its week.
-- Both filterable by period, department, person.
-- **Fair auto-assign**: manager ticks staff to include + shifts/days to fill, hits one button. Hard constraints (cert-eligibility, no approved-day-off conflicts, no double-booking) always enforced; fairness is explainable round-robin (hardest-to-fill shifts assigned first, then whoever has the fewest hours assigned so far in that run gets each shift) — never a black-box score. **Always produces a preview the manager confirms before anything commits** — same "never auto-publish unreviewed" principle as the allergen tags and AI-drafted SOPs.
+Direct founder request (2026-10-01), after seeing Roster's current screens are flat claim/post lists with no visual calendar at all. Re-scoped mid-build after a follow-up clarification (multi-person slots with counts and standby needed, not just a visual calendar) into a "requirement"-based model.
 
-Sequencing: shift period config → week grid → month grid → wire into staff/manager screens → auto-assign (depends on the calendar existing). Sprint 1 (shift period config) in progress.
+**DONE, 2026-10-01 (Sprints 1-7):**
+1. **Shift periods** — leadership configures 2 or 3 named periods per site (e.g. Morning/Afternoon/Night) with time-of-day boundaries; a shift's period is always derived live from this config + its start time, never stored on the shift.
+2. **Week grid, staff view** — rows = staff, columns = the 7 days, shifts as time blocks. Filterable by period/department/person.
+3. **Master rota settings** (`ShiftRequirementsScreen`) — leadership defines recurring staffing needs (department/role/period/day, with standby counts), then "Generate this/next week" turns every requirement into real open shifts in one action — reuses all existing claim/assign/cert-check machinery unchanged.
+4+5. **Standby + slot view** — `shifts.is_standby` flag; week grid gained a role filter and a Staff/Slots view toggle — Slots view aggregates by department into "2/3 filled (+1/1 standby)" badges, tap to see assigned/standby names and how many are still unfilled.
+6. **Staff slot-claiming calendar** (`RotaClaimScreen`) — each day shown as its period slots with Claim/Join standby/You're assigned/Full states, plus a "Book days off instead" toggle that switches the same view into day-off request marking (reuses the existing off_day_requests flow).
+7. **Month grid** — compact per-day shift/unfilled counts, tap a day to open its week in the week-grid view.
+
+**NOT YET BUILT**: fair auto-assign (manager ticks staff + shifts/days, hits one button; hard constraints - cert-eligibility, no day-off conflicts, no double-booking - always enforced; fairness is explainable round-robin, hardest-to-fill shifts assigned first, then whoever has the fewest hours so far in that run; always produces a preview before anything commits, same "never auto-publish unreviewed" principle as the allergen tags and AI-drafted SOPs). Depended on the calendar/slot model existing first — next up if still wanted.
+
+All SQL migrations applied directly to the live server. Full test suite (66 tests) green throughout; one genuinely broken pre-existing test (`trigger_notifications_banner_test.dart` — missing localization delegates in its own test harness, not an app bug) found and fixed along the way rather than left mislabeled as "pre-existing, not my problem."
 
 ### Bluetooth/WiFi temperature probe integration
 Middle step before any full IoT sensor network (JOLT/SmartSense's model — Bluetooth + LoRa hardware, opaque enterprise pricing $200-300+/mo). Achievable first step: Bluetooth temperature probes that write readings directly into the existing temperature-check task flow, removing manual entry. Hardware partner/SDK TBD.

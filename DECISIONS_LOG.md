@@ -2998,3 +2998,16 @@ Full schema/RLS detail: `tools/phase2_allergen_module_migration.sql` (staged, no
 
 ## EHO export allergen matrix integration — CLOSED (2026-09-30)
 Read the full eho_export_service.dart (1100+ lines) before touching it, per the earlier decision not to risk a rushed edit to an already-shipped compliance document. Added the allergen matrix as its own resilient PDF block, reusing the file's existing _chunkedTable/_cell helpers and addResilientPage pattern unchanged - no changes to the existing Summary/Exceptions/Full-Log blocks at all. Only fires when the site has at least one approved dish. MenuItemRepository added as a new constructor dependency. Not smoke-tested end-to-end with real data (no existing test harness for this file) - flagged, recommend one real export run to visually confirm.
+
+## Rota calendar (7 sprints) — CLOSED except fair auto-assign (2026-10-01)
+Direct founder report: Roster's screens were flat claim/post lists, no visual calendar. Re-scoped mid-build after a follow-up clarification that staff need to see multi-person slots with counts and standby, not just a calendar - this meant building around a "requirement" concept (leadership defines staffing needs, generates real shifts from it) rather than one-shift-at-a-time posting.
+
+Built: shift period configuration (2-3 named periods, time boundaries, derived live per shift - never stored); master rota settings (ShiftRequirementsScreen, generates real shifts for a week in one action from recurring requirements); shifts.is_standby flag; week grid gained a role filter and a Staff/Slots view toggle (Slots view shows aggregated "filled/total (+standby)" counts per department/day/period, tap for assigned+standby names and unfilled counts); staff-facing RotaClaimScreen (period-slot claiming + an integrated "book days off" toggle reusing the existing off-day-request flow); month grid (compact counts, drill into a week).
+
+All additive alongside the pre-existing RosterBoardScreen/ClaimBoardScreen for now - no entry points removed.
+
+Not built: fair auto-assign (ticked staff + shifts, one button, hard constraints + explainable round-robin fairness, preview before commit) - depended on the above existing first, agreed as the next piece if still wanted.
+
+Also fixed in passing: trigger_notifications_banner_test.dart's 5 failures, previously reported across several earlier sessions as "pre-existing" without ever being diagnosed, turned out to be a genuinely broken test (missing AppLocalizations delegates in its own MaterialApp, not an app regression) - fixed rather than left mislabeled.
+
+Full migration/schema detail: tools/phase2_shift_periods_migration.sql, tools/phase2_shift_requirements_migration.sql (also adds shifts.is_standby). All applied directly to the live server.
