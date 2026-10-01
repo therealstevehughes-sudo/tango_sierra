@@ -1342,5 +1342,7 @@
   "youAreAssignedText": "आप इस शिफ्ट पर हैं",
   "joinStandbyButton": "स्टैंडबाय में शामिल हों",
   "shiftFullText": "पूर्ण",
-  "rotaClaimCalendarTitle": "शिफ्ट लें (कैलेंडर)"
+  "rotaClaimCalendarTitle": "शिफ्ट लें (कैलेंडर)",
+  "rotaMonthTitle": "रोटा माह दृश्य",
+  "rotaMonthShiftCountText": "{count} शिफ्ट"
 }

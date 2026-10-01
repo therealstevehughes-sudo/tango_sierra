@@ -4509,4 +4509,12 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get rotaClaimCalendarTitle => '认领班次(日历)';
+
+  @override
+  String get rotaMonthTitle => '排班月视图';
+
+  @override
+  String rotaMonthShiftCountText(int count) {
+    return '$count个班次';
+  }
 }

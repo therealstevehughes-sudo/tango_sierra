@@ -4769,4 +4769,12 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get rotaClaimCalendarTitle => 'Preia ture (calendar)';
+
+  @override
+  String get rotaMonthTitle => 'Vizualizare lunara tura';
+
+  @override
+  String rotaMonthShiftCountText(int count) {
+    return '$count ture';
+  }
 }

@@ -4631,4 +4631,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get rotaClaimCalendarTitle => 'احجز الورديات (تقويم)';
+
+  @override
+  String get rotaMonthTitle => 'عرض الشهر للجدول';
+
+  @override
+  String rotaMonthShiftCountText(int count) {
+    return '$count وردية';
+  }
 }

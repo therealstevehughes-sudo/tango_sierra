@@ -1342,5 +1342,7 @@
   "youAreAssignedText": "Estas en este turno",
   "joinStandbyButton": "Unirse como reserva",
   "shiftFullText": "Completo",
-  "rotaClaimCalendarTitle": "Reclamar turnos (calendario)"
+  "rotaClaimCalendarTitle": "Reclamar turnos (calendario)",
+  "rotaMonthTitle": "Vista mensual de turnos",
+  "rotaMonthShiftCountText": "{count} turnos"
 }

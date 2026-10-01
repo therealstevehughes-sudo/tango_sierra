@@ -4826,4 +4826,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get rotaClaimCalendarTitle => 'Schichten uebernehmen (Kalender)';
+
+  @override
+  String get rotaMonthTitle => 'Dienstplan-Monatsansicht';
+
+  @override
+  String rotaMonthShiftCountText(int count) {
+    return '$count Schichten';
+  }
 }

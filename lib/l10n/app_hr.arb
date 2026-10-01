@@ -1342,5 +1342,7 @@
   "youAreAssignedText": "Vi ste na ovoj smjeni",
   "joinStandbyButton": "Pridruzi se kao pricuva",
   "shiftFullText": "Popunjeno",
-  "rotaClaimCalendarTitle": "Preuzmi smjene (kalendar)"
+  "rotaClaimCalendarTitle": "Preuzmi smjene (kalendar)",
+  "rotaMonthTitle": "Mjesecni prikaz rasporeda",
+  "rotaMonthShiftCountText": "{count} smjena"
 }

@@ -4794,4 +4794,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rotaClaimCalendarTitle => 'Claim shifts (calendar)';
+
+  @override
+  String get rotaMonthTitle => 'Rota month view';
+
+  @override
+  String rotaMonthShiftCountText(int count) {
+    return '$count shifts';
+  }
 }

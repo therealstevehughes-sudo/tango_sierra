@@ -4654,4 +4654,12 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get rotaClaimCalendarTitle => 'شفٹ حاصل کریں (کیلنڈر)';
+
+  @override
+  String get rotaMonthTitle => 'روٹا مہینے کا منظر';
+
+  @override
+  String rotaMonthShiftCountText(int count) {
+    return '$count شفٹیں';
+  }
 }

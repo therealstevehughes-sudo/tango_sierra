@@ -1342,5 +1342,7 @@
   "youAreAssignedText": "Sie sind fuer diese Schicht eingeteilt",
   "joinStandbyButton": "Als Bereitschaft beitreten",
   "shiftFullText": "Voll besetzt",
-  "rotaClaimCalendarTitle": "Schichten uebernehmen (Kalender)"
+  "rotaClaimCalendarTitle": "Schichten uebernehmen (Kalender)",
+  "rotaMonthTitle": "Dienstplan-Monatsansicht",
+  "rotaMonthShiftCountText": "{count} Schichten"
 }

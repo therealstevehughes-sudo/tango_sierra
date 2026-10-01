@@ -23,6 +23,7 @@ import '../../features/roster/roster_billing_service.dart' show rosterAddonEnabl
 import '../../features/roster/roster_board_screen.dart';
 import '../../features/roster/roster_upsell_screen.dart';
 import '../../features/roster/rota_claim_screen.dart';
+import '../../features/roster/rota_month_screen.dart';
 import '../../features/roster/rota_week_screen.dart';
 import '../../features/roster/shift_period_settings_screen.dart';
 import '../../features/roster/shift_requirements_screen.dart';
@@ -189,6 +190,14 @@ List<_DrawerItemDef> _rosterItems(AppLocalizations l10n) => [
     label: l10n.rotaWeekTitle,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const RotaWeekScreen(),
+    requiresRosterAddon: true,
+  ),
+  // Rota calendar, Sprint 7 (2026-10-01) — the zoomed-out month view.
+  _DrawerItemDef(
+    icon: Icons.calendar_month_outlined,
+    label: l10n.rotaMonthTitle,
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const RotaMonthScreen(),
     requiresRosterAddon: true,
   ),
   // Rota calendar, Sprint 1 (2026-10-01) — leadership configures the

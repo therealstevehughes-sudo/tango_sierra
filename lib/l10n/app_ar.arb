@@ -1342,5 +1342,7 @@
   "youAreAssignedText": "أنت في هذه الوردية",
   "joinStandbyButton": "انضم كاحتياط",
   "shiftFullText": "مكتمل",
-  "rotaClaimCalendarTitle": "احجز الورديات (تقويم)"
+  "rotaClaimCalendarTitle": "احجز الورديات (تقويم)",
+  "rotaMonthTitle": "عرض الشهر للجدول",
+  "rotaMonthShiftCountText": "{count} وردية"
 }

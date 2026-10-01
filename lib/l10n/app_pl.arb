@@ -1342,5 +1342,7 @@
   "youAreAssignedText": "Jestes na tej zmianie",
   "joinStandbyButton": "Dolacz jako rezerwa",
   "shiftFullText": "Pelna obsada",
-  "rotaClaimCalendarTitle": "Zajmij zmiany (kalendarz)"
+  "rotaClaimCalendarTitle": "Zajmij zmiany (kalendarz)",
+  "rotaMonthTitle": "Widok miesiecznego grafiku",
+  "rotaMonthShiftCountText": "{count} zmian"
 }

@@ -4684,4 +4684,12 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get rotaClaimCalendarTitle => 'Preuzmi smjene (kalendar)';
+
+  @override
+  String get rotaMonthTitle => 'Mjesecni prikaz rasporeda';
+
+  @override
+  String rotaMonthShiftCountText(int count) {
+    return '$count smjena';
+  }
 }

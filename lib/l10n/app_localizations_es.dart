@@ -4774,4 +4774,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get rotaClaimCalendarTitle => 'Reclamar turnos (calendario)';
+
+  @override
+  String get rotaMonthTitle => 'Vista mensual de turnos';
+
+  @override
+  String rotaMonthShiftCountText(int count) {
+    return '$count turnos';
+  }
 }

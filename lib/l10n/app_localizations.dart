@@ -8185,6 +8185,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Claim shifts (calendar)'**
   String get rotaClaimCalendarTitle;
+
+  /// No description provided for @rotaMonthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rota month view'**
+  String get rotaMonthTitle;
+
+  /// No description provided for @rotaMonthShiftCountText.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} shifts'**
+  String rotaMonthShiftCountText(int count);
 }
 
 class _AppLocalizationsDelegate

@@ -1342,5 +1342,7 @@
   "youAreAssignedText": "آپ اس شفٹ پر ہیں",
   "joinStandbyButton": "اسٹینڈ بائی میں شامل ہوں",
   "shiftFullText": "مکمل",
-  "rotaClaimCalendarTitle": "شفٹ حاصل کریں (کیلنڈر)"
+  "rotaClaimCalendarTitle": "شفٹ حاصل کریں (کیلنڈر)",
+  "rotaMonthTitle": "روٹا مہینے کا منظر",
+  "rotaMonthShiftCountText": "{count} شفٹیں"
 }

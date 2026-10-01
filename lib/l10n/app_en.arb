@@ -4489,5 +4489,14 @@
   "youAreAssignedText": "You're on this shift",
   "joinStandbyButton": "Join standby",
   "shiftFullText": "Full",
-  "rotaClaimCalendarTitle": "Claim shifts (calendar)"
+  "rotaClaimCalendarTitle": "Claim shifts (calendar)",
+  "rotaMonthTitle": "Rota month view",
+  "rotaMonthShiftCountText": "{count} shifts",
+  "@rotaMonthShiftCountText": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -1342,5 +1342,7 @@
   "youAreAssignedText": "您已被安排此班次",
   "joinStandbyButton": "加入候补",
   "shiftFullText": "已满",
-  "rotaClaimCalendarTitle": "认领班次(日历)"
+  "rotaClaimCalendarTitle": "认领班次(日历)",
+  "rotaMonthTitle": "排班月视图",
+  "rotaMonthShiftCountText": "{count}个班次"
 }

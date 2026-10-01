@@ -25,7 +25,12 @@ import '../../shared/providers/site_providers.dart'
 // Deliberately additive alongside RosterBoardScreen/ClaimBoardScreen for
 // now, not a replacement — Sprint 4 covers consolidating entry points.
 class RotaWeekScreen extends ConsumerStatefulWidget {
-  const RotaWeekScreen({super.key});
+  const RotaWeekScreen({super.key, this.initialDate});
+
+  /// Opens showing the week containing this date instead of the current
+  /// week — set when navigated here from RotaMonthScreen (Sprint 7)
+  /// drilling into a specific day/week.
+  final DateTime? initialDate;
 
   @override
   ConsumerState<RotaWeekScreen> createState() => _RotaWeekScreenState();
@@ -51,7 +56,7 @@ class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
   @override
   void initState() {
     super.initState();
-    _weekStart = _mondayOf(DateTime.now());
+    _weekStart = _mondayOf(widget.initialDate ?? DateTime.now());
     _load();
   }
 

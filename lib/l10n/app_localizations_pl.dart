@@ -4773,4 +4773,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get rotaClaimCalendarTitle => 'Zajmij zmiany (kalendarz)';
+
+  @override
+  String get rotaMonthTitle => 'Widok miesiecznego grafiku';
+
+  @override
+  String rotaMonthShiftCountText(int count) {
+    return '$count zmian';
+  }
 }

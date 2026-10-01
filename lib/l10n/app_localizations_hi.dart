@@ -4661,4 +4661,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get rotaClaimCalendarTitle => 'शिफ्ट लें (कैलेंडर)';
+
+  @override
+  String get rotaMonthTitle => 'रोटा माह दृश्य';
+
+  @override
+  String rotaMonthShiftCountText(int count) {
+    return '$count शिफ्ट';
+  }
 }

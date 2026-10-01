@@ -1342,5 +1342,7 @@
   "youAreAssignedText": "Esti pe aceasta tura",
   "joinStandbyButton": "Alatura-te ca rezerva",
   "shiftFullText": "Complet",
-  "rotaClaimCalendarTitle": "Preia ture (calendar)"
+  "rotaClaimCalendarTitle": "Preia ture (calendar)",
+  "rotaMonthTitle": "Vizualizare lunara tura",
+  "rotaMonthShiftCountText": "{count} ture"
 }
