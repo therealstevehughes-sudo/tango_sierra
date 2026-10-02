@@ -4927,4 +4927,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get changeLabel => 'Zmien';
+
+  @override
+  String get bookShiftsAndDaysOffButton => 'Rezerwuj zmiany / dni wolne';
 }

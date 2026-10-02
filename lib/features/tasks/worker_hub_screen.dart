@@ -17,9 +17,8 @@ import '../../shared/providers/site_providers.dart';
 import '../auth/end_shift.dart';
 import '../issues/my_raised_issues_screen.dart';
 import '../issues/report_issue_screen.dart';
-import '../roster/claim_board_screen.dart';
-import '../roster/request_off_day_screen.dart';
 import '../roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
+import '../roster/rota_claim_screen.dart';
 import 'ad_hoc_task_screen.dart';
 import 'task_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
@@ -227,45 +226,29 @@ class WorkerHubScreen extends ConsumerWidget {
                         ),
                         if (rosterAddonEnabled) ...[
                           const SizedBox(height: 12),
-                          // Roster add-on (2026-09-27) — base tier has no drawer
-                          // at all (see the class doc comment above), so this is
-                          // its only route to ClaimBoardScreen. Hidden entirely
-                          // (not locked) when the venue hasn't enabled Roster —
-                          // see the rosterAddonEnabled doc comment above.
+                          // Roster add-on — base tier has no drawer at all (see
+                          // the class doc comment above), so this is its only
+                          // route to the rota calendar. One button, one
+                          // calendar, two functions (direct founder correction,
+                          // 2026-10-02): this used to be two separate buttons
+                          // opening two separate flat-list screens
+                          // (ClaimBoardScreen / RequestOffDayScreen) - a real
+                          // regression, since RotaClaimScreen (built earlier
+                          // this session) already does both in one calendar
+                          // with an integrated "book days off instead" toggle,
+                          // but was never wired in here. Hidden entirely (not
+                          // locked) when the venue hasn't enabled Roster.
                           OutlinedButton.icon(
                             onPressed: currentUser == null
                                 ? null
                                 : () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => const ClaimBoardScreen(),
+                                      builder: (_) => const RotaClaimScreen(),
                                     ),
                                   ),
-                            icon: const Icon(Icons.event_available_outlined),
-                            label: Text(l10n.claimShift),
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              minimumSize: const Size.fromHeight(48),
-                              foregroundColor: Theme.of(
-                                context,
-                              ).colorScheme.primary,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          // Off-day requests (R5, 2026-09-27) — same dual-entry
-                          // pattern as Claim a shift above.
-                          OutlinedButton.icon(
-                            onPressed: currentUser == null
-                                ? null
-                                : () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          const RequestOffDayScreen(),
-                                    ),
-                                  ),
-                            icon: const Icon(Icons.event_busy_outlined),
-                            label: Text(l10n.requestDayOff),
+                            icon: const Icon(Icons.calendar_month_outlined),
+                            label: Text(l10n.bookShiftsAndDaysOffButton),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               minimumSize: const Size.fromHeight(48),

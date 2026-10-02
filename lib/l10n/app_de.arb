@@ -1385,5 +1385,6 @@
   "shiftVerificationPhotosExplanation": "Ein kurzes Foto bei Schichtbeginn/-ende schreckt vor Missbrauch ab. Mitarbeiter koennen ablehnen - ein Vorgesetzter bestaetigt dann die Schicht.",
   "enableShiftVerificationPhotosLabel": "Foto bei Schichtbeginn/-ende verlangen",
   "shiftPhotoRetentionDaysLabel": "Fotos werden {days} Tage aufbewahrt",
-  "changeLabel": "Aendern"
+  "changeLabel": "Aendern",
+  "bookShiftsAndDaysOffButton": "Schichten/Urlaub buchen"
 }

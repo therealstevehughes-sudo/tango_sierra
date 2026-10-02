@@ -4653,4 +4653,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get changeLabel => '更改';
+
+  @override
+  String get bookShiftsAndDaysOffButton => '预订班次/休假';
 }

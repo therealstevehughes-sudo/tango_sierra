@@ -4983,4 +4983,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get changeLabel => 'Aendern';
+
+  @override
+  String get bookShiftsAndDaysOffButton => 'Schichten/Urlaub buchen';
 }

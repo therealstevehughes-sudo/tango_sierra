@@ -4929,4 +4929,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get changeLabel => 'Cambiar';
+
+  @override
+  String get bookShiftsAndDaysOffButton => 'Reservar turnos / dias libres';
 }

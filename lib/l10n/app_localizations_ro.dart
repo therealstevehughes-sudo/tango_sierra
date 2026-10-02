@@ -4926,4 +4926,7 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get changeLabel => 'Schimba';
+
+  @override
+  String get bookShiftsAndDaysOffButton => 'Rezerva ture / zile libere';
 }

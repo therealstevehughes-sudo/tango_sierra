@@ -1385,5 +1385,6 @@
   "shiftVerificationPhotosExplanation": "شفٹ شروع/ختم ہونے پر ایک فوری تصویر دھوکہ دہی کو روکتی ہے۔ عملہ انکار کر سکتا ہے - پھر سپروائزر شفٹ کی تصدیق کرے گا۔",
   "enableShiftVerificationPhotosLabel": "شفٹ شروع/ختم ہونے پر تصویر کی ضرورت بنائیں",
   "shiftPhotoRetentionDaysLabel": "تصاویر {days} دن تک رکھی جاتی ہیں",
-  "changeLabel": "تبدیل کریں"
+  "changeLabel": "تبدیل کریں",
+  "bookShiftsAndDaysOffButton": "شفٹیں/چھٹیاں بک کریں"
 }

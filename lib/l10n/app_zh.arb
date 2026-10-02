@@ -1385,5 +1385,6 @@
   "shiftVerificationPhotosExplanation": "在班次开始/结束时拍一张照片，可以防止代打卡。员工可以拒绝 - 届时由主管验证其班次。",
   "enableShiftVerificationPhotosLabel": "要求在班次开始/结束时拍照",
   "shiftPhotoRetentionDaysLabel": "照片保留 {days} 天",
-  "changeLabel": "更改"
+  "changeLabel": "更改",
+  "bookShiftsAndDaysOffButton": "预订班次/休假"
 }

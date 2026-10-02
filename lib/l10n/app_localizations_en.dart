@@ -4949,4 +4949,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changeLabel => 'Change';
+
+  @override
+  String get bookShiftsAndDaysOffButton => 'Book shifts / days off';
 }

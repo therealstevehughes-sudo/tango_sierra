@@ -1385,5 +1385,6 @@
   "shiftVerificationPhotosExplanation": "Krotkie zdjecie na poczatku/koncu zmiany zniecheca do oszustw. Pracownik moze odmowic - przelozony zweryfikuje zmiane.",
   "enableShiftVerificationPhotosLabel": "Wymagaj zdjecia na poczatku/koncu zmiany",
   "shiftPhotoRetentionDaysLabel": "Zdjecia przechowywane przez {days} dni",
-  "changeLabel": "Zmien"
+  "changeLabel": "Zmien",
+  "bookShiftsAndDaysOffButton": "Rezerwuj zmiany / dni wolne"
 }

@@ -1385,5 +1385,6 @@
   "shiftVerificationPhotosExplanation": "शिफ्ट शुरू/खत्म होने पर एक त्वरित फोटो धोखाधड़ी को रोकती है। स्टाफ मना कर सकता है - तब सुपरवाइज़र शिफ्ट सत्यापित करेगा।",
   "enableShiftVerificationPhotosLabel": "शिफ्ट शुरू/खत्म होने पर फोटो आवश्यक करें",
   "shiftPhotoRetentionDaysLabel": "फोटो {days} दिनों तक रखी जाती हैं",
-  "changeLabel": "बदलें"
+  "changeLabel": "बदलें",
+  "bookShiftsAndDaysOffButton": "शिफ्ट/छुट्टी बुक करें"
 }

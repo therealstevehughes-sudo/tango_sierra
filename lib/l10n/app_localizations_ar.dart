@@ -4784,4 +4784,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get changeLabel => 'تغيير';
+
+  @override
+  String get bookShiftsAndDaysOffButton => 'حجز الورديات / أيام الإجازة';
 }

@@ -4817,4 +4817,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get changeLabel => 'बदलें';
+
+  @override
+  String get bookShiftsAndDaysOffButton => 'शिफ्ट/छुट्टी बुक करें';
 }

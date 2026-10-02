@@ -1385,5 +1385,6 @@
   "shiftVerificationPhotosExplanation": "Una foto rapida al inicio/fin del turno disuade el fraude. El personal puede rechazarlo - un supervisor verifica el turno.",
   "enableShiftVerificationPhotosLabel": "Requerir foto al inicio/fin del turno",
   "shiftPhotoRetentionDaysLabel": "Fotos guardadas {days} dias",
-  "changeLabel": "Cambiar"
+  "changeLabel": "Cambiar",
+  "bookShiftsAndDaysOffButton": "Reservar turnos / dias libres"
 }

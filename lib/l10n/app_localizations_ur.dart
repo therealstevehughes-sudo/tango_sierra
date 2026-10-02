@@ -4809,4 +4809,7 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get changeLabel => 'تبدیل کریں';
+
+  @override
+  String get bookShiftsAndDaysOffButton => 'شفٹیں/چھٹیاں بک کریں';
 }

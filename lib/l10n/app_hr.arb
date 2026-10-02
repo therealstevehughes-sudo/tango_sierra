@@ -1385,5 +1385,6 @@
   "shiftVerificationPhotosExplanation": "Brza fotografija na pocetku/kraju smjene odvraca prijevaru. Osoblje moze odbiti - nadzornik tada provjerava smjenu.",
   "enableShiftVerificationPhotosLabel": "Zahtijevaj fotografiju na pocetku/kraju smjene",
   "shiftPhotoRetentionDaysLabel": "Fotografije se cuvaju {days} dana",
-  "changeLabel": "Promijeni"
+  "changeLabel": "Promijeni",
+  "bookShiftsAndDaysOffButton": "Rezerviraj smjene/slobodne dane"
 }

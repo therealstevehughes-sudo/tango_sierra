@@ -4839,4 +4839,7 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get changeLabel => 'Promijeni';
+
+  @override
+  String get bookShiftsAndDaysOffButton => 'Rezerviraj smjene/slobodne dane';
 }

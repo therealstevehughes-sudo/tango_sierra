@@ -1385,5 +1385,6 @@
   "shiftVerificationPhotosExplanation": "O fotografie rapida la inceputul/sfarsitul turei descurajeaza frauda. Angajatul poate refuza - un supervizor verifica tura.",
   "enableShiftVerificationPhotosLabel": "Solicita o fotografie la inceputul/sfarsitul turei",
   "shiftPhotoRetentionDaysLabel": "Fotografiile pastrate {days} zile",
-  "changeLabel": "Schimba"
+  "changeLabel": "Schimba",
+  "bookShiftsAndDaysOffButton": "Rezerva ture / zile libere"
 }

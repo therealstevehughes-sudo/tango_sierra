@@ -8443,6 +8443,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Change'**
   String get changeLabel;
+
+  /// No description provided for @bookShiftsAndDaysOffButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Book shifts / days off'**
+  String get bookShiftsAndDaysOffButton;
 }
 
 class _AppLocalizationsDelegate

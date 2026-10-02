@@ -1385,5 +1385,6 @@
   "shiftVerificationPhotosExplanation": "صورة سريعة عند بدء/انتهاء الوردية لردع الاحتيال. يمكن للموظف الرفض - سيتحقق المشرف من الوردية بدلاً من ذلك.",
   "enableShiftVerificationPhotosLabel": "طلب صورة عند بدء/انتهاء الوردية",
   "shiftPhotoRetentionDaysLabel": "يتم الاحتفاظ بالصور لمدة {days} يومًا",
-  "changeLabel": "تغيير"
+  "changeLabel": "تغيير",
+  "bookShiftsAndDaysOffButton": "حجز الورديات / أيام الإجازة"
 }
