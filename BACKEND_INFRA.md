@@ -2129,3 +2129,11 @@ Founder asked to confirm every deployed surface was current, all work pushed to 
 - **The Android APK (`get.venurite.com/venurite-preview.apk`) was a day stale** — last built 2026-10-01, before today's entire fix batch (the critical privilege-escalation fix, the 15 stuck-loading-screen fixes, shift-generation idempotency, the admin tool additions). Rebuilt (`flutter build apk --release`, same plain-demo-data convention as every prior preview build) and redeployed — verified byte-identical via `md5sum` before/after, old 101.7MB APK replaced with the new 102.5MB one.
 
 Server cleanup: removed the one remaining deploy backup (`/var/www/venurite-site/app.bak.20261001211201`, from the drift-fix deploy earlier this session) and four leftover `/tmp/venurite_*` staging directories from today's various uploads. `/var/www/venurite-site/` now holds only the live `app/` directory plus the site's own static files — no stale copies anywhere on the server.
+
+## Shift verification photos deployed (2026-10-02)
+
+`tools/phase2_shift_verification_photos_migration.sql` applied via `psql`, then `docker restart supabase-rest` (new table + columns). New private Storage bucket `shift-verification-photos` (confirmed `public=false`), RLS mirrors `certification-documents`' own tenant-isolation pattern exactly (`can_access_site((storage.foldername(name))[1]::integer)` on the `{site_id}/...` path prefix).
+
+All writes to `shift_logs` go through 4 `SECURITY DEFINER` RPCs (`shift_clock_in`, `shift_clock_out`, `shift_verify_clock_event`, `shift_clear_expired_photo`) — the table itself has no insert/update policy, only SELECT, so this is the actual enforced write path, not just the intended one. See DECISIONS_LOG.md's own entry for the full reasoning (identity via `local_user_id` claim, role gate via `role_tier` claim, both read from the JWT directly — the same pattern the privilege-escalation fix established earlier today).
+
+No app rebuild/redeploy needed yet for this specific entry — bundled into the next full web/APK build pass alongside whatever else lands same-session.

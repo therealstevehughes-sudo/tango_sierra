@@ -1368,5 +1368,22 @@
   "bugReportDescriptionLabel": "हमें और बताएं",
   "submitBugReportButton": "रिपोर्ट सबमिट करें",
   "bugReportSubmittedMessage": "धन्यवाद - आपकी रिपोर्ट VenuRite को भेज दी गई है।",
-  "bugReportFailedMessage": "आपकी रिपोर्ट नहीं भेजी जा सकी। कृपया पुनः प्रयास करें।"
+  "bugReportFailedMessage": "आपकी रिपोर्ट नहीं भेजी जा सकी। कृपया पुनः प्रयास करें।",
+  "shiftVerificationQueueTitle": "शिफ्ट सत्यापन",
+  "shiftPhotoConsentTitle": "शिफ्ट फोटो जांच",
+  "shiftPhotoConsentBody": "यह वेन्यू शिफ्ट शुरू और खत्म होने पर एक त्वरित फोटो लेता है ताकि पुष्टि हो सके कि वास्तव में किसने क्लॉक-इन किया। यदि आप नहीं चाहते, तो कोई बात नहीं: आपका सुपरवाइज़र आपकी शिफ्ट के समय की पुष्टि करेगा।",
+  "declinePhotoButton": "नहीं धन्यवाद",
+  "allowPhotoButton": "फोटो की अनुमति दें",
+  "shiftVerificationNotEnabledText": "इस वेन्यू के लिए शिफ्ट सत्यापन फोटो चालू नहीं हैं।",
+  "noPendingVerificationsText": "अभी सत्यापन के लिए कुछ भी लंबित नहीं है।",
+  "pendingClockInLabel": "{time} क्लॉक-इन - कोई फोटो नहीं",
+  "pendingClockOutLabel": "{time} क्लॉक-आउट - कोई फोटो नहीं",
+  "confirmHappenedButton": "पुष्टि करें कि ऐसा हुआ",
+  "shiftPhotoRetentionDaysTitle": "फोटो कितने समय तक रखें?",
+  "daysLabel": "दिन",
+  "shiftVerificationPhotosSectionTitle": "शिफ्ट सत्यापन फोटो",
+  "shiftVerificationPhotosExplanation": "शिफ्ट शुरू/खत्म होने पर एक त्वरित फोटो धोखाधड़ी को रोकती है। स्टाफ मना कर सकता है - तब सुपरवाइज़र शिफ्ट सत्यापित करेगा।",
+  "enableShiftVerificationPhotosLabel": "शिफ्ट शुरू/खत्म होने पर फोटो आवश्यक करें",
+  "shiftPhotoRetentionDaysLabel": "फोटो {days} दिनों तक रखी जाती हैं",
+  "changeLabel": "बदलें"
 }

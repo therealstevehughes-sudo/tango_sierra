@@ -1368,5 +1368,22 @@
   "bugReportDescriptionLabel": "أخبرنا المزيد",
   "submitBugReportButton": "إرسال التقرير",
   "bugReportSubmittedMessage": "شكراً - تم إرسال تقريرك إلى VenuRite.",
-  "bugReportFailedMessage": "تعذر إرسال تقريرك. يرجى المحاولة مرة أخرى."
+  "bugReportFailedMessage": "تعذر إرسال تقريرك. يرجى المحاولة مرة أخرى.",
+  "shiftVerificationQueueTitle": "التحقق من الوردية",
+  "shiftPhotoConsentTitle": "التحقق بالصورة",
+  "shiftPhotoConsentBody": "يلتقط هذا الموقع صورة سريعة عند بدء وانتهاء الوردية للتأكد من هوية الشخص الذي سجل الدخول فعليًا. إذا كنت تفضل عدم ذلك، فلا بأس: سيقوم مشرفك بتأكيد أوقات ورديتك بدلاً من ذلك.",
+  "declinePhotoButton": "لا شكراً",
+  "allowPhotoButton": "السماح بالصورة",
+  "shiftVerificationNotEnabledText": "صور التحقق من الوردية غير مفعلة لهذا الموقع.",
+  "noPendingVerificationsText": "لا يوجد شيء في انتظار التحقق الآن.",
+  "pendingClockInLabel": "تسجيل الدخول {time} - بدون صورة",
+  "pendingClockOutLabel": "تسجيل الخروج {time} - بدون صورة",
+  "confirmHappenedButton": "تأكيد حدوث ذلك",
+  "shiftPhotoRetentionDaysTitle": "كم من الوقت نحتفظ بالصور؟",
+  "daysLabel": "أيام",
+  "shiftVerificationPhotosSectionTitle": "صور التحقق من الوردية",
+  "shiftVerificationPhotosExplanation": "صورة سريعة عند بدء/انتهاء الوردية لردع الاحتيال. يمكن للموظف الرفض - سيتحقق المشرف من الوردية بدلاً من ذلك.",
+  "enableShiftVerificationPhotosLabel": "طلب صورة عند بدء/انتهاء الوردية",
+  "shiftPhotoRetentionDaysLabel": "يتم الاحتفاظ بالصور لمدة {days} يومًا",
+  "changeLabel": "تغيير"
 }

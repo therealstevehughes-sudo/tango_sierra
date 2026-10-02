@@ -4723,4 +4723,65 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get bugReportFailedMessage =>
       'تعذر إرسال تقريرك. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get shiftVerificationQueueTitle => 'التحقق من الوردية';
+
+  @override
+  String get shiftPhotoConsentTitle => 'التحقق بالصورة';
+
+  @override
+  String get shiftPhotoConsentBody =>
+      'يلتقط هذا الموقع صورة سريعة عند بدء وانتهاء الوردية للتأكد من هوية الشخص الذي سجل الدخول فعليًا. إذا كنت تفضل عدم ذلك، فلا بأس: سيقوم مشرفك بتأكيد أوقات ورديتك بدلاً من ذلك.';
+
+  @override
+  String get declinePhotoButton => 'لا شكراً';
+
+  @override
+  String get allowPhotoButton => 'السماح بالصورة';
+
+  @override
+  String get shiftVerificationNotEnabledText =>
+      'صور التحقق من الوردية غير مفعلة لهذا الموقع.';
+
+  @override
+  String get noPendingVerificationsText => 'لا يوجد شيء في انتظار التحقق الآن.';
+
+  @override
+  String pendingClockInLabel(String time) {
+    return 'تسجيل الدخول $time - بدون صورة';
+  }
+
+  @override
+  String pendingClockOutLabel(String time) {
+    return 'تسجيل الخروج $time - بدون صورة';
+  }
+
+  @override
+  String get confirmHappenedButton => 'تأكيد حدوث ذلك';
+
+  @override
+  String get shiftPhotoRetentionDaysTitle => 'كم من الوقت نحتفظ بالصور؟';
+
+  @override
+  String get daysLabel => 'أيام';
+
+  @override
+  String get shiftVerificationPhotosSectionTitle => 'صور التحقق من الوردية';
+
+  @override
+  String get shiftVerificationPhotosExplanation =>
+      'صورة سريعة عند بدء/انتهاء الوردية لردع الاحتيال. يمكن للموظف الرفض - سيتحقق المشرف من الوردية بدلاً من ذلك.';
+
+  @override
+  String get enableShiftVerificationPhotosLabel =>
+      'طلب صورة عند بدء/انتهاء الوردية';
+
+  @override
+  String shiftPhotoRetentionDaysLabel(int days) {
+    return 'يتم الاحتفاظ بالصور لمدة $days يومًا';
+  }
+
+  @override
+  String get changeLabel => 'تغيير';
 }

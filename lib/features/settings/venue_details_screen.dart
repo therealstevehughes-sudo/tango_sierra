@@ -188,6 +188,50 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
     setState(() {});
   }
 
+  Future<void> _setShiftVerificationPhotosEnabled(
+    Site site,
+    bool enabled,
+  ) async {
+    await ref
+        .read(siteRepositoryProvider)
+        .setShiftVerificationPhotosEnabled(site.id, enabled);
+    await _loadData();
+  }
+
+  Future<void> _editRetentionDays(Site site) async {
+    final controller = TextEditingController(
+      text: site.shiftPhotoRetentionDays.toString(),
+    );
+    final l10n = AppLocalizations.of(context)!;
+    final newValue = await showDialog<int>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.shiftPhotoRetentionDaysTitle),
+        content: TextField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(labelText: l10n.daysLabel),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () =>
+                Navigator.pop(context, int.tryParse(controller.text.trim())),
+            child: Text(l10n.saveButton),
+          ),
+        ],
+      ),
+    );
+    if (newValue == null || newValue <= 0) return;
+    await ref
+        .read(siteRepositoryProvider)
+        .setShiftPhotoRetentionDays(site.id, newValue);
+    await _loadData();
+  }
+
   // Device pairing (2026-09-20) — regenerating disconnects every tablet
   // currently using this venue's old code (it's a shared-per-venue secret,
   // not per-device), so this is a real, warned-about action rather than a
@@ -426,6 +470,55 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                                     ),
                                   ],
                                 ),
+                              ],
+                            ),
+                          ),
+                        if (backendDataEnabled &&
+                            currentUser != null &&
+                            roleTierRank(currentUser.roleTier) >=
+                                roleTierRank(RoleTier.venueManager))
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SectionHeader(
+                                  title: l10n.shiftVerificationPhotosSectionTitle,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  l10n.shiftVerificationPhotosExplanation,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                SwitchListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  title: Text(
+                                    l10n.enableShiftVerificationPhotosLabel,
+                                  ),
+                                  value: site.shiftVerificationPhotosEnabled,
+                                  onChanged: (value) =>
+                                      _setShiftVerificationPhotosEnabled(
+                                        site,
+                                        value,
+                                      ),
+                                ),
+                                if (site.shiftVerificationPhotosEnabled)
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          l10n.shiftPhotoRetentionDaysLabel(
+                                            site.shiftPhotoRetentionDays,
+                                          ),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () =>
+                                            _editRetentionDays(site),
+                                        child: Text(l10n.changeLabel),
+                                      ),
+                                    ],
+                                  ),
                               ],
                             ),
                           ),

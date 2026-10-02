@@ -55,6 +55,11 @@ abstract class SiteRepository {
   /// (see Site.deviceCredential's doc comment) — DriftSiteRepository
   /// throws UnimplementedError.
   Future<Site> regenerateDeviceCredential(int siteId);
+
+  // Shift verification photos (2026-10-02) — backend-only; no-op on the
+  // local Drift path, same reasoning as UserRepository.setShiftPhotoConsent.
+  Future<void> setShiftVerificationPhotosEnabled(int siteId, bool enabled);
+  Future<void> setShiftPhotoRetentionDays(int siteId, int days);
 }
 
 class DriftSiteRepository implements SiteRepository {
@@ -177,6 +182,15 @@ class DriftSiteRepository implements SiteRepository {
       'local-only install has no separate device to pair.',
     );
   }
+
+  @override
+  Future<void> setShiftVerificationPhotosEnabled(
+    int siteId,
+    bool enabled,
+  ) async {}
+
+  @override
+  Future<void> setShiftPhotoRetentionDays(int siteId, int days) async {}
 
   Site _toModel(SiteEntity row) {
     return Site(

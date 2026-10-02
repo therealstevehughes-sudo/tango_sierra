@@ -13,6 +13,13 @@ class Site {
   // in (backend mode only; a local-only install is already trusted and
   // has no such concept, so this is always null there).
   final String? deviceCredential;
+  // Shift verification photos (2026-10-02) — off by default; a venue
+  // manager+ turns this on per-site. Retention is in days, GDPR
+  // storage-limitation default of 90, deliberately configurable rather
+  // than a hardcoded "legal" number nobody has actually confirmed for
+  // this specific record type (see the migration's own doc comment).
+  final bool shiftVerificationPhotosEnabled;
+  final int shiftPhotoRetentionDays;
 
   const Site({
     required this.id,
@@ -22,5 +29,7 @@ class Site {
     required this.createdAt,
     this.regionId,
     this.deviceCredential,
+    this.shiftVerificationPhotosEnabled = false,
+    this.shiftPhotoRetentionDays = 90,
   });
 }

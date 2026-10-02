@@ -4539,5 +4539,43 @@
   "bugReportDescriptionLabel": "Tell us more",
   "submitBugReportButton": "Submit report",
   "bugReportSubmittedMessage": "Thanks - your report has been sent to VenuRite.",
-  "bugReportFailedMessage": "Couldn't send your report. Please try again."
+  "bugReportFailedMessage": "Couldn't send your report. Please try again.",
+  "shiftVerificationQueueTitle": "Shift verification",
+  "shiftPhotoConsentTitle": "Shift photo check",
+  "shiftPhotoConsentBody": "This venue takes a quick photo at shift start and end to confirm who actually clocked in - it helps prevent a shift being started or finished for someone who isn't there. If you'd rather not, that's fine: your supervisor will confirm your shift times instead.",
+  "declinePhotoButton": "No thanks",
+  "allowPhotoButton": "Allow photo",
+  "shiftVerificationNotEnabledText": "Shift verification photos aren't turned on for this venue.",
+  "noPendingVerificationsText": "Nothing waiting on verification right now.",
+  "pendingClockInLabel": "Clocked in {time} - no photo",
+  "@pendingClockInLabel": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "pendingClockOutLabel": "Clocked out {time} - no photo",
+  "@pendingClockOutLabel": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "confirmHappenedButton": "Confirm it happened",
+  "shiftPhotoRetentionDaysTitle": "Keep photos for how long?",
+  "daysLabel": "Days",
+  "shiftVerificationPhotosSectionTitle": "Shift verification photos",
+  "shiftVerificationPhotosExplanation": "A quick photo at shift start/end to deter buddy-punching. Staff can decline - a supervisor verifies their shift instead.",
+  "enableShiftVerificationPhotosLabel": "Require a photo at shift start/end",
+  "shiftPhotoRetentionDaysLabel": "Photos kept for {days} days",
+  "@shiftPhotoRetentionDaysLabel": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "changeLabel": "Change"
 }

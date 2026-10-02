@@ -4776,4 +4776,67 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get bugReportFailedMessage =>
       'Prijava nije poslana. Pokusajte ponovno.';
+
+  @override
+  String get shiftVerificationQueueTitle => 'Provjera smjene';
+
+  @override
+  String get shiftPhotoConsentTitle => 'Provjera fotografijom';
+
+  @override
+  String get shiftPhotoConsentBody =>
+      'Ovaj objekt snima brzu fotografiju na pocetku i kraju smjene kako bi potvrdio tko se stvarno prijavio. Ako radije ne biste, u redu je: vas nadzornik ce potvrditi vrijeme vase smjene.';
+
+  @override
+  String get declinePhotoButton => 'Ne, hvala';
+
+  @override
+  String get allowPhotoButton => 'Dopusti fotografiju';
+
+  @override
+  String get shiftVerificationNotEnabledText =>
+      'Fotografije za provjeru smjene nisu ukljucene za ovaj objekt.';
+
+  @override
+  String get noPendingVerificationsText =>
+      'Trenutno nema nicega na cekanju za provjeru.';
+
+  @override
+  String pendingClockInLabel(String time) {
+    return 'Prijava $time - bez fotografije';
+  }
+
+  @override
+  String pendingClockOutLabel(String time) {
+    return 'Odjava $time - bez fotografije';
+  }
+
+  @override
+  String get confirmHappenedButton => 'Potvrdi da se dogodilo';
+
+  @override
+  String get shiftPhotoRetentionDaysTitle => 'Koliko dugo cuvati fotografije?';
+
+  @override
+  String get daysLabel => 'Dana';
+
+  @override
+  String get shiftVerificationPhotosSectionTitle =>
+      'Fotografije za provjeru smjene';
+
+  @override
+  String get shiftVerificationPhotosExplanation =>
+      'Brza fotografija na pocetku/kraju smjene odvraca prijevaru. Osoblje moze odbiti - nadzornik tada provjerava smjenu.';
+
+  @override
+  String get enableShiftVerificationPhotosLabel =>
+      'Zahtijevaj fotografiju na pocetku/kraju smjene';
+
+  @override
+  String shiftPhotoRetentionDaysLabel(int days) {
+    return 'Fotografije se cuvaju $days dana';
+  }
+
+  @override
+  String get changeLabel => 'Promijeni';
 }

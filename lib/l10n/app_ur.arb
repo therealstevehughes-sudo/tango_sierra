@@ -1368,5 +1368,22 @@
   "bugReportDescriptionLabel": "ہمیں مزید بتائیں",
   "submitBugReportButton": "رپورٹ جمع کروائیں",
   "bugReportSubmittedMessage": "شکریہ - آپ کی رپورٹ VenuRite کو بھیج دی گئی ہے۔",
-  "bugReportFailedMessage": "آپ کی رپورٹ بھیجی نہیں جا سکی۔ براہ کرم دوبارہ کوشش کریں۔"
+  "bugReportFailedMessage": "آپ کی رپورٹ بھیجی نہیں جا سکی۔ براہ کرم دوبارہ کوشش کریں۔",
+  "shiftVerificationQueueTitle": "شفٹ کی تصدیق",
+  "shiftPhotoConsentTitle": "شفٹ فوٹو چیک",
+  "shiftPhotoConsentBody": "یہ مقام شفٹ شروع اور ختم ہونے پر ایک فوری تصویر لیتا ہے تاکہ یہ تصدیق ہو سکے کہ اصل میں کس نے کلاک ان کیا۔ اگر آپ نہیں چاہتے تو کوئی بات نہیں: آپ کا سپروائزر آپ کی شفٹ کے اوقات کی تصدیق کرے گا۔",
+  "declinePhotoButton": "نہیں شکریہ",
+  "allowPhotoButton": "تصویر کی اجازت دیں",
+  "shiftVerificationNotEnabledText": "اس مقام کے لیے شفٹ تصدیقی تصاویر فعال نہیں ہیں۔",
+  "noPendingVerificationsText": "اس وقت تصدیق کے لیے کچھ بھی زیر التوا نہیں ہے۔",
+  "pendingClockInLabel": "{time} کلاک ان - کوئی تصویر نہیں",
+  "pendingClockOutLabel": "{time} کلاک آؤٹ - کوئی تصویر نہیں",
+  "confirmHappenedButton": "تصدیق کریں کہ یہ ہوا",
+  "shiftPhotoRetentionDaysTitle": "تصاویر کتنے عرصے تک رکھیں؟",
+  "daysLabel": "دن",
+  "shiftVerificationPhotosSectionTitle": "شفٹ تصدیقی تصاویر",
+  "shiftVerificationPhotosExplanation": "شفٹ شروع/ختم ہونے پر ایک فوری تصویر دھوکہ دہی کو روکتی ہے۔ عملہ انکار کر سکتا ہے - پھر سپروائزر شفٹ کی تصدیق کرے گا۔",
+  "enableShiftVerificationPhotosLabel": "شفٹ شروع/ختم ہونے پر تصویر کی ضرورت بنائیں",
+  "shiftPhotoRetentionDaysLabel": "تصاویر {days} دن تک رکھی جاتی ہیں",
+  "changeLabel": "تبدیل کریں"
 }

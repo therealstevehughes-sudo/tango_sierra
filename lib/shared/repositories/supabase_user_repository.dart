@@ -357,5 +357,27 @@ class SupabaseUserRepository implements UserRepository {
     reportsToUserId: row['reports_to_user_id'] as int?,
     fcmToken: row['fcm_token'] as String?,
     preferredLocale: row['preferred_locale'] as String?,
+    shiftPhotoConsent: row['shift_photo_consent'] as String?,
+    shiftPhotoConsentAt: row['shift_photo_consent_at'] == null
+        ? null
+        : DateTime.parse(row['shift_photo_consent_at'] as String),
+    shiftPhotoConsentVersion: row['shift_photo_consent_version'] as String?,
   );
+
+  @override
+  Future<void> setShiftPhotoConsent({
+    required int userId,
+    required String consent,
+    required String version,
+  }) async {
+    await _client.update(
+      'users',
+      filter: 'id=eq.$userId',
+      body: {
+        'shift_photo_consent': consent,
+        'shift_photo_consent_at': DateTime.now().toIso8601String(),
+        'shift_photo_consent_version': version,
+      },
+    );
+  }
 }

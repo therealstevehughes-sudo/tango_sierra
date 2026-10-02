@@ -1368,5 +1368,22 @@
   "bugReportDescriptionLabel": "Spune-ne mai multe",
   "submitBugReportButton": "Trimite raportul",
   "bugReportSubmittedMessage": "Multumim - raportul tau a fost trimis catre VenuRite.",
-  "bugReportFailedMessage": "Raportul nu a putut fi trimis. Te rugam sa incerci din nou."
+  "bugReportFailedMessage": "Raportul nu a putut fi trimis. Te rugam sa incerci din nou.",
+  "shiftVerificationQueueTitle": "Verificare tura",
+  "shiftPhotoConsentTitle": "Verificare foto tura",
+  "shiftPhotoConsentBody": "Acest local face o fotografie rapida la inceputul si sfarsitul turei pentru a confirma cine a pontat. Daca preferi sa nu, e in regula: supervizorul tau va confirma orele turei tale.",
+  "declinePhotoButton": "Nu, multumesc",
+  "allowPhotoButton": "Permite fotografia",
+  "shiftVerificationNotEnabledText": "Fotografiile de verificare a turei nu sunt activate pentru acest local.",
+  "noPendingVerificationsText": "Nimic in asteptare pentru verificare.",
+  "pendingClockInLabel": "Inceput {time} - fara fotografie",
+  "pendingClockOutLabel": "Sfarsit {time} - fara fotografie",
+  "confirmHappenedButton": "Confirma ca s-a intamplat",
+  "shiftPhotoRetentionDaysTitle": "Cat timp pastram fotografiile?",
+  "daysLabel": "Zile",
+  "shiftVerificationPhotosSectionTitle": "Fotografii de verificare a turei",
+  "shiftVerificationPhotosExplanation": "O fotografie rapida la inceputul/sfarsitul turei descurajeaza frauda. Angajatul poate refuza - un supervizor verifica tura.",
+  "enableShiftVerificationPhotosLabel": "Solicita o fotografie la inceputul/sfarsitul turei",
+  "shiftPhotoRetentionDaysLabel": "Fotografiile pastrate {days} zile",
+  "changeLabel": "Schimba"
 }

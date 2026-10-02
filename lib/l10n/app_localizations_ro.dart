@@ -4863,4 +4863,67 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get bugReportFailedMessage =>
       'Raportul nu a putut fi trimis. Te rugam sa incerci din nou.';
+
+  @override
+  String get shiftVerificationQueueTitle => 'Verificare tura';
+
+  @override
+  String get shiftPhotoConsentTitle => 'Verificare foto tura';
+
+  @override
+  String get shiftPhotoConsentBody =>
+      'Acest local face o fotografie rapida la inceputul si sfarsitul turei pentru a confirma cine a pontat. Daca preferi sa nu, e in regula: supervizorul tau va confirma orele turei tale.';
+
+  @override
+  String get declinePhotoButton => 'Nu, multumesc';
+
+  @override
+  String get allowPhotoButton => 'Permite fotografia';
+
+  @override
+  String get shiftVerificationNotEnabledText =>
+      'Fotografiile de verificare a turei nu sunt activate pentru acest local.';
+
+  @override
+  String get noPendingVerificationsText =>
+      'Nimic in asteptare pentru verificare.';
+
+  @override
+  String pendingClockInLabel(String time) {
+    return 'Inceput $time - fara fotografie';
+  }
+
+  @override
+  String pendingClockOutLabel(String time) {
+    return 'Sfarsit $time - fara fotografie';
+  }
+
+  @override
+  String get confirmHappenedButton => 'Confirma ca s-a intamplat';
+
+  @override
+  String get shiftPhotoRetentionDaysTitle => 'Cat timp pastram fotografiile?';
+
+  @override
+  String get daysLabel => 'Zile';
+
+  @override
+  String get shiftVerificationPhotosSectionTitle =>
+      'Fotografii de verificare a turei';
+
+  @override
+  String get shiftVerificationPhotosExplanation =>
+      'O fotografie rapida la inceputul/sfarsitul turei descurajeaza frauda. Angajatul poate refuza - un supervizor verifica tura.';
+
+  @override
+  String get enableShiftVerificationPhotosLabel =>
+      'Solicita o fotografie la inceputul/sfarsitul turei';
+
+  @override
+  String shiftPhotoRetentionDaysLabel(int days) {
+    return 'Fotografiile pastrate $days zile';
+  }
+
+  @override
+  String get changeLabel => 'Schimba';
 }

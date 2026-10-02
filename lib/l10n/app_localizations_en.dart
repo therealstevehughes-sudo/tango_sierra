@@ -4887,4 +4887,66 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get bugReportFailedMessage =>
       'Couldn\'t send your report. Please try again.';
+
+  @override
+  String get shiftVerificationQueueTitle => 'Shift verification';
+
+  @override
+  String get shiftPhotoConsentTitle => 'Shift photo check';
+
+  @override
+  String get shiftPhotoConsentBody =>
+      'This venue takes a quick photo at shift start and end to confirm who actually clocked in - it helps prevent a shift being started or finished for someone who isn\'t there. If you\'d rather not, that\'s fine: your supervisor will confirm your shift times instead.';
+
+  @override
+  String get declinePhotoButton => 'No thanks';
+
+  @override
+  String get allowPhotoButton => 'Allow photo';
+
+  @override
+  String get shiftVerificationNotEnabledText =>
+      'Shift verification photos aren\'t turned on for this venue.';
+
+  @override
+  String get noPendingVerificationsText =>
+      'Nothing waiting on verification right now.';
+
+  @override
+  String pendingClockInLabel(String time) {
+    return 'Clocked in $time - no photo';
+  }
+
+  @override
+  String pendingClockOutLabel(String time) {
+    return 'Clocked out $time - no photo';
+  }
+
+  @override
+  String get confirmHappenedButton => 'Confirm it happened';
+
+  @override
+  String get shiftPhotoRetentionDaysTitle => 'Keep photos for how long?';
+
+  @override
+  String get daysLabel => 'Days';
+
+  @override
+  String get shiftVerificationPhotosSectionTitle => 'Shift verification photos';
+
+  @override
+  String get shiftVerificationPhotosExplanation =>
+      'A quick photo at shift start/end to deter buddy-punching. Staff can decline - a supervisor verifies their shift instead.';
+
+  @override
+  String get enableShiftVerificationPhotosLabel =>
+      'Require a photo at shift start/end';
+
+  @override
+  String shiftPhotoRetentionDaysLabel(int days) {
+    return 'Photos kept for $days days';
+  }
+
+  @override
+  String get changeLabel => 'Change';
 }

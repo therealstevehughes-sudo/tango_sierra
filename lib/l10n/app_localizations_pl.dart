@@ -4865,4 +4865,66 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get bugReportFailedMessage =>
       'Nie udalo sie wyslac zgloszenia. Sprobuj ponownie.';
+
+  @override
+  String get shiftVerificationQueueTitle => 'Weryfikacja zmiany';
+
+  @override
+  String get shiftPhotoConsentTitle => 'Zdjecie przy zmianie';
+
+  @override
+  String get shiftPhotoConsentBody =>
+      'Ten lokal robi krotkie zdjecie na poczatku i koncu zmiany, aby potwierdzic, kto faktycznie rozpoczal/zakonczyl prace. Jesli wolisz nie - w porzadku: Twoj przelozony potwierdzi czas Twojej zmiany.';
+
+  @override
+  String get declinePhotoButton => 'Nie, dziekuje';
+
+  @override
+  String get allowPhotoButton => 'Zezwol na zdjecie';
+
+  @override
+  String get shiftVerificationNotEnabledText =>
+      'Zdjecia weryfikacyjne zmian nie sa wlaczone dla tego lokalu.';
+
+  @override
+  String get noPendingVerificationsText => 'Brak oczekujacych weryfikacji.';
+
+  @override
+  String pendingClockInLabel(String time) {
+    return 'Rozpoczecie $time - brak zdjecia';
+  }
+
+  @override
+  String pendingClockOutLabel(String time) {
+    return 'Zakonczenie $time - brak zdjecia';
+  }
+
+  @override
+  String get confirmHappenedButton => 'Potwierdz, ze mialo miejsce';
+
+  @override
+  String get shiftPhotoRetentionDaysTitle => 'Jak dlugo przechowywac zdjecia?';
+
+  @override
+  String get daysLabel => 'Dni';
+
+  @override
+  String get shiftVerificationPhotosSectionTitle =>
+      'Zdjecia weryfikacyjne zmian';
+
+  @override
+  String get shiftVerificationPhotosExplanation =>
+      'Krotkie zdjecie na poczatku/koncu zmiany zniecheca do oszustw. Pracownik moze odmowic - przelozony zweryfikuje zmiane.';
+
+  @override
+  String get enableShiftVerificationPhotosLabel =>
+      'Wymagaj zdjecia na poczatku/koncu zmiany';
+
+  @override
+  String shiftPhotoRetentionDaysLabel(int days) {
+    return 'Zdjecia przechowywane przez $days dni';
+  }
+
+  @override
+  String get changeLabel => 'Zmien';
 }

@@ -4919,4 +4919,68 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get bugReportFailedMessage =>
       'Ihr Bericht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.';
+
+  @override
+  String get shiftVerificationQueueTitle => 'Schichtverifizierung';
+
+  @override
+  String get shiftPhotoConsentTitle => 'Foto-Check zur Schicht';
+
+  @override
+  String get shiftPhotoConsentBody =>
+      'Dieser Standort macht bei Schichtbeginn und -ende ein kurzes Foto, um zu bestaetigen, wer sich tatsaechlich ein-/ausgestempelt hat. Wenn Sie das lieber nicht moechten, ist das in Ordnung: Ihr Vorgesetzter bestaetigt dann Ihre Schichtzeiten.';
+
+  @override
+  String get declinePhotoButton => 'Nein danke';
+
+  @override
+  String get allowPhotoButton => 'Foto erlauben';
+
+  @override
+  String get shiftVerificationNotEnabledText =>
+      'Schichtverifizierungsfotos sind fuer diesen Standort nicht aktiviert.';
+
+  @override
+  String get noPendingVerificationsText =>
+      'Momentan wartet nichts auf Bestaetigung.';
+
+  @override
+  String pendingClockInLabel(String time) {
+    return 'Eingestempelt $time - kein Foto';
+  }
+
+  @override
+  String pendingClockOutLabel(String time) {
+    return 'Ausgestempelt $time - kein Foto';
+  }
+
+  @override
+  String get confirmHappenedButton => 'Bestaetigen, dass es stattfand';
+
+  @override
+  String get shiftPhotoRetentionDaysTitle =>
+      'Wie lange sollen Fotos aufbewahrt werden?';
+
+  @override
+  String get daysLabel => 'Tage';
+
+  @override
+  String get shiftVerificationPhotosSectionTitle =>
+      'Schichtverifizierungsfotos';
+
+  @override
+  String get shiftVerificationPhotosExplanation =>
+      'Ein kurzes Foto bei Schichtbeginn/-ende schreckt vor Missbrauch ab. Mitarbeiter koennen ablehnen - ein Vorgesetzter bestaetigt dann die Schicht.';
+
+  @override
+  String get enableShiftVerificationPhotosLabel =>
+      'Foto bei Schichtbeginn/-ende verlangen';
+
+  @override
+  String shiftPhotoRetentionDaysLabel(int days) {
+    return 'Fotos werden $days Tage aufbewahrt';
+  }
+
+  @override
+  String get changeLabel => 'Aendern';
 }

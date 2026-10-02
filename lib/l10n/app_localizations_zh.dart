@@ -4594,4 +4594,63 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get bugReportFailedMessage => '无法发送您的报告。请重试。';
+
+  @override
+  String get shiftVerificationQueueTitle => '班次验证';
+
+  @override
+  String get shiftPhotoConsentTitle => '班次拍照验证';
+
+  @override
+  String get shiftPhotoConsentBody =>
+      '本店会在班次开始和结束时拍一张照片，以确认是谁实际打卡。如果您不愿意，也没关系：主管会代为确认您的班次时间。';
+
+  @override
+  String get declinePhotoButton => '不用了';
+
+  @override
+  String get allowPhotoButton => '允许拍照';
+
+  @override
+  String get shiftVerificationNotEnabledText => '此场所尚未启用班次验证照片。';
+
+  @override
+  String get noPendingVerificationsText => '目前没有待验证的项目。';
+
+  @override
+  String pendingClockInLabel(String time) {
+    return '$time 打卡上班 - 无照片';
+  }
+
+  @override
+  String pendingClockOutLabel(String time) {
+    return '$time 打卡下班 - 无照片';
+  }
+
+  @override
+  String get confirmHappenedButton => '确认属实';
+
+  @override
+  String get shiftPhotoRetentionDaysTitle => '照片保留多久？';
+
+  @override
+  String get daysLabel => '天数';
+
+  @override
+  String get shiftVerificationPhotosSectionTitle => '班次验证照片';
+
+  @override
+  String get shiftVerificationPhotosExplanation =>
+      '在班次开始/结束时拍一张照片，可以防止代打卡。员工可以拒绝 - 届时由主管验证其班次。';
+
+  @override
+  String get enableShiftVerificationPhotosLabel => '要求在班次开始/结束时拍照';
+
+  @override
+  String shiftPhotoRetentionDaysLabel(int days) {
+    return '照片保留 $days 天';
+  }
+
+  @override
+  String get changeLabel => '更改';
 }

@@ -254,4 +254,15 @@ class BackendRestClient {
     final decoded = jsonDecode(response.body) as Map<String, dynamic>;
     return '${BackendConfig.supabaseUrl}/storage/v1${decoded['signedURL']}';
   }
+
+  /// Deletes a file from a Storage bucket — used by the shift-photo
+  /// retention purge (2026-10-02). Storage's own RLS on storage.objects
+  /// still applies, same as every other storage call here.
+  Future<void> deleteFromStorage(String bucket, String path) async {
+    final response = await http.delete(
+      Uri.parse('${BackendConfig.supabaseUrl}/storage/v1/object/$bucket/$path'),
+      headers: _headers(),
+    );
+    _checkOk(response);
+  }
 }

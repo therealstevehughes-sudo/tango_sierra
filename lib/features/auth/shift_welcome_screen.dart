@@ -12,11 +12,13 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/problem_register_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
+import '../../shared/providers/site_providers.dart' show siteRepositoryProvider;
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../tasks/task_controller.dart';
+import 'shift_verification_flow.dart';
 
 // Shift welcome screen (2026-09-24, direct user request) — shown once,
 // right after a PIN login succeeds, before the normal home screen
@@ -93,6 +95,25 @@ class _ShiftWelcomeScreenState extends ConsumerState<ShiftWelcomeScreen> {
           .clockIn(userId: widget.user.id, siteId: widget.user.siteId);
     } catch (_) {
       // Best-effort — a missed clock-in row never blocks getting to work.
+    }
+    // Shift verification photos (2026-10-02) — additive, backend-only; a
+    // complete no-op unless the active site has turned this on. Runs
+    // after the plain local habit-tracker clock-in above, never instead
+    // of it, so every existing install's behaviour is unchanged.
+    final siteId = widget.user.siteId;
+    if (siteId == null) return;
+    try {
+      final site = await ref.read(siteRepositoryProvider).getById(siteId);
+      if (site == null || !mounted) return;
+      await runShiftVerificationStep(
+        context: context,
+        ref: ref,
+        user: widget.user,
+        site: site,
+        which: 'in',
+      );
+    } catch (_) {
+      // Same best-effort reasoning as the habit-tracker clock-in above.
     }
   }
 

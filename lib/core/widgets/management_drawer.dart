@@ -35,6 +35,7 @@ import '../../features/settings/menu_management_screen.dart';
 import '../../features/settings/document_centre_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
 import '../../features/settings/settings_screen.dart';
+import '../../features/auth/shift_verification_queue_screen.dart';
 import '../../features/settings/shift_log_screen.dart';
 import '../../features/settings/staff_management_screen.dart';
 import '../../features/settings/supplier_management_screen.dart';
@@ -131,6 +132,16 @@ List<_DrawerItemDef> _peopleItems(AppLocalizations l10n) => [
     label: l10n.shiftLog,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const ShiftLogScreen(),
+  ),
+  // Shift verification queue (2026-10-02) — supervisor+, same floor as
+  // every other "act on someone else's shift" screen (Claim Shifts'
+  // manager side). A no-op list (empty, addon-not-enabled message) for
+  // any site that hasn't turned the feature on.
+  _DrawerItemDef(
+    icon: Icons.verified_outlined,
+    label: l10n.shiftVerificationQueueTitle,
+    minTier: RoleTier.supervisor,
+    screenBuilder: (_) => const ShiftVerificationQueueScreen(),
   ),
   // Chain of command / branch organogram (2026-09-15) — kept at its
   // original supervisor+ gate (unchanged by this redesign, only its

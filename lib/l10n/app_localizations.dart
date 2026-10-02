@@ -8341,6 +8341,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t send your report. Please try again.'**
   String get bugReportFailedMessage;
+
+  /// No description provided for @shiftVerificationQueueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift verification'**
+  String get shiftVerificationQueueTitle;
+
+  /// No description provided for @shiftPhotoConsentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift photo check'**
+  String get shiftPhotoConsentTitle;
+
+  /// No description provided for @shiftPhotoConsentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This venue takes a quick photo at shift start and end to confirm who actually clocked in - it helps prevent a shift being started or finished for someone who isn\'t there. If you\'d rather not, that\'s fine: your supervisor will confirm your shift times instead.'**
+  String get shiftPhotoConsentBody;
+
+  /// No description provided for @declinePhotoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'No thanks'**
+  String get declinePhotoButton;
+
+  /// No description provided for @allowPhotoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow photo'**
+  String get allowPhotoButton;
+
+  /// No description provided for @shiftVerificationNotEnabledText.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift verification photos aren\'t turned on for this venue.'**
+  String get shiftVerificationNotEnabledText;
+
+  /// No description provided for @noPendingVerificationsText.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing waiting on verification right now.'**
+  String get noPendingVerificationsText;
+
+  /// No description provided for @pendingClockInLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clocked in {time} - no photo'**
+  String pendingClockInLabel(String time);
+
+  /// No description provided for @pendingClockOutLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clocked out {time} - no photo'**
+  String pendingClockOutLabel(String time);
+
+  /// No description provided for @confirmHappenedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm it happened'**
+  String get confirmHappenedButton;
+
+  /// No description provided for @shiftPhotoRetentionDaysTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep photos for how long?'**
+  String get shiftPhotoRetentionDaysTitle;
+
+  /// No description provided for @daysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Days'**
+  String get daysLabel;
+
+  /// No description provided for @shiftVerificationPhotosSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shift verification photos'**
+  String get shiftVerificationPhotosSectionTitle;
+
+  /// No description provided for @shiftVerificationPhotosExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'A quick photo at shift start/end to deter buddy-punching. Staff can decline - a supervisor verifies their shift instead.'**
+  String get shiftVerificationPhotosExplanation;
+
+  /// No description provided for @enableShiftVerificationPhotosLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Require a photo at shift start/end'**
+  String get enableShiftVerificationPhotosLabel;
+
+  /// No description provided for @shiftPhotoRetentionDaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos kept for {days} days'**
+  String shiftPhotoRetentionDaysLabel(int days);
+
+  /// No description provided for @changeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get changeLabel;
 }
 
 class _AppLocalizationsDelegate

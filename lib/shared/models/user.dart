@@ -125,6 +125,17 @@ class User {
   // Preferred app display language for this person, e.g. "en", "pl",
   // "ar". Null means "use the device/site default."
   final String? preferredLocale;
+  // Shift verification photo consent (2026-10-02) — per-person, not a
+  // blanket org-wide checkbox: null means not yet asked (only relevant
+  // once a site turns the feature on). 'allowed'/'declined' recorded with
+  // a timestamp + version string, same pattern as the Terms of Service
+  // acceptance fields on Organisation. Framed to the person as notice +
+  // acknowledgment of a real alternative (supervisor verification), not
+  // as free consent in the legal sense — see shift_verification_flow.dart's
+  // own doc comment for why.
+  final String? shiftPhotoConsent;
+  final DateTime? shiftPhotoConsentAt;
+  final String? shiftPhotoConsentVersion;
 
   const User({
     required this.id,
@@ -143,6 +154,9 @@ class User {
     this.reportsToUserId,
     this.fcmToken,
     this.preferredLocale,
+    this.shiftPhotoConsent,
+    this.shiftPhotoConsentAt,
+    this.shiftPhotoConsentVersion,
   });
 
   // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — needed
@@ -151,6 +165,9 @@ class User {
   User copyWith({
     TemperatureUnit? preferredTemperatureUnit,
     String? preferredLocale,
+    String? shiftPhotoConsent,
+    DateTime? shiftPhotoConsentAt,
+    String? shiftPhotoConsentVersion,
   }) {
     return User(
       id: id,
@@ -170,6 +187,10 @@ class User {
       reportsToUserId: reportsToUserId,
       fcmToken: fcmToken,
       preferredLocale: preferredLocale ?? this.preferredLocale,
+      shiftPhotoConsent: shiftPhotoConsent ?? this.shiftPhotoConsent,
+      shiftPhotoConsentAt: shiftPhotoConsentAt ?? this.shiftPhotoConsentAt,
+      shiftPhotoConsentVersion:
+          shiftPhotoConsentVersion ?? this.shiftPhotoConsentVersion,
     );
   }
 }

@@ -1368,5 +1368,22 @@
   "bugReportDescriptionLabel": "Recite nam vise",
   "submitBugReportButton": "Posalji prijavu",
   "bugReportSubmittedMessage": "Hvala - vasa prijava je poslana VenuRiteu.",
-  "bugReportFailedMessage": "Prijava nije poslana. Pokusajte ponovno."
+  "bugReportFailedMessage": "Prijava nije poslana. Pokusajte ponovno.",
+  "shiftVerificationQueueTitle": "Provjera smjene",
+  "shiftPhotoConsentTitle": "Provjera fotografijom",
+  "shiftPhotoConsentBody": "Ovaj objekt snima brzu fotografiju na pocetku i kraju smjene kako bi potvrdio tko se stvarno prijavio. Ako radije ne biste, u redu je: vas nadzornik ce potvrditi vrijeme vase smjene.",
+  "declinePhotoButton": "Ne, hvala",
+  "allowPhotoButton": "Dopusti fotografiju",
+  "shiftVerificationNotEnabledText": "Fotografije za provjeru smjene nisu ukljucene za ovaj objekt.",
+  "noPendingVerificationsText": "Trenutno nema nicega na cekanju za provjeru.",
+  "pendingClockInLabel": "Prijava {time} - bez fotografije",
+  "pendingClockOutLabel": "Odjava {time} - bez fotografije",
+  "confirmHappenedButton": "Potvrdi da se dogodilo",
+  "shiftPhotoRetentionDaysTitle": "Koliko dugo cuvati fotografije?",
+  "daysLabel": "Dana",
+  "shiftVerificationPhotosSectionTitle": "Fotografije za provjeru smjene",
+  "shiftVerificationPhotosExplanation": "Brza fotografija na pocetku/kraju smjene odvraca prijevaru. Osoblje moze odbiti - nadzornik tada provjerava smjenu.",
+  "enableShiftVerificationPhotosLabel": "Zahtijevaj fotografiju na pocetku/kraju smjene",
+  "shiftPhotoRetentionDaysLabel": "Fotografije se cuvaju {days} dana",
+  "changeLabel": "Promijeni"
 }

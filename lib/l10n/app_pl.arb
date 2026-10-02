@@ -1368,5 +1368,22 @@
   "bugReportDescriptionLabel": "Opisz szczegolowo",
   "submitBugReportButton": "Wyslij zgloszenie",
   "bugReportSubmittedMessage": "Dzieki - Twoje zgloszenie zostalo wyslane do VenuRite.",
-  "bugReportFailedMessage": "Nie udalo sie wyslac zgloszenia. Sprobuj ponownie."
+  "bugReportFailedMessage": "Nie udalo sie wyslac zgloszenia. Sprobuj ponownie.",
+  "shiftVerificationQueueTitle": "Weryfikacja zmiany",
+  "shiftPhotoConsentTitle": "Zdjecie przy zmianie",
+  "shiftPhotoConsentBody": "Ten lokal robi krotkie zdjecie na poczatku i koncu zmiany, aby potwierdzic, kto faktycznie rozpoczal/zakonczyl prace. Jesli wolisz nie - w porzadku: Twoj przelozony potwierdzi czas Twojej zmiany.",
+  "declinePhotoButton": "Nie, dziekuje",
+  "allowPhotoButton": "Zezwol na zdjecie",
+  "shiftVerificationNotEnabledText": "Zdjecia weryfikacyjne zmian nie sa wlaczone dla tego lokalu.",
+  "noPendingVerificationsText": "Brak oczekujacych weryfikacji.",
+  "pendingClockInLabel": "Rozpoczecie {time} - brak zdjecia",
+  "pendingClockOutLabel": "Zakonczenie {time} - brak zdjecia",
+  "confirmHappenedButton": "Potwierdz, ze mialo miejsce",
+  "shiftPhotoRetentionDaysTitle": "Jak dlugo przechowywac zdjecia?",
+  "daysLabel": "Dni",
+  "shiftVerificationPhotosSectionTitle": "Zdjecia weryfikacyjne zmian",
+  "shiftVerificationPhotosExplanation": "Krotkie zdjecie na poczatku/koncu zmiany zniecheca do oszustw. Pracownik moze odmowic - przelozony zweryfikuje zmiane.",
+  "enableShiftVerificationPhotosLabel": "Wymagaj zdjecia na poczatku/koncu zmiany",
+  "shiftPhotoRetentionDaysLabel": "Zdjecia przechowywane przez {days} dni",
+  "changeLabel": "Zmien"
 }

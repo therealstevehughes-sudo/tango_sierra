@@ -1368,5 +1368,22 @@
   "bugReportDescriptionLabel": "Cuentanos mas",
   "submitBugReportButton": "Enviar informe",
   "bugReportSubmittedMessage": "Gracias - tu informe ha sido enviado a VenuRite.",
-  "bugReportFailedMessage": "No se pudo enviar tu informe. Intentalo de nuevo."
+  "bugReportFailedMessage": "No se pudo enviar tu informe. Intentalo de nuevo.",
+  "shiftVerificationQueueTitle": "Verificacion de turno",
+  "shiftPhotoConsentTitle": "Verificacion con foto",
+  "shiftPhotoConsentBody": "Este local toma una foto rapida al inicio y fin del turno para confirmar quien ficho realmente. Si prefieres no hacerlo, esta bien: tu supervisor confirmara tus horarios.",
+  "declinePhotoButton": "No, gracias",
+  "allowPhotoButton": "Permitir foto",
+  "shiftVerificationNotEnabledText": "Las fotos de verificacion de turno no estan activadas para este local.",
+  "noPendingVerificationsText": "No hay nada pendiente de verificar.",
+  "pendingClockInLabel": "Entrada {time} - sin foto",
+  "pendingClockOutLabel": "Salida {time} - sin foto",
+  "confirmHappenedButton": "Confirmar que ocurrio",
+  "shiftPhotoRetentionDaysTitle": "Cuanto tiempo guardar las fotos?",
+  "daysLabel": "Dias",
+  "shiftVerificationPhotosSectionTitle": "Fotos de verificacion de turno",
+  "shiftVerificationPhotosExplanation": "Una foto rapida al inicio/fin del turno disuade el fraude. El personal puede rechazarlo - un supervisor verifica el turno.",
+  "enableShiftVerificationPhotosLabel": "Requerir foto al inicio/fin del turno",
+  "shiftPhotoRetentionDaysLabel": "Fotos guardadas {days} dias",
+  "changeLabel": "Cambiar"
 }

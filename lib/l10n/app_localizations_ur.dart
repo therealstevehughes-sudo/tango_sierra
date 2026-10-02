@@ -4747,4 +4747,66 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get bugReportFailedMessage =>
       'آپ کی رپورٹ بھیجی نہیں جا سکی۔ براہ کرم دوبارہ کوشش کریں۔';
+
+  @override
+  String get shiftVerificationQueueTitle => 'شفٹ کی تصدیق';
+
+  @override
+  String get shiftPhotoConsentTitle => 'شفٹ فوٹو چیک';
+
+  @override
+  String get shiftPhotoConsentBody =>
+      'یہ مقام شفٹ شروع اور ختم ہونے پر ایک فوری تصویر لیتا ہے تاکہ یہ تصدیق ہو سکے کہ اصل میں کس نے کلاک ان کیا۔ اگر آپ نہیں چاہتے تو کوئی بات نہیں: آپ کا سپروائزر آپ کی شفٹ کے اوقات کی تصدیق کرے گا۔';
+
+  @override
+  String get declinePhotoButton => 'نہیں شکریہ';
+
+  @override
+  String get allowPhotoButton => 'تصویر کی اجازت دیں';
+
+  @override
+  String get shiftVerificationNotEnabledText =>
+      'اس مقام کے لیے شفٹ تصدیقی تصاویر فعال نہیں ہیں۔';
+
+  @override
+  String get noPendingVerificationsText =>
+      'اس وقت تصدیق کے لیے کچھ بھی زیر التوا نہیں ہے۔';
+
+  @override
+  String pendingClockInLabel(String time) {
+    return '$time کلاک ان - کوئی تصویر نہیں';
+  }
+
+  @override
+  String pendingClockOutLabel(String time) {
+    return '$time کلاک آؤٹ - کوئی تصویر نہیں';
+  }
+
+  @override
+  String get confirmHappenedButton => 'تصدیق کریں کہ یہ ہوا';
+
+  @override
+  String get shiftPhotoRetentionDaysTitle => 'تصاویر کتنے عرصے تک رکھیں؟';
+
+  @override
+  String get daysLabel => 'دن';
+
+  @override
+  String get shiftVerificationPhotosSectionTitle => 'شفٹ تصدیقی تصاویر';
+
+  @override
+  String get shiftVerificationPhotosExplanation =>
+      'شفٹ شروع/ختم ہونے پر ایک فوری تصویر دھوکہ دہی کو روکتی ہے۔ عملہ انکار کر سکتا ہے - پھر سپروائزر شفٹ کی تصدیق کرے گا۔';
+
+  @override
+  String get enableShiftVerificationPhotosLabel =>
+      'شفٹ شروع/ختم ہونے پر تصویر کی ضرورت بنائیں';
+
+  @override
+  String shiftPhotoRetentionDaysLabel(int days) {
+    return 'تصاویر $days دن تک رکھی جاتی ہیں';
+  }
+
+  @override
+  String get changeLabel => 'تبدیل کریں';
 }

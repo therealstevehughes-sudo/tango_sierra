@@ -1368,5 +1368,22 @@
   "bugReportDescriptionLabel": "Erzaehlen Sie uns mehr",
   "submitBugReportButton": "Bericht senden",
   "bugReportSubmittedMessage": "Danke - Ihr Bericht wurde an VenuRite gesendet.",
-  "bugReportFailedMessage": "Ihr Bericht konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
+  "bugReportFailedMessage": "Ihr Bericht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+  "shiftVerificationQueueTitle": "Schichtverifizierung",
+  "shiftPhotoConsentTitle": "Foto-Check zur Schicht",
+  "shiftPhotoConsentBody": "Dieser Standort macht bei Schichtbeginn und -ende ein kurzes Foto, um zu bestaetigen, wer sich tatsaechlich ein-/ausgestempelt hat. Wenn Sie das lieber nicht moechten, ist das in Ordnung: Ihr Vorgesetzter bestaetigt dann Ihre Schichtzeiten.",
+  "declinePhotoButton": "Nein danke",
+  "allowPhotoButton": "Foto erlauben",
+  "shiftVerificationNotEnabledText": "Schichtverifizierungsfotos sind fuer diesen Standort nicht aktiviert.",
+  "noPendingVerificationsText": "Momentan wartet nichts auf Bestaetigung.",
+  "pendingClockInLabel": "Eingestempelt {time} - kein Foto",
+  "pendingClockOutLabel": "Ausgestempelt {time} - kein Foto",
+  "confirmHappenedButton": "Bestaetigen, dass es stattfand",
+  "shiftPhotoRetentionDaysTitle": "Wie lange sollen Fotos aufbewahrt werden?",
+  "daysLabel": "Tage",
+  "shiftVerificationPhotosSectionTitle": "Schichtverifizierungsfotos",
+  "shiftVerificationPhotosExplanation": "Ein kurzes Foto bei Schichtbeginn/-ende schreckt vor Missbrauch ab. Mitarbeiter koennen ablehnen - ein Vorgesetzter bestaetigt dann die Schicht.",
+  "enableShiftVerificationPhotosLabel": "Foto bei Schichtbeginn/-ende verlangen",
+  "shiftPhotoRetentionDaysLabel": "Fotos werden {days} Tage aufbewahrt",
+  "changeLabel": "Aendern"
 }

@@ -4866,4 +4866,67 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get bugReportFailedMessage =>
       'No se pudo enviar tu informe. Intentalo de nuevo.';
+
+  @override
+  String get shiftVerificationQueueTitle => 'Verificacion de turno';
+
+  @override
+  String get shiftPhotoConsentTitle => 'Verificacion con foto';
+
+  @override
+  String get shiftPhotoConsentBody =>
+      'Este local toma una foto rapida al inicio y fin del turno para confirmar quien ficho realmente. Si prefieres no hacerlo, esta bien: tu supervisor confirmara tus horarios.';
+
+  @override
+  String get declinePhotoButton => 'No, gracias';
+
+  @override
+  String get allowPhotoButton => 'Permitir foto';
+
+  @override
+  String get shiftVerificationNotEnabledText =>
+      'Las fotos de verificacion de turno no estan activadas para este local.';
+
+  @override
+  String get noPendingVerificationsText =>
+      'No hay nada pendiente de verificar.';
+
+  @override
+  String pendingClockInLabel(String time) {
+    return 'Entrada $time - sin foto';
+  }
+
+  @override
+  String pendingClockOutLabel(String time) {
+    return 'Salida $time - sin foto';
+  }
+
+  @override
+  String get confirmHappenedButton => 'Confirmar que ocurrio';
+
+  @override
+  String get shiftPhotoRetentionDaysTitle => 'Cuanto tiempo guardar las fotos?';
+
+  @override
+  String get daysLabel => 'Dias';
+
+  @override
+  String get shiftVerificationPhotosSectionTitle =>
+      'Fotos de verificacion de turno';
+
+  @override
+  String get shiftVerificationPhotosExplanation =>
+      'Una foto rapida al inicio/fin del turno disuade el fraude. El personal puede rechazarlo - un supervisor verifica el turno.';
+
+  @override
+  String get enableShiftVerificationPhotosLabel =>
+      'Requerir foto al inicio/fin del turno';
+
+  @override
+  String shiftPhotoRetentionDaysLabel(int days) {
+    return 'Fotos guardadas $days dias';
+  }
+
+  @override
+  String get changeLabel => 'Cambiar';
 }

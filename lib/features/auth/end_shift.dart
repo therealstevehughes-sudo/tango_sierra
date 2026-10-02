@@ -5,14 +5,17 @@ import '../../app/theme/app_colors.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/backend_shift_log_providers.dart';
 import '../../shared/providers/notification_rule_providers.dart';
 import '../../shared/providers/problem_register_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
+import '../../shared/providers/site_providers.dart' show siteRepositoryProvider;
 import '../../shared/providers/task_schedule_providers.dart';
 import '../../shared/providers/task_submission_providers.dart';
 import '../../shared/providers/task_template_providers.dart';
 import '../../shared/providers/venue_setup_providers.dart';
 import '../tasks/task_controller.dart';
+import 'shift_verification_flow.dart';
 
 // "End shift" (2026-09-24, direct user request) — replaces a plain
 // "Log out" for base tier: shows what's still not done before actually
@@ -101,6 +104,34 @@ Future<void> endShift(
     if (open != null) await shiftLogRepo.clockOut(open.id);
   } catch (_) {
     // Best-effort, same reasoning as clock-in — never blocks logging out.
+  }
+
+  // Shift verification photos — additive, backend-only, no-op unless the
+  // site has it enabled. Same reasoning as the Shift Welcome screen's own
+  // wiring: runs after the plain habit-tracker clock-out above, never
+  // instead of it.
+  final siteId = user.siteId;
+  if (siteId != null && context.mounted) {
+    try {
+      final site = await ref.read(siteRepositoryProvider).getById(siteId);
+      if (site != null && context.mounted) {
+        final open = await ref
+            .read(backendShiftLogRepositoryProvider)
+            .getOpenShift(userId: user.id, siteId: siteId);
+        if (open != null && context.mounted) {
+          await runShiftVerificationStep(
+            context: context,
+            ref: ref,
+            user: user,
+            site: site,
+            which: 'out',
+            existingShiftLogId: open.id,
+          );
+        }
+      }
+    } catch (_) {
+      // Best-effort, same reasoning as above.
+    }
   }
 
   ref.read(currentUserProvider.notifier).state = null;

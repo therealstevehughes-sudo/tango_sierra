@@ -112,6 +112,15 @@ abstract class UserRepository {
     required int userId,
     required String? localeCode,
   });
+  // Shift verification photos (2026-10-02) — backend-only, see User's own
+  // doc comment. No-op on the local Drift path (that table has no such
+  // columns, and the feature itself never activates without a backend
+  // site record to read the toggle from).
+  Future<void> setShiftPhotoConsent({
+    required int userId,
+    required String consent,
+    required String version,
+  });
 }
 
 class DriftUserRepository implements UserRepository {
@@ -373,6 +382,13 @@ class DriftUserRepository implements UserRepository {
       UsersCompanion(preferredLocale: Value(localeCode)),
     );
   }
+
+  @override
+  Future<void> setShiftPhotoConsent({
+    required int userId,
+    required String consent,
+    required String version,
+  }) async {}
 
   User _toModel(UserEntity row) {
     return User(

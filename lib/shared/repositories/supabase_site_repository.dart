@@ -153,6 +153,27 @@ class SupabaseSiteRepository implements SiteRepository {
     return _toModel(rows.first);
   }
 
+  @override
+  Future<void> setShiftVerificationPhotosEnabled(
+    int siteId,
+    bool enabled,
+  ) async {
+    await _client.update(
+      'sites',
+      filter: 'id=eq.$siteId',
+      body: {'shift_verification_photos_enabled': enabled},
+    );
+  }
+
+  @override
+  Future<void> setShiftPhotoRetentionDays(int siteId, int days) async {
+    await _client.update(
+      'sites',
+      filter: 'id=eq.$siteId',
+      body: {'shift_photo_retention_days': days},
+    );
+  }
+
   Site _toModel(Map<String, dynamic> row) => Site(
     id: row['id'] as int,
     organisationId: row['organisation_id'] as int,
@@ -161,5 +182,8 @@ class SupabaseSiteRepository implements SiteRepository {
     createdAt: DateTime.parse(row['created_at'] as String),
     regionId: row['region_id'] as int?,
     deviceCredential: row['device_credential'] as String?,
+    shiftVerificationPhotosEnabled:
+        row['shift_verification_photos_enabled'] as bool? ?? false,
+    shiftPhotoRetentionDays: row['shift_photo_retention_days'] as int? ?? 90,
   );
 }

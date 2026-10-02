@@ -4755,4 +4755,66 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get bugReportFailedMessage =>
       'आपकी रिपोर्ट नहीं भेजी जा सकी। कृपया पुनः प्रयास करें।';
+
+  @override
+  String get shiftVerificationQueueTitle => 'शिफ्ट सत्यापन';
+
+  @override
+  String get shiftPhotoConsentTitle => 'शिफ्ट फोटो जांच';
+
+  @override
+  String get shiftPhotoConsentBody =>
+      'यह वेन्यू शिफ्ट शुरू और खत्म होने पर एक त्वरित फोटो लेता है ताकि पुष्टि हो सके कि वास्तव में किसने क्लॉक-इन किया। यदि आप नहीं चाहते, तो कोई बात नहीं: आपका सुपरवाइज़र आपकी शिफ्ट के समय की पुष्टि करेगा।';
+
+  @override
+  String get declinePhotoButton => 'नहीं धन्यवाद';
+
+  @override
+  String get allowPhotoButton => 'फोटो की अनुमति दें';
+
+  @override
+  String get shiftVerificationNotEnabledText =>
+      'इस वेन्यू के लिए शिफ्ट सत्यापन फोटो चालू नहीं हैं।';
+
+  @override
+  String get noPendingVerificationsText =>
+      'अभी सत्यापन के लिए कुछ भी लंबित नहीं है।';
+
+  @override
+  String pendingClockInLabel(String time) {
+    return '$time क्लॉक-इन - कोई फोटो नहीं';
+  }
+
+  @override
+  String pendingClockOutLabel(String time) {
+    return '$time क्लॉक-आउट - कोई फोटो नहीं';
+  }
+
+  @override
+  String get confirmHappenedButton => 'पुष्टि करें कि ऐसा हुआ';
+
+  @override
+  String get shiftPhotoRetentionDaysTitle => 'फोटो कितने समय तक रखें?';
+
+  @override
+  String get daysLabel => 'दिन';
+
+  @override
+  String get shiftVerificationPhotosSectionTitle => 'शिफ्ट सत्यापन फोटो';
+
+  @override
+  String get shiftVerificationPhotosExplanation =>
+      'शिफ्ट शुरू/खत्म होने पर एक त्वरित फोटो धोखाधड़ी को रोकती है। स्टाफ मना कर सकता है - तब सुपरवाइज़र शिफ्ट सत्यापित करेगा।';
+
+  @override
+  String get enableShiftVerificationPhotosLabel =>
+      'शिफ्ट शुरू/खत्म होने पर फोटो आवश्यक करें';
+
+  @override
+  String shiftPhotoRetentionDaysLabel(int days) {
+    return 'फोटो $days दिनों तक रखी जाती हैं';
+  }
+
+  @override
+  String get changeLabel => 'बदलें';
 }
