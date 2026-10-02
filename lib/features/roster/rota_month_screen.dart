@@ -7,19 +7,35 @@ import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../l10n/app_localizations.dart';
+import '../../shared/models/certification_requirement.dart';
+import '../../shared/models/department.dart';
+import '../../shared/models/off_day_request.dart';
 import '../../shared/models/shift.dart';
+import '../../shared/models/shift_period.dart';
+import '../../shared/models/training_item.dart';
+import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/department_providers.dart';
+import '../../shared/providers/off_day_request_providers.dart';
+import '../../shared/providers/shift_period_providers.dart';
 import '../../shared/providers/shift_providers.dart';
 import '../../shared/providers/site_providers.dart'
     show organisationRepositoryProvider, currentSiteProvider, activeSiteProvider;
-import 'rota_week_screen.dart';
+import '../../shared/providers/site_role_certification_requirement_providers.dart';
+import '../../shared/providers/training_record_providers.dart';
+import 'widgets/rota_month_grid.dart';
 
-// Rota calendar, Sprint 7 (2026-10-01) — the zoomed-out month view: each
-// day shows a compact shift-count/unfilled-count summary, tap to drill
-// into that day's week in RotaWeekScreen. No separate filtering here
-// (period/department/role/person) - this view is for "how busy does this
-// month look," the week/slot views are where a manager actually drills
-// into who's on what.
+// Rota calendar, leadership view (2026-10-02 month-view rebuild, was
+// Sprint 7's bare "shift count per day" summary) — department tabs above
+// a real month grid, each day showing a green (fully staffed) or red
+// (short-staffed) dot with a filled/total count for the selected
+// department. Tapping a day drills into that day's shifts with names,
+// an Approve action for self-claimed-but-unapproved shifts, and an
+// Assign action for anything still open — all inline, no separate
+// screen, per the founder's "click the shift and see who is available"
+// spec. RotaWeekScreen (the per-person grid) stays reachable from here
+// for the deeper "who specifically, across the whole week" view that
+// this month-level screen deliberately doesn't try to replace.
 class RotaMonthScreen extends ConsumerStatefulWidget {
   const RotaMonthScreen({super.key});
 
@@ -33,6 +49,12 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
   String? _error;
   late DateTime _monthStart;
   List<Shift> _shifts = [];
+  List<ShiftPeriod> _periods = [];
+  List<Department> _departments = [];
+  List<User> _staff = [];
+  List<OffDayRequest> _offDayRequests = [];
+  Department? _departmentFilter;
+  bool _busy = false;
 
   @override
   void initState() {
@@ -66,9 +88,23 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
           (await ref.read(currentSiteProvider.future)).id;
 
       final shifts = await ref.read(shiftRepositoryProvider).getForSite(siteId);
+      final periods = await ref
+          .read(shiftPeriodRepositoryProvider)
+          .getForSite(siteId);
+      final departments = await ref
+          .read(departmentRepositoryProvider)
+          .getForSite(siteId);
+      final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
+      final offDayRequests = await ref
+          .read(offDayRequestRepositoryProvider)
+          .getForSite(siteId);
       if (!mounted) return;
       setState(() {
         _shifts = shifts;
+        _periods = periods;
+        _departments = departments;
+        _staff = staff.where((u) => u.active).toList();
+        _offDayRequests = offDayRequests;
         _addonEnabled = true;
         _loading = false;
       });
@@ -87,39 +123,313 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
     );
   }
 
-  List<Shift> _shiftsOn(DateTime day) {
-    return _shifts
-        .where(
-          (s) =>
-              s.startsAt.year == day.year &&
-              s.startsAt.month == day.month &&
-              s.startsAt.day == day.day,
-        )
-        .toList();
+  bool _isSameDay(DateTime a, DateTime b) =>
+      a.year == b.year && a.month == b.month && a.day == b.day;
+
+  List<Shift> _shiftsOn(DateTime day, {Department? department}) {
+    return _shifts.where((s) {
+      if (!_isSameDay(s.startsAt, day)) return false;
+      if (department != null && s.departmentId != department.id) return false;
+      return true;
+    }).toList();
   }
 
-  void _openWeekFor(DateTime day) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => RotaWeekScreen(initialDate: day)),
+  String _staffName(int? userId) =>
+      userId == null ? '' : _staff.where((u) => u.id == userId).firstOrNull?.name ?? '?';
+
+  Future<void> _approve(Shift shift) async {
+    final manager = ref.read(currentUserProvider);
+    if (manager == null || shift.claimedByUserId == null) return;
+    setState(() => _busy = true);
+    await ref.read(shiftRepositoryProvider).managerAssign(
+      shiftId: shift.id,
+      userId: shift.claimedByUserId!,
+      assignedByUserId: manager.id,
+    );
+    if (!mounted) return;
+    setState(() => _busy = false);
+    await _load();
+  }
+
+  Future<void> _assign(Shift shift, List<User> candidates) async {
+    final manager = ref.read(currentUserProvider);
+    if (manager == null) return;
+    final l10n = AppLocalizations.of(context)!;
+    final selected = await showDialog<User>(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: Text(l10n.assignShiftToTitle),
+        children: [
+          for (final u in candidates)
+            SimpleDialogOption(
+              onPressed: () => Navigator.pop(context, u),
+              child: Text(u.name),
+            ),
+        ],
+      ),
+    );
+    if (selected == null) return;
+
+    final records = await ref
+        .read(trainingRecordRepositoryProvider)
+        .getForUser(selected.id);
+    final siteAdditions = await ref.read(
+      siteRoleCertificationRequirementsForSiteProvider(shift.siteId).future,
+    );
+    final missing = missingCertificationsForRole(
+      role: selected.jobRole,
+      records: records,
+      siteAdditions: siteAdditions,
+    );
+    if (!mounted) return;
+    if (missing.isNotEmpty) {
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(l10n.cannotAssignShiftTitle(selected.name)),
+          content: Text(
+            l10n.missingCertificationsMessage(
+              missing.map((t) => trainingItemTypeLabel(t, l10n)).join(', '),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(l10n.okLabel),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
+
+    setState(() => _busy = true);
+    await ref.read(shiftRepositoryProvider).managerAssign(
+      shiftId: shift.id,
+      userId: selected.id,
+      assignedByUserId: manager.id,
+    );
+    if (!mounted) return;
+    setState(() => _busy = false);
+    await _load();
+  }
+
+  Future<void> _showDayDetail(DateTime day) async {
+    final l10n = AppLocalizations.of(context)!;
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (sheetContext) {
+        return StatefulBuilder(
+          builder: (sheetContext, setSheetState) {
+            return DraggableScrollableSheet(
+              initialChildSize: 0.8,
+              maxChildSize: 0.95,
+              expand: false,
+              builder: (context, scrollController) {
+                final dayShifts = _shiftsOn(
+                  day,
+                  department: _departmentFilter,
+                );
+                final byPeriod = <int?, List<Shift>>{};
+                for (final shift in dayShifts) {
+                  final period = shiftPeriodFor(_periods, shift.startsAt);
+                  byPeriod.putIfAbsent(period?.id, () => []).add(shift);
+                }
+                return SingleChildScrollView(
+                  controller: scrollController,
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${day.day}/${day.month}/${day.year}'
+                        '${_departmentFilter != null ? ' · ${_departmentFilter!.name}' : ''}',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 12),
+                      if (dayShifts.isEmpty)
+                        Text(l10n.noShiftsThisPeriodText)
+                      else
+                        for (final entry in byPeriod.entries)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: _buildPeriodDetail(
+                              l10n,
+                              day,
+                              entry.value,
+                              () async {
+                                await _load();
+                                setSheetState(() {});
+                              },
+                            ),
+                          ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildPeriodDetail(
+    AppLocalizations l10n,
+    DateTime day,
+    List<Shift> periodShifts,
+    Future<void> Function() onChanged,
+  ) {
+    final period = shiftPeriodFor(_periods, periodShifts.first.startsAt);
+    final regular = periodShifts.where((s) => !s.isStandby).toList();
+    final standby = periodShifts.where((s) => s.isStandby).toList();
+
+    final workingIds = regular
+        .where((s) => s.claimedByUserId != null)
+        .map((s) => s.claimedByUserId!)
+        .toSet();
+    final standbyIds = standby
+        .where((s) => s.claimedByUserId != null)
+        .map((s) => s.claimedByUserId!)
+        .toSet();
+    final unavailableIds = _staff
+        .where(
+          (u) => _offDayRequests.any(
+            (r) =>
+                r.userId == u.id &&
+                _isSameDay(r.requestedDate, day) &&
+                r.status == OffDayRequestStatus.approved,
+          ),
+        )
+        .map((u) => u.id)
+        .toSet();
+    final candidatePool = _departmentFilter == null
+        ? _staff
+        : _staff.where((u) => u.departmentId == _departmentFilter!.id).toList();
+    final available = candidatePool
+        .where(
+          (u) =>
+              !workingIds.contains(u.id) &&
+              !standbyIds.contains(u.id) &&
+              !unavailableIds.contains(u.id),
+        )
+        .toList();
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              period?.name ?? '',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            for (final shift in regular)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        shift.claimedByUserId != null
+                            ? _staffName(shift.claimedByUserId)
+                            : l10n.openStatusLabel,
+                        style: TextStyle(
+                          color: shift.claimedByUserId == null
+                              ? AppColors.critical
+                              : null,
+                        ),
+                      ),
+                    ),
+                    if (shift.claimedByUserId == null)
+                      TextButton(
+                        onPressed: _busy || available.isEmpty
+                            ? null
+                            : () async {
+                                await _assign(shift, available);
+                                await onChanged();
+                              },
+                        child: Text(l10n.rotaAssignButton),
+                      )
+                    else if (shift.status == ShiftStatus.claimed)
+                      TextButton(
+                        onPressed: _busy
+                            ? null
+                            : () async {
+                                await _approve(shift);
+                                await onChanged();
+                              },
+                        child: Text(l10n.rotaApproveButton),
+                      )
+                    else
+                      Text(
+                        l10n.youAreAssignedText,
+                        style: const TextStyle(
+                          color: AppColors.pass,
+                          fontSize: 12,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            if (standby.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Text(
+                l10n.rotaStandbyLabel,
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+              for (final shift in standby)
+                Text(
+                  shift.claimedByUserId != null
+                      ? _staffName(shift.claimedByUserId)
+                      : l10n.openStatusLabel,
+                ),
+            ],
+            const SizedBox(height: 8),
+            RichText(
+              text: TextSpan(
+                style: DefaultTextStyle.of(context).style.copyWith(fontSize: 13),
+                children: [
+                  TextSpan(
+                    text: '${l10n.rotaUnavailableLabel}: ',
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  TextSpan(
+                    text: unavailableIds.isEmpty
+                        ? '—'
+                        : (unavailableIds.map(_staffName).toList()..sort()).join(', '),
+                  ),
+                ],
+              ),
+            ),
+            RichText(
+              text: TextSpan(
+                style: DefaultTextStyle.of(context).style.copyWith(fontSize: 13),
+                children: [
+                  TextSpan(
+                    text: '${l10n.rotaAvailableLabel}: ',
+                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  TextSpan(
+                    text: available.isEmpty
+                        ? '—'
+                        : (available.map((u) => u.name).toList()..sort()).join(', '),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final firstOfMonth = _monthStart;
-    final daysInMonth = DateTime(
-      firstOfMonth.year,
-      firstOfMonth.month + 1,
-      0,
-    ).day;
-    // Leading blanks so the 1st lands under its correct weekday column
-    // (Monday-first grid, matching every other week/weekday view in this
-    // feature).
-    final leadingBlanks = firstOfMonth.weekday - 1;
-    final totalCells = leadingBlanks + daysInMonth;
-    final trailingBlanks = (7 - (totalCells % 7)) % 7;
 
     return Scaffold(
       appBar: AppScreenHeader(
@@ -136,99 +446,65 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
               child: ResponsiveContent(
                 child: Column(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.chevron_left),
-                            onPressed: () => _changeMonth(-1),
-                          ),
-                          Expanded(
-                            child: Text(
-                              '${_monthStart.month}/${_monthStart.year}',
-                              style: Theme.of(context).textTheme.titleMedium,
-                              textAlign: TextAlign.center,
+                    if (_departments.isNotEmpty)
+                      SizedBox(
+                        height: 44,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                              child: ChoiceChip(
+                                label: Text(l10n.rotaFilterAllLabel),
+                                selected: _departmentFilter == null,
+                                onSelected: (_) =>
+                                    setState(() => _departmentFilter = null),
+                              ),
                             ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.chevron_right),
-                            onPressed: () => _changeMonth(1),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: GridView.builder(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 7,
-                          childAspectRatio: 0.9,
+                            for (final dept in _departments)
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 4),
+                                child: ChoiceChip(
+                                  label: Text(dept.name),
+                                  selected: _departmentFilter?.id == dept.id,
+                                  onSelected: (_) =>
+                                      setState(() => _departmentFilter = dept),
+                                ),
+                              ),
+                          ],
                         ),
-                        itemCount: leadingBlanks + daysInMonth + trailingBlanks,
-                        itemBuilder: (context, index) {
-                          if (index < leadingBlanks ||
-                              index >= leadingBlanks + daysInMonth) {
-                            return const SizedBox.shrink();
-                          }
-                          final dayNum = index - leadingBlanks + 1;
-                          final day = DateTime(
-                            firstOfMonth.year,
-                            firstOfMonth.month,
-                            dayNum,
-                          );
-                          final shifts = _shiftsOn(day);
-                          final unfilled = shifts
-                              .where((s) => s.claimedByUserId == null)
-                              .length;
-                          return InkWell(
-                            onTap: () => _openWeekFor(day),
-                            child: Container(
-                              margin: const EdgeInsets.all(2),
-                              padding: const EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: AppColors.line),
-                                borderRadius: BorderRadius.circular(6),
-                                color: unfilled > 0
-                                    ? AppColors.cautionBg
-                                    : null,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '$dayNum',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  if (shifts.isNotEmpty) ...[
-                                    const Spacer(),
-                                    Text(
-                                      l10n.rotaMonthShiftCountText(shifts.length),
-                                      style: const TextStyle(fontSize: 10),
-                                    ),
-                                    if (unfilled > 0)
-                                      Text(
-                                        l10n.rotaUnfilledCountText(unfilled),
-                                        style: const TextStyle(
-                                          fontSize: 10,
-                                          color: AppColors.caution,
-                                        ),
-                                      ),
-                                  ],
-                                ],
-                              ),
-                            ),
-                          );
-                        },
+                      ),
+                    Expanded(
+                      child: RotaMonthGrid(
+                        monthStart: _monthStart,
+                        onChangeMonth: _changeMonth,
+                        onDayTap: _showDayDetail,
+                        dayCellBuilder: (context, day) => _dayCell(day),
                       ),
                     ),
                   ],
                 ),
               ),
             ),
+    );
+  }
+
+  Widget _dayCell(DateTime day) {
+    final dayShifts = _shiftsOn(day, department: _departmentFilter);
+    final regular = dayShifts.where((s) => !s.isStandby).toList();
+    if (regular.isEmpty) return const SizedBox.shrink();
+    final filled = regular.where((s) => s.claimedByUserId != null).length;
+    final full = filled == regular.length;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        RotaStatusDot(color: full ? AppColors.pass : AppColors.critical, size: 8),
+        Text(
+          '$filled/${regular.length}',
+          style: const TextStyle(fontSize: 10),
+        ),
+      ],
     );
   }
 }

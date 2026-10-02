@@ -4603,5 +4603,10 @@
   "jobTitleMaintenanceTechnician": "Maintenance Technician",
   "jobTitleCustomOption": "Custom...",
   "jobTitleFieldLabel": "Job title",
-  "jobTitleCustomFieldLabel": "Enter job title"
+  "jobTitleCustomFieldLabel": "Enter job title",
+  "rotaApproveButton": "Approve",
+  "rotaAssignButton": "Assign",
+  "rotaUnavailableLabel": "Unavailable",
+  "rotaAvailableLabel": "Available",
+  "rotaBookedPendingApprovalText": "Booked, awaiting approval"
 }

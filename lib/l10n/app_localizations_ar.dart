@@ -4862,4 +4862,19 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get jobTitleCustomFieldLabel => 'أدخل المسمى الوظيفي';
+
+  @override
+  String get rotaApproveButton => 'الموافقة';
+
+  @override
+  String get rotaAssignButton => 'تعيين';
+
+  @override
+  String get rotaUnavailableLabel => 'غير متاحين';
+
+  @override
+  String get rotaAvailableLabel => 'متاحون';
+
+  @override
+  String get rotaBookedPendingApprovalText => 'محجوز، بانتظار الموافقة';
 }

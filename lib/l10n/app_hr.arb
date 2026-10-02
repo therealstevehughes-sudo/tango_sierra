@@ -1411,5 +1411,10 @@
   "jobTitleMaintenanceTechnician": "Tehnicar odrzavanja",
   "jobTitleCustomOption": "Prilagodeno...",
   "jobTitleFieldLabel": "Radno mjesto",
-  "jobTitleCustomFieldLabel": "Unesite radno mjesto"
+  "jobTitleCustomFieldLabel": "Unesite radno mjesto",
+  "rotaApproveButton": "Odobri",
+  "rotaAssignButton": "Dodijeli",
+  "rotaUnavailableLabel": "Nedostupni",
+  "rotaAvailableLabel": "Dostupni",
+  "rotaBookedPendingApprovalText": "Rezervirano, čeka odobrenje"
 }

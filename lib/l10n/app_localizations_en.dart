@@ -5028,4 +5028,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get jobTitleCustomFieldLabel => 'Enter job title';
+
+  @override
+  String get rotaApproveButton => 'Approve';
+
+  @override
+  String get rotaAssignButton => 'Assign';
+
+  @override
+  String get rotaUnavailableLabel => 'Unavailable';
+
+  @override
+  String get rotaAvailableLabel => 'Available';
+
+  @override
+  String get rotaBookedPendingApprovalText => 'Booked, awaiting approval';
 }

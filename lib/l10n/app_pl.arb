@@ -1411,5 +1411,10 @@
   "jobTitleMaintenanceTechnician": "Technik konserwacji",
   "jobTitleCustomOption": "Wlasny...",
   "jobTitleFieldLabel": "Stanowisko",
-  "jobTitleCustomFieldLabel": "Wpisz stanowisko"
+  "jobTitleCustomFieldLabel": "Wpisz stanowisko",
+  "rotaApproveButton": "Zatwierdź",
+  "rotaAssignButton": "Przypisz",
+  "rotaUnavailableLabel": "Niedostępni",
+  "rotaAvailableLabel": "Dostępni",
+  "rotaBookedPendingApprovalText": "Zarezerwowane, oczekuje na zatwierdzenie"
 }

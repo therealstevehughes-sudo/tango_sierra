@@ -5008,4 +5008,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get jobTitleCustomFieldLabel => 'Introduce el puesto';
+
+  @override
+  String get rotaApproveButton => 'Aprobar';
+
+  @override
+  String get rotaAssignButton => 'Asignar';
+
+  @override
+  String get rotaUnavailableLabel => 'No disponibles';
+
+  @override
+  String get rotaAvailableLabel => 'Disponibles';
+
+  @override
+  String get rotaBookedPendingApprovalText =>
+      'Reservado, pendiente de aprobación';
 }

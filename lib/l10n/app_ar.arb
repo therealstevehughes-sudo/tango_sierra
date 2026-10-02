@@ -1411,5 +1411,10 @@
   "jobTitleMaintenanceTechnician": "فني صيانة",
   "jobTitleCustomOption": "مخصص...",
   "jobTitleFieldLabel": "المسمى الوظيفي",
-  "jobTitleCustomFieldLabel": "أدخل المسمى الوظيفي"
+  "jobTitleCustomFieldLabel": "أدخل المسمى الوظيفي",
+  "rotaApproveButton": "الموافقة",
+  "rotaAssignButton": "تعيين",
+  "rotaUnavailableLabel": "غير متاحين",
+  "rotaAvailableLabel": "متاحون",
+  "rotaBookedPendingApprovalText": "محجوز، بانتظار الموافقة"
 }

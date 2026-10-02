@@ -1411,5 +1411,10 @@
   "jobTitleMaintenanceTechnician": "维修技术员",
   "jobTitleCustomOption": "自定义...",
   "jobTitleFieldLabel": "职位",
-  "jobTitleCustomFieldLabel": "输入职位"
+  "jobTitleCustomFieldLabel": "输入职位",
+  "rotaApproveButton": "批准",
+  "rotaAssignButton": "分配",
+  "rotaUnavailableLabel": "不可用",
+  "rotaAvailableLabel": "可用",
+  "rotaBookedPendingApprovalText": "已预订，等待批准"
 }

@@ -4731,4 +4731,19 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get jobTitleCustomFieldLabel => '输入职位';
+
+  @override
+  String get rotaApproveButton => '批准';
+
+  @override
+  String get rotaAssignButton => '分配';
+
+  @override
+  String get rotaUnavailableLabel => '不可用';
+
+  @override
+  String get rotaAvailableLabel => '可用';
+
+  @override
+  String get rotaBookedPendingApprovalText => '已预订，等待批准';
 }

@@ -4895,4 +4895,19 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get jobTitleCustomFieldLabel => 'पद दर्ज करें';
+
+  @override
+  String get rotaApproveButton => 'स्वीकृत करें';
+
+  @override
+  String get rotaAssignButton => 'नियुक्त करें';
+
+  @override
+  String get rotaUnavailableLabel => 'अनुपलब्ध';
+
+  @override
+  String get rotaAvailableLabel => 'उपलब्ध';
+
+  @override
+  String get rotaBookedPendingApprovalText => 'बुक किया गया, अनुमोदन लंबित';
 }

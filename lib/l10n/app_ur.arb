@@ -1411,5 +1411,10 @@
   "jobTitleMaintenanceTechnician": "مینٹیننس ٹیکنیشن",
   "jobTitleCustomOption": "اپنی مرضی کا...",
   "jobTitleFieldLabel": "عہدہ",
-  "jobTitleCustomFieldLabel": "عہدہ درج کریں"
+  "jobTitleCustomFieldLabel": "عہدہ درج کریں",
+  "rotaApproveButton": "منظور کریں",
+  "rotaAssignButton": "تفویض کریں",
+  "rotaUnavailableLabel": "دستیاب نہیں",
+  "rotaAvailableLabel": "دستیاب",
+  "rotaBookedPendingApprovalText": "بک کیا گیا، منظوری کا منتظر"
 }

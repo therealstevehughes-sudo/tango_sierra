@@ -5005,4 +5005,20 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get jobTitleCustomFieldLabel => 'Introduceti functia';
+
+  @override
+  String get rotaApproveButton => 'Aprobă';
+
+  @override
+  String get rotaAssignButton => 'Atribuie';
+
+  @override
+  String get rotaUnavailableLabel => 'Indisponibili';
+
+  @override
+  String get rotaAvailableLabel => 'Disponibili';
+
+  @override
+  String get rotaBookedPendingApprovalText =>
+      'Rezervat, în așteptarea aprobării';
 }

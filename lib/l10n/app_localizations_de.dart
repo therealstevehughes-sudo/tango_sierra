@@ -5061,4 +5061,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get jobTitleCustomFieldLabel => 'Berufsbezeichnung eingeben';
+
+  @override
+  String get rotaApproveButton => 'Genehmigen';
+
+  @override
+  String get rotaAssignButton => 'Zuweisen';
+
+  @override
+  String get rotaUnavailableLabel => 'Nicht verfügbar';
+
+  @override
+  String get rotaAvailableLabel => 'Verfügbar';
+
+  @override
+  String get rotaBookedPendingApprovalText => 'Gebucht, Genehmigung ausstehend';
 }

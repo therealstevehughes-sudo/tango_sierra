@@ -1411,5 +1411,10 @@
   "jobTitleMaintenanceTechnician": "Tehnician intretinere",
   "jobTitleCustomOption": "Personalizat...",
   "jobTitleFieldLabel": "Functie",
-  "jobTitleCustomFieldLabel": "Introduceti functia"
+  "jobTitleCustomFieldLabel": "Introduceti functia",
+  "rotaApproveButton": "Aprobă",
+  "rotaAssignButton": "Atribuie",
+  "rotaUnavailableLabel": "Indisponibili",
+  "rotaAvailableLabel": "Disponibili",
+  "rotaBookedPendingApprovalText": "Rezervat, în așteptarea aprobării"
 }

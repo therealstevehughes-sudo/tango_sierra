@@ -1411,5 +1411,10 @@
   "jobTitleMaintenanceTechnician": "Tecnico de mantenimiento",
   "jobTitleCustomOption": "Personalizado...",
   "jobTitleFieldLabel": "Puesto",
-  "jobTitleCustomFieldLabel": "Introduce el puesto"
+  "jobTitleCustomFieldLabel": "Introduce el puesto",
+  "rotaApproveButton": "Aprobar",
+  "rotaAssignButton": "Asignar",
+  "rotaUnavailableLabel": "No disponibles",
+  "rotaAvailableLabel": "Disponibles",
+  "rotaBookedPendingApprovalText": "Reservado, pendiente de aprobación"
 }

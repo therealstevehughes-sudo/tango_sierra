@@ -58,4 +58,13 @@ class AppColors {
   static const Color cautionBg = Color(0xFFFBEDD8);
   static const Color critical = Color(0xFFB23A2E);
   static const Color criticalBg = Color(0xFFF8E1DE);
+
+  // Rota calendar dot states (2026-10-02) — booked-but-not-approved and
+  // standby/substitute-bench don't map to any existing pass/caution/
+  // critical meaning, so they get their own colours rather than
+  // overloading state colours that already mean something else.
+  static const Color info = Color(0xFF2B6CB0);
+  static const Color infoBg = Color(0xFFE3EDF7);
+  static const Color standby = Color(0xFF7C4DAD);
+  static const Color standbyBg = Color(0xFFF0E7F6);
 }

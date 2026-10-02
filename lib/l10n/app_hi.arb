@@ -1411,5 +1411,10 @@
   "jobTitleMaintenanceTechnician": "रखरखाव तकनीशियन",
   "jobTitleCustomOption": "कस्टम...",
   "jobTitleFieldLabel": "पद",
-  "jobTitleCustomFieldLabel": "पद दर्ज करें"
+  "jobTitleCustomFieldLabel": "पद दर्ज करें",
+  "rotaApproveButton": "स्वीकृत करें",
+  "rotaAssignButton": "नियुक्त करें",
+  "rotaUnavailableLabel": "अनुपलब्ध",
+  "rotaAvailableLabel": "उपलब्ध",
+  "rotaBookedPendingApprovalText": "बुक किया गया, अनुमोदन लंबित"
 }

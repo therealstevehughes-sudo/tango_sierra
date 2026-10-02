@@ -2137,3 +2137,7 @@ Server cleanup: removed the one remaining deploy backup (`/var/www/venurite-site
 All writes to `shift_logs` go through 4 `SECURITY DEFINER` RPCs (`shift_clock_in`, `shift_clock_out`, `shift_verify_clock_event`, `shift_clear_expired_photo`) — the table itself has no insert/update policy, only SELECT, so this is the actual enforced write path, not just the intended one. See DECISIONS_LOG.md's own entry for the full reasoning (identity via `local_user_id` claim, role gate via `role_tier` claim, both read from the JWT directly — the same pattern the privilege-escalation fix established earlier today).
 
 No app rebuild/redeploy needed yet for this specific entry — bundled into the next full web/APK build pass alongside whatever else lands same-session.
+
+## Rota calendar month-grid rebuild — no backend changes (2026-10-02)
+
+See DECISIONS_LOG.md's own entry for the full design. Purely a Flutter-side rebuild of `RotaClaimScreen`/`RotaMonthScreen` — no new table, column, policy or RPC. The "approve a self-claimed shift" action reuses the existing `manager_assign_shift` RPC (confirmed by reading `tools/phase2_manager_assign_shift_rpc_migration.sql` directly: its `UPDATE` has no `WHERE status = 'open'` guard, so calling it again with the same `user_id` on an already-`claimed` shift just flips `status` to `assigned` — exactly "approve" with zero new server code). `ShiftStatus`/`OffDayRequestStatus` already distinguish every state the redesign needed.

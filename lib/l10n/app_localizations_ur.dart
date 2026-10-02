@@ -4887,4 +4887,19 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get jobTitleCustomFieldLabel => 'عہدہ درج کریں';
+
+  @override
+  String get rotaApproveButton => 'منظور کریں';
+
+  @override
+  String get rotaAssignButton => 'تفویض کریں';
+
+  @override
+  String get rotaUnavailableLabel => 'دستیاب نہیں';
+
+  @override
+  String get rotaAvailableLabel => 'دستیاب';
+
+  @override
+  String get rotaBookedPendingApprovalText => 'بک کیا گیا، منظوری کا منتظر';
 }

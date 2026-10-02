@@ -8599,6 +8599,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter job title'**
   String get jobTitleCustomFieldLabel;
+
+  /// No description provided for @rotaApproveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve'**
+  String get rotaApproveButton;
+
+  /// No description provided for @rotaAssignButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign'**
+  String get rotaAssignButton;
+
+  /// No description provided for @rotaUnavailableLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unavailable'**
+  String get rotaUnavailableLabel;
+
+  /// No description provided for @rotaAvailableLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get rotaAvailableLabel;
+
+  /// No description provided for @rotaBookedPendingApprovalText.
+  ///
+  /// In en, this message translates to:
+  /// **'Booked, awaiting approval'**
+  String get rotaBookedPendingApprovalText;
 }
 
 class _AppLocalizationsDelegate

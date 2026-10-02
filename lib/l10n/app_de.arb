@@ -1411,5 +1411,10 @@
   "jobTitleMaintenanceTechnician": "Wartungstechniker",
   "jobTitleCustomOption": "Benutzerdefiniert...",
   "jobTitleFieldLabel": "Berufsbezeichnung",
-  "jobTitleCustomFieldLabel": "Berufsbezeichnung eingeben"
+  "jobTitleCustomFieldLabel": "Berufsbezeichnung eingeben",
+  "rotaApproveButton": "Genehmigen",
+  "rotaAssignButton": "Zuweisen",
+  "rotaUnavailableLabel": "Nicht verfügbar",
+  "rotaAvailableLabel": "Verfügbar",
+  "rotaBookedPendingApprovalText": "Gebucht, Genehmigung ausstehend"
 }

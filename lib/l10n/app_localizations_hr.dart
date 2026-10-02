@@ -4918,4 +4918,19 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get jobTitleCustomFieldLabel => 'Unesite radno mjesto';
+
+  @override
+  String get rotaApproveButton => 'Odobri';
+
+  @override
+  String get rotaAssignButton => 'Dodijeli';
+
+  @override
+  String get rotaUnavailableLabel => 'Nedostupni';
+
+  @override
+  String get rotaAvailableLabel => 'Dostupni';
+
+  @override
+  String get rotaBookedPendingApprovalText => 'Rezervirano, čeka odobrenje';
 }
