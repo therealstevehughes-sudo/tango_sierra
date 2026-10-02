@@ -35,11 +35,16 @@ All SQL migrations applied directly to the live server. Full test suite (72 test
 Middle step before any full IoT sensor network (JOLT/SmartSense's model — Bluetooth + LoRa hardware, opaque enterprise pricing $200-300+/mo). Achievable first step: Bluetooth temperature probes that write readings directly into the existing temperature-check task flow, removing manual entry. Hardware partner/SDK TBD.
 
 ### Account-management / admin tool (VenuRite team internal)
-**Decision: separate web app** (Next.js or Flutter web — not decided which), reading the same Supabase backend the customer app uses, gated behind a superadmin role. Not built inside the customer-facing Flutter app.
+**Decision: separate web app** (`lib/admin/`, built as a second Flutter web entry point — `main_admin.dart` — sharing `core/network`/models/repositories with the customer app at zero duplication, not Next.js), reading the same Supabase backend, gated behind a superadmin role.
 
-Tracks: signed-up companies, business name + key contact, branch/staff counts, plans/products purchased, service-provider-access purchases, payment status (paid/late/missed) with automated notifications/blocks, account status, reported bugs/errors, join dates — all viewable by month/year/full-history.
+**BUILT, v1 (2026-09-30)**: companies list (`AdminHomeScreen`) — business name, key contact, branch/staff counts, plan, status (archived/restricted/free-access), join date, search/filter; per-company detail (`AdminOrgDetailScreen`) with manual free-access/restrict/archive toggles.
 
-Founder confirmed: build it, and link both apps fully (shared backend, no duplicated data). Full architecture to be scoped as its own plan before build starts (per standing process rule — plan review before implementation).
+**Still outstanding against the original spec** (v1 was explicitly scoped as "manual only, automation is a fast-follow" — see that screen's own doc comment):
+- Payment status (paid/late/missed) isn't surfaced at all yet, let alone the automated notify/block the original spec described — a superadmin currently has no payment-status view, just the manual restrict toggle.
+- Reported bugs/errors aren't wired in — the app's own Issues feature exists but nothing from it (or anywhere else) surfaces in the admin tool.
+- Service-provider-access purchases aren't tracked here.
+
+Founder confirmed: build it, and link both apps fully (shared backend, no duplicated data) — done for what's built so far. The remaining three items above would need their own scoping pass before building (per standing process rule — plan review before implementation).
 
 ### On-site paid onboarding service
 £99–£299 per branch, size-dependent. Founder confirmed pricing is realistic — matches market norms for white-glove SaaS setup services. Business/ops process, not a software build; revisit once account-management tool exists to track these as a paid line item per customer.
