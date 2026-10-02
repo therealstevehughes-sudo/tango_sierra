@@ -1357,5 +1357,16 @@
   "unfilledShiftLabel": "غير مشغولة",
   "confirmAssignmentsButton": "تأكيد التعيينات",
   "assignmentsConfirmedMessage": "تم تعيين {count} وردية.",
-  "fairAutoAssignSummaryText": "يمكن شغل {filled} من {total} وردية من اختيارك."
+  "fairAutoAssignSummaryText": "يمكن شغل {filled} من {total} وردية من اختيارك.",
+  "unlockFeeChargedMessage": "تم فتح جهة الاتصال - تم خصم رسوم 79 بنساً.",
+  "unlockFeeNotChargedMessage": "تم فتح جهة الاتصال. تعذر خصم رسوم 79 بنساً (لا يوجد خصم مباشر نشط) - لم يتم إصدار فاتورة بها.",
+  "reportBugTitle": "الإبلاغ عن خطأ",
+  "reportBugSubtitle": "أخبر VenuRite عن شيء لا يعمل",
+  "reportBugIntroText": "هل وجدت شيئًا معطلاً أو مربكًا في التطبيق؟ أخبرنا وسنتحقق من الأمر.",
+  "reportBugRequiresAccountText": "يتطلب الإبلاغ عن الأخطاء حساب شركة مسجل الدخول.",
+  "bugReportTitleLabel": "ما الذي حدث خطأ؟",
+  "bugReportDescriptionLabel": "أخبرنا المزيد",
+  "submitBugReportButton": "إرسال التقرير",
+  "bugReportSubmittedMessage": "شكراً - تم إرسال تقريرك إلى VenuRite.",
+  "bugReportFailedMessage": "تعذر إرسال تقريرك. يرجى المحاولة مرة أخرى."
 }

@@ -34,7 +34,16 @@ abstract class ServiceProviderRepository {
   /// Records that your organisation has unlocked a provider's contact
   /// details. Idempotent — calling this again for an already-unlocked
   /// provider is a harmless no-op, never a duplicate charge record.
-  Future<void> unlockProvider(int providerId);
+  ///
+  /// STILL records-only, not actually charged (see
+  /// tools/unlock-service-provider-billed_index.ts and this function's own
+  /// git history for a ready-to-deploy real-billing version) — that Edge
+  /// Function deploy was deliberately held back: it initiates a real
+  /// GoCardless charge against a customer's bank account automatically,
+  /// which needs an explicit go-ahead, not just "build what's
+  /// outstanding," before going live. Returns whether the fee was
+  /// actually billed — always false until that deploy happens.
+  Future<bool> unlockProvider(int providerId);
 
   Future<List<ProviderReview>> getReviews(int providerId);
 
@@ -145,8 +154,9 @@ class SupabaseServiceProviderRepository implements ServiceProviderRepository {
   }
 
   @override
-  Future<void> unlockProvider(int providerId) async {
+  Future<bool> unlockProvider(int providerId) async {
     await _client.rpc('unlock_service_provider', {'p_provider_id': providerId});
+    return false;
   }
 
   @override

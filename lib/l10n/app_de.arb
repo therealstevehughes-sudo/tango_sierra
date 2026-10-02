@@ -1357,5 +1357,16 @@
   "unfilledShiftLabel": "Unbesetzt",
   "confirmAssignmentsButton": "Zuweisungen bestaetigen",
   "assignmentsConfirmedMessage": "{count} Schicht(en) zugewiesen.",
-  "fairAutoAssignSummaryText": "{filled} von {total} Schicht(en) koennen aus Ihrer Auswahl besetzt werden."
+  "fairAutoAssignSummaryText": "{filled} von {total} Schicht(en) koennen aus Ihrer Auswahl besetzt werden.",
+  "unlockFeeChargedMessage": "Kontakt freigeschaltet - 79p Gebuehr wurde berechnet.",
+  "unlockFeeNotChargedMessage": "Kontakt freigeschaltet. Die 79p Gebuehr konnte nicht berechnet werden (kein aktives Lastschriftmandat) - sie wurde nicht in Rechnung gestellt.",
+  "reportBugTitle": "Fehler melden",
+  "reportBugSubtitle": "Teilen Sie VenuRite etwas mit, das nicht funktioniert",
+  "reportBugIntroText": "Etwas in der App kaputt oder verwirrend gefunden? Sagen Sie uns Bescheid, wir schauen es uns an.",
+  "reportBugRequiresAccountText": "Fehlermeldungen erfordern ein angemeldetes Firmenkonto.",
+  "bugReportTitleLabel": "Was ist schiefgelaufen?",
+  "bugReportDescriptionLabel": "Erzaehlen Sie uns mehr",
+  "submitBugReportButton": "Bericht senden",
+  "bugReportSubmittedMessage": "Danke - Ihr Bericht wurde an VenuRite gesendet.",
+  "bugReportFailedMessage": "Ihr Bericht konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
 }

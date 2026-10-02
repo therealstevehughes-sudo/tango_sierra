@@ -8275,6 +8275,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{filled} of {total} shift(s) can be filled from your selection.'**
   String fairAutoAssignSummaryText(int filled, int total);
+
+  /// No description provided for @unlockFeeChargedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact unlocked - 79p charged to your account.'**
+  String get unlockFeeChargedMessage;
+
+  /// No description provided for @unlockFeeNotChargedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact unlocked. The 79p fee could not be charged (no active Direct Debit) - it has not been billed.'**
+  String get unlockFeeNotChargedMessage;
+
+  /// No description provided for @reportBugTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a bug'**
+  String get reportBugTitle;
+
+  /// No description provided for @reportBugSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell VenuRite about something that isn\'t working'**
+  String get reportBugSubtitle;
+
+  /// No description provided for @reportBugIntroText.
+  ///
+  /// In en, this message translates to:
+  /// **'Found something broken or confusing in the app? Let us know and we\'ll look into it.'**
+  String get reportBugIntroText;
+
+  /// No description provided for @reportBugRequiresAccountText.
+  ///
+  /// In en, this message translates to:
+  /// **'Bug reporting needs a signed-in company account.'**
+  String get reportBugRequiresAccountText;
+
+  /// No description provided for @bugReportTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What went wrong?'**
+  String get bugReportTitleLabel;
+
+  /// No description provided for @bugReportDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us more'**
+  String get bugReportDescriptionLabel;
+
+  /// No description provided for @submitBugReportButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit report'**
+  String get submitBugReportButton;
+
+  /// No description provided for @bugReportSubmittedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Thanks - your report has been sent to VenuRite.'**
+  String get bugReportSubmittedMessage;
+
+  /// No description provided for @bugReportFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t send your report. Please try again.'**
+  String get bugReportFailedMessage;
 }
 
 class _AppLocalizationsDelegate

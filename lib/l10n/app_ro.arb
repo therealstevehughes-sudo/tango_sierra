@@ -1357,5 +1357,16 @@
   "unfilledShiftLabel": "Neocupata",
   "confirmAssignmentsButton": "Confirma alocarile",
   "assignmentsConfirmedMessage": "{count} tura(e) alocata(e).",
-  "fairAutoAssignSummaryText": "{filled} din {total} tura(e) pot fi ocupate din selectia ta."
+  "fairAutoAssignSummaryText": "{filled} din {total} tura(e) pot fi ocupate din selectia ta.",
+  "unlockFeeChargedMessage": "Contact deblocat - taxa de 79p a fost perceputa.",
+  "unlockFeeNotChargedMessage": "Contact deblocat. Taxa de 79p nu a putut fi perceputa (fara debit direct activ) - nu a fost facturata.",
+  "reportBugTitle": "Raporteaza o eroare",
+  "reportBugSubtitle": "Spune-i VenuRite despre ceva ce nu functioneaza",
+  "reportBugIntroText": "Ai gasit ceva stricat sau confuz in aplicatie? Anunta-ne si vom verifica.",
+  "reportBugRequiresAccountText": "Raportarea erorilor necesita un cont de companie autentificat.",
+  "bugReportTitleLabel": "Ce nu a mers bine?",
+  "bugReportDescriptionLabel": "Spune-ne mai multe",
+  "submitBugReportButton": "Trimite raportul",
+  "bugReportSubmittedMessage": "Multumim - raportul tau a fost trimis catre VenuRite.",
+  "bugReportFailedMessage": "Raportul nu a putut fi trimis. Te rugam sa incerci din nou."
 }

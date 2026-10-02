@@ -1357,5 +1357,16 @@
   "unfilledShiftLabel": "未填补",
   "confirmAssignmentsButton": "确认排班",
   "assignmentsConfirmedMessage": "已安排 {count} 个班次。",
-  "fairAutoAssignSummaryText": "您的选择中有 {filled}/{total} 个班次可以被填补。"
+  "fairAutoAssignSummaryText": "您的选择中有 {filled}/{total} 个班次可以被填补。",
+  "unlockFeeChargedMessage": "联系方式已解锁 - 已收取79便士费用。",
+  "unlockFeeNotChargedMessage": "联系方式已解锁。79便士费用无法收取（没有有效的直接借记）- 尚未计费。",
+  "reportBugTitle": "报告问题",
+  "reportBugSubtitle": "告诉VenuRite哪里出了问题",
+  "reportBugIntroText": "发现应用中有故障或令人困惑的地方吗？告诉我们，我们会去调查。",
+  "reportBugRequiresAccountText": "报告问题需要已登录的公司账户。",
+  "bugReportTitleLabel": "出了什么问题？",
+  "bugReportDescriptionLabel": "请详细说明",
+  "submitBugReportButton": "提交报告",
+  "bugReportSubmittedMessage": "谢谢 - 您的报告已发送给VenuRite。",
+  "bugReportFailedMessage": "无法发送您的报告。请重试。"
 }

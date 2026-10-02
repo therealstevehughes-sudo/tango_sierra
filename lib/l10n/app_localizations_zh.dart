@@ -4560,4 +4560,38 @@ class AppLocalizationsZh extends AppLocalizations {
   String fairAutoAssignSummaryText(int filled, int total) {
     return '您的选择中有 $filled/$total 个班次可以被填补。';
   }
+
+  @override
+  String get unlockFeeChargedMessage => '联系方式已解锁 - 已收取79便士费用。';
+
+  @override
+  String get unlockFeeNotChargedMessage =>
+      '联系方式已解锁。79便士费用无法收取（没有有效的直接借记）- 尚未计费。';
+
+  @override
+  String get reportBugTitle => '报告问题';
+
+  @override
+  String get reportBugSubtitle => '告诉VenuRite哪里出了问题';
+
+  @override
+  String get reportBugIntroText => '发现应用中有故障或令人困惑的地方吗？告诉我们，我们会去调查。';
+
+  @override
+  String get reportBugRequiresAccountText => '报告问题需要已登录的公司账户。';
+
+  @override
+  String get bugReportTitleLabel => '出了什么问题？';
+
+  @override
+  String get bugReportDescriptionLabel => '请详细说明';
+
+  @override
+  String get submitBugReportButton => '提交报告';
+
+  @override
+  String get bugReportSubmittedMessage => '谢谢 - 您的报告已发送给VenuRite。';
+
+  @override
+  String get bugReportFailedMessage => '无法发送您的报告。请重试。';
 }

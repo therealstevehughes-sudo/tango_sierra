@@ -4879,4 +4879,44 @@ class AppLocalizationsDe extends AppLocalizations {
   String fairAutoAssignSummaryText(int filled, int total) {
     return '$filled von $total Schicht(en) koennen aus Ihrer Auswahl besetzt werden.';
   }
+
+  @override
+  String get unlockFeeChargedMessage =>
+      'Kontakt freigeschaltet - 79p Gebuehr wurde berechnet.';
+
+  @override
+  String get unlockFeeNotChargedMessage =>
+      'Kontakt freigeschaltet. Die 79p Gebuehr konnte nicht berechnet werden (kein aktives Lastschriftmandat) - sie wurde nicht in Rechnung gestellt.';
+
+  @override
+  String get reportBugTitle => 'Fehler melden';
+
+  @override
+  String get reportBugSubtitle =>
+      'Teilen Sie VenuRite etwas mit, das nicht funktioniert';
+
+  @override
+  String get reportBugIntroText =>
+      'Etwas in der App kaputt oder verwirrend gefunden? Sagen Sie uns Bescheid, wir schauen es uns an.';
+
+  @override
+  String get reportBugRequiresAccountText =>
+      'Fehlermeldungen erfordern ein angemeldetes Firmenkonto.';
+
+  @override
+  String get bugReportTitleLabel => 'Was ist schiefgelaufen?';
+
+  @override
+  String get bugReportDescriptionLabel => 'Erzaehlen Sie uns mehr';
+
+  @override
+  String get submitBugReportButton => 'Bericht senden';
+
+  @override
+  String get bugReportSubmittedMessage =>
+      'Danke - Ihr Bericht wurde an VenuRite gesendet.';
+
+  @override
+  String get bugReportFailedMessage =>
+      'Ihr Bericht konnte nicht gesendet werden. Bitte versuchen Sie es erneut.';
 }

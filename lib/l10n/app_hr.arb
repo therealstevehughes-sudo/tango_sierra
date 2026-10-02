@@ -1357,5 +1357,16 @@
   "unfilledShiftLabel": "Nepopunjeno",
   "confirmAssignmentsButton": "Potvrdi dodjele",
   "assignmentsConfirmedMessage": "Dodijeljeno {count} smjena.",
-  "fairAutoAssignSummaryText": "{filled} od {total} smjena(e) moze se popuniti iz vaseg odabira."
+  "fairAutoAssignSummaryText": "{filled} od {total} smjena(e) moze se popuniti iz vaseg odabira.",
+  "unlockFeeChargedMessage": "Kontakt otkljucan - naplacena je naknada od 79p.",
+  "unlockFeeNotChargedMessage": "Kontakt otkljucan. Naknada od 79p nije mogla biti naplacena (nema aktivnog izravnog terecenja) - nije naplacena.",
+  "reportBugTitle": "Prijavi gresku",
+  "reportBugSubtitle": "Recite VenuRiteu o necemu sto ne radi",
+  "reportBugIntroText": "Pronasli ste nesto pokvareno ili zbunjujuce u aplikaciji? Javite nam i provjerit cemo.",
+  "reportBugRequiresAccountText": "Prijava gresaka zahtijeva prijavljeni poslovni racun.",
+  "bugReportTitleLabel": "Sto je poslo po zlu?",
+  "bugReportDescriptionLabel": "Recite nam vise",
+  "submitBugReportButton": "Posalji prijavu",
+  "bugReportSubmittedMessage": "Hvala - vasa prijava je poslana VenuRiteu.",
+  "bugReportFailedMessage": "Prijava nije poslana. Pokusajte ponovno."
 }

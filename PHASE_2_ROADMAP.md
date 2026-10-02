@@ -39,12 +39,9 @@ Middle step before any full IoT sensor network (JOLT/SmartSense's model — Blue
 
 **BUILT, v1 (2026-09-30)**: companies list (`AdminHomeScreen`) — business name, key contact, branch/staff counts, plan, status (archived/restricted/free-access), join date, search/filter; per-company detail (`AdminOrgDetailScreen`) with manual free-access/restrict/archive toggles.
 
-**Still outstanding against the original spec** (v1 was explicitly scoped as "manual only, automation is a fast-follow" — see that screen's own doc comment):
-- Payment status (paid/late/missed) isn't surfaced at all yet, let alone the automated notify/block the original spec described — a superadmin currently has no payment-status view, just the manual restrict toggle.
-- Reported bugs/errors aren't wired in — the app's own Issues feature exists but nothing from it (or anywhere else) surfaces in the admin tool.
-- Service-provider-access purchases aren't tracked here.
+**CLOSED, 2026-10-02**: all three gaps above fixed — payment status (paid/trialing/late/missed) column + filter on the customers list; a real bug-report capture mechanism (`ReportBugScreen`, any tier, reachable via HelpScreen — nothing existed before this) plus an admin review/resolve screen; a dedicated service-provider-purchases screen (list, running total, billed/unbilled filter, manual correction action). Automated notify/block on missed payment is still not built (v1 remains "manual, automation is a fast-follow" by original design) — a superadmin now SEES the Missed status clearly, but nothing acts on it automatically yet.
 
-Founder confirmed: build it, and link both apps fully (shared backend, no duplicated data) — done for what's built so far. The remaining three items above would need their own scoping pass before building (per standing process rule — plan review before implementation).
+Founder confirmed: build it, and link both apps fully (shared backend, no duplicated data) — done.
 
 ### On-site paid onboarding service
 £99–£299 per branch, size-dependent. Founder confirmed pricing is realistic — matches market norms for white-glove SaaS setup services. Business/ops process, not a software build; revisit once account-management tool exists to track these as a paid line item per customer.

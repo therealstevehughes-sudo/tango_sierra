@@ -103,7 +103,7 @@ class DriftServiceProviderRepository implements ServiceProviderRepository {
   Future<List<SharedProviderListing>> getSharedDirectory() async => const [];
 
   @override
-  Future<void> unlockProvider(int providerId) async {}
+  Future<bool> unlockProvider(int providerId) async => false;
 
   @override
   Future<List<ProviderReview>> getReviews(int providerId) async {

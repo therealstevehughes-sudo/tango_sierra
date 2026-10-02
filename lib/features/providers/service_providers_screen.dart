@@ -749,11 +749,21 @@ class _DirectoryTile extends ConsumerWidget {
               if (!listing.isOwn && !listing.isUnlocked)
                 FilledButton(
                   onPressed: () async {
-                    await ref
+                    final billed = await ref
                         .read(serviceProviderRepositoryProvider)
                         .unlockProvider(listing.id);
                     ref.invalidate(sharedProviderDirectoryProvider);
                     ref.invalidate(unlocksThisMonthProvider);
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          billed
+                              ? l10n.unlockFeeChargedMessage
+                              : l10n.unlockFeeNotChargedMessage,
+                        ),
+                      ),
+                    );
                   },
                   child: Text(l10n.unlockContactDetailsButton),
                 ),

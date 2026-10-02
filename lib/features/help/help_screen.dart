@@ -6,6 +6,7 @@ import '../onboarding/contact_venurite_screen.dart';
 import 'allergen_matrix_screen.dart';
 import 'ask_question_screen.dart';
 import 'faq_screen.dart';
+import 'report_bug_screen.dart';
 import 'troubleshooting_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
 
@@ -119,6 +120,18 @@ class HelpScreen extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (_) => const AllergenMatrixScreen(),
                     ),
+                  ),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  leading: const Icon(Icons.bug_report_outlined),
+                  title: Text(l10n.reportBugTitle),
+                  subtitle: Text(l10n.reportBugSubtitle),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const ReportBugScreen()),
                   ),
                 ),
               ),

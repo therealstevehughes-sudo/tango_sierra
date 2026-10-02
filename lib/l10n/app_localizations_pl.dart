@@ -4826,4 +4826,43 @@ class AppLocalizationsPl extends AppLocalizations {
   String fairAutoAssignSummaryText(int filled, int total) {
     return '$filled z $total zmian(y) mozna obsadzic z Twojego wyboru.';
   }
+
+  @override
+  String get unlockFeeChargedMessage =>
+      'Kontakt odblokowany - pobrano oplate 79p.';
+
+  @override
+  String get unlockFeeNotChargedMessage =>
+      'Kontakt odblokowany. Nie udalo sie pobrac oplaty 79p (brak aktywnego polecenia zaplaty) - nie zostala naliczona.';
+
+  @override
+  String get reportBugTitle => 'Zglos blad';
+
+  @override
+  String get reportBugSubtitle => 'Powiadom VenuRite o czyms, co nie dziala';
+
+  @override
+  String get reportBugIntroText =>
+      'Znalazles cos zepsutego lub niejasnego w aplikacji? Daj nam znac, a sprawdzimy to.';
+
+  @override
+  String get reportBugRequiresAccountText =>
+      'Zglaszanie bledow wymaga zalogowanego konta firmowego.';
+
+  @override
+  String get bugReportTitleLabel => 'Co poszlo nie tak?';
+
+  @override
+  String get bugReportDescriptionLabel => 'Opisz szczegolowo';
+
+  @override
+  String get submitBugReportButton => 'Wyslij zgloszenie';
+
+  @override
+  String get bugReportSubmittedMessage =>
+      'Dzieki - Twoje zgloszenie zostalo wyslane do VenuRite.';
+
+  @override
+  String get bugReportFailedMessage =>
+      'Nie udalo sie wyslac zgloszenia. Sprobuj ponownie.';
 }

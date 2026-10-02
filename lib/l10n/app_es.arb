@@ -1357,5 +1357,16 @@
   "unfilledShiftLabel": "Sin cubrir",
   "confirmAssignmentsButton": "Confirmar asignaciones",
   "assignmentsConfirmedMessage": "{count} turno(s) asignado(s).",
-  "fairAutoAssignSummaryText": "{filled} de {total} turno(s) se pueden cubrir con tu seleccion."
+  "fairAutoAssignSummaryText": "{filled} de {total} turno(s) se pueden cubrir con tu seleccion.",
+  "unlockFeeChargedMessage": "Contacto desbloqueado - se cobro una tarifa de 79p.",
+  "unlockFeeNotChargedMessage": "Contacto desbloqueado. No se pudo cobrar la tarifa de 79p (sin domiciliacion bancaria activa) - no se ha facturado.",
+  "reportBugTitle": "Informar de un error",
+  "reportBugSubtitle": "Cuentale a VenuRite algo que no funciona",
+  "reportBugIntroText": "Encontraste algo roto o confuso en la aplicacion? Avisanos y lo revisaremos.",
+  "reportBugRequiresAccountText": "Informar de errores requiere una cuenta de empresa con sesion iniciada.",
+  "bugReportTitleLabel": "Que salio mal?",
+  "bugReportDescriptionLabel": "Cuentanos mas",
+  "submitBugReportButton": "Enviar informe",
+  "bugReportSubmittedMessage": "Gracias - tu informe ha sido enviado a VenuRite.",
+  "bugReportFailedMessage": "No se pudo enviar tu informe. Intentalo de nuevo."
 }

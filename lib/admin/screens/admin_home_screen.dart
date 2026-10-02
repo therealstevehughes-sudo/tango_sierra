@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
 import '../repositories/admin_repository.dart';
+import 'admin_bug_reports_screen.dart';
 import 'admin_org_detail_screen.dart';
+import 'admin_service_provider_purchases_screen.dart';
 
 enum _SortColumn { business, branches, staff, joined }
 
@@ -15,6 +17,14 @@ const _statusFilterOptions = [
   'Restricted',
   'Free access',
   'Archived',
+];
+
+const _paymentFilterOptions = [
+  'All',
+  'Paid',
+  'Trialing',
+  'Late',
+  'Missed',
 ];
 
 class AdminHomeScreen extends StatefulWidget {
@@ -30,6 +40,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   late Future<List<AdminOrgSummary>> _future;
   final _searchController = TextEditingController();
   String _statusFilter = 'All';
+  String _paymentFilter = 'All';
   _SortColumn _sortColumn = _SortColumn.business;
   bool _sortAscending = true;
   final _selectedIds = <int>{};
@@ -69,16 +80,22 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
         ].join(' ').toLowerCase();
         if (!haystack.contains(query)) return false;
       }
-      switch (_statusFilter) {
-        case 'All':
-          return true;
-        case 'Restricted':
-          return o.restrictedAt != null;
-        case 'Free access':
-          return o.freeAccessGranted;
-        default:
-          return o.subscriptionStatus == _statusFilter;
-      }
+      final statusMatch = switch (_statusFilter) {
+        'All' => true,
+        'Restricted' => o.restrictedAt != null,
+        'Free access' => o.freeAccessGranted,
+        _ => o.subscriptionStatus == _statusFilter,
+      };
+      if (!statusMatch) return false;
+      if (_paymentFilter == 'All') return true;
+      final payment = computeAdminPaymentStatus(o);
+      return switch (_paymentFilter) {
+        'Paid' => payment == AdminPaymentStatus.paid,
+        'Trialing' => payment == AdminPaymentStatus.trialing,
+        'Late' => payment == AdminPaymentStatus.late,
+        'Missed' => payment == AdminPaymentStatus.missed,
+        _ => true,
+      };
     }).toList();
 
     int compare(AdminOrgSummary a, AdminOrgSummary b) {
@@ -126,6 +143,27 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       appBar: AppBar(
         title: const Text('VenuRite Admin — Customers'),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.bug_report_outlined),
+            tooltip: 'Bug reports',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => AdminBugReportsScreen(repository: widget.repository),
+              ),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.storefront_outlined),
+            tooltip: 'Service provider purchases',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    AdminServiceProviderPurchasesScreen(repository: widget.repository),
+              ),
+            ),
+          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () => setState(_load),
@@ -203,6 +241,22 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         _selectedIds.clear();
                       }),
                     ),
+                    const SizedBox(width: 16),
+                    DropdownButton<String>(
+                      value: _paymentFilter,
+                      items: _paymentFilterOptions
+                          .map(
+                            (s) => DropdownMenuItem(
+                              value: s,
+                              child: Text(s == 'All' ? 'Payment: All' : s),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) => setState(() {
+                        _paymentFilter = value ?? 'All';
+                        _selectedIds.clear();
+                      }),
+                    ),
                     if (visibleSelectedCount > 0) ...[
                       const SizedBox(width: 16),
                       Text('$visibleSelectedCount selected'),
@@ -271,6 +325,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                         ),
                         const DataColumn(label: Text('Plan')),
                         const DataColumn(label: Text('Status')),
+                        const DataColumn(label: Text('Payment')),
                         DataColumn(
                           label: const Text('Joined'),
                           onSort: (_, asc) => _onSort(_SortColumn.joined, asc),
@@ -324,6 +379,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                                 ),
                               ),
                               DataCell(_statusChip(org)),
+                              DataCell(_paymentChip(org)),
                               DataCell(
                                 Text(
                                   '${org.createdAt.year}-${org.createdAt.month.toString().padLeft(2, '0')}-${org.createdAt.day.toString().padLeft(2, '0')}',
@@ -380,5 +436,23 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       _ => const Color(0xFFE2E3E5),
     };
     return Chip(label: Text(status), backgroundColor: color);
+  }
+
+  Widget _paymentChip(AdminOrgSummary org) {
+    if (org.freeAccessGranted) {
+      return const Chip(
+        label: Text('Free access'),
+        backgroundColor: Color(0xFFD1ECF1),
+      );
+    }
+    final payment = computeAdminPaymentStatus(org);
+    final (label, color) = switch (payment) {
+      AdminPaymentStatus.paid => ('Paid', const Color(0xFFD4EDDA)),
+      AdminPaymentStatus.trialing => ('Trialing', const Color(0xFFE2E3E5)),
+      AdminPaymentStatus.late => ('Late', const Color(0xFFFFF3CD)),
+      AdminPaymentStatus.missed => ('Missed', const Color(0xFFF8D7DA)),
+      AdminPaymentStatus.unknown => ('-', const Color(0xFFE2E3E5)),
+    };
+    return Chip(label: Text(label), backgroundColor: color);
   }
 }

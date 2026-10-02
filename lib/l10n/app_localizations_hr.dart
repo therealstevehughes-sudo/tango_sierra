@@ -4737,4 +4737,43 @@ class AppLocalizationsHr extends AppLocalizations {
   String fairAutoAssignSummaryText(int filled, int total) {
     return '$filled od $total smjena(e) moze se popuniti iz vaseg odabira.';
   }
+
+  @override
+  String get unlockFeeChargedMessage =>
+      'Kontakt otkljucan - naplacena je naknada od 79p.';
+
+  @override
+  String get unlockFeeNotChargedMessage =>
+      'Kontakt otkljucan. Naknada od 79p nije mogla biti naplacena (nema aktivnog izravnog terecenja) - nije naplacena.';
+
+  @override
+  String get reportBugTitle => 'Prijavi gresku';
+
+  @override
+  String get reportBugSubtitle => 'Recite VenuRiteu o necemu sto ne radi';
+
+  @override
+  String get reportBugIntroText =>
+      'Pronasli ste nesto pokvareno ili zbunjujuce u aplikaciji? Javite nam i provjerit cemo.';
+
+  @override
+  String get reportBugRequiresAccountText =>
+      'Prijava gresaka zahtijeva prijavljeni poslovni racun.';
+
+  @override
+  String get bugReportTitleLabel => 'Sto je poslo po zlu?';
+
+  @override
+  String get bugReportDescriptionLabel => 'Recite nam vise';
+
+  @override
+  String get submitBugReportButton => 'Posalji prijavu';
+
+  @override
+  String get bugReportSubmittedMessage =>
+      'Hvala - vasa prijava je poslana VenuRiteu.';
+
+  @override
+  String get bugReportFailedMessage =>
+      'Prijava nije poslana. Pokusajte ponovno.';
 }

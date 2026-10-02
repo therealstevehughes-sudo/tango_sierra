@@ -1357,5 +1357,16 @@
   "unfilledShiftLabel": "خالی",
   "confirmAssignmentsButton": "تفویض کی تصدیق کریں",
   "assignmentsConfirmedMessage": "{count} شفٹیں تفویض کی گئیں۔",
-  "fairAutoAssignSummaryText": "آپ کے انتخاب سے {total} میں سے {filled} شفٹیں پر کی جا سکتی ہیں۔"
+  "fairAutoAssignSummaryText": "آپ کے انتخاب سے {total} میں سے {filled} شفٹیں پر کی جا سکتی ہیں۔",
+  "unlockFeeChargedMessage": "رابطہ غیر مقفل کر دیا گیا - 79p فیس وصول کر لی گئی۔",
+  "unlockFeeNotChargedMessage": "رابطہ غیر مقفل کر دیا گیا۔ 79p فیس وصول نہیں کی جا سکی (کوئی فعال ڈائریکٹ ڈیبٹ نہیں) - اس کا بل نہیں بنایا گیا۔",
+  "reportBugTitle": "خرابی کی اطلاع دیں",
+  "reportBugSubtitle": "VenuRite کو کسی ایسی چیز کے بارے میں بتائیں جو کام نہیں کر رہی",
+  "reportBugIntroText": "کیا ایپ میں کچھ خراب یا الجھا ہوا ملا؟ ہمیں بتائیں، ہم اسے دیکھیں گے۔",
+  "reportBugRequiresAccountText": "خرابی کی اطلاع دینے کے لیے سائن ان کمپنی اکاؤنٹ درکار ہے۔",
+  "bugReportTitleLabel": "کیا غلط ہوا؟",
+  "bugReportDescriptionLabel": "ہمیں مزید بتائیں",
+  "submitBugReportButton": "رپورٹ جمع کروائیں",
+  "bugReportSubmittedMessage": "شکریہ - آپ کی رپورٹ VenuRite کو بھیج دی گئی ہے۔",
+  "bugReportFailedMessage": "آپ کی رپورٹ بھیجی نہیں جا سکی۔ براہ کرم دوبارہ کوشش کریں۔"
 }

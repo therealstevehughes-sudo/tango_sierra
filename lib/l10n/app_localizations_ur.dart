@@ -4707,4 +4707,44 @@ class AppLocalizationsUr extends AppLocalizations {
   String fairAutoAssignSummaryText(int filled, int total) {
     return 'آپ کے انتخاب سے $total میں سے $filled شفٹیں پر کی جا سکتی ہیں۔';
   }
+
+  @override
+  String get unlockFeeChargedMessage =>
+      'رابطہ غیر مقفل کر دیا گیا - 79p فیس وصول کر لی گئی۔';
+
+  @override
+  String get unlockFeeNotChargedMessage =>
+      'رابطہ غیر مقفل کر دیا گیا۔ 79p فیس وصول نہیں کی جا سکی (کوئی فعال ڈائریکٹ ڈیبٹ نہیں) - اس کا بل نہیں بنایا گیا۔';
+
+  @override
+  String get reportBugTitle => 'خرابی کی اطلاع دیں';
+
+  @override
+  String get reportBugSubtitle =>
+      'VenuRite کو کسی ایسی چیز کے بارے میں بتائیں جو کام نہیں کر رہی';
+
+  @override
+  String get reportBugIntroText =>
+      'کیا ایپ میں کچھ خراب یا الجھا ہوا ملا؟ ہمیں بتائیں، ہم اسے دیکھیں گے۔';
+
+  @override
+  String get reportBugRequiresAccountText =>
+      'خرابی کی اطلاع دینے کے لیے سائن ان کمپنی اکاؤنٹ درکار ہے۔';
+
+  @override
+  String get bugReportTitleLabel => 'کیا غلط ہوا؟';
+
+  @override
+  String get bugReportDescriptionLabel => 'ہمیں مزید بتائیں';
+
+  @override
+  String get submitBugReportButton => 'رپورٹ جمع کروائیں';
+
+  @override
+  String get bugReportSubmittedMessage =>
+      'شکریہ - آپ کی رپورٹ VenuRite کو بھیج دی گئی ہے۔';
+
+  @override
+  String get bugReportFailedMessage =>
+      'آپ کی رپورٹ بھیجی نہیں جا سکی۔ براہ کرم دوبارہ کوشش کریں۔';
 }

@@ -4827,4 +4827,43 @@ class AppLocalizationsEs extends AppLocalizations {
   String fairAutoAssignSummaryText(int filled, int total) {
     return '$filled de $total turno(s) se pueden cubrir con tu seleccion.';
   }
+
+  @override
+  String get unlockFeeChargedMessage =>
+      'Contacto desbloqueado - se cobro una tarifa de 79p.';
+
+  @override
+  String get unlockFeeNotChargedMessage =>
+      'Contacto desbloqueado. No se pudo cobrar la tarifa de 79p (sin domiciliacion bancaria activa) - no se ha facturado.';
+
+  @override
+  String get reportBugTitle => 'Informar de un error';
+
+  @override
+  String get reportBugSubtitle => 'Cuentale a VenuRite algo que no funciona';
+
+  @override
+  String get reportBugIntroText =>
+      'Encontraste algo roto o confuso en la aplicacion? Avisanos y lo revisaremos.';
+
+  @override
+  String get reportBugRequiresAccountText =>
+      'Informar de errores requiere una cuenta de empresa con sesion iniciada.';
+
+  @override
+  String get bugReportTitleLabel => 'Que salio mal?';
+
+  @override
+  String get bugReportDescriptionLabel => 'Cuentanos mas';
+
+  @override
+  String get submitBugReportButton => 'Enviar informe';
+
+  @override
+  String get bugReportSubmittedMessage =>
+      'Gracias - tu informe ha sido enviado a VenuRite.';
+
+  @override
+  String get bugReportFailedMessage =>
+      'No se pudo enviar tu informe. Intentalo de nuevo.';
 }

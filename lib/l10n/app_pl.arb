@@ -1357,5 +1357,16 @@
   "unfilledShiftLabel": "Nieobsadzona",
   "confirmAssignmentsButton": "Zatwierdz przypisania",
   "assignmentsConfirmedMessage": "Przypisano {count} zmian(y).",
-  "fairAutoAssignSummaryText": "{filled} z {total} zmian(y) mozna obsadzic z Twojego wyboru."
+  "fairAutoAssignSummaryText": "{filled} z {total} zmian(y) mozna obsadzic z Twojego wyboru.",
+  "unlockFeeChargedMessage": "Kontakt odblokowany - pobrano oplate 79p.",
+  "unlockFeeNotChargedMessage": "Kontakt odblokowany. Nie udalo sie pobrac oplaty 79p (brak aktywnego polecenia zaplaty) - nie zostala naliczona.",
+  "reportBugTitle": "Zglos blad",
+  "reportBugSubtitle": "Powiadom VenuRite o czyms, co nie dziala",
+  "reportBugIntroText": "Znalazles cos zepsutego lub niejasnego w aplikacji? Daj nam znac, a sprawdzimy to.",
+  "reportBugRequiresAccountText": "Zglaszanie bledow wymaga zalogowanego konta firmowego.",
+  "bugReportTitleLabel": "Co poszlo nie tak?",
+  "bugReportDescriptionLabel": "Opisz szczegolowo",
+  "submitBugReportButton": "Wyslij zgloszenie",
+  "bugReportSubmittedMessage": "Dzieki - Twoje zgloszenie zostalo wyslane do VenuRite.",
+  "bugReportFailedMessage": "Nie udalo sie wyslac zgloszenia. Sprobuj ponownie."
 }

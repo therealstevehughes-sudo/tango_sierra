@@ -4823,4 +4823,44 @@ class AppLocalizationsRo extends AppLocalizations {
   String fairAutoAssignSummaryText(int filled, int total) {
     return '$filled din $total tura(e) pot fi ocupate din selectia ta.';
   }
+
+  @override
+  String get unlockFeeChargedMessage =>
+      'Contact deblocat - taxa de 79p a fost perceputa.';
+
+  @override
+  String get unlockFeeNotChargedMessage =>
+      'Contact deblocat. Taxa de 79p nu a putut fi perceputa (fara debit direct activ) - nu a fost facturata.';
+
+  @override
+  String get reportBugTitle => 'Raporteaza o eroare';
+
+  @override
+  String get reportBugSubtitle =>
+      'Spune-i VenuRite despre ceva ce nu functioneaza';
+
+  @override
+  String get reportBugIntroText =>
+      'Ai gasit ceva stricat sau confuz in aplicatie? Anunta-ne si vom verifica.';
+
+  @override
+  String get reportBugRequiresAccountText =>
+      'Raportarea erorilor necesita un cont de companie autentificat.';
+
+  @override
+  String get bugReportTitleLabel => 'Ce nu a mers bine?';
+
+  @override
+  String get bugReportDescriptionLabel => 'Spune-ne mai multe';
+
+  @override
+  String get submitBugReportButton => 'Trimite raportul';
+
+  @override
+  String get bugReportSubmittedMessage =>
+      'Multumim - raportul tau a fost trimis catre VenuRite.';
+
+  @override
+  String get bugReportFailedMessage =>
+      'Raportul nu a putut fi trimis. Te rugam sa incerci din nou.';
 }

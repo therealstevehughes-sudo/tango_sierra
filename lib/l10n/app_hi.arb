@@ -1357,5 +1357,16 @@
   "unfilledShiftLabel": "खाली",
   "confirmAssignmentsButton": "असाइनमेंट की पुष्टि करें",
   "assignmentsConfirmedMessage": "{count} शिफ्ट असाइन की गईं।",
-  "fairAutoAssignSummaryText": "आपके चयन से {total} में से {filled} शिफ्ट भरी जा सकती हैं।"
+  "fairAutoAssignSummaryText": "आपके चयन से {total} में से {filled} शिफ्ट भरी जा सकती हैं।",
+  "unlockFeeChargedMessage": "संपर्क अनलॉक किया गया - 79p शुल्क लिया गया।",
+  "unlockFeeNotChargedMessage": "संपर्क अनलॉक किया गया। 79p शुल्क नहीं लिया जा सका (कोई सक्रिय डायरेक्ट डेबिट नहीं) - इसे बिल नहीं किया गया।",
+  "reportBugTitle": "बग की रिपोर्ट करें",
+  "reportBugSubtitle": "VenuRite को किसी ऐसी चीज़ के बारे में बताएं जो काम नहीं कर रही",
+  "reportBugIntroText": "क्या ऐप में कुछ टूटा हुआ या भ्रमित करने वाला मिला? हमें बताएं, हम इसे देखेंगे।",
+  "reportBugRequiresAccountText": "बग रिपोर्टिंग के लिए साइन-इन कंपनी खाता आवश्यक है।",
+  "bugReportTitleLabel": "क्या गलत हुआ?",
+  "bugReportDescriptionLabel": "हमें और बताएं",
+  "submitBugReportButton": "रिपोर्ट सबमिट करें",
+  "bugReportSubmittedMessage": "धन्यवाद - आपकी रिपोर्ट VenuRite को भेज दी गई है।",
+  "bugReportFailedMessage": "आपकी रिपोर्ट नहीं भेजी जा सकी। कृपया पुनः प्रयास करें।"
 }

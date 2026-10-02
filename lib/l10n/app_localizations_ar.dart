@@ -4684,4 +4684,43 @@ class AppLocalizationsAr extends AppLocalizations {
   String fairAutoAssignSummaryText(int filled, int total) {
     return 'يمكن شغل $filled من $total وردية من اختيارك.';
   }
+
+  @override
+  String get unlockFeeChargedMessage =>
+      'تم فتح جهة الاتصال - تم خصم رسوم 79 بنساً.';
+
+  @override
+  String get unlockFeeNotChargedMessage =>
+      'تم فتح جهة الاتصال. تعذر خصم رسوم 79 بنساً (لا يوجد خصم مباشر نشط) - لم يتم إصدار فاتورة بها.';
+
+  @override
+  String get reportBugTitle => 'الإبلاغ عن خطأ';
+
+  @override
+  String get reportBugSubtitle => 'أخبر VenuRite عن شيء لا يعمل';
+
+  @override
+  String get reportBugIntroText =>
+      'هل وجدت شيئًا معطلاً أو مربكًا في التطبيق؟ أخبرنا وسنتحقق من الأمر.';
+
+  @override
+  String get reportBugRequiresAccountText =>
+      'يتطلب الإبلاغ عن الأخطاء حساب شركة مسجل الدخول.';
+
+  @override
+  String get bugReportTitleLabel => 'ما الذي حدث خطأ؟';
+
+  @override
+  String get bugReportDescriptionLabel => 'أخبرنا المزيد';
+
+  @override
+  String get submitBugReportButton => 'إرسال التقرير';
+
+  @override
+  String get bugReportSubmittedMessage =>
+      'شكراً - تم إرسال تقريرك إلى VenuRite.';
+
+  @override
+  String get bugReportFailedMessage =>
+      'تعذر إرسال تقريرك. يرجى المحاولة مرة أخرى.';
 }

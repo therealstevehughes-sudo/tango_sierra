@@ -4528,5 +4528,16 @@
         "type": "int"
       }
     }
-  }
+  },
+  "unlockFeeChargedMessage": "Contact unlocked - 79p charged to your account.",
+  "unlockFeeNotChargedMessage": "Contact unlocked. The 79p fee could not be charged (no active Direct Debit) - it has not been billed.",
+  "reportBugTitle": "Report a bug",
+  "reportBugSubtitle": "Tell VenuRite about something that isn't working",
+  "reportBugIntroText": "Found something broken or confusing in the app? Let us know and we'll look into it.",
+  "reportBugRequiresAccountText": "Bug reporting needs a signed-in company account.",
+  "bugReportTitleLabel": "What went wrong?",
+  "bugReportDescriptionLabel": "Tell us more",
+  "submitBugReportButton": "Submit report",
+  "bugReportSubmittedMessage": "Thanks - your report has been sent to VenuRite.",
+  "bugReportFailedMessage": "Couldn't send your report. Please try again."
 }

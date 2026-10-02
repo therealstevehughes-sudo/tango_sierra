@@ -1,5 +1,82 @@
 import '../../core/network/backend_rest_client.dart';
 
+// Payment status, surfaced plainly (2026-10-02) — mirrors
+// billing_service.dart's effectiveBillingState() grace-period rule
+// (14 days from the first failed payment) but expressed in the terms a
+// superadmin reading this list actually wants: has this org paid, is a
+// payment late but still in grace, or has it been missed long enough to
+// matter. `trialing` is kept as its own value rather than folded into
+// `paid` — a trial isn't a payment at all yet.
+enum AdminPaymentStatus { trialing, paid, late, missed, unknown }
+
+const _paymentGracePeriod = Duration(days: 14);
+
+AdminPaymentStatus computeAdminPaymentStatus(
+  AdminOrgSummary org, {
+  DateTime? now,
+}) {
+  if (org.subscriptionStatus == null) return AdminPaymentStatus.unknown;
+  if (org.subscriptionStatus == 'trialing') return AdminPaymentStatus.trialing;
+  if (org.subscriptionStatus == 'active') return AdminPaymentStatus.paid;
+  if (org.subscriptionStatus == 'cancelled') return AdminPaymentStatus.missed;
+  if (org.subscriptionStatus != 'past_due') return AdminPaymentStatus.unknown;
+
+  final failedAt = org.lastPaymentFailedAt;
+  if (failedAt == null) return AdminPaymentStatus.paid;
+  final at = now ?? DateTime.now();
+  return at.difference(failedAt) >= _paymentGracePeriod
+      ? AdminPaymentStatus.missed
+      : AdminPaymentStatus.late;
+}
+
+class AdminBugReport {
+  const AdminBugReport({
+    required this.id,
+    required this.organisationName,
+    required this.reportedByName,
+    required this.title,
+    required this.description,
+    required this.appVersion,
+    required this.platform,
+    required this.status,
+    required this.createdAt,
+    required this.resolvedAt,
+    required this.adminNote,
+  });
+
+  final int id;
+  final String organisationName;
+  final String? reportedByName;
+  final String title;
+  final String description;
+  final String? appVersion;
+  final String? platform;
+  final String status;
+  final DateTime createdAt;
+  final DateTime? resolvedAt;
+  final String? adminNote;
+
+  bool get isResolved => status == 'resolved';
+}
+
+class AdminServiceProviderPurchase {
+  const AdminServiceProviderPurchase({
+    required this.id,
+    required this.organisationName,
+    required this.providerName,
+    required this.feePence,
+    required this.billed,
+    required this.unlockedAt,
+  });
+
+  final int id;
+  final String organisationName;
+  final String providerName;
+  final int feePence;
+  final bool billed;
+  final DateTime unlockedAt;
+}
+
 // Account-management/admin tool (Plan B, 2026-09-30) — Tom/founder-only,
 // reads cross-tenant data via the superadmin RLS policies added in
 // tools/phase2_admin_tool_migration.sql. Deliberately several plain
@@ -22,6 +99,7 @@ class AdminOrgSummary {
     required this.currentPeriodEnd,
     required this.restrictedAt,
     required this.freeAccessGranted,
+    required this.lastPaymentFailedAt,
     required this.serviceProviderUnlockCount,
     required this.createdAt,
     required this.archivedAt,
@@ -40,6 +118,7 @@ class AdminOrgSummary {
   final DateTime? currentPeriodEnd;
   final DateTime? restrictedAt;
   final bool freeAccessGranted;
+  final DateTime? lastPaymentFailedAt;
   final int serviceProviderUnlockCount;
   final DateTime createdAt;
   final DateTime? archivedAt;
@@ -58,7 +137,7 @@ class AdminRepository {
     final subscriptions = await _client.select(
       'subscriptions',
       query:
-          'select=organisation_id,status,billed_site_count,trial_ends_at,current_period_end,restricted_at,free_access_granted',
+          'select=organisation_id,status,billed_site_count,trial_ends_at,current_period_end,restricted_at,free_access_granted,last_payment_failed_at',
     );
     final sites = await _client.select(
       'sites',
@@ -131,6 +210,9 @@ class AdminRepository {
             ? null
             : DateTime.parse(sub!['restricted_at'] as String),
         freeAccessGranted: sub?['free_access_granted'] as bool? ?? false,
+        lastPaymentFailedAt: sub?['last_payment_failed_at'] == null
+            ? null
+            : DateTime.parse(sub!['last_payment_failed_at'] as String),
         serviceProviderUnlockCount: unlockCountByOrg[id] ?? 0,
         createdAt: DateTime.parse(org['created_at'] as String),
         archivedAt: org['archived_at'] == null
@@ -167,5 +249,130 @@ class AdminRepository {
   Future<bool> isCurrentUserSuperadmin() async {
     final rows = await _client.select('admin_users', query: 'select=id');
     return rows.isNotEmpty;
+  }
+
+  // Reported bugs/errors (2026-10-02) — surfaces bug_reports, the
+  // capture mechanism added alongside this view (nothing existed before:
+  // ContactVenuRiteScreen was only ever a mailto link). Cross-tenant read
+  // via superadmin_read_bug_reports, same pattern as every other admin
+  // read in this file.
+  Future<List<AdminBugReport>> getAllBugReports() async {
+    final reports = await _client.select(
+      'bug_reports',
+      query: 'select=id,organisation_id,site_id,reported_by_user_id,title,'
+          'description,app_version,platform,status,created_at,resolved_at,'
+          'admin_note&order=created_at.desc',
+    );
+    if (reports.isEmpty) return [];
+
+    final orgIds = reports.map((r) => r['organisation_id'] as int).toSet();
+    final orgs = await _client.select(
+      'organisations',
+      query: 'select=id,name&id=in.(${orgIds.join(',')})',
+    );
+    final orgNameById = {
+      for (final row in orgs) row['id'] as int: row['name'] as String,
+    };
+
+    final reporterIds = reports
+        .map((r) => r['reported_by_user_id'] as int?)
+        .whereType<int>()
+        .toSet();
+    final reporters = reporterIds.isEmpty
+        ? <Map<String, dynamic>>[]
+        : await _client.select(
+            'users',
+            query: 'select=id,name&id=in.(${reporterIds.join(',')})',
+          );
+    final reporterNameById = {
+      for (final row in reporters) row['id'] as int: row['name'] as String,
+    };
+
+    return reports.map((row) {
+      return AdminBugReport(
+        id: row['id'] as int,
+        organisationName:
+            orgNameById[row['organisation_id'] as int] ?? 'Unknown',
+        reportedByName: reporterNameById[row['reported_by_user_id'] as int?],
+        title: row['title'] as String,
+        description: row['description'] as String,
+        appVersion: row['app_version'] as String?,
+        platform: row['platform'] as String?,
+        status: row['status'] as String,
+        createdAt: DateTime.parse(row['created_at'] as String),
+        resolvedAt: row['resolved_at'] == null
+            ? null
+            : DateTime.parse(row['resolved_at'] as String),
+        adminNote: row['admin_note'] as String?,
+      );
+    }).toList();
+  }
+
+  Future<void> setBugReportStatus(
+    int bugReportId, {
+    required bool resolved,
+    String? adminNote,
+  }) async {
+    await _client.rpcVoid('admin_set_bug_report_status', {
+      'p_bug_report_id': bugReportId,
+      'p_resolved': resolved,
+      'p_admin_note': adminNote,
+    });
+  }
+
+  // Service-provider-access purchases (2026-10-02) — reads
+  // service_provider_unlocks directly (superadmin_read_service_provider_unlocks
+  // already existed from the original admin tool migration; this is the
+  // first screen to actually surface it as its own view rather than just
+  // a per-org count).
+  Future<List<AdminServiceProviderPurchase>> getAllServiceProviderPurchases() async {
+    final unlocks = await _client.select(
+      'service_provider_unlocks',
+      query: 'select=id,service_provider_id,unlocking_organisation_id,'
+          'fee_pence,billed,unlocked_at&order=unlocked_at.desc',
+    );
+    if (unlocks.isEmpty) return [];
+
+    final orgIds = unlocks
+        .map((u) => u['unlocking_organisation_id'] as int)
+        .toSet();
+    final orgs = await _client.select(
+      'organisations',
+      query: 'select=id,name&id=in.(${orgIds.join(',')})',
+    );
+    final orgNameById = {
+      for (final row in orgs) row['id'] as int: row['name'] as String,
+    };
+
+    final providerIds = unlocks
+        .map((u) => u['service_provider_id'] as int)
+        .toSet();
+    final providers = await _client.select(
+      'service_providers',
+      query: 'select=id,name&id=in.(${providerIds.join(',')})',
+    );
+    final providerNameById = {
+      for (final row in providers) row['id'] as int: row['name'] as String,
+    };
+
+    return unlocks.map((row) {
+      return AdminServiceProviderPurchase(
+        id: row['id'] as int,
+        organisationName:
+            orgNameById[row['unlocking_organisation_id'] as int] ?? 'Unknown',
+        providerName:
+            providerNameById[row['service_provider_id'] as int] ?? 'Unknown',
+        feePence: row['fee_pence'] as int,
+        billed: row['billed'] as bool,
+        unlockedAt: DateTime.parse(row['unlocked_at'] as String),
+      );
+    }).toList();
+  }
+
+  Future<void> setUnlockBilled(int unlockId, bool billed) async {
+    await _client.rpcVoid('admin_set_unlock_billed', {
+      'p_unlock_id': unlockId,
+      'p_billed': billed,
+    });
   }
 }
