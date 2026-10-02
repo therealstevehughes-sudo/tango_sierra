@@ -18,6 +18,7 @@ import '../../features/regions/branch_management_screen.dart';
 import '../../features/regions/branch_org_chart_screen.dart';
 import '../../features/regions/organisation_tree_screen.dart';
 import '../../features/roster/claim_board_screen.dart';
+import '../../features/roster/fair_auto_assign_screen.dart';
 import '../../features/roster/request_off_day_screen.dart';
 import '../../features/roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
 import '../../features/roster/roster_board_screen.dart';
@@ -216,6 +217,16 @@ List<_DrawerItemDef> _rosterItems(AppLocalizations l10n) => [
     label: l10n.masterRotaSettingsTitle,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const ShiftRequirementsScreen(),
+    requiresRosterAddon: true,
+  ),
+  // Fair auto-assign, Sprint 8 (2026-10-02) — manager ticks staff +
+  // shifts, hits one button; always produces a preview first (see
+  // fair_auto_assign_screen.dart's own doc comment).
+  _DrawerItemDef(
+    icon: Icons.auto_awesome_outlined,
+    label: l10n.fairAutoAssignTitle,
+    minTier: RoleTier.venueManager,
+    screenBuilder: (_) => const FairAutoAssignScreen(),
     requiresRosterAddon: true,
   ),
   _DrawerItemDef(

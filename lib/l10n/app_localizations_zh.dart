@@ -4517,4 +4517,47 @@ class AppLocalizationsZh extends AppLocalizations {
   String rotaMonthShiftCountText(int count) {
     return '$count个班次';
   }
+
+  @override
+  String get fairAutoAssignTitle => '公平自动排班';
+
+  @override
+  String get fairAutoAssignDescription => '勾选要包含的班次和员工，然后在确认前预览公平、可解释的自动排班结果。';
+
+  @override
+  String get selectShiftsLabel => '要包含的空缺班次';
+
+  @override
+  String get selectStaffLabel => '要包含的员工';
+
+  @override
+  String get noOpenShiftsThisWeekText => '本周没有空缺班次。';
+
+  @override
+  String get selectAllLabel => '全选';
+
+  @override
+  String get previewAutoAssignButton => '预览自动排班';
+
+  @override
+  String get noShiftsOrStaffSelectedText => '请至少选择一个班次和一名员工。';
+
+  @override
+  String get fairAutoAssignPreviewTitle => '预览排班结果';
+
+  @override
+  String get unfilledShiftLabel => '未填补';
+
+  @override
+  String get confirmAssignmentsButton => '确认排班';
+
+  @override
+  String assignmentsConfirmedMessage(int count) {
+    return '已安排 $count 个班次。';
+  }
+
+  @override
+  String fairAutoAssignSummaryText(int filled, int total) {
+    return '您的选择中有 $filled/$total 个班次可以被填补。';
+  }
 }

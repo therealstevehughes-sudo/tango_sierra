@@ -4662,4 +4662,49 @@ class AppLocalizationsUr extends AppLocalizations {
   String rotaMonthShiftCountText(int count) {
     return '$count شفٹیں';
   }
+
+  @override
+  String get fairAutoAssignTitle => 'منصفانہ خودکار تفویض';
+
+  @override
+  String get fairAutoAssignDescription =>
+      'شامل کرنے کے لیے شفٹیں اور عملہ منتخب کریں، پھر تصدیق سے پہلے ایک منصفانہ اور قابل وضاحت خودکار تفویض کا جائزہ لیں۔';
+
+  @override
+  String get selectShiftsLabel => 'شامل کرنے کے لیے کھلی شفٹیں';
+
+  @override
+  String get selectStaffLabel => 'شامل کرنے کے لیے عملہ';
+
+  @override
+  String get noOpenShiftsThisWeekText => 'اس ہفتے کوئی کھلی شفٹ نہیں ہے۔';
+
+  @override
+  String get selectAllLabel => 'سب منتخب کریں';
+
+  @override
+  String get previewAutoAssignButton => 'خودکار تفویض کا جائزہ لیں';
+
+  @override
+  String get noShiftsOrStaffSelectedText =>
+      'کم از کم ایک شفٹ اور ایک رکن عملہ منتخب کریں۔';
+
+  @override
+  String get fairAutoAssignPreviewTitle => 'تفویض کا جائزہ';
+
+  @override
+  String get unfilledShiftLabel => 'خالی';
+
+  @override
+  String get confirmAssignmentsButton => 'تفویض کی تصدیق کریں';
+
+  @override
+  String assignmentsConfirmedMessage(int count) {
+    return '$count شفٹیں تفویض کی گئیں۔';
+  }
+
+  @override
+  String fairAutoAssignSummaryText(int filled, int total) {
+    return 'آپ کے انتخاب سے $total میں سے $filled شفٹیں پر کی جا سکتی ہیں۔';
+  }
 }

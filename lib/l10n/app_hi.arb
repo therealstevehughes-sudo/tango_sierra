@@ -1344,5 +1344,18 @@
   "shiftFullText": "पूर्ण",
   "rotaClaimCalendarTitle": "शिफ्ट लें (कैलेंडर)",
   "rotaMonthTitle": "रोटा माह दृश्य",
-  "rotaMonthShiftCountText": "{count} शिफ्ट"
+  "rotaMonthShiftCountText": "{count} शिफ्ट",
+  "fairAutoAssignTitle": "निष्पक्ष स्वचालित असाइनमेंट",
+  "fairAutoAssignDescription": "शामिल करने के लिए शिफ्ट और स्टाफ चुनें, फिर पुष्टि करने से पहले एक निष्पक्ष, स्पष्ट स्वचालित असाइनमेंट का पूर्वावलोकन करें।",
+  "selectShiftsLabel": "शामिल करने के लिए खुली शिफ्ट",
+  "selectStaffLabel": "शामिल करने के लिए स्टाफ",
+  "noOpenShiftsThisWeekText": "इस सप्ताह कोई खुली शिफ्ट नहीं है।",
+  "selectAllLabel": "सभी चुनें",
+  "previewAutoAssignButton": "स्वचालित असाइनमेंट का पूर्वावलोकन करें",
+  "noShiftsOrStaffSelectedText": "कृपया कम से कम एक शिफ्ट और एक स्टाफ सदस्य चुनें।",
+  "fairAutoAssignPreviewTitle": "असाइनमेंट पूर्वावलोकन",
+  "unfilledShiftLabel": "खाली",
+  "confirmAssignmentsButton": "असाइनमेंट की पुष्टि करें",
+  "assignmentsConfirmedMessage": "{count} शिफ्ट असाइन की गईं।",
+  "fairAutoAssignSummaryText": "आपके चयन से {total} में से {filled} शिफ्ट भरी जा सकती हैं।"
 }

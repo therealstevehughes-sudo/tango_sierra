@@ -1344,5 +1344,18 @@
   "shiftFullText": "Completo",
   "rotaClaimCalendarTitle": "Reclamar turnos (calendario)",
   "rotaMonthTitle": "Vista mensual de turnos",
-  "rotaMonthShiftCountText": "{count} turnos"
+  "rotaMonthShiftCountText": "{count} turnos",
+  "fairAutoAssignTitle": "Asignacion automatica justa",
+  "fairAutoAssignDescription": "Marca los turnos y el personal a incluir, luego revisa una vista previa de una asignacion automatica justa y explicable antes de confirmar.",
+  "selectShiftsLabel": "Turnos abiertos a incluir",
+  "selectStaffLabel": "Personal a incluir",
+  "noOpenShiftsThisWeekText": "No hay turnos abiertos esta semana.",
+  "selectAllLabel": "Seleccionar todo",
+  "previewAutoAssignButton": "Vista previa de asignacion automatica",
+  "noShiftsOrStaffSelectedText": "Selecciona al menos un turno y un miembro del personal.",
+  "fairAutoAssignPreviewTitle": "Vista previa de asignaciones",
+  "unfilledShiftLabel": "Sin cubrir",
+  "confirmAssignmentsButton": "Confirmar asignaciones",
+  "assignmentsConfirmedMessage": "{count} turno(s) asignado(s).",
+  "fairAutoAssignSummaryText": "{filled} de {total} turno(s) se pueden cubrir con tu seleccion."
 }

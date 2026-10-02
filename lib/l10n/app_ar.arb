@@ -1344,5 +1344,18 @@
   "shiftFullText": "مكتمل",
   "rotaClaimCalendarTitle": "احجز الورديات (تقويم)",
   "rotaMonthTitle": "عرض الشهر للجدول",
-  "rotaMonthShiftCountText": "{count} وردية"
+  "rotaMonthShiftCountText": "{count} وردية",
+  "fairAutoAssignTitle": "تعيين تلقائي عادل",
+  "fairAutoAssignDescription": "حدد الورديات والموظفين المراد تضمينهم، ثم راجع معاينة لتعيين تلقائي عادل وقابل للتفسير قبل التأكيد.",
+  "selectShiftsLabel": "الورديات المفتوحة المراد تضمينها",
+  "selectStaffLabel": "الموظفون المراد تضمينهم",
+  "noOpenShiftsThisWeekText": "لا توجد ورديات مفتوحة هذا الأسبوع.",
+  "selectAllLabel": "تحديد الكل",
+  "previewAutoAssignButton": "معاينة التعيين التلقائي",
+  "noShiftsOrStaffSelectedText": "حدد وردية واحدة على الأقل وموظفاً واحداً.",
+  "fairAutoAssignPreviewTitle": "معاينة التعيينات",
+  "unfilledShiftLabel": "غير مشغولة",
+  "confirmAssignmentsButton": "تأكيد التعيينات",
+  "assignmentsConfirmedMessage": "تم تعيين {count} وردية.",
+  "fairAutoAssignSummaryText": "يمكن شغل {filled} من {total} وردية من اختيارك."
 }

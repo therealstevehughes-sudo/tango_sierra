@@ -4669,4 +4669,50 @@ class AppLocalizationsHi extends AppLocalizations {
   String rotaMonthShiftCountText(int count) {
     return '$count शिफ्ट';
   }
+
+  @override
+  String get fairAutoAssignTitle => 'निष्पक्ष स्वचालित असाइनमेंट';
+
+  @override
+  String get fairAutoAssignDescription =>
+      'शामिल करने के लिए शिफ्ट और स्टाफ चुनें, फिर पुष्टि करने से पहले एक निष्पक्ष, स्पष्ट स्वचालित असाइनमेंट का पूर्वावलोकन करें।';
+
+  @override
+  String get selectShiftsLabel => 'शामिल करने के लिए खुली शिफ्ट';
+
+  @override
+  String get selectStaffLabel => 'शामिल करने के लिए स्टाफ';
+
+  @override
+  String get noOpenShiftsThisWeekText => 'इस सप्ताह कोई खुली शिफ्ट नहीं है।';
+
+  @override
+  String get selectAllLabel => 'सभी चुनें';
+
+  @override
+  String get previewAutoAssignButton =>
+      'स्वचालित असाइनमेंट का पूर्वावलोकन करें';
+
+  @override
+  String get noShiftsOrStaffSelectedText =>
+      'कृपया कम से कम एक शिफ्ट और एक स्टाफ सदस्य चुनें।';
+
+  @override
+  String get fairAutoAssignPreviewTitle => 'असाइनमेंट पूर्वावलोकन';
+
+  @override
+  String get unfilledShiftLabel => 'खाली';
+
+  @override
+  String get confirmAssignmentsButton => 'असाइनमेंट की पुष्टि करें';
+
+  @override
+  String assignmentsConfirmedMessage(int count) {
+    return '$count शिफ्ट असाइन की गईं।';
+  }
+
+  @override
+  String fairAutoAssignSummaryText(int filled, int total) {
+    return 'आपके चयन से $total में से $filled शिफ्ट भरी जा सकती हैं।';
+  }
 }

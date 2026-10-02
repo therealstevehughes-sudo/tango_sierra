@@ -8197,6 +8197,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} shifts'**
   String rotaMonthShiftCountText(int count);
+
+  /// No description provided for @fairAutoAssignTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fair auto-assign'**
+  String get fairAutoAssignTitle;
+
+  /// No description provided for @fairAutoAssignDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick the shifts and staff to include, then preview a fair, explainable auto-assignment before anything is confirmed.'**
+  String get fairAutoAssignDescription;
+
+  /// No description provided for @selectShiftsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Open shifts to include'**
+  String get selectShiftsLabel;
+
+  /// No description provided for @selectStaffLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff to include'**
+  String get selectStaffLabel;
+
+  /// No description provided for @noOpenShiftsThisWeekText.
+  ///
+  /// In en, this message translates to:
+  /// **'No open shifts this week.'**
+  String get noOpenShiftsThisWeekText;
+
+  /// No description provided for @selectAllLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get selectAllLabel;
+
+  /// No description provided for @previewAutoAssignButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview auto-assign'**
+  String get previewAutoAssignButton;
+
+  /// No description provided for @noShiftsOrStaffSelectedText.
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least one shift and one staff member first.'**
+  String get noShiftsOrStaffSelectedText;
+
+  /// No description provided for @fairAutoAssignPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview assignments'**
+  String get fairAutoAssignPreviewTitle;
+
+  /// No description provided for @unfilledShiftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfilled'**
+  String get unfilledShiftLabel;
+
+  /// No description provided for @confirmAssignmentsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm assignments'**
+  String get confirmAssignmentsButton;
+
+  /// No description provided for @assignmentsConfirmedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} shift(s) assigned.'**
+  String assignmentsConfirmedMessage(int count);
+
+  /// No description provided for @fairAutoAssignSummaryText.
+  ///
+  /// In en, this message translates to:
+  /// **'{filled} of {total} shift(s) can be filled from your selection.'**
+  String fairAutoAssignSummaryText(int filled, int total);
 }
 
 class _AppLocalizationsDelegate

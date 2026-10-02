@@ -4802,4 +4802,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String rotaMonthShiftCountText(int count) {
     return '$count shifts';
   }
+
+  @override
+  String get fairAutoAssignTitle => 'Fair auto-assign';
+
+  @override
+  String get fairAutoAssignDescription =>
+      'Tick the shifts and staff to include, then preview a fair, explainable auto-assignment before anything is confirmed.';
+
+  @override
+  String get selectShiftsLabel => 'Open shifts to include';
+
+  @override
+  String get selectStaffLabel => 'Staff to include';
+
+  @override
+  String get noOpenShiftsThisWeekText => 'No open shifts this week.';
+
+  @override
+  String get selectAllLabel => 'Select all';
+
+  @override
+  String get previewAutoAssignButton => 'Preview auto-assign';
+
+  @override
+  String get noShiftsOrStaffSelectedText =>
+      'Select at least one shift and one staff member first.';
+
+  @override
+  String get fairAutoAssignPreviewTitle => 'Preview assignments';
+
+  @override
+  String get unfilledShiftLabel => 'Unfilled';
+
+  @override
+  String get confirmAssignmentsButton => 'Confirm assignments';
+
+  @override
+  String assignmentsConfirmedMessage(int count) {
+    return '$count shift(s) assigned.';
+  }
+
+  @override
+  String fairAutoAssignSummaryText(int filled, int total) {
+    return '$filled of $total shift(s) can be filled from your selection.';
+  }
 }

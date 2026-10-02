@@ -1344,5 +1344,18 @@
   "shiftFullText": "已满",
   "rotaClaimCalendarTitle": "认领班次(日历)",
   "rotaMonthTitle": "排班月视图",
-  "rotaMonthShiftCountText": "{count}个班次"
+  "rotaMonthShiftCountText": "{count}个班次",
+  "fairAutoAssignTitle": "公平自动排班",
+  "fairAutoAssignDescription": "勾选要包含的班次和员工，然后在确认前预览公平、可解释的自动排班结果。",
+  "selectShiftsLabel": "要包含的空缺班次",
+  "selectStaffLabel": "要包含的员工",
+  "noOpenShiftsThisWeekText": "本周没有空缺班次。",
+  "selectAllLabel": "全选",
+  "previewAutoAssignButton": "预览自动排班",
+  "noShiftsOrStaffSelectedText": "请至少选择一个班次和一名员工。",
+  "fairAutoAssignPreviewTitle": "预览排班结果",
+  "unfilledShiftLabel": "未填补",
+  "confirmAssignmentsButton": "确认排班",
+  "assignmentsConfirmedMessage": "已安排 {count} 个班次。",
+  "fairAutoAssignSummaryText": "您的选择中有 {filled}/{total} 个班次可以被填补。"
 }

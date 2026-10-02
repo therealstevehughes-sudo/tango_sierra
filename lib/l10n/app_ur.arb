@@ -1344,5 +1344,18 @@
   "shiftFullText": "مکمل",
   "rotaClaimCalendarTitle": "شفٹ حاصل کریں (کیلنڈر)",
   "rotaMonthTitle": "روٹا مہینے کا منظر",
-  "rotaMonthShiftCountText": "{count} شفٹیں"
+  "rotaMonthShiftCountText": "{count} شفٹیں",
+  "fairAutoAssignTitle": "منصفانہ خودکار تفویض",
+  "fairAutoAssignDescription": "شامل کرنے کے لیے شفٹیں اور عملہ منتخب کریں، پھر تصدیق سے پہلے ایک منصفانہ اور قابل وضاحت خودکار تفویض کا جائزہ لیں۔",
+  "selectShiftsLabel": "شامل کرنے کے لیے کھلی شفٹیں",
+  "selectStaffLabel": "شامل کرنے کے لیے عملہ",
+  "noOpenShiftsThisWeekText": "اس ہفتے کوئی کھلی شفٹ نہیں ہے۔",
+  "selectAllLabel": "سب منتخب کریں",
+  "previewAutoAssignButton": "خودکار تفویض کا جائزہ لیں",
+  "noShiftsOrStaffSelectedText": "کم از کم ایک شفٹ اور ایک رکن عملہ منتخب کریں۔",
+  "fairAutoAssignPreviewTitle": "تفویض کا جائزہ",
+  "unfilledShiftLabel": "خالی",
+  "confirmAssignmentsButton": "تفویض کی تصدیق کریں",
+  "assignmentsConfirmedMessage": "{count} شفٹیں تفویض کی گئیں۔",
+  "fairAutoAssignSummaryText": "آپ کے انتخاب سے {total} میں سے {filled} شفٹیں پر کی جا سکتی ہیں۔"
 }

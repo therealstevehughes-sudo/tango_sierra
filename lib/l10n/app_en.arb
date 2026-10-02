@@ -4498,5 +4498,35 @@
         "type": "int"
       }
     }
+  },
+  "fairAutoAssignTitle": "Fair auto-assign",
+  "fairAutoAssignDescription": "Tick the shifts and staff to include, then preview a fair, explainable auto-assignment before anything is confirmed.",
+  "selectShiftsLabel": "Open shifts to include",
+  "selectStaffLabel": "Staff to include",
+  "noOpenShiftsThisWeekText": "No open shifts this week.",
+  "selectAllLabel": "Select all",
+  "previewAutoAssignButton": "Preview auto-assign",
+  "noShiftsOrStaffSelectedText": "Select at least one shift and one staff member first.",
+  "fairAutoAssignPreviewTitle": "Preview assignments",
+  "unfilledShiftLabel": "Unfilled",
+  "confirmAssignmentsButton": "Confirm assignments",
+  "assignmentsConfirmedMessage": "{count} shift(s) assigned.",
+  "@assignmentsConfirmedMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fairAutoAssignSummaryText": "{filled} of {total} shift(s) can be filled from your selection.",
+  "@fairAutoAssignSummaryText": {
+    "placeholders": {
+      "filled": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
   }
 }

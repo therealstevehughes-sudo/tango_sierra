@@ -4834,4 +4834,49 @@ class AppLocalizationsDe extends AppLocalizations {
   String rotaMonthShiftCountText(int count) {
     return '$count Schichten';
   }
+
+  @override
+  String get fairAutoAssignTitle => 'Faire automatische Zuweisung';
+
+  @override
+  String get fairAutoAssignDescription =>
+      'Waehlen Sie die einzubeziehenden Schichten und Mitarbeiter aus und pruefen Sie dann eine faire, nachvollziehbare automatische Zuweisung, bevor etwas bestaetigt wird.';
+
+  @override
+  String get selectShiftsLabel => 'Einzubeziehende offene Schichten';
+
+  @override
+  String get selectStaffLabel => 'Einzubeziehende Mitarbeiter';
+
+  @override
+  String get noOpenShiftsThisWeekText => 'Diese Woche keine offenen Schichten.';
+
+  @override
+  String get selectAllLabel => 'Alle auswaehlen';
+
+  @override
+  String get previewAutoAssignButton => 'Automatische Zuweisung ansehen';
+
+  @override
+  String get noShiftsOrStaffSelectedText =>
+      'Waehlen Sie mindestens eine Schicht und einen Mitarbeiter aus.';
+
+  @override
+  String get fairAutoAssignPreviewTitle => 'Vorschau der Zuweisungen';
+
+  @override
+  String get unfilledShiftLabel => 'Unbesetzt';
+
+  @override
+  String get confirmAssignmentsButton => 'Zuweisungen bestaetigen';
+
+  @override
+  String assignmentsConfirmedMessage(int count) {
+    return '$count Schicht(en) zugewiesen.';
+  }
+
+  @override
+  String fairAutoAssignSummaryText(int filled, int total) {
+    return '$filled von $total Schicht(en) koennen aus Ihrer Auswahl besetzt werden.';
+  }
 }

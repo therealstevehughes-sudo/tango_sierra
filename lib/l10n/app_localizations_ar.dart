@@ -4639,4 +4639,49 @@ class AppLocalizationsAr extends AppLocalizations {
   String rotaMonthShiftCountText(int count) {
     return '$count وردية';
   }
+
+  @override
+  String get fairAutoAssignTitle => 'تعيين تلقائي عادل';
+
+  @override
+  String get fairAutoAssignDescription =>
+      'حدد الورديات والموظفين المراد تضمينهم، ثم راجع معاينة لتعيين تلقائي عادل وقابل للتفسير قبل التأكيد.';
+
+  @override
+  String get selectShiftsLabel => 'الورديات المفتوحة المراد تضمينها';
+
+  @override
+  String get selectStaffLabel => 'الموظفون المراد تضمينهم';
+
+  @override
+  String get noOpenShiftsThisWeekText => 'لا توجد ورديات مفتوحة هذا الأسبوع.';
+
+  @override
+  String get selectAllLabel => 'تحديد الكل';
+
+  @override
+  String get previewAutoAssignButton => 'معاينة التعيين التلقائي';
+
+  @override
+  String get noShiftsOrStaffSelectedText =>
+      'حدد وردية واحدة على الأقل وموظفاً واحداً.';
+
+  @override
+  String get fairAutoAssignPreviewTitle => 'معاينة التعيينات';
+
+  @override
+  String get unfilledShiftLabel => 'غير مشغولة';
+
+  @override
+  String get confirmAssignmentsButton => 'تأكيد التعيينات';
+
+  @override
+  String assignmentsConfirmedMessage(int count) {
+    return 'تم تعيين $count وردية.';
+  }
+
+  @override
+  String fairAutoAssignSummaryText(int filled, int total) {
+    return 'يمكن شغل $filled من $total وردية من اختيارك.';
+  }
 }

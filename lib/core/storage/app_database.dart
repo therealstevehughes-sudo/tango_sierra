@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 import '../config/build_flags.dart';
 import '../utils/pin_hasher.dart';
@@ -6775,6 +6776,14 @@ class AppDatabase extends _$AppDatabase {
   }
 
   static QueryExecutor _openConnection() {
-    return driftDatabase(name: 'kitchen_control_db');
+    return driftDatabase(
+      name: 'kitchen_control_db',
+      web: kIsWeb
+          ? DriftWebOptions(
+              sqlite3Wasm: Uri.parse('sqlite3.wasm'),
+              driftWorker: Uri.parse('drift_worker.js'),
+            )
+          : null,
+    );
   }
 }

@@ -4781,4 +4781,49 @@ class AppLocalizationsPl extends AppLocalizations {
   String rotaMonthShiftCountText(int count) {
     return '$count zmian';
   }
+
+  @override
+  String get fairAutoAssignTitle => 'Sprawiedliwe automatyczne przypisanie';
+
+  @override
+  String get fairAutoAssignDescription =>
+      'Zaznacz zmiany i pracownikow do uwzglednienia, a nastepnie zobacz podglad sprawiedliwego, wytlumaczalnego przypisania przed zatwierdzeniem.';
+
+  @override
+  String get selectShiftsLabel => 'Otwarte zmiany do uwzglednienia';
+
+  @override
+  String get selectStaffLabel => 'Pracownicy do uwzglednienia';
+
+  @override
+  String get noOpenShiftsThisWeekText => 'Brak otwartych zmian w tym tygodniu.';
+
+  @override
+  String get selectAllLabel => 'Zaznacz wszystko';
+
+  @override
+  String get previewAutoAssignButton => 'Podglad automatycznego przypisania';
+
+  @override
+  String get noShiftsOrStaffSelectedText =>
+      'Zaznacz co najmniej jedna zmiane i jednego pracownika.';
+
+  @override
+  String get fairAutoAssignPreviewTitle => 'Podglad przypisan';
+
+  @override
+  String get unfilledShiftLabel => 'Nieobsadzona';
+
+  @override
+  String get confirmAssignmentsButton => 'Zatwierdz przypisania';
+
+  @override
+  String assignmentsConfirmedMessage(int count) {
+    return 'Przypisano $count zmian(y).';
+  }
+
+  @override
+  String fairAutoAssignSummaryText(int filled, int total) {
+    return '$filled z $total zmian(y) mozna obsadzic z Twojego wyboru.';
+  }
 }

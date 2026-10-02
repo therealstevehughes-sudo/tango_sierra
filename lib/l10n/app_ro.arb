@@ -1344,5 +1344,18 @@
   "shiftFullText": "Complet",
   "rotaClaimCalendarTitle": "Preia ture (calendar)",
   "rotaMonthTitle": "Vizualizare lunara tura",
-  "rotaMonthShiftCountText": "{count} ture"
+  "rotaMonthShiftCountText": "{count} ture",
+  "fairAutoAssignTitle": "Alocare automata echitabila",
+  "fairAutoAssignDescription": "Bifeaza turele si personalul de inclus, apoi previzualizeaza o alocare automata echitabila si explicabila inainte de confirmare.",
+  "selectShiftsLabel": "Ture deschise de inclus",
+  "selectStaffLabel": "Personal de inclus",
+  "noOpenShiftsThisWeekText": "Nicio tura deschisa saptamana aceasta.",
+  "selectAllLabel": "Selecteaza tot",
+  "previewAutoAssignButton": "Previzualizeaza alocarea automata",
+  "noShiftsOrStaffSelectedText": "Selecteaza cel putin o tura si un angajat.",
+  "fairAutoAssignPreviewTitle": "Previzualizare alocari",
+  "unfilledShiftLabel": "Neocupata",
+  "confirmAssignmentsButton": "Confirma alocarile",
+  "assignmentsConfirmedMessage": "{count} tura(e) alocata(e).",
+  "fairAutoAssignSummaryText": "{filled} din {total} tura(e) pot fi ocupate din selectia ta."
 }

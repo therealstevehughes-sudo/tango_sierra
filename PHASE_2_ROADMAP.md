@@ -23,9 +23,13 @@ Direct founder request (2026-10-01), after seeing Roster's current screens are f
 6. **Staff slot-claiming calendar** (`RotaClaimScreen`) — each day shown as its period slots with Claim/Join standby/You're assigned/Full states, plus a "Book days off instead" toggle that switches the same view into day-off request marking (reuses the existing off_day_requests flow).
 7. **Month grid** — compact per-day shift/unfilled counts, tap a day to open its week in the week-grid view.
 
-**NOT YET BUILT**: fair auto-assign (manager ticks staff + shifts/days, hits one button; hard constraints - cert-eligibility, no day-off conflicts, no double-booking - always enforced; fairness is explainable round-robin, hardest-to-fill shifts assigned first, then whoever has the fewest hours so far in that run; always produces a preview before anything commits, same "never auto-publish unreviewed" principle as the allergen tags and AI-drafted SOPs). Depended on the calendar/slot model existing first — next up if still wanted.
+8. **Fair auto-assign** (`fair_auto_assign_screen.dart`/`fair_auto_assign_service.dart`, 2026-10-02) — manager ticks open shifts (scoped to a week) + staff, hits "Preview auto-assign." Hard constraints: cert eligibility, role match when the shift has one, no day-off conflict, no double-booking (against real shifts and anything proposed earlier in the same run). Fairness: hardest-to-fill shifts first, then fewest hours assigned so far this run — explainable, resets every run. Always produces a preview; `managerAssign` is only ever called from the preview screen, and only for still-ticked proposals. 6 new unit tests.
 
-All SQL migrations applied directly to the live server. Full test suite (66 tests) green throughout; one genuinely broken pre-existing test (`trigger_notifications_banner_test.dart` — missing localization delegates in its own test harness, not an app bug) found and fixed along the way rather than left mislabeled as "pre-existing, not my problem."
+**DONE, all 8 sprints complete.**
+
+All SQL migrations applied directly to the live server. Full test suite (72 tests) green throughout; one genuinely broken pre-existing test (`trigger_notifications_banner_test.dart` — missing localization delegates in its own test harness, not an app bug) found and fixed along the way rather than left mislabeled as "pre-existing, not my problem."
+
+**Also found and fixed while testing the finished feature end-to-end (2026-10-02)**: the live production web app (`venurite.com/app/`) had been crashing on load for every visitor since 2026-09-27 — `drift_flutter` was never given its required web config. See DECISIONS_LOG.md's own entry for the fix; deployed to production the same day.
 
 ### Bluetooth/WiFi temperature probe integration
 Middle step before any full IoT sensor network (JOLT/SmartSense's model — Bluetooth + LoRa hardware, opaque enterprise pricing $200-300+/mo). Achievable first step: Bluetooth temperature probes that write readings directly into the existing temperature-check task flow, removing manual entry. Hardware partner/SDK TBD.

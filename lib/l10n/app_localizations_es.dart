@@ -4782,4 +4782,49 @@ class AppLocalizationsEs extends AppLocalizations {
   String rotaMonthShiftCountText(int count) {
     return '$count turnos';
   }
+
+  @override
+  String get fairAutoAssignTitle => 'Asignacion automatica justa';
+
+  @override
+  String get fairAutoAssignDescription =>
+      'Marca los turnos y el personal a incluir, luego revisa una vista previa de una asignacion automatica justa y explicable antes de confirmar.';
+
+  @override
+  String get selectShiftsLabel => 'Turnos abiertos a incluir';
+
+  @override
+  String get selectStaffLabel => 'Personal a incluir';
+
+  @override
+  String get noOpenShiftsThisWeekText => 'No hay turnos abiertos esta semana.';
+
+  @override
+  String get selectAllLabel => 'Seleccionar todo';
+
+  @override
+  String get previewAutoAssignButton => 'Vista previa de asignacion automatica';
+
+  @override
+  String get noShiftsOrStaffSelectedText =>
+      'Selecciona al menos un turno y un miembro del personal.';
+
+  @override
+  String get fairAutoAssignPreviewTitle => 'Vista previa de asignaciones';
+
+  @override
+  String get unfilledShiftLabel => 'Sin cubrir';
+
+  @override
+  String get confirmAssignmentsButton => 'Confirmar asignaciones';
+
+  @override
+  String assignmentsConfirmedMessage(int count) {
+    return '$count turno(s) asignado(s).';
+  }
+
+  @override
+  String fairAutoAssignSummaryText(int filled, int total) {
+    return '$filled de $total turno(s) se pueden cubrir con tu seleccion.';
+  }
 }

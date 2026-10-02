@@ -4777,4 +4777,50 @@ class AppLocalizationsRo extends AppLocalizations {
   String rotaMonthShiftCountText(int count) {
     return '$count ture';
   }
+
+  @override
+  String get fairAutoAssignTitle => 'Alocare automata echitabila';
+
+  @override
+  String get fairAutoAssignDescription =>
+      'Bifeaza turele si personalul de inclus, apoi previzualizeaza o alocare automata echitabila si explicabila inainte de confirmare.';
+
+  @override
+  String get selectShiftsLabel => 'Ture deschise de inclus';
+
+  @override
+  String get selectStaffLabel => 'Personal de inclus';
+
+  @override
+  String get noOpenShiftsThisWeekText =>
+      'Nicio tura deschisa saptamana aceasta.';
+
+  @override
+  String get selectAllLabel => 'Selecteaza tot';
+
+  @override
+  String get previewAutoAssignButton => 'Previzualizeaza alocarea automata';
+
+  @override
+  String get noShiftsOrStaffSelectedText =>
+      'Selecteaza cel putin o tura si un angajat.';
+
+  @override
+  String get fairAutoAssignPreviewTitle => 'Previzualizare alocari';
+
+  @override
+  String get unfilledShiftLabel => 'Neocupata';
+
+  @override
+  String get confirmAssignmentsButton => 'Confirma alocarile';
+
+  @override
+  String assignmentsConfirmedMessage(int count) {
+    return '$count tura(e) alocata(e).';
+  }
+
+  @override
+  String fairAutoAssignSummaryText(int filled, int total) {
+    return '$filled din $total tura(e) pot fi ocupate din selectia ta.';
+  }
 }

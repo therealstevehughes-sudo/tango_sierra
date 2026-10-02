@@ -4692,4 +4692,49 @@ class AppLocalizationsHr extends AppLocalizations {
   String rotaMonthShiftCountText(int count) {
     return '$count smjena';
   }
+
+  @override
+  String get fairAutoAssignTitle => 'Pravedno automatsko dodjeljivanje';
+
+  @override
+  String get fairAutoAssignDescription =>
+      'Oznacite smjene i osoblje za ukljucivanje, zatim pregledajte pravedno i objasnjivo automatsko dodjeljivanje prije potvrde.';
+
+  @override
+  String get selectShiftsLabel => 'Otvorene smjene za ukljucivanje';
+
+  @override
+  String get selectStaffLabel => 'Osoblje za ukljucivanje';
+
+  @override
+  String get noOpenShiftsThisWeekText => 'Nema otvorenih smjena ovaj tjedan.';
+
+  @override
+  String get selectAllLabel => 'Odaberi sve';
+
+  @override
+  String get previewAutoAssignButton => 'Pregledaj automatsko dodjeljivanje';
+
+  @override
+  String get noShiftsOrStaffSelectedText =>
+      'Odaberite barem jednu smjenu i jednog djelatnika.';
+
+  @override
+  String get fairAutoAssignPreviewTitle => 'Pregled dodjela';
+
+  @override
+  String get unfilledShiftLabel => 'Nepopunjeno';
+
+  @override
+  String get confirmAssignmentsButton => 'Potvrdi dodjele';
+
+  @override
+  String assignmentsConfirmedMessage(int count) {
+    return 'Dodijeljeno $count smjena.';
+  }
+
+  @override
+  String fairAutoAssignSummaryText(int filled, int total) {
+    return '$filled od $total smjena(e) moze se popuniti iz vaseg odabira.';
+  }
 }

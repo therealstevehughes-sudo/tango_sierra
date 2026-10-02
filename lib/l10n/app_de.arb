@@ -1344,5 +1344,18 @@
   "shiftFullText": "Voll besetzt",
   "rotaClaimCalendarTitle": "Schichten uebernehmen (Kalender)",
   "rotaMonthTitle": "Dienstplan-Monatsansicht",
-  "rotaMonthShiftCountText": "{count} Schichten"
+  "rotaMonthShiftCountText": "{count} Schichten",
+  "fairAutoAssignTitle": "Faire automatische Zuweisung",
+  "fairAutoAssignDescription": "Waehlen Sie die einzubeziehenden Schichten und Mitarbeiter aus und pruefen Sie dann eine faire, nachvollziehbare automatische Zuweisung, bevor etwas bestaetigt wird.",
+  "selectShiftsLabel": "Einzubeziehende offene Schichten",
+  "selectStaffLabel": "Einzubeziehende Mitarbeiter",
+  "noOpenShiftsThisWeekText": "Diese Woche keine offenen Schichten.",
+  "selectAllLabel": "Alle auswaehlen",
+  "previewAutoAssignButton": "Automatische Zuweisung ansehen",
+  "noShiftsOrStaffSelectedText": "Waehlen Sie mindestens eine Schicht und einen Mitarbeiter aus.",
+  "fairAutoAssignPreviewTitle": "Vorschau der Zuweisungen",
+  "unfilledShiftLabel": "Unbesetzt",
+  "confirmAssignmentsButton": "Zuweisungen bestaetigen",
+  "assignmentsConfirmedMessage": "{count} Schicht(en) zugewiesen.",
+  "fairAutoAssignSummaryText": "{filled} von {total} Schicht(en) koennen aus Ihrer Auswahl besetzt werden."
 }

@@ -1344,5 +1344,18 @@
   "shiftFullText": "Pelna obsada",
   "rotaClaimCalendarTitle": "Zajmij zmiany (kalendarz)",
   "rotaMonthTitle": "Widok miesiecznego grafiku",
-  "rotaMonthShiftCountText": "{count} zmian"
+  "rotaMonthShiftCountText": "{count} zmian",
+  "fairAutoAssignTitle": "Sprawiedliwe automatyczne przypisanie",
+  "fairAutoAssignDescription": "Zaznacz zmiany i pracownikow do uwzglednienia, a nastepnie zobacz podglad sprawiedliwego, wytlumaczalnego przypisania przed zatwierdzeniem.",
+  "selectShiftsLabel": "Otwarte zmiany do uwzglednienia",
+  "selectStaffLabel": "Pracownicy do uwzglednienia",
+  "noOpenShiftsThisWeekText": "Brak otwartych zmian w tym tygodniu.",
+  "selectAllLabel": "Zaznacz wszystko",
+  "previewAutoAssignButton": "Podglad automatycznego przypisania",
+  "noShiftsOrStaffSelectedText": "Zaznacz co najmniej jedna zmiane i jednego pracownika.",
+  "fairAutoAssignPreviewTitle": "Podglad przypisan",
+  "unfilledShiftLabel": "Nieobsadzona",
+  "confirmAssignmentsButton": "Zatwierdz przypisania",
+  "assignmentsConfirmedMessage": "Przypisano {count} zmian(y).",
+  "fairAutoAssignSummaryText": "{filled} z {total} zmian(y) mozna obsadzic z Twojego wyboru."
 }
