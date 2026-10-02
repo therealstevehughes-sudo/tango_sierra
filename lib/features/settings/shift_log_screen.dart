@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/shift_log.dart';
@@ -29,6 +30,7 @@ class ShiftLogScreen extends ConsumerStatefulWidget {
 
 class _ShiftLogScreenState extends ConsumerState<ShiftLogScreen> {
   bool _loading = true;
+  String? _error;
   List<ShiftLog> _logs = [];
   Map<int, User> _usersById = {};
 
@@ -39,17 +41,29 @@ class _ShiftLogScreenState extends ConsumerState<ShiftLogScreen> {
   }
 
   Future<void> _load() async {
-    final site = await ref.read(currentSiteProvider.future);
-    final logs = await ref
-        .read(shiftLogRepositoryProvider)
-        .getRecentForSite(site.id);
-    final staff = await ref.read(userRepositoryProvider).getForSite(site.id);
-    if (!mounted) return;
     setState(() {
-      _logs = logs;
-      _usersById = {for (final u in staff) u.id: u};
-      _loading = false;
+      _loading = true;
+      _error = null;
     });
+    try {
+      final site = await ref.read(currentSiteProvider.future);
+      final logs = await ref
+          .read(shiftLogRepositoryProvider)
+          .getRecentForSite(site.id);
+      final staff = await ref.read(userRepositoryProvider).getForSite(site.id);
+      if (!mounted) return;
+      setState(() {
+        _logs = logs;
+        _usersById = {for (final u in staff) u.id: u};
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
   }
 
   @override
@@ -67,6 +81,8 @@ class _ShiftLogScreenState extends ConsumerState<ShiftLogScreen> {
           child: ResponsiveContent(
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
+                : _error != null
+                ? LoadErrorView(error: _error!, onRetry: _load)
                 : _logs.isEmpty
                 ? AppCard(
                     child: Text(l10n.noClockInsYetText),

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/department.dart';
@@ -47,6 +48,7 @@ class BranchOrgChartScreen extends ConsumerStatefulWidget {
 
 class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
   bool _loading = true;
+  String? _error;
   List<User> _staff = [];
   Map<int, Department> _departmentsById = {};
   Map<int, Team> _teamsById = {};
@@ -59,34 +61,46 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
   }
 
   Future<void> _load() async {
-    final activeSite = ref.read(activeSiteProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        activeSite?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-    final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
-
-    final departmentRepo = ref.read(departmentRepositoryProvider);
-    final teamRepo = ref.read(teamRepositoryProvider);
-    final departments = await departmentRepo.getForSite(siteId);
-    final departmentsById = <int, Department>{};
-    final teamsById = <int, Team>{};
-    for (final d in departments) {
-      departmentsById[d.id!] = d;
-      for (final t in await teamRepo.getForDepartment(d.id!)) {
-        teamsById[t.id!] = t;
-      }
-    }
-
-    if (!mounted) return;
     setState(() {
-      _staff = staff.where((u) => u.active).toList();
-      _departmentsById = departmentsById;
-      _teamsById = teamsById;
-      _siteId = siteId;
-      _loading = false;
+      _loading = true;
+      _error = null;
     });
+    try {
+      final activeSite = ref.read(activeSiteProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          activeSite?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+      final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
+
+      final departmentRepo = ref.read(departmentRepositoryProvider);
+      final teamRepo = ref.read(teamRepositoryProvider);
+      final departments = await departmentRepo.getForSite(siteId);
+      final departmentsById = <int, Department>{};
+      final teamsById = <int, Team>{};
+      for (final d in departments) {
+        departmentsById[d.id!] = d;
+        for (final t in await teamRepo.getForDepartment(d.id!)) {
+          teamsById[t.id!] = t;
+        }
+      }
+
+      if (!mounted) return;
+      setState(() {
+        _staff = staff.where((u) => u.active).toList();
+        _departmentsById = departmentsById;
+        _teamsById = teamsById;
+        _siteId = siteId;
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
   }
 
   RoleTier? get _managerTier => ref.read(currentUserProvider)?.roleTier;
@@ -527,6 +541,8 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
       drawer: ManagementDrawer(title: l10n.branchTeamStructureTitle),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? LoadErrorView(error: _error!, onRetry: _load)
           : _staff.isEmpty
           ? Center(child: Text(l10n.noStaffAtBranchText))
           : ResponsiveContent(

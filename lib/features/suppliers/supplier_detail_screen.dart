@@ -6,6 +6,7 @@ import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/breakdown_sheet.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../shared/models/issue.dart';
@@ -38,6 +39,7 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
     end: DateTime.now(),
   );
   bool _loading = true;
+  String? _error;
   SupplierDeliveryScorecard? _scorecard;
   List<Issue> _reportedIssues = [];
 
@@ -48,34 +50,45 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
-    final supplierId = widget.supplier.id;
-    final siteId = widget.supplier.siteId;
-    if (supplierId == null) {
-      setState(() => _loading = false);
-      return;
-    }
-    final service = ref.read(supplierScorecardServiceProvider);
-    final results = await Future.wait([
-      service.computeDeliveryScorecard(
-        siteId: siteId,
-        supplierId: supplierId,
-        start: _range.start,
-        end: _range.end,
-      ),
-      service.getReportedIssues(
-        siteId: siteId,
-        supplierId: supplierId,
-        start: _range.start,
-        end: _range.end,
-      ),
-    ]);
-    if (!mounted) return;
     setState(() {
-      _scorecard = results[0] as SupplierDeliveryScorecard;
-      _reportedIssues = results[1] as List<Issue>;
-      _loading = false;
+      _loading = true;
+      _error = null;
     });
+    try {
+      final supplierId = widget.supplier.id;
+      final siteId = widget.supplier.siteId;
+      if (supplierId == null) {
+        setState(() => _loading = false);
+        return;
+      }
+      final service = ref.read(supplierScorecardServiceProvider);
+      final results = await Future.wait([
+        service.computeDeliveryScorecard(
+          siteId: siteId,
+          supplierId: supplierId,
+          start: _range.start,
+          end: _range.end,
+        ),
+        service.getReportedIssues(
+          siteId: siteId,
+          supplierId: supplierId,
+          start: _range.start,
+          end: _range.end,
+        ),
+      ]);
+      if (!mounted) return;
+      setState(() {
+        _scorecard = results[0] as SupplierDeliveryScorecard;
+        _reportedIssues = results[1] as List<Issue>;
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
   }
 
   Future<void> _pickDateRange() async {
@@ -154,6 +167,8 @@ class _SupplierDetailScreenState extends ConsumerState<SupplierDetailScreen> {
                     child: CircularProgressIndicator(),
                   ),
                 )
+              else if (_error != null)
+                LoadErrorView(error: _error!, onRetry: _load)
               else ...[
                 _buildDeliveryScorecard(),
                 const SizedBox(height: 16),

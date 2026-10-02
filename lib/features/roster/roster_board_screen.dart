@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
@@ -40,6 +41,7 @@ class RosterBoardScreen extends ConsumerStatefulWidget {
 class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
   bool _loading = true;
   bool _addonEnabled = false;
+  String? _error;
   int? _siteId;
   List<User> _staff = [];
 
@@ -55,32 +57,41 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
   // mutations below no longer need to call this again just to refresh the
   // list.
   Future<void> _load() async {
-    final org = await ref.read(organisationRepositoryProvider).getDefault();
-    if (!mounted) return;
-    if (!org.rosterAddonEnabled) {
+    setState(() => _error = null);
+    try {
+      final org = await ref.read(organisationRepositoryProvider).getDefault();
+      if (!mounted) return;
+      if (!org.rosterAddonEnabled) {
+        setState(() {
+          _addonEnabled = false;
+          _loading = false;
+        });
+        return;
+      }
+
+      final activeSite = ref.read(activeSiteProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          activeSite?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+
+      final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
+
+      if (!mounted) return;
       setState(() {
-        _addonEnabled = false;
+        _addonEnabled = true;
+        _siteId = siteId;
+        _staff = staff.where((u) => u.active).toList();
         _loading = false;
       });
-      return;
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
     }
-
-    final activeSite = ref.read(activeSiteProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        activeSite?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-
-    final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
-
-    if (!mounted) return;
-    setState(() {
-      _addonEnabled = true;
-      _siteId = siteId;
-      _staff = staff.where((u) => u.active).toList();
-      _loading = false;
-    });
   }
 
   Future<void> _postShift() async {
@@ -343,6 +354,8 @@ class _RosterBoardScreenState extends ConsumerState<RosterBoardScreen> {
         drawer: ManagementDrawer(title: l10n.rosterBoard),
         body: _loading
             ? const Center(child: CircularProgressIndicator())
+            : _error != null
+            ? LoadErrorView(error: _error!, onRetry: _load)
             : !_addonEnabled
             ? Center(
                 child: Padding(

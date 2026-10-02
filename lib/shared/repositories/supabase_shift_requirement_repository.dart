@@ -57,6 +57,36 @@ class SupabaseShiftRequirementRepository implements ShiftRequirementRepository {
         ),
     };
 
+    // Idempotency guard (2026-10-02) — without this, clicking "Generate"
+    // twice for the same week (a double-tap, or regenerating after adding
+    // one more requirement) silently doubled every shift already created,
+    // since this used to be a plain unconditional insert loop. Count what
+    // already exists per (department, role, start time, standby/not) slot
+    // in the target week and only top up the shortfall, so a repeat call
+    // is a safe no-op and a partial-then-extended call fills in exactly
+    // the gap.
+    final weekEnd = weekStart.add(const Duration(days: 7));
+    final existingShifts = await _client.select(
+      'shifts',
+      query:
+          'site_id=eq.$siteId'
+          '&starts_at=gte.${weekStart.toIso8601String()}'
+          '&starts_at=lt.${weekEnd.toIso8601String()}'
+          '&select=department_id,role_required,starts_at,is_standby',
+    );
+    String slotKey(dynamic departmentId, dynamic roleRequired, DateTime startsAt, bool isStandby) =>
+        '$departmentId|$roleRequired|${startsAt.toIso8601String()}|$isStandby';
+    final existingCountBySlot = <String, int>{};
+    for (final row in existingShifts) {
+      final key = slotKey(
+        row['department_id'],
+        row['role_required'],
+        DateTime.parse(row['starts_at'] as String),
+        row['is_standby'] as bool? ?? false,
+      );
+      existingCountBySlot[key] = (existingCountBySlot[key] ?? 0) + 1;
+    }
+
     var created = 0;
     for (final req in requirements) {
       final period = periodById[req.periodId];

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -31,6 +32,7 @@ class ShiftFairnessScreen extends ConsumerStatefulWidget {
 class _ShiftFairnessScreenState extends ConsumerState<ShiftFairnessScreen> {
   bool _loading = true;
   bool _addonEnabled = false;
+  String? _error;
   SiteShiftFairnessSummary? _summary;
 
   @override
@@ -40,32 +42,44 @@ class _ShiftFairnessScreenState extends ConsumerState<ShiftFairnessScreen> {
   }
 
   Future<void> _load() async {
-    final org = await ref.read(organisationRepositoryProvider).getDefault();
-    if (!mounted) return;
-    if (!org.rosterAddonEnabled) {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final org = await ref.read(organisationRepositoryProvider).getDefault();
+      if (!mounted) return;
+      if (!org.rosterAddonEnabled) {
+        setState(() {
+          _addonEnabled = false;
+          _loading = false;
+        });
+        return;
+      }
+
+      final activeSite = ref.read(activeSiteProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          activeSite?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+
+      final summary = await ref
+          .read(shiftFairnessServiceProvider)
+          .computeForSite(siteId);
+      if (!mounted) return;
       setState(() {
-        _addonEnabled = false;
+        _addonEnabled = true;
+        _summary = summary;
         _loading = false;
       });
-      return;
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
     }
-
-    final activeSite = ref.read(activeSiteProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        activeSite?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-
-    final summary = await ref
-        .read(shiftFairnessServiceProvider)
-        .computeForSite(siteId);
-    if (!mounted) return;
-    setState(() {
-      _addonEnabled = true;
-      _summary = summary;
-      _loading = false;
-    });
   }
 
   @override
@@ -80,6 +94,8 @@ class _ShiftFairnessScreenState extends ConsumerState<ShiftFairnessScreen> {
       drawer: ManagementDrawer(title: l10n.shiftFairnessReview),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? LoadErrorView(error: _error!, onRetry: _load)
           : !_addonEnabled
           ? Center(
               child: Padding(

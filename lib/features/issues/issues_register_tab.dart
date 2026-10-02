@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/urgency.dart';
 import '../../l10n/app_localizations.dart';
@@ -42,6 +43,7 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
   List<Issue> _issues = [];
   Map<int, String> _staffNames = {};
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -50,22 +52,33 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
-    final siteId = widget.currentUser.siteId!;
-    final results = await Future.wait([
-      ref
-          .read(issueRepositoryProvider)
-          .getForSite(siteId, filter: _statusFilter),
-      ref.read(userRepositoryProvider).getForSite(siteId),
-    ]);
-    if (!mounted) return;
-    final issues = results[0] as List<Issue>;
-    final staff = results[1] as List<User>;
     setState(() {
-      _issues = issues;
-      _staffNames = {for (final u in staff) u.id: u.name};
-      _loading = false;
+      _loading = true;
+      _error = null;
     });
+    try {
+      final siteId = widget.currentUser.siteId!;
+      final results = await Future.wait([
+        ref
+            .read(issueRepositoryProvider)
+            .getForSite(siteId, filter: _statusFilter),
+        ref.read(userRepositoryProvider).getForSite(siteId),
+      ]);
+      if (!mounted) return;
+      final issues = results[0] as List<Issue>;
+      final staff = results[1] as List<User>;
+      setState(() {
+        _issues = issues;
+        _staffNames = {for (final u in staff) u.id: u.name};
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
   }
 
   @override
@@ -236,6 +249,8 @@ class _IssuesRegisterTabState extends ConsumerState<IssuesRegisterTab> {
           Expanded(
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
+                : _error != null
+                ? LoadErrorView(error: _error!, onRetry: _load)
                 : visible.isEmpty
                 ? Center(
                     child: Text(l10n.nothingHereGoodSign),

@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/models/certification_requirement.dart';
@@ -39,6 +40,7 @@ class RotaClaimScreen extends ConsumerStatefulWidget {
 class _RotaClaimScreenState extends ConsumerState<RotaClaimScreen> {
   bool _loading = true;
   bool _addonEnabled = false;
+  String? _error;
   int? _siteId;
   late DateTime _weekStart;
   List<Shift> _shifts = [];
@@ -61,42 +63,53 @@ class _RotaClaimScreenState extends ConsumerState<RotaClaimScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
-    final org = await ref.read(organisationRepositoryProvider).getDefault();
-    if (!mounted) return;
-    if (!org.rosterAddonEnabled) {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final org = await ref.read(organisationRepositoryProvider).getDefault();
+      if (!mounted) return;
+      if (!org.rosterAddonEnabled) {
+        setState(() {
+          _addonEnabled = false;
+          _loading = false;
+        });
+        return;
+      }
+
+      final activeSite = ref.read(activeSiteProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          activeSite?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+
+      final shifts = await ref.read(shiftRepositoryProvider).getForSite(siteId);
+      final periods = await ref
+          .read(shiftPeriodRepositoryProvider)
+          .getForSite(siteId);
+      final offDayRequests = currentUser == null
+          ? <OffDayRequest>[]
+          : await ref
+              .read(offDayRequestRepositoryProvider)
+              .getForUser(currentUser.id);
+      if (!mounted) return;
       setState(() {
-        _addonEnabled = false;
+        _siteId = siteId;
+        _shifts = shifts;
+        _periods = periods;
+        _myOffDayRequests = offDayRequests;
+        _addonEnabled = true;
         _loading = false;
       });
-      return;
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
     }
-
-    final activeSite = ref.read(activeSiteProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        activeSite?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-
-    final shifts = await ref.read(shiftRepositoryProvider).getForSite(siteId);
-    final periods = await ref
-        .read(shiftPeriodRepositoryProvider)
-        .getForSite(siteId);
-    final offDayRequests = currentUser == null
-        ? <OffDayRequest>[]
-        : await ref
-            .read(offDayRequestRepositoryProvider)
-            .getForUser(currentUser.id);
-    if (!mounted) return;
-    setState(() {
-      _siteId = siteId;
-      _shifts = shifts;
-      _periods = periods;
-      _myOffDayRequests = offDayRequests;
-      _addonEnabled = true;
-      _loading = false;
-    });
   }
 
   void _changeWeek(int deltaWeeks) {
@@ -218,6 +231,8 @@ class _RotaClaimScreenState extends ConsumerState<RotaClaimScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? LoadErrorView(error: _error!, onRetry: _load)
           : !_addonEnabled
           ? Center(child: Text(l10n.rosterAddonNotEnabledText))
           : SafeArea(

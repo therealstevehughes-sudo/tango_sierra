@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../l10n/app_localizations.dart';
@@ -31,6 +32,7 @@ class RequestOffDayScreen extends ConsumerStatefulWidget {
 class _RequestOffDayScreenState extends ConsumerState<RequestOffDayScreen> {
   bool _loading = true;
   bool _addonEnabled = false;
+  String? _error;
   int? _siteId;
   List<OffDayRequest> _myRequests = [];
   bool _busy = false;
@@ -42,36 +44,48 @@ class _RequestOffDayScreenState extends ConsumerState<RequestOffDayScreen> {
   }
 
   Future<void> _load() async {
-    final org = await ref.read(organisationRepositoryProvider).getDefault();
-    if (!mounted) return;
-    if (!org.rosterAddonEnabled) {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final org = await ref.read(organisationRepositoryProvider).getDefault();
+      if (!mounted) return;
+      if (!org.rosterAddonEnabled) {
+        setState(() {
+          _addonEnabled = false;
+          _loading = false;
+        });
+        return;
+      }
+
+      final activeSite = ref.read(activeSiteProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          activeSite?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+
+      final myRequests = currentUser == null
+          ? <OffDayRequest>[]
+          : await ref
+                .read(offDayRequestRepositoryProvider)
+                .getForUser(currentUser.id);
+
+      if (!mounted) return;
       setState(() {
-        _addonEnabled = false;
+        _addonEnabled = true;
+        _siteId = siteId;
+        _myRequests = myRequests;
         _loading = false;
       });
-      return;
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
     }
-
-    final activeSite = ref.read(activeSiteProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        activeSite?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-
-    final myRequests = currentUser == null
-        ? <OffDayRequest>[]
-        : await ref
-              .read(offDayRequestRepositoryProvider)
-              .getForUser(currentUser.id);
-
-    if (!mounted) return;
-    setState(() {
-      _addonEnabled = true;
-      _siteId = siteId;
-      _myRequests = myRequests;
-      _loading = false;
-    });
   }
 
   Future<void> _requestOffDay() async {
@@ -139,6 +153,8 @@ class _RequestOffDayScreenState extends ConsumerState<RequestOffDayScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? LoadErrorView(error: _error!, onRetry: _load)
           : !_addonEnabled
           ? Center(
               child: Padding(

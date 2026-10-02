@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/models/department.dart';
@@ -41,6 +42,7 @@ enum _ViewMode { staff, slots }
 class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
   bool _loading = true;
   bool _addonEnabled = false;
+  String? _error;
   late DateTime _weekStart;
   List<Shift> _shifts = [];
   List<User> _staff = [];
@@ -66,41 +68,52 @@ class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
-    final org = await ref.read(organisationRepositoryProvider).getDefault();
-    if (!mounted) return;
-    if (!org.rosterAddonEnabled) {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final org = await ref.read(organisationRepositoryProvider).getDefault();
+      if (!mounted) return;
+      if (!org.rosterAddonEnabled) {
+        setState(() {
+          _addonEnabled = false;
+          _loading = false;
+        });
+        return;
+      }
+
+      final activeSite = ref.read(activeSiteProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          activeSite?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+
+      final shifts = await ref.read(shiftRepositoryProvider).getForSite(siteId);
+      final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
+      final departments = await ref
+          .read(departmentRepositoryProvider)
+          .getForSite(siteId);
+      final periods = await ref
+          .read(shiftPeriodRepositoryProvider)
+          .getForSite(siteId);
+      if (!mounted) return;
       setState(() {
-        _addonEnabled = false;
+        _shifts = shifts;
+        _staff = staff.where((u) => u.active).toList();
+        _departments = departments;
+        _periods = periods;
+        _addonEnabled = true;
         _loading = false;
       });
-      return;
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
     }
-
-    final activeSite = ref.read(activeSiteProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        activeSite?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-
-    final shifts = await ref.read(shiftRepositoryProvider).getForSite(siteId);
-    final staff = await ref.read(userRepositoryProvider).getForSite(siteId);
-    final departments = await ref
-        .read(departmentRepositoryProvider)
-        .getForSite(siteId);
-    final periods = await ref
-        .read(shiftPeriodRepositoryProvider)
-        .getForSite(siteId);
-    if (!mounted) return;
-    setState(() {
-      _shifts = shifts;
-      _staff = staff.where((u) => u.active).toList();
-      _departments = departments;
-      _periods = periods;
-      _addonEnabled = true;
-      _loading = false;
-    });
   }
 
   void _changeWeek(int deltaWeeks) {
@@ -285,6 +298,8 @@ class _RotaWeekScreenState extends ConsumerState<RotaWeekScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? LoadErrorView(error: _error!, onRetry: _load)
           : !_addonEnabled
           ? Center(child: Text(l10n.rosterAddonNotEnabledText))
           : SafeArea(

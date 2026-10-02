@@ -8,6 +8,7 @@ import '../../core/utils/date_format.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import 'generate_sop_document_screen.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/document.dart';
@@ -32,6 +33,7 @@ class DocumentCentreScreen extends ConsumerStatefulWidget {
 
 class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
   bool _loading = true;
+  String? _error;
   int? _siteId;
   List<Document> _documents = [];
   DocumentCategory? _categoryFilter;
@@ -43,21 +45,33 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
   }
 
   Future<void> _load() async {
-    final activeSite = ref.read(activeSiteProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        activeSite?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-    final documents = await ref
-        .read(documentRepositoryProvider)
-        .getForSite(siteId);
-    if (!mounted) return;
     setState(() {
-      _siteId = siteId;
-      _documents = documents.where((d) => d.active).toList();
-      _loading = false;
+      _loading = true;
+      _error = null;
     });
+    try {
+      final activeSite = ref.read(activeSiteProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          activeSite?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+      final documents = await ref
+          .read(documentRepositoryProvider)
+          .getForSite(siteId);
+      if (!mounted) return;
+      setState(() {
+        _siteId = siteId;
+        _documents = documents.where((d) => d.active).toList();
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
   }
 
   Future<void> _upload() async {
@@ -219,6 +233,8 @@ class _DocumentCentreScreenState extends ConsumerState<DocumentCentreScreen> {
       drawer: ManagementDrawer(title: l10n.documentCentreTitle),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? LoadErrorView(error: _error!, onRetry: _load)
           : ResponsiveContent(
               child: Column(
                 children: [

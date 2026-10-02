@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -65,6 +66,7 @@ class DashboardBody extends ConsumerStatefulWidget {
 
 class _DashboardBodyState extends ConsumerState<DashboardBody> {
   bool _loading = true;
+  String? _error;
   SiteReliabilitySummary? _reliability;
   int _failCount = 0;
   int _overdueCount = 0;
@@ -90,6 +92,19 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
   }
 
   Future<void> _load() async {
+    setState(() => _error = null);
+    try {
+      await _doLoad();
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
+  }
+
+  Future<void> _doLoad() async {
     final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.read(currentUserProvider);
     if (currentUser == null) {
@@ -246,6 +261,9 @@ class _DashboardBodyState extends ConsumerState<DashboardBody> {
     final l10n = AppLocalizations.of(context)!;
     if (_loading) {
       return const Center(child: CircularProgressIndicator());
+    }
+    if (_error != null) {
+      return LoadErrorView(error: _error!, onRetry: _load);
     }
     if (_reliability == null) {
       return Center(child: Text(l10n.noVenueFound));

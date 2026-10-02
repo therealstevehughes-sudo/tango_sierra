@@ -66,46 +66,59 @@ class _OrganisationTreeScreenState
   }
 
   Future<void> _load() async {
-    final orgId = await ref.read(currentOrganisationIdProvider.future);
-    if (orgId == null) {
-      setState(() {
-        _loading = false;
-        _error = AppLocalizations.of(context)!.noOrganisationOnSessionError;
-      });
-      return;
-    }
-    final org = await ref.read(organisationRepositoryProvider).getDefault();
-    final regions = await ref
-        .read(regionRepositoryProvider)
-        .getForOrganisation(orgId);
-    final sites = await ref
-        .read(siteRepositoryProvider)
-        .getForOrganisation(orgId);
-    final leadershipAccounts = await ref
-        .read(userRepositoryProvider)
-        .getForOrganisation(orgId);
-
-    final userRepo = ref.read(userRepositoryProvider);
-    final venueManagersBySite = <int, List<User>>{};
-    for (final site in sites) {
-      final staff = await userRepo.getForSite(site.id);
-      venueManagersBySite[site.id] = staff
-          .where((u) => u.active && u.roleTier == RoleTier.venueManager)
-          .toList();
-    }
-
-    if (!mounted) return;
     setState(() {
-      _orgId = orgId;
-      _orgName = org.name;
-      _regions = regions;
-      _sites = sites;
-      _leadershipAccounts = leadershipAccounts;
-      _venueManagersBySite
-        ..clear()
-        ..addAll(venueManagersBySite);
-      _loading = false;
+      _loading = true;
+      _error = null;
     });
+    try {
+      final orgId = await ref.read(currentOrganisationIdProvider.future);
+      if (orgId == null) {
+        if (!mounted) return;
+        setState(() {
+          _loading = false;
+          _error = AppLocalizations.of(context)!.noOrganisationOnSessionError;
+        });
+        return;
+      }
+      final org = await ref.read(organisationRepositoryProvider).getDefault();
+      final regions = await ref
+          .read(regionRepositoryProvider)
+          .getForOrganisation(orgId);
+      final sites = await ref
+          .read(siteRepositoryProvider)
+          .getForOrganisation(orgId);
+      final leadershipAccounts = await ref
+          .read(userRepositoryProvider)
+          .getForOrganisation(orgId);
+
+      final userRepo = ref.read(userRepositoryProvider);
+      final venueManagersBySite = <int, List<User>>{};
+      for (final site in sites) {
+        final staff = await userRepo.getForSite(site.id);
+        venueManagersBySite[site.id] = staff
+            .where((u) => u.active && u.roleTier == RoleTier.venueManager)
+            .toList();
+      }
+
+      if (!mounted) return;
+      setState(() {
+        _orgId = orgId;
+        _orgName = org.name;
+        _regions = regions;
+        _sites = sites;
+        _leadershipAccounts = leadershipAccounts;
+        _venueManagersBySite
+          ..clear()
+          ..addAll(venueManagersBySite);
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
   }
 
   Future<void> _addRegion() async {

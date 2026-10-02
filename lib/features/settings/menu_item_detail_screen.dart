@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../l10n/app_localizations.dart';
@@ -34,6 +35,7 @@ class MenuItemDetailScreen extends ConsumerStatefulWidget {
 
 class _MenuItemDetailScreenState extends ConsumerState<MenuItemDetailScreen> {
   bool _loading = true;
+  String? _error;
   List<Ingredient> _ingredients = [];
   List<MenuItemAllergenTag> _approvedTags = [];
   MenuItem? _current;
@@ -46,18 +48,29 @@ class _MenuItemDetailScreenState extends ConsumerState<MenuItemDetailScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
-    final repo = ref.read(menuItemRepositoryProvider);
-    final ingredients = await repo.getIngredients(widget.menuItem.id!);
-    final tags = _current?.status == MenuItemStatus.approved
-        ? await repo.getAllergenTags(widget.menuItem.id!)
-        : <MenuItemAllergenTag>[];
-    if (!mounted) return;
     setState(() {
-      _ingredients = ingredients;
-      _approvedTags = tags;
-      _loading = false;
+      _loading = true;
+      _error = null;
     });
+    try {
+      final repo = ref.read(menuItemRepositoryProvider);
+      final ingredients = await repo.getIngredients(widget.menuItem.id!);
+      final tags = _current?.status == MenuItemStatus.approved
+          ? await repo.getAllergenTags(widget.menuItem.id!)
+          : <MenuItemAllergenTag>[];
+      if (!mounted) return;
+      setState(() {
+        _ingredients = ingredients;
+        _approvedTags = tags;
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
   }
 
   Future<void> _addIngredient() async {
@@ -252,6 +265,8 @@ class _MenuItemDetailScreenState extends ConsumerState<MenuItemDetailScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? LoadErrorView(error: _error!, onRetry: _load)
           : SafeArea(
               child: ResponsiveContent(
                 child: ListView(

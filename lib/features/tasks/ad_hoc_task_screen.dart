@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/extra_fields_form.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/voice_note_field.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/supplier.dart';
@@ -44,6 +45,7 @@ class AdHocTaskScreen extends ConsumerStatefulWidget {
 class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
   late final TaskController _controller;
   bool _loading = true;
+  String? _error;
   Map<AdHocTaskKind, List<TaskTemplate>> _templatesByKind = {};
   List<Supplier> _suppliers = [];
 
@@ -89,37 +91,49 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
   }
 
   Future<void> _load() async {
-    final user = ref.read(currentUserProvider)!;
-    final siteId = user.siteId!;
-    final schedules = await ref
-        .read(taskScheduleRepositoryProvider)
-        .getForSite(siteId);
-    final siteTemplateGroupIds = schedules
-        .map((s) => s.taskTemplateGroupId)
-        .toSet();
-    final allTemplates = await ref
-        .read(taskTemplateRepositoryProvider)
-        .getAllCurrentVersions();
-    final suppliers = await ref
-        .read(supplierRepositoryProvider)
-        .getForSite(siteId);
-
-    final byKind = <AdHocTaskKind, List<TaskTemplate>>{};
-    for (final kind in adHocTaskKinds) {
-      final matches = templatesForKind(
-        kind,
-        allTemplates,
-        siteTemplateGroupIds,
-      );
-      if (matches.isNotEmpty) byKind[kind] = matches;
-    }
-
-    if (!mounted) return;
     setState(() {
-      _templatesByKind = byKind;
-      _suppliers = suppliers.where((s) => s.active).toList();
-      _loading = false;
+      _loading = true;
+      _error = null;
     });
+    try {
+      final user = ref.read(currentUserProvider)!;
+      final siteId = user.siteId!;
+      final schedules = await ref
+          .read(taskScheduleRepositoryProvider)
+          .getForSite(siteId);
+      final siteTemplateGroupIds = schedules
+          .map((s) => s.taskTemplateGroupId)
+          .toSet();
+      final allTemplates = await ref
+          .read(taskTemplateRepositoryProvider)
+          .getAllCurrentVersions();
+      final suppliers = await ref
+          .read(supplierRepositoryProvider)
+          .getForSite(siteId);
+
+      final byKind = <AdHocTaskKind, List<TaskTemplate>>{};
+      for (final kind in adHocTaskKinds) {
+        final matches = templatesForKind(
+          kind,
+          allTemplates,
+          siteTemplateGroupIds,
+        );
+        if (matches.isNotEmpty) byKind[kind] = matches;
+      }
+
+      if (!mounted) return;
+      setState(() {
+        _templatesByKind = byKind;
+        _suppliers = suppliers.where((s) => s.active).toList();
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
   }
 
   ResolvedTask _resolvedTaskFor(TaskTemplate template) {
@@ -234,6 +248,8 @@ class _AdHocTaskScreenState extends ConsumerState<AdHocTaskScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? LoadErrorView(error: _error!, onRetry: _load)
           : ResponsiveContent(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.all(16),

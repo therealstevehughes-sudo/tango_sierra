@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/assistant_icon_button.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/site.dart';
@@ -32,6 +33,7 @@ class _BranchManagementScreenState
     extends ConsumerState<BranchManagementScreen> {
   List<Site>? _sites;
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -40,12 +42,24 @@ class _BranchManagementScreenState
   }
 
   Future<void> _load() async {
-    final sites = await ref.read(siteRepositoryProvider).getAll();
-    if (!mounted) return;
     setState(() {
-      _sites = sites;
-      _loading = false;
+      _loading = true;
+      _error = null;
     });
+    try {
+      final sites = await ref.read(siteRepositoryProvider).getAll();
+      if (!mounted) return;
+      setState(() {
+        _sites = sites;
+        _loading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
+    }
   }
 
   Future<void> _addBranch() async {
@@ -158,7 +172,9 @@ class _BranchManagementScreenState
                   )
                 : _loading
                     ? const Center(child: CircularProgressIndicator())
-                    : (_sites ?? []).isEmpty
+                    : _error != null
+                        ? LoadErrorView(error: _error!, onRetry: _load)
+                        : (_sites ?? []).isEmpty
                         ? Center(
                             child: Text(l10n.noBranchesInRegionText),
                           )

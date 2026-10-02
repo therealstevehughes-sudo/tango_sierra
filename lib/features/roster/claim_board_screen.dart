@@ -5,6 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/status_badge.dart';
 import '../../l10n/app_localizations.dart';
@@ -38,6 +39,7 @@ class ClaimBoardScreen extends ConsumerStatefulWidget {
 class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
   bool _loading = true;
   bool _addonEnabled = false;
+  String? _error;
   int? _siteId;
   bool _busy = false;
   ShiftReliabilityStanding? _ownStanding;
@@ -52,36 +54,48 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
   // is no longer loaded here (R7, 2026-09-27): build() watches
   // shiftsStreamForSiteProvider instead, which polls on its own.
   Future<void> _load() async {
-    final org = await ref.read(organisationRepositoryProvider).getDefault();
-    if (!mounted) return;
-    if (!org.rosterAddonEnabled) {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final org = await ref.read(organisationRepositoryProvider).getDefault();
+      if (!mounted) return;
+      if (!org.rosterAddonEnabled) {
+        setState(() {
+          _addonEnabled = false;
+          _loading = false;
+        });
+        return;
+      }
+
+      final activeSite = ref.read(activeSiteProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          activeSite?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+
+      final standing = currentUser == null
+          ? null
+          : (await ref
+                    .read(shiftReliabilityServiceProvider)
+                    .computeForUser(currentUser.id))
+                .standing;
+      if (!mounted) return;
       setState(() {
-        _addonEnabled = false;
+        _addonEnabled = true;
+        _siteId = siteId;
+        _ownStanding = standing;
         _loading = false;
       });
-      return;
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
     }
-
-    final activeSite = ref.read(activeSiteProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        activeSite?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-
-    final standing = currentUser == null
-        ? null
-        : (await ref
-                  .read(shiftReliabilityServiceProvider)
-                  .computeForUser(currentUser.id))
-              .standing;
-    if (!mounted) return;
-    setState(() {
-      _addonEnabled = true;
-      _siteId = siteId;
-      _ownStanding = standing;
-      _loading = false;
-    });
   }
 
   Future<void> _claim(Shift shift) async {
@@ -198,6 +212,8 @@ class _ClaimBoardScreenState extends ConsumerState<ClaimBoardScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? LoadErrorView(error: _error!, onRetry: _load)
           : !_addonEnabled
           ? Center(
               child: Padding(

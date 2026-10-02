@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/models/shift.dart';
@@ -29,6 +30,7 @@ class RotaMonthScreen extends ConsumerStatefulWidget {
 class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
   bool _loading = true;
   bool _addonEnabled = false;
+  String? _error;
   late DateTime _monthStart;
   List<Shift> _shifts = [];
 
@@ -41,31 +43,42 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
-    final org = await ref.read(organisationRepositoryProvider).getDefault();
-    if (!mounted) return;
-    if (!org.rosterAddonEnabled) {
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final org = await ref.read(organisationRepositoryProvider).getDefault();
+      if (!mounted) return;
+      if (!org.rosterAddonEnabled) {
+        setState(() {
+          _addonEnabled = false;
+          _loading = false;
+        });
+        return;
+      }
+
+      final activeSite = ref.read(activeSiteProvider);
+      final currentUser = ref.read(currentUserProvider);
+      final siteId =
+          activeSite?.id ??
+          currentUser?.siteId ??
+          (await ref.read(currentSiteProvider.future)).id;
+
+      final shifts = await ref.read(shiftRepositoryProvider).getForSite(siteId);
+      if (!mounted) return;
       setState(() {
-        _addonEnabled = false;
+        _shifts = shifts;
+        _addonEnabled = true;
         _loading = false;
       });
-      return;
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _error = e.toString();
+        _loading = false;
+      });
     }
-
-    final activeSite = ref.read(activeSiteProvider);
-    final currentUser = ref.read(currentUserProvider);
-    final siteId =
-        activeSite?.id ??
-        currentUser?.siteId ??
-        (await ref.read(currentSiteProvider.future)).id;
-
-    final shifts = await ref.read(shiftRepositoryProvider).getForSite(siteId);
-    if (!mounted) return;
-    setState(() {
-      _shifts = shifts;
-      _addonEnabled = true;
-      _loading = false;
-    });
   }
 
   void _changeMonth(int delta) {
@@ -115,6 +128,8 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
+          : _error != null
+          ? LoadErrorView(error: _error!, onRetry: _load)
           : !_addonEnabled
           ? Center(child: Text(l10n.rosterAddonNotEnabledText))
           : SafeArea(
