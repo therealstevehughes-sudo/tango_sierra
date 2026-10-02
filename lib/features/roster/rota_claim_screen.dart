@@ -191,20 +191,27 @@ class _RotaClaimScreenState extends ConsumerState<RotaClaimScreen> {
     }
 
     setState(() => _busy = true);
-    final result = await ref
-        .read(shiftRepositoryProvider)
-        .claimShift(shiftId: shift.id, userId: user.id);
-    if (!mounted) return;
-    setState(() => _busy = false);
-    Navigator.of(context).popUntil((route) => route.isFirst || !route.isCurrent);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          result == null ? l10n.someoneElseClaimedShift : l10n.shiftClaimedMessage,
+    try {
+      final result = await ref
+          .read(shiftRepositoryProvider)
+          .claimShift(shiftId: shift.id, userId: user.id);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            result == null ? l10n.someoneElseClaimedShift : l10n.shiftClaimedMessage,
+          ),
         ),
-      ),
-    );
-    await _load();
+      );
+      await _load();
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.somethingWentWrong)),
+      );
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
 
   bool _alreadyRequestedOff(DateTime day) {
@@ -218,23 +225,36 @@ class _RotaClaimScreenState extends ConsumerState<RotaClaimScreen> {
     final siteId = _siteId;
     if (user == null || siteId == null || _selectedOffDays.isEmpty) return;
     setState(() => _busy = true);
-    for (final day in _selectedOffDays) {
-      await ref.read(offDayRequestRepositoryProvider).request(
-        siteId: siteId,
-        userId: user.id,
-        requestedDate: day,
+    // A request that fails partway (e.g. a day already requested by the
+    // time this submits) must still release the button — leaving _busy
+    // stuck true with no try/finally was a real reported bug: "Submit"
+    // went permanently unclickable after one failed attempt, with no
+    // error shown to explain why.
+    try {
+      final submitted = <DateTime>[];
+      for (final day in _selectedOffDays) {
+        await ref.read(offDayRequestRepositoryProvider).request(
+          siteId: siteId,
+          userId: user.id,
+          requestedDate: day,
+        );
+        submitted.add(day);
+      }
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
+      setState(() => _selectedOffDays.removeWhere((d) => submitted.contains(d)));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.daysOffRequestedMessage)));
+      await _load();
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(AppLocalizations.of(context)!.somethingWentWrong)),
       );
+    } finally {
+      if (mounted) setState(() => _busy = false);
     }
-    if (!mounted) return;
-    final l10n = AppLocalizations.of(context)!;
-    setState(() {
-      _busy = false;
-      _selectedOffDays.clear();
-    });
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text(l10n.daysOffRequestedMessage)));
-    await _load();
   }
 
   void _onDayTap(DateTime day) {
@@ -262,6 +282,10 @@ class _RotaClaimScreenState extends ConsumerState<RotaClaimScreen> {
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      backgroundColor: AppColors.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
       builder: (sheetContext) {
         return StatefulBuilder(
           builder: (sheetContext, setSheetState) {
@@ -274,15 +298,27 @@ class _RotaClaimScreenState extends ConsumerState<RotaClaimScreen> {
                   controller: scrollController,
                   padding: const EdgeInsets.all(16),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Center(
+                        child: Container(
+                          width: 36,
+                          height: 4,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            color: AppColors.line,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
                       Text(
                         _formatFullDate(day),
                         style: Theme.of(context).textTheme.titleLarge,
+                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 12),
                       if (_periods.isEmpty)
-                        Text(l10n.noShiftsThisPeriodText)
+                        Text(l10n.noShiftsThisPeriodText, textAlign: TextAlign.center)
                       else
                         for (final period in _periods)
                           Padding(

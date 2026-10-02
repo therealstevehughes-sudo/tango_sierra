@@ -219,6 +219,10 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
+      backgroundColor: AppColors.card,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
       builder: (sheetContext) {
         return StatefulBuilder(
           builder: (sheetContext, setSheetState) {
@@ -240,16 +244,28 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
                   controller: scrollController,
                   padding: const EdgeInsets.all(16),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      Center(
+                        child: Container(
+                          width: 36,
+                          height: 4,
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            color: AppColors.line,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
                       Text(
                         '${day.day}/${day.month}/${day.year}'
                         '${_departmentFilter != null ? ' · ${_departmentFilter!.name}' : ''}',
                         style: Theme.of(context).textTheme.titleLarge,
+                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 12),
                       if (dayShifts.isEmpty)
-                        Text(l10n.noShiftsThisPeriodText)
+                        Text(l10n.noShiftsThisPeriodText, textAlign: TextAlign.center)
                       else
                         for (final entry in byPeriod.entries)
                           Padding(
