@@ -6,6 +6,7 @@ import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
+import '../../shared/models/common_job_title.dart';
 import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
 import '../../shared/models/job_role.dart';
@@ -499,7 +500,7 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
                       (u) => CheckboxListTile(
                         value: selected.contains(u.id),
                         title: Text(u.name),
-                        subtitle: Text(u.jobTitle),
+                        subtitle: Text(localizedJobTitle(u.jobTitle, l10n)),
                         onChanged: (checked) => setDialogState(() {
                           if (checked ?? false) {
                             selected.add(u.id);
@@ -867,7 +868,9 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
         final user = activeStaff[index];
         return Card(
           child: ListTile(
-            title: Text('${user.name} (${user.jobTitle})'),
+            title: Text(
+              '${user.name} (${localizedJobTitle(user.jobTitle, AppLocalizations.of(context))})',
+            ),
             subtitle: Text(
               roleTierDisplayName(user.roleTier, AppLocalizations.of(context)),
             ),
@@ -1690,7 +1693,7 @@ class _StaffMultiSelectDialogState extends State<_StaffMultiSelectDialog> {
                       }),
                       title: Text(user.name),
                       subtitle: Text(
-                        '${user.jobTitle} · ${roleTierDisplayName(user.roleTier, l10n)}',
+                        '${localizedJobTitle(user.jobTitle, l10n)} · ${roleTierDisplayName(user.roleTier, l10n)}',
                       ),
                     ),
                 ],

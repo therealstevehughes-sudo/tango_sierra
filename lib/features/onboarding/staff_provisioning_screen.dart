@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_banner.dart';
+import '../../core/widgets/job_title_field.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/user.dart';
@@ -50,6 +51,13 @@ class _StaffProvisioningScreenState
     final token = ref.read(currentBackendAccessTokenProvider);
     final siteId = currentUser?.siteId;
     if (token == null || siteId == null) return;
+    // JobTitleField isn't a Form field (it manages its own dropdown/custom
+    // toggle), so the Form's own validate() above can't cover it - guard
+    // the one real gap, an empty "Custom..." entry, here instead.
+    if (_jobTitle.text.trim().isEmpty) {
+      setState(() => _error = AppLocalizations.of(context)!.requiredFieldError);
+      return;
+    }
 
     setState(() {
       _submitting = true;
@@ -136,13 +144,7 @@ class _StaffProvisioningScreenState
                         (v ?? '').trim().isEmpty ? l10n.requiredFieldError : null,
                   ),
                   const SizedBox(height: 12),
-                  TextFormField(
-                    controller: _jobTitle,
-                    decoration: InputDecoration(labelText: l10n.jobTitleLabel),
-                    textCapitalization: TextCapitalization.words,
-                    validator: (v) =>
-                        (v ?? '').trim().isEmpty ? l10n.requiredFieldError : null,
-                  ),
+                  JobTitleField(controller: _jobTitle),
                   const SizedBox(height: 12),
                   // Pressure-test audit fix (2026-09-22) — hand-typed
                   // labels replaced with the canonical roleTierDisplayName()

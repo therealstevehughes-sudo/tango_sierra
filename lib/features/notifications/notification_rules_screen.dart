@@ -7,6 +7,7 @@ import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
+import '../../shared/models/common_job_title.dart';
 import '../../shared/models/notification_rule.dart';
 import '../../shared/models/task_template.dart';
 import '../../shared/models/user.dart';
@@ -456,7 +457,9 @@ class _NotificationRulesScreenState
                 .map(
                   (u) => DropdownMenuItem<int?>(
                     value: u.id,
-                    child: Text('${u.name} (${u.jobTitle})'),
+                    child: Text(
+                      '${u.name} (${localizedJobTitle(u.jobTitle, l10n)})',
+                    ),
                   ),
                 )
                 .toList(),

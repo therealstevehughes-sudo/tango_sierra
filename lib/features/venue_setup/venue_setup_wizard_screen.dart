@@ -7,6 +7,7 @@ import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../shared/models/area.dart';
+import '../../shared/models/common_job_title.dart';
 import '../../shared/models/duplicate_equipment_name_exception.dart';
 import '../../shared/models/equipment.dart';
 import '../../shared/models/equipment_type.dart';
@@ -880,7 +881,7 @@ class _VenueSetupWizardScreenState
         ...staff.map(
           (s) => Card(
             child: ListTile(
-              title: Text('${s.name} (${s.jobTitle})'),
+              title: Text('${s.name} (${localizedJobTitle(s.jobTitle, l10n)})'),
               subtitle: Text(
                 s.jobRole == null
                     ? roleTierDisplayName(s.roleTier, l10n)

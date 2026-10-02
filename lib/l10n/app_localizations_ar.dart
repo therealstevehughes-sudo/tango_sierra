@@ -4787,4 +4787,79 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get bookShiftsAndDaysOffButton => 'حجز الورديات / أيام الإجازة';
+
+  @override
+  String get jobTitleKitchenPorter => 'عامل مطبخ';
+
+  @override
+  String get jobTitleCommisChef => 'مساعد طاهٍ';
+
+  @override
+  String get jobTitlePrepChef => 'طاهٍ تحضير';
+
+  @override
+  String get jobTitleLineChef => 'طاهٍ خط الإنتاج';
+
+  @override
+  String get jobTitleGrillChef => 'طاهٍ شواء';
+
+  @override
+  String get jobTitleSousChef => 'نائب الشيف';
+
+  @override
+  String get jobTitleHeadChefKitchenManager => 'رئيس الطهاة / مدير المطبخ';
+
+  @override
+  String get jobTitleExecutiveChef => 'الشيف التنفيذي';
+
+  @override
+  String get jobTitleDutyManager => 'مدير المناوبة';
+
+  @override
+  String get jobTitleGeneralManager => 'المدير العام';
+
+  @override
+  String get jobTitleFbManager => 'مدير الأغذية والمشروبات';
+
+  @override
+  String get jobTitleFunctionsEventsSupervisor => 'مشرف الفعاليات';
+
+  @override
+  String get jobTitleRegionalManager => 'المدير الإقليمي';
+
+  @override
+  String get jobTitleManagingDirector => 'المدير التنفيذي';
+
+  @override
+  String get jobTitleDirectorMd => 'المدير / MD';
+
+  @override
+  String get jobTitleWaiter => 'نادل';
+
+  @override
+  String get jobTitleWaitress => 'نادلة';
+
+  @override
+  String get jobTitleBartender => 'ساقي';
+
+  @override
+  String get jobTitleBarManager => 'مدير البار';
+
+  @override
+  String get jobTitleReceptionist => 'موظف استقبال';
+
+  @override
+  String get jobTitleHousekeepingAssistant => 'مساعد تدبير منزلي';
+
+  @override
+  String get jobTitleMaintenanceTechnician => 'فني صيانة';
+
+  @override
+  String get jobTitleCustomOption => 'مخصص...';
+
+  @override
+  String get jobTitleFieldLabel => 'المسمى الوظيفي';
+
+  @override
+  String get jobTitleCustomFieldLabel => 'أدخل المسمى الوظيفي';
 }

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/assistant_icon_button.dart';
+import '../../core/widgets/job_title_field.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../shared/models/common_job_title.dart';
 import '../../shared/models/department.dart';
 import '../../shared/models/team.dart';
 import '../../shared/models/user.dart';
@@ -194,10 +196,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
                 autofocus: true,
               ),
               const SizedBox(height: 12),
-              TextField(
-                controller: jobTitleController,
-                decoration: InputDecoration(labelText: l10n.jobTitleLabel),
-              ),
+              JobTitleField(controller: jobTitleController),
             ],
           ),
           actions: [
@@ -841,7 +840,7 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
         ? null
         : staff.where((u) => u.id == user.reportsToUserId).firstOrNull;
     final subtitleParts = <String>[
-      '${user.jobTitle} · ${roleTierDisplayName(user.roleTier, l10n)}',
+      '${localizedJobTitle(user.jobTitle, l10n)} · ${roleTierDisplayName(user.roleTier, l10n)}',
       if (department != null)
         team != null ? '${department.name} · ${team.name}' : department.name,
       if (reportsTo != null) l10n.reportsToSubtitle(reportsTo.name),

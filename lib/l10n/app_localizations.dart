@@ -8449,6 +8449,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Book shifts / days off'**
   String get bookShiftsAndDaysOffButton;
+
+  /// No description provided for @jobTitleKitchenPorter.
+  ///
+  /// In en, this message translates to:
+  /// **'Kitchen Porter'**
+  String get jobTitleKitchenPorter;
+
+  /// No description provided for @jobTitleCommisChef.
+  ///
+  /// In en, this message translates to:
+  /// **'Commis Chef'**
+  String get jobTitleCommisChef;
+
+  /// No description provided for @jobTitlePrepChef.
+  ///
+  /// In en, this message translates to:
+  /// **'Prep Chef'**
+  String get jobTitlePrepChef;
+
+  /// No description provided for @jobTitleLineChef.
+  ///
+  /// In en, this message translates to:
+  /// **'Line Chef'**
+  String get jobTitleLineChef;
+
+  /// No description provided for @jobTitleGrillChef.
+  ///
+  /// In en, this message translates to:
+  /// **'Grill Chef'**
+  String get jobTitleGrillChef;
+
+  /// No description provided for @jobTitleSousChef.
+  ///
+  /// In en, this message translates to:
+  /// **'Sous Chef'**
+  String get jobTitleSousChef;
+
+  /// No description provided for @jobTitleHeadChefKitchenManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Head Chef / Kitchen Manager'**
+  String get jobTitleHeadChefKitchenManager;
+
+  /// No description provided for @jobTitleExecutiveChef.
+  ///
+  /// In en, this message translates to:
+  /// **'Executive Chef'**
+  String get jobTitleExecutiveChef;
+
+  /// No description provided for @jobTitleDutyManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Duty Manager'**
+  String get jobTitleDutyManager;
+
+  /// No description provided for @jobTitleGeneralManager.
+  ///
+  /// In en, this message translates to:
+  /// **'General Manager'**
+  String get jobTitleGeneralManager;
+
+  /// No description provided for @jobTitleFbManager.
+  ///
+  /// In en, this message translates to:
+  /// **'F&B Manager'**
+  String get jobTitleFbManager;
+
+  /// No description provided for @jobTitleFunctionsEventsSupervisor.
+  ///
+  /// In en, this message translates to:
+  /// **'Functions & Events Supervisor'**
+  String get jobTitleFunctionsEventsSupervisor;
+
+  /// No description provided for @jobTitleRegionalManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Regional Manager'**
+  String get jobTitleRegionalManager;
+
+  /// No description provided for @jobTitleManagingDirector.
+  ///
+  /// In en, this message translates to:
+  /// **'Managing Director'**
+  String get jobTitleManagingDirector;
+
+  /// No description provided for @jobTitleDirectorMd.
+  ///
+  /// In en, this message translates to:
+  /// **'Director / MD'**
+  String get jobTitleDirectorMd;
+
+  /// No description provided for @jobTitleWaiter.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiter'**
+  String get jobTitleWaiter;
+
+  /// No description provided for @jobTitleWaitress.
+  ///
+  /// In en, this message translates to:
+  /// **'Waitress'**
+  String get jobTitleWaitress;
+
+  /// No description provided for @jobTitleBartender.
+  ///
+  /// In en, this message translates to:
+  /// **'Bartender'**
+  String get jobTitleBartender;
+
+  /// No description provided for @jobTitleBarManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar Manager'**
+  String get jobTitleBarManager;
+
+  /// No description provided for @jobTitleReceptionist.
+  ///
+  /// In en, this message translates to:
+  /// **'Receptionist'**
+  String get jobTitleReceptionist;
+
+  /// No description provided for @jobTitleHousekeepingAssistant.
+  ///
+  /// In en, this message translates to:
+  /// **'Housekeeping Assistant'**
+  String get jobTitleHousekeepingAssistant;
+
+  /// No description provided for @jobTitleMaintenanceTechnician.
+  ///
+  /// In en, this message translates to:
+  /// **'Maintenance Technician'**
+  String get jobTitleMaintenanceTechnician;
+
+  /// No description provided for @jobTitleCustomOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom...'**
+  String get jobTitleCustomOption;
+
+  /// No description provided for @jobTitleFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Job title'**
+  String get jobTitleFieldLabel;
+
+  /// No description provided for @jobTitleCustomFieldLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter job title'**
+  String get jobTitleCustomFieldLabel;
 }
 
 class _AppLocalizationsDelegate

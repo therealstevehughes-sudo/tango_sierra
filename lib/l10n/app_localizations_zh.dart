@@ -4656,4 +4656,79 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get bookShiftsAndDaysOffButton => '预订班次/休假';
+
+  @override
+  String get jobTitleKitchenPorter => '厨房杂工';
+
+  @override
+  String get jobTitleCommisChef => '助理厨师';
+
+  @override
+  String get jobTitlePrepChef => '备餐厨师';
+
+  @override
+  String get jobTitleLineChef => 'line厨师';
+
+  @override
+  String get jobTitleGrillChef => '烧烤厨师';
+
+  @override
+  String get jobTitleSousChef => '副主厨';
+
+  @override
+  String get jobTitleHeadChefKitchenManager => '主厨/厨房经理';
+
+  @override
+  String get jobTitleExecutiveChef => '行政总厨';
+
+  @override
+  String get jobTitleDutyManager => '值班经理';
+
+  @override
+  String get jobTitleGeneralManager => '总经理';
+
+  @override
+  String get jobTitleFbManager => '餐饮部经理';
+
+  @override
+  String get jobTitleFunctionsEventsSupervisor => '活动主管';
+
+  @override
+  String get jobTitleRegionalManager => '区域经理';
+
+  @override
+  String get jobTitleManagingDirector => '董事总经理';
+
+  @override
+  String get jobTitleDirectorMd => '总监/MD';
+
+  @override
+  String get jobTitleWaiter => '服务员(男)';
+
+  @override
+  String get jobTitleWaitress => '服务员(女)';
+
+  @override
+  String get jobTitleBartender => '调酒师';
+
+  @override
+  String get jobTitleBarManager => '酒吧经理';
+
+  @override
+  String get jobTitleReceptionist => '前台接待';
+
+  @override
+  String get jobTitleHousekeepingAssistant => '客房服务员';
+
+  @override
+  String get jobTitleMaintenanceTechnician => '维修技术员';
+
+  @override
+  String get jobTitleCustomOption => '自定义...';
+
+  @override
+  String get jobTitleFieldLabel => '职位';
+
+  @override
+  String get jobTitleCustomFieldLabel => '输入职位';
 }

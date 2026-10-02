@@ -4929,4 +4929,80 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get bookShiftsAndDaysOffButton => 'Rezerva ture / zile libere';
+
+  @override
+  String get jobTitleKitchenPorter => 'Ajutor de bucatarie';
+
+  @override
+  String get jobTitleCommisChef => 'Bucatar ajutor';
+
+  @override
+  String get jobTitlePrepChef => 'Bucatar pregatire';
+
+  @override
+  String get jobTitleLineChef => 'Bucatar de linie';
+
+  @override
+  String get jobTitleGrillChef => 'Bucatar la gratar';
+
+  @override
+  String get jobTitleSousChef => 'Sous chef';
+
+  @override
+  String get jobTitleHeadChefKitchenManager =>
+      'Bucatar sef / Manager bucatarie';
+
+  @override
+  String get jobTitleExecutiveChef => 'Bucatar executiv';
+
+  @override
+  String get jobTitleDutyManager => 'Manager de tura';
+
+  @override
+  String get jobTitleGeneralManager => 'Director general';
+
+  @override
+  String get jobTitleFbManager => 'Manager F&B';
+
+  @override
+  String get jobTitleFunctionsEventsSupervisor => 'Supervizor evenimente';
+
+  @override
+  String get jobTitleRegionalManager => 'Manager regional';
+
+  @override
+  String get jobTitleManagingDirector => 'Director general executiv';
+
+  @override
+  String get jobTitleDirectorMd => 'Director / MD';
+
+  @override
+  String get jobTitleWaiter => 'Ospatar';
+
+  @override
+  String get jobTitleWaitress => 'Ospatarita';
+
+  @override
+  String get jobTitleBartender => 'Barman';
+
+  @override
+  String get jobTitleBarManager => 'Manager de bar';
+
+  @override
+  String get jobTitleReceptionist => 'Receptioner';
+
+  @override
+  String get jobTitleHousekeepingAssistant => 'Asistent curatenie';
+
+  @override
+  String get jobTitleMaintenanceTechnician => 'Tehnician intretinere';
+
+  @override
+  String get jobTitleCustomOption => 'Personalizat...';
+
+  @override
+  String get jobTitleFieldLabel => 'Functie';
+
+  @override
+  String get jobTitleCustomFieldLabel => 'Introduceti functia';
 }

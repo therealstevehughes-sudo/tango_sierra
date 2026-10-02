@@ -7,6 +7,7 @@ import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../l10n/app_localizations.dart';
+import '../../shared/models/common_job_title.dart';
 import '../../shared/models/shift.dart';
 import '../../shared/models/training_record.dart';
 import '../../shared/models/user.dart';
@@ -354,7 +355,9 @@ class _FairAutoAssignScreenState extends ConsumerState<FairAutoAssignScreen> {
                                       dense: true,
                                       contentPadding: EdgeInsets.zero,
                                       title: Text(u.name),
-                                      subtitle: Text(u.jobTitle),
+                                      subtitle: Text(
+                                        localizedJobTitle(u.jobTitle, l10n),
+                                      ),
                                       value: _selectedUserIds.contains(u.id),
                                       onChanged: (v) => setState(() {
                                         if (v ?? false) {

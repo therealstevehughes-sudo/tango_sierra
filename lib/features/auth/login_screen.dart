@@ -10,6 +10,7 @@ import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_background.dart';
 import '../../core/widgets/section_header.dart';
+import '../../shared/models/common_job_title.dart';
 import '../../shared/models/department.dart';
 import '../../shared/models/pin_auth_outcome.dart';
 import '../../shared/models/user.dart';
@@ -1228,7 +1229,9 @@ class _StaffTile extends StatelessWidget {
                 context,
               ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
             ),
-            subtitle: Text(user.jobTitle),
+            subtitle: Text(
+              localizedJobTitle(user.jobTitle, AppLocalizations.of(context)),
+            ),
           ),
         ),
       ),

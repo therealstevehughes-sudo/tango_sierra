@@ -9,6 +9,7 @@ import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_header.dart';
 import '../../core/widgets/voice_note_field.dart';
+import '../../shared/models/common_job_title.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/shift_handover_providers.dart';
@@ -261,7 +262,9 @@ class _EndOfSessionSummaryScreenState
                           .map(
                             (m) => DropdownMenuItem(
                               value: m.id,
-                              child: Text('${m.name} (${m.jobTitle})'),
+                              child: Text(
+                                '${m.name} (${localizedJobTitle(m.jobTitle, l10n)})',
+                              ),
                             ),
                           )
                           .toList(),

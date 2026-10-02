@@ -4842,4 +4842,80 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get bookShiftsAndDaysOffButton => 'Rezerviraj smjene/slobodne dane';
+
+  @override
+  String get jobTitleKitchenPorter => 'Kuhinjski pomocnik';
+
+  @override
+  String get jobTitleCommisChef => 'Pomocni kuhar';
+
+  @override
+  String get jobTitlePrepChef => 'Kuhar za pripremu';
+
+  @override
+  String get jobTitleLineChef => 'Kuhar na liniji';
+
+  @override
+  String get jobTitleGrillChef => 'Kuhar za roštilj';
+
+  @override
+  String get jobTitleSousChef => 'Sous chef';
+
+  @override
+  String get jobTitleHeadChefKitchenManager =>
+      'Glavni kuhar / Voditelj kuhinje';
+
+  @override
+  String get jobTitleExecutiveChef => 'Izvrsni kuhar';
+
+  @override
+  String get jobTitleDutyManager => 'Dezurni voditelj';
+
+  @override
+  String get jobTitleGeneralManager => 'Opci direktor';
+
+  @override
+  String get jobTitleFbManager => 'F&B voditelj';
+
+  @override
+  String get jobTitleFunctionsEventsSupervisor => 'Voditelj dogadanja';
+
+  @override
+  String get jobTitleRegionalManager => 'Regionalni voditelj';
+
+  @override
+  String get jobTitleManagingDirector => 'Izvrsni direktor';
+
+  @override
+  String get jobTitleDirectorMd => 'Direktor / MD';
+
+  @override
+  String get jobTitleWaiter => 'Konobar';
+
+  @override
+  String get jobTitleWaitress => 'Konobarica';
+
+  @override
+  String get jobTitleBartender => 'Barmen';
+
+  @override
+  String get jobTitleBarManager => 'Voditelj bara';
+
+  @override
+  String get jobTitleReceptionist => 'Recepcioner';
+
+  @override
+  String get jobTitleHousekeepingAssistant => 'Pomocnik domacinstva';
+
+  @override
+  String get jobTitleMaintenanceTechnician => 'Tehnicar odrzavanja';
+
+  @override
+  String get jobTitleCustomOption => 'Prilagodeno...';
+
+  @override
+  String get jobTitleFieldLabel => 'Radno mjesto';
+
+  @override
+  String get jobTitleCustomFieldLabel => 'Unesite radno mjesto';
 }

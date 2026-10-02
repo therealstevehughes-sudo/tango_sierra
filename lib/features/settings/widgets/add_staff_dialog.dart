@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/widgets/job_title_field.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../shared/models/job_role.dart';
 import '../../../shared/models/user.dart';
@@ -56,10 +57,7 @@ class AddStaffFormFields extends StatelessWidget {
           decoration: InputDecoration(labelText: l10n.nameAxisLabel),
         ),
         const SizedBox(height: 12),
-        TextField(
-          controller: jobTitleController,
-          decoration: InputDecoration(labelText: l10n.jobTitleLabel),
-        ),
+        JobTitleField(controller: jobTitleController),
         const SizedBox(height: 12),
         DropdownButtonFormField<RoleTier>(
           initialValue: selectedTier,

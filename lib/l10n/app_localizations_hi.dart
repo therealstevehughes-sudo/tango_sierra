@@ -4820,4 +4820,79 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get bookShiftsAndDaysOffButton => 'शिफ्ट/छुट्टी बुक करें';
+
+  @override
+  String get jobTitleKitchenPorter => 'किचन पोर्टर';
+
+  @override
+  String get jobTitleCommisChef => 'कमी शेफ';
+
+  @override
+  String get jobTitlePrepChef => 'प्रेप शेफ';
+
+  @override
+  String get jobTitleLineChef => 'लाइन शेफ';
+
+  @override
+  String get jobTitleGrillChef => 'ग्रिल शेफ';
+
+  @override
+  String get jobTitleSousChef => 'सूस शेफ';
+
+  @override
+  String get jobTitleHeadChefKitchenManager => 'हेड शेफ / किचन मैनेजर';
+
+  @override
+  String get jobTitleExecutiveChef => 'एक्जीक्यूटिव शेफ';
+
+  @override
+  String get jobTitleDutyManager => 'ड्यूटी मैनेजर';
+
+  @override
+  String get jobTitleGeneralManager => 'जनरल मैनेजर';
+
+  @override
+  String get jobTitleFbManager => 'F&B मैनेजर';
+
+  @override
+  String get jobTitleFunctionsEventsSupervisor => 'इवेंट सुपरवाइज़र';
+
+  @override
+  String get jobTitleRegionalManager => 'रीजनल मैनेजर';
+
+  @override
+  String get jobTitleManagingDirector => 'प्रबंध निदेशक';
+
+  @override
+  String get jobTitleDirectorMd => 'निदेशक / MD';
+
+  @override
+  String get jobTitleWaiter => 'वेटर';
+
+  @override
+  String get jobTitleWaitress => 'वेट्रेस';
+
+  @override
+  String get jobTitleBartender => 'बारटेंडर';
+
+  @override
+  String get jobTitleBarManager => 'बार मैनेजर';
+
+  @override
+  String get jobTitleReceptionist => 'रिसेप्शनिस्ट';
+
+  @override
+  String get jobTitleHousekeepingAssistant => 'हाउसकीपिंग सहायक';
+
+  @override
+  String get jobTitleMaintenanceTechnician => 'रखरखाव तकनीशियन';
+
+  @override
+  String get jobTitleCustomOption => 'कस्टम...';
+
+  @override
+  String get jobTitleFieldLabel => 'पद';
+
+  @override
+  String get jobTitleCustomFieldLabel => 'पद दर्ज करें';
 }

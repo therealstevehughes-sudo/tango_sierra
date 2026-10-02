@@ -3075,3 +3075,17 @@ Direct founder request: a photo at shift start/end to deter buddy-punching/fraud
 New: `shift_logs` table + 4 RPCs (`shift_clock_in`, `shift_clock_out`, `shift_verify_clock_event`, `shift_clear_expired_photo`), `shift-verification-photos` private Storage bucket, `sites.shift_verification_photos_enabled`/`shift_photo_retention_days`, `users.shift_photo_consent`/`_at`/`_version`. New screen `ShiftVerificationQueueScreen` (supervisor+). Site toggle + retention control added to Venue Details. 10 new unit tests (retention-expiry boundary, purged-vs-declined distinction). Full suite: 89/89 passing, `flutter analyze` clean.
 
 Not yet done: a real UI click-through test of the camera-capture path (no camera-equipped test device in this session) — the code mirrors the already-proven certificate-upload pattern exactly (`training_records_screen.dart`'s own ImagePicker/Storage flow), so this is a reasonable, disclosed gap, not an unverified guess at the API shape.
+
+## Job titles now actually translate — fixed (2026-10-02)
+
+Direct founder bug report, with screenshot: switching the app to Spanish still showed "Line Chef", "Kitchen Porter" etc. in English. Real cause, not a pipeline bug: `User.jobTitle` is free text (a label mapped onto a RoleTier, deliberately separate from the coarser `JobRole` enum which already was translated) — a stored string has no language of its own, so there was never anything to translate it from.
+
+Fix, agreed with the founder (a quick second option — collapsing to the broader JobRole category — was rejected since it would lose the real distinction between e.g. Sous Chef/Commis Chef/Line Chef):
+- A fixed list of 22 common hospitality titles (covering every title this app's own demo data seeds, plus a handful of other common real-world ones) now has a real translation in all 10 locales (`common_job_title.dart`, `localizedJobTitle()`).
+- Staff setup/editing now offers these from a dropdown (new shared `JobTitleField` widget) instead of a bare text field, plus a "Custom..." option for anything genuinely unusual — wired into every staff creation/edit entry point: the shared `AddStaffFormFields` (venue setup wizard, Staff Management, branch organogram all get it for free), the staff-provisioning screen (real backend tenant staff), and the branch org chart's own rename dialog.
+- Every live DISPLAY of a job title (login screen's staff-tile list, staff assignment, notification rules' person picker, the branch organogram, fair auto-assign's staff list, Staff Management's own list, end-of-session summary's manager picker, the venue setup wizard's staff list) now goes through `localizedJobTitle()`.
+- Deliberately NOT touched: job titles already baked into a historical record (`TaskSubmission.completedBy`, `SessionSummary.staffName`) — those are a snapshot of who did something at the time, not live UI chrome, same reasoning as this app's device-clock timestamps never being retroactively reinterpreted. Also not touched: the CSV bulk-staff-import preview, which is inherently showing a real customer's own uploaded free text.
+
+A genuinely custom title (typed via "Custom...", or any pre-existing real customer data from before this fix) is left exactly as typed wherever it's shown — there's no way to auto-translate real free text, the same as there's no way to translate someone's actual name.
+
+4 new unit tests. Full suite: 93/93 passing, `flutter analyze` clean.

@@ -4,9 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
+import '../../core/widgets/job_title_field.dart';
 import '../../core/widgets/load_error_view.dart';
 import '../../core/widgets/management_drawer.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../shared/models/common_job_title.dart';
 import '../../shared/models/department.dart';
 import '../../shared/models/team.dart';
 import '../../shared/models/user.dart';
@@ -371,11 +373,7 @@ class _BranchOrgChartScreenState extends ConsumerState<BranchOrgChartScreen> {
         final l10n = AppLocalizations.of(context)!;
         return AlertDialog(
           title: Text(l10n.editJobTitleTitle(user.name)),
-          content: TextField(
-            controller: controller,
-            decoration: InputDecoration(labelText: l10n.jobTitleLabel),
-            autofocus: true,
-          ),
+          content: JobTitleField(controller: controller),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
@@ -615,7 +613,7 @@ class _PersonNode extends StatelessWidget {
         : departmentsById[user.departmentId];
     final team = user.teamId == null ? null : teamsById[user.teamId];
     final subtitleParts = [
-      '${user.jobTitle} · ${roleTierDisplayName(user.roleTier, l10n)}',
+      '${localizedJobTitle(user.jobTitle, l10n)} · ${roleTierDisplayName(user.roleTier, l10n)}',
       if (department != null)
         team != null ? '${department.name} · ${team.name}' : department.name,
     ];

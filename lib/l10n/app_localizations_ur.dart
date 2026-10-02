@@ -4812,4 +4812,79 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get bookShiftsAndDaysOffButton => 'شفٹیں/چھٹیاں بک کریں';
+
+  @override
+  String get jobTitleKitchenPorter => 'کچن پورٹر';
+
+  @override
+  String get jobTitleCommisChef => 'کمی شیف';
+
+  @override
+  String get jobTitlePrepChef => 'پریپ شیف';
+
+  @override
+  String get jobTitleLineChef => 'لائن شیف';
+
+  @override
+  String get jobTitleGrillChef => 'گرل شیف';
+
+  @override
+  String get jobTitleSousChef => 'سوس شیف';
+
+  @override
+  String get jobTitleHeadChefKitchenManager => 'ہیڈ شیف / کچن منیجر';
+
+  @override
+  String get jobTitleExecutiveChef => 'ایگزیکٹو شیف';
+
+  @override
+  String get jobTitleDutyManager => 'ڈیوٹی منیجر';
+
+  @override
+  String get jobTitleGeneralManager => 'جنرل منیجر';
+
+  @override
+  String get jobTitleFbManager => 'F&B منیجر';
+
+  @override
+  String get jobTitleFunctionsEventsSupervisor => 'ایونٹ سپروائزر';
+
+  @override
+  String get jobTitleRegionalManager => 'ریجنل منیجر';
+
+  @override
+  String get jobTitleManagingDirector => 'منیجنگ ڈائریکٹر';
+
+  @override
+  String get jobTitleDirectorMd => 'ڈائریکٹر / MD';
+
+  @override
+  String get jobTitleWaiter => 'ویٹر';
+
+  @override
+  String get jobTitleWaitress => 'ویٹریس';
+
+  @override
+  String get jobTitleBartender => 'بارٹینڈر';
+
+  @override
+  String get jobTitleBarManager => 'بار منیجر';
+
+  @override
+  String get jobTitleReceptionist => 'ریسیپشنسٹ';
+
+  @override
+  String get jobTitleHousekeepingAssistant => 'ہاؤس کیپنگ اسسٹنٹ';
+
+  @override
+  String get jobTitleMaintenanceTechnician => 'مینٹیننس ٹیکنیشن';
+
+  @override
+  String get jobTitleCustomOption => 'اپنی مرضی کا...';
+
+  @override
+  String get jobTitleFieldLabel => 'عہدہ';
+
+  @override
+  String get jobTitleCustomFieldLabel => 'عہدہ درج کریں';
 }
