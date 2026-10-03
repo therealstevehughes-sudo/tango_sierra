@@ -5043,4 +5043,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rotaBookedPendingApprovalText => 'Booked, awaiting approval';
+
+  @override
+  String get permissionDeniedMessage =>
+      'You don\'t have permission to do this. Ask a manager for access.';
+
+  @override
+  String get genericSaveFailedMessage =>
+      'This didn\'t save. Please try again, and contact support if it keeps happening.';
 }

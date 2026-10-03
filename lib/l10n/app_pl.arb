@@ -1416,5 +1416,7 @@
   "rotaAssignButton": "Przypisz",
   "rotaUnavailableLabel": "Niedostępni",
   "rotaAvailableLabel": "Dostępni",
-  "rotaBookedPendingApprovalText": "Zarezerwowane, oczekuje na zatwierdzenie"
+  "rotaBookedPendingApprovalText": "Zarezerwowane, oczekuje na zatwierdzenie",
+  "permissionDeniedMessage": "Nie masz uprawnień do wykonania tej czynności. Poproś kierownika o dostęp.",
+  "genericSaveFailedMessage": "Nie udało się zapisać. Spróbuj ponownie, a jeśli problem się powtarza, skontaktuj się z pomocą techniczną."
 }

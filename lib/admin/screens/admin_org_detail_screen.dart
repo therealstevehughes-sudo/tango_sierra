@@ -1,3 +1,4 @@
+import '../../core/errors/friendly_error.dart';
 import 'package:flutter/material.dart';
 
 import '../repositories/admin_repository.dart';
@@ -44,7 +45,7 @@ class _AdminOrgDetailScreenState extends State<AdminOrgDetailScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Failed: $e')));
+      ).showSnackBar(SnackBar(content: Text(friendlyAdminErrorMessage(e))));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -64,7 +65,7 @@ class _AdminOrgDetailScreenState extends State<AdminOrgDetailScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Failed: $e')));
+      ).showSnackBar(SnackBar(content: Text(friendlyAdminErrorMessage(e))));
     } finally {
       if (mounted) setState(() => _busy = false);
     }

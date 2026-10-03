@@ -157,50 +157,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   // floating text/logo directly on the background. Padding
                   // tightened (2026-09-17 follow-up) — the branding block was
                   // still too prominent relative to the staff cards below.
+                  // Header shrink (2026-10-03, direct founder feedback: the
+                  // top section read as "squashed" on a phone). The mark
+                  // drops from 72px to 40px here (tier-home's own standalone
+                  // mark is untouched), and the language/lock icons move out
+                  // of this card entirely — see the floating buttons added
+                  // to the screen's outer Stack below — so the card no
+                  // longer needs to reserve right-side clearance for them.
                   AppCard(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 8,
                     ),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        BrandHeader(branding: defaultBranding),
-                        // Discreet entry point for regional/executive sign-in
-                        // (Sprint 031) — deliberately unlabeled and muted so it
-                        // doesn't read as an action worth noticing on a shared
-                        // store device. Moved here (2026-09-17 follow-up) from
-                        // its own row above the search card, to the right of
-                        // the branding — there's real spare room in this card's
-                        // corner, and removing its own row lets everything
-                        // below move up.
-                        Positioned(
-                          top: 0,
-                          right: 0,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const LanguageIconButton(
-                                iconColor: AppColors.muted,
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.lock_outline,
-                                  color: AppColors.muted,
-                                ),
-                                iconSize: 20,
-                                tooltip: l10n.leadershipAccess,
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const SeniorLoginScreen(),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    child: BrandHeader(
+                      branding: defaultBranding,
+                      appMarkSize: 40,
                     ),
                   ),
                   const SizedBox(height: 8),
@@ -277,7 +248,68 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ),
             ),
           ),
+          // Floating language/leadership-access buttons (2026-10-03,
+          // direct founder feedback) — moved out of the branding card
+          // (see above) to free up its width for the staff-name cards.
+          // Bottom-right of the whole screen, stacked vertically; SafeArea
+          // keeps them clear of any system gesture inset.
+          Positioned(
+            right: 16,
+            bottom: 16,
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _FloatingIconButton(
+                    icon: Icons.lock_outline,
+                    tooltip: l10n.leadershipAccess,
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const SeniorLoginScreen(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  _FloatingIconButton(
+                    icon: Icons.language,
+                    tooltip: l10n.languageSettingTitle,
+                    onPressed: () => showLanguagePicker(context, ref),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+/// Small circular floating icon button (2026-10-03) — used for the
+/// login screen's language/leadership-access pair, deliberately muted
+/// (not a bright primary FAB) since neither is the screen's main action.
+class _FloatingIconButton extends StatelessWidget {
+  const _FloatingIconButton({
+    required this.icon,
+    required this.tooltip,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final String tooltip;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.card,
+      shape: const CircleBorder(),
+      elevation: 2,
+      child: IconButton(
+        icon: Icon(icon, color: AppColors.muted),
+        tooltip: tooltip,
+        onPressed: onPressed,
       ),
     );
   }

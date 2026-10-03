@@ -8629,6 +8629,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Booked, awaiting approval'**
   String get rotaBookedPendingApprovalText;
+
+  /// No description provided for @permissionDeniedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have permission to do this. Ask a manager for access.'**
+  String get permissionDeniedMessage;
+
+  /// No description provided for @genericSaveFailedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This didn\'t save. Please try again, and contact support if it keeps happening.'**
+  String get genericSaveFailedMessage;
 }
 
 class _AppLocalizationsDelegate

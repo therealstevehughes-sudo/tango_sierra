@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/errors/friendly_error.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/management_drawer.dart';
@@ -220,7 +221,7 @@ class _VenueSetupWizardScreenState
         if (!mounted) return;
         if (attempt == 0) continue;
         setState(() {
-          loadError = e.toString();
+          loadError = friendlyErrorMessage(AppLocalizations.of(context)!, e);
           loading = false;
         });
       }

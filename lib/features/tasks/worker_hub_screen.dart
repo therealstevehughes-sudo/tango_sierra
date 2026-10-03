@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
-import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/brand_header.dart';
 import '../../core/localization/language_picker.dart';
 import '../../core/widgets/primary_action_button.dart';
@@ -62,46 +61,48 @@ class WorkerHubScreen extends ConsumerWidget {
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : Text(l10n.home),
-        actions: [
-          // Omnipresent assistant icon (2026-09-25) — replaces the plain
-          // "?" every screen is getting the same one addition.
-          const AssistantIconButton(),
-          // Language picker (2026-09-30, direct founder report) — base
-          // tier has no Settings/drawer access at all (see the class doc
-          // comment above), so this top bar is the only place a junior
-          // worker could ever reach it.
-          const LanguageIconButton(),
-          // Log out vs. End shift, kept as two genuinely separate actions
-          // (2026-09-29, direct founder report) — "End shift" alone forced
-          // anyone stepping away mid-shift (device swap, a quick break)
-          // through a "shift is finishing" flow that records a clock-out
-          // and nags about unfinished tasks that aren't actually
-          // unfinished yet. Plain "Log out" just signs the device out —
-          // same pop-to-root-then-clear-session shape as
-          // ManagementDrawer's own default logout, no shift-end
-          // semantics, no remaining-tasks check.
-          TextButton.icon(
-            onPressed: currentUser == null
-                ? null
-                : () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                    ref.read(currentUserProvider.notifier).state = null;
-                  },
-            icon: const Icon(Icons.logout, size: 18),
-            label: Text(l10n.logOut),
-          ),
-          // "End shift" (2026-09-24, direct user request) — a "here's
-          // what's still not done" check, plus records the clock-out on
-          // today's ShiftLog. Reached only when the person actually means
-          // to finish their shift, not just step away.
-          TextButton.icon(
-            onPressed: currentUser == null
-                ? null
-                : () => endShift(context, ref, currentUser),
-            icon: const Icon(Icons.event_available, size: 18),
-            label: Text(l10n.endShift),
-          ),
-        ],
+        // Header decluttering (2026-10-03, direct founder feedback: AI +
+        // language + Log out + End shift all sitting in a row read as
+        // "far too crowded"). The AI icon is now a global floating button
+        // (see AssistantFab); language, Log out and End shift fold into
+        // one "⋮" overflow menu instead of four separate widgets here.
+        onLogout: currentUser == null
+            ? null
+            : () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                ref.read(currentUserProvider.notifier).state = null;
+              },
+        extraMenuItems: currentUser == null
+            ? null
+            : [
+                PopupMenuItem<VoidCallback>(
+                  value: () => showLanguagePicker(context, ref),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.language, size: 18),
+                      const SizedBox(width: 12),
+                      Text(l10n.languageSettingTitle),
+                    ],
+                  ),
+                ),
+                // "End shift" (2026-09-24, direct user request) — a
+                // "here's what's still not done" check, plus records the
+                // clock-out on today's ShiftLog. Reached only when the
+                // person actually means to finish their shift, not just
+                // step away — distinct from plain Log out above.
+                PopupMenuItem<VoidCallback>(
+                  value: () => endShift(context, ref, currentUser),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.event_available, size: 18),
+                      const SizedBox(width: 12),
+                      Text(l10n.endShift),
+                    ],
+                  ),
+                ),
+              ],
       ),
       body: Stack(
         children: [
@@ -224,40 +225,6 @@ class WorkerHubScreen extends ConsumerWidget {
                             ).colorScheme.primary,
                           ),
                         ),
-                        if (rosterAddonEnabled) ...[
-                          const SizedBox(height: 12),
-                          // Roster add-on — base tier has no drawer at all (see
-                          // the class doc comment above), so this is its only
-                          // route to the rota calendar. One button, one
-                          // calendar, two functions (direct founder correction,
-                          // 2026-10-02): this used to be two separate buttons
-                          // opening two separate flat-list screens
-                          // (ClaimBoardScreen / RequestOffDayScreen) - a real
-                          // regression, since RotaClaimScreen (built earlier
-                          // this session) already does both in one calendar
-                          // with an integrated "book days off instead" toggle,
-                          // but was never wired in here. Hidden entirely (not
-                          // locked) when the venue hasn't enabled Roster.
-                          OutlinedButton.icon(
-                            onPressed: currentUser == null
-                                ? null
-                                : () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const RotaClaimScreen(),
-                                    ),
-                                  ),
-                            icon: const Icon(Icons.calendar_month_outlined),
-                            label: Text(l10n.bookShiftsAndDaysOffButton),
-                            style: OutlinedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              minimumSize: const Size.fromHeight(48),
-                              foregroundColor: Theme.of(
-                                context,
-                              ).colorScheme.primary,
-                            ),
-                          ),
-                        ],
                         const SizedBox(height: 8),
                         TextButton(
                           onPressed: currentUser == null
@@ -281,6 +248,25 @@ class WorkerHubScreen extends ConsumerWidget {
           ),
         ],
       ),
+      // Roster calendar, pulled out of the stacked button column
+      // (2026-10-03, direct founder feedback: it shouldn't sit "right
+      // alongside the tasks and occurrence log buttons") — its own
+      // floating button, bottom-left so it doesn't collide with the
+      // global AI assistant FAB (bottom-right, see AssistantFab). Hidden
+      // entirely (not locked) when the venue hasn't enabled Roster, same
+      // as before.
+      floatingActionButton: rosterAddonEnabled && currentUser != null
+          ? FloatingActionButton.extended(
+              heroTag: 'rotaFab',
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const RotaClaimScreen()),
+              ),
+              icon: const Icon(Icons.calendar_month_outlined),
+              label: Text(l10n.bookShiftsAndDaysOffButton),
+            )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }

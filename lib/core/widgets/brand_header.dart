@@ -27,6 +27,7 @@ class BrandHeader extends StatelessWidget {
     required this.branding,
     this.siteName,
     this.showAppMark = true,
+    this.appMarkSize = 72,
   });
 
   /// The organisation's current `BrandingConfig`, or null when none is set
@@ -42,6 +43,13 @@ class BrandHeader extends StatelessWidget {
   /// corner of the screen rather than the branding card's own inset
   /// corner — placing it here too would double it up).
   final bool showAppMark;
+
+  /// Size of the top-left VenuRiteMark, and the min-height this header
+  /// reserves for it (2026-10-03: the login screen's card reads as
+  /// "squashed" at the original fixed 72px on a phone — shrinkable here
+  /// per-caller without affecting tier-home's own standalone, still-72px
+  /// mark).
+  final double appMarkSize;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +73,11 @@ class BrandHeader extends StatelessWidget {
           // 36px per user request, 2026-09-13) and full opacity so it stays
           // visible without dominating over the client's brand.
           if (showAppMark)
-            const Positioned(top: 0, left: 0, child: VenuRiteMark()),
+            Positioned(
+              top: 0,
+              left: 0,
+              child: VenuRiteMark(size: appMarkSize),
+            ),
           // Client branding — centred as the main header element. When a
           // Director has set branding, this shows the company name, client
           // logo (64px, sizing confirmed via brain stand-in 2026-09-13),
@@ -80,7 +92,7 @@ class BrandHeader extends StatelessWidget {
           // on a fresh install's welcome card. Reserving 72px here always
           // gives the mark enough room regardless of which branch renders.
           ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 72),
+            constraints: BoxConstraints(minHeight: appMarkSize),
             child: Center(
               child: logo != null || siteName != null
                   ? Column(
@@ -144,7 +156,9 @@ class BrandHeader extends StatelessWidget {
 /// signature failing to open a browser is never worth surfacing an error
 /// over.
 class VenuRiteMark extends StatelessWidget {
-  const VenuRiteMark({super.key});
+  const VenuRiteMark({super.key, this.size = 72});
+
+  final double size;
 
   static final Uri _websiteUri = Uri.parse('https://venurite.com');
 
@@ -164,7 +178,7 @@ class VenuRiteMark extends StatelessWidget {
         onTap: _openWebsite,
         child: Image.asset(
           'assets/logos/VR_square.png',
-          height: 72,
+          height: size,
           fit: BoxFit.contain,
         ),
       ),

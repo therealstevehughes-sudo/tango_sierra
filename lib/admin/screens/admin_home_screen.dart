@@ -1,3 +1,4 @@
+import '../../core/errors/friendly_error.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
@@ -131,7 +132,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Failed: $e')));
+      ).showSnackBar(SnackBar(content: Text(friendlyAdminErrorMessage(e))));
     } finally {
       if (mounted) setState(() => _archiving = false);
     }

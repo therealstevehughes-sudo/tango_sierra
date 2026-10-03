@@ -4933,4 +4933,12 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get rotaBookedPendingApprovalText => 'Rezervirano, čeka odobrenje';
+
+  @override
+  String get permissionDeniedMessage =>
+      'Nemate dopuštenje za ovo. Zatražite pristup od voditelja.';
+
+  @override
+  String get genericSaveFailedMessage =>
+      'Ovo nije spremljeno. Pokušajte ponovno, a ako se problem nastavi, obratite se podršci.';
 }

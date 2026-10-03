@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Drop-in replacement for `AppBar` as a Scaffold's `appBar:` (2026-09-28,
 /// direct founder request). Two problems this fixes:
@@ -30,6 +31,8 @@ class AppScreenHeader extends StatelessWidget implements PreferredSizeWidget {
     this.elevation,
     this.bottom,
     this.centerTitle,
+    this.onLogout,
+    this.extraMenuItems,
   });
 
   final Widget title;
@@ -42,12 +45,28 @@ class AppScreenHeader extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom;
   final bool? centerTitle;
 
+  /// When set, a single "⋮" overflow menu is appended to [actions] with a
+  /// "Log out" entry that calls this. Consolidates what used to be a
+  /// `TextButton.icon(icon: logout, label: 'Log out')` repeated directly
+  /// in a screen's own actions list (2026-10-03, direct founder feedback:
+  /// the header was "far too crowded" with that plus the AI icon, the
+  /// language icon, and End shift all sitting in a row).
+  final VoidCallback? onLogout;
+
+  /// Extra entries (e.g. "End shift", "Change language") folded into the
+  /// same overflow menu as [onLogout], so a screen with several secondary
+  /// actions still shows only one icon in the header. Each item's `value`
+  /// is the callback to run when tapped.
+  final List<PopupMenuItem<VoidCallback>>? extraMenuItems;
+
   @override
   Widget build(BuildContext context) {
     final canPop = ModalRoute.of(context)?.canPop ?? false;
     final effectiveLeading =
         leading ??
         (automaticallyImplyLeading && canPop ? const _StyledBackButton() : null);
+    final hasOverflowMenu =
+        onLogout != null || (extraMenuItems?.isNotEmpty ?? false);
 
     return AppBar(
       leading: effectiveLeading,
@@ -60,7 +79,29 @@ class AppScreenHeader extends StatelessWidget implements PreferredSizeWidget {
         fontSize: 20,
         color: AppColors.ink,
       ),
-      actions: actions,
+      actions: [
+        ...?actions,
+        if (hasOverflowMenu)
+          PopupMenuButton<VoidCallback>(
+            icon: const Icon(Icons.more_vert),
+            onSelected: (action) => action(),
+            itemBuilder: (context) => [
+              ...?extraMenuItems,
+              if (onLogout != null)
+                PopupMenuItem<VoidCallback>(
+                  value: onLogout,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.logout, size: 18),
+                      const SizedBox(width: 12),
+                      Text(AppLocalizations.of(context)!.logOut),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+      ],
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
       elevation: elevation,

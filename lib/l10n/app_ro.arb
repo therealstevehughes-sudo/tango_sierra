@@ -1416,5 +1416,7 @@
   "rotaAssignButton": "Atribuie",
   "rotaUnavailableLabel": "Indisponibili",
   "rotaAvailableLabel": "Disponibili",
-  "rotaBookedPendingApprovalText": "Rezervat, în așteptarea aprobării"
+  "rotaBookedPendingApprovalText": "Rezervat, în așteptarea aprobării",
+  "permissionDeniedMessage": "Nu ai permisiunea să faci asta. Cere acces unui manager.",
+  "genericSaveFailedMessage": "Salvarea nu a reușit. Încearcă din nou, iar dacă problema persistă, contactează asistența."
 }

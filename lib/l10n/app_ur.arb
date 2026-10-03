@@ -1416,5 +1416,7 @@
   "rotaAssignButton": "تفویض کریں",
   "rotaUnavailableLabel": "دستیاب نہیں",
   "rotaAvailableLabel": "دستیاب",
-  "rotaBookedPendingApprovalText": "بک کیا گیا، منظوری کا منتظر"
+  "rotaBookedPendingApprovalText": "بک کیا گیا، منظوری کا منتظر",
+  "permissionDeniedMessage": "آپ کو یہ کرنے کی اجازت نہیں ہے۔ رسائی کے لیے مینیجر سے پوچھیں۔",
+  "genericSaveFailedMessage": "یہ محفوظ نہیں ہوا۔ دوبارہ کوشش کریں، اور اگر مسئلہ برقرار رہے تو سپورٹ سے رابطہ کریں۔"
 }

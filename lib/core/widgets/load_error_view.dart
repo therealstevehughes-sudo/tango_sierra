@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../errors/friendly_error.dart';
 import '../../l10n/app_localizations.dart';
 import 'primary_action_button.dart';
 
@@ -9,10 +10,17 @@ import 'primary_action_button.dart';
 /// way to tell why or retry). Pairs with the loading-guard rule: the real
 /// `Scaffold`/header always renders regardless of load state, so this
 /// only ever replaces the body — never strands the user on a blank screen.
+///
+/// Takes the raw error ([error] can be a `String` already built by a
+/// caller, or the original caught `Object`) and translates it itself via
+/// [friendlyErrorMessage] (2026-10-03, direct founder feedback: showing
+/// the raw `e.toString()` — e.g. a `BackendRequestException` with a raw
+/// Postgres error code — is "undecipherable text"; a user who hits a
+/// permission error needs to be told to ask a manager, not shown JSON).
 class LoadErrorView extends StatelessWidget {
   const LoadErrorView({super.key, required this.error, required this.onRetry});
 
-  final String error;
+  final Object error;
   final VoidCallback onRetry;
 
   @override
@@ -29,7 +37,7 @@ class LoadErrorView extends StatelessWidget {
             Text(l10n.couldntLoadScreen),
             const SizedBox(height: 4),
             Text(
-              error,
+              friendlyErrorMessage(l10n, error),
               textAlign: TextAlign.center,
               style: const TextStyle(color: AppColors.muted),
             ),

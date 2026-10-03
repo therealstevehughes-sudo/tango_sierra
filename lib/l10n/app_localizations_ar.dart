@@ -4877,4 +4877,12 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get rotaBookedPendingApprovalText => 'محجوز، بانتظار الموافقة';
+
+  @override
+  String get permissionDeniedMessage =>
+      'ليس لديك إذن للقيام بذلك. اطلب الوصول من مدير.';
+
+  @override
+  String get genericSaveFailedMessage =>
+      'لم يتم الحفظ. حاول مرة أخرى، وإذا استمرت المشكلة فتواصل مع الدعم.';
 }

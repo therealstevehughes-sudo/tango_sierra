@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/errors/friendly_error.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_screen_header.dart';
@@ -154,7 +155,7 @@ class _ShiftPeriodSettingsScreenState
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.shiftPeriodsSaveFailedMessage(e.toString()))),
+        SnackBar(content: Text(friendlyErrorMessage(l10n, e))),
       );
     } finally {
       if (mounted) setState(() => _saving = false);

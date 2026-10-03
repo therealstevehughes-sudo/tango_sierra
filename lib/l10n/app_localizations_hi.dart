@@ -4910,4 +4910,12 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get rotaBookedPendingApprovalText => 'बुक किया गया, अनुमोदन लंबित';
+
+  @override
+  String get permissionDeniedMessage =>
+      'आपके पास यह करने की अनुमति नहीं है। एक्सेस के लिए मैनेजर से पूछें।';
+
+  @override
+  String get genericSaveFailedMessage =>
+      'यह सेव नहीं हुआ। कृपया फिर से कोशिश करें, और अगर समस्या बनी रहे तो सपोर्ट से संपर्क करें।';
 }

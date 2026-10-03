@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../core/utils/date_format.dart';
-import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/models/issue.dart';
@@ -37,14 +36,7 @@ class MyRaisedIssuesScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppScreenHeader(
         title: Text(l10n.thingsIReported),
-        actions: [
-          const AssistantIconButton(),
-          TextButton.icon(
-            onPressed: () => _logOut(context, ref),
-            icon: const Icon(Icons.logout, size: 18),
-            label: Text(l10n.logOut),
-          ),
-        ],
+        onLogout: () => _logOut(context, ref),
       ),
       body: FutureBuilder<List<Issue>>(
         future: ref.read(issueRepositoryProvider).getRaisedByUser(userId),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
-import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/management_drawer.dart';
@@ -152,15 +151,10 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
         title: currentUser != null
             ? UserTitle(user: currentUser)
             : Text(l10n.homeLabel),
-        actions: [
-          const AssistantIconButton(),
-          TextButton.icon(
-            onPressed: () =>
-                ref.read(currentUserProvider.notifier).state = null,
-            icon: const Icon(Icons.logout, size: 18),
-            label: Text(l10n.logOut),
-          ),
-        ],
+        // Header decluttering (2026-10-03) — AI icon is now a global
+        // floating button (see AssistantFab); Log out folds into
+        // AppScreenHeader's own "⋮" overflow menu.
+        onLogout: () => ref.read(currentUserProvider.notifier).state = null,
       ),
       // Navigation-consistency pass (Sprint 031): the same drawer every
       // non-base screen now has — Home/My Tasks/Oversight/Settings/tools/

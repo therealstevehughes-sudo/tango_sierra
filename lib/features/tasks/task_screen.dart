@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/errors/friendly_error.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/services/evidence_store.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/utils/unit_conversion.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
-import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/extra_fields_form.dart';
 import '../../core/widgets/guided_task_header.dart';
 import '../../core/widgets/management_drawer.dart';
@@ -207,7 +207,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        loadError = e.toString();
+        loadError = friendlyErrorMessage(AppLocalizations.of(context)!, e);
         loading = false;
       });
       return;
@@ -460,16 +460,16 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         icon: const Icon(Icons.view_list_outlined),
         tooltip: l10n.seeAllTasksTooltip,
       ),
-      // Omnipresent assistant icon (2026-09-25) — every screen is getting
-      // the same one addition.
-      const AssistantIconButton(),
-      TextButton.icon(
-        onPressed: _confirmLogOut,
-        icon: const Icon(Icons.logout, size: 18),
-        label: Text(l10n.logOut),
-      ),
     ];
   }
+
+  // Header decluttering (2026-10-03) — Log out now folds into
+  // AppScreenHeader's own "⋮" overflow menu instead of a standalone
+  // TextButton sitting alongside the AI icon (now a global floating
+  // button, see AssistantFab) and "See all tasks". Same "no Log out on a
+  // single out-of-order detour" rule _appBarActions() already applies.
+  VoidCallback? get _onLogout =>
+      widget.returnToListAfterSubmit ? null : _confirmLogOut;
 
   // Natural full completion (the last task submitted) already routes
   // through EndOfSessionSummaryScreen and logs out from there — this only
@@ -870,6 +870,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                 ? UserTitle(user: currentUser)
                 : Text(l10n.taskTitleFallback),
             actions: _appBarActions(),
+            onLogout: _onLogout,
           ),
           drawer: drawer,
           body: Center(child: Text(l10n.noTasksAssigned)),
@@ -934,6 +935,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
               ? UserTitle(user: currentUser)
               : Text(l10n.taskTitleFallback),
           actions: _appBarActions(),
+            onLogout: _onLogout,
         ),
         drawer: drawer,
         body: Padding(
@@ -1337,6 +1339,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
               ? UserTitle(user: currentUser)
               : Text(l10n.taskTitleFallback),
           actions: _appBarActions(),
+            onLogout: _onLogout,
         ),
         drawer: drawer,
         body: Padding(

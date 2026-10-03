@@ -6,6 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
 import '../core/localization/locale_controller.dart';
 import '../core/services/push_token_service.dart';
+import '../core/widgets/assistant_fab.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/shift_welcome_screen.dart';
 import '../features/home/tier_home_screen.dart';
@@ -165,6 +166,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
     return MaterialApp(
       navigatorKey: rootNavigatorKey,
+      navigatorObservers: [ModalVisibilityObserver()],
       debugShowCheckedModeBanner: false,
       title: 'VenuRite',
       locale: locale,
@@ -172,6 +174,15 @@ class _MyAppState extends ConsumerState<MyApp> {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       theme: AppTheme.light(brandAccent: brandAccent),
       home: home,
+      // Single floating AI-assistant entry point (2026-10-03), painted
+      // once above every screen instead of repeated in ~60 AppBars — see
+      // AssistantFab's own doc comment.
+      builder: (context, child) => Stack(
+        children: [
+          if (child != null) child,
+          const AssistantFab(),
+        ],
+      ),
     );
   }
 }

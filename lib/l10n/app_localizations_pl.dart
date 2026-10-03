@@ -5021,4 +5021,12 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get rotaBookedPendingApprovalText =>
       'Zarezerwowane, oczekuje na zatwierdzenie';
+
+  @override
+  String get permissionDeniedMessage =>
+      'Nie masz uprawnień do wykonania tej czynności. Poproś kierownika o dostęp.';
+
+  @override
+  String get genericSaveFailedMessage =>
+      'Nie udało się zapisać. Spróbuj ponownie, a jeśli problem się powtarza, skontaktuj się z pomocą techniczną.';
 }

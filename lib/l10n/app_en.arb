@@ -4608,5 +4608,7 @@
   "rotaAssignButton": "Assign",
   "rotaUnavailableLabel": "Unavailable",
   "rotaAvailableLabel": "Available",
-  "rotaBookedPendingApprovalText": "Booked, awaiting approval"
+  "rotaBookedPendingApprovalText": "Booked, awaiting approval",
+  "permissionDeniedMessage": "You don't have permission to do this. Ask a manager for access.",
+  "genericSaveFailedMessage": "This didn't save. Please try again, and contact support if it keeps happening."
 }

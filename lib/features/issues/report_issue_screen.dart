@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/widgets/app_card.dart';
-import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/voice_note_field.dart';
 import '../../l10n/app_localizations.dart';
@@ -184,14 +183,7 @@ class _ReportIssueScreenState extends ConsumerState<ReportIssueScreen> {
     return Scaffold(
       appBar: AppScreenHeader(
         title: Text(l10n.logSomethingHappened),
-        actions: [
-          TextButton.icon(
-            onPressed: _logOut,
-            icon: const Icon(Icons.logout, size: 18),
-            label: Text(l10n.logOut),
-          ),
-          const AssistantIconButton(),
-        ],
+        onLogout: _logOut,
       ),
       // Layout fix (2026-09-24, matching the incident-detail-screen
       // redesign): a vertically-centered form "floats in space" and pushes

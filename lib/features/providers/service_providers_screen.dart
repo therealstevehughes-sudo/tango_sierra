@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/errors/friendly_error.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/assistant_icon_button.dart';
@@ -200,7 +201,7 @@ class _MyProvidersTab extends ConsumerWidget {
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                   error: (e, _) => LoadErrorView(
-                    error: e.toString(),
+                    error: e,
                     onRetry: () => ref.invalidate(myServiceProvidersProvider),
                   ),
                   data: (providers) => providers.isEmpty
@@ -607,7 +608,7 @@ class _DirectoryTabState extends ConsumerState<_DirectoryTab> {
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                   error: (e, _) => LoadErrorView(
-                    error: e.toString(),
+                    error: e,
                     onRetry: () =>
                         ref.invalidate(sharedProviderDirectoryProvider),
                   ),
@@ -835,9 +836,10 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
       });
     } catch (e) {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       setState(() {
         _submitting = false;
-        _error = e.toString();
+        _error = friendlyErrorMessage(l10n, e);
       });
     }
   }
@@ -881,7 +883,7 @@ class _ReviewSheetState extends ConsumerState<_ReviewSheet> {
             Expanded(
               child: reviewsAsync.when(
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (e, _) => Text(e.toString()),
+                error: (e, _) => Text(friendlyErrorMessage(l10n, e)),
                 data: (reviews) => ListView(
                   controller: scrollController,
                   children: [

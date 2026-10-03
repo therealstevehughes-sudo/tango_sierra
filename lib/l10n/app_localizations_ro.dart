@@ -5021,4 +5021,12 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get rotaBookedPendingApprovalText =>
       'Rezervat, în așteptarea aprobării';
+
+  @override
+  String get permissionDeniedMessage =>
+      'Nu ai permisiunea să faci asta. Cere acces unui manager.';
+
+  @override
+  String get genericSaveFailedMessage =>
+      'Salvarea nu a reușit. Încearcă din nou, iar dacă problema persistă, contactează asistența.';
 }

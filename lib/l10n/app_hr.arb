@@ -1416,5 +1416,7 @@
   "rotaAssignButton": "Dodijeli",
   "rotaUnavailableLabel": "Nedostupni",
   "rotaAvailableLabel": "Dostupni",
-  "rotaBookedPendingApprovalText": "Rezervirano, čeka odobrenje"
+  "rotaBookedPendingApprovalText": "Rezervirano, čeka odobrenje",
+  "permissionDeniedMessage": "Nemate dopuštenje za ovo. Zatražite pristup od voditelja.",
+  "genericSaveFailedMessage": "Ovo nije spremljeno. Pokušajte ponovno, a ako se problem nastavi, obratite se podršci."
 }

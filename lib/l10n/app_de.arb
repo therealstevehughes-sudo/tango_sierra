@@ -1416,5 +1416,7 @@
   "rotaAssignButton": "Zuweisen",
   "rotaUnavailableLabel": "Nicht verfügbar",
   "rotaAvailableLabel": "Verfügbar",
-  "rotaBookedPendingApprovalText": "Gebucht, Genehmigung ausstehend"
+  "rotaBookedPendingApprovalText": "Gebucht, Genehmigung ausstehend",
+  "permissionDeniedMessage": "Du hast keine Berechtigung dafür. Bitte einen Manager um Zugriff.",
+  "genericSaveFailedMessage": "Das konnte nicht gespeichert werden. Bitte erneut versuchen; wenn es weiterhin passiert, wende dich an den Support."
 }

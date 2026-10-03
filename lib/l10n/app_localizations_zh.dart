@@ -4746,4 +4746,10 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get rotaBookedPendingApprovalText => '已预订，等待批准';
+
+  @override
+  String get permissionDeniedMessage => '你没有权限执行此操作。请向经理申请权限。';
+
+  @override
+  String get genericSaveFailedMessage => '保存失败。请重试,如果问题持续出现,请联系支持。';
 }

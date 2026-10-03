@@ -163,7 +163,7 @@ class _CertificationRequirementsScreenState
                       loading: () =>
                           const Center(child: CircularProgressIndicator()),
                       error: (error, _) => LoadErrorView(
-                        error: error.toString(),
+                        error: error,
                         onRetry: () => ref.invalidate(
                           siteRoleCertificationRequirementsForSiteProvider(
                             siteId,

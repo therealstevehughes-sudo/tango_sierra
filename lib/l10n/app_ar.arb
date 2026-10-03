@@ -1416,5 +1416,7 @@
   "rotaAssignButton": "تعيين",
   "rotaUnavailableLabel": "غير متاحين",
   "rotaAvailableLabel": "متاحون",
-  "rotaBookedPendingApprovalText": "محجوز، بانتظار الموافقة"
+  "rotaBookedPendingApprovalText": "محجوز، بانتظار الموافقة",
+  "permissionDeniedMessage": "ليس لديك إذن للقيام بذلك. اطلب الوصول من مدير.",
+  "genericSaveFailedMessage": "لم يتم الحفظ. حاول مرة أخرى، وإذا استمرت المشكلة فتواصل مع الدعم."
 }

@@ -1416,5 +1416,7 @@
   "rotaAssignButton": "नियुक्त करें",
   "rotaUnavailableLabel": "अनुपलब्ध",
   "rotaAvailableLabel": "उपलब्ध",
-  "rotaBookedPendingApprovalText": "बुक किया गया, अनुमोदन लंबित"
+  "rotaBookedPendingApprovalText": "बुक किया गया, अनुमोदन लंबित",
+  "permissionDeniedMessage": "आपके पास यह करने की अनुमति नहीं है। एक्सेस के लिए मैनेजर से पूछें।",
+  "genericSaveFailedMessage": "यह सेव नहीं हुआ। कृपया फिर से कोशिश करें, और अगर समस्या बनी रहे तो सपोर्ट से संपर्क करें।"
 }

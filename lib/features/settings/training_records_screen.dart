@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/errors/friendly_error.dart';
 import '../../core/utils/date_format.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -61,7 +62,7 @@ class _TrainingRecordsScreenState extends ConsumerState<TrainingRecordsScreen> {
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        loadError = e.toString();
+        loadError = friendlyErrorMessage(AppLocalizations.of(context)!, e);
         loading = false;
       });
     }

@@ -797,6 +797,13 @@ class ManagementDrawer extends ConsumerWidget {
               ref.read(currentUserProvider.notifier).state = null;
             },
           ),
+          // Bottom safety margin (2026-10-03, direct founder report) — a
+          // phone's own gesture-nav pill can overlay whatever sits flush
+          // against the screen's bottom edge, regardless of SafeArea
+          // (that only accounts for the OS's own reported inset, not a
+          // transient gesture overlay). Dead space below the last tile
+          // means Log out is never the thing it covers.
+          SizedBox(height: 24 + MediaQuery.of(context).padding.bottom),
         ],
       ),
     );

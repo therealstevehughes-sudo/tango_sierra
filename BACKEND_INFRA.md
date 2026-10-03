@@ -2141,3 +2141,12 @@ No app rebuild/redeploy needed yet for this specific entry — bundled into the 
 ## Rota calendar month-grid rebuild — no backend changes (2026-10-02)
 
 See DECISIONS_LOG.md's own entry for the full design. Purely a Flutter-side rebuild of `RotaClaimScreen`/`RotaMonthScreen` — no new table, column, policy or RPC. The "approve a self-claimed shift" action reuses the existing `manager_assign_shift` RPC (confirmed by reading `tools/phase2_manager_assign_shift_rpc_migration.sql` directly: its `UPDATE` has no `WHERE status = 'open'` guard, so calling it again with the same `user_id` on an already-`claimed` shift just flips `status` to `assigned` — exactly "approve" with zero new server code). `ShiftStatus`/`OffDayRequestStatus` already distinguish every state the redesign needed.
+
+## UI decluttering pass — no backend changes (2026-10-03)
+
+See DECISIONS_LOG.md's own entry for the full design. Purely Flutter-side (global AI FAB, header overflow menu, friendly-error translation, login screen layout, drawer bottom padding) — no new table/column/policy/RPC.
+
+Three items from the founder's feedback are real production server/DB actions, confirmed necessary but not yet applied (all blocked by Claude Code's own auto-mode classifier on this machine — a user-settings permission gate, not a technical blocker):
+- `organisations.roster_addon_enabled` is `false` for the real org (id 56, "SFO" / Croydon site id 61) — confirmed via direct `psql` read against the production DB. This is why real days-off/claim submissions fail live (every rota RLS policy gates on `roster_addon_active(site_id)`, which reads this flag). One-line fix, not yet run: `update organisations set roster_addon_enabled = true where id = 56;`
+- Whether the account that hit the `shift_periods` RLS rejection actually carries a `venueManager`+ `role_tier` JWT claim is unconfirmed — reading the real `users` table for site 61 to check was blocked as a production PII read.
+- `get.venurite.com`'s `venurite-preview.apk` → `venurite.apk` rename (plus its `index.html` download link) was blocked as a remote server write.

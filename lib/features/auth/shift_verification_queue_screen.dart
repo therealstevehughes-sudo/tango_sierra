@@ -1,3 +1,4 @@
+import '../../core/errors/friendly_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -89,7 +90,7 @@ class _ShiftVerificationQueueScreenState
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _error = e.toString();
+        _error = friendlyErrorMessage(AppLocalizations.of(context)!, e);
         _loading = false;
       });
     }
@@ -105,9 +106,10 @@ class _ShiftVerificationQueueScreenState
       await _load();
     } catch (e) {
       if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Failed: $e')));
+      ).showSnackBar(SnackBar(content: Text(friendlyErrorMessage(l10n, e))));
     } finally {
       if (mounted) setState(() => _busyIds.remove(busyKey));
     }

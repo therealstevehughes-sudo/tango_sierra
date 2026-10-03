@@ -4902,4 +4902,12 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get rotaBookedPendingApprovalText => 'بک کیا گیا، منظوری کا منتظر';
+
+  @override
+  String get permissionDeniedMessage =>
+      'آپ کو یہ کرنے کی اجازت نہیں ہے۔ رسائی کے لیے مینیجر سے پوچھیں۔';
+
+  @override
+  String get genericSaveFailedMessage =>
+      'یہ محفوظ نہیں ہوا۔ دوبارہ کوشش کریں، اور اگر مسئلہ برقرار رہے تو سپورٹ سے رابطہ کریں۔';
 }

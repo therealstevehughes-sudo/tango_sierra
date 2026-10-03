@@ -1,31 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../../features/help/help_screen.dart';
-import '../../l10n/app_localizations.dart';
-
-/// The one omnipresent help/AI-assistant entry point (2026-09-25, direct
-/// user request) — added to every screen's own AppBar actions, replacing
-/// the plain "?" icon that used to be base tier's own one-off addition.
-/// Sparkle glyph rather than a lightbulb (reads as "insight/tip" in
-/// dashboard contexts) or a literal head (looks odd at AppBar size) — the
-/// closest thing to a recognised "AI feature" convention right now.
+/// Superseded by [AssistantFab] (2026-10-03, direct founder feedback: the
+/// AI icon crowded every screen's header alongside Log out/language/etc.).
+/// There's now a single floating AI button painted once at the app root
+/// (see app.dart's MaterialApp.builder) instead of one icon repeated in
+/// ~60 screens' own AppBar actions.
 ///
-/// Always opens the same HelpScreen hub regardless of whether the AI
-/// backend exists yet — see that screen's own doc comment on the
-/// offline/not-yet-built degrade behaviour. One destination, one icon,
-/// everywhere; nothing here depends on network state itself.
+/// Kept as a no-op, rather than deleting it and touching every one of
+/// those call sites, purely to avoid a 60-file mechanical churn for zero
+/// behavioural gain — each `actions: [..., const AssistantIconButton()]`
+/// still compiles and now renders nothing.
 class AssistantIconButton extends StatelessWidget {
   const AssistantIconButton({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () => Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const HelpScreen()),
-      ),
-      icon: const Icon(Icons.auto_awesome),
-      tooltip: AppLocalizations.of(context)!.helpAssistantTooltip,
-    );
-  }
+  Widget build(BuildContext context) => const SizedBox.shrink();
 }

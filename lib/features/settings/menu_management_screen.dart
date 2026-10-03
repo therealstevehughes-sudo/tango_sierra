@@ -108,7 +108,7 @@ class _MenuManagementScreenState extends ConsumerState<MenuManagementScreen> {
                       loading: () =>
                           const Center(child: CircularProgressIndicator()),
                       error: (error, _) => LoadErrorView(
-                        error: error.toString(),
+                        error: error,
                         onRetry: () =>
                             ref.invalidate(menuItemsForSiteProvider(siteId)),
                       ),

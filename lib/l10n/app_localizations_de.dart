@@ -5076,4 +5076,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get rotaBookedPendingApprovalText => 'Gebucht, Genehmigung ausstehend';
+
+  @override
+  String get permissionDeniedMessage =>
+      'Du hast keine Berechtigung dafür. Bitte einen Manager um Zugriff.';
+
+  @override
+  String get genericSaveFailedMessage =>
+      'Das konnte nicht gespeichert werden. Bitte erneut versuchen; wenn es weiterhin passiert, wende dich an den Support.';
 }

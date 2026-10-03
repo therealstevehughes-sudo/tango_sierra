@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pdf/widgets.dart' as pw;
 
+import '../../core/errors/friendly_error.dart';
 import '../../core/services/document_store.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
@@ -87,7 +88,7 @@ class _GenerateSopDocumentScreenState
       if (!mounted) return;
       setState(() {
         _state = _GenerateState.pickingTemplate;
-        _error = e.toString();
+        _error = friendlyErrorMessage(AppLocalizations.of(context)!, e);
       });
     }
   }

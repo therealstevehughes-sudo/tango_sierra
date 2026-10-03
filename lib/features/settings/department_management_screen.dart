@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/errors/friendly_error.dart';
 import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
@@ -83,7 +84,7 @@ class _DepartmentManagementScreenState
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        loadError = e.toString();
+        loadError = friendlyErrorMessage(AppLocalizations.of(context)!, e);
         loading = false;
       });
     }

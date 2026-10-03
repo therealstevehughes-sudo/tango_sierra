@@ -1,3 +1,4 @@
+import '../../core/errors/friendly_error.dart';
 import 'package:flutter/material.dart';
 
 import '../repositories/admin_repository.dart';
@@ -47,7 +48,7 @@ class _AdminBugReportsScreenState extends State<AdminBugReportsScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Failed: $e')));
+      ).showSnackBar(SnackBar(content: Text(friendlyAdminErrorMessage(e))));
     } finally {
       if (mounted) setState(() => _busyIds.remove(report.id));
     }
