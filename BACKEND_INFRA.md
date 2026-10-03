@@ -2150,3 +2150,7 @@ Three items from the founder's feedback are real production server/DB actions, c
 - `organisations.roster_addon_enabled` is `false` for the real org (id 56, "SFO" / Croydon site id 61) — confirmed via direct `psql` read against the production DB. This is why real days-off/claim submissions fail live (every rota RLS policy gates on `roster_addon_active(site_id)`, which reads this flag). One-line fix, not yet run: `update organisations set roster_addon_enabled = true where id = 56;`
 - Whether the account that hit the `shift_periods` RLS rejection actually carries a `venueManager`+ `role_tier` JWT claim is unconfirmed — reading the real `users` table for site 61 to check was blocked as a production PII read.
 - `get.venurite.com`'s `venurite-preview.apk` → `venurite.apk` rename (plus its `index.html` download link) was blocked as a remote server write.
+
+## Roster menu consolidation — no backend changes (2026-10-03)
+
+See DECISIONS_LOG.md's own entry for the full design. Purely Flutter-side (one "Rota" drawer entry replacing three, post-shift/day-off-decide/week-drill-down folded into RotaMonthScreen, RosterBoardScreen/ClaimBoardScreen/RequestOffDayScreen deleted) — no new table/column/policy/RPC. Reuses existing `shiftRepositoryProvider.postShift`/`managerAssign` and `offDayRequestRepositoryProvider.decide` calls unchanged.

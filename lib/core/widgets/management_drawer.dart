@@ -19,11 +19,9 @@ import '../../features/regions/branch_org_chart_screen.dart';
 import '../../features/regions/organisation_tree_screen.dart';
 import '../../features/roster/fair_auto_assign_screen.dart';
 import '../../features/roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
-import '../../features/roster/roster_board_screen.dart';
 import '../../features/roster/roster_upsell_screen.dart';
 import '../../features/roster/rota_claim_screen.dart';
 import '../../features/roster/rota_month_screen.dart';
-import '../../features/roster/rota_week_screen.dart';
 import '../../features/roster/shift_period_settings_screen.dart';
 import '../../features/roster/shift_requirements_screen.dart';
 import '../../features/roster/shift_fairness_screen.dart';
@@ -179,30 +177,21 @@ List<_DrawerItemDef> _peopleItems(AppLocalizations l10n) => [
 // add-on has one discoverable home, and gates unchanged from before this
 // move.
 List<_DrawerItemDef> _rosterItems(AppLocalizations l10n) => [
-  // Manager side (post shifts, assign/remove) at venueManager+; the
-  // staff-facing screens below at supervisor+. Locked-teaser UX
+  // Single manager-facing "Rota" entry point (2026-10-03, UX audit —
+  // previously "Roster Board"/"Week view"/"Month view" sat here as three
+  // separate, easily-confused-for-unrelated top-level entries covering
+  // the same underlying shifts: a flat list with its own assign/remove
+  // menu and its own day-off approve/deny tab (Roster Board), a
+  // per-person week grid, and a department-level month grid, with no
+  // actual link between any of them despite doc comments claiming one).
+  // RotaMonthScreen is now the sole front door — it has its own "post a
+  // shift" action and day-off approve/deny folded in (both ported from
+  // RosterBoardScreen, which is retired), plus a header icon into
+  // RotaWeekScreen for the deeper per-person view. Locked-teaser UX
   // (2026-09-27, direct founder request): dimmed + lock icon + opens
   // RosterUpsellScreen until the org has actually paid, rather than a
   // plain "not enabled" sentence inside the real screen — see
   // _itemTiles/_lockedNavTile below.
-  _DrawerItemDef(
-    icon: Icons.event_note_outlined,
-    label: l10n.rosterBoard,
-    minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const RosterBoardScreen(),
-    requiresRosterAddon: true,
-  ),
-  // Rota calendar, Sprint 2 (2026-10-01) — the visual week-grid view,
-  // additive alongside the list-style Roster Board for now (Sprint 4
-  // covers consolidating entry points).
-  _DrawerItemDef(
-    icon: Icons.calendar_view_week_outlined,
-    label: l10n.rotaWeekTitle,
-    minTier: RoleTier.venueManager,
-    screenBuilder: (_) => const RotaWeekScreen(),
-    requiresRosterAddon: true,
-  ),
-  // Rota calendar, Sprint 7 (2026-10-01) — the zoomed-out month view.
   _DrawerItemDef(
     icon: Icons.calendar_month_outlined,
     label: l10n.rotaMonthTitle,
