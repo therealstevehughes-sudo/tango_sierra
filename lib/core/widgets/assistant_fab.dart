@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/navigator_key.dart';
 import '../../features/help/help_screen.dart';
 import '../../shared/providers/auth_providers.dart';
 
@@ -60,7 +61,17 @@ class AssistantFab extends ConsumerWidget {
           bottom: 16 + MediaQuery.of(context).padding.bottom,
           child: FloatingActionButton(
             heroTag: 'assistantFab',
-            onPressed: () => Navigator.of(context, rootNavigator: true).push(
+            // rootNavigatorKey, not Navigator.of(context) — this widget is
+            // painted as a SIBLING of the Navigator (MaterialApp.builder's
+            // `child` is the already-built Navigator subtree; this FAB
+            // sits next to it in the returned Stack, not inside it), so
+            // there is no Navigator ancestor reachable from this context
+            // at all. Found via a real bug report: the button rendered
+            // and was tappable, but tapping it did nothing — the push
+            // silently failed because Navigator.of() had no Navigator to
+            // find. Same fix ManagementDrawer already uses for the exact
+            // same reason (see navigator_key.dart's own doc comment).
+            onPressed: () => rootNavigatorKey.currentState!.push(
               MaterialPageRoute(builder: (_) => const HelpScreen()),
             ),
             child: const Icon(Icons.auto_awesome),

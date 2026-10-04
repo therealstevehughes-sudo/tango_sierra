@@ -179,7 +179,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       // AssistantFab's own doc comment.
       builder: (context, child) => Stack(
         children: [
-          if (child != null) child,
+          ?child,
           const AssistantFab(),
         ],
       ),

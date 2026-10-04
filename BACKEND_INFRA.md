@@ -2154,3 +2154,7 @@ Three items from the founder's feedback are real production server/DB actions, c
 ## Roster menu consolidation — no backend changes (2026-10-03)
 
 See DECISIONS_LOG.md's own entry for the full design. Purely Flutter-side (one "Rota" drawer entry replacing three, post-shift/day-off-decide/week-drill-down folded into RotaMonthScreen, RosterBoardScreen/ClaimBoardScreen/RequestOffDayScreen deleted) — no new table/column/policy/RPC. Reuses existing `shiftRepositoryProvider.postShift`/`managerAssign` and `offDayRequestRepositoryProvider.decide` calls unchanged.
+
+## Fix: global AI FAB navigation bug — no backend changes (2026-10-04)
+
+See DECISIONS_LOG.md's own entry. Purely a client-side Navigator-context fix (`rootNavigatorKey` instead of `Navigator.of(context)` in `AssistantFab`). The AI assistant's content scope (compliance-library-only RAG, not general app help) is a real, separate gap raised in the same bug report — needs a founder decision on whether/how to broaden the `ai-assistant` Edge Function's grounding corpus before any backend work starts.
