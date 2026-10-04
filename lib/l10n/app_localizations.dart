@@ -8641,6 +8641,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This didn\'t save. Please try again, and contact support if it keeps happening.'**
   String get genericSaveFailedMessage;
+
+  /// No description provided for @faqCategoryTasksLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks & Logging'**
+  String get faqCategoryTasksLabel;
+
+  /// No description provided for @faqCategoryRosterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Shifts & Rota'**
+  String get faqCategoryRosterLabel;
+
+  /// No description provided for @faqCategoryAccountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Account'**
+  String get faqCategoryAccountLabel;
+
+  /// No description provided for @faqCategoryManagersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'For Managers'**
+  String get faqCategoryManagersLabel;
+
+  /// No description provided for @troubleCategoryCommonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Common Issues'**
+  String get troubleCategoryCommonLabel;
+
+  /// No description provided for @troubleCategoryConnectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection & Updates'**
+  String get troubleCategoryConnectionLabel;
+
+  /// No description provided for @troubleCategoryAccessLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Access & Shifts'**
+  String get troubleCategoryAccessLabel;
+
+  /// No description provided for @faqQ7.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I claim an open shift or request a day off?'**
+  String get faqQ7;
+
+  /// No description provided for @faqA7.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the menu and tap \"Book shifts and days off\" (or the floating calendar button on your home screen). Tap any day to see shifts for that day, or use the \"Book days off instead\" toggle to request time off.'**
+  String get faqA7;
+
+  /// No description provided for @faqQ8.
+  ///
+  /// In en, this message translates to:
+  /// **'What do the coloured dots on the shift calendar mean?'**
+  String get faqQ8;
+
+  /// No description provided for @faqA8.
+  ///
+  /// In en, this message translates to:
+  /// **'Green means your shift is approved. Blue means you\'ve claimed it but a manager hasn\'t approved it yet. Purple means you\'re on standby. Amber means you\'ve requested a day off and it\'s still pending. A greyed-out day means your day off was approved.'**
+  String get faqA8;
+
+  /// No description provided for @faqQ9.
+  ///
+  /// In en, this message translates to:
+  /// **'Why can\'t I claim a shift?'**
+  String get faqQ9;
+
+  /// No description provided for @faqA9.
+  ///
+  /// In en, this message translates to:
+  /// **'A few reasons are possible: you might be missing a certification required for that role, the shift might already be full, or claiming it would put you over a weekly limit for that category. Ask your manager if you\'re not sure which applies.'**
+  String get faqA9;
+
+  /// No description provided for @faqQ10.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I cancel a shift I\'ve already claimed?'**
+  String get faqQ10;
+
+  /// No description provided for @faqA10.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the shift from the calendar and use the cancel option there. If you can\'t see how, ask a supervisor to remove you from it.'**
+  String get faqA10;
+
+  /// No description provided for @faqQ11.
+  ///
+  /// In en, this message translates to:
+  /// **'Who decides whether my day-off request is approved?'**
+  String get faqQ11;
+
+  /// No description provided for @faqA11.
+  ///
+  /// In en, this message translates to:
+  /// **'A manager reviews it from their own rota screen. You\'ll see it change from amber (pending) to either greyed-out (approved) or back to normal (denied) on your calendar.'**
+  String get faqA11;
+
+  /// No description provided for @faqQ12.
+  ///
+  /// In en, this message translates to:
+  /// **'What\'s the difference between \"Log out\" and \"End shift\"?'**
+  String get faqQ12;
+
+  /// No description provided for @faqA12.
+  ///
+  /// In en, this message translates to:
+  /// **'\"Log out\" just signs you out of the device - use it any time, including mid-shift, such as handing the device to someone else. \"End shift\" is for when you\'re actually finishing for the day - it checks for anything still outstanding and records your clock-out time.'**
+  String get faqA12;
+
+  /// No description provided for @faqQ13.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I change the app\'s language?'**
+  String get faqQ13;
+
+  /// No description provided for @faqA13.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the globe icon - on the login screen it floats near the bottom right; inside the app it\'s in the \"more\" menu on your home screen - then pick your language from the list.'**
+  String get faqA13;
+
+  /// No description provided for @faqQ14.
+  ///
+  /// In en, this message translates to:
+  /// **'Why do I need to take a photo when I clock in or out?'**
+  String get faqQ14;
+
+  /// No description provided for @faqA14.
+  ///
+  /// In en, this message translates to:
+  /// **'It confirms the person clocking in or out is actually at the venue - it protects you as much as it protects the business from a shift being logged by someone who isn\'t really there.'**
+  String get faqA14;
+
+  /// No description provided for @faqQ15.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I approve a shift someone has claimed? (Managers)'**
+  String get faqQ15;
+
+  /// No description provided for @faqA15.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the Rota calendar from the menu, tap the day, and use the \"Approve\" button next to that person\'s name.'**
+  String get faqA15;
+
+  /// No description provided for @faqQ16.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I assign a shift to someone directly? (Managers)'**
+  String get faqQ16;
+
+  /// No description provided for @faqA16.
+  ///
+  /// In en, this message translates to:
+  /// **'From the same day screen in the Rota calendar, tap \"Assign\" on an open shift and pick who you want on it.'**
+  String get faqA16;
+
+  /// No description provided for @faqQ17.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I set up recurring shift patterns instead of adding shifts one at a time? (Managers)'**
+  String get faqQ17;
+
+  /// No description provided for @faqA17.
+  ///
+  /// In en, this message translates to:
+  /// **'Use \"Master Rota Settings\" to define what\'s needed - for example, every Friday evening the bar needs three people - then \"generate shifts\" for the week you want. It creates the real shifts from that template.'**
+  String get faqA17;
+
+  /// No description provided for @faqQ18.
+  ///
+  /// In en, this message translates to:
+  /// **'What does \"Fair Auto-Assign\" do? (Managers)'**
+  String get faqQ18;
+
+  /// No description provided for @faqA18.
+  ///
+  /// In en, this message translates to:
+  /// **'It proposes who should fill a set of open shifts, based on certifications, role and fairness - it never commits anything on its own. You always review and confirm before anyone is actually assigned.'**
+  String get faqA18;
+
+  /// No description provided for @faqQ19.
+  ///
+  /// In en, this message translates to:
+  /// **'Where do I see whether shifts are being shared out fairly? (Managers)'**
+  String get faqQ19;
+
+  /// No description provided for @faqA19.
+  ///
+  /// In en, this message translates to:
+  /// **'\"Shift Fairness Review\" in the Roster menu shows how many shifts each person has had, listed alphabetically - deliberately not a ranked league table.'**
+  String get faqA19;
+
+  /// No description provided for @faqQ20.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I approve or deny a day-off request? (Managers)'**
+  String get faqQ20;
+
+  /// No description provided for @faqA20.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the Rota calendar, tap the day the request falls on, and you\'ll see Approve and Deny buttons right there alongside that day\'s shifts.'**
+  String get faqA20;
+
+  /// No description provided for @troubleQ7.
+  ///
+  /// In en, this message translates to:
+  /// **'I don\'t have an internet connection - can I still use the app?'**
+  String get troubleQ7;
+
+  /// No description provided for @troubleA7.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, for anything already loaded on your device, including this Help section. No, for anything that needs to reach the server, such as claiming a shift or submitting a report. Reconnect and try again once you\'re back online.'**
+  String get troubleA7;
+
+  /// No description provided for @troubleQ8.
+  ///
+  /// In en, this message translates to:
+  /// **'I got an error message with a code or technical text in it'**
+  String get troubleQ8;
+
+  /// No description provided for @troubleA8.
+  ///
+  /// In en, this message translates to:
+  /// **'Make a note of what it said if you can, then try again - most of these clear up on retry. If it keeps happening, use \"Report a bug\" in this Help menu so it can be looked into.'**
+  String get troubleA8;
+
+  /// No description provided for @troubleQ9.
+  ///
+  /// In en, this message translates to:
+  /// **'The app looks different from what I remember, or a button has moved'**
+  String get troubleQ9;
+
+  /// No description provided for @troubleA9.
+  ///
+  /// In en, this message translates to:
+  /// **'The app does get updated from time to time. If it looks like an old version, try fully closing the browser tab or app and reopening it - that clears out an old cached copy.'**
+  String get troubleA9;
+
+  /// No description provided for @troubleQ10.
+  ///
+  /// In en, this message translates to:
+  /// **'I don\'t have permission to do something I think I should be able to do'**
+  String get troubleQ10;
+
+  /// No description provided for @troubleA10.
+  ///
+  /// In en, this message translates to:
+  /// **'Some actions are limited to supervisors and managers on purpose. If you think you should have access, ask your manager to check your role is set correctly.'**
+  String get troubleA10;
+
+  /// No description provided for @troubleQ11.
+  ///
+  /// In en, this message translates to:
+  /// **'A shift I was assigned isn\'t showing on my calendar'**
+  String get troubleQ11;
+
+  /// No description provided for @troubleA11.
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen the screen to refresh it. If it\'s still missing, check with whoever assigned it, or try logging out and back in.'**
+  String get troubleA11;
+
+  /// No description provided for @troubleQ12.
+  ///
+  /// In en, this message translates to:
+  /// **'The screen is cut off, or something near the bottom is hard to reach'**
+  String get troubleQ12;
+
+  /// No description provided for @troubleA12.
+  ///
+  /// In en, this message translates to:
+  /// **'Try scrolling - most screens scroll to reveal anything below the fold. If something still seems unreachable, report it as a bug with a screenshot if you can.'**
+  String get troubleA12;
 }
 
 class _AppLocalizationsDelegate

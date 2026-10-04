@@ -5084,4 +5084,182 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get genericSaveFailedMessage =>
       'Das konnte nicht gespeichert werden. Bitte erneut versuchen; wenn es weiterhin passiert, wende dich an den Support.';
+
+  @override
+  String get faqCategoryTasksLabel => 'Aufgaben & Meldungen';
+
+  @override
+  String get faqCategoryRosterLabel => 'Schichten & Dienstplan';
+
+  @override
+  String get faqCategoryAccountLabel => 'Dein Konto';
+
+  @override
+  String get faqCategoryManagersLabel => 'Fuer Fuehrungskraefte';
+
+  @override
+  String get troubleCategoryCommonLabel => 'Haeufige Probleme';
+
+  @override
+  String get troubleCategoryConnectionLabel => 'Verbindung & Updates';
+
+  @override
+  String get troubleCategoryAccessLabel => 'Zugriff & Schichten';
+
+  @override
+  String get faqQ7 =>
+      'Wie beanspruche ich eine offene Schicht oder beantrage einen freien Tag?';
+
+  @override
+  String get faqA7 =>
+      'Oeffne das Menue und tippe auf \"Schichten und freie Tage buchen\" (oder den schwebenden Kalender-Button auf deinem Startbildschirm). Tippe auf einen Tag, um die Schichten dieses Tages zu sehen, oder nutze den Schalter \"Stattdessen freie Tage buchen\", um Urlaub zu beantragen.';
+
+  @override
+  String get faqQ8 => 'Was bedeuten die farbigen Punkte im Schichtkalender?';
+
+  @override
+  String get faqA8 =>
+      'Gruen bedeutet, deine Schicht ist bestaetigt. Blau bedeutet, du hast sie beansprucht, aber eine Fuehrungskraft hat sie noch nicht bestaetigt. Lila bedeutet, du bist auf Abruf. Orange bedeutet, du hast einen freien Tag beantragt und er ist noch offen. Ein ausgegrauter Tag bedeutet, dein freier Tag wurde genehmigt.';
+
+  @override
+  String get faqQ9 => 'Warum kann ich eine Schicht nicht beanspruchen?';
+
+  @override
+  String get faqA9 =>
+      'Es gibt mehrere moegliche Gruende: dir fehlt vielleicht eine fuer diese Rolle erforderliche Qualifikation, die Schicht ist bereits voll besetzt, oder die Uebernahme wuerde ein woechentliches Limit fuer diese Kategorie ueberschreiten. Frage deine Fuehrungskraft, wenn du nicht sicher bist, was zutrifft.';
+
+  @override
+  String get faqQ10 =>
+      'Wie storniere ich eine Schicht, die ich bereits beansprucht habe?';
+
+  @override
+  String get faqA10 =>
+      'Oeffne die Schicht im Kalender und nutze dort die Stornierungsoption. Wenn du nicht siehst wie, bitte eine Vorgesetzte oder einen Vorgesetzten, dich davon zu entfernen.';
+
+  @override
+  String get faqQ11 =>
+      'Wer entscheidet, ob mein Antrag auf einen freien Tag genehmigt wird?';
+
+  @override
+  String get faqA11 =>
+      'Eine Fuehrungskraft prueft ihn vom eigenen Dienstplan-Bildschirm aus. Du siehst, wie er sich von Orange (offen) zu ausgegraut (genehmigt) oder zurueck zu normal (abgelehnt) in deinem Kalender aendert.';
+
+  @override
+  String get faqQ12 =>
+      'Was ist der Unterschied zwischen \"Abmelden\" und \"Schicht beenden\"?';
+
+  @override
+  String get faqA12 =>
+      '\"Abmelden\" meldet dich einfach vom Geraet ab - nutze es jederzeit, auch mitten in der Schicht, zum Beispiel wenn du das Geraet an jemand anderen uebergibst. \"Schicht beenden\" ist fuer den Moment, in dem du tatsaechlich fuer den Tag fertig bist - es prueft, ob noch etwas offen ist, und erfasst deine Abmeldezeit.';
+
+  @override
+  String get faqQ13 => 'Wie aendere ich die Sprache der App?';
+
+  @override
+  String get faqA13 =>
+      'Tippe auf das Globus-Symbol - auf dem Anmeldebildschirm schwebt es unten rechts; innerhalb der App findest du es im \"Mehr\"-Menue auf deinem Startbildschirm - waehle dann deine Sprache aus der Liste.';
+
+  @override
+  String get faqQ14 =>
+      'Warum muss ich beim Ein- oder Ausstempeln ein Foto machen?';
+
+  @override
+  String get faqA14 =>
+      'Es bestaetigt, dass die ein- oder ausstempelnde Person tatsaechlich vor Ort ist - das schuetzt dich genauso wie das Unternehmen davor, dass eine Schicht von jemandem erfasst wird, der gar nicht wirklich da ist.';
+
+  @override
+  String get faqQ15 =>
+      'Wie bestaetige ich eine von jemandem beanspruchte Schicht? (Fuehrungskraefte)';
+
+  @override
+  String get faqA15 =>
+      'Oeffne den Dienstplankalender ueber das Menue, tippe auf den Tag und nutze die Schaltflaeche \"Bestaetigen\" neben dem Namen dieser Person.';
+
+  @override
+  String get faqQ16 =>
+      'Wie weise ich eine Schicht direkt jemandem zu? (Fuehrungskraefte)';
+
+  @override
+  String get faqA16 =>
+      'Tippe auf demselben Tagesbildschirm im Dienstplankalender bei einer offenen Schicht auf \"Zuweisen\" und waehle, wer sie uebernehmen soll.';
+
+  @override
+  String get faqQ17 =>
+      'Wie richte ich wiederkehrende Schichtmuster ein, statt Schichten einzeln hinzuzufuegen? (Fuehrungskraefte)';
+
+  @override
+  String get faqA17 =>
+      'Nutze \"Dienstplan-Grundeinstellungen\", um den Bedarf festzulegen - zum Beispiel braucht die Bar jeden Freitagabend drei Personen - und dann \"Schichten generieren\" fuer die gewuenschte Woche. Das erstellt die echten Schichten aus dieser Vorlage.';
+
+  @override
+  String get faqQ18 =>
+      'Was macht \"Faire automatische Zuweisung\"? (Fuehrungskraefte)';
+
+  @override
+  String get faqA18 =>
+      'Es schlaegt vor, wer eine Reihe offener Schichten besetzen sollte, basierend auf Qualifikationen, Rolle und Fairness - es bestaetigt nichts von selbst. Du pruefst und bestaetigst immer, bevor jemand tatsaechlich zugewiesen wird.';
+
+  @override
+  String get faqQ19 =>
+      'Wo sehe ich, ob Schichten fair verteilt werden? (Fuehrungskraefte)';
+
+  @override
+  String get faqA19 =>
+      '\"Fairness-Uebersicht der Schichten\" im Dienstplan-Menue zeigt, wie viele Schichten jede Person hatte, alphabetisch aufgelistet - bewusst keine Rangliste.';
+
+  @override
+  String get faqQ20 =>
+      'Wie genehmige oder lehne ich einen Antrag auf einen freien Tag ab? (Fuehrungskraefte)';
+
+  @override
+  String get faqA20 =>
+      'Oeffne den Dienstplankalender, tippe auf den betreffenden Tag, und du siehst die Schaltflaechen Genehmigen und Ablehnen direkt neben den Schichten dieses Tages.';
+
+  @override
+  String get troubleQ7 =>
+      'Ich habe keine Internetverbindung - kann ich die App trotzdem nutzen?';
+
+  @override
+  String get troubleA7 =>
+      'Ja, fuer alles, was bereits auf deinem Geraet geladen ist, einschliesslich dieses Hilfebereichs. Nein, fuer alles, was den Server erreichen muss, wie das Beanspruchen einer Schicht oder das Einreichen einer Meldung. Verbinde dich erneut und versuche es, sobald du wieder online bist.';
+
+  @override
+  String get troubleQ8 =>
+      'Ich habe eine Fehlermeldung mit Code oder technischem Text erhalten';
+
+  @override
+  String get troubleA8 =>
+      'Notiere dir wenn moeglich, was dort stand, und versuche es dann erneut - die meisten klaeren sich beim erneuten Versuch. Wenn es weiterhin auftritt, nutze \"Fehler melden\" in diesem Hilfemenue, damit es geprueft werden kann.';
+
+  @override
+  String get troubleQ9 =>
+      'Die App sieht anders aus, als ich sie in Erinnerung habe, oder ein Button hat sich verschoben';
+
+  @override
+  String get troubleA9 =>
+      'Die App wird von Zeit zu Zeit aktualisiert. Wenn sie wie eine alte Version aussieht, versuche den Browser-Tab oder die App vollstaendig zu schliessen und wieder zu oeffnen - das entfernt eine alte zwischengespeicherte Kopie.';
+
+  @override
+  String get troubleQ10 =>
+      'Ich habe keine Berechtigung fuer etwas, das ich eigentlich koennen sollte';
+
+  @override
+  String get troubleA10 =>
+      'Manche Aktionen sind absichtlich auf Vorgesetzte und Fuehrungskraefte beschraenkt. Wenn du glaubst, Zugriff haben zu sollen, bitte deine Fuehrungskraft zu pruefen, ob deine Rolle korrekt eingestellt ist.';
+
+  @override
+  String get troubleQ11 =>
+      'Eine mir zugewiesene Schicht erscheint nicht in meinem Kalender';
+
+  @override
+  String get troubleA11 =>
+      'Oeffne den Bildschirm erneut, um ihn zu aktualisieren. Falls sie weiterhin fehlt, erkundige dich bei der Person, die sie zugewiesen hat, oder melde dich ab und wieder an.';
+
+  @override
+  String get troubleQ12 =>
+      'Der Bildschirm ist abgeschnitten, oder etwas unten ist schwer zu erreichen';
+
+  @override
+  String get troubleA12 =>
+      'Versuche zu scrollen - die meisten Bildschirme scrollen, um alles unterhalb des sichtbaren Bereichs zu zeigen. Falls etwas weiterhin unerreichbar erscheint, melde es als Fehler, moeglichst mit einem Screenshot.';
 }

@@ -169,6 +169,21 @@ DOCUMENT_METADATA: dict[str, dict[str, str]] = {
         "title": "HSE INDG143 — Getting to grips with manual handling",
         "url": "https://www.hse.gov.uk/pubns/indg143.htm",
     },
+    # app_guide/ — a separate category (2026-10-04, direct founder request:
+    # the AI assistant should help with "the entire app", not just food
+    # safety/compliance questions). Own category rather than folding into
+    # "guidance" so citations can visibly distinguish "this came from the
+    # app guide" from "this came from food-safety guidance" — see
+    # ai-assistant_index.ts's own retrieveChunks() for the matching third
+    # retrieval call. First-party content (no external source URL).
+    "app_guide/staff_guide.html": {
+        "category": "app_guide",
+        "title": "VenuRite Staff Guide",
+    },
+    "app_guide/manager_guide.html": {
+        "category": "app_guide",
+        "title": "VenuRite Manager & Leadership Guide",
+    },
 }
 
 _encoder = tiktoken.get_encoding("cl100k_base")

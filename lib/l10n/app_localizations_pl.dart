@@ -5029,4 +5029,180 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get genericSaveFailedMessage =>
       'Nie udało się zapisać. Spróbuj ponownie, a jeśli problem się powtarza, skontaktuj się z pomocą techniczną.';
+
+  @override
+  String get faqCategoryTasksLabel => 'Zadania i rejestrowanie';
+
+  @override
+  String get faqCategoryRosterLabel => 'Zmiany i grafik';
+
+  @override
+  String get faqCategoryAccountLabel => 'Twoje konto';
+
+  @override
+  String get faqCategoryManagersLabel => 'Dla kierownikow';
+
+  @override
+  String get troubleCategoryCommonLabel => 'Najczestsze problemy';
+
+  @override
+  String get troubleCategoryConnectionLabel => 'Polaczenie i aktualizacje';
+
+  @override
+  String get troubleCategoryAccessLabel => 'Dostep i zmiany';
+
+  @override
+  String get faqQ7 =>
+      'Jak zapisac sie na wolna zmiane albo poprosic o dzien wolny?';
+
+  @override
+  String get faqA7 =>
+      'Otworz menu i dotknij \"Zarezerwuj zmiany i dni wolne\" (albo pływajacy przycisk kalendarza na ekranie glownym). Dotknij dowolnego dnia, zeby zobaczyc zmiany, albo uzyj przelacznika \"Zarezerwuj dni wolne zamiast tego\", aby poprosic o urlop.';
+
+  @override
+  String get faqQ8 => 'Co oznaczaja kolorowe kropki w kalendarzu zmian?';
+
+  @override
+  String get faqA8 =>
+      'Zielona oznacza, ze Twoja zmiana jest zatwierdzona. Niebieska - ze ja zarezerwowales/-as, ale kierownik jeszcze jej nie zatwierdzil. Fioletowa - ze jestes w rezerwie. Pomaranczowa - ze zlozyles/-as wniosek o dzien wolny i czeka on na decyzje. Wyszarzony dzien oznacza zatwierdzony dzien wolny.';
+
+  @override
+  String get faqQ9 => 'Dlaczego nie moge zarezerwowac zmiany?';
+
+  @override
+  String get faqA9 =>
+      'Mozliwych powodow jest kilka: moze brakowac Ci wymaganego szkolenia/certyfikatu dla tej roli, zmiana moze byc juz pelna, albo rezerwacja przekroczylaby Twoj tygodniowy limit dla tej kategorii. Zapytaj kierownika, jesli nie wiesz, ktory to przypadek.';
+
+  @override
+  String get faqQ10 => 'Jak odwolac zmiane, ktora juz zarezerwowalem/-am?';
+
+  @override
+  String get faqA10 =>
+      'Otworz zmiane z poziomu kalendarza i skorzystaj z opcji anulowania. Jesli nie wiesz jak, popros przelozonego o usuniecie Cie z tej zmiany.';
+
+  @override
+  String get faqQ11 =>
+      'Kto decyduje, czy moj wniosek o dzien wolny zostanie zatwierdzony?';
+
+  @override
+  String get faqA11 =>
+      'Kierownik przeglada go ze swojego ekranu grafiku. Zobaczysz zmiane statusu z pomaranczowego (oczekujacy) na wyszarzony (zatwierdzony) albo z powrotem na zwykly (odrzucony) w swoim kalendarzu.';
+
+  @override
+  String get faqQ12 =>
+      'Jaka jest roznica miedzy \"Wyloguj\" a \"Zakoncz zmiane\"?';
+
+  @override
+  String get faqA12 =>
+      '\"Wyloguj\" po prostu wylogowuje Cie z urzadzenia - mozesz uzyc tego w dowolnym momencie, takze w trakcie zmiany, na przyklad przekazujac urzadzenie komus innemu. \"Zakoncz zmiane\" jest na moment, gdy faktycznie konczysz prace tego dnia - sprawdza, czy zostalo cos niedokonczonego i zapisuje godzine zakonczenia.';
+
+  @override
+  String get faqQ13 => 'Jak zmienic jezyk aplikacji?';
+
+  @override
+  String get faqA13 =>
+      'Dotknij ikony globusa - na ekranie logowania unosi sie w prawym dolnym rogu; wewnatrz aplikacji znajduje sie w menu \"wiecej\" na ekranie glownym - a nastepnie wybierz swoj jezyk z listy.';
+
+  @override
+  String get faqQ14 =>
+      'Dlaczego musze zrobic zdjecie przy rozpoczeciu lub zakonczeniu zmiany?';
+
+  @override
+  String get faqA14 =>
+      'To potwierdza, ze osoba rozpoczynajaca lub konczaca zmiane rzeczywiscie jest w lokalu - chroni to Ciebie tak samo jak firme przed zarejestrowaniem zmiany przez kogos, kogo tam naprawde nie ma.';
+
+  @override
+  String get faqQ15 =>
+      'Jak zatwierdzic zmiane zarezerwowana przez kogos? (Kierownicy)';
+
+  @override
+  String get faqA15 =>
+      'Otworz kalendarz grafiku z menu, dotknij dnia i uzyj przycisku \"Zatwierdz\" obok imienia i nazwiska tej osoby.';
+
+  @override
+  String get faqQ16 => 'Jak przypisac zmiane bezposrednio komus? (Kierownicy)';
+
+  @override
+  String get faqA16 =>
+      'Z tego samego ekranu dnia w kalendarzu grafiku dotknij \"Przypisz\" przy wolnej zmianie i wybierz osobe, ktora ma ja objac.';
+
+  @override
+  String get faqQ17 =>
+      'Jak ustawic powtarzajace sie wzorce zmian zamiast dodawac je pojedynczo? (Kierownicy)';
+
+  @override
+  String get faqA17 =>
+      'Uzyj \"Ustawien glownego grafiku\", aby okreslic potrzeby - na przyklad w kazdy piatkowy wieczor bar potrzebuje trzech osob - a nastepnie \"wygeneruj zmiany\" dla wybranego tygodnia. Tworzy to prawdziwe zmiany na podstawie tego szablonu.';
+
+  @override
+  String get faqQ18 =>
+      'Co robi \"Sprawiedliwe automatyczne przypisywanie\"? (Kierownicy)';
+
+  @override
+  String get faqA18 =>
+      'Proponuje, kto powinien obsadzic zestaw wolnych zmian, na podstawie certyfikatow, roli i sprawiedliwosci - niczego nie zatwierdza samodzielnie. Zawsze przegladasz i potwierdzasz, zanim ktokolwiek zostanie faktycznie przypisany.';
+
+  @override
+  String get faqQ19 =>
+      'Gdzie widac, czy zmiany sa rozdzielane sprawiedliwie? (Kierownicy)';
+
+  @override
+  String get faqA19 =>
+      '\"Przeglad sprawiedliwosci zmian\" w menu grafiku pokazuje, ile zmian miala kazda osoba, w kolejnosci alfabetycznej - celowo nie jako ranking.';
+
+  @override
+  String get faqQ20 =>
+      'Jak zatwierdzic lub odrzucic wniosek o dzien wolny? (Kierownicy)';
+
+  @override
+  String get faqA20 =>
+      'Otworz kalendarz grafiku, dotknij dnia, ktorego dotyczy wniosek, a zobaczysz przyciski Zatwierdz i Odrzuc tuz przy zmianach tego dnia.';
+
+  @override
+  String get troubleQ7 =>
+      'Nie mam polaczenia z internetem - czy moge nadal korzystac z aplikacji?';
+
+  @override
+  String get troubleA7 =>
+      'Tak, w przypadku wszystkiego, co jest juz zaladowane na urzadzeniu, w tym tej sekcji pomocy. Nie, w przypadku wszystkiego, co wymaga polaczenia z serwerem, np. rezerwacji zmiany lub zgloszenia problemu. Polacz sie ponownie i sprobuj, gdy bedziesz juz online.';
+
+  @override
+  String get troubleQ8 =>
+      'Otrzymalem/-am komunikat o bledzie z kodem lub tekstem technicznym';
+
+  @override
+  String get troubleA8 =>
+      'Jesli to mozliwe, zapisz, co sie pojawilo, a nastepnie sprobuj ponownie - wiekszosc takich problemow ustepuje po ponownej probie. Jesli problem sie powtarza, uzyj opcji \"Zglos blad\" w tym menu pomocy, aby mozna go bylo sprawdzic.';
+
+  @override
+  String get troubleQ9 =>
+      'Aplikacja wyglada inaczej niz pamietam, albo przycisk sie przeniosl';
+
+  @override
+  String get troubleA9 =>
+      'Aplikacja jest od czasu do czasu aktualizowana. Jesli wyglada jak stara wersja, sprobuj calkowicie zamknac karte przegladarki lub aplikacje i otworzyc ja ponownie - to usuwa stara zapisana w pamieci podrecznej wersje.';
+
+  @override
+  String get troubleQ10 =>
+      'Nie mam uprawnien do czegos, co moim zdaniem powinienem/-am miec';
+
+  @override
+  String get troubleA10 =>
+      'Niektore dzialania sa celowo ograniczone do przelozonych i kierownikow. Jesli uwazasz, ze powinienes/-nas miec dostep, popros kierownika o sprawdzenie, czy Twoja rola jest ustawiona prawidlowo.';
+
+  @override
+  String get troubleQ11 =>
+      'Zmiana, do ktorej zostalem/-am przypisany/-a, nie pojawia sie w moim kalendarzu';
+
+  @override
+  String get troubleA11 =>
+      'Otworz ekran ponownie, aby go odswiezyc. Jesli nadal jej brakuje, sprawdz u osoby, ktora Cie przypisala, albo sprobuj sie wylogowac i zalogowac ponownie.';
+
+  @override
+  String get troubleQ12 =>
+      'Ekran jest przyciety albo cos przy dole trudno dosiegnac';
+
+  @override
+  String get troubleA12 =>
+      'Sprobuj przewinac - wiekszosc ekranow przewija sie, ujawniajac wszystko ponizej widocznego obszaru. Jesli nadal cos wydaje sie niedostepne, zglos to jako blad, dolaczajac zrzut ekranu, jesli to mozliwe.';
 }

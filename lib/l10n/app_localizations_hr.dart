@@ -4941,4 +4941,178 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get genericSaveFailedMessage =>
       'Ovo nije spremljeno. Pokušajte ponovno, a ako se problem nastavi, obratite se podršci.';
+
+  @override
+  String get faqCategoryTasksLabel => 'Zadaci i prijave';
+
+  @override
+  String get faqCategoryRosterLabel => 'Smjene i raspored';
+
+  @override
+  String get faqCategoryAccountLabel => 'Vas racun';
+
+  @override
+  String get faqCategoryManagersLabel => 'Za voditelje';
+
+  @override
+  String get troubleCategoryCommonLabel => 'Cesti problemi';
+
+  @override
+  String get troubleCategoryConnectionLabel => 'Veza i azuriranja';
+
+  @override
+  String get troubleCategoryAccessLabel => 'Pristup i smjene';
+
+  @override
+  String get faqQ7 =>
+      'Kako preuzeti otvorenu smjenu ili zatraziti slobodan dan?';
+
+  @override
+  String get faqA7 =>
+      'Otvorite izbornik i dodirnite \"Rezerviraj smjene i slobodne dane\" (ili plutajuci gumb kalendara na pocetnom zaslonu). Dodirnite bilo koji dan da vidite smjene tog dana, ili koristite prekidac \"Umjesto toga rezerviraj slobodne dane\" za zahtjev za odmorom.';
+
+  @override
+  String get faqQ8 => 'Sto znace obojene tocke na kalendaru smjena?';
+
+  @override
+  String get faqA8 =>
+      'Zelena znaci da je vasa smjena odobrena. Plava znaci da ste je preuzeli, ali je voditelj jos nije odobrio. Ljubicasta znaci da ste na cekanju (standby). Narancasta znaci da ste zatrazili slobodan dan i da je zahtjev jos na cekanju. Posivljeni dan znaci da je vas slobodan dan odobren.';
+
+  @override
+  String get faqQ9 => 'Zasto ne mogu preuzeti smjenu?';
+
+  @override
+  String get faqA9 =>
+      'Moguce je nekoliko razloga: mozda vam nedostaje certifikat potreban za tu ulogu, smjena je mozda vec popunjena, ili bi preuzimanje presegnulo tjedni limit za tu kategoriju. Pitajte voditelja ako niste sigurni koji je razlog.';
+
+  @override
+  String get faqQ10 => 'Kako otkazati smjenu koju sam vec preuzeo/la?';
+
+  @override
+  String get faqA10 =>
+      'Otvorite smjenu iz kalendara i koristite opciju otkazivanja ondje. Ako ne znate kako, zamolite nadzornika da vas ukloni s nje.';
+
+  @override
+  String get faqQ11 =>
+      'Tko odlucuje hoce li moj zahtjev za slobodan dan biti odobren?';
+
+  @override
+  String get faqA11 =>
+      'Voditelj ga pregledava sa svog zaslona rasporeda. Vidjet cete promjenu s narancaste (na cekanju) u posivljenu (odobreno) ili natrag u normalnu (odbijeno) na vasem kalendaru.';
+
+  @override
+  String get faqQ12 => 'Koja je razlika izmedu \"Odjava\" i \"Zavrsi smjenu\"?';
+
+  @override
+  String get faqA12 =>
+      '\"Odjava\" vas samo odjavljuje s uredaja - koristite je bilo kada, ukljucujuci usred smjene, na primjer kad predajete uredaj nekom drugom. \"Zavrsi smjenu\" je za trenutak kad stvarno zavrsavate dan - provjerava je li nesto jos neodradeno i biljezi vrijeme odjave sa smjene.';
+
+  @override
+  String get faqQ13 => 'Kako promijeniti jezik aplikacije?';
+
+  @override
+  String get faqA13 =>
+      'Dodirnite ikonu globusa - na zaslonu za prijavu lebdi dolje desno; unutar aplikacije nalazi se u izborniku \"vise\" na pocetnom zaslonu - zatim odaberite svoj jezik s popisa.';
+
+  @override
+  String get faqQ14 =>
+      'Zasto moram fotografirati pri dolasku ili odlasku sa smjene?';
+
+  @override
+  String get faqA14 =>
+      'Time se potvrduje da je osoba koja prijavljuje dolazak ili odlazak stvarno na lokaciji - to stiti i vas i tvrtku od biljezenja smjene od strane nekoga tko zapravo nije ondje.';
+
+  @override
+  String get faqQ15 =>
+      'Kako odobriti smjenu koju je netko preuzeo? (Voditelji)';
+
+  @override
+  String get faqA15 =>
+      'Otvorite kalendar rasporeda iz izbornika, dodirnite dan i koristite gumb \"Odobri\" pokraj imena te osobe.';
+
+  @override
+  String get faqQ16 => 'Kako izravno dodijeliti smjenu nekome? (Voditelji)';
+
+  @override
+  String get faqA16 =>
+      'S istog dnevnog zaslona u kalendaru rasporeda dodirnite \"Dodijeli\" na otvorenoj smjeni i odaberite tko ce je preuzeti.';
+
+  @override
+  String get faqQ17 =>
+      'Kako postaviti ponavljajuce obrasce smjena umjesto dodavanja jedne po jedne? (Voditelji)';
+
+  @override
+  String get faqA17 =>
+      'Koristite \"Postavke glavnog rasporeda\" za definiranje potreba - na primjer, svaki petak navecer baru trebaju tri osobe - zatim \"generiraj smjene\" za zeljeni tjedan. Time se stvaraju stvarne smjene na temelju tog predloska.';
+
+  @override
+  String get faqQ18 =>
+      'Sto radi \"Pravedno automatsko dodjeljivanje\"? (Voditelji)';
+
+  @override
+  String get faqA18 =>
+      'Predlaze tko bi trebao popuniti skup otvorenih smjena, na temelju certifikata, uloge i pravednosti - nista ne potvrduje samostalno. Uvijek vi pregledate i potvrdujete prije nego sto je itko stvarno dodijeljen.';
+
+  @override
+  String get faqQ19 => 'Gdje vidim dijele li se smjene pravedno? (Voditelji)';
+
+  @override
+  String get faqA19 =>
+      '\"Pregled pravednosti smjena\" u izborniku rasporeda prikazuje koliko je smjena svaka osoba imala, abecednim redom - namjerno ne kao rang-listu.';
+
+  @override
+  String get faqQ20 =>
+      'Kako odobriti ili odbiti zahtjev za slobodan dan? (Voditelji)';
+
+  @override
+  String get faqA20 =>
+      'Otvorite kalendar rasporeda, dodirnite dan na koji se zahtjev odnosi i vidjet cete gumbe Odobri i Odbij odmah pokraj smjena tog dana.';
+
+  @override
+  String get troubleQ7 =>
+      'Nemam internetsku vezu - mogu li i dalje koristiti aplikaciju?';
+
+  @override
+  String get troubleA7 =>
+      'Da, za sve sto je vec ucitano na vasem uredaju, ukljucujuci ovaj odjeljak pomoci. Ne, za sve sto treba doseci server, poput preuzimanja smjene ili slanja prijave. Ponovno se povezite i pokusajte opet kad budete online.';
+
+  @override
+  String get troubleQ8 =>
+      'Dobio/la sam poruku o pogresci s kodom ili tehnickim tekstom';
+
+  @override
+  String get troubleA8 =>
+      'Ako mozete, zabiljezite sto je pisalo, a zatim pokusajte ponovno - vecina se rijesi pri ponovnom pokusaju. Ako se nastavi, upotrijebite \"Prijavi gresku\" u ovom izborniku pomoci kako bi se moglo provjeriti.';
+
+  @override
+  String get troubleQ9 =>
+      'Aplikacija izgleda drugacije nego sto pamtim, ili se gumb premjestio';
+
+  @override
+  String get troubleA9 =>
+      'Aplikacija se s vremena na vrijeme azurira. Ako izgleda kao stara verzija, pokusajte potpuno zatvoriti karticu preglednika ili aplikaciju i ponovno je otvoriti - time se uklanja stara kesirana kopija.';
+
+  @override
+  String get troubleQ10 =>
+      'Nemam dopustenje za nesto za sto mislim da bih trebao/la imati';
+
+  @override
+  String get troubleA10 =>
+      'Neke su radnje namjerno ograncene na nadzornike i voditelje. Ako mislite da biste trebali imati pristup, zamolite voditelja da provjeri je li vasa uloga ispravno postavljena.';
+
+  @override
+  String get troubleQ11 =>
+      'Smjena koja mi je dodijeljena ne prikazuje se u mom kalendaru';
+
+  @override
+  String get troubleA11 =>
+      'Ponovno otvorite zaslon kako biste ga osvjezili. Ako i dalje nedostaje, provjerite s osobom koja ju je dodijelila, ili se pokusajte odjaviti i ponovno prijaviti.';
+
+  @override
+  String get troubleQ12 =>
+      'Zaslon je odsjecen, ili je nesto pri dnu tesko dohvatiti';
+
+  @override
+  String get troubleA12 =>
+      'Pokusajte pomaknuti prikaz - vecina zaslona se pomice kako bi se otkrilo sve ispod vidljivog dijela. Ako nesto i dalje izgleda nedostupno, prijavite to kao gresku, sa snimkom zaslona ako mozete.';
 }

@@ -5051,4 +5051,176 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get genericSaveFailedMessage =>
       'This didn\'t save. Please try again, and contact support if it keeps happening.';
+
+  @override
+  String get faqCategoryTasksLabel => 'Tasks & Logging';
+
+  @override
+  String get faqCategoryRosterLabel => 'Shifts & Rota';
+
+  @override
+  String get faqCategoryAccountLabel => 'Your Account';
+
+  @override
+  String get faqCategoryManagersLabel => 'For Managers';
+
+  @override
+  String get troubleCategoryCommonLabel => 'Common Issues';
+
+  @override
+  String get troubleCategoryConnectionLabel => 'Connection & Updates';
+
+  @override
+  String get troubleCategoryAccessLabel => 'Access & Shifts';
+
+  @override
+  String get faqQ7 => 'How do I claim an open shift or request a day off?';
+
+  @override
+  String get faqA7 =>
+      'Open the menu and tap \"Book shifts and days off\" (or the floating calendar button on your home screen). Tap any day to see shifts for that day, or use the \"Book days off instead\" toggle to request time off.';
+
+  @override
+  String get faqQ8 => 'What do the coloured dots on the shift calendar mean?';
+
+  @override
+  String get faqA8 =>
+      'Green means your shift is approved. Blue means you\'ve claimed it but a manager hasn\'t approved it yet. Purple means you\'re on standby. Amber means you\'ve requested a day off and it\'s still pending. A greyed-out day means your day off was approved.';
+
+  @override
+  String get faqQ9 => 'Why can\'t I claim a shift?';
+
+  @override
+  String get faqA9 =>
+      'A few reasons are possible: you might be missing a certification required for that role, the shift might already be full, or claiming it would put you over a weekly limit for that category. Ask your manager if you\'re not sure which applies.';
+
+  @override
+  String get faqQ10 => 'How do I cancel a shift I\'ve already claimed?';
+
+  @override
+  String get faqA10 =>
+      'Open the shift from the calendar and use the cancel option there. If you can\'t see how, ask a supervisor to remove you from it.';
+
+  @override
+  String get faqQ11 => 'Who decides whether my day-off request is approved?';
+
+  @override
+  String get faqA11 =>
+      'A manager reviews it from their own rota screen. You\'ll see it change from amber (pending) to either greyed-out (approved) or back to normal (denied) on your calendar.';
+
+  @override
+  String get faqQ12 =>
+      'What\'s the difference between \"Log out\" and \"End shift\"?';
+
+  @override
+  String get faqA12 =>
+      '\"Log out\" just signs you out of the device - use it any time, including mid-shift, such as handing the device to someone else. \"End shift\" is for when you\'re actually finishing for the day - it checks for anything still outstanding and records your clock-out time.';
+
+  @override
+  String get faqQ13 => 'How do I change the app\'s language?';
+
+  @override
+  String get faqA13 =>
+      'Tap the globe icon - on the login screen it floats near the bottom right; inside the app it\'s in the \"more\" menu on your home screen - then pick your language from the list.';
+
+  @override
+  String get faqQ14 => 'Why do I need to take a photo when I clock in or out?';
+
+  @override
+  String get faqA14 =>
+      'It confirms the person clocking in or out is actually at the venue - it protects you as much as it protects the business from a shift being logged by someone who isn\'t really there.';
+
+  @override
+  String get faqQ15 =>
+      'How do I approve a shift someone has claimed? (Managers)';
+
+  @override
+  String get faqA15 =>
+      'Open the Rota calendar from the menu, tap the day, and use the \"Approve\" button next to that person\'s name.';
+
+  @override
+  String get faqQ16 =>
+      'How do I assign a shift to someone directly? (Managers)';
+
+  @override
+  String get faqA16 =>
+      'From the same day screen in the Rota calendar, tap \"Assign\" on an open shift and pick who you want on it.';
+
+  @override
+  String get faqQ17 =>
+      'How do I set up recurring shift patterns instead of adding shifts one at a time? (Managers)';
+
+  @override
+  String get faqA17 =>
+      'Use \"Master Rota Settings\" to define what\'s needed - for example, every Friday evening the bar needs three people - then \"generate shifts\" for the week you want. It creates the real shifts from that template.';
+
+  @override
+  String get faqQ18 => 'What does \"Fair Auto-Assign\" do? (Managers)';
+
+  @override
+  String get faqA18 =>
+      'It proposes who should fill a set of open shifts, based on certifications, role and fairness - it never commits anything on its own. You always review and confirm before anyone is actually assigned.';
+
+  @override
+  String get faqQ19 =>
+      'Where do I see whether shifts are being shared out fairly? (Managers)';
+
+  @override
+  String get faqA19 =>
+      '\"Shift Fairness Review\" in the Roster menu shows how many shifts each person has had, listed alphabetically - deliberately not a ranked league table.';
+
+  @override
+  String get faqQ20 => 'How do I approve or deny a day-off request? (Managers)';
+
+  @override
+  String get faqA20 =>
+      'Open the Rota calendar, tap the day the request falls on, and you\'ll see Approve and Deny buttons right there alongside that day\'s shifts.';
+
+  @override
+  String get troubleQ7 =>
+      'I don\'t have an internet connection - can I still use the app?';
+
+  @override
+  String get troubleA7 =>
+      'Yes, for anything already loaded on your device, including this Help section. No, for anything that needs to reach the server, such as claiming a shift or submitting a report. Reconnect and try again once you\'re back online.';
+
+  @override
+  String get troubleQ8 =>
+      'I got an error message with a code or technical text in it';
+
+  @override
+  String get troubleA8 =>
+      'Make a note of what it said if you can, then try again - most of these clear up on retry. If it keeps happening, use \"Report a bug\" in this Help menu so it can be looked into.';
+
+  @override
+  String get troubleQ9 =>
+      'The app looks different from what I remember, or a button has moved';
+
+  @override
+  String get troubleA9 =>
+      'The app does get updated from time to time. If it looks like an old version, try fully closing the browser tab or app and reopening it - that clears out an old cached copy.';
+
+  @override
+  String get troubleQ10 =>
+      'I don\'t have permission to do something I think I should be able to do';
+
+  @override
+  String get troubleA10 =>
+      'Some actions are limited to supervisors and managers on purpose. If you think you should have access, ask your manager to check your role is set correctly.';
+
+  @override
+  String get troubleQ11 =>
+      'A shift I was assigned isn\'t showing on my calendar';
+
+  @override
+  String get troubleA11 =>
+      'Reopen the screen to refresh it. If it\'s still missing, check with whoever assigned it, or try logging out and back in.';
+
+  @override
+  String get troubleQ12 =>
+      'The screen is cut off, or something near the bottom is hard to reach';
+
+  @override
+  String get troubleA12 =>
+      'Try scrolling - most screens scroll to reveal anything below the fold. If something still seems unreachable, report it as a bug with a screenshot if you can.';
 }

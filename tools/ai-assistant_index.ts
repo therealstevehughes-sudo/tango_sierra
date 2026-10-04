@@ -52,6 +52,12 @@ const CHAT_MODEL = "gpt-4o-mini"
 const CACHE_SIMILARITY_THRESHOLD = 0.93
 const RETRIEVAL_GUIDANCE_COUNT = 4
 const RETRIEVAL_LEGISLATION_COUNT = 2
+// App-guide corpus (2026-10-04, direct founder request: the assistant
+// should help with "the entire app", not just food-safety/compliance
+// questions) — a third, separate category alongside guidance/legislation,
+// first-party VenuRite content rather than external regulatory sources.
+// See embed_compliance_library.py's own DOCUMENT_METADATA comment.
+const RETRIEVAL_APP_GUIDE_COUNT = 4
 
 // Usage cap thresholds — see the file-header comment for the reasoning.
 const WARNING_QUESTIONS_PER_BRANCH = 500
@@ -74,66 +80,74 @@ const SUPPORTED_RESPONSE_LANGUAGES: Record<string, string> = {
 const FALLBACK_ANSWERS: Record<string, { noContext: string; limitReached: string }> = {
   en: {
     noContext:
-      "I don't have anything in my compliance library that covers this. Please check with your manager or local Environmental Health Officer.",
+      "I don't have anything that covers this clearly. For a food-safety question, check with your manager or local Environmental Health Officer; for an app question, try \"Report a bug\" in the Help menu.",
     limitReached:
       "This venue has reached its AI question limit for this month. Contact VenuRite if you need this raised.",
   },
   pl: {
     noContext:
-      "Nie mam w bibliotece zgodnosci informacji, ktore jasno to wyjasniaja. Sprawdz to z kierownikiem albo wlasciwa lokalna inspekcja sanitarna.",
+      "Nie mam niczego, co jasno to wyjasnia. W przypadku pytania o bezpieczenstwo zywnosci sprawdz to z kierownikiem albo lokalna inspekcja sanitarna; w przypadku pytania o aplikacje sprobuj \"Zglos blad\" w menu pomocy.",
     limitReached:
       "Ten lokal osiagnal miesieczny limit pytan AI. Skontaktuj sie z VenuRite, jesli limit trzeba zwiekszyc.",
   },
   ro: {
     noContext:
-      "Nu am in biblioteca de conformitate informatii care sa raspunda clar la aceasta intrebare. Verifica impreuna cu managerul sau cu autoritatea sanitara locala.",
+      "Nu am nimic care sa raspunda clar la aceasta intrebare. Pentru o intrebare despre siguranta alimentara, verifica cu managerul sau autoritatea sanitara locala; pentru o intrebare despre aplicatie, incearca \"Raporteaza o eroare\" din meniul de ajutor.",
     limitReached:
       "Aceasta locatie a atins limita lunara pentru intrebari AI. Contacteaza VenuRite daca ai nevoie de o limita mai mare.",
   },
   es: {
     noContext:
-      "No tengo informacion en la biblioteca de cumplimiento que responda claramente a esto. Consultalo con un responsable o con la autoridad sanitaria local.",
+      "No tengo nada que responda claramente a esto. Para una pregunta de seguridad alimentaria, consultalo con un responsable o con la autoridad sanitaria local; para una pregunta sobre la aplicacion, prueba \"Reportar un error\" en el menu de ayuda.",
     limitReached:
       "Este local ha alcanzado el limite mensual de preguntas de IA. Contacta con VenuRite si necesitas aumentarlo.",
   },
   hr: {
     noContext:
-      "U biblioteci uskladenosti nemam informacije koje jasno pokrivaju ovo pitanje. Provjerite s voditeljem ili nadleznom sanitarnom inspekcijom.",
+      "Nemam nista sto jasno pokriva ovo pitanje. Za pitanje o sigurnosti hrane provjerite s voditeljem ili nadleznom sanitarnom inspekcijom; za pitanje o aplikaciji pokusajte \"Prijavi gresku\" u izborniku pomoci.",
     limitReached:
       "Ovaj objekt dosegnuo je mjesecno ogranicenje za AI pitanja. Kontaktirajte VenuRite ako trebate povecanje limita.",
   },
   de: {
     noContext:
-      "In meiner Compliance-Bibliothek finde ich dazu keine eindeutige Grundlage. Bitte pruefen Sie das mit einer Fuehrungskraft oder der zustaendigen Lebensmittelueberwachung.",
+      "Dazu habe ich nichts Eindeutiges. Bei einer Frage zur Lebensmittelsicherheit wenden Sie sich an eine Fuehrungskraft oder die zustaendige Lebensmittelueberwachung; bei einer Frage zur App versuchen Sie \"Fehler melden\" im Hilfemenue.",
     limitReached:
       "Dieser Standort hat das monatliche Limit fuer KI-Fragen erreicht. Kontaktieren Sie VenuRite, wenn das Limit erhoeht werden soll.",
   },
   ar: {
     noContext:
-      "لا توجد لدي معلومات في مكتبة الامتثال تجيب عن هذا السؤال بوضوح. يرجى التحقق مع المدير أو الجهة الصحية المحلية المختصة.",
+      "ليس لدي ما يجيب عن هذا بوضوح. بالنسبة لسؤال يتعلق بسلامة الغذاء، تحقق مع المدير أو الجهة الصحية المحلية المختصة؛ وبالنسبة لسؤال يتعلق بالتطبيق، جرّب \"الإبلاغ عن خطأ\" في قائمة المساعدة.",
     limitReached:
       "وصل هذا الموقع إلى الحد الشهري لأسئلة الذكاء الاصطناعي. تواصل مع VenuRite إذا كنت بحاجة إلى زيادة هذا الحد.",
   },
   zh: {
     noContext:
-      "我的合规资料库中没有能明确回答这个问题的内容。请向经理或当地卫生监管机构确认。",
+      "我没有能明确回答这个问题的内容。如果是食品安全问题，请向经理或当地卫生监管机构确认；如果是应用相关问题，请尝试帮助菜单中的“报告问题”。",
     limitReached: "此场所本月的 AI 提问次数已达上限。如需提高上限，请联系 VenuRite。",
   },
   hi: {
     noContext:
-      "मेरी अनुपालन लाइब्रेरी में इसका स्पष्ट उत्तर देने वाली जानकारी नहीं है. कृपया अपने मैनेजर या स्थानीय स्वास्थ्य निरीक्षण प्राधिकरण से जांच लें.",
+      "मेरे पास इसका स्पष्ट उत्तर देने वाली जानकारी नहीं है. खाद्य सुरक्षा से जुड़े सवाल के लिए अपने मैनेजर या स्थानीय स्वास्थ्य निरीक्षण प्राधिकरण से जांच लें; ऐप से जुड़े सवाल के लिए हेल्प मेनू में \"बग रिपोर्ट करें\" आज़माएं.",
     limitReached:
       "इस स्थान ने इस महीने AI सवालों की सीमा पूरी कर ली है. सीमा बढ़वाने की जरूरत हो तो VenuRite से संपर्क करें.",
   },
   ur: {
     noContext:
-      "میری کمپلائنس لائبریری میں اس سوال کا واضح جواب دینے والی معلومات موجود نہیں ہیں. براہ کرم اپنے مینیجر یا مقامی صحت کے معائنے کے ادارے سے تصدیق کریں.",
+      "میرے پاس اس کا واضح جواب دینے والی معلومات نہیں ہیں. خوراک کی حفاظت سے متعلق سوال کے لیے اپنے مینیجر یا مقامی صحت کے معائنے کے ادارے سے تصدیق کریں؛ ایپ سے متعلق سوال کے لیے ہیلپ مینو میں \"بگ رپورٹ کریں\" آزمائیں.",
     limitReached:
       "اس مقام نے اس مہینے AI سوالات کی حد پوری کر لی ہے. حد بڑھوانے کی ضرورت ہو تو VenuRite سے رابطہ کریں.",
   },
 }
 
-const SYSTEM_PROMPT = `You are VenuRite's kitchen-compliance assistant. Answer ONLY using the provided context below. Every factual claim must be traceable to the context. Do not mention or name the source document in your answer text — the source is shown separately in the app's own citation display. If the context does not clearly answer the question, say so explicitly and tell the user to check with their manager or local Environmental Health Officer — never guess or use general knowledge.`
+// Broadened scope (2026-10-04, direct founder request) — this used to be
+// introduced purely as a "kitchen-compliance assistant", which is why it
+// could only ever help with food-safety questions: the context it was
+// grounded in was 100% compliance/legislation documents. The grounding
+// rule itself (never guess, never use general knowledge) is NOT relaxed —
+// that's the real safety guardrail — only the persona and the pool of
+// trustworthy context it's grounded in have grown, via the new app_guide
+// category (see retrieveChunks() above).
+const SYSTEM_PROMPT = `You are VenuRite's assistant — you help with both food-safety/compliance questions and questions about using the VenuRite app itself. Answer ONLY using the provided context below. Every factual claim must be traceable to the context. Do not mention or name the source document in your answer text — the source is shown separately in the app's own citation display. If the context does not clearly answer the question, say so explicitly; for a food-safety question, tell the user to check with their manager or local Environmental Health Officer; for an app-usage question, tell them to check with their manager or use "Report a bug" in the app's Help menu. Never guess or use general knowledge.`
 
 function normalizeResponseLanguage(
   locale?: string,
@@ -191,7 +205,7 @@ interface ChunkResult {
 }
 
 async function retrieveChunks(embedding: number[], organisationId: number): Promise<ChunkResult[]> {
-  const [guidance, legislation] = await Promise.all([
+  const [guidance, legislation, appGuide] = await Promise.all([
     supabaseAdmin.rpc("match_compliance_chunks", {
       query_embedding: embedding,
       match_count: RETRIEVAL_GUIDANCE_COUNT,
@@ -204,10 +218,17 @@ async function retrieveChunks(embedding: number[], organisationId: number): Prom
       caller_org_id: organisationId,
       category_filter: "legislation",
     }),
+    supabaseAdmin.rpc("match_compliance_chunks", {
+      query_embedding: embedding,
+      match_count: RETRIEVAL_APP_GUIDE_COUNT,
+      caller_org_id: organisationId,
+      category_filter: "app_guide",
+    }),
   ])
   if (guidance.error) throw new Error(`chunk retrieval (guidance) failed: ${guidance.error.message}`)
   if (legislation.error) throw new Error(`chunk retrieval (legislation) failed: ${legislation.error.message}`)
-  return [...(guidance.data ?? []), ...(legislation.data ?? [])]
+  if (appGuide.error) throw new Error(`chunk retrieval (app_guide) failed: ${appGuide.error.message}`)
+  return [...(guidance.data ?? []), ...(legislation.data ?? []), ...(appGuide.data ?? [])]
 }
 
 async function callChatModel(

@@ -5032,4 +5032,179 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get genericSaveFailedMessage =>
       'Esto no se guardó. Inténtalo de nuevo y, si sigue ocurriendo, contacta con soporte.';
+
+  @override
+  String get faqCategoryTasksLabel => 'Tareas y registros';
+
+  @override
+  String get faqCategoryRosterLabel => 'Turnos y horario';
+
+  @override
+  String get faqCategoryAccountLabel => 'Tu cuenta';
+
+  @override
+  String get faqCategoryManagersLabel => 'Para gerentes';
+
+  @override
+  String get troubleCategoryCommonLabel => 'Problemas comunes';
+
+  @override
+  String get troubleCategoryConnectionLabel => 'Conexion y actualizaciones';
+
+  @override
+  String get troubleCategoryAccessLabel => 'Acceso y turnos';
+
+  @override
+  String get faqQ7 => '¿Como reclamo un turno abierto o pido un dia libre?';
+
+  @override
+  String get faqA7 =>
+      'Abre el menu y toca \"Reservar turnos y dias libres\" (o el boton flotante de calendario en tu pantalla principal). Toca cualquier dia para ver los turnos de ese dia, o usa el interruptor \"Reservar dias libres en su lugar\" para pedir tiempo libre.';
+
+  @override
+  String get faqQ8 =>
+      '¿Que significan los puntos de colores en el calendario de turnos?';
+
+  @override
+  String get faqA8 =>
+      'Verde significa que tu turno esta aprobado. Azul significa que lo has reclamado pero un gerente aun no lo ha aprobado. Morado significa que estas en reserva. Ambar significa que has pedido un dia libre y aun esta pendiente. Un dia en gris significa que tu dia libre fue aprobado.';
+
+  @override
+  String get faqQ9 => '¿Por que no puedo reclamar un turno?';
+
+  @override
+  String get faqA9 =>
+      'Hay varias razones posibles: puede faltarte una certificacion requerida para ese puesto, el turno puede estar ya completo, o reclamarlo te pondria por encima de un limite semanal para esa categoria. Pregunta a tu gerente si no estas seguro de cual aplica.';
+
+  @override
+  String get faqQ10 => '¿Como cancelo un turno que ya he reclamado?';
+
+  @override
+  String get faqA10 =>
+      'Abre el turno desde el calendario y usa la opcion de cancelar ahi. Si no sabes como, pide a un supervisor que te quite de el.';
+
+  @override
+  String get faqQ11 => '¿Quien decide si se aprueba mi solicitud de dia libre?';
+
+  @override
+  String get faqA11 =>
+      'Un gerente la revisa desde su propia pantalla de horario. Veras como cambia de ambar (pendiente) a gris (aprobado) o de vuelta a normal (denegado) en tu calendario.';
+
+  @override
+  String get faqQ12 =>
+      '¿Cual es la diferencia entre \"Cerrar sesion\" y \"Terminar turno\"?';
+
+  @override
+  String get faqA12 =>
+      '\"Cerrar sesion\" simplemente te desconecta del dispositivo - usalo en cualquier momento, incluso a mitad de turno, por ejemplo al entregar el dispositivo a otra persona. \"Terminar turno\" es para cuando realmente terminas el dia - comprueba si queda algo pendiente y registra tu hora de salida.';
+
+  @override
+  String get faqQ13 => '¿Como cambio el idioma de la aplicacion?';
+
+  @override
+  String get faqA13 =>
+      'Toca el icono del globo - en la pantalla de inicio de sesion flota abajo a la derecha; dentro de la aplicacion esta en el menu \"mas\" de tu pantalla principal - luego elige tu idioma de la lista.';
+
+  @override
+  String get faqQ14 =>
+      '¿Por que tengo que hacer una foto al fichar entrada o salida?';
+
+  @override
+  String get faqA14 =>
+      'Confirma que la persona que ficha realmente esta en el local - te protege a ti tanto como protege al negocio de que alguien registre un turno sin estar realmente ahi.';
+
+  @override
+  String get faqQ15 =>
+      '¿Como apruebo un turno que alguien ha reclamado? (Gerentes)';
+
+  @override
+  String get faqA15 =>
+      'Abre el calendario de horario desde el menu, toca el dia y usa el boton \"Aprobar\" junto al nombre de esa persona.';
+
+  @override
+  String get faqQ16 =>
+      '¿Como asigno un turno directamente a alguien? (Gerentes)';
+
+  @override
+  String get faqA16 =>
+      'Desde la misma pantalla del dia en el calendario de horario, toca \"Asignar\" en un turno abierto y elige a quien quieres en el.';
+
+  @override
+  String get faqQ17 =>
+      '¿Como configuro patrones de turnos recurrentes en vez de anadirlos uno a uno? (Gerentes)';
+
+  @override
+  String get faqA17 =>
+      'Usa \"Configuracion maestra del horario\" para definir lo que se necesita - por ejemplo, cada viernes por la noche el bar necesita tres personas - y luego \"generar turnos\" para la semana que quieras. Esto crea los turnos reales a partir de esa plantilla.';
+
+  @override
+  String get faqQ18 => '¿Que hace \"Asignacion automatica justa\"? (Gerentes)';
+
+  @override
+  String get faqA18 =>
+      'Propone quien deberia cubrir un conjunto de turnos abiertos, segun certificaciones, puesto y equidad - nunca confirma nada por si sola. Siempre revisas y confirmas antes de que se asigne a alguien de verdad.';
+
+  @override
+  String get faqQ19 =>
+      '¿Donde veo si los turnos se reparten de forma justa? (Gerentes)';
+
+  @override
+  String get faqA19 =>
+      '\"Revision de equidad de turnos\" en el menu de horario muestra cuantos turnos ha tenido cada persona, en orden alfabetico - deliberadamente, no es una clasificacion.';
+
+  @override
+  String get faqQ20 =>
+      '¿Como apruebo o rechazo una solicitud de dia libre? (Gerentes)';
+
+  @override
+  String get faqA20 =>
+      'Abre el calendario de horario, toca el dia al que se refiere la solicitud y veras los botones Aprobar y Rechazar justo junto a los turnos de ese dia.';
+
+  @override
+  String get troubleQ7 =>
+      'No tengo conexion a internet - ¿puedo seguir usando la aplicacion?';
+
+  @override
+  String get troubleA7 =>
+      'Si, para todo lo que ya este cargado en tu dispositivo, incluida esta seccion de ayuda. No, para todo lo que necesite contactar con el servidor, como reclamar un turno o enviar un informe. Vuelve a conectarte e intentalo de nuevo cuando tengas conexion.';
+
+  @override
+  String get troubleQ8 =>
+      'Recibi un mensaje de error con un codigo o texto tecnico';
+
+  @override
+  String get troubleA8 =>
+      'Anota lo que decia si puedes, y luego intentalo de nuevo - la mayoria se resuelven al reintentar. Si persiste, usa \"Reportar un error\" en este menu de ayuda para que se pueda revisar.';
+
+  @override
+  String get troubleQ9 =>
+      'La aplicacion se ve diferente a como la recordaba, o un boton se ha movido';
+
+  @override
+  String get troubleA9 =>
+      'La aplicacion se actualiza de vez en cuando. Si parece una version antigua, intenta cerrar por completo la pestana del navegador o la aplicacion y volver a abrirla - eso elimina una copia antigua guardada en cache.';
+
+  @override
+  String get troubleQ10 =>
+      'No tengo permiso para hacer algo que creo que deberia poder hacer';
+
+  @override
+  String get troubleA10 =>
+      'Algunas acciones estan limitadas a supervisores y gerentes a proposito. Si crees que deberias tener acceso, pide a tu gerente que compruebe que tu rol esta configurado correctamente.';
+
+  @override
+  String get troubleQ11 =>
+      'Un turno que me asignaron no aparece en mi calendario';
+
+  @override
+  String get troubleA11 =>
+      'Vuelve a abrir la pantalla para actualizarla. Si sigue faltando, comprueba con quien lo asigno, o intenta cerrar sesion y volver a entrar.';
+
+  @override
+  String get troubleQ12 =>
+      'La pantalla se corta, o algo cerca de la parte inferior es dificil de alcanzar';
+
+  @override
+  String get troubleA12 =>
+      'Intenta desplazarte - la mayoria de las pantallas se desplazan para mostrar lo que queda fuera de la vista. Si algo sigue pareciendo inalcanzable, reportalo como error, con una captura de pantalla si puedes.';
 }

@@ -2158,3 +2158,7 @@ See DECISIONS_LOG.md's own entry for the full design. Purely Flutter-side (one "
 ## Fix: global AI FAB navigation bug — no backend changes (2026-10-04)
 
 See DECISIONS_LOG.md's own entry. Purely a client-side Navigator-context fix (`rootNavigatorKey` instead of `Navigator.of(context)` in `AssistantFab`). The AI assistant's content scope (compliance-library-only RAG, not general app help) is a real, separate gap raised in the same bug report — needs a founder decision on whether/how to broaden the `ai-assistant` Edge Function's grounding corpus before any backend work starts.
+
+## AI assistant app-guide category — prepared, not yet deployed (2026-10-04)
+
+See DECISIONS_LOG.md's own entry for the full design. `tools/ai-assistant_index.ts` (staging copy) now queries a third `compliance_chunks` category, `app_guide`, alongside the existing `guidance`/`legislation` — no RPC/schema change (`category_filter` is already a free-text param). Two new source documents at `compliance_library/app_guide/{staff_guide,manager_guide}.html`, registered in `embed_compliance_library.py`. To go live: run `python tools/embed_compliance_library.py` for real against production (needs `OPENAI_API_KEY` + `SUPABASE_DB_URL`, both production credentials — a real DB write + small OpenAI cost), then deploy the updated Edge Function (`~/tango-sierra/supabase/docker/volumes/functions/ai-assistant/index.ts`, `docker compose restart functions`). Both steps blocked by auto-mode on this machine, pending the founder's direct action or explicit approval.

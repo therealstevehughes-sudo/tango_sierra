@@ -56,6 +56,25 @@ If the AI assistant's grounding turns out to need the fuller technical detail
 these contain, purchasing them (a few pounds each from HSE Books) would be
 needed — not something to source from a free download.
 
+## app_guide/ — first-party VenuRite app-usage content (2026-10-04)
+
+A separate category from the two above, added so the AI assistant could
+help with "the entire app" per direct founder request, not just food-
+safety/compliance questions (see DECISIONS_LOG.md's 2026-10-04 entry).
+Written in-house (no external source URL, unlike legislation/guidance),
+plain `.html` files with one `<h2>` per topic so each becomes its own
+retrievable chunk — same extraction path `embed_compliance_library.py`
+already uses for the FSA `.html` guidance documents above.
+
+| File | Covers |
+|---|---|
+| `staff_guide.html` | Login, tasks, reporting problems, claiming shifts/days off, shift-verification photos, offline behaviour |
+| `manager_guide.html` | Rota calendar, approvals, Master Rota Settings, Fair Auto-Assign, Shift Fairness Review, staff/department management |
+
+Small (plain text, no PDFs) — committed to git directly regardless of
+whatever's eventually decided for the legislation/guidance PDF corpus
+below.
+
 ## On committing this to git
 
 Total size: legislation/ ~9.9 MB + guidance/ ~12.5 MB ≈ **22 MB of binary

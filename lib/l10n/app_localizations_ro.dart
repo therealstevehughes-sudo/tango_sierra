@@ -5029,4 +5029,176 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get genericSaveFailedMessage =>
       'Salvarea nu a reușit. Încearcă din nou, iar dacă problema persistă, contactează asistența.';
+
+  @override
+  String get faqCategoryTasksLabel => 'Sarcini si raportare';
+
+  @override
+  String get faqCategoryRosterLabel => 'Ture si program';
+
+  @override
+  String get faqCategoryAccountLabel => 'Contul tau';
+
+  @override
+  String get faqCategoryManagersLabel => 'Pentru manageri';
+
+  @override
+  String get troubleCategoryCommonLabel => 'Probleme frecvente';
+
+  @override
+  String get troubleCategoryConnectionLabel => 'Conexiune si actualizari';
+
+  @override
+  String get troubleCategoryAccessLabel => 'Acces si ture';
+
+  @override
+  String get faqQ7 => 'Cum revendic o tura libera sau cer o zi libera?';
+
+  @override
+  String get faqA7 =>
+      'Deschide meniul si apasa \"Rezerva ture si zile libere\" (sau butonul de calendar plutitor de pe ecranul principal). Apasa pe orice zi pentru a vedea turele din acea zi, sau foloseste comutatorul \"Rezerva zile libere in schimb\" pentru a cere timp liber.';
+
+  @override
+  String get faqQ8 => 'Ce inseamna punctele colorate din calendarul de ture?';
+
+  @override
+  String get faqA8 =>
+      'Verde inseamna ca tura ta este aprobata. Albastru inseamna ca ai revendicat-o, dar un manager nu a aprobat-o inca. Mov inseamna ca esti in rezerva. Portocaliu inseamna ca ai cerut o zi libera si este inca in asteptare. O zi gri inseamna ca ziua ta libera a fost aprobata.';
+
+  @override
+  String get faqQ9 => 'De ce nu pot revendica o tura?';
+
+  @override
+  String get faqA9 =>
+      'Sunt posibile cateva motive: iti poate lipsi o certificare necesara pentru acel rol, tura poate fi deja completa, sau revendicarea ar depasi o limita saptamanala pentru acea categorie. Intreaba managerul daca nu esti sigur care se aplica.';
+
+  @override
+  String get faqQ10 => 'Cum anulez o tura pe care am revendicat-o deja?';
+
+  @override
+  String get faqA10 =>
+      'Deschide tura din calendar si foloseste optiunea de anulare de acolo. Daca nu vezi cum, roaga un supervizor sa te elimine din ea.';
+
+  @override
+  String get faqQ11 =>
+      'Cine decide daca cererea mea de zi libera este aprobata?';
+
+  @override
+  String get faqA11 =>
+      'Un manager o revizuieste din propriul ecran de program. Vei vedea cum se schimba din portocaliu (in asteptare) fie in gri (aprobata), fie inapoi la normal (refuzata) in calendarul tau.';
+
+  @override
+  String get faqQ12 =>
+      'Care este diferenta dintre \"Deconectare\" si \"Incheie tura\"?';
+
+  @override
+  String get faqA12 =>
+      '\"Deconectare\" doar te deconecteaza de pe dispozitiv - foloseste-o oricand, inclusiv in mijlocul turei, de exemplu cand predai dispozitivul altcuiva. \"Incheie tura\" este pentru momentul in care chiar termini pentru ziua respectiva - verifica daca mai este ceva nerezolvat si inregistreaza ora de iesire.';
+
+  @override
+  String get faqQ13 => 'Cum schimb limba aplicatiei?';
+
+  @override
+  String get faqA13 =>
+      'Apasa pe iconita globului - pe ecranul de conectare pluteste in dreapta jos; in interiorul aplicatiei se afla in meniul \"mai multe\" de pe ecranul principal - apoi alege limba din lista.';
+
+  @override
+  String get faqQ14 =>
+      'De ce trebuie sa fac o poza cand intru sau ies din tura?';
+
+  @override
+  String get faqA14 =>
+      'Confirma ca persoana care intra sau iese din tura se afla chiar la locatie - te protejeaza pe tine la fel de mult ca afacerea, impotriva inregistrarii unei ture de cineva care nu este cu adevarat acolo.';
+
+  @override
+  String get faqQ15 =>
+      'Cum aprob o tura pe care cineva a revendicat-o? (Manageri)';
+
+  @override
+  String get faqA15 =>
+      'Deschide calendarul de program din meniu, apasa pe zi si foloseste butonul \"Aproba\" langa numele acelei persoane.';
+
+  @override
+  String get faqQ16 => 'Cum atribui o tura direct cuiva? (Manageri)';
+
+  @override
+  String get faqA16 =>
+      'Din acelasi ecran de zi din calendarul de program, apasa \"Atribuie\" pe o tura libera si alege pe cine vrei sa o preia.';
+
+  @override
+  String get faqQ17 =>
+      'Cum configurez tipare de ture recurente in loc sa adaug ture una cate una? (Manageri)';
+
+  @override
+  String get faqA17 =>
+      'Foloseste \"Setari program principal\" pentru a defini ce este necesar - de exemplu, in fiecare vineri seara barul are nevoie de trei persoane - apoi \"genereaza ture\" pentru saptamana dorita. Aceasta creeaza turele reale pe baza acelui sablon.';
+
+  @override
+  String get faqQ18 => 'Ce face \"Atribuire automata corecta\"? (Manageri)';
+
+  @override
+  String get faqA18 =>
+      'Propune cine ar trebui sa completeze un set de ture libere, pe baza certificarilor, rolului si corectitudinii - nu finalizeaza nimic de la sine. Tu revizuiesti si confirmi intotdeauna inainte ca cineva sa fie atribuit efectiv.';
+
+  @override
+  String get faqQ19 => 'Unde vad daca turele sunt impartite corect? (Manageri)';
+
+  @override
+  String get faqA19 =>
+      '\"Analiza corectitudinii turelor\" din meniul de program arata cate ture a avut fiecare persoana, listate alfabetic - in mod deliberat, nu un clasament.';
+
+  @override
+  String get faqQ20 => 'Cum aprob sau refuz o cerere de zi libera? (Manageri)';
+
+  @override
+  String get faqA20 =>
+      'Deschide calendarul de program, apasa pe ziua la care se refera cererea si vei vedea butoanele Aproba si Refuza chiar langa turele din acea zi.';
+
+  @override
+  String get troubleQ7 =>
+      'Nu am conexiune la internet - mai pot folosi aplicatia?';
+
+  @override
+  String get troubleA7 =>
+      'Da, pentru orice este deja incarcat pe dispozitiv, inclusiv aceasta sectiune de ajutor. Nu, pentru orice are nevoie sa contacteze serverul, cum ar fi revendicarea unei ture sau trimiterea unui raport. Reconecteaza-te si incearca din nou cand esti online.';
+
+  @override
+  String get troubleQ8 =>
+      'Am primit un mesaj de eroare cu un cod sau text tehnic';
+
+  @override
+  String get troubleA8 =>
+      'Noteaza ce a aparut daca poti, apoi incearca din nou - majoritatea acestora se rezolva la a doua incercare. Daca persista, foloseste \"Raporteaza o eroare\" din acest meniu de ajutor, ca sa poata fi verificat.';
+
+  @override
+  String get troubleQ9 =>
+      'Aplicatia arata diferit fata de cum imi amintesc, sau un buton s-a mutat';
+
+  @override
+  String get troubleA9 =>
+      'Aplicatia este actualizata din cand in cand. Daca pare o versiune veche, incearca sa inchizi complet fila browserului sau aplicatia si sa o redeschizi - asta sterge o copie veche salvata in cache.';
+
+  @override
+  String get troubleQ10 =>
+      'Nu am permisiunea sa fac ceva ce cred ca ar trebui sa pot face';
+
+  @override
+  String get troubleA10 =>
+      'Unele actiuni sunt limitate in mod deliberat la supervizori si manageri. Daca crezi ca ar trebui sa ai acces, roaga managerul sa verifice daca rolul tau este setat corect.';
+
+  @override
+  String get troubleQ11 =>
+      'O tura la care am fost repartizat nu apare in calendarul meu';
+
+  @override
+  String get troubleA11 =>
+      'Redeschide ecranul pentru a-l reimprospata. Daca tot lipseste, verifica cu cel care a atribuit-o, sau incearca sa te deconectezi si sa te reconectezi.';
+
+  @override
+  String get troubleQ12 =>
+      'Ecranul este taiat, sau ceva din partea de jos este greu de atins';
+
+  @override
+  String get troubleA12 =>
+      'Incearca sa derulezi - majoritatea ecranelor se deruleaza pentru a dezvalui orice este sub nivelul vizibil. Daca ceva tot pare inaccesibil, raporteaza ca eroare, cu o captura de ecran daca poti.';
 }
