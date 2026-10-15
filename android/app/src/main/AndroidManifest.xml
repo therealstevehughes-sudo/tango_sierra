@@ -9,6 +9,10 @@
          "OS handles the runtime prompt" approach as CAMERA above; no
          permission_handler dependency needed. -->
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <!-- Location-checked clock-in (geolocator, added 2026-10-15) — read
+         once at clock-in/out only, never in the background. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <application
         android:label="VenuRite"
         android:name="${applicationName}"

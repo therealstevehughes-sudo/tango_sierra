@@ -20,6 +20,17 @@ class Site {
   // this specific record type (see the migration's own doc comment).
   final bool shiftVerificationPhotosEnabled;
   final int shiftPhotoRetentionDays;
+  // Location-checked clock-in (2026-10-15) — off by default; flag-and-
+  // review, never a block. The venue's own location + allowed distance,
+  // and whether a manager has recorded the venue's internet connection
+  // (the IP itself stays server-side; the app only needs to know it's set).
+  final bool clockLocationCheckEnabled;
+  final double? clockLatitude;
+  final double? clockLongitude;
+  final int clockRadiusM;
+  final bool clockNetworkSet;
+
+  bool get hasClockLocation => clockLatitude != null && clockLongitude != null;
 
   const Site({
     required this.id,
@@ -31,5 +42,10 @@ class Site {
     this.deviceCredential,
     this.shiftVerificationPhotosEnabled = false,
     this.shiftPhotoRetentionDays = 90,
+    this.clockLocationCheckEnabled = false,
+    this.clockLatitude,
+    this.clockLongitude,
+    this.clockRadiusM = 150,
+    this.clockNetworkSet = false,
   });
 }

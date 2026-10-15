@@ -5335,4 +5335,95 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get trainingWithdrawSignoff => 'Retrage aprobarea';
+
+  @override
+  String get clockLocationNoticeTitle => 'Verificarea locației la pontare';
+
+  @override
+  String get clockLocationNoticeBody =>
+      'Această locație verifică dacă ești la fața locului când te pontezi la intrare și la ieșire. Locația ta este citită o singură dată, în acel moment, nu este urmărită niciodată și se păstrează doar distanța față de locație. Dacă nu permiți locația, te poți ponta oricum - un supervizor va confirma.';
+
+  @override
+  String get clockLocationNoticeOk => 'OK';
+
+  @override
+  String clockInOffSiteLabel(String when, int metres) {
+    return 'Intrare $when, la aproximativ $metres m de locație';
+  }
+
+  @override
+  String clockOutOffSiteLabel(String when, int metres) {
+    return 'Ieșire $when, la aproximativ $metres m de locație';
+  }
+
+  @override
+  String clockInNoLocationLabel(String when) {
+    return 'Intrare $when - locație indisponibilă';
+  }
+
+  @override
+  String clockOutNoLocationLabel(String when) {
+    return 'Ieșire $when - locație indisponibilă';
+  }
+
+  @override
+  String get markReviewedButton => 'Marchează ca verificat';
+
+  @override
+  String get clockLocationSectionTitle => 'Verificarea locației la pontare';
+
+  @override
+  String get clockLocationExplanation =>
+      'Semnalează pontările făcute departe de locație pentru a fi verificate de un supervizor. Nimeni nu este blocat vreodată la pontare și locația personalului nu este urmărită niciodată.';
+
+  @override
+  String get enableClockLocationLabel =>
+      'Verifică locația la intrare și la ieșire';
+
+  @override
+  String get clockVenueLocationSet => 'Locația a fost setată';
+
+  @override
+  String get clockVenueLocationNotSet =>
+      'Locația nu este setată încă - stai în locație și apasă butonul';
+
+  @override
+  String get clockUseCurrentLocationButton => 'Folosește locația mea actuală';
+
+  @override
+  String get clockVenueLocationUnavailable =>
+      'Nu s-a putut obține locația acestui dispozitiv. Verifică dacă locația este pornită și permisă, apoi încearcă din nou.';
+
+  @override
+  String clockRadiusLabel(int metres) {
+    return 'Distanță permisă: $metres m';
+  }
+
+  @override
+  String get clockRadiusTitle => 'Distanța permisă față de locație';
+
+  @override
+  String get metresLabel => 'Metri';
+
+  @override
+  String get clockRadiusHelper =>
+      'Între 25 și 2000. 150 se potrivește majorității locațiilor.';
+
+  @override
+  String get clockNetworkSet =>
+      'Conexiunea la internet a locației a fost înregistrată';
+
+  @override
+  String get clockNetworkNotSet =>
+      'Conexiunea la internet a locației nu este înregistrată';
+
+  @override
+  String get clockUseThisNetworkButton => 'Folosește această conexiune';
+
+  @override
+  String get clearLabel => 'Șterge';
+
+  @override
+  String get clockNetworkHint =>
+      'Fă asta conectat la Wi-Fi-ul locației, ideal pe tableta comună. Pontările de pe acea conexiune contează ca fiind la fața locului, chiar și în interior.';
 }

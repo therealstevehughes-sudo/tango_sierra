@@ -5249,4 +5249,93 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get trainingWithdrawSignoff => 'Povuci odobrenje';
+
+  @override
+  String get clockLocationNoticeTitle => 'Provjera lokacije pri prijavi';
+
+  @override
+  String get clockLocationNoticeBody =>
+      'Ovaj objekt provjerava jesi li na mjestu kad se prijavljuješ i odjavljuješ. Tvoja se lokacija čita samo jednom, u tom trenutku, nikad se ne prati, a sprema se samo tvoja udaljenost od objekta. Ako ne dopustiš lokaciju, svejedno se možeš prijaviti - nadzornik će to potvrditi.';
+
+  @override
+  String get clockLocationNoticeOk => 'U redu';
+
+  @override
+  String clockInOffSiteLabel(String when, int metres) {
+    return 'Prijava $when, oko $metres m od objekta';
+  }
+
+  @override
+  String clockOutOffSiteLabel(String when, int metres) {
+    return 'Odjava $when, oko $metres m od objekta';
+  }
+
+  @override
+  String clockInNoLocationLabel(String when) {
+    return 'Prijava $when - lokacija nije dostupna';
+  }
+
+  @override
+  String clockOutNoLocationLabel(String when) {
+    return 'Odjava $when - lokacija nije dostupna';
+  }
+
+  @override
+  String get markReviewedButton => 'Označi kao pregledano';
+
+  @override
+  String get clockLocationSectionTitle => 'Provjera lokacije pri prijavi';
+
+  @override
+  String get clockLocationExplanation =>
+      'Označava prijave i odjave izvan objekta kako bi ih nadzornik pregledao. Nikome se nikad ne blokira prijava, a lokacije zaposlenika se nikad ne prate.';
+
+  @override
+  String get enableClockLocationLabel =>
+      'Provjeri lokaciju pri prijavi i odjavi';
+
+  @override
+  String get clockVenueLocationSet => 'Lokacija objekta postavljena';
+
+  @override
+  String get clockVenueLocationNotSet =>
+      'Lokacija objekta još nije postavljena - stani u objekt i dodirni gumb';
+
+  @override
+  String get clockUseCurrentLocationButton => 'Koristi moju trenutnu lokaciju';
+
+  @override
+  String get clockVenueLocationUnavailable =>
+      'Nije moguće dohvatiti lokaciju ovog uređaja. Provjeri je li lokacija uključena i dopuštena pa pokušaj ponovno.';
+
+  @override
+  String clockRadiusLabel(int metres) {
+    return 'Dopuštena udaljenost: $metres m';
+  }
+
+  @override
+  String get clockRadiusTitle => 'Dopuštena udaljenost od objekta';
+
+  @override
+  String get metresLabel => 'Metri';
+
+  @override
+  String get clockRadiusHelper =>
+      'Između 25 i 2000. 150 odgovara većini objekata.';
+
+  @override
+  String get clockNetworkSet => 'Internetska veza objekta zabilježena';
+
+  @override
+  String get clockNetworkNotSet => 'Internetska veza objekta nije zabilježena';
+
+  @override
+  String get clockUseThisNetworkButton => 'Koristi ovu vezu';
+
+  @override
+  String get clearLabel => 'Ukloni';
+
+  @override
+  String get clockNetworkHint =>
+      'Učini to dok si spojen/a na Wi-Fi objekta, najbolje na zajedničkom tabletu. Prijave s te veze računaju se kao na mjestu, čak i u zatvorenom.';
 }

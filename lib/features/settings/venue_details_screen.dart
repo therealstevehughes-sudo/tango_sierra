@@ -15,6 +15,7 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/venue_type_providers.dart';
 import 'billing_screen.dart';
+import 'clock_location_settings.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
 import '../../l10n/app_localizations.dart';
@@ -521,6 +522,17 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                                     ],
                                   ),
                               ],
+                            ),
+                          ),
+                        if (backendDataEnabled &&
+                            currentUser != null &&
+                            roleTierRank(currentUser.roleTier) >=
+                                roleTierRank(RoleTier.venueManager))
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                            child: ClockLocationSettings(
+                              site: site,
+                              onChanged: _loadData,
                             ),
                           ),
                         Padding(

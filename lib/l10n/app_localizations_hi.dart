@@ -5224,4 +5224,94 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get trainingWithdrawSignoff => 'मंज़ूरी वापस लें';
+
+  @override
+  String get clockLocationNoticeTitle => 'क्लॉक-इन पर लोकेशन जाँच';
+
+  @override
+  String get clockLocationNoticeBody =>
+      'यह वेन्यू जाँचता है कि क्लॉक-इन और क्लॉक-आउट के समय आप वहीं हैं। आपकी लोकेशन सिर्फ़ उसी पल एक बार पढ़ी जाती है, कभी ट्रैक नहीं की जाती, और सिर्फ़ वेन्यू से आपकी दूरी रखी जाती है। अगर आप लोकेशन की अनुमति नहीं देते, तब भी आप क्लॉक-इन कर सकते हैं - सुपरवाइज़र इसकी पुष्टि करेंगे।';
+
+  @override
+  String get clockLocationNoticeOk => 'ठीक है';
+
+  @override
+  String clockInOffSiteLabel(String when, int metres) {
+    return '$when क्लॉक-इन, वेन्यू से लगभग $metres मी दूर';
+  }
+
+  @override
+  String clockOutOffSiteLabel(String when, int metres) {
+    return '$when क्लॉक-आउट, वेन्यू से लगभग $metres मी दूर';
+  }
+
+  @override
+  String clockInNoLocationLabel(String when) {
+    return '$when क्लॉक-इन - लोकेशन उपलब्ध नहीं';
+  }
+
+  @override
+  String clockOutNoLocationLabel(String when) {
+    return '$when क्लॉक-आउट - लोकेशन उपलब्ध नहीं';
+  }
+
+  @override
+  String get markReviewedButton => 'समीक्षा हो गई';
+
+  @override
+  String get clockLocationSectionTitle => 'क्लॉक-इन पर लोकेशन जाँच';
+
+  @override
+  String get clockLocationExplanation =>
+      'वेन्यू से दूर किए गए क्लॉक-इन और क्लॉक-आउट को सुपरवाइज़र की समीक्षा के लिए चिह्नित करता है। किसी को भी क्लॉक-इन करने से कभी रोका नहीं जाता, और स्टाफ़ की लोकेशन कभी ट्रैक नहीं होती।';
+
+  @override
+  String get enableClockLocationLabel =>
+      'क्लॉक-इन और क्लॉक-आउट पर लोकेशन जाँचें';
+
+  @override
+  String get clockVenueLocationSet => 'वेन्यू की लोकेशन सेट है';
+
+  @override
+  String get clockVenueLocationNotSet =>
+      'वेन्यू की लोकेशन अभी सेट नहीं - वेन्यू में खड़े होकर बटन दबाएँ';
+
+  @override
+  String get clockUseCurrentLocationButton =>
+      'मेरी मौजूदा लोकेशन इस्तेमाल करें';
+
+  @override
+  String get clockVenueLocationUnavailable =>
+      'इस डिवाइस की लोकेशन नहीं मिल सकी। जाँचें कि लोकेशन चालू है और अनुमति है, फिर दोबारा कोशिश करें।';
+
+  @override
+  String clockRadiusLabel(int metres) {
+    return 'अनुमत दूरी: $metres मी';
+  }
+
+  @override
+  String get clockRadiusTitle => 'वेन्यू से अनुमत दूरी';
+
+  @override
+  String get metresLabel => 'मीटर';
+
+  @override
+  String get clockRadiusHelper =>
+      '25 से 2000 के बीच। ज़्यादातर वेन्यू के लिए 150 ठीक है।';
+
+  @override
+  String get clockNetworkSet => 'वेन्यू का इंटरनेट कनेक्शन दर्ज है';
+
+  @override
+  String get clockNetworkNotSet => 'वेन्यू का इंटरनेट कनेक्शन दर्ज नहीं';
+
+  @override
+  String get clockUseThisNetworkButton => 'यह कनेक्शन इस्तेमाल करें';
+
+  @override
+  String get clearLabel => 'हटाएँ';
+
+  @override
+  String get clockNetworkHint =>
+      'यह वेन्यू के अपने Wi-Fi से जुड़े रहकर करें, बेहतर हो कि साझा टैबलेट पर। उस कनेक्शन से किए गए क्लॉक-इन वेन्यू पर माने जाते हैं, अंदर भी।';
 }

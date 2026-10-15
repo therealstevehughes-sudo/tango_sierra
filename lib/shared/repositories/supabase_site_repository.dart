@@ -174,6 +174,32 @@ class SupabaseSiteRepository implements SiteRepository {
     );
   }
 
+  @override
+  Future<void> setClockLocation({
+    required int siteId,
+    required bool enabled,
+    double? latitude,
+    double? longitude,
+    int? radiusM,
+  }) => _client.rpcVoid('set_site_clock_location', {
+    'p_site_id': siteId,
+    'p_enabled': enabled,
+    'p_lat': latitude,
+    'p_lng': longitude,
+    'p_radius_m': radiusM,
+  });
+
+  @override
+  Future<bool> setClockNetwork(int siteId, {bool clear = false}) async {
+    final result = await _client.rpc('set_site_clock_network', {
+      'p_site_id': siteId,
+      'p_clear': clear,
+    });
+    // Empty = refused (not venueManager+ / no site access).
+    return result.isNotEmpty &&
+        (result.first as Map<String, dynamic>)['network_set'] == true;
+  }
+
   Site _toModel(Map<String, dynamic> row) => Site(
     id: row['id'] as int,
     organisationId: row['organisation_id'] as int,
@@ -185,5 +211,11 @@ class SupabaseSiteRepository implements SiteRepository {
     shiftVerificationPhotosEnabled:
         row['shift_verification_photos_enabled'] as bool? ?? false,
     shiftPhotoRetentionDays: row['shift_photo_retention_days'] as int? ?? 90,
+    clockLocationCheckEnabled:
+        row['clock_location_check_enabled'] as bool? ?? false,
+    clockLatitude: (row['clock_latitude'] as num?)?.toDouble(),
+    clockLongitude: (row['clock_longitude'] as num?)?.toDouble(),
+    clockRadiusM: row['clock_radius_m'] as int? ?? 150,
+    clockNetworkSet: row['clock_network_ip'] != null,
   );
 }

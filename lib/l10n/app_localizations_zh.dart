@@ -5032,4 +5032,89 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get trainingWithdrawSignoff => '撤回审批';
+
+  @override
+  String get clockLocationNoticeTitle => '打卡时的位置核验';
+
+  @override
+  String get clockLocationNoticeBody =>
+      '本场所会在你上下班打卡时核验你是否在现场。你的位置只在那一刻读取一次，绝不追踪，只保存你与场所的距离。如果你不允许定位，仍然可以打卡——将由主管确认。';
+
+  @override
+  String get clockLocationNoticeOk => '好的';
+
+  @override
+  String clockInOffSiteLabel(String when, int metres) {
+    return '$when 上班打卡，距场所约 $metres 米';
+  }
+
+  @override
+  String clockOutOffSiteLabel(String when, int metres) {
+    return '$when 下班打卡，距场所约 $metres 米';
+  }
+
+  @override
+  String clockInNoLocationLabel(String when) {
+    return '$when 上班打卡 - 无法获取位置';
+  }
+
+  @override
+  String clockOutNoLocationLabel(String when) {
+    return '$when 下班打卡 - 无法获取位置';
+  }
+
+  @override
+  String get markReviewedButton => '标记为已审核';
+
+  @override
+  String get clockLocationSectionTitle => '打卡时的位置核验';
+
+  @override
+  String get clockLocationExplanation =>
+      '将不在场所内进行的上下班打卡标记出来，供主管审核。绝不会阻止任何人打卡，也绝不追踪员工位置。';
+
+  @override
+  String get enableClockLocationLabel => '上下班打卡时核验位置';
+
+  @override
+  String get clockVenueLocationSet => '已设置场所位置';
+
+  @override
+  String get clockVenueLocationNotSet => '尚未设置场所位置 - 请站在场所内点击按钮';
+
+  @override
+  String get clockUseCurrentLocationButton => '使用我当前的位置';
+
+  @override
+  String get clockVenueLocationUnavailable => '无法获取此设备的位置。请确认已开启并允许定位，然后重试。';
+
+  @override
+  String clockRadiusLabel(int metres) {
+    return '允许距离：$metres 米';
+  }
+
+  @override
+  String get clockRadiusTitle => '允许离场所的距离';
+
+  @override
+  String get metresLabel => '米';
+
+  @override
+  String get clockRadiusHelper => '介于 25 到 2000 之间。大多数场所适合 150。';
+
+  @override
+  String get clockNetworkSet => '已记录场所的网络连接';
+
+  @override
+  String get clockNetworkNotSet => '未记录场所的网络连接';
+
+  @override
+  String get clockUseThisNetworkButton => '使用此连接';
+
+  @override
+  String get clearLabel => '清除';
+
+  @override
+  String get clockNetworkHint =>
+      '请在连接场所自己的 Wi-Fi 时操作，最好在共用平板上。通过该连接打卡视为在现场，即使在室内。';
 }

@@ -5187,4 +5187,92 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get trainingWithdrawSignoff => 'سحب الاعتماد';
+
+  @override
+  String get clockLocationNoticeTitle => 'التحقق من الموقع عند تسجيل الحضور';
+
+  @override
+  String get clockLocationNoticeBody =>
+      'يتحقق هذا المكان من وجودك في الموقع عند تسجيل الحضور والانصراف. يُقرأ موقعك مرة واحدة في تلك اللحظة فقط، ولا يتم تتبعه أبداً، ويُحفظ فقط بُعدك عن المكان. إذا لم تسمح بالموقع، يمكنك تسجيل الحضور على أي حال - وسيؤكده المشرف بدلاً من ذلك.';
+
+  @override
+  String get clockLocationNoticeOk => 'حسناً';
+
+  @override
+  String clockInOffSiteLabel(String when, int metres) {
+    return 'سجّل الحضور $when، على بُعد حوالي $metres م من المكان';
+  }
+
+  @override
+  String clockOutOffSiteLabel(String when, int metres) {
+    return 'سجّل الانصراف $when، على بُعد حوالي $metres م من المكان';
+  }
+
+  @override
+  String clockInNoLocationLabel(String when) {
+    return 'سجّل الحضور $when - الموقع غير متاح';
+  }
+
+  @override
+  String clockOutNoLocationLabel(String when) {
+    return 'سجّل الانصراف $when - الموقع غير متاح';
+  }
+
+  @override
+  String get markReviewedButton => 'تمت المراجعة';
+
+  @override
+  String get clockLocationSectionTitle => 'التحقق من الموقع عند تسجيل الحضور';
+
+  @override
+  String get clockLocationExplanation =>
+      'يضع علامة على عمليات تسجيل الحضور والانصراف التي تتم بعيداً عن المكان ليراجعها المشرف. لا يُمنع أحد أبداً من تسجيل الحضور، ولا يتم تتبع مواقع الموظفين أبداً.';
+
+  @override
+  String get enableClockLocationLabel =>
+      'التحقق من الموقع عند الحضور والانصراف';
+
+  @override
+  String get clockVenueLocationSet => 'تم تحديد موقع المكان';
+
+  @override
+  String get clockVenueLocationNotSet =>
+      'لم يتم تحديد موقع المكان بعد - قف داخل المكان واضغط الزر';
+
+  @override
+  String get clockUseCurrentLocationButton => 'استخدم موقعي الحالي';
+
+  @override
+  String get clockVenueLocationUnavailable =>
+      'تعذّر الحصول على موقع هذا الجهاز. تأكد من تشغيل الموقع والسماح به، ثم حاول مرة أخرى.';
+
+  @override
+  String clockRadiusLabel(int metres) {
+    return 'المسافة المسموحة: $metres م';
+  }
+
+  @override
+  String get clockRadiusTitle => 'المسافة المسموحة من المكان';
+
+  @override
+  String get metresLabel => 'أمتار';
+
+  @override
+  String get clockRadiusHelper => 'بين 25 و2000. تناسب 150 معظم الأماكن.';
+
+  @override
+  String get clockNetworkSet => 'تم تسجيل اتصال الإنترنت الخاص بالمكان';
+
+  @override
+  String get clockNetworkNotSet => 'لم يتم تسجيل اتصال الإنترنت الخاص بالمكان';
+
+  @override
+  String get clockUseThisNetworkButton => 'استخدم هذا الاتصال';
+
+  @override
+  String get clearLabel => 'مسح';
+
+  @override
+  String get clockNetworkHint =>
+      'افعل ذلك أثناء الاتصال بشبكة Wi-Fi الخاصة بالمكان، ويفضل على الجهاز اللوحي المشترك. تُعتبر عمليات تسجيل الحضور من هذا الاتصال داخل الموقع، حتى في الداخل.';
 }

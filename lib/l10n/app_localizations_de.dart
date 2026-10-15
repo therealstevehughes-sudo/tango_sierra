@@ -5397,4 +5397,95 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get trainingWithdrawSignoff => 'Freigabe zurückziehen';
+
+  @override
+  String get clockLocationNoticeTitle => 'Standortprüfung beim Einstempeln';
+
+  @override
+  String get clockLocationNoticeBody =>
+      'Dieser Standort prüft beim Ein- und Ausstempeln, ob du vor Ort bist. Dein Standort wird nur in diesem Moment einmal gelesen, nie verfolgt, und nur deine Entfernung zum Standort wird gespeichert. Wenn du den Standort nicht erlaubst, kannst du trotzdem einstempeln - ein Supervisor bestätigt es dann.';
+
+  @override
+  String get clockLocationNoticeOk => 'OK';
+
+  @override
+  String clockInOffSiteLabel(String when, int metres) {
+    return 'Eingestempelt $when, etwa $metres m vom Standort entfernt';
+  }
+
+  @override
+  String clockOutOffSiteLabel(String when, int metres) {
+    return 'Ausgestempelt $when, etwa $metres m vom Standort entfernt';
+  }
+
+  @override
+  String clockInNoLocationLabel(String when) {
+    return 'Eingestempelt $when - Standort nicht verfügbar';
+  }
+
+  @override
+  String clockOutNoLocationLabel(String when) {
+    return 'Ausgestempelt $when - Standort nicht verfügbar';
+  }
+
+  @override
+  String get markReviewedButton => 'Als geprüft markieren';
+
+  @override
+  String get clockLocationSectionTitle => 'Standortprüfung beim Einstempeln';
+
+  @override
+  String get clockLocationExplanation =>
+      'Markiert Ein- und Ausstempelungen außerhalb des Standorts zur Prüfung durch einen Supervisor. Niemand wird je am Einstempeln gehindert, und Standorte von Mitarbeitern werden nie verfolgt.';
+
+  @override
+  String get enableClockLocationLabel =>
+      'Standort beim Ein- und Ausstempeln prüfen';
+
+  @override
+  String get clockVenueLocationSet => 'Standort festgelegt';
+
+  @override
+  String get clockVenueLocationNotSet =>
+      'Standort noch nicht festgelegt - stell dich in den Betrieb und tippe auf die Schaltfläche';
+
+  @override
+  String get clockUseCurrentLocationButton =>
+      'Meinen aktuellen Standort verwenden';
+
+  @override
+  String get clockVenueLocationUnavailable =>
+      'Der Standort dieses Geräts konnte nicht ermittelt werden. Prüfe, ob der Standort eingeschaltet und erlaubt ist, und versuche es erneut.';
+
+  @override
+  String clockRadiusLabel(int metres) {
+    return 'Erlaubte Entfernung: $metres m';
+  }
+
+  @override
+  String get clockRadiusTitle => 'Erlaubte Entfernung vom Standort';
+
+  @override
+  String get metresLabel => 'Meter';
+
+  @override
+  String get clockRadiusHelper =>
+      'Zwischen 25 und 2000. 150 passt für die meisten Betriebe.';
+
+  @override
+  String get clockNetworkSet => 'Internetverbindung des Standorts gespeichert';
+
+  @override
+  String get clockNetworkNotSet =>
+      'Internetverbindung des Standorts nicht gespeichert';
+
+  @override
+  String get clockUseThisNetworkButton => 'Diese Verbindung verwenden';
+
+  @override
+  String get clearLabel => 'Entfernen';
+
+  @override
+  String get clockNetworkHint =>
+      'Mach das, während du mit dem WLAN des Betriebs verbunden bist, am besten auf dem gemeinsamen Tablet. Einstempelungen über diese Verbindung gelten als vor Ort, auch in Innenräumen.';
 }

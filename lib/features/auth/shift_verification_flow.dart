@@ -8,6 +8,8 @@ import '../../shared/models/site.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/backend_shift_log_providers.dart';
+import '../../shared/repositories/backend_shift_log_repository.dart';
+import 'clock_location.dart';
 
 // Shift verification photos (2026-10-02), direct founder request — a
 // photo at shift start/end to deter buddy-punching/fraudulent clock-in-
@@ -26,8 +28,8 @@ const shiftPhotoConsentVersion = '2026-10-02';
 
 /// Call from Shift Welcome (which: 'in') and End Shift (which: 'out').
 /// No-ops entirely (returns null, no dialog, nothing captured) unless the
-/// active site has the feature turned on — existing installs/sites are
-/// completely unaffected. On success, returns the resulting
+/// active site has photo checks and/or the location check (2026-10-15)
+/// turned on — existing installs/sites are completely unaffected. On success, returns the resulting
 /// [BackendShiftLog] so the caller can track the open shift id for the
 /// matching clock-out later.
 Future<BackendShiftLog?> runShiftVerificationStep({
@@ -38,12 +40,14 @@ Future<BackendShiftLog?> runShiftVerificationStep({
   required String which,
   int? existingShiftLogId,
 }) async {
-  if (!site.shiftVerificationPhotosEnabled || user.siteId == null) {
+  final photosOn = site.shiftVerificationPhotosEnabled;
+  final locationOn = site.clockLocationCheckEnabled;
+  if ((!photosOn && !locationOn) || user.siteId == null) {
     return null;
   }
   final siteId = user.siteId!;
 
-  var consent = user.shiftPhotoConsent;
+  var consent = photosOn ? user.shiftPhotoConsent : 'declined';
   if (consent == null) {
     if (!context.mounted) return null;
     consent = await _askConsent(context);
@@ -67,7 +71,7 @@ Future<BackendShiftLog?> runShiftVerificationStep({
   }
 
   List<int>? photoBytes;
-  if (consent == 'allowed') {
+  if (photosOn && consent == 'allowed') {
     if (!context.mounted) return null;
     photoBytes = await _capturePhoto(context);
     // A cancelled camera still proceeds (consent was "allowed", but
@@ -77,6 +81,16 @@ Future<BackendShiftLog?> runShiftVerificationStep({
     // the person from clocking in/out at all.
   }
 
+  // Location-checked clock-in (2026-10-15) — see clock_location.dart.
+  // The server decides on-site/off-site; a null position is still sent
+  // (the venue-network check may pass it, else it's flagged for review).
+  ClockPosition? position;
+  if (locationOn) {
+    if (!context.mounted) return null;
+    await showClockLocationNoticeOnce(context, user.id);
+    position = await readClockPosition();
+  }
+
   final repo = ref.read(backendShiftLogRepositoryProvider);
   try {
     if (which == 'in') {
@@ -84,6 +98,7 @@ Future<BackendShiftLog?> runShiftVerificationStep({
         siteId: siteId,
         userId: user.id,
         photoBytes: photoBytes,
+        position: position,
       );
     } else if (existingShiftLogId != null) {
       return await repo.clockOut(
@@ -91,6 +106,7 @@ Future<BackendShiftLog?> runShiftVerificationStep({
         siteId: siteId,
         userId: user.id,
         photoBytes: photoBytes,
+        position: position,
       );
     }
   } catch (_) {

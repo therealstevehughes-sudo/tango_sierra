@@ -9151,6 +9151,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Withdraw sign-off'**
   String get trainingWithdrawSignoff;
+
+  /// No description provided for @clockLocationNoticeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Location check at clock-in'**
+  String get clockLocationNoticeTitle;
+
+  /// No description provided for @clockLocationNoticeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This venue checks you\'re on site when you clock in and out. Your location is read once at that moment only, never tracked, and only your distance from the venue is kept. If you don\'t allow location, you can still clock in - a supervisor will confirm it instead.'**
+  String get clockLocationNoticeBody;
+
+  /// No description provided for @clockLocationNoticeOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get clockLocationNoticeOk;
+
+  /// No description provided for @clockInOffSiteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clocked in {when}, about {metres} m from the venue'**
+  String clockInOffSiteLabel(String when, int metres);
+
+  /// No description provided for @clockOutOffSiteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clocked out {when}, about {metres} m from the venue'**
+  String clockOutOffSiteLabel(String when, int metres);
+
+  /// No description provided for @clockInNoLocationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clocked in {when} - location not available'**
+  String clockInNoLocationLabel(String when);
+
+  /// No description provided for @clockOutNoLocationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clocked out {when} - location not available'**
+  String clockOutNoLocationLabel(String when);
+
+  /// No description provided for @markReviewedButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark reviewed'**
+  String get markReviewedButton;
+
+  /// No description provided for @clockLocationSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clock-in location check'**
+  String get clockLocationSectionTitle;
+
+  /// No description provided for @clockLocationExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'Flags clock-ins and clock-outs made away from the venue for a supervisor to review. Nobody is ever blocked from clocking in, and staff locations are never tracked.'**
+  String get clockLocationExplanation;
+
+  /// No description provided for @enableClockLocationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Check location at clock-in and clock-out'**
+  String get enableClockLocationLabel;
+
+  /// No description provided for @clockVenueLocationSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue location set'**
+  String get clockVenueLocationSet;
+
+  /// No description provided for @clockVenueLocationNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue location not set yet - stand in the venue and tap the button'**
+  String get clockVenueLocationNotSet;
+
+  /// No description provided for @clockUseCurrentLocationButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my current location'**
+  String get clockUseCurrentLocationButton;
+
+  /// No description provided for @clockVenueLocationUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t get this device\'s location. Check location is switched on and allowed, then try again.'**
+  String get clockVenueLocationUnavailable;
+
+  /// No description provided for @clockRadiusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed distance: {metres} m'**
+  String clockRadiusLabel(int metres);
+
+  /// No description provided for @clockRadiusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed distance from the venue'**
+  String get clockRadiusTitle;
+
+  /// No description provided for @metresLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Metres'**
+  String get metresLabel;
+
+  /// No description provided for @clockRadiusHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Between 25 and 2000. 150 suits most venues.'**
+  String get clockRadiusHelper;
+
+  /// No description provided for @clockNetworkSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue internet connection recorded'**
+  String get clockNetworkSet;
+
+  /// No description provided for @clockNetworkNotSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue internet connection not recorded'**
+  String get clockNetworkNotSet;
+
+  /// No description provided for @clockUseThisNetworkButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this connection'**
+  String get clockUseThisNetworkButton;
+
+  /// No description provided for @clearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clearLabel;
+
+  /// No description provided for @clockNetworkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Do this while connected to the venue\'s own Wi-Fi, ideally on the shared tablet. Clock-ins from that connection count as on site, even indoors.'**
+  String get clockNetworkHint;
 }
 
 class _AppLocalizationsDelegate

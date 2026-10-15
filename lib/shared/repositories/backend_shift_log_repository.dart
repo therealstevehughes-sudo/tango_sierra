@@ -3,6 +3,25 @@ import '../models/backend_shift_log.dart';
 
 const shiftVerificationPhotosBucket = 'shift-verification-photos';
 
+/// One location reading, sent to the server and never stored as-is.
+class ClockPosition {
+  const ClockPosition({
+    required this.latitude,
+    required this.longitude,
+    required this.accuracyM,
+  });
+
+  final double latitude;
+  final double longitude;
+  final int accuracyM;
+
+  Map<String, dynamic> toParams() => {
+    'p_lat': latitude,
+    'p_lng': longitude,
+    'p_accuracy_m': accuracyM,
+  };
+}
+
 // Shift verification photos (2026-10-02) — see BackendShiftLog's own doc
 // comment. Backend-only, no local Drift mirror: the whole point is a
 // supervisor on a DIFFERENT device seeing a pending clock-in/out, which a
@@ -12,10 +31,14 @@ abstract class BackendShiftLogRepository {
   /// to the private Storage bucket, then calls the shift_clock_in RPC.
   /// [photoBytes] null means the staff member declined — the row is
   /// created with no photo, immediately pending supervisor verification.
+  /// [position] is the device's reading at this moment (null if the site
+  /// doesn't check location, or none was available) — the server decides
+  /// on-site/off-site from it, never the app.
   Future<BackendShiftLog?> clockIn({
     required int siteId,
     required int userId,
     List<int>? photoBytes,
+    ClockPosition? position,
   });
 
   Future<BackendShiftLog?> clockOut({
@@ -23,6 +46,13 @@ abstract class BackendShiftLogRepository {
     required int siteId,
     required int userId,
     List<int>? photoBytes,
+    ClockPosition? position,
+  });
+
+  /// Supervisor+ marks an off-site / no-location event as looked at.
+  Future<BackendShiftLog?> reviewLocation({
+    required int shiftLogId,
+    required String which,
   });
 
   /// The most recent open (no clockOutAt) shift for this user at this
@@ -79,7 +109,22 @@ class SupabaseBackendShiftLogRepository implements BackendShiftLogRepository {
     clockOutVerifiedAt: row['clock_out_verified_at'] == null
         ? null
         : DateTime.parse(row['clock_out_verified_at'] as String),
+    clockInLocation: _location(row, 'clock_in'),
+    clockOutLocation: _location(row, 'clock_out'),
   );
+
+  ClockLocationResult? _location(Map<String, dynamic> row, String prefix) {
+    final status = parseClockLocationStatus(
+      row['${prefix}_location_status'] as String?,
+    );
+    if (status == null) return null;
+    return ClockLocationResult(
+      status: status,
+      distanceM: row['${prefix}_distance_m'] as int?,
+      accuracyM: row['${prefix}_accuracy_m'] as int?,
+      reviewedByUserId: row['${prefix}_location_reviewed_by_user_id'] as int?,
+    );
+  }
 
   String _photoPath(int siteId, int userId, String which) =>
       '$siteId/$userId/${DateTime.now().millisecondsSinceEpoch}_$which.jpg';
@@ -89,6 +134,7 @@ class SupabaseBackendShiftLogRepository implements BackendShiftLogRepository {
     required int siteId,
     required int userId,
     List<int>? photoBytes,
+    ClockPosition? position,
   }) async {
     String? photoPath;
     if (photoBytes != null) {
@@ -103,6 +149,7 @@ class SupabaseBackendShiftLogRepository implements BackendShiftLogRepository {
     final rows = await _client.rpc('shift_clock_in', {
       'p_site_id': siteId,
       'p_photo_path': photoPath,
+      ...?position?.toParams(),
     });
     if (rows.isEmpty) return null;
     return _toModel(rows.first as Map<String, dynamic>);
@@ -114,6 +161,7 @@ class SupabaseBackendShiftLogRepository implements BackendShiftLogRepository {
     required int siteId,
     required int userId,
     List<int>? photoBytes,
+    ClockPosition? position,
   }) async {
     String? photoPath;
     if (photoBytes != null) {
@@ -128,6 +176,7 @@ class SupabaseBackendShiftLogRepository implements BackendShiftLogRepository {
     final rows = await _client.rpc('shift_clock_out', {
       'p_shift_log_id': shiftLogId,
       'p_photo_path': photoPath,
+      ...?position?.toParams(),
     });
     if (rows.isEmpty) return null;
     return _toModel(rows.first as Map<String, dynamic>);
@@ -166,6 +215,19 @@ class SupabaseBackendShiftLogRepository implements BackendShiftLogRepository {
     required String which,
   }) async {
     final rows = await _client.rpc('shift_verify_clock_event', {
+      'p_shift_log_id': shiftLogId,
+      'p_which': which,
+    });
+    if (rows.isEmpty) return null;
+    return _toModel(rows.first as Map<String, dynamic>);
+  }
+
+  @override
+  Future<BackendShiftLog?> reviewLocation({
+    required int shiftLogId,
+    required String which,
+  }) async {
+    final rows = await _client.rpc('shift_review_location', {
       'p_shift_log_id': shiftLogId,
       'p_which': which,
     });

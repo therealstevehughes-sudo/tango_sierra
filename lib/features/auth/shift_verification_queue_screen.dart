@@ -33,6 +33,9 @@ class _ShiftVerificationQueueScreenState
   bool _loading = true;
   String? _error;
   bool _addonEnabled = true;
+  // Which checks this site runs — photo-pending rows only mean anything
+  // when photos are on; location flags only when the location check is.
+  bool _photosOn = false;
   List<BackendShiftLog> _logs = [];
   Map<int, String> _staffNames = {};
   final _busyIds = <String>{};
@@ -58,7 +61,9 @@ class _ShiftVerificationQueueScreenState
 
       final site = await ref.read(siteRepositoryProvider).getById(siteId);
       if (!mounted) return;
-      if (site == null || !site.shiftVerificationPhotosEnabled) {
+      if (site == null ||
+          (!site.shiftVerificationPhotosEnabled &&
+              !site.clockLocationCheckEnabled)) {
         setState(() {
           _addonEnabled = false;
           _loading = false;
@@ -85,6 +90,7 @@ class _ShiftVerificationQueueScreenState
         _logs = logs;
         _staffNames = {for (final u in staff) u.id: u.name};
         _addonEnabled = true;
+        _photosOn = site.shiftVerificationPhotosEnabled;
         _loading = false;
       });
     } catch (e) {
@@ -115,6 +121,70 @@ class _ShiftVerificationQueueScreenState
     }
   }
 
+  Future<void> _reviewLocation(BackendShiftLog log, String which) async {
+    final busyKey = '${log.id}-loc-$which';
+    setState(() => _busyIds.add(busyKey));
+    try {
+      await ref
+          .read(backendShiftLogRepositoryProvider)
+          .reviewLocation(shiftLogId: log.id, which: which);
+      await _load();
+    } catch (e) {
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(friendlyErrorMessage(l10n, e))));
+    } finally {
+      if (mounted) setState(() => _busyIds.remove(busyKey));
+    }
+  }
+
+  String _locationFlagText(
+    AppLocalizations l10n,
+    ClockLocationResult result,
+    String when,
+    bool clockIn,
+  ) {
+    if (result.status == ClockLocationStatus.noLocation) {
+      return clockIn
+          ? l10n.clockInNoLocationLabel(when)
+          : l10n.clockOutNoLocationLabel(when);
+    }
+    final metres = result.distanceM ?? 0;
+    return clockIn
+        ? l10n.clockInOffSiteLabel(when, metres)
+        : l10n.clockOutOffSiteLabel(when, metres);
+  }
+
+  Widget _locationRow(
+    AppLocalizations l10n,
+    BackendShiftLog log,
+    String which,
+  ) {
+    final clockIn = which == 'in';
+    final result = clockIn ? log.clockInLocation! : log.clockOutLocation!;
+    final when = _formatDateTime(clockIn ? log.clockInAt : log.clockOutAt!);
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          const Icon(Icons.location_off_outlined, size: 18),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(_locationFlagText(l10n, result, when, clockIn)),
+          ),
+          OutlinedButton(
+            onPressed: _busyIds.contains('${log.id}-loc-$which')
+                ? null
+                : () => _reviewLocation(log, which),
+            child: Text(l10n.markReviewedButton),
+          ),
+        ],
+      ),
+    );
+  }
+
   String _staffName(int userId) => _staffNames[userId] ?? '—';
 
   String _formatDateTime(DateTime d) {
@@ -125,8 +195,16 @@ class _ShiftVerificationQueueScreenState
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    bool photoIn(BackendShiftLog l) => _photosOn && l.clockInPending;
+    bool photoOut(BackendShiftLog l) => _photosOn && l.clockOutPending;
     final pending = _logs
-        .where((l) => l.clockInPending || l.clockOutPending)
+        .where(
+          (l) =>
+              photoIn(l) ||
+              photoOut(l) ||
+              l.clockInLocationFlagged ||
+              l.clockOutLocationFlagged,
+        )
         .toList();
 
     return Scaffold(
@@ -162,7 +240,11 @@ class _ShiftVerificationQueueScreenState
                                     ),
                                   ),
                                   const SizedBox(height: 8),
-                                  if (log.clockInPending)
+                                  if (log.clockInLocationFlagged)
+                                    _locationRow(l10n, log, 'in'),
+                                  if (log.clockOutLocationFlagged)
+                                    _locationRow(l10n, log, 'out'),
+                                  if (photoIn(log))
                                     Padding(
                                       padding: const EdgeInsets.only(
                                         bottom: 8,
@@ -192,7 +274,7 @@ class _ShiftVerificationQueueScreenState
                                         ],
                                       ),
                                     ),
-                                  if (log.clockOutPending)
+                                  if (photoOut(log))
                                     Row(
                                       children: [
                                         Expanded(

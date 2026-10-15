@@ -4750,5 +4750,70 @@
       }
     }
   },
-  "trainingWithdrawSignoff": "Withdraw sign-off"
+  "trainingWithdrawSignoff": "Withdraw sign-off",
+  "clockLocationNoticeTitle": "Location check at clock-in",
+  "clockLocationNoticeBody": "This venue checks you're on site when you clock in and out. Your location is read once at that moment only, never tracked, and only your distance from the venue is kept. If you don't allow location, you can still clock in - a supervisor will confirm it instead.",
+  "clockLocationNoticeOk": "OK",
+  "clockInOffSiteLabel": "Clocked in {when}, about {metres} m from the venue",
+  "@clockInOffSiteLabel": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "metres": {
+        "type": "int"
+      }
+    }
+  },
+  "clockOutOffSiteLabel": "Clocked out {when}, about {metres} m from the venue",
+  "@clockOutOffSiteLabel": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "metres": {
+        "type": "int"
+      }
+    }
+  },
+  "clockInNoLocationLabel": "Clocked in {when} - location not available",
+  "@clockInNoLocationLabel": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "clockOutNoLocationLabel": "Clocked out {when} - location not available",
+  "@clockOutNoLocationLabel": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "markReviewedButton": "Mark reviewed",
+  "clockLocationSectionTitle": "Clock-in location check",
+  "clockLocationExplanation": "Flags clock-ins and clock-outs made away from the venue for a supervisor to review. Nobody is ever blocked from clocking in, and staff locations are never tracked.",
+  "enableClockLocationLabel": "Check location at clock-in and clock-out",
+  "clockVenueLocationSet": "Venue location set",
+  "clockVenueLocationNotSet": "Venue location not set yet - stand in the venue and tap the button",
+  "clockUseCurrentLocationButton": "Use my current location",
+  "clockVenueLocationUnavailable": "Couldn't get this device's location. Check location is switched on and allowed, then try again.",
+  "clockRadiusLabel": "Allowed distance: {metres} m",
+  "@clockRadiusLabel": {
+    "placeholders": {
+      "metres": {
+        "type": "int"
+      }
+    }
+  },
+  "clockRadiusTitle": "Allowed distance from the venue",
+  "metresLabel": "Metres",
+  "clockRadiusHelper": "Between 25 and 2000. 150 suits most venues.",
+  "clockNetworkSet": "Venue internet connection recorded",
+  "clockNetworkNotSet": "Venue internet connection not recorded",
+  "clockUseThisNetworkButton": "Use this connection",
+  "clearLabel": "Clear",
+  "clockNetworkHint": "Do this while connected to the venue's own Wi-Fi, ideally on the shared tablet. Clock-ins from that connection count as on site, even indoors."
 }

@@ -5357,4 +5357,92 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trainingWithdrawSignoff => 'Withdraw sign-off';
+
+  @override
+  String get clockLocationNoticeTitle => 'Location check at clock-in';
+
+  @override
+  String get clockLocationNoticeBody =>
+      'This venue checks you\'re on site when you clock in and out. Your location is read once at that moment only, never tracked, and only your distance from the venue is kept. If you don\'t allow location, you can still clock in - a supervisor will confirm it instead.';
+
+  @override
+  String get clockLocationNoticeOk => 'OK';
+
+  @override
+  String clockInOffSiteLabel(String when, int metres) {
+    return 'Clocked in $when, about $metres m from the venue';
+  }
+
+  @override
+  String clockOutOffSiteLabel(String when, int metres) {
+    return 'Clocked out $when, about $metres m from the venue';
+  }
+
+  @override
+  String clockInNoLocationLabel(String when) {
+    return 'Clocked in $when - location not available';
+  }
+
+  @override
+  String clockOutNoLocationLabel(String when) {
+    return 'Clocked out $when - location not available';
+  }
+
+  @override
+  String get markReviewedButton => 'Mark reviewed';
+
+  @override
+  String get clockLocationSectionTitle => 'Clock-in location check';
+
+  @override
+  String get clockLocationExplanation =>
+      'Flags clock-ins and clock-outs made away from the venue for a supervisor to review. Nobody is ever blocked from clocking in, and staff locations are never tracked.';
+
+  @override
+  String get enableClockLocationLabel =>
+      'Check location at clock-in and clock-out';
+
+  @override
+  String get clockVenueLocationSet => 'Venue location set';
+
+  @override
+  String get clockVenueLocationNotSet =>
+      'Venue location not set yet - stand in the venue and tap the button';
+
+  @override
+  String get clockUseCurrentLocationButton => 'Use my current location';
+
+  @override
+  String get clockVenueLocationUnavailable =>
+      'Couldn\'t get this device\'s location. Check location is switched on and allowed, then try again.';
+
+  @override
+  String clockRadiusLabel(int metres) {
+    return 'Allowed distance: $metres m';
+  }
+
+  @override
+  String get clockRadiusTitle => 'Allowed distance from the venue';
+
+  @override
+  String get metresLabel => 'Metres';
+
+  @override
+  String get clockRadiusHelper => 'Between 25 and 2000. 150 suits most venues.';
+
+  @override
+  String get clockNetworkSet => 'Venue internet connection recorded';
+
+  @override
+  String get clockNetworkNotSet => 'Venue internet connection not recorded';
+
+  @override
+  String get clockUseThisNetworkButton => 'Use this connection';
+
+  @override
+  String get clearLabel => 'Clear';
+
+  @override
+  String get clockNetworkHint =>
+      'Do this while connected to the venue\'s own Wi-Fi, ideally on the shared tablet. Clock-ins from that connection count as on site, even indoors.';
 }

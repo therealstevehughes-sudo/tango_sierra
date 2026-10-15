@@ -5342,4 +5342,94 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get trainingWithdrawSignoff => 'Retirar aprobación';
+
+  @override
+  String get clockLocationNoticeTitle => 'Comprobación de ubicación al fichar';
+
+  @override
+  String get clockLocationNoticeBody =>
+      'Este local comprueba que estás en el sitio cuando fichas la entrada y la salida. Tu ubicación se lee una sola vez en ese momento, nunca se rastrea, y solo se guarda tu distancia al local. Si no permites la ubicación, puedes fichar igualmente: un supervisor lo confirmará.';
+
+  @override
+  String get clockLocationNoticeOk => 'Vale';
+
+  @override
+  String clockInOffSiteLabel(String when, int metres) {
+    return 'Entrada $when, a unos $metres m del local';
+  }
+
+  @override
+  String clockOutOffSiteLabel(String when, int metres) {
+    return 'Salida $when, a unos $metres m del local';
+  }
+
+  @override
+  String clockInNoLocationLabel(String when) {
+    return 'Entrada $when - ubicación no disponible';
+  }
+
+  @override
+  String clockOutNoLocationLabel(String when) {
+    return 'Salida $when - ubicación no disponible';
+  }
+
+  @override
+  String get markReviewedButton => 'Marcar como revisado';
+
+  @override
+  String get clockLocationSectionTitle => 'Comprobación de ubicación al fichar';
+
+  @override
+  String get clockLocationExplanation =>
+      'Marca los fichajes de entrada y salida hechos fuera del local para que un supervisor los revise. Nunca se impide fichar a nadie y nunca se rastrea la ubicación del personal.';
+
+  @override
+  String get enableClockLocationLabel =>
+      'Comprobar ubicación al fichar entrada y salida';
+
+  @override
+  String get clockVenueLocationSet => 'Ubicación del local establecida';
+
+  @override
+  String get clockVenueLocationNotSet =>
+      'Ubicación del local sin establecer - colócate en el local y pulsa el botón';
+
+  @override
+  String get clockUseCurrentLocationButton => 'Usar mi ubicación actual';
+
+  @override
+  String get clockVenueLocationUnavailable =>
+      'No se pudo obtener la ubicación de este dispositivo. Comprueba que la ubicación está activada y permitida e inténtalo de nuevo.';
+
+  @override
+  String clockRadiusLabel(int metres) {
+    return 'Distancia permitida: $metres m';
+  }
+
+  @override
+  String get clockRadiusTitle => 'Distancia permitida desde el local';
+
+  @override
+  String get metresLabel => 'Metros';
+
+  @override
+  String get clockRadiusHelper =>
+      'Entre 25 y 2000. 150 sirve para la mayoría de locales.';
+
+  @override
+  String get clockNetworkSet => 'Conexión a internet del local registrada';
+
+  @override
+  String get clockNetworkNotSet =>
+      'Conexión a internet del local no registrada';
+
+  @override
+  String get clockUseThisNetworkButton => 'Usar esta conexión';
+
+  @override
+  String get clearLabel => 'Borrar';
+
+  @override
+  String get clockNetworkHint =>
+      'Hazlo conectado al Wi-Fi del propio local, preferiblemente en la tableta compartida. Los fichajes desde esa conexión cuentan como en el local, incluso en interiores.';
 }

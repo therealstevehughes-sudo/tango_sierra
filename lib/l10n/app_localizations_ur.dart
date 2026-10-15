@@ -5215,4 +5215,92 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get trainingWithdrawSignoff => 'منظوری واپس لیں';
+
+  @override
+  String get clockLocationNoticeTitle => 'کلاک اِن پر مقام کی جانچ';
+
+  @override
+  String get clockLocationNoticeBody =>
+      'یہ مقام جانچتا ہے کہ کلاک اِن اور کلاک آؤٹ کے وقت آپ وہیں موجود ہیں۔ آپ کا مقام صرف اسی لمحے ایک بار پڑھا جاتا ہے، کبھی ٹریک نہیں کیا جاتا، اور صرف مقام سے آپ کا فاصلہ رکھا جاتا ہے۔ اگر آپ مقام کی اجازت نہ دیں تب بھی کلاک اِن کر سکتے ہیں - سپروائزر اس کی تصدیق کرے گا۔';
+
+  @override
+  String get clockLocationNoticeOk => 'ٹھیک ہے';
+
+  @override
+  String clockInOffSiteLabel(String when, int metres) {
+    return '$when کلاک اِن، مقام سے تقریباً $metres میٹر دور';
+  }
+
+  @override
+  String clockOutOffSiteLabel(String when, int metres) {
+    return '$when کلاک آؤٹ، مقام سے تقریباً $metres میٹر دور';
+  }
+
+  @override
+  String clockInNoLocationLabel(String when) {
+    return '$when کلاک اِن - مقام دستیاب نہیں';
+  }
+
+  @override
+  String clockOutNoLocationLabel(String when) {
+    return '$when کلاک آؤٹ - مقام دستیاب نہیں';
+  }
+
+  @override
+  String get markReviewedButton => 'جائزہ مکمل';
+
+  @override
+  String get clockLocationSectionTitle => 'کلاک اِن پر مقام کی جانچ';
+
+  @override
+  String get clockLocationExplanation =>
+      'مقام سے دور کیے گئے کلاک اِن اور کلاک آؤٹ کو سپروائزر کے جائزے کے لیے نشان زد کرتا ہے۔ کسی کو کبھی کلاک اِن سے نہیں روکا جاتا، اور عملے کا مقام کبھی ٹریک نہیں ہوتا۔';
+
+  @override
+  String get enableClockLocationLabel => 'کلاک اِن اور کلاک آؤٹ پر مقام جانچیں';
+
+  @override
+  String get clockVenueLocationSet => 'مقام کی جگہ مقرر ہے';
+
+  @override
+  String get clockVenueLocationNotSet =>
+      'مقام کی جگہ ابھی مقرر نہیں - مقام میں کھڑے ہو کر بٹن دبائیں';
+
+  @override
+  String get clockUseCurrentLocationButton => 'میرا موجودہ مقام استعمال کریں';
+
+  @override
+  String get clockVenueLocationUnavailable =>
+      'اس ڈیوائس کا مقام نہیں مل سکا۔ دیکھیں کہ مقام آن ہے اور اجازت دی گئی ہے، پھر دوبارہ کوشش کریں۔';
+
+  @override
+  String clockRadiusLabel(int metres) {
+    return 'اجازت شدہ فاصلہ: $metres میٹر';
+  }
+
+  @override
+  String get clockRadiusTitle => 'مقام سے اجازت شدہ فاصلہ';
+
+  @override
+  String get metresLabel => 'میٹر';
+
+  @override
+  String get clockRadiusHelper =>
+      '25 سے 2000 کے درمیان۔ زیادہ تر مقامات کے لیے 150 مناسب ہے۔';
+
+  @override
+  String get clockNetworkSet => 'مقام کا انٹرنیٹ کنکشن درج ہے';
+
+  @override
+  String get clockNetworkNotSet => 'مقام کا انٹرنیٹ کنکشن درج نہیں';
+
+  @override
+  String get clockUseThisNetworkButton => 'یہ کنکشن استعمال کریں';
+
+  @override
+  String get clearLabel => 'ہٹائیں';
+
+  @override
+  String get clockNetworkHint =>
+      'یہ مقام کے اپنے Wi-Fi سے جڑے رہ کر کریں، بہتر ہے مشترکہ ٹیبلٹ پر۔ اس کنکشن سے کیے گئے کلاک اِن مقام پر شمار ہوتے ہیں، اندر بھی۔';
 }

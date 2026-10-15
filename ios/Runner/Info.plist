@@ -45,6 +45,8 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>VenuRite checks you are at the venue when you clock in or out. Your location is only read at that moment, never tracked.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>VenuRite uses the camera to capture photo evidence for compliance checks (Sprint 032 photo evidence).</string>
 	<key>NSPhotoLibraryUsageDescription</key>

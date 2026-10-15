@@ -5341,4 +5341,95 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get trainingWithdrawSignoff => 'Wycofaj zatwierdzenie';
+
+  @override
+  String get clockLocationNoticeTitle =>
+      'Sprawdzanie lokalizacji przy rejestracji wejścia';
+
+  @override
+  String get clockLocationNoticeBody =>
+      'Ten lokal sprawdza, czy jesteś na miejscu przy rejestracji wejścia i wyjścia. Twoja lokalizacja jest odczytywana tylko raz, w tej chwili, nigdy nie jest śledzona i zapisywana jest tylko odległość od lokalu. Jeśli nie zezwolisz na lokalizację, i tak możesz się zarejestrować - potwierdzi to przełożony.';
+
+  @override
+  String get clockLocationNoticeOk => 'OK';
+
+  @override
+  String clockInOffSiteLabel(String when, int metres) {
+    return 'Wejście $when, około $metres m od lokalu';
+  }
+
+  @override
+  String clockOutOffSiteLabel(String when, int metres) {
+    return 'Wyjście $when, około $metres m od lokalu';
+  }
+
+  @override
+  String clockInNoLocationLabel(String when) {
+    return 'Wejście $when - lokalizacja niedostępna';
+  }
+
+  @override
+  String clockOutNoLocationLabel(String when) {
+    return 'Wyjście $when - lokalizacja niedostępna';
+  }
+
+  @override
+  String get markReviewedButton => 'Oznacz jako sprawdzone';
+
+  @override
+  String get clockLocationSectionTitle =>
+      'Sprawdzanie lokalizacji przy rejestracji wejścia';
+
+  @override
+  String get clockLocationExplanation =>
+      'Oznacza wejścia i wyjścia zarejestrowane poza lokalem do sprawdzenia przez przełożonego. Nikt nigdy nie jest blokowany, a lokalizacja pracowników nigdy nie jest śledzona.';
+
+  @override
+  String get enableClockLocationLabel =>
+      'Sprawdzaj lokalizację przy wejściu i wyjściu';
+
+  @override
+  String get clockVenueLocationSet => 'Lokalizacja lokalu ustawiona';
+
+  @override
+  String get clockVenueLocationNotSet =>
+      'Lokalizacja lokalu nieustawiona - stań w lokalu i dotknij przycisku';
+
+  @override
+  String get clockUseCurrentLocationButton => 'Użyj mojej obecnej lokalizacji';
+
+  @override
+  String get clockVenueLocationUnavailable =>
+      'Nie udało się pobrać lokalizacji tego urządzenia. Sprawdź, czy lokalizacja jest włączona i dozwolona, i spróbuj ponownie.';
+
+  @override
+  String clockRadiusLabel(int metres) {
+    return 'Dozwolona odległość: $metres m';
+  }
+
+  @override
+  String get clockRadiusTitle => 'Dozwolona odległość od lokalu';
+
+  @override
+  String get metresLabel => 'Metry';
+
+  @override
+  String get clockRadiusHelper =>
+      'Od 25 do 2000. 150 pasuje do większości lokali.';
+
+  @override
+  String get clockNetworkSet => 'Połączenie internetowe lokalu zapisane';
+
+  @override
+  String get clockNetworkNotSet => 'Połączenie internetowe lokalu niezapisane';
+
+  @override
+  String get clockUseThisNetworkButton => 'Użyj tego połączenia';
+
+  @override
+  String get clearLabel => 'Wyczyść';
+
+  @override
+  String get clockNetworkHint =>
+      'Zrób to po połączeniu z Wi-Fi lokalu, najlepiej na wspólnym tablecie. Rejestracje z tego połączenia liczą się jako na miejscu, nawet w środku budynku.';
 }

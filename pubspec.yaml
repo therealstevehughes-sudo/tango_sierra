@@ -113,6 +113,7 @@ dependencies:
   # separate follow-up, not part of this wiring step).
   firebase_core: ^3.8.0
   firebase_messaging: ^15.1.6
+  geolocator: ^14.0.2
 
 dev_dependencies:
   flutter_test:

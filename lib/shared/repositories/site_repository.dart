@@ -60,6 +60,20 @@ abstract class SiteRepository {
   // local Drift path, same reasoning as UserRepository.setShiftPhotoConsent.
   Future<void> setShiftVerificationPhotosEnabled(int siteId, bool enabled);
   Future<void> setShiftPhotoRetentionDays(int siteId, int days);
+
+  /// Location-checked clock-in settings (2026-10-15). Null [latitude]/
+  /// [longitude]/[radiusM] leave the stored value unchanged.
+  Future<void> setClockLocation({
+    required int siteId,
+    required bool enabled,
+    double? latitude,
+    double? longitude,
+    int? radiusM,
+  });
+
+  /// Records the internet connection this request comes from as the
+  /// venue's own network ([clear] removes it). Returns whether one is set.
+  Future<bool> setClockNetwork(int siteId, {bool clear = false});
 }
 
 class DriftSiteRepository implements SiteRepository {
@@ -191,6 +205,19 @@ class DriftSiteRepository implements SiteRepository {
 
   @override
   Future<void> setShiftPhotoRetentionDays(int siteId, int days) async {}
+
+  // Backend-only, same as the photo settings above.
+  @override
+  Future<void> setClockLocation({
+    required int siteId,
+    required bool enabled,
+    double? latitude,
+    double? longitude,
+    int? radiusM,
+  }) async {}
+
+  @override
+  Future<bool> setClockNetwork(int siteId, {bool clear = false}) async => false;
 
   Site _toModel(SiteEntity row) {
     return Site(

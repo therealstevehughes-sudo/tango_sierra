@@ -20,6 +20,8 @@ class BackendShiftLog {
     this.clockOutPhotoPurged = false,
     this.clockOutVerifiedByUserId,
     this.clockOutVerifiedAt,
+    this.clockInLocation,
+    this.clockOutLocation,
   });
 
   final int id;
@@ -39,6 +41,10 @@ class BackendShiftLog {
   final bool clockOutPhotoPurged;
   final int? clockOutVerifiedByUserId;
   final DateTime? clockOutVerifiedAt;
+  // Location-checked clock-in (2026-10-15) — null when the site didn't
+  // have the check on at the time of that event.
+  final ClockLocationResult? clockInLocation;
+  final ClockLocationResult? clockOutLocation;
 
   Duration? get duration => clockOutAt?.difference(clockInAt);
 
@@ -51,6 +57,43 @@ class BackendShiftLog {
       clockOutPhotoPath == null &&
       !clockOutPhotoPurged &&
       clockOutVerifiedByUserId == null;
+
+  bool get clockInLocationFlagged => clockInLocation?.needsReview ?? false;
+  bool get clockOutLocationFlagged => clockOutLocation?.needsReview ?? false;
+}
+
+enum ClockLocationStatus { onSiteGps, onSiteNetwork, offSite, noLocation }
+
+ClockLocationStatus? parseClockLocationStatus(String? raw) => switch (raw) {
+  'on_site_gps' => ClockLocationStatus.onSiteGps,
+  'on_site_network' => ClockLocationStatus.onSiteNetwork,
+  'off_site' => ClockLocationStatus.offSite,
+  'no_location' => ClockLocationStatus.noLocation,
+  _ => null,
+};
+
+/// The server's verdict on one clock event. Raw coordinates are never
+/// stored (data minimisation) — only distance from the venue and the
+/// accuracy the device reported.
+class ClockLocationResult {
+  const ClockLocationResult({
+    required this.status,
+    this.distanceM,
+    this.accuracyM,
+    this.reviewedByUserId,
+  });
+
+  final ClockLocationStatus status;
+  final int? distanceM;
+  final int? accuracyM;
+  final int? reviewedByUserId;
+
+  bool get isFlagged =>
+      status == ClockLocationStatus.offSite ||
+      status == ClockLocationStatus.noLocation;
+
+  /// Flagged and not yet looked at by a supervisor.
+  bool get needsReview => isFlagged && reviewedByUserId == null;
 }
 
 /// Pure retention check, factored out so it's independently testable: a
