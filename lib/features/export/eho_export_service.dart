@@ -34,6 +34,10 @@ import '../../shared/repositories/task_template_repository.dart';
 import '../../shared/repositories/training_record_repository.dart';
 import '../../shared/repositories/user_repository.dart';
 import '../tasks/overdue_summary_service.dart';
+import '../tasks/training/training_progress.dart' as tp;
+import '../tasks/training/training_service.dart';
+import '../../shared/models/user.dart';
+import '../../shared/providers/training_progress_providers.dart';
 
 // EHO/audit export (Sprint 031) — a one-tap, inspector-ready PDF of a
 // venue's compliance records over a chosen date range. The #1 UK
@@ -114,8 +118,9 @@ class EhoExportService {
     this._supplierRepository,
     this._brandingConfigRepository,
     this._evidenceStore,
-    this._menuItemRepository,
-  );
+    this._menuItemRepository, [
+    this._trainingService,
+  ]);
 
   final TaskSubmissionRepository _submissionRepository;
   final TaskTemplateRepository _templateRepository;
@@ -127,6 +132,9 @@ class EhoExportService {
   final BrandingConfigRepository _brandingConfigRepository;
   final EvidenceStore _evidenceStore;
   final MenuItemRepository _menuItemRepository;
+  // Training section (2026-10-15) — optional so existing callers/tests
+  // that don't care about task training keep working unchanged.
+  final TrainingService? _trainingService;
 
   Future<String> generate({
     required int siteId,
@@ -236,6 +244,21 @@ class EhoExportService {
         }
       }
     }
+
+    // Task training (2026-10-15) — has each person read the guide for
+    // every task they're assigned, and has a manager signed them off on
+    // the critical ones? Best-effort: if it can't be loaded (offline,
+    // local mode) the PDF says so rather than failing the whole export or
+    // implying there are no gaps.
+    Map<int, List<tp.TrainingItem>>? taskTraining;
+    try {
+      taskTraining = await _trainingService?.forSite(siteId);
+    } catch (_) {
+      taskTraining = null;
+    }
+    final taskTrainingSummary = taskTraining == null
+        ? null
+        : _summariseTaskTraining(taskTraining, activeStaff);
 
     // Supplier register + traceability (Sprint 031, finalized beta build
     // order item 4, Sub-sprint B) — a due-diligence tally (active suppliers
@@ -418,6 +441,7 @@ class EhoExportService {
             approvedSupplierCount: approvedSupplierCount,
             pendingSupplierCount: pendingSupplierCount,
             suspendedSupplierCount: suspendedSupplierCount,
+            taskTraining: taskTrainingSummary,
           ),
           pw.SizedBox(height: 12),
           _buildExceptionsSection(
@@ -426,6 +450,7 @@ class EhoExportService {
             outstanding: outstanding,
             expiredTraining: expiredTraining,
             flaggedDeliveries: flaggedDeliveries,
+            taskTraining: taskTrainingSummary,
           ),
         ],
       ),
@@ -478,7 +503,10 @@ class EhoExportService {
               style: const pw.TextStyle(fontSize: 9),
             ),
             pw.SizedBox(height: 8),
-            _buildAllergenMatrixTable(approvedMenuItems, allergenTagsByMenuItem),
+            _buildAllergenMatrixTable(
+              approvedMenuItems,
+              allergenTagsByMenuItem,
+            ),
             pw.SizedBox(height: 6),
             pw.Text(
               'Key: check mark = contains, ? = may contain (cross-contamination risk).',
@@ -705,6 +733,7 @@ class EhoExportService {
     required int approvedSupplierCount,
     required int pendingSupplierCount,
     required int suspendedSupplierCount,
+    required _TaskTrainingSummary? taskTraining,
   }) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -736,6 +765,16 @@ class EhoExportService {
           '${trainingCurrentCount == 1 ? '' : 's'} current, '
           '$trainingExpiringSoonCount expiring within 30 days, '
           '$trainingExpiredCount expired.',
+        ),
+        pw.Text(
+          taskTraining == null
+              ? 'Task training: records unavailable for this export.'
+              : 'Task training: ${taskTraining.readCount} of '
+                    '${taskTraining.totalCount} task guides read and '
+                    'understood by assigned staff; '
+                    '${taskTraining.criticalSignedOffCount} of '
+                    '${taskTraining.criticalCount} critical tasks signed off '
+                    'as competent by a manager.',
         ),
         pw.Text(
           'Supplier due diligence: $activeSupplierCount active suppliers, '
@@ -788,6 +827,7 @@ class EhoExportService {
     required List<OverdueSummaryEntry> outstanding,
     required List<_ExpiredTrainingEntry> expiredTraining,
     required List<_FlaggedDeliveryEntry> flaggedDeliveries,
+    required _TaskTrainingSummary? taskTraining,
   }) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -868,6 +908,27 @@ class EhoExportService {
               '  - ${formatDateTime(entry.completedAt)}: ${entry.taskTitle} '
               '(${entry.staffName}) - ${entry.supplierName} '
               '(${supplierApprovalStatusLabel(entry.approvalStatus)})',
+              style: const pw.TextStyle(color: PdfColors.red800),
+            ),
+        pw.SizedBox(height: 8),
+        pw.Text(
+          'Task training gaps',
+          style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+        ),
+        if (taskTraining == null)
+          pw.Text(
+            'Records unavailable for this export.',
+            style: const pw.TextStyle(fontStyle: pw.FontStyle.italic),
+          )
+        else if (taskTraining.gaps.isEmpty)
+          pw.Text(
+            'None.',
+            style: const pw.TextStyle(fontStyle: pw.FontStyle.italic),
+          )
+        else
+          for (final gap in taskTraining.gaps)
+            pw.Text(
+              '  - ${gap.staffName}: ${gap.description}',
               style: const pw.TextStyle(color: PdfColors.red800),
             ),
         pw.SizedBox(height: 8),
@@ -1226,6 +1287,79 @@ class EhoExportService {
   }
 }
 
+class _TaskTrainingGap {
+  const _TaskTrainingGap(this.staffName, this.description);
+
+  final String staffName;
+  final String description;
+}
+
+class _TaskTrainingSummary {
+  const _TaskTrainingSummary({
+    required this.totalCount,
+    required this.readCount,
+    required this.criticalCount,
+    required this.criticalSignedOffCount,
+    required this.gaps,
+  });
+
+  final int totalCount;
+  final int readCount;
+  final int criticalCount;
+  final int criticalSignedOffCount;
+  final List<_TaskTrainingGap> gaps;
+}
+
+// Active staff only, same rule as training records above. A gap line per
+// person, naming up to 5 tasks so a long list stays readable.
+_TaskTrainingSummary _summariseTaskTraining(
+  Map<int, List<tp.TrainingItem>> byUser,
+  List<User> activeStaff,
+) {
+  var total = 0, read = 0, critical = 0, criticalDone = 0;
+  final gaps = <_TaskTrainingGap>[];
+  String names(List<tp.TrainingItem> items) {
+    final shown = items.take(5).map((i) => i.task.title).join(', ');
+    return items.length > 5 ? '$shown and ${items.length - 5} more' : shown;
+  }
+
+  for (final user in activeStaff) {
+    final items = byUser[user.id];
+    if (items == null) continue;
+    total += items.length;
+    read += items.where((i) => !i.needsReading).length;
+    final crit = items.where((i) => i.task.isCritical).toList();
+    critical += crit.length;
+    criticalDone += crit
+        .where((i) => i.status == tp.TrainingStatus.competent)
+        .length;
+    final notRead = items.where((i) => i.needsReading).toList();
+    final awaiting = items
+        .where((i) => i.status == tp.TrainingStatus.awaitingSignoff)
+        .toList();
+    if (notRead.isNotEmpty) {
+      gaps.add(
+        _TaskTrainingGap(user.name, 'guide not read - ${names(notRead)}'),
+      );
+    }
+    if (awaiting.isNotEmpty) {
+      gaps.add(
+        _TaskTrainingGap(
+          user.name,
+          'critical task not yet signed off - ${names(awaiting)}',
+        ),
+      );
+    }
+  }
+  return _TaskTrainingSummary(
+    totalCount: total,
+    readCount: read,
+    criticalCount: critical,
+    criticalSignedOffCount: criticalDone,
+    gaps: gaps,
+  );
+}
+
 final ehoExportServiceProvider = Provider<EhoExportService>((ref) {
   return EhoExportService(
     ref.watch(taskSubmissionRepositoryProvider),
@@ -1238,5 +1372,6 @@ final ehoExportServiceProvider = Provider<EhoExportService>((ref) {
     ref.watch(brandingConfigRepositoryProvider),
     ref.watch(evidenceStoreProvider),
     ref.watch(menuItemRepositoryProvider),
+    ref.watch(trainingServiceProvider),
   );
 });
