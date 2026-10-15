@@ -4657,5 +4657,30 @@
   "troubleQ11": "A shift I was assigned isn't showing on my calendar",
   "troubleA11": "Reopen the screen to refresh it. If it's still missing, check with whoever assigned it, or try logging out and back in.",
   "troubleQ12": "The screen is cut off, or something near the bottom is hard to reach",
-  "troubleA12": "Try scrolling - most screens scroll to reveal anything below the fold. If something still seems unreachable, report it as a bug with a screenshot if you can."
+  "troubleA12": "Try scrolling - most screens scroll to reveal anything below the fold. If something still seems unreachable, report it as a bug with a screenshot if you can.",
+  "trainingGuideButton": "How to do this correctly",
+  "trainingGuideTitle": "How to do this correctly",
+  "trainingGuideStepsHeading": "Steps",
+  "trainingGuideWhyHeading": "Why it matters",
+  "trainingGuideIfFailsHeading": "If it fails",
+  "trainingGuideStandardVersion": "Standard guide",
+  "trainingGuideVenueVersion": "This venue's guide",
+  "trainingGuideVenueLoadFailed": "Couldn't load this venue's version, so the standard guide is shown.",
+  "trainingGuideEditButton": "Edit for this venue",
+  "trainingGuideResetButton": "Reset to standard guide",
+  "trainingGuideResetConfirm": "Remove this venue's version and go back to the standard guide?",
+  "trainingGuideNeedsStep": "Add at least one step.",
+  "trainingGuideSaved": "Guide saved for this venue.",
+  "trainingGuideStepLabel": "Step {number}",
+  "@trainingGuideStepLabel": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "trainingGuideMoveUp": "Move up",
+  "trainingGuideMoveDown": "Move down",
+  "trainingGuideRemoveStep": "Remove step",
+  "trainingGuideAddStep": "Add step"
 }

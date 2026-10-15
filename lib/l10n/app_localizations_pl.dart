@@ -5205,4 +5205,62 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get troubleA12 =>
       'Sprobuj przewinac - wiekszosc ekranow przewija sie, ujawniajac wszystko ponizej widocznego obszaru. Jesli nadal cos wydaje sie niedostepne, zglos to jako blad, dolaczajac zrzut ekranu, jesli to mozliwe.';
+
+  @override
+  String get trainingGuideButton => 'Jak zrobić to poprawnie';
+
+  @override
+  String get trainingGuideTitle => 'Jak zrobić to poprawnie';
+
+  @override
+  String get trainingGuideStepsHeading => 'Kroki';
+
+  @override
+  String get trainingGuideWhyHeading => 'Dlaczego to ważne';
+
+  @override
+  String get trainingGuideIfFailsHeading => 'Jeśli się nie uda';
+
+  @override
+  String get trainingGuideStandardVersion => 'Standardowy poradnik';
+
+  @override
+  String get trainingGuideVenueVersion => 'Poradnik tego lokalu';
+
+  @override
+  String get trainingGuideVenueLoadFailed =>
+      'Nie udało się wczytać wersji tego lokalu, więc wyświetlany jest standardowy poradnik.';
+
+  @override
+  String get trainingGuideEditButton => 'Edytuj dla tego lokalu';
+
+  @override
+  String get trainingGuideResetButton => 'Przywróć standardowy poradnik';
+
+  @override
+  String get trainingGuideResetConfirm =>
+      'Usunąć wersję tego lokalu i wrócić do standardowego poradnika?';
+
+  @override
+  String get trainingGuideNeedsStep => 'Dodaj co najmniej jeden krok.';
+
+  @override
+  String get trainingGuideSaved => 'Poradnik zapisany dla tego lokalu.';
+
+  @override
+  String trainingGuideStepLabel(int number) {
+    return 'Krok $number';
+  }
+
+  @override
+  String get trainingGuideMoveUp => 'W górę';
+
+  @override
+  String get trainingGuideMoveDown => 'W dół';
+
+  @override
+  String get trainingGuideRemoveStep => 'Usuń krok';
+
+  @override
+  String get trainingGuideAddStep => 'Dodaj krok';
 }

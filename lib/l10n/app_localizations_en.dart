@@ -5223,4 +5223,62 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get troubleA12 =>
       'Try scrolling - most screens scroll to reveal anything below the fold. If something still seems unreachable, report it as a bug with a screenshot if you can.';
+
+  @override
+  String get trainingGuideButton => 'How to do this correctly';
+
+  @override
+  String get trainingGuideTitle => 'How to do this correctly';
+
+  @override
+  String get trainingGuideStepsHeading => 'Steps';
+
+  @override
+  String get trainingGuideWhyHeading => 'Why it matters';
+
+  @override
+  String get trainingGuideIfFailsHeading => 'If it fails';
+
+  @override
+  String get trainingGuideStandardVersion => 'Standard guide';
+
+  @override
+  String get trainingGuideVenueVersion => 'This venue\'s guide';
+
+  @override
+  String get trainingGuideVenueLoadFailed =>
+      'Couldn\'t load this venue\'s version, so the standard guide is shown.';
+
+  @override
+  String get trainingGuideEditButton => 'Edit for this venue';
+
+  @override
+  String get trainingGuideResetButton => 'Reset to standard guide';
+
+  @override
+  String get trainingGuideResetConfirm =>
+      'Remove this venue\'s version and go back to the standard guide?';
+
+  @override
+  String get trainingGuideNeedsStep => 'Add at least one step.';
+
+  @override
+  String get trainingGuideSaved => 'Guide saved for this venue.';
+
+  @override
+  String trainingGuideStepLabel(int number) {
+    return 'Step $number';
+  }
+
+  @override
+  String get trainingGuideMoveUp => 'Move up';
+
+  @override
+  String get trainingGuideMoveDown => 'Move down';
+
+  @override
+  String get trainingGuideRemoveStep => 'Remove step';
+
+  @override
+  String get trainingGuideAddStep => 'Add step';
 }

@@ -5090,4 +5090,62 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get troubleA12 =>
       'स्क्रॉल करने की कोशिश करें - ज्यादातर स्क्रीन स्क्रॉल होकर दिखाई न देने वाला हिस्सा दिखा देती हैं। अगर फिर भी कुछ पहुंच से बाहर लगे, तो इसे बग के रूप में रिपोर्ट करें, और अगर हो सके तो स्क्रीनशॉट के साथ।';
+
+  @override
+  String get trainingGuideButton => 'इसे सही तरीके से कैसे करें';
+
+  @override
+  String get trainingGuideTitle => 'इसे सही तरीके से कैसे करें';
+
+  @override
+  String get trainingGuideStepsHeading => 'चरण';
+
+  @override
+  String get trainingGuideWhyHeading => 'यह क्यों ज़रूरी है';
+
+  @override
+  String get trainingGuideIfFailsHeading => 'अगर यह फेल हो';
+
+  @override
+  String get trainingGuideStandardVersion => 'मानक गाइड';
+
+  @override
+  String get trainingGuideVenueVersion => 'इस वेन्यू की गाइड';
+
+  @override
+  String get trainingGuideVenueLoadFailed =>
+      'इस वेन्यू का संस्करण लोड नहीं हो सका, इसलिए मानक गाइड दिखाई जा रही है।';
+
+  @override
+  String get trainingGuideEditButton => 'इस वेन्यू के लिए बदलें';
+
+  @override
+  String get trainingGuideResetButton => 'मानक गाइड पर वापस जाएँ';
+
+  @override
+  String get trainingGuideResetConfirm =>
+      'इस वेन्यू का संस्करण हटाकर मानक गाइड पर वापस जाएँ?';
+
+  @override
+  String get trainingGuideNeedsStep => 'कम से कम एक चरण जोड़ें।';
+
+  @override
+  String get trainingGuideSaved => 'इस वेन्यू के लिए गाइड सहेजी गई।';
+
+  @override
+  String trainingGuideStepLabel(int number) {
+    return 'चरण $number';
+  }
+
+  @override
+  String get trainingGuideMoveUp => 'ऊपर ले जाएँ';
+
+  @override
+  String get trainingGuideMoveDown => 'नीचे ले जाएँ';
+
+  @override
+  String get trainingGuideRemoveStep => 'चरण हटाएँ';
+
+  @override
+  String get trainingGuideAddStep => 'चरण जोड़ें';
 }

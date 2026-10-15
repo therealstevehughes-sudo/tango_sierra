@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VenuRite - Compliance &amp; Task Management for Kitchens</title>
+<meta name="description" content="Software for hospitality kitchens that keeps you compliant and keeps every task done right, on time - real-time checks, AI-guided answers, and audit-ready records." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link rel="icon" href="images/VenueRite_favicon.png" type="image/png">
+<link rel="canonical" href="https://venurite.com/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "VenuRite",
+  "url": "https://venurite.com/",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, Android",
+  "description": "UK-built compliance and task management software for hospitality kitchens - digital HACCP checks, temperature and delivery logging, staff and shift management, and one-tap EHO audit-ready exports.",
+  "offers": {
+    "@type": "Offer",
+    "price": "39.00",
+    "priceCurrency": "GBP",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "39.00",
+      "priceCurrency": "GBP",
+      "unitText": "per branch per month"
+    }
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "VenuRite",
+    "url": "https://venurite.com/",
+    "email": "hello@venurite.com"
+  },
+  "featureList": [
+    "Digital HACCP checklists with photo evidence",
+    "Temperature checks and equipment monitoring",
+    "Delivery checks - temperature, damage, short or late deliveries",
+    "Cleaning schedules and routine task management",
+    "Issue and incident reporting with escalation",
+    "Staff, department, team and multi-branch management",
+    "Training records with expiry tracking and certificate upload",
+    "Supplier register and document centre",
+    "One-tap EHO audit export",
+    "AI compliance assistant grounded in UK food safety guidance",
+    "Optional Shift and Rota Management add-on"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does VenuRite replace my EHO inspections?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No - VenuRite is a tool that helps you keep honest, complete records and stay on top of your own compliance day to day. It doesn't replace your legal responsibilities or your Environmental Health Officer's visits, but it does mean you're never scrambling to pull records together when they come."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do my staff need training to use VenuRite?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It's built to be used with a PIN and a tap - most staff need no more than a minute shown to them on their first shift. No accounts to remember, no logging in and out all day."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if we lose internet connection?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Your team keeps working. VenuRite is built so a patchy kitchen connection never stops someone logging a check - it never gets in the way of the job actually getting done."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I try VenuRite before committing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes - every account starts with a 14-day free trial, no card required."
+      }
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    --teal: #0E6E77;
+    --teal-ink: #0A555C;
+    --teal-tint: #EEF4F5;
+    --on-teal: #FFFFFF;
+    --paper: #EFEAE2;
+    --card: #FFFFFF;
+    --ink: #2D2A26;
+    --muted: #6A635A;
+    --muted-light: #8A8178;
+    --line: #D9D2C5;
+    --line-strong: #C9C0B0;
+    --pass: #1E7A4C;
+    --pass-bg: #E4F1E8;
+    --shadow: 0 1px 2px rgba(45,42,38,0.06), 0 8px 24px -12px rgba(45,42,38,0.18);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #191715;
+      --card: #232019;
+      --ink: #F1ECE3;
+      --muted: #B7ADA0;
+      --muted-light: #948A7D;
+      --line: #38332C;
+      --line-strong: #4A4339;
+      --teal-tint: #16292B;
+      --pass-bg: #10281B;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #191715;
+    --card: #232019;
+    --ink: #F1ECE3;
+    --muted: #B7ADA0;
+    --muted-light: #948A7D;
+    --line: #38332C;
+    --line-strong: #4A4339;
+    --teal-tint: #16292B;
+    --pass-bg: #10281B;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; text-wrap: balance; margin: 0; color: var(--ink); }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 24px; }
+
+  /* ---------- Nav ---------- */
+  header.site {
+    position: sticky; top: 0; z-index: 40;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding-block: 14px;
+    gap: 16px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.05rem; text-decoration: none; }
+  .brand img { height: 28px; width: auto; }
+  nav.links { display: flex; gap: 28px; }
+  nav.links a { text-decoration: none; color: var(--muted); font-size: 0.94rem; font-weight: 600; }
+  nav.links a:hover { color: var(--ink); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 0.94rem;
+    text-decoration: none; border: 1.5px solid transparent; cursor: pointer;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+  .btn-primary { background: var(--teal); color: var(--on-teal); box-shadow: var(--shadow); }
+  .btn-primary:hover { background: var(--teal-ink); }
+  .btn-ghost { border-color: var(--line-strong); color: var(--ink); background: transparent; }
+  .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(20,18,15,0.55);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; z-index: 1000;
+  }
+  .modal-card {
+    background: var(--card); border-radius: 16px; box-shadow: var(--shadow);
+    max-width: 420px; width: 100%; padding: 32px; text-align: center;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 14px; right: 14px; width: 32px; height: 32px;
+    border-radius: 999px; border: none; background: transparent; color: var(--muted);
+    font-size: 20px; cursor: pointer; line-height: 1;
+  }
+  .modal-close:hover { background: var(--teal-tint); color: var(--ink); }
+  .modal-card h3 { margin: 0 0 8px; font-family: 'Fraunces', serif; font-size: 1.3rem; color: var(--ink); }
+  .modal-card p.modal-sub { color: var(--muted); font-size: 0.92rem; margin: 0 0 24px; }
+  .modal-options { display: flex; flex-direction: column; gap: 12px; }
+  .modal-option {
+    display: flex; align-items: center; gap: 14px; padding: 16px;
+    border: 1.5px solid var(--line); border-radius: 12px; text-decoration: none;
+    color: var(--ink); text-align: left; transition: border-color .12s ease, background .12s ease;
+  }
+  .modal-option:hover { border-color: var(--teal); background: var(--teal-tint); }
+  .modal-option .modal-option-icon {
+    width: 40px; height: 40px; border-radius: 10px; background: var(--teal-tint);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    font-size: 20px;
+  }
+  .modal-option strong { display: block; font-size: 0.96rem; }
+  .modal-option span.modal-option-desc { display: block; font-size: 0.82rem; color: var(--muted); margin-top: 2px; }
+  @media (max-width: 720px) { nav.links { display: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    margin-top: 20px;
+    border-radius: 24px;
+    overflow: hidden;
+    min-height: 460px;
+    display: flex;
+    align-items: flex-end;
+  }
+  .hero img.bg {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  }
+  .hero .scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(10,20,20,0.15) 0%, rgba(8,16,16,0.86) 88%);
+  }
+  .hero-content { position: relative; padding: 48px 40px 44px; max-width: 640px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: #CDEEE9; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .hero h1 { color: #fff; font-size: clamp(2rem, 4.6vw, 3.1rem); font-weight: 600; line-height: 1.08; }
+  .hero p.sub { color: #E6E1D8; font-size: 1.08rem; margin-top: 16px; max-width: 52ch; }
+  .hero .cta-row { display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+  @media (max-width: 640px) { .hero-content { padding: 32px 20px 32px; } }
+
+  /* ---------- Sections ---------- */
+  section { padding-block: 76px; }
+  .section-head { max-width: 620px; margin-bottom: 44px; }
+  .section-head .kicker {
+    color: var(--teal); font-weight: 700; font-size: 0.82rem; letter-spacing: 0.07em; text-transform: uppercase;
+    margin-bottom: 10px; display: block;
+  }
+  .section-head h2 { font-size: clamp(1.6rem, 3vw, 2.15rem); font-weight: 600; }
+  .section-head p { color: var(--muted); margin-top: 12px; font-size: 1.04rem; }
+  .section-head.center { margin-inline: auto; text-align: center; }
+
+  /* Trust bar */
+  .trust-bar {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    margin-top: 40px;
+  }
+  .trust-item {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 18px 16px; text-align: center; box-shadow: var(--shadow);
+  }
+  .trust-item .num { font-family: "Fraunces", serif; font-weight: 700; font-size: 1.5rem; color: var(--teal); font-variant-numeric: tabular-nums; }
+  .trust-item .label { color: var(--muted); font-size: 0.86rem; margin-top: 4px; }
+  @media (max-width: 800px) { .trust-bar { grid-template-columns: repeat(2, 1fr); } }
+
+  /* Feature grid */
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .feature-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 26px; box-shadow: var(--shadow);
+  }
+  .feature-card .icon {
+    width: 42px; height: 42px; border-radius: 11px; background: var(--teal-tint);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+  }
+  .feature-card .icon svg { width: 22px; height: 22px; stroke: var(--teal); }
+  .feature-card h3 { font-size: 1.12rem; font-weight: 600; margin-bottom: 8px; }
+  .feature-card p { color: var(--muted); font-size: 0.95rem; margin: 0; }
+  @media (max-width: 900px) { .feature-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .feature-grid { grid-template-columns: 1fr; } }
+
+  /* Full feature list (under the feature cards) */
+  .full-feature-list-wrap { margin-top: 56px; }
+  .full-feature-list-heading { font-size: 1.02rem; font-weight: 700; margin-bottom: 18px; }
+  .full-feature-list-heading.additional { margin-top: 40px; color: var(--teal-ink); }
+  .full-feature-list { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 32px; }
+  .full-feature-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.95rem; color: var(--ink); break-inside: avoid; margin-bottom: 12px; }
+  .full-feature-list li svg { width: 17px; height: 17px; stroke: var(--pass); flex-shrink: 0; margin-top: 3px; }
+  .full-feature-list.additional li svg { stroke: var(--teal); }
+  @media (max-width: 700px) { .full-feature-list { columns: 1; } }
+
+  /* How it works */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; counter-reset: step; }
+  .step { position: relative; padding-top: 8px; }
+  .step .step-num {
+    font-family: "Fraunces", serif; font-weight: 700; font-size: 2.4rem; color: var(--line-strong);
+    line-height: 1; margin-bottom: 14px;
+  }
+  .step h3 { font-size: 1.08rem; font-weight: 600; margin-bottom: 8px; }
+  .step p { color: var(--muted); font-size: 0.95rem; margin: 0; }
+  @media (max-width: 800px) { .steps { grid-template-columns: 1fr; gap: 32px; } }
+
+  /* Product showcase (mock UI) */
+  .showcase { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
+  .showcase.reverse { grid-template-columns: 1fr 1.1fr; }
+  .showcase.reverse .mock-frame { order: -1; }
+  .showcase-copy .kicker { color: var(--teal); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .showcase-copy h2 { font-size: clamp(1.4rem, 2.6vw, 1.9rem); font-weight: 600; margin-top: 10px; }
+  .showcase-copy p { color: var(--muted); margin-top: 14px; font-size: 1rem; }
+  .showcase-copy ul { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-direction: column; gap: 10px; }
+  .showcase-copy li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.95rem; color: var(--ink); }
+  .showcase-copy li svg { width: 18px; height: 18px; stroke: var(--pass); flex-shrink: 0; margin-top: 2px; }
+  @media (max-width: 860px) {
+    .showcase, .showcase.reverse { grid-template-columns: 1fr; }
+    .showcase.reverse .mock-frame { order: 0; }
+  }
+
+  .mock-frame {
+    background: var(--card); border: 1px solid var(--line); border-radius: 20px;
+    box-shadow: var(--shadow); padding: 18px; max-width: 420px; margin-inline: auto;
+  }
+  .mock-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; }
+  .mock-bar .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
+  .mock-title { margin-left: 8px; font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+  .mock-card {
+    background: var(--paper); border-radius: 14px; padding: 16px; margin-bottom: 10px;
+  }
+  .mock-row { display: flex; justify-content: space-between; align-items: center; }
+  .mock-check {
+    width: 22px; height: 22px; border-radius: 50%; background: var(--pass-bg);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .mock-check svg { width: 13px; height: 13px; stroke: var(--pass); }
+  .mock-fail { background: #F8E1DE; }
+  .mock-fail svg { stroke: #B23A2E; }
+  .mock-pill {
+    display: inline-flex; padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700;
+    background: var(--pass-bg); color: var(--pass);
+  }
+  .mock-chat-bubble {
+    background: var(--teal-tint); border-radius: 12px; padding: 14px; font-size: 0.86rem; color: var(--ink);
+    line-height: 1.5;
+  }
+  .mock-chat-bubble .cite {
+    display: flex; align-items: center; gap: 6px; margin-top: 10px; padding-top: 10px;
+    border-top: 1px solid var(--line); font-size: 0.76rem; color: var(--muted); font-style: italic;
+  }
+  .mock-stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mock-stat { background: var(--paper); border-radius: 12px; padding: 14px; text-align: center; }
+  .mock-stat .n { font-family: "Fraunces", serif; font-weight: 700; font-size: 1.5rem; }
+  .mock-stat .l { font-size: 0.76rem; color: var(--muted); margin-top: 2px; }
+
+  /* Pricing */
+  .pricing-card {
+    background: var(--card); border: 1.5px solid var(--teal); border-radius: 20px;
+    padding: 40px; max-width: 480px; margin-inline: auto; text-align: center; box-shadow: var(--shadow);
+  }
+  .pricing-card .price { font-family: "Fraunces", serif; font-weight: 700; font-size: 3rem; margin-top: 8px; }
+  .pricing-card .price span { font-size: 1rem; font-weight: 600; color: var(--muted); }
+  .pricing-card .trial { color: var(--teal); font-weight: 700; font-size: 0.9rem; margin-top: 6px; }
+  .pricing-list { list-style: none; padding: 0; margin: 28px 0; text-align: left; display: flex; flex-direction: column; gap: 12px; }
+  .pricing-list li { display: flex; gap: 10px; align-items: flex-start; font-size: 0.95rem; }
+  .pricing-list li svg { width: 18px; height: 18px; stroke: var(--pass); flex-shrink: 0; margin-top: 2px; }
+  .pricing-note { color: var(--muted-light); font-size: 0.84rem; margin-top: 18px; }
+
+  .addon-row { max-width: 720px; margin: 28px auto 0; }
+  .addon-card {
+    background: var(--teal-tint); border: 1px solid var(--line); border-radius: 18px;
+    padding: 26px 28px;
+  }
+  .addon-top { display: flex; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+  .addon-icon {
+    width: 44px; height: 44px; border-radius: 12px; background: var(--card);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: var(--shadow);
+  }
+  .addon-icon svg { width: 22px; height: 22px; stroke: var(--teal); }
+  .addon-copy { flex: 1 1 280px; }
+  .addon-copy h3 { font-size: 1.02rem; font-weight: 700; margin-bottom: 6px; }
+  .addon-copy p { color: var(--muted); font-size: 0.9rem; margin: 0; }
+  .addon-price-list {
+    margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; gap: 12px 32px;
+  }
+  .addon-price-row { display: flex; align-items: baseline; gap: 8px; font-size: 0.88rem; color: var(--muted); }
+  .addon-price-row strong { font-family: "Fraunces", serif; color: var(--teal-ink); font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+  .addon-price-row strong span { font-family: -apple-system, sans-serif; font-weight: 600; font-size: 0.74rem; color: var(--muted); }
+
+  /* FAQ */
+  .faq-list { max-width: 760px; display: flex; flex-direction: column; gap: 14px; }
+  .faq-item { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 20px 24px; }
+  .faq-item summary { font-weight: 700; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary .chev { transition: transform .15s ease; flex-shrink: 0; stroke: var(--muted); width: 18px; height: 18px; }
+  .faq-item[open] summary .chev { transform: rotate(180deg); }
+  .faq-item p { color: var(--muted); margin: 12px 0 0; font-size: 0.95rem; }
+
+  /* Final CTA */
+  .final-cta {
+    background: var(--teal); color: var(--on-teal); border-radius: 24px;
+    padding: 56px 40px; text-align: center;
+  }
+  .final-cta h2 { color: #fff; font-size: clamp(1.6rem, 3vw, 2.1rem); }
+  .final-cta p { color: #DCEFEC; margin-top: 12px; font-size: 1.02rem; }
+  .final-cta .cta-row { display: flex; gap: 14px; justify-content: center; margin-top: 26px; flex-wrap: wrap; }
+  .final-cta .btn-primary { background: #fff; color: var(--teal-ink); }
+  .final-cta .btn-primary:hover { background: #EAF3F2; }
+  .final-cta .btn-ghost { border-color: rgba(255,255,255,0.5); color: #fff; }
+  .final-cta .btn-ghost:hover { border-color: #fff; }
+
+  /* Footer */
+  footer.site { border-top: 1px solid var(--line); padding-block: 32px; margin-top: 20px; }
+  .footer-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-row .brand { font-size: 0.95rem; }
+  .footer-links { display: flex; gap: 22px; }
+  .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.88rem; }
+  .footer-links a:hover { color: var(--teal); }
+  .copyright { color: var(--muted-light); font-size: 0.82rem; margin-top: 18px; }
+</style>
+
+<header class="site">
+  <div class="wrap nav-row">
+    <a class="brand" href="#top">
+      <img src="images/VenuRite_long.png" alt="VenuRite" />
+    </a>
+    <nav class="links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn btn-primary" href="#" onclick="openGetStartedModal(); return false;">Get started</a>
+  </div>
+</header>
+
+<div class="wrap" id="top">
+  <section class="hero" style="padding-block:0; margin-top:20px;">
+    <img class="bg" src="images/kitchen.jpg" alt="A commercial kitchen team at work" />
+    <div class="scrim"></div>
+    <div class="hero-content">
+      <span class="eyebrow">Compliance &amp; task management</span>
+      <h1>Compliance done right. Tasks done on time.</h1>
+      <p class="sub">Real-time checks, honest records, and a team that gets every task done right and on time - built for hospitality venues that can't afford to get either wrong.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#" onclick="openGetStartedModal(); return false;">Get started</a>
+        <a class="btn btn-ghost" style="border-color:rgba(255,255,255,0.55); color:#fff;" href="#how-it-works">See how it works</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap">
+  <section aria-label="Why teams choose VenuRite" style="padding-top:56px;">
+    <div class="trust-bar">
+      <div class="trust-item"><div class="num">Always</div><div class="label">On track and EHO-ready, every day - not a once-a-year scramble</div></div>
+      <div class="trust-item"><div class="num">1-tap</div><div class="label">Audit exports an inspector can review on the spot</div></div>
+      <div class="trust-item"><div class="num">Multi-site</div><div class="label">One account, every branch, one clear view</div></div>
+      <div class="trust-item"><div class="num">UK-built</div><div class="label">Grounded in real UK food safety guidance</div></div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="section-head center">
+      <span class="kicker">What you get</span>
+      <h2>Everything a busy kitchen needs to stay compliant and on schedule</h2>
+      <p>No spreadsheets, no paper diaries left in a drawer, no "we'll sort it before the inspection."</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>Every task, done right and on time</h3>
+        <p>Temperature checks, cleaning, deliveries and more - assigned, scheduled, and logged the moment they happen, with photo evidence where it matters.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 3 3v1a3 3 0 0 1-1.5 2.6V16a5 5 0 0 1-5 5h-3a5 5 0 0 1-5-5v-2.4A3 3 0 0 1 4 11v-1a3 3 0 0 1 3-3h1V6a4 4 0 0 1 4-4z"/></svg></div>
+        <h3>An AI assistant that actually knows food safety</h3>
+        <p>Staff get straight, plain-language answers grounded in real UK guidance - never a guess, and always with a source you can check.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></div>
+        <h3>Real oversight for managers</h3>
+        <p>See what's on track and what needs attention across every branch, without chasing anyone for an update.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/></svg></div>
+        <h3>Audit-ready in one tap</h3>
+        <p>Hand an inspector a real, complete record instantly - every check, every note, every photo, all in order.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><circle cx="5" cy="17" r="2.4"/><circle cx="19" cy="17" r="2.4"/><path d="M12 11v3M9 14l-2.5 2M15 14l2.5 2"/></svg></div>
+        <h3>Your whole team, mapped out</h3>
+        <p>See who reports to who, keep tiers and departments straight, and manage staff changes without a spreadsheet on the side.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L14.71 3.86a2 2 0 0 0-3.42 0z"/></svg></div>
+        <h3>Nothing falls through the cracks</h3>
+        <p>Issues and incidents get raised, escalated, and tracked to resolution - never buried in a text thread.</p>
+      </div>
+    </div>
+
+    <div class="full-feature-list-wrap">
+      <div class="full-feature-list-heading">Everything included, every branch</div>
+      <ul class="full-feature-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Digital HACCP checklists with photo evidence</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Step-by-step "how to do it right" guide on every task, tailored to each venue</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Temperature checks and equipment monitoring</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Delivery checks - temperature, damage, short or late deliveries</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Cleaning schedules and routine task management</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Issue and incident reporting, with escalation</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Manager oversight dashboard, overdue tracking</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Staff, department and team management, with an org chart</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Training records with expiry tracking</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Supplier register</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Allergen matrix with Natasha's Law-compliant allergen tagging per dish</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Document centre for policies, certificates and EHO reports</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>AI-drafted SOP documents - a first draft your team reviews and approves, not a blank page</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>One-tap EHO audit export</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>AI compliance assistant, grounded in real UK food safety guidance</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Multi-branch support, one account for every site</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Available in 10 languages</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Simple PIN sign-in for shared devices</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Shift handover notes</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Trusted third-party service provider directory</li>
+      </ul>
+
+      <div class="full-feature-list-heading additional">Additional features (paid add-ons)</div>
+      <ul class="full-feature-list additional">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Shift &amp; Rota Management - staff pick up their own shifts, with fair limits and time-off requests built in, and certification checks so only qualified staff can claim a shift that needs one</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="how-it-works">
+    <div class="section-head center">
+      <span class="kicker">How it works</span>
+      <h2>Set up once. Your team keeps it running.</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Set up your venue</h3>
+        <p>Add your branches, departments and team - VenuRite fits how your business is actually structured, not the other way round.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Your team logs checks as they happen</h3>
+        <p>A simple walk-up screen, no accounts to remember - staff sign in with a PIN and get straight to their tasks.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>You get real oversight, always</h3>
+        <p>See what's done, what's overdue, and what needs your attention - and export a clean audit record whenever you need one.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="showcase">
+      <div class="showcase-copy">
+        <span class="kicker">On shift</span>
+        <h2>Checks your team can actually keep up with</h2>
+        <p>Photo evidence, corrective actions, and clear pass/fail results - logged in seconds, not written up later from memory.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>No typing required for most checks - tap, and it's logged</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>A failed check prompts the fix, on the spot</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Every task has a "How to do this correctly" guide, one tap away - and you can tailor each one to how your venue works</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Works the same on a tablet or a phone</li>
+        </ul>
+      </div>
+      <div class="mock-frame">
+        <div class="mock-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="mock-title">Morning checks</span></div>
+        <div class="mock-card">
+          <div class="mock-row">
+            <div><strong style="font-size:0.92rem;">Walk-in fridge temperature</strong><div style="color:var(--muted); font-size:0.8rem; margin-top:2px;">3.2°C - within range</div></div>
+            <div class="mock-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          </div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-row">
+            <div><strong style="font-size:0.92rem;">Hot hold - bain-marie</strong><div style="color:var(--muted); font-size:0.8rem; margin-top:2px;">58°C - corrective action logged</div><div style="color:var(--teal); font-size:0.78rem; font-weight:700; margin-top:6px;">How to do this correctly &rsaquo;</div></div>
+            <div class="mock-check mock-fail"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+          </div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-row">
+            <div><strong style="font-size:0.92rem;">Handwashing station stocked</strong><div style="color:var(--muted); font-size:0.8rem; margin-top:2px;">Photo attached</div></div>
+            <div class="mock-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="showcase reverse">
+      <div class="showcase-copy">
+        <span class="kicker">Ask a question</span>
+        <h2>An answer your team can trust, not a guess</h2>
+        <p>When someone's not sure about a rule, they get a clear answer grounded in real UK food safety guidance - with the source shown, every time.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Answers cite real, checkable guidance</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>If it isn't sure, it says so - never a guess</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Available right where your team is already working</li>
+        </ul>
+      </div>
+      <div class="mock-frame">
+        <div class="mock-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="mock-title">Ask a question</span></div>
+        <div style="background:var(--paper); border-radius:12px; padding:12px 14px; font-size:0.86rem; color:var(--muted); margin-bottom:12px;">
+          "How many times can I reheat food?"
+        </div>
+        <div class="mock-chat-bubble">
+          You should only reheat food once. Don't put food into hot holding without reheating it properly first.
+          <div class="cite">📖 Safer Food Better Business (SFBB) for Caterers</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="showcase">
+      <div class="showcase-copy">
+        <span class="kicker">Oversight</span>
+        <h2>See the whole picture, without asking for it</h2>
+        <p>Every branch, every check, one clear view - so you find out about a problem from your dashboard, not from an inspector.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Spot what's overdue before it becomes a problem</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Compare branches at a glance</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Export a clean record whenever you need one</li>
+        </ul>
+      </div>
+      <div class="mock-frame">
+        <div class="mock-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="mock-title">This week</span></div>
+        <div class="mock-stat-grid">
+          <div class="mock-stat"><div class="n" style="color:var(--pass);">97%</div><div class="l">Checks completed</div></div>
+          <div class="mock-stat"><div class="n" style="color:var(--teal);">3</div><div class="l">Branches on track</div></div>
+          <div class="mock-stat"><div class="n" style="color:#976008;">2</div><div class="l">Need attention</div></div>
+          <div class="mock-stat"><div class="n">0</div><div class="l">Overdue</div></div>
+        </div>
+        <div style="margin-top:12px;"><span class="mock-pill">Audit export ready</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="section-head center">
+      <span class="kicker">Pricing</span>
+      <h2>One simple price, per branch</h2>
+      <p>No setup fees, no tiers to puzzle over. Add branches as you grow.</p>
+    </div>
+    <div class="pricing-card">
+      <div style="color:var(--muted); font-weight:700; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.04em;">Per branch</div>
+      <div class="price">£39<span>/month</span></div>
+      <div class="trial">14-day free trial, no card required to start</div>
+      <ul class="pricing-list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited staff at every branch</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>The AI compliance assistant, included</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Unlimited audit exports</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Cancel any time - no long contracts</li>
+      </ul>
+      <a class="btn btn-primary" style="width:100%;" href="mailto:hello@venurite.com?subject=Starting a VenuRite trial">Start your free trial</a>
+      <div class="pricing-note">Running more than one branch? The price is the same for every branch you add — from 4 branches onward, head office is also billed as one additional branch.</div>
+    </div>
+
+    <div class="addon-row">
+      <div class="addon-card">
+        <div class="addon-top">
+          <div class="addon-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <div class="addon-copy">
+            <h3>Optional add-on: Shift &amp; Rota Management</h3>
+            <p>Let your team see and pick up their own shifts, with fair limits built in so it never turns into a free-for-all - plus time-off requests, all in the same app.</p>
+          </div>
+        </div>
+        <div class="addon-price-list">
+          <div class="addon-price-row"><span>Under 10 staff at that branch</span><strong>+£6<span>/branch/mo</span></strong></div>
+          <div class="addon-price-row"><span>10 or more staff at that branch</span><strong>+£10<span>/branch/mo</span></strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="section-head center">
+      <span class="kicker">Questions</span>
+      <h2>Good to know</h2>
+    </div>
+    <div class="faq-list" style="margin-inline:auto;">
+      <details class="faq-item">
+        <summary>Does this replace my EHO inspections?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <p>No - VenuRite is a tool that helps you keep honest, complete records and stay on top of your own compliance day to day. It doesn't replace your legal responsibilities or your Environmental Health Officer's visits, but it does mean you're never scrambling to pull records together when they come.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Do my staff need training to use it?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <p>It's built to be used with a PIN and a tap - most staff need no more than a minute shown to them on their first shift. No accounts to remember, no logging in and out all day. And every task comes with a short step-by-step guide, so nobody has to guess how to do a check properly. Managers can tailor each guide to match how your venue does things.</p>
+      </details>
+      <details class="faq-item">
+        <summary>What happens if we lose internet connection?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <p>Your team keeps working. VenuRite is built so a patchy kitchen connection never stops someone logging a check - it never gets in the way of the job actually getting done.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Can I try it before committing?<svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></summary>
+        <p>Yes - every account starts with a 14-day free trial, no card required. Get in touch and we'll get you set up.</p>
+      </details>
+    </div>
+  </section>
+
+  <section>
+    <div class="final-cta">
+      <h2>Ready to see it running in your kitchen?</h2>
+      <p>Get in touch and we'll have you set up the same day.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#" onclick="openGetStartedModal(); return false;">Get started</a>
+        <a class="btn btn-ghost" href="mailto:hello@venurite.com?subject=A question about VenuRite">Ask a question</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="footer-row">
+      <a class="brand" href="#top"><img src="images/VenuRite_long.png" alt="VenuRite" style="height:22px;width:auto;" /></a>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:hello@venurite.com">Contact</a>
+      </div>
+    </div>
+    <div class="copyright">© 2026 VenuRite Ltd. All rights reserved.</div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="getStartedModal" style="display:none;" onclick="if(event.target===this) closeGetStartedModal();">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="getStartedTitle">
+    <button class="modal-close" aria-label="Close" onclick="closeGetStartedModal();">&times;</button>
+    <h3 id="getStartedTitle">Get started with VenuRite</h3>
+    <p class="modal-sub">Try it in your browser, or install it on an Android device.</p>
+    <div class="modal-options">
+      <a class="modal-option" href="https://venurite.com/app/" target="_blank" rel="noopener">
+        <span class="modal-option-icon">💻</span>
+        <span>
+          <strong>Web version</strong>
+          <span class="modal-option-desc">Runs straight in your browser, nothing to install</span>
+        </span>
+      </a>
+      <a class="modal-option" href="https://get.venurite.com" target="_blank" rel="noopener">
+        <span class="modal-option-icon">📱</span>
+        <span>
+          <strong>Android version</strong>
+          <span class="modal-option-desc">Download and install on your Android phone or tablet</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
+<script>
+  function openGetStartedModal() {
+    document.getElementById('getStartedModal').style.display = 'flex';
+  }
+  function closeGetStartedModal() {
+    document.getElementById('getStartedModal').style.display = 'none';
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeGetStartedModal();
+  });
+</script>

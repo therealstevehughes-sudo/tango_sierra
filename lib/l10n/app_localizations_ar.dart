@@ -5053,4 +5053,62 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get troubleA12 =>
       'حاول التمرير - معظم الشاشات تُمرَّر لإظهار أي شيء أسفل الجزء المرئي. إذا ظل شيء ما يبدو غير قابل للوصول، أبلغ عنه كخطأ مع لقطة شاشة إن أمكن.';
+
+  @override
+  String get trainingGuideButton => 'كيفية القيام بذلك بشكل صحيح';
+
+  @override
+  String get trainingGuideTitle => 'كيفية القيام بذلك بشكل صحيح';
+
+  @override
+  String get trainingGuideStepsHeading => 'الخطوات';
+
+  @override
+  String get trainingGuideWhyHeading => 'لماذا هذا مهم';
+
+  @override
+  String get trainingGuideIfFailsHeading => 'إذا فشل الفحص';
+
+  @override
+  String get trainingGuideStandardVersion => 'الدليل القياسي';
+
+  @override
+  String get trainingGuideVenueVersion => 'دليل هذا المكان';
+
+  @override
+  String get trainingGuideVenueLoadFailed =>
+      'تعذر تحميل نسخة هذا المكان، لذلك يظهر الدليل القياسي.';
+
+  @override
+  String get trainingGuideEditButton => 'تعديل لهذا المكان';
+
+  @override
+  String get trainingGuideResetButton => 'إعادة إلى الدليل القياسي';
+
+  @override
+  String get trainingGuideResetConfirm =>
+      'حذف نسخة هذا المكان والعودة إلى الدليل القياسي؟';
+
+  @override
+  String get trainingGuideNeedsStep => 'أضف خطوة واحدة على الأقل.';
+
+  @override
+  String get trainingGuideSaved => 'تم حفظ الدليل لهذا المكان.';
+
+  @override
+  String trainingGuideStepLabel(int number) {
+    return 'الخطوة $number';
+  }
+
+  @override
+  String get trainingGuideMoveUp => 'نقل لأعلى';
+
+  @override
+  String get trainingGuideMoveDown => 'نقل لأسفل';
+
+  @override
+  String get trainingGuideRemoveStep => 'حذف الخطوة';
+
+  @override
+  String get trainingGuideAddStep => 'إضافة خطوة';
 }

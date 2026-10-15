@@ -5115,4 +5115,62 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get troubleA12 =>
       'Pokusajte pomaknuti prikaz - vecina zaslona se pomice kako bi se otkrilo sve ispod vidljivog dijela. Ako nesto i dalje izgleda nedostupno, prijavite to kao gresku, sa snimkom zaslona ako mozete.';
+
+  @override
+  String get trainingGuideButton => 'Kako to napraviti ispravno';
+
+  @override
+  String get trainingGuideTitle => 'Kako to napraviti ispravno';
+
+  @override
+  String get trainingGuideStepsHeading => 'Koraci';
+
+  @override
+  String get trainingGuideWhyHeading => 'Zašto je to važno';
+
+  @override
+  String get trainingGuideIfFailsHeading => 'Ako ne prođe';
+
+  @override
+  String get trainingGuideStandardVersion => 'Standardni vodič';
+
+  @override
+  String get trainingGuideVenueVersion => 'Vodič ovog objekta';
+
+  @override
+  String get trainingGuideVenueLoadFailed =>
+      'Verzija ovog objekta nije se mogla učitati pa je prikazan standardni vodič.';
+
+  @override
+  String get trainingGuideEditButton => 'Uredi za ovaj objekt';
+
+  @override
+  String get trainingGuideResetButton => 'Vrati na standardni vodič';
+
+  @override
+  String get trainingGuideResetConfirm =>
+      'Ukloniti verziju ovog objekta i vratiti se na standardni vodič?';
+
+  @override
+  String get trainingGuideNeedsStep => 'Dodaj barem jedan korak.';
+
+  @override
+  String get trainingGuideSaved => 'Vodič spremljen za ovaj objekt.';
+
+  @override
+  String trainingGuideStepLabel(int number) {
+    return 'Korak $number';
+  }
+
+  @override
+  String get trainingGuideMoveUp => 'Pomakni gore';
+
+  @override
+  String get trainingGuideMoveDown => 'Pomakni dolje';
+
+  @override
+  String get trainingGuideRemoveStep => 'Ukloni korak';
+
+  @override
+  String get trainingGuideAddStep => 'Dodaj korak';
 }

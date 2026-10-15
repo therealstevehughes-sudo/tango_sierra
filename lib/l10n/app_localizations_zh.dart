@@ -4904,4 +4904,60 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get troubleA12 =>
       '尝试滚动屏幕——大多数屏幕都可以滚动以显示可视区域以外的内容。如果仍然无法点到，请报告问题，并尽量附上截图。';
+
+  @override
+  String get trainingGuideButton => '如何正确完成';
+
+  @override
+  String get trainingGuideTitle => '如何正确完成';
+
+  @override
+  String get trainingGuideStepsHeading => '步骤';
+
+  @override
+  String get trainingGuideWhyHeading => '为什么重要';
+
+  @override
+  String get trainingGuideIfFailsHeading => '如果不合格';
+
+  @override
+  String get trainingGuideStandardVersion => '标准指南';
+
+  @override
+  String get trainingGuideVenueVersion => '本场所指南';
+
+  @override
+  String get trainingGuideVenueLoadFailed => '无法加载本场所的版本，因此显示标准指南。';
+
+  @override
+  String get trainingGuideEditButton => '为本场所编辑';
+
+  @override
+  String get trainingGuideResetButton => '恢复为标准指南';
+
+  @override
+  String get trainingGuideResetConfirm => '删除本场所的版本并恢复为标准指南？';
+
+  @override
+  String get trainingGuideNeedsStep => '请至少添加一个步骤。';
+
+  @override
+  String get trainingGuideSaved => '已为本场所保存指南。';
+
+  @override
+  String trainingGuideStepLabel(int number) {
+    return '第 $number 步';
+  }
+
+  @override
+  String get trainingGuideMoveUp => '上移';
+
+  @override
+  String get trainingGuideMoveDown => '下移';
+
+  @override
+  String get trainingGuideRemoveStep => '删除步骤';
+
+  @override
+  String get trainingGuideAddStep => '添加步骤';
 }

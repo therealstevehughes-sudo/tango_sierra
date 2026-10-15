@@ -8923,6 +8923,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try scrolling - most screens scroll to reveal anything below the fold. If something still seems unreachable, report it as a bug with a screenshot if you can.'**
   String get troubleA12;
+
+  /// No description provided for @trainingGuideButton.
+  ///
+  /// In en, this message translates to:
+  /// **'How to do this correctly'**
+  String get trainingGuideButton;
+
+  /// No description provided for @trainingGuideTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How to do this correctly'**
+  String get trainingGuideTitle;
+
+  /// No description provided for @trainingGuideStepsHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get trainingGuideStepsHeading;
+
+  /// No description provided for @trainingGuideWhyHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Why it matters'**
+  String get trainingGuideWhyHeading;
+
+  /// No description provided for @trainingGuideIfFailsHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'If it fails'**
+  String get trainingGuideIfFailsHeading;
+
+  /// No description provided for @trainingGuideStandardVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard guide'**
+  String get trainingGuideStandardVersion;
+
+  /// No description provided for @trainingGuideVenueVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'This venue\'s guide'**
+  String get trainingGuideVenueVersion;
+
+  /// No description provided for @trainingGuideVenueLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load this venue\'s version, so the standard guide is shown.'**
+  String get trainingGuideVenueLoadFailed;
+
+  /// No description provided for @trainingGuideEditButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit for this venue'**
+  String get trainingGuideEditButton;
+
+  /// No description provided for @trainingGuideResetButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to standard guide'**
+  String get trainingGuideResetButton;
+
+  /// No description provided for @trainingGuideResetConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this venue\'s version and go back to the standard guide?'**
+  String get trainingGuideResetConfirm;
+
+  /// No description provided for @trainingGuideNeedsStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one step.'**
+  String get trainingGuideNeedsStep;
+
+  /// No description provided for @trainingGuideSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Guide saved for this venue.'**
+  String get trainingGuideSaved;
+
+  /// No description provided for @trainingGuideStepLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {number}'**
+  String trainingGuideStepLabel(int number);
+
+  /// No description provided for @trainingGuideMoveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up'**
+  String get trainingGuideMoveUp;
+
+  /// No description provided for @trainingGuideMoveDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down'**
+  String get trainingGuideMoveDown;
+
+  /// No description provided for @trainingGuideRemoveStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove step'**
+  String get trainingGuideRemoveStep;
+
+  /// No description provided for @trainingGuideAddStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Add step'**
+  String get trainingGuideAddStep;
 }
 
 class _AppLocalizationsDelegate

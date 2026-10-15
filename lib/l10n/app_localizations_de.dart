@@ -5262,4 +5262,62 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get troubleA12 =>
       'Versuche zu scrollen - die meisten Bildschirme scrollen, um alles unterhalb des sichtbaren Bereichs zu zeigen. Falls etwas weiterhin unerreichbar erscheint, melde es als Fehler, moeglichst mit einem Screenshot.';
+
+  @override
+  String get trainingGuideButton => 'So geht es richtig';
+
+  @override
+  String get trainingGuideTitle => 'So geht es richtig';
+
+  @override
+  String get trainingGuideStepsHeading => 'Schritte';
+
+  @override
+  String get trainingGuideWhyHeading => 'Warum es wichtig ist';
+
+  @override
+  String get trainingGuideIfFailsHeading => 'Wenn es nicht passt';
+
+  @override
+  String get trainingGuideStandardVersion => 'Standardanleitung';
+
+  @override
+  String get trainingGuideVenueVersion => 'Anleitung dieses Standorts';
+
+  @override
+  String get trainingGuideVenueLoadFailed =>
+      'Die Version dieses Standorts konnte nicht geladen werden, daher wird die Standardanleitung angezeigt.';
+
+  @override
+  String get trainingGuideEditButton => 'Für diesen Standort bearbeiten';
+
+  @override
+  String get trainingGuideResetButton => 'Auf Standard zurücksetzen';
+
+  @override
+  String get trainingGuideResetConfirm =>
+      'Version dieses Standorts entfernen und zur Standardanleitung zurückkehren?';
+
+  @override
+  String get trainingGuideNeedsStep => 'Füge mindestens einen Schritt hinzu.';
+
+  @override
+  String get trainingGuideSaved => 'Anleitung für diesen Standort gespeichert.';
+
+  @override
+  String trainingGuideStepLabel(int number) {
+    return 'Schritt $number';
+  }
+
+  @override
+  String get trainingGuideMoveUp => 'Nach oben';
+
+  @override
+  String get trainingGuideMoveDown => 'Nach unten';
+
+  @override
+  String get trainingGuideRemoveStep => 'Schritt entfernen';
+
+  @override
+  String get trainingGuideAddStep => 'Schritt hinzufügen';
 }

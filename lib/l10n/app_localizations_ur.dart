@@ -5081,4 +5081,62 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get troubleA12 =>
       'اسکرول کرنے کی کوشش کریں - زیادہ تر اسکرینیں اسکرول ہو کر نظر نہ آنے والا حصہ دکھا دیتی ہیں۔ اگر پھر بھی کچھ ناقابل رسائی لگے، تو اسے بگ کے طور پر رپورٹ کریں، اور اگر ممکن ہو تو اسکرین شاٹ کے ساتھ۔';
+
+  @override
+  String get trainingGuideButton => 'اسے درست طریقے سے کیسے کریں';
+
+  @override
+  String get trainingGuideTitle => 'اسے درست طریقے سے کیسے کریں';
+
+  @override
+  String get trainingGuideStepsHeading => 'مراحل';
+
+  @override
+  String get trainingGuideWhyHeading => 'یہ کیوں اہم ہے';
+
+  @override
+  String get trainingGuideIfFailsHeading => 'اگر یہ ناکام ہو';
+
+  @override
+  String get trainingGuideStandardVersion => 'معیاری گائیڈ';
+
+  @override
+  String get trainingGuideVenueVersion => 'اس مقام کی گائیڈ';
+
+  @override
+  String get trainingGuideVenueLoadFailed =>
+      'اس مقام کا ورژن لوڈ نہیں ہو سکا، اس لیے معیاری گائیڈ دکھائی جا رہی ہے۔';
+
+  @override
+  String get trainingGuideEditButton => 'اس مقام کے لیے ترمیم کریں';
+
+  @override
+  String get trainingGuideResetButton => 'معیاری گائیڈ پر واپس جائیں';
+
+  @override
+  String get trainingGuideResetConfirm =>
+      'اس مقام کا ورژن ہٹا کر معیاری گائیڈ پر واپس جائیں؟';
+
+  @override
+  String get trainingGuideNeedsStep => 'کم از کم ایک مرحلہ شامل کریں۔';
+
+  @override
+  String get trainingGuideSaved => 'اس مقام کے لیے گائیڈ محفوظ ہو گئی۔';
+
+  @override
+  String trainingGuideStepLabel(int number) {
+    return 'مرحلہ $number';
+  }
+
+  @override
+  String get trainingGuideMoveUp => 'اوپر لے جائیں';
+
+  @override
+  String get trainingGuideMoveDown => 'نیچے لے جائیں';
+
+  @override
+  String get trainingGuideRemoveStep => 'مرحلہ ہٹائیں';
+
+  @override
+  String get trainingGuideAddStep => 'مرحلہ شامل کریں';
 }

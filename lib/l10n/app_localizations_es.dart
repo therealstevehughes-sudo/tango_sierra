@@ -5207,4 +5207,62 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get troubleA12 =>
       'Intenta desplazarte - la mayoria de las pantallas se desplazan para mostrar lo que queda fuera de la vista. Si algo sigue pareciendo inalcanzable, reportalo como error, con una captura de pantalla si puedes.';
+
+  @override
+  String get trainingGuideButton => 'Cómo hacerlo correctamente';
+
+  @override
+  String get trainingGuideTitle => 'Cómo hacerlo correctamente';
+
+  @override
+  String get trainingGuideStepsHeading => 'Pasos';
+
+  @override
+  String get trainingGuideWhyHeading => 'Por qué es importante';
+
+  @override
+  String get trainingGuideIfFailsHeading => 'Si falla';
+
+  @override
+  String get trainingGuideStandardVersion => 'Guía estándar';
+
+  @override
+  String get trainingGuideVenueVersion => 'Guía de este local';
+
+  @override
+  String get trainingGuideVenueLoadFailed =>
+      'No se pudo cargar la versión de este local; se muestra la guía estándar.';
+
+  @override
+  String get trainingGuideEditButton => 'Editar para este local';
+
+  @override
+  String get trainingGuideResetButton => 'Restablecer guía estándar';
+
+  @override
+  String get trainingGuideResetConfirm =>
+      '¿Eliminar la versión de este local y volver a la guía estándar?';
+
+  @override
+  String get trainingGuideNeedsStep => 'Añade al menos un paso.';
+
+  @override
+  String get trainingGuideSaved => 'Guía guardada para este local.';
+
+  @override
+  String trainingGuideStepLabel(int number) {
+    return 'Paso $number';
+  }
+
+  @override
+  String get trainingGuideMoveUp => 'Subir';
+
+  @override
+  String get trainingGuideMoveDown => 'Bajar';
+
+  @override
+  String get trainingGuideRemoveStep => 'Eliminar paso';
+
+  @override
+  String get trainingGuideAddStep => 'Añadir paso';
 }

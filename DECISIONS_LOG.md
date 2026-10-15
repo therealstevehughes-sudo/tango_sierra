@@ -3177,3 +3177,23 @@ Direct founder feedback on the AI-assistant bug fix: the assistant should help w
 - Deploying the updated `ai-assistant_index.ts` to `~/tango-sierra/supabase/docker/volumes/functions/ai-assistant/index.ts` + `docker compose restart functions`.
 
 Until both run, the `app_guide` retrieval call simply returns zero rows (harmless, inert) — the assistant's live behaviour is completely unchanged until the founder approves running them.
+
+## Sprint: task training guides ("How to do this correctly") + website update (2026-10-15)
+
+Direct founder request: every task gets a short "how to do it right" guide, opened from a button on the task carousel; the website should mention it. Mid-request addition: guides must be **editable per venue** (different venues, different kit and house rules).
+
+**Built (app):**
+- "How to do this correctly" button on every task card in the carousel (`task_screen.dart`, under the guidance banner) → `TaskTrainingGuideScreen`: numbered steps, "Why it matters", "If it fails", and a pill saying whether it's the standard guide or this venue's version.
+- Standard guides for all 208 HORECA library tasks (+ legacy "Check Fridge Temperature") in `lib/features/tasks/training/task_training_guide_data.dart`. Content follows UK guidance (FSA SFBB, HSE L8, BBPA/HSE cellar gas, Fire Safety Order, Gas Safety Regs, Licensing Act/SIA, UK GDPR). Every temperature figure checked against the task's own pass/fail limit so the guide never contradicts the check (e.g. cooked/reheated food pass at 70°C, not 75°C).
+- Custom tasks (not in the library) get a guide built from their own setup (guidance text, reading range, photo/note requirement, fix instructions) — so no task ever has an empty guide.
+- Per-venue editing: venueManager and above see "Edit for this venue" (edit/add/remove/reorder steps, edit why/if-fails) and "Reset to standard guide". Workers see read-only. Stored per site + template group in new `task_training_guides` table, so a re-versioned template keeps the venue's custom guide.
+- If the venue's version can't load (no connection), the standard guide still shows — never a dead end mid-task.
+- Button/screen text translated into all 10 app languages. Guide content itself is English, same as existing task guidance text.
+- Tests: every library task has a guide; every guide is complete; custom-task fallback; JSON round-trip; widget test for worker vs manager view. 99/99 pass, `flutter analyze` clean.
+
+**Website:** updated copy staged at `tools/website_staging/index.html` (copy of live `venurite.com` + 4 benefit-only additions: feature-list line, "On shift" bullet, a "How to do this correctly" link in the mock task card, and a sentence on the "Do my staff need training" FAQ). No mechanics described, per standing website rule.
+
+**Not yet live — needs founder OK (server access blocked by Claude Code's auto-mode on this machine):**
+1. Apply `tools/task_training_guides_migration.sql` via `psql` + `docker restart supabase-rest`. Until then, the button works and shows standard guides; only venue editing fails (friendly error).
+2. Upload `tools/website_staging/index.html` to `/var/www/venurite-site/index.html`.
+3. Rebuild + deploy the web app (`/app/`) and ship a new APK so staff get the button.

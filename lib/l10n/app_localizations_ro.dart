@@ -5201,4 +5201,62 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get troubleA12 =>
       'Incearca sa derulezi - majoritatea ecranelor se deruleaza pentru a dezvalui orice este sub nivelul vizibil. Daca ceva tot pare inaccesibil, raporteaza ca eroare, cu o captura de ecran daca poti.';
+
+  @override
+  String get trainingGuideButton => 'Cum se face corect';
+
+  @override
+  String get trainingGuideTitle => 'Cum se face corect';
+
+  @override
+  String get trainingGuideStepsHeading => 'Pași';
+
+  @override
+  String get trainingGuideWhyHeading => 'De ce contează';
+
+  @override
+  String get trainingGuideIfFailsHeading => 'Dacă nu trece';
+
+  @override
+  String get trainingGuideStandardVersion => 'Ghid standard';
+
+  @override
+  String get trainingGuideVenueVersion => 'Ghidul acestei locații';
+
+  @override
+  String get trainingGuideVenueLoadFailed =>
+      'Versiunea acestei locații nu s-a putut încărca, așa că este afișat ghidul standard.';
+
+  @override
+  String get trainingGuideEditButton => 'Editează pentru această locație';
+
+  @override
+  String get trainingGuideResetButton => 'Revino la ghidul standard';
+
+  @override
+  String get trainingGuideResetConfirm =>
+      'Ștergi versiunea acestei locații și revii la ghidul standard?';
+
+  @override
+  String get trainingGuideNeedsStep => 'Adaugă cel puțin un pas.';
+
+  @override
+  String get trainingGuideSaved => 'Ghid salvat pentru această locație.';
+
+  @override
+  String trainingGuideStepLabel(int number) {
+    return 'Pasul $number';
+  }
+
+  @override
+  String get trainingGuideMoveUp => 'Mută în sus';
+
+  @override
+  String get trainingGuideMoveDown => 'Mută în jos';
+
+  @override
+  String get trainingGuideRemoveStep => 'Șterge pasul';
+
+  @override
+  String get trainingGuideAddStep => 'Adaugă pas';
 }
