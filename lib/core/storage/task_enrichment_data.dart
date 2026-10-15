@@ -1174,4 +1174,35 @@ final List<TaskEnrichmentRow> taskEnrichmentData = [
     guidanceText:
         "Go through the licensing conditions register and confirm compliance.",
   ),
+  // Fire safety gap-fill (2026-10-15).
+  TaskEnrichmentRow(
+    title: "Fire drill / evacuation practice",
+    jobRole: JobRole.management,
+    guidanceText:
+        "Run the drill, time the evacuation, and note who was present and any problems.",
+  ),
+  TaskEnrichmentRow(
+    title: "Smoke/heat detectors checked (kitchen & public areas)",
+    jobRole: JobRole.maintenance,
+    guidanceText:
+        "Check every detector is in place, uncovered and undamaged. Note any that aren't.",
+  ),
+  TaskEnrichmentRow(
+    title: "Fire alarm professional service (6-monthly)",
+    jobRole: JobRole.management,
+    guidanceText:
+        "Check the engineer's service record is less than 6 months old.",
+  ),
+  TaskEnrichmentRow(
+    title: "Staff fire safety training & fire marshals named",
+    jobRole: JobRole.management,
+    guidanceText:
+        "Confirm every staff member has had fire training and fire marshals are named for each shift.",
+  ),
+  TaskEnrichmentRow(
+    title: "Fire action notices displayed",
+    jobRole: JobRole.everyone,
+    guidanceText:
+        "Confirm fire action notices are up by every call point and exit, and readable.",
+  ),
 ];

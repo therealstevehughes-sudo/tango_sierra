@@ -5111,4 +5111,80 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get trainingGuideAddStep => 'إضافة خطوة';
+
+  @override
+  String get trainingAcknowledgeButton => 'لقد قرأت هذا وفهمته';
+
+  @override
+  String trainingReadOn(String date) {
+    return 'قرأت هذا وفهمته في $date.';
+  }
+
+  @override
+  String get trainingGuideChangedNotice =>
+      'تغيّر هذا الدليل منذ آخر قراءة لك. يرجى قراءته مرة أخرى.';
+
+  @override
+  String get trainingNotReadNudge =>
+      'لم تقرأ هذا الدليل بعد. خذ دقيقة قبل أن تبدأ.';
+
+  @override
+  String get myTrainingTitle => 'تدريبي';
+
+  @override
+  String get teamTrainingTitle => 'تدريب الفريق';
+
+  @override
+  String trainingProgressSummary(int done, int total) {
+    return 'تم $done من $total';
+  }
+
+  @override
+  String trainingToReadCount(int count) {
+    return '$count للقراءة';
+  }
+
+  @override
+  String trainingAwaitingCount(int count) {
+    return '$count بانتظار الاعتماد';
+  }
+
+  @override
+  String get trainingEmpty =>
+      'لا يوجد تدريب بعد. تمتلئ قائمتك تلقائياً من المهام المسندة إليك.';
+
+  @override
+  String get trainingTeamEmpty =>
+      'لا أحد هنا لديه مهام مسندة بعد، لذلك لا يوجد تدريب لمتابعته.';
+
+  @override
+  String get trainingCriticalLabel => 'حرج';
+
+  @override
+  String get trainingStatusNotRead => 'لم تتم القراءة';
+
+  @override
+  String get trainingStatusUpdated => 'تغيّر الدليل - اقرأه مجدداً';
+
+  @override
+  String get trainingStatusRead => 'تمت القراءة';
+
+  @override
+  String get trainingStatusAwaitingSignoff => 'بانتظار اعتماد المدير';
+
+  @override
+  String trainingSignedOffOn(String date) {
+    return 'تم الاعتماد $date';
+  }
+
+  @override
+  String get trainingSignOffButton => 'اعتماد الكفاءة';
+
+  @override
+  String trainingSignOffConfirm(String name, String task) {
+    return 'أكّد أنك شاهدت $name يؤدي \"$task\" بشكل صحيح.';
+  }
+
+  @override
+  String get trainingWithdrawSignoff => 'سحب الاعتماد';
 }

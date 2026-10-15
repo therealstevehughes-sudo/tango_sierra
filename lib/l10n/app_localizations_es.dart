@@ -5265,4 +5265,81 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get trainingGuideAddStep => 'Añadir paso';
+
+  @override
+  String get trainingAcknowledgeButton => 'Lo he leído y entendido';
+
+  @override
+  String trainingReadOn(String date) {
+    return 'Lo leíste y entendiste el $date.';
+  }
+
+  @override
+  String get trainingGuideChangedNotice =>
+      'Esta guía ha cambiado desde la última vez que la leíste. Vuelve a leerla.';
+
+  @override
+  String get trainingNotReadNudge =>
+      'Aún no has leído esta guía. Tómate un minuto antes de empezar.';
+
+  @override
+  String get myTrainingTitle => 'Mi formación';
+
+  @override
+  String get teamTrainingTitle => 'Formación del equipo';
+
+  @override
+  String trainingProgressSummary(int done, int total) {
+    return '$done de $total hechas';
+  }
+
+  @override
+  String trainingToReadCount(int count) {
+    return '$count por leer';
+  }
+
+  @override
+  String trainingAwaitingCount(int count) {
+    return '$count pendientes de aprobación';
+  }
+
+  @override
+  String get trainingEmpty =>
+      'Aún no hay formación. Tu lista se completa automáticamente con las tareas que tienes asignadas.';
+
+  @override
+  String get trainingTeamEmpty =>
+      'Nadie aquí tiene tareas asignadas todavía, así que no hay formación que seguir.';
+
+  @override
+  String get trainingCriticalLabel => 'Crítica';
+
+  @override
+  String get trainingStatusNotRead => 'No leída';
+
+  @override
+  String get trainingStatusUpdated => 'Guía cambiada - léela otra vez';
+
+  @override
+  String get trainingStatusRead => 'Leída';
+
+  @override
+  String get trainingStatusAwaitingSignoff =>
+      'Pendiente de aprobación del responsable';
+
+  @override
+  String trainingSignedOffOn(String date) {
+    return 'Aprobado $date';
+  }
+
+  @override
+  String get trainingSignOffButton => 'Aprobar como competente';
+
+  @override
+  String trainingSignOffConfirm(String name, String task) {
+    return 'Confirma que viste a $name hacer \"$task\" correctamente.';
+  }
+
+  @override
+  String get trainingWithdrawSignoff => 'Retirar aprobación';
 }

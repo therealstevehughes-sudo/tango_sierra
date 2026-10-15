@@ -20,6 +20,7 @@ import '../roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
 import '../roster/rota_claim_screen.dart';
 import 'ad_hoc_task_screen.dart';
 import 'task_screen.dart';
+import 'training/training_screens.dart';
 import '../../core/widgets/app_screen_header.dart';
 
 // PART 3 of the branch-hub build (2026-09-15) — a pre-carousel choice
@@ -238,6 +239,18 @@ class WorkerHubScreen extends ConsumerWidget {
                                   ),
                                 ),
                           child: Text(l10n.thingsIReported),
+                        ),
+                        // Training section (2026-10-15) — base tier has no
+                        // drawer, so its one way into My Training is here.
+                        TextButton.icon(
+                          onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const MyTrainingScreen(),
+                            ),
+                          ),
+                          icon: const Icon(Icons.school_outlined),
+                          label: Text(l10n.myTrainingTitle),
                         ),
                       ],
                     ),

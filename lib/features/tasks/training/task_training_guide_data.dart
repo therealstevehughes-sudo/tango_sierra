@@ -1622,6 +1622,52 @@ final Map<String, TaskTrainingGuide> standardTrainingGuides = {
     'Required by the Regulatory Reform (Fire Safety) Order 2005.',
     'Tell your manager to arrange a review.',
   ),
+  'Fire drill / evacuation practice': _g(
+    [
+      'Pick a time and warn the alarm monitoring company (and guests if needed).',
+      'Sound the alarm. Everyone leaves by the nearest exit to the assembly point.',
+      'Time how long it takes and do a roll call against the staff list.',
+      'Note problems (blocked routes, slow areas, people who didn\'t hear the alarm) and who took part.',
+    ],
+    'Staff who have practised get out faster and help others. Fire law requires fire training.',
+    'Fix each problem found and run another drill for anyone who missed it.',
+  ),
+  'Smoke/heat detectors checked (kitchen & public areas)': _g(
+    [
+      'Walk every area and look at each detector.',
+      'Check it is in place, not covered (no bags, tape or paint) and not damaged.',
+      'Check the alarm panel shows no faults.',
+      'Note any missing, covered or damaged detectors.',
+    ],
+    'A covered or broken detector won\'t warn anyone. Kitchens use heat detectors because steam sets off smoke detectors.',
+    'Uncover it now if safe. Report damage to your fire alarm company.',
+  ),
+  'Fire alarm professional service (6-monthly)': _g(
+    [
+      'Find the last service record from your fire alarm engineer.',
+      'Check it is less than 6 months old.',
+      'Check any faults they listed have been fixed.',
+    ],
+    'BS 5839-1 expects a competent engineer to service the system at least every 6 months.',
+    _certFail,
+  ),
+  'Staff fire safety training & fire marshals named': _g(
+    [
+      'Check every staff member has had fire training (at induction and refreshed regularly).',
+      'Check fire marshals are named for each shift.',
+      'Check staff know the alarm sound, escape routes and assembly point.',
+    ],
+    'Fire law requires staff to be trained in what to do in a fire.',
+    'Book training for anyone missing it and name a marshal for every shift.',
+  ),
+  'Fire action notices displayed': _g(
+    [
+      'Check there is a fire action notice by each call point and exit.',
+      'Check it is readable and shows the right assembly point.',
+    ],
+    'Notices tell staff and guests what to do when the alarm sounds.',
+    'Replace missing or damaged notices and tell your manager.',
+  ),
   'Sprinkler/suppression system service': _g(
     [
       'Find the service certificate.',

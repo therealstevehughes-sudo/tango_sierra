@@ -40,6 +40,7 @@ import '../../features/settings/venue_details_screen.dart';
 import '../../features/task_library/preset_management_screen.dart';
 import '../../features/tasks/reorder_tasks_screen.dart';
 import '../../features/tasks/task_screen.dart';
+import '../../features/tasks/training/training_screens.dart';
 import '../../features/venue_setup/venue_setup_wizard_screen.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/models/user.dart';
@@ -114,6 +115,14 @@ List<_DrawerItemDef> _peopleItems(AppLocalizations l10n) => [
     label: l10n.staffManagement,
     minTier: RoleTier.venueManager,
     screenBuilder: (_) => const StaffManagementScreen(),
+  ),
+  // Training section (2026-10-15) — supervisor+ can see who's trained on
+  // what; the competence sign-off inside is venueManager+.
+  _DrawerItemDef(
+    icon: Icons.school_outlined,
+    label: l10n.teamTrainingTitle,
+    minTier: RoleTier.supervisor,
+    screenBuilder: (_) => const TeamTrainingScreen(),
   ),
   _DrawerItemDef(
     icon: Icons.person_add_alt,
@@ -576,6 +585,11 @@ class ManagementDrawer extends ConsumerWidget {
             icon: Icons.checklist,
             label: l10n.myTasksTitle,
             onTap: () => _navigate(context, const TaskScreen()),
+          ),
+          _navTile(
+            icon: Icons.school_outlined,
+            label: l10n.myTrainingTitle,
+            onTap: () => _navigate(context, const MyTrainingScreen()),
           ),
           if (tier != null)
             _navTile(

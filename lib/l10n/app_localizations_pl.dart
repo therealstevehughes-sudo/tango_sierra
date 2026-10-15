@@ -5263,4 +5263,82 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get trainingGuideAddStep => 'Dodaj krok';
+
+  @override
+  String get trainingAcknowledgeButton => 'Przeczytałem/am i rozumiem';
+
+  @override
+  String trainingReadOn(String date) {
+    return 'Przeczytałeś/aś i zrozumiałeś/aś to $date.';
+  }
+
+  @override
+  String get trainingGuideChangedNotice =>
+      'Ten poradnik zmienił się od ostatniego czytania. Przeczytaj go ponownie.';
+
+  @override
+  String get trainingNotReadNudge =>
+      'Nie przeczytałeś/aś jeszcze tego poradnika. Poświęć minutę przed rozpoczęciem.';
+
+  @override
+  String get myTrainingTitle => 'Moje szkolenia';
+
+  @override
+  String get teamTrainingTitle => 'Szkolenia zespołu';
+
+  @override
+  String trainingProgressSummary(int done, int total) {
+    return '$done z $total gotowe';
+  }
+
+  @override
+  String trainingToReadCount(int count) {
+    return '$count do przeczytania';
+  }
+
+  @override
+  String trainingAwaitingCount(int count) {
+    return '$count czeka na zatwierdzenie';
+  }
+
+  @override
+  String get trainingEmpty =>
+      'Brak szkoleń. Lista uzupełnia się automatycznie na podstawie przydzielonych zadań.';
+
+  @override
+  String get trainingTeamEmpty =>
+      'Nikt tutaj nie ma jeszcze przydzielonych zadań, więc nie ma szkoleń do śledzenia.';
+
+  @override
+  String get trainingCriticalLabel => 'Krytyczne';
+
+  @override
+  String get trainingStatusNotRead => 'Nieprzeczytane';
+
+  @override
+  String get trainingStatusUpdated =>
+      'Poradnik zmieniony - przeczytaj ponownie';
+
+  @override
+  String get trainingStatusRead => 'Przeczytane';
+
+  @override
+  String get trainingStatusAwaitingSignoff =>
+      'Czeka na zatwierdzenie kierownika';
+
+  @override
+  String trainingSignedOffOn(String date) {
+    return 'Zatwierdzono $date';
+  }
+
+  @override
+  String get trainingSignOffButton => 'Zatwierdź jako kompetentnego';
+
+  @override
+  String trainingSignOffConfirm(String name, String task) {
+    return 'Potwierdź, że widziałeś/aś, jak $name poprawnie wykonuje \"$task\".';
+  }
+
+  @override
+  String get trainingWithdrawSignoff => 'Wycofaj zatwierdzenie';
 }

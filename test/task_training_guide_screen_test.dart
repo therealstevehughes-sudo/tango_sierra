@@ -14,8 +14,11 @@ import 'package:venurite/features/tasks/training/task_training_guide_screen.dart
 import 'package:venurite/l10n/app_localizations.dart';
 import 'package:venurite/shared/models/user.dart';
 import 'package:venurite/shared/providers/auth_providers.dart';
+import 'package:venurite/features/tasks/training/training_progress.dart';
 import 'package:venurite/shared/providers/task_training_guide_providers.dart';
+import 'package:venurite/shared/providers/training_progress_providers.dart';
 import 'package:venurite/shared/repositories/task_training_guide_repository.dart';
+import 'package:venurite/shared/repositories/training_progress_repository.dart';
 
 class _FakeRepo implements TaskTrainingGuideRepository {
   _FakeRepo(this.venueGuide);
@@ -25,6 +28,10 @@ class _FakeRepo implements TaskTrainingGuideRepository {
   @override
   Future<VenueTrainingGuide?> getForTask(int siteId, int templateGroupId) async =>
       venueGuide;
+
+  @override
+  Future<List<VenueTrainingGuide>> getForSite(int siteId) async =>
+      venueGuide == null ? const [] : [venueGuide!];
 
   @override
   Future<void> save({
@@ -38,6 +45,34 @@ class _FakeRepo implements TaskTrainingGuideRepository {
   Future<void> resetToStandard(int siteId, int templateGroupId) async {
     venueGuide = null;
   }
+}
+
+class _FakeProgress implements TrainingProgressRepository {
+  final acks = <TrainingAcknowledgement>[];
+
+  @override
+  Future<List<TrainingAcknowledgement>> getAcknowledgementsForUser(
+    int userId,
+  ) async => acks.where((a) => a.userId == userId).toList();
+
+  @override
+  Future<void> acknowledge({
+    required int userId,
+    required int siteId,
+    required int templateGroupId,
+    required String guideVersion,
+  }) async => acks.add(
+    TrainingAcknowledgement(
+      userId: userId,
+      siteId: siteId,
+      templateGroupId: templateGroupId,
+      guideVersion: guideVersion,
+      acknowledgedAt: DateTime(2026, 10, 15),
+    ),
+  );
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
 const _task = ResolvedTask(
@@ -56,6 +91,7 @@ Future<void> _pump(
   WidgetTester tester, {
   required RoleTier tier,
   VenueTrainingGuide? venueGuide,
+  _FakeProgress? progress,
 }) async {
   tester.view.physicalSize = const Size(1000, 3000);
   tester.view.devicePixelRatio = 1;
@@ -74,6 +110,9 @@ Future<void> _pump(
         ),
         taskTrainingGuideRepositoryProvider.overrideWithValue(
           _FakeRepo(venueGuide),
+        ),
+        trainingProgressRepositoryProvider.overrideWithValue(
+          progress ?? _FakeProgress(),
         ),
       ],
       child: MaterialApp(
@@ -117,5 +156,17 @@ void main() {
     expect(find.text("THIS VENUE'S GUIDE"), findsOneWidget);
     expect(find.text('Use the blue probe in drawer 2.'), findsOneWidget);
     expect(find.text('Reset to standard guide'), findsOneWidget);
+  });
+
+  testWidgets('worker can mark the guide read and understood', (
+    tester,
+  ) async {
+    final progress = _FakeProgress();
+    await _pump(tester, tier: RoleTier.base, progress: progress);
+    await tester.tap(find.text("I've read and understood this"));
+    await tester.pumpAndSettle();
+    expect(progress.acks, hasLength(1));
+    expect(progress.acks.single.templateGroupId, 7);
+    expect(find.textContaining('You read and understood this'), findsOneWidget);
   });
 }

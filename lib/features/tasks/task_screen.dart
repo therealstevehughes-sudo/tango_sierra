@@ -41,7 +41,7 @@ import 'shift_handover_summary_service.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
 import 'task_overview_screen.dart';
-import 'training/task_training_guide_screen.dart';
+import 'training/training_guide_button.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
 
@@ -1011,19 +1011,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                         // steps, or the venue's own version if a manager
                         // has customised it.
                         const SizedBox(height: 8),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: TextButton.icon(
-                            icon: const Icon(Icons.school_outlined),
-                            label: Text(l10n.trainingGuideButton),
-                            onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute<void>(
-                                builder: (_) =>
-                                    TaskTrainingGuideScreen(task: task),
-                              ),
-                            ),
-                          ),
-                        ),
+                        TrainingGuideButton(task: task),
                         const SizedBox(height: 12),
                         if (task.hasNumericRange)
                           TextField(

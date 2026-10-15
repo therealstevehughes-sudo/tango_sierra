@@ -18,14 +18,24 @@ class SupabaseTaskTrainingGuideRepository
       query: 'site_id=eq.$siteId&template_group_id=eq.$templateGroupId',
     );
     if (rows.isEmpty) return null;
-    final row = rows.first;
-    return VenueTrainingGuide(
-      siteId: row['site_id'] as int,
-      templateGroupId: row['template_group_id'] as int,
-      guide: TaskTrainingGuide.fromJson(row),
-      updatedAt: DateTime.tryParse(row['updated_at'] as String? ?? ''),
-    );
+    return _fromRow(rows.first);
   }
+
+  @override
+  Future<List<VenueTrainingGuide>> getForSite(int siteId) async {
+    final rows = await _client.select(
+      'task_training_guides',
+      query: 'site_id=eq.$siteId',
+    );
+    return rows.map(_fromRow).toList();
+  }
+
+  VenueTrainingGuide _fromRow(Map<String, dynamic> row) => VenueTrainingGuide(
+    siteId: row['site_id'] as int,
+    templateGroupId: row['template_group_id'] as int,
+    guide: TaskTrainingGuide.fromJson(row),
+    updatedAt: DateTime.tryParse(row['updated_at'] as String? ?? ''),
+  );
 
   // No upsert on BackendRestClient, so read-then-write. The table's
   // unique (site_id, template_group_id) constraint means a racing second

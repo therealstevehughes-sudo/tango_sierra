@@ -5,6 +5,10 @@ abstract class TaskTrainingGuideRepository {
   /// the venue hasn't customised it (the standard guide applies).
   Future<VenueTrainingGuide?> getForTask(int siteId, int templateGroupId);
 
+  /// Every guide this venue has customised — for the training lists, which
+  /// need the guide each person should have read for many tasks at once.
+  Future<List<VenueTrainingGuide>> getForSite(int siteId);
+
   /// Saves (creates or replaces) the venue's own version of the guide.
   Future<void> save({
     required int siteId,

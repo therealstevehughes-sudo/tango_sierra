@@ -9031,6 +9031,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add step'**
   String get trainingGuideAddStep;
+
+  /// No description provided for @trainingAcknowledgeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve read and understood this'**
+  String get trainingAcknowledgeButton;
+
+  /// No description provided for @trainingReadOn.
+  ///
+  /// In en, this message translates to:
+  /// **'You read and understood this on {date}.'**
+  String trainingReadOn(String date);
+
+  /// No description provided for @trainingGuideChangedNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This guide has changed since you last read it. Please read it again.'**
+  String get trainingGuideChangedNotice;
+
+  /// No description provided for @trainingNotReadNudge.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t read this guide yet. Take a minute before you start.'**
+  String get trainingNotReadNudge;
+
+  /// No description provided for @myTrainingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My Training'**
+  String get myTrainingTitle;
+
+  /// No description provided for @teamTrainingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Team Training'**
+  String get teamTrainingTitle;
+
+  /// No description provided for @trainingProgressSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} done'**
+  String trainingProgressSummary(int done, int total);
+
+  /// No description provided for @trainingToReadCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} to read'**
+  String trainingToReadCount(int count);
+
+  /// No description provided for @trainingAwaitingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} awaiting sign-off'**
+  String trainingAwaitingCount(int count);
+
+  /// No description provided for @trainingEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No training yet. Your list fills in automatically from the tasks you\'re assigned.'**
+  String get trainingEmpty;
+
+  /// No description provided for @trainingTeamEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody here has tasks assigned yet, so there\'s no training to track.'**
+  String get trainingTeamEmpty;
+
+  /// No description provided for @trainingCriticalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical'**
+  String get trainingCriticalLabel;
+
+  /// No description provided for @trainingStatusNotRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Not read'**
+  String get trainingStatusNotRead;
+
+  /// No description provided for @trainingStatusUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Guide changed - read again'**
+  String get trainingStatusUpdated;
+
+  /// No description provided for @trainingStatusRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Read'**
+  String get trainingStatusRead;
+
+  /// No description provided for @trainingStatusAwaitingSignoff.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for manager sign-off'**
+  String get trainingStatusAwaitingSignoff;
+
+  /// No description provided for @trainingSignedOffOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed off {date}'**
+  String trainingSignedOffOn(String date);
+
+  /// No description provided for @trainingSignOffButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign off as competent'**
+  String get trainingSignOffButton;
+
+  /// No description provided for @trainingSignOffConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm you watched {name} do \"{task}\" correctly.'**
+  String trainingSignOffConfirm(String name, String task);
+
+  /// No description provided for @trainingWithdrawSignoff.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw sign-off'**
+  String get trainingWithdrawSignoff;
 }
 
 class _AppLocalizationsDelegate

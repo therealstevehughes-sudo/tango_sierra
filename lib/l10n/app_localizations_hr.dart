@@ -5173,4 +5173,80 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get trainingGuideAddStep => 'Dodaj korak';
+
+  @override
+  String get trainingAcknowledgeButton => 'Pročitao/la sam i razumijem';
+
+  @override
+  String trainingReadOn(String date) {
+    return 'Pročitao/la si i razumio/la ovo $date.';
+  }
+
+  @override
+  String get trainingGuideChangedNotice =>
+      'Ovaj se vodič promijenio otkad si ga zadnji put pročitao/la. Pročitaj ga ponovno.';
+
+  @override
+  String get trainingNotReadNudge =>
+      'Još nisi pročitao/la ovaj vodič. Odvoji minutu prije početka.';
+
+  @override
+  String get myTrainingTitle => 'Moja obuka';
+
+  @override
+  String get teamTrainingTitle => 'Obuka tima';
+
+  @override
+  String trainingProgressSummary(int done, int total) {
+    return '$done od $total gotovo';
+  }
+
+  @override
+  String trainingToReadCount(int count) {
+    return '$count za čitanje';
+  }
+
+  @override
+  String trainingAwaitingCount(int count) {
+    return '$count čeka odobrenje';
+  }
+
+  @override
+  String get trainingEmpty =>
+      'Još nema obuke. Tvoj se popis automatski puni iz zadataka koji su ti dodijeljeni.';
+
+  @override
+  String get trainingTeamEmpty =>
+      'Ovdje još nitko nema dodijeljene zadatke, pa nema obuke za praćenje.';
+
+  @override
+  String get trainingCriticalLabel => 'Kritično';
+
+  @override
+  String get trainingStatusNotRead => 'Nije pročitano';
+
+  @override
+  String get trainingStatusUpdated => 'Vodič promijenjen - pročitaj ponovno';
+
+  @override
+  String get trainingStatusRead => 'Pročitano';
+
+  @override
+  String get trainingStatusAwaitingSignoff => 'Čeka odobrenje voditelja';
+
+  @override
+  String trainingSignedOffOn(String date) {
+    return 'Odobreno $date';
+  }
+
+  @override
+  String get trainingSignOffButton => 'Odobri kao osposobljenog';
+
+  @override
+  String trainingSignOffConfirm(String name, String task) {
+    return 'Potvrdi da si vidio/la kako $name ispravno radi \"$task\".';
+  }
+
+  @override
+  String get trainingWithdrawSignoff => 'Povuci odobrenje';
 }

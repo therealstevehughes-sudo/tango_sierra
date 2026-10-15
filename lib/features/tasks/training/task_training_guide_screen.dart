@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../../../core/errors/friendly_error.dart';
+import '../../../core/utils/date_format.dart';
 import '../../../core/widgets/app_banner.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_screen_header.dart';
@@ -11,10 +12,12 @@ import '../../../l10n/app_localizations.dart';
 import '../../../shared/models/user.dart';
 import '../../../shared/providers/auth_providers.dart';
 import '../../../shared/providers/task_training_guide_providers.dart';
+import '../../../shared/providers/training_progress_providers.dart';
 import '../task_model.dart';
 import 'standard_guide_for.dart';
 import 'task_training_guide.dart';
 import 'task_training_guide_edit_screen.dart';
+import 'training_progress.dart';
 
 /// "How to do this correctly" — opened from the task carousel. Shows the
 /// venue's own version of the guide when a manager has customised it,
@@ -111,6 +114,18 @@ class TaskTrainingGuideScreen extends ConsumerWidget {
                       ),
                     ),
                   ],
+                  // Training section (2026-10-15): the worker's own
+                  // "read and understood" record for exactly this version
+                  // of the guide. Hidden if the venue version failed to
+                  // load — acknowledging the standard text when the venue
+                  // has its own would record the wrong thing.
+                  if (user != null && siteId != null && !venueAsync.hasError)
+                    _AcknowledgeSection(
+                      userId: user.id,
+                      siteId: siteId,
+                      templateGroupId: task.templateGroupId,
+                      version: guideVersion(guide),
+                    ),
                   if (canEdit) ...[
                     const SizedBox(height: 24),
                     OutlinedButton.icon(
@@ -173,6 +188,106 @@ class TaskTrainingGuideScreen extends ConsumerWidget {
         SnackBar(content: Text(friendlyErrorMessage(l10n, e))),
       );
     }
+  }
+}
+
+class _AcknowledgeSection extends ConsumerStatefulWidget {
+  const _AcknowledgeSection({
+    required this.userId,
+    required this.siteId,
+    required this.templateGroupId,
+    required this.version,
+  });
+
+  final int userId;
+  final int siteId;
+  final int templateGroupId;
+  final String version;
+
+  @override
+  ConsumerState<_AcknowledgeSection> createState() =>
+      _AcknowledgeSectionState();
+}
+
+class _AcknowledgeSectionState extends ConsumerState<_AcknowledgeSection> {
+  bool _saving = false;
+
+  Future<void> _acknowledge() async {
+    final l10n = AppLocalizations.of(context)!;
+    setState(() => _saving = true);
+    try {
+      await ref
+          .read(trainingProgressRepositoryProvider)
+          .acknowledge(
+            userId: widget.userId,
+            siteId: widget.siteId,
+            templateGroupId: widget.templateGroupId,
+            guideVersion: widget.version,
+          );
+      ref.invalidate(myAcknowledgementsProvider(widget.userId));
+      ref.invalidate(siteTrainingProvider(widget.siteId));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(friendlyErrorMessage(l10n, e))));
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final acks = ref.watch(myAcknowledgementsProvider(widget.userId));
+    // Can't tell (offline / not deployed) — say nothing rather than offer
+    // a button that may fail or claim a status we don't know.
+    if (!acks.hasValue) return const SizedBox.shrink();
+    final current = acks.value!
+        .where(
+          (a) =>
+              a.templateGroupId == widget.templateGroupId &&
+              a.guideVersion == widget.version,
+        )
+        .firstOrNull;
+    final readOlder = acks.value!.any(
+      (a) => a.templateGroupId == widget.templateGroupId,
+    );
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 24),
+      child: current != null
+          ? Row(
+              children: [
+                const Icon(Icons.check_circle, color: AppColors.pass),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    l10n.trainingReadOn(formatDate(current.acknowledgedAt)),
+                    style: const TextStyle(color: AppColors.pass),
+                  ),
+                ),
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (readOlder)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      l10n.trainingGuideChangedNotice,
+                      style: const TextStyle(color: AppColors.caution),
+                    ),
+                  ),
+                FilledButton.icon(
+                  icon: const Icon(Icons.task_alt),
+                  label: Text(l10n.trainingAcknowledgeButton),
+                  onPressed: _saving ? null : _acknowledge,
+                ),
+              ],
+            ),
+    );
   }
 }
 

@@ -1,3 +1,4 @@
+import '../../../shared/models/task_template.dart';
 import '../task_model.dart';
 import 'task_training_guide.dart';
 import 'task_training_guide_data.dart';
@@ -8,6 +9,26 @@ import 'task_training_guide_data.dart';
 /// "How to do this correctly" screen, never an empty one.
 TaskTrainingGuide standardGuideFor(ResolvedTask task) =>
     standardTrainingGuides[task.title] ?? _buildFromTask(task);
+
+/// The template-level view of a task, for screens that list training by
+/// task rather than open one scheduled instance (My Training, Team
+/// Training). Carries only what a guide and its screen need.
+ResolvedTask trainingTaskFromTemplate(TaskTemplate template) => ResolvedTask(
+  templateGroupId: template.templateGroupId,
+  title: template.title,
+  segment: template.segment,
+  method: template.method,
+  requiresPhoto: template.requiresPhoto,
+  requiresNotes: template.requiresNotes,
+  minLimit: template.minLimit,
+  maxLimit: template.maxLimit,
+  unit: template.unit,
+  isCritical: template.isCritical,
+  requiresCorrectiveActionOnFail: template.requiresCorrectiveActionOnFail,
+  fixInstructions: template.fixInstructions,
+  guidanceText: template.guidanceText,
+  assignedByUserId: template.createdByUserId ?? 0,
+);
 
 TaskTrainingGuide _buildFromTask(ResolvedTask task) {
   final steps = <String>[];

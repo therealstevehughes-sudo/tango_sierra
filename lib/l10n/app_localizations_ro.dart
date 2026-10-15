@@ -5259,4 +5259,80 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get trainingGuideAddStep => 'Adaugă pas';
+
+  @override
+  String get trainingAcknowledgeButton => 'Am citit și am înțeles';
+
+  @override
+  String trainingReadOn(String date) {
+    return 'Ai citit și ai înțeles asta pe $date.';
+  }
+
+  @override
+  String get trainingGuideChangedNotice =>
+      'Acest ghid s-a schimbat de când l-ai citit ultima dată. Te rugăm să-l citești din nou.';
+
+  @override
+  String get trainingNotReadNudge =>
+      'Nu ai citit încă acest ghid. Ia-ți un minut înainte să începi.';
+
+  @override
+  String get myTrainingTitle => 'Instruirea mea';
+
+  @override
+  String get teamTrainingTitle => 'Instruirea echipei';
+
+  @override
+  String trainingProgressSummary(int done, int total) {
+    return '$done din $total gata';
+  }
+
+  @override
+  String trainingToReadCount(int count) {
+    return '$count de citit';
+  }
+
+  @override
+  String trainingAwaitingCount(int count) {
+    return '$count așteaptă aprobarea';
+  }
+
+  @override
+  String get trainingEmpty =>
+      'Nicio instruire încă. Lista ta se completează automat din sarcinile care ți-au fost atribuite.';
+
+  @override
+  String get trainingTeamEmpty =>
+      'Nimeni de aici nu are încă sarcini atribuite, deci nu există instruire de urmărit.';
+
+  @override
+  String get trainingCriticalLabel => 'Critic';
+
+  @override
+  String get trainingStatusNotRead => 'Necitit';
+
+  @override
+  String get trainingStatusUpdated => 'Ghid schimbat - citește din nou';
+
+  @override
+  String get trainingStatusRead => 'Citit';
+
+  @override
+  String get trainingStatusAwaitingSignoff => 'Așteaptă aprobarea managerului';
+
+  @override
+  String trainingSignedOffOn(String date) {
+    return 'Aprobat $date';
+  }
+
+  @override
+  String get trainingSignOffButton => 'Aprobă ca fiind competent';
+
+  @override
+  String trainingSignOffConfirm(String name, String task) {
+    return 'Confirmă că l-ai văzut pe $name făcând corect \"$task\".';
+  }
+
+  @override
+  String get trainingWithdrawSignoff => 'Retrage aprobarea';
 }

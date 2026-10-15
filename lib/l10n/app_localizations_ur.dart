@@ -5139,4 +5139,80 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get trainingGuideAddStep => 'مرحلہ شامل کریں';
+
+  @override
+  String get trainingAcknowledgeButton => 'میں نے اسے پڑھ اور سمجھ لیا ہے';
+
+  @override
+  String trainingReadOn(String date) {
+    return 'آپ نے اسے $date کو پڑھا اور سمجھا۔';
+  }
+
+  @override
+  String get trainingGuideChangedNotice =>
+      'آپ کے آخری بار پڑھنے کے بعد یہ گائیڈ بدل گئی ہے۔ براہ کرم اسے دوبارہ پڑھیں۔';
+
+  @override
+  String get trainingNotReadNudge =>
+      'آپ نے یہ گائیڈ ابھی تک نہیں پڑھی۔ شروع کرنے سے پہلے ایک منٹ لیں۔';
+
+  @override
+  String get myTrainingTitle => 'میری تربیت';
+
+  @override
+  String get teamTrainingTitle => 'ٹیم کی تربیت';
+
+  @override
+  String trainingProgressSummary(int done, int total) {
+    return '$total میں سے $done مکمل';
+  }
+
+  @override
+  String trainingToReadCount(int count) {
+    return '$count پڑھنا باقی';
+  }
+
+  @override
+  String trainingAwaitingCount(int count) {
+    return '$count منظوری کے منتظر';
+  }
+
+  @override
+  String get trainingEmpty =>
+      'ابھی کوئی تربیت نہیں۔ آپ کی فہرست آپ کو دیے گئے کاموں سے خود بخود بھر جاتی ہے۔';
+
+  @override
+  String get trainingTeamEmpty =>
+      'یہاں ابھی کسی کو کام نہیں دیے گئے، اس لیے ٹریک کرنے کے لیے کوئی تربیت نہیں۔';
+
+  @override
+  String get trainingCriticalLabel => 'اہم';
+
+  @override
+  String get trainingStatusNotRead => 'نہیں پڑھا';
+
+  @override
+  String get trainingStatusUpdated => 'گائیڈ بدل گئی - دوبارہ پڑھیں';
+
+  @override
+  String get trainingStatusRead => 'پڑھ لیا';
+
+  @override
+  String get trainingStatusAwaitingSignoff => 'مینیجر کی منظوری کا انتظار';
+
+  @override
+  String trainingSignedOffOn(String date) {
+    return 'منظور $date';
+  }
+
+  @override
+  String get trainingSignOffButton => 'اہل کے طور پر منظور کریں';
+
+  @override
+  String trainingSignOffConfirm(String name, String task) {
+    return 'تصدیق کریں کہ آپ نے $name کو \"$task\" درست طریقے سے کرتے دیکھا۔';
+  }
+
+  @override
+  String get trainingWithdrawSignoff => 'منظوری واپس لیں';
 }

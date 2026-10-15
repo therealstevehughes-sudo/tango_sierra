@@ -6260,6 +6260,67 @@ class AppDatabase extends _$AppDatabase {
       fixInstructions: 'Licensing Act 2003 [LAW].',
       frequency: 'monthly',
     ),
+
+    // Fire safety gap-fill (2026-10-15, founder-approved): the five fire
+    // checks the library was missing. Appended here rather than a new
+    // cluster loader — _seedTaskLibraryClusterG inserts any title not yet
+    // present, so existing installs pick these up on next open, and the
+    // segments chosen (maintenance/utilities_safety/management) already
+    // tag every venue type.
+    _LibraryTask(
+      title: 'Fire drill / evacuation practice',
+      segment: 'maintenance',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'Fire Safety Order 2005 [LAW] - staff must be trained in what to '
+          'do in a fire; drill at least annually, more often with shift '
+          'work or high staff turnover [BEST].',
+      frequency: 'annually',
+    ),
+    _LibraryTask(
+      title: 'Smoke/heat detectors checked (kitchen & public areas)',
+      segment: 'utilities_safety',
+      method: 'tick_note',
+      priority: 'high',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'BS 5839-1 [BEST] - detectors present, uncovered, undamaged. '
+          'Kitchens use heat detectors, not smoke detectors.',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Fire alarm professional service (6-monthly)',
+      segment: 'maintenance',
+      method: 'tick',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'BS 5839-1 [BEST] - service by a competent person at intervals '
+          'not exceeding 6 months.',
+      frequency: 'asNeeded',
+    ),
+    _LibraryTask(
+      title: 'Staff fire safety training & fire marshals named',
+      segment: 'management_compliance_oversight',
+      method: 'tick_note',
+      priority: 'critical',
+      roleTiers: ['supervisor', 'venueManager'],
+      fixInstructions:
+          'Fire Safety Order 2005 art. 21 [LAW] - fire training on '
+          'induction and repeated periodically.',
+      frequency: 'monthly',
+    ),
+    _LibraryTask(
+      title: 'Fire action notices displayed',
+      segment: 'utilities_safety',
+      method: 'tick',
+      priority: 'high',
+      roleTiers: ['base'],
+      fixInstructions: 'Fire Safety Order 2005 [LAW].',
+      frequency: 'monthly',
+    ),
   ];
 
   Future<void> _seedTaskLibraryClusterG() async {

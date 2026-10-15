@@ -5148,4 +5148,80 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get trainingGuideAddStep => 'चरण जोड़ें';
+
+  @override
+  String get trainingAcknowledgeButton => 'मैंने इसे पढ़ और समझ लिया है';
+
+  @override
+  String trainingReadOn(String date) {
+    return 'आपने इसे $date को पढ़ा और समझा।';
+  }
+
+  @override
+  String get trainingGuideChangedNotice =>
+      'आपके पिछली बार पढ़ने के बाद यह गाइड बदल गई है। कृपया इसे फिर से पढ़ें।';
+
+  @override
+  String get trainingNotReadNudge =>
+      'आपने यह गाइड अभी तक नहीं पढ़ी है। शुरू करने से पहले एक मिनट लें।';
+
+  @override
+  String get myTrainingTitle => 'मेरी ट्रेनिंग';
+
+  @override
+  String get teamTrainingTitle => 'टीम ट्रेनिंग';
+
+  @override
+  String trainingProgressSummary(int done, int total) {
+    return '$total में से $done पूरे';
+  }
+
+  @override
+  String trainingToReadCount(int count) {
+    return '$count पढ़ने बाकी';
+  }
+
+  @override
+  String trainingAwaitingCount(int count) {
+    return '$count मंज़ूरी का इंतज़ार';
+  }
+
+  @override
+  String get trainingEmpty =>
+      'अभी कोई ट्रेनिंग नहीं। आपकी सूची आपको दिए गए कामों से अपने आप भर जाती है।';
+
+  @override
+  String get trainingTeamEmpty =>
+      'यहाँ अभी किसी को काम नहीं दिए गए हैं, इसलिए ट्रैक करने के लिए कोई ट्रेनिंग नहीं है।';
+
+  @override
+  String get trainingCriticalLabel => 'गंभीर';
+
+  @override
+  String get trainingStatusNotRead => 'नहीं पढ़ा';
+
+  @override
+  String get trainingStatusUpdated => 'गाइड बदली - फिर से पढ़ें';
+
+  @override
+  String get trainingStatusRead => 'पढ़ लिया';
+
+  @override
+  String get trainingStatusAwaitingSignoff => 'मैनेजर की मंज़ूरी का इंतज़ार';
+
+  @override
+  String trainingSignedOffOn(String date) {
+    return 'मंज़ूरी $date';
+  }
+
+  @override
+  String get trainingSignOffButton => 'सक्षम के रूप में मंज़ूरी दें';
+
+  @override
+  String trainingSignOffConfirm(String name, String task) {
+    return 'पुष्टि करें कि आपने $name को \"$task\" सही तरीके से करते देखा।';
+  }
+
+  @override
+  String get trainingWithdrawSignoff => 'मंज़ूरी वापस लें';
 }

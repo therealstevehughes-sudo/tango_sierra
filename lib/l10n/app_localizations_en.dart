@@ -5281,4 +5281,80 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get trainingGuideAddStep => 'Add step';
+
+  @override
+  String get trainingAcknowledgeButton => 'I\'ve read and understood this';
+
+  @override
+  String trainingReadOn(String date) {
+    return 'You read and understood this on $date.';
+  }
+
+  @override
+  String get trainingGuideChangedNotice =>
+      'This guide has changed since you last read it. Please read it again.';
+
+  @override
+  String get trainingNotReadNudge =>
+      'You haven\'t read this guide yet. Take a minute before you start.';
+
+  @override
+  String get myTrainingTitle => 'My Training';
+
+  @override
+  String get teamTrainingTitle => 'Team Training';
+
+  @override
+  String trainingProgressSummary(int done, int total) {
+    return '$done of $total done';
+  }
+
+  @override
+  String trainingToReadCount(int count) {
+    return '$count to read';
+  }
+
+  @override
+  String trainingAwaitingCount(int count) {
+    return '$count awaiting sign-off';
+  }
+
+  @override
+  String get trainingEmpty =>
+      'No training yet. Your list fills in automatically from the tasks you\'re assigned.';
+
+  @override
+  String get trainingTeamEmpty =>
+      'Nobody here has tasks assigned yet, so there\'s no training to track.';
+
+  @override
+  String get trainingCriticalLabel => 'Critical';
+
+  @override
+  String get trainingStatusNotRead => 'Not read';
+
+  @override
+  String get trainingStatusUpdated => 'Guide changed - read again';
+
+  @override
+  String get trainingStatusRead => 'Read';
+
+  @override
+  String get trainingStatusAwaitingSignoff => 'Waiting for manager sign-off';
+
+  @override
+  String trainingSignedOffOn(String date) {
+    return 'Signed off $date';
+  }
+
+  @override
+  String get trainingSignOffButton => 'Sign off as competent';
+
+  @override
+  String trainingSignOffConfirm(String name, String task) {
+    return 'Confirm you watched $name do \"$task\" correctly.';
+  }
+
+  @override
+  String get trainingWithdrawSignoff => 'Withdraw sign-off';
 }

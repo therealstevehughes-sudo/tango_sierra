@@ -4682,5 +4682,73 @@
   "trainingGuideMoveUp": "Move up",
   "trainingGuideMoveDown": "Move down",
   "trainingGuideRemoveStep": "Remove step",
-  "trainingGuideAddStep": "Add step"
+  "trainingGuideAddStep": "Add step",
+  "trainingAcknowledgeButton": "I've read and understood this",
+  "trainingReadOn": "You read and understood this on {date}.",
+  "@trainingReadOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "trainingGuideChangedNotice": "This guide has changed since you last read it. Please read it again.",
+  "trainingNotReadNudge": "You haven't read this guide yet. Take a minute before you start.",
+  "myTrainingTitle": "My Training",
+  "teamTrainingTitle": "Team Training",
+  "trainingProgressSummary": "{done} of {total} done",
+  "@trainingProgressSummary": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "trainingToReadCount": "{count} to read",
+  "@trainingToReadCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trainingAwaitingCount": "{count} awaiting sign-off",
+  "@trainingAwaitingCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trainingEmpty": "No training yet. Your list fills in automatically from the tasks you're assigned.",
+  "trainingTeamEmpty": "Nobody here has tasks assigned yet, so there's no training to track.",
+  "trainingCriticalLabel": "Critical",
+  "trainingStatusNotRead": "Not read",
+  "trainingStatusUpdated": "Guide changed - read again",
+  "trainingStatusRead": "Read",
+  "trainingStatusAwaitingSignoff": "Waiting for manager sign-off",
+  "trainingSignedOffOn": "Signed off {date}",
+  "@trainingSignedOffOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "trainingSignOffButton": "Sign off as competent",
+  "trainingSignOffConfirm": "Confirm you watched {name} do \"{task}\" correctly.",
+  "@trainingSignOffConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "task": {
+        "type": "String"
+      }
+    }
+  },
+  "trainingWithdrawSignoff": "Withdraw sign-off"
 }

@@ -4960,4 +4960,76 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get trainingGuideAddStep => '添加步骤';
+
+  @override
+  String get trainingAcknowledgeButton => '我已阅读并理解';
+
+  @override
+  String trainingReadOn(String date) {
+    return '你于 $date 阅读并理解了此内容。';
+  }
+
+  @override
+  String get trainingGuideChangedNotice => '自你上次阅读后，此指南已更改。请重新阅读。';
+
+  @override
+  String get trainingNotReadNudge => '你还没有阅读此指南。开始前请花一分钟阅读。';
+
+  @override
+  String get myTrainingTitle => '我的培训';
+
+  @override
+  String get teamTrainingTitle => '团队培训';
+
+  @override
+  String trainingProgressSummary(int done, int total) {
+    return '已完成 $done/$total';
+  }
+
+  @override
+  String trainingToReadCount(int count) {
+    return '$count 项待阅读';
+  }
+
+  @override
+  String trainingAwaitingCount(int count) {
+    return '$count 项待审批';
+  }
+
+  @override
+  String get trainingEmpty => '暂无培训。你的列表会根据分配给你的任务自动生成。';
+
+  @override
+  String get trainingTeamEmpty => '这里还没有人被分配任务，因此没有需要跟踪的培训。';
+
+  @override
+  String get trainingCriticalLabel => '关键';
+
+  @override
+  String get trainingStatusNotRead => '未阅读';
+
+  @override
+  String get trainingStatusUpdated => '指南已更改 - 请重新阅读';
+
+  @override
+  String get trainingStatusRead => '已阅读';
+
+  @override
+  String get trainingStatusAwaitingSignoff => '等待经理审批';
+
+  @override
+  String trainingSignedOffOn(String date) {
+    return '已审批 $date';
+  }
+
+  @override
+  String get trainingSignOffButton => '确认胜任';
+
+  @override
+  String trainingSignOffConfirm(String name, String task) {
+    return '请确认你看到 $name 正确完成了“$task”。';
+  }
+
+  @override
+  String get trainingWithdrawSignoff => '撤回审批';
 }

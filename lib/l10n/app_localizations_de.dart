@@ -5320,4 +5320,81 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get trainingGuideAddStep => 'Schritt hinzufügen';
+
+  @override
+  String get trainingAcknowledgeButton => 'Ich habe das gelesen und verstanden';
+
+  @override
+  String trainingReadOn(String date) {
+    return 'Du hast das am $date gelesen und verstanden.';
+  }
+
+  @override
+  String get trainingGuideChangedNotice =>
+      'Diese Anleitung wurde seit deinem letzten Lesen geändert. Bitte lies sie erneut.';
+
+  @override
+  String get trainingNotReadNudge =>
+      'Du hast diese Anleitung noch nicht gelesen. Nimm dir vor dem Start eine Minute.';
+
+  @override
+  String get myTrainingTitle => 'Meine Schulung';
+
+  @override
+  String get teamTrainingTitle => 'Team-Schulung';
+
+  @override
+  String trainingProgressSummary(int done, int total) {
+    return '$done von $total erledigt';
+  }
+
+  @override
+  String trainingToReadCount(int count) {
+    return '$count zu lesen';
+  }
+
+  @override
+  String trainingAwaitingCount(int count) {
+    return '$count warten auf Freigabe';
+  }
+
+  @override
+  String get trainingEmpty =>
+      'Noch keine Schulung. Deine Liste füllt sich automatisch aus deinen zugewiesenen Aufgaben.';
+
+  @override
+  String get trainingTeamEmpty =>
+      'Hier hat noch niemand Aufgaben zugewiesen, daher gibt es keine Schulung zu verfolgen.';
+
+  @override
+  String get trainingCriticalLabel => 'Kritisch';
+
+  @override
+  String get trainingStatusNotRead => 'Nicht gelesen';
+
+  @override
+  String get trainingStatusUpdated => 'Anleitung geändert - erneut lesen';
+
+  @override
+  String get trainingStatusRead => 'Gelesen';
+
+  @override
+  String get trainingStatusAwaitingSignoff =>
+      'Wartet auf Freigabe durch Manager';
+
+  @override
+  String trainingSignedOffOn(String date) {
+    return 'Freigegeben $date';
+  }
+
+  @override
+  String get trainingSignOffButton => 'Als kompetent freigeben';
+
+  @override
+  String trainingSignOffConfirm(String name, String task) {
+    return 'Bestätige, dass du $name bei \"$task\" korrekt beobachtet hast.';
+  }
+
+  @override
+  String get trainingWithdrawSignoff => 'Freigabe zurückziehen';
 }
