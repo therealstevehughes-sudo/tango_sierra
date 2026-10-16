@@ -4820,5 +4820,8 @@
   "photoReviewPrompt": "Is it clear, and does it show what's needed?",
   "usePhotoButton": "Use photo",
   "retakePhotoButton": "Retake",
-  "deletePhotoButton": "Delete photo"
+  "deletePhotoButton": "Delete photo",
+  "freqQuarterly": "Every 3 months",
+  "freqSixMonthly": "Every 6 months",
+  "freqAnnually": "Yearly"
 }

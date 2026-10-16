@@ -1532,5 +1532,8 @@
   "photoReviewPrompt": "照片清晰吗？是否拍到了需要的内容？",
   "usePhotoButton": "使用照片",
   "retakePhotoButton": "重拍",
-  "deletePhotoButton": "删除照片"
+  "deletePhotoButton": "删除照片",
+  "freqQuarterly": "每 3 个月",
+  "freqSixMonthly": "每 6 个月",
+  "freqAnnually": "每年"
 }

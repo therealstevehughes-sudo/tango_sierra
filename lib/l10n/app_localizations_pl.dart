@@ -5447,4 +5447,13 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get deletePhotoButton => 'Usuń zdjęcie';
+
+  @override
+  String get freqQuarterly => 'Co 3 miesiące';
+
+  @override
+  String get freqSixMonthly => 'Co 6 miesięcy';
+
+  @override
+  String get freqAnnually => 'Raz w roku';
 }

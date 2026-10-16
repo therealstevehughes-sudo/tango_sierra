@@ -5329,4 +5329,13 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get deletePhotoButton => 'फ़ोटो हटाएँ';
+
+  @override
+  String get freqQuarterly => 'हर 3 महीने';
+
+  @override
+  String get freqSixMonthly => 'हर 6 महीने';
+
+  @override
+  String get freqAnnually => 'सालाना';
 }

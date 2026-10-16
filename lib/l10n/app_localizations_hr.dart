@@ -5353,4 +5353,13 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get deletePhotoButton => 'Izbriši fotografiju';
+
+  @override
+  String get freqQuarterly => 'Svaka 3 mjeseca';
+
+  @override
+  String get freqSixMonthly => 'Svakih 6 mjeseci';
+
+  @override
+  String get freqAnnually => 'Godišnje';
 }

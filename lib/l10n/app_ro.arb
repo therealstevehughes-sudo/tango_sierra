@@ -1532,5 +1532,8 @@
   "photoReviewPrompt": "Este clară și arată ce trebuie?",
   "usePhotoButton": "Folosește fotografia",
   "retakePhotoButton": "Refă",
-  "deletePhotoButton": "Șterge fotografia"
+  "deletePhotoButton": "Șterge fotografia",
+  "freqQuarterly": "La fiecare 3 luni",
+  "freqSixMonthly": "La fiecare 6 luni",
+  "freqAnnually": "Anual"
 }

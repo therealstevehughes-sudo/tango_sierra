@@ -5290,4 +5290,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get deletePhotoButton => 'احذف الصورة';
+
+  @override
+  String get freqQuarterly => 'كل 3 أشهر';
+
+  @override
+  String get freqSixMonthly => 'كل 6 أشهر';
+
+  @override
+  String get freqAnnually => 'سنوياً';
 }

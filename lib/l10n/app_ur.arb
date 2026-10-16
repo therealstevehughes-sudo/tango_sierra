@@ -1532,5 +1532,8 @@
   "photoReviewPrompt": "کیا یہ واضح ہے اور ضروری چیز دکھاتی ہے؟",
   "usePhotoButton": "تصویر استعمال کریں",
   "retakePhotoButton": "دوبارہ لیں",
-  "deletePhotoButton": "تصویر حذف کریں"
+  "deletePhotoButton": "تصویر حذف کریں",
+  "freqQuarterly": "ہر 3 ماہ",
+  "freqSixMonthly": "ہر 6 ماہ",
+  "freqAnnually": "سالانہ"
 }

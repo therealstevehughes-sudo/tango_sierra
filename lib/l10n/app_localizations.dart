@@ -9325,6 +9325,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete photo'**
   String get deletePhotoButton;
+
+  /// No description provided for @freqQuarterly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every 3 months'**
+  String get freqQuarterly;
+
+  /// No description provided for @freqSixMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every 6 months'**
+  String get freqSixMonthly;
+
+  /// No description provided for @freqAnnually.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get freqAnnually;
 }
 
 class _AppLocalizationsDelegate

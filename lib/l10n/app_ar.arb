@@ -1532,5 +1532,8 @@
   "photoReviewPrompt": "هل هي واضحة وتُظهر المطلوب؟",
   "usePhotoButton": "استخدم الصورة",
   "retakePhotoButton": "أعد الالتقاط",
-  "deletePhotoButton": "احذف الصورة"
+  "deletePhotoButton": "احذف الصورة",
+  "freqQuarterly": "كل 3 أشهر",
+  "freqSixMonthly": "كل 6 أشهر",
+  "freqAnnually": "سنوياً"
 }

@@ -6299,7 +6299,7 @@ class AppDatabase extends _$AppDatabase {
       fixInstructions:
           'BS 5839-1 [BEST] - service by a competent person at intervals '
           'not exceeding 6 months.',
-      frequency: 'asNeeded',
+      frequency: 'sixMonthly',
     ),
     _LibraryTask(
       title: 'Staff fire safety training & fire marshals named',

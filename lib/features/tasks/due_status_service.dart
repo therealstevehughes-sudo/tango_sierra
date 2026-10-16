@@ -30,6 +30,10 @@ class DueStatusService {
     TaskSchedule schedule, {
     DateTime? now,
   }) async {
+    final months = intervalMonths(schedule.frequency);
+    if (months != null) {
+      return _longIntervalStatus(schedule, months, now ?? DateTime.now());
+    }
     if (!isClockBasedFrequency(schedule.frequency)) {
       // perShift/perBatch/eventBased/etc. — no computable due-time without
       // a shift/service-period system this app doesn't have yet. Always
@@ -73,4 +77,40 @@ class DueStatusService {
 
     return (state: ScheduleDueState.due, overdueSince: null);
   }
+
+  /// Long-interval checks (2026-10-16): hidden while done within the last
+  /// [months]; due once that's passed (or straight away if never done, so
+  /// the venue gets a first record). Overdue after a 14-day grace —
+  /// servicing has to be booked, so it isn't late the day it falls due.
+  Future<DueStatusResult> _longIntervalStatus(
+    TaskSchedule schedule,
+    int months,
+    DateTime now,
+  ) async {
+    final end = now.add(const Duration(milliseconds: 1));
+    final windowStart = subtractMonths(now, months);
+    final doneRecently = await _submissionRepository.countForScheduleInRange(
+      taskScheduleId: schedule.id,
+      start: windowStart,
+      end: end,
+    );
+    if (doneRecently > 0) {
+      return (state: ScheduleDueState.satisfied, overdueSince: null);
+    }
+    final graceStart = now.subtract(longIntervalGrace);
+    if (schedule.assignedAt.isAfter(graceStart)) {
+      return (state: ScheduleDueState.due, overdueSince: null);
+    }
+    final doneWithinGrace = await _submissionRepository
+        .countForScheduleInRange(
+          taskScheduleId: schedule.id,
+          start: windowStart.subtract(longIntervalGrace),
+          end: end,
+        );
+    return doneWithinGrace > 0
+        ? (state: ScheduleDueState.due, overdueSince: null)
+        : (state: ScheduleDueState.overdue, overdueSince: null);
+  }
 }
+
+const longIntervalGrace = Duration(days: 14);

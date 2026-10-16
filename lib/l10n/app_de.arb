@@ -1532,5 +1532,8 @@
   "photoReviewPrompt": "Ist es scharf und zeigt es, was nötig ist?",
   "usePhotoButton": "Foto verwenden",
   "retakePhotoButton": "Neu aufnehmen",
-  "deletePhotoButton": "Foto löschen"
+  "deletePhotoButton": "Foto löschen",
+  "freqQuarterly": "Alle 3 Monate",
+  "freqSixMonthly": "Alle 6 Monate",
+  "freqAnnually": "Jährlich"
 }

@@ -19,6 +19,13 @@ enum ScheduleFrequency {
   asNeeded,
   monthly,
   custom,
+  // Long-interval checks (2026-10-16, founder request) — fire drills,
+  // alarm/extinguisher servicing, risk-assessment reviews. Rolling from the
+  // last completion, not calendar periods: a 3-monthly task done on 10 Jan
+  // is next due 10 Apr. Hidden until then. See intervalMonths below.
+  quarterly,
+  sixMonthly,
+  annually,
 }
 
 String frequencyLabel(ScheduleFrequency frequency, [AppLocalizations? l10n]) {
@@ -52,6 +59,12 @@ String frequencyLabel(ScheduleFrequency frequency, [AppLocalizations? l10n]) {
         return 'Monthly';
       case ScheduleFrequency.custom:
         return 'Custom';
+      case ScheduleFrequency.quarterly:
+        return 'Every 3 Months';
+      case ScheduleFrequency.sixMonthly:
+        return 'Every 6 Months';
+      case ScheduleFrequency.annually:
+        return 'Yearly';
     }
   }
   switch (frequency) {
@@ -83,7 +96,38 @@ String frequencyLabel(ScheduleFrequency frequency, [AppLocalizations? l10n]) {
       return l10n.freqMonthly;
     case ScheduleFrequency.custom:
       return l10n.freqCustom;
+    case ScheduleFrequency.quarterly:
+      return l10n.freqQuarterly;
+    case ScheduleFrequency.sixMonthly:
+      return l10n.freqSixMonthly;
+    case ScheduleFrequency.annually:
+      return l10n.freqAnnually;
   }
+}
+
+/// Months between completions for the long-interval frequencies, else null.
+int? intervalMonths(ScheduleFrequency frequency) => switch (frequency) {
+  ScheduleFrequency.quarterly => 3,
+  ScheduleFrequency.sixMonthly => 6,
+  ScheduleFrequency.annually => 12,
+  _ => null,
+};
+
+/// [from] moved back [months] calendar months, clamping the day so
+/// 31 May minus 3 months is 28/29 Feb, not 3 March.
+DateTime subtractMonths(DateTime from, int months) {
+  final totalMonths = from.year * 12 + (from.month - 1) - months;
+  final year = totalMonths ~/ 12;
+  final month = totalMonths % 12 + 1;
+  final lastDay = DateTime(year, month + 1, 0).day;
+  return DateTime(
+    year,
+    month,
+    from.day > lastDay ? lastDay : from.day,
+    from.hour,
+    from.minute,
+    from.second,
+  );
 }
 
 // Due/overdue tracking (Sprint 031, Build Order item 5). Only these five

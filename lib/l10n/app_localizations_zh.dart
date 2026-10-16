@@ -5132,4 +5132,13 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get deletePhotoButton => '删除照片';
+
+  @override
+  String get freqQuarterly => '每 3 个月';
+
+  @override
+  String get freqSixMonthly => '每 6 个月';
+
+  @override
+  String get freqAnnually => '每年';
 }

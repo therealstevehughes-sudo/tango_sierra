@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -384,26 +384,36 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // it.
   Future<void> _capturePhoto() async {
     final l10n = AppLocalizations.of(context)!;
-    final choice = await showModalBottomSheet<_PhotoSource>(
-      context: context,
-      builder: (context) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.camera_alt_outlined),
-              title: Text(l10n.takePhoto),
-              onTap: () => Navigator.pop(context, _PhotoSource.camera),
+    // Live camera only on phones/tablets (2026-10-16, founder-approved):
+    // "Upload from files" let someone attach an old photo from their
+    // gallery as today's evidence. Kept on desktop/web only, where a
+    // webcam may not exist and the device is usually the shared venue PC.
+    final mobile =
+        !kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.android ||
+            defaultTargetPlatform == TargetPlatform.iOS);
+    final choice = mobile
+        ? _PhotoSource.camera
+        : await showModalBottomSheet<_PhotoSource>(
+            context: context,
+            builder: (context) => SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.camera_alt_outlined),
+                    title: Text(l10n.takePhoto),
+                    onTap: () => Navigator.pop(context, _PhotoSource.camera),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.upload_file_outlined),
+                    title: Text(l10n.uploadFromFiles),
+                    onTap: () => Navigator.pop(context, _PhotoSource.upload),
+                  ),
+                ],
+              ),
             ),
-            ListTile(
-              leading: const Icon(Icons.upload_file_outlined),
-              title: Text(l10n.uploadFromFiles),
-              onTap: () => Navigator.pop(context, _PhotoSource.upload),
-            ),
-          ],
-        ),
-      ),
-    );
+          );
     if (choice == null || !mounted) return;
 
     String? path;
@@ -447,9 +457,8 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     });
   }
 
-  Future<void> _deleteEvidenceFile(String path) => ref
-      .read(evidenceStoreProvider)
-      .deleteEvidenceFiles([File(path)]);
+  Future<void> _deleteEvidenceFile(String path) =>
+      ref.read(evidenceStoreProvider).deleteEvidenceFiles([File(path)]);
 
   /// Delete (and optionally retake) the photo already attached to this
   /// task — the worker spotted it's unclear after accepting it.
@@ -636,10 +645,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     final maxLabel = _displayInFahrenheit && task.unit == 'celsius'
         ? max.toStringAsFixed(1)
         : _formatLimit(task.maxLimit!);
-    return AppLocalizations.of(context)!.safeRangeLabel(
-      '$minLabel$unitLabel',
-      '$maxLabel$unitLabel',
-    );
+    return AppLocalizations.of(
+      context,
+    )!.safeRangeLabel('$minLabel$unitLabel', '$maxLabel$unitLabel');
   }
 
   // Fixed-decimal formatting for range labels — temperature limits almost
@@ -981,7 +989,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
               ? UserTitle(user: currentUser)
               : Text(l10n.taskTitleFallback),
           actions: _appBarActions(),
-            onLogout: _onLogout,
+          onLogout: _onLogout,
         ),
         drawer: drawer,
         body: Padding(
@@ -1164,8 +1172,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                   const SizedBox(width: 12),
                                   Expanded(child: Text(l10n.photoAdded)),
                                   TextButton(
-                                    onPressed: () =>
-                                        _removePhoto(retake: true),
+                                    onPressed: () => _removePhoto(retake: true),
                                     child: Text(l10n.retakePhotoButton),
                                   ),
                                   IconButton(
@@ -1419,7 +1426,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
               ? UserTitle(user: currentUser)
               : Text(l10n.taskTitleFallback),
           actions: _appBarActions(),
-            onLogout: _onLogout,
+          onLogout: _onLogout,
         ),
         drawer: drawer,
         body: Padding(

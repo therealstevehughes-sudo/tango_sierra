@@ -5441,4 +5441,13 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get deletePhotoButton => 'Șterge fotografia';
+
+  @override
+  String get freqQuarterly => 'La fiecare 3 luni';
+
+  @override
+  String get freqSixMonthly => 'La fiecare 6 luni';
+
+  @override
+  String get freqAnnually => 'Anual';
 }

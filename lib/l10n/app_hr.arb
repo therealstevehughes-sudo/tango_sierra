@@ -1532,5 +1532,8 @@
   "photoReviewPrompt": "Je li jasna i prikazuje li što je potrebno?",
   "usePhotoButton": "Koristi fotografiju",
   "retakePhotoButton": "Snimi ponovno",
-  "deletePhotoButton": "Izbriši fotografiju"
+  "deletePhotoButton": "Izbriši fotografiju",
+  "freqQuarterly": "Svaka 3 mjeseca",
+  "freqSixMonthly": "Svakih 6 mjeseci",
+  "freqAnnually": "Godišnje"
 }

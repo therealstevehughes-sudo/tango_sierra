@@ -1532,5 +1532,8 @@
   "photoReviewPrompt": "क्या यह साफ़ है और ज़रूरी चीज़ दिखाती है?",
   "usePhotoButton": "फ़ोटो इस्तेमाल करें",
   "retakePhotoButton": "दोबारा लें",
-  "deletePhotoButton": "फ़ोटो हटाएँ"
+  "deletePhotoButton": "फ़ोटो हटाएँ",
+  "freqQuarterly": "हर 3 महीने",
+  "freqSixMonthly": "हर 6 महीने",
+  "freqAnnually": "सालाना"
 }

@@ -3227,3 +3227,16 @@ Founder request: the phone's app icon should be the favicon VR mark on a white b
 - **Website (live):** removed "UK-built" and UK-only terms (EHO → inspector/inspection-ready, Environmental Health Officer → food safety inspector). Trust line now "Regulation-led — Grounded in the food safety regulations of every country we operate in". Claude initially objected that "grounded in every country's regulations" would be false today (assistant library + task library are UK-only); founder clarified the standing rule that **VenuRite will not launch in a country until that country's full legislative guidance is installed** — which makes "every country we operate in" true. Constraint going forward: no sales/sign-ups in a country before its content is loaded. Left as-is: £ pricing and the sample chat bubble citing SFBB (an illustrative example of a real cited source).
 - **Photo check (direct request):** after taking/uploading an evidence photo the worker sees it full size (zoomable) with "Use photo" / "Retake"; backing out counts as retake and the discarded file is deleted. Once accepted, a thumbnail shows on the task card with Retake and Delete. 10 languages.
 - **VS Code "TODO" warning** in camera_capture_screen.dart was a comment mentioning a TODO in a third-party plugin, not a bug — reworded.
+
+## Long-interval tasks, camera-only evidence on mobile; founder decisions (2026-10-16)
+
+Founder decisions on the open list:
+- **Pricing:** stays £ for now; on entering a new country, pricing will be set per country of origin.
+- **Integrations:** parked until paying venues ask. Founder attending a London trade show next month (Chinese manufacturers) to source IoT sensor suppliers; wants research beforehand.
+- **Fast-completion flag:** approved. **Time-on-checks** (how long each staff member spends doing their checks, totalled into the report sent up the chain): proposed by founder — plan to be sent for review before building (shares the same timing data as the fast flag).
+- **Remove "Upload from files"** for evidence photos: approved.
+- **Long intervals:** a task must only show when due — "every 3 months" appears only once 3 months have passed.
+
+**Built:**
+- New frequencies `quarterly` / `sixMonthly` / `annually` (labels in 10 languages). **Rolling from the last completion** (done 10 Jan → next due 10 Apr), not calendar quarters. Hidden while done within the interval; due once it passes (or immediately if never done, to create a first record); **overdue after a 14-day grace** (servicing needs booking). Stored as plain text in `task_schedules.frequency` — no server change needed (confirmed: no check constraint). Library: "Fire alarm professional service (6-monthly)" → sixMonthly (was asNeeded, which shows every day). Fire risk assessment, cellar CO2 risk assessment and fire drill were already tagged `annually` — that value only now exists as a real option. 6 new tests.
+- **Evidence photos on Android/iOS go straight to the live camera** — no upload choice. Desktop/web keep the choice (a shared venue PC may have no webcam).

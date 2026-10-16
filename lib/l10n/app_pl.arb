@@ -1532,5 +1532,8 @@
   "photoReviewPrompt": "Czy jest wyraźne i pokazuje to, co trzeba?",
   "usePhotoButton": "Użyj zdjęcia",
   "retakePhotoButton": "Zrób ponownie",
-  "deletePhotoButton": "Usuń zdjęcie"
+  "deletePhotoButton": "Usuń zdjęcie",
+  "freqQuarterly": "Co 3 miesiące",
+  "freqSixMonthly": "Co 6 miesięcy",
+  "freqAnnually": "Raz w roku"
 }

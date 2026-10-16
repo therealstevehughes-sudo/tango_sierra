@@ -5318,4 +5318,13 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get deletePhotoButton => 'تصویر حذف کریں';
+
+  @override
+  String get freqQuarterly => 'ہر 3 ماہ';
+
+  @override
+  String get freqSixMonthly => 'ہر 6 ماہ';
+
+  @override
+  String get freqAnnually => 'سالانہ';
 }

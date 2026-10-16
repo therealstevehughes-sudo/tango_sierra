@@ -2185,3 +2185,7 @@ Website: `/var/www/venurite-site/index.html` replaced with `tools/website_stagin
 ## Website copy update (2026-10-16)
 
 `/var/www/venurite-site/index.html` redeployed from `tools/website_staging/index.html` (country-neutral copy; see DECISIONS_LOG.md). Verified via forced-IP curl: no "UK-built"/"EHO" remains, new trust line present. Web app `/var/www/venurite-site/app/` redeployed earlier the same day with the new icons (md5 of `main.dart.js` verified identical to local build; previous copy kept at `app.bak-20261016`). No backend schema changes in this entry.
+
+## New schedule frequencies — no backend change (2026-10-16)
+
+`quarterly`/`sixMonthly`/`annually` added app-side. `task_schedules.frequency` is plain `text` with no check constraint (verified via `pg_constraint`), so the server accepts them as-is. Due/overdue is computed client-side in `DueStatusService`.
