@@ -2205,3 +2205,7 @@ APK and web rebuilt with `--dart-define=SEED_DEMO_DATA=false` (+ fresh-install c
 ## Partners page (2026-10-16)
 
 New `/var/www/venurite-site/partners/index.html` (from `tools/website_staging/partners/index.html`, root-absolute asset paths). Served by the existing nginx `try_files $uri $uri/` — no nginx change. Homepage redeployed with the Partners nav link and "Grand" band rename.
+
+## Server cleanup + layout-fix redeploy (2026-10-16)
+
+Removed `/var/www/venurite-site/app.bak-20261016`, `/var/www/venurite-site/index.html.bak-20261016`, `/root/venurite-preview.apk.bak-20261016` (founder request). Live: blank-slate APK + web, rebuilt with the AppChrome layout fix (`--dart-define=SEED_DEMO_DATA=false`).

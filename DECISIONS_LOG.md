@@ -3274,3 +3274,15 @@ Website pricing section replaced: band cards, what's included, interactive calcu
 Founder request: a separate page to help market affiliated/supplementary companies, starting with **MenuOps (menuops.io)**, reached from a "Partners" tab. Built as its own page (`/partners/`, same styles as the homepage), "Partners" added to the homepage nav + footer. MenuOps card written in our own words from menuops.io (menu/recipe/SOP → staff training, allergen extraction from menu PDFs/photos, staff chatbot, QR digital menus); "Visit MenuOps" opens their site in a new tab. Plus a "Become a partner" card (mailto hello@venurite.com) and a disclaimer that partners are independent. No MenuOps logo used — waiting for one supplied by them (permission). Verified in a browser: tab click lands on /partners/, images load, no console errors, no horizontal scroll at 390px.
 
 ~~Flagged overlap~~ — **corrected by founder:** MenuOps only covers customer-facing tasks (front of house / guest experience); nothing VenuRite does. Card copy rewritten to that focus. **MenuOps logo added** (founder confirmed MenuOps gave permission) — taken from menuops.io/logo-menuops.png, cropped/resized to 240px, stored at `images/partners/menuops.png`.
+
+## Layout fix: AI button covering buttons + Samsung nav bar (2026-10-16)
+
+Founder report: buttons hidden behind the AI button (e.g. Menu & Allergens "Add dish") and screens not allowing for the Samsung navigation bar. Causes: (1) the AI button is painted over every screen bottom-right — exactly where 6 screens put their own extended FAB (Menu & Allergens, Suppliers, Departments, Training records, Certification requirements, Branches); (2) Flutter 3.44 targets Android 15+, which forces edge-to-edge drawing behind the system nav bar, and 21 of 69 screens have no bottom SafeArea.
+
+Fix, one place for every screen: new `AppChrome` (`assistant_fab.dart`) wraps the Navigator in `MaterialApp.builder` — applies the real system bottom inset as physical padding, and while the AI button is visible adds 72px to MediaQuery's bottom padding so Scaffold lifts its own FABs above it and SafeArea/ListViews keep last content clear. Reserve drops to 0 when logged out or a dialog/sheet is open. Verified in a browser at phone size: "Add dish" now sits above the AI button. Nav-bar inset can only be proven on a real Android device (web has no system inset).
+
+Also on the website: rota add-on copy now says every requested shift and time-off request goes to a manager for approval (confirmed the app has this — RotaMonthScreen approve). Old server backups of the demo-data app/APK/website removed at founder's request — server holds only the blank-slate builds.
+
+**Note for founder:** a phone that installed the earlier demo-data APK keeps that demo data in its own on-device database after updating — uninstall and reinstall (or clear app storage) to see the blank experience. Same for a browser that opened the old web app (clear site data).
+
+Small issue seen, not fixed: on narrow phones the login screen's lock/globe buttons slightly overlap the "Not on this list?" link.

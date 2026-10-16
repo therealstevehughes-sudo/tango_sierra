@@ -81,3 +81,65 @@ class AssistantFab extends ConsumerWidget {
     );
   }
 }
+
+/// Space kept clear above the bottom edge for the AI button (56px button +
+/// 16px margin).
+const double assistantFabReserve = 72;
+
+/// Wraps every screen (via MaterialApp.builder) to fix two layout problems
+/// at once (2026-10-16, founder report from a Samsung phone):
+///
+///  1. Android 15+ draws apps edge-to-edge, behind the system navigation
+///     bar. Many screens have no bottom SafeArea, so their bottom buttons
+///     sat under Samsung's nav bar. The real system inset is applied here
+///     as physical padding, once, for every screen.
+///  2. The AI button floats bottom-right above every screen, on top of
+///     screens' own bottom-right "Add" buttons (Menu & Allergens,
+///     Suppliers, ...). While it's showing, [assistantFabReserve] is added
+///     to MediaQuery's bottom padding, which Scaffold uses to lift its own
+///     floating buttons and which SafeArea/ListView use to keep their last
+///     content clear of it.
+class AppChrome extends ConsumerWidget {
+  const AppChrome({super.key, required this.child});
+
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loggedIn = ref.watch(currentUserProvider) != null;
+    final mq = MediaQuery.of(context);
+    // padding (not viewPadding): drops to 0 while the keyboard is open, so
+    // forms don't get a dead strip between the keyboard and content.
+    final systemBottom = mq.padding.bottom;
+    return ColoredBox(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Stack(
+        children: [
+          ValueListenableBuilder<int>(
+            valueListenable: ModalVisibilityObserver.openModalCount,
+            builder: (context, openModals, _) {
+              final reserve = loggedIn && openModals == 0
+                  ? assistantFabReserve
+                  : 0.0;
+              return Padding(
+                padding: EdgeInsets.only(bottom: systemBottom),
+                child: MediaQuery(
+                  data: mq.copyWith(
+                    padding: mq.padding.copyWith(bottom: reserve),
+                    viewPadding: mq.viewPadding.copyWith(bottom: reserve),
+                    viewInsets: mq.viewInsets.copyWith(
+                      bottom: (mq.viewInsets.bottom - systemBottom)
+                          .clamp(0, double.infinity),
+                    ),
+                  ),
+                  child: child ?? const SizedBox.shrink(),
+                ),
+              );
+            },
+          ),
+          const AssistantFab(),
+        ],
+      ),
+    );
+  }
+}

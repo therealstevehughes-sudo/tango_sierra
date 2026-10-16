@@ -177,12 +177,9 @@ class _MyAppState extends ConsumerState<MyApp> {
       // Single floating AI-assistant entry point (2026-10-03), painted
       // once above every screen instead of repeated in ~60 AppBars — see
       // AssistantFab's own doc comment.
-      builder: (context, child) => Stack(
-        children: [
-          ?child,
-          const AssistantFab(),
-        ],
-      ),
+      // AppChrome also keeps every screen clear of the Android nav bar and
+      // of the AI button itself — see its doc comment.
+      builder: (context, child) => AppChrome(child: child),
     );
   }
 }
