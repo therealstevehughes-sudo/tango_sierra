@@ -2197,3 +2197,7 @@ Both rebuilt from commit 05d39bd (photo check/retake, camera-only evidence on mo
 ## Blank-slate public builds deployed (2026-10-16)
 
 APK and web rebuilt with `--dart-define=SEED_DEMO_DATA=false` (+ fresh-install crash fix), deployed and md5-verified (APK `15f99fcf…`, web `main.dart.js` `9fca4f99…`). Web `logos/VenueRite_favicon.png` now exists (was 404). Every future public build must use this flag. No database changes.
+
+## Website pricing calculator deployed (2026-10-16)
+
+`/var/www/venurite-site/index.html` redeployed from `tools/website_staging/index.html` — new band pricing + client-side calculator (inline JS, no external deps). Prices live in one `BANDS` array in that inline script; app-side billing not yet aligned (see DECISIONS_LOG).

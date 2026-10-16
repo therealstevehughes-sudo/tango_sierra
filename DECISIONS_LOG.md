@@ -3258,3 +3258,11 @@ Server data untouched: the 2 existing test organisations stay (tenant isolation 
 - Founder asked whether price should scale with branch size (10-staff QSR vs 200-staff hotel). Research: competitors price per site (Trail £38 flat; FoodDocs £59–£250/site by plan; Jolt ~$200–$300 single-site quotes + setup fee). Recommended **staff-size bands, not per-user** (per-user pricing discourages logging staff in — bad for a compliance app), counted on staff who logged in that month, move up only after 2 consecutive months over, down automatically.
 - Founder pushed back that £29 entry was too cheap given everything included — agreed. **Proposed (not yet locked):** 1–15 £39 / 16–50 £59 / 51–150 £89 / 151–300 £129 / 300+ custom; Rota add-on extra (£6 <10 staff / £10 10+). Prices stay in £ for now; set per country on expansion.
 - **Website branch cost calculator** requested (tick boxes → monthly and yearly fee). **Decided: yearly = 1 month free** (pay 11, get 12). Still open: lock band prices, head-office-as-extra-branch rule, ex-VAT display, founding-customer offer, plan approval.
+
+## Staff-band pricing + branch cost calculator — live on website (2026-10-16)
+
+Founder locked: per-branch bands by active staff **1–15 £39 / 16–50 £59 / 51–150 £89 / 151–300 £129 / 300+ custom**; yearly = **1 month free** (11× monthly); head office billed as one extra branch from 4 branches (calculator charges it at the Small band price — assumption, confirm); prices shown **ex VAT**; Rota add-on unchanged (£6 <10 staff / £10 10+). Founder said "send it live" directly, skipping the staging preview step.
+
+Website pricing section replaced: band cards, what's included, interactive calculator (branch count up to 25, per-branch staff + rota tick, "use branch 1's settings for all", monthly/yearly toggle with saving shown, 300+ staff → custom quote). Verified in a headless browser: 1×10 staff = £39; 4 branches = £195/mo incl. head office, £2,145/yr; 200 staff + rota = £139; 400 staff → "Let's talk"; no horizontal scroll at 390px.
+
+**NOT yet done — app billing still charges the old flat £39/branch** (`lib/shared/models/subscription.dart`, admin billing). Must be updated to match before any real customer is billed. Founding-customer offer (decision 12) and price testing with venue owners (13) still open.
