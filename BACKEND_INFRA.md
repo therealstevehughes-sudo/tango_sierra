@@ -2189,3 +2189,7 @@ Website: `/var/www/venurite-site/index.html` replaced with `tools/website_stagin
 ## New schedule frequencies — no backend change (2026-10-16)
 
 `quarterly`/`sixMonthly`/`annually` added app-side. `task_schedules.frequency` is plain `text` with no check constraint (verified via `pg_constraint`), so the server accepts them as-is. Due/overdue is computed client-side in `DueStatusService`.
+
+## Web app + APK redeployed (2026-10-16)
+
+Both rebuilt from commit 05d39bd (photo check/retake, camera-only evidence on mobile, 3/6/12-monthly frequencies, new icons). APK → `/var/www/get-venurite/venurite-preview.apk` (previous copy at `/root/venurite-preview.apk.bak-20261016`); web → `/var/www/venurite-site/app/`. Both verified byte-identical to the local builds via md5.
