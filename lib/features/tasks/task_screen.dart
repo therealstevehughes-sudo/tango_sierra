@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,6 +42,7 @@ import 'end_of_shift_digest_service.dart';
 import 'shift_handover_summary_service.dart';
 import 'task_controller.dart';
 import 'task_model.dart';
+import 'photo_review_screen.dart';
 import 'task_overview_screen.dart';
 import 'training/training_guide_button.dart';
 import '../../core/widgets/app_screen_header.dart';
@@ -123,6 +126,9 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // null until a capture actually persists — `canSubmit` gates on the
   // boolean, but the submission carries the real path.
   String? photoPath;
+  // Thumbnail of the attached photo (2026-10-16 photo check), so the
+  // worker can still see what they're submitting after accepting it.
+  Uint8List? _photoBytes;
 
   // Supplier register + traceability (Sprint 031, finalized beta build
   // order item 4, Sub-sprint B). Optional — never blocks submission (same
@@ -414,10 +420,48 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       path = await ref.read(evidenceStoreProvider).pickFromGallery();
     }
     if (path == null || !mounted) return;
+
+    // Photo check (2026-10-16): show it full size before it counts. A
+    // photo that can't be read back (e.g. a platform with no file access)
+    // is accepted as before rather than blocking the task.
+    final bytes = await ref.read(evidenceStoreProvider).readPhotoBytes(path);
+    if (!mounted) return;
+    if (bytes != null) {
+      final use = await Navigator.push<bool>(
+        context,
+        MaterialPageRoute(
+          builder: (_) => PhotoReviewScreen(bytes: Uint8List.fromList(bytes)),
+        ),
+      );
+      if (!mounted) return;
+      if (use != true) {
+        await _deleteEvidenceFile(path);
+        if (mounted) await _capturePhoto();
+        return;
+      }
+    }
     setState(() {
       photoTaken = true;
       photoPath = path;
+      _photoBytes = bytes == null ? null : Uint8List.fromList(bytes);
     });
+  }
+
+  Future<void> _deleteEvidenceFile(String path) => ref
+      .read(evidenceStoreProvider)
+      .deleteEvidenceFiles([File(path)]);
+
+  /// Delete (and optionally retake) the photo already attached to this
+  /// task — the worker spotted it's unclear after accepting it.
+  Future<void> _removePhoto({required bool retake}) async {
+    final path = photoPath;
+    setState(() {
+      photoTaken = false;
+      photoPath = null;
+      _photoBytes = null;
+    });
+    if (path != null) await _deleteEvidenceFile(path);
+    if (retake && mounted) await _capturePhoto();
   }
 
   // Visual/UX pass, Sub-sprint 3: Log Out is now always visible in the app
@@ -745,6 +789,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
         correctiveActionOutcome = null;
         photoTaken = false;
         photoPath = null;
+        _photoBytes = null;
         selectedSupplierId = null;
         _deliveryTemperatureC = null;
         _deliveryShortDelivery = false;
@@ -1093,17 +1138,45 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                                 child: Text(l10n.spotCheckPhotoNotice),
                               ),
                             ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 12),
-                            child: ElevatedButton(
-                              onPressed: photoTaken
-                                  ? null
-                                  : () => _capturePhoto(),
-                              child: Text(
-                                photoTaken ? l10n.photoAdded : l10n.addPhoto,
+                          if (!photoTaken)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              child: ElevatedButton(
+                                onPressed: () => _capturePhoto(),
+                                child: Text(l10n.addPhoto),
+                              ),
+                            )
+                          else
+                            Padding(
+                              padding: const EdgeInsets.only(top: 12),
+                              child: Row(
+                                children: [
+                                  if (_photoBytes != null)
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.memory(
+                                        _photoBytes!,
+                                        width: 72,
+                                        height: 72,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  const SizedBox(width: 12),
+                                  Expanded(child: Text(l10n.photoAdded)),
+                                  TextButton(
+                                    onPressed: () =>
+                                        _removePhoto(retake: true),
+                                    child: Text(l10n.retakePhotoButton),
+                                  ),
+                                  IconButton(
+                                    tooltip: l10n.deletePhotoButton,
+                                    icon: const Icon(Icons.delete_outline),
+                                    onPressed: () =>
+                                        _removePhoto(retake: false),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
                         ],
                         if (task.requiresSupplierSelection)
                           DeliveryDetailForm(

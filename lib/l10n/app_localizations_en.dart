@@ -5445,4 +5445,20 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get clockNetworkHint =>
       'Do this while connected to the venue\'s own Wi-Fi, ideally on the shared tablet. Clock-ins from that connection count as on site, even indoors.';
+
+  @override
+  String get photoReviewTitle => 'Check your photo';
+
+  @override
+  String get photoReviewPrompt =>
+      'Is it clear, and does it show what\'s needed?';
+
+  @override
+  String get usePhotoButton => 'Use photo';
+
+  @override
+  String get retakePhotoButton => 'Retake';
+
+  @override
+  String get deletePhotoButton => 'Delete photo';
 }

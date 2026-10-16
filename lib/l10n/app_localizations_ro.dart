@@ -5426,4 +5426,19 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get clockNetworkHint =>
       'Fă asta conectat la Wi-Fi-ul locației, ideal pe tableta comună. Pontările de pe acea conexiune contează ca fiind la fața locului, chiar și în interior.';
+
+  @override
+  String get photoReviewTitle => 'Verifică fotografia';
+
+  @override
+  String get photoReviewPrompt => 'Este clară și arată ce trebuie?';
+
+  @override
+  String get usePhotoButton => 'Folosește fotografia';
+
+  @override
+  String get retakePhotoButton => 'Refă';
+
+  @override
+  String get deletePhotoButton => 'Șterge fotografia';
 }

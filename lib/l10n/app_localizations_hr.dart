@@ -5338,4 +5338,19 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get clockNetworkHint =>
       'Učini to dok si spojen/a na Wi-Fi objekta, najbolje na zajedničkom tabletu. Prijave s te veze računaju se kao na mjestu, čak i u zatvorenom.';
+
+  @override
+  String get photoReviewTitle => 'Provjeri fotografiju';
+
+  @override
+  String get photoReviewPrompt => 'Je li jasna i prikazuje li što je potrebno?';
+
+  @override
+  String get usePhotoButton => 'Koristi fotografiju';
+
+  @override
+  String get retakePhotoButton => 'Snimi ponovno';
+
+  @override
+  String get deletePhotoButton => 'Izbriši fotografiju';
 }

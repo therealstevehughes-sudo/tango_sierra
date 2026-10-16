@@ -1527,5 +1527,10 @@
   "clockNetworkNotSet": "Internetska veza objekta nije zabilježena",
   "clockUseThisNetworkButton": "Koristi ovu vezu",
   "clearLabel": "Ukloni",
-  "clockNetworkHint": "Učini to dok si spojen/a na Wi-Fi objekta, najbolje na zajedničkom tabletu. Prijave s te veze računaju se kao na mjestu, čak i u zatvorenom."
+  "clockNetworkHint": "Učini to dok si spojen/a na Wi-Fi objekta, najbolje na zajedničkom tabletu. Prijave s te veze računaju se kao na mjestu, čak i u zatvorenom.",
+  "photoReviewTitle": "Provjeri fotografiju",
+  "photoReviewPrompt": "Je li jasna i prikazuje li što je potrebno?",
+  "usePhotoButton": "Koristi fotografiju",
+  "retakePhotoButton": "Snimi ponovno",
+  "deletePhotoButton": "Izbriši fotografiju"
 }

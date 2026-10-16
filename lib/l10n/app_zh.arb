@@ -1527,5 +1527,10 @@
   "clockNetworkNotSet": "未记录场所的网络连接",
   "clockUseThisNetworkButton": "使用此连接",
   "clearLabel": "清除",
-  "clockNetworkHint": "请在连接场所自己的 Wi-Fi 时操作，最好在共用平板上。通过该连接打卡视为在现场，即使在室内。"
+  "clockNetworkHint": "请在连接场所自己的 Wi-Fi 时操作，最好在共用平板上。通过该连接打卡视为在现场，即使在室内。",
+  "photoReviewTitle": "检查你的照片",
+  "photoReviewPrompt": "照片清晰吗？是否拍到了需要的内容？",
+  "usePhotoButton": "使用照片",
+  "retakePhotoButton": "重拍",
+  "deletePhotoButton": "删除照片"
 }

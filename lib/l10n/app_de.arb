@@ -1527,5 +1527,10 @@
   "clockNetworkNotSet": "Internetverbindung des Standorts nicht gespeichert",
   "clockUseThisNetworkButton": "Diese Verbindung verwenden",
   "clearLabel": "Entfernen",
-  "clockNetworkHint": "Mach das, während du mit dem WLAN des Betriebs verbunden bist, am besten auf dem gemeinsamen Tablet. Einstempelungen über diese Verbindung gelten als vor Ort, auch in Innenräumen."
+  "clockNetworkHint": "Mach das, während du mit dem WLAN des Betriebs verbunden bist, am besten auf dem gemeinsamen Tablet. Einstempelungen über diese Verbindung gelten als vor Ort, auch in Innenräumen.",
+  "photoReviewTitle": "Foto prüfen",
+  "photoReviewPrompt": "Ist es scharf und zeigt es, was nötig ist?",
+  "usePhotoButton": "Foto verwenden",
+  "retakePhotoButton": "Neu aufnehmen",
+  "deletePhotoButton": "Foto löschen"
 }

@@ -5432,4 +5432,19 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get clockNetworkHint =>
       'Zrób to po połączeniu z Wi-Fi lokalu, najlepiej na wspólnym tablecie. Rejestracje z tego połączenia liczą się jako na miejscu, nawet w środku budynku.';
+
+  @override
+  String get photoReviewTitle => 'Sprawdź zdjęcie';
+
+  @override
+  String get photoReviewPrompt => 'Czy jest wyraźne i pokazuje to, co trzeba?';
+
+  @override
+  String get usePhotoButton => 'Użyj zdjęcia';
+
+  @override
+  String get retakePhotoButton => 'Zrób ponownie';
+
+  @override
+  String get deletePhotoButton => 'Usuń zdjęcie';
 }

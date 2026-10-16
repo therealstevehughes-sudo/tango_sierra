@@ -1527,5 +1527,10 @@
   "clockNetworkNotSet": "Conexiunea la internet a locației nu este înregistrată",
   "clockUseThisNetworkButton": "Folosește această conexiune",
   "clearLabel": "Șterge",
-  "clockNetworkHint": "Fă asta conectat la Wi-Fi-ul locației, ideal pe tableta comună. Pontările de pe acea conexiune contează ca fiind la fața locului, chiar și în interior."
+  "clockNetworkHint": "Fă asta conectat la Wi-Fi-ul locației, ideal pe tableta comună. Pontările de pe acea conexiune contează ca fiind la fața locului, chiar și în interior.",
+  "photoReviewTitle": "Verifică fotografia",
+  "photoReviewPrompt": "Este clară și arată ce trebuie?",
+  "usePhotoButton": "Folosește fotografia",
+  "retakePhotoButton": "Refă",
+  "deletePhotoButton": "Șterge fotografia"
 }

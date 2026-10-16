@@ -4815,5 +4815,10 @@
   "clockNetworkNotSet": "Venue internet connection not recorded",
   "clockUseThisNetworkButton": "Use this connection",
   "clearLabel": "Clear",
-  "clockNetworkHint": "Do this while connected to the venue's own Wi-Fi, ideally on the shared tablet. Clock-ins from that connection count as on site, even indoors."
+  "clockNetworkHint": "Do this while connected to the venue's own Wi-Fi, ideally on the shared tablet. Clock-ins from that connection count as on site, even indoors.",
+  "photoReviewTitle": "Check your photo",
+  "photoReviewPrompt": "Is it clear, and does it show what's needed?",
+  "usePhotoButton": "Use photo",
+  "retakePhotoButton": "Retake",
+  "deletePhotoButton": "Delete photo"
 }

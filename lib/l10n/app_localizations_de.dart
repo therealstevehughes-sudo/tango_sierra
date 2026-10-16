@@ -5488,4 +5488,19 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get clockNetworkHint =>
       'Mach das, während du mit dem WLAN des Betriebs verbunden bist, am besten auf dem gemeinsamen Tablet. Einstempelungen über diese Verbindung gelten als vor Ort, auch in Innenräumen.';
+
+  @override
+  String get photoReviewTitle => 'Foto prüfen';
+
+  @override
+  String get photoReviewPrompt => 'Ist es scharf und zeigt es, was nötig ist?';
+
+  @override
+  String get usePhotoButton => 'Foto verwenden';
+
+  @override
+  String get retakePhotoButton => 'Neu aufnehmen';
+
+  @override
+  String get deletePhotoButton => 'Foto löschen';
 }

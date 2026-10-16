@@ -9295,6 +9295,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Do this while connected to the venue\'s own Wi-Fi, ideally on the shared tablet. Clock-ins from that connection count as on site, even indoors.'**
   String get clockNetworkHint;
+
+  /// No description provided for @photoReviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your photo'**
+  String get photoReviewTitle;
+
+  /// No description provided for @photoReviewPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Is it clear, and does it show what\'s needed?'**
+  String get photoReviewPrompt;
+
+  /// No description provided for @usePhotoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Use photo'**
+  String get usePhotoButton;
+
+  /// No description provided for @retakePhotoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retake'**
+  String get retakePhotoButton;
+
+  /// No description provided for @deletePhotoButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete photo'**
+  String get deletePhotoButton;
 }
 
 class _AppLocalizationsDelegate

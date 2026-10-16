@@ -5303,4 +5303,19 @@ class AppLocalizationsUr extends AppLocalizations {
   @override
   String get clockNetworkHint =>
       'یہ مقام کے اپنے Wi-Fi سے جڑے رہ کر کریں، بہتر ہے مشترکہ ٹیبلٹ پر۔ اس کنکشن سے کیے گئے کلاک اِن مقام پر شمار ہوتے ہیں، اندر بھی۔';
+
+  @override
+  String get photoReviewTitle => 'اپنی تصویر چیک کریں';
+
+  @override
+  String get photoReviewPrompt => 'کیا یہ واضح ہے اور ضروری چیز دکھاتی ہے؟';
+
+  @override
+  String get usePhotoButton => 'تصویر استعمال کریں';
+
+  @override
+  String get retakePhotoButton => 'دوبارہ لیں';
+
+  @override
+  String get deletePhotoButton => 'تصویر حذف کریں';
 }

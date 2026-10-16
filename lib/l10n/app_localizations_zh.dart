@@ -5117,4 +5117,19 @@ class AppLocalizationsZh extends AppLocalizations {
   @override
   String get clockNetworkHint =>
       '请在连接场所自己的 Wi-Fi 时操作，最好在共用平板上。通过该连接打卡视为在现场，即使在室内。';
+
+  @override
+  String get photoReviewTitle => '检查你的照片';
+
+  @override
+  String get photoReviewPrompt => '照片清晰吗？是否拍到了需要的内容？';
+
+  @override
+  String get usePhotoButton => '使用照片';
+
+  @override
+  String get retakePhotoButton => '重拍';
+
+  @override
+  String get deletePhotoButton => '删除照片';
 }

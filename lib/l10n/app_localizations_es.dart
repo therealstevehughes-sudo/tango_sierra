@@ -5432,4 +5432,19 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get clockNetworkHint =>
       'Hazlo conectado al Wi-Fi del propio local, preferiblemente en la tableta compartida. Los fichajes desde esa conexión cuentan como en el local, incluso en interiores.';
+
+  @override
+  String get photoReviewTitle => 'Revisa tu foto';
+
+  @override
+  String get photoReviewPrompt => '¿Está clara y muestra lo necesario?';
+
+  @override
+  String get usePhotoButton => 'Usar foto';
+
+  @override
+  String get retakePhotoButton => 'Repetir';
+
+  @override
+  String get deletePhotoButton => 'Eliminar foto';
 }

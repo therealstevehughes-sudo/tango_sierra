@@ -1527,5 +1527,10 @@
   "clockNetworkNotSet": "Conexión a internet del local no registrada",
   "clockUseThisNetworkButton": "Usar esta conexión",
   "clearLabel": "Borrar",
-  "clockNetworkHint": "Hazlo conectado al Wi-Fi del propio local, preferiblemente en la tableta compartida. Los fichajes desde esa conexión cuentan como en el local, incluso en interiores."
+  "clockNetworkHint": "Hazlo conectado al Wi-Fi del propio local, preferiblemente en la tableta compartida. Los fichajes desde esa conexión cuentan como en el local, incluso en interiores.",
+  "photoReviewTitle": "Revisa tu foto",
+  "photoReviewPrompt": "¿Está clara y muestra lo necesario?",
+  "usePhotoButton": "Usar foto",
+  "retakePhotoButton": "Repetir",
+  "deletePhotoButton": "Eliminar foto"
 }

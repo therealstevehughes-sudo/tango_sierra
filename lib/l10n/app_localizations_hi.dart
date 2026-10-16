@@ -5314,4 +5314,19 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get clockNetworkHint =>
       'यह वेन्यू के अपने Wi-Fi से जुड़े रहकर करें, बेहतर हो कि साझा टैबलेट पर। उस कनेक्शन से किए गए क्लॉक-इन वेन्यू पर माने जाते हैं, अंदर भी।';
+
+  @override
+  String get photoReviewTitle => 'अपनी फ़ोटो जाँचें';
+
+  @override
+  String get photoReviewPrompt => 'क्या यह साफ़ है और ज़रूरी चीज़ दिखाती है?';
+
+  @override
+  String get usePhotoButton => 'फ़ोटो इस्तेमाल करें';
+
+  @override
+  String get retakePhotoButton => 'दोबारा लें';
+
+  @override
+  String get deletePhotoButton => 'फ़ोटो हटाएँ';
 }

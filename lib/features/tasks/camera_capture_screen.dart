@@ -22,7 +22,7 @@ const _lastCameraNamePrefsKey = 'evidence_camera_last_selected_name';
 /// should point at the kitchen, not the person holding it). On Android,
 /// `camera`'s own `lensDirection` is accurate and used directly. On
 /// Windows, `camera_windows` hardcodes `lensDirection` to `front` for
-/// EVERY camera (an unimplemented TODO in that plugin — Windows has no
+/// EVERY camera (left unimplemented in that plugin — Windows has no
 /// standard front/back API) — falls back to matching "back"/"rear" in
 /// the camera's device name, and if that's also inconclusive, remembers
 /// whichever camera the user last picked via the switch-camera button

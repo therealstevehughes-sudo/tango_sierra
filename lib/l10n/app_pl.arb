@@ -1527,5 +1527,10 @@
   "clockNetworkNotSet": "Połączenie internetowe lokalu niezapisane",
   "clockUseThisNetworkButton": "Użyj tego połączenia",
   "clearLabel": "Wyczyść",
-  "clockNetworkHint": "Zrób to po połączeniu z Wi-Fi lokalu, najlepiej na wspólnym tablecie. Rejestracje z tego połączenia liczą się jako na miejscu, nawet w środku budynku."
+  "clockNetworkHint": "Zrób to po połączeniu z Wi-Fi lokalu, najlepiej na wspólnym tablecie. Rejestracje z tego połączenia liczą się jako na miejscu, nawet w środku budynku.",
+  "photoReviewTitle": "Sprawdź zdjęcie",
+  "photoReviewPrompt": "Czy jest wyraźne i pokazuje to, co trzeba?",
+  "usePhotoButton": "Użyj zdjęcia",
+  "retakePhotoButton": "Zrób ponownie",
+  "deletePhotoButton": "Usuń zdjęcie"
 }

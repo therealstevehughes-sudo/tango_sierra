@@ -5275,4 +5275,19 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get clockNetworkHint =>
       'افعل ذلك أثناء الاتصال بشبكة Wi-Fi الخاصة بالمكان، ويفضل على الجهاز اللوحي المشترك. تُعتبر عمليات تسجيل الحضور من هذا الاتصال داخل الموقع، حتى في الداخل.';
+
+  @override
+  String get photoReviewTitle => 'تحقق من صورتك';
+
+  @override
+  String get photoReviewPrompt => 'هل هي واضحة وتُظهر المطلوب؟';
+
+  @override
+  String get usePhotoButton => 'استخدم الصورة';
+
+  @override
+  String get retakePhotoButton => 'أعد الالتقاط';
+
+  @override
+  String get deletePhotoButton => 'احذف الصورة';
 }

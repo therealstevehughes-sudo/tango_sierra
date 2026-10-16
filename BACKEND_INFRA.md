@@ -2181,3 +2181,7 @@ Verified: all 3 tables + 5 site columns + 5 functions present (exactly one versi
 Website: `/var/www/venurite-site/index.html` replaced with `tools/website_staging/index.html` (live copy confirmed identical to the 2026-10-15 snapshot before overwrite; backup at `index.html.bak-20261016`). Verified via forced-IP curl: md5 matches, new copy present.
 
 **Unproven until first real use:** whether `x-real-ip` survives the API gateway (Envoy) between nginx and PostgREST. If "Use this connection" records nothing / the wrong IP, check `request.headers` inside a test RPC and adjust `_caller_ip`.
+
+## Website copy update (2026-10-16)
+
+`/var/www/venurite-site/index.html` redeployed from `tools/website_staging/index.html` (country-neutral copy; see DECISIONS_LOG.md). Verified via forced-IP curl: no "UK-built"/"EHO" remains, new trust line present. Web app `/var/www/venurite-site/app/` redeployed earlier the same day with the new icons (md5 of `main.dart.js` verified identical to local build; previous copy kept at `app.bak-20261016`). No backend schema changes in this entry.
