@@ -172,9 +172,12 @@ final staffDirectoryProvider = FutureProvider<List<User>>((ref) async {
   // back to the first-created default for a single-site install.
   final repository = ref.watch(userRepositoryProvider);
   final activeSite = ref.watch(activeSiteProvider);
-  final siteId = activeSite != null
-      ? activeSite.id
-      : (await ref.watch(currentSiteProvider.future)).id;
+  // A genuinely fresh install (--dart-define=SEED_DEMO_DATA=false) has no
+  // site at all yet — getDefault() throws "No element". That must show
+  // LoginScreen's fresh-install entry (create/join a company), not an
+  // error (2026-10-16, found testing the public blank-slate build).
+  final siteId = activeSite?.id ?? await _defaultSiteIdOrNull(ref);
+  if (siteId == null) return const <User>[];
   final staff = await repository.getForSite(siteId);
   return staff.where((u) => u.active).toList();
 });
@@ -203,12 +206,21 @@ final staffDirectoryDepartmentsProvider = FutureProvider<List<Department>>((
         )
         .toList();
   }
-  final site = await ref.watch(currentSiteProvider.future);
+  final siteId = await _defaultSiteIdOrNull(ref);
+  if (siteId == null) return const <Department>[];
   final departments = await ref
       .watch(departmentRepositoryProvider)
-      .getForSite(site.id);
+      .getForSite(siteId);
   return departments.where((d) => d.active).toList();
 });
+
+Future<int?> _defaultSiteIdOrNull(Ref ref) async {
+  try {
+    return (await ref.watch(currentSiteProvider.future)).id;
+  } on StateError {
+    return null;
+  }
+}
 
 final currentUserProvider = StateProvider<User?>((ref) => null);
 

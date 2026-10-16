@@ -3240,3 +3240,15 @@ Founder decisions on the open list:
 **Built:**
 - New frequencies `quarterly` / `sixMonthly` / `annually` (labels in 10 languages). **Rolling from the last completion** (done 10 Jan → next due 10 Apr), not calendar quarters. Hidden while done within the interval; due once it passes (or immediately if never done, to create a first record); **overdue after a 14-day grace** (servicing needs booking). Stored as plain text in `task_schedules.frequency` — no server change needed (confirmed: no check constraint). Library: "Fire alarm professional service (6-monthly)" → sixMonthly (was asNeeded, which shows every day). Fire risk assessment, cellar CO2 risk assessment and fire drill were already tagged `annually` — that value only now exists as a real option. 6 new tests.
 - **Evidence photos on Android/iOS go straight to the live camera** — no upload choice. Desktop/web keep the choice (a shared venue PC may have no webcam).
+
+## Public app reset to a blank new-customer experience (2026-10-16)
+
+Founder: anyone downloading now must see what a brand-new client sees. Found today's APK/web deploys had been built with the default demo data (fake company + staff on the login screen) — breaking the earlier agreed rule that public builds use `--dart-define=SEED_DEMO_DATA=false`. Rebuilt both that way.
+
+**Real bug found by testing the blank build in a browser:** a fresh install showed "Error loading staff: Bad state: No element" instead of the welcome screen — `staffDirectoryProvider`/`staffDirectoryDepartmentsProvider` called `getDefault()` on a site table that is empty on a genuine fresh install. Both now return an empty list when no site exists, so LoginScreen shows its fresh-install entry ("Kitchen compliance, done right" → Get started). Verified live in a browser after deploy.
+
+Also fixed: web manifest/favicon pointed at a missing `logos/VenueRite_favicon.png` (404) — file added under `web/logos/`; apple-touch-icon now uses the white-background icon.
+
+**Setup Wizard "nothing happens" report:** tested live as a demo supervisor — it opens "Add Equipment" only (supervisors get an equipment-only mode), so it isn't broken, but the name promises something it doesn't do. Managers get a 4-step venue form. Couldn't reproduce "nothing"; asked founder which login. Full redesign (top-down company → regions → branches, AI guided) being planned per founder's outline, for review before build.
+
+Server data untouched: the 2 existing test organisations stay (tenant isolation means a new downloader never sees them).

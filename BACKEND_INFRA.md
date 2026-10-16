@@ -2193,3 +2193,7 @@ Website: `/var/www/venurite-site/index.html` replaced with `tools/website_stagin
 ## Web app + APK redeployed (2026-10-16)
 
 Both rebuilt from commit 05d39bd (photo check/retake, camera-only evidence on mobile, 3/6/12-monthly frequencies, new icons). APK → `/var/www/get-venurite/venurite-preview.apk` (previous copy at `/root/venurite-preview.apk.bak-20261016`); web → `/var/www/venurite-site/app/`. Both verified byte-identical to the local builds via md5.
+
+## Blank-slate public builds deployed (2026-10-16)
+
+APK and web rebuilt with `--dart-define=SEED_DEMO_DATA=false` (+ fresh-install crash fix), deployed and md5-verified (APK `15f99fcf…`, web `main.dart.js` `9fca4f99…`). Web `logos/VenueRite_favicon.png` now exists (was 404). Every future public build must use this flag. No database changes.
