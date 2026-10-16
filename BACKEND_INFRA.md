@@ -2209,3 +2209,10 @@ New `/var/www/venurite-site/partners/index.html` (from `tools/website_staging/pa
 ## Server cleanup + layout-fix redeploy (2026-10-16)
 
 Removed `/var/www/venurite-site/app.bak-20261016`, `/var/www/venurite-site/index.html.bak-20261016`, `/root/venurite-preview.apk.bak-20261016` (founder request). Live: blank-slate APK + web, rebuilt with the AppChrome layout fix (`--dart-define=SEED_DEMO_DATA=false`).
+
+## AI app-guide category live (2026-10-16)
+
+- `tools/ai_app_guide_category_migration.sql` applied: `compliance_chunks_source_category_check` now allows `app_guide`.
+- Embedded `compliance_library/app_guide/{staff,manager}_guide.html` → 4 chunks (corpus now legislation 541 / guidance 319 / app_guide 4). Run inside `python:3.12-slim` on the `supabase_default` network with OPENAI_API_KEY/POSTGRES_PASSWORD read from `.env` in-shell (never printed); job dir removed afterwards.
+- `tools/ai-assistant_index.ts` deployed to `volumes/functions/ai-assistant/index.ts`, `docker restart supabase-edge-functions` (healthy). Backup: `/root/ai-assistant_index.ts.bak-20261016`.
+- Note: sourcing `.env` in a shell prints "Organization: command not found" for lines 151–152 — that file has two non-assignment lines (likely a pasted comment). Harmless for docker compose; worth tidying.

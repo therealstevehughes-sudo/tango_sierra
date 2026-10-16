@@ -387,10 +387,16 @@ def embed_batch(client: OpenAI, texts: list[str], max_retries: int = 5) -> list[
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true", help="parse+chunk only, no API calls, no DB writes")
+    parser.add_argument(
+        "--only",
+        help="only (re-)embed documents whose path starts with this prefix, e.g. app_guide/",
+    )
     args = parser.parse_args()
 
     all_chunks: list[Chunk] = []
     for rel_path, meta in DOCUMENT_METADATA.items():
+        if args.only and not rel_path.startswith(args.only):
+            continue
         doc_chunks = build_chunks_for_document(rel_path, meta)
         print(f"{rel_path}: {len(doc_chunks)} chunks")
         all_chunks.extend(doc_chunks)
