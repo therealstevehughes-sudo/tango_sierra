@@ -3252,3 +3252,9 @@ Also fixed: web manifest/favicon pointed at a missing `logos/VenueRite_favicon.p
 **Setup Wizard "nothing happens" report:** tested live as a demo supervisor — it opens "Add Equipment" only (supervisors get an equipment-only mode), so it isn't broken, but the name promises something it doesn't do. Managers get a 4-step venue form. Couldn't reproduce "nothing"; asked founder which login. Full redesign (top-down company → regions → branches, AI guided) being planned per founder's outline, for review before build.
 
 Server data untouched: the 2 existing test organisations stay (tenant isolation means a new downloader never sees them).
+
+## Pricing direction + website cost calculator — in progress (2026-10-16)
+
+- Founder asked whether price should scale with branch size (10-staff QSR vs 200-staff hotel). Research: competitors price per site (Trail £38 flat; FoodDocs £59–£250/site by plan; Jolt ~$200–$300 single-site quotes + setup fee). Recommended **staff-size bands, not per-user** (per-user pricing discourages logging staff in — bad for a compliance app), counted on staff who logged in that month, move up only after 2 consecutive months over, down automatically.
+- Founder pushed back that £29 entry was too cheap given everything included — agreed. **Proposed (not yet locked):** 1–15 £39 / 16–50 £59 / 51–150 £89 / 151–300 £129 / 300+ custom; Rota add-on extra (£6 <10 staff / £10 10+). Prices stay in £ for now; set per country on expansion.
+- **Website branch cost calculator** requested (tick boxes → monthly and yearly fee). **Decided: yearly = 1 month free** (pay 11, get 12). Still open: lock band prices, head-office-as-extra-branch rule, ex-VAT display, founding-customer offer, plan approval.
