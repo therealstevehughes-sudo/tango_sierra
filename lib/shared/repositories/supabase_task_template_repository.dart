@@ -151,21 +151,25 @@ class SupabaseTaskTemplateRepository implements TaskTemplateRepository {
     );
   }
 
+  // Shared library tags (2026-10-16, tools/task_library_server_migration.sql)
+  // — read-only to every signed-in user; the onboarding payoff step uses
+  // these to suggest tasks for the venue's type. Previously threw, which
+  // left a real backend sign-up with nothing suggested.
   @override
-  Future<List<int>> getVenueTypeIds(int templateGroupId) {
-    throw UnimplementedError(
-      'Task-template venue-type tagging is not yet wired to the backend '
-      'path - still Drift-only, matching the same "capability built, app '
-      'wiring incremental" state it already has locally (unpopulated, no '
-      'filtering UI yet).',
+  Future<List<int>> getVenueTypeIds(int templateGroupId) async {
+    final rows = await _client.select(
+      'task_template_venue_types',
+      query: 'task_template_group_id=eq.$templateGroupId&select=venue_type_id',
     );
+    return rows.map((r) => r['venue_type_id'] as int).toList();
   }
 
   @override
   Future<void> setVenueTypeIds(int templateGroupId, List<int> venueTypeIds) {
-    throw UnimplementedError(
-      'Task-template venue-type tagging is not yet wired to the backend '
-      'path - see getVenueTypeIds.',
+    // Library tags are shared reference data, maintained by the seed
+    // (tools/task_library_seed.sql), never edited per tenant via the API.
+    throw UnsupportedError(
+      'Library venue-type tags are read-only in backend mode.',
     );
   }
 
