@@ -374,8 +374,8 @@
   @media (max-width: 900px) { .band-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 480px) { .band-grid { grid-template-columns: 1fr; } }
   .band { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; text-align: center; box-shadow: var(--shadow); }
-  .band-name { font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
-  .band-staff { font-size: 0.9rem; margin-top: 4px; }
+  .band-name { font-family: "Fraunces", serif; font-weight: 700; font-size: 1.2rem; color: var(--ink); }
+  .band-staff { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
   .band-price { font-family: "Fraunces", serif; font-weight: 700; font-size: 1.9rem; margin-top: 6px; color: var(--teal-ink); font-variant-numeric: tabular-nums; }
   .band-price span { font-family: -apple-system, sans-serif; font-size: 0.8rem; font-weight: 600; color: var(--muted); }
   .band-quote { font-size: 1.3rem; padding-top: 8px; }
@@ -692,11 +692,11 @@
     </div>
 
     <div class="band-grid">
-      <div class="band"><div class="band-name">Small</div><div class="band-staff">1&ndash;15 staff</div><div class="band-price">&pound;39<span>/month</span></div></div>
-      <div class="band"><div class="band-name">Standard</div><div class="band-staff">16&ndash;50 staff</div><div class="band-price">&pound;59<span>/month</span></div></div>
-      <div class="band"><div class="band-name">Large</div><div class="band-staff">51&ndash;150 staff</div><div class="band-price">&pound;89<span>/month</span></div></div>
-      <div class="band"><div class="band-name">Extra large</div><div class="band-staff">151&ndash;300 staff</div><div class="band-price">&pound;129<span>/month</span></div></div>
-      <div class="band"><div class="band-name">Enterprise</div><div class="band-staff">300+ staff</div><div class="band-price band-quote">Let&rsquo;s talk</div></div>
+      <div class="band"><div class="band-name">Bistro</div><div class="band-staff">Small<br>1&ndash;15 staff</div><div class="band-price">&pound;39<span>/month</span></div></div>
+      <div class="band"><div class="band-name">Brasserie</div><div class="band-staff">Standard<br>16&ndash;50 staff</div><div class="band-price">&pound;59<span>/month</span></div></div>
+      <div class="band"><div class="band-name">Banquet</div><div class="band-staff">Large<br>51&ndash;150 staff</div><div class="band-price">&pound;89<span>/month</span></div></div>
+      <div class="band"><div class="band-name">Grand Hotel</div><div class="band-staff">Extra large<br>151&ndash;300 staff</div><div class="band-price">&pound;129<span>/month</span></div></div>
+      <div class="band"><div class="band-name">Empire</div><div class="band-staff">Enterprise<br>300+ staff</div><div class="band-price band-quote">Let&rsquo;s talk</div></div>
     </div>
     <p class="band-foot">Per branch, ex VAT. Pay yearly and get 1 month free. 14-day free trial, no card required.</p>
 
@@ -725,7 +725,7 @@
         <div class="calc-total"><span id="calcTotalLabel">Per month</span><strong id="calcTotal">&pound;39</strong></div>
         <div class="calc-save" id="calcSave"></div>
         <a class="btn btn-primary" style="width:100%;" href="#" onclick="openGetStartedModal(); return false;">Start your free trial</a>
-        <div class="pricing-note">Prices ex VAT. From 4 branches, head office is billed as one extra Small branch.</div>
+        <div class="pricing-note">Prices ex VAT. From 4 branches, head office is billed as one extra Bistro (Small) branch.</div>
       </div>
     </div>
 
@@ -837,10 +837,10 @@
 // sync with the app's billing. Ex VAT. Yearly = 11 x monthly (1 month free).
 (function () {
   var BANDS = [
-    { max: 15, name: 'Small', price: 39 },
-    { max: 50, name: 'Standard', price: 59 },
-    { max: 150, name: 'Large', price: 89 },
-    { max: 300, name: 'Extra large', price: 129 }
+    { max: 15, name: 'Bistro (Small)', price: 39 },
+    { max: 50, name: 'Brasserie (Standard)', price: 59 },
+    { max: 150, name: 'Banquet (Large)', price: 89 },
+    { max: 300, name: 'Grand Hotel (Extra large)', price: 129 }
   ];
   var ROTA_SMALL = 6, ROTA_LARGE = 10, ROTA_SMALL_MAX = 9;
   var HEAD_OFFICE_FROM = 4, MAX_BRANCHES = 25;
@@ -857,7 +857,7 @@
   function gbp(n) { return '£' + n.toLocaleString('en-GB'); }
   function bandLabel(staff) {
     var bd = band(staff);
-    return bd ? bd.name + ' · ' + gbp(bd.price) + '/month' : 'Enterprise · custom quote';
+    return bd ? bd.name + ' · ' + gbp(bd.price) + '/month' : 'Empire (Enterprise) · custom quote';
   }
 
   function renderRows() {
