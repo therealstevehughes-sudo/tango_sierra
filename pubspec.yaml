@@ -131,6 +131,11 @@ dev_dependencies:
   build_runner: ^2.15.1
   flutter_launcher_icons: ^0.14.4
 
+# NOTE (2026-10-16): the Android launcher icons (adaptive foreground +
+# white @color/ic_launcher_bg, legacy mipmaps) and web/icons were hand-
+# generated from VenueRite_favicon.png — VR mark on white, no wordmark.
+# Re-running flutter_launcher_icons with this config will NOT reproduce
+# them; regenerate the same way (see DECISIONS_LOG 2026-10-16) instead.
 flutter_launcher_icons:
   android: true
   ios: false

@@ -3,4 +3,7 @@
     <!-- VenuRite brand teal (matches AppColors teal family) — splash and
          Android 12+ SplashScreen background. -->
     <color name="venuerite_splash_bg">#0E6B6C</color>
+    <!-- Launcher icon background (2026-10-16, founder request): the VR
+         mark on plain white, no "VenuRite" wordmark. Splash stays teal. -->
+    <color name="ic_launcher_bg">#FFFFFF</color>
 </resources>

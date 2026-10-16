@@ -3197,3 +3197,27 @@ Direct founder request: every task gets a short "how to do it right" guide, open
 1. Apply `tools/task_training_guides_migration.sql` via `psql` + `docker restart supabase-rest`. Until then, the button works and shows standard guides; only venue editing fails (friendly error).
 2. Upload `tools/website_staging/index.html` to `/var/www/venurite-site/index.html`.
 3. Rebuild + deploy the web app (`/app/`) and ship a new APK so staff get the button.
+
+## Founder feedback on training section + GPS clock-in — all recommendations approved (2026-10-15)
+
+Founder proposed (a) a dedicated training section with training assigned per staff member by role/venue tasks, and (b) GPS-linked clock-in/out so nobody can clock in off site; also asked whether fire alarm/sensor/extinguisher tasks exist. Claude pushed back on parts of each (not a yes-man, per founder's request); the founder then approved **every** recommendation as given:
+- **Training list is derived, never hand-assigned** — each person's list = guides for the tasks in their active schedules. Manual assignment would go stale.
+- **Evidence:** "I've read and understood" on every task's guide (tied to that guide's version, so a venue edit asks staff to re-read) + a manager "watched them do it" competence sign-off for **critical tasks only** (venueManager+, never for yourself). A read-tick alone was judged weak evidence.
+- **No hard gate:** an unread guide gets a louder button + one-line nudge on the carousel, never a block — blocking mid-shift means the check doesn't get done.
+- **Not an LMS:** no quizzes/videos/courses; accredited Level 2 etc. stays with external providers and the existing training-records screen.
+- **Training status in the EHO export:** summary line + "Task training gaps" in Exceptions.
+- **Fire tasks:** library already had fire exits, extinguishers, extinguisher/blanket service, weekly call-point test, fire doors, fire risk assessment, emergency lighting, sprinkler service, hotel room smoke alarms. Added the 5 real gaps: fire drill/evacuation practice, smoke/heat detector check (kitchen & public areas), 6-monthly professional alarm service, staff fire training & named fire marshals, fire action notices. All tag every venue type.
+- **GPS clock-in = flag-and-review, never block** (indoor GPS 50-100m+ error would lock honest staff out; GPS is spoofable, so it's a deterrent not proof). Server decides on-site/off-site, never the app. Default allowed distance 150m (25-2000). **Venue network check** too: a clock-in from the venue's own internet connection counts as on site (works indoors, no location permission). Off-site / no-location events go to the supervisor verification queue with "Mark reviewed".
+- **Privacy (UK GDPR / ICO monitoring-at-work):** location read once at clock-in/out only, never tracked; raw coordinates never stored — only distance, reported accuracy and the result; one-time staff notice (lawful basis legitimate interests; denying the OS permission is the no-detriment alternative — a supervisor reviews instead). Off by default per venue. Not solicitor-reviewed, same flag as the shift-photo wording.
+
+**Built (commits e67a628, 539e5e2, b5db2d6):** My Training (worker hub + drawer), Team Training (drawer, supervisor+) with per-person progress and sign-off; acknowledge button on the guide screen; carousel nudge; EHO export section; Venue Details "Clock-in location check" (enable, use my current location, allowed distance, use this connection / clear); location fields on shift logs; geolocator package + Android/iOS location permissions; all new text in 10 languages. 108/108 tests pass, `flutter analyze` clean.
+
+**Deployed 2026-10-16** (founder: "you always have my permission to access the server"): all three migrations applied, website updated, web app + APK redeployed — see BACKEND_INFRA.md.
+
+**Real gap found, NOT fixed (needs founder decision):** the live server has **0 task templates and 0 schedules** — the 208-task library only exists in the app's local Drift seed; nothing copies it to the backend. In live (backend) mode the carousel, guides and training lists are therefore empty until tasks exist server-side. Building a library seed for the backend is a separate, unapproved piece of work.
+
+**Still to verify on real devices:** location reading on a real phone, and that the server reads the venue's public IP correctly (nginx sets `X-Real-IP`; the API gateway in between hasn't been proven to pass it through).
+
+## App icon: VR mark on white, no wordmark (2026-10-16)
+
+Founder request: the phone's app icon should be the favicon VR mark on a white background, without the "VenuRite" text. Found the phone was showing the Android adaptive icon — teal background (`venuerite_splash_bg`) + a foreground that included the wordmark. Changed: new `@color/ic_launcher_bg` #FFFFFF used by both adaptive icon XMLs (splash screen stays teal); new adaptive foreground = favicon VR mark only, sized inside the 66% safe zone so circle/squircle masks never clip it; legacy pre-Android-8 mipmaps regenerated as VR on white. Also found the web app's home-screen icons (`web/icons/Icon-*.png`, incl. maskable) were still Flutter's default logo — replaced with the same VR-on-white mark. Generated with Pillow from `assets/logos/VenueRite_favicon.png`; `flutter_launcher_icons` config left as-is but annotated that re-running it won't reproduce these.

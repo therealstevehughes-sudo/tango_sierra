@@ -2168,3 +2168,16 @@ See DECISIONS_LOG.md's own entry for the full design. `tools/ai-assistant_index.
 See DECISIONS_LOG.md's own entry. New table `task_training_guides` (`tools/task_training_guides_migration.sql`): `site_id` → `sites`, `template_group_id`, `steps jsonb` (array), `why_it_matters`, `if_it_fails`, `updated_by_user_id` → `users`, `updated_at`; unique `(site_id, template_group_id)`. RLS: read = `can_access_site(site_id)`; insert/update/delete = `can_access_site` + `role_tier` in venueManager/regional/executive (same pattern as `shift_periods`). App reads/writes via PostgREST (`SupabaseTaskTrainingGuideRepository`, read-then-insert/update since `BackendRestClient` has no upsert).
 
 To go live: `docker exec -i supabase-db psql -U postgres -d postgres < task_training_guides_migration.sql`, then `docker restart supabase-rest` (new table). Website: upload `tools/website_staging/index.html` → `/var/www/venurite-site/index.html` (no nginx change). Both blocked by auto-mode on this machine (SSH classed as production access) — pending founder approval.
+
+## Training section + location-checked clock-in — deployed (2026-10-16)
+
+Applied via `docker exec -i supabase-db psql -U postgres -d postgres -v ON_ERROR_STOP=1` (all clean), then `docker restart supabase-rest`:
+- `tools/task_training_guides_migration.sql` — `task_training_guides` (venue's own version of a guide; read = site access, write = venueManager+).
+- `tools/task_training_records_migration.sql` — `training_acknowledgements` (user, site, template_group_id, guide_version; insert only as yourself via the PIN session's `local_user_id` claim) and `training_competence_signoffs` (venueManager+ from the JWT, signing as yourself, `check (user_id <> signed_off_by_user_id)`).
+- `tools/clock_location_check_migration.sql` — `sites.clock_location_check_enabled/clock_latitude/clock_longitude/clock_radius_m/clock_network_ip`; `shift_logs.clock_{in,out}_location_status/distance_m/accuracy_m/location_reviewed_by_user_id/location_reviewed_at`. Old 2-arg `shift_clock_in`/`shift_clock_out` dropped and recreated with optional `p_lat/p_lng/p_accuracy_m` (older app builds still resolve). New RPCs: `shift_review_location` (supervisor+), `set_site_clock_location` and `set_site_clock_network` (venueManager+; the latter records the caller's own IP from `request.headers` `x-real-ip`, falling back to the first `x-forwarded-for` hop). Helpers `_caller_ip`, `_distance_m` (haversine, no PostGIS), `_clock_location_status`.
+
+Verified: all 3 tables + 5 site columns + 5 functions present (exactly one version of each clock function); PostgREST returns 200 for all three new tables (anon key gets empty results — RLS working).
+
+Website: `/var/www/venurite-site/index.html` replaced with `tools/website_staging/index.html` (live copy confirmed identical to the 2026-10-15 snapshot before overwrite; backup at `index.html.bak-20261016`). Verified via forced-IP curl: md5 matches, new copy present.
+
+**Unproven until first real use:** whether `x-real-ip` survives the API gateway (Envoy) between nginx and PostgREST. If "Use this connection" records nothing / the wrong IP, check `request.headers` inside a test RPC and adjust `_caller_ip`.
