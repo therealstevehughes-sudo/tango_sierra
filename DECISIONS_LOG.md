@@ -3266,4 +3266,11 @@ Founder locked: per-branch bands by active staff **1–15 £39 / 16–50 £59 / 
 Website pricing section replaced: band cards, what's included, interactive calculator (branch count up to 25, per-branch staff + rota tick, "use branch 1's settings for all", monthly/yearly toggle with saving shown, 300+ staff → custom quote). Verified in a headless browser: 1×10 staff = £39; 4 branches = £195/mo incl. head office, £2,145/yr; 200 staff + rota = £139; 400 staff → "Let's talk"; no horizontal scroll at 390px.
 
 **NOT yet done — app billing still charges the old flat £39/branch** (`lib/shared/models/subscription.dart`, admin billing). Must be updated to match before any real customer is billed. Founding-customer offer (decision 12) and price testing with venue owners (13) still open.
-- **Band names (founder pick, same day):** kitchen-size names with the size kept underneath — **Bistro** (Small, 1–15), **Brasserie** (Standard, 16–50), **Banquet** (Large, 51–150), **Grand Hotel** (Extra large, 151–300), **Empire** (Enterprise, 300+). Live on website cards + calculator. Use the same names in app billing when that's updated.
+- **Band names (founder pick, same day):** kitchen-size names with the size kept underneath — **Bistro** (Small, 1–15), **Brasserie** (Standard, 16–50), **Banquet** (Large, 51–150), **Grand** (Extra large, 151–300), **Empire** (Enterprise, 300+). Live on website cards + calculator. Use the same names in app billing when that's updated.
+- **"Grand Hotel" band renamed "Grand"** (founder, same day) — live.
+
+## Partners page live — venurite.com/partners/ (2026-10-16)
+
+Founder request: a separate page to help market affiliated/supplementary companies, starting with **MenuOps (menuops.io)**, reached from a "Partners" tab. Built as its own page (`/partners/`, same styles as the homepage), "Partners" added to the homepage nav + footer. MenuOps card written in our own words from menuops.io (menu/recipe/SOP → staff training, allergen extraction from menu PDFs/photos, staff chatbot, QR digital menus); "Visit MenuOps" opens their site in a new tab. Plus a "Become a partner" card (mailto hello@venurite.com) and a disclaimer that partners are independent. No MenuOps logo used — waiting for one supplied by them (permission). Verified in a browser: tab click lands on /partners/, images load, no console errors, no horizontal scroll at 390px.
+
+**Flagged to founder:** MenuOps overlaps VenuRite in places (staff training/quizzes, allergen info, AI staff chatbot) — worth agreeing a clear split of who does what before co-marketing.

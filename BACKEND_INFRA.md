@@ -2201,3 +2201,7 @@ APK and web rebuilt with `--dart-define=SEED_DEMO_DATA=false` (+ fresh-install c
 ## Website pricing calculator deployed (2026-10-16)
 
 `/var/www/venurite-site/index.html` redeployed from `tools/website_staging/index.html` — new band pricing + client-side calculator (inline JS, no external deps). Prices live in one `BANDS` array in that inline script; app-side billing not yet aligned (see DECISIONS_LOG).
+
+## Partners page (2026-10-16)
+
+New `/var/www/venurite-site/partners/index.html` (from `tools/website_staging/partners/index.html`, root-absolute asset paths). Served by the existing nginx `try_files $uri $uri/` — no nginx change. Homepage redeployed with the Partners nav link and "Grand" band rename.
