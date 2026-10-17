@@ -5497,4 +5497,20 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get billingCodeLabel => 'Kod rabatowy lub dostępu (opcjonalnie)';
+
+  @override
+  String get allowBillingAccessMenuItem => 'Zezwól na dostęp do rozliczeń';
+
+  @override
+  String get removeBillingAccessMenuItem => 'Usuń dostęp do rozliczeń';
+
+  @override
+  String billingAccessGrantedText(String name) {
+    return '$name widzi teraz rozliczenia.';
+  }
+
+  @override
+  String billingAccessRemovedText(String name) {
+    return '$name nie widzi już rozliczeń.';
+  }
 }

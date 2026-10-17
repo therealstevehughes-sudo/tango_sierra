@@ -13,6 +13,7 @@ import '../../shared/models/user.dart';
 import '../../shared/models/venue_type.dart';
 import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/site_providers.dart';
+import '../../shared/providers/subscription_providers.dart';
 import '../../shared/providers/venue_type_providers.dart';
 import 'billing_screen.dart';
 import 'clock_location_settings.dart';
@@ -375,8 +376,10 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                 // GoCardless billing (2026-09-21) -- executive-only, backend
                 // mode only (a local-only install has no subscription
                 // concept at all, see Subscription's own doc comment).
+                // Billing access (2026-10-17): Directors plus anyone a
+                // Director has allowed — decided by the server.
                 if (backendDataEnabled &&
-                    currentUser?.roleTier == RoleTier.executive)
+                    (ref.watch(billingAccessProvider).value?.allowed ?? false))
                   Card(
                     child: ListTile(
                       title: Text(l10n.billingLabel),

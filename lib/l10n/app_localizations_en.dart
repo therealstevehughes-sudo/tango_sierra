@@ -5511,4 +5511,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get billingCodeLabel => 'Discount or access code (optional)';
+
+  @override
+  String get allowBillingAccessMenuItem => 'Allow billing access';
+
+  @override
+  String get removeBillingAccessMenuItem => 'Remove billing access';
+
+  @override
+  String billingAccessGrantedText(String name) {
+    return '$name can now see Billing.';
+  }
+
+  @override
+  String billingAccessRemovedText(String name) {
+    return '$name can no longer see Billing.';
+  }
 }

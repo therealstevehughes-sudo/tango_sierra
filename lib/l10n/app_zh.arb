@@ -1546,5 +1546,9 @@
   "billingBandsExplainer": "每个门店按当月使用 VenuRite 的员工人数计费：Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129。门店需连续 2 个月超过上限才会升级。",
   "billingMonthlyOption": "按月",
   "billingYearlyOption": "按年（免 1 个月）",
-  "billingCodeLabel": "折扣码或访问码（可选）"
+  "billingCodeLabel": "折扣码或访问码（可选）",
+  "allowBillingAccessMenuItem": "允许查看账单",
+  "removeBillingAccessMenuItem": "取消账单查看权限",
+  "billingAccessGrantedText": "{name} 现在可以查看账单。",
+  "billingAccessRemovedText": "{name} 已无法查看账单。"
 }

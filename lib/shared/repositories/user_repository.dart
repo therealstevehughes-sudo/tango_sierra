@@ -121,6 +121,11 @@ abstract class UserRepository {
     required String consent,
     required String version,
   });
+
+  /// Billing access (2026-10-17): a Director lets someone else see the
+  /// organisation's Billing screen (view only). Backend-only — enforced
+  /// server-side by set_billing_access().
+  Future<void> setBillingAccess({required int userId, required bool granted});
 }
 
 class DriftUserRepository implements UserRepository {
@@ -412,4 +417,11 @@ class DriftUserRepository implements UserRepository {
       preferredLocale: row.preferredLocale,
     );
   }
+
+  // Billing doesn't exist in a local-only install.
+  @override
+  Future<void> setBillingAccess({
+    required int userId,
+    required bool granted,
+  }) async {}
 }

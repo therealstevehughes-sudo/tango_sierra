@@ -1546,5 +1546,9 @@
   "billingBandsExplainer": "ہر برانچ کی قیمت اس پر ہے کہ اس مہینے کتنے عملے نے VenuRite استعمال کیا: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129۔ برانچ تب ہی اوپر جاتی ہے جب مسلسل 2 ماہ حد سے اوپر رہے۔",
   "billingMonthlyOption": "ماہانہ",
   "billingYearlyOption": "سالانہ (1 مہینہ مفت)",
-  "billingCodeLabel": "رعایتی یا رسائی کوڈ (اختیاری)"
+  "billingCodeLabel": "رعایتی یا رسائی کوڈ (اختیاری)",
+  "allowBillingAccessMenuItem": "بلنگ تک رسائی دیں",
+  "removeBillingAccessMenuItem": "بلنگ تک رسائی ہٹائیں",
+  "billingAccessGrantedText": "{name} اب بلنگ دیکھ سکتے ہیں۔",
+  "billingAccessRemovedText": "{name} اب بلنگ نہیں دیکھ سکتے۔"
 }

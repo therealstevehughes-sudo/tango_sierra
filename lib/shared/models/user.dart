@@ -136,6 +136,9 @@ class User {
   final String? shiftPhotoConsent;
   final DateTime? shiftPhotoConsentAt;
   final String? shiftPhotoConsentVersion;
+  // Billing access (2026-10-17) — a Director has let this person see the
+  // Billing screen. Display only; the server decides (can_view_billing).
+  final bool billingAccess;
 
   const User({
     required this.id,
@@ -157,6 +160,7 @@ class User {
     this.shiftPhotoConsent,
     this.shiftPhotoConsentAt,
     this.shiftPhotoConsentVersion,
+    this.billingAccess = false,
   });
 
   // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — needed
@@ -191,6 +195,7 @@ class User {
       shiftPhotoConsentAt: shiftPhotoConsentAt ?? this.shiftPhotoConsentAt,
       shiftPhotoConsentVersion:
           shiftPhotoConsentVersion ?? this.shiftPhotoConsentVersion,
+      billingAccess: billingAccess,
     );
   }
 }

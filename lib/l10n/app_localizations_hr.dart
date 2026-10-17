@@ -5403,4 +5403,20 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get billingCodeLabel => 'Kod za popust ili pristup (neobavezno)';
+
+  @override
+  String get allowBillingAccessMenuItem => 'Dopusti pristup naplati';
+
+  @override
+  String get removeBillingAccessMenuItem => 'Ukloni pristup naplati';
+
+  @override
+  String billingAccessGrantedText(String name) {
+    return '$name sada može vidjeti naplatu.';
+  }
+
+  @override
+  String billingAccessRemovedText(String name) {
+    return '$name više ne može vidjeti naplatu.';
+  }
 }

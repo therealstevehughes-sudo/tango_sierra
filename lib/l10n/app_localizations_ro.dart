@@ -5491,4 +5491,20 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get billingCodeLabel => 'Cod de reducere sau acces (opțional)';
+
+  @override
+  String get allowBillingAccessMenuItem => 'Permite accesul la facturare';
+
+  @override
+  String get removeBillingAccessMenuItem => 'Elimină accesul la facturare';
+
+  @override
+  String billingAccessGrantedText(String name) {
+    return '$name poate vedea acum facturarea.';
+  }
+
+  @override
+  String billingAccessRemovedText(String name) {
+    return '$name nu mai poate vedea facturarea.';
+  }
 }

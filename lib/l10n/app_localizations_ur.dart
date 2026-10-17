@@ -5367,4 +5367,20 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get billingCodeLabel => 'رعایتی یا رسائی کوڈ (اختیاری)';
+
+  @override
+  String get allowBillingAccessMenuItem => 'بلنگ تک رسائی دیں';
+
+  @override
+  String get removeBillingAccessMenuItem => 'بلنگ تک رسائی ہٹائیں';
+
+  @override
+  String billingAccessGrantedText(String name) {
+    return '$name اب بلنگ دیکھ سکتے ہیں۔';
+  }
+
+  @override
+  String billingAccessRemovedText(String name) {
+    return '$name اب بلنگ نہیں دیکھ سکتے۔';
+  }
 }

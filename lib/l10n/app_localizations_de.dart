@@ -5553,4 +5553,20 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get billingCodeLabel => 'Rabatt- oder Zugangscode (optional)';
+
+  @override
+  String get allowBillingAccessMenuItem => 'Zugriff auf Abrechnung erlauben';
+
+  @override
+  String get removeBillingAccessMenuItem => 'Zugriff auf Abrechnung entfernen';
+
+  @override
+  String billingAccessGrantedText(String name) {
+    return '$name kann jetzt die Abrechnung sehen.';
+  }
+
+  @override
+  String billingAccessRemovedText(String name) {
+    return '$name kann die Abrechnung nicht mehr sehen.';
+  }
 }

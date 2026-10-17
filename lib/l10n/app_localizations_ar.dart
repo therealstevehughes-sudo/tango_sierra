@@ -5339,4 +5339,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get billingCodeLabel => 'رمز خصم أو وصول (اختياري)';
+
+  @override
+  String get allowBillingAccessMenuItem => 'السماح بالوصول إلى الفوترة';
+
+  @override
+  String get removeBillingAccessMenuItem => 'إزالة الوصول إلى الفوترة';
+
+  @override
+  String billingAccessGrantedText(String name) {
+    return 'يمكن لـ $name الآن رؤية الفوترة.';
+  }
+
+  @override
+  String billingAccessRemovedText(String name) {
+    return 'لم يعد بإمكان $name رؤية الفوترة.';
+  }
 }

@@ -362,6 +362,7 @@ class SupabaseUserRepository implements UserRepository {
         ? null
         : DateTime.parse(row['shift_photo_consent_at'] as String),
     shiftPhotoConsentVersion: row['shift_photo_consent_version'] as String?,
+    billingAccess: row['billing_access'] as bool? ?? false,
   );
 
   @override
@@ -380,4 +381,13 @@ class SupabaseUserRepository implements UserRepository {
       },
     );
   }
+
+  @override
+  Future<void> setBillingAccess({
+    required int userId,
+    required bool granted,
+  }) => _client.rpcVoid('set_billing_access', {
+    'p_user_id': userId,
+    'p_granted': granted,
+  });
 }

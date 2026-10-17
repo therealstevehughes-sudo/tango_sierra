@@ -5497,4 +5497,20 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get billingCodeLabel => 'Código de descuento o acceso (opcional)';
+
+  @override
+  String get allowBillingAccessMenuItem => 'Permitir acceso a facturación';
+
+  @override
+  String get removeBillingAccessMenuItem => 'Quitar acceso a facturación';
+
+  @override
+  String billingAccessGrantedText(String name) {
+    return '$name ya puede ver la facturación.';
+  }
+
+  @override
+  String billingAccessRemovedText(String name) {
+    return '$name ya no puede ver la facturación.';
+  }
 }

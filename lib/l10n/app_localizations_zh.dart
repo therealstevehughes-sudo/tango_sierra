@@ -5181,4 +5181,20 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get billingCodeLabel => '折扣码或访问码（可选）';
+
+  @override
+  String get allowBillingAccessMenuItem => '允许查看账单';
+
+  @override
+  String get removeBillingAccessMenuItem => '取消账单查看权限';
+
+  @override
+  String billingAccessGrantedText(String name) {
+    return '$name 现在可以查看账单。';
+  }
+
+  @override
+  String billingAccessRemovedText(String name) {
+    return '$name 已无法查看账单。';
+  }
 }

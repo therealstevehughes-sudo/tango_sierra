@@ -2233,3 +2233,7 @@ New `/var/www/venurite-site/equipmentlist/index.html` (nginx auto-redirects `/eq
 - `tools/functions_live/` now holds the authoritative copies of these five functions — edit there, then scp to `volumes/functions/<name>/index.ts`.
 - GoCardless remains `GOCARDLESS_ENVIRONMENT=sandbox`.
 Deployed 2026-10-17: APK, web app and admin tool (`/var/www/admin-venurite/`) rebuilt from b5648a0 and md5-verified.
+
+## Billing access rules (2026-10-17)
+
+Applied `tools/billing_access_migration.sql` (users.billing_access, can_view_billing, set_billing_access, my_billing_access, users_guard_billing_access trigger, subscriptions_read_own now uses can_view_billing), `docker restart supabase-rest`.

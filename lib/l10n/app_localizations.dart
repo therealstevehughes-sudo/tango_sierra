@@ -9409,6 +9409,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Discount or access code (optional)'**
   String get billingCodeLabel;
+
+  /// No description provided for @allowBillingAccessMenuItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow billing access'**
+  String get allowBillingAccessMenuItem;
+
+  /// No description provided for @removeBillingAccessMenuItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove billing access'**
+  String get removeBillingAccessMenuItem;
+
+  /// No description provided for @billingAccessGrantedText.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} can now see Billing.'**
+  String billingAccessGrantedText(String name);
+
+  /// No description provided for @billingAccessRemovedText.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} can no longer see Billing.'**
+  String billingAccessRemovedText(String name);
 }
 
 class _AppLocalizationsDelegate

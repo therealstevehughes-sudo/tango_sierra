@@ -5379,4 +5379,20 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get billingCodeLabel => 'छूट या एक्सेस कोड (वैकल्पिक)';
+
+  @override
+  String get allowBillingAccessMenuItem => 'बिलिंग एक्सेस दें';
+
+  @override
+  String get removeBillingAccessMenuItem => 'बिलिंग एक्सेस हटाएँ';
+
+  @override
+  String billingAccessGrantedText(String name) {
+    return '$name अब बिलिंग देख सकते हैं।';
+  }
+
+  @override
+  String billingAccessRemovedText(String name) {
+    return '$name अब बिलिंग नहीं देख सकते।';
+  }
 }

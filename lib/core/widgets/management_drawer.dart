@@ -29,6 +29,7 @@ import '../../features/settings/certification_requirements_screen.dart';
 import '../../features/settings/department_management_screen.dart';
 import '../../features/settings/menu_management_screen.dart';
 import '../../features/settings/document_centre_screen.dart';
+import '../../features/settings/billing_screen.dart';
 import '../../features/settings/evidence_prune_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/auth/shift_verification_queue_screen.dart';
@@ -45,6 +46,7 @@ import '../../features/venue_setup/venue_setup_wizard_screen.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/subscription_providers.dart';
 
 class _DrawerItemDef {
   const _DrawerItemDef({
@@ -728,6 +730,12 @@ class ManagementDrawer extends ConsumerWidget {
               icon: Icons.verified_user_outlined,
               label: l10n.twoFactorAuthentication,
               onTap: () => _navigate(context, const TwoFactorSettingsScreen()),
+            ),
+          if (ref.watch(billingAccessProvider).value?.allowed ?? false)
+            _navTile(
+              icon: Icons.receipt_long_outlined,
+              label: l10n.billingLabel,
+              onTap: () => _navigate(context, const BillingScreen()),
             ),
           if (atLeast(_backUpMinTier))
             _navTile(

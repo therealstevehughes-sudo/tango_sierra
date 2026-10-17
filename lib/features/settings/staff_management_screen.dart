@@ -11,6 +11,7 @@ import '../../shared/models/department.dart';
 import '../../shared/models/team.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/auth_providers.dart';
+import '../../shared/providers/subscription_providers.dart';
 import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supervision_providers.dart';
@@ -36,6 +37,7 @@ enum _StaffAction {
   resetPin,
   toggleActive,
   trainingRecords,
+  billingAccess,
 }
 
 class StaffManagementScreen extends ConsumerStatefulWidget {
@@ -719,6 +721,32 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     await _loadData();
   }
 
+  Future<void> _toggleBillingAccess(User user) async {
+    final l10n = AppLocalizations.of(context)!;
+    final grant = !user.billingAccess;
+    try {
+      await ref
+          .read(userRepositoryProvider)
+          .setBillingAccess(userId: user.id, granted: grant);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            grant
+                ? l10n.billingAccessGrantedText(user.name)
+                : l10n.billingAccessRemovedText(user.name),
+          ),
+        ),
+      );
+      await _loadData();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(friendlyErrorMessage(l10n, e))));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -889,6 +917,8 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
                     builder: (_) => TrainingRecordsScreen(staffMember: user),
                   ),
                 );
+              case _StaffAction.billingAccess:
+                _toggleBillingAccess(user);
             }
           },
           itemBuilder: (context) => [
@@ -938,6 +968,18 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
               value: _StaffAction.trainingRecords,
               child: Text(l10n.trainingRecordsMenuItem),
             ),
+            // Billing access (2026-10-17) — Directors only, for anyone who
+            // isn't already a Director.
+            if (user.roleTier != RoleTier.executive &&
+                (ref.watch(billingAccessProvider).value?.canManage ?? false))
+              PopupMenuItem(
+                value: _StaffAction.billingAccess,
+                child: Text(
+                  user.billingAccess
+                      ? l10n.removeBillingAccessMenuItem
+                      : l10n.allowBillingAccessMenuItem,
+                ),
+              ),
           ],
         ),
       ),

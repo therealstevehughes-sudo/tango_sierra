@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/subscription.dart';
 import '../repositories/subscription_repository.dart';
 import '../services/billing_service.dart';
-import 'auth_providers.dart' show backendDataEnabledProvider;
+import 'auth_providers.dart'
+    show backendDataEnabledProvider, currentUserProvider;
 import 'backend_providers.dart' show backendRestClientProvider;
 import 'site_providers.dart' show currentOrganisationIdProvider;
 
@@ -15,6 +16,31 @@ final subscriptionRepositoryProvider = Provider<SupabaseSubscriptionRepository>(
 /// there's no organisation on the session yet, or the row genuinely
 /// doesn't exist (shouldn't happen for a real backend-hosted org --
 /// tenant-signup always creates one).
+/// Billing access (2026-10-17): whether the signed-in person may see the
+/// Billing screen ([allowed]) and set up/change payment ([canManage],
+/// Directors only). Asked of the server (my_billing_access) — never
+/// inferred from data cached on the device. False/false in local mode.
+final billingAccessProvider =
+    FutureProvider<({bool allowed, bool canManage})>((ref) async {
+      ref.watch(currentUserProvider);
+      if (!ref.watch(backendDataEnabledProvider)) {
+        return (allowed: false, canManage: false);
+      }
+      try {
+        final rows = await ref
+            .watch(backendRestClientProvider)
+            .rpc('my_billing_access', {});
+        if (rows.isEmpty) return (allowed: false, canManage: false);
+        final row = rows.first as Map<String, dynamic>;
+        return (
+          allowed: row['allowed'] as bool? ?? false,
+          canManage: row['can_manage'] as bool? ?? false,
+        );
+      } catch (_) {
+        return (allowed: false, canManage: false);
+      }
+    });
+
 final currentSubscriptionProvider = FutureProvider<Subscription?>((ref) async {
   final organisationId = await ref.watch(currentOrganisationIdProvider.future);
   if (organisationId == null) return null;

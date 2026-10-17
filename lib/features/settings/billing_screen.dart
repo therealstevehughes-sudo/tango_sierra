@@ -122,7 +122,11 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                   children: [
                     _buildStatusCard(subscription),
                     const SizedBox(height: 16),
-                    if (!subscription.freeAccessGranted)
+                    // View-only for people a Director has allowed; only
+                    // Directors set up or change payment.
+                    if (!subscription.freeAccessGranted &&
+                        (ref.watch(billingAccessProvider).value?.canManage ??
+                            false))
                       _buildDirectDebitCard(subscription),
                   ],
                 );
