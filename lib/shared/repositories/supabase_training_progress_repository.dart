@@ -36,20 +36,13 @@ class SupabaseTrainingProgressRepository implements TrainingProgressRepository {
     required int templateGroupId,
     required String guideVersion,
   }) async {
-    // Unique (user, task, version) — check first rather than letting a
-    // double-tap surface as a 409 error to the worker.
-    final existing = await _client.select(
-      'training_acknowledgements',
-      query:
-          'user_id=eq.$userId&template_group_id=eq.$templateGroupId'
-          '&guide_version=eq.$guideVersion&select=id',
-    );
-    if (existing.isNotEmpty) return;
-    await _client.insertOne('training_acknowledgements', {
-      'user_id': userId,
-      'site_id': siteId,
-      'template_group_id': templateGroupId,
-      'guide_version': guideVersion,
+    // Upserts (2026-10-17): reading the same guide again moves the time
+    // forward, which is what unlocks a quiz retry or a refresher.
+    await _client.rpc('acknowledge_training_guide', {
+      'p_site_id': siteId,
+      'p_template_group_id': templateGroupId,
+      'p_guide_version': guideVersion,
+      'p_user_id': userId,
     });
   }
 

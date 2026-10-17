@@ -403,3 +403,35 @@ grant execute on function save_task_quiz_drafts(integer, integer, text, jsonb) t
 grant execute on function list_task_quiz_questions(integer, integer) to authenticated;
 grant execute on function decide_task_quiz_drafts(integer, integer, boolean, bigint[], integer) to authenticated;
 grant execute on function set_training_refresh_months(integer, integer, integer) to authenticated;
+
+-- Reading a guide again refreshes the record (2026-10-17). A retry after a
+-- failed quiz, and a refresher, both need the guide read again; the table
+-- keeps one row per (person, task, guide version), so re-reading moves its
+-- time forward instead of adding a row.
+create or replace function acknowledge_training_guide(
+  p_site_id integer,
+  p_template_group_id integer,
+  p_guide_version text,
+  p_user_id integer
+) returns table (acknowledged_at timestamptz)
+language plpgsql security definer as $$
+declare
+  caller integer := quiz_caller_local_user_id();
+begin
+  if not can_access_site(p_site_id) then
+    raise exception 'no access to this venue';
+  end if;
+  if caller is not null and caller <> p_user_id then
+    raise exception 'you can only record your own reading';
+  end if;
+  return query
+    insert into training_acknowledgements as t
+        (user_id, site_id, template_group_id, guide_version)
+      values (p_user_id, p_site_id, p_template_group_id, p_guide_version)
+    on conflict (user_id, template_group_id, guide_version)
+      do update set acknowledged_at = now(), site_id = excluded.site_id
+    returning t.acknowledged_at;
+end;
+$$;
+revoke execute on function acknowledge_training_guide(integer, integer, text, integer) from public, anon;
+grant execute on function acknowledge_training_guide(integer, integer, text, integer) to authenticated;

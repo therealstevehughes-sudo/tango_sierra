@@ -56,6 +56,24 @@ class CompetenceSignoff {
   final DateTime signedOffAt;
 }
 
+/// A passed 3-question quiz on one version of a task's guide (2026-10-17).
+/// Marked on the server; the app only ever sees that it passed.
+class QuizPass {
+  const QuizPass({
+    required this.userId,
+    required this.siteId,
+    required this.templateGroupId,
+    required this.guideVersion,
+    required this.passedAt,
+  });
+
+  final int userId;
+  final int siteId;
+  final int templateGroupId;
+  final String guideVersion;
+  final DateTime passedAt;
+}
+
 enum TrainingStatus {
   /// Never read this task's guide.
   notRead,
@@ -63,7 +81,15 @@ enum TrainingStatus {
   /// Read an older version — the venue has since changed the guide.
   updated,
 
-  /// Read the current guide. Final state for non-critical tasks.
+  /// Read the current guide, but not yet passed its quiz.
+  quizDue,
+
+  /// Was trained, but the venue's refresher period has run out: read the
+  /// guide again (and retake the quiz, when the task has one).
+  refresherDue,
+
+  /// Trained: read the current guide and, when the task has a quiz,
+  /// passed it. Final state for non-critical tasks (the green tick).
   read,
 
   /// Critical task, guide read, waiting for a manager to watch them do it.
@@ -82,6 +108,8 @@ class TrainingItem {
     required this.status,
     this.acknowledgedAt,
     this.signoff,
+    this.quizRequired = false,
+    this.quizPassedAt,
   });
 
   final ResolvedTask task;
@@ -91,33 +119,106 @@ class TrainingItem {
   final DateTime? acknowledgedAt;
   final CompetenceSignoff? signoff;
 
+  /// This person must pass the task's quiz (there is one, and they aren't
+  /// a manager on a routine task).
+  final bool quizRequired;
+
+  /// Latest pass on the current guide, if any.
+  final DateTime? quizPassedAt;
+
   bool get needsReading =>
       status == TrainingStatus.notRead || status == TrainingStatus.updated;
+
+  /// Something the person themselves has to do (read, quiz, refresher) —
+  /// as opposed to waiting for a manager's sign-off.
+  bool get needsAction =>
+      needsReading ||
+      status == TrainingStatus.quizDue ||
+      status == TrainingStatus.refresherDue;
 
   bool get isComplete =>
       status == TrainingStatus.read || status == TrainingStatus.competent;
 }
 
+/// "Fully trained" (2026-10-17): every task on the person's list is done.
+bool isFullyTrained(Iterable<TrainingItem> items) =>
+    items.isNotEmpty && items.every((i) => i.isComplete);
+
+/// [from] plus [months] calendar months (clamped to the month's last day).
+DateTime addMonths(DateTime from, int months) {
+  final total = from.month - 1 + months;
+  final year = from.year + total ~/ 12;
+  final month = total % 12 + 1;
+  final lastDay = DateTime(year, month + 1, 0).day;
+  return DateTime(
+    year,
+    month,
+    from.day > lastDay ? lastDay : from.day,
+    from.hour,
+    from.minute,
+  );
+}
+
 /// Pure status rule, kept separate from loading so it's unit-testable.
+///
+/// Quizzes (2026-10-17, founder-approved): when the task has a quiz, the
+/// green tick also needs a pass on the current guide. Managers skip the
+/// quiz on routine tasks, and don't need a sign-off themselves (their
+/// formal certificates live in Training records). With [refreshMonths],
+/// the evidence (quiz pass, or reading when there's no quiz) expires.
 TrainingStatus trainingStatusFor({
   required bool isCritical,
   required String currentVersion,
   required Iterable<TrainingAcknowledgement> acknowledgements,
   required CompetenceSignoff? signoff,
+  Iterable<QuizPass> quizPasses = const [],
+  bool quizAvailable = false,
+  bool isManager = false,
+  int? refreshMonths,
+  DateTime? now,
 }) {
-  final readCurrent = acknowledgements.any(
-    (a) => a.guideVersion == currentVersion,
-  );
-  // A competence sign-off stands even if the guide is later reworded —
-  // the manager watched them do the task itself, not read the text — but
-  // they're still asked to re-read the changed guide.
-  if (isCritical && signoff != null) {
-    return readCurrent ? TrainingStatus.competent : TrainingStatus.updated;
+  final currentReads = acknowledgements
+      .where((a) => a.guideVersion == currentVersion)
+      .toList();
+  final needsSignoff = isCritical && !isManager;
+  if (currentReads.isEmpty) {
+    // A competence sign-off stands even if the guide is later reworded —
+    // the manager watched them do the task itself, not read the text —
+    // but they're still asked to re-read the changed guide.
+    if (needsSignoff && signoff != null) return TrainingStatus.updated;
+    return acknowledgements.isEmpty
+        ? TrainingStatus.notRead
+        : TrainingStatus.updated;
   }
-  if (readCurrent) {
-    return isCritical ? TrainingStatus.awaitingSignoff : TrainingStatus.read;
+
+  final quizRequired = quizAvailable && (isCritical || !isManager);
+  final DateTime evidenceAt;
+  if (quizRequired) {
+    final passes = quizPasses
+        .where((p) => p.guideVersion == currentVersion)
+        .map((p) => p.passedAt)
+        .toList();
+    if (passes.isEmpty) return TrainingStatus.quizDue;
+    evidenceAt = passes.reduce((a, b) => a.isAfter(b) ? a : b);
+  } else {
+    evidenceAt = currentReads
+        .map((a) => a.acknowledgedAt)
+        .reduce((a, b) => a.isAfter(b) ? a : b);
   }
-  return acknowledgements.isEmpty
-      ? TrainingStatus.notRead
-      : TrainingStatus.updated;
+  if (refreshMonths != null &&
+      now != null &&
+      addMonths(evidenceAt, refreshMonths).isBefore(now)) {
+    // A refresher re-read (newer than the expired pass) is what unlocks
+    // the retake, so show the quiz as the next step once that's done.
+    final reread = currentReads.any((a) => a.acknowledgedAt.isAfter(evidenceAt));
+    return quizRequired && reread
+        ? TrainingStatus.quizDue
+        : TrainingStatus.refresherDue;
+  }
+  if (needsSignoff) {
+    return signoff != null
+        ? TrainingStatus.competent
+        : TrainingStatus.awaitingSignoff;
+  }
+  return TrainingStatus.read;
 }

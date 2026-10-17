@@ -1,7 +1,10 @@
+import '../../../shared/models/user.dart';
+import '../../../shared/repositories/task_quiz_repository.dart';
 import '../../../shared/repositories/task_schedule_repository.dart';
 import '../../../shared/repositories/task_template_repository.dart';
 import '../../../shared/repositories/task_training_guide_repository.dart';
 import '../../../shared/repositories/training_progress_repository.dart';
+import '../../../shared/repositories/user_repository.dart';
 import 'standard_guide_for.dart';
 import 'training_progress.dart';
 
@@ -16,18 +19,38 @@ class TrainingService {
     required TaskTemplateRepository templates,
     required TaskTrainingGuideRepository guides,
     required TrainingProgressRepository progress,
+    required TaskQuizRepository quizzes,
+    required UserRepository users,
   }) : _schedules = schedules,
        _templates = templates,
        _guides = guides,
-       _progress = progress;
+       _progress = progress,
+       _quizzes = quizzes,
+       _users = users;
 
   final TaskScheduleRepository _schedules;
   final TaskTemplateRepository _templates;
   final TaskTrainingGuideRepository _guides;
   final TrainingProgressRepository _progress;
+  final TaskQuizRepository _quizzes;
+  final UserRepository _users;
+
+  /// Quiz data is an add-on to the training list: if it can't load
+  /// (offline, or a server without the quiz tables), the list still shows,
+  /// just without quizzes, rather than failing altogether.
+  Future<T> _orElse<T>(Future<T> f, T fallback) async {
+    try {
+      return await f;
+    } catch (_) {
+      return fallback;
+    }
+  }
 
   /// userId -> that person's training items, sorted most-urgent first.
-  Future<Map<int, List<TrainingItem>>> forSite(int siteId) async {
+  Future<Map<int, List<TrainingItem>>> forSite(
+    int siteId, {
+    DateTime? now,
+  }) async {
     final (schedules, templateList, guideList, acks, signoffs) = await (
       _schedules.getForSite(siteId),
       _templates.getAllCurrentVersions(),
@@ -35,6 +58,17 @@ class TrainingService {
       _progress.getAcknowledgementsForSite(siteId),
       _progress.getSignoffsForSite(siteId),
     ).wait;
+    final (availability, passes, months, people) = await (
+      _orElse(
+        _quizzes.availabilityForSite(siteId),
+        const QuizAvailability.none(),
+      ),
+      _orElse(_quizzes.passesForSite(siteId), const <QuizPass>[]),
+      _orElse(_quizzes.refreshMonths(siteId), const RefreshMonths()),
+      _orElse(_users.getForSite(siteId), const <User>[]),
+    ).wait;
+    final tierById = {for (final u in people) u.id: u.roleTier};
+    final at = now ?? DateTime.now();
     final templates = {for (final t in templateList) t.templateGroupId: t};
     final venueGuides = {for (final g in guideList) g.templateGroupId: g};
 
@@ -64,12 +98,29 @@ class TrainingService {
             .where((s) => s.userId == userId && s.templateGroupId == groupId)
             .firstOrNull;
         final version = guideVersion(guide);
+        final tier = tierById[userId];
+        final isManager =
+            tier != null &&
+            roleTierRank(tier) >= roleTierRank(RoleTier.venueManager);
+        final hasQuiz = availability.hasQuiz(groupId, task.title);
+        final userPasses = passes
+            .where((p) => p.userId == userId && p.templateGroupId == groupId)
+            .toList();
         final status = trainingStatusFor(
           isCritical: task.isCritical,
           currentVersion: version,
           acknowledgements: userAcks,
           signoff: signoff,
+          quizPasses: userPasses,
+          quizAvailable: hasQuiz,
+          isManager: isManager,
+          refreshMonths: months.forTask(isCritical: task.isCritical),
+          now: at,
         );
+        final currentPasses = userPasses
+            .where((p) => p.guideVersion == version)
+            .map((p) => p.passedAt)
+            .toList();
         final currentAck = userAcks
             .where((a) => a.guideVersion == version)
             .firstOrNull;
@@ -81,6 +132,10 @@ class TrainingService {
             status: status,
             acknowledgedAt: currentAck?.acknowledgedAt,
             signoff: signoff,
+            quizRequired: hasQuiz && (task.isCritical || !isManager),
+            quizPassedAt: currentPasses.isEmpty
+                ? null
+                : currentPasses.reduce((a, b) => a.isAfter(b) ? a : b),
           ),
         );
       }
@@ -91,11 +146,14 @@ class TrainingService {
   }
 }
 
-/// To-read first, then awaiting sign-off, then done; critical before
-/// non-critical within each; then alphabetical.
+/// Things to do first (read, quiz, refresher), then awaiting sign-off,
+/// then done; critical before non-critical within each; then alphabetical.
 int compareTrainingItems(TrainingItem a, TrainingItem b) {
   int rank(TrainingItem i) => switch (i.status) {
-    TrainingStatus.notRead || TrainingStatus.updated => 0,
+    TrainingStatus.notRead ||
+    TrainingStatus.updated ||
+    TrainingStatus.quizDue ||
+    TrainingStatus.refresherDue => 0,
     TrainingStatus.awaitingSignoff => 1,
     TrainingStatus.read || TrainingStatus.competent => 2,
   };

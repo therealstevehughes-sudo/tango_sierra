@@ -63,7 +63,7 @@ class WorkerHubScreen extends ConsumerWidget {
         ? 0
         : (ref.watch(siteTrainingProvider(siteId)).value?[currentUser.id] ??
                   const [])
-              .where((i) => i.needsReading)
+              .where((i) => i.needsAction)
               .length;
 
     return Scaffold(
@@ -196,7 +196,7 @@ class WorkerHubScreen extends ConsumerWidget {
                               icon: Icons.school_outlined,
                               label: l10n.myTrainingTitle,
                               badge: toRead > 0
-                                  ? l10n.trainingToReadCount(toRead)
+                                  ? l10n.trainingToDoCount(toRead)
                                   : null,
                               badgeAlert: true,
                               onTap: () => Navigator.push(

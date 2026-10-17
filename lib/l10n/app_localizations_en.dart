@@ -5700,4 +5700,179 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rotaSupervisorShortHint => 'A supervisor shift is still open';
+
+  @override
+  String get trainingStatusQuizDue => 'Quiz to do';
+
+  @override
+  String get trainingStatusRefresherDue => 'Refresher due';
+
+  @override
+  String get trainingStatusTrained => 'Trained';
+
+  @override
+  String get trainingFullyTrained => 'Fully trained';
+
+  @override
+  String trainingQuizToDoCount(int count) {
+    return 'Quizzes to do: $count';
+  }
+
+  @override
+  String get quizTitle => 'Quick quiz';
+
+  @override
+  String get quizIntro =>
+      '3 questions on this guide. Get all 3 right for your green tick.';
+
+  @override
+  String get quizTakeButton => 'Take the quiz (3 questions)';
+
+  @override
+  String get quizSubmitButton => 'Check my answers';
+
+  @override
+  String get quizPassedTitle => 'Passed - well done!';
+
+  @override
+  String get quizPassedBody => 'You\'re trained on this task.';
+
+  @override
+  String get quizPassedAwaitingSignoff =>
+      'Passed. This is a critical task, so your manager will also watch you do it before signing you off.';
+
+  @override
+  String quizFailedTitle(int correct, int total) {
+    return 'Not quite - $correct of $total right';
+  }
+
+  @override
+  String get quizFailedBody =>
+      'Read the guide again, then have another go. You\'ll get different questions.';
+
+  @override
+  String get quizBackToGuide => 'Back to the guide';
+
+  @override
+  String get quizRereadFirst => 'Read the guide again before you retry.';
+
+  @override
+  String get quizNoneYet => 'This task doesn\'t have a quiz yet.';
+
+  @override
+  String quizQuestionLabel(int number, int total) {
+    return 'Question $number of $total';
+  }
+
+  @override
+  String get trainingRereadButton => 'I\'ve read it again';
+
+  @override
+  String get trainingRefresherNoticeQuiz =>
+      'Time for a refresher. Read the guide again, then retake the quiz.';
+
+  @override
+  String get trainingRefresherNotice =>
+      'Time for a refresher. Read the guide again.';
+
+  @override
+  String trainingPassedOn(String date) {
+    return 'Passed the quiz on $date';
+  }
+
+  @override
+  String get trainingRefresherSettingsTitle => 'Training refreshers';
+
+  @override
+  String get trainingRefresherSettingsHelp =>
+      'How often staff must re-read each guide and retake its quiz.';
+
+  @override
+  String get trainingRefresherCriticalLabel => 'Critical tasks';
+
+  @override
+  String get trainingRefresherOtherLabel => 'Other tasks';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count months',
+      one: '1 month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get trainingRefresherSaved => 'Refresher periods saved.';
+
+  @override
+  String get quizQuestionsButton => 'Quiz questions';
+
+  @override
+  String quizUsingStandard(int count) {
+    return 'Using VenuRite\'s standard questions ($count).';
+  }
+
+  @override
+  String quizUsingVenue(int count) {
+    return 'Using your venue\'s approved questions ($count).';
+  }
+
+  @override
+  String get quizNoQuestions => 'No quiz questions yet.';
+
+  @override
+  String get quizDraftButton => 'Draft questions with VenuRite AI';
+
+  @override
+  String get quizDrafting => 'Drafting questions...';
+
+  @override
+  String get quizPendingHeading => 'New questions to approve';
+
+  @override
+  String get quizPendingHelp =>
+      'Drafted by VenuRite\'s AI from this guide. The right answer is ticked. Untick any you don\'t want, then approve.';
+
+  @override
+  String get quizApproveButton => 'Approve these questions';
+
+  @override
+  String get quizRejectButton => 'Discard drafts';
+
+  @override
+  String get quizApproved =>
+      'Questions approved. Staff will now be quizzed on them.';
+
+  @override
+  String get quizKeepAtLeast3 => 'Keep at least 3 questions.';
+
+  @override
+  String get quizLiveHeading => 'Questions in use';
+
+  @override
+  String get quizRedraftPrompt =>
+      'Guide saved. Draft matching quiz questions with VenuRite\'s AI? You\'ll review them before staff see them.';
+
+  @override
+  String get quizDraftNowButton => 'Draft now';
+
+  @override
+  String get quizLaterButton => 'Later';
+
+  @override
+  String quizPendingBadge(int count) {
+    return '$count to approve';
+  }
+
+  @override
+  String get quizManagerExempt =>
+      'As a manager, you don\'t need the quiz for routine tasks.';
+
+  @override
+  String trainingToDoCount(int count) {
+    return '$count to do';
+  }
 }

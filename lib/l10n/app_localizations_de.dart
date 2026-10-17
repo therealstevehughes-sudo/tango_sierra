@@ -5745,4 +5745,180 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get rotaSupervisorShortHint =>
       'Eine Schichtleiter-Schicht ist noch offen';
+
+  @override
+  String get trainingStatusQuizDue => 'Quiz offen';
+
+  @override
+  String get trainingStatusRefresherDue => 'Auffrischung fällig';
+
+  @override
+  String get trainingStatusTrained => 'Geschult';
+
+  @override
+  String get trainingFullyTrained => 'Voll geschult';
+
+  @override
+  String trainingQuizToDoCount(int count) {
+    return 'Offene Quiz: $count';
+  }
+
+  @override
+  String get quizTitle => 'Kurzes Quiz';
+
+  @override
+  String get quizIntro =>
+      '3 Fragen zu dieser Anleitung. Alle 3 richtig = grüner Haken.';
+
+  @override
+  String get quizTakeButton => 'Quiz machen (3 Fragen)';
+
+  @override
+  String get quizSubmitButton => 'Antworten prüfen';
+
+  @override
+  String get quizPassedTitle => 'Bestanden - gut gemacht!';
+
+  @override
+  String get quizPassedBody => 'Du bist für diese Aufgabe geschult.';
+
+  @override
+  String get quizPassedAwaitingSignoff =>
+      'Bestanden. Das ist eine kritische Aufgabe, deshalb schaut dir deine Führungskraft vor der Freigabe noch dabei zu.';
+
+  @override
+  String quizFailedTitle(int correct, int total) {
+    return 'Noch nicht - $correct von $total richtig';
+  }
+
+  @override
+  String get quizFailedBody =>
+      'Lies die Anleitung noch einmal und versuch es dann erneut. Du bekommst andere Fragen.';
+
+  @override
+  String get quizBackToGuide => 'Zurück zur Anleitung';
+
+  @override
+  String get quizRereadFirst =>
+      'Lies die Anleitung erneut, bevor du es noch einmal versuchst.';
+
+  @override
+  String get quizNoneYet => 'Für diese Aufgabe gibt es noch kein Quiz.';
+
+  @override
+  String quizQuestionLabel(int number, int total) {
+    return 'Frage $number von $total';
+  }
+
+  @override
+  String get trainingRereadButton => 'Ich habe es erneut gelesen';
+
+  @override
+  String get trainingRefresherNoticeQuiz =>
+      'Zeit für eine Auffrischung. Lies die Anleitung erneut und mach das Quiz noch einmal.';
+
+  @override
+  String get trainingRefresherNotice =>
+      'Zeit für eine Auffrischung. Lies die Anleitung erneut.';
+
+  @override
+  String trainingPassedOn(String date) {
+    return 'Quiz bestanden am $date';
+  }
+
+  @override
+  String get trainingRefresherSettingsTitle => 'Schulungs-Auffrischung';
+
+  @override
+  String get trainingRefresherSettingsHelp =>
+      'Wie oft das Team jede Anleitung erneut lesen und das Quiz wiederholen muss.';
+
+  @override
+  String get trainingRefresherCriticalLabel => 'Kritische Aufgaben';
+
+  @override
+  String get trainingRefresherOtherLabel => 'Andere Aufgaben';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Monate',
+      one: '1 Monat',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get trainingRefresherSaved => 'Auffrischungszeiträume gespeichert.';
+
+  @override
+  String get quizQuestionsButton => 'Quizfragen';
+
+  @override
+  String quizUsingStandard(int count) {
+    return 'Es werden die Standardfragen von VenuRite verwendet ($count).';
+  }
+
+  @override
+  String quizUsingVenue(int count) {
+    return 'Es werden die freigegebenen Fragen deines Betriebs verwendet ($count).';
+  }
+
+  @override
+  String get quizNoQuestions => 'Noch keine Quizfragen.';
+
+  @override
+  String get quizDraftButton => 'Fragen mit VenuRite-KI entwerfen';
+
+  @override
+  String get quizDrafting => 'Fragen werden entworfen...';
+
+  @override
+  String get quizPendingHeading => 'Neue Fragen zur Freigabe';
+
+  @override
+  String get quizPendingHelp =>
+      'Von der VenuRite-KI aus dieser Anleitung entworfen. Die richtige Antwort ist abgehakt. Entferne den Haken bei Fragen, die du nicht willst, und gib frei.';
+
+  @override
+  String get quizApproveButton => 'Diese Fragen freigeben';
+
+  @override
+  String get quizRejectButton => 'Entwürfe verwerfen';
+
+  @override
+  String get quizApproved =>
+      'Fragen freigegeben. Das Team wird ab jetzt dazu abgefragt.';
+
+  @override
+  String get quizKeepAtLeast3 => 'Behalte mindestens 3 Fragen.';
+
+  @override
+  String get quizLiveHeading => 'Verwendete Fragen';
+
+  @override
+  String get quizRedraftPrompt =>
+      'Anleitung gespeichert. Passende Quizfragen mit der VenuRite-KI entwerfen? Du prüfst sie, bevor das Team sie sieht.';
+
+  @override
+  String get quizDraftNowButton => 'Jetzt entwerfen';
+
+  @override
+  String get quizLaterButton => 'Später';
+
+  @override
+  String quizPendingBadge(int count) {
+    return '$count zur Freigabe';
+  }
+
+  @override
+  String get quizManagerExempt =>
+      'Als Führungskraft brauchst du für Routineaufgaben kein Quiz.';
+
+  @override
+  String trainingToDoCount(int count) {
+    return '$count offen';
+  }
 }

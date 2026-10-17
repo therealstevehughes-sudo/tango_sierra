@@ -5687,4 +5687,178 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get rotaSupervisorShortHint => 'Aún hay un turno de supervisor libre';
+
+  @override
+  String get trainingStatusQuizDue => 'Cuestionario pendiente';
+
+  @override
+  String get trainingStatusRefresherDue => 'Repaso pendiente';
+
+  @override
+  String get trainingStatusTrained => 'Formado';
+
+  @override
+  String get trainingFullyTrained => 'Formación completa';
+
+  @override
+  String trainingQuizToDoCount(int count) {
+    return 'Cuestionarios pendientes: $count';
+  }
+
+  @override
+  String get quizTitle => 'Cuestionario rápido';
+
+  @override
+  String get quizIntro =>
+      '3 preguntas sobre esta guía. Acierta las 3 para conseguir tu marca verde.';
+
+  @override
+  String get quizTakeButton => 'Hacer el cuestionario (3 preguntas)';
+
+  @override
+  String get quizSubmitButton => 'Comprobar mis respuestas';
+
+  @override
+  String get quizPassedTitle => '¡Aprobado, bien hecho!';
+
+  @override
+  String get quizPassedBody => 'Ya tienes la formación para esta tarea.';
+
+  @override
+  String get quizPassedAwaitingSignoff =>
+      'Aprobado. Es una tarea crítica, así que tu responsable también te verá hacerla antes de darte el visto bueno.';
+
+  @override
+  String quizFailedTitle(int correct, int total) {
+    return 'Casi - $correct de $total correctas';
+  }
+
+  @override
+  String get quizFailedBody =>
+      'Vuelve a leer la guía y prueba otra vez. Te saldrán preguntas distintas.';
+
+  @override
+  String get quizBackToGuide => 'Volver a la guía';
+
+  @override
+  String get quizRereadFirst => 'Vuelve a leer la guía antes de reintentarlo.';
+
+  @override
+  String get quizNoneYet => 'Esta tarea aún no tiene cuestionario.';
+
+  @override
+  String quizQuestionLabel(int number, int total) {
+    return 'Pregunta $number de $total';
+  }
+
+  @override
+  String get trainingRereadButton => 'La he vuelto a leer';
+
+  @override
+  String get trainingRefresherNoticeQuiz =>
+      'Toca repasar. Vuelve a leer la guía y repite el cuestionario.';
+
+  @override
+  String get trainingRefresherNotice => 'Toca repasar. Vuelve a leer la guía.';
+
+  @override
+  String trainingPassedOn(String date) {
+    return 'Cuestionario aprobado el $date';
+  }
+
+  @override
+  String get trainingRefresherSettingsTitle => 'Repasos de formación';
+
+  @override
+  String get trainingRefresherSettingsHelp =>
+      'Cada cuánto debe el personal releer cada guía y repetir su cuestionario.';
+
+  @override
+  String get trainingRefresherCriticalLabel => 'Tareas críticas';
+
+  @override
+  String get trainingRefresherOtherLabel => 'Otras tareas';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meses',
+      one: '1 mes',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get trainingRefresherSaved => 'Periodos de repaso guardados.';
+
+  @override
+  String get quizQuestionsButton => 'Preguntas del cuestionario';
+
+  @override
+  String quizUsingStandard(int count) {
+    return 'Se usan las preguntas estándar de VenuRite ($count).';
+  }
+
+  @override
+  String quizUsingVenue(int count) {
+    return 'Se usan las preguntas aprobadas de tu local ($count).';
+  }
+
+  @override
+  String get quizNoQuestions => 'Aún no hay preguntas.';
+
+  @override
+  String get quizDraftButton => 'Redactar preguntas con la IA de VenuRite';
+
+  @override
+  String get quizDrafting => 'Redactando preguntas...';
+
+  @override
+  String get quizPendingHeading => 'Preguntas nuevas para aprobar';
+
+  @override
+  String get quizPendingHelp =>
+      'Redactadas por la IA de VenuRite a partir de esta guía. La respuesta correcta está marcada. Desmarca las que no quieras y aprueba.';
+
+  @override
+  String get quizApproveButton => 'Aprobar estas preguntas';
+
+  @override
+  String get quizRejectButton => 'Descartar borradores';
+
+  @override
+  String get quizApproved =>
+      'Preguntas aprobadas. El personal responderá a estas a partir de ahora.';
+
+  @override
+  String get quizKeepAtLeast3 => 'Conserva al menos 3 preguntas.';
+
+  @override
+  String get quizLiveHeading => 'Preguntas en uso';
+
+  @override
+  String get quizRedraftPrompt =>
+      'Guía guardada. ¿Redactar preguntas a juego con la IA de VenuRite? Las revisarás antes de que las vea el personal.';
+
+  @override
+  String get quizDraftNowButton => 'Redactar ahora';
+
+  @override
+  String get quizLaterButton => 'Más tarde';
+
+  @override
+  String quizPendingBadge(int count) {
+    return '$count por aprobar';
+  }
+
+  @override
+  String get quizManagerExempt =>
+      'Como responsable, no necesitas el cuestionario en las tareas rutinarias.';
+
+  @override
+  String trainingToDoCount(int count) {
+    return '$count pendientes';
+  }
 }

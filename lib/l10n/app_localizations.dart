@@ -9757,6 +9757,288 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A supervisor shift is still open'**
   String get rotaSupervisorShortHint;
+
+  /// No description provided for @trainingStatusQuizDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz to do'**
+  String get trainingStatusQuizDue;
+
+  /// No description provided for @trainingStatusRefresherDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresher due'**
+  String get trainingStatusRefresherDue;
+
+  /// No description provided for @trainingStatusTrained.
+  ///
+  /// In en, this message translates to:
+  /// **'Trained'**
+  String get trainingStatusTrained;
+
+  /// No description provided for @trainingFullyTrained.
+  ///
+  /// In en, this message translates to:
+  /// **'Fully trained'**
+  String get trainingFullyTrained;
+
+  /// No description provided for @trainingQuizToDoCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Quizzes to do: {count}'**
+  String trainingQuizToDoCount(int count);
+
+  /// No description provided for @quizTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick quiz'**
+  String get quizTitle;
+
+  /// No description provided for @quizIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'3 questions on this guide. Get all 3 right for your green tick.'**
+  String get quizIntro;
+
+  /// No description provided for @quizTakeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the quiz (3 questions)'**
+  String get quizTakeButton;
+
+  /// No description provided for @quizSubmitButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Check my answers'**
+  String get quizSubmitButton;
+
+  /// No description provided for @quizPassedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed - well done!'**
+  String get quizPassedTitle;
+
+  /// No description provided for @quizPassedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re trained on this task.'**
+  String get quizPassedBody;
+
+  /// No description provided for @quizPassedAwaitingSignoff.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed. This is a critical task, so your manager will also watch you do it before signing you off.'**
+  String get quizPassedAwaitingSignoff;
+
+  /// No description provided for @quizFailedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not quite - {correct} of {total} right'**
+  String quizFailedTitle(int correct, int total);
+
+  /// No description provided for @quizFailedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the guide again, then have another go. You\'ll get different questions.'**
+  String get quizFailedBody;
+
+  /// No description provided for @quizBackToGuide.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the guide'**
+  String get quizBackToGuide;
+
+  /// No description provided for @quizRereadFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Read the guide again before you retry.'**
+  String get quizRereadFirst;
+
+  /// No description provided for @quizNoneYet.
+  ///
+  /// In en, this message translates to:
+  /// **'This task doesn\'t have a quiz yet.'**
+  String get quizNoneYet;
+
+  /// No description provided for @quizQuestionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {number} of {total}'**
+  String quizQuestionLabel(int number, int total);
+
+  /// No description provided for @trainingRereadButton.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve read it again'**
+  String get trainingRereadButton;
+
+  /// No description provided for @trainingRefresherNoticeQuiz.
+  ///
+  /// In en, this message translates to:
+  /// **'Time for a refresher. Read the guide again, then retake the quiz.'**
+  String get trainingRefresherNoticeQuiz;
+
+  /// No description provided for @trainingRefresherNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Time for a refresher. Read the guide again.'**
+  String get trainingRefresherNotice;
+
+  /// No description provided for @trainingPassedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Passed the quiz on {date}'**
+  String trainingPassedOn(String date);
+
+  /// No description provided for @trainingRefresherSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Training refreshers'**
+  String get trainingRefresherSettingsTitle;
+
+  /// No description provided for @trainingRefresherSettingsHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'How often staff must re-read each guide and retake its quiz.'**
+  String get trainingRefresherSettingsHelp;
+
+  /// No description provided for @trainingRefresherCriticalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Critical tasks'**
+  String get trainingRefresherCriticalLabel;
+
+  /// No description provided for @trainingRefresherOtherLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Other tasks'**
+  String get trainingRefresherOtherLabel;
+
+  /// No description provided for @monthsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 month} other{{count} months}}'**
+  String monthsCount(int count);
+
+  /// No description provided for @trainingRefresherSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresher periods saved.'**
+  String get trainingRefresherSaved;
+
+  /// No description provided for @quizQuestionsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiz questions'**
+  String get quizQuestionsButton;
+
+  /// No description provided for @quizUsingStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Using VenuRite\'s standard questions ({count}).'**
+  String quizUsingStandard(int count);
+
+  /// No description provided for @quizUsingVenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Using your venue\'s approved questions ({count}).'**
+  String quizUsingVenue(int count);
+
+  /// No description provided for @quizNoQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'No quiz questions yet.'**
+  String get quizNoQuestions;
+
+  /// No description provided for @quizDraftButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft questions with VenuRite AI'**
+  String get quizDraftButton;
+
+  /// No description provided for @quizDrafting.
+  ///
+  /// In en, this message translates to:
+  /// **'Drafting questions...'**
+  String get quizDrafting;
+
+  /// No description provided for @quizPendingHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'New questions to approve'**
+  String get quizPendingHeading;
+
+  /// No description provided for @quizPendingHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Drafted by VenuRite\'s AI from this guide. The right answer is ticked. Untick any you don\'t want, then approve.'**
+  String get quizPendingHelp;
+
+  /// No description provided for @quizApproveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve these questions'**
+  String get quizApproveButton;
+
+  /// No description provided for @quizRejectButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard drafts'**
+  String get quizRejectButton;
+
+  /// No description provided for @quizApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions approved. Staff will now be quizzed on them.'**
+  String get quizApproved;
+
+  /// No description provided for @quizKeepAtLeast3.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep at least 3 questions.'**
+  String get quizKeepAtLeast3;
+
+  /// No description provided for @quizLiveHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions in use'**
+  String get quizLiveHeading;
+
+  /// No description provided for @quizRedraftPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Guide saved. Draft matching quiz questions with VenuRite\'s AI? You\'ll review them before staff see them.'**
+  String get quizRedraftPrompt;
+
+  /// No description provided for @quizDraftNowButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft now'**
+  String get quizDraftNowButton;
+
+  /// No description provided for @quizLaterButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get quizLaterButton;
+
+  /// No description provided for @quizPendingBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} to approve'**
+  String quizPendingBadge(int count);
+
+  /// No description provided for @quizManagerExempt.
+  ///
+  /// In en, this message translates to:
+  /// **'As a manager, you don\'t need the quiz for routine tasks.'**
+  String get quizManagerExempt;
+
+  /// No description provided for @trainingToDoCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} to do'**
+  String trainingToDoCount(int count);
 }
 
 class _AppLocalizationsDelegate

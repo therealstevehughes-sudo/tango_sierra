@@ -5556,4 +5556,177 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get rotaSupervisorShortHint => 'ایک سپروائزر شفٹ ابھی خالی ہے';
+
+  @override
+  String get trainingStatusQuizDue => 'کوئز باقی';
+
+  @override
+  String get trainingStatusRefresherDue => 'ریفریشر باقی';
+
+  @override
+  String get trainingStatusTrained => 'تربیت یافتہ';
+
+  @override
+  String get trainingFullyTrained => 'مکمل تربیت یافتہ';
+
+  @override
+  String trainingQuizToDoCount(int count) {
+    return 'باقی کوئز: $count';
+  }
+
+  @override
+  String get quizTitle => 'مختصر کوئز';
+
+  @override
+  String get quizIntro => 'اس گائیڈ پر 3 سوال۔ سبز ٹِک کے لیے تینوں درست کریں۔';
+
+  @override
+  String get quizTakeButton => 'کوئز دیں (3 سوال)';
+
+  @override
+  String get quizSubmitButton => 'میرے جواب جانچیں';
+
+  @override
+  String get quizPassedTitle => 'پاس - شاباش!';
+
+  @override
+  String get quizPassedBody => 'آپ اس کام کے لیے تربیت یافتہ ہیں۔';
+
+  @override
+  String get quizPassedAwaitingSignoff =>
+      'پاس۔ یہ اہم کام ہے، اس لیے منظوری سے پہلے آپ کے مینیجر آپ کو یہ کرتے ہوئے دیکھیں گے۔';
+
+  @override
+  String quizFailedTitle(int correct, int total) {
+    return 'تقریباً - $total میں سے $correct درست';
+  }
+
+  @override
+  String get quizFailedBody =>
+      'گائیڈ دوبارہ پڑھیں، پھر دوبارہ کوشش کریں۔ سوال مختلف ہوں گے۔';
+
+  @override
+  String get quizBackToGuide => 'گائیڈ پر واپس';
+
+  @override
+  String get quizRereadFirst => 'دوبارہ کوشش سے پہلے گائیڈ دوبارہ پڑھیں۔';
+
+  @override
+  String get quizNoneYet => 'اس کام کا ابھی کوئی کوئز نہیں ہے۔';
+
+  @override
+  String quizQuestionLabel(int number, int total) {
+    return 'سوال $number از $total';
+  }
+
+  @override
+  String get trainingRereadButton => 'میں نے دوبارہ پڑھ لیا';
+
+  @override
+  String get trainingRefresherNoticeQuiz =>
+      'ریفریشر کا وقت۔ گائیڈ دوبارہ پڑھیں، پھر کوئز دوبارہ دیں۔';
+
+  @override
+  String get trainingRefresherNotice => 'ریفریشر کا وقت۔ گائیڈ دوبارہ پڑھیں۔';
+
+  @override
+  String trainingPassedOn(String date) {
+    return '$date کو کوئز پاس کیا';
+  }
+
+  @override
+  String get trainingRefresherSettingsTitle => 'تربیتی ریفریشر';
+
+  @override
+  String get trainingRefresherSettingsHelp =>
+      'عملہ کتنی بار ہر گائیڈ دوبارہ پڑھے اور کوئز دوبارہ دے۔';
+
+  @override
+  String get trainingRefresherCriticalLabel => 'اہم کام';
+
+  @override
+  String get trainingRefresherOtherLabel => 'دیگر کام';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count مہینے',
+      one: '1 مہینہ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get trainingRefresherSaved => 'ریفریشر مدت محفوظ ہو گئی۔';
+
+  @override
+  String get quizQuestionsButton => 'کوئز کے سوال';
+
+  @override
+  String quizUsingStandard(int count) {
+    return 'VenuRite کے معیاری سوال استعمال ہو رہے ہیں ($count)۔';
+  }
+
+  @override
+  String quizUsingVenue(int count) {
+    return 'آپ کے وینیو کے منظور شدہ سوال استعمال ہو رہے ہیں ($count)۔';
+  }
+
+  @override
+  String get quizNoQuestions => 'ابھی کوئی کوئز سوال نہیں۔';
+
+  @override
+  String get quizDraftButton => 'VenuRite AI سے سوال بنوائیں';
+
+  @override
+  String get quizDrafting => 'سوال بنائے جا رہے ہیں...';
+
+  @override
+  String get quizPendingHeading => 'منظوری کے لیے نئے سوال';
+
+  @override
+  String get quizPendingHelp =>
+      'VenuRite AI نے اس گائیڈ سے بنائے۔ درست جواب پر ٹِک ہے۔ جو نہیں چاہیے ان کا ٹِک ہٹائیں، پھر منظور کریں۔';
+
+  @override
+  String get quizApproveButton => 'یہ سوال منظور کریں';
+
+  @override
+  String get quizRejectButton => 'ڈرافٹ ہٹائیں';
+
+  @override
+  String get quizApproved =>
+      'سوال منظور ہو گئے۔ اب عملے سے یہی پوچھے جائیں گے۔';
+
+  @override
+  String get quizKeepAtLeast3 => 'کم از کم 3 سوال رکھیں۔';
+
+  @override
+  String get quizLiveHeading => 'استعمال ہونے والے سوال';
+
+  @override
+  String get quizRedraftPrompt =>
+      'گائیڈ محفوظ ہو گئی۔ VenuRite AI سے مطابقت رکھنے والے سوال بنوائیں؟ عملے سے پہلے آپ انہیں دیکھیں گے۔';
+
+  @override
+  String get quizDraftNowButton => 'ابھی بنوائیں';
+
+  @override
+  String get quizLaterButton => 'بعد میں';
+
+  @override
+  String quizPendingBadge(int count) {
+    return 'منظوری کے لیے $count';
+  }
+
+  @override
+  String get quizManagerExempt =>
+      'بطور مینیجر، روزمرہ کاموں کے لیے آپ کو کوئز کی ضرورت نہیں۔';
+
+  @override
+  String trainingToDoCount(int count) {
+    return '$count باقی';
+  }
 }

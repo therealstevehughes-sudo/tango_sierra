@@ -4965,5 +4965,121 @@
       }
     }
   },
-  "rotaSupervisorShortHint": "A supervisor shift is still open"
+  "rotaSupervisorShortHint": "A supervisor shift is still open",
+  "trainingStatusQuizDue": "Quiz to do",
+  "trainingStatusRefresherDue": "Refresher due",
+  "trainingStatusTrained": "Trained",
+  "trainingFullyTrained": "Fully trained",
+  "trainingQuizToDoCount": "Quizzes to do: {count}",
+  "@trainingQuizToDoCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quizTitle": "Quick quiz",
+  "quizIntro": "3 questions on this guide. Get all 3 right for your green tick.",
+  "quizTakeButton": "Take the quiz (3 questions)",
+  "quizSubmitButton": "Check my answers",
+  "quizPassedTitle": "Passed - well done!",
+  "quizPassedBody": "You're trained on this task.",
+  "quizPassedAwaitingSignoff": "Passed. This is a critical task, so your manager will also watch you do it before signing you off.",
+  "quizFailedTitle": "Not quite - {correct} of {total} right",
+  "@quizFailedTitle": {
+    "placeholders": {
+      "correct": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "quizFailedBody": "Read the guide again, then have another go. You'll get different questions.",
+  "quizBackToGuide": "Back to the guide",
+  "quizRereadFirst": "Read the guide again before you retry.",
+  "quizNoneYet": "This task doesn't have a quiz yet.",
+  "quizQuestionLabel": "Question {number} of {total}",
+  "@quizQuestionLabel": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "trainingRereadButton": "I've read it again",
+  "trainingRefresherNoticeQuiz": "Time for a refresher. Read the guide again, then retake the quiz.",
+  "trainingRefresherNotice": "Time for a refresher. Read the guide again.",
+  "trainingPassedOn": "Passed the quiz on {date}",
+  "@trainingPassedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "trainingRefresherSettingsTitle": "Training refreshers",
+  "trainingRefresherSettingsHelp": "How often staff must re-read each guide and retake its quiz.",
+  "trainingRefresherCriticalLabel": "Critical tasks",
+  "trainingRefresherOtherLabel": "Other tasks",
+  "monthsCount": "{count, plural, =1{1 month} other{{count} months}}",
+  "@monthsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trainingRefresherSaved": "Refresher periods saved.",
+  "quizQuestionsButton": "Quiz questions",
+  "quizUsingStandard": "Using VenuRite's standard questions ({count}).",
+  "@quizUsingStandard": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quizUsingVenue": "Using your venue's approved questions ({count}).",
+  "@quizUsingVenue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quizNoQuestions": "No quiz questions yet.",
+  "quizDraftButton": "Draft questions with VenuRite AI",
+  "quizDrafting": "Drafting questions...",
+  "quizPendingHeading": "New questions to approve",
+  "quizPendingHelp": "Drafted by VenuRite's AI from this guide. The right answer is ticked. Untick any you don't want, then approve.",
+  "quizApproveButton": "Approve these questions",
+  "quizRejectButton": "Discard drafts",
+  "quizApproved": "Questions approved. Staff will now be quizzed on them.",
+  "quizKeepAtLeast3": "Keep at least 3 questions.",
+  "quizLiveHeading": "Questions in use",
+  "quizRedraftPrompt": "Guide saved. Draft matching quiz questions with VenuRite's AI? You'll review them before staff see them.",
+  "quizDraftNowButton": "Draft now",
+  "quizLaterButton": "Later",
+  "quizPendingBadge": "{count} to approve",
+  "@quizPendingBadge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "quizManagerExempt": "As a manager, you don't need the quiz for routine tasks.",
+  "trainingToDoCount": "{count} to do",
+  "@trainingToDoCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

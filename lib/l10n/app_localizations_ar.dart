@@ -5528,4 +5528,179 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get rotaSupervisorShortHint => 'لا تزال وردية مشرف شاغرة';
+
+  @override
+  String get trainingStatusQuizDue => 'اختبار مطلوب';
+
+  @override
+  String get trainingStatusRefresherDue => 'حان وقت التحديث';
+
+  @override
+  String get trainingStatusTrained => 'مدرَّب';
+
+  @override
+  String get trainingFullyTrained => 'مدرَّب بالكامل';
+
+  @override
+  String trainingQuizToDoCount(int count) {
+    return 'اختبارات مطلوبة: $count';
+  }
+
+  @override
+  String get quizTitle => 'اختبار سريع';
+
+  @override
+  String get quizIntro =>
+      '3 أسئلة عن هذا الدليل. أجب عن الثلاثة بشكل صحيح لتحصل على العلامة الخضراء.';
+
+  @override
+  String get quizTakeButton => 'ابدأ الاختبار (3 أسئلة)';
+
+  @override
+  String get quizSubmitButton => 'تحقق من إجاباتي';
+
+  @override
+  String get quizPassedTitle => 'نجحت - أحسنت!';
+
+  @override
+  String get quizPassedBody => 'أنت الآن مدرَّب على هذه المهمة.';
+
+  @override
+  String get quizPassedAwaitingSignoff =>
+      'نجحت. هذه مهمة حرجة، لذلك سيشاهدك مديرك وأنت تؤديها قبل اعتمادك.';
+
+  @override
+  String quizFailedTitle(int correct, int total) {
+    return 'ليس تماماً - $correct من $total صحيحة';
+  }
+
+  @override
+  String get quizFailedBody =>
+      'اقرأ الدليل مرة أخرى ثم حاول من جديد. ستحصل على أسئلة مختلفة.';
+
+  @override
+  String get quizBackToGuide => 'العودة إلى الدليل';
+
+  @override
+  String get quizRereadFirst => 'اقرأ الدليل مرة أخرى قبل إعادة المحاولة.';
+
+  @override
+  String get quizNoneYet => 'لا يوجد اختبار لهذه المهمة بعد.';
+
+  @override
+  String quizQuestionLabel(int number, int total) {
+    return 'السؤال $number من $total';
+  }
+
+  @override
+  String get trainingRereadButton => 'قرأته مرة أخرى';
+
+  @override
+  String get trainingRefresherNoticeQuiz =>
+      'حان وقت التحديث. اقرأ الدليل مرة أخرى ثم أعد الاختبار.';
+
+  @override
+  String get trainingRefresherNotice =>
+      'حان وقت التحديث. اقرأ الدليل مرة أخرى.';
+
+  @override
+  String trainingPassedOn(String date) {
+    return 'نجح في الاختبار بتاريخ $date';
+  }
+
+  @override
+  String get trainingRefresherSettingsTitle => 'تحديث التدريب';
+
+  @override
+  String get trainingRefresherSettingsHelp =>
+      'كم مرة يجب على الموظفين إعادة قراءة كل دليل وإعادة اختباره.';
+
+  @override
+  String get trainingRefresherCriticalLabel => 'المهام الحرجة';
+
+  @override
+  String get trainingRefresherOtherLabel => 'مهام أخرى';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count أشهر',
+      one: 'شهر واحد',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get trainingRefresherSaved => 'تم حفظ فترات التحديث.';
+
+  @override
+  String get quizQuestionsButton => 'أسئلة الاختبار';
+
+  @override
+  String quizUsingStandard(int count) {
+    return 'يتم استخدام أسئلة VenuRite القياسية ($count).';
+  }
+
+  @override
+  String quizUsingVenue(int count) {
+    return 'يتم استخدام الأسئلة المعتمدة لمنشأتك ($count).';
+  }
+
+  @override
+  String get quizNoQuestions => 'لا توجد أسئلة اختبار بعد.';
+
+  @override
+  String get quizDraftButton => 'صياغة الأسئلة بذكاء VenuRite الاصطناعي';
+
+  @override
+  String get quizDrafting => 'جارٍ صياغة الأسئلة...';
+
+  @override
+  String get quizPendingHeading => 'أسئلة جديدة بانتظار الاعتماد';
+
+  @override
+  String get quizPendingHelp =>
+      'صاغها ذكاء VenuRite الاصطناعي من هذا الدليل. الإجابة الصحيحة عليها علامة. ألغِ تحديد ما لا تريده ثم اعتمد.';
+
+  @override
+  String get quizApproveButton => 'اعتماد هذه الأسئلة';
+
+  @override
+  String get quizRejectButton => 'تجاهل المسودات';
+
+  @override
+  String get quizApproved =>
+      'تم اعتماد الأسئلة. سيتم اختبار الموظفين عليها الآن.';
+
+  @override
+  String get quizKeepAtLeast3 => 'احتفظ بثلاثة أسئلة على الأقل.';
+
+  @override
+  String get quizLiveHeading => 'الأسئلة المستخدمة';
+
+  @override
+  String get quizRedraftPrompt =>
+      'تم حفظ الدليل. هل تريد صياغة أسئلة اختبار مطابقة بذكاء VenuRite الاصطناعي؟ ستراجعها قبل أن يراها الموظفون.';
+
+  @override
+  String get quizDraftNowButton => 'صياغة الآن';
+
+  @override
+  String get quizLaterButton => 'لاحقاً';
+
+  @override
+  String quizPendingBadge(int count) {
+    return '$count بانتظار الاعتماد';
+  }
+
+  @override
+  String get quizManagerExempt =>
+      'بصفتك مديراً، لا تحتاج إلى الاختبار للمهام الروتينية.';
+
+  @override
+  String trainingToDoCount(int count) {
+    return '$count مطلوب';
+  }
 }

@@ -1350,6 +1350,23 @@ _TaskTrainingSummary _summariseTaskTraining(
         ),
       );
     }
+    // Quizzes (2026-10-17): read but not yet tested, or due a refresher.
+    final quizDue = items
+        .where((i) => i.status == tp.TrainingStatus.quizDue)
+        .toList();
+    final refresher = items
+        .where((i) => i.status == tp.TrainingStatus.refresherDue)
+        .toList();
+    if (quizDue.isNotEmpty) {
+      gaps.add(
+        _TaskTrainingGap(user.name, 'quiz not yet passed - ${names(quizDue)}'),
+      );
+    }
+    if (refresher.isNotEmpty) {
+      gaps.add(
+        _TaskTrainingGap(user.name, 'refresher due - ${names(refresher)}'),
+      );
+    }
   }
   return _TaskTrainingSummary(
     totalCount: total,

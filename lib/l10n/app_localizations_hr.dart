@@ -5593,4 +5593,179 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get rotaSupervisorShortHint => 'Smjena nadzornika još je slobodna';
+
+  @override
+  String get trainingStatusQuizDue => 'Kviz za riješiti';
+
+  @override
+  String get trainingStatusRefresherDue => 'Obnavljanje na redu';
+
+  @override
+  String get trainingStatusTrained => 'Osposobljen';
+
+  @override
+  String get trainingFullyTrained => 'Potpuno osposobljen';
+
+  @override
+  String trainingQuizToDoCount(int count) {
+    return 'Kvizova za riješiti: $count';
+  }
+
+  @override
+  String get quizTitle => 'Kratki kviz';
+
+  @override
+  String get quizIntro =>
+      '3 pitanja o ovom vodiču. Sva 3 točno za zelenu kvačicu.';
+
+  @override
+  String get quizTakeButton => 'Riješi kviz (3 pitanja)';
+
+  @override
+  String get quizSubmitButton => 'Provjeri odgovore';
+
+  @override
+  String get quizPassedTitle => 'Položeno - bravo!';
+
+  @override
+  String get quizPassedBody => 'Osposobljen si za ovaj zadatak.';
+
+  @override
+  String get quizPassedAwaitingSignoff =>
+      'Položeno. Ovo je kritičan zadatak pa će te voditelj gledati kako ga radiš prije potvrde.';
+
+  @override
+  String quizFailedTitle(int correct, int total) {
+    return 'Ne baš - $correct od $total točno';
+  }
+
+  @override
+  String get quizFailedBody =>
+      'Ponovno pročitaj vodič pa pokušaj opet. Dobit ćeš druga pitanja.';
+
+  @override
+  String get quizBackToGuide => 'Natrag na vodič';
+
+  @override
+  String get quizRereadFirst => 'Ponovno pročitaj vodič prije novog pokušaja.';
+
+  @override
+  String get quizNoneYet => 'Ovaj zadatak još nema kviz.';
+
+  @override
+  String quizQuestionLabel(int number, int total) {
+    return 'Pitanje $number od $total';
+  }
+
+  @override
+  String get trainingRereadButton => 'Ponovno sam pročitao';
+
+  @override
+  String get trainingRefresherNoticeQuiz =>
+      'Vrijeme je za obnavljanje. Ponovno pročitaj vodič pa ponovi kviz.';
+
+  @override
+  String get trainingRefresherNotice =>
+      'Vrijeme je za obnavljanje. Ponovno pročitaj vodič.';
+
+  @override
+  String trainingPassedOn(String date) {
+    return 'Kviz položen $date';
+  }
+
+  @override
+  String get trainingRefresherSettingsTitle => 'Obnavljanje obuke';
+
+  @override
+  String get trainingRefresherSettingsHelp =>
+      'Koliko često osoblje mora ponovno pročitati vodič i ponoviti kviz.';
+
+  @override
+  String get trainingRefresherCriticalLabel => 'Kritični zadaci';
+
+  @override
+  String get trainingRefresherOtherLabel => 'Ostali zadaci';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count mjeseci',
+      one: '1 mjesec',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get trainingRefresherSaved => 'Razdoblja obnavljanja spremljena.';
+
+  @override
+  String get quizQuestionsButton => 'Pitanja kviza';
+
+  @override
+  String quizUsingStandard(int count) {
+    return 'Koriste se standardna pitanja VenuRitea ($count).';
+  }
+
+  @override
+  String quizUsingVenue(int count) {
+    return 'Koriste se odobrena pitanja tvog objekta ($count).';
+  }
+
+  @override
+  String get quizNoQuestions => 'Još nema pitanja kviza.';
+
+  @override
+  String get quizDraftButton => 'Izradi pitanja pomoću VenuRite AI';
+
+  @override
+  String get quizDrafting => 'Izrada pitanja...';
+
+  @override
+  String get quizPendingHeading => 'Nova pitanja za odobrenje';
+
+  @override
+  String get quizPendingHelp =>
+      'Izradio VenuRite AI iz ovog vodiča. Točan odgovor je označen. Odznači ona koja ne želiš pa odobri.';
+
+  @override
+  String get quizApproveButton => 'Odobri ova pitanja';
+
+  @override
+  String get quizRejectButton => 'Odbaci nacrte';
+
+  @override
+  String get quizApproved =>
+      'Pitanja odobrena. Osoblje će sada odgovarati na njih.';
+
+  @override
+  String get quizKeepAtLeast3 => 'Zadrži barem 3 pitanja.';
+
+  @override
+  String get quizLiveHeading => 'Pitanja u upotrebi';
+
+  @override
+  String get quizRedraftPrompt =>
+      'Vodič spremljen. Izraditi odgovarajuća pitanja pomoću VenuRite AI? Pregledat ćeš ih prije osoblja.';
+
+  @override
+  String get quizDraftNowButton => 'Izradi sada';
+
+  @override
+  String get quizLaterButton => 'Kasnije';
+
+  @override
+  String quizPendingBadge(int count) {
+    return '$count za odobrenje';
+  }
+
+  @override
+  String get quizManagerExempt =>
+      'Kao voditelj ne trebaš kviz za rutinske zadatke.';
+
+  @override
+  String trainingToDoCount(int count) {
+    return '$count za napraviti';
+  }
 }

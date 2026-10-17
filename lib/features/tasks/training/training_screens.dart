@@ -13,6 +13,7 @@ import '../../../shared/models/user.dart';
 import '../../../shared/providers/auth_providers.dart';
 import '../../../shared/providers/site_providers.dart';
 import '../../../shared/providers/training_progress_providers.dart';
+import '../../../shared/repositories/task_quiz_repository.dart';
 import 'task_training_guide_screen.dart';
 import 'training_progress.dart';
 
@@ -72,8 +73,22 @@ class TeamTrainingScreen extends ConsumerWidget {
     }
     final training = ref.watch(siteTrainingProvider(siteId));
     final staff = ref.watch(_siteStaffProvider(siteId));
+    final viewer = ref.watch(currentUserProvider);
+    final isManager =
+        viewer != null &&
+        roleTierRank(viewer.roleTier) >= roleTierRank(RoleTier.venueManager);
     return Scaffold(
-      appBar: AppScreenHeader(title: Text(l10n.teamTrainingTitle)),
+      appBar: AppScreenHeader(
+        title: Text(l10n.teamTrainingTitle),
+        actions: [
+          if (isManager)
+            IconButton(
+              tooltip: l10n.trainingRefresherSettingsTitle,
+              icon: const Icon(Icons.update),
+              onPressed: () => _editRefreshers(context, ref, siteId),
+            ),
+        ],
+      ),
       body: switch ((training, staff)) {
         (AsyncError(:final error), _) || (_, AsyncError(:final error)) =>
           LoadErrorView(
@@ -88,6 +103,94 @@ class TeamTrainingScreen extends ConsumerWidget {
         _ => const Center(child: CircularProgressIndicator()),
       },
     );
+  }
+}
+
+/// P (2026-10-17): the venue chooses its refresher periods.
+Future<void> _editRefreshers(
+  BuildContext context,
+  WidgetRef ref,
+  int siteId,
+) async {
+  final l10n = AppLocalizations.of(context)!;
+  final repo = ref.read(taskQuizRepositoryProvider);
+  RefreshMonths current;
+  try {
+    current = await repo.refreshMonths(siteId);
+  } catch (_) {
+    current = const RefreshMonths();
+  }
+  if (!context.mounted) return;
+  var critical = current.critical;
+  var other = current.other;
+  const choices = [1, 2, 3, 6, 9, 12, 18, 24];
+  final saved = await showDialog<bool>(
+    context: context,
+    builder: (ctx) => StatefulBuilder(
+      builder: (ctx, setState) {
+        DropdownButtonFormField<int> picker(
+          String label,
+          int value,
+          ValueChanged<int> onChanged,
+        ) => DropdownButtonFormField<int>(
+          initialValue: choices.contains(value) ? value : null,
+          decoration: InputDecoration(labelText: label),
+          items: [
+            for (final m in choices)
+              DropdownMenuItem(value: m, child: Text(l10n.monthsCount(m))),
+          ],
+          onChanged: (v) {
+            if (v != null) setState(() => onChanged(v));
+          },
+        );
+        return AlertDialog(
+          title: Text(l10n.trainingRefresherSettingsTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l10n.trainingRefresherSettingsHelp),
+              const SizedBox(height: 12),
+              picker(
+                l10n.trainingRefresherCriticalLabel,
+                critical,
+                (v) => critical = v,
+              ),
+              const SizedBox(height: 8),
+              picker(l10n.trainingRefresherOtherLabel, other, (v) => other = v),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: Text(l10n.saveButton),
+            ),
+          ],
+        );
+      },
+    ),
+  );
+  if (saved != true) return;
+  try {
+    await repo.setRefreshMonths(
+      siteId,
+      RefreshMonths(critical: critical, other: other),
+    );
+    ref.invalidate(siteTrainingProvider(siteId));
+    ref.invalidate(refreshMonthsProvider(siteId));
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(l10n.trainingRefresherSaved)));
+  } catch (e) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(friendlyErrorMessage(l10n, e))));
   }
 }
 
@@ -136,6 +239,13 @@ class _TeamList extends StatelessWidget {
           final items = bySite[person.id]!;
           final done = items.where((i) => i.isComplete).length;
           final toRead = items.where((i) => i.needsReading).length;
+          final quizzes = items
+              .where(
+                (i) =>
+                    i.status == TrainingStatus.quizDue ||
+                    i.status == TrainingStatus.refresherDue,
+              )
+              .length;
           final awaiting = items
               .where((i) => i.status == TrainingStatus.awaitingSignoff)
               .length;
@@ -147,10 +257,13 @@ class _TeamList extends StatelessWidget {
                 [
                   l10n.trainingProgressSummary(done, items.length),
                   if (toRead > 0) l10n.trainingToReadCount(toRead),
+                  if (quizzes > 0) l10n.trainingQuizToDoCount(quizzes),
                   if (awaiting > 0) l10n.trainingAwaitingCount(awaiting),
                 ].join(' · '),
               ),
-              trailing: _ProgressRing(done: done, total: items.length),
+              trailing: isFullyTrained(items)
+                  ? const _FullyTrainedBadge()
+                  : _ProgressRing(done: done, total: items.length),
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (_) =>
@@ -327,10 +440,13 @@ class _TrainingList extends StatelessWidget {
             children: [
               _ProgressRing(done: done, total: items.length),
               const SizedBox(width: 12),
-              Text(
-                l10n.trainingProgressSummary(done, items.length),
-                style: Theme.of(context).textTheme.titleMedium,
+              Expanded(
+                child: Text(
+                  l10n.trainingProgressSummary(done, items.length),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ),
+              if (isFullyTrained(items)) const _FullyTrainedBadge(),
             ],
           ),
           const SizedBox(height: 16),
@@ -393,8 +509,20 @@ class _StatusChip extends StatelessWidget {
         fg: AppColors.caution,
         bg: AppColors.cautionBg,
       ),
+      TrainingStatus.quizDue => _Chip(
+        label: l10n.trainingStatusQuizDue,
+        fg: AppColors.caution,
+        bg: AppColors.cautionBg,
+      ),
+      TrainingStatus.refresherDue => _Chip(
+        label: l10n.trainingStatusRefresherDue,
+        fg: AppColors.caution,
+        bg: AppColors.cautionBg,
+      ),
       TrainingStatus.read => _Chip(
-        label: l10n.trainingStatusRead,
+        label: item.quizPassedAt != null
+            ? l10n.trainingStatusTrained
+            : l10n.trainingStatusRead,
         fg: AppColors.pass,
         bg: AppColors.passBg,
       ),
@@ -431,6 +559,30 @@ class _Chip extends StatelessWidget {
       style: TextStyle(color: fg, fontWeight: FontWeight.w700, fontSize: 12),
     ),
   );
+}
+
+class _FullyTrainedBadge extends StatelessWidget {
+  const _FullyTrainedBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(Icons.verified, color: AppColors.pass, size: 22),
+        const SizedBox(width: 4),
+        Text(
+          l10n.trainingFullyTrained,
+          style: const TextStyle(
+            color: AppColors.pass,
+            fontWeight: FontWeight.w700,
+            fontSize: 13,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class _ProgressRing extends StatelessWidget {

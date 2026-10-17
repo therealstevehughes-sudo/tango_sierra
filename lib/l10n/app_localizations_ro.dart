@@ -5682,4 +5682,180 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get rotaSupervisorShortHint => 'O tură de supervizor este încă liberă';
+
+  @override
+  String get trainingStatusQuizDue => 'Test de făcut';
+
+  @override
+  String get trainingStatusRefresherDue => 'Reîmprospătare necesară';
+
+  @override
+  String get trainingStatusTrained => 'Instruit';
+
+  @override
+  String get trainingFullyTrained => 'Complet instruit';
+
+  @override
+  String trainingQuizToDoCount(int count) {
+    return 'Teste de făcut: $count';
+  }
+
+  @override
+  String get quizTitle => 'Test rapid';
+
+  @override
+  String get quizIntro =>
+      '3 întrebări despre acest ghid. Răspunde corect la toate 3 pentru bifa verde.';
+
+  @override
+  String get quizTakeButton => 'Fă testul (3 întrebări)';
+
+  @override
+  String get quizSubmitButton => 'Verifică răspunsurile';
+
+  @override
+  String get quizPassedTitle => 'Promovat - bravo!';
+
+  @override
+  String get quizPassedBody => 'Ești instruit pentru această sarcină.';
+
+  @override
+  String get quizPassedAwaitingSignoff =>
+      'Promovat. Este o sarcină critică, așa că managerul te va urmări cum o faci înainte să te aprobe.';
+
+  @override
+  String quizFailedTitle(int correct, int total) {
+    return 'Aproape - $correct din $total corecte';
+  }
+
+  @override
+  String get quizFailedBody =>
+      'Citește din nou ghidul, apoi mai încearcă. Vei primi alte întrebări.';
+
+  @override
+  String get quizBackToGuide => 'Înapoi la ghid';
+
+  @override
+  String get quizRereadFirst => 'Citește din nou ghidul înainte să reîncerci.';
+
+  @override
+  String get quizNoneYet => 'Această sarcină nu are încă un test.';
+
+  @override
+  String quizQuestionLabel(int number, int total) {
+    return 'Întrebarea $number din $total';
+  }
+
+  @override
+  String get trainingRereadButton => 'Am citit din nou';
+
+  @override
+  String get trainingRefresherNoticeQuiz =>
+      'E timpul pentru reîmprospătare. Citește din nou ghidul, apoi refă testul.';
+
+  @override
+  String get trainingRefresherNotice =>
+      'E timpul pentru reîmprospătare. Citește din nou ghidul.';
+
+  @override
+  String trainingPassedOn(String date) {
+    return 'Test promovat pe $date';
+  }
+
+  @override
+  String get trainingRefresherSettingsTitle => 'Reîmprospătarea instruirii';
+
+  @override
+  String get trainingRefresherSettingsHelp =>
+      'Cât de des trebuie personalul să recitească ghidul și să refacă testul.';
+
+  @override
+  String get trainingRefresherCriticalLabel => 'Sarcini critice';
+
+  @override
+  String get trainingRefresherOtherLabel => 'Alte sarcini';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count luni',
+      one: '1 lună',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get trainingRefresherSaved =>
+      'Perioadele de reîmprospătare au fost salvate.';
+
+  @override
+  String get quizQuestionsButton => 'Întrebările testului';
+
+  @override
+  String quizUsingStandard(int count) {
+    return 'Se folosesc întrebările standard VenuRite ($count).';
+  }
+
+  @override
+  String quizUsingVenue(int count) {
+    return 'Se folosesc întrebările aprobate ale locației tale ($count).';
+  }
+
+  @override
+  String get quizNoQuestions => 'Încă nu există întrebări.';
+
+  @override
+  String get quizDraftButton => 'Creează întrebări cu AI VenuRite';
+
+  @override
+  String get quizDrafting => 'Se creează întrebările...';
+
+  @override
+  String get quizPendingHeading => 'Întrebări noi de aprobat';
+
+  @override
+  String get quizPendingHelp =>
+      'Create de AI VenuRite din acest ghid. Răspunsul corect e bifat. Debifează ce nu vrei, apoi aprobă.';
+
+  @override
+  String get quizApproveButton => 'Aprobă aceste întrebări';
+
+  @override
+  String get quizRejectButton => 'Renunță la ciorne';
+
+  @override
+  String get quizApproved =>
+      'Întrebări aprobate. Personalul va fi testat cu ele de acum.';
+
+  @override
+  String get quizKeepAtLeast3 => 'Păstrează cel puțin 3 întrebări.';
+
+  @override
+  String get quizLiveHeading => 'Întrebări folosite';
+
+  @override
+  String get quizRedraftPrompt =>
+      'Ghid salvat. Creezi întrebări potrivite cu AI VenuRite? Le vei verifica înainte să le vadă personalul.';
+
+  @override
+  String get quizDraftNowButton => 'Creează acum';
+
+  @override
+  String get quizLaterButton => 'Mai târziu';
+
+  @override
+  String quizPendingBadge(int count) {
+    return '$count de aprobat';
+  }
+
+  @override
+  String get quizManagerExempt =>
+      'Ca manager, nu ai nevoie de test pentru sarcinile de rutină.';
+
+  @override
+  String trainingToDoCount(int count) {
+    return '$count de făcut';
+  }
 }

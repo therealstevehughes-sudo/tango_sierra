@@ -5369,4 +5369,169 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get rotaSupervisorShortHint => '仍有一个主管班次空缺';
+
+  @override
+  String get trainingStatusQuizDue => '待完成测验';
+
+  @override
+  String get trainingStatusRefresherDue => '需要复训';
+
+  @override
+  String get trainingStatusTrained => '已培训';
+
+  @override
+  String get trainingFullyTrained => '已全部完成培训';
+
+  @override
+  String trainingQuizToDoCount(int count) {
+    return '待完成测验：$count';
+  }
+
+  @override
+  String get quizTitle => '小测验';
+
+  @override
+  String get quizIntro => '关于本指南的 3 道题。全部答对即可获得绿色勾。';
+
+  @override
+  String get quizTakeButton => '参加测验（3 道题）';
+
+  @override
+  String get quizSubmitButton => '检查我的答案';
+
+  @override
+  String get quizPassedTitle => '通过了，做得好！';
+
+  @override
+  String get quizPassedBody => '你已完成此任务的培训。';
+
+  @override
+  String get quizPassedAwaitingSignoff => '已通过。这是关键任务，你的经理还会在签字确认前观察你实际操作。';
+
+  @override
+  String quizFailedTitle(int correct, int total) {
+    return '差一点 - 答对 $correct/$total';
+  }
+
+  @override
+  String get quizFailedBody => '请重新阅读指南后再试一次。题目会不同。';
+
+  @override
+  String get quizBackToGuide => '返回指南';
+
+  @override
+  String get quizRereadFirst => '重试前请重新阅读指南。';
+
+  @override
+  String get quizNoneYet => '此任务暂无测验。';
+
+  @override
+  String quizQuestionLabel(int number, int total) {
+    return '第 $number 题，共 $total 题';
+  }
+
+  @override
+  String get trainingRereadButton => '我已重新阅读';
+
+  @override
+  String get trainingRefresherNoticeQuiz => '该复训了。请重新阅读指南，然后重做测验。';
+
+  @override
+  String get trainingRefresherNotice => '该复训了。请重新阅读指南。';
+
+  @override
+  String trainingPassedOn(String date) {
+    return '于 $date 通过测验';
+  }
+
+  @override
+  String get trainingRefresherSettingsTitle => '培训复训';
+
+  @override
+  String get trainingRefresherSettingsHelp => '员工需要多久重新阅读指南并重做测验一次。';
+
+  @override
+  String get trainingRefresherCriticalLabel => '关键任务';
+
+  @override
+  String get trainingRefresherOtherLabel => '其他任务';
+
+  @override
+  String monthsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count 个月',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get trainingRefresherSaved => '复训周期已保存。';
+
+  @override
+  String get quizQuestionsButton => '测验题目';
+
+  @override
+  String quizUsingStandard(int count) {
+    return '正在使用 VenuRite 标准题目（$count）。';
+  }
+
+  @override
+  String quizUsingVenue(int count) {
+    return '正在使用本场所已批准的题目（$count）。';
+  }
+
+  @override
+  String get quizNoQuestions => '暂无测验题目。';
+
+  @override
+  String get quizDraftButton => '用 VenuRite AI 起草题目';
+
+  @override
+  String get quizDrafting => '正在起草题目...';
+
+  @override
+  String get quizPendingHeading => '待批准的新题目';
+
+  @override
+  String get quizPendingHelp => '由 VenuRite AI 根据本指南起草。正确答案已勾选。取消不需要的题目后批准。';
+
+  @override
+  String get quizApproveButton => '批准这些题目';
+
+  @override
+  String get quizRejectButton => '放弃草稿';
+
+  @override
+  String get quizApproved => '题目已批准。员工今后将用这些题目测验。';
+
+  @override
+  String get quizKeepAtLeast3 => '至少保留 3 道题。';
+
+  @override
+  String get quizLiveHeading => '正在使用的题目';
+
+  @override
+  String get quizRedraftPrompt =>
+      '指南已保存。要用 VenuRite AI 起草匹配的测验题目吗？员工看到之前你会先审核。';
+
+  @override
+  String get quizDraftNowButton => '立即起草';
+
+  @override
+  String get quizLaterButton => '稍后';
+
+  @override
+  String quizPendingBadge(int count) {
+    return '$count 个待批准';
+  }
+
+  @override
+  String get quizManagerExempt => '作为经理，日常任务无需参加测验。';
+
+  @override
+  String trainingToDoCount(int count) {
+    return '待办 $count';
+  }
 }

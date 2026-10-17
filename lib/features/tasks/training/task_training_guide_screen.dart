@@ -16,6 +16,8 @@ import '../../../shared/providers/training_progress_providers.dart';
 import '../task_model.dart';
 import 'standard_guide_for.dart';
 import 'task_training_guide.dart';
+import 'task_quiz_questions_screen.dart';
+import 'task_quiz_screen.dart';
 import 'task_training_guide_edit_screen.dart';
 import 'training_progress.dart';
 
@@ -121,9 +123,10 @@ class TaskTrainingGuideScreen extends ConsumerWidget {
                   // has its own would record the wrong thing.
                   if (user != null && siteId != null && !venueAsync.hasError)
                     _AcknowledgeSection(
+                      task: task,
                       userId: user.id,
                       siteId: siteId,
-                      templateGroupId: task.templateGroupId,
+                      isManager: canEdit,
                       version: guideVersion(guide),
                     ),
                   if (canEdit) ...[
@@ -147,6 +150,31 @@ class TaskTrainingGuideScreen extends ConsumerWidget {
                         onPressed: () => _resetToStandard(context, ref, key!),
                         child: Text(l10n.trainingGuideResetButton),
                       ),
+                    const SizedBox(height: 8),
+                    OutlinedButton.icon(
+                      icon: const Icon(Icons.quiz_outlined),
+                      label: Text(
+                        switch (ref
+                                .watch(quizAvailabilityProvider(siteId))
+                                .value
+                                ?.pendingFor(task.templateGroupId) ??
+                            0) {
+                          0 => l10n.quizQuestionsButton,
+                          final n =>
+                            '${l10n.quizQuestionsButton} (${l10n.quizPendingBadge(n)})',
+                        },
+                      ),
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => TaskQuizQuestionsScreen(
+                            task: task,
+                            siteId: siteId,
+                            userId: user.id,
+                            guide: guide,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ],
               ),
@@ -193,15 +221,17 @@ class TaskTrainingGuideScreen extends ConsumerWidget {
 
 class _AcknowledgeSection extends ConsumerStatefulWidget {
   const _AcknowledgeSection({
+    required this.task,
     required this.userId,
     required this.siteId,
-    required this.templateGroupId,
+    required this.isManager,
     required this.version,
   });
 
+  final ResolvedTask task;
   final int userId;
   final int siteId;
-  final int templateGroupId;
+  final bool isManager;
   final String version;
 
   @override
@@ -209,8 +239,14 @@ class _AcknowledgeSection extends ConsumerStatefulWidget {
       _AcknowledgeSectionState();
 }
 
+/// Read the guide -> take the quiz -> green tick (2026-10-17). A failed
+/// quiz asks for the guide to be read again before the retry, and so does
+/// a refresher once the venue's period runs out.
 class _AcknowledgeSectionState extends ConsumerState<_AcknowledgeSection> {
   bool _saving = false;
+  bool _mustReread = false;
+
+  int get _groupId => widget.task.templateGroupId;
 
   Future<void> _acknowledge() async {
     final l10n = AppLocalizations.of(context)!;
@@ -221,11 +257,12 @@ class _AcknowledgeSectionState extends ConsumerState<_AcknowledgeSection> {
           .acknowledge(
             userId: widget.userId,
             siteId: widget.siteId,
-            templateGroupId: widget.templateGroupId,
+            templateGroupId: _groupId,
             guideVersion: widget.version,
           );
       ref.invalidate(myAcknowledgementsProvider(widget.userId));
       ref.invalidate(siteTrainingProvider(widget.siteId));
+      if (mounted) setState(() => _mustReread = false);
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -233,6 +270,24 @@ class _AcknowledgeSectionState extends ConsumerState<_AcknowledgeSection> {
       ).showSnackBar(SnackBar(content: Text(friendlyErrorMessage(l10n, e))));
     } finally {
       if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  Future<void> _takeQuiz() async {
+    final outcome = await Navigator.of(context).push<QuizOutcome>(
+      MaterialPageRoute(
+        builder: (_) => TaskQuizScreen(
+          task: widget.task,
+          siteId: widget.siteId,
+          userId: widget.userId,
+          guideVersion: widget.version,
+        ),
+      ),
+    );
+    ref.invalidate(siteTrainingProvider(widget.siteId));
+    if (!mounted) return;
+    if (outcome == QuizOutcome.failed || outcome == QuizOutcome.rereadNeeded) {
+      setState(() => _mustReread = true);
     }
   }
 
@@ -245,50 +300,117 @@ class _AcknowledgeSectionState extends ConsumerState<_AcknowledgeSection> {
     if (!acks.hasValue) return const SizedBox.shrink();
     final current = acks.value!
         .where(
-          (a) =>
-              a.templateGroupId == widget.templateGroupId &&
-              a.guideVersion == widget.version,
+          (a) => a.templateGroupId == _groupId && a.guideVersion == widget.version,
         )
         .firstOrNull;
-    final readOlder = acks.value!.any(
-      (a) => a.templateGroupId == widget.templateGroupId,
+    final readOlder = acks.value!.any((a) => a.templateGroupId == _groupId);
+
+    final item = ref
+        .watch(siteTrainingProvider(widget.siteId))
+        .value?[widget.userId]
+        ?.where((i) => i.task.templateGroupId == _groupId)
+        .firstOrNull;
+    final hasQuiz =
+        ref
+            .watch(quizAvailabilityProvider(widget.siteId))
+            .value
+            ?.hasQuiz(_groupId, widget.task.title) ??
+        false;
+    final quizRequired =
+        item?.quizRequired ??
+        (hasQuiz && (widget.task.isCritical || !widget.isManager));
+    final status = item?.status;
+
+    final readButton = FilledButton.icon(
+      icon: const Icon(Icons.task_alt),
+      label: Text(
+        current == null
+            ? l10n.trainingAcknowledgeButton
+            : l10n.trainingRereadButton,
+      ),
+      onPressed: _saving ? null : _acknowledge,
     );
+
+    final List<Widget> children;
+    if (status == TrainingStatus.refresherDue) {
+      children = [
+        _Notice(
+          text: quizRequired
+              ? l10n.trainingRefresherNoticeQuiz
+              : l10n.trainingRefresherNotice,
+        ),
+        readButton,
+      ];
+    } else if (current == null) {
+      children = [
+        if (readOlder) _Notice(text: l10n.trainingGuideChangedNotice),
+        readButton,
+      ];
+    } else {
+      final passed =
+          item?.quizPassedAt != null && status != TrainingStatus.quizDue;
+      children = [
+        _Done(text: l10n.trainingReadOn(formatDate(current.acknowledgedAt))),
+        if (quizRequired) ...[
+          const SizedBox(height: 12),
+          if (passed)
+            _Done(text: l10n.trainingPassedOn(formatDate(item!.quizPassedAt!)))
+          else if (_mustReread) ...[
+            _Notice(text: l10n.quizFailedBody),
+            readButton,
+          ] else
+            FilledButton.icon(
+              icon: const Icon(Icons.quiz_outlined),
+              label: Text(l10n.quizTakeButton),
+              onPressed: _takeQuiz,
+            ),
+        ] else if (hasQuiz && widget.isManager && !widget.task.isCritical) ...[
+          const SizedBox(height: 8),
+          Text(
+            l10n.quizManagerExempt,
+            style: const TextStyle(color: AppColors.muted),
+          ),
+        ],
+      ];
+    }
 
     return Padding(
       padding: const EdgeInsets.only(top: 24),
-      child: current != null
-          ? Row(
-              children: [
-                const Icon(Icons.check_circle, color: AppColors.pass),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    l10n.trainingReadOn(formatDate(current.acknowledgedAt)),
-                    style: const TextStyle(color: AppColors.pass),
-                  ),
-                ),
-              ],
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (readOlder)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: Text(
-                      l10n.trainingGuideChangedNotice,
-                      style: const TextStyle(color: AppColors.caution),
-                    ),
-                  ),
-                FilledButton.icon(
-                  icon: const Icon(Icons.task_alt),
-                  label: Text(l10n.trainingAcknowledgeButton),
-                  onPressed: _saving ? null : _acknowledge,
-                ),
-              ],
-            ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: children,
+      ),
     );
   }
+}
+
+class _Done extends StatelessWidget {
+  const _Done({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Row(
+    children: [
+      const Icon(Icons.check_circle, color: AppColors.pass),
+      const SizedBox(width: 8),
+      Expanded(
+        child: Text(text, style: const TextStyle(color: AppColors.pass)),
+      ),
+    ],
+  );
+}
+
+class _Notice extends StatelessWidget {
+  const _Notice({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(bottom: 8),
+    child: Text(text, style: const TextStyle(color: AppColors.caution)),
+  );
 }
 
 class _StepRow extends StatelessWidget {

@@ -2253,3 +2253,11 @@ App-only change (AI button / tiles / button height). Web app + APK rebuilt (`SEE
 ## Rota tiers (2026-10-17)
 
 Applied `tools/rota_tiers_migration.sql`: `users.books_shifts` (default true; set false for venueManager/regional/executive on first run only), `shift_requirements.min_tier` + `shifts.min_tier` (null or 'supervisor', CHECK constraints), `users_guard_books_shifts` trigger (API writers below venueManager get "only a manager can change who books shifts" — probed in a rolled-back transaction), `claim_shift` + `manager_assign_shift` re-created from the live bodies with the tier gate (claim also refuses people off the rota). `docker restart supabase-rest`. APK + web app redeployed and md5-verified.
+
+## Training quizzes (2026-10-17)
+
+- Applied `tools/training_quiz_migration.sql`: `quiz_questions` (standard by task_title; venue by site_id + template_group_id; status live/pending/retired; no direct API access), `quiz_attempts` (stores shown answer positions; readable only as passes via `quiz_passes` view), `sites.training_refresh_critical_months` (3) / `training_refresh_other_months` (6), RPCs `start_task_quiz`, `submit_task_quiz`, `task_quiz_availability`, `save_task_quiz_drafts`, `list_task_quiz_questions`, `decide_task_quiz_drafts`, `set_training_refresh_months`, `acknowledge_training_guide` (upsert that moves the read time forward). `docker restart supabase-rest`.
+- Seeded 1,069 standard questions from `tools/quiz/quiz_seed.sql` (generate with `python tools/quiz/build_quiz_seed.py --sql tools/quiz/quiz_seed.sql`; re-running retires the old standard set and keeps venue questions).
+- New Edge Function `quiz-draft` (source `tools/functions_live/quiz-draft.ts` → `volumes/functions/quiz-draft/index.ts`), OpenAI gpt-4o-mini, manager tiers only, saves drafts through the caller's own token. `docker restart supabase-edge-functions`.
+- Verified on the server (rolled back): serve/shuffle/mark, retry blocked until re-read, pass recorded, direct question reads denied, re-read upsert; AI draft end to end (test rows deleted).
+- APK + web app redeployed, md5-verified; live web app boots with no console errors.

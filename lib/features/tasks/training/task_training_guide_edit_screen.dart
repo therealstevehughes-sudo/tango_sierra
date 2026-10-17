@@ -8,6 +8,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../shared/providers/task_training_guide_providers.dart';
 import '../task_model.dart';
 import 'task_training_guide.dart';
+import 'task_quiz_questions_screen.dart';
 
 /// Venue manager edits this site's version of a task's guide — different
 /// venues have different kit and house rules (direct founder request,
@@ -104,7 +105,40 @@ class _TaskTrainingGuideEditScreenState
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(l10n.trainingGuideSaved)));
-      Navigator.of(context).pop();
+      // R (2026-10-17): a changed guide needs matching quiz questions.
+      // VenuRite's AI drafts them; a manager approves before staff see them.
+      final draft = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          content: Text(l10n.quizRedraftPrompt),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: Text(l10n.quizLaterButton),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: Text(l10n.quizDraftNowButton),
+            ),
+          ],
+        ),
+      );
+      if (!mounted) return;
+      if (draft == true) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute<void>(
+            builder: (_) => TaskQuizQuestionsScreen(
+              task: widget.task,
+              siteId: widget.siteId,
+              userId: widget.userId,
+              guide: guide,
+              draftOnOpen: true,
+            ),
+          ),
+        );
+      } else {
+        Navigator.of(context).pop();
+      }
     } catch (e) {
       if (!mounted) return;
       setState(() => _saving = false);
