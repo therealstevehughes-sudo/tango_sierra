@@ -321,6 +321,12 @@
     .showcase.reverse .mock-frame { order: 0; }
   }
 
+
+  .app-shot { margin: 0 auto; max-width: 300px; text-align: center; }
+  .app-shot img { display: block; width: 100%; height: auto; border-radius: 30px; border: 8px solid #1F1D1B; box-shadow: var(--shadow); background: #1F1D1B; }
+  .app-shot figcaption { margin-top: 10px; font-size: 0.8rem; color: var(--muted); }
+  .showcase.reverse .app-shot { order: -1; }
+  @media (max-width: 860px) { .showcase.reverse .app-shot { order: 0; } }
   .mock-frame {
     background: var(--card); border: 1px solid var(--line); border-radius: 20px;
     box-shadow: var(--shadow); padding: 18px; max-width: 420px; margin-inline: auto;
@@ -455,7 +461,7 @@
   footer.site { border-top: 1px solid var(--line); padding-block: 32px; margin-top: 20px; }
   .footer-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
   .footer-row .brand { font-size: 0.95rem; }
-  .footer-links { display: flex; gap: 22px; }
+  .footer-links { display: flex; gap: 22px;  flex-wrap: wrap; row-gap: 8px; }
   .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.88rem; }
   .footer-links a:hover { color: var(--teal); }
   .copyright { color: var(--muted-light); font-size: 0.82rem; margin-top: 18px; }
@@ -611,52 +617,29 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Works the same on a tablet or a phone</li>
         </ul>
       </div>
-      <div class="mock-frame">
-        <div class="mock-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="mock-title">Morning checks</span></div>
-        <div class="mock-card">
-          <div class="mock-row">
-            <div><strong style="font-size:0.92rem;">Walk-in fridge temperature</strong><div style="color:var(--muted); font-size:0.8rem; margin-top:2px;">3.2°C - within range</div></div>
-            <div class="mock-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          </div>
-        </div>
-        <div class="mock-card">
-          <div class="mock-row">
-            <div><strong style="font-size:0.92rem;">Hot hold - bain-marie</strong><div style="color:var(--muted); font-size:0.8rem; margin-top:2px;">58°C - corrective action logged</div><div style="color:var(--teal); font-size:0.78rem; font-weight:700; margin-top:6px;">How to do this correctly &rsaquo;</div></div>
-            <div class="mock-check mock-fail"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-          </div>
-        </div>
-        <div class="mock-card">
-          <div class="mock-row">
-            <div><strong style="font-size:0.92rem;">Handwashing station stocked</strong><div style="color:var(--muted); font-size:0.8rem; margin-top:2px;">Photo attached</div></div>
-            <div class="mock-check"><svg viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-          </div>
-        </div>
-      </div>
+      <figure class="app-shot">
+        <img src="images/app/check.webp" alt="VenuRite check screen: cooked food core temperature with a reading of 74 and a PASS result" width="390" height="844" loading="lazy">
+        <figcaption>Real screen from the VenuRite app</figcaption>
+      </figure>
     </div>
   </section>
 
   <section>
     <div class="showcase reverse">
       <div class="showcase-copy">
-        <span class="kicker">Ask a question</span>
-        <h2>An answer your team can trust, not a guess</h2>
-        <p>When someone's not sure about a rule, they get a clear answer grounded in official food safety regulations - with the source shown, every time.</p>
+        <span class="kicker">Built-in training</span>
+        <h2>Every task shows how to do it right</h2>
+        <p>Step-by-step guidance on every check, why it matters, and what to do if it fails - so new starters get it right first time, and you can tailor each guide to how your venue works.</p>
         <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Answers cite real, checkable guidance</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>If it isn't sure, it says so - never a guess</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Available right where your team is already working</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>One tap from the task itself, mid-shift</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Staff confirm they've read it; managers see who's trained</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Stuck on a rule? The AI assistant answers from official guidance</li>
         </ul>
       </div>
-      <div class="mock-frame">
-        <div class="mock-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="mock-title">Ask a question</span></div>
-        <div style="background:var(--paper); border-radius:12px; padding:12px 14px; font-size:0.86rem; color:var(--muted); margin-bottom:12px;">
-          "How many times can I reheat food?"
-        </div>
-        <div class="mock-chat-bubble">
-          You should only reheat food once. Don't put food into hot holding without reheating it properly first.
-          <div class="cite">📖 Safer Food Better Business (SFBB) for Caterers</div>
-        </div>
-      </div>
+      <figure class="app-shot">
+        <img src="images/app/guide.webp" alt="VenuRite "How to do this correctly" guide for cooked food core temperature" width="390" height="844" loading="lazy">
+        <figcaption>Real screen from the VenuRite app</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -672,16 +655,10 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Export a clean record whenever you need one</li>
         </ul>
       </div>
-      <div class="mock-frame">
-        <div class="mock-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div><span class="mock-title">This week</span></div>
-        <div class="mock-stat-grid">
-          <div class="mock-stat"><div class="n" style="color:var(--pass);">97%</div><div class="l">Checks completed</div></div>
-          <div class="mock-stat"><div class="n" style="color:var(--teal);">3</div><div class="l">Branches on track</div></div>
-          <div class="mock-stat"><div class="n" style="color:#976008;">2</div><div class="l">Need attention</div></div>
-          <div class="mock-stat"><div class="n">0</div><div class="l">Overdue</div></div>
-        </div>
-        <div style="margin-top:12px;"><span class="mock-pill">Audit export ready</span></div>
-      </div>
+      <figure class="app-shot">
+        <img src="images/app/team.webp" alt="VenuRite supervisor home screen with My Tasks, Team today, Problems and Team Training" width="390" height="844" loading="lazy">
+        <figcaption>Real screen from the VenuRite app</figcaption>
+      </figure>
     </div>
   </section>
 

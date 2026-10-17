@@ -2241,3 +2241,7 @@ Applied `tools/billing_access_migration.sql` (users.billing_access, can_view_bil
 ## Menu redesign deployed (2026-10-17)
 
 App-only change (no backend). Web app + APK rebuilt with `--dart-define=SEED_DEMO_DATA=false` and redeployed.
+
+## Website screenshots (2026-10-17)
+
+New `/var/www/venurite-site/images/app/{check,guide,team}.webp`; homepage, partners and equipmentlist pages redeployed (footer wrap fix).
