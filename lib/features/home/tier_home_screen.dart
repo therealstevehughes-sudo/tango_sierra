@@ -30,6 +30,7 @@ import '../tasks/training/training_screens.dart';
 import '../tasks/overdue_summary_service.dart';
 import '../tasks/task_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
+import '../setup/business_setup_wizard_screen.dart';
 
 // Tier home screen (Sprint 031, Build Order item 5, Sub-sprint A) — closes
 // the "My Tasks navigation fix" gap for good: every non-base tier previously
@@ -246,6 +247,8 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                             // reasoning as this file's own "small team"
                             // case, just applied per-tier rather than
                             // reordered for everyone.
+                            if (currentUser?.roleTier == RoleTier.executive)
+                              const SetupPromptCard(),
                             if (currentUser != null &&
                                 roleTierRank(currentUser.roleTier) >=
                                     roleTierRank(RoleTier.venueManager)) ...[

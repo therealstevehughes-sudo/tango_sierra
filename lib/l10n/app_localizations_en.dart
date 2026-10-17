@@ -6078,4 +6078,246 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get fryerLimitsInvalid =>
       'Amber must be lower than fail, both between 120 and 230°C.';
+
+  @override
+  String get setupTitle => 'Set up your business';
+
+  @override
+  String get setupMenuSubtitle => 'Branches, people, equipment, checks';
+
+  @override
+  String setupStepOf(int step, int total) {
+    return 'Step $step of $total';
+  }
+
+  @override
+  String get setupStartTitle => 'Tell VenuRite about your business';
+
+  @override
+  String get setupStartHelp =>
+      'Describe it in your own words, e.g. \"We have 3 pubs in Kent and a café in Brighton. Jo runs the Kent pubs.\" VenuRite fills in the next steps for you to check.';
+
+  @override
+  String get setupAskHint => 'Type about your business...';
+
+  @override
+  String get setupAskButton => 'Fill it in for me';
+
+  @override
+  String get setupSkipAi => 'Skip - I\'ll fill it in myself';
+
+  @override
+  String setupAiError(String error) {
+    return 'Could not fill it in: $error';
+  }
+
+  @override
+  String get setupYouTitle => 'You and your role';
+
+  @override
+  String get setupYourJobTitle => 'Your job title';
+
+  @override
+  String get setupLeadersTitle => 'Head-office leaders';
+
+  @override
+  String get setupLeadersHelp =>
+      'Other directors or head-office people who need full access. They get an email login. Optional.';
+
+  @override
+  String get setupAddPerson => 'Add a person';
+
+  @override
+  String get setupNameLabel => 'Name';
+
+  @override
+  String get setupEmailLabel => 'Email';
+
+  @override
+  String get setupShapeTitle => 'Your venues';
+
+  @override
+  String get setupOneBranch => 'Just one venue';
+
+  @override
+  String get setupSeveralBranches => 'More than one venue';
+
+  @override
+  String get setupUseRegions =>
+      'Group venues into regions (areas with their own manager)';
+
+  @override
+  String get setupRegionsTitle => 'Regions';
+
+  @override
+  String get setupRegionsHelp =>
+      'Name each region and, if you like, its manager. Managers get an email login.';
+
+  @override
+  String get setupAddRegion => 'Add a region';
+
+  @override
+  String get setupRegionNameLabel => 'Region name';
+
+  @override
+  String get setupManagerNameLabel => 'Manager\'s name (optional)';
+
+  @override
+  String get setupManagerEmailLabel => 'Manager\'s email (optional)';
+
+  @override
+  String get setupBranchesTitle => 'Your venues';
+
+  @override
+  String get setupFindBranchesTitle => 'Find your venues';
+
+  @override
+  String get setupFindBranchesHelp =>
+      'Search public map listings, then tick the ones that are yours. Nothing is added unless you tick it.';
+
+  @override
+  String get setupSearchNameLabel => 'Business name';
+
+  @override
+  String get setupSearchAreaLabel => 'Town or area (optional)';
+
+  @override
+  String get setupSearchButton => 'Search';
+
+  @override
+  String get setupSearching => 'Searching... this can take up to a minute.';
+
+  @override
+  String setupAddTicked(int count) {
+    return 'Add ticked venues ($count)';
+  }
+
+  @override
+  String get setupNoResults => 'Nothing found. Add your venues by hand below.';
+
+  @override
+  String get setupAddBranch => 'Add a venue by hand';
+
+  @override
+  String get setupBranchNameLabel => 'Venue name';
+
+  @override
+  String get setupAddressLabel => 'Address';
+
+  @override
+  String get setupRegionLabel => 'Region';
+
+  @override
+  String get setupRemove => 'Remove';
+
+  @override
+  String get setupNoBranchesYet => 'Add at least one venue.';
+
+  @override
+  String get setupDetailsTitle => 'Each venue';
+
+  @override
+  String get setupVenueTypesLabel => 'What kind of venue?';
+
+  @override
+  String get setupDepartmentsLabel => 'Sections';
+
+  @override
+  String get setupAddDepartment => 'Add a section';
+
+  @override
+  String get setupEquipmentTitle => 'Equipment';
+
+  @override
+  String get setupEquipmentHelp =>
+      'How many of each? Each one gets its own checks, e.g. a temperature check per fridge. You can add more later.';
+
+  @override
+  String get setupShowAllEquipment => 'Show all equipment types';
+
+  @override
+  String get setupStaffTitle => 'Staff';
+
+  @override
+  String get setupStaffHelp =>
+      'Add the people who work at each venue. Each gets a 4-digit PIN to log in, shown at the end.';
+
+  @override
+  String get setupStaffRoleLabel => 'Role';
+
+  @override
+  String get setupStaffLevelLabel => 'Level';
+
+  @override
+  String get setupAddStaff => 'Add a person';
+
+  @override
+  String get setupTasksTitle => 'Checks and tasks';
+
+  @override
+  String get setupTasksHelp =>
+      'Pick which areas of the task library each venue needs. The usual ones for the kind of venue are ticked. Each check goes to one person on the team; you can change who later.';
+
+  @override
+  String get setupPreviewTitle => 'Check and create';
+
+  @override
+  String get setupPreviewHelp =>
+      'This is what will be set up. Nothing is created until you tap Create.';
+
+  @override
+  String setupPreviewLeaders(int count) {
+    return 'Head-office leaders: $count';
+  }
+
+  @override
+  String setupPreviewRegions(int count) {
+    return 'Regions: $count';
+  }
+
+  @override
+  String setupPreviewBranch(
+    String name,
+    int equipment,
+    int staff,
+    int sections,
+  ) {
+    return '$name: $equipment equipment, $staff staff, $sections task areas';
+  }
+
+  @override
+  String get setupCreateButton => 'Create my set-up';
+
+  @override
+  String setupCreating(int done, int total) {
+    return 'Setting up... $done of $total';
+  }
+
+  @override
+  String setupFailedPart(String error) {
+    return 'Something didn\'t finish: $error. Tap Create again to carry on from where it stopped.';
+  }
+
+  @override
+  String get setupDoneTitle => 'All set up';
+
+  @override
+  String get setupDoneHelp =>
+      'Write down or copy these logins now - PINs and temporary passwords are only shown once.';
+
+  @override
+  String setupLoginPin(String name, String pin) {
+    return '$name - PIN $pin';
+  }
+
+  @override
+  String setupLoginEmail(String name, String email, String password) {
+    return '$name - $email - temporary password $password';
+  }
+
+  @override
+  String get setupCopyLogins => 'Copy all logins';
+
+  @override
+  String get setupFinishButton => 'Finish';
 }

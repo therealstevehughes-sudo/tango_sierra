@@ -5728,4 +5728,237 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get fryerLimitsInvalid => '黄色值必须低于不合格值，且都在 120 到 230°C 之间。';
+
+  @override
+  String get setupTitle => '设置你的企业';
+
+  @override
+  String get setupMenuSubtitle => '分店、人员、设备、检查';
+
+  @override
+  String setupStepOf(int step, int total) {
+    return '第 $step 步，共 $total 步';
+  }
+
+  @override
+  String get setupStartTitle => '向 VenuRite 介绍你的企业';
+
+  @override
+  String get setupStartHelp =>
+      '用你自己的话描述，例如\"我们在肯特有 3 家酒吧，在布莱顿有一家咖啡馆。Jo 负责肯特的酒吧。\"VenuRite 会填好后续步骤供你核对。';
+
+  @override
+  String get setupAskHint => '写下你的企业情况...';
+
+  @override
+  String get setupAskButton => '帮我填写';
+
+  @override
+  String get setupSkipAi => '跳过，我自己填写';
+
+  @override
+  String setupAiError(String error) {
+    return '无法填写：$error';
+  }
+
+  @override
+  String get setupYouTitle => '你和你的职务';
+
+  @override
+  String get setupYourJobTitle => '你的职位';
+
+  @override
+  String get setupLeadersTitle => '总部负责人';
+
+  @override
+  String get setupLeadersHelp => '需要完整权限的其他董事或总部人员。他们会获得邮箱登录。可选。';
+
+  @override
+  String get setupAddPerson => '添加人员';
+
+  @override
+  String get setupNameLabel => '姓名';
+
+  @override
+  String get setupEmailLabel => '邮箱';
+
+  @override
+  String get setupShapeTitle => '你的场所';
+
+  @override
+  String get setupOneBranch => '只有一个场所';
+
+  @override
+  String get setupSeveralBranches => '多个场所';
+
+  @override
+  String get setupUseRegions => '按区域分组（各区域有自己的经理）';
+
+  @override
+  String get setupRegionsTitle => '区域';
+
+  @override
+  String get setupRegionsHelp => '为每个区域命名，也可填写其经理。经理会获得邮箱登录。';
+
+  @override
+  String get setupAddRegion => '添加区域';
+
+  @override
+  String get setupRegionNameLabel => '区域名称';
+
+  @override
+  String get setupManagerNameLabel => '经理姓名（可选）';
+
+  @override
+  String get setupManagerEmailLabel => '经理邮箱（可选）';
+
+  @override
+  String get setupBranchesTitle => '你的场所';
+
+  @override
+  String get setupFindBranchesTitle => '查找你的场所';
+
+  @override
+  String get setupFindBranchesHelp => '搜索公开地图信息，然后勾选属于你的。未勾选的不会添加。';
+
+  @override
+  String get setupSearchNameLabel => '企业名称';
+
+  @override
+  String get setupSearchAreaLabel => '城镇或地区（可选）';
+
+  @override
+  String get setupSearchButton => '搜索';
+
+  @override
+  String get setupSearching => '正在搜索……最多可能需要一分钟。';
+
+  @override
+  String setupAddTicked(int count) {
+    return '添加已勾选（$count）';
+  }
+
+  @override
+  String get setupNoResults => '未找到。请在下方手动添加。';
+
+  @override
+  String get setupAddBranch => '手动添加场所';
+
+  @override
+  String get setupBranchNameLabel => '场所名称';
+
+  @override
+  String get setupAddressLabel => '地址';
+
+  @override
+  String get setupRegionLabel => '区域';
+
+  @override
+  String get setupRemove => '移除';
+
+  @override
+  String get setupNoBranchesYet => '至少添加一个场所。';
+
+  @override
+  String get setupDetailsTitle => '每个场所';
+
+  @override
+  String get setupVenueTypesLabel => '什么类型的场所？';
+
+  @override
+  String get setupDepartmentsLabel => '部门';
+
+  @override
+  String get setupAddDepartment => '添加部门';
+
+  @override
+  String get setupEquipmentTitle => '设备';
+
+  @override
+  String get setupEquipmentHelp => '每种各有多少？每台设备都有自己的检查，例如每台冰箱一项温度检查。之后可以再添加。';
+
+  @override
+  String get setupShowAllEquipment => '显示所有设备类型';
+
+  @override
+  String get setupStaffTitle => '员工';
+
+  @override
+  String get setupStaffHelp => '添加每个场所的员工。每人会获得 4 位登录 PIN，最后显示。';
+
+  @override
+  String get setupStaffRoleLabel => '岗位';
+
+  @override
+  String get setupStaffLevelLabel => '级别';
+
+  @override
+  String get setupAddStaff => '添加人员';
+
+  @override
+  String get setupTasksTitle => '检查和任务';
+
+  @override
+  String get setupTasksHelp => '选择每个场所需要任务库中的哪些领域。常用的已勾选。每项检查分配给一人，之后可更改。';
+
+  @override
+  String get setupPreviewTitle => '核对并创建';
+
+  @override
+  String get setupPreviewHelp => '以下内容将被设置。点击\"创建\"之前不会创建任何内容。';
+
+  @override
+  String setupPreviewLeaders(int count) {
+    return '总部负责人：$count';
+  }
+
+  @override
+  String setupPreviewRegions(int count) {
+    return '区域：$count';
+  }
+
+  @override
+  String setupPreviewBranch(
+    String name,
+    int equipment,
+    int staff,
+    int sections,
+  ) {
+    return '$name：$equipment 台设备，$staff 名员工，$sections 个任务领域';
+  }
+
+  @override
+  String get setupCreateButton => '创建设置';
+
+  @override
+  String setupCreating(int done, int total) {
+    return '正在设置……$done/$total';
+  }
+
+  @override
+  String setupFailedPart(String error) {
+    return '有一步未完成：$error。再次点击\"创建\"即可从中断处继续。';
+  }
+
+  @override
+  String get setupDoneTitle => '设置完成';
+
+  @override
+  String get setupDoneHelp => '请现在记下或复制这些登录信息——PIN 和临时密码只显示一次。';
+
+  @override
+  String setupLoginPin(String name, String pin) {
+    return '$name - PIN $pin';
+  }
+
+  @override
+  String setupLoginEmail(String name, String email, String password) {
+    return '$name - $email - 临时密码 $password';
+  }
+
+  @override
+  String get setupCopyLogins => '复制所有登录信息';
+
+  @override
+  String get setupFinishButton => '完成';
 }

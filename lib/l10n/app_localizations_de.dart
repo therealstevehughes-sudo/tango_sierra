@@ -6127,4 +6127,248 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get fryerLimitsInvalid =>
       'Gelb muss unter dem Fehlwert liegen, beide zwischen 120 und 230°C.';
+
+  @override
+  String get setupTitle => 'Betrieb einrichten';
+
+  @override
+  String get setupMenuSubtitle => 'Filialen, Personen, Geräte, Prüfungen';
+
+  @override
+  String setupStepOf(int step, int total) {
+    return 'Schritt $step von $total';
+  }
+
+  @override
+  String get setupStartTitle => 'Erzähl VenuRite von deinem Betrieb';
+
+  @override
+  String get setupStartHelp =>
+      'Beschreib ihn mit eigenen Worten, z. B. „Wir haben 3 Pubs in Kent und ein Café in Brighton. Jo leitet die Pubs in Kent.\" VenuRite füllt die nächsten Schritte zum Prüfen aus.';
+
+  @override
+  String get setupAskHint => 'Schreib über deinen Betrieb...';
+
+  @override
+  String get setupAskButton => 'Für mich ausfüllen';
+
+  @override
+  String get setupSkipAi => 'Überspringen - ich fülle es selbst aus';
+
+  @override
+  String setupAiError(String error) {
+    return 'Konnte nicht ausgefüllt werden: $error';
+  }
+
+  @override
+  String get setupYouTitle => 'Du und deine Rolle';
+
+  @override
+  String get setupYourJobTitle => 'Deine Berufsbezeichnung';
+
+  @override
+  String get setupLeadersTitle => 'Leitung der Zentrale';
+
+  @override
+  String get setupLeadersHelp =>
+      'Weitere Geschäftsführer oder Leute der Zentrale mit vollem Zugang. Sie bekommen einen E-Mail-Login. Optional.';
+
+  @override
+  String get setupAddPerson => 'Person hinzufügen';
+
+  @override
+  String get setupNameLabel => 'Name';
+
+  @override
+  String get setupEmailLabel => 'E-Mail';
+
+  @override
+  String get setupShapeTitle => 'Deine Betriebe';
+
+  @override
+  String get setupOneBranch => 'Nur ein Betrieb';
+
+  @override
+  String get setupSeveralBranches => 'Mehr als ein Betrieb';
+
+  @override
+  String get setupUseRegions =>
+      'Betriebe in Regionen gruppieren (mit eigener Leitung)';
+
+  @override
+  String get setupRegionsTitle => 'Regionen';
+
+  @override
+  String get setupRegionsHelp =>
+      'Benenne jede Region und gern ihre Leitung. Die Leitung bekommt einen E-Mail-Login.';
+
+  @override
+  String get setupAddRegion => 'Region hinzufügen';
+
+  @override
+  String get setupRegionNameLabel => 'Name der Region';
+
+  @override
+  String get setupManagerNameLabel => 'Name der Leitung (optional)';
+
+  @override
+  String get setupManagerEmailLabel => 'E-Mail der Leitung (optional)';
+
+  @override
+  String get setupBranchesTitle => 'Deine Betriebe';
+
+  @override
+  String get setupFindBranchesTitle => 'Betriebe finden';
+
+  @override
+  String get setupFindBranchesHelp =>
+      'Durchsuche öffentliche Karteneinträge und hak deine an. Nichts wird ohne Haken hinzugefügt.';
+
+  @override
+  String get setupSearchNameLabel => 'Name des Betriebs';
+
+  @override
+  String get setupSearchAreaLabel => 'Ort oder Gegend (optional)';
+
+  @override
+  String get setupSearchButton => 'Suchen';
+
+  @override
+  String get setupSearching =>
+      'Suche läuft... kann bis zu einer Minute dauern.';
+
+  @override
+  String setupAddTicked(int count) {
+    return 'Angehakte hinzufügen ($count)';
+  }
+
+  @override
+  String get setupNoResults =>
+      'Nichts gefunden. Füge deine Betriebe unten von Hand hinzu.';
+
+  @override
+  String get setupAddBranch => 'Betrieb von Hand hinzufügen';
+
+  @override
+  String get setupBranchNameLabel => 'Name des Betriebs';
+
+  @override
+  String get setupAddressLabel => 'Adresse';
+
+  @override
+  String get setupRegionLabel => 'Region';
+
+  @override
+  String get setupRemove => 'Entfernen';
+
+  @override
+  String get setupNoBranchesYet => 'Füge mindestens einen Betrieb hinzu.';
+
+  @override
+  String get setupDetailsTitle => 'Jeder Betrieb';
+
+  @override
+  String get setupVenueTypesLabel => 'Was für ein Betrieb?';
+
+  @override
+  String get setupDepartmentsLabel => 'Bereiche';
+
+  @override
+  String get setupAddDepartment => 'Bereich hinzufügen';
+
+  @override
+  String get setupEquipmentTitle => 'Geräte';
+
+  @override
+  String get setupEquipmentHelp =>
+      'Wie viele von jedem? Jedes Gerät bekommt eigene Prüfungen, z. B. eine Temperaturprüfung pro Kühlschrank. Später kannst du mehr hinzufügen.';
+
+  @override
+  String get setupShowAllEquipment => 'Alle Gerätetypen zeigen';
+
+  @override
+  String get setupStaffTitle => 'Team';
+
+  @override
+  String get setupStaffHelp =>
+      'Füge die Leute jedes Betriebs hinzu. Jede Person bekommt eine 4-stellige PIN, die am Ende angezeigt wird.';
+
+  @override
+  String get setupStaffRoleLabel => 'Rolle';
+
+  @override
+  String get setupStaffLevelLabel => 'Stufe';
+
+  @override
+  String get setupAddStaff => 'Person hinzufügen';
+
+  @override
+  String get setupTasksTitle => 'Prüfungen und Aufgaben';
+
+  @override
+  String get setupTasksHelp =>
+      'Wähle, welche Bereiche der Aufgabenbibliothek jeder Betrieb braucht. Die üblichen sind angehakt. Jede Prüfung geht an eine Person; das kannst du später ändern.';
+
+  @override
+  String get setupPreviewTitle => 'Prüfen und anlegen';
+
+  @override
+  String get setupPreviewHelp =>
+      'Das wird eingerichtet. Erst mit „Anlegen\" wird etwas erstellt.';
+
+  @override
+  String setupPreviewLeaders(int count) {
+    return 'Leitung der Zentrale: $count';
+  }
+
+  @override
+  String setupPreviewRegions(int count) {
+    return 'Regionen: $count';
+  }
+
+  @override
+  String setupPreviewBranch(
+    String name,
+    int equipment,
+    int staff,
+    int sections,
+  ) {
+    return '$name: $equipment Geräte, $staff Personen, $sections Aufgabenbereiche';
+  }
+
+  @override
+  String get setupCreateButton => 'Einrichtung anlegen';
+
+  @override
+  String setupCreating(int done, int total) {
+    return 'Wird eingerichtet... $done von $total';
+  }
+
+  @override
+  String setupFailedPart(String error) {
+    return 'Etwas wurde nicht fertig: $error. Tippe erneut auf Anlegen, um dort weiterzumachen.';
+  }
+
+  @override
+  String get setupDoneTitle => 'Alles eingerichtet';
+
+  @override
+  String get setupDoneHelp =>
+      'Schreib dir diese Logins jetzt auf oder kopiere sie - PINs und vorläufige Passwörter werden nur einmal angezeigt.';
+
+  @override
+  String setupLoginPin(String name, String pin) {
+    return '$name - PIN $pin';
+  }
+
+  @override
+  String setupLoginEmail(String name, String email, String password) {
+    return '$name - $email - vorläufiges Passwort $password';
+  }
+
+  @override
+  String get setupCopyLogins => 'Alle Logins kopieren';
+
+  @override
+  String get setupFinishButton => 'Fertig';
 }

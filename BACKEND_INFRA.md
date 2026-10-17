@@ -2283,3 +2283,9 @@ Deployed 2026-10-17: APK + web app md5-verified (device rules build).
 ## Fryer limits + Tom's code (2026-10-17)
 
 Applied `tools/fryer_limits_migration.sql` (sites.fryer_amber_c 180 / fryer_red_c 185, library "Oil temperature" max_limit 185, RPC set_fryer_limits). Quiz bank reseeded (1,070). Created invite code `VR-Y5JH-QGR9` (free_life, note "Tom - Greekos Gyros (owner)").
+
+## Setup Wizard backend (2026-10-17)
+
+- `APIFY_TOKEN` added to `supabase/docker/.env` and the functions service in `docker-compose.yml` (backups: `/root/env.bak-20261017-apify`, `/root/docker-compose.yml.bak-20261017-apify`); functions container recreated.
+- Applied `tools/setup_wizard_migration.sql`: `setup_wizard_drafts` (one per organisation), `branch_search_log` (25/day cap), RPCs `get_setup_draft`, `save_setup_draft` (directors only), `claim_branch_search` (service role).
+- New Edge Functions: `branch-search` (Apify compass~crawler-google-places, directors only) and `setup-assistant` (OpenAI gpt-4o-mini JSON outline, directors only). Sources in `tools/functions_live/`.

@@ -6068,4 +6068,247 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get fryerLimitsInvalid =>
       'El ámbar debe ser menor que el fallo, ambos entre 120 y 230°C.';
+
+  @override
+  String get setupTitle => 'Configura tu negocio';
+
+  @override
+  String get setupMenuSubtitle => 'Locales, personas, equipos, controles';
+
+  @override
+  String setupStepOf(int step, int total) {
+    return 'Paso $step de $total';
+  }
+
+  @override
+  String get setupStartTitle => 'Cuéntale a VenuRite sobre tu negocio';
+
+  @override
+  String get setupStartHelp =>
+      'Descríbelo con tus palabras, p. ej. \"Tenemos 3 pubs en Kent y un café en Brighton. Jo dirige los pubs de Kent.\" VenuRite rellena los siguientes pasos para que los revises.';
+
+  @override
+  String get setupAskHint => 'Escribe sobre tu negocio...';
+
+  @override
+  String get setupAskButton => 'Rellénalo por mí';
+
+  @override
+  String get setupSkipAi => 'Saltar: lo relleno yo';
+
+  @override
+  String setupAiError(String error) {
+    return 'No se pudo rellenar: $error';
+  }
+
+  @override
+  String get setupYouTitle => 'Tú y tu puesto';
+
+  @override
+  String get setupYourJobTitle => 'Tu cargo';
+
+  @override
+  String get setupLeadersTitle => 'Dirección central';
+
+  @override
+  String get setupLeadersHelp =>
+      'Otros directivos o personas de la central que necesitan acceso total. Reciben un acceso por email. Opcional.';
+
+  @override
+  String get setupAddPerson => 'Añadir persona';
+
+  @override
+  String get setupNameLabel => 'Nombre';
+
+  @override
+  String get setupEmailLabel => 'Email';
+
+  @override
+  String get setupShapeTitle => 'Tus locales';
+
+  @override
+  String get setupOneBranch => 'Solo un local';
+
+  @override
+  String get setupSeveralBranches => 'Más de un local';
+
+  @override
+  String get setupUseRegions =>
+      'Agrupar locales por regiones (con su propio responsable)';
+
+  @override
+  String get setupRegionsTitle => 'Regiones';
+
+  @override
+  String get setupRegionsHelp =>
+      'Pon nombre a cada región y, si quieres, a su responsable. Los responsables reciben acceso por email.';
+
+  @override
+  String get setupAddRegion => 'Añadir región';
+
+  @override
+  String get setupRegionNameLabel => 'Nombre de la región';
+
+  @override
+  String get setupManagerNameLabel => 'Nombre del responsable (opcional)';
+
+  @override
+  String get setupManagerEmailLabel => 'Email del responsable (opcional)';
+
+  @override
+  String get setupBranchesTitle => 'Tus locales';
+
+  @override
+  String get setupFindBranchesTitle => 'Busca tus locales';
+
+  @override
+  String get setupFindBranchesHelp =>
+      'Busca en los mapas públicos y marca los tuyos. No se añade nada que no marques.';
+
+  @override
+  String get setupSearchNameLabel => 'Nombre del negocio';
+
+  @override
+  String get setupSearchAreaLabel => 'Ciudad o zona (opcional)';
+
+  @override
+  String get setupSearchButton => 'Buscar';
+
+  @override
+  String get setupSearching => 'Buscando... puede tardar hasta un minuto.';
+
+  @override
+  String setupAddTicked(int count) {
+    return 'Añadir marcados ($count)';
+  }
+
+  @override
+  String get setupNoResults =>
+      'No se encontró nada. Añade tus locales a mano abajo.';
+
+  @override
+  String get setupAddBranch => 'Añadir un local a mano';
+
+  @override
+  String get setupBranchNameLabel => 'Nombre del local';
+
+  @override
+  String get setupAddressLabel => 'Dirección';
+
+  @override
+  String get setupRegionLabel => 'Región';
+
+  @override
+  String get setupRemove => 'Quitar';
+
+  @override
+  String get setupNoBranchesYet => 'Añade al menos un local.';
+
+  @override
+  String get setupDetailsTitle => 'Cada local';
+
+  @override
+  String get setupVenueTypesLabel => '¿Qué tipo de local?';
+
+  @override
+  String get setupDepartmentsLabel => 'Secciones';
+
+  @override
+  String get setupAddDepartment => 'Añadir sección';
+
+  @override
+  String get setupEquipmentTitle => 'Equipos';
+
+  @override
+  String get setupEquipmentHelp =>
+      '¿Cuántos de cada uno? Cada uno tiene sus propios controles, p. ej. un control de temperatura por nevera. Puedes añadir más luego.';
+
+  @override
+  String get setupShowAllEquipment => 'Mostrar todos los tipos';
+
+  @override
+  String get setupStaffTitle => 'Personal';
+
+  @override
+  String get setupStaffHelp =>
+      'Añade a quien trabaja en cada local. Cada persona recibe un PIN de 4 cifras, que se muestra al final.';
+
+  @override
+  String get setupStaffRoleLabel => 'Puesto';
+
+  @override
+  String get setupStaffLevelLabel => 'Nivel';
+
+  @override
+  String get setupAddStaff => 'Añadir persona';
+
+  @override
+  String get setupTasksTitle => 'Controles y tareas';
+
+  @override
+  String get setupTasksHelp =>
+      'Elige qué áreas de la biblioteca necesita cada local. Las habituales están marcadas. Cada control va a una persona; puedes cambiarlo después.';
+
+  @override
+  String get setupPreviewTitle => 'Revisar y crear';
+
+  @override
+  String get setupPreviewHelp =>
+      'Esto es lo que se configurará. No se crea nada hasta que pulses Crear.';
+
+  @override
+  String setupPreviewLeaders(int count) {
+    return 'Dirección central: $count';
+  }
+
+  @override
+  String setupPreviewRegions(int count) {
+    return 'Regiones: $count';
+  }
+
+  @override
+  String setupPreviewBranch(
+    String name,
+    int equipment,
+    int staff,
+    int sections,
+  ) {
+    return '$name: $equipment equipos, $staff personas, $sections áreas de tareas';
+  }
+
+  @override
+  String get setupCreateButton => 'Crear mi configuración';
+
+  @override
+  String setupCreating(int done, int total) {
+    return 'Configurando... $done de $total';
+  }
+
+  @override
+  String setupFailedPart(String error) {
+    return 'Algo no terminó: $error. Pulsa Crear otra vez para seguir desde donde se paró.';
+  }
+
+  @override
+  String get setupDoneTitle => 'Todo configurado';
+
+  @override
+  String get setupDoneHelp =>
+      'Apunta o copia estos accesos ahora: los PIN y contraseñas temporales solo se muestran una vez.';
+
+  @override
+  String setupLoginPin(String name, String pin) {
+    return '$name - PIN $pin';
+  }
+
+  @override
+  String setupLoginEmail(String name, String email, String password) {
+    return '$name - $email - contraseña temporal $password';
+  }
+
+  @override
+  String get setupCopyLogins => 'Copiar todos los accesos';
+
+  @override
+  String get setupFinishButton => 'Terminar';
 }

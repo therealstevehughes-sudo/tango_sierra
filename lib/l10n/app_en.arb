@@ -5215,5 +5215,168 @@
   },
   "fryerAmberLabel": "Amber warning above (°C)",
   "fryerRedLabel": "Fail above (°C)",
-  "fryerLimitsInvalid": "Amber must be lower than fail, both between 120 and 230°C."
+  "fryerLimitsInvalid": "Amber must be lower than fail, both between 120 and 230°C.",
+  "setupTitle": "Set up your business",
+  "setupMenuSubtitle": "Branches, people, equipment, checks",
+  "setupStepOf": "Step {step} of {total}",
+  "@setupStepOf": {
+    "placeholders": {
+      "step": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "setupStartTitle": "Tell VenuRite about your business",
+  "setupStartHelp": "Describe it in your own words, e.g. \"We have 3 pubs in Kent and a café in Brighton. Jo runs the Kent pubs.\" VenuRite fills in the next steps for you to check.",
+  "setupAskHint": "Type about your business...",
+  "setupAskButton": "Fill it in for me",
+  "setupSkipAi": "Skip - I'll fill it in myself",
+  "setupAiError": "Could not fill it in: {error}",
+  "@setupAiError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "setupYouTitle": "You and your role",
+  "setupYourJobTitle": "Your job title",
+  "setupLeadersTitle": "Head-office leaders",
+  "setupLeadersHelp": "Other directors or head-office people who need full access. They get an email login. Optional.",
+  "setupAddPerson": "Add a person",
+  "setupNameLabel": "Name",
+  "setupEmailLabel": "Email",
+  "setupShapeTitle": "Your venues",
+  "setupOneBranch": "Just one venue",
+  "setupSeveralBranches": "More than one venue",
+  "setupUseRegions": "Group venues into regions (areas with their own manager)",
+  "setupRegionsTitle": "Regions",
+  "setupRegionsHelp": "Name each region and, if you like, its manager. Managers get an email login.",
+  "setupAddRegion": "Add a region",
+  "setupRegionNameLabel": "Region name",
+  "setupManagerNameLabel": "Manager's name (optional)",
+  "setupManagerEmailLabel": "Manager's email (optional)",
+  "setupBranchesTitle": "Your venues",
+  "setupFindBranchesTitle": "Find your venues",
+  "setupFindBranchesHelp": "Search public map listings, then tick the ones that are yours. Nothing is added unless you tick it.",
+  "setupSearchNameLabel": "Business name",
+  "setupSearchAreaLabel": "Town or area (optional)",
+  "setupSearchButton": "Search",
+  "setupSearching": "Searching... this can take up to a minute.",
+  "setupAddTicked": "Add ticked venues ({count})",
+  "@setupAddTicked": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "setupNoResults": "Nothing found. Add your venues by hand below.",
+  "setupAddBranch": "Add a venue by hand",
+  "setupBranchNameLabel": "Venue name",
+  "setupAddressLabel": "Address",
+  "setupRegionLabel": "Region",
+  "setupRemove": "Remove",
+  "setupNoBranchesYet": "Add at least one venue.",
+  "setupDetailsTitle": "Each venue",
+  "setupVenueTypesLabel": "What kind of venue?",
+  "setupDepartmentsLabel": "Sections",
+  "setupAddDepartment": "Add a section",
+  "setupEquipmentTitle": "Equipment",
+  "setupEquipmentHelp": "How many of each? Each one gets its own checks, e.g. a temperature check per fridge. You can add more later.",
+  "setupShowAllEquipment": "Show all equipment types",
+  "setupStaffTitle": "Staff",
+  "setupStaffHelp": "Add the people who work at each venue. Each gets a 4-digit PIN to log in, shown at the end.",
+  "setupStaffRoleLabel": "Role",
+  "setupStaffLevelLabel": "Level",
+  "setupAddStaff": "Add a person",
+  "setupTasksTitle": "Checks and tasks",
+  "setupTasksHelp": "Pick which areas of the task library each venue needs. The usual ones for the kind of venue are ticked. Each check goes to one person on the team; you can change who later.",
+  "setupPreviewTitle": "Check and create",
+  "setupPreviewHelp": "This is what will be set up. Nothing is created until you tap Create.",
+  "setupPreviewLeaders": "Head-office leaders: {count}",
+  "@setupPreviewLeaders": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "setupPreviewRegions": "Regions: {count}",
+  "@setupPreviewRegions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "setupPreviewBranch": "{name}: {equipment} equipment, {staff} staff, {sections} task areas",
+  "@setupPreviewBranch": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "equipment": {
+        "type": "int"
+      },
+      "staff": {
+        "type": "int"
+      },
+      "sections": {
+        "type": "int"
+      }
+    }
+  },
+  "setupCreateButton": "Create my set-up",
+  "setupCreating": "Setting up... {done} of {total}",
+  "@setupCreating": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "setupFailedPart": "Something didn't finish: {error}. Tap Create again to carry on from where it stopped.",
+  "@setupFailedPart": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "setupDoneTitle": "All set up",
+  "setupDoneHelp": "Write down or copy these logins now - PINs and temporary passwords are only shown once.",
+  "setupLoginPin": "{name} - PIN {pin}",
+  "@setupLoginPin": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "pin": {
+        "type": "String"
+      }
+    }
+  },
+  "setupLoginEmail": "{name} - {email} - temporary password {password}",
+  "@setupLoginEmail": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "email": {
+        "type": "String"
+      },
+      "password": {
+        "type": "String"
+      }
+    }
+  },
+  "setupCopyLogins": "Copy all logins",
+  "setupFinishButton": "Finish"
 }

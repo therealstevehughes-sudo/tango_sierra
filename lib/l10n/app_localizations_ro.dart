@@ -6065,4 +6065,247 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get fryerLimitsInvalid =>
       'Galbenul trebuie să fie sub eșec, ambele între 120 și 230°C.';
+
+  @override
+  String get setupTitle => 'Configurează afacerea';
+
+  @override
+  String get setupMenuSubtitle => 'Locații, oameni, echipamente, verificări';
+
+  @override
+  String setupStepOf(int step, int total) {
+    return 'Pasul $step din $total';
+  }
+
+  @override
+  String get setupStartTitle => 'Spune-i lui VenuRite despre afacerea ta';
+
+  @override
+  String get setupStartHelp =>
+      'Descrie-o cu cuvintele tale, ex. „Avem 3 puburi în Kent și o cafenea în Brighton. Jo conduce puburile din Kent.\" VenuRite completează pașii următori pentru verificare.';
+
+  @override
+  String get setupAskHint => 'Scrie despre afacerea ta...';
+
+  @override
+  String get setupAskButton => 'Completează pentru mine';
+
+  @override
+  String get setupSkipAi => 'Sari peste - completez eu';
+
+  @override
+  String setupAiError(String error) {
+    return 'Nu s-a putut completa: $error';
+  }
+
+  @override
+  String get setupYouTitle => 'Tu și rolul tău';
+
+  @override
+  String get setupYourJobTitle => 'Funcția ta';
+
+  @override
+  String get setupLeadersTitle => 'Conducerea sediului central';
+
+  @override
+  String get setupLeadersHelp =>
+      'Alți directori sau oameni de la sediu care au nevoie de acces complet. Primesc acces prin email. Opțional.';
+
+  @override
+  String get setupAddPerson => 'Adaugă o persoană';
+
+  @override
+  String get setupNameLabel => 'Nume';
+
+  @override
+  String get setupEmailLabel => 'Email';
+
+  @override
+  String get setupShapeTitle => 'Locațiile tale';
+
+  @override
+  String get setupOneBranch => 'O singură locație';
+
+  @override
+  String get setupSeveralBranches => 'Mai multe locații';
+
+  @override
+  String get setupUseRegions =>
+      'Grupează locațiile pe regiuni (cu manager propriu)';
+
+  @override
+  String get setupRegionsTitle => 'Regiuni';
+
+  @override
+  String get setupRegionsHelp =>
+      'Denumește fiecare regiune și, dacă vrei, managerul ei. Managerii primesc acces prin email.';
+
+  @override
+  String get setupAddRegion => 'Adaugă o regiune';
+
+  @override
+  String get setupRegionNameLabel => 'Numele regiunii';
+
+  @override
+  String get setupManagerNameLabel => 'Numele managerului (opțional)';
+
+  @override
+  String get setupManagerEmailLabel => 'Emailul managerului (opțional)';
+
+  @override
+  String get setupBranchesTitle => 'Locațiile tale';
+
+  @override
+  String get setupFindBranchesTitle => 'Găsește-ți locațiile';
+
+  @override
+  String get setupFindBranchesHelp =>
+      'Caută în hărțile publice, apoi bifează-le pe ale tale. Nimic nu se adaugă fără bifă.';
+
+  @override
+  String get setupSearchNameLabel => 'Numele afacerii';
+
+  @override
+  String get setupSearchAreaLabel => 'Oraș sau zonă (opțional)';
+
+  @override
+  String get setupSearchButton => 'Caută';
+
+  @override
+  String get setupSearching => 'Se caută... poate dura până la un minut.';
+
+  @override
+  String setupAddTicked(int count) {
+    return 'Adaugă bifate ($count)';
+  }
+
+  @override
+  String get setupNoResults =>
+      'Nu s-a găsit nimic. Adaugă locațiile manual mai jos.';
+
+  @override
+  String get setupAddBranch => 'Adaugă o locație manual';
+
+  @override
+  String get setupBranchNameLabel => 'Numele locației';
+
+  @override
+  String get setupAddressLabel => 'Adresă';
+
+  @override
+  String get setupRegionLabel => 'Regiune';
+
+  @override
+  String get setupRemove => 'Elimină';
+
+  @override
+  String get setupNoBranchesYet => 'Adaugă cel puțin o locație.';
+
+  @override
+  String get setupDetailsTitle => 'Fiecare locație';
+
+  @override
+  String get setupVenueTypesLabel => 'Ce fel de locație?';
+
+  @override
+  String get setupDepartmentsLabel => 'Secții';
+
+  @override
+  String get setupAddDepartment => 'Adaugă o secție';
+
+  @override
+  String get setupEquipmentTitle => 'Echipamente';
+
+  @override
+  String get setupEquipmentHelp =>
+      'Câte din fiecare? Fiecare primește propriile verificări, ex. o verificare de temperatură pe frigider. Poți adăuga mai târziu.';
+
+  @override
+  String get setupShowAllEquipment => 'Arată toate tipurile';
+
+  @override
+  String get setupStaffTitle => 'Personal';
+
+  @override
+  String get setupStaffHelp =>
+      'Adaugă oamenii care lucrează în fiecare locație. Fiecare primește un PIN de 4 cifre, afișat la final.';
+
+  @override
+  String get setupStaffRoleLabel => 'Rol';
+
+  @override
+  String get setupStaffLevelLabel => 'Nivel';
+
+  @override
+  String get setupAddStaff => 'Adaugă o persoană';
+
+  @override
+  String get setupTasksTitle => 'Verificări și sarcini';
+
+  @override
+  String get setupTasksHelp =>
+      'Alege ce zone din biblioteca de sarcini îi trebuie fiecărei locații. Cele obișnuite sunt bifate. Fiecare verificare merge la o persoană; poți schimba mai târziu.';
+
+  @override
+  String get setupPreviewTitle => 'Verifică și creează';
+
+  @override
+  String get setupPreviewHelp =>
+      'Asta se va configura. Nimic nu se creează până nu apeși Creează.';
+
+  @override
+  String setupPreviewLeaders(int count) {
+    return 'Conducerea sediului: $count';
+  }
+
+  @override
+  String setupPreviewRegions(int count) {
+    return 'Regiuni: $count';
+  }
+
+  @override
+  String setupPreviewBranch(
+    String name,
+    int equipment,
+    int staff,
+    int sections,
+  ) {
+    return '$name: $equipment echipamente, $staff persoane, $sections zone de sarcini';
+  }
+
+  @override
+  String get setupCreateButton => 'Creează configurarea';
+
+  @override
+  String setupCreating(int done, int total) {
+    return 'Se configurează... $done din $total';
+  }
+
+  @override
+  String setupFailedPart(String error) {
+    return 'Ceva nu s-a terminat: $error. Apasă din nou Creează ca să continui.';
+  }
+
+  @override
+  String get setupDoneTitle => 'Totul este configurat';
+
+  @override
+  String get setupDoneHelp =>
+      'Notează sau copiază acum aceste date - PIN-urile și parolele temporare apar o singură dată.';
+
+  @override
+  String setupLoginPin(String name, String pin) {
+    return '$name - PIN $pin';
+  }
+
+  @override
+  String setupLoginEmail(String name, String email, String password) {
+    return '$name - $email - parolă temporară $password';
+  }
+
+  @override
+  String get setupCopyLogins => 'Copiază toate datele';
+
+  @override
+  String get setupFinishButton => 'Gata';
 }

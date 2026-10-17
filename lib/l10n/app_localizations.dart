@@ -10387,6 +10387,425 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Amber must be lower than fail, both between 120 and 230°C.'**
   String get fryerLimitsInvalid;
+
+  /// No description provided for @setupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up your business'**
+  String get setupTitle;
+
+  /// No description provided for @setupMenuSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Branches, people, equipment, checks'**
+  String get setupMenuSubtitle;
+
+  /// No description provided for @setupStepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {step} of {total}'**
+  String setupStepOf(int step, int total);
+
+  /// No description provided for @setupStartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell VenuRite about your business'**
+  String get setupStartTitle;
+
+  /// No description provided for @setupStartHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe it in your own words, e.g. \"We have 3 pubs in Kent and a café in Brighton. Jo runs the Kent pubs.\" VenuRite fills in the next steps for you to check.'**
+  String get setupStartHelp;
+
+  /// No description provided for @setupAskHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Type about your business...'**
+  String get setupAskHint;
+
+  /// No description provided for @setupAskButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill it in for me'**
+  String get setupAskButton;
+
+  /// No description provided for @setupSkipAi.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip - I\'ll fill it in myself'**
+  String get setupSkipAi;
+
+  /// No description provided for @setupAiError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not fill it in: {error}'**
+  String setupAiError(String error);
+
+  /// No description provided for @setupYouTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You and your role'**
+  String get setupYouTitle;
+
+  /// No description provided for @setupYourJobTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your job title'**
+  String get setupYourJobTitle;
+
+  /// No description provided for @setupLeadersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Head-office leaders'**
+  String get setupLeadersTitle;
+
+  /// No description provided for @setupLeadersHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Other directors or head-office people who need full access. They get an email login. Optional.'**
+  String get setupLeadersHelp;
+
+  /// No description provided for @setupAddPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a person'**
+  String get setupAddPerson;
+
+  /// No description provided for @setupNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get setupNameLabel;
+
+  /// No description provided for @setupEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get setupEmailLabel;
+
+  /// No description provided for @setupShapeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your venues'**
+  String get setupShapeTitle;
+
+  /// No description provided for @setupOneBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'Just one venue'**
+  String get setupOneBranch;
+
+  /// No description provided for @setupSeveralBranches.
+  ///
+  /// In en, this message translates to:
+  /// **'More than one venue'**
+  String get setupSeveralBranches;
+
+  /// No description provided for @setupUseRegions.
+  ///
+  /// In en, this message translates to:
+  /// **'Group venues into regions (areas with their own manager)'**
+  String get setupUseRegions;
+
+  /// No description provided for @setupRegionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Regions'**
+  String get setupRegionsTitle;
+
+  /// No description provided for @setupRegionsHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Name each region and, if you like, its manager. Managers get an email login.'**
+  String get setupRegionsHelp;
+
+  /// No description provided for @setupAddRegion.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a region'**
+  String get setupAddRegion;
+
+  /// No description provided for @setupRegionNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Region name'**
+  String get setupRegionNameLabel;
+
+  /// No description provided for @setupManagerNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager\'s name (optional)'**
+  String get setupManagerNameLabel;
+
+  /// No description provided for @setupManagerEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager\'s email (optional)'**
+  String get setupManagerEmailLabel;
+
+  /// No description provided for @setupBranchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your venues'**
+  String get setupBranchesTitle;
+
+  /// No description provided for @setupFindBranchesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find your venues'**
+  String get setupFindBranchesTitle;
+
+  /// No description provided for @setupFindBranchesHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Search public map listings, then tick the ones that are yours. Nothing is added unless you tick it.'**
+  String get setupFindBranchesHelp;
+
+  /// No description provided for @setupSearchNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Business name'**
+  String get setupSearchNameLabel;
+
+  /// No description provided for @setupSearchAreaLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Town or area (optional)'**
+  String get setupSearchAreaLabel;
+
+  /// No description provided for @setupSearchButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get setupSearchButton;
+
+  /// No description provided for @setupSearching.
+  ///
+  /// In en, this message translates to:
+  /// **'Searching... this can take up to a minute.'**
+  String get setupSearching;
+
+  /// No description provided for @setupAddTicked.
+  ///
+  /// In en, this message translates to:
+  /// **'Add ticked venues ({count})'**
+  String setupAddTicked(int count);
+
+  /// No description provided for @setupNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found. Add your venues by hand below.'**
+  String get setupNoResults;
+
+  /// No description provided for @setupAddBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a venue by hand'**
+  String get setupAddBranch;
+
+  /// No description provided for @setupBranchNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue name'**
+  String get setupBranchNameLabel;
+
+  /// No description provided for @setupAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get setupAddressLabel;
+
+  /// No description provided for @setupRegionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Region'**
+  String get setupRegionLabel;
+
+  /// No description provided for @setupRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get setupRemove;
+
+  /// No description provided for @setupNoBranchesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one venue.'**
+  String get setupNoBranchesYet;
+
+  /// No description provided for @setupDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Each venue'**
+  String get setupDetailsTitle;
+
+  /// No description provided for @setupVenueTypesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What kind of venue?'**
+  String get setupVenueTypesLabel;
+
+  /// No description provided for @setupDepartmentsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sections'**
+  String get setupDepartmentsLabel;
+
+  /// No description provided for @setupAddDepartment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a section'**
+  String get setupAddDepartment;
+
+  /// No description provided for @setupEquipmentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment'**
+  String get setupEquipmentTitle;
+
+  /// No description provided for @setupEquipmentHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'How many of each? Each one gets its own checks, e.g. a temperature check per fridge. You can add more later.'**
+  String get setupEquipmentHelp;
+
+  /// No description provided for @setupShowAllEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all equipment types'**
+  String get setupShowAllEquipment;
+
+  /// No description provided for @setupStaffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff'**
+  String get setupStaffTitle;
+
+  /// No description provided for @setupStaffHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the people who work at each venue. Each gets a 4-digit PIN to log in, shown at the end.'**
+  String get setupStaffHelp;
+
+  /// No description provided for @setupStaffRoleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Role'**
+  String get setupStaffRoleLabel;
+
+  /// No description provided for @setupStaffLevelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level'**
+  String get setupStaffLevelLabel;
+
+  /// No description provided for @setupAddStaff.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a person'**
+  String get setupAddStaff;
+
+  /// No description provided for @setupTasksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Checks and tasks'**
+  String get setupTasksTitle;
+
+  /// No description provided for @setupTasksHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick which areas of the task library each venue needs. The usual ones for the kind of venue are ticked. Each check goes to one person on the team; you can change who later.'**
+  String get setupTasksHelp;
+
+  /// No description provided for @setupPreviewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check and create'**
+  String get setupPreviewTitle;
+
+  /// No description provided for @setupPreviewHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'This is what will be set up. Nothing is created until you tap Create.'**
+  String get setupPreviewHelp;
+
+  /// No description provided for @setupPreviewLeaders.
+  ///
+  /// In en, this message translates to:
+  /// **'Head-office leaders: {count}'**
+  String setupPreviewLeaders(int count);
+
+  /// No description provided for @setupPreviewRegions.
+  ///
+  /// In en, this message translates to:
+  /// **'Regions: {count}'**
+  String setupPreviewRegions(int count);
+
+  /// No description provided for @setupPreviewBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}: {equipment} equipment, {staff} staff, {sections} task areas'**
+  String setupPreviewBranch(
+    String name,
+    int equipment,
+    int staff,
+    int sections,
+  );
+
+  /// No description provided for @setupCreateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create my set-up'**
+  String get setupCreateButton;
+
+  /// No description provided for @setupCreating.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting up... {done} of {total}'**
+  String setupCreating(int done, int total);
+
+  /// No description provided for @setupFailedPart.
+  ///
+  /// In en, this message translates to:
+  /// **'Something didn\'t finish: {error}. Tap Create again to carry on from where it stopped.'**
+  String setupFailedPart(String error);
+
+  /// No description provided for @setupDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All set up'**
+  String get setupDoneTitle;
+
+  /// No description provided for @setupDoneHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Write down or copy these logins now - PINs and temporary passwords are only shown once.'**
+  String get setupDoneHelp;
+
+  /// No description provided for @setupLoginPin.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} - PIN {pin}'**
+  String setupLoginPin(String name, String pin);
+
+  /// No description provided for @setupLoginEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} - {email} - temporary password {password}'**
+  String setupLoginEmail(String name, String email, String password);
+
+  /// No description provided for @setupCopyLogins.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy all logins'**
+  String get setupCopyLogins;
+
+  /// No description provided for @setupFinishButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get setupFinishButton;
 }
 
 class _AppLocalizationsDelegate

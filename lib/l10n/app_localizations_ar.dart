@@ -5906,4 +5906,244 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get fryerLimitsInvalid =>
       'يجب أن يكون التحذير أقل من الفشل، وكلاهما بين 120 و230°م.';
+
+  @override
+  String get setupTitle => 'إعداد عملك';
+
+  @override
+  String get setupMenuSubtitle => 'الفروع، الأشخاص، المعدات، الفحوصات';
+
+  @override
+  String setupStepOf(int step, int total) {
+    return 'الخطوة $step من $total';
+  }
+
+  @override
+  String get setupStartTitle => 'أخبر VenuRite عن عملك';
+
+  @override
+  String get setupStartHelp =>
+      'صِفه بكلماتك، مثلاً \"لدينا 3 حانات في كنت ومقهى في برايتون. جو يدير حانات كنت.\" سيملأ VenuRite الخطوات التالية لتتحقق منها.';
+
+  @override
+  String get setupAskHint => 'اكتب عن عملك...';
+
+  @override
+  String get setupAskButton => 'املأها لي';
+
+  @override
+  String get setupSkipAi => 'تخطَّ - سأملؤها بنفسي';
+
+  @override
+  String setupAiError(String error) {
+    return 'تعذر ملؤها: $error';
+  }
+
+  @override
+  String get setupYouTitle => 'أنت ودورك';
+
+  @override
+  String get setupYourJobTitle => 'مسمّاك الوظيفي';
+
+  @override
+  String get setupLeadersTitle => 'قادة المكتب الرئيسي';
+
+  @override
+  String get setupLeadersHelp =>
+      'مديرون آخرون أو أشخاص من المكتب الرئيسي يحتاجون وصولاً كاملاً. يحصلون على تسجيل دخول بالبريد. اختياري.';
+
+  @override
+  String get setupAddPerson => 'إضافة شخص';
+
+  @override
+  String get setupNameLabel => 'الاسم';
+
+  @override
+  String get setupEmailLabel => 'البريد الإلكتروني';
+
+  @override
+  String get setupShapeTitle => 'منشآتك';
+
+  @override
+  String get setupOneBranch => 'منشأة واحدة فقط';
+
+  @override
+  String get setupSeveralBranches => 'أكثر من منشأة';
+
+  @override
+  String get setupUseRegions => 'جمّع المنشآت في مناطق (لكل منها مدير)';
+
+  @override
+  String get setupRegionsTitle => 'المناطق';
+
+  @override
+  String get setupRegionsHelp =>
+      'سمِّ كل منطقة ومديرها إن شئت. يحصل المديرون على تسجيل دخول بالبريد.';
+
+  @override
+  String get setupAddRegion => 'إضافة منطقة';
+
+  @override
+  String get setupRegionNameLabel => 'اسم المنطقة';
+
+  @override
+  String get setupManagerNameLabel => 'اسم المدير (اختياري)';
+
+  @override
+  String get setupManagerEmailLabel => 'بريد المدير (اختياري)';
+
+  @override
+  String get setupBranchesTitle => 'منشآتك';
+
+  @override
+  String get setupFindBranchesTitle => 'ابحث عن منشآتك';
+
+  @override
+  String get setupFindBranchesHelp =>
+      'ابحث في قوائم الخرائط العامة، ثم حدد ما يخصك. لا يُضاف شيء ما لم تحدده.';
+
+  @override
+  String get setupSearchNameLabel => 'اسم النشاط';
+
+  @override
+  String get setupSearchAreaLabel => 'المدينة أو المنطقة (اختياري)';
+
+  @override
+  String get setupSearchButton => 'بحث';
+
+  @override
+  String get setupSearching => 'جارٍ البحث... قد يستغرق ذلك دقيقة.';
+
+  @override
+  String setupAddTicked(int count) {
+    return 'إضافة المحددة ($count)';
+  }
+
+  @override
+  String get setupNoResults => 'لم يُعثر على شيء. أضف منشآتك يدوياً أدناه.';
+
+  @override
+  String get setupAddBranch => 'إضافة منشأة يدوياً';
+
+  @override
+  String get setupBranchNameLabel => 'اسم المنشأة';
+
+  @override
+  String get setupAddressLabel => 'العنوان';
+
+  @override
+  String get setupRegionLabel => 'المنطقة';
+
+  @override
+  String get setupRemove => 'إزالة';
+
+  @override
+  String get setupNoBranchesYet => 'أضف منشأة واحدة على الأقل.';
+
+  @override
+  String get setupDetailsTitle => 'كل منشأة';
+
+  @override
+  String get setupVenueTypesLabel => 'ما نوع المنشأة؟';
+
+  @override
+  String get setupDepartmentsLabel => 'الأقسام';
+
+  @override
+  String get setupAddDepartment => 'إضافة قسم';
+
+  @override
+  String get setupEquipmentTitle => 'المعدات';
+
+  @override
+  String get setupEquipmentHelp =>
+      'كم عدد كل نوع؟ لكل واحد فحوصاته، مثل فحص حرارة لكل ثلاجة. يمكنك إضافة المزيد لاحقاً.';
+
+  @override
+  String get setupShowAllEquipment => 'عرض كل أنواع المعدات';
+
+  @override
+  String get setupStaffTitle => 'الموظفون';
+
+  @override
+  String get setupStaffHelp =>
+      'أضف من يعملون في كل منشأة. يحصل كل منهم على رقم سري من 4 أرقام يظهر في النهاية.';
+
+  @override
+  String get setupStaffRoleLabel => 'الدور';
+
+  @override
+  String get setupStaffLevelLabel => 'المستوى';
+
+  @override
+  String get setupAddStaff => 'إضافة شخص';
+
+  @override
+  String get setupTasksTitle => 'الفحوصات والمهام';
+
+  @override
+  String get setupTasksHelp =>
+      'اختر أقسام مكتبة المهام التي تحتاجها كل منشأة. الأقسام المعتادة لنوع المنشأة محددة. كل فحص يُسند لشخص واحد، ويمكنك تغييره لاحقاً.';
+
+  @override
+  String get setupPreviewTitle => 'راجع وأنشئ';
+
+  @override
+  String get setupPreviewHelp => 'هذا ما سيُعدّ. لن يُنشأ شيء حتى تضغط إنشاء.';
+
+  @override
+  String setupPreviewLeaders(int count) {
+    return 'قادة المكتب الرئيسي: $count';
+  }
+
+  @override
+  String setupPreviewRegions(int count) {
+    return 'المناطق: $count';
+  }
+
+  @override
+  String setupPreviewBranch(
+    String name,
+    int equipment,
+    int staff,
+    int sections,
+  ) {
+    return '$name: $equipment معدات، $staff موظفين، $sections أقسام مهام';
+  }
+
+  @override
+  String get setupCreateButton => 'أنشئ إعدادي';
+
+  @override
+  String setupCreating(int done, int total) {
+    return 'جارٍ الإعداد... $done من $total';
+  }
+
+  @override
+  String setupFailedPart(String error) {
+    return 'لم يكتمل شيء: $error. اضغط إنشاء مرة أخرى للمتابعة من حيث توقف.';
+  }
+
+  @override
+  String get setupDoneTitle => 'تم الإعداد';
+
+  @override
+  String get setupDoneHelp =>
+      'دوّن أو انسخ بيانات الدخول الآن - تظهر الأرقام السرية وكلمات المرور المؤقتة مرة واحدة فقط.';
+
+  @override
+  String setupLoginPin(String name, String pin) {
+    return '$name - الرقم السري $pin';
+  }
+
+  @override
+  String setupLoginEmail(String name, String email, String password) {
+    return '$name - $email - كلمة مرور مؤقتة $password';
+  }
+
+  @override
+  String get setupCopyLogins => 'نسخ كل بيانات الدخول';
+
+  @override
+  String get setupFinishButton => 'إنهاء';
 }

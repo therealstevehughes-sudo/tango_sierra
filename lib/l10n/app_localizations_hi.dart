@@ -5946,4 +5946,246 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get fryerLimitsInvalid =>
       'पीला फ़ेल से कम होना चाहिए, दोनों 120 से 230°C के बीच।';
+
+  @override
+  String get setupTitle => 'अपना व्यवसाय सेट करें';
+
+  @override
+  String get setupMenuSubtitle => 'शाखाएँ, लोग, उपकरण, चेक';
+
+  @override
+  String setupStepOf(int step, int total) {
+    return 'चरण $step / $total';
+  }
+
+  @override
+  String get setupStartTitle => 'VenuRite को अपने व्यवसाय के बारे में बताएँ';
+
+  @override
+  String get setupStartHelp =>
+      'अपने शब्दों में बताएँ, जैसे \"केंट में हमारे 3 पब और ब्राइटन में एक कैफ़े है। जो केंट के पब चलाते हैं।\" VenuRite अगले चरण भर देगा, आप जाँच लें।';
+
+  @override
+  String get setupAskHint => 'अपने व्यवसाय के बारे में लिखें...';
+
+  @override
+  String get setupAskButton => 'मेरे लिए भर दें';
+
+  @override
+  String get setupSkipAi => 'छोड़ें - मैं खुद भरूँगा';
+
+  @override
+  String setupAiError(String error) {
+    return 'भरा नहीं जा सका: $error';
+  }
+
+  @override
+  String get setupYouTitle => 'आप और आपकी भूमिका';
+
+  @override
+  String get setupYourJobTitle => 'आपका पद';
+
+  @override
+  String get setupLeadersTitle => 'मुख्य कार्यालय के प्रमुख';
+
+  @override
+  String get setupLeadersHelp =>
+      'दूसरे डायरेक्टर या मुख्य कार्यालय के लोग जिन्हें पूरा एक्सेस चाहिए। उन्हें ईमेल लॉगिन मिलेगा। वैकल्पिक।';
+
+  @override
+  String get setupAddPerson => 'व्यक्ति जोड़ें';
+
+  @override
+  String get setupNameLabel => 'नाम';
+
+  @override
+  String get setupEmailLabel => 'ईमेल';
+
+  @override
+  String get setupShapeTitle => 'आपके वेन्यू';
+
+  @override
+  String get setupOneBranch => 'सिर्फ़ एक वेन्यू';
+
+  @override
+  String get setupSeveralBranches => 'एक से ज़्यादा वेन्यू';
+
+  @override
+  String get setupUseRegions =>
+      'वेन्यू को क्षेत्रों में बाँटें (हर क्षेत्र का अपना मैनेजर)';
+
+  @override
+  String get setupRegionsTitle => 'क्षेत्र';
+
+  @override
+  String get setupRegionsHelp =>
+      'हर क्षेत्र का नाम और चाहें तो उसके मैनेजर का नाम दें। मैनेजर को ईमेल लॉगिन मिलेगा।';
+
+  @override
+  String get setupAddRegion => 'क्षेत्र जोड़ें';
+
+  @override
+  String get setupRegionNameLabel => 'क्षेत्र का नाम';
+
+  @override
+  String get setupManagerNameLabel => 'मैनेजर का नाम (वैकल्पिक)';
+
+  @override
+  String get setupManagerEmailLabel => 'मैनेजर का ईमेल (वैकल्पिक)';
+
+  @override
+  String get setupBranchesTitle => 'आपके वेन्यू';
+
+  @override
+  String get setupFindBranchesTitle => 'अपने वेन्यू खोजें';
+
+  @override
+  String get setupFindBranchesHelp =>
+      'सार्वजनिक मैप लिस्टिंग खोजें, फिर अपने वाले टिक करें। टिक किए बिना कुछ नहीं जुड़ेगा।';
+
+  @override
+  String get setupSearchNameLabel => 'व्यवसाय का नाम';
+
+  @override
+  String get setupSearchAreaLabel => 'शहर या इलाका (वैकल्पिक)';
+
+  @override
+  String get setupSearchButton => 'खोजें';
+
+  @override
+  String get setupSearching => 'खोज रहे हैं... एक मिनट तक लग सकता है।';
+
+  @override
+  String setupAddTicked(int count) {
+    return 'टिक किए हुए जोड़ें ($count)';
+  }
+
+  @override
+  String get setupNoResults => 'कुछ नहीं मिला। नीचे हाथ से वेन्यू जोड़ें।';
+
+  @override
+  String get setupAddBranch => 'हाथ से वेन्यू जोड़ें';
+
+  @override
+  String get setupBranchNameLabel => 'वेन्यू का नाम';
+
+  @override
+  String get setupAddressLabel => 'पता';
+
+  @override
+  String get setupRegionLabel => 'क्षेत्र';
+
+  @override
+  String get setupRemove => 'हटाएँ';
+
+  @override
+  String get setupNoBranchesYet => 'कम से कम एक वेन्यू जोड़ें।';
+
+  @override
+  String get setupDetailsTitle => 'हर वेन्यू';
+
+  @override
+  String get setupVenueTypesLabel => 'किस तरह का वेन्यू?';
+
+  @override
+  String get setupDepartmentsLabel => 'सेक्शन';
+
+  @override
+  String get setupAddDepartment => 'सेक्शन जोड़ें';
+
+  @override
+  String get setupEquipmentTitle => 'उपकरण';
+
+  @override
+  String get setupEquipmentHelp =>
+      'हर एक कितने? हर उपकरण के अपने चेक होंगे, जैसे हर फ्रिज का तापमान चेक। बाद में और जोड़ सकते हैं।';
+
+  @override
+  String get setupShowAllEquipment => 'सभी उपकरण प्रकार दिखाएँ';
+
+  @override
+  String get setupStaffTitle => 'स्टाफ़';
+
+  @override
+  String get setupStaffHelp =>
+      'हर वेन्यू में काम करने वाले लोग जोड़ें। हर एक को लॉगिन के लिए 4 अंकों का PIN मिलेगा, जो आख़िर में दिखेगा।';
+
+  @override
+  String get setupStaffRoleLabel => 'भूमिका';
+
+  @override
+  String get setupStaffLevelLabel => 'स्तर';
+
+  @override
+  String get setupAddStaff => 'व्यक्ति जोड़ें';
+
+  @override
+  String get setupTasksTitle => 'चेक और काम';
+
+  @override
+  String get setupTasksHelp =>
+      'चुनें कि हर वेन्यू को टास्क लाइब्रेरी के कौन से हिस्से चाहिए। आम वाले टिक हैं। हर चेक एक व्यक्ति को मिलेगा; बाद में बदल सकते हैं।';
+
+  @override
+  String get setupPreviewTitle => 'जाँचें और बनाएँ';
+
+  @override
+  String get setupPreviewHelp =>
+      'यह सेट होगा। जब तक आप बनाएँ नहीं दबाते, कुछ नहीं बनेगा।';
+
+  @override
+  String setupPreviewLeaders(int count) {
+    return 'मुख्य कार्यालय प्रमुख: $count';
+  }
+
+  @override
+  String setupPreviewRegions(int count) {
+    return 'क्षेत्र: $count';
+  }
+
+  @override
+  String setupPreviewBranch(
+    String name,
+    int equipment,
+    int staff,
+    int sections,
+  ) {
+    return '$name: $equipment उपकरण, $staff स्टाफ़, $sections टास्क क्षेत्र';
+  }
+
+  @override
+  String get setupCreateButton => 'मेरा सेट-अप बनाएँ';
+
+  @override
+  String setupCreating(int done, int total) {
+    return 'सेट हो रहा है... $total में से $done';
+  }
+
+  @override
+  String setupFailedPart(String error) {
+    return 'कुछ पूरा नहीं हुआ: $error। जहाँ रुका वहीं से जारी रखने के लिए फिर बनाएँ दबाएँ।';
+  }
+
+  @override
+  String get setupDoneTitle => 'सब सेट हो गया';
+
+  @override
+  String get setupDoneHelp =>
+      'ये लॉगिन अभी लिख लें या कॉपी कर लें - PIN और अस्थायी पासवर्ड सिर्फ़ एक बार दिखेंगे।';
+
+  @override
+  String setupLoginPin(String name, String pin) {
+    return '$name - PIN $pin';
+  }
+
+  @override
+  String setupLoginEmail(String name, String email, String password) {
+    return '$name - $email - अस्थायी पासवर्ड $password';
+  }
+
+  @override
+  String get setupCopyLogins => 'सभी लॉगिन कॉपी करें';
+
+  @override
+  String get setupFinishButton => 'पूरा करें';
 }

@@ -3447,3 +3447,15 @@ Apply / Apply to Multiple moved under the preset name; names no longer wrap a wo
 - Guide and quiz updated to match (quiz bank now 1,070 questions; checks re-run clean). Changing the guide text means staff are asked to re-read it once.
 - Tom (Greekos Gyros): no company of that name exists on the server yet, so a **free-for-life owner code** was created for him: `VR-Y5JH-QGR9` (enter at sign-up).
 - Founder decision: **web app only** for now (no Play/App Store). The Android APK stays downloadable as-is.
+
+## Business Setup Wizard built (2026-10-17, founder-approved redesign)
+
+- **Menu → Company → Set up your business** (directors), plus a button on the director's home until it's finished.
+- **Order:** tell VenuRite about the business (optional AI) → you and your role → head-office leaders → one venue or several (+ regions?) → regions and their managers → venues → each venue's type and sections → equipment counts → staff → checks and tasks → check and create.
+- **AI conversation:** type e.g. "We have 3 pubs in Kent and a café in Brighton, Jo runs Kent" → it fills regions, manager, venues, types and sections for the person to check. It never creates anything itself. (Tested live: correct outline.)
+- **Tweak 1:** "Just one venue" skips regions entirely.
+- **Tweak 2:** "Find your venues" searches public Google Maps listings (via Apify, key stored server-side only); the person ticks each result — nothing is added unless ticked. Directors only, max 25 searches per business per day. (Tested live: found Greekos Gyros, Holloway Rd.)
+- **Tweak 3:** the draft is saved to the server after every step; come back any time.
+- **Create:** nothing is made until the preview's "Create my set-up". Then it creates regions (+ regional manager logins), venues (the first one takes over the venue made at sign-up), sections, equipment ("Fridge 1", "Fridge 2"...), staff with random 4-digit PINs, head-office leader logins, and assigns the picked library checks — one person per check, matched by job role (spread evenly), else a supervisor, else the director; equipment checks once per item; library default frequencies. Logins (PINs / temporary passwords) are shown once at the end with "Copy all logins" — never stored. If anything fails part-way, "Create" again carries on without duplicates.
+- Tests: draft save/restore + AI merge (2), full screen walk-through on a phone-size screen (1). Not yet run against a live director account.
+- **Found:** Task Presets are stored only on the device (never on the server), so for real customers on the web app "Apply preset" doesn't reach the server. The new wizard doesn't use presets. Needs moving to the server — logged as a follow-up.

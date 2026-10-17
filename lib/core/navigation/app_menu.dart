@@ -38,6 +38,7 @@ import '../../shared/models/user.dart';
 import '../widgets/menu_hub_screen.dart';
 import '../../features/manager/check_patterns_screen.dart';
 import '../../features/settings/devices_screen.dart';
+import '../../features/setup/business_setup_wizard_screen.dart';
 
 // Menu by role (2026-10-17, founder-approved design — mock-ups at
 // https://claude.ai/artifact/ELxn1J9cAYbTmLt54rdryw). One definition of
@@ -405,6 +406,15 @@ List<MenuSection> managerMenu(AppLocalizations l10n, MenuContext c) => [
   ]),
   if (c.atLeast(RoleTier.regional))
     MenuSection(l10n.menuSectionCompany, [
+      // Business Setup Wizard (2026-10-17): directors set up the whole
+      // business top-down — regions, venues, people, equipment, checks.
+      if (c.atLeast(RoleTier.executive))
+        MenuEntry(
+          icon: Icons.rocket_launch_outlined,
+          label: l10n.setupTitle,
+          subtitle: l10n.setupMenuSubtitle,
+          builder: (_) => const BusinessSetupWizardScreen(),
+        ),
       MenuEntry(
         icon: Icons.account_tree_outlined,
         label: l10n.menuCompanyStructure,

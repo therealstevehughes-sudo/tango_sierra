@@ -2703,6 +2703,22 @@ class AppDatabase extends _$AppDatabase {
   //   "Fridge" tag in its equipment column — a judgment call favoring the
   //   task's own title over the column's shorthand, not a literal
   //   transcription.
+  /// Library defaults (2026-10-17) for the business Setup Wizard, which
+  /// assigns picked library tasks on the server: title -> default
+  /// frequency (ScheduleFrequency.name).
+  static Map<String, String> get libraryDefaultFrequencies => {
+    for (final t in [
+      ..._clusterATasks,
+      ..._clusterBTasks,
+      ..._clusterCTasks,
+      ..._clusterDTasks,
+      ..._clusterETasks,
+      ..._clusterFTasks,
+      ..._clusterGTasks,
+    ])
+      t.title: t.frequency,
+  };
+
   static const _clusterATasks = [
     // 1.1 Refrigeration temperatures
     _LibraryTask(

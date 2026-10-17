@@ -5973,4 +5973,247 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get fryerLimitsInvalid =>
       'Žuto mora biti niže od pada, oboje između 120 i 230°C.';
+
+  @override
+  String get setupTitle => 'Postavi svoje poslovanje';
+
+  @override
+  String get setupMenuSubtitle => 'Objekti, ljudi, oprema, provjere';
+
+  @override
+  String setupStepOf(int step, int total) {
+    return 'Korak $step od $total';
+  }
+
+  @override
+  String get setupStartTitle => 'Reci VenuRiteu o svom poslovanju';
+
+  @override
+  String get setupStartHelp =>
+      'Opiši svojim riječima, npr. \"Imamo 3 puba u Kentu i kafić u Brightonu. Jo vodi pubove u Kentu.\" VenuRite popunjava sljedeće korake za tvoju provjeru.';
+
+  @override
+  String get setupAskHint => 'Napiši o svom poslovanju...';
+
+  @override
+  String get setupAskButton => 'Popuni umjesto mene';
+
+  @override
+  String get setupSkipAi => 'Preskoči - popunit ću sam';
+
+  @override
+  String setupAiError(String error) {
+    return 'Nije moguće popuniti: $error';
+  }
+
+  @override
+  String get setupYouTitle => 'Ti i tvoja uloga';
+
+  @override
+  String get setupYourJobTitle => 'Tvoje radno mjesto';
+
+  @override
+  String get setupLeadersTitle => 'Vodstvo središnjice';
+
+  @override
+  String get setupLeadersHelp =>
+      'Drugi direktori ili ljudi iz središnjice kojima treba puni pristup. Dobivaju prijavu e-poštom. Neobavezno.';
+
+  @override
+  String get setupAddPerson => 'Dodaj osobu';
+
+  @override
+  String get setupNameLabel => 'Ime';
+
+  @override
+  String get setupEmailLabel => 'E-pošta';
+
+  @override
+  String get setupShapeTitle => 'Tvoji objekti';
+
+  @override
+  String get setupOneBranch => 'Samo jedan objekt';
+
+  @override
+  String get setupSeveralBranches => 'Više objekata';
+
+  @override
+  String get setupUseRegions =>
+      'Grupiraj objekte u regije (s vlastitim voditeljem)';
+
+  @override
+  String get setupRegionsTitle => 'Regije';
+
+  @override
+  String get setupRegionsHelp =>
+      'Imenuj svaku regiju i, po želji, njezina voditelja. Voditelji dobivaju prijavu e-poštom.';
+
+  @override
+  String get setupAddRegion => 'Dodaj regiju';
+
+  @override
+  String get setupRegionNameLabel => 'Naziv regije';
+
+  @override
+  String get setupManagerNameLabel => 'Ime voditelja (neobavezno)';
+
+  @override
+  String get setupManagerEmailLabel => 'E-pošta voditelja (neobavezno)';
+
+  @override
+  String get setupBranchesTitle => 'Tvoji objekti';
+
+  @override
+  String get setupFindBranchesTitle => 'Pronađi svoje objekte';
+
+  @override
+  String get setupFindBranchesHelp =>
+      'Pretraži javne kartografske unose i označi svoje. Ništa se ne dodaje bez oznake.';
+
+  @override
+  String get setupSearchNameLabel => 'Naziv poslovanja';
+
+  @override
+  String get setupSearchAreaLabel => 'Grad ili područje (neobavezno)';
+
+  @override
+  String get setupSearchButton => 'Traži';
+
+  @override
+  String get setupSearching => 'Pretraživanje... može potrajati do minute.';
+
+  @override
+  String setupAddTicked(int count) {
+    return 'Dodaj označene ($count)';
+  }
+
+  @override
+  String get setupNoResults =>
+      'Ništa nije pronađeno. Dodaj objekte ručno ispod.';
+
+  @override
+  String get setupAddBranch => 'Dodaj objekt ručno';
+
+  @override
+  String get setupBranchNameLabel => 'Naziv objekta';
+
+  @override
+  String get setupAddressLabel => 'Adresa';
+
+  @override
+  String get setupRegionLabel => 'Regija';
+
+  @override
+  String get setupRemove => 'Ukloni';
+
+  @override
+  String get setupNoBranchesYet => 'Dodaj barem jedan objekt.';
+
+  @override
+  String get setupDetailsTitle => 'Svaki objekt';
+
+  @override
+  String get setupVenueTypesLabel => 'Kakav je objekt?';
+
+  @override
+  String get setupDepartmentsLabel => 'Odjeli';
+
+  @override
+  String get setupAddDepartment => 'Dodaj odjel';
+
+  @override
+  String get setupEquipmentTitle => 'Oprema';
+
+  @override
+  String get setupEquipmentHelp =>
+      'Koliko kojeg? Svaki dobiva svoje provjere, npr. provjeru temperature po hladnjaku. Kasnije možeš dodati još.';
+
+  @override
+  String get setupShowAllEquipment => 'Prikaži sve vrste opreme';
+
+  @override
+  String get setupStaffTitle => 'Osoblje';
+
+  @override
+  String get setupStaffHelp =>
+      'Dodaj ljude koji rade u svakom objektu. Svatko dobiva 4-znamenkasti PIN, prikazan na kraju.';
+
+  @override
+  String get setupStaffRoleLabel => 'Uloga';
+
+  @override
+  String get setupStaffLevelLabel => 'Razina';
+
+  @override
+  String get setupAddStaff => 'Dodaj osobu';
+
+  @override
+  String get setupTasksTitle => 'Provjere i zadaci';
+
+  @override
+  String get setupTasksHelp =>
+      'Odaberi koja područja knjižnice zadataka treba svaki objekt. Uobičajena su označena. Svaka provjera ide jednoj osobi; kasnije možeš promijeniti.';
+
+  @override
+  String get setupPreviewTitle => 'Provjeri i stvori';
+
+  @override
+  String get setupPreviewHelp =>
+      'Ovo će se postaviti. Ništa se ne stvara dok ne dodirneš Stvori.';
+
+  @override
+  String setupPreviewLeaders(int count) {
+    return 'Vodstvo središnjice: $count';
+  }
+
+  @override
+  String setupPreviewRegions(int count) {
+    return 'Regije: $count';
+  }
+
+  @override
+  String setupPreviewBranch(
+    String name,
+    int equipment,
+    int staff,
+    int sections,
+  ) {
+    return '$name: $equipment opreme, $staff osoba, $sections područja zadataka';
+  }
+
+  @override
+  String get setupCreateButton => 'Stvori postavke';
+
+  @override
+  String setupCreating(int done, int total) {
+    return 'Postavljanje... $done od $total';
+  }
+
+  @override
+  String setupFailedPart(String error) {
+    return 'Nešto nije završeno: $error. Ponovno dodirni Stvori za nastavak.';
+  }
+
+  @override
+  String get setupDoneTitle => 'Sve je postavljeno';
+
+  @override
+  String get setupDoneHelp =>
+      'Zapiši ili kopiraj ove prijave sada - PIN-ovi i privremene lozinke prikazuju se samo jednom.';
+
+  @override
+  String setupLoginPin(String name, String pin) {
+    return '$name - PIN $pin';
+  }
+
+  @override
+  String setupLoginEmail(String name, String email, String password) {
+    return '$name - $email - privremena lozinka $password';
+  }
+
+  @override
+  String get setupCopyLogins => 'Kopiraj sve prijave';
+
+  @override
+  String get setupFinishButton => 'Završi';
 }
