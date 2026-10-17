@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../features/auth/shift_verification_queue_screen.dart';
-import '../../features/dashboard/dashboard_screen.dart';
-import '../../features/dashboard/leadership_dashboard_screen.dart';
 import '../../features/home/tier_home_screen.dart';
 import '../../features/notifications/notification_rules_screen.dart';
 import '../../features/onboarding/staff_assignment_screen.dart';
@@ -39,6 +37,7 @@ import '../widgets/menu_hub_screen.dart';
 import '../../features/manager/check_patterns_screen.dart';
 import '../../features/settings/devices_screen.dart';
 import '../../features/setup/business_setup_wizard_screen.dart';
+import '../../features/dashboard/trends_screen.dart';
 
 // Menu by role (2026-10-17, founder-approved design — mock-ups at
 // https://claude.ai/artifact/ELxn1J9cAYbTmLt54rdryw). One definition of
@@ -363,28 +362,12 @@ List<MenuSection> managerMenu(AppLocalizations l10n, MenuContext c) => [
     ),
   ]),
   MenuSection(l10n.menuSectionReports, [
+    // Menu stage 2 (2026-10-17): one Trends screen with tabs.
     MenuEntry(
       icon: Icons.insights,
       label: l10n.menuTrends,
       subtitle: l10n.menuTrendsSubtitle,
-      children: [
-        MenuEntry(
-          icon: Icons.visibility_outlined,
-          label: l10n.menuTodayAcrossTeam,
-          builder: (_) => TierHomeScreen.oversightScreenFor(c.tier),
-        ),
-        MenuEntry(
-          icon: Icons.bar_chart,
-          label: l10n.menuTasksIncidentsOverTime,
-          subtitle: c.atLeast(RoleTier.regional) ? l10n.menuCompareBranches : null,
-          builder: (_) => const LeadershipDashboardScreen(),
-        ),
-        MenuEntry(
-          icon: Icons.insights,
-          label: l10n.menuReliabilityTeam,
-          builder: (_) => const DashboardScreen(),
-        ),
-      ],
+      builder: (_) => const TrendsScreen(),
     ),
     MenuEntry(
       icon: Icons.picture_as_pdf_outlined,

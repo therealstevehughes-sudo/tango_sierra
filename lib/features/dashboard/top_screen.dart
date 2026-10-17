@@ -17,7 +17,12 @@ import 'dashboard_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
 
 class TopScreen extends ConsumerStatefulWidget {
-  const TopScreen({super.key});
+  const TopScreen({super.key, this.embedded = false});
+
+  /// Shown as a tab inside the Trends screen (2026-10-17 menu stage 2):
+  /// no app bar or drawer of its own.
+  final bool embedded;
+
 
   @override
   ConsumerState<TopScreen> createState() => _TopScreenState();
@@ -60,16 +65,20 @@ class _TopScreenState extends ConsumerState<TopScreen> {
 
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppScreenHeader(
-        title: currentUser != null
-            ? UserTitle(user: currentUser)
-            : Text(l10n.topTierViewTitle),
-        actions: const [AssistantIconButton()],
-      ),
+      appBar: widget.embedded
+          ? null
+          : AppScreenHeader(
+              title: currentUser != null
+                  ? UserTitle(user: currentUser)
+                  : Text(l10n.topTierViewTitle),
+              actions: const [AssistantIconButton()],
+            ),
       // Sub-sprint 2 (visual/UX pass): see manager_screen.dart's identical
       // change for the rationale — replaces the previous 9-icon,
       // tooltip-only AppBar action row.
-      drawer: ManagementDrawer(title: l10n.topTierViewTitle),
+      drawer: widget.embedded
+          ? null
+          : ManagementDrawer(title: l10n.topTierViewTitle),
       body: Column(
         children: [
           if (currentUser != null)

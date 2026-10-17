@@ -40,17 +40,24 @@ import '../../core/widgets/app_screen_header.dart';
 // TopScreen embeds this exact same widget, these rules automatically carry
 // over to the regional/executive view too, not just this screen.
 class DashboardScreen extends ConsumerWidget {
-  const DashboardScreen({super.key});
+  const DashboardScreen({super.key, this.embedded = false});
+
+  /// Shown as a tab inside the Trends screen (2026-10-17 menu stage 2):
+  /// no app bar or drawer of its own.
+  final bool embedded;
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppScreenHeader(
-        title: Text(l10n.dashboardTitle),
-        actions: const [AssistantIconButton()],
-      ),
-      drawer: ManagementDrawer(title: l10n.dashboardTitle),
+      appBar: embedded
+          ? null
+          : AppScreenHeader(
+              title: Text(l10n.dashboardTitle),
+              actions: const [AssistantIconButton()],
+            ),
+      drawer: embedded ? null : ManagementDrawer(title: l10n.dashboardTitle),
       body: const SafeArea(child: DashboardBody()),
     );
   }

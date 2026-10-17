@@ -2293,3 +2293,4 @@ Applied `tools/fryer_limits_migration.sql` (sites.fryer_amber_c 180 / fryer_red_
 ## Equipment library (2026-10-17)
 
 Applied `tools/equipment_library_migration.sql` (`equipment_models`, RPCs `search_equipment_models`, `get_equipment_model`, `save_venue_equipment_model`) and `tools/equipment_library_seed.sql` (8 live packs). New Edge Function `equipment-pack-draft` (OpenAI, managers only; source `tools/functions_live/equipment-pack-draft.ts`). Web app redeployed (md5 f4d072a6…).
+Deployed 2026-10-17: web app (Trends merge) md5-verified; APK rebuilt and uploaded (md5 42bbea1c…).

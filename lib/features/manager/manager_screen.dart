@@ -27,7 +27,12 @@ import 'overdue_summary_card.dart';
 import '../../core/widgets/app_screen_header.dart';
 
 class ManagerScreen extends ConsumerStatefulWidget {
-  const ManagerScreen({super.key});
+  const ManagerScreen({super.key, this.embedded = false});
+
+  /// Shown as a tab inside the Trends screen (2026-10-17 menu stage 2):
+  /// no app bar or drawer of its own.
+  final bool embedded;
+
 
   @override
   ConsumerState<ManagerScreen> createState() => _ManagerScreenState();
@@ -245,18 +250,22 @@ class _ManagerScreenState extends ConsumerState<ManagerScreen> {
     );
 
     return Scaffold(
-      appBar: AppScreenHeader(
-        title: currentUser != null
-            ? UserTitle(user: currentUser)
-            : Text(l10n.managerViewTitle),
-        actions: const [AssistantIconButton()],
-      ),
+      appBar: widget.embedded
+          ? null
+          : AppScreenHeader(
+              title: currentUser != null
+                  ? UserTitle(user: currentUser)
+                  : Text(l10n.managerViewTitle),
+              actions: const [AssistantIconButton()],
+            ),
       // Sub-sprint 2 (visual/UX pass): replaces the previous 9-icon,
       // tooltip-only AppBar action row — tooltips never surface on touch
       // devices, so a user unfamiliar with the glyphs had no way to tell
       // what a button did before pressing it. A drawer with a visible icon
       // + label per row fixes that without crowding the app bar.
-      drawer: ManagementDrawer(title: l10n.managerViewTitle),
+      drawer: widget.embedded
+          ? null
+          : ManagementDrawer(title: l10n.managerViewTitle),
       // Layout fix (Sprint 031): the banners and the filter used to sit
       // outside the scrollable area (only the log itself was Expanded),
       // so their combined height was a fixed tax on the viewport — with

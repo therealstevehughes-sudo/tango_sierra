@@ -46,7 +46,12 @@ const _allBranchesSentinel = 0;
 // still the default for every install; this is a deliberate, confirmed
 // exception a Director switches on, not a reversal of the rule itself.
 class LeadershipDashboardScreen extends ConsumerStatefulWidget {
-  const LeadershipDashboardScreen({super.key});
+  const LeadershipDashboardScreen({super.key, this.embedded = false});
+
+  /// Shown as a tab inside the Trends screen (2026-10-17 menu stage 2):
+  /// no app bar or drawer of its own.
+  final bool embedded;
+
 
   @override
   ConsumerState<LeadershipDashboardScreen> createState() =>
@@ -334,10 +339,7 @@ class _LeadershipDashboardScreenState
     final l10n = AppLocalizations.of(context)!;
     final supervisorHasNoScope =
         _isSupervisor && !_loading && (_allowedUserIds?.isEmpty ?? false);
-    return Scaffold(
-      appBar: AppScreenHeader(
-        title: Text(l10n.dashboardOverviewTitle),
-        actions: [
+    final headerActions = <Widget>[
           // Moved here from a Settings toggle (2026-09-29, direct founder
           // request) — the setting and the thing it controls used to live
           // on two different screens. Still executive-only (unchanged
@@ -356,9 +358,33 @@ class _LeadershipDashboardScreenState
               onPressed: _toggleGradedBars,
             ),
           const AssistantIconButton(),
-        ],
-      ),
-      drawer: ManagementDrawer(title: l10n.dashboardOverviewTitle),
+        ];
+    return Scaffold(
+      appBar: widget.embedded
+          ? null
+          : AppScreenHeader(
+              title: Text(l10n.dashboardOverviewTitle),
+              actions: headerActions,
+            ),
+      drawer: widget.embedded
+          ? null
+          : ManagementDrawer(title: l10n.dashboardOverviewTitle),
+      // Embedded in Trends: the executive graded-bars toggle moves
+      // to a small floating button, since there is no app bar.
+      floatingActionButton:
+          widget.embedded &&
+              ref.watch(currentUserProvider)?.roleTier == RoleTier.executive
+          ? FloatingActionButton.small(
+              heroTag: 'gradedBars',
+              tooltip: _gradedBarsEnabled
+                  ? l10n.gradedBarsOnTooltip
+                  : l10n.gradedBarsOffTooltip,
+              onPressed: _toggleGradedBars,
+              child: Icon(
+                _gradedBarsEnabled ? Icons.leaderboard : Icons.leaderboard_outlined,
+              ),
+            )
+          : null,
       body: _sites.isEmpty
           ? Center(child: Text(l10n.noBranchesToShow))
           : ResponsiveContent(
