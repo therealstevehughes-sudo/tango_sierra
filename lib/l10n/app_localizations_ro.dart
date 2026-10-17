@@ -5939,4 +5939,9 @@ class AppLocalizationsRo extends AppLocalizations {
   String timeOnChecksLabel(int minutes) {
     return '$minutes min pe verificări';
   }
+
+  @override
+  String dueNowCount(int count) {
+    return '$count de făcut acum';
+  }
 }

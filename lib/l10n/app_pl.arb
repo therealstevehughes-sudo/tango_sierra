@@ -1675,5 +1675,6 @@
   "integrityKindRoundNumbers": "Zawsze okrągłe liczby",
   "integrityKindOffSite": "Poza lokalem",
   "integrityKindCheckMismatch": "Nie zgadzało się przy sprawdzeniu",
-  "timeOnChecksLabel": "{minutes} min na kontrolach"
+  "timeOnChecksLabel": "{minutes} min na kontrolach",
+  "dueNowCount": "{count} do zrobienia teraz"
 }

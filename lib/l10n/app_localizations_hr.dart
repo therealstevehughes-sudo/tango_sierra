@@ -5848,4 +5848,9 @@ class AppLocalizationsHr extends AppLocalizations {
   String timeOnChecksLabel(int minutes) {
     return '$minutes min na provjerama';
   }
+
+  @override
+  String dueNowCount(int count) {
+    return '$count sada na redu';
+  }
 }

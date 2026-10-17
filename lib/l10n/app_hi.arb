@@ -1675,5 +1675,6 @@
   "integrityKindRoundNumbers": "हमेशा पूर्ण संख्याएँ",
   "integrityKindOffSite": "वेन्यू से दूर",
   "integrityKindCheckMismatch": "जाँच में मेल नहीं खाया",
-  "timeOnChecksLabel": "चेक पर {minutes} मिनट"
+  "timeOnChecksLabel": "चेक पर {minutes} मिनट",
+  "dueNowCount": "{count} अभी करने हैं"
 }

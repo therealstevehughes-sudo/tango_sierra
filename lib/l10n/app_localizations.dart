@@ -10183,6 +10183,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{minutes} min on checks'**
   String timeOnChecksLabel(int minutes);
+
+  /// No description provided for @dueNowCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} due now'**
+  String dueNowCount(int count);
 }
 
 class _AppLocalizationsDelegate

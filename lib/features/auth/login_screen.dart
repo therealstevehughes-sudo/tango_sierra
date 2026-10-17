@@ -1210,14 +1210,18 @@ class _DepartmentStaffScreen extends StatelessWidget {
   }
 }
 
-class _StaffTile extends StatelessWidget {
+/// Mid-shift notifications (2026-10-17): on a shared venue tablet nobody's
+/// phone gets the push, so each clocked-in person's name shows how many of
+/// their timed tasks are due now (from deviceDueNowCountsProvider).
+class _StaffTile extends ConsumerWidget {
   const _StaffTile({required this.user, required this.onTap});
 
   final User user;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final due = ref.watch(deviceDueNowCountsProvider).value?[user.id] ?? 0;
     // Name prominent, job title smaller underneath — two separate Text
     // widgets, so the title can never wrap mid-word into the name's line.
     // `dense: true` is what actually makes this tighter than the old
@@ -1264,6 +1268,26 @@ class _StaffTile extends StatelessWidget {
             subtitle: Text(
               localizedJobTitle(user.jobTitle, AppLocalizations.of(context)),
             ),
+            trailing: due == 0
+                ? null
+                : Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.cautionBg,
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text(
+                      AppLocalizations.of(context)!.dueNowCount(due),
+                      style: const TextStyle(
+                        color: AppColors.caution,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
           ),
         ),
       ),

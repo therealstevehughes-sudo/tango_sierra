@@ -3413,3 +3413,10 @@ The app reports facts; **the database decides** what looks wrong (triggers the a
 ## Assign Tasks preset rows fixed on phones (2026-10-17)
 
 Apply / Apply to Multiple moved under the preset name; names no longer wrap a word per line. Verified at 390px in the demo.
+
+## Mid-shift notifications built (plan 3, 2026-10-17)
+
+- **Own phone, while clocked in:** a push "Due now: <task>" when a timed task's window opens, and "Overdue: <task>" if the window closes undone. Each goes out at most once per task per day. Pushes are in the person's chosen language (10 languages). Timed tasks only (a set start time or "from start of shift") on daily / per-shift / 2x / 3x daily schedules.
+- **Shared venue tablet:** each clocked-in person's name in the "Who are you?" list shows "N due now".
+- **Bug found and fixed:** the server never had the `users.preferred_locale` column the app uses, so the **end-of-shift summary to managers had silently never been sent** on the live server, and language choices weren't saved there. Column added; both now work.
+- Honest limits: times are UK time (venues have no time-zone setting yet); pushes only reach the Android app (web app on iPhone can't receive them reliably, and there's no iPhone app yet); people who never logged into the Android app get no push, only the in-app list and tablet badge.

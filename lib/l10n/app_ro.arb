@@ -1675,5 +1675,6 @@
   "integrityKindRoundNumbers": "Mereu numere rotunde",
   "integrityKindOffSite": "În afara locației",
   "integrityKindCheckMismatch": "Nu s-a potrivit la control",
-  "timeOnChecksLabel": "{minutes} min pe verificări"
+  "timeOnChecksLabel": "{minutes} min pe verificări",
+  "dueNowCount": "{count} de făcut acum"
 }

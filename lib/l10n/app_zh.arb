@@ -1675,5 +1675,6 @@
   "integrityKindRoundNumbers": "总是整数",
   "integrityKindOffSite": "不在场所内",
   "integrityKindCheckMismatch": "核查时不一致",
-  "timeOnChecksLabel": "检查用时 {minutes} 分钟"
+  "timeOnChecksLabel": "检查用时 {minutes} 分钟",
+  "dueNowCount": "{count} 项现在到期"
 }

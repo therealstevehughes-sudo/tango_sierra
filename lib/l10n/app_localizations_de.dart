@@ -6004,4 +6004,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String timeOnChecksLabel(int minutes) {
     return '$minutes Min. für Prüfungen';
   }
+
+  @override
+  String dueNowCount(int count) {
+    return '$count jetzt fällig';
+  }
 }

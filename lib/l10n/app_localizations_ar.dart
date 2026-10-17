@@ -5783,4 +5783,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String timeOnChecksLabel(int minutes) {
     return '$minutes دقيقة على الفحوصات';
   }
+
+  @override
+  String dueNowCount(int count) {
+    return '$count مستحق الآن';
+  }
 }

@@ -1675,5 +1675,6 @@
   "integrityKindRoundNumbers": "Immer glatte Zahlen",
   "integrityKindOffSite": "Nicht vor Ort",
   "integrityKindCheckMismatch": "Stimmte bei Kontrolle nicht",
-  "timeOnChecksLabel": "{minutes} Min. für Prüfungen"
+  "timeOnChecksLabel": "{minutes} Min. für Prüfungen",
+  "dueNowCount": "{count} jetzt fällig"
 }

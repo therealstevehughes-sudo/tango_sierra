@@ -1675,5 +1675,6 @@
   "integrityKindRoundNumbers": "أرقام صحيحة دائماً",
   "integrityKindOffSite": "بعيد عن المنشأة",
   "integrityKindCheckMismatch": "لم يطابق عند الفحص",
-  "timeOnChecksLabel": "{minutes} دقيقة على الفحوصات"
+  "timeOnChecksLabel": "{minutes} دقيقة على الفحوصات",
+  "dueNowCount": "{count} مستحق الآن"
 }

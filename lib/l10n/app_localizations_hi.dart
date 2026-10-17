@@ -5821,4 +5821,9 @@ class AppLocalizationsHi extends AppLocalizations {
   String timeOnChecksLabel(int minutes) {
     return 'चेक पर $minutes मिनट';
   }
+
+  @override
+  String dueNowCount(int count) {
+    return '$count अभी करने हैं';
+  }
 }

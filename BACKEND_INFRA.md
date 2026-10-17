@@ -2265,3 +2265,10 @@ Applied `tools/rota_tiers_migration.sql`: `users.books_shifts` (default true; se
 ## Anti-faking flags (2026-10-17)
 
 Applied `tools/integrity_flags_migration.sql`: task_submissions + `duration_seconds`, `photo_hash`, `location_status`, `location_distance_m` (and transient `check_lat`/`check_lng`, always cleared by the BEFORE INSERT trigger), new tables `integrity_flags` and `manager_spot_verifications` (venue manager+ read only), triggers `task_submissions_integrity_before/after`, RPCs `my_spot_check_rate`, `record_spot_verification`. `docker restart supabase-rest`. All 7 flag kinds verified in rolled-back transactions; coordinates confirmed not stored. APK + web app redeployed, md5-verified.
+
+## Mid-shift reminders (2026-10-17)
+
+- Applied `tools/task_reminders_migration.sql`: `users.preferred_locale` (was missing on the server), `task_reminder_log` (dedupe), `_timed_tasks_now()`, `claim_due_task_reminders()` (service role), `site_due_now_counts(site)` and `site_due_now_counts_for_device(site)` (service role). Tested rolled back: reminder sent once, not repeated; tablet count correct.
+- New Edge Function `task-due-reminders` (`tools/functions_live/task-due-reminders.ts`), cron `*/5 * * * * /root/backups/task_reminders_cron.sh >> /root/backups/task_reminders.log` (script = `tools/task_reminders_cron.sh`, reuses CERT_EXPIRY_CRON_SECRET). Previous crontab: `/root/crontab.bak-reminders`.
+- `device-login` updated to return `due_now` counts (source now in `tools/functions_live/device-login.ts`; previous copy `/root/fn_backup_20261017/device-login.index.ts`).
+- APK + web app redeployed, md5-verified.

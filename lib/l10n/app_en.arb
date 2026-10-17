@@ -5129,5 +5129,13 @@
         "type": "int"
       }
     }
+  },
+  "dueNowCount": "{count} due now",
+  "@dueNowCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

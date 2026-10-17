@@ -1675,5 +1675,6 @@
   "integrityKindRoundNumbers": "Uvijek okrugli brojevi",
   "integrityKindOffSite": "Izvan objekta",
   "integrityKindCheckMismatch": "Nije se podudaralo pri provjeri",
-  "timeOnChecksLabel": "{minutes} min na provjerama"
+  "timeOnChecksLabel": "{minutes} min na provjerama",
+  "dueNowCount": "{count} sada na redu"
 }

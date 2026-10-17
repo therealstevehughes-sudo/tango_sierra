@@ -5612,4 +5612,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String timeOnChecksLabel(int minutes) {
     return '检查用时 $minutes 分钟';
   }
+
+  @override
+  String dueNowCount(int count) {
+    return '$count 项现在到期';
+  }
 }

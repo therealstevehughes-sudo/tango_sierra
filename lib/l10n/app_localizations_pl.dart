@@ -5944,4 +5944,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String timeOnChecksLabel(int minutes) {
     return '$minutes min na kontrolach';
   }
+
+  @override
+  String dueNowCount(int count) {
+    return '$count do zrobienia teraz';
+  }
 }

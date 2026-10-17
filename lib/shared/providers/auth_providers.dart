@@ -120,6 +120,33 @@ List<User> _staffFromDeviceLoginRows(List<Map<String, dynamic>> rows) {
       .toList();
 }
 
+/// Mid-shift notifications (2026-10-17): on a paired venue tablet, how many
+/// timed tasks each clocked-in person has due right now (userId -> count).
+/// Fetched fresh each time the name list is shown; empty when not paired
+/// or offline.
+final deviceDueNowCountsProvider = FutureProvider.autoDispose<Map<int, int>>((
+  ref,
+) async {
+  try {
+    final pairing = await ref.watch(devicePairingProvider.future);
+    if (pairing == null) return const {};
+    final data = await BackendRestClient(() => null)
+        .invokeFunction('device-login', {
+          'device_credential': pairing.deviceCredential,
+        })
+        .timeout(const Duration(seconds: 8));
+    final raw = data['due_now'];
+    if (raw is! Map) return const {};
+    return {
+      for (final e in raw.entries)
+        if (int.tryParse('${e.key}') case final id?)
+          if (e.value is int) id: e.value as int,
+    };
+  } catch (_) {
+    return const {};
+  }
+});
+
 // Section picker (2026-09-23) — one shared cache for the device-login
 // call, so staffDirectoryProvider and staffDirectoryDepartmentsProvider
 // (below) don't each trigger their own separate network round trip to

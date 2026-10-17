@@ -1675,5 +1675,6 @@
   "integrityKindRoundNumbers": "ہمیشہ مکمل نمبر",
   "integrityKindOffSite": "وینیو سے دور",
   "integrityKindCheckMismatch": "جانچ میں مطابقت نہیں رکھا",
-  "timeOnChecksLabel": "چیک پر {minutes} منٹ"
+  "timeOnChecksLabel": "چیک پر {minutes} منٹ",
+  "dueNowCount": "{count} ابھی کرنے ہیں"
 }

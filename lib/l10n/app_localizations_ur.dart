@@ -5809,4 +5809,9 @@ class AppLocalizationsUr extends AppLocalizations {
   String timeOnChecksLabel(int minutes) {
     return 'چیک پر $minutes منٹ';
   }
+
+  @override
+  String dueNowCount(int count) {
+    return '$count ابھی کرنے ہیں';
+  }
 }
