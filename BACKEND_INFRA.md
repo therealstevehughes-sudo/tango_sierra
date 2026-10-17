@@ -2261,3 +2261,7 @@ Applied `tools/rota_tiers_migration.sql`: `users.books_shifts` (default true; se
 - New Edge Function `quiz-draft` (source `tools/functions_live/quiz-draft.ts` → `volumes/functions/quiz-draft/index.ts`), OpenAI gpt-4o-mini, manager tiers only, saves drafts through the caller's own token. `docker restart supabase-edge-functions`.
 - Verified on the server (rolled back): serve/shuffle/mark, retry blocked until re-read, pass recorded, direct question reads denied, re-read upsert; AI draft end to end (test rows deleted).
 - APK + web app redeployed, md5-verified; live web app boots with no console errors.
+
+## Anti-faking flags (2026-10-17)
+
+Applied `tools/integrity_flags_migration.sql`: task_submissions + `duration_seconds`, `photo_hash`, `location_status`, `location_distance_m` (and transient `check_lat`/`check_lng`, always cleared by the BEFORE INSERT trigger), new tables `integrity_flags` and `manager_spot_verifications` (venue manager+ read only), triggers `task_submissions_integrity_before/after`, RPCs `my_spot_check_rate`, `record_spot_verification`. `docker restart supabase-rest`. All 7 flag kinds verified in rolled-back transactions; coordinates confirmed not stored. APK + web app redeployed, md5-verified.

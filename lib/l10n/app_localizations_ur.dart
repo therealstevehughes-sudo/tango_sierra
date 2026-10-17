@@ -5729,4 +5729,84 @@ class AppLocalizationsUr extends AppLocalizations {
   String trainingToDoCount(int count) {
     return '$count باقی';
   }
+
+  @override
+  String get menuCheckPatterns => 'چیک پیٹرن';
+
+  @override
+  String get menuCheckPatternsSubtitle => 'ممکنہ جعلی چیک، اسپاٹ چیک';
+
+  @override
+  String get integrityIntro =>
+      'ایسے پیٹرن جن کا مطلب ہو سکتا ہے کہ چیک واقعی نہیں ہوئے۔ عملے کو ان کے بارے میں نہیں بتایا جاتا۔ نتیجہ نکالنے سے پہلے جانچ کریں۔';
+
+  @override
+  String get integrityCheckThisOne => 'اسے چیک کریں';
+
+  @override
+  String get integrityCheckThisOneHelp =>
+      'خود جا کر دیکھیں، پھر بتائیں کہ یہ مطابقت رکھتا ہے یا نہیں۔';
+
+  @override
+  String get integrityMatches => 'مطابقت رکھتا ہے';
+
+  @override
+  String get integrityMismatch => 'مطابقت نہیں رکھتا';
+
+  @override
+  String get integrityAnother => 'دوسرا دکھائیں';
+
+  @override
+  String get integrityNoneToday => 'آج ابھی تک کوئی چیک جمع نہیں ہوا۔';
+
+  @override
+  String get integrityRecorded => 'درج ہو گیا۔';
+
+  @override
+  String get integrityMismatchNoteHint => 'آپ کو کیا ملا؟ (اختیاری)';
+
+  @override
+  String integrityTimeOnChecks(int minutes) {
+    return 'چیک پر وقت (7 دن): $minutes منٹ';
+  }
+
+  @override
+  String integritySpotChecks(int matched, int mismatched) {
+    return 'اسپاٹ چیک: $matched مطابق، $mismatched غیر مطابق';
+  }
+
+  @override
+  String get integrityNoFlags => 'پچھلے 30 دنوں میں کوئی پیٹرن نہیں ملا۔';
+
+  @override
+  String get integrityMarkReviewed => 'دیکھا گیا نشان لگائیں';
+
+  @override
+  String get integrityReviewed => 'دیکھا گیا';
+
+  @override
+  String get integrityKindTooFast => 'بہت تیز';
+
+  @override
+  String get integrityKindBurst => 'ایک ساتھ بہت سارے';
+
+  @override
+  String get integrityKindReusedPhoto => 'دوبارہ استعمال ہوئی تصویر';
+
+  @override
+  String get integrityKindSameReading => 'ہر بار ایک ہی ریڈنگ';
+
+  @override
+  String get integrityKindRoundNumbers => 'ہمیشہ مکمل نمبر';
+
+  @override
+  String get integrityKindOffSite => 'وینیو سے دور';
+
+  @override
+  String get integrityKindCheckMismatch => 'جانچ میں مطابقت نہیں رکھا';
+
+  @override
+  String timeOnChecksLabel(int minutes) {
+    return 'چیک پر $minutes منٹ';
+  }
 }

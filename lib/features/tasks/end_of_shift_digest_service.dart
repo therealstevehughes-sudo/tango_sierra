@@ -65,6 +65,23 @@ class EndOfShiftDigestService {
         return;
       }
 
+      // Time on checks this shift (2026-10-17, anti-faking plan item 1),
+      // each check capped at 15 minutes so a screen left open isn't counted.
+      var checkSeconds = 0;
+      try {
+        final rows = await _client.select(
+          'task_submissions',
+          query:
+              'completed_by_user_id=eq.$workerId'
+              '&completed_at=gte.${sessionStartedAt.toUtc().toIso8601String()}'
+              '&duration_seconds=not.is.null&select=duration_seconds',
+        );
+        for (final r in rows) {
+          final s = r['duration_seconds'] as int? ?? 0;
+          checkSeconds += s > 900 ? 900 : s;
+        }
+      } catch (_) {}
+
       final managers = await _client.select(
         'users',
         query:
@@ -88,6 +105,9 @@ class EndOfShiftDigestService {
         }
         if (routineIssues.isNotEmpty) {
           parts.add(l10n.issuesRaisedCountLabel(routineIssues.length));
+        }
+        if (checkSeconds > 0) {
+          parts.add(l10n.timeOnChecksLabel((checkSeconds / 60).ceil()));
         }
         await _client.invokeFunction('send-push', {
           'user_id': manager['id'],

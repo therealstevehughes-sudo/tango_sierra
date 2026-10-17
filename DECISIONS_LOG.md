@@ -3395,3 +3395,21 @@ Founder report (screenshots of the website): the AI button sat on top of SUBMIT 
 - **Nudge, not block:** the staff home tile now shows "N to do" (reading, quizzes, refreshers); nothing stops anyone doing a task.
 - **Audit export:** training gaps now include "quiz not yet passed" and "refresher due".
 - Tests: status rules (13) + quiz screen (4); 138/138 pass. Not clicked through on a live account (needs a real staff login) — server side tested end to end in rolled-back transactions.
+
+## Anti-faking measures built (plan items 1-8, 2026-10-17)
+
+The app reports facts; **the database decides** what looks wrong (triggers the app can't skip). Nobody is ever blocked; staff are never told they've been flagged.
+1. **Time on each check** (open → submit) is recorded. Each shift's total ("N min on checks") is added to the end-of-shift report managers get. Each check counts at most 15 minutes, so a screen left open isn't counted as work.
+2. **Too fast:** a reading or photo check in under 5 seconds, or a plain tick in under 2 → flag. **Bursts:** 10+ checks by one person inside a minute → flag.
+3. **Reused photo:** each photo's fingerprint (SHA-256) is checked against the venue's last 180 days.
+4. **Made-up readings:** the same number 10 times in a row on one check/equipment, or a person's last 20 readings all whole numbers → flag (each at most once a week).
+5. **More spot-checks:** anyone with an open flag from the last 14 days gets the random photo spot-check on 50% of days instead of 20%.
+6. **Off-site:** critical checks at venues with the location check on send the phone's position once; the server keeps only on-site/off-site and the distance (same rule as clock-in, including the venue Wi-Fi match).
+7. **"Check this one":** Reports → **Check patterns** suggests one of today's checks (more likely from someone flagged) for the manager to go and look at; "It matches" / "It doesn't match" (+ note). A mismatch becomes a flag; results build each person's record.
+8. **Managers only** (venue manager+): a pattern view per person (open flags by type, time on checks over 7 days, spot-check results), each flag with "Mark reviewed". No public score. Flags also appear in the audit export ("Checks flagged as possibly not done properly", last 30 days).
+- Honest limits: timing measures time inside VenuRite's check screen, not phone use; a quick tick after checking the real thing beforehand is legitimate, which is why the thresholds are low and nothing is blocked. Tested every flag on the server in rolled-back transactions; not yet seen on a live account.
+- Not built (no founder OK yet): fryer amber >180°C / red >185°C.
+
+## Assign Tasks preset rows fixed on phones (2026-10-17)
+
+Apply / Apply to Multiple moved under the preset name; names no longer wrap a word per line. Verified at 390px in the demo.

@@ -5534,4 +5534,82 @@ class AppLocalizationsZh extends AppLocalizations {
   String trainingToDoCount(int count) {
     return '待办 $count';
   }
+
+  @override
+  String get menuCheckPatterns => '检查模式';
+
+  @override
+  String get menuCheckPatternsSubtitle => '可能造假的检查、抽查';
+
+  @override
+  String get integrityIntro => '这些模式可能意味着检查并未真正完成。员工不会收到通知。下结论前请先核实。';
+
+  @override
+  String get integrityCheckThisOne => '核查这一条';
+
+  @override
+  String get integrityCheckThisOneHelp => '亲自去查看，然后说明是否一致。';
+
+  @override
+  String get integrityMatches => '一致';
+
+  @override
+  String get integrityMismatch => '不一致';
+
+  @override
+  String get integrityAnother => '换一条';
+
+  @override
+  String get integrityNoneToday => '今天还没有提交任何检查。';
+
+  @override
+  String get integrityRecorded => '已记录。';
+
+  @override
+  String get integrityMismatchNoteHint => '你发现了什么？（可选）';
+
+  @override
+  String integrityTimeOnChecks(int minutes) {
+    return '检查用时（7 天）：$minutes 分钟';
+  }
+
+  @override
+  String integritySpotChecks(int matched, int mismatched) {
+    return '抽查：$matched 一致，$mismatched 不一致';
+  }
+
+  @override
+  String get integrityNoFlags => '过去 30 天未发现异常模式。';
+
+  @override
+  String get integrityMarkReviewed => '标记为已复核';
+
+  @override
+  String get integrityReviewed => '已复核';
+
+  @override
+  String get integrityKindTooFast => '过快';
+
+  @override
+  String get integrityKindBurst => '一次提交太多';
+
+  @override
+  String get integrityKindReusedPhoto => '重复使用的照片';
+
+  @override
+  String get integrityKindSameReading => '每次读数相同';
+
+  @override
+  String get integrityKindRoundNumbers => '总是整数';
+
+  @override
+  String get integrityKindOffSite => '不在场所内';
+
+  @override
+  String get integrityKindCheckMismatch => '核查时不一致';
+
+  @override
+  String timeOnChecksLabel(int minutes) {
+    return '检查用时 $minutes 分钟';
+  }
 }

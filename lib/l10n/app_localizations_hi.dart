@@ -5741,4 +5741,84 @@ class AppLocalizationsHi extends AppLocalizations {
   String trainingToDoCount(int count) {
     return '$count बाकी';
   }
+
+  @override
+  String get menuCheckPatterns => 'चेक पैटर्न';
+
+  @override
+  String get menuCheckPatternsSubtitle => 'संभावित नकली चेक, स्पॉट-चेक';
+
+  @override
+  String get integrityIntro =>
+      'ऐसे पैटर्न जिनका मतलब हो सकता है कि चेक असल में नहीं हुए। स्टाफ़ को इनके बारे में नहीं बताया जाता। नतीजा निकालने से पहले जाँच करें।';
+
+  @override
+  String get integrityCheckThisOne => 'इसे जाँचें';
+
+  @override
+  String get integrityCheckThisOneHelp =>
+      'खुद जाकर देखें, फिर बताएँ कि मेल खाता है या नहीं।';
+
+  @override
+  String get integrityMatches => 'मेल खाता है';
+
+  @override
+  String get integrityMismatch => 'मेल नहीं खाता';
+
+  @override
+  String get integrityAnother => 'दूसरा दिखाएँ';
+
+  @override
+  String get integrityNoneToday => 'आज अभी तक कोई चेक जमा नहीं हुआ।';
+
+  @override
+  String get integrityRecorded => 'दर्ज हो गया।';
+
+  @override
+  String get integrityMismatchNoteHint => 'आपको क्या मिला? (वैकल्पिक)';
+
+  @override
+  String integrityTimeOnChecks(int minutes) {
+    return 'चेक पर समय (7 दिन): $minutes मिनट';
+  }
+
+  @override
+  String integritySpotChecks(int matched, int mismatched) {
+    return 'स्पॉट-चेक: $matched मेल खाए, $mismatched नहीं';
+  }
+
+  @override
+  String get integrityNoFlags => 'पिछले 30 दिनों में कोई पैटर्न नहीं मिला।';
+
+  @override
+  String get integrityMarkReviewed => 'देखा गया मार्क करें';
+
+  @override
+  String get integrityReviewed => 'देखा गया';
+
+  @override
+  String get integrityKindTooFast => 'बहुत तेज़';
+
+  @override
+  String get integrityKindBurst => 'एक साथ बहुत सारे';
+
+  @override
+  String get integrityKindReusedPhoto => 'दोबारा इस्तेमाल हुई फ़ोटो';
+
+  @override
+  String get integrityKindSameReading => 'हर बार एक ही रीडिंग';
+
+  @override
+  String get integrityKindRoundNumbers => 'हमेशा पूर्ण संख्याएँ';
+
+  @override
+  String get integrityKindOffSite => 'वेन्यू से दूर';
+
+  @override
+  String get integrityKindCheckMismatch => 'जाँच में मेल नहीं खाया';
+
+  @override
+  String timeOnChecksLabel(int minutes) {
+    return 'चेक पर $minutes मिनट';
+  }
 }

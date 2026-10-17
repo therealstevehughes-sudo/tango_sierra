@@ -36,6 +36,7 @@ import '../../features/venue_setup/venue_setup_wizard_screen.dart';
 import '../../l10n/app_localizations.dart';
 import '../../shared/models/user.dart';
 import '../widgets/menu_hub_screen.dart';
+import '../../features/manager/check_patterns_screen.dart';
 
 // Menu by role (2026-10-17, founder-approved design — mock-ups at
 // https://claude.ai/artifact/ELxn1J9cAYbTmLt54rdryw). One definition of
@@ -386,6 +387,13 @@ List<MenuSection> managerMenu(AppLocalizations l10n, MenuContext c) => [
       icon: Icons.photo_library_outlined,
       label: l10n.photoEvidence,
       builder: (_) => const EvidencePruneScreen(),
+    ),
+    // Anti-faking (2026-10-17): managers only, never shown to staff.
+    MenuEntry(
+      icon: Icons.policy_outlined,
+      label: l10n.menuCheckPatterns,
+      subtitle: l10n.menuCheckPatternsSubtitle,
+      builder: (_) => const CheckPatternsScreen(),
     ),
   ]),
   if (c.atLeast(RoleTier.regional))

@@ -87,7 +87,11 @@ class TaskController {
   // check. Deliberately a plain constant, not manager-configurable yet
   // (no UI for it was asked for) -- revisit if real usage shows it needs
   // tuning per venue.
-  static const _randomPhotoCheckProbability = 0.2;
+  //
+  // Raised for anyone with an open integrity flag (2026-10-17, plan item
+  // 5): the screen sets this from the server (my_spot_check_rate) before
+  // loading. The person isn't told why.
+  double spotCheckRate = 0.2;
 
   // Seeded from (scheduleId, today's date), not a fresh Random() every
   // call -- staff can't predict which day is a spot-check day (the seed
@@ -98,7 +102,7 @@ class TaskController {
   bool _isRandomPhotoCheckToday(int scheduleId) {
     final now = DateTime.now();
     final seed = Object.hash(scheduleId, now.year, now.month, now.day);
-    return Random(seed).nextDouble() < _randomPhotoCheckProbability;
+    return Random(seed).nextDouble() < spotCheckRate;
   }
 
   // Shift-relative window start (2026-09-24) — resolved once per
@@ -363,6 +367,10 @@ class TaskController {
     bool deliveryQualityProblem = false,
     String? deliveryOutcome,
     String? extraFieldValuesJson,
+    int? durationSeconds,
+    String? photoHash,
+    double? checkLatitude,
+    double? checkLongitude,
   }) async {
     final submissionId = await _submissionRepository.submit(
       TaskSubmission(
@@ -391,6 +399,10 @@ class TaskController {
         deliveryQualityProblem: deliveryQualityProblem,
         deliveryOutcome: deliveryOutcome,
         extraFieldValuesJson: extraFieldValuesJson,
+        durationSeconds: durationSeconds,
+        photoHash: photoHash,
+        checkLatitude: checkLatitude,
+        checkLongitude: checkLongitude,
       ),
     );
 

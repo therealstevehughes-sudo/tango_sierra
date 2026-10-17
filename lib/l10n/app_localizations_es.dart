@@ -5861,4 +5861,86 @@ class AppLocalizationsEs extends AppLocalizations {
   String trainingToDoCount(int count) {
     return '$count pendientes';
   }
+
+  @override
+  String get menuCheckPatterns => 'Patrones de controles';
+
+  @override
+  String get menuCheckPatternsSubtitle =>
+      'Posibles controles falsos, comprobaciones';
+
+  @override
+  String get integrityIntro =>
+      'Patrones que pueden indicar que los controles no se hicieron de verdad. El personal no recibe aviso. Investiga antes de sacar conclusiones.';
+
+  @override
+  String get integrityCheckThisOne => 'Comprueba este';
+
+  @override
+  String get integrityCheckThisOneHelp =>
+      'Ve a verlo tú mismo y luego indica si coincide.';
+
+  @override
+  String get integrityMatches => 'Coincide';
+
+  @override
+  String get integrityMismatch => 'No coincide';
+
+  @override
+  String get integrityAnother => 'Mostrar otro';
+
+  @override
+  String get integrityNoneToday => 'Aún no se ha enviado ningún control hoy.';
+
+  @override
+  String get integrityRecorded => 'Registrado.';
+
+  @override
+  String get integrityMismatchNoteHint => '¿Qué encontraste? (opcional)';
+
+  @override
+  String integrityTimeOnChecks(int minutes) {
+    return 'Tiempo en controles (7 días): $minutes min';
+  }
+
+  @override
+  String integritySpotChecks(int matched, int mismatched) {
+    return 'Comprobaciones: $matched coinciden, $mismatched no';
+  }
+
+  @override
+  String get integrityNoFlags =>
+      'No se han encontrado patrones en los últimos 30 días.';
+
+  @override
+  String get integrityMarkReviewed => 'Marcar como revisado';
+
+  @override
+  String get integrityReviewed => 'Revisado';
+
+  @override
+  String get integrityKindTooFast => 'Demasiado rápido';
+
+  @override
+  String get integrityKindBurst => 'Muchos a la vez';
+
+  @override
+  String get integrityKindReusedPhoto => 'Foto reutilizada';
+
+  @override
+  String get integrityKindSameReading => 'La misma lectura siempre';
+
+  @override
+  String get integrityKindRoundNumbers => 'Siempre números redondos';
+
+  @override
+  String get integrityKindOffSite => 'Fuera del local';
+
+  @override
+  String get integrityKindCheckMismatch => 'No coincidió al comprobarlo';
+
+  @override
+  String timeOnChecksLabel(int minutes) {
+    return '$minutes min en controles';
+  }
 }

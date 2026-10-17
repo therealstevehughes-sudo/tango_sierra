@@ -38,6 +38,8 @@ import '../tasks/training/training_progress.dart' as tp;
 import '../tasks/training/training_service.dart';
 import '../../shared/models/user.dart';
 import '../../shared/providers/training_progress_providers.dart';
+import '../../shared/repositories/integrity_repository.dart';
+import '../manager/check_patterns_screen.dart' show integrityRepositoryProvider;
 
 // EHO/audit export (Sprint 031) — a one-tap, inspector-ready PDF of a
 // venue's compliance records over a chosen date range. The #1 UK
@@ -120,6 +122,7 @@ class EhoExportService {
     this._evidenceStore,
     this._menuItemRepository, [
     this._trainingService,
+    this._integrityRepository,
   ]);
 
   final TaskSubmissionRepository _submissionRepository;
@@ -131,6 +134,8 @@ class EhoExportService {
   final UserRepository _userRepository;
   final BrandingConfigRepository _brandingConfigRepository;
   final EvidenceStore _evidenceStore;
+  // Anti-faking flags (2026-10-17) — optional, best-effort like training.
+  final IntegrityRepository? _integrityRepository;
   final MenuItemRepository _menuItemRepository;
   // Training section (2026-10-15) — optional so existing callers/tests
   // that don't care about task training keep working unchanged.
@@ -259,6 +264,25 @@ class EhoExportService {
     final taskTrainingSummary = taskTraining == null
         ? null
         : _summariseTaskTraining(taskTraining, activeStaff);
+
+    // Integrity flags (2026-10-17): checks that looked faked, within the
+    // export period. Null = couldn't load (the PDF says so).
+    List<String>? integrityLines;
+    try {
+      final repo = _integrityRepository;
+      if (repo != null) {
+        final names = {for (final u in activeStaff) u.id: u.name};
+        final overview = await repo.overview(siteId);
+        integrityLines = [
+          for (final f in overview.flags)
+            if (!f.createdAt.isBefore(start) && !f.createdAt.isAfter(end))
+              '${formatDateTime(f.createdAt)}: ${names[f.userId] ?? '?'} - '
+                  '${f.detail}${f.reviewed ? ' (reviewed)' : ''}',
+        ];
+      }
+    } catch (_) {
+      integrityLines = null;
+    }
 
     // Supplier register + traceability (Sprint 031, finalized beta build
     // order item 4, Sub-sprint B) — a due-diligence tally (active suppliers
@@ -451,6 +475,7 @@ class EhoExportService {
             expiredTraining: expiredTraining,
             flaggedDeliveries: flaggedDeliveries,
             taskTraining: taskTrainingSummary,
+            integrityLines: integrityLines,
           ),
         ],
       ),
@@ -828,6 +853,7 @@ class EhoExportService {
     required List<_ExpiredTrainingEntry> expiredTraining,
     required List<_FlaggedDeliveryEntry> flaggedDeliveries,
     required _TaskTrainingSummary? taskTraining,
+    List<String>? integrityLines,
   }) {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -929,6 +955,27 @@ class EhoExportService {
           for (final gap in taskTraining.gaps)
             pw.Text(
               '  - ${gap.staffName}: ${gap.description}',
+              style: const pw.TextStyle(color: PdfColors.red800),
+            ),
+        pw.SizedBox(height: 8),
+        pw.Text(
+          'Checks flagged as possibly not done properly',
+          style: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+        ),
+        if (integrityLines == null)
+          pw.Text(
+            'Records unavailable for this export.',
+            style: const pw.TextStyle(fontStyle: pw.FontStyle.italic),
+          )
+        else if (integrityLines.isEmpty)
+          pw.Text(
+            'None.',
+            style: const pw.TextStyle(fontStyle: pw.FontStyle.italic),
+          )
+        else
+          for (final line in integrityLines)
+            pw.Text(
+              '  - $line',
               style: const pw.TextStyle(color: PdfColors.red800),
             ),
         pw.SizedBox(height: 8),
@@ -1390,5 +1437,6 @@ final ehoExportServiceProvider = Provider<EhoExportService>((ref) {
     ref.watch(evidenceStoreProvider),
     ref.watch(menuItemRepositoryProvider),
     ref.watch(trainingServiceProvider),
+    ref.watch(integrityRepositoryProvider),
   );
 });

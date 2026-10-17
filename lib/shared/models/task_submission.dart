@@ -47,6 +47,19 @@ class TaskSubmission {
   // parseExtraFieldValues (task_extra_field.dart).
   final String? extraFieldValuesJson;
 
+  // Integrity checks (2026-10-17). The server decides what looks wrong
+  // (tools/integrity_flags_migration.sql); the app only reports facts.
+  /// Seconds the check was open on screen before it was submitted.
+  final int? durationSeconds;
+
+  /// SHA-256 of the photo, to spot the same picture used twice.
+  final String? photoHash;
+
+  /// Where the phone was, for critical checks at venues with the location
+  /// check on. Sent once; the server keeps only on-site / off-site.
+  final double? checkLatitude;
+  final double? checkLongitude;
+
   const TaskSubmission({
     this.id,
     required this.taskTitle,
@@ -75,6 +88,10 @@ class TaskSubmission {
     this.deliveryQualityProblem = false,
     this.deliveryOutcome,
     this.extraFieldValuesJson,
+    this.durationSeconds,
+    this.photoHash,
+    this.checkLatitude,
+    this.checkLongitude,
   });
 
   // Flat-string fallback for contexts that just want one combined display

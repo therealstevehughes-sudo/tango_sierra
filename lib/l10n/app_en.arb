@@ -5081,5 +5081,53 @@
         "type": "int"
       }
     }
+  },
+  "menuCheckPatterns": "Check patterns",
+  "menuCheckPatternsSubtitle": "Possible faked checks, spot-checks",
+  "integrityIntro": "Patterns that may mean checks weren't really done. Staff aren't told about these. Look into them before drawing conclusions.",
+  "integrityCheckThisOne": "Check this one",
+  "integrityCheckThisOneHelp": "Go and look at this yourself, then say whether it matched.",
+  "integrityMatches": "It matches",
+  "integrityMismatch": "It doesn't match",
+  "integrityAnother": "Show another",
+  "integrityNoneToday": "No checks submitted today yet.",
+  "integrityRecorded": "Recorded.",
+  "integrityMismatchNoteHint": "What did you find? (optional)",
+  "integrityTimeOnChecks": "Time on checks (7 days): {minutes} min",
+  "@integrityTimeOnChecks": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "integritySpotChecks": "Spot-checks: {matched} matched, {mismatched} didn't",
+  "@integritySpotChecks": {
+    "placeholders": {
+      "matched": {
+        "type": "int"
+      },
+      "mismatched": {
+        "type": "int"
+      }
+    }
+  },
+  "integrityNoFlags": "No patterns found in the last 30 days.",
+  "integrityMarkReviewed": "Mark reviewed",
+  "integrityReviewed": "Reviewed",
+  "integrityKindTooFast": "Too fast",
+  "integrityKindBurst": "Many at once",
+  "integrityKindReusedPhoto": "Reused photo",
+  "integrityKindSameReading": "Same reading every time",
+  "integrityKindRoundNumbers": "Always round numbers",
+  "integrityKindOffSite": "Away from the venue",
+  "integrityKindCheckMismatch": "Didn't match when checked",
+  "timeOnChecksLabel": "{minutes} min on checks",
+  "@timeOnChecksLabel": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
   }
 }

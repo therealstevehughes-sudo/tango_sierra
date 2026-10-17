@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -47,6 +49,10 @@ import 'task_overview_screen.dart';
 import 'training/training_guide_button.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
+import '../../shared/providers/site_providers.dart';
+import '../../shared/providers/backend_providers.dart' show backendRestClientProvider;
+import '../auth/clock_location.dart';
+import '../../shared/repositories/backend_shift_log_repository.dart' show ClockPosition;
 
 enum _PhotoSource { camera, upload }
 
@@ -130,6 +136,20 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   // worker can still see what they're submitting after accepting it.
   Uint8List? _photoBytes;
 
+  // Integrity checks (2026-10-17): when the current task first appeared,
+  // so its submission can report how long it was open.
+  String? _shownTaskKey;
+  DateTime _taskShownAt = DateTime.now();
+
+  void _noteTaskShown(ResolvedTask task) {
+    final key = '${task.templateGroupId}:${task.equipmentInstanceId}:'
+        '${controller.currentIndex}';
+    if (key != _shownTaskKey) {
+      _shownTaskKey = key;
+      _taskShownAt = DateTime.now();
+    }
+  }
+
   // Supplier register + traceability (Sprint 031, finalized beta build
   // order item 4, Sub-sprint B). Optional — never blocks submission (same
   // "never block the kitchen running" principle as the approval-status
@@ -202,6 +222,16 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
       // reset currentIndex back to 0, undoing exactly what the caller just
       // set up.
       if (widget.existingController == null) {
+        // Anyone with an open integrity flag gets more photo spot-checks
+        // (plan item 5). Best effort: offline or local mode keeps 20%.
+        try {
+          final rows = await ref
+              .read(backendRestClientProvider)
+              .rpc('my_spot_check_rate', {'p_user_id': currentUser?.id})
+              .timeout(const Duration(seconds: 4));
+          final rate = (rows.first as Map<String, dynamic>)['rate'];
+          if (rate is num) controller.spotCheckRate = rate.toDouble();
+        } catch (_) {}
         await controller.loadTasks();
       }
 
@@ -734,12 +764,27 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     final task = controller.getCurrentTask();
     final numericValue = _numberInTemplateUnit;
 
+    // Integrity facts for the server's checks (2026-10-17).
+    final durationSeconds = DateTime.now().difference(_taskShownAt).inSeconds;
+    final photo = _photoBytes;
+    final photoHash = photo == null ? null : sha256.convert(photo).toString();
+    ClockPosition? position;
+    if (task.isCritical &&
+        (ref.read(currentUserSiteProvider).value?.clockLocationCheckEnabled ??
+            false)) {
+      position = await readClockPosition();
+    }
+
     await controller.logTaskSubmission(
       task: task,
       status: effectiveResult,
       numericValue: numericValue?.toString(),
       photoAttached: photoTaken,
       photoPath: photoPath,
+      durationSeconds: durationSeconds,
+      photoHash: photoHash,
+      checkLatitude: position?.latitude,
+      checkLongitude: position?.longitude,
       notes: notesController.text.trim().isEmpty
           ? null
           : notesController.text.trim(),
@@ -965,6 +1010,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     }
 
     final task = controller.getCurrentTask();
+    _noteTaskShown(task);
 
     // Time-windowed tasks (Sprint 031, Sub-sprint C): an entirely separate,
     // simplified Scaffold — not a conditional branch woven into the full

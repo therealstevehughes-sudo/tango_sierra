@@ -5703,4 +5703,84 @@ class AppLocalizationsAr extends AppLocalizations {
   String trainingToDoCount(int count) {
     return '$count مطلوب';
   }
+
+  @override
+  String get menuCheckPatterns => 'أنماط الفحوصات';
+
+  @override
+  String get menuCheckPatternsSubtitle => 'فحوصات قد تكون مزيفة، فحوصات مفاجئة';
+
+  @override
+  String get integrityIntro =>
+      'أنماط قد تعني أن الفحوصات لم تُنجز فعلاً. لا يتم إبلاغ الموظفين بها. تحقق منها قبل الوصول إلى استنتاجات.';
+
+  @override
+  String get integrityCheckThisOne => 'افحص هذا';
+
+  @override
+  String get integrityCheckThisOneHelp =>
+      'اذهب وانظر إليه بنفسك، ثم حدد إن كان مطابقاً.';
+
+  @override
+  String get integrityMatches => 'مطابق';
+
+  @override
+  String get integrityMismatch => 'غير مطابق';
+
+  @override
+  String get integrityAnother => 'أظهر آخر';
+
+  @override
+  String get integrityNoneToday => 'لم تُرسل أي فحوصات اليوم بعد.';
+
+  @override
+  String get integrityRecorded => 'تم التسجيل.';
+
+  @override
+  String get integrityMismatchNoteHint => 'ماذا وجدت؟ (اختياري)';
+
+  @override
+  String integrityTimeOnChecks(int minutes) {
+    return 'الوقت على الفحوصات (7 أيام): $minutes دقيقة';
+  }
+
+  @override
+  String integritySpotChecks(int matched, int mismatched) {
+    return 'الفحوصات المفاجئة: $matched مطابقة، $mismatched غير مطابقة';
+  }
+
+  @override
+  String get integrityNoFlags => 'لم يتم العثور على أنماط خلال آخر 30 يوماً.';
+
+  @override
+  String get integrityMarkReviewed => 'وضع علامة كمراجَع';
+
+  @override
+  String get integrityReviewed => 'تمت المراجعة';
+
+  @override
+  String get integrityKindTooFast => 'سريع جداً';
+
+  @override
+  String get integrityKindBurst => 'الكثير دفعة واحدة';
+
+  @override
+  String get integrityKindReusedPhoto => 'صورة مكررة';
+
+  @override
+  String get integrityKindSameReading => 'نفس القراءة في كل مرة';
+
+  @override
+  String get integrityKindRoundNumbers => 'أرقام صحيحة دائماً';
+
+  @override
+  String get integrityKindOffSite => 'بعيد عن المنشأة';
+
+  @override
+  String get integrityKindCheckMismatch => 'لم يطابق عند الفحص';
+
+  @override
+  String timeOnChecksLabel(int minutes) {
+    return '$minutes دقيقة على الفحوصات';
+  }
 }

@@ -5858,4 +5858,85 @@ class AppLocalizationsRo extends AppLocalizations {
   String trainingToDoCount(int count) {
     return '$count de făcut';
   }
+
+  @override
+  String get menuCheckPatterns => 'Tipare ale verificărilor';
+
+  @override
+  String get menuCheckPatternsSubtitle =>
+      'Posibile verificări false, controale';
+
+  @override
+  String get integrityIntro =>
+      'Tipare care pot arăta că verificările nu s-au făcut cu adevărat. Personalul nu este anunțat. Investighează înainte de a trage concluzii.';
+
+  @override
+  String get integrityCheckThisOne => 'Verifică aceasta';
+
+  @override
+  String get integrityCheckThisOneHelp =>
+      'Mergi și verifică tu, apoi spune dacă se potrivește.';
+
+  @override
+  String get integrityMatches => 'Se potrivește';
+
+  @override
+  String get integrityMismatch => 'Nu se potrivește';
+
+  @override
+  String get integrityAnother => 'Arată alta';
+
+  @override
+  String get integrityNoneToday => 'Nicio verificare trimisă azi încă.';
+
+  @override
+  String get integrityRecorded => 'Înregistrat.';
+
+  @override
+  String get integrityMismatchNoteHint => 'Ce ai găsit? (opțional)';
+
+  @override
+  String integrityTimeOnChecks(int minutes) {
+    return 'Timp pe verificări (7 zile): $minutes min';
+  }
+
+  @override
+  String integritySpotChecks(int matched, int mismatched) {
+    return 'Controale: $matched potrivite, $mismatched nu';
+  }
+
+  @override
+  String get integrityNoFlags => 'Niciun tipar în ultimele 30 de zile.';
+
+  @override
+  String get integrityMarkReviewed => 'Marchează ca verificat';
+
+  @override
+  String get integrityReviewed => 'Verificat';
+
+  @override
+  String get integrityKindTooFast => 'Prea rapid';
+
+  @override
+  String get integrityKindBurst => 'Multe deodată';
+
+  @override
+  String get integrityKindReusedPhoto => 'Fotografie refolosită';
+
+  @override
+  String get integrityKindSameReading => 'Aceeași valoare de fiecare dată';
+
+  @override
+  String get integrityKindRoundNumbers => 'Mereu numere rotunde';
+
+  @override
+  String get integrityKindOffSite => 'În afara locației';
+
+  @override
+  String get integrityKindCheckMismatch => 'Nu s-a potrivit la control';
+
+  @override
+  String timeOnChecksLabel(int minutes) {
+    return '$minutes min pe verificări';
+  }
 }

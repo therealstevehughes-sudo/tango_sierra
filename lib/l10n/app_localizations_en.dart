@@ -5875,4 +5875,84 @@ class AppLocalizationsEn extends AppLocalizations {
   String trainingToDoCount(int count) {
     return '$count to do';
   }
+
+  @override
+  String get menuCheckPatterns => 'Check patterns';
+
+  @override
+  String get menuCheckPatternsSubtitle => 'Possible faked checks, spot-checks';
+
+  @override
+  String get integrityIntro =>
+      'Patterns that may mean checks weren\'t really done. Staff aren\'t told about these. Look into them before drawing conclusions.';
+
+  @override
+  String get integrityCheckThisOne => 'Check this one';
+
+  @override
+  String get integrityCheckThisOneHelp =>
+      'Go and look at this yourself, then say whether it matched.';
+
+  @override
+  String get integrityMatches => 'It matches';
+
+  @override
+  String get integrityMismatch => 'It doesn\'t match';
+
+  @override
+  String get integrityAnother => 'Show another';
+
+  @override
+  String get integrityNoneToday => 'No checks submitted today yet.';
+
+  @override
+  String get integrityRecorded => 'Recorded.';
+
+  @override
+  String get integrityMismatchNoteHint => 'What did you find? (optional)';
+
+  @override
+  String integrityTimeOnChecks(int minutes) {
+    return 'Time on checks (7 days): $minutes min';
+  }
+
+  @override
+  String integritySpotChecks(int matched, int mismatched) {
+    return 'Spot-checks: $matched matched, $mismatched didn\'t';
+  }
+
+  @override
+  String get integrityNoFlags => 'No patterns found in the last 30 days.';
+
+  @override
+  String get integrityMarkReviewed => 'Mark reviewed';
+
+  @override
+  String get integrityReviewed => 'Reviewed';
+
+  @override
+  String get integrityKindTooFast => 'Too fast';
+
+  @override
+  String get integrityKindBurst => 'Many at once';
+
+  @override
+  String get integrityKindReusedPhoto => 'Reused photo';
+
+  @override
+  String get integrityKindSameReading => 'Same reading every time';
+
+  @override
+  String get integrityKindRoundNumbers => 'Always round numbers';
+
+  @override
+  String get integrityKindOffSite => 'Away from the venue';
+
+  @override
+  String get integrityKindCheckMismatch => 'Didn\'t match when checked';
+
+  @override
+  String timeOnChecksLabel(int minutes) {
+    return '$minutes min on checks';
+  }
 }

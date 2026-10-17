@@ -10039,6 +10039,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} to do'**
   String trainingToDoCount(int count);
+
+  /// No description provided for @menuCheckPatterns.
+  ///
+  /// In en, this message translates to:
+  /// **'Check patterns'**
+  String get menuCheckPatterns;
+
+  /// No description provided for @menuCheckPatternsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Possible faked checks, spot-checks'**
+  String get menuCheckPatternsSubtitle;
+
+  /// No description provided for @integrityIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Patterns that may mean checks weren\'t really done. Staff aren\'t told about these. Look into them before drawing conclusions.'**
+  String get integrityIntro;
+
+  /// No description provided for @integrityCheckThisOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Check this one'**
+  String get integrityCheckThisOne;
+
+  /// No description provided for @integrityCheckThisOneHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Go and look at this yourself, then say whether it matched.'**
+  String get integrityCheckThisOneHelp;
+
+  /// No description provided for @integrityMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'It matches'**
+  String get integrityMatches;
+
+  /// No description provided for @integrityMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'It doesn\'t match'**
+  String get integrityMismatch;
+
+  /// No description provided for @integrityAnother.
+  ///
+  /// In en, this message translates to:
+  /// **'Show another'**
+  String get integrityAnother;
+
+  /// No description provided for @integrityNoneToday.
+  ///
+  /// In en, this message translates to:
+  /// **'No checks submitted today yet.'**
+  String get integrityNoneToday;
+
+  /// No description provided for @integrityRecorded.
+  ///
+  /// In en, this message translates to:
+  /// **'Recorded.'**
+  String get integrityRecorded;
+
+  /// No description provided for @integrityMismatchNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you find? (optional)'**
+  String get integrityMismatchNoteHint;
+
+  /// No description provided for @integrityTimeOnChecks.
+  ///
+  /// In en, this message translates to:
+  /// **'Time on checks (7 days): {minutes} min'**
+  String integrityTimeOnChecks(int minutes);
+
+  /// No description provided for @integritySpotChecks.
+  ///
+  /// In en, this message translates to:
+  /// **'Spot-checks: {matched} matched, {mismatched} didn\'t'**
+  String integritySpotChecks(int matched, int mismatched);
+
+  /// No description provided for @integrityNoFlags.
+  ///
+  /// In en, this message translates to:
+  /// **'No patterns found in the last 30 days.'**
+  String get integrityNoFlags;
+
+  /// No description provided for @integrityMarkReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark reviewed'**
+  String get integrityMarkReviewed;
+
+  /// No description provided for @integrityReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed'**
+  String get integrityReviewed;
+
+  /// No description provided for @integrityKindTooFast.
+  ///
+  /// In en, this message translates to:
+  /// **'Too fast'**
+  String get integrityKindTooFast;
+
+  /// No description provided for @integrityKindBurst.
+  ///
+  /// In en, this message translates to:
+  /// **'Many at once'**
+  String get integrityKindBurst;
+
+  /// No description provided for @integrityKindReusedPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Reused photo'**
+  String get integrityKindReusedPhoto;
+
+  /// No description provided for @integrityKindSameReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Same reading every time'**
+  String get integrityKindSameReading;
+
+  /// No description provided for @integrityKindRoundNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Always round numbers'**
+  String get integrityKindRoundNumbers;
+
+  /// No description provided for @integrityKindOffSite.
+  ///
+  /// In en, this message translates to:
+  /// **'Away from the venue'**
+  String get integrityKindOffSite;
+
+  /// No description provided for @integrityKindCheckMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t match when checked'**
+  String get integrityKindCheckMismatch;
+
+  /// No description provided for @timeOnChecksLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min on checks'**
+  String timeOnChecksLabel(int minutes);
 }
 
 class _AppLocalizationsDelegate

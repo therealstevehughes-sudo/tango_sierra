@@ -5921,4 +5921,87 @@ class AppLocalizationsDe extends AppLocalizations {
   String trainingToDoCount(int count) {
     return '$count offen';
   }
+
+  @override
+  String get menuCheckPatterns => 'Prüfmuster';
+
+  @override
+  String get menuCheckPatternsSubtitle =>
+      'Mögliche vorgetäuschte Prüfungen, Stichproben';
+
+  @override
+  String get integrityIntro =>
+      'Muster, die darauf hindeuten können, dass Prüfungen nicht wirklich gemacht wurden. Das Team wird darüber nicht informiert. Erst prüfen, dann urteilen.';
+
+  @override
+  String get integrityCheckThisOne => 'Diese hier prüfen';
+
+  @override
+  String get integrityCheckThisOneHelp =>
+      'Geh hin und schau es dir selbst an, dann sag, ob es stimmt.';
+
+  @override
+  String get integrityMatches => 'Stimmt';
+
+  @override
+  String get integrityMismatch => 'Stimmt nicht';
+
+  @override
+  String get integrityAnother => 'Andere zeigen';
+
+  @override
+  String get integrityNoneToday =>
+      'Heute wurden noch keine Prüfungen abgeschickt.';
+
+  @override
+  String get integrityRecorded => 'Gespeichert.';
+
+  @override
+  String get integrityMismatchNoteHint =>
+      'Was hast du festgestellt? (optional)';
+
+  @override
+  String integrityTimeOnChecks(int minutes) {
+    return 'Zeit für Prüfungen (7 Tage): $minutes Min.';
+  }
+
+  @override
+  String integritySpotChecks(int matched, int mismatched) {
+    return 'Stichproben: $matched stimmten, $mismatched nicht';
+  }
+
+  @override
+  String get integrityNoFlags => 'Keine Muster in den letzten 30 Tagen.';
+
+  @override
+  String get integrityMarkReviewed => 'Als geprüft markieren';
+
+  @override
+  String get integrityReviewed => 'Geprüft';
+
+  @override
+  String get integrityKindTooFast => 'Zu schnell';
+
+  @override
+  String get integrityKindBurst => 'Viele auf einmal';
+
+  @override
+  String get integrityKindReusedPhoto => 'Wiederverwendetes Foto';
+
+  @override
+  String get integrityKindSameReading => 'Jedes Mal derselbe Wert';
+
+  @override
+  String get integrityKindRoundNumbers => 'Immer glatte Zahlen';
+
+  @override
+  String get integrityKindOffSite => 'Nicht vor Ort';
+
+  @override
+  String get integrityKindCheckMismatch => 'Stimmte bei Kontrolle nicht';
+
+  @override
+  String timeOnChecksLabel(int minutes) {
+    return '$minutes Min. für Prüfungen';
+  }
 }

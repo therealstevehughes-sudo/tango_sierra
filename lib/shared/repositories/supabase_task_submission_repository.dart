@@ -56,6 +56,10 @@ class SupabaseTaskSubmissionRepository implements TaskSubmissionRepository {
       'delivery_quality_problem': submission.deliveryQualityProblem,
       'delivery_outcome': submission.deliveryOutcome,
       'extra_field_values_json': submission.extraFieldValuesJson,
+      'duration_seconds': submission.durationSeconds,
+      'photo_hash': submission.photoHash,
+      'check_lat': submission.checkLatitude,
+      'check_lng': submission.checkLongitude,
     });
     return row['id'] as int;
   }
@@ -249,5 +253,7 @@ class SupabaseTaskSubmissionRepository implements TaskSubmissionRepository {
     deliveryQualityProblem: row['delivery_quality_problem'] as bool? ?? false,
     deliveryOutcome: row['delivery_outcome'] as String?,
     extraFieldValuesJson: row['extra_field_values_json'] as String?,
+    durationSeconds: row['duration_seconds'] as int?,
+    photoHash: row['photo_hash'] as String?,
   );
 }

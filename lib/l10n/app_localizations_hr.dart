@@ -5768,4 +5768,84 @@ class AppLocalizationsHr extends AppLocalizations {
   String trainingToDoCount(int count) {
     return '$count za napraviti';
   }
+
+  @override
+  String get menuCheckPatterns => 'Obrasci provjera';
+
+  @override
+  String get menuCheckPatternsSubtitle => 'Moguće lažne provjere, kontrole';
+
+  @override
+  String get integrityIntro =>
+      'Obrasci koji mogu značiti da provjere nisu stvarno obavljene. Osoblje o tome ne dobiva obavijest. Istražite prije zaključaka.';
+
+  @override
+  String get integrityCheckThisOne => 'Provjeri ovo';
+
+  @override
+  String get integrityCheckThisOneHelp =>
+      'Idi i pogledaj sam, zatim reci podudara li se.';
+
+  @override
+  String get integrityMatches => 'Podudara se';
+
+  @override
+  String get integrityMismatch => 'Ne podudara se';
+
+  @override
+  String get integrityAnother => 'Prikaži drugo';
+
+  @override
+  String get integrityNoneToday => 'Danas još nije poslana nijedna provjera.';
+
+  @override
+  String get integrityRecorded => 'Zabilježeno.';
+
+  @override
+  String get integrityMismatchNoteHint => 'Što si pronašao? (neobavezno)';
+
+  @override
+  String integrityTimeOnChecks(int minutes) {
+    return 'Vrijeme na provjerama (7 dana): $minutes min';
+  }
+
+  @override
+  String integritySpotChecks(int matched, int mismatched) {
+    return 'Kontrole: $matched se podudara, $mismatched ne';
+  }
+
+  @override
+  String get integrityNoFlags => 'Nema obrazaca u zadnjih 30 dana.';
+
+  @override
+  String get integrityMarkReviewed => 'Označi pregledano';
+
+  @override
+  String get integrityReviewed => 'Pregledano';
+
+  @override
+  String get integrityKindTooFast => 'Prebrzo';
+
+  @override
+  String get integrityKindBurst => 'Mnogo odjednom';
+
+  @override
+  String get integrityKindReusedPhoto => 'Ponovljena fotografija';
+
+  @override
+  String get integrityKindSameReading => 'Svaki put isto očitanje';
+
+  @override
+  String get integrityKindRoundNumbers => 'Uvijek okrugli brojevi';
+
+  @override
+  String get integrityKindOffSite => 'Izvan objekta';
+
+  @override
+  String get integrityKindCheckMismatch => 'Nije se podudaralo pri provjeri';
+
+  @override
+  String timeOnChecksLabel(int minutes) {
+    return '$minutes min na provjerama';
+  }
 }

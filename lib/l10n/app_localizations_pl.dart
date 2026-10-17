@@ -5863,4 +5863,85 @@ class AppLocalizationsPl extends AppLocalizations {
   String trainingToDoCount(int count) {
     return '$count do zrobienia';
   }
+
+  @override
+  String get menuCheckPatterns => 'Wzorce kontroli';
+
+  @override
+  String get menuCheckPatternsSubtitle =>
+      'Możliwe fałszywe kontrole, wyrywkowe sprawdzenia';
+
+  @override
+  String get integrityIntro =>
+      'Wzorce, które mogą oznaczać, że kontrole nie zostały naprawdę wykonane. Personel nie jest o nich informowany. Sprawdź, zanim wyciągniesz wnioski.';
+
+  @override
+  String get integrityCheckThisOne => 'Sprawdź to';
+
+  @override
+  String get integrityCheckThisOneHelp =>
+      'Idź i zobacz sam, a potem zaznacz, czy się zgadza.';
+
+  @override
+  String get integrityMatches => 'Zgadza się';
+
+  @override
+  String get integrityMismatch => 'Nie zgadza się';
+
+  @override
+  String get integrityAnother => 'Pokaż inne';
+
+  @override
+  String get integrityNoneToday => 'Dziś nie wysłano jeszcze żadnej kontroli.';
+
+  @override
+  String get integrityRecorded => 'Zapisano.';
+
+  @override
+  String get integrityMismatchNoteHint => 'Co znalazłeś? (opcjonalnie)';
+
+  @override
+  String integrityTimeOnChecks(int minutes) {
+    return 'Czas na kontrolach (7 dni): $minutes min';
+  }
+
+  @override
+  String integritySpotChecks(int matched, int mismatched) {
+    return 'Sprawdzenia: $matched zgodne, $mismatched niezgodne';
+  }
+
+  @override
+  String get integrityNoFlags => 'Brak wzorców w ostatnich 30 dniach.';
+
+  @override
+  String get integrityMarkReviewed => 'Oznacz jako sprawdzone';
+
+  @override
+  String get integrityReviewed => 'Sprawdzone';
+
+  @override
+  String get integrityKindTooFast => 'Za szybko';
+
+  @override
+  String get integrityKindBurst => 'Wiele naraz';
+
+  @override
+  String get integrityKindReusedPhoto => 'Powtórzone zdjęcie';
+
+  @override
+  String get integrityKindSameReading => 'Za każdym razem ten sam odczyt';
+
+  @override
+  String get integrityKindRoundNumbers => 'Zawsze okrągłe liczby';
+
+  @override
+  String get integrityKindOffSite => 'Poza lokalem';
+
+  @override
+  String get integrityKindCheckMismatch => 'Nie zgadzało się przy sprawdzeniu';
+
+  @override
+  String timeOnChecksLabel(int minutes) {
+    return '$minutes min na kontrolach';
+  }
 }
