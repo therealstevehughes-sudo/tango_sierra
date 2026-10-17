@@ -1590,5 +1590,7 @@
   "menuMore": "المزيد",
   "menuReportProblem": "الإبلاغ عن مشكلة",
   "menuTeamTrainingSubtitle": "من تم تدريبه",
-  "menuMoreTitle": "المزيد"
+  "menuMoreTitle": "المزيد",
+  "safeAtLeastLabel": "آمن: {value} أو أعلى",
+  "safeAtMostLabel": "آمن: {value} أو أقل"
 }

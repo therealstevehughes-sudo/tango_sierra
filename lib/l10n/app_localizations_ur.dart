@@ -5503,4 +5503,14 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get menuMoreTitle => 'مزید';
+
+  @override
+  String safeAtLeastLabel(String value) {
+    return 'محفوظ: $value یا زیادہ';
+  }
+
+  @override
+  String safeAtMostLabel(String value) {
+    return 'محفوظ: $value یا کم';
+  }
 }

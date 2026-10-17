@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme/app_colors.dart';
 import '../../features/tasks/task_model.dart';
+import '../../l10n/app_localizations.dart';
+import '../../shared/models/task_segment.dart';
 
 // Guided Cards (Sprint 2 visual follow-up, 2026-09-12): the worker's
 // task-presentation upgrade — a "guided" header that tells a staff member
@@ -64,7 +66,12 @@ class GuidedTaskHeader extends StatelessWidget {
         // the segment is blank (custom tasks carry no segment).
         if (segment.isNotEmpty) ...[
           const SizedBox(height: 2),
-          _SegmentPill(label: segment),
+          // The readable name ("Food safety & temperature"), never the
+          // stored slug ("food_safety") — found on the live check screen
+          // 2026-10-17.
+          _SegmentPill(
+            label: segmentDisplayName(segment, AppLocalizations.of(context)),
+          ),
           const SizedBox(height: 8),
         ],
         if (instanceName != null) ...[

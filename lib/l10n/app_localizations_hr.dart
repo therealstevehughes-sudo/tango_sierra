@@ -5540,4 +5540,14 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get menuMoreTitle => 'Više';
+
+  @override
+  String safeAtLeastLabel(String value) {
+    return 'Sigurno: $value ili više';
+  }
+
+  @override
+  String safeAtMostLabel(String value) {
+    return 'Sigurno: $value ili manje';
+  }
 }

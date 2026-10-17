@@ -1590,5 +1590,7 @@
   "menuMore": "مزید",
   "menuReportProblem": "مسئلہ رپورٹ کریں",
   "menuTeamTrainingSubtitle": "کون تربیت یافتہ ہے",
-  "menuMoreTitle": "مزید"
+  "menuMoreTitle": "مزید",
+  "safeAtLeastLabel": "محفوظ: {value} یا زیادہ",
+  "safeAtMostLabel": "محفوظ: {value} یا کم"
 }

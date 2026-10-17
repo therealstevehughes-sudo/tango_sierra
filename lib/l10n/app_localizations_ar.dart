@@ -5475,4 +5475,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get menuMoreTitle => 'المزيد';
+
+  @override
+  String safeAtLeastLabel(String value) {
+    return 'آمن: $value أو أعلى';
+  }
+
+  @override
+  String safeAtMostLabel(String value) {
+    return 'آمن: $value أو أقل';
+  }
 }

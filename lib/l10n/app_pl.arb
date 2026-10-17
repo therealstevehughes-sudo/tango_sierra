@@ -1590,5 +1590,7 @@
   "menuMore": "Więcej",
   "menuReportProblem": "Zgłoś problem",
   "menuTeamTrainingSubtitle": "Kto jest przeszkolony",
-  "menuMoreTitle": "Więcej"
+  "menuMoreTitle": "Więcej",
+  "safeAtLeastLabel": "Bezpiecznie: {value} lub więcej",
+  "safeAtMostLabel": "Bezpiecznie: {value} lub mniej"
 }

@@ -5515,4 +5515,14 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get menuMoreTitle => 'और';
+
+  @override
+  String safeAtLeastLabel(String value) {
+    return 'सुरक्षित: $value या अधिक';
+  }
+
+  @override
+  String safeAtMostLabel(String value) {
+    return 'सुरक्षित: $value या कम';
+  }
 }

@@ -5633,4 +5633,14 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get menuMoreTitle => 'Więcej';
+
+  @override
+  String safeAtLeastLabel(String value) {
+    return 'Bezpiecznie: $value lub więcej';
+  }
+
+  @override
+  String safeAtMostLabel(String value) {
+    return 'Bezpiecznie: $value lub mniej';
+  }
 }

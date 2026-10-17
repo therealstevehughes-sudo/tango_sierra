@@ -96,7 +96,16 @@ class ResolvedTask {
     this.extraFieldDefs = const [],
   });
 
-  bool get hasNumericRange => minLimit != null && maxLimit != null;
+  // Any limit means a reading is required (2026-10-17 fix): this used to
+  // need BOTH a min and a max, so the 22 one-sided checks — fridge/freezer
+  // (max only), cooking/reheating/hot-holding (min only), deliveries… —
+  // never showed a reading box and were a bare PASS/FAIL tap.
+  bool get hasNumericRange => minLimit != null || maxLimit != null;
+
+  /// Pass/fail for a reading against whichever limits this task has.
+  bool withinLimits(double value) =>
+      (minLimit == null || value >= minLimit!) &&
+      (maxLimit == null || value <= maxLimit!);
 
   bool get hasChoice => choiceOptions != null && choiceOptions!.isNotEmpty;
 

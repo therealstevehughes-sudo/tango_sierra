@@ -1590,5 +1590,7 @@
   "menuMore": "Više",
   "menuReportProblem": "Prijavi problem",
   "menuTeamTrainingSubtitle": "Tko je obučen",
-  "menuMoreTitle": "Više"
+  "menuMoreTitle": "Više",
+  "safeAtLeastLabel": "Sigurno: {value} ili više",
+  "safeAtMostLabel": "Sigurno: {value} ili manje"
 }

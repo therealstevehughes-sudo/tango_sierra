@@ -613,8 +613,7 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
     if (!task.hasNumericRange) return null;
     final value = _numberInTemplateUnit;
     if (value == null) return null;
-    final withinRange = value >= task.minLimit! && value <= task.maxLimit!;
-    return withinRange ? "PASS" : "FAIL";
+    return task.withinLimits(value) ? "PASS" : "FAIL";
   }
 
   String get effectiveResult {
@@ -632,22 +631,25 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
   String? get _safeRangeLabel {
     final task = controller.getCurrentTask();
     if (!task.hasNumericRange) return null;
-    final unitLabel = _displayInFahrenheit ? '°F' : '°C';
-    final min = _displayInFahrenheit
-        ? celsiusToFahrenheit(task.minLimit!)
-        : task.minLimit!;
-    final max = _displayInFahrenheit
-        ? celsiusToFahrenheit(task.maxLimit!)
-        : task.maxLimit!;
-    final minLabel = _displayInFahrenheit && task.unit == 'celsius'
-        ? min.toStringAsFixed(1)
-        : _formatLimit(task.minLimit!);
-    final maxLabel = _displayInFahrenheit && task.unit == 'celsius'
-        ? max.toStringAsFixed(1)
-        : _formatLimit(task.maxLimit!);
-    return AppLocalizations.of(
-      context,
-    )!.safeRangeLabel('$minLabel$unitLabel', '$maxLabel$unitLabel');
+    final l10n = AppLocalizations.of(context)!;
+    // The task's own unit — not always a temperature (cooling/defrost/
+    // buffet logs are times).
+    final unitLabel = _displayInFahrenheit
+        ? '°F'
+        : task.unit == 'celsius'
+        ? '°C'
+        : task.unit == null
+        ? ''
+        : ' ${task.unit}';
+    String fmt(double v) => _displayInFahrenheit
+        ? celsiusToFahrenheit(v).toStringAsFixed(1)
+        : _formatLimit(v);
+    final min = task.minLimit, max = task.maxLimit;
+    if (min != null && max != null) {
+      return l10n.safeRangeLabel('${fmt(min)}$unitLabel', '${fmt(max)}$unitLabel');
+    }
+    if (min != null) return l10n.safeAtLeastLabel('${fmt(min)}$unitLabel');
+    return l10n.safeAtMostLabel('${fmt(max!)}$unitLabel');
   }
 
   // Fixed-decimal formatting for range labels — temperature limits almost

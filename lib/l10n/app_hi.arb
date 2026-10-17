@@ -1590,5 +1590,7 @@
   "menuMore": "और",
   "menuReportProblem": "समस्या रिपोर्ट करें",
   "menuTeamTrainingSubtitle": "कौन प्रशिक्षित है",
-  "menuMoreTitle": "और"
+  "menuMoreTitle": "और",
+  "safeAtLeastLabel": "सुरक्षित: {value} या अधिक",
+  "safeAtMostLabel": "सुरक्षित: {value} या कम"
 }

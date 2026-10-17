@@ -5317,4 +5317,14 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get menuMoreTitle => '更多';
+
+  @override
+  String safeAtLeastLabel(String value) {
+    return '安全：$value 或以上';
+  }
+
+  @override
+  String safeAtMostLabel(String value) {
+    return '安全：$value 或以下';
+  }
 }

@@ -5691,4 +5691,14 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get menuMoreTitle => 'Mehr';
+
+  @override
+  String safeAtLeastLabel(String value) {
+    return 'Sicher: $value oder höher';
+  }
+
+  @override
+  String safeAtMostLabel(String value) {
+    return 'Sicher: $value oder niedriger';
+  }
 }

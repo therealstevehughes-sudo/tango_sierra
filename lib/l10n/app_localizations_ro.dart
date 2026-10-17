@@ -5629,4 +5629,14 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get menuMoreTitle => 'Mai mult';
+
+  @override
+  String safeAtLeastLabel(String value) {
+    return 'Sigur: $value sau mai mult';
+  }
+
+  @override
+  String safeAtMostLabel(String value) {
+    return 'Sigur: $value sau mai puțin';
+  }
 }

@@ -4916,5 +4916,21 @@
   "menuMore": "More",
   "menuReportProblem": "Report a problem",
   "menuTeamTrainingSubtitle": "Who's trained",
-  "menuMoreTitle": "More"
+  "menuMoreTitle": "More",
+  "safeAtLeastLabel": "Safe: {value} or above",
+  "safeAtMostLabel": "Safe: {value} or below",
+  "@safeAtLeastLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "@safeAtMostLabel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  }
 }

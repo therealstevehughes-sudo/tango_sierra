@@ -3349,3 +3349,11 @@ Founder approved the reviewed design (mock-ups: https://claude.ai/artifact/ELxn1
 - 40 new strings in 10 languages. Verified in a browser at phone size (demo build): supervisor tiles, manager menu with headings, search ("supplier" → Suppliers & Contractors and Supplier Management with where they live). 115/115 tests, analyze clean.
 
 **Stage 2 (not yet done):** "Trends" still opens a hub of the three existing overview screens (Today across the team / Tasks & incidents over time / Reliability & team) — merging their content into one screen is its own piece of work. "My Shifts" shows for staff + supervisors until the per-person "on the rota" switch (rota plan N, awaiting OK) exists.
+
+## CRITICAL fix: 22 temperature checks never asked for a reading (2026-10-17)
+
+Found while capturing real app screenshots for the website: "Cooked food core temperature" showed no reading box — just PASS/FAIL. Root cause: `ResolvedTask.hasNumericRange` required BOTH a minimum and a maximum, but 22 of the library's 25 numeric checks have only one (fridge/freezer/walk-in/display fridge/frozen & chilled deliveries: max only; cooked/reheated/hot-holding/bain-marie/buffets/dishwasher rinse/sentinel/calorifier/laundry: min only). For all of them staff could simply tap PASS with no number recorded — no evidence of the actual temperature, and equipment trend warnings never fired because no readings were stored. Only 3 two-sided checks (e.g. dishwasher wash 55–65°C, cellar 11–13°C) ever worked.
+
+Fix: any limit now requires a reading; pass/fail via new `ResolvedTask.withinLimits()` against whichever limits exist; helper text "Safe: 70.0°C or above" / "Safe: 8.0°C or below" (new strings, 10 languages); the safe-range label now uses the task's own unit (it always said °C, even for time-based logs). Also fixed: the check screen's section pill showed the raw slug "FOOD_SAFETY" — now "Food safety & temperature control". New test `test/task_limits_test.dart`. Verified live in a browser: cooked food check shows "Enter value (°C)", "Safe: 70.0°C or above", 74 → "Within range - PASS". Existing submissions made before this fix have no reading stored for those 22 checks — can't be recovered.
+
+Also noticed (not yet fixed): the Assign Tasks preset rows wrap badly at phone width.

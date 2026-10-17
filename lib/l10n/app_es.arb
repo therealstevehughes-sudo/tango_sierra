@@ -1590,5 +1590,7 @@
   "menuMore": "Más",
   "menuReportProblem": "Informar de un problema",
   "menuTeamTrainingSubtitle": "Quién está formado",
-  "menuMoreTitle": "Más"
+  "menuMoreTitle": "Más",
+  "safeAtLeastLabel": "Seguro: {value} o más",
+  "safeAtMostLabel": "Seguro: {value} o menos"
 }

@@ -1590,5 +1590,7 @@
   "menuMore": "Mehr",
   "menuReportProblem": "Problem melden",
   "menuTeamTrainingSubtitle": "Wer geschult ist",
-  "menuMoreTitle": "Mehr"
+  "menuMoreTitle": "Mehr",
+  "safeAtLeastLabel": "Sicher: {value} oder höher",
+  "safeAtMostLabel": "Sicher: {value} oder niedriger"
 }

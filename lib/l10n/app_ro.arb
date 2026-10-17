@@ -1590,5 +1590,7 @@
   "menuMore": "Mai mult",
   "menuReportProblem": "Raportează o problemă",
   "menuTeamTrainingSubtitle": "Cine e instruit",
-  "menuMoreTitle": "Mai mult"
+  "menuMoreTitle": "Mai mult",
+  "safeAtLeastLabel": "Sigur: {value} sau mai mult",
+  "safeAtMostLabel": "Sigur: {value} sau mai puțin"
 }

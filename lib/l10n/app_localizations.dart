@@ -9673,6 +9673,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More'**
   String get menuMoreTitle;
+
+  /// No description provided for @safeAtLeastLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Safe: {value} or above'**
+  String safeAtLeastLabel(String value);
+
+  /// No description provided for @safeAtMostLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Safe: {value} or below'**
+  String safeAtMostLabel(String value);
 }
 
 class _AppLocalizationsDelegate

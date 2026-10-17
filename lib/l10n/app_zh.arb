@@ -1590,5 +1590,7 @@
   "menuMore": "更多",
   "menuReportProblem": "报告问题",
   "menuTeamTrainingSubtitle": "谁已完成培训",
-  "menuMoreTitle": "更多"
+  "menuMoreTitle": "更多",
+  "safeAtLeastLabel": "安全：{value} 或以上",
+  "safeAtMostLabel": "安全：{value} 或以下"
 }
