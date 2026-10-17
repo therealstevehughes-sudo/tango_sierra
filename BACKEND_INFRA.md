@@ -2294,3 +2294,7 @@ Applied `tools/fryer_limits_migration.sql` (sites.fryer_amber_c 180 / fryer_red_
 
 Applied `tools/equipment_library_migration.sql` (`equipment_models`, RPCs `search_equipment_models`, `get_equipment_model`, `save_venue_equipment_model`) and `tools/equipment_library_seed.sql` (8 live packs). New Edge Function `equipment-pack-draft` (OpenAI, managers only; source `tools/functions_live/equipment-pack-draft.ts`). Web app redeployed (md5 f4d072a6…).
 Deployed 2026-10-17: web app (Trends merge) md5-verified; APK rebuilt and uploaded (md5 42bbea1c…).
+
+## GoCardless confirm fix + sandbox test (2026-10-17)
+
+`gocardless-confirm-mandate` updated (source `tools/functions_live/gocardless-confirm-mandate.ts`; previous copy `/root/fn_backup_20261017/gocardless-confirm-mandate.before-startdate.ts`): start_date only sent when it's more than 7 days ahead. End-to-end sandbox test on temporary org 70 / site 75 / subscription 29 (all deleted afterwards; sandbox mandate MD01M55MH8MXE193D9CEHAE42A29 and subscription SB01M55MH8WREX1H3BF0A00CDX2M cancelled).

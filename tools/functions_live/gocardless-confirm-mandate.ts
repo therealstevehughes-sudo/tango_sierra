@@ -106,8 +106,15 @@ Deno.serve(async (req: Request) => {
   // 3. Create the real recurring subscription, deferred to start when the
   // trial actually ends (not immediately) -- GoCardless takes a plain
   // YYYY-MM-DD date, no time component.
-  const startDate = subscription.trial_ends_at
-    ? new Date(subscription.trial_ends_at).toISOString().slice(0, 10)
+  // Fix (2026-10-17): a trial that already ended gave GoCardless a start
+  // date in the past, which it rejects - so setup failed at the last step.
+  // Only send a start date that's comfortably after the mandate's earliest
+  // possible charge (GoCardless needs a few working days); otherwise let
+  // GoCardless start at the earliest date it can.
+  const earliest = Date.now() + 7 * 24 * 60 * 60 * 1000
+  const trialEnd = subscription.trial_ends_at ? new Date(subscription.trial_ends_at).getTime() : 0
+  const startDate = trialEnd > earliest
+    ? new Date(trialEnd).toISOString().slice(0, 10)
     : undefined
 
   const gcSubResponse = await fetch(`${GC_API_BASE}/subscriptions`, {

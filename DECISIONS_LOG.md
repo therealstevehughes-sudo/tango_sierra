@@ -3474,3 +3474,15 @@ Applying a preset (Assign Tasks → Apply / Apply to Multiple) wrote the assignm
 ## Menu stage 2: one Trends screen (2026-10-17)
 
 Menu → Reports → **Trends** now opens one screen with three tabs — Today across the team / Tasks & incidents over time / Reliability & team — instead of a list of three separate screens. Each tab is the existing screen without its own header; the directors' graded-bars switch moved to a small button on the second tab. Verified at phone size in the demo, no errors.
+
+## GoCardless sandbox: full end-to-end test passed (2026-10-17)
+
+On a throwaway test company (1 branch, Bistro band, created and deleted for the test — your real SFO company untouched):
+1. Billing → set up Direct Debit (monthly) → GoCardless sandbox page.
+2. Filled name, email, address and GoCardless's sandbox bank details → "Set up this Direct Debit" → back to VenuRite's "You're all set!".
+3. Recorded correctly: mandate active, £39.00/month, GoCardless subscription active, first charge 6 Nov 2026 (after the 20-day trial), next 7 Dec.
+4. GoCardless's notifications reach VenuRite and are accepted (200).
+5. Cancelling the mandate → within 20 seconds VenuRite marked the subscription cancelled and restricted access, as designed.
+- **Bug found and fixed:** setting up Direct Debit *after* a trial had ended sent GoCardless a start date in the past, which it rejects — setup failed at the very last step (this would have hit SFO, whose trial ended 9 Oct). Now a past/too-soon date isn't sent; GoCardless starts at its earliest possible date.
+- **Correction:** Tom's owner code is entered on the **Billing** screen ("discount code"), not at sign-up: sign up → Billing → enter `VR-Y5JH-QGR9` → free for life, no Direct Debit needed.
+- Still sandbox: switching to live needs your live GoCardless account and access token.
