@@ -1,0 +1,838 @@
+# Training quiz bank (2026-10-17). Format:
+#   ## <task title, exactly as in task_training_guide_data.dart>
+#   ? <question>
+#   + <the right answer>
+#   - <a wrong answer>   (2 or 3 per question)
+# Every answer must follow from that task's guide. Wrong answers are kept
+# as detailed as the right one, so the longest option is no giveaway.
+# Checked by tools/quiz/build_quiz_seed.py.
+
+## Check Fridge Temperature
+? What is the highest reading that passes for a fridge?
++ 8°C
+- 10°C
+- 12°C
+? What should you aim to keep a fridge at?
++ 5°C or below
+- 8°C to 10°C
+- 0°C or below
+? Where should you take the reading from?
++ The display, or a probe in a sample item
+- The air right next to the open door
+- The outside of the fridge door
+? Why does a fridge above 8°C matter?
++ Bacteria grow fast and it breaks the law for most chilled food
+- The food will start to freeze and lose its texture
+- It only changes how the food looks on the plate
+? The fridge reads 11°C. What do you do first?
++ Re-check in 15-20 minutes; move food if still high
+- Turn the dial to its coldest and record a pass
+- Leave it, as long as the food still smells fine
+? Chilled food has been above 8°C for over 4 hours. What happens to it?
++ It must be thrown away
+- It can be served if it is cooked well
+- It goes back in the fridge and is used first
+
+## Fridge temperature
+? Why check the door has been closed for a few minutes first?
++ A fridge that was just opened reads high
+- The display switches off while the door is open
+- The compressor only starts when the door shuts
+? Where should you probe if you use a probe?
++ A sample item in the middle of the unit
+- The air just inside the door
+- The metal back wall of the fridge
+? What is the legal maximum for chilled food?
++ 8°C
+- 10°C
+- 12°C
+? What is best practice for a fridge?
++ 5°C or below
+- Between 8°C and 10°C
+- Anything under 15°C
+? What do you record along with the number?
++ A photo of the display
+- The name of the supplier
+- The time the fridge was last cleaned
+? A fridge is still out of range on the re-check. What do you do?
++ Move food to a working unit, tell your manager, log it
+- Leave the food in and check it again tomorrow morning
+- Record a pass so that service is not held up
+
+## Freezer temperature
+? What reading passes for a freezer?
++ -18°C or colder
+- -10°C or colder
+- 0°C or colder
+? Apart from the reading, what else should you check?
++ Food is hard frozen with no sign of thawing
+- The freezer is packed full to the very top
+- The light comes on when the door opens
+? Why is -18°C the target?
++ At -18°C bacteria stop growing
+- At -18°C all bacteria are killed
+- It is the coldest any freezer can go
+? Why can food that thawed and was refrozen be a problem?
++ It can be unsafe to eat
+- It always tastes better the second time
+- It is only a problem for ice cream
+? The freezer has failed and food is soft. What do you do?
++ Move it; use soft food now if safe, or bin it; tell your manager
+- Turn the freezer to its coldest setting and refreeze it all
+- Leave the food where it is and just record the reading
+
+## Walk-in cold room temperature
+? Why close the door behind you before reading?
++ So the reading can settle
+- So nobody else can come in
+- So the light switches itself off
+? What reading passes for a walk-in cold room?
++ 8°C or below
+- 10°C or below
+- 12°C or below
+? Why does a walk-in failure matter so much?
++ It holds a lot of stock, so a lot of food is at risk
+- Walk-ins are only used for drinks, which spoil quickly
+- It legally needs a separate licence to operate
+? What do you record?
++ The number and a photo of the reading
+- Only the time you went in
+- A full count of the stock inside
+? The walk-in is too warm on the re-check. What do you do?
++ Move food to a working unit, tell your manager, log it
+- Prop the door open so fresh air can get in
+- Wait and check it again at the end of the week
+
+## Blast chiller cycle temperature
+? What do you record when food goes into the blast chiller?
++ The core temperature at the start
+- The weight of each tray going in
+- Only the time it went in
+? What is the pass standard for a blast chill?
++ 70°C to below 3°C (or 8°C) within 90 minutes
+- 70°C down to 20°C within 4 hours
+- Any drop in temperature during the cycle
+? How should trays be loaded?
++ Not overloaded, and not stacked tightly
+- As full as possible, to save time
+- Stacked on top of each other with lids on
+? Why must food be cooled fast?
++ So spores like C. perfringens do not wake up
+- So the food keeps a brighter colour
+- So the chiller uses less electricity overall
+? Food is still warm after 90 minutes. What do you do?
++ Tell your manager; it may need throwing away
+- Leave it in the chiller for another few hours
+- Serve it straight away instead
+
+## Display/serve-over fridge temperature
+? What do you probe in a display fridge?
++ A sample food item
+- The air inside the display
+- The glass at the front
+? What reading passes?
++ 8°C or below
+- 10°C or below
+- 15°C or below
+? What should be used when you are not serving?
++ The night blind or door
+- A tea towel over the food
+- Nothing; it stays open
+? Why do display units warm up faster than storage fridges?
++ They are opened all the time
+- They have no thermostat at all
+- They are switched off every night
+? The display is still at 10°C on the re-check. What do you do?
++ Move food to a working unit, tell your manager, log it
+- Keep selling and check it again tomorrow
+- Switch the display lights off to cool it
+
+## Cooked food core temperature
+? What must you do to the probe before using it?
++ Clean and sanitise it
+- Rinse it under the hot tap
+- Nothing, if it looks clean
+? Where should you probe?
++ The thickest part, away from bone
+- The outside surface of the food
+- Right up against the bone
+? What is the pass standard?
++ 70°C or above, held for 2 minutes
+- 60°C or above, held for 1 minute
+- 50°C or above, as long as it is steaming
+? Which of these must never be served rare?
++ Burgers and minced meat
+- A whole beef steak seared outside
+- A whole lamb joint seared outside
+? The food has not reached temperature. What do you do?
++ Keep cooking, probe again, record the re-check
+- Serve it, as long as it looks cooked through
+- Record a pass and add a note to the order
+? What does proper cooking kill?
++ E. coli, Salmonella and Campylobacter
+- Only moulds and yeasts on the surface
+- Nothing; it is only about the taste
+
+## Reheated food core temperature
+? What is the minimum reheat temperature in England, Wales and NI?
++ 70°C, aiming for 75°C
+- 63°C, aiming for 65°C
+- 50°C, aiming for 60°C
+? What is the legal minimum when reheating in Scotland?
++ 82°C
+- 70°C
+- 63°C
+? Where should you probe?
++ The centre of the thickest part
+- The edge of the dish
+- The top surface of the food
+? How many times can food be reheated?
++ Once
+- Twice
+- As often as needed
+? Reheated food will not reach temperature. What do you do?
++ Throw it away
+- Serve it warm
+- Chill it and retry tomorrow
+
+## Hot-holding temperature
+? What is the minimum hot-holding temperature?
++ 63°C
+- 50°C
+- 55°C
+? Where do you probe a hot-held dish?
++ In the middle of the container
+- At the edge, nearest the heat
+- On the very top of the food
+? Can you add new food on top of old food in a hot-hold unit?
++ No, never
+- Yes, if it is the same dish
+- Yes, when service is busy
+? Food has been below 63°C for under 2 hours. What can you do?
++ Reheat it to 75°C once, then hold it
+- Keep holding it as it is until service ends
+- Chill it and put it back out tomorrow
+? Food has been below 63°C for over 2 hours, or you are unsure. What do you do?
++ Throw it away
+- Reheat and serve it
+- Add fresh food on top
+
+## Cooling log (cooked to chilled)
+? What do you note first on the cooling log?
++ The time cooking finished
+- The supplier of the food
+- The selling price of the dish
+? How should food be spread out to cool?
++ In shallow trays or portions
+- In one deep pot with the lid on
+- Left whole on the worktop overnight
+? Within what time should cooked food go into the fridge?
++ 90 minutes
+- 4 hours
+- 12 hours
+? What temperature are you aiming to record?
++ 8°C or below
+- 20°C or below
+- 63°C or below
+? Food was not chilled within 90 minutes. What usually happens?
++ It needs throwing away; tell your manager
+- It can be used as normal tomorrow
+- It is frozen, which makes it safe again
+
+## Reheat-once verification
+? What do you check first?
++ The label, for a previous reheat
+- The price on the menu
+- The weight of the portion
+? An item has not been reheated before. What do you do?
++ Reheat to 75°C, mark the label "reheated" with the date
+- Reheat to 50°C, and keep the original label as it is
+- Reheat it, then throw the label away to avoid confusion
+? An item has already been reheated once. What do you do?
++ Do not reheat it; throw it away
+- Reheat it one more time only
+- Reheat it for longer this time
+? Why is once the limit?
++ Each warm-up lets bacteria grow again
+- A second reheat ruins the taste
+- Reheating twice wastes too much energy
+? What do you do if labels are missing?
++ Tell your manager
+- Guess how often it was reheated
+- Reheat everything anyway
+
+## Probe calibration check
+? What should a probe read in iced water?
++ -1°C to +1°C
+- 5°C to 8°C
+- -18°C to -15°C
+? What should a probe read in freshly boiling water?
++ 99°C to 101°C
+- 90°C to 95°C
+- 75°C to 80°C
+? How long should you probe the iced water?
++ 1 minute
+- 5 seconds
+- 10 minutes
+? Why does calibration matter?
++ A wrong probe makes every record wrong
+- It keeps the probe tip clean
+- It charges the probe battery
+? The probe fails the check. What do you do?
++ Label it "do not use", use a spare, tell your manager
+- Keep using it and add a few degrees in your head
+- Recalibrate it yourself by taking out the battery
+
+## Probe sanitised between uses
+? How do you sanitise the probe tip?
++ Wipe it with a food-safe sanitiser wipe
+- Wipe it clean on your apron
+- Rinse it under the cold tap
+? How long should the wipe be left on?
++ The contact time on the pack
+- No time; wipe and use at once
+- A full hour before using it
+? When should you sanitise the probe?
++ Before and after every food
+- Once at the start of the day
+- Only at the end of each shift
+? Why does it matter most between raw and cooked food?
++ It can carry bacteria from raw into cooked food
+- Raw meat damages the probe tip over time
+- Raw food makes the next reading too high
+? Cooked food was probed with a dirty probe. What do you do?
++ Tell your manager
+- Nothing; it was cooked
+- Wipe the food's surface
+
+## Use-by / best-before date check
+? What do you do with food past its use-by date?
++ Remove it; do not use, cook or freeze it
+- Freeze it the same day to use later
+- Cook it thoroughly and serve it today
+? What about food past its best-before date?
++ Check quality; it may be used if in good condition
+- It must always be thrown away straight away
+- Use it without checking; the date is a guide
+? Which date is the safety date?
++ Use-by
+- Best-before
+- Display-until
+? What do you record?
++ What you removed
+- Only what you kept
+- Nothing at all
+? Where do you check?
++ Every shelf in fridges, freezers and dry store
+- Only the front row of the main fridge
+- Only the items delivered today
+
+## FIFO stock rotation
+? What does FIFO stand for?
++ First in, first out
+- Fresh in, freezer out
+- Fill it, fridge it, off
+? Where does new stock go?
++ Behind the older stock
+- In front of the older stock
+- Anywhere there is space
+? Which date goes at the front?
++ The shortest date
+- The longest date
+- Any date
+? Why use FIFO?
++ So food is not left to go out of date
+- So the shelves look tidier for inspections
+- It is only needed for bottled drinks
+? You find something out of date while rotating. What do you do?
++ Remove it
+- Move it to the back
+- Put a new label on it
+
+## Opened-product date labelling
+? What must the label on an opened item show?
++ Product, date opened and use-by
+- Product, price and supplier
+- Only the name of the product
+? Which labelling system should you use?
++ The venue's day-dot or label system
+- Any system you personally prefer
+- None, as long as you remember
+? You cannot tell when an item was opened. What do you do?
++ Throw it away
+- Guess the date
+- Use it first
+? Why do opened items need labels?
++ Opened food often has a short shelf life
+- So that customers can read them
+- So stock counts are faster
+? An item has no label but you know it was opened today. What do you do?
++ Label it now
+- Leave it as it is
+- Throw it away anyway
+
+## Controlled defrost log
+? Where should food be defrosted?
++ In the fridge, bottom shelf, in a tray, covered
+- On the worktop at room temperature, uncovered
+- In a sink of warm water, still in its bag
+? What should the label show?
++ The date it came out of the freezer
+- The date it was first delivered
+- The name of the chef who froze it
+? Why not defrost at room temperature?
++ The outside warms into the danger zone
+- It takes far too long to defrost
+- The food may start to refreeze
+? Which shelf is used for defrosting?
++ The bottom shelf
+- The top shelf
+- The door shelf
+? Food was left out at room temperature to defrost. What do you do?
++ Put it in the fridge; tell your manager if it sat out long
+- Leave it on the side so that it finishes defrosting
+- Run it under warm water to speed things up a bit
+
+## Allergen matrix current & accessible
+? How many allergens must the chart cover for every dish?
++ 14
+- 8
+- 20
+? What do you compare the allergen chart against?
++ Today's menu, including specials
+- Last month's printed menu
+- The supplier's price list
+? A dish is missing from the chart. What do you do?
++ Do not sell it until it is added; tell your manager
+- Sell it today and add it to the chart next week
+- Guess its allergens if a customer happens to ask
+? What must staff know?
++ Where to find the chart
+- The chart off by heart
+- Nothing; only chefs use it
+? Why is the chart a legal matter?
++ Staff must give accurate allergen info when asked
+- It is only a recommendation, not a requirement
+- It is needed for the monthly stock take
+? A dish's recipe has changed. What happens to the chart?
++ Update it before the dish is served
+- Leave it until the next inspection
+- Remove the dish from the chart
+
+## Allergen review on new/changed dishes
+? What do you check for a new or changed dish?
++ The label of every ingredient
+- Only the main ingredient
+- The price of each ingredient
+? When must the allergen chart be updated?
++ Before the dish goes on sale
+- At the end of the month
+- Only if a customer asks
+? Why can a small change matter?
++ A new sauce or brand can add a hidden allergen
+- It can change how long the dish takes to cook
+- It only matters for dishes marked as vegan
+? Who should be told about the change?
++ The team, in a briefing
+- Nobody needs telling
+- Only the supplier
+? Allergens for a new dish are not recorded yet. What do you do?
++ Do not serve the dish
+- Serve it with a warning
+- Serve it to regulars only
+
+## PPDS labelling correct (Natasha's Law)
+? What must a pre-packed-for-direct-sale label show?
++ The food name and full ingredient list
+- The price and the best-before date only
+- The chef's name and the date it was made
+? How must the 14 allergens appear in the ingredients?
++ Emphasised, for example in bold
+- Listed in a separate leaflet
+- They do not need to be shown
+? What else do you check on the label?
++ It matches what is actually inside
+- It is printed on the right colour
+- It shows the staff member's name
+? Which law requires full ingredient labelling on food made and packed on site?
++ Natasha's Law
+- The Licensing Act
+- The Fire Safety Order
+? An item is labelled wrongly. What do you do?
++ Take it off sale, relabel it, tell your manager
+- Sell today's stock and fix labels tomorrow
+- Remove the label so it is not misleading
+
+## Separate allergen prep area/equipment
+? What do you do to the prep surface before starting?
++ Clean and sanitise it
+- Wipe it with a dry cloth
+- Nothing, if it looks clean
+? What equipment should you use?
++ Clean, separate kit, e.g. purple boards and knives
+- Whatever board and knife is nearest to hand
+- The same board you were using, rinsed with water
+? What else should you do before preparing an allergen-free order?
++ Wash hands, change gloves and apron
+- Put fresh gloves on over the old ones
+- Nothing else is needed
+? Which order should be prepared first if possible?
++ The allergen-free order
+- The largest order
+- The order containing the allergen
+? An allergen gets on the food. What do you do?
++ Start again with clean equipment
+- Scrape the allergen off the food
+- Serve it if the amount is very small
+
+## Allergen-free order verified end-to-end
+? What do you check first?
++ The order ticket, for the allergen
+- The table number, to save time
+- The price of the order
+? How should the allergen-free order be kept when plated and carried?
++ Covered and separate
+- Next to the other plates
+- Uncovered, so it cools
+? What should you tell the server?
++ That it is the allergen-free order
+- Nothing; they will work it out
+- To serve that plate last
+? Where do mistakes most often happen?
++ At hand-overs between kitchen and table
+- When the stock order is placed
+- At the till when the bill is paid
+? You are unsure if the order is safe. What do you do?
++ Remake it
+- Serve it anyway
+- Ask the customer to check
+
+## Purple allergen boards/cloths used
+? What colour equipment is used for allergen-free orders?
++ Purple
+- Red
+- Yellow
+? How should purple equipment be stored?
++ Clean, and apart from other equipment
+- Mixed in with all the other boards
+- Under the sink, ready to grab
+? What condition should the boards be in?
++ Good, not deeply scored
+- Any condition is fine
+- Scored is fine if purple
+? No purple kit is available. What do you do?
++ Fully clean and sanitise standard kit; tell your manager
+- Use any board as it is, because there is no choice
+- Refuse to make the order and ask the customer to leave
+? Why use dedicated colour-coded kit?
++ It cuts the risk of cross-contact
+- It looks more professional to guests
+- It is cheaper than buying knives
+
+## Staff allergen briefing
+? When should the allergen briefing happen?
++ Before service
+- After service
+- Once a month
+? What should the briefing cover?
++ Today's dishes, specials and allergen changes
+- Today's prices, the rota and break times
+- Only the dishes that sold out yesterday
+? A customer asks about allergens. What should staff do?
++ Check the chart; never guess
+- Guess from the dish name
+- Say it is probably fine
+? Why brief front-of-house staff?
++ They are the ones customers ask
+- They cook the dishes on the menu
+- They are the ones who order stock
+? Someone missed the briefing. What do you do?
++ Brief them before they serve
+- Nothing; they will pick it up
+- Brief them at next week's meeting
+
+## Handwashing on entry / between tasks
+? How long should you scrub your hands for?
++ At least 20 seconds
+- About 5 seconds
+- Exactly 2 minutes
+? What do you dry your hands with?
++ A paper towel
+- Your apron
+- A shared tea towel
+? How should you turn off the tap?
++ With the paper towel
+- With your clean hand
+- Leave it running
+? When must you wash your hands?
++ On entry, and after raw food, bins, toilets, breaks
+- Only at the start of each shift, before cooking
+- Only after using the toilet or smoking
+? A sink has no soap. What do you do?
++ Restock it and tell your manager
+- Rinse your hands with water only
+- Use hand gel and skip washing
+
+## Clean uniform / apron
+? When do you put on a clean uniform and apron?
++ At the start of the shift
+- Once a week, on Mondays
+- Only when it looks dirty
+? When should you change your apron?
++ When dirty, or after handling raw meat
+- Only at the very end of the day
+- Never during a shift; it wastes aprons
+? Can you wear kitchen clothes outside, for example on a smoking break?
++ No
+- Yes, if it is quick
+- Yes, with a coat on
+? Why does clean clothing matter?
++ Dirty clothing carries bacteria onto food
+- It is only about looking smart for guests
+- It keeps you warm in the cold room
+? Your uniform is dirty. What do you do?
++ Change before working with food
+- Carry on and change at the end
+- Wipe it down with a damp cloth
+
+## Hair covering / beard net
+? What should you do with long hair?
++ Tie it back
+- Leave it down
+- Tuck it in your collar
+? What must cover your hair?
++ A hat or hairnet
+- Any scarf you like
+- Nothing if it is short
+? What do you need if you have a beard?
++ A beard net
+- Nothing extra
+- A face mask only
+? Why cover hair?
++ Hair in food is a complaint and a contamination risk
+- It keeps your head cool next to the hot stoves
+- It is only for appearance in an open kitchen
+? There are no hairnets left. What do you do?
++ Restock before going back to food prep
+- Carry on without one for now
+- Wear a tea towel instead
+
+## No jewellery / false nails
+? Which jewellery is usually allowed?
++ A plain wedding band
+- A wristwatch
+- Small earrings
+? Are false nails or nail varnish allowed?
++ No
+- Yes, if short
+- Yes, with gloves
+? How should nails be kept?
++ Short and clean
+- Long but clean
+- Any way you like
+? Why remove jewellery?
++ It traps bacteria and can fall into food
+- It might get scratched by the equipment
+- It can set off the metal detector at the door
+? Someone refuses to remove their jewellery. What do you do?
++ Tell your manager
+- Ignore it
+- Take it off them
+
+## Fitness-to-work / illness declaration
+? Which symptoms do you ask about?
++ Vomiting, diarrhoea, fever, skin infections
+- Tiredness, hunger and a sore back
+- Only a cough or a cold
+? Can someone with vomiting or diarrhoea work with food?
++ No
+- Yes, with gloves on
+- Yes, if they feel better
+? How long must they stay away?
++ 48 hours after symptoms stop
+- Until the next morning
+- 2 hours after the last symptom
+? Why does this matter?
++ Norovirus and other bugs spread through food easily
+- They might work slowly and hold up the service
+- It is only a company rule, not a safety issue
+? A worker says they were sick this morning. What do you do?
++ Send them home and tell your manager
+- Let them work on the till instead
+- Let them work if they wash their hands
+
+## Cuts covered (blue plaster)
+? What colour plaster is used in food areas?
++ Blue
+- Skin-coloured
+- White
+? Why blue?
++ It is easy to spot if it falls into food
+- It matches the colour of the uniform
+- It sticks better when your hands get wet
+? What should you wear over a cut on your hand?
++ A glove
+- Nothing extra
+- A second plaster
+? What do you do before covering the cut?
++ Clean it
+- Nothing
+- Dry it with a tea towel
+? The blue plasters have run out. What do you do?
++ Restock them
+- Use any plaster
+- Leave it uncovered
+
+## Gloves available & changed appropriately
+? What do you do before putting gloves on?
++ Wash your hands
+- Nothing at all
+- Rinse the gloves
+? When must you change gloves?
++ Between raw and ready-to-eat food; after bins, money, your face
+- Only at the end of the shift, or at the start of a new one
+- Only if they tear, because new gloves cost the venue money
+? Are gloves a substitute for handwashing?
++ No
+- Yes
+- Yes, if new
+? Why must gloves be changed?
++ Dirty gloves spread bacteria
+- They get too hot to wear
+- To use up the stock
+? Gloves have run out in your size. What do you do?
++ Restock them
+- Work bare-handed on ready-to-eat food
+- Use a smaller size and say nothing
+
+## Fridge door seal intact
+? How do you check the seal?
++ Feel round it for tears, gaps, mould or looseness
+- Read the temperature on the display panel
+- Push the door shut hard and listen for a click
+? What is the paper test?
++ Close the door on paper; the seal should grip it
+- Write each day's temperature on a paper sheet
+- Leave paper inside to soak up condensation
+? Why does a broken seal matter?
++ Warm air gets in, so it cannot hold temperature
+- It makes the door bang loudly when it closes
+- It only affects how the fridge looks to inspectors
+? There is mould on the seal. What do you do?
++ Clean it off
+- Leave it alone
+- Cut the seal off
+? The seal is torn. What do you do?
++ Report it for repair
+- Tape over the tear
+- Ignore it until it fails
+
+## Freezer ice build-up check
+? How thick can ice get before it needs defrosting?
++ About 5mm (a pound coin thick)
+- About 5cm (a matchbox thick)
+- Any ice at all, even a light frost
+? Where do you look for ice?
++ Walls, coils and the door
+- Only on the food packets
+- Only on the outside casing
+? Why does ice build-up matter?
++ The freezer works harder and may not hold -18°C
+- It makes all the frozen food taste of the ice
+- It only matters for chest freezers in a shop
+? What do you do when the ice is too thick?
++ Move stock to another freezer; defrost or report it
+- Chip the ice off with a knife while it is running
+- Leave it alone until the ice melts by itself
+? What do you do after spotting it?
++ Note it and plan a defrost
+- Set the freezer to its coldest
+- Pour hot water over the ice
+
+## Walk-in shelving clean & sound
+? What do you check the shelves for?
++ Spills, rust or flaking paint
+- The colour and the brand
+- Whether they are labelled
+? What else do you check?
++ That they are stable and not bent
+- That every shelf is completely full
+- That the shelves are all the same height
+? Why does rust matter?
++ It can fall into food
+- It makes shelves heavy
+- It only looks bad
+? What do you do with spills?
++ Clean them
+- Leave them for the deep clean
+- Cover them with a box
+? A shelf is broken. What do you do?
++ Fix it if safe, else tell your manager and log it
+- Keep loading it carefully until it is replaced
+- Ignore it, as long as nothing has fallen yet
+
+## Condenser / vents dust-free
+? What do you check on the condenser grille or vents?
++ Not blocked by dust or boxes
+- That they feel cold to touch
+- That they are freshly painted
+? What must you do before cleaning dust away?
++ Switch the unit off
+- Spray it with water
+- Nothing at all
+? How do you clean the dust?
++ Brush or vacuum it away
+- Wash it with a hose
+- Blow it off with your breath
+? Why do dusty condensers matter?
++ The unit overheats and fails
+- The unit gets noisy, nothing more
+- They do not matter at all
+? It is not safe for you to clean it. What do you do?
++ Report it for maintenance
+- Leave it as it is
+- Cover it with a cloth
+
+## Fridge/freezer alarm functioning
+? What do you check first?
++ That the alarm is switched on
+- That the fridge is full of stock
+- That the door has been left open
+? How can you test the alarm?
++ Use the test button, if the unit has one
+- Leave the door open for the whole day
+- Unplug the unit and wait for it to beep
+? What should the alarm do?
++ Sound or show an alert
+- Switch the unit off
+- Nothing visible at all
+? Why does the alarm matter?
++ It warns you before food is lost
+- It stops stock being stolen
+- It saves the venue energy
+? The alarm does not work. What do you do?
++ Report it; check that unit's temperature more often
+- Ignore it, since the display still shows a number
+- Switch the unit off until an engineer arrives
+
+## Not overloaded (airflow)
+? What should food not be packed against?
++ The back wall or the fan
+- The inside of the door
+- Food of the same type
+? Why leave gaps between items?
++ So cold air can flow
+- To make it look tidy
+- To fit more stock in
+? What do you do if a unit is too full?
++ Move stock to another unit
+- Push it all to the back
+- Set it to the coldest setting
+? What happens if air cannot circulate?
++ Parts of the fridge get warm
+- The whole fridge gets colder
+- Nothing changes at all
+? After moving stock, what do you do?
++ Re-check the temperature
+- Nothing more is needed
+- Switch the unit off and on

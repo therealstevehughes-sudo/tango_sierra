@@ -1,0 +1,176 @@
+"""Checks the training quiz bank and builds its SQL seed (2026-10-17).
+
+    python tools/quiz/build_quiz_seed.py            # check only
+    python tools/quiz/build_quiz_seed.py --sql OUT  # check, then write seed
+
+Checks: every bank title is a real guide title; every guide has a bank
+of at least 5 questions; each question has one right answer and 2-3 wrong
+ones; no duplicate questions or options; and the right answer is not given
+away by being the longest option too often (a test-wise guesser would
+otherwise pass without reading the guide).
+"""
+import glob
+import os
+import re
+import sys
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(HERE))
+GUIDES = os.path.join(ROOT, 'lib', 'features', 'tasks', 'training',
+                      'task_training_guide_data.dart')
+
+MIN_QUESTIONS = 5
+# A right answer visibly longer than every wrong one (20%+ and 6+ letters)
+# is a giveaway; allow it in at most this share of questions.
+MAX_LONGEST_SHARE = 0.20
+
+
+def guide_titles():
+    src = open(GUIDES, encoding='utf8').read()
+    titles = set()
+    for m in re.finditer(r"^  (?:'((?:[^'\\]|\\.)*)'|\"([^\"]*)\"): _g\(", src, re.M):
+        t = m.group(1) if m.group(1) is not None else m.group(2)
+        titles.add(t.replace("\\'", "'"))
+    return titles
+
+
+def parse_banks():
+    banks = {}
+    errors = []
+    for path in sorted(glob.glob(os.path.join(HERE, 'bank_*.txt'))):
+        name = os.path.basename(path)
+        title = None
+        q = None
+        for n, raw in enumerate(open(path, encoding='utf8'), 1):
+            line = raw.rstrip('\n')
+            if not line.strip() or line.startswith('# '):
+                continue
+            where = f'{name}:{n}'
+            if line.startswith('## '):
+                title = line[3:].strip()
+                if title in banks:
+                    errors.append(f'{where}: duplicate task "{title}"')
+                banks[title] = []
+                q = None
+            elif line.startswith('? '):
+                if title is None:
+                    errors.append(f'{where}: question before any task')
+                    continue
+                q = {'q': line[2:].strip(), 'right': [], 'wrong': [], 'at': where}
+                banks[title].append(q)
+            elif line.startswith('+ ') or line.startswith('- '):
+                if q is None:
+                    errors.append(f'{where}: answer before any question')
+                    continue
+                (q['right'] if line[0] == '+' else q['wrong']).append(line[2:].strip())
+            else:
+                errors.append(f'{where}: unrecognised line: {line[:60]}')
+    return banks, errors
+
+
+def visibly_longest(q):
+    right = len(q['right'][0])
+    wrong = max(len(w) for w in q['wrong'])
+    return right > wrong * 1.2 and right - wrong >= 6
+
+
+def visibly_shortest(q):
+    right = len(q['right'][0])
+    wrong = min(len(w) for w in q['wrong'])
+    return wrong > right * 1.2 and wrong - right >= 6
+
+
+def check(banks, titles):
+    errors = []
+    longest_right = 0
+    shortest_right = 0
+    total = 0
+    for title, qs in banks.items():
+        if title not in titles:
+            errors.append(f'unknown task title: "{title}"')
+        if len(qs) < MIN_QUESTIONS:
+            errors.append(f'"{title}": only {len(qs)} questions (need {MIN_QUESTIONS})')
+        seen = set()
+        giveaways = sum(1 for q in qs if len(q['right']) == 1 and q['wrong'] and visibly_longest(q))
+        if giveaways > 2:
+            errors.append(f'"{title}": {giveaways} questions give the answer away by length (max 2)')
+        for q in qs:
+            at = q['at']
+            if len(q['right']) != 1:
+                errors.append(f'{at}: needs exactly one right answer')
+                continue
+            if not 2 <= len(q['wrong']) <= 3:
+                errors.append(f'{at}: needs 2-3 wrong answers')
+            opts = q['right'] + q['wrong']
+            if len({o.lower() for o in opts}) != len(opts):
+                errors.append(f'{at}: duplicate options')
+            if q['q'].lower() in seen:
+                errors.append(f'{at}: duplicate question in "{title}"')
+            seen.add(q['q'].lower())
+            if any(len(o) > 140 for o in opts) or len(q['q']) > 160:
+                errors.append(f'{at}: too long for a phone screen')
+            total += 1
+            if visibly_longest(q):
+                longest_right += 1
+            if visibly_shortest(q):
+                shortest_right += 1
+    missing = sorted(titles - set(banks))
+    if total and shortest_right / total > MAX_LONGEST_SHARE:
+        errors.append(f'right answer is visibly the shortest in {shortest_right / total:.0%}')
+    return errors, missing, longest_right, total
+
+
+def sql_literal(s):
+    return "'" + s.replace("'", "''") + "'"
+
+
+def write_sql(banks, out):
+    lines = [
+        '-- Generated by tools/quiz/build_quiz_seed.py - do not edit by hand.',
+        '-- Replaces the standard (library) question bank; venue questions are untouched.',
+        'begin;',
+        "update quiz_questions set status = 'retired' where site_id is null and status = 'live';",
+    ]
+    for title in sorted(banks):
+        for q in banks[title]:
+            opts = 'array[' + ', '.join(sql_literal(o) for o in q['right'] + q['wrong']) + ']'
+            lines.append(
+                'insert into quiz_questions (task_title, question, options) values ('
+                f"{sql_literal(title)}, {sql_literal(q['q'])}, {opts});")
+    lines.append("delete from quiz_questions q where q.site_id is null and q.status = 'retired'"
+                 " and not exists (select 1 from quiz_attempts a where q.id = any(a.question_ids));")
+    lines.append('commit;')
+    open(out, 'w', encoding='utf8', newline='\n').write('\n'.join(lines) + '\n')
+
+
+def main():
+    titles = guide_titles()
+    banks, errors = parse_banks()
+    more, missing, longest_right, total = check(banks, titles)
+    errors += more
+    share = longest_right / total if total else 0
+    print(f'{len(titles)} guides, {len(banks)} banks, {total} questions; '
+          f'right answer is visibly the longest option in {share:.0%}')
+    if missing:
+        print(f'{len(missing)} guides have no questions yet')
+    for e in errors:
+        print('ERROR', e)
+    if '--offenders' in sys.argv:
+        for qs in banks.values():
+            for q in qs:
+                if q['right'] and q['wrong'] and visibly_longest(q):
+                    print('LONG', q['at'], '|', q['right'][0], '||', ' / '.join(q['wrong']))
+    if share > MAX_LONGEST_SHARE:
+        print(f'ERROR right answer is longest too often (max {MAX_LONGEST_SHARE:.0%})')
+        errors.append('longest')
+    if '--sql' in sys.argv:
+        if errors or missing:
+            print('not writing SQL: fix the errors / missing banks first')
+            sys.exit(1)
+        write_sql(banks, sys.argv[sys.argv.index('--sql') + 1])
+        print('SQL written')
+    sys.exit(1 if errors else 0)
+
+
+if __name__ == '__main__':
+    main()

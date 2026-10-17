@@ -1,0 +1,1101 @@
+# Training quiz bank, part 2 (2026-10-17). Format as in bank_01.
+
+## Oil temperature
+? What should you do before reading the oil temperature?
++ Let the fryer heat up fully
+- Switch the fryer off first
+- Add fresh oil to the vat
+? What is the highest oil temperature that passes?
++ 180°C
+- 200°C
+- 220°C
+? How can you read the oil temperature?
++ The thermostat, or a suitable thermometer
+- Drop in a chip and count the bubbles
+- Hold your hand above the oil surface
+? Why does oil above 180°C matter?
++ It breaks down faster, with harmful compounds and fire risk
+- It cooks the food too slowly and leaves it pale and greasy
+- It only changes the colour of the batter
+? The oil is too hot and the thermostat will not control it. What do you do?
++ Switch off and report it
+- Add cold oil to cool it
+- Keep frying, but faster
+
+## Oil quality (TPM/colour)
+? Which oil must be changed?
++ Dark, smoky, foamy or rancid oil
+- Any oil more than a day old
+- Only oil that has caught fire
+? At what TPM reading should oil be changed?
++ Above 24%
+- Above 50%
+- Above 10%
+? What do you do after checking?
++ Record the result
+- Add salt to the oil
+- Nothing more
+? Why change old oil?
++ It makes poor food and is a health and fire risk
+- It is cheaper to keep using it than to buy new
+- Old oil only affects the smell in the kitchen
+? The oil fails the check. What do you do?
++ Change it and record it in the oil change log
+- Top it up with fresh oil and keep using it
+- Strain it through a cloth and carry on
+
+## Oil filtering / polishing
+? What must happen before you filter the oil?
++ Let it cool to a safe temperature
+- Turn the heat up first so that it thins
+- Add water to the vat first
+? What do you filter it with?
++ The fryer's filter system or a filter cone
+- A clean tea towel stretched over a bucket
+- A colander lined with blue roll
+? What protective kit do you wear?
++ Heat-resistant gloves and an apron
+- Thin latex gloves and safety glasses
+- No kit is needed
+? Why filter oil?
++ It removes burnt bits so oil lasts longer
+- It makes the oil hotter for the next service
+- It changes the oil's colour for customers
+? Filtering was missed. What do you do?
++ Filter at the next safe chance; tell your manager
+- Skip it until the oil next needs changing
+- Filter it straight away while it is still hot
+
+## Oil change & log
+? How cool must the oil be before you drain it?
++ Below 40°C
+- Below 100°C
+- Below 150°C
+? Where does used oil go?
++ The approved waste oil container
+- Down the sink with hot water
+- Into the general waste bin
+? What do you do after draining?
++ Clean the vat, then refill to the fill line
+- Refill straight away without cleaning
+- Fill it to the very top of the vat
+? What do you record?
++ The date and which fryer
+- Only the cost of the oil
+- The name of the supplier
+? The oil needs changing but is still hot. What do you do?
++ Wait until it is safe; never move hot oil
+- Drain it straight away to save time
+- Add cold water to cool it down
+
+## Fryer deep clean
+? What do you do first?
++ Switch off, cool and drain the oil
+- Add fryer cleaner to the hot oil
+- Spray the outside with water
+? What do you use to clean the vat?
++ Fryer cleaner (boil-out), following the label
+- Bleach poured straight into the warm vat
+- Washing-up liquid with cold water, left overnight
+? Why must the fryer be fully dry afterwards?
++ Water in a fryer causes violent spitting
+- Damp fryers rust within a single day
+- Water makes the next batch of oil cloudy
+? Why does grease build-up matter?
++ It is a major kitchen fire risk
+- It makes the fryer heat up faster
+- It only affects how it looks
+? What do you photograph?
++ The cleaned fryer and surroundings
+- The full waste oil container by the door
+- The fryer's serial number
+
+## Oil usage log
+? What do you record in the oil usage log?
++ How much oil was added or used today
+- The temperature of the oil each hour
+- How many portions of chips were sold
+? What else do you note?
++ Which fryer
+- Who delivered the oil
+- The weather
+? Why keep an oil usage log?
++ It tracks costs and spots unusual use
+- It is needed to get the fryer serviced
+- It proves the oil is the right brand
+? You forgot to log it during the shift. What do you do?
++ Record it now and remind the team
+- Leave it blank and note it at the next stock take
+- Copy yesterday's figures
+? When should the team log oil use?
++ As they go
+- Once a month
+- Only when the oil is changed
+
+## Oven working temperature
+? How do you check the oven's real temperature?
++ With an oven thermometer
+- By touching the oven door
+- By reading the dial setting
+? What do you set the oven to first?
++ A known temperature, then let it heat
+- Its highest setting, then switch it straight off
+- Its lowest setting
+? Why does it matter if an oven runs cool?
++ Food can be left undercooked
+- It saves energy, so it is good
+- It only changes the browning
+? The oven is running cool. What do you do?
++ Report it; probe all food cooked in it
+- Cook everything for an extra hour
+- Keep using it and say nothing
+? What do you record?
++ The reading
+- The oven's age
+- The menu
+
+## Combi self-clean run
+? How do you load the cleaning tablets or chemical?
++ As the manufacturer instructs
+- As many as will fit
+- Any cleaner from the store
+? What do you wipe after the cycle?
++ The door seal and the drain
+- The control panel only
+- The kitchen floor
+? Why run the self-clean?
++ Grease and scale affect cooking and hygiene
+- It resets the oven's internal clock
+- It is only needed before inspections
+? The clean was missed. What do you do?
++ Run it at the next chance; tell your manager
+- Skip it until the next scheduled week
+- Run it during service with food inside
+? What do you confirm at the end?
++ That it was done
+- The oven's temperature
+- The price of tablets
+
+## Grill / salamander clean & working
+? How do you check the grill is working?
++ Switch on and check it heats evenly
+- Look at it while it is switched off
+- Check the plug is in the socket
+? When do you clean the grease trays and bars?
++ When they are cool
+- While they are hot
+- Once a month
+? Why does grease under grills matter?
++ It is a common cause of kitchen fires
+- It makes the grill heat more evenly
+- It only affects the taste of the food
+? The grill does not heat evenly. What do you do?
++ Fix it if safe, else tell your manager and log it
+- Use only the hot side and say nothing at all
+- Turn it to maximum and leave it running
+? What do you confirm?
++ That it is clean and working
+- That it is switched off
+- That it is the right brand
+
+## Hob / burner ignition & flame
+? What should a healthy flame look like?
++ Steady and blue
+- Tall and yellow
+- Flickering orange
+? What do yellow, lazy or noisy flames mean?
++ A fault
+- The gas is extra strong
+- The burner is new
+? What can a bad flame cause?
++ Poor combustion and carbon monoxide risk
+- Faster cooking and lower gas bills
+- Nothing; it is only about appearance
+? A burner has a yellow flame. What do you do?
++ Stop using it; report it for a Gas Safe engineer
+- Turn it up until the flame turns blue again
+- Clean the burner and keep using it as normal today
+? How many burners do you check?
++ Each burner
+- Only the front ones
+- Only the one you use
+
+## Rotisserie / kebab machine temp & clean
+? What temperature must sliced meat reach?
++ 75°C
+- 63°C
+- 50°C
+? Which meat can be sliced off?
++ Only meat fully cooked on the outside
+- Any meat on the spit, as long as it is hot
+- Meat from the centre
+? Why does a spit need care?
++ Meat can be raw under the cooked outer layer
+- The spit can turn too slowly for customers
+- The meat dries out if it is sliced too often
+? When are drip trays and burners cleaned?
++ At the end of the day
+- Once a week
+- Only when they smoke
+? Sliced meat has not reached 75°C. What do you do?
++ Keep cooking it until it reaches 75°C
+- Serve it if it looks brown all the way through
+- Put it back on the spit raw
+
+## Steamer descale
+? How do you descale the steamer?
++ Follow the manufacturer's instructions
+- Use vinegar and guess the amount
+- Use bleach and boiling water
+? What protective kit do you wear?
++ Gloves and eye protection
+- A long apron and rubber boots
+- No kit is needed
+? What do you do after descaling?
++ Rinse thoroughly
+- Start cooking at once
+- Leave the descaler in
+? Why descale?
++ Limescale stops the steamer heating properly
+- It makes the steam taste of lemon
+- It is only needed before an inspection
+? What do you record?
++ When it was done
+- The water bill
+- The steamer's age
+
+## Extraction canopy filters clean
+? What do you check the filters for?
++ A sticky grease layer
+- A change in their colour
+- Their brand
+? How do you clean dirty filters?
++ Hot soapy water, or the dishwasher
+- Scrape them clean with a knife, still fitted
+- Wipe the outside only
+? Why does grease in extraction matter?
++ It is a big cause of kitchen fires
+- It makes the extraction fan much noisier
+- It only affects smells
+? What do you do after cleaning?
++ Refit them correctly
+- Leave them out to dry
+- Throw them away
+? A filter is damaged. What do you do?
++ Report it
+- Bend it back into shape and refit it
+- Run the canopy without that filter
+
+## Gas interlock / emergency cut-off test
+? What do you need before testing the interlock?
++ Your manager's permission
+- A Gas Safe certificate of your own
+- Nothing; anyone can test it any time
+? What should happen when the extraction fan is switched off?
++ The gas supply cuts off
+- The gas gets stronger
+- Nothing happens
+? What should happen when the emergency stop is pressed?
++ The gas cuts off
+- The fan speeds up
+- An alarm plays music
+? Why does the interlock matter?
++ It stops gas running without ventilation (carbon monoxide)
+- It saves gas by turning the burners down automatically overnight
+- It stops staff using the cooker without training
+? The gas does not cut off in the test. What do you do?
++ Stop using gas appliances; call a Gas Safe engineer
+- Carry on cooking and mention it at the next meeting
+- Try the test again tomorrow and record a pass now
+
+## Equipment guard / cut-out intact
+? Which machines need guards?
++ Slicers, mixers and mincers
+- Kettles, toasters and microwaves
+- Fridges and freezers
+? What should a safety cut-out do?
++ Stop the machine when a guard is opened
+- Speed the machine up when it is loaded
+- Turn on a light when it is running
+? Can you use a machine without its guard if you are careful?
++ No, never
+- Yes, if experienced
+- Yes, for a quick job
+? Why do guards matter?
++ They prevent serious cuts and amputations
+- They stop the motor from overheating
+- They make it quieter
+? A guard is missing. What do you do?
++ Label it "do not use" and report it
+- Use it carefully until it is fixed
+- Tape some cardboard over the blade
+
+## Dishwasher wash temperature
+? What is the target wash temperature?
++ About 55-65°C
+- About 30-40°C
+- About 90-100°C
+? Where do you read it?
++ On the display during a cycle
+- On the outside of the machine
+- On the detergent bottle
+? Why must the wash be hot enough?
++ To remove grease and food
+- To dry the plates faster
+- To save on detergent
+? The wash will not reach temperature. What do you do?
++ Check heater and detergent; report it
+- Run each load twice and say nothing
+- Add boiling water from the kettle
+? What do you do with the reading?
++ Record it
+- Nothing
+- Tell a guest
+
+## Dishwasher rinse temperature
+? What is the target rinse temperature?
++ About 82°C
+- About 60°C
+- About 40°C
+? What does the hot final rinse do?
++ Kills bacteria
+- Removes grease
+- Saves water
+? What do you do with the reading?
++ Record it
+- Ignore it
+- Post it online
+? The rinse is not hot enough. What do you use until it is fixed?
++ A sanitiser-based method
+- A cold rinse followed by air-drying
+- A tea towel to dry
+? Who do you tell if the rinse is too cool?
++ Report it so it gets fixed
+- Nobody, if the wash still looks clean
+- Only the next shift
+
+## Detergent / rinse-aid levels
+? What do you check?
++ The detergent and rinse-aid containers
+- The water softener and the salt level
+- The colour of the machine
+? What do you do if they are low?
++ Replace them
+- Add water to them
+- Leave them
+? What else do you check?
++ The dosing tubes are in the containers
+- The tubes are washed in the dishwasher
+- The containers are kept in the fridge
+? Why do the chemicals matter?
++ Without them the machine only rinses
+- They make the machine run quieter
+- They stop the plates from chipping
+? Items were washed with no detergent. What do you do?
++ Refill, then re-wash those items
+- Dry them extra well with a cloth
+- Use them; the water was hot
+
+## Dishwasher filter cleaned
+? What do you do first?
++ Switch off and drain the machine
+- Run a cycle with the filter out
+- Spray the filter while it is running
+? What do you remove?
++ The filters and scrap trays
+- The door and the hinges
+- The control panel cover
+? What do you do with them?
++ Rinse off food waste and refit them
+- Throw them away and order new ones
+- Leave them out until the next day
+? Why clean the filter?
++ Blocked filters put dirty water on dishes
+- It makes the machine fill up faster
+- The filter changes the water colour
+? When should it be cleaned if it is dirty?
++ Now, before the next load
+- At the end of the week
+- At the next service visit
+
+## Glasswasher functioning & dosed
+? What do you check during a cycle?
++ It fills, washes and drains
+- It plays its end tone on time
+- It gets hot outside
+? What else do you check?
++ Detergent and rinse aid connected and not empty
+- The glasses are all the same size and shape
+- The machine has been switched off overnight
+? How should glasses come out?
++ Clean, with no film
+- Warm and damp
+- Slightly cloudy
+? Why do dirty glasses matter?
++ They spread infection and spoil drinks
+- They take longer to stack on shelves
+- They break more easily in the machine
+? The glasswasher is faulty. What do you do until it is fixed?
++ Hand-wash and sanitise glasses
+- Rinse glasses in cold water
+- Stop serving drinks in glasses
+
+## Pot-wash sanitiser strength
+? How do you mix sanitiser in the sink?
++ The measured dose on the label
+- A good splash by eye, then top up
+- As much as possible
+? How can you check the strength?
++ With test strips, if you have them
+- By how strong the smell is
+- By the colour
+? When should you change the water?
++ When it is dirty or cold
+- Once a week
+- Never during service
+? Why does strength matter?
++ Too weak won't kill bacteria; too strong is a risk
+- Stronger is always better for cleaning pots
+- It only changes how the bubbles look
+? The mix was too weak. What do you do?
++ Remix it, and re-sanitise what was done
+- Add more hot water to the sink and carry on
+- Carry on and fix it tomorrow
+
+## Air-dry (no tea-towel drying)
+? How should washed items dry?
++ Drain and air-dry on a rack
+- Dried by hand with a tea towel
+- Stacked wet in a cupboard
+? Can you dry clean items with a cloth?
++ No
+- Yes, if the cloth is clean
+- Yes, if you are busy
+? Why not use tea towels?
++ Cloths spread bacteria onto clean items
+- Tea towels leave fluff on glasses
+- Tea towels are expensive to wash
+? An item was dried with a cloth. What do you do?
++ Re-wash it
+- Use it as normal
+- Air-dry it again
+? Where do items go to air-dry?
++ On a rack
+- On the floor
+- On a tea towel
+
+## Prep surfaces cleaned & sanitised
+? What do you do first?
++ Clear the surface and remove food debris
+- Spray sanitiser straight onto the debris
+- Wipe it over with a dry tea towel
+? What is the two-stage clean?
++ Clean, then sanitise
+- Sanitise, then rinse
+- Wipe, then dry
+? How long do you leave the sanitiser?
++ The contact time on the label
+- No time; wipe it off at once
+- Overnight
+? What do you wipe the sanitiser off with?
++ A clean single-use cloth
+- Your apron, if it is clean
+- The shared cloth from the sink
+? Who sets the two-stage standard?
++ The FSA
+- The supplier
+- The landlord
+
+## Chopping boards colour-coded & sound
+? Which board colour is for raw meat?
++ Red
+- Blue
+- Yellow
+? Which board colour is for raw fish?
++ Blue
+- Red
+- Brown
+? Which board colour is for salad and fruit?
++ Green
+- White
+- Purple
+? Why replace deeply scored boards?
++ Deep scores trap bacteria
+- They look old to guests
+- They blunt knives faster
+? A board is warped. What do you do?
++ Replace it; tell your manager
+- Flip it over and use the other side
+- Soak it overnight to flatten it
+
+## Slicer / mincer strip-down clean
+? What do you do first?
++ Switch off and unplug
+- Clean while it runs
+- Remove the blade bare-handed
+? What gloves do you wear?
++ Cut-resistant gloves
+- Thin latex gloves
+- No gloves needed
+? What do you do to each part?
++ Clean, sanitise and dry it
+- Rinse it in cold water only
+- Wipe it with a dry cloth
+? Can the same slicer be used for raw and ready-to-eat food?
++ No, never
+- Yes, if wiped between
+- Yes, if cooked first
+? Why are slicers a known risk?
++ They spread E. coli between raw and cooked meat
+- They can overheat and catch fire when cleaned
+- They go blunt if they are cleaned too often
+
+## Can opener blade clean
+? What do you remove first?
++ Food from the blade
+- The whole opener's handle
+- The label from the tin
+? What do you do to the blade?
++ Wash, sanitise and dry it
+- Oil it with cooking oil
+- Rinse it in cold water
+? What do you check the blade for?
++ Rust
+- Colour
+- Sharpness only
+? Why clean the blade?
++ It collects food and metal fragments
+- It goes blunt faster and tears lids
+- It squeaks when dirty
+? The blade is rusty. What do you do?
++ Replace it
+- Wipe the rust off
+- Keep using it
+
+## Ice machine clean & descaled
+? What do you do first?
++ Empty the ice and switch off
+- Add cleaner to the ice
+- Clean while it makes ice
+? What do you clean and sanitise?
++ The bin, scoop and inside surfaces
+- Only the outside of the machine
+- Only the scoop, as it touches the ice
+? What do you do with the first batch of ice?
++ Throw it away
+- Serve it first
+- Use it for cooling bottles
+? Why is a dirty ice machine a risk?
++ Ice is food; mould and bacteria grow
+- Dirty ice melts faster in drinks
+- It only makes the ice look cloudy
+? The machine has not been cleaned. What do you do?
++ Stop using the ice until it is cleaned
+- Keep using it until the weekend
+- Use the ice only for soft drinks
+
+## Kitchen floor cleaned
+? What do you do before mopping?
++ Sweep to remove debris
+- Spray sanitiser everywhere
+- Nothing; just mop
+? What do you mop with?
++ Hot water and detergent
+- Cold water and a squeeze of bleach
+- Neat bleach, left to dry
+? What do you put out while the floor is wet?
++ A wet floor sign
+- A dry mat over the wet area
+- Nothing
+? Where else should you clean if you can?
++ Under equipment
+- On the ceiling
+- Outside
+? Why do floors need cleaning?
++ Dirty floors attract pests and cause slips
+- Clean floors keep the kitchen cooler
+- It is only for how the kitchen looks
+
+## Drains / gullies cleared
+? What do you do first?
++ Lift the grate and remove debris
+- Pour bleach straight down it
+- Run the hot tap for an hour
+? How do you use drain cleaner?
++ As the label says
+- As much as possible
+- Mixed with bleach
+? What do you check for?
++ Smells or slow drainage
+- The colour of the grate
+- The water pressure
+? Why clear drains?
++ Blocked drains smell, attract flies and flood
+- Clean drains make the floor dry faster
+- It is only needed before an inspection
+? A drain is blocked. What do you do?
++ Report it for maintenance
+- Leave it alone and mop round it
+- Push it through with a mop handle
+
+## Walls / splashbacks wiped
+? What do you wipe walls with?
++ Detergent
+- Dry paper
+- Cooking oil
+? Which areas need the most attention?
++ Behind cookers and sinks
+- High up near the ceiling
+- Around the door handle
+? Why wipe walls and splashbacks?
++ Grease builds up and attracts pests
+- It makes the kitchen look bigger
+- It stops paint from fading
+? When should a dirty wall be cleaned?
++ Before the next service
+- At the end of the month
+- At the next deep clean
+? What builds up on walls near cookers?
++ Grease and splashes
+- Rust and flaking paint
+- Ice and condensation
+
+## Bin areas cleaned
+? What do you move to clean properly?
++ The bins
+- The fridges
+- The cooker
+? What parts of the bins do you clean?
++ The lids and handles
+- Only the inside
+- Only the wheels
+? What do you check about the lids?
++ They close properly
+- They are the same colour
+- They have labels
+? Why clean bin areas?
++ They attract pests and spread bacteria
+- To make the bins last longer outside
+- They are only cleaned for looks
+? A bin is broken. What do you do?
++ Clean the area, and report the broken bin
+- Keep using it as it is for now
+- Tape the lid shut and carry on
+
+## Deep clean checklist
+? How do you work through the deep clean?
++ Each item on the deep-clean list
+- Only the areas that look dirty
+- Only the floor
+? What do you move to clean?
++ Equipment, to clean behind and under it
+- Nothing; clean carefully around it
+- Only the bins
+? How do you show progress?
++ Tick off each item as you finish
+- Sign the sheet at the very start
+- Tell someone verbally at the end
+? Why do deep cleans matter?
++ They reach areas daily cleaning misses
+- They replace the daily cleaning
+- They are only needed for inspections
+? Some items were not done. What do you do?
++ Note them and tell your manager to reschedule
+- Tick them anyway so the sheet is complete
+- Leave them off the sheet and say nothing
+
+## Cleaning schedule signed off
+? What do you check before signing?
++ Every task on today's schedule was done
+- The schedule has been printed in colour
+- Only the tasks you did yourself
+? What else should you do?
++ Spot-check a few areas yourself
+- Sign it without looking, to save time
+- Ask a guest
+? Why does the signed schedule matter?
++ It is your evidence for the EHO
+- It is needed for staff pay
+- It is only a habit
+? Some tasks were missed. What do you do?
++ Get them done before signing
+- Sign it and fix them later
+- Leave the sheet unsigned forever
+? Who signs the schedule?
++ The person checking it, once all is done
+- Anyone on shift, at the start of the day
+- The cleaner, before starting
+
+## Sanitiser in stock & in date
+? What do you check?
++ Enough stock, and in date
+- The colour and smell
+- The price per litre
+? Which standards should the sanitiser meet?
++ BS EN 1276 or BS EN 13697
+- ISO 9001 or ISO 14001
+- None; any sanitiser works
+? Where do you find the standard?
++ On the label
+- On the invoice
+- Online only
+? Why use a tested sanitiser?
++ Only tested ones reliably kill E. coli
+- Tested ones smell nicer to customers
+- They last longer on the shelf
+? Stock is low. What do you do?
++ Order more today; tell your manager
+- Water it down so it lasts until delivery
+- Use washing-up liquid instead
+
+## Degreaser in stock
+? What do you check?
++ That there is enough degreaser
+- That it is the right colour
+- That it is stored in the fridge
+? What do you note?
++ Whether more needs ordering
+- The degreaser's smell and colour
+- Who used it last
+? Why does degreaser matter?
++ Grease build-up is a fire and hygiene risk
+- It makes the kitchen smell fresher for guests
+- It is only used on the floor
+? Degreaser is running low. What do you do?
++ Order more today
+- Use sanitiser instead
+- Wait until it runs out
+? Which risk does grease build-up create?
++ Fire
+- Flooding
+- Frost
+
+## Blue roll / paper towel stocked
+? Where should blue roll be stocked?
++ At prep areas
+- In the dry store only
+- In the office
+? Where should paper towels be stocked?
++ At hand-wash sinks
+- In the walk-in fridge
+- At the bar till
+? Why use single-use towels?
++ Reused cloths spread bacteria
+- They are cheaper than cloths
+- They dry hands faster
+? Stocks are low. What do you do?
++ Restock now
+- Wait until they run out
+- Use tea towels
+? Which is better at a hand-wash sink?
++ Paper towels
+- A shared hand towel
+- Your apron
+
+## COSHH sheets present & chemicals labelled
+? What must there be for every chemical in use?
++ A safety data sheet
+- A spare bottle
+- A colour code
+? What container must chemicals be in?
++ Their original or a correctly labelled one
+- Any clean drinks bottle, rinsed out
+- An unlabelled spray bottle
+? Where must chemicals be stored?
++ Away from food
+- Next to the dry goods
+- On the prep surface
+? Why does COSHH matter?
++ You must know the dangers of chemicals you use
+- It lowers the cost of buying the chemicals you use
+- It is only needed for cleaners
+? You find an unlabelled chemical. What do you do?
++ Remove it
+- Smell it to work out what it is
+- Use it carefully
+
+## Chemical dilution / dosing correct
+? Where do you find the dilution rate?
++ On the label
+- By guessing
+- From a colleague
+? How do you measure the dose?
++ With the dosing system or a measure
+- By eye, with a quick splash into the bucket
+- With a cup from the kitchen
+? Why does dilution matter?
++ Wrong dilution fails or is a hazard
+- Stronger is always more effective
+- It only changes the smell
+? What do you record?
++ The strength
+- The bottle colour
+- The time of day only
+? The dosing unit is broken. What do you do?
++ Remix correctly and report the unit
+- Guess the dose until it is fixed
+- Stop cleaning until it is fixed
+
+## Dry store temperature / humidity
+? What should the dry store temperature ideally be below?
++ 25°C
+- 35°C
+- 8°C
+? What should the dry store be like?
++ Cool and dry
+- Warm and humid
+- Cold and damp
+? What do you read?
++ The thermometer, and humidity gauge if fitted
+- The temperature of the dry goods themselves
+- The heating thermostat in the dining room
+? Why do heat and damp matter?
++ They spoil goods and attract pests
+- They make the shelves harder to keep clean
+- They fade the labels
+? The store is persistently too warm or damp. What do you do?
++ Improve ventilation and report it
+- Move everything into the fridge
+- Ignore it if the goods look fine
+
+## Stock off floor / on shelving
+? Where should stock never be stored?
++ On the floor
+- On shelves
+- On pallets
+? Where do you move it?
++ Onto shelves or pallets
+- Into the corridor
+- Outside the back door
+? Why keep stock off the floor?
++ It blocks cleaning and attracts pests
+- It gets cold too quickly on the floor
+- It makes stock counts harder
+? You find a box on the floor. What do you do?
++ Move it now
+- Leave it there
+- Count it first
+? Which is an acceptable place?
++ A pallet
+- The floor
+- A step
+
+## Open dry goods sealed & dated
+? Where do opened dry goods go?
++ Sealed, lidded containers
+- Back in the open bag
+- A bowl on the shelf
+? What goes on the label?
++ Product and date opened
+- Price and supplier
+- Nothing
+? Why seal opened goods?
++ Open bags attract pests and go stale
+- It stops the bag tearing when it is lifted
+- It is only for appearance
+? You find an open bag. What do you do?
++ Decant and label it now
+- Fold the top over and clip it
+- Leave it open
+? What two things go on the label?
++ Product and date opened
+- Weight and the delivery date
+- Price and barcode
+
+## No damaged / bloated / infested packaging
+? Which packaging problems do you look for?
++ Torn bags, dented or bulging cans, leaks
+- Faded labels and bent barcodes on boxes
+- Products from different suppliers mixed
+? Which pest signs do you look for?
++ Holes, droppings, webbing, insects
+- Dust, cobwebs on the ceiling, puddles
+- Price stickers that have fallen off
+? What can a bulging can mean?
++ Dangerous bacteria (botulism)
+- The food inside is extra fresh
+- Too much air in the can
+? What do you do with damaged items?
++ Remove them and record it
+- Use them first, before they spoil
+- Tape them up and put them back
+? You find pest signs. What do you do?
++ Tell your manager straight away
+- Clean them up quietly
+- Wait to see if it happens again
+
+## Chilled goods temp on arrival
+? How do you probe chilled deliveries?
++ Between two packs, without piercing
+- By piercing a pack in the middle
+- By probing the van's air
+? What is the highest acceptable temperature?
++ 8°C
+- 12°C
+- 15°C
+? What is the better target?
++ 5°C or below
+- 8°C to 10°C
+- Any temperature
+? How quickly must chilled goods be put away?
++ Within 15 minutes
+- Within 2 hours
+- By the end of the day
+? A chilled item arrives at 10°C. What do you do?
++ Reject it, record it, and tell the driver
+- Accept it and cool it down quickly
+- Accept it if the driver says it is fine
+
+## Frozen goods temp on arrival
+? How should frozen items feel?
++ Hard frozen
+- Soft but cold
+- Wet on the outside
+? What temperature should frozen goods be?
++ -18°C or colder
+- -5°C or colder
+- 0°C or colder
+? When should frozen goods be put away?
++ Immediately
+- Within 2 hours
+- After checking all the paperwork
+? Why reject thawed goods?
++ Thawed and refrozen food may be unsafe
+- They take up more space in the freezer
+- They are harder to count
+? A frozen item arrives soft. What do you do?
++ Reject it and record why
+- Refreeze it straight away
+- Use it first today
+
+## Vehicle / driver hygiene
+? What do you check about the van?
++ Clean, and refrigerated if carrying chilled
+- That it is new and freshly painted with the logo
+- That it is parked close to the door
+? What do you check about the driver?
++ That they look clean
+- That they are on time
+- That they are friendly
+? Why does transport hygiene matter?
++ Dirty transport can contaminate food
+- It only matters for frozen food
+- It only matters for drinks
+? You see a dirty van. What do you do?
++ Record it and tell your manager
+- Refuse to speak to the driver
+- Clean the van yourself
+? Repeated problems happen. What should happen?
++ Raise it with the supplier
+- Accept it as normal
+- Change the delivery time
+
+## Packaging intact
+? What do you check boxes and packs for?
++ Torn, crushed or wet
+- The brand logos printed on them
+- The colour of the packaging
+? What else do you check?
++ That seals are not broken
+- That labels are the right colour
+- That boxes are recyclable
+? Why does damaged packaging matter?
++ It can let in bacteria or pests
+- It makes stock harder to stack
+- It only affects how stock looks
+? An item arrives with a broken seal. What do you do?
++ Reject it and record it
+- Accept it and use it first
+- Tape the seal back down
+? What do you do with wet boxes?
++ Reject them and record it
+- Dry them with a cloth
+- Store them on the floor
+
+## Use-by dates acceptable
+? What do you check on delivered items?
++ The use-by dates
+- The barcodes
+- The brand
+? What must there be enough of?
++ Life left to use them
+- Space on the shelves
+- Staff to unpack them
+? Why does short-dated stock matter?
++ It leads to waste or out-of-date use
+- It is always cheaper to buy from suppliers
+- It takes up less fridge space
+? An item has too little life left. What do you do?
++ Reject it, or agree a credit with the supplier
+- Accept it and change the date on the label
+- Freeze it straight away to extend the date
+? Which date is checked on delivery?
++ Use-by
+- Production date
+- Order date
+
+## Reconciled to order/invoice
+? What do you check items against?
++ The delivery note
+- The menu
+- Last week's order
+? What do you note?
++ Missing, extra or substituted items
+- The driver's name and arrival time
+- The weather that day
+? Who signs for shortages?
++ The driver
+- The chef
+- Nobody
+? Why do substitutions matter?
++ They can change allergens
+- They are always cheaper
+- They take longer to cook
+? You find a discrepancy. What do you do?
++ Record it and tell your manager
+- Ignore it if it is only a small amount
+- Fix the invoice yourself
+
+## Rejected items logged
+? What do you record about rejected items?
++ What, how much, and why
+- Only the item's price
+- Only the driver's name
+? What should happen to the delivery note?
++ It is marked or signed
+- It is thrown away
+- Nothing
+? Why log rejections?
++ It proves what was refused, for credit and due diligence
+- It shows the driver was late with the van that day
+- It helps plan the next week's rota for the kitchen
+? When should you log a rejection?
++ Now
+- At the end of the week
+- Only if asked
+? What is the log useful for?
++ Getting a credit
+- Paying wages
+- Planning menus
+
+## Supplier traceability captured
+? What do you select first?
++ The supplier
+- The driver
+- The price
+? Which date do you record?
++ The delivery date
+- The order date
+- The invoice due date
+? What paperwork do you keep?
++ The delivery note or invoice
+- The van's registration number
+- Nothing
+? Why does traceability matter?
++ In a recall, you must know where food came from
+- It makes paying the supplier's invoices faster
+- It is only needed for alcohol
+? The paperwork is missing. What do you do?
++ Find it and record it now
+- Leave it blank until it turns up
+- Make up the details from memory

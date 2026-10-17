@@ -1,0 +1,1123 @@
+# Training quiz bank, part 3 (2026-10-17). Format as in bank_01.
+
+## Hot water at sinks
+? How do you check the hot water?
++ Run the hot tap at each sink
+- Feel the outside of the boiler
+- Check the water bill each month
+? What are you checking for?
++ That hot water comes through
+- That the water is clear blue
+- That the tap does not drip
+? Why is hot water needed?
++ For proper handwashing and cleaning
+- To make the kitchen feel warmer
+- Only for making hot drinks
+? There is no hot water for handwashing. Can you prepare food?
++ No; report it first
+- Yes, using cold water
+- Yes, using hand gel
+? Which sinks do you check?
++ Each sink
+- Only the pot sink
+- Only the bar sink
+
+## Hand-wash sinks stocked
+? What do you check at every hand-wash sink?
++ Soap and paper towels
+- Bleach and a nail brush
+- A tea towel and a cup
+? What else do you check about the sinks?
++ Not blocked or used for other things
+- That they are kept full of water
+- That pots are left to soak in them
+? Why stock hand-wash sinks?
++ Staff cannot wash hands properly otherwise
+- It makes the kitchen look well run
+- Guests sometimes use them when the toilets are busy
+? A sink has no towels. What do you do?
++ Restock it now
+- Dry hands on your apron
+- Wait for the delivery
+? Can a hand-wash sink be used to rinse vegetables?
++ No
+- Yes, if it is clean
+- Yes, when busy
+
+## Fire exits clear & unlocked
+? How do you check the fire exits?
++ Walk each escape route
+- Look at the fire plan only
+- Ask a colleague if they are fine
+? What do you check about the doors?
++ They open easily, not locked or blocked
+- They are freshly painted and labelled
+- They are kept propped open all day
+? What do you check about the exit signs?
++ They are lit
+- They are new
+- They are bilingual
+? Why do clear exits matter?
++ Blocked exits cost lives in a fire
+- They make deliveries easier to take in
+- They are only checked for inspections
+? A fire door will not open. What do you do?
++ Tell your manager straight away
+- Prop it open with a chair
+- Note it in the log for next month
+
+## Fire extinguishers in place & in date
+? What do you check first?
++ Each one is in its place
+- Each one is full of water
+- Each one is the same colour
+? What must be intact?
++ The pin and seal
+- The paint and the label
+- The box it came in
+? How often are extinguishers serviced?
++ Yearly
+- Every 5 years
+- Monthly
+? Why check extinguishers?
++ They must be ready to work in an emergency
+- They are expensive to replace if lost
+- They are only checked for the insurer
+? An extinguisher is out of date. What do you do?
++ Tell your manager to arrange service
+- Leave it; it still looks fine
+- Move it to the store room out of the way
+
+## First aid kit stocked
+? How do you check the kit?
++ Against its contents list
+- By shaking it
+- By checking how heavy the box feels
+? Which items do you check for?
++ Blue plasters, dressings, gloves, burn gel
+- Painkillers, cough sweets and plasters
+- Scissors, string and a torch
+? What do you note?
++ Anything used or out of date
+- Who last opened it
+- The price of each item inside
+? Why keep the kit stocked?
++ Burns and cuts need quick treatment
+- It is only for the inspector to see
+- It stops staff going home early
+? Something is missing. What do you do?
++ Restock from spares or order now
+- Wait until someone gets hurt
+- Use the guest toilet supplies
+
+## Lighting functional
+? What do you check?
++ Every light in the work area works
+- The light bulbs are all the same brand
+- The lights are switched off overnight
+? What do you note?
++ Lights that are out or flickering
+- How bright the sun is that day
+- The cost of electricity
+? Why does lighting matter?
++ Poor lighting causes accidents and hides dirt
+- Bright lights keep the kitchen warmer
+- It only matters in the dining room at night
+? A light is out. What do you do?
++ Report it for repair
+- Ignore it
+- Use a torch all shift
+? Where do you check the lighting?
++ In the work area
+- Only outside
+- Only in the office
+
+## Gas / electrical no visible faults
+? What do you look for on electrical items?
++ Damaged cables, plugs or sockets
+- Dust on top of the appliances
+- The brand name on each plug
+? What do you check for with gas?
++ Gas smells
+- Blue pipes
+- Loud noises
+? You smell gas. What do you do?
++ Gas off at the meter, no flames or switches, open windows, call 0800 111 999
+- Switch on the extraction fan and lights so you can find the leak quickly
+- Light a burner to burn off the gas, then carry on cooking as normal
+? What is the gas emergency number?
++ 0800 111 999
+- 999 only
+- 101
+? You find a damaged plug. What do you do?
++ Unplug it and label it
+- Wrap it in tape and keep using it
+- Use it carefully until it is replaced
+
+## General waste removed & bins clean
+? When should bins be emptied?
++ Before they are overfull
+- Once a week
+- When they start to smell bad
+? What do you do after emptying?
++ Clean the bins, replace bags, close lids
+- Leave the lids open so they air out
+- Stack the full bags next to the bins
+? Why do full bins matter?
++ They attract pests and spread smells
+- They make the floor slippery
+- They are hard to lift and move around
+? Bins are overflowing. What do you do?
++ Empty them now
+- Press the rubbish down
+- Wait for the cleaner
+? Should bin lids be left open?
++ No, close them
+- Yes, to air them
+- Yes, when busy
+
+## Food waste segregated
+? Where does food waste go?
++ In the food waste bin only
+- In the general waste bin
+- In the recycling bin
+? What should food waste be kept apart from?
++ General and recycling waste
+- Paper and cardboard only
+- Nothing; mixing is fine
+? Why separate food waste?
++ It is a legal requirement for many businesses
+- It makes the bins lighter to lift
+- It is only an environmental choice for the venue
+? Food waste is in the wrong bin. What do you do?
++ Re-sort it and remind the team
+- Leave it there this time only
+- Throw the whole bin away
+? Who needs to follow the rule?
++ The whole team
+- Only the chef
+- Only the cleaner
+
+## Used cooking oil stored / collected
+? How is waste oil stored?
++ Cooled, in sealed, labelled containers
+- Hot, in open buckets by the fryer
+- In the general waste bin, in bags
+? Where should the containers be kept?
++ In a safe area away from drains
+- Next to the back door drain
+- On the kitchen floor
+? Who can collect the waste oil?
++ Only a licensed collector
+- Any member of staff
+- Anyone who asks for it
+? What paperwork do you keep?
++ The waste transfer note
+- The fryer manual
+- The oil price list
+? Why not pour oil down the drain?
++ It blocks drains, and illegal disposal brings fines
+- It is fine if you run hot water after it
+- It makes the drains smell of chips for days
+
+## Pest activity check (droppings/gnaw/nest)
+? Where do you check for pests?
++ Corners, under equipment, storage areas
+- Only the dining room tables
+- Only outside, around the back of the building
+? What signs do you look for?
++ Droppings, gnaw marks, nests, dead insects, smears
+- Dust, crumbs, cobwebs and the smell of the bins
+- Muddy footprints and cardboard boxes by the door
+? What do you do if you find something?
++ Photograph it
+- Sweep it away
+- Ignore it
+? Why does pest activity matter?
++ The EHO can close the venue straight away
+- Pests only affect how the kitchen looks
+- It only matters if guests see them
+? You find droppings. What do you do?
++ Tell your manager now; bin affected food; call pest control
+- Sweep it up and carry on, as long as no pests are seen
+- Wait until the pest contractor's next routine visit
+
+## Fly killer / bait stations working
+? What do you check on fly killers?
++ They are on and the tubes glow
+- They are switched off during service
+- They are full of dead flies
+? What do you check on bait stations?
++ In place and not damaged
+- Opened and refilled
+- Moved nearer food
+? Can you move or open bait stations yourself?
++ No
+- Yes, if they are full
+- Yes, to clean them
+? Why do these matter?
++ They catch pests before they reach food
+- They make the kitchen smell fresher
+- They are only needed in summer
+? A fly killer is not working. What do you do?
++ Report it to your manager or contractor
+- Take it apart and try to fix it yourself
+- Switch it off for good
+
+## External bin area secure & clean
+? What do you check about the bin lids?
++ They are closed
+- They are open to air
+- They are labelled
+? What do you do with spilled waste?
++ Pick it up
+- Leave it for the collectors
+- Hose it into the drain
+? What do you check the area for?
++ Attracting birds or rodents
+- Too many parked cars
+- Customers smoking near the door
+? Why do outside bins matter?
++ They are the main draw for rats and foxes
+- They are what guests see first
+- They are only used for the recycling
+? A bin is broken. What do you do?
++ Clean up and report it
+- Leave it until collection day
+- Throw it away
+
+## Pest control contract visit log
+? What do you record?
++ The contractor's visit date
+- The contractor's car registration
+- The contractor's phone number only
+? What do you do with their report?
++ File or photograph it
+- Throw it away
+- Give it to a guest
+? What else do you note?
++ Any actions they recommended
+- How long they stayed
+- What equipment they brought with them
+? Why keep the log?
++ The EHO will ask to see pest control records
+- It is needed to pay the contractor's bill
+- It is only a habit from old paperwork
+? You have no copy of the report. What do you do?
++ Ask the contractor for a copy
+- Write your own version of their report
+- Leave it blank
+
+## Equipment fault log reviewed
+? What do you go through?
++ Open faults
+- Only closed faults
+- The menu
+? What do you note?
++ What is fixed and what is waiting
+- Who reported each fault first
+- The price of each part
+? What do you do with overdue repairs?
++ Chase them and escalate to your manager
+- Remove them from the log
+- Wait for the engineer to come back on their own
+? Why review the fault log?
++ Unfixed faults become breakdowns or risks
+- It keeps the paperwork tidy for audits
+- It is only needed once a year
+? A repair is overdue. Who do you escalate to?
++ Your manager
+- A customer
+- Nobody
+
+## Scheduled servicing up to date
+? What do you check?
++ Service dates for key equipment
+- The colour of the equipment
+- How old the staff are
+? What do you note?
++ Anything due or overdue
+- Only equipment under warranty
+- Only items you use yourself
+? Why service equipment?
++ It prevents breakdowns and keeps warranties valid
+- It makes the equipment look new for guests
+- It is only needed when something breaks
+? A service is overdue. What do you do?
++ Tell your manager today and book it
+- Wait until it breaks down
+- Take it apart and do the service yourself
+? The equipment is unsafe. What do you do?
++ Stop using it
+- Use it carefully
+- Turn it up
+
+## PAT / electrical inspection in date
+? What do you check on portable equipment?
++ PAT stickers
+- The plug colour
+- The brand name
+? What do you check on the stickers?
++ That the dates are in date
+- That they are the same colour
+- That they are signed by you
+? Why test electrical equipment?
++ It helps prevent shocks and fires
+- It makes the equipment last longer
+- It is only needed for new items
+? A PAT date has passed. What do you do?
++ Tell your manager today and book the test
+- Write a new date on the sticker yourself
+- Keep using it until it stops working
+? An item looks unsafe. What do you do?
++ Stop using it
+- Wrap it in tape
+- Use it gently
+
+## Extraction/duct professional clean in date
+? Which certificate do you check?
++ The duct clean certificate (TR19 Grease)
+- The gas safety certificate
+- The food hygiene rating sticker on the door
+? What do you check about it?
++ It is within the interval for your usage
+- It was signed by the head chef
+- It is displayed in the dining room
+? Why does duct grease matter?
++ It spreads fire through buildings
+- It makes the kitchen smell of food
+- It slows the extraction fan down
+? Who often requires the clean?
++ Insurers
+- Customers
+- Suppliers
+? The clean is overdue. What do you do?
++ Tell your manager today and book it
+- Clean the ducts yourself with a cloth
+- Leave it until the next inspection
+
+## Gas safety certificate in date
+? What do you find first?
++ The current gas safety certificate
+- The latest gas bill
+- The cooker's instruction manual
+? What do you check on it?
++ The expiry date
+- The engineer's photo
+- The gas price
+? What must the certificate cover?
++ All gas appliances
+- Only the main oven
+- Only new appliances
+? Who must check commercial gas appliances?
++ A Gas Safe engineer
+- Any electrician
+- The head chef
+? The certificate has expired. What do you do?
++ Tell your manager today and book a check
+- Keep using the gas and say nothing
+- Print a copy of the old certificate
+
+## Stock count / par levels
+? What do you do with each item?
++ Count it
+- Weigh the shelf
+- Guess it
+? What do you compare the count against?
++ Its par level
+- Last year's price
+- The menu
+? What do you record?
++ The count
+- The supplier
+- The weather
+? Why count stock accurately?
++ It cuts waste and stops running out
+- It makes the shelves look tidier
+- It is only for the accountant
+? An item is below par. What do you do?
++ Flag it for ordering
+- Hide it at the back
+- Take it off the menu
+
+## Wastage / spoilage log
+? What do you record?
++ Each item wasted
+- Only expensive items
+- Only items you dropped
+? What else do you note?
++ The quantity and the reason
+- The time and the weather
+- Who cooked the dish
+? Which is a valid reason to record?
++ Out of date, dropped or overcooked
+- Because nobody liked the chef
+- Because the shelf was full
+? Why keep a wastage log?
++ It shows where money is being lost
+- It shows which staff to blame
+- It is only needed for audits
+? You forgot to log some waste. What do you do?
++ Log it now from memory
+- Leave it off the log
+- Log it next month
+
+## Low-stock reorder flagged
+? What do you note?
++ Items running low
+- Items in good supply
+- Items on special
+? Who do you pass the list to?
++ Whoever orders
+- The customers
+- The delivery driver
+? Why does running out matter?
++ Substitutions can introduce allergens
+- It makes the menu shorter for the day
+- It only matters for drinks
+? When should you tell the person who orders?
++ Today
+- Next week
+- At the stock take
+? Something is running low. What do you do?
++ Flag it for reorder
+- Use something else without telling anyone
+- Wait until it runs out
+
+## High-value stock reconciled
+? Which items do you count?
++ High-value items like meat, fish, spirits
+- Low-value items like salt and sugar
+- Cleaning chemicals and blue roll
+? What do you compare against?
++ Expected levels
+- The menu prices
+- Last year's count
+? What do you record?
++ Any difference
+- Only the totals
+- Nothing
+? Why reconcile high-value stock?
++ It catches theft, waste and errors early
+- It helps decide the staff rota
+- It is only needed for the year-end accounts
+? There is an unexplained difference. What do you do?
++ Report it to your manager
+- Change the expected figure
+- Ignore small amounts
+
+## Opening checklist complete
+? How do you complete the opening checks?
++ Work through each item on the checklist
+- Do the items you remember
+- Sign it first, then do the checks later
+? Which checks come first?
++ The temperature checks
+- The music and lights
+- The bins
+? Why do opening checks matter?
++ They catch overnight problems before food is served
+- They make the morning shift go faster for everyone
+- They are only for the inspector to see
+? You find a problem you cannot fix. What do you do?
++ Tell your manager before service
+- Open anyway and fix it tomorrow
+- Leave a note for the next shift
+? What do you do for each item?
++ Confirm it
+- Skip it
+- Delegate it
+
+## All refrigeration temps at open
+? What do you check at opening?
++ Every fridge and freezer
+- Only the main fridge
+- Only the freezers
+? What should fridges read?
++ 8°C or below
+- 12°C or below
+- 0°C or below
+? What should freezers read?
++ -18°C or colder
+- -10°C or colder
+- 0°C or colder
+? Why check at opening?
++ It catches overnight breakdowns before food is used
+- It warms up the equipment for service
+- It is only needed on Mondays after the weekend
+? A fridge reads high at opening. What do you do first?
++ Re-check in 15-20 minutes; move food if still high
+- Serve its food first, before it gets any warmer
+- Record a pass, as it was fine at closing
+
+## Equipment switched on & warmed
+? What do you switch on?
++ Cooking and hot-holding equipment
+- Only the lights
+- The fridges and the freezers
+? What do you check before service?
++ It reaches temperature
+- It is clean outside
+- It is the right brand
+? Why must equipment be warm first?
++ Food in cold equipment won't be held safely
+- It saves electricity during service
+- It makes the kitchen warmer for staff
+? Equipment will not heat. What do you do?
++ Report it
+- Use it anyway
+- Turn it off and on all day
+? When is equipment switched on?
++ Before service
+- Halfway through service
+- After the first order
+
+## No overnight pest / leak / fault
+? What do you walk around?
++ The kitchen and stores
+- The car park only
+- The dining room only
+? What do you look for?
++ Pest signs, water leaks, anything left on
+- Lost property and spare change
+- Dirty glasses left on the tables
+? What do you do with what you find?
++ Note it
+- Ignore it
+- Post it online
+? Why check first thing?
++ Problems found early cause less damage
+- It is a nice walk before the shift starts
+- It is only for insurance claims
+? You find a leak you cannot fix safely. What do you do?
++ Tell your manager straight away and log it
+- Put a bucket under it and say nothing
+- Wait until the leak gets bigger
+
+## Closing checklist complete
+? How do you complete the closing checks?
++ Work through each item on the checklist
+- Do what you have time for
+- Tick every item at once when you leave
+? What do you do for each item?
++ Confirm it
+- Skip it
+- Guess it
+? Why do closing checks matter?
++ They protect food, the building and tomorrow's shift
+- They let the team leave a little earlier each night
+- They are only checked by the area manager
+? Something was not done. What do you do?
++ Note it for the opening team and your manager
+- Tick it anyway so the list is complete
+- Say nothing and hope nobody notices
+? Who benefits from closing checks?
++ Tomorrow's opening team
+- Only the night cleaner
+- Only the delivery driver
+
+## Equipment safely off
+? Which equipment do you switch off?
++ Cookers, fryers, grills, hot cupboards
+- Fridges, freezers and cold rooms
+- Everything, including refrigeration
+? What must stay on?
++ Refrigeration
+- The fryers
+- The grill
+? When do you turn off gas at the isolator?
++ If that is your venue's procedure
+- Never
+- Only on Sundays when the kitchen is shut
+? Why switch equipment off?
++ Equipment left on is a fire risk
+- It makes the morning start faster
+- It cools the kitchen for cleaners
+? You find a fryer still on after closing. What do you do?
++ Switch it off now and tell your manager
+- Leave it for the morning team
+- Turn it down to its lowest setting
+
+## Perishables stored / covered / dated
+? Where does perishable food go at close?
++ Into the fridges
+- On the worktop
+- In the dry store
+? What do you do to it?
++ Cover and label it
+- Leave it open to cool
+- Stack it on the floor
+? Where does raw food go?
++ Below cooked and ready-to-eat food
+- Above cooked food
+- On the top shelf, so it chills fastest
+? Why store raw food below?
++ Raw food above cooked can drip onto it
+- Raw food is heavier, so it goes low
+- It keeps raw food colder
+? Why cover food?
++ Uncovered food can be contaminated
+- It keeps the fridge tidy
+- It lets you stack more in the fridge
+
+## Final clean-down
+? What do you clean and sanitise?
++ All surfaces
+- Only your own section
+- Only the floor
+? What else do you clean?
++ The floors
+- The car park
+- The dining room ceiling
+? What do you do with bins?
++ Empty them
+- Leave them overnight
+- Put them in the fridge
+? Why clean at close?
++ It stops pests overnight
+- It makes the morning cooler
+- It is only for the night cleaner
+? The clean-down is not finished at closing time. What do you do?
++ Finish it before leaving
+- Leave it for the morning
+- Skip it tonight
+
+## Premises secured / alarm set
+? What do you check first?
++ All doors and windows are locked
+- All lights are left on
+- All bins are brought inside the kitchen
+? Who must not be left inside?
++ Anybody
+- The manager
+- The cleaner
+? What do you set?
++ The alarm
+- The oven timer
+- The music
+? Why secure the building?
++ It protects the building and stock overnight
+- It keeps the heating in overnight
+- It is only needed at weekends and holidays
+? Something cannot be secured. What do you do?
++ Tell your manager
+- Leave it and go home
+- Wedge it with a chair
+
+## Mise en place complete
+? What do you check?
++ All prep for service is done
+- The bar is stocked
+- The tables are booked for tonight
+? How should prepped food be kept?
++ Covered, labelled and chilled
+- Uncovered on the pass
+- At room temperature, ready to use
+? Why does good prep matter?
++ It means safer, faster service
+- It makes the menu longer
+- It is only for big events
+? Prep is not finished. What do you do?
++ Finish it, or tell the head chef what is missing
+- Start service and hope it is not needed tonight
+- Use yesterday's prep without checking it
+? Who do you tell about missing prep?
++ The head chef
+- The guests
+- The supplier
+
+## Hot-hold / bain-marie pre-heated
+? When do you switch the hot-hold on?
++ Before service
+- When the first order comes in
+- After loading the food
+? What temperature must it reach before food goes in?
++ 63°C or above
+- 40°C or above
+- 50°C or above
+? Can hot-holding heat up cold food safely?
++ No
+- Yes, given time
+- Yes, if stirred
+? What do you do once it is up to temperature?
++ Record it
+- Turn it down
+- Switch it off
+? It will not reach temperature. What do you do?
++ Do not load food; report the fault
+- Load the food and stir it often
+- Load the food and add a lid
+
+## Specials / allergen info briefed
+? What do you tell the team?
++ The specials
+- The staff rota
+- The music list
+? What else do they need to know?
++ The allergens in each special
+- The price of each special
+- The supplier for each special
+? What do you update?
++ The allergen chart
+- The rota
+- The till prices
+? Why brief the team?
++ So they answer allergy questions correctly
+- So they can sell the specials more quickly
+- It is only for the kitchen team
+? Someone missed the briefing. What do you do?
++ Brief them before they serve
+- Nothing
+- Brief them at tomorrow's shift
+
+## Service fridges stocked & at temp
+? What do you do first?
++ Stock the service fridges
+- Defrost the service fridges
+- Switch them off
+? What temperature must they be?
++ 8°C or below
+- 12°C or below
+- 15°C or below
+? Why do service fridges need checking?
++ They are opened most and warm up fastest
+- They are the most expensive fridges to run
+- They are always the oldest fridges
+? What do you do with the temperature?
++ Record it
+- Guess it
+- Skip it if busy
+? A service fridge reads high on the re-check. What do you do?
++ Move food, tell your manager, log the action
+- Keep using it until the end of service
+- Turn the dial and record a pass
+
+## Dining area cleaned & set
+? What do you clean?
++ Tables, chairs and floors
+- Only the bar
+- Only the windows and mirrors
+? What else do you do?
++ Set the tables
+- Count the stock
+- Check the fryers
+? Why does it matter?
++ First impressions and hygiene for guests
+- It keeps the dining room cooler
+- It is only needed for special events
+? When must it be finished?
++ Before the doors open
+- After the first guests
+- At the end of the day
+? Who is the dining area cleaned for?
++ The guests
+- The suppliers
+- The kitchen only
+
+## Tables / condiments sanitised
+? When do you wipe tables with sanitiser?
++ Between guests
+- Once a day
+- Only when sticky
+? What else do you wipe?
++ Condiment bottles, menus, card machines
+- Only the table top itself
+- The chairs' legs and the floor below
+? Why sanitise shared surfaces?
++ They spread germs between customers
+- They look shinier when sanitised
+- It is only done during flu season
+? When must it be done?
++ Before seating the next guests
+- At the end of the evening
+- Once the table is empty for an hour
+? What do you use on tables?
++ Sanitiser
+- A dry napkin
+- Water only
+
+## Customer toilets checked & stocked
+? What do you check?
++ That toilets are clean
+- That the music is on
+- That the door is locked
+? What do you restock?
++ Soap, towels and toilet roll
+- Menus and napkins
+- Cleaning chemicals for guests
+? What do you do about issues?
++ Note and fix them
+- Ignore them
+- Close the toilets
+? Why do toilets matter?
++ They affect your hygiene rating and reputation
+- They are only used by staff
+- They are cleaned by the landlord each week
+? A toilet is faulty. What do you do?
++ Clean and restock, and report the fault
+- Leave it for the guests to report
+- Lock it and say nothing
+
+## Allergen requests relayed to kitchen
+? How do you note the allergen on the order?
++ Write it clearly on the order
+- Say it to the guest again
+- Put it at the end of the bill
+? What else do you do?
++ Tell the chef in person as well
+- Tell the bar team, not the chef
+- Nothing else
+? What do you note?
++ The order number
+- The guest's address
+- The guest's age
+? Why tell the kitchen?
++ It can't protect a customer it doesn't know about
+- So the chef can charge for the allergen request
+- So the kitchen can make the dish faster
+? Food has gone out before you told the kitchen. What do you do?
++ Stop it and check with the chef
+- Let the guest decide whether to eat it
+- Say nothing
+
+## Coffee machine cleaned & backflushed
+? How do you clean the group heads?
++ Backflush with cleaner, per the instructions
+- Wipe the outside with a damp cloth
+- Run hot water through without cleaner
+? What do you do to the steam wand after every use?
++ Purge and wipe it
+- Leave it in the milk jug
+- Wipe it once a day
+? What do you soak and clean?
++ Portafilters, baskets and the drip tray
+- Coffee bags and the bean hopper lid
+- The cups and saucers only
+? Why clean the machine?
++ Milk and coffee oils grow bacteria
+- It makes the coffee hotter
+- It only improves the taste of the coffee
+? When must a dirty machine be cleaned?
++ Before next use
+- At the weekly deep clean
+- When guests complain
+
+## Hot buffet display temperature
+? What do you probe?
++ Each hot dish on the buffet
+- One dish only
+- The air under the heat lamp
+? What do you record?
++ The reading and a photo
+- The price of each dish
+- The number of guests
+? What temperature passes?
++ 63°C or above
+- 50°C or above
+- 40°C or above
+? Why check buffet food?
++ It sits out longer and must stay hot
+- Guests like it hotter
+- It is only for show at events
+? Food has been below 63°C for over 2 hours. What do you do?
++ Throw it away
+- Reheat and put it back out
+- Stir it and keep serving
+
+## Cold buffet display temperature
+? What do you probe?
++ Each cold dish
+- The ice under the dishes
+- The air above the buffet
+? What temperature passes?
++ 8°C or below
+- 12°C or below
+- 15°C or below
+? Why check cold buffet food?
++ It warms up quickly on display
+- It freezes if left too long
+- It only matters for desserts
+? Food is too warm. What are your options?
++ Return it to the fridge or follow the 4-hour rule
+- Add ice on top of the food and keep serving it
+- Serve it quickly before anyone notices
+? Who do you tell?
++ Your manager
+- The guests
+- Nobody
+
+## Buffet out-of-temperature time log
+? What do you record?
++ The time food goes out on display
+- The time guests arrive
+- The time the buffet is cleaned
+? How long can cold food be out of the fridge?
++ Up to 4 hours, once only
+- Up to 8 hours, twice
+- All day if covered
+? How long can hot food below 63°C be held?
++ Up to 2 hours, once only
+- Up to 4 hours, twice
+- Until service ends
+? Why must the time be recorded?
++ The legal exemption only works if it is
+- So guests know when food is fresh
+- It is only for the kitchen's records
+? Food has no recorded start time. What do you do?
++ Throw it away
+- Guess the time
+- Serve it first
+
+## Cellar / keg temperature
+? What do you read?
++ The cellar thermometer
+- The beer pump
+- The gas cylinder gauge
+? What temperature is cask ale usually kept at?
++ 11-13°C
+- 3-5°C
+- 18-20°C
+? What do you do with the reading?
++ Record it
+- Ignore it
+- Tell a guest
+? Why does cellar temperature matter?
++ Wrong temperatures spoil beer and cause fobbing
+- Warm cellars make the kegs lighter to lift
+- It only matters for lager
+? The cellar is too warm. What do you do?
++ Check the cooler and report it if faulty
+- Leave the cellar door open
+- Pour ice over the kegs and wait
+
+## Beer line cleaning
+? How often must lines be cleaned?
++ At least every 7 days
+- Once a month, on a Monday
+- Once a year
+? What protective kit do you wear?
++ Gloves and eye protection
+- A long apron and boots
+- No kit is needed
+? How do you know the cleaner is gone?
++ Flush until none is left; test with pH paper
+- Pour one pint and serve the next
+- The beer stops foaming in the glass
+? What do you record?
++ The date
+- The beer brand
+- The bar takings
+? Beer may have mixed with cleaner. What do you do?
++ Pour it away
+- Serve it to staff
+- Serve it if it tastes fine
+
+## Ice well / scoop hygiene
+? What do you do to the ice well?
++ Clean and sanitise it
+- Top it up only
+- Leave it full overnight
+? Where is the scoop stored?
++ Outside the ice, in a holder
+- In the ice
+- In the ice, handle pointing up
+? Can you use a glass to scoop ice?
++ Never
+- Yes, if busy
+- Yes, a plastic one
+? Why is glass in ice a problem?
++ Glass chips in ice are a serious hazard
+- It makes the ice melt faster
+- It makes the glasses go cloudy
+? A glass may have broken in the ice. What do you do?
++ Empty it all ("burn the ice") and clean the well
+- Pick out the pieces you can see and carry on
+- Use the ice for drinks without straws
+
+## Post-mix / soda gun cleaned
+? What do you remove and soak?
++ The nozzle, in warm water
+- The gun, in bleach
+- The syrup box, in water
+? What else do you clean?
++ The gun and holster
+- The bar floor
+- The ice well and the bar mats
+? What do you do after cleaning?
++ Refit and test
+- Leave it apart
+- Run syrup only
+? Why clean the soda gun?
++ Sugary syrups grow mould in nozzles
+- It stops the gun being too loud
+- It makes drinks colder
+? When must a dirty gun be cleaned?
++ Before use
+- At closing only
+- Once a month
+
+## Glassware condition (no chips)
+? When do you check glasses?
++ As you polish and stack them
+- Only when a guest complains
+- Once a week
+? What do you remove?
++ Chipped or cracked glasses
+- Only broken glasses
+- Glasses with lipstick
+? How do you dispose of them?
++ Safely, in a glass bin
+- In the general waste bag
+- In the recycling sack
+? Why remove chipped glasses?
++ They cause cuts to customers and staff
+- They do not stack neatly on the shelf
+- They hold less drink than they should
+? You find a chipped glass. When do you remove it?
++ Now
+- At the end of service
+- When it breaks
+
+## Optics / measures verified
+? What marks should optics and measures have?
++ A government stamp (CE/UKCA or crown mark)
+- The supplier's logo printed on the side
+- A sticker with the price of a shot
+? Which spirit measures can a venue use?
++ 25ml or 35ml, not both
+- 25ml and 35ml together
+- Any size the staff choose
+? Which wine measures are allowed?
++ 125ml, 175ml, 250ml or multiples
+- 100ml, 200ml and 300ml
+- Any size if the price is shown
+? What sign must be on display?
++ The measures sign
+- The wine list
+- The happy hour sign
+? A measure is damaged or unstamped. What do you do?
++ Remove it and tell your manager
+- Use it carefully until replaced
+- Mark it with a pen
+
+## Open wine / vermouth dated
+? What goes on opened bottles?
++ The date opened
+- The price
+- The supplier
+? How long does wine usually last with a stopper?
++ 3-5 days
+- 3-5 weeks
+- 3-5 months
+? What do you check it against?
++ Your venue's shelf life
+- The bottle's best-before date
+- The vintage year
+? Why date opened wine?
++ Opened wine spoils and sours
+- So staff know the price
+- So guests know the vintage
+? A bottle is undated. What do you do?
++ Bin it
+- Taste it first
+- Use it for cooking

@@ -1,0 +1,1651 @@
+# Training quiz bank, part 4 (2026-10-17). Format as in bank_01.
+
+## Breakfast buffet temperatures
+? What temperature must hot breakfast items be?
++ 63°C or above
+- 50°C or above
+- 40°C or above
+? What temperature must cold breakfast items be?
++ 8°C or below
+- 12°C or below
+- 15°C or below
+? What do you do after probing?
++ Record and photograph it
+- Tell the guests the reading
+- Nothing, if the food looks fine
+? Why does temperature control matter at breakfast?
++ Buffets run for hours
+- Guests eat faster in the morning
+- Breakfast food never spoils
+? Which time rules apply to out-of-temperature food?
++ 2 hours for hot, 4 hours for cold
+- 4 hours for hot, 2 hours for cold
+- 8 hours for both, once only
+
+## Room service tray temp on dispatch
+? When do you probe room service food?
++ Before it leaves the kitchen
+- When it reaches the room
+- After the guest has eaten
+? What temperature must hot food be on dispatch?
++ 63°C or above
+- 50°C or above
+- 40°C or above
+? What do you do to the food before sending?
++ Cover it
+- Add extra sauce
+- Leave it open to show
+? Why check before sending?
++ Food cools down on the way to the room
+- Guests always complain about room service
+- The lift makes food go cold instantly
+? The food is below temperature. What do you do?
++ Reheat or replace it before sending
+- Send it and warn the guest it is warm
+- Send it quickly so it does not cool more
+
+## Minibar stock & date check
+? What do you check on every item?
++ Its date
+- Its price tag
+- Its brand
+? What do you do with out-of-date items?
++ Replace them
+- Move them to the back
+- Leave them for the guest to decide
+? What else do you check?
++ That the minibar fridge is cold
+- That the minibar door squeaks
+- That the minibar has a light
+? Why check the minibar?
++ Out-of-date food is a complaint and a risk
+- Guests rarely use the minibar anyway
+- It is only checked when a guest leaves
+? You find an out-of-date item. When do you replace it?
++ Now
+- At the next restock day
+- When the guest checks out
+
+## Banqueting / function hot-hold log
+? How often do you probe hot dishes during a function?
++ Regularly, throughout the function
+- Once, at the very start only
+- Only when a guest complains
+? What do you record?
++ The time and the temperature
+- The number of guests served
+- The name of the function host
+? What temperature passes?
++ 63°C or above
+- 50°C or above
+- 40°C or above
+? Why do large events need care?
++ They are a known food poisoning risk
+- Guests at events eat more slowly
+- Events always run late into the night
+? Food has been below 63°C for over 2 hours. What do you do?
++ Throw it away and tell the head chef
+- Reheat it and put it back on the buffet
+- Keep serving it until the event ends
+
+## Guest allergen request (rooms)
+? What do you record?
++ The guest's allergen and room number
+- The guest's age and nationality
+- The guest's arrival time only
+? How do you pass it to the kitchen?
++ In writing
+- By memory, when you next see the chef
+- By telling another guest
+? What do you check afterwards?
++ That the kitchen received it
+- That the guest has eaten
+- That the bill is paid
+? Why does it matter?
++ Room service and breakfast must know the allergy
+- Guests with allergies pay a higher room rate
+- It is only needed for long stays
+? You forgot to pass it on. What do you do?
++ Pass it on now and check food already sent
+- Wait until the guest's next meal is ordered
+- Tell the guest to remind the kitchen
+
+## Poolside / satellite bar hygiene
+? What do you check the bar has?
++ Hand-washing facilities
+- A sound system
+- A sun umbrella
+? What must be covered?
++ Ice and food
+- The bar stools
+- The till
+? What should be used near pools?
++ Plastic, not glass
+- Glass, not plastic
+- Paper cups only
+? Why check satellite bars?
++ They are often missed in hygiene checks
+- They make the most money at the venue
+- Guests only use them on hot days
+? You find a problem you cannot fix safely. What do you do?
++ Tell your manager straight away and log it
+- Close the bar and go home without saying
+- Leave it until the end of the season
+
+## Daily compliance review / sign-off
+? What do you review?
++ Today's completed checks
+- Last year's checks
+- Only the passed checks
+? What do you look at for every fail?
++ That a corrective action was taken
+- Who made the mistake, for discipline
+- Whether the check could be deleted
+? What does manager sign-off prove?
++ The system is checked, not just filled in
+- The manager was on shift that day
+- The staff were paid for the checks
+? A fail has no corrective action. What do you do?
++ Follow it up before signing off
+- Sign off and mention it next week
+- Delete the fail from the record
+? When do you sign off?
++ After reviewing checks and fails
+- Before any checks are done
+- Only at the end of the month
+
+## Weekly food safety walk-round
+? Which areas do you walk?
++ Kitchen, stores, bar and front of house
+- Only the kitchen and the walk-in fridge
+- Only areas guests can see
+? What do you look at?
++ Cleanliness, storage, labelling, pest signs
+- Staff uniforms, music volume and lighting
+- Prices, menus and table settings
+? What do you do with issues?
++ Photograph them and assign actions
+- Note them in your head for later
+- Fix them all yourself without a record
+? Why do a walk-round?
++ Fresh eyes catch what daily checks miss
+- It replaces all the daily checks
+- It is only needed before inspections
+? How should each issue be logged?
++ As an action with a deadline
+- As a note with no deadline
+- Not at all, if it is small
+
+## Corrective actions closed out
+? What do you review?
++ Open corrective actions
+- Only closed actions
+- Staff holiday requests
+? What do you confirm for each?
++ That it was fixed
+- That it was cheap
+- That it was quick
+? What do you do once confirmed?
++ Close it out
+- Delete the record
+- Reopen it
+? Why do open actions matter?
++ They show an inspector problems weren't followed up
+- They slow down the app for everyone using it
+- They are only seen by the head office team
+? An action is still open. What do you do?
++ Chase it
+- Close it anyway
+- Ignore it
+
+## SFBB / HACCP diary reviewed
+? What do you review?
++ The food safety diary for the period
+- The staff rota for the period
+- The till receipts for the period
+? What do you check?
++ That every day is complete
+- That every page is signed by a guest
+- That the diary is in a binder
+? Which periodic review is part of SFBB?
++ The 4-weekly review
+- The yearly review only
+- The daily review only
+? Entries are missing. What do you do?
++ Complete them and note why they were missed
+- Copy entries from another day to fill gaps
+- Leave them blank and say nothing
+? What do you note during the 4-weekly review?
++ Changes
+- Prices
+- Birthdays
+
+## EHO / audit readiness check
+? What do you check about records?
++ Up to date and easy to find
+- Printed in colour and laminated
+- Kept at the manager's home
+? Which records do you check?
++ Training, pest control and certificates
+- Staff birthdays, rotas and holidays
+- Menus, prices and wine lists
+? How do you walk the premises?
++ As an inspector would
+- As a guest would
+- As quickly as possible
+? Why prepare?
++ Inspections are usually unannounced
+- Inspectors always call a week ahead
+- It is only needed every 10 years
+? You find a gap. What do you do?
++ Fix it now and tell your manager
+- Hide it until after the inspection
+- Wait for the inspector to point it out
+
+## Staff training records current
+? What do you check each food handler has?
++ Food hygiene training
+- A driving licence
+- A first aid certificate
+? What do you check is recorded?
++ Their certificates
+- Their home address
+- Their favourite dish
+? What do you note?
++ Anyone needing training or a refresher
+- Anyone who is often late to work
+- Anyone who wants more shifts
+? How much training must food handlers have?
++ In proportion to their work
+- The same for everyone, whatever the job
+- None, if they are experienced
+? Someone is missing training. What do you do?
++ Book training for them
+- Take them off the rota for good
+- Ignore it if they are good at the job
+
+## Supplier approval / due diligence
+? What do you check about each supplier?
++ That they are approved
+- That they are the cheapest
+- That they are local
+? What do you hold for them?
++ Their certificates or audit records
+- Their staff list and rota
+- Their price list only
+? Why do this?
++ You must show you use safe, reputable suppliers
+- It gets the venue better prices from suppliers
+- It is only needed for alcohol suppliers
+? A supplier has no documents. What do you do?
++ Get them, or stop using the supplier until approved
+- Keep using them, as they have always been fine
+- Approve them anyway to avoid running out
+? Who can supply food to the venue?
++ Approved suppliers
+- Any supplier
+- Any shop
+
+## CO2/gas monitor check & alarm test
+? What do you check first?
++ The monitor is on and showing normal
+- The cylinders are full
+- The cellar light works
+? How do you test the alarm?
++ Press the test button
+- Release a little gas
+- Unplug the monitor
+? What should happen?
++ The alarm sounds
+- The gas turns off
+- The light dims
+? Why does the monitor matter?
++ CO2 has no smell and can kill in a cellar
+- CO2 makes the beer flat if it leaks out
+- It only matters for the brewery's records
+? The alarm does not work. What do you do?
++ Do not go in alone; report it for urgent repair
+- Go in quickly and hold your breath while there
+- Carry on as normal and test it again next week
+
+## Cellar CO2 written risk assessment current
+? What do you find?
++ The CO2 risk assessment
+- The beer price list
+- The delivery schedule
+? What do you check about its review?
++ That it has been reviewed recently
+- That it was written by the brewery
+- That it is pinned up in the bar
+? What must it match?
++ The current cellar setup
+- The original cellar setup
+- Another venue's cellar
+? Why is it needed?
++ It is required by law for cellars with gas cylinders
+- It lowers the price of gas from the supplier
+- It is only needed when the cellar is rebuilt
+? It is out of date. What do you do?
++ Tell your manager to review and update it
+- Update the date on it yourself
+- Keep using the old one
+
+## Cellar ventilation (forced extraction) running
+? What do you check before entering?
++ The extraction fan is running
+- The beer lines are clean
+- The kegs are full
+? What should you do with the door while inside?
++ Leave it open if possible
+- Close and lock it
+- Wedge it half shut
+? What does ventilation do?
++ Clears any leaked gas
+- Keeps the beer cold
+- Dries the floor
+? The fan is not running. What do you do?
++ Do not go in; report it
+- Go in quickly
+- Open a keg to check
+? When do you check the fan?
++ Before entering
+- After leaving
+- Once a week
+
+## Keg/cylinder change follows safe procedure
+? What do you do before going into the cellar?
++ Tell someone
+- Turn off the lights
+- Lock the door behind you
+? How do you handle heavy kegs?
++ Proper lifting; get help for heavy ones
+- Roll them down the stairs on their side
+- Lift them alone, as quickly as possible
+? How must gas cylinders be stored?
++ Upright, secured with a chain or strap
+- Lying down so they cannot fall over
+- Loose, so they are easy to swap
+? What do you check after changing?
++ Connections, for leaks
+- The beer price
+- The cellar temperature
+? You hear hissing. What do you do?
++ Leave, close the door, tell your manager
+- Find the leak and tighten it yourself
+- Turn up the extraction fan and carry on
+
+## Cellar access restricted / signed as gas hazard
+? What do you check about the cellar door?
++ It is locked or restricted
+- It is propped open
+- It is freshly painted
+? What sign must be on the door?
++ A gas hazard sign
+- A no-smoking sign only
+- A staff-only sign only
+? Why restrict access?
++ It stops untrained people entering a danger area
+- It keeps the beer stock from going missing
+- It keeps the cellar warmer in winter
+? The door is unlocked with no sign. What do you do?
++ Lock it, put up a sign, tell your manager
+- Leave it open so people can find the stock
+- Put a chair against it and carry on
+? Who should go into the cellar?
++ Trained people only
+- Anyone on shift
+- Guests on tours
+
+## Fixed wiring inspection (EICR) in date
+? What certificate do you find?
++ The EICR certificate
+- The PAT stickers
+- The gas certificate
+? What do you check on it?
++ The next inspection date
+- The electrician's photo
+- The price paid
+? How often are commercial premises usually inspected?
++ Every 5 years
+- Every 10 years
+- Every month
+? Why does fixed wiring matter?
++ Faulty wiring is a fire risk
+- It affects the music system
+- It affects the Wi-Fi
+? The inspection is overdue. What do you do?
++ Tell your manager today and book it
+- Wait until something stops working
+- Check the sockets yourself instead
+
+## Portable appliance (PAT) programme up to date
+? What do you check?
++ PAT stickers or records
+- Appliance colours
+- Appliance prices
+? Which equipment must be included?
++ Handheld and kitchen equipment
+- Only the office computers
+- Only new equipment
+? Why does kitchen equipment need it?
++ It gets heavy wear
+- It is always brand new
+- It is never moved
+? An item has no PAT record. What do you do?
++ Tell your manager today and book testing
+- Keep using it until it breaks
+- Write a date on it yourself
+? An item looks unsafe. What do you do?
++ Stop using it
+- Wrap it in tape
+- Use it on low
+
+## Emergency lighting test
+? How do you start the test?
++ Use the test key switch
+- Switch off the main fuse
+- Unscrew a bulb
+? What do you check while walking the building?
++ Every emergency light comes on
+- Every normal light goes off
+- Every door is locked
+? What do you do afterwards?
++ Restore power and record the test
+- Leave the power off overnight
+- Nothing more
+? How often is testing required?
++ Monthly
+- Yearly
+- Every 5 years
+? A light fails the test. What do you do?
++ Report it for repair
+- Replace it with a torch
+- Ignore it until next month
+
+## Commercial gas appliance safety check
+? Whose certificate do you find?
++ The Gas Safe engineer's
+- The electrician's
+- The chef's
+? How often is it usually needed?
++ Every 12 months
+- Every 5 years
+- Every month
+? What must the certificate list?
++ Every gas appliance
+- Only the oven
+- Only the boiler
+? Why is the check needed?
++ It is required by law
+- It lowers the gas bill
+- It is only advised
+? The check is overdue. What do you do?
++ Tell your manager today and book it
+- Keep cooking and say nothing
+- Check the flames yourself
+
+## Gas appliance interlock / ventilation not obstructed
+? What do you check air vents and grilles for?
++ Nothing is blocking them
+- They are freshly painted
+- They are kept closed
+? What else do you check?
++ Interlock sensors aren't covered
+- Interlock sensors are switched off
+- The gas meter reading
+? Why does blocked ventilation matter?
++ It can cause carbon monoxide build-up
+- It makes the kitchen colder
+- It makes the gas bill higher
+? Something is blocking a vent. What do you do?
++ Clear it now
+- Leave it until the service
+- Cover it further
+? Can you cover an interlock sensor?
++ No
+- Yes, when busy
+- Yes, if it beeps
+
+## Legionella risk assessment current
+? What do you find?
++ The Legionella risk assessment
+- The water bill
+- The plumber's last invoice for repairs
+? How recently should it have been reviewed?
++ Within 2 years, or since any system change
+- Within 10 years, whatever has changed
+- Only when it was first written
+? Which guidance requires it?
++ HSE ACOP L8
+- The Licensing Act
+- Natasha's Law
+? It is out of date. What do you do?
++ Tell your manager to arrange a review
+- Change the review date on it yourself
+- Keep using it as it is
+? What triggers an early review?
++ A change to the water system
+- A new menu in the restaurant
+- A new member of staff joining
+
+## Sentinel outlet temperature check
+? How long do you run the hot tap first?
++ 1 minute
+- 10 seconds
+- 10 minutes
+? What should the hot water reach?
++ 50°C or above (55°C in healthcare)
+- 30°C or above in all buildings
+- 40°C or above, 45°C in healthcare
+? How long do you run the cold tap first?
++ 2 minutes
+- 10 seconds
+- 20 minutes
+? What should the cold water be?
++ Below 20°C
+- Below 30°C
+- Below 45°C
+? In what range does Legionella grow?
++ 20°C to 45°C
+- 0°C to 10°C
+- 60°C to 80°C
+
+## Little-used outlet flushing (unoccupied rooms/areas)
+? How long do you run each little-used tap and shower?
++ A few minutes, until the temperature is stable
+- A few seconds, just to check it works
+- Overnight, with the plug in
+? How do you hold the shower head?
++ Low, to avoid spray
+- High, to spray the walls
+- Pointing at your face
+? How often must this be done?
++ At least weekly
+- Once a year
+- Only when guests complain
+? Why flush little-used outlets?
++ Stagnant water allows Legionella to grow
+- It keeps the pipes from freezing in summer
+- It warms up the room for the next guest
+? Flushing was missed. What do you do?
++ Flush it now and record it
+- Wait until next week
+- Record it as done
+
+## Calorifier / tank temperature check
+? What do you read?
++ The hot water tank temperature
+- The cold tap temperature
+- The room temperature
+? What temperature passes?
++ 60°C or above
+- 40°C or above
+- 50°C or above
+? Why keep stored hot water at 60°C?
++ It kills Legionella
+- It saves energy
+- It is nicer to wash in
+? The tank is below 60°C. What do you do?
++ Report it to maintenance immediately
+- Wait until the next monthly check
+- Run the hot taps until it warms up
+? What do you do with the reading?
++ Record it
+- Ignore it
+- Tell guests
+
+## Shower heads/hoses descaled & inspected for biofilm
+? What do you remove first?
++ The shower head
+- The whole shower tray
+- The bathroom mirror
+? How do you clean it?
++ Soak in descaler, then clean and disinfect
+- Rinse it under the tap and refit it
+- Wipe the outside with a dry cloth
+? What do you check the hose for?
++ Slime or damage
+- Its colour
+- Its length
+? Why clean shower heads?
++ Scale and slime can harbour Legionella
+- Clean showers use less hot water
+- Guests prefer shiny shower heads
+? A shower hose is damaged. What do you do?
++ Replace it
+- Tape it up
+- Leave it
+
+## Water system log book (L8 record) up to date
+? What do you check?
++ This month's temperature and flushing entries
+- Last year's water bills
+- The plumber's contact details
+? What do you note?
++ Any gaps
+- The weather
+- Water prices
+? Why keep the log?
++ It proves the control scheme is working
+- It is needed to pay the water bill
+- It is only a habit from old systems
+? Entries are missing. What do you do?
++ Complete the checks and note why they were missed
+- Copy last month's entries into the gaps
+- Leave the gaps and say nothing about them
+? What is the log book also called?
++ The L8 record
+- The fire register
+- The COSHH file
+
+## Fire extinguisher/blanket service
+? How often is the service tag date due?
++ Yearly
+- Every 5 years
+- Monthly
+? Where should the pressure gauge needle be?
++ In the green
+- In the red
+- At zero
+? What else do you check?
++ The fire blanket is in place
+- The extinguisher is painted
+- The alarm is switched off
+? Why check extinguishers?
++ They must work first time
+- They are expensive to replace
+- Guests like to see them
+? The service is overdue. What do you do?
++ Tell your manager today and book it
+- Keep it and check it next year
+- Move it out of sight
+
+## Fire alarm system test (call point)
+? Who do you warn before testing?
++ Staff, and the alarm company if monitored
+- The guests only
+- Nobody
+? Which call point do you use each week?
++ A different one each week, with the test key
+- The same one every week, by the front door
+- Any one, by breaking the glass fully
+? What do you confirm?
++ The alarm sounds everywhere
+- The alarm sounds in the office
+- The lights flash once
+? What do you record?
++ Which call point you used
+- How loud it sounded to you
+- The weather that day
+? How often should the alarm be tested?
++ Weekly
+- Yearly
+- Monthly
+
+## Fire door self-closes & seals intact
+? How do you test a fire door?
++ Open it fully and let go
+- Push it half shut
+- Lock it and unlock it
+? What should the door do?
++ Close fully on its own
+- Stay open on its own
+- Close halfway
+? What else do you check?
++ The seals and gaps aren't damaged
+- The door is freshly painted
+- The handle is shiny
+? Can fire doors be wedged open?
++ Never
+- Yes, when it is hot
+- Yes, during service
+? Why do fire doors matter?
++ They hold back fire and smoke so people escape
+- They keep the kitchen noise out of the dining room
+- They stop guests going into staff areas
+
+## Fire risk assessment reviewed/current
+? What do you find?
++ The fire risk assessment
+- The fire extinguisher invoice
+- The insurance policy
+? How recently should it have been reviewed?
++ In the last year, or since any major change
+- In the last 10 years, whatever has changed
+- Only when it was first written
+? Which law requires it?
++ The Regulatory Reform (Fire Safety) Order 2005
+- The Food Safety Act 1990
+- The Licensing Act 2003
+? It is out of date. What do you do?
++ Tell your manager to arrange a review
+- Update the date on it yourself
+- Keep using it as it is
+? What triggers an early review?
++ A major change
+- A new menu item
+- A new chef
+
+## Fire drill / evacuation practice
+? Who do you warn before a drill?
++ The alarm monitoring company (and guests if needed)
+- Nobody at all, so that it is a real surprise
+- Only the kitchen team, nobody else
+? Where does everyone go?
++ Out by the nearest exit to the assembly point
+- To the manager's office to wait for instructions
+- Out of the front door only
+? What do you do once outside?
++ Time it and do a roll call against the staff list
+- Go back in as soon as the alarm stops sounding
+- Count the guests only
+? What do you note?
++ Problems found and who took part
+- How much the drill cost in lost sales
+- What the weather was
+? Someone missed the drill. What do you do?
++ Run another drill for them
+- Nothing; one drill a year is enough
+- Give them the written notes instead
+
+## Smoke/heat detectors checked (kitchen & public areas)
+? What do you check each detector for?
++ In place, not covered, not damaged
+- Clean, freshly painted, and labelled
+- Switched off during cooking hours
+? What else do you check?
++ The alarm panel shows no faults
+- The lights in each room work
+- The doors are all locked
+? Why do kitchens use heat detectors?
++ Steam sets off smoke detectors
+- Heat detectors are cheaper to fit
+- Kitchens never have smoke
+? A detector is covered with a bag. What do you do?
++ Uncover it now if safe
+- Leave it, as it stops false alarms
+- Tape it so it stays covered
+? Why does a covered detector matter?
++ It won't warn anyone
+- It uses more power
+- It looks untidy
+
+## Fire alarm professional service (6-monthly)
+? What do you find?
++ The last service record from the engineer
+- The weekly call point test log
+- The fire extinguisher invoice
+? How old should it be at most?
++ 6 months
+- 2 years
+- 5 years
+? What else do you check?
++ Faults they listed have been fixed
+- The engineer's age and photo
+- The cost of the last service
+? Which standard expects 6-monthly servicing?
++ BS 5839-1
+- BS EN 1276
+- HSE ACOP L8
+? The service is overdue. What do you do?
++ Tell your manager today and book it
+- Do a call point test instead of the service
+- Wait until the alarm fails
+
+## Staff fire safety training & fire marshals named
+? When should staff have fire training?
++ At induction and refreshed regularly
+- Only if they ask for it
+- Once, after five years
+? What must be named for each shift?
++ Fire marshals
+- Fire engines
+- Fire brigade
+? What should staff know?
++ The alarm sound, escape routes and assembly point
+- The fire brigade's phone number and the gas meter
+- The price of the fire extinguishers on site
+? Why train staff?
++ Fire law requires it
+- It is only good practice
+- Guests ask about it
+? Someone has missed training. What do you do?
++ Book training for them
+- Take them off the rota
+- Ignore it
+
+## Fire action notices displayed
+? Where should fire action notices be?
++ By each call point and exit
+- Only in the staff room
+- Only in the office
+? What must the notice show?
++ The right assembly point, readably
+- The fire brigade's address
+- The date of the last drill
+? Who are the notices for?
++ Staff and guests
+- Inspectors only
+- Managers only
+? A notice is damaged. What do you do?
++ Replace it and tell your manager
+- Leave it until the next inspection
+- Take it down
+? What do notices tell people?
++ What to do when the alarm sounds
+- Where to park
+- When the bar opens
+
+## Sprinkler/suppression system service
+? What do you find?
++ The service certificate
+- The water bill
+- The fire drill log
+? What must it match?
++ The manufacturer's or insurer's schedule
+- The menu change schedule
+- The staff training schedule
+? Why service the system?
++ It must work when needed
+- It keeps the kitchen cool
+- It lowers the water bill
+? The service is overdue. What do you do?
++ Tell your manager today and book it
+- Test it yourself with a lighter
+- Wait until the next inspection
+? Who sets the service schedule?
++ The manufacturer or insurer
+- The head chef
+- The guests
+
+## Building fault/repair log reviewed & actioned
+? What do you go through?
++ Open faults
+- Closed faults only
+- The menu
+? What do you note?
++ What is done and what is waiting
+- Who first reported each fault
+- The weather when it happened
+? What do you do with overdue repairs?
++ Chase them, and escalate to your manager
+- Remove them from the log
+- Wait for them to be forgotten
+? Why review the log?
++ Small faults become big problems
+- It keeps the paperwork tidy
+- It is only for the landlord
+? Who do you escalate overdue items to?
++ Your manager
+- A guest
+- Nobody
+
+## HVAC/plant room filters & condition
+? What do you check the filters for?
++ That they aren't clogged
+- That they are new
+- That they are painted
+? What do you check about the plant room?
++ Clean and not used for storage
+- Full of spare stock and chairs
+- Locked with the lights on
+? Why do clogged filters matter?
++ They reduce air quality and strain equipment
+- They make the room warmer in winter
+- They only affect the noise level
+? Can the plant room be used for storage?
++ No
+- Yes, for chairs
+- Yes, for stock
+? You find a problem you cannot fix safely. What do you do?
++ Tell your manager straight away and log it
+- Leave it for the next contractor visit
+- Switch off the system and go home
+
+## Lift/escalator service certificate in date
+? Which report do you find?
++ The LOLER thorough examination report
+- The fire risk assessment
+- The PAT test record
+? How often are passenger lifts examined?
++ Every 6 months
+- Every 5 years
+- Every month
+? Which regulations require it?
++ LOLER
+- COSHH
+- RIDDOR
+? The examination is overdue. What do you do?
++ Tell your manager today and book it
+- Keep using the lift and say nothing
+- Test it yourself by riding it
+? The lift seems unsafe. What do you do?
++ Stop it being used
+- Use it carefully
+- Use the stairs yourself only
+
+## Roof/gutters/external fabric inspected
+? Where do you look from?
++ Ground level; do not climb
+- The roof itself
+- A ladder against the gutter
+? What do you look for?
++ Damage, blocked gutters, loose materials
+- Birds, clouds and aerials
+- Graffiti and parked cars
+? What do you do with what you find?
++ Photograph it
+- Fix it from a ladder
+- Ignore it
+? Why inspect the outside?
++ Small leaks cause damp, damage and pests
+- It keeps the building looking new
+- It is only for the landlord's records
+? You find damage you cannot fix safely. What do you do?
++ Tell your manager straight away and log it
+- Climb up and fix it yourself
+- Wait until it gets worse
+
+## Water ingress / damp check
+? Where do you check first?
++ Known damp areas
+- The car park
+- The roof
+? What do you look for?
++ New stains, mould or wet patches
+- Dust, cobwebs and old paint
+- Missing light bulbs
+? What do you do with what you find?
++ Photograph it
+- Paint over it
+- Ignore it
+? Why does damp matter?
++ It leads to mould and building damage
+- It makes rooms smell fresher
+- It only affects the decoration
+? You find a new wet patch you cannot fix. What do you do?
++ Tell your manager straight away and log it
+- Put a picture over it
+- Wait for it to dry
+
+## Room turnover cleaning checklist complete
+? How do you clean a room?
++ Work through the full room checklist
+- Clean what looks dirty
+- Clean the bathroom only
+? What cloths do you use?
++ Separate, colour-coded cloths for bathroom and bedroom
+- One cloth for the whole room, rinsed between areas
+- Bath towels from the room you are cleaning
+? How do you show progress?
++ Tick off each item
+- Tell reception
+- Nothing
+? Why use a checklist?
++ So nothing is missed
+- So it takes longer
+- So guests can read it
+? Items were missed. What do you do?
++ Finish them before marking the room ready
+- Mark it ready and fix it later
+- Leave a note for the guest
+
+## Room inspection sign-off (post-clean)
+? What do you inspect the room against?
++ The standard
+- Your own taste
+- The last guest's room
+? What do you check?
++ Bathroom, bed, surfaces and amenities
+- Only the bed and pillows
+- Only the TV and remote
+? What do you do once it passes?
++ Sign it off as ready
+- Leave it unsigned
+- Clean it again
+? Why inspect?
++ It catches mistakes before the guest does
+- It slows down the cleaning team
+- It is only for the hotel's star rating
+? The room fails inspection. What do you do?
++ Send it back for re-cleaning
+- Let the guest in anyway
+- Fix only what the guest will see
+
+## Linen change frequency followed
+? What do you check?
++ When the linen was last changed
+- The colour of the linen
+- The linen's brand
+? When must linen be changed?
++ As your policy requires, and for each new guest
+- Only when the guest asks for it
+- Once a month, whoever stays
+? Why change linen?
++ Guests expect clean linen
+- It is cheaper than washing it
+- It keeps the room cooler
+? Linen is overdue for a change. What do you do?
++ Change it now
+- Change it tomorrow
+- Iron it
+? Must linen be changed for a new guest?
++ Yes, always
+- Only if stained
+- Only on request
+
+## Laundry wash temperature for hygiene (linen)
+? What do you check?
++ The wash cycle temperature
+- The brand of detergent used
+- The timer on the tumble dryer
+? What temperature passes for normal linen?
++ 60°C or above
+- 30°C or above
+- 40°C or above
+? What temperature is needed for heavily soiled or infected linen?
++ 71°C
+- 50°C
+- 40°C
+? Why wash hot?
++ High temperatures kill bacteria
+- It uses less energy overall
+- It makes the linen feel softer
+? The machine will not reach temperature. What do you do?
++ Re-wash correctly and report the machine
+- Add extra detergent and carry on
+- Dry the linen on a much higher setting
+
+## Soiled/contaminated linen handled separately & bagged
+? What do you wear?
++ Gloves
+- An apron only
+- Nothing extra
+? How do you bag soiled linen?
++ Separately, in a red or soluble bag if used
+- With the other laundry, to save bags
+- In a guest's shopping bag
+? Can you shake soiled linen out?
++ Never
+- Yes, outside
+- Yes, gently
+? Why handle it separately?
++ It stops infection spreading
+- It makes it lighter to carry
+- It saves on detergent
+? It was bagged wrongly. What do you do?
++ Re-bag it correctly and wash your hands
+- Leave it, as it is already bagged
+- Shake it out and start again
+
+## Cleaning chemical dilution & COSHH compliance (housekeeping trolley)
+? How do you mix chemicals?
++ As the label says
+- By eye
+- Stronger than the label
+? Which bottles do you use?
++ Labelled bottles only
+- Any clean bottle
+- Guests' water bottles
+? Can you mix chemicals together?
++ Never
+- Yes, for tough stains
+- Yes, in small amounts
+? What does bleach mixed with acid make?
++ Toxic gas
+- A stronger cleaner
+- A nicer smell
+? A chemical was mixed wrongly. What do you do?
++ Empty it, remix correctly and report it
+- Use it up so it is not wasted
+- Add water until it smells right
+
+## COSHH data sheets available for housekeeping chemicals
+? What must there be for every housekeeping chemical?
++ A data sheet
+- A spare bottle
+- A colour code
+? What must staff know?
++ Where the data sheets are
+- The sheets off by heart
+- Nothing about them
+? Which regulations require them?
++ COSHH
+- LOLER
+- RIDDOR
+? A data sheet is missing. What do you do?
++ Get it from the supplier
+- Write your own
+- Stop cleaning for good
+? Why have data sheets?
++ They explain the chemical's dangers
+- They show the price
+- They are for guests
+
+## Minibar restocking cross-checked against guest charge
+? What do you do first?
++ Count what is missing
+- Restock everything
+- Charge the guest
+? What do you check it against?
++ The guest's bill
+- The minibar menu
+- Last week's count
+? What do you do after checking?
++ Restock
+- Lock the minibar
+- Remove it
+? Why cross-check?
++ It stops lost revenue and billing disputes
+- It helps guests choose their drinks
+- It is only needed for VIP rooms
+? The count and bill don't match. What do you do?
++ Report it to reception
+- Charge the guest anyway
+- Ignore it
+
+## Unoccupied room water outlet flushing (housekeeping)
+? What do you run in empty rooms?
++ The taps and shower, for a few minutes
+- Only the toilet, once
+- The kettle and coffee machine
+? How often must it be done?
++ At least weekly
+- Once a year
+- Only before a guest arrives
+? What do you do afterwards?
++ Record it
+- Nothing
+- Tell the guest
+? Why flush empty rooms?
++ Stagnant water lets Legionella grow
+- It keeps the room smelling fresh
+- It saves on water bills
+? Flushing was missed. What do you do?
++ Flush it now and record it
+- Record it as done
+- Wait until next week
+
+## Lost property logged & stored securely
+? What do you record?
++ What was found, where and when
+- Who you think it belongs to
+- How much it is worth to you
+? How do you store it?
++ Securely
+- On the reception desk
+- In the staff room
+? What happens to valuables?
++ They go to the manager
+- They stay in the room
+- They go in the bin
+? Why log lost property?
++ It protects the guest and the venue
+- It lets staff keep unclaimed items
+- It is only for expensive items
+? An item has not been logged. What do you do?
++ Log it now
+- Keep it for now
+- Leave it in the room
+
+## Room safety check (smoke alarm present/working, fire notice visible)
+? How do you check the smoke alarm?
++ Press the test button
+- Hold a lighter under it
+- Look at it from the door
+? Where should the fire notice be?
++ On the back of the door
+- In the bedside drawer
+- In the bathroom
+? Why check these?
++ Guests rely on them in an emergency
+- It is needed for the room rate
+- Guests like to see them
+? The smoke alarm fails. Can the room be let?
++ No, not until it is fixed
+- Yes, for one night
+- Yes, if the guest agrees
+? The fire notice is missing. What do you do?
++ Report it now; do not let the room until fixed
+- Tell the guest where the exits are
+- Leave it until the next check
+
+## Housekeeping trolley/chemical storage secured when unattended
+? When do you secure the trolley?
++ Whenever you step away
+- Only at the end of the shift
+- Only on busy days
+? Where must chemicals be kept?
++ Out of guests' reach
+- On top of the trolley
+- In the guest room
+? Why secure the trolley?
++ Children and guests could reach the chemicals
+- It stops the trolley rolling down the corridor
+- It keeps the towels clean
+? You find an unattended open trolley. What do you do?
++ Secure it now
+- Leave it for its owner
+- Move it into a room
+? Who could be harmed by an unsecured trolley?
++ Children and guests
+- Only staff
+- Nobody
+
+## Fire register / in-house guest list accuracy
+? What do you check?
++ The guest list matches who is checked in
+- The guest list matches the bookings for next week
+- The guest list is printed in colour
+? What do you do with changes?
++ Update them
+- Ignore them
+- Note them for tomorrow
+? Why does the list matter?
++ In a fire, it accounts for everyone
+- It helps plan breakfast numbers
+- It is only for marketing
+? The list is wrong. What do you do?
++ Correct it now
+- Fix it at the end of the week
+- Leave it
+? When is the list used in an emergency?
++ To account for everyone in a fire
+- To charge guests
+- To plan housekeeping
+
+## Key/access control (room key issue & return log)
+? What do you log?
++ Every key or card issued
+- Only lost keys
+- Only master keys
+? What else do you log?
++ When it is returned
+- Who cleaned the room
+- The guest's car
+? Why log keys?
++ It protects guests' security
+- It saves on key cards
+- It helps plan the rota
+? A key has not been returned. What do you do?
++ Chase it and record it
+- Ignore it
+- Charge the next guest
+? Which keys must be logged?
++ Every key or card
+- Only metal keys
+- Only VIP keys
+
+## Lost key / access card deactivation
+? What do you do first?
++ Deactivate the lost card immediately
+- Wait to see if it turns up
+- Change the room number
+? What do you do next?
++ Issue a new one
+- Charge the guest twice
+- Nothing
+? What do you do afterwards?
++ Record it
+- Forget it
+- Post it online
+? Why deactivate straight away?
++ A lost key gives access to a guest's room
+- It saves money on new key cards
+- It is only a hotel chain rule
+? When should a lost card be deactivated?
++ Now
+- At checkout
+- Tomorrow
+
+## Cash handling reconciliation (till/float)
+? What do you count?
++ The till and the float
+- Only the card payments
+- Only the tips
+? What do you compare it with?
++ The expected total
+- Yesterday's total
+- The menu prices
+? What do you record?
++ Any difference
+- Only round numbers
+- Nothing
+? Why reconcile cash?
++ It catches errors and theft
+- It makes closing faster
+- It is only for the bank
+? There is a difference. What do you do?
++ Report it to your manager
+- Make it up from the tips
+- Change the expected total
+
+## Guest ID/data handling per policy at check-in
+? What ID details do you take?
++ Only what your policy requires
+- As much as possible, to be safe
+- Whatever the guest offers
+? How are copies stored?
++ Securely
+- On the front desk
+- In a guest's room
+? Can guest details be left on view?
++ Never
+- Yes, briefly
+- Yes, at night
+? Which law requires you to protect guest data?
++ UK GDPR
+- The Licensing Act
+- COSHH
+? Guest data was left on view. What do you do?
++ Secure it now and tell your manager
+- Leave it if no guest is nearby
+- Throw it in the general bin
+
+## Guest data disposal/retention policy followed
+? What do you check?
++ Old records are deleted or shredded per policy
+- Old records are kept in a box in case they are needed
+- Old records are given back to the guests in the post
+? How long can data be kept?
++ No longer than necessary
+- For ever, in case it is useful
+- Exactly 50 years
+? How do you dispose of old records?
++ Securely
+- In the general bin
+- In the recycling
+? You find records past their time. What do you do?
++ Dispose of them securely now
+- Keep them just in case
+- Take them home
+? Which policy do you follow?
++ The venue's retention policy
+- Your own judgement
+- The guest's wishes only
+
+## Incident/complaint log completed & escalated (reception)
+? What do you record?
++ What happened, when, and who was involved
+- Only the guest's name and room number
+- Only what the guest wants recorded
+? Who do you escalate to?
++ A manager
+- Another guest
+- Nobody
+? Why keep a clear record?
++ It protects guests, staff and the venue
+- It is only for the insurance company
+- It is used to rate staff performance
+? The log is incomplete. What do you do?
++ Complete it now
+- Leave it
+- Ask the guest to write it
+? When is an incident escalated?
++ Every time it is logged
+- Only if the guest asks
+- Only at the weekend
+
+## Guest with access/mobility needs - evacuation plan (PEEP) noted
+? What do you ask the guest?
++ If they need help in an evacuation
+- If they can manage the stairs alone
+- If they have travel insurance
+? Where do you record it?
++ Against their booking
+- On a sticky note
+- Nowhere
+? Who do you tell?
++ The duty manager
+- The other guests
+- Nobody
+? Why does it matter?
++ Staff must know who needs help in an emergency
+- It changes the price of the room
+- It is only for the guest's records
+? It has not been recorded. What do you do?
++ Record it now
+- Wait until they check out
+- Ask them again next visit
+
+## Emergency contact/next-of-kin info accessible in emergency
+? What do you check?
++ Contact details can be found quickly
+- Contact details are in a sealed envelope off-site
+- Contact details are known by one person only
+? How must they be stored?
++ Securely
+- On the noticeboard
+- In a guest's room
+? Why must they be quick to find?
++ They are needed fast in an emergency
+- They are used to send marketing
+- They are checked at every shift
+? The details are out of date. What do you do?
++ Update the records
+- Leave them
+- Delete them
+? What two things must be true?
++ Quick to find and stored securely
+- Printed and on display
+- Hidden and hard to reach
+
+## Door supervisor SIA licence checked & valid
+? What do you check?
++ Each door supervisor's SIA licence card
+- Each door supervisor's driving licence
+- Each door supervisor's bank card
+? What do you check on the card?
++ The photo matches and it is in date
+- The card is not bent or faded
+- The card is the right colour for the venue
+? When do you photograph it?
++ At the start of the shift
+- At the end of the shift
+- Once a year
+? Why check SIA licences?
++ Door supervisors must hold one by law
+- It is only a venue preference
+- It makes them look professional
+? A licence is out of date. What do you do?
++ Don't let them work; tell your manager
+- Let them work tonight only
+- Let them work inside the venue
+
+## Challenge 25 / age verification applied
+? Who do you ask for ID?
++ Anyone who looks under 25
+- Anyone who looks under 18
+- Only groups of young people
+? Which ID can you accept?
++ Passport, photo driving licence or PASS card
+- Student card, bank card or a utility bill
+- Any card that has a photo on it
+? There is no valid ID. What do you do?
++ Refuse, and record the refusal
+- Serve one drink only
+- Serve them if a friend vouches
+? Why apply Challenge 25?
++ Selling alcohol to under-18s is a crime
+- It increases sales of soft drinks
+- It is only a company preference
+? Must you record refusals?
++ Yes
+- No
+- Only on weekends
+
+## CCTV system operational & recording
+? What do you check on every camera?
++ It shows a live picture
+- It is pointing at the till
+- It is freshly cleaned
+? What else do you check?
++ It is recording
+- It has sound
+- It is in colour
+? Why is CCTV important?
++ It is often a licence condition
+- It is only for staff monitoring
+- It is only for insurance
+? A camera is not working. What do you do?
++ Report it to your manager urgently
+- Wait until the next service visit
+- Point another camera at it
+? Should the system be recording, not just live?
++ Yes, always
+- No, live is enough
+- Only at night
+
+## CCTV footage retention period met
+? What do you check?
++ The oldest stored footage
+- The newest footage only
+- The camera angles
+? What must the footage meet?
++ The retention period in your licence
+- The quality of a TV broadcast
+- The guests' approval
+? Why keep footage?
++ Police may ask for it
+- Staff like to watch it
+- It is only for marketing
+? The footage does not go back far enough. What do you do?
++ Report it to your manager
+- Delete older footage
+- Ignore it
+? Where is the retention period set?
++ In your licence
+- By the camera maker
+- By the guests
+
+## Incident log (refusals, ejections, disorder) completed
+? What do you record?
++ What happened, when, who and what action was taken
+- Only the names of the people who were involved
+- Only what the door supervisor thought happened
+? How should the log be written?
++ Factually
+- With your opinions
+- As a short story
+? Why keep the log?
++ It is evidence for police and licensing
+- It is only for the staff noticeboard
+- It is used to ban guests from other venues
+? The log has not been completed. What do you do?
++ Complete it now
+- Leave it until the end of the week
+- Only complete it if police ask
+? Which incidents go in the log?
++ Refusals, ejections and disorder
+- Only fights
+- Only police visits
+
+## Keyholder/alarm call-out procedure current
+? What do you check?
++ The keyholder list is current
+- The keyholder list is laminated
+- The keys are all the same colour
+? What else do you check?
++ The call-out procedure is up to date
+- The alarm's battery level
+- The alarm company's prices
+? Why does it matter?
++ The alarm company needs to reach someone
+- It lowers the insurance cost
+- It is only for head office
+? The list is out of date. What do you do?
++ Update it and send it to the alarm company
+- Update it and keep it in the office drawer
+- Leave it until someone leaves
+? Who needs a copy of the list?
++ The alarm company
+- The guests
+- The suppliers
+
+## Alarm system test (security)
+? Who do you tell first?
++ The alarm company
+- The guests staying that night
+- The local police station
+? What do you do in the test?
++ Arm and disarm the system
+- Open a window to trigger it
+- Unplug the panel to reset it
+? What do you confirm?
++ That it works
+- That it is quiet
+- That it is new
+? Why test the alarm?
++ An untested alarm may fail when needed
+- It keeps the alarm company contract valid
+- It is only for insurance
+? The test fails. What do you do?
++ Report it to the alarm company
+- Ignore it until the next test
+- Unplug the alarm to stop it
+
+## Emergency/duress alarm (till, reception) tested
+? Who do you tell first?
++ The monitoring company
+- The guests
+- The police
+? What do you press?
++ The duress button
+- The fire call point
+- The till drawer
+? What do you confirm?
++ The alert is received
+- The button lights up
+- The till opens
+? Why test the duress alarm?
++ Staff need help fast if threatened
+- It is only for show
+- It saves on insurance
+? The alert is not received. What do you do?
++ Report it urgently
+- Try again next month
+- Ignore it
+
+## Perimeter/external door security check
+? What do you check about external doors?
++ They are secure
+- They are propped open
+- They are freshly painted
+? What must fire exits not be?
++ Locked in a way that stops escape
+- Painted a different colour
+- Fitted with signs
+? Why balance security and escape?
++ Security must not block fire escape
+- Locked fire exits are always safest
+- Fire exits only matter in daytime
+? A fire exit is locked shut. What do you do?
++ Fix it now and tell your manager
+- Leave it locked for security
+- Put a sign on it saying "locked"
+? What two things must external doors be?
++ Secure, but not blocking escape
+- Locked and chained at all times
+- Open and unattended
+
+## Licensing conditions register reviewed
+? What do you go through?
++ Each licence condition
+- Only the opening hours
+- Only the music rules
+? What do you confirm for each?
++ The venue is meeting it
+- It is printed clearly
+- It is popular with guests
+? What do you note?
++ Any gaps
+- The licence fee
+- The council's address
+? Why does it matter?
++ Breaking conditions can lose you the licence
+- It speeds up drinks service at the bar
+- It is only for the council's records
+? You find a gap. What do you do?
++ Tell your manager straight away
+- Fix it next year
+- Ignore it if small
