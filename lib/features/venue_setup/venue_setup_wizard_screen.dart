@@ -25,6 +25,11 @@ import '../settings/widgets/add_staff_dialog.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
 import '../../l10n/app_localizations.dart';
+import '../../shared/providers/task_template_providers.dart';
+import '../../shared/providers/task_schedule_providers.dart';
+import '../../shared/providers/backend_providers.dart' show backendRestClientProvider;
+import '../equipment_library/equipment_pack.dart';
+import '../equipment_library/equipment_model_picker_screen.dart';
 
 class VenueSetupWizardScreen extends ConsumerStatefulWidget {
   const VenueSetupWizardScreen({super.key, this.initialStep = 0});
@@ -85,6 +90,9 @@ class _VenueSetupWizardScreenState
   final TextEditingController equipmentSerialController =
       TextEditingController();
   int? selectedEquipmentTypeId;
+  // Equipment library (2026-10-17): the exact model picked, whose checks
+  // are offered once the item is added.
+  EquipmentModelChoice? _chosenModel;
   int? selectedAreaId;
   bool addingNewEquipmentType = false;
   final TextEditingController newEquipmentTypeController =
@@ -292,17 +300,119 @@ class _VenueSetupWizardScreenState
       );
 
       if (!mounted) return;
+      final chosen = _chosenModel;
       setState(() {
         equipmentInstances = [...equipmentInstances, created];
         equipmentNameController.clear();
         equipmentModelController.clear();
         equipmentSerialController.clear();
+        _chosenModel = null;
       });
+      if (chosen != null && chosen.checks.isNotEmpty) {
+        await _offerPack(chosen, created, site.id);
+      }
     } on DuplicateEquipmentNameException catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(e.message)));
+    }
+  }
+
+  Future<void> _findModel() async {
+    final choice = await Navigator.of(context).push<EquipmentModelChoice>(
+      MaterialPageRoute(
+        builder: (_) => EquipmentModelPickerScreen(
+          equipmentTypes: equipmentTypes,
+          initialQuery: equipmentModelController.text.trim(),
+          equipmentTypeId: selectedEquipmentTypeId,
+        ),
+      ),
+    );
+    if (choice == null || !mounted) return;
+    setState(() {
+      _chosenModel = choice;
+      equipmentModelController.text = choice.displayName;
+      if (choice.equipmentTypeId != null &&
+          equipmentTypes.any((t) => t.id == choice.equipmentTypeId)) {
+        selectedEquipmentTypeId = choice.equipmentTypeId;
+      }
+    });
+  }
+
+  Future<void> _offerPack(
+    EquipmentModelChoice model,
+    Equipment equipment,
+    int siteId,
+  ) async {
+    final l10n = AppLocalizations.of(context)!;
+    final manager = ref.read(currentUserProvider);
+    final people = staff.where((u) => u.active && u.siteId == siteId).toList();
+    if (manager == null) return;
+    var assigneeId = people.isNotEmpty ? people.first.id : manager.id;
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setDialog) => AlertDialog(
+          title: Text(l10n.packAddChecksTitle),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l10n.packAddChecksBody(model.checks.length, model.displayName)),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<int>(
+                initialValue: assigneeId,
+                isExpanded: true,
+                decoration: InputDecoration(labelText: l10n.packAssigneeLabel),
+                items: [
+                  for (final u in [
+                    if (!people.any((p) => p.id == manager.id)) manager,
+                    ...people,
+                  ])
+                    DropdownMenuItem(value: u.id, child: Text(u.name)),
+                ],
+                onChanged: (v) => setDialog(() => assigneeId = v ?? assigneeId),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(ctx).pop(false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.of(ctx).pop(true),
+              child: Text(l10n.packAddChecksButton),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (ok != true || !mounted) return;
+    try {
+      final added = await EquipmentPackApplier(
+        client: ref.read(backendRestClientProvider),
+        templates: ref.read(taskTemplateRepositoryProvider),
+        schedules: ref.read(taskScheduleRepositoryProvider),
+      ).apply(
+        model: model,
+        checks: model.checks,
+        equipmentInstanceId: equipment.id,
+        equipmentTypeId: equipment.equipmentTypeId,
+        siteId: siteId,
+        assigneeId: assigneeId,
+        manager: manager,
+      );
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.packChecksAdded(added))));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(friendlyErrorMessage(l10n, e))));
     }
   }
 
@@ -802,9 +912,26 @@ class _VenueSetupWizardScreenState
             Expanded(
               child: TextField(
                 controller: equipmentModelController,
+                onChanged: (_) {
+                  if (_chosenModel != null) setState(() => _chosenModel = null);
+                },
                 decoration: InputDecoration(
                   labelText: l10n.modelOptionalLabel,
                   isDense: true,
+                  // Equipment library (2026-10-17): look up the exact model
+                  // (backend accounts only — the library is on the server).
+                  suffixIcon: ref.watch(backendDataEnabledProvider)
+                      ? IconButton(
+                          tooltip: l10n.packFindModelButton,
+                          icon: Icon(
+                            _chosenModel == null
+                                ? Icons.manage_search
+                                : Icons.check_circle,
+                            color: _chosenModel == null ? null : AppColors.pass,
+                          ),
+                          onPressed: _findModel,
+                        )
+                      : null,
                 ),
               ),
             ),

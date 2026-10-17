@@ -10806,6 +10806,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finish'**
   String get setupFinishButton;
+
+  /// No description provided for @packFrequencyDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get packFrequencyDaily;
+
+  /// No description provided for @packFrequencyWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get packFrequencyWeekly;
+
+  /// No description provided for @packFrequencyMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get packFrequencyMonthly;
+
+  /// No description provided for @packFrequencyQuarterly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every 3 months'**
+  String get packFrequencyQuarterly;
+
+  /// No description provided for @packFrequencyPerService.
+  ///
+  /// In en, this message translates to:
+  /// **'Every service'**
+  String get packFrequencyPerService;
+
+  /// No description provided for @packFindModelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Find exact model'**
+  String get packFindModelButton;
+
+  /// No description provided for @packFindModelTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find your exact model'**
+  String get packFindModelTitle;
+
+  /// No description provided for @packSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Make or model, e.g. Rational, eikon'**
+  String get packSearchLabel;
+
+  /// No description provided for @packNoneFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Not in VenuRite\'s library yet.'**
+  String get packNoneFound;
+
+  /// No description provided for @packCheckCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} checks'**
+  String packCheckCount(int count);
+
+  /// No description provided for @packYourDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'your version'**
+  String get packYourDraft;
+
+  /// No description provided for @packNotListedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not listed?'**
+  String get packNotListedTitle;
+
+  /// No description provided for @packNotListedHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'VenuRite\'s AI drafts the checks for your make and model. You review them before anything is used.'**
+  String get packNotListedHelp;
+
+  /// No description provided for @packMakeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Make'**
+  String get packMakeLabel;
+
+  /// No description provided for @packModelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get packModelLabel;
+
+  /// No description provided for @packTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Type of equipment'**
+  String get packTypeLabel;
+
+  /// No description provided for @packDraftButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft checks with VenuRite AI'**
+  String get packDraftButton;
+
+  /// No description provided for @packDraftWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Drafted by AI - check it against the manufacturer\'s manual and untick anything that doesn\'t apply.'**
+  String get packDraftWarning;
+
+  /// No description provided for @packApproveButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve and use these checks'**
+  String get packApproveButton;
+
+  /// No description provided for @packCheckedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Checked by VenuRite on {date}'**
+  String packCheckedOn(String date);
+
+  /// No description provided for @packSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get packSources;
+
+  /// No description provided for @packUseModelButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Use this model'**
+  String get packUseModelButton;
+
+  /// No description provided for @packAddChecksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add this model\'s checks?'**
+  String get packAddChecksTitle;
+
+  /// No description provided for @packAddChecksBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} checks for {name}. Choose who does them; each comes with its own step-by-step guide.'**
+  String packAddChecksBody(int count, String name);
+
+  /// No description provided for @packAssigneeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Who does these checks?'**
+  String get packAssigneeLabel;
+
+  /// No description provided for @packAddChecksButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add checks'**
+  String get packAddChecksButton;
+
+  /// No description provided for @packChecksAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} checks added.'**
+  String packChecksAdded(int count);
 }
 
 class _AppLocalizationsDelegate

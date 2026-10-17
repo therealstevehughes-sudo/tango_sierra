@@ -2289,3 +2289,7 @@ Applied `tools/fryer_limits_migration.sql` (sites.fryer_amber_c 180 / fryer_red_
 - `APIFY_TOKEN` added to `supabase/docker/.env` and the functions service in `docker-compose.yml` (backups: `/root/env.bak-20261017-apify`, `/root/docker-compose.yml.bak-20261017-apify`); functions container recreated.
 - Applied `tools/setup_wizard_migration.sql`: `setup_wizard_drafts` (one per organisation), `branch_search_log` (25/day cap), RPCs `get_setup_draft`, `save_setup_draft` (directors only), `claim_branch_search` (service role).
 - New Edge Functions: `branch-search` (Apify compass~crawler-google-places, directors only) and `setup-assistant` (OpenAI gpt-4o-mini JSON outline, directors only). Sources in `tools/functions_live/`.
+
+## Equipment library (2026-10-17)
+
+Applied `tools/equipment_library_migration.sql` (`equipment_models`, RPCs `search_equipment_models`, `get_equipment_model`, `save_venue_equipment_model`) and `tools/equipment_library_seed.sql` (8 live packs). New Edge Function `equipment-pack-draft` (OpenAI, managers only; source `tools/functions_live/equipment-pack-draft.ts`). Web app redeployed (md5 f4d072a6…).

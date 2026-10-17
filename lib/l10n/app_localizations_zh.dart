@@ -5961,4 +5961,93 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get setupFinishButton => '完成';
+
+  @override
+  String get packFrequencyDaily => '每天';
+
+  @override
+  String get packFrequencyWeekly => '每周';
+
+  @override
+  String get packFrequencyMonthly => '每月';
+
+  @override
+  String get packFrequencyQuarterly => '每 3 个月';
+
+  @override
+  String get packFrequencyPerService => '每次营业';
+
+  @override
+  String get packFindModelButton => '查找具体型号';
+
+  @override
+  String get packFindModelTitle => '查找你的具体型号';
+
+  @override
+  String get packSearchLabel => '品牌或型号，例如 Rational';
+
+  @override
+  String get packNoneFound => 'VenuRite 库中尚无此型号。';
+
+  @override
+  String packCheckCount(int count) {
+    return '$count 项检查';
+  }
+
+  @override
+  String get packYourDraft => '你的版本';
+
+  @override
+  String get packNotListedTitle => '没有找到？';
+
+  @override
+  String get packNotListedHelp => 'VenuRite AI 会为你的型号起草检查项。使用前由你审核。';
+
+  @override
+  String get packMakeLabel => '品牌';
+
+  @override
+  String get packModelLabel => '型号';
+
+  @override
+  String get packTypeLabel => '设备类型';
+
+  @override
+  String get packDraftButton => '用 VenuRite AI 起草检查';
+
+  @override
+  String get packDraftWarning => '由 AI 起草——请对照厂家说明书核对，并取消不适用的项。';
+
+  @override
+  String get packApproveButton => '批准并使用这些检查';
+
+  @override
+  String packCheckedOn(String date) {
+    return 'VenuRite 于 $date 核对';
+  }
+
+  @override
+  String get packSources => '来源';
+
+  @override
+  String get packUseModelButton => '使用此型号';
+
+  @override
+  String get packAddChecksTitle => '添加此型号的检查？';
+
+  @override
+  String packAddChecksBody(int count, String name) {
+    return '$name 的 $count 项检查。选择负责人；每项都有分步指南。';
+  }
+
+  @override
+  String get packAssigneeLabel => '谁负责这些检查？';
+
+  @override
+  String get packAddChecksButton => '添加检查';
+
+  @override
+  String packChecksAdded(int count) {
+    return '已添加 $count 项检查。';
+  }
 }

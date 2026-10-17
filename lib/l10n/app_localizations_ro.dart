@@ -6308,4 +6308,95 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get setupFinishButton => 'Gata';
+
+  @override
+  String get packFrequencyDaily => 'Zilnic';
+
+  @override
+  String get packFrequencyWeekly => 'Săptămânal';
+
+  @override
+  String get packFrequencyMonthly => 'Lunar';
+
+  @override
+  String get packFrequencyQuarterly => 'La fiecare 3 luni';
+
+  @override
+  String get packFrequencyPerService => 'Fiecare serviciu';
+
+  @override
+  String get packFindModelButton => 'Găsește modelul exact';
+
+  @override
+  String get packFindModelTitle => 'Găsește-ți modelul exact';
+
+  @override
+  String get packSearchLabel => 'Marcă sau model, ex. Rational';
+
+  @override
+  String get packNoneFound => 'Încă nu este în biblioteca VenuRite.';
+
+  @override
+  String packCheckCount(int count) {
+    return '$count verificări';
+  }
+
+  @override
+  String get packYourDraft => 'versiunea ta';
+
+  @override
+  String get packNotListedTitle => 'Nu apare?';
+
+  @override
+  String get packNotListedHelp =>
+      'AI VenuRite creează verificările pentru modelul tău. Le verifici înainte de folosire.';
+
+  @override
+  String get packMakeLabel => 'Marcă';
+
+  @override
+  String get packModelLabel => 'Model';
+
+  @override
+  String get packTypeLabel => 'Tip de echipament';
+
+  @override
+  String get packDraftButton => 'Creează verificări cu AI VenuRite';
+
+  @override
+  String get packDraftWarning =>
+      'Creat de AI - verifică cu manualul producătorului și debifează ce nu se aplică.';
+
+  @override
+  String get packApproveButton => 'Aprobă și folosește';
+
+  @override
+  String packCheckedOn(String date) {
+    return 'Verificat de VenuRite pe $date';
+  }
+
+  @override
+  String get packSources => 'Surse';
+
+  @override
+  String get packUseModelButton => 'Folosește acest model';
+
+  @override
+  String get packAddChecksTitle => 'Adaugi verificările acestui model?';
+
+  @override
+  String packAddChecksBody(int count, String name) {
+    return '$count verificări pentru $name. Alege cine le face; fiecare are ghid pas cu pas.';
+  }
+
+  @override
+  String get packAssigneeLabel => 'Cine face aceste verificări?';
+
+  @override
+  String get packAddChecksButton => 'Adaugă verificările';
+
+  @override
+  String packChecksAdded(int count) {
+    return '$count verificări adăugate.';
+  }
 }

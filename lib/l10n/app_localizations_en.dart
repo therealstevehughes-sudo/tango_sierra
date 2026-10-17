@@ -6320,4 +6320,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get setupFinishButton => 'Finish';
+
+  @override
+  String get packFrequencyDaily => 'Daily';
+
+  @override
+  String get packFrequencyWeekly => 'Weekly';
+
+  @override
+  String get packFrequencyMonthly => 'Monthly';
+
+  @override
+  String get packFrequencyQuarterly => 'Every 3 months';
+
+  @override
+  String get packFrequencyPerService => 'Every service';
+
+  @override
+  String get packFindModelButton => 'Find exact model';
+
+  @override
+  String get packFindModelTitle => 'Find your exact model';
+
+  @override
+  String get packSearchLabel => 'Make or model, e.g. Rational, eikon';
+
+  @override
+  String get packNoneFound => 'Not in VenuRite\'s library yet.';
+
+  @override
+  String packCheckCount(int count) {
+    return '$count checks';
+  }
+
+  @override
+  String get packYourDraft => 'your version';
+
+  @override
+  String get packNotListedTitle => 'Not listed?';
+
+  @override
+  String get packNotListedHelp =>
+      'VenuRite\'s AI drafts the checks for your make and model. You review them before anything is used.';
+
+  @override
+  String get packMakeLabel => 'Make';
+
+  @override
+  String get packModelLabel => 'Model';
+
+  @override
+  String get packTypeLabel => 'Type of equipment';
+
+  @override
+  String get packDraftButton => 'Draft checks with VenuRite AI';
+
+  @override
+  String get packDraftWarning =>
+      'Drafted by AI - check it against the manufacturer\'s manual and untick anything that doesn\'t apply.';
+
+  @override
+  String get packApproveButton => 'Approve and use these checks';
+
+  @override
+  String packCheckedOn(String date) {
+    return 'Checked by VenuRite on $date';
+  }
+
+  @override
+  String get packSources => 'Sources';
+
+  @override
+  String get packUseModelButton => 'Use this model';
+
+  @override
+  String get packAddChecksTitle => 'Add this model\'s checks?';
+
+  @override
+  String packAddChecksBody(int count, String name) {
+    return '$count checks for $name. Choose who does them; each comes with its own step-by-step guide.';
+  }
+
+  @override
+  String get packAssigneeLabel => 'Who does these checks?';
+
+  @override
+  String get packAddChecksButton => 'Add checks';
+
+  @override
+  String packChecksAdded(int count) {
+    return '$count checks added.';
+  }
 }

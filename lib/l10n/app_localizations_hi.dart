@@ -6188,4 +6188,95 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get setupFinishButton => 'पूरा करें';
+
+  @override
+  String get packFrequencyDaily => 'रोज़';
+
+  @override
+  String get packFrequencyWeekly => 'साप्ताहिक';
+
+  @override
+  String get packFrequencyMonthly => 'मासिक';
+
+  @override
+  String get packFrequencyQuarterly => 'हर 3 महीने';
+
+  @override
+  String get packFrequencyPerService => 'हर सर्विस';
+
+  @override
+  String get packFindModelButton => 'सटीक मॉडल खोजें';
+
+  @override
+  String get packFindModelTitle => 'अपना सटीक मॉडल खोजें';
+
+  @override
+  String get packSearchLabel => 'कंपनी या मॉडल, जैसे Rational';
+
+  @override
+  String get packNoneFound => 'अभी VenuRite लाइब्रेरी में नहीं है।';
+
+  @override
+  String packCheckCount(int count) {
+    return '$count चेक';
+  }
+
+  @override
+  String get packYourDraft => 'आपका संस्करण';
+
+  @override
+  String get packNotListedTitle => 'सूची में नहीं?';
+
+  @override
+  String get packNotListedHelp =>
+      'VenuRite AI आपके मॉडल के चेक बनाएगा। इस्तेमाल से पहले आप जाँचेंगे।';
+
+  @override
+  String get packMakeLabel => 'कंपनी';
+
+  @override
+  String get packModelLabel => 'मॉडल';
+
+  @override
+  String get packTypeLabel => 'उपकरण का प्रकार';
+
+  @override
+  String get packDraftButton => 'VenuRite AI से चेक बनवाएँ';
+
+  @override
+  String get packDraftWarning =>
+      'AI ने बनाया है - निर्माता की मैनुअल से मिलाएँ और जो लागू नहीं उसे हटाएँ।';
+
+  @override
+  String get packApproveButton => 'मंज़ूर करें और इस्तेमाल करें';
+
+  @override
+  String packCheckedOn(String date) {
+    return 'VenuRite ने $date को जाँचा';
+  }
+
+  @override
+  String get packSources => 'स्रोत';
+
+  @override
+  String get packUseModelButton => 'यह मॉडल इस्तेमाल करें';
+
+  @override
+  String get packAddChecksTitle => 'इस मॉडल के चेक जोड़ें?';
+
+  @override
+  String packAddChecksBody(int count, String name) {
+    return '$name के लिए $count चेक। चुनें कौन करेगा; हर एक के साथ स्टेप-बाय-स्टेप गाइड है।';
+  }
+
+  @override
+  String get packAssigneeLabel => 'ये चेक कौन करेगा?';
+
+  @override
+  String get packAddChecksButton => 'चेक जोड़ें';
+
+  @override
+  String packChecksAdded(int count) {
+    return '$count चेक जोड़े गए।';
+  }
 }

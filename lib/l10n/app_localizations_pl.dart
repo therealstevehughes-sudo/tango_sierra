@@ -6312,4 +6312,95 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get setupFinishButton => 'Zakończ';
+
+  @override
+  String get packFrequencyDaily => 'Codziennie';
+
+  @override
+  String get packFrequencyWeekly => 'Co tydzień';
+
+  @override
+  String get packFrequencyMonthly => 'Co miesiąc';
+
+  @override
+  String get packFrequencyQuarterly => 'Co 3 miesiące';
+
+  @override
+  String get packFrequencyPerService => 'Każdy serwis';
+
+  @override
+  String get packFindModelButton => 'Znajdź dokładny model';
+
+  @override
+  String get packFindModelTitle => 'Znajdź swój model';
+
+  @override
+  String get packSearchLabel => 'Producent lub model, np. Rational';
+
+  @override
+  String get packNoneFound => 'Jeszcze nie ma go w bibliotece VenuRite.';
+
+  @override
+  String packCheckCount(int count) {
+    return '$count kontroli';
+  }
+
+  @override
+  String get packYourDraft => 'twoja wersja';
+
+  @override
+  String get packNotListedTitle => 'Nie ma na liście?';
+
+  @override
+  String get packNotListedHelp =>
+      'AI VenuRite przygotuje kontrole dla twojego modelu. Sprawdzisz je przed użyciem.';
+
+  @override
+  String get packMakeLabel => 'Producent';
+
+  @override
+  String get packModelLabel => 'Model';
+
+  @override
+  String get packTypeLabel => 'Rodzaj sprzętu';
+
+  @override
+  String get packDraftButton => 'Przygotuj kontrole z AI VenuRite';
+
+  @override
+  String get packDraftWarning =>
+      'Przygotowane przez AI - porównaj z instrukcją producenta i odznacz, co nie pasuje.';
+
+  @override
+  String get packApproveButton => 'Zatwierdź i użyj';
+
+  @override
+  String packCheckedOn(String date) {
+    return 'Sprawdzone przez VenuRite $date';
+  }
+
+  @override
+  String get packSources => 'Źródła';
+
+  @override
+  String get packUseModelButton => 'Użyj tego modelu';
+
+  @override
+  String get packAddChecksTitle => 'Dodać kontrole dla tego modelu?';
+
+  @override
+  String packAddChecksBody(int count, String name) {
+    return '$count kontroli dla $name. Wybierz, kto je wykonuje; każda ma instrukcję krok po kroku.';
+  }
+
+  @override
+  String get packAssigneeLabel => 'Kto wykonuje te kontrole?';
+
+  @override
+  String get packAddChecksButton => 'Dodaj kontrole';
+
+  @override
+  String packChecksAdded(int count) {
+    return 'Dodano $count kontroli.';
+  }
 }

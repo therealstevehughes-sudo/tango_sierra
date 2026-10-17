@@ -6311,4 +6311,95 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get setupFinishButton => 'Terminar';
+
+  @override
+  String get packFrequencyDaily => 'Diario';
+
+  @override
+  String get packFrequencyWeekly => 'Semanal';
+
+  @override
+  String get packFrequencyMonthly => 'Mensual';
+
+  @override
+  String get packFrequencyQuarterly => 'Cada 3 meses';
+
+  @override
+  String get packFrequencyPerService => 'Cada servicio';
+
+  @override
+  String get packFindModelButton => 'Buscar el modelo exacto';
+
+  @override
+  String get packFindModelTitle => 'Busca tu modelo exacto';
+
+  @override
+  String get packSearchLabel => 'Marca o modelo, p. ej. Rational';
+
+  @override
+  String get packNoneFound => 'Aún no está en la biblioteca de VenuRite.';
+
+  @override
+  String packCheckCount(int count) {
+    return '$count controles';
+  }
+
+  @override
+  String get packYourDraft => 'tu versión';
+
+  @override
+  String get packNotListedTitle => '¿No aparece?';
+
+  @override
+  String get packNotListedHelp =>
+      'La IA de VenuRite redacta los controles para tu modelo. Los revisas antes de usarlos.';
+
+  @override
+  String get packMakeLabel => 'Marca';
+
+  @override
+  String get packModelLabel => 'Modelo';
+
+  @override
+  String get packTypeLabel => 'Tipo de equipo';
+
+  @override
+  String get packDraftButton => 'Redactar controles con IA de VenuRite';
+
+  @override
+  String get packDraftWarning =>
+      'Redactado por IA: compruébalo con el manual del fabricante y desmarca lo que no aplique.';
+
+  @override
+  String get packApproveButton => 'Aprobar y usar estos controles';
+
+  @override
+  String packCheckedOn(String date) {
+    return 'Revisado por VenuRite el $date';
+  }
+
+  @override
+  String get packSources => 'Fuentes';
+
+  @override
+  String get packUseModelButton => 'Usar este modelo';
+
+  @override
+  String get packAddChecksTitle => '¿Añadir los controles de este modelo?';
+
+  @override
+  String packAddChecksBody(int count, String name) {
+    return '$count controles para $name. Elige quién los hace; cada uno tiene su guía paso a paso.';
+  }
+
+  @override
+  String get packAssigneeLabel => '¿Quién hace estos controles?';
+
+  @override
+  String get packAddChecksButton => 'Añadir controles';
+
+  @override
+  String packChecksAdded(int count) {
+    return '$count controles añadidos.';
+  }
 }

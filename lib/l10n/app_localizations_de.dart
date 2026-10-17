@@ -6371,4 +6371,95 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get setupFinishButton => 'Fertig';
+
+  @override
+  String get packFrequencyDaily => 'Täglich';
+
+  @override
+  String get packFrequencyWeekly => 'Wöchentlich';
+
+  @override
+  String get packFrequencyMonthly => 'Monatlich';
+
+  @override
+  String get packFrequencyQuarterly => 'Alle 3 Monate';
+
+  @override
+  String get packFrequencyPerService => 'Jeder Service';
+
+  @override
+  String get packFindModelButton => 'Genaues Modell finden';
+
+  @override
+  String get packFindModelTitle => 'Dein genaues Modell finden';
+
+  @override
+  String get packSearchLabel => 'Hersteller oder Modell, z. B. Rational';
+
+  @override
+  String get packNoneFound => 'Noch nicht in der VenuRite-Bibliothek.';
+
+  @override
+  String packCheckCount(int count) {
+    return '$count Prüfungen';
+  }
+
+  @override
+  String get packYourDraft => 'deine Version';
+
+  @override
+  String get packNotListedTitle => 'Nicht dabei?';
+
+  @override
+  String get packNotListedHelp =>
+      'Die VenuRite-KI entwirft die Prüfungen für dein Modell. Du prüfst sie, bevor etwas genutzt wird.';
+
+  @override
+  String get packMakeLabel => 'Hersteller';
+
+  @override
+  String get packModelLabel => 'Modell';
+
+  @override
+  String get packTypeLabel => 'Geräteart';
+
+  @override
+  String get packDraftButton => 'Prüfungen mit VenuRite-KI entwerfen';
+
+  @override
+  String get packDraftWarning =>
+      'Von KI entworfen - mit der Herstelleranleitung abgleichen und Unpassendes abwählen.';
+
+  @override
+  String get packApproveButton => 'Freigeben und verwenden';
+
+  @override
+  String packCheckedOn(String date) {
+    return 'Von VenuRite geprüft am $date';
+  }
+
+  @override
+  String get packSources => 'Quellen';
+
+  @override
+  String get packUseModelButton => 'Dieses Modell verwenden';
+
+  @override
+  String get packAddChecksTitle => 'Prüfungen für dieses Modell hinzufügen?';
+
+  @override
+  String packAddChecksBody(int count, String name) {
+    return '$count Prüfungen für $name. Wähle, wer sie macht; jede hat eine Schritt-für-Schritt-Anleitung.';
+  }
+
+  @override
+  String get packAssigneeLabel => 'Wer macht diese Prüfungen?';
+
+  @override
+  String get packAddChecksButton => 'Prüfungen hinzufügen';
+
+  @override
+  String packChecksAdded(int count) {
+    return '$count Prüfungen hinzugefügt.';
+  }
 }

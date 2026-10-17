@@ -6146,4 +6146,95 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get setupFinishButton => 'إنهاء';
+
+  @override
+  String get packFrequencyDaily => 'يومياً';
+
+  @override
+  String get packFrequencyWeekly => 'أسبوعياً';
+
+  @override
+  String get packFrequencyMonthly => 'شهرياً';
+
+  @override
+  String get packFrequencyQuarterly => 'كل 3 أشهر';
+
+  @override
+  String get packFrequencyPerService => 'كل خدمة';
+
+  @override
+  String get packFindModelButton => 'ابحث عن الطراز الدقيق';
+
+  @override
+  String get packFindModelTitle => 'ابحث عن طرازك';
+
+  @override
+  String get packSearchLabel => 'الشركة أو الطراز، مثل Rational';
+
+  @override
+  String get packNoneFound => 'غير موجود في مكتبة VenuRite بعد.';
+
+  @override
+  String packCheckCount(int count) {
+    return '$count فحوصات';
+  }
+
+  @override
+  String get packYourDraft => 'نسختك';
+
+  @override
+  String get packNotListedTitle => 'غير موجود؟';
+
+  @override
+  String get packNotListedHelp =>
+      'يصيغ ذكاء VenuRite الاصطناعي الفحوصات لطرازك. تراجعها قبل استخدام أي شيء.';
+
+  @override
+  String get packMakeLabel => 'الشركة المصنعة';
+
+  @override
+  String get packModelLabel => 'الطراز';
+
+  @override
+  String get packTypeLabel => 'نوع المعدات';
+
+  @override
+  String get packDraftButton => 'صياغة الفحوصات بذكاء VenuRite';
+
+  @override
+  String get packDraftWarning =>
+      'صاغه الذكاء الاصطناعي - راجعه مع دليل الشركة المصنعة وألغِ ما لا ينطبق.';
+
+  @override
+  String get packApproveButton => 'اعتمد واستخدم هذه الفحوصات';
+
+  @override
+  String packCheckedOn(String date) {
+    return 'راجعته VenuRite بتاريخ $date';
+  }
+
+  @override
+  String get packSources => 'المصادر';
+
+  @override
+  String get packUseModelButton => 'استخدم هذا الطراز';
+
+  @override
+  String get packAddChecksTitle => 'إضافة فحوصات هذا الطراز؟';
+
+  @override
+  String packAddChecksBody(int count, String name) {
+    return '$count فحوصات لـ $name. اختر من يقوم بها؛ لكل منها دليل خطوة بخطوة.';
+  }
+
+  @override
+  String get packAssigneeLabel => 'من يقوم بهذه الفحوصات؟';
+
+  @override
+  String get packAddChecksButton => 'إضافة الفحوصات';
+
+  @override
+  String packChecksAdded(int count) {
+    return 'تمت إضافة $count فحوصات.';
+  }
 }

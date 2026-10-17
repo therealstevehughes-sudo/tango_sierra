@@ -6216,4 +6216,95 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get setupFinishButton => 'Završi';
+
+  @override
+  String get packFrequencyDaily => 'Dnevno';
+
+  @override
+  String get packFrequencyWeekly => 'Tjedno';
+
+  @override
+  String get packFrequencyMonthly => 'Mjesečno';
+
+  @override
+  String get packFrequencyQuarterly => 'Svaka 3 mjeseca';
+
+  @override
+  String get packFrequencyPerService => 'Svaka smjena posluživanja';
+
+  @override
+  String get packFindModelButton => 'Pronađi točan model';
+
+  @override
+  String get packFindModelTitle => 'Pronađi svoj točan model';
+
+  @override
+  String get packSearchLabel => 'Proizvođač ili model, npr. Rational';
+
+  @override
+  String get packNoneFound => 'Još nije u knjižnici VenuRitea.';
+
+  @override
+  String packCheckCount(int count) {
+    return '$count provjera';
+  }
+
+  @override
+  String get packYourDraft => 'tvoja verzija';
+
+  @override
+  String get packNotListedTitle => 'Nije na popisu?';
+
+  @override
+  String get packNotListedHelp =>
+      'VenuRite AI izrađuje provjere za tvoj model. Pregledaš ih prije upotrebe.';
+
+  @override
+  String get packMakeLabel => 'Proizvođač';
+
+  @override
+  String get packModelLabel => 'Model';
+
+  @override
+  String get packTypeLabel => 'Vrsta opreme';
+
+  @override
+  String get packDraftButton => 'Izradi provjere s VenuRite AI';
+
+  @override
+  String get packDraftWarning =>
+      'Izradio AI - provjeri prema priručniku proizvođača i odznači što ne vrijedi.';
+
+  @override
+  String get packApproveButton => 'Odobri i koristi ove provjere';
+
+  @override
+  String packCheckedOn(String date) {
+    return 'VenuRite provjerio $date';
+  }
+
+  @override
+  String get packSources => 'Izvori';
+
+  @override
+  String get packUseModelButton => 'Koristi ovaj model';
+
+  @override
+  String get packAddChecksTitle => 'Dodati provjere za ovaj model?';
+
+  @override
+  String packAddChecksBody(int count, String name) {
+    return '$count provjera za $name. Odaberi tko ih radi; svaka ima vodič korak po korak.';
+  }
+
+  @override
+  String get packAssigneeLabel => 'Tko radi ove provjere?';
+
+  @override
+  String get packAddChecksButton => 'Dodaj provjere';
+
+  @override
+  String packChecksAdded(int count) {
+    return 'Dodano $count provjera.';
+  }
 }

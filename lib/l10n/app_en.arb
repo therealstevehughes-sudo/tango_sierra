@@ -5378,5 +5378,63 @@
     }
   },
   "setupCopyLogins": "Copy all logins",
-  "setupFinishButton": "Finish"
+  "setupFinishButton": "Finish",
+  "packFrequencyDaily": "Daily",
+  "packFrequencyWeekly": "Weekly",
+  "packFrequencyMonthly": "Monthly",
+  "packFrequencyQuarterly": "Every 3 months",
+  "packFrequencyPerService": "Every service",
+  "packFindModelButton": "Find exact model",
+  "packFindModelTitle": "Find your exact model",
+  "packSearchLabel": "Make or model, e.g. Rational, eikon",
+  "packNoneFound": "Not in VenuRite's library yet.",
+  "packCheckCount": "{count} checks",
+  "@packCheckCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "packYourDraft": "your version",
+  "packNotListedTitle": "Not listed?",
+  "packNotListedHelp": "VenuRite's AI drafts the checks for your make and model. You review them before anything is used.",
+  "packMakeLabel": "Make",
+  "packModelLabel": "Model",
+  "packTypeLabel": "Type of equipment",
+  "packDraftButton": "Draft checks with VenuRite AI",
+  "packDraftWarning": "Drafted by AI - check it against the manufacturer's manual and untick anything that doesn't apply.",
+  "packApproveButton": "Approve and use these checks",
+  "packCheckedOn": "Checked by VenuRite on {date}",
+  "@packCheckedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "packSources": "Sources",
+  "packUseModelButton": "Use this model",
+  "packAddChecksTitle": "Add this model's checks?",
+  "packAddChecksBody": "{count} checks for {name}. Choose who does them; each comes with its own step-by-step guide.",
+  "@packAddChecksBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "packAssigneeLabel": "Who does these checks?",
+  "packAddChecksButton": "Add checks",
+  "packChecksAdded": "{count} checks added.",
+  "@packChecksAdded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

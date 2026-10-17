@@ -6175,4 +6175,95 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get setupFinishButton => 'مکمل کریں';
+
+  @override
+  String get packFrequencyDaily => 'روزانہ';
+
+  @override
+  String get packFrequencyWeekly => 'ہفتہ وار';
+
+  @override
+  String get packFrequencyMonthly => 'ماہانہ';
+
+  @override
+  String get packFrequencyQuarterly => 'ہر 3 مہینے';
+
+  @override
+  String get packFrequencyPerService => 'ہر سروس';
+
+  @override
+  String get packFindModelButton => 'درست ماڈل تلاش کریں';
+
+  @override
+  String get packFindModelTitle => 'اپنا درست ماڈل تلاش کریں';
+
+  @override
+  String get packSearchLabel => 'کمپنی یا ماڈل، مثلاً Rational';
+
+  @override
+  String get packNoneFound => 'ابھی VenuRite لائبریری میں نہیں ہے۔';
+
+  @override
+  String packCheckCount(int count) {
+    return '$count چیکس';
+  }
+
+  @override
+  String get packYourDraft => 'آپ کا ورژن';
+
+  @override
+  String get packNotListedTitle => 'فہرست میں نہیں؟';
+
+  @override
+  String get packNotListedHelp =>
+      'VenuRite AI آپ کے ماڈل کے چیکس بنائے گا۔ استعمال سے پہلے آپ دیکھیں گے۔';
+
+  @override
+  String get packMakeLabel => 'کمپنی';
+
+  @override
+  String get packModelLabel => 'ماڈل';
+
+  @override
+  String get packTypeLabel => 'سامان کی قسم';
+
+  @override
+  String get packDraftButton => 'VenuRite AI سے چیکس بنوائیں';
+
+  @override
+  String get packDraftWarning =>
+      'AI نے بنایا ہے - بنانے والے کی گائیڈ سے ملائیں اور جو لاگو نہ ہو اسے ہٹائیں۔';
+
+  @override
+  String get packApproveButton => 'منظور کریں اور استعمال کریں';
+
+  @override
+  String packCheckedOn(String date) {
+    return 'VenuRite نے $date کو جانچا';
+  }
+
+  @override
+  String get packSources => 'ذرائع';
+
+  @override
+  String get packUseModelButton => 'یہ ماڈل استعمال کریں';
+
+  @override
+  String get packAddChecksTitle => 'اس ماڈل کے چیکس شامل کریں؟';
+
+  @override
+  String packAddChecksBody(int count, String name) {
+    return '$name کے لیے $count چیکس۔ چنیں کون کرے گا؛ ہر ایک کے ساتھ مرحلہ وار گائیڈ ہے۔';
+  }
+
+  @override
+  String get packAssigneeLabel => 'یہ چیکس کون کرے گا؟';
+
+  @override
+  String get packAddChecksButton => 'چیکس شامل کریں';
+
+  @override
+  String packChecksAdded(int count) {
+    return '$count چیکس شامل ہو گئے۔';
+  }
 }
