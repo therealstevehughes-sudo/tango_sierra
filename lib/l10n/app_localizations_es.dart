@@ -6045,4 +6045,27 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get personalRotaTrainingNotice =>
       'En tu móvil puedes ver tus turnos y formación. Haz los controles en el dispositivo del local.';
+
+  @override
+  String fryerRunningHotWarning(int amber) {
+    return 'Demasiado caliente: más de $amber°C. Baja el termostato y vuelve a medir.';
+  }
+
+  @override
+  String get fryerLimitsTitle => 'Límites del aceite de freidora';
+
+  @override
+  String fryerLimitsSummary(int amber, int red) {
+    return 'Ámbar por encima de $amber°C · fallo por encima de $red°C';
+  }
+
+  @override
+  String get fryerAmberLabel => 'Aviso ámbar por encima de (°C)';
+
+  @override
+  String get fryerRedLabel => 'Fallo por encima de (°C)';
+
+  @override
+  String get fryerLimitsInvalid =>
+      'El ámbar debe ser menor que el fallo, ambos entre 120 y 230°C.';
 }

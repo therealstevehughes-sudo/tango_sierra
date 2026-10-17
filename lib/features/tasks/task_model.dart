@@ -60,6 +60,9 @@ class ResolvedTask {
   // else needs to check both — this exists purely so the UI can show a
   // distinct "today's spot-check" note instead of a generic photo prompt.
   final bool isRandomPhotoCheck;
+  // Fryer oil (2026-10-17): a reading above this but within maxLimit
+  // still passes, with a "running hot" warning.
+  final double? amberAbove;
   // Generic extra fields (2026-09-24) — already-parsed field definitions
   // from the task's own TaskTemplate.extraFieldsJson (task_extra_field.dart
   // does the parsing; TaskController.loadTasks does it once per task, not
@@ -94,6 +97,7 @@ class ResolvedTask {
     this.requiresSupplierSelection = false,
     this.isRandomPhotoCheck = false,
     this.extraFieldDefs = const [],
+    this.amberAbove,
   });
 
   // Any limit means a reading is required (2026-10-17 fix): this used to

@@ -5,15 +5,19 @@
 + Let the fryer heat up fully
 - Switch the fryer off first
 - Add fresh oil to the vat
-? What is the highest oil temperature that passes?
-+ 180°C
+? With standard settings, what is the highest oil temperature that passes?
++ 185°C
 - 200°C
 - 220°C
+? What does an amber reading above 180°C mean?
++ It passes, but turn the thermostat down
+- It fails and the oil must be changed
+- Nothing; amber can be ignored
 ? How can you read the oil temperature?
 + The thermostat, or a suitable thermometer
 - Drop in a chip and count the bubbles
 - Hold your hand above the oil surface
-? Why does oil above 180°C matter?
+? Why does oil that runs too hot matter?
 + It breaks down faster, with harmful compounds and fire risk
 - It cooks the food too slowly and leaves it pale and greasy
 - It only changes the colour of the batter

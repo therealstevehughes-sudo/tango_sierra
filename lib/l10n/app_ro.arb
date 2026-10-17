@@ -1703,5 +1703,11 @@
   "deviceRulesSaved": "Regulile dispozitivelor au fost salvate.",
   "deviceBranchLabel": "Dispozitiv al locației: {name}",
   "devicePersonalLabel": "Telefon personal",
-  "personalRotaTrainingNotice": "Pe telefonul tău vezi programul și instruirea. Verificările le faci pe dispozitivul locației."
+  "personalRotaTrainingNotice": "Pe telefonul tău vezi programul și instruirea. Verificările le faci pe dispozitivul locației.",
+  "fryerRunningHotWarning": "Prea fierbinte: peste {amber}°C. Coboară termostatul și verifică din nou.",
+  "fryerLimitsTitle": "Limite ulei friteuză",
+  "fryerLimitsSummary": "Galben peste {amber}°C · eșec peste {red}°C",
+  "fryerAmberLabel": "Avertizare galbenă peste (°C)",
+  "fryerRedLabel": "Eșec peste (°C)",
+  "fryerLimitsInvalid": "Galbenul trebuie să fie sub eșec, ambele între 120 și 230°C."
 }

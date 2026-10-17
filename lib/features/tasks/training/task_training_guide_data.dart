@@ -396,10 +396,11 @@ final Map<String, TaskTrainingGuide> standardTrainingGuides = {
       'Let the fryer heat up fully.',
       'Read the thermostat or probe the oil with a suitable thermometer.',
       'Record the reading and photograph it.',
-      'Pass at 180°C or below.',
+      'Pass at 185°C or below. Above 180°C shows amber: turn the thermostat down.',
+      'Your venue may set its own amber and fail temperatures.',
     ],
-    'Oil above 180°C breaks down faster and can create harmful compounds and fire risk.',
-    'Turn the thermostat down and re-check. If it will not control, switch off and report it.',
+    'Oil running too hot breaks down faster and can create harmful compounds and fire risk.',
+    'Above the fail line: turn the thermostat down and re-check. If it will not control, switch off and report it.',
   ),
   'Oil quality (TPM/colour)': _g(
     [

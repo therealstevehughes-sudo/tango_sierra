@@ -5923,4 +5923,27 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get personalRotaTrainingNotice =>
       'अपने फ़ोन पर आप अपना रोटा और ट्रेनिंग देख सकते हैं। चेक वेन्यू के डिवाइस पर करें।';
+
+  @override
+  String fryerRunningHotWarning(int amber) {
+    return 'ज़्यादा गर्म: $amber°C से ऊपर। थर्मोस्टैट कम करें और फिर जाँचें।';
+  }
+
+  @override
+  String get fryerLimitsTitle => 'फ्रायर तेल सीमाएँ';
+
+  @override
+  String fryerLimitsSummary(int amber, int red) {
+    return '$amber°C से ऊपर पीला · $red°C से ऊपर फ़ेल';
+  }
+
+  @override
+  String get fryerAmberLabel => 'पीली चेतावनी इससे ऊपर (°C)';
+
+  @override
+  String get fryerRedLabel => 'इससे ऊपर फ़ेल (°C)';
+
+  @override
+  String get fryerLimitsInvalid =>
+      'पीला फ़ेल से कम होना चाहिए, दोनों 120 से 230°C के बीच।';
 }

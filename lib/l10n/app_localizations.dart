@@ -10351,6 +10351,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'On your own phone you can see your rota and training. Do checks on the venue\'s own device.'**
   String get personalRotaTrainingNotice;
+
+  /// No description provided for @fryerRunningHotWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Running hot: above {amber}°C. Turn the thermostat down and re-check.'**
+  String fryerRunningHotWarning(int amber);
+
+  /// No description provided for @fryerLimitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fryer oil limits'**
+  String get fryerLimitsTitle;
+
+  /// No description provided for @fryerLimitsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Amber above {amber}°C · fail above {red}°C'**
+  String fryerLimitsSummary(int amber, int red);
+
+  /// No description provided for @fryerAmberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Amber warning above (°C)'**
+  String get fryerAmberLabel;
+
+  /// No description provided for @fryerRedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fail above (°C)'**
+  String get fryerRedLabel;
+
+  /// No description provided for @fryerLimitsInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Amber must be lower than fail, both between 120 and 230°C.'**
+  String get fryerLimitsInvalid;
 }
 
 class _AppLocalizationsDelegate

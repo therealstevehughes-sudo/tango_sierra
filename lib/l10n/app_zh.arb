@@ -1703,5 +1703,11 @@
   "deviceRulesSaved": "设备规则已保存。",
   "deviceBranchLabel": "分店设备：{name}",
   "devicePersonalLabel": "个人手机",
-  "personalRotaTrainingNotice": "在个人手机上可查看排班和培训。检查请在场所设备上完成。"
+  "personalRotaTrainingNotice": "在个人手机上可查看排班和培训。检查请在场所设备上完成。",
+  "fryerRunningHotWarning": "温度偏高：超过 {amber}°C。请调低温控并重新测量。",
+  "fryerLimitsTitle": "炸炉油温限值",
+  "fryerLimitsSummary": "超过 {amber}°C 黄色预警 · 超过 {red}°C 不合格",
+  "fryerAmberLabel": "黄色预警高于（°C）",
+  "fryerRedLabel": "不合格高于（°C）",
+  "fryerLimitsInvalid": "黄色值必须低于不合格值，且都在 120 到 230°C 之间。"
 }

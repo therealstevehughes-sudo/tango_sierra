@@ -6055,4 +6055,27 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get personalRotaTrainingNotice =>
       'On your own phone you can see your rota and training. Do checks on the venue\'s own device.';
+
+  @override
+  String fryerRunningHotWarning(int amber) {
+    return 'Running hot: above $amber°C. Turn the thermostat down and re-check.';
+  }
+
+  @override
+  String get fryerLimitsTitle => 'Fryer oil limits';
+
+  @override
+  String fryerLimitsSummary(int amber, int red) {
+    return 'Amber above $amber°C · fail above $red°C';
+  }
+
+  @override
+  String get fryerAmberLabel => 'Amber warning above (°C)';
+
+  @override
+  String get fryerRedLabel => 'Fail above (°C)';
+
+  @override
+  String get fryerLimitsInvalid =>
+      'Amber must be lower than fail, both between 120 and 230°C.';
 }

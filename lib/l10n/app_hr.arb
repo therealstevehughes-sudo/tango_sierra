@@ -1703,5 +1703,11 @@
   "deviceRulesSaved": "Pravila uređaja spremljena.",
   "deviceBranchLabel": "Uređaj objekta: {name}",
   "devicePersonalLabel": "Osobni mobitel",
-  "personalRotaTrainingNotice": "Na svom mobitelu vidiš raspored i obuku. Provjere radi na uređaju objekta."
+  "personalRotaTrainingNotice": "Na svom mobitelu vidiš raspored i obuku. Provjere radi na uređaju objekta.",
+  "fryerRunningHotWarning": "Prevruće: iznad {amber}°C. Smanji termostat i ponovno provjeri.",
+  "fryerLimitsTitle": "Granice ulja za friteze",
+  "fryerLimitsSummary": "Žuto iznad {amber}°C · pad iznad {red}°C",
+  "fryerAmberLabel": "Žuto upozorenje iznad (°C)",
+  "fryerRedLabel": "Pad iznad (°C)",
+  "fryerLimitsInvalid": "Žuto mora biti niže od pada, oboje između 120 i 230°C."
 }

@@ -1703,5 +1703,11 @@
   "deviceRulesSaved": "تم حفظ قواعد الأجهزة.",
   "deviceBranchLabel": "جهاز الفرع: {name}",
   "devicePersonalLabel": "هاتف شخصي",
-  "personalRotaTrainingNotice": "على هاتفك الشخصي يمكنك رؤية جدولك وتدريبك. قم بالفحوصات على جهاز المنشأة."
+  "personalRotaTrainingNotice": "على هاتفك الشخصي يمكنك رؤية جدولك وتدريبك. قم بالفحوصات على جهاز المنشأة.",
+  "fryerRunningHotWarning": "حرارة مرتفعة: فوق {amber}°م. اخفض منظم الحرارة وأعد الفحص.",
+  "fryerLimitsTitle": "حدود زيت القلاية",
+  "fryerLimitsSummary": "تحذير فوق {amber}°م · فشل فوق {red}°م",
+  "fryerAmberLabel": "تحذير فوق (°م)",
+  "fryerRedLabel": "فشل فوق (°م)",
+  "fryerLimitsInvalid": "يجب أن يكون التحذير أقل من الفشل، وكلاهما بين 120 و230°م."
 }

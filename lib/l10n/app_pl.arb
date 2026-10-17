@@ -1703,5 +1703,11 @@
   "deviceRulesSaved": "Zasady urządzeń zapisane.",
   "deviceBranchLabel": "Urządzenie lokalu: {name}",
   "devicePersonalLabel": "Prywatny telefon",
-  "personalRotaTrainingNotice": "Na własnym telefonie widzisz grafik i szkolenia. Kontrole rób na urządzeniu lokalu."
+  "personalRotaTrainingNotice": "Na własnym telefonie widzisz grafik i szkolenia. Kontrole rób na urządzeniu lokalu.",
+  "fryerRunningHotWarning": "Za gorąco: powyżej {amber}°C. Zmniejsz termostat i sprawdź ponownie.",
+  "fryerLimitsTitle": "Limity oleju we frytownicy",
+  "fryerLimitsSummary": "Żółty powyżej {amber}°C · niezaliczone powyżej {red}°C",
+  "fryerAmberLabel": "Żółte ostrzeżenie powyżej (°C)",
+  "fryerRedLabel": "Niezaliczone powyżej (°C)",
+  "fryerLimitsInvalid": "Żółty musi być niższy niż niezaliczenie, oba między 120 a 230°C."
 }

@@ -1703,5 +1703,11 @@
   "deviceRulesSaved": "Geräteregeln gespeichert.",
   "deviceBranchLabel": "Filialgerät: {name}",
   "devicePersonalLabel": "Eigenes Handy",
-  "personalRotaTrainingNotice": "Auf dem eigenen Handy siehst du Dienstplan und Schulung. Prüfungen bitte am Gerät des Betriebs."
+  "personalRotaTrainingNotice": "Auf dem eigenen Handy siehst du Dienstplan und Schulung. Prüfungen bitte am Gerät des Betriebs.",
+  "fryerRunningHotWarning": "Zu heiß: über {amber}°C. Thermostat herunterdrehen und erneut prüfen.",
+  "fryerLimitsTitle": "Grenzwerte Frittieröl",
+  "fryerLimitsSummary": "Gelb über {amber}°C · nicht bestanden über {red}°C",
+  "fryerAmberLabel": "Gelbe Warnung über (°C)",
+  "fryerRedLabel": "Nicht bestanden über (°C)",
+  "fryerLimitsInvalid": "Gelb muss unter dem Fehlwert liegen, beide zwischen 120 und 230°C."
 }

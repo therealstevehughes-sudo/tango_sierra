@@ -25,6 +25,9 @@ class Site {
   // and whether a manager has recorded the venue's internet connection
   // (the IP itself stays server-side; the app only needs to know it's set).
   final bool clockLocationCheckEnabled;
+  // Fryer oil (2026-10-17): amber warning above, fail above.
+  final int fryerAmberC;
+  final int fryerRedC;
   final double? clockLatitude;
   final double? clockLongitude;
   final int clockRadiusM;
@@ -43,6 +46,8 @@ class Site {
     this.shiftVerificationPhotosEnabled = false,
     this.shiftPhotoRetentionDays = 90,
     this.clockLocationCheckEnabled = false,
+    this.fryerAmberC = 180,
+    this.fryerRedC = 185,
     this.clockLatitude,
     this.clockLongitude,
     this.clockRadiusM = 150,

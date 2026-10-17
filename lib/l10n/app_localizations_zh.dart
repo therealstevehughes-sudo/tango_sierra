@@ -5706,4 +5706,26 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get personalRotaTrainingNotice => '在个人手机上可查看排班和培训。检查请在场所设备上完成。';
+
+  @override
+  String fryerRunningHotWarning(int amber) {
+    return '温度偏高：超过 $amber°C。请调低温控并重新测量。';
+  }
+
+  @override
+  String get fryerLimitsTitle => '炸炉油温限值';
+
+  @override
+  String fryerLimitsSummary(int amber, int red) {
+    return '超过 $amber°C 黄色预警 · 超过 $red°C 不合格';
+  }
+
+  @override
+  String get fryerAmberLabel => '黄色预警高于（°C）';
+
+  @override
+  String get fryerRedLabel => '不合格高于（°C）';
+
+  @override
+  String get fryerLimitsInvalid => '黄色值必须低于不合格值，且都在 120 到 230°C 之间。';
 }

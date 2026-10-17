@@ -2279,3 +2279,7 @@ Applied `tools/integrity_flags_migration.sql`: task_submissions + `duration_seco
 - `pin-login` updated (source `tools/functions_live/pin-login.ts`; previous copy `/root/fn_backup_20261017/pin-login.before-devices.ts`): verifies Ed25519 device signatures (WebCrypto), adds `device_kind/device_id/device_name/device_policy` claims, refuses non-branch logins at "branch devices only" venues (403).
 - App packages added: `cryptography`, `flutter_secure_storage`.
 Deployed 2026-10-17: APK + web app md5-verified (device rules build).
+
+## Fryer limits + Tom's code (2026-10-17)
+
+Applied `tools/fryer_limits_migration.sql` (sites.fryer_amber_c 180 / fryer_red_c 185, library "Oil temperature" max_limit 185, RPC set_fryer_limits). Quiz bank reseeded (1,070). Created invite code `VR-Y5JH-QGR9` (free_life, note "Tom - Greekos Gyros (owner)").

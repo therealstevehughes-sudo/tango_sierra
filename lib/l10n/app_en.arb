@@ -5192,5 +5192,28 @@
     }
   },
   "devicePersonalLabel": "Personal phone",
-  "personalRotaTrainingNotice": "On your own phone you can see your rota and training. Do checks on the venue's own device."
+  "personalRotaTrainingNotice": "On your own phone you can see your rota and training. Do checks on the venue's own device.",
+  "fryerRunningHotWarning": "Running hot: above {amber}°C. Turn the thermostat down and re-check.",
+  "@fryerRunningHotWarning": {
+    "placeholders": {
+      "amber": {
+        "type": "int"
+      }
+    }
+  },
+  "fryerLimitsTitle": "Fryer oil limits",
+  "fryerLimitsSummary": "Amber above {amber}°C · fail above {red}°C",
+  "@fryerLimitsSummary": {
+    "placeholders": {
+      "amber": {
+        "type": "int"
+      },
+      "red": {
+        "type": "int"
+      }
+    }
+  },
+  "fryerAmberLabel": "Amber warning above (°C)",
+  "fryerRedLabel": "Fail above (°C)",
+  "fryerLimitsInvalid": "Amber must be lower than fail, both between 120 and 230°C."
 }

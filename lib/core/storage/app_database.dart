@@ -3382,11 +3382,14 @@ class AppDatabase extends _$AppDatabase {
       priority: 'high',
       equipmentTypeName: 'Fryer',
       roleTiers: ['base'],
-      maxLimit: 180.0,
+      maxLimit: 185.0,
       unit: 'celsius',
       legalLimitCategory: 'fryer_oil_temp',
+      // Fryer oil (2026-10-17): amber above 180°C, fail above 185°C; each
+      // venue can change both (Venue settings).
       fixInstructions:
-          '[BEST] Typical fryer oil operating temperature is up to 180°C. '
+          '[BEST] Fryer oil: amber above 180°C (turn the thermostat down), '
+          'fail above 185°C. Your venue can change both. '
           'No UK legal limit - industry best practice.',
       frequency: 'perService',
     ),

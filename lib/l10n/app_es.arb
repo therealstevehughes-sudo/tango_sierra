@@ -1703,5 +1703,11 @@
   "deviceRulesSaved": "Reglas de dispositivos guardadas.",
   "deviceBranchLabel": "Dispositivo del local: {name}",
   "devicePersonalLabel": "Móvil personal",
-  "personalRotaTrainingNotice": "En tu móvil puedes ver tus turnos y formación. Haz los controles en el dispositivo del local."
+  "personalRotaTrainingNotice": "En tu móvil puedes ver tus turnos y formación. Haz los controles en el dispositivo del local.",
+  "fryerRunningHotWarning": "Demasiado caliente: más de {amber}°C. Baja el termostato y vuelve a medir.",
+  "fryerLimitsTitle": "Límites del aceite de freidora",
+  "fryerLimitsSummary": "Ámbar por encima de {amber}°C · fallo por encima de {red}°C",
+  "fryerAmberLabel": "Aviso ámbar por encima de (°C)",
+  "fryerRedLabel": "Fallo por encima de (°C)",
+  "fryerLimitsInvalid": "El ámbar debe ser menor que el fallo, ambos entre 120 y 230°C."
 }

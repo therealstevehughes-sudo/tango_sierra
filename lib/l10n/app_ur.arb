@@ -1703,5 +1703,11 @@
   "deviceRulesSaved": "ڈیوائس کے اصول محفوظ ہو گئے۔",
   "deviceBranchLabel": "برانچ ڈیوائس: {name}",
   "devicePersonalLabel": "ذاتی فون",
-  "personalRotaTrainingNotice": "اپنے فون پر آپ روٹا اور تربیت دیکھ سکتے ہیں۔ چیک وینیو کی ڈیوائس پر کریں۔"
+  "personalRotaTrainingNotice": "اپنے فون پر آپ روٹا اور تربیت دیکھ سکتے ہیں۔ چیک وینیو کی ڈیوائس پر کریں۔",
+  "fryerRunningHotWarning": "زیادہ گرم: {amber}°C سے اوپر۔ تھرموسٹیٹ کم کریں اور دوبارہ جانچیں۔",
+  "fryerLimitsTitle": "فرائر تیل کی حدیں",
+  "fryerLimitsSummary": "{amber}°C سے اوپر پیلا · {red}°C سے اوپر فیل",
+  "fryerAmberLabel": "پیلی وارننگ اس سے اوپر (°C)",
+  "fryerRedLabel": "اس سے اوپر فیل (°C)",
+  "fryerLimitsInvalid": "پیلا فیل سے کم ہونا چاہیے، دونوں 120 اور 230°C کے درمیان۔"
 }

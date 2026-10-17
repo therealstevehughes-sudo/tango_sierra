@@ -6046,4 +6046,27 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get personalRotaTrainingNotice =>
       'Na własnym telefonie widzisz grafik i szkolenia. Kontrole rób na urządzeniu lokalu.';
+
+  @override
+  String fryerRunningHotWarning(int amber) {
+    return 'Za gorąco: powyżej $amber°C. Zmniejsz termostat i sprawdź ponownie.';
+  }
+
+  @override
+  String get fryerLimitsTitle => 'Limity oleju we frytownicy';
+
+  @override
+  String fryerLimitsSummary(int amber, int red) {
+    return 'Żółty powyżej $amber°C · niezaliczone powyżej $red°C';
+  }
+
+  @override
+  String get fryerAmberLabel => 'Żółte ostrzeżenie powyżej (°C)';
+
+  @override
+  String get fryerRedLabel => 'Niezaliczone powyżej (°C)';
+
+  @override
+  String get fryerLimitsInvalid =>
+      'Żółty musi być niższy niż niezaliczenie, oba między 120 a 230°C.';
 }

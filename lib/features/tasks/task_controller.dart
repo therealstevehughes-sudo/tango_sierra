@@ -93,12 +93,18 @@ class TaskController {
   // loading. The person isn't told why.
   double spotCheckRate = 0.2;
 
+  // Fryer oil (2026-10-17): the venue's own amber/red lines, set by the
+  // screen from the site before loading. Null = library default (185°C).
+  ({double amber, double red})? fryerLimits;
+
   // Seeded from (scheduleId, today's date), not a fresh Random() every
   // call -- staff can't predict which day is a spot-check day (the seed
   // is opaque without recomputing this exact hash), but re-opening the
   // task list five times in the same day always gives the same answer
   // instead of re-rolling and creating a photo requirement that
   // flickers on and off mid-shift.
+  static const _fryerOilTitle = 'Oil temperature';
+
   bool _isRandomPhotoCheckToday(int scheduleId) {
     final now = DateTime.now();
     final seed = Object.hash(scheduleId, now.year, now.month, now.day);
@@ -189,7 +195,12 @@ class TaskController {
           isRandomPhotoCheck: isRandomPhotoCheck,
           requiresNotes: template.requiresNotes,
           minLimit: template.minLimit,
-          maxLimit: template.maxLimit,
+          maxLimit: template.title == _fryerOilTitle && fryerLimits != null
+              ? fryerLimits!.red
+              : template.maxLimit,
+          amberAbove: template.title == _fryerOilTitle
+              ? (fryerLimits?.amber ?? 180)
+              : null,
           unit: template.unit,
           isCritical: template.isCritical,
           requiresCorrectiveActionOnFail:

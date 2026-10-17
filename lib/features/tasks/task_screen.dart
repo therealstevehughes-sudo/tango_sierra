@@ -232,6 +232,13 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
           final rate = (rows.first as Map<String, dynamic>)['rate'];
           if (rate is num) controller.spotCheckRate = rate.toDouble();
         } catch (_) {}
+        final site = ref.read(currentUserSiteProvider).value;
+        if (site != null) {
+          controller.fryerLimits = (
+            amber: site.fryerAmberC.toDouble(),
+            red: site.fryerRedC.toDouble(),
+          );
+        }
         await controller.loadTasks();
       }
 
@@ -1141,6 +1148,23 @@ class _TaskScreenState extends ConsumerState<TaskScreen> {
                               label: _derivedResultFromNumber == "PASS"
                                   ? l10n.withinRangePass
                                   : l10n.outsideRangeFail,
+                            ),
+                          ),
+                        // Fryer oil (2026-10-17): amber zone — still a
+                        // pass, but running hot.
+                        if (task.amberAbove != null &&
+                            _numberInTemplateUnit != null &&
+                            _numberInTemplateUnit! > task.amberAbove! &&
+                            _derivedResultFromNumber == "PASS")
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: AppBanner(
+                              kind: BannerKind.caution,
+                              child: Text(
+                                l10n.fryerRunningHotWarning(
+                                  task.amberAbove!.round(),
+                                ),
+                              ),
                             ),
                           ),
                         if (task.hasChoice)

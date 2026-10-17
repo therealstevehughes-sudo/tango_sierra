@@ -217,5 +217,7 @@ class SupabaseSiteRepository implements SiteRepository {
     clockLongitude: (row['clock_longitude'] as num?)?.toDouble(),
     clockRadiusM: row['clock_radius_m'] as int? ?? 150,
     clockNetworkSet: row['clock_network_ip'] != null,
+    fryerAmberC: row['fryer_amber_c'] as int? ?? 180,
+    fryerRedC: row['fryer_red_c'] as int? ?? 185,
   );
 }

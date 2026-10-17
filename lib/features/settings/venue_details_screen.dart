@@ -20,6 +20,7 @@ import 'clock_location_settings.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
 import '../../l10n/app_localizations.dart';
+import '../../shared/providers/backend_providers.dart' show backendRestClientProvider;
 
 class VenueDetailsScreen extends ConsumerStatefulWidget {
   const VenueDetailsScreen({super.key});
@@ -338,6 +339,65 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
     await _loadData();
   }
 
+  Future<void> _editFryerLimits(Site site) async {
+    final l10n = AppLocalizations.of(context)!;
+    final amber = TextEditingController(text: '${site.fryerAmberC}');
+    final red = TextEditingController(text: '${site.fryerRedC}');
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(l10n.fryerLimitsTitle),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: amber,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: l10n.fryerAmberLabel),
+            ),
+            TextField(
+              controller: red,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: l10n.fryerRedLabel),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text(l10n.saveButton),
+          ),
+        ],
+      ),
+    );
+    if (ok != true || !mounted) return;
+    final a = int.tryParse(amber.text.trim());
+    final r = int.tryParse(red.text.trim());
+    if (a == null || r == null || a >= r || a < 120 || r > 230) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.fryerLimitsInvalid)),
+      );
+      return;
+    }
+    try {
+      await ref.read(backendRestClientProvider).rpcVoid('set_fryer_limits', {
+        'p_site_id': site.id,
+        'p_amber': a,
+        'p_red': r,
+      });
+      await _loadData();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(friendlyErrorMessage(l10n, e))),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -390,6 +450,30 @@ class _VenueDetailsScreenState extends ConsumerState<VenueDetailsScreen> {
                         MaterialPageRoute(builder: (_) => const BillingScreen()),
                       ),
                     ),
+                  ),
+                // Fryer oil limits (2026-10-17) for the active venue.
+                if (backendDataEnabled &&
+                    sites.any((x) => x.id == effectiveActiveId))
+                  Builder(
+                    builder: (context) {
+                      final site = sites.firstWhere(
+                        (x) => x.id == effectiveActiveId,
+                      );
+                      return Card(
+                        child: ListTile(
+                          leading: const Icon(Icons.local_fire_department_outlined),
+                          title: Text(l10n.fryerLimitsTitle),
+                          subtitle: Text(
+                            l10n.fryerLimitsSummary(
+                              site.fryerAmberC,
+                              site.fryerRedC,
+                            ),
+                          ),
+                          trailing: const Icon(Icons.edit),
+                          onTap: () => _editFryerLimits(site),
+                        ),
+                      );
+                    },
                   ),
                 const SizedBox(height: 12),
                 SectionHeader(title: l10n.venuesSectionTitle),

@@ -5883,4 +5883,27 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get personalRotaTrainingNotice =>
       'على هاتفك الشخصي يمكنك رؤية جدولك وتدريبك. قم بالفحوصات على جهاز المنشأة.';
+
+  @override
+  String fryerRunningHotWarning(int amber) {
+    return 'حرارة مرتفعة: فوق $amber°م. اخفض منظم الحرارة وأعد الفحص.';
+  }
+
+  @override
+  String get fryerLimitsTitle => 'حدود زيت القلاية';
+
+  @override
+  String fryerLimitsSummary(int amber, int red) {
+    return 'تحذير فوق $amber°م · فشل فوق $red°م';
+  }
+
+  @override
+  String get fryerAmberLabel => 'تحذير فوق (°م)';
+
+  @override
+  String get fryerRedLabel => 'فشل فوق (°م)';
+
+  @override
+  String get fryerLimitsInvalid =>
+      'يجب أن يكون التحذير أقل من الفشل، وكلاهما بين 120 و230°م.';
 }

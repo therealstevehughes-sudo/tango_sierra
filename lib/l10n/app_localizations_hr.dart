@@ -5950,4 +5950,27 @@ class AppLocalizationsHr extends AppLocalizations {
   @override
   String get personalRotaTrainingNotice =>
       'Na svom mobitelu vidiš raspored i obuku. Provjere radi na uređaju objekta.';
+
+  @override
+  String fryerRunningHotWarning(int amber) {
+    return 'Prevruće: iznad $amber°C. Smanji termostat i ponovno provjeri.';
+  }
+
+  @override
+  String get fryerLimitsTitle => 'Granice ulja za friteze';
+
+  @override
+  String fryerLimitsSummary(int amber, int red) {
+    return 'Žuto iznad $amber°C · pad iznad $red°C';
+  }
+
+  @override
+  String get fryerAmberLabel => 'Žuto upozorenje iznad (°C)';
+
+  @override
+  String get fryerRedLabel => 'Pad iznad (°C)';
+
+  @override
+  String get fryerLimitsInvalid =>
+      'Žuto mora biti niže od pada, oboje između 120 i 230°C.';
 }

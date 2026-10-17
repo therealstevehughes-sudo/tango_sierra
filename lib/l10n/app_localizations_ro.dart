@@ -6042,4 +6042,27 @@ class AppLocalizationsRo extends AppLocalizations {
   @override
   String get personalRotaTrainingNotice =>
       'Pe telefonul tău vezi programul și instruirea. Verificările le faci pe dispozitivul locației.';
+
+  @override
+  String fryerRunningHotWarning(int amber) {
+    return 'Prea fierbinte: peste $amber°C. Coboară termostatul și verifică din nou.';
+  }
+
+  @override
+  String get fryerLimitsTitle => 'Limite ulei friteuză';
+
+  @override
+  String fryerLimitsSummary(int amber, int red) {
+    return 'Galben peste $amber°C · eșec peste $red°C';
+  }
+
+  @override
+  String get fryerAmberLabel => 'Avertizare galbenă peste (°C)';
+
+  @override
+  String get fryerRedLabel => 'Eșec peste (°C)';
+
+  @override
+  String get fryerLimitsInvalid =>
+      'Galbenul trebuie să fie sub eșec, ambele între 120 și 230°C.';
 }

@@ -3439,3 +3439,11 @@ Apply / Apply to Multiple moved under the preset name; names no longer wrap a wo
 - `legal/CLIENT_AGREEMENT_DRAFT.md` + `legal/DATA_PROCESSING_AGREEMENT_DRAFT.md`: client agreement (client responsible for its staff's actions + indemnity, 12-month-fees cap with the UCTA carve-outs, AI and integrity-flag disclaimers, band pricing/yearly/Direct Debit, 30-day export then deletion) and Article 28 DPA (processing details incl. the monitoring features, sub-processor list, transfers, 48h breach notice, security annex). Both marked **for solicitor review**, with **[Solicitor]** notes on the risky points.
 - Note for the solicitor: the existing Terms of Service (section 5) says faked records are "not something VenuRite can detect" — out of date now that integrity flags exist; reword when the terms are reviewed.
 - `research_notes/equipment_library_plan_2026-10.md`: equipment library plan (server catalogue + search, one-tap model packs, AI drafts for unlisted models with manager approval) — **awaiting your OK before building**.
+
+## Fryer oil thresholds built (2026-10-17, founder-approved)
+
+- Oil temperature: **amber above 180°C** (still a pass, with "Running hot: turn the thermostat down and re-check"), **fail above 185°C** (was: fail above 180°C).
+- Each venue can change both: Venue settings → **Fryer oil limits** (managers; amber must be below fail, 120–230°C).
+- Guide and quiz updated to match (quiz bank now 1,070 questions; checks re-run clean). Changing the guide text means staff are asked to re-read it once.
+- Tom (Greekos Gyros): no company of that name exists on the server yet, so a **free-for-life owner code** was created for him: `VR-Y5JH-QGR9` (enter at sign-up).
+- Founder decision: **web app only** for now (no Play/App Store). The Android APK stays downloadable as-is.

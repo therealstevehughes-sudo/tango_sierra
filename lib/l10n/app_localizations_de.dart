@@ -6104,4 +6104,27 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get personalRotaTrainingNotice =>
       'Auf dem eigenen Handy siehst du Dienstplan und Schulung. Prüfungen bitte am Gerät des Betriebs.';
+
+  @override
+  String fryerRunningHotWarning(int amber) {
+    return 'Zu heiß: über $amber°C. Thermostat herunterdrehen und erneut prüfen.';
+  }
+
+  @override
+  String get fryerLimitsTitle => 'Grenzwerte Frittieröl';
+
+  @override
+  String fryerLimitsSummary(int amber, int red) {
+    return 'Gelb über $amber°C · nicht bestanden über $red°C';
+  }
+
+  @override
+  String get fryerAmberLabel => 'Gelbe Warnung über (°C)';
+
+  @override
+  String get fryerRedLabel => 'Nicht bestanden über (°C)';
+
+  @override
+  String get fryerLimitsInvalid =>
+      'Gelb muss unter dem Fehlwert liegen, beide zwischen 120 und 230°C.';
 }
