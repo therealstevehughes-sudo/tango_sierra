@@ -17,12 +17,14 @@ class ModalVisibilityObserver extends NavigatorObserver {
 
   void _trackPush(Route<dynamic> route) {
     if (route is PopupRoute) openModalCount.value++;
+    AssistantFab.atScrollEnd.value = false;
   }
 
   void _trackPop(Route<dynamic> route) {
     if (route is PopupRoute && openModalCount.value > 0) {
       openModalCount.value--;
     }
+    AssistantFab.atScrollEnd.value = false;
   }
 
   @override
@@ -47,6 +49,12 @@ class ModalVisibilityObserver extends NavigatorObserver {
 class AssistantFab extends ConsumerWidget {
   const AssistantFab({super.key});
 
+  /// True while the current page is scrolled to (near) its end. The button
+  /// then slides away so it can't sit on a page's last button — SUBMIT,
+  /// "Log something that just happened", ... (2026-10-17 founder report).
+  /// Set by [AppChrome] from every page's scroll notifications.
+  static final ValueNotifier<bool> atScrollEnd = ValueNotifier(false);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
@@ -59,22 +67,38 @@ class AssistantFab extends ConsumerWidget {
         return Positioned(
           right: 16,
           bottom: 16 + MediaQuery.of(context).padding.bottom,
-          child: FloatingActionButton(
-            heroTag: 'assistantFab',
-            // rootNavigatorKey, not Navigator.of(context) — this widget is
-            // painted as a SIBLING of the Navigator (MaterialApp.builder's
-            // `child` is the already-built Navigator subtree; this FAB
-            // sits next to it in the returned Stack, not inside it), so
-            // there is no Navigator ancestor reachable from this context
-            // at all. Found via a real bug report: the button rendered
-            // and was tappable, but tapping it did nothing — the push
-            // silently failed because Navigator.of() had no Navigator to
-            // find. Same fix ManagementDrawer already uses for the exact
-            // same reason (see navigator_key.dart's own doc comment).
-            onPressed: () => rootNavigatorKey.currentState!.push(
-              MaterialPageRoute(builder: (_) => const HelpScreen()),
+          child: ValueListenableBuilder<bool>(
+            valueListenable: atScrollEnd,
+            builder: (context, hidden, fab) => IgnorePointer(
+              ignoring: hidden,
+              child: AnimatedSlide(
+                offset: hidden ? const Offset(0, 1.6) : Offset.zero,
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeOut,
+                child: AnimatedOpacity(
+                  opacity: hidden ? 0 : 1,
+                  duration: const Duration(milliseconds: 200),
+                  child: fab,
+                ),
+              ),
             ),
-            child: const Icon(Icons.auto_awesome),
+            child: FloatingActionButton(
+              heroTag: 'assistantFab',
+              // rootNavigatorKey, not Navigator.of(context) — this widget is
+              // painted as a SIBLING of the Navigator (MaterialApp.builder's
+              // `child` is the already-built Navigator subtree; this FAB
+              // sits next to it in the returned Stack, not inside it), so
+              // there is no Navigator ancestor reachable from this context
+              // at all. Found via a real bug report: the button rendered
+              // and was tappable, but tapping it did nothing — the push
+              // silently failed because Navigator.of() had no Navigator to
+              // find. Same fix ManagementDrawer already uses for the exact
+              // same reason (see navigator_key.dart's own doc comment).
+              onPressed: () => rootNavigatorKey.currentState!.push(
+                MaterialPageRoute(builder: (_) => const HelpScreen()),
+              ),
+              child: const Icon(Icons.auto_awesome),
+            ),
           ),
         );
       },
@@ -111,35 +135,54 @@ class AppChrome extends ConsumerWidget {
     // padding (not viewPadding): drops to 0 while the keyboard is open, so
     // forms don't get a dead strip between the keyboard and content.
     final systemBottom = mq.padding.bottom;
-    return ColoredBox(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: Stack(
-        children: [
-          ValueListenableBuilder<int>(
-            valueListenable: ModalVisibilityObserver.openModalCount,
-            builder: (context, openModals, _) {
-              final reserve = loggedIn && openModals == 0
-                  ? assistantFabReserve
-                  : 0.0;
-              return Padding(
-                padding: EdgeInsets.only(bottom: systemBottom),
-                child: MediaQuery(
-                  data: mq.copyWith(
-                    padding: mq.padding.copyWith(bottom: reserve),
-                    viewPadding: mq.viewPadding.copyWith(bottom: reserve),
-                    viewInsets: mq.viewInsets.copyWith(
-                      bottom: (mq.viewInsets.bottom - systemBottom)
-                          .clamp(0, double.infinity),
+    return NotificationListener<ScrollMetricsNotification>(
+      onNotification: (n) => _track(n.metrics, n.depth),
+      child: NotificationListener<ScrollUpdateNotification>(
+        onNotification: (n) => _track(n.metrics, n.depth),
+        child: ColoredBox(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Stack(
+            children: [
+              ValueListenableBuilder<int>(
+                valueListenable: ModalVisibilityObserver.openModalCount,
+                builder: (context, openModals, _) {
+                  final reserve = loggedIn && openModals == 0
+                      ? assistantFabReserve
+                      : 0.0;
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: systemBottom),
+                    child: MediaQuery(
+                      data: mq.copyWith(
+                        padding: mq.padding.copyWith(bottom: reserve),
+                        viewPadding: mq.viewPadding.copyWith(bottom: reserve),
+                        viewInsets: mq.viewInsets.copyWith(
+                          bottom: (mq.viewInsets.bottom - systemBottom).clamp(
+                            0,
+                            double.infinity,
+                          ),
+                        ),
+                      ),
+                      child: child ?? const SizedBox.shrink(),
                     ),
-                  ),
-                  child: child ?? const SizedBox.shrink(),
-                ),
-              );
-            },
+                  );
+                },
+              ),
+              const AssistantFab(),
+            ],
           ),
-          const AssistantFab(),
-        ],
+        ),
       ),
     );
+  }
+
+  /// Many scroll views set their own padding and so ignore the space
+  /// reserved above, letting their last button end up under the AI button.
+  /// Rather than patch ~90 screens, the button steps aside whenever a
+  /// page's outermost vertical scroll view is at its end.
+  static bool _track(ScrollMetrics m, int depth) {
+    if (depth != 0 || m.axis != Axis.vertical) return false;
+    AssistantFab.atScrollEnd.value =
+        m.maxScrollExtent > 0 && m.extentAfter < assistantFabReserve + 24;
+    return false;
   }
 }

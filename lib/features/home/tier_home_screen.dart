@@ -209,7 +209,10 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                             BrandHeader(
                               branding: branding,
                               siteName: site?.name,
-                              showAppMark: false,
+                              // In the card (2026-10-17): pinned to the
+                              // screen corner it sat on top of the card
+                              // and stayed put while the page scrolled.
+                              showAppMark: true,
                             ),
                             if (showBranchStatus) ...[
                               const SizedBox(height: 16),
@@ -314,7 +317,6 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
               ),
             ),
           ),
-          const Positioned(top: 16, left: 16, child: VenuRiteMark()),
         ],
       ),
     );
@@ -426,7 +428,7 @@ class _SupervisorTiles extends ConsumerWidget {
           icon: teamToday.icon,
           label: teamToday.label,
           subtitle: teamToday.subtitle,
-          primary: true,
+          primary: false,
           onTap: () => _push(context, teamToday.screen),
         ),
         HomeTile(

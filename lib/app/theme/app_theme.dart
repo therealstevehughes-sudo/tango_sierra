@@ -91,8 +91,8 @@ class AppTheme {
           disabledBackgroundColor: AppColors.lineStrong,
           disabledForegroundColor: AppColors.muted,
           textStyle: textTheme.labelLarge,
-          minimumSize: const Size(72, 64),
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          minimumSize: const Size(64, 52),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           // Guided Cards: 16px (was 8px), matching the mockup's primary
           // action button radius.
           shape: RoundedRectangleBorder(
@@ -116,8 +116,8 @@ class AppTheme {
           disabledBackgroundColor: AppColors.lineStrong,
           disabledForegroundColor: AppColors.muted,
           textStyle: textTheme.labelLarge,
-          minimumSize: const Size(72, 64),
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          minimumSize: const Size(64, 52),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
@@ -129,8 +129,8 @@ class AppTheme {
           foregroundColor: accent,
           disabledForegroundColor: AppColors.muted,
           textStyle: textTheme.labelLarge,
-          minimumSize: const Size(72, 64),
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          minimumSize: const Size(64, 52),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           side: BorderSide(color: accent, width: 1.5),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),

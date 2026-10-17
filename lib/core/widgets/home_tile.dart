@@ -30,76 +30,108 @@ class HomeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Lighter design (2026-10-17 founder feedback: "quite bulky") — compact
+    // padding, the icon in a small soft chip, medium-weight labels and a
+    // soft shadow in place of a heavy outline.
     final fg = primary ? AppColors.onTeal : AppColors.ink;
-    return Material(
-      color: primary ? AppColors.teal : AppColors.card,
-      borderRadius: BorderRadius.circular(20),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(20),
-        onTap: onTap,
-        child: Container(
-          constraints: BoxConstraints(minHeight: tall ? 140 : 112),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: primary ? null : Border.all(color: AppColors.line),
+    final radius = BorderRadius.circular(16);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: radius,
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x14000000),
+            blurRadius: 10,
+            offset: Offset(0, 2),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Icon(icon, size: 28, color: primary ? fg : AppColors.teal),
-                  const Spacer(),
-                  if (badge != null)
+        ],
+      ),
+      child: Material(
+        color: primary ? AppColors.teal : AppColors.card,
+        borderRadius: radius,
+        child: InkWell(
+          borderRadius: radius,
+          onTap: onTap,
+          child: Container(
+            constraints: BoxConstraints(minHeight: tall ? 104 : 88),
+            padding: const EdgeInsets.fromLTRB(14, 12, 12, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 3,
-                      ),
+                      width: 34,
+                      height: 34,
                       decoration: BoxDecoration(
                         color: primary
-                            ? AppColors.card
-                            : badgeAlert
-                            ? AppColors.cautionBg
+                            ? const Color(0x26FFFFFF)
                             : AppColors.tealTint,
-                        borderRadius: BorderRadius.circular(999),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Text(
-                        badge!,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: primary
-                              ? AppColors.tealInk
-                              : badgeAlert
-                              ? AppColors.caution
-                              : AppColors.tealInk,
-                        ),
+                      child: Icon(
+                        icon,
+                        size: 19,
+                        color: primary ? fg : AppColors.teal,
                       ),
                     ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: tall ? 22 : 18,
-                  fontWeight: FontWeight.w700,
-                  color: fg,
+                    const Spacer(),
+                    if (badge != null)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: primary
+                              ? AppColors.card
+                              : badgeAlert
+                              ? AppColors.cautionBg
+                              : AppColors.tealTint,
+                          borderRadius: BorderRadius.circular(999),
+                        ),
+                        child: Text(
+                          badge!,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: primary
+                                ? AppColors.tealInk
+                                : badgeAlert
+                                ? AppColors.caution
+                                : AppColors.tealInk,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-              ),
-              if (subtitle != null)
+                const SizedBox(height: 10),
                 Text(
-                  subtitle!,
+                  label,
                   style: TextStyle(
-                    fontSize: 13,
-                    color: primary ? AppColors.tealTint : AppColors.muted,
+                    fontSize: tall ? 17 : 15,
+                    height: 1.2,
+                    fontWeight: FontWeight.w600,
+                    color: fg,
                   ),
                 ),
-            ],
+                if (subtitle != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 13,
+                      height: 1.25,
+                      color: primary ? AppColors.tealTint : AppColors.muted,
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
         ),
       ),
@@ -120,7 +152,7 @@ class HomeTileGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final rows = <Widget>[
-      for (final w in wide) ...[w, const SizedBox(height: 12)],
+      for (final w in wide) ...[w, const SizedBox(height: 10)],
     ];
     for (var i = 0; i < children.length; i += 2) {
       rows.add(
@@ -129,7 +161,7 @@ class HomeTileGrid extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(child: children[i]),
-              const SizedBox(width: 12),
+              const SizedBox(width: 10),
               Expanded(
                 child: i + 1 < children.length
                     ? children[i + 1]
@@ -139,7 +171,7 @@ class HomeTileGrid extends StatelessWidget {
           ),
         ),
       );
-      rows.add(const SizedBox(height: 12));
+      rows.add(const SizedBox(height: 10));
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

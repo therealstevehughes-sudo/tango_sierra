@@ -3365,3 +3365,11 @@ Founder: the website's "images" should show the actual app, not guesses. Replace
 ## Training quizzes + rota tiers — approved, queued (2026-10-17)
 
 Founder decisions: **O** green tick = read guide + pass a 3-question quiz (all correct, random from 5–6, shuffled, server-marked, retry after re-reading); critical tasks also need manager sign-off. **P** refreshers: 3 months critical / 6 months others, venue can change. **Q** managers: no quizzes on routine tasks, guides still visible, formal certificates in Training records. **R** Claude drafts all ~1,000 questions and must double-check its own work (founder: "it must be done"). When a venue adds/edits a task or guide, VenuRite's AI redrafts that task's questions for manager approval. Untrained staff are nudged, not blocked. **N** approved: per-person "books shifts" switch (staff + supervisors on by default, managers off) and staff-per-tier counts per shift (e.g. Sat night: 1 supervisor + 4 staff), calendar warns when short, auto-assign fills supervisor shifts first.
+
+## AI button no longer covers buttons; lighter tiles and buttons (2026-10-17)
+
+Founder report (screenshots of the website): the AI button sat on top of SUBMIT and "Log something that just happened", and the home tiles/buttons looked bulky.
+- **Overlap, fixed app-wide:** many scrolling screens set their own padding and so ignored the space reserved for the AI button. Rather than patch ~90 screens, the button now slides away whenever a page is scrolled to its end, and comes back on scroll up or on the next page (`AppChrome` listens to every page's outermost vertical scroll view). Pages that don't scroll keep the existing reserved space. Verified at 390×844 and 390×640.
+- **Lighter design:** home tiles are smaller (88px, was 112), the icon sits in a small soft chip, medium-weight labels, soft shadow instead of an outline; only one solid teal tile per screen (supervisor "Team today" is now a light tile). All main buttons app-wide are 52px tall (was 64) — still above the 48px touch minimum.
+- Supervisor/manager home: the VenuRite logo was pinned to the screen corner, overlapping the card and not scrolling with it — now inside the card like the staff home.
+- Website check and team screenshots retaken from the new build.
