@@ -5355,4 +5355,124 @@ class AppLocalizationsAr extends AppLocalizations {
   String billingAccessRemovedText(String name) {
     return 'لم يعد بإمكان $name رؤية الفوترة.';
   }
+
+  @override
+  String get menuSectionToday => 'اليوم';
+
+  @override
+  String get menuSectionTeam => 'الفريق';
+
+  @override
+  String get menuSectionVenue => 'المكان';
+
+  @override
+  String get menuSectionReports => 'التقارير';
+
+  @override
+  String get menuSectionCompany => 'الشركة';
+
+  @override
+  String get menuHomeSubtitle => 'ما يحتاجك الآن';
+
+  @override
+  String get menuMyShifts => 'ورديّاتي';
+
+  @override
+  String get menuMyShiftsSubtitle => 'حجز الورديات وأيام الإجازة';
+
+  @override
+  String get menuAddEquipment => 'إضافة معدات';
+
+  @override
+  String get menuTeamToday => 'الفريق اليوم';
+
+  @override
+  String get menuTeamTodaySubtitle => 'تسجيل الحضور، المتأخر، الفحوصات';
+
+  @override
+  String get menuTodayAcrossTeam => 'اليوم عبر الفريق';
+
+  @override
+  String get menuPeople => 'الأشخاص';
+
+  @override
+  String get menuPeopleSubtitle => 'الموظفون، الإضافة، الأقسام، الهيكل';
+
+  @override
+  String get menuClockIns => 'تسجيلات الحضور';
+
+  @override
+  String get menuClockInsSubtitle => 'السجل، فحوصات الصور والموقع';
+
+  @override
+  String get menuRota => 'جدول المناوبات';
+
+  @override
+  String get menuRotaSubtitle => 'الورديات، الموظفون لكل مستوى، أيام الإجازة';
+
+  @override
+  String get menuTasks => 'المهام';
+
+  @override
+  String get menuTasksSubtitle => 'التعيين، الترتيب، المجموعات';
+
+  @override
+  String get menuEquipmentAreas => 'المعدات والمناطق';
+
+  @override
+  String get menuSuppliersContractors => 'الموردون والمقاولون';
+
+  @override
+  String get menuAlerts => 'التنبيهات والتصعيد';
+
+  @override
+  String get menuVenueSettings => 'إعدادات المكان';
+
+  @override
+  String get menuVenueSettingsSubtitle => 'الأجهزة، التحقق من الموقع، الصور';
+
+  @override
+  String get menuTrends => 'الاتجاهات';
+
+  @override
+  String get menuTrendsSubtitle => 'كيف سار الأسبوع والشهر';
+
+  @override
+  String get menuTasksIncidentsOverTime => 'المهام والحوادث عبر الزمن';
+
+  @override
+  String get menuCompareBranches => 'مقارنة الفروع';
+
+  @override
+  String get menuReliabilityTeam => 'الموثوقية والفريق';
+
+  @override
+  String get menuAuditExport => 'تصدير التدقيق';
+
+  @override
+  String get menuCompanyStructure => 'هيكل الشركة';
+
+  @override
+  String get menuCompanyStructureSubtitle => 'المؤسسة، المناطق، الفروع';
+
+  @override
+  String get menuBillingSubtitle => 'الخطة، المدفوعات، من يمكنه رؤيتها';
+
+  @override
+  String get menuFindScreen => 'ابحث عن شاشة…';
+
+  @override
+  String get menuNoMatches => 'لا توجد شاشات مطابقة';
+
+  @override
+  String get menuMore => 'المزيد';
+
+  @override
+  String get menuReportProblem => 'الإبلاغ عن مشكلة';
+
+  @override
+  String get menuTeamTrainingSubtitle => 'من تم تدريبه';
+
+  @override
+  String get menuMoreTitle => 'المزيد';
 }

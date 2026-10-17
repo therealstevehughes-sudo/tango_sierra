@@ -21,7 +21,9 @@ import '../../shared/providers/auth_providers.dart';
 import '../../shared/providers/branding_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/task_submission_providers.dart' show appDatabaseProvider;
+import '../manager/backup_dialog.dart';
 import '../roster/roster_billing_service.dart';
+import 'two_factor_settings_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../l10n/app_localizations.dart';
 
@@ -71,6 +73,40 @@ class SettingsScreen extends ConsumerWidget {
                   const _LanguageSetting(),
                   const Divider(height: 24),
                   _ComingSoonTile(label: l10n.darkModeLabel),
+                  // Moved here from the side menu (2026-10-17 menu
+                  // redesign) — account security and backups are settings.
+                  if (currentUser != null &&
+                      roleTierRank(currentUser.roleTier) >=
+                          roleTierRank(RoleTier.regional) &&
+                      ref.watch(backendAuthEnabledProvider)) ...[
+                    const Divider(height: 24),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.verified_user_outlined),
+                      title: Text(l10n.twoFactorAuthentication),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const TwoFactorSettingsScreen(),
+                        ),
+                      ),
+                    ),
+                  ],
+                  if (currentUser != null &&
+                      roleTierRank(currentUser.roleTier) >=
+                          roleTierRank(RoleTier.venueManager)) ...[
+                    const Divider(height: 24),
+                    ListTile(
+                      contentPadding: EdgeInsets.zero,
+                      leading: const Icon(Icons.backup_outlined),
+                      title: Text(l10n.backUpNow),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () => showBackupDialog(
+                        context,
+                        ProviderScope.containerOf(context, listen: false),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

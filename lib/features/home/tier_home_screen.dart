@@ -5,6 +5,8 @@ import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/brand_header.dart';
 import '../../core/widgets/management_drawer.dart';
+import '../../core/navigation/app_menu.dart';
+import '../../core/widgets/home_tile.dart';
 import '../../core/widgets/metric_chip.dart';
 import '../../core/widgets/primary_action_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -21,6 +23,10 @@ import '../dashboard/reliability_service.dart';
 import '../dashboard/top_screen.dart';
 import '../issues/report_issue_screen.dart';
 import '../manager/manager_screen.dart';
+import '../problems/problems_register_screen.dart';
+import '../roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
+import '../roster/rota_claim_screen.dart';
+import '../tasks/training/training_screens.dart';
 import '../tasks/overdue_summary_service.dart';
 import '../tasks/task_screen.dart';
 import '../../core/widgets/app_screen_header.dart';
@@ -241,7 +247,7 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                                 roleTierRank(currentUser.roleTier) >=
                                     roleTierRank(RoleTier.venueManager)) ...[
                               PrimaryActionButton(
-                                label: l10n.oversightLabel,
+                                label: l10n.menuTodayAcrossTeam,
                                 icon: Icons.visibility,
                                 onPressed: () => Navigator.push(
                                   context,
@@ -264,33 +270,8 @@ class _TierHomeScreenState extends ConsumerState<TierHomeScreen> {
                                   ),
                                 ),
                               ),
-                            ] else ...[
-                              PrimaryActionButton(
-                                label: l10n.myTasksTitle,
-                                icon: Icons.checklist,
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const TaskScreen(),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                              PrimaryActionButton(
-                                label: l10n.oversightLabel,
-                                icon: Icons.visibility,
-                                onPressed: currentUser == null
-                                    ? null
-                                    : () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) =>
-                                              TierHomeScreen.oversightScreenFor(
-                                                currentUser.roleTier,
-                                              ),
-                                        ),
-                                      ),
-                              ),
+                            ] else if (currentUser != null) ...[
+                              _SupervisorTiles(user: currentUser),
                             ],
                             // Branch-hub build (2026-09-15) — supervisor+ already
                             // has a home hub, so the second "ad-hoc entry" option
@@ -405,6 +386,117 @@ class _BranchStatusCard extends StatelessWidget {
                 ),
               ],
             ),
+    );
+  }
+}
+
+
+/// Supervisor home (2026-10-17 menu redesign): tiles for what a shift
+/// leader does all day, plus "More" for the rest — no hunting in a menu.
+class _SupervisorTiles extends ConsumerWidget {
+  const _SupervisorTiles({required this.user});
+
+  final User user;
+
+  void _push(BuildContext context, WidgetBuilder builder) =>
+      Navigator.push(context, MaterialPageRoute(builder: builder));
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final rotaEnabled = ref
+        .watch(rosterAddonEnabledProvider)
+        .maybeWhen(data: (v) => v, orElse: () => false);
+    final menuContext = MenuContext(
+      tier: user.roleTier,
+      rotaEnabled: rotaEnabled,
+      canSeeBilling: false,
+      onRota: true,
+    );
+    final teamToday = teamTodayEntry(l10n, menuContext);
+    return HomeTileGrid(
+      children: [
+        HomeTile(
+          icon: Icons.checklist,
+          label: l10n.myTasksTitle,
+          primary: true,
+          onTap: () => _push(context, (_) => const TaskScreen()),
+        ),
+        HomeTile(
+          icon: teamToday.icon,
+          label: teamToday.label,
+          subtitle: teamToday.subtitle,
+          primary: true,
+          onTap: () => _push(context, teamToday.screen),
+        ),
+        HomeTile(
+          icon: Icons.report_problem_outlined,
+          label: l10n.problemsAndIssues,
+          onTap: () => _push(context, (_) => const ProblemsRegisterScreen()),
+        ),
+        HomeTile(
+          icon: Icons.groups_outlined,
+          label: l10n.teamTrainingTitle,
+          subtitle: l10n.menuTeamTrainingSubtitle,
+          onTap: () => _push(context, (_) => const TeamTrainingScreen()),
+        ),
+        if (rotaEnabled)
+          HomeTile(
+            icon: Icons.calendar_month_outlined,
+            label: l10n.menuMyShifts,
+            subtitle: l10n.menuMyShiftsSubtitle,
+            onTap: () => _push(context, (_) => const RotaClaimScreen()),
+          ),
+        HomeTile(
+          icon: Icons.more_horiz,
+          label: l10n.menuMore,
+          onTap: () => _showMore(context, l10n, menuContext),
+        ),
+      ],
+    );
+  }
+
+  void _showMore(BuildContext context, AppLocalizations l10n, MenuContext c) {
+    final shown = {
+      l10n.myTasksTitle,
+      l10n.menuTeamToday,
+      l10n.problemsAndIssues,
+      l10n.teamTrainingTitle,
+      l10n.menuMyShifts,
+      l10n.homeLabel,
+    };
+    final rest = supervisorMenu(
+      l10n,
+      c,
+    ).where((e) => !shown.contains(e.label)).toList();
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 4),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  l10n.menuMoreTitle,
+                  style: Theme.of(sheetContext).textTheme.titleMedium,
+                ),
+              ),
+            ),
+            for (final e in rest)
+              ListTile(
+                leading: Icon(e.icon, color: AppColors.teal),
+                title: Text(e.label),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  _push(context, e.screen);
+                },
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

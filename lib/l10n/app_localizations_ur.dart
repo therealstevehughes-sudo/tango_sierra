@@ -5383,4 +5383,124 @@ class AppLocalizationsUr extends AppLocalizations {
   String billingAccessRemovedText(String name) {
     return '$name اب بلنگ نہیں دیکھ سکتے۔';
   }
+
+  @override
+  String get menuSectionToday => 'آج';
+
+  @override
+  String get menuSectionTeam => 'ٹیم';
+
+  @override
+  String get menuSectionVenue => 'مقام';
+
+  @override
+  String get menuSectionReports => 'رپورٹس';
+
+  @override
+  String get menuSectionCompany => 'کمپنی';
+
+  @override
+  String get menuHomeSubtitle => 'ابھی آپ کی ضرورت کہاں ہے';
+
+  @override
+  String get menuMyShifts => 'میری شفٹیں';
+
+  @override
+  String get menuMyShiftsSubtitle => 'شفٹیں اور چھٹیاں بک کریں';
+
+  @override
+  String get menuAddEquipment => 'سامان شامل کریں';
+
+  @override
+  String get menuTeamToday => 'آج کی ٹیم';
+
+  @override
+  String get menuTeamTodaySubtitle => 'کلاک اِن، تاخیر، جانچ';
+
+  @override
+  String get menuTodayAcrossTeam => 'آج پوری ٹیم میں';
+
+  @override
+  String get menuPeople => 'لوگ';
+
+  @override
+  String get menuPeopleSubtitle => 'عملہ، شامل کریں، شعبے، ڈھانچہ';
+
+  @override
+  String get menuClockIns => 'کلاک اِن';
+
+  @override
+  String get menuClockInsSubtitle => 'لاگ، تصویر اور مقام کی جانچ';
+
+  @override
+  String get menuRota => 'روٹا';
+
+  @override
+  String get menuRotaSubtitle => 'شفٹیں، ہر سطح کا عملہ، چھٹیاں';
+
+  @override
+  String get menuTasks => 'کام';
+
+  @override
+  String get menuTasksSubtitle => 'تفویض، ترتیب، بنڈل';
+
+  @override
+  String get menuEquipmentAreas => 'سامان اور جگہیں';
+
+  @override
+  String get menuSuppliersContractors => 'سپلائرز اور ٹھیکیدار';
+
+  @override
+  String get menuAlerts => 'الرٹس اور ایسکلیشن';
+
+  @override
+  String get menuVenueSettings => 'مقام کی ترتیبات';
+
+  @override
+  String get menuVenueSettingsSubtitle => 'ڈیوائسز، مقام کی جانچ، تصاویر';
+
+  @override
+  String get menuTrends => 'رجحانات';
+
+  @override
+  String get menuTrendsSubtitle => 'ہفتہ اور مہینہ کیسا رہا';
+
+  @override
+  String get menuTasksIncidentsOverTime => 'وقت کے ساتھ کام اور واقعات';
+
+  @override
+  String get menuCompareBranches => 'برانچوں کا موازنہ';
+
+  @override
+  String get menuReliabilityTeam => 'اعتبار اور ٹیم';
+
+  @override
+  String get menuAuditExport => 'آڈٹ ایکسپورٹ';
+
+  @override
+  String get menuCompanyStructure => 'کمپنی کا ڈھانچہ';
+
+  @override
+  String get menuCompanyStructureSubtitle => 'تنظیم، علاقے، برانچیں';
+
+  @override
+  String get menuBillingSubtitle => 'پلان، ادائیگیاں، کون دیکھ سکتا ہے';
+
+  @override
+  String get menuFindScreen => 'اسکرین تلاش کریں…';
+
+  @override
+  String get menuNoMatches => 'کوئی اسکرین نہیں ملی';
+
+  @override
+  String get menuMore => 'مزید';
+
+  @override
+  String get menuReportProblem => 'مسئلہ رپورٹ کریں';
+
+  @override
+  String get menuTeamTrainingSubtitle => 'کون تربیت یافتہ ہے';
+
+  @override
+  String get menuMoreTitle => 'مزید';
 }

@@ -5419,4 +5419,125 @@ class AppLocalizationsHr extends AppLocalizations {
   String billingAccessRemovedText(String name) {
     return '$name više ne može vidjeti naplatu.';
   }
+
+  @override
+  String get menuSectionToday => 'Danas';
+
+  @override
+  String get menuSectionTeam => 'Tim';
+
+  @override
+  String get menuSectionVenue => 'Objekt';
+
+  @override
+  String get menuSectionReports => 'Izvješća';
+
+  @override
+  String get menuSectionCompany => 'Tvrtka';
+
+  @override
+  String get menuHomeSubtitle => 'Što te sada treba';
+
+  @override
+  String get menuMyShifts => 'Moje smjene';
+
+  @override
+  String get menuMyShiftsSubtitle => 'Rezerviraj smjene i slobodne dane';
+
+  @override
+  String get menuAddEquipment => 'Dodaj opremu';
+
+  @override
+  String get menuTeamToday => 'Tim danas';
+
+  @override
+  String get menuTeamTodaySubtitle => 'Prijave, zakašnjelo, provjere';
+
+  @override
+  String get menuTodayAcrossTeam => 'Danas u timu';
+
+  @override
+  String get menuPeople => 'Ljudi';
+
+  @override
+  String get menuPeopleSubtitle => 'Osoblje, dodavanje, odjeli, struktura';
+
+  @override
+  String get menuClockIns => 'Prijave';
+
+  @override
+  String get menuClockInsSubtitle => 'Zapis, provjere fotografije i lokacije';
+
+  @override
+  String get menuRota => 'Raspored';
+
+  @override
+  String get menuRotaSubtitle => 'Smjene, osoblje po razini, slobodni dani';
+
+  @override
+  String get menuTasks => 'Zadaci';
+
+  @override
+  String get menuTasksSubtitle => 'Dodjela, redoslijed, paketi';
+
+  @override
+  String get menuEquipmentAreas => 'Oprema i prostori';
+
+  @override
+  String get menuSuppliersContractors => 'Dobavljači i izvođači';
+
+  @override
+  String get menuAlerts => 'Upozorenja i eskalacije';
+
+  @override
+  String get menuVenueSettings => 'Postavke objekta';
+
+  @override
+  String get menuVenueSettingsSubtitle =>
+      'Uređaji, provjera lokacije, fotografije';
+
+  @override
+  String get menuTrends => 'Trendovi';
+
+  @override
+  String get menuTrendsSubtitle => 'Kako su prošli tjedan i mjesec';
+
+  @override
+  String get menuTasksIncidentsOverTime => 'Zadaci i incidenti kroz vrijeme';
+
+  @override
+  String get menuCompareBranches => 'Usporedi objekte';
+
+  @override
+  String get menuReliabilityTeam => 'Pouzdanost i tim';
+
+  @override
+  String get menuAuditExport => 'Izvoz za reviziju';
+
+  @override
+  String get menuCompanyStructure => 'Struktura tvrtke';
+
+  @override
+  String get menuCompanyStructureSubtitle => 'Organizacija, regije, objekti';
+
+  @override
+  String get menuBillingSubtitle => 'Plan, plaćanja, tko vidi';
+
+  @override
+  String get menuFindScreen => 'Pronađi zaslon…';
+
+  @override
+  String get menuNoMatches => 'Nema odgovarajućih zaslona';
+
+  @override
+  String get menuMore => 'Više';
+
+  @override
+  String get menuReportProblem => 'Prijavi problem';
+
+  @override
+  String get menuTeamTrainingSubtitle => 'Tko je obučen';
+
+  @override
+  String get menuMoreTitle => 'Više';
 }

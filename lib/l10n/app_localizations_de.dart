@@ -5569,4 +5569,126 @@ class AppLocalizationsDe extends AppLocalizations {
   String billingAccessRemovedText(String name) {
     return '$name kann die Abrechnung nicht mehr sehen.';
   }
+
+  @override
+  String get menuSectionToday => 'Heute';
+
+  @override
+  String get menuSectionTeam => 'Team';
+
+  @override
+  String get menuSectionVenue => 'Betrieb';
+
+  @override
+  String get menuSectionReports => 'Berichte';
+
+  @override
+  String get menuSectionCompany => 'Unternehmen';
+
+  @override
+  String get menuHomeSubtitle => 'Was jetzt deine Aufmerksamkeit braucht';
+
+  @override
+  String get menuMyShifts => 'Meine Schichten';
+
+  @override
+  String get menuMyShiftsSubtitle => 'Schichten und freie Tage buchen';
+
+  @override
+  String get menuAddEquipment => 'Gerät hinzufügen';
+
+  @override
+  String get menuTeamToday => 'Team heute';
+
+  @override
+  String get menuTeamTodaySubtitle => 'Einstempeln, Überfälliges, Prüfungen';
+
+  @override
+  String get menuTodayAcrossTeam => 'Heute im Team';
+
+  @override
+  String get menuPeople => 'Personen';
+
+  @override
+  String get menuPeopleSubtitle =>
+      'Mitarbeiter, hinzufügen, Abteilungen, Struktur';
+
+  @override
+  String get menuClockIns => 'Einstempelungen';
+
+  @override
+  String get menuClockInsSubtitle => 'Protokoll, Foto- und Standortprüfungen';
+
+  @override
+  String get menuRota => 'Dienstplan';
+
+  @override
+  String get menuRotaSubtitle => 'Schichten, Personal je Stufe, freie Tage';
+
+  @override
+  String get menuTasks => 'Aufgaben';
+
+  @override
+  String get menuTasksSubtitle => 'Zuweisen, ordnen, Pakete';
+
+  @override
+  String get menuEquipmentAreas => 'Geräte & Bereiche';
+
+  @override
+  String get menuSuppliersContractors => 'Lieferanten & Dienstleister';
+
+  @override
+  String get menuAlerts => 'Benachrichtigungen & Eskalationen';
+
+  @override
+  String get menuVenueSettings => 'Betriebseinstellungen';
+
+  @override
+  String get menuVenueSettingsSubtitle => 'Geräte, Standortprüfung, Fotos';
+
+  @override
+  String get menuTrends => 'Entwicklung';
+
+  @override
+  String get menuTrendsSubtitle => 'Wie Woche und Monat gelaufen sind';
+
+  @override
+  String get menuTasksIncidentsOverTime => 'Aufgaben & Vorfälle im Zeitverlauf';
+
+  @override
+  String get menuCompareBranches => 'Standorte vergleichen';
+
+  @override
+  String get menuReliabilityTeam => 'Zuverlässigkeit & Team';
+
+  @override
+  String get menuAuditExport => 'Prüfbericht-Export';
+
+  @override
+  String get menuCompanyStructure => 'Unternehmensstruktur';
+
+  @override
+  String get menuCompanyStructureSubtitle =>
+      'Organisation, Regionen, Standorte';
+
+  @override
+  String get menuBillingSubtitle => 'Tarif, Zahlungen, wer es sehen darf';
+
+  @override
+  String get menuFindScreen => 'Bildschirm suchen…';
+
+  @override
+  String get menuNoMatches => 'Keine passenden Bildschirme';
+
+  @override
+  String get menuMore => 'Mehr';
+
+  @override
+  String get menuReportProblem => 'Problem melden';
+
+  @override
+  String get menuTeamTrainingSubtitle => 'Wer geschult ist';
+
+  @override
+  String get menuMoreTitle => 'Mehr';
 }

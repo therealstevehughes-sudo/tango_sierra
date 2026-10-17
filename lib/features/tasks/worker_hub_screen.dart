@@ -5,7 +5,7 @@ import '../../app/theme/app_colors.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/brand_header.dart';
 import '../../core/localization/language_picker.dart';
-import '../../core/widgets/primary_action_button.dart';
+import '../../core/widgets/home_tile.dart';
 import '../../core/widgets/responsive_content.dart';
 import '../../core/widgets/section_background.dart';
 import '../../core/widgets/user_title.dart';
@@ -21,6 +21,7 @@ import '../roster/rota_claim_screen.dart';
 import 'ad_hoc_task_screen.dart';
 import 'task_screen.dart';
 import 'training/training_screens.dart';
+import '../../shared/providers/training_progress_providers.dart';
 import '../../core/widgets/app_screen_header.dart';
 
 // PART 3 of the branch-hub build (2026-09-15) — a pre-carousel choice
@@ -56,6 +57,14 @@ class WorkerHubScreen extends ConsumerWidget {
     final rosterAddonEnabled = ref
         .watch(rosterAddonEnabledProvider)
         .maybeWhen(data: (enabled) => enabled, orElse: () => false);
+
+    final siteId = currentUser?.siteId;
+    final toRead = currentUser == null || siteId == null
+        ? 0
+        : (ref.watch(siteTrainingProvider(siteId)).value?[currentUser.id] ??
+                  const [])
+              .where((i) => i.needsReading)
+              .length;
 
     return Scaffold(
       appBar: AppScreenHeader(
@@ -150,43 +159,70 @@ class WorkerHubScreen extends ConsumerWidget {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 20),
-                        PrimaryActionButton(
-                          label: l10n.myScheduledTasks,
-                          icon: Icons.checklist,
-                          // Logout bug fix (2026-09-17): this was pushReplacement,
-                          // which destroys WorkerHubScreen's route entirely rather
-                          // than stacking on top of it. WorkerHubScreen IS
-                          // MaterialApp.home for base tier (see app.dart) — the
-                          // one route whose builder reactively re-reads
-                          // currentUserProvider on every rebuild. Replacing it
-                          // meant TaskScreen's logout (`popUntil(isFirst)` then
-                          // nulling currentUserProvider) had nothing reactive left
-                          // to pop back down to: the route AT position 0 was now a
-                          // plain, static `(_) => const TaskScreen()` closure that
-                          // never re-evaluates against currentUser, so the screen
-                          // never navigated to LoginScreen even though the user
-                          // was, internally, already logged out — a real "worker
-                          // trapped" bug. Plain push (matching TierHomeScreen's
-                          // own push to TaskScreen for every non-base tier, which
-                          // never had this bug) keeps WorkerHubScreen alive
-                          // underneath, so popUntil(isFirst) correctly reveals it
-                          // again for the reactive swap to work.
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const TaskScreen(),
+                        // Home tiles (2026-10-17 menu redesign) — one tap
+                        // to each job, no side menu for staff.
+                        HomeTileGrid(
+                          wide: [
+                            HomeTile(
+                              icon: Icons.checklist,
+                              label: l10n.myTasksTitle,
+                              primary: true,
+                              tall: true,
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const TaskScreen(),
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
+                          children: [
+                            HomeTile(
+                              icon: Icons.report_problem_outlined,
+                              label: l10n.menuReportProblem,
+                              onTap: site == null || currentUser == null
+                                  ? () {}
+                                  : () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => ReportIssueScreen(
+                                          siteId: site.id,
+                                          raisedByUserId: currentUser.id,
+                                        ),
+                                      ),
+                                    ),
+                            ),
+                            HomeTile(
+                              icon: Icons.school_outlined,
+                              label: l10n.myTrainingTitle,
+                              badge: toRead > 0
+                                  ? l10n.trainingToReadCount(toRead)
+                                  : null,
+                              badgeAlert: true,
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const MyTrainingScreen(),
+                                ),
+                              ),
+                            ),
+                            if (rosterAddonEnabled && currentUser != null)
+                              HomeTile(
+                                icon: Icons.calendar_month_outlined,
+                                label: l10n.menuMyShifts,
+                                subtitle: l10n.menuMyShiftsSubtitle,
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const RotaClaimScreen(),
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
-                        const SizedBox(height: 12),
-                        // Ad-hoc task path (2026-09-17) — a third fork, distinct
-                        // from "Log something that just happened": that option is
-                        // for PROBLEMS (something wrong), this one is for a TASK
-                        // that needs doing but was never scheduled (an unplanned
-                        // delivery to check, an off-schedule temperature reading).
-                        // Conflating the two would misfile a routine ad-hoc check
-                        // as if it were a problem being reported.
-                        OutlinedButton.icon(
+                        // Less frequent actions stay one tap away, but
+                        // don't compete with the tiles.
+                        TextButton.icon(
                           onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -195,38 +231,7 @@ class WorkerHubScreen extends ConsumerWidget {
                           ),
                           icon: const Icon(Icons.add_task),
                           label: Text(l10n.doAdHocTask),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            minimumSize: const Size.fromHeight(48),
-                            foregroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
-                          ),
                         ),
-                        const SizedBox(height: 12),
-                        OutlinedButton.icon(
-                          onPressed: site == null || currentUser == null
-                              ? null
-                              : () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => ReportIssueScreen(
-                                      siteId: site.id,
-                                      raisedByUserId: currentUser.id,
-                                    ),
-                                  ),
-                                ),
-                          icon: const Icon(Icons.report_problem_outlined),
-                          label: Text(l10n.logSomethingHappened),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            minimumSize: const Size.fromHeight(48),
-                            foregroundColor: Theme.of(
-                              context,
-                            ).colorScheme.primary,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
                         TextButton(
                           onPressed: currentUser == null
                               ? null
@@ -240,18 +245,6 @@ class WorkerHubScreen extends ConsumerWidget {
                                 ),
                           child: Text(l10n.thingsIReported),
                         ),
-                        // Training section (2026-10-15) — base tier has no
-                        // drawer, so its one way into My Training is here.
-                        TextButton.icon(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const MyTrainingScreen(),
-                            ),
-                          ),
-                          icon: const Icon(Icons.school_outlined),
-                          label: Text(l10n.myTrainingTitle),
-                        ),
                       ],
                     ),
                   ),
@@ -261,25 +254,6 @@ class WorkerHubScreen extends ConsumerWidget {
           ),
         ],
       ),
-      // Roster calendar, pulled out of the stacked button column
-      // (2026-10-03, direct founder feedback: it shouldn't sit "right
-      // alongside the tasks and occurrence log buttons") — its own
-      // floating button, bottom-left so it doesn't collide with the
-      // global AI assistant FAB (bottom-right, see AssistantFab). Hidden
-      // entirely (not locked) when the venue hasn't enabled Roster, same
-      // as before.
-      floatingActionButton: rosterAddonEnabled && currentUser != null
-          ? FloatingActionButton.extended(
-              heroTag: 'rotaFab',
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const RotaClaimScreen()),
-              ),
-              icon: const Icon(Icons.calendar_month_outlined),
-              label: Text(l10n.bookShiftsAndDaysOffButton),
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }

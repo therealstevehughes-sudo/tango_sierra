@@ -9433,6 +9433,246 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{name} can no longer see Billing.'**
   String billingAccessRemovedText(String name);
+
+  /// No description provided for @menuSectionToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get menuSectionToday;
+
+  /// No description provided for @menuSectionTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Team'**
+  String get menuSectionTeam;
+
+  /// No description provided for @menuSectionVenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue'**
+  String get menuSectionVenue;
+
+  /// No description provided for @menuSectionReports.
+  ///
+  /// In en, this message translates to:
+  /// **'Reports'**
+  String get menuSectionReports;
+
+  /// No description provided for @menuSectionCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'Company'**
+  String get menuSectionCompany;
+
+  /// No description provided for @menuHomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What needs you now'**
+  String get menuHomeSubtitle;
+
+  /// No description provided for @menuMyShifts.
+  ///
+  /// In en, this message translates to:
+  /// **'My Shifts'**
+  String get menuMyShifts;
+
+  /// No description provided for @menuMyShiftsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Book shifts, days off'**
+  String get menuMyShiftsSubtitle;
+
+  /// No description provided for @menuAddEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add equipment'**
+  String get menuAddEquipment;
+
+  /// No description provided for @menuTeamToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Team today'**
+  String get menuTeamToday;
+
+  /// No description provided for @menuTeamTodaySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clock-ins, overdue, checks'**
+  String get menuTeamTodaySubtitle;
+
+  /// No description provided for @menuTodayAcrossTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Today across the team'**
+  String get menuTodayAcrossTeam;
+
+  /// No description provided for @menuPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get menuPeople;
+
+  /// No description provided for @menuPeopleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff, add, departments, structure'**
+  String get menuPeopleSubtitle;
+
+  /// No description provided for @menuClockIns.
+  ///
+  /// In en, this message translates to:
+  /// **'Clock-ins'**
+  String get menuClockIns;
+
+  /// No description provided for @menuClockInsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log, photo & location checks'**
+  String get menuClockInsSubtitle;
+
+  /// No description provided for @menuRota.
+  ///
+  /// In en, this message translates to:
+  /// **'Rota'**
+  String get menuRota;
+
+  /// No description provided for @menuRotaSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shifts, staff per tier, days off'**
+  String get menuRotaSubtitle;
+
+  /// No description provided for @menuTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get menuTasks;
+
+  /// No description provided for @menuTasksSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign, order, bundles'**
+  String get menuTasksSubtitle;
+
+  /// No description provided for @menuEquipmentAreas.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment & Areas'**
+  String get menuEquipmentAreas;
+
+  /// No description provided for @menuSuppliersContractors.
+  ///
+  /// In en, this message translates to:
+  /// **'Suppliers & Contractors'**
+  String get menuSuppliersContractors;
+
+  /// No description provided for @menuAlerts.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts & escalations'**
+  String get menuAlerts;
+
+  /// No description provided for @menuVenueSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Venue settings'**
+  String get menuVenueSettings;
+
+  /// No description provided for @menuVenueSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices, location check, photos'**
+  String get menuVenueSettingsSubtitle;
+
+  /// No description provided for @menuTrends.
+  ///
+  /// In en, this message translates to:
+  /// **'Trends'**
+  String get menuTrends;
+
+  /// No description provided for @menuTrendsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How the week and month went'**
+  String get menuTrendsSubtitle;
+
+  /// No description provided for @menuTasksIncidentsOverTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks & incidents over time'**
+  String get menuTasksIncidentsOverTime;
+
+  /// No description provided for @menuCompareBranches.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare branches'**
+  String get menuCompareBranches;
+
+  /// No description provided for @menuReliabilityTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Reliability & team'**
+  String get menuReliabilityTeam;
+
+  /// No description provided for @menuAuditExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Audit Export'**
+  String get menuAuditExport;
+
+  /// No description provided for @menuCompanyStructure.
+  ///
+  /// In en, this message translates to:
+  /// **'Company structure'**
+  String get menuCompanyStructure;
+
+  /// No description provided for @menuCompanyStructureSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Organisation, regions, branches'**
+  String get menuCompanyStructureSubtitle;
+
+  /// No description provided for @menuBillingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Plan, payments, who can see it'**
+  String get menuBillingSubtitle;
+
+  /// No description provided for @menuFindScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a screen…'**
+  String get menuFindScreen;
+
+  /// No description provided for @menuNoMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No screens match'**
+  String get menuNoMatches;
+
+  /// No description provided for @menuMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get menuMore;
+
+  /// No description provided for @menuReportProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a problem'**
+  String get menuReportProblem;
+
+  /// No description provided for @menuTeamTrainingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Who\'s trained'**
+  String get menuTeamTrainingSubtitle;
+
+  /// No description provided for @menuMoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get menuMoreTitle;
 }
 
 class _AppLocalizationsDelegate

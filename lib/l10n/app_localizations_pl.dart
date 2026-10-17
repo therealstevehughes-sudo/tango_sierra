@@ -5513,4 +5513,124 @@ class AppLocalizationsPl extends AppLocalizations {
   String billingAccessRemovedText(String name) {
     return '$name nie widzi już rozliczeń.';
   }
+
+  @override
+  String get menuSectionToday => 'Dziś';
+
+  @override
+  String get menuSectionTeam => 'Zespół';
+
+  @override
+  String get menuSectionVenue => 'Lokal';
+
+  @override
+  String get menuSectionReports => 'Raporty';
+
+  @override
+  String get menuSectionCompany => 'Firma';
+
+  @override
+  String get menuHomeSubtitle => 'Co teraz wymaga uwagi';
+
+  @override
+  String get menuMyShifts => 'Moje zmiany';
+
+  @override
+  String get menuMyShiftsSubtitle => 'Rezerwuj zmiany i dni wolne';
+
+  @override
+  String get menuAddEquipment => 'Dodaj sprzęt';
+
+  @override
+  String get menuTeamToday => 'Zespół dziś';
+
+  @override
+  String get menuTeamTodaySubtitle => 'Wejścia, zaległe, kontrole';
+
+  @override
+  String get menuTodayAcrossTeam => 'Dziś w zespole';
+
+  @override
+  String get menuPeople => 'Ludzie';
+
+  @override
+  String get menuPeopleSubtitle => 'Pracownicy, dodawanie, działy, struktura';
+
+  @override
+  String get menuClockIns => 'Wejścia';
+
+  @override
+  String get menuClockInsSubtitle => 'Rejestr, kontrole zdjęć i lokalizacji';
+
+  @override
+  String get menuRota => 'Grafik';
+
+  @override
+  String get menuRotaSubtitle => 'Zmiany, obsada na poziom, dni wolne';
+
+  @override
+  String get menuTasks => 'Zadania';
+
+  @override
+  String get menuTasksSubtitle => 'Przydział, kolejność, pakiety';
+
+  @override
+  String get menuEquipmentAreas => 'Sprzęt i strefy';
+
+  @override
+  String get menuSuppliersContractors => 'Dostawcy i wykonawcy';
+
+  @override
+  String get menuAlerts => 'Alerty i eskalacje';
+
+  @override
+  String get menuVenueSettings => 'Ustawienia lokalu';
+
+  @override
+  String get menuVenueSettingsSubtitle => 'Urządzenia, lokalizacja, zdjęcia';
+
+  @override
+  String get menuTrends => 'Trendy';
+
+  @override
+  String get menuTrendsSubtitle => 'Jak minął tydzień i miesiąc';
+
+  @override
+  String get menuTasksIncidentsOverTime => 'Zadania i zdarzenia w czasie';
+
+  @override
+  String get menuCompareBranches => 'Porównaj lokale';
+
+  @override
+  String get menuReliabilityTeam => 'Rzetelność i zespół';
+
+  @override
+  String get menuAuditExport => 'Eksport audytu';
+
+  @override
+  String get menuCompanyStructure => 'Struktura firmy';
+
+  @override
+  String get menuCompanyStructureSubtitle => 'Organizacja, regiony, lokale';
+
+  @override
+  String get menuBillingSubtitle => 'Plan, płatności, kto widzi';
+
+  @override
+  String get menuFindScreen => 'Znajdź ekran…';
+
+  @override
+  String get menuNoMatches => 'Brak pasujących ekranów';
+
+  @override
+  String get menuMore => 'Więcej';
+
+  @override
+  String get menuReportProblem => 'Zgłoś problem';
+
+  @override
+  String get menuTeamTrainingSubtitle => 'Kto jest przeszkolony';
+
+  @override
+  String get menuMoreTitle => 'Więcej';
 }

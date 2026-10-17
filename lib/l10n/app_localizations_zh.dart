@@ -5197,4 +5197,124 @@ class AppLocalizationsZh extends AppLocalizations {
   String billingAccessRemovedText(String name) {
     return '$name 已无法查看账单。';
   }
+
+  @override
+  String get menuSectionToday => '今天';
+
+  @override
+  String get menuSectionTeam => '团队';
+
+  @override
+  String get menuSectionVenue => '门店';
+
+  @override
+  String get menuSectionReports => '报告';
+
+  @override
+  String get menuSectionCompany => '公司';
+
+  @override
+  String get menuHomeSubtitle => '现在需要你处理的事';
+
+  @override
+  String get menuMyShifts => '我的班次';
+
+  @override
+  String get menuMyShiftsSubtitle => '预订班次和休息日';
+
+  @override
+  String get menuAddEquipment => '添加设备';
+
+  @override
+  String get menuTeamToday => '今日团队';
+
+  @override
+  String get menuTeamTodaySubtitle => '打卡、逾期、检查';
+
+  @override
+  String get menuTodayAcrossTeam => '今日团队概况';
+
+  @override
+  String get menuPeople => '人员';
+
+  @override
+  String get menuPeopleSubtitle => '员工、添加、部门、架构';
+
+  @override
+  String get menuClockIns => '打卡';
+
+  @override
+  String get menuClockInsSubtitle => '记录、照片与位置核验';
+
+  @override
+  String get menuRota => '排班';
+
+  @override
+  String get menuRotaSubtitle => '班次、各级人员、休息日';
+
+  @override
+  String get menuTasks => '任务';
+
+  @override
+  String get menuTasksSubtitle => '分配、排序、任务包';
+
+  @override
+  String get menuEquipmentAreas => '设备与区域';
+
+  @override
+  String get menuSuppliersContractors => '供应商与承包商';
+
+  @override
+  String get menuAlerts => '提醒与升级';
+
+  @override
+  String get menuVenueSettings => '门店设置';
+
+  @override
+  String get menuVenueSettingsSubtitle => '设备、位置核验、照片';
+
+  @override
+  String get menuTrends => '趋势';
+
+  @override
+  String get menuTrendsSubtitle => '本周和本月情况';
+
+  @override
+  String get menuTasksIncidentsOverTime => '任务与事件趋势';
+
+  @override
+  String get menuCompareBranches => '比较门店';
+
+  @override
+  String get menuReliabilityTeam => '可靠性与团队';
+
+  @override
+  String get menuAuditExport => '审核导出';
+
+  @override
+  String get menuCompanyStructure => '公司架构';
+
+  @override
+  String get menuCompanyStructureSubtitle => '组织、区域、门店';
+
+  @override
+  String get menuBillingSubtitle => '方案、付款、可见人员';
+
+  @override
+  String get menuFindScreen => '查找页面…';
+
+  @override
+  String get menuNoMatches => '没有匹配的页面';
+
+  @override
+  String get menuMore => '更多';
+
+  @override
+  String get menuReportProblem => '报告问题';
+
+  @override
+  String get menuTeamTrainingSubtitle => '谁已完成培训';
+
+  @override
+  String get menuMoreTitle => '更多';
 }

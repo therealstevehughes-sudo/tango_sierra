@@ -2237,3 +2237,7 @@ Deployed 2026-10-17: APK, web app and admin tool (`/var/www/admin-venurite/`) re
 ## Billing access rules (2026-10-17)
 
 Applied `tools/billing_access_migration.sql` (users.billing_access, can_view_billing, set_billing_access, my_billing_access, users_guard_billing_access trigger, subscriptions_read_own now uses can_view_billing), `docker restart supabase-rest`.
+
+## Menu redesign deployed (2026-10-17)
+
+App-only change (no backend). Web app + APK rebuilt with `--dart-define=SEED_DEMO_DATA=false` and redeployed.

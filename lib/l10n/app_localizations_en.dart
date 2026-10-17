@@ -5527,4 +5527,124 @@ class AppLocalizationsEn extends AppLocalizations {
   String billingAccessRemovedText(String name) {
     return '$name can no longer see Billing.';
   }
+
+  @override
+  String get menuSectionToday => 'Today';
+
+  @override
+  String get menuSectionTeam => 'Team';
+
+  @override
+  String get menuSectionVenue => 'Venue';
+
+  @override
+  String get menuSectionReports => 'Reports';
+
+  @override
+  String get menuSectionCompany => 'Company';
+
+  @override
+  String get menuHomeSubtitle => 'What needs you now';
+
+  @override
+  String get menuMyShifts => 'My Shifts';
+
+  @override
+  String get menuMyShiftsSubtitle => 'Book shifts, days off';
+
+  @override
+  String get menuAddEquipment => 'Add equipment';
+
+  @override
+  String get menuTeamToday => 'Team today';
+
+  @override
+  String get menuTeamTodaySubtitle => 'Clock-ins, overdue, checks';
+
+  @override
+  String get menuTodayAcrossTeam => 'Today across the team';
+
+  @override
+  String get menuPeople => 'People';
+
+  @override
+  String get menuPeopleSubtitle => 'Staff, add, departments, structure';
+
+  @override
+  String get menuClockIns => 'Clock-ins';
+
+  @override
+  String get menuClockInsSubtitle => 'Log, photo & location checks';
+
+  @override
+  String get menuRota => 'Rota';
+
+  @override
+  String get menuRotaSubtitle => 'Shifts, staff per tier, days off';
+
+  @override
+  String get menuTasks => 'Tasks';
+
+  @override
+  String get menuTasksSubtitle => 'Assign, order, bundles';
+
+  @override
+  String get menuEquipmentAreas => 'Equipment & Areas';
+
+  @override
+  String get menuSuppliersContractors => 'Suppliers & Contractors';
+
+  @override
+  String get menuAlerts => 'Alerts & escalations';
+
+  @override
+  String get menuVenueSettings => 'Venue settings';
+
+  @override
+  String get menuVenueSettingsSubtitle => 'Devices, location check, photos';
+
+  @override
+  String get menuTrends => 'Trends';
+
+  @override
+  String get menuTrendsSubtitle => 'How the week and month went';
+
+  @override
+  String get menuTasksIncidentsOverTime => 'Tasks & incidents over time';
+
+  @override
+  String get menuCompareBranches => 'Compare branches';
+
+  @override
+  String get menuReliabilityTeam => 'Reliability & team';
+
+  @override
+  String get menuAuditExport => 'Audit Export';
+
+  @override
+  String get menuCompanyStructure => 'Company structure';
+
+  @override
+  String get menuCompanyStructureSubtitle => 'Organisation, regions, branches';
+
+  @override
+  String get menuBillingSubtitle => 'Plan, payments, who can see it';
+
+  @override
+  String get menuFindScreen => 'Find a screen…';
+
+  @override
+  String get menuNoMatches => 'No screens match';
+
+  @override
+  String get menuMore => 'More';
+
+  @override
+  String get menuReportProblem => 'Report a problem';
+
+  @override
+  String get menuTeamTrainingSubtitle => 'Who\'s trained';
+
+  @override
+  String get menuMoreTitle => 'More';
 }

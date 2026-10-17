@@ -5507,4 +5507,126 @@ class AppLocalizationsRo extends AppLocalizations {
   String billingAccessRemovedText(String name) {
     return '$name nu mai poate vedea facturarea.';
   }
+
+  @override
+  String get menuSectionToday => 'Azi';
+
+  @override
+  String get menuSectionTeam => 'Echipă';
+
+  @override
+  String get menuSectionVenue => 'Locație';
+
+  @override
+  String get menuSectionReports => 'Rapoarte';
+
+  @override
+  String get menuSectionCompany => 'Companie';
+
+  @override
+  String get menuHomeSubtitle => 'Ce are nevoie de tine acum';
+
+  @override
+  String get menuMyShifts => 'Turele mele';
+
+  @override
+  String get menuMyShiftsSubtitle => 'Rezervă ture și zile libere';
+
+  @override
+  String get menuAddEquipment => 'Adaugă echipament';
+
+  @override
+  String get menuTeamToday => 'Echipa azi';
+
+  @override
+  String get menuTeamTodaySubtitle => 'Pontaje, restanțe, verificări';
+
+  @override
+  String get menuTodayAcrossTeam => 'Azi în echipă';
+
+  @override
+  String get menuPeople => 'Oameni';
+
+  @override
+  String get menuPeopleSubtitle =>
+      'Personal, adăugare, departamente, structură';
+
+  @override
+  String get menuClockIns => 'Pontaje';
+
+  @override
+  String get menuClockInsSubtitle => 'Jurnal, verificări foto și locație';
+
+  @override
+  String get menuRota => 'Program';
+
+  @override
+  String get menuRotaSubtitle => 'Ture, personal pe nivel, zile libere';
+
+  @override
+  String get menuTasks => 'Sarcini';
+
+  @override
+  String get menuTasksSubtitle => 'Atribuire, ordine, pachete';
+
+  @override
+  String get menuEquipmentAreas => 'Echipamente și zone';
+
+  @override
+  String get menuSuppliersContractors => 'Furnizori și contractori';
+
+  @override
+  String get menuAlerts => 'Alerte și escaladări';
+
+  @override
+  String get menuVenueSettings => 'Setări locație';
+
+  @override
+  String get menuVenueSettingsSubtitle =>
+      'Dispozitive, verificare locație, fotografii';
+
+  @override
+  String get menuTrends => 'Tendințe';
+
+  @override
+  String get menuTrendsSubtitle => 'Cum a mers săptămâna și luna';
+
+  @override
+  String get menuTasksIncidentsOverTime => 'Sarcini și incidente în timp';
+
+  @override
+  String get menuCompareBranches => 'Compară locațiile';
+
+  @override
+  String get menuReliabilityTeam => 'Fiabilitate și echipă';
+
+  @override
+  String get menuAuditExport => 'Export audit';
+
+  @override
+  String get menuCompanyStructure => 'Structura companiei';
+
+  @override
+  String get menuCompanyStructureSubtitle => 'Organizație, regiuni, locații';
+
+  @override
+  String get menuBillingSubtitle => 'Plan, plăți, cine poate vedea';
+
+  @override
+  String get menuFindScreen => 'Caută un ecran…';
+
+  @override
+  String get menuNoMatches => 'Niciun ecran potrivit';
+
+  @override
+  String get menuMore => 'Mai mult';
+
+  @override
+  String get menuReportProblem => 'Raportează o problemă';
+
+  @override
+  String get menuTeamTrainingSubtitle => 'Cine e instruit';
+
+  @override
+  String get menuMoreTitle => 'Mai mult';
 }
