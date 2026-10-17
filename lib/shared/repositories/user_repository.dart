@@ -126,6 +126,11 @@ abstract class UserRepository {
   /// organisation's Billing screen (view only). Backend-only — enforced
   /// server-side by set_billing_access().
   Future<void> setBillingAccess({required int userId, required bool granted});
+
+  /// Rota tiers (2026-10-17): a manager puts someone on / takes them off
+  /// the shift rota. Backend-only (the rota is); the server only lets
+  /// venue managers and above change it.
+  Future<void> setBooksShifts({required int userId, required bool booksShifts});
 }
 
 class DriftUserRepository implements UserRepository {
@@ -423,5 +428,12 @@ class DriftUserRepository implements UserRepository {
   Future<void> setBillingAccess({
     required int userId,
     required bool granted,
+  }) async {}
+
+  // The rota doesn't exist in a local-only install.
+  @override
+  Future<void> setBooksShifts({
+    required int userId,
+    required bool booksShifts,
   }) async {}
 }

@@ -1592,5 +1592,17 @@
   "menuTeamTrainingSubtitle": "Tko je obučen",
   "menuMoreTitle": "Više",
   "safeAtLeastLabel": "Sigurno: {value} ili više",
-  "safeAtMostLabel": "Sigurno: {value} ili manje"
+  "safeAtMostLabel": "Sigurno: {value} ili manje",
+  "supervisorsNeededLabel": "Potrebni nadzornici",
+  "staffAnyLevelNeededLabel": "Potrebno osoblje (bilo koja razina)",
+  "supervisorCountLabel": "{count} × nadzornik ili više",
+  "supervisorShiftLabel": "Smjena nadzornika",
+  "supervisorNeededOpenLabel": "Slobodno - potreban nadzornik",
+  "supervisorPlacesOnlyText": "Ostala su samo mjesta za nadzornike",
+  "notOnRotaText": "Nisi na rasporedu smjena pa ovdje ne možeš rezervirati smjene. Pitaj voditelja ako je to pogreška.",
+  "putOnRotaMenuItem": "Dodaj na raspored smjena",
+  "takeOffRotaMenuItem": "Ukloni s rasporeda smjena",
+  "onRotaSetText": "{name} sada rezervira smjene na rasporedu.",
+  "offRotaSetText": "{name} više ne rezervira smjene na rasporedu.",
+  "rotaSupervisorShortHint": "Smjena nadzornika još je slobodna"
 }

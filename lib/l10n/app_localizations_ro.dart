@@ -5639,4 +5639,47 @@ class AppLocalizationsRo extends AppLocalizations {
   String safeAtMostLabel(String value) {
     return 'Sigur: $value sau mai puțin';
   }
+
+  @override
+  String get supervisorsNeededLabel => 'Supervizori necesari';
+
+  @override
+  String get staffAnyLevelNeededLabel => 'Personal necesar (orice nivel)';
+
+  @override
+  String supervisorCountLabel(int count) {
+    return '$count × supervizor sau mai sus';
+  }
+
+  @override
+  String get supervisorShiftLabel => 'Tură de supervizor';
+
+  @override
+  String get supervisorNeededOpenLabel => 'Liber - e nevoie de supervizor';
+
+  @override
+  String get supervisorPlacesOnlyText => 'Au rămas doar locuri de supervizor';
+
+  @override
+  String get notOnRotaText =>
+      'Nu ești în programul de ture, deci nu poți rezerva ture aici. Întreabă-ți managerul dacă e o greșeală.';
+
+  @override
+  String get putOnRotaMenuItem => 'Adaugă în programul de ture';
+
+  @override
+  String get takeOffRotaMenuItem => 'Scoate din programul de ture';
+
+  @override
+  String onRotaSetText(String name) {
+    return '$name rezervă acum ture în program.';
+  }
+
+  @override
+  String offRotaSetText(String name) {
+    return '$name nu mai rezervă ture în program.';
+  }
+
+  @override
+  String get rotaSupervisorShortHint => 'O tură de supervizor este încă liberă';
 }

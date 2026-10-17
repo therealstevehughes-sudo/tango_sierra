@@ -9685,6 +9685,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Safe: {value} or below'**
   String safeAtMostLabel(String value);
+
+  /// No description provided for @supervisorsNeededLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisors needed'**
+  String get supervisorsNeededLabel;
+
+  /// No description provided for @staffAnyLevelNeededLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff needed (any level)'**
+  String get staffAnyLevelNeededLabel;
+
+  /// No description provided for @supervisorCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} × supervisor or above'**
+  String supervisorCountLabel(int count);
+
+  /// No description provided for @supervisorShiftLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Supervisor shift'**
+  String get supervisorShiftLabel;
+
+  /// No description provided for @supervisorNeededOpenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Open - supervisor needed'**
+  String get supervisorNeededOpenLabel;
+
+  /// No description provided for @supervisorPlacesOnlyText.
+  ///
+  /// In en, this message translates to:
+  /// **'Only supervisor places left'**
+  String get supervisorPlacesOnlyText;
+
+  /// No description provided for @notOnRotaText.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re not on the shift rota, so you can\'t book shifts here. Ask your manager if this is wrong.'**
+  String get notOnRotaText;
+
+  /// No description provided for @putOnRotaMenuItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Put on the shift rota'**
+  String get putOnRotaMenuItem;
+
+  /// No description provided for @takeOffRotaMenuItem.
+  ///
+  /// In en, this message translates to:
+  /// **'Take off the shift rota'**
+  String get takeOffRotaMenuItem;
+
+  /// No description provided for @onRotaSetText.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} now books shifts on the rota.'**
+  String onRotaSetText(String name);
+
+  /// No description provided for @offRotaSetText.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} no longer books shifts on the rota.'**
+  String offRotaSetText(String name);
+
+  /// No description provided for @rotaSupervisorShortHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A supervisor shift is still open'**
+  String get rotaSupervisorShortHint;
 }
 
 class _AppLocalizationsDelegate

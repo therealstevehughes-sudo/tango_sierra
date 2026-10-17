@@ -3373,3 +3373,13 @@ Founder report (screenshots of the website): the AI button sat on top of SUBMIT 
 - **Lighter design:** home tiles are smaller (88px, was 112), the icon sits in a small soft chip, medium-weight labels, soft shadow instead of an outline; only one solid teal tile per screen (supervisor "Team today" is now a light tile). All main buttons app-wide are 52px tall (was 64) — still above the 48px touch minimum.
 - Supervisor/manager home: the VenuRite logo was pinned to the screen corner, overlapping the card and not scrolling with it — now inside the card like the staff home.
 - Website check and team screenshots retaken from the new build.
+
+## Rota tiers built (plan N, 2026-10-17)
+
+- **Who books shifts:** new per-person setting. Staff and supervisors are on the rota by default; venue managers and above are off (salaried). Venue managers+ change it from Staff Management ("Put on / Take off the shift rota", shown once the rota add-on is on). The server only lets managers change it. People off the rota don't see "My Shifts", see a notice on the booking screen (they can still request days off), can't book (server-enforced in `claim_shift`), and are skipped by fair auto-assign.
+- **Seniority per master-rota line:** "Add requirement" now has "Supervisors needed" + "Staff needed (any level)", e.g. Sat night: 1 supervisor + 4 staff. Saved as two lines; the supervisor line shows as "1 × supervisor or above".
+- **Generated shifts carry the level** (`shifts.min_tier`). Only a supervisor or above can book or be assigned a supervisor shift (server-enforced in `claim_shift` and `manager_assign_shift`; the Assign list only offers eligible people). Staff see "Only supervisor places left" instead of a Book button. Supervisors get supervisor places first.
+- **Calendar warning:** a day with an open supervisor shift shows a red shield marker, and the open place reads "Open - supervisor needed".
+- **Fair auto-assign** fills supervisor shifts first, so the supervisors aren't used up on ordinary shifts.
+- **Bug fixed along the way:** "Generate this/next week" was meant to only top up missing shifts, but the count it gathered was never used — a second tap doubled every shift. It now only adds the shortfall.
+- Tests: `test/rota_tiers_test.dart` (6). Not yet clicked through on a live account (the rota needs a real backend login with the add-on on).

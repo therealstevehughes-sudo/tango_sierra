@@ -5701,4 +5701,48 @@ class AppLocalizationsDe extends AppLocalizations {
   String safeAtMostLabel(String value) {
     return 'Sicher: $value oder niedriger';
   }
+
+  @override
+  String get supervisorsNeededLabel => 'Benötigte Schichtleiter';
+
+  @override
+  String get staffAnyLevelNeededLabel => 'Benötigtes Personal (jede Stufe)';
+
+  @override
+  String supervisorCountLabel(int count) {
+    return '$count × Schichtleiter oder höher';
+  }
+
+  @override
+  String get supervisorShiftLabel => 'Schichtleiter-Schicht';
+
+  @override
+  String get supervisorNeededOpenLabel => 'Offen - Schichtleiter benötigt';
+
+  @override
+  String get supervisorPlacesOnlyText => 'Nur noch Schichtleiter-Plätze frei';
+
+  @override
+  String get notOnRotaText =>
+      'Du bist nicht im Schichtplan und kannst hier keine Schichten buchen. Frag deine Führungskraft, falls das falsch ist.';
+
+  @override
+  String get putOnRotaMenuItem => 'In den Schichtplan aufnehmen';
+
+  @override
+  String get takeOffRotaMenuItem => 'Aus dem Schichtplan nehmen';
+
+  @override
+  String onRotaSetText(String name) {
+    return '$name bucht jetzt Schichten im Schichtplan.';
+  }
+
+  @override
+  String offRotaSetText(String name) {
+    return '$name bucht keine Schichten mehr im Schichtplan.';
+  }
+
+  @override
+  String get rotaSupervisorShortHint =>
+      'Eine Schichtleiter-Schicht ist noch offen';
 }

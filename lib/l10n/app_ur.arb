@@ -1592,5 +1592,17 @@
   "menuTeamTrainingSubtitle": "کون تربیت یافتہ ہے",
   "menuMoreTitle": "مزید",
   "safeAtLeastLabel": "محفوظ: {value} یا زیادہ",
-  "safeAtMostLabel": "محفوظ: {value} یا کم"
+  "safeAtMostLabel": "محفوظ: {value} یا کم",
+  "supervisorsNeededLabel": "درکار سپروائزر",
+  "staffAnyLevelNeededLabel": "درکار عملہ (کوئی بھی سطح)",
+  "supervisorCountLabel": "{count} × سپروائزر یا اوپر",
+  "supervisorShiftLabel": "سپروائزر شفٹ",
+  "supervisorNeededOpenLabel": "خالی - سپروائزر درکار",
+  "supervisorPlacesOnlyText": "صرف سپروائزر کی جگہیں باقی ہیں",
+  "notOnRotaText": "آپ شفٹ روٹا میں شامل نہیں ہیں، اس لیے یہاں شفٹ بک نہیں کر سکتے۔ اگر یہ غلط ہے تو اپنے مینیجر سے پوچھیں۔",
+  "putOnRotaMenuItem": "شفٹ روٹا میں شامل کریں",
+  "takeOffRotaMenuItem": "شفٹ روٹا سے ہٹائیں",
+  "onRotaSetText": "{name} اب روٹا پر شفٹیں بک کرتے ہیں۔",
+  "offRotaSetText": "{name} اب روٹا پر شفٹیں بک نہیں کرتے۔",
+  "rotaSupervisorShortHint": "ایک سپروائزر شفٹ ابھی خالی ہے"
 }

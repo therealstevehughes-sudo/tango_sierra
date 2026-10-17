@@ -23,6 +23,11 @@ class ShiftRequirement {
   final int dayOfWeek;
   final int requiredCount;
   final int standbyCount;
+  // Rota tiers (2026-10-17): null = any staff, 'supervisor' = supervisor
+  // or above. "Sat night: 1 Supervisor + 4 Staff" is two requirements.
+  final String? minTier;
+
+  bool get needsSupervisor => minTier == 'supervisor';
 
   const ShiftRequirement({
     required this.id,
@@ -33,5 +38,6 @@ class ShiftRequirement {
     required this.dayOfWeek,
     required this.requiredCount,
     required this.standbyCount,
+    this.minTier,
   });
 }

@@ -2249,3 +2249,7 @@ New `/var/www/venurite-site/images/app/{check,guide,team}.webp`; homepage, partn
 ## Layout fixes deployed (2026-10-17)
 
 App-only change (AI button / tiles / button height). Web app + APK rebuilt (`SEED_DEMO_DATA=false`) and md5-verified; website `images/app/check.webp` + `team.webp` replaced.
+
+## Rota tiers (2026-10-17)
+
+Applied `tools/rota_tiers_migration.sql`: `users.books_shifts` (default true; set false for venueManager/regional/executive on first run only), `shift_requirements.min_tier` + `shifts.min_tier` (null or 'supervisor', CHECK constraints), `users_guard_books_shifts` trigger (API writers below venueManager get "only a manager can change who books shifts" — probed in a rolled-back transaction), `claim_shift` + `manager_assign_shift` re-created from the live bodies with the tier gate (claim also refuses people off the rota). `docker restart supabase-rest`. APK + web app redeployed and md5-verified.

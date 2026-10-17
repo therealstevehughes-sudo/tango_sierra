@@ -5327,4 +5327,46 @@ class AppLocalizationsZh extends AppLocalizations {
   String safeAtMostLabel(String value) {
     return '安全：$value 或以下';
   }
+
+  @override
+  String get supervisorsNeededLabel => '所需主管';
+
+  @override
+  String get staffAnyLevelNeededLabel => '所需员工（任何级别）';
+
+  @override
+  String supervisorCountLabel(int count) {
+    return '$count × 主管或以上';
+  }
+
+  @override
+  String get supervisorShiftLabel => '主管班次';
+
+  @override
+  String get supervisorNeededOpenLabel => '空缺 - 需要主管';
+
+  @override
+  String get supervisorPlacesOnlyText => '只剩主管名额';
+
+  @override
+  String get notOnRotaText => '你不在排班名单中，因此无法在此预订班次。如有错误，请询问你的经理。';
+
+  @override
+  String get putOnRotaMenuItem => '加入排班名单';
+
+  @override
+  String get takeOffRotaMenuItem => '移出排班名单';
+
+  @override
+  String onRotaSetText(String name) {
+    return '$name 现在可在排班中预订班次。';
+  }
+
+  @override
+  String offRotaSetText(String name) {
+    return '$name 不再在排班中预订班次。';
+  }
+
+  @override
+  String get rotaSupervisorShortHint => '仍有一个主管班次空缺';
 }

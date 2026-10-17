@@ -5643,4 +5643,48 @@ class AppLocalizationsPl extends AppLocalizations {
   String safeAtMostLabel(String value) {
     return 'Bezpiecznie: $value lub mniej';
   }
+
+  @override
+  String get supervisorsNeededLabel => 'Potrzebni kierownicy zmiany';
+
+  @override
+  String get staffAnyLevelNeededLabel => 'Potrzebny personel (dowolny poziom)';
+
+  @override
+  String supervisorCountLabel(int count) {
+    return '$count × kierownik zmiany lub wyżej';
+  }
+
+  @override
+  String get supervisorShiftLabel => 'Zmiana kierownika';
+
+  @override
+  String get supervisorNeededOpenLabel => 'Wolne - potrzebny kierownik zmiany';
+
+  @override
+  String get supervisorPlacesOnlyText =>
+      'Zostały tylko miejsca dla kierowników';
+
+  @override
+  String get notOnRotaText =>
+      'Nie jesteś w grafiku zmian, więc nie możesz tu rezerwować zmian. Zapytaj przełożonego, jeśli to błąd.';
+
+  @override
+  String get putOnRotaMenuItem => 'Dodaj do grafiku zmian';
+
+  @override
+  String get takeOffRotaMenuItem => 'Usuń z grafiku zmian';
+
+  @override
+  String onRotaSetText(String name) {
+    return '$name rezerwuje teraz zmiany w grafiku.';
+  }
+
+  @override
+  String offRotaSetText(String name) {
+    return '$name nie rezerwuje już zmian w grafiku.';
+  }
+
+  @override
+  String get rotaSupervisorShortHint => 'Zmiana kierownika jest wciąż wolna';
 }

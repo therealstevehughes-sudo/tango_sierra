@@ -150,9 +150,8 @@ class _ManagementDrawerState extends ConsumerState<ManagementDrawer> {
           .watch(rosterAddonEnabledProvider)
           .maybeWhen(data: (v) => v, orElse: () => false),
       canSeeBilling: ref.watch(billingAccessProvider).value?.allowed ?? false,
-      // Until the per-person "on the rota" switch exists, staff and
-      // supervisors book shifts; salaried managers don't.
-      onRota: roleTierRank(tier) <= roleTierRank(RoleTier.supervisor),
+      // Per-person "on the rota" switch, set by the manager (2026-10-17).
+      onRota: user?.booksShifts ?? false,
     );
     final isManager = c.atLeast(RoleTier.venueManager);
     final sections = isManager ? managerMenu(l10n, c) : const <MenuSection>[];

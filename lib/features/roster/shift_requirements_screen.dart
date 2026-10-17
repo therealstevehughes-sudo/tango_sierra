@@ -93,6 +93,9 @@ class _ShiftRequirementsScreenState
     var dayOfWeek = 1;
     var requiredCount = 1;
     var standbyCount = 0;
+    // Rota tiers (2026-10-17): "1 Supervisor + 4 Staff" in one line;
+    // saved as two requirements, the supervisor one marked min_tier.
+    var supervisorCount = 0;
 
     final confirmed = await showDialog<bool>(
       context: context,
@@ -150,10 +153,26 @@ class _ShiftRequirementsScreenState
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    Expanded(child: Text(l10n.staffNeededLabel)),
+                    Expanded(child: Text(l10n.supervisorsNeededLabel)),
                     IconButton(
                       icon: const Icon(Icons.remove_circle_outline),
-                      onPressed: requiredCount > 1
+                      onPressed: supervisorCount > 0
+                          ? () => setDialogState(() => supervisorCount--)
+                          : null,
+                    ),
+                    Text('$supervisorCount'),
+                    IconButton(
+                      icon: const Icon(Icons.add_circle_outline),
+                      onPressed: () => setDialogState(() => supervisorCount++),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(child: Text(l10n.staffAnyLevelNeededLabel)),
+                    IconButton(
+                      icon: const Icon(Icons.remove_circle_outline),
+                      onPressed: requiredCount > 0
                           ? () => setDialogState(() => requiredCount--)
                           : null,
                     ),
@@ -189,7 +208,9 @@ class _ShiftRequirementsScreenState
               child: Text(l10n.cancel),
             ),
             ElevatedButton(
-              onPressed: () => Navigator.pop(context, true),
+              onPressed: supervisorCount + requiredCount + standbyCount == 0
+                  ? null
+                  : () => Navigator.pop(context, true),
               child: Text(l10n.saveButton),
             ),
           ],
@@ -199,18 +220,36 @@ class _ShiftRequirementsScreenState
     );
 
     if (confirmed != true || _siteId == null) return;
-    await ref.read(shiftRequirementRepositoryProvider).create(
-      ShiftRequirement(
-        id: null,
-        siteId: _siteId!,
-        departmentId: department?.id,
-        jobRole: jobRole,
-        periodId: period.id!,
-        dayOfWeek: dayOfWeek,
-        requiredCount: requiredCount,
-        standbyCount: standbyCount,
-      ),
-    );
+    final repo = ref.read(shiftRequirementRepositoryProvider);
+    if (supervisorCount > 0) {
+      await repo.create(
+        ShiftRequirement(
+          id: null,
+          siteId: _siteId!,
+          departmentId: department?.id,
+          jobRole: jobRole,
+          periodId: period.id!,
+          dayOfWeek: dayOfWeek,
+          requiredCount: supervisorCount,
+          standbyCount: 0,
+          minTier: 'supervisor',
+        ),
+      );
+    }
+    if (requiredCount > 0 || standbyCount > 0) {
+      await repo.create(
+        ShiftRequirement(
+          id: null,
+          siteId: _siteId!,
+          departmentId: department?.id,
+          jobRole: jobRole,
+          periodId: period.id!,
+          dayOfWeek: dayOfWeek,
+          requiredCount: requiredCount,
+          standbyCount: standbyCount,
+        ),
+      );
+    }
     await _load();
   }
 
@@ -265,8 +304,11 @@ class _ShiftRequirementsScreenState
     final standby = req.standbyCount > 0
         ? l10n.plusStandbyCountLabel(req.standbyCount)
         : '';
+    final count = req.needsSupervisor
+        ? l10n.supervisorCountLabel(req.requiredCount)
+        : '${req.requiredCount}';
     return '${_weekdayNames[req.dayOfWeek - 1]} ${period?.name ?? '?'} - '
-        '$dept, $role: ${req.requiredCount}$standby';
+        '$dept, $role: $count$standby';
   }
 
   @override

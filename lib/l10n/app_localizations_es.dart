@@ -5644,4 +5644,47 @@ class AppLocalizationsEs extends AppLocalizations {
   String safeAtMostLabel(String value) {
     return 'Seguro: $value o menos';
   }
+
+  @override
+  String get supervisorsNeededLabel => 'Supervisores necesarios';
+
+  @override
+  String get staffAnyLevelNeededLabel => 'Personal necesario (cualquier nivel)';
+
+  @override
+  String supervisorCountLabel(int count) {
+    return '$count × supervisor o superior';
+  }
+
+  @override
+  String get supervisorShiftLabel => 'Turno de supervisor';
+
+  @override
+  String get supervisorNeededOpenLabel => 'Libre - se necesita supervisor';
+
+  @override
+  String get supervisorPlacesOnlyText => 'Solo quedan plazas de supervisor';
+
+  @override
+  String get notOnRotaText =>
+      'No estás en el turnero, así que no puedes reservar turnos aquí. Pregunta a tu responsable si es un error.';
+
+  @override
+  String get putOnRotaMenuItem => 'Añadir al turnero';
+
+  @override
+  String get takeOffRotaMenuItem => 'Quitar del turnero';
+
+  @override
+  String onRotaSetText(String name) {
+    return '$name ahora reserva turnos en el turnero.';
+  }
+
+  @override
+  String offRotaSetText(String name) {
+    return '$name ya no reserva turnos en el turnero.';
+  }
+
+  @override
+  String get rotaSupervisorShortHint => 'Aún hay un turno de supervisor libre';
 }

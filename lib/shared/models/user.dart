@@ -139,6 +139,14 @@ class User {
   // Billing access (2026-10-17) — a Director has let this person see the
   // Billing screen. Display only; the server decides (can_view_billing).
   final bool billingAccess;
+  // Rota tiers (2026-10-17): whether this person books shifts on the rota,
+  // as set by their manager. Null (older rows / local installs) falls back
+  // to the default: staff and supervisors yes, salaried managers no.
+  final bool? booksShiftsSetting;
+
+  bool get booksShifts =>
+      booksShiftsSetting ??
+      roleTierRank(roleTier) <= roleTierRank(RoleTier.supervisor);
 
   const User({
     required this.id,
@@ -161,6 +169,7 @@ class User {
     this.shiftPhotoConsentAt,
     this.shiftPhotoConsentVersion,
     this.billingAccess = false,
+    this.booksShiftsSetting,
   });
 
   // Settings shell (Sprint 031, Build Order item 5, Sub-sprint C) — needed
@@ -196,6 +205,7 @@ class User {
       shiftPhotoConsentVersion:
           shiftPhotoConsentVersion ?? this.shiftPhotoConsentVersion,
       billingAccess: billingAccess,
+      booksShiftsSetting: booksShiftsSetting,
     );
   }
 }

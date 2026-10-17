@@ -5525,4 +5525,47 @@ class AppLocalizationsHi extends AppLocalizations {
   String safeAtMostLabel(String value) {
     return 'सुरक्षित: $value या कम';
   }
+
+  @override
+  String get supervisorsNeededLabel => 'आवश्यक सुपरवाइज़र';
+
+  @override
+  String get staffAnyLevelNeededLabel => 'आवश्यक स्टाफ़ (कोई भी स्तर)';
+
+  @override
+  String supervisorCountLabel(int count) {
+    return '$count × सुपरवाइज़र या ऊपर';
+  }
+
+  @override
+  String get supervisorShiftLabel => 'सुपरवाइज़र शिफ्ट';
+
+  @override
+  String get supervisorNeededOpenLabel => 'खाली - सुपरवाइज़र चाहिए';
+
+  @override
+  String get supervisorPlacesOnlyText => 'केवल सुपरवाइज़र की जगह बची है';
+
+  @override
+  String get notOnRotaText =>
+      'आप शिफ्ट रोटा में नहीं हैं, इसलिए यहाँ शिफ्ट बुक नहीं कर सकते। अगर यह गलत है तो अपने मैनेजर से पूछें।';
+
+  @override
+  String get putOnRotaMenuItem => 'शिफ्ट रोटा में जोड़ें';
+
+  @override
+  String get takeOffRotaMenuItem => 'शिफ्ट रोटा से हटाएँ';
+
+  @override
+  String onRotaSetText(String name) {
+    return '$name अब रोटा पर शिफ्ट बुक करते हैं।';
+  }
+
+  @override
+  String offRotaSetText(String name) {
+    return '$name अब रोटा पर शिफ्ट बुक नहीं करते।';
+  }
+
+  @override
+  String get rotaSupervisorShortHint => 'एक सुपरवाइज़र शिफ्ट अभी खाली है';
 }

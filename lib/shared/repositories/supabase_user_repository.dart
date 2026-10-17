@@ -363,6 +363,7 @@ class SupabaseUserRepository implements UserRepository {
         : DateTime.parse(row['shift_photo_consent_at'] as String),
     shiftPhotoConsentVersion: row['shift_photo_consent_version'] as String?,
     billingAccess: row['billing_access'] as bool? ?? false,
+    booksShiftsSetting: row['books_shifts'] as bool?,
   );
 
   @override
@@ -390,4 +391,14 @@ class SupabaseUserRepository implements UserRepository {
     'p_user_id': userId,
     'p_granted': granted,
   });
+
+  @override
+  Future<void> setBooksShifts({
+    required int userId,
+    required bool booksShifts,
+  }) => _client.update(
+    'users',
+    filter: 'id=eq.$userId',
+    body: {'books_shifts': booksShifts},
+  );
 }

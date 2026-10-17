@@ -95,6 +95,10 @@ List<FairAssignProposal> computeFairAutoAssignProposals({
   }
 
   bool isEligible(User user, Shift shift) {
+    // Rota tiers (2026-10-17): only people on the rota, and supervisor
+    // shifts only to supervisors or above.
+    if (!user.booksShifts) return false;
+    if (!tierCanWorkShift(user.roleTier, shift)) return false;
     if (shift.roleRequired != null &&
         user.jobRole?.name != shift.roleRequired) {
       return false;
@@ -112,7 +116,13 @@ List<FairAssignProposal> computeFairAutoAssignProposals({
   // Hardest-to-fill first: fewest eligible candidates (at the time of
   // sorting — eligibility for other shifts can only shrink as the run
   // goes on, so earliest-counted is also the most accurate order).
+  //
+  // Supervisor shifts go before everything else (2026-10-17), so the few
+  // supervisors aren't used up on ordinary shifts first.
   final shiftsByDifficulty = [...candidateShifts]..sort((a, b) {
+    if (a.needsSupervisor != b.needsSupervisor) {
+      return a.needsSupervisor ? -1 : 1;
+    }
     final countA = candidateStaff.where((u) => isEligible(u, a)).length;
     final countB = candidateStaff.where((u) => isEligible(u, b)).length;
     return countA.compareTo(countB);

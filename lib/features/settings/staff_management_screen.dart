@@ -16,6 +16,7 @@ import '../../shared/providers/department_providers.dart';
 import '../../shared/providers/site_providers.dart';
 import '../../shared/providers/supervision_providers.dart';
 import '../../shared/providers/team_providers.dart';
+import '../roster/roster_billing_service.dart' show rosterAddonEnabledProvider;
 import 'bulk_staff_import_screen.dart';
 import 'training_records_screen.dart';
 import 'widgets/add_staff_dialog.dart';
@@ -38,6 +39,7 @@ enum _StaffAction {
   toggleActive,
   trainingRecords,
   billingAccess,
+  booksShifts,
 }
 
 class StaffManagementScreen extends ConsumerStatefulWidget {
@@ -747,6 +749,33 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
     }
   }
 
+  // Rota tiers (2026-10-17): the Branch Manager chooses who books shifts.
+  Future<void> _toggleBooksShifts(User user) async {
+    final l10n = AppLocalizations.of(context)!;
+    final books = !user.booksShifts;
+    try {
+      await ref
+          .read(userRepositoryProvider)
+          .setBooksShifts(userId: user.id, booksShifts: books);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            books
+                ? l10n.onRotaSetText(user.name)
+                : l10n.offRotaSetText(user.name),
+          ),
+        ),
+      );
+      await _loadData();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(friendlyErrorMessage(l10n, e))));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -919,6 +948,8 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
                 );
               case _StaffAction.billingAccess:
                 _toggleBillingAccess(user);
+              case _StaffAction.booksShifts:
+                _toggleBooksShifts(user);
             }
           },
           itemBuilder: (context) => [
@@ -968,6 +999,22 @@ class _StaffManagementScreenState extends ConsumerState<StaffManagementScreen> {
               value: _StaffAction.trainingRecords,
               child: Text(l10n.trainingRecordsMenuItem),
             ),
+            // Rota tiers (2026-10-17) — venue managers and above, once the
+            // rota add-on is on.
+            if (manager != null &&
+                roleTierRank(manager.roleTier) >=
+                    roleTierRank(RoleTier.venueManager) &&
+                (ref
+                        .watch(rosterAddonEnabledProvider)
+                        .maybeWhen(data: (v) => v, orElse: () => false)))
+              PopupMenuItem(
+                value: _StaffAction.booksShifts,
+                child: Text(
+                  user.booksShifts
+                      ? l10n.takeOffRotaMenuItem
+                      : l10n.putOnRotaMenuItem,
+                ),
+              ),
             // Billing access (2026-10-17) — Directors only, for anyone who
             // isn't already a Director.
             if (user.roleTier != RoleTier.executive &&

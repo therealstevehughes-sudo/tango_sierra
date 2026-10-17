@@ -5485,4 +5485,47 @@ class AppLocalizationsAr extends AppLocalizations {
   String safeAtMostLabel(String value) {
     return 'آمن: $value أو أقل';
   }
+
+  @override
+  String get supervisorsNeededLabel => 'المشرفون المطلوبون';
+
+  @override
+  String get staffAnyLevelNeededLabel => 'الموظفون المطلوبون (أي مستوى)';
+
+  @override
+  String supervisorCountLabel(int count) {
+    return '$count × مشرف أو أعلى';
+  }
+
+  @override
+  String get supervisorShiftLabel => 'وردية مشرف';
+
+  @override
+  String get supervisorNeededOpenLabel => 'شاغرة - مطلوب مشرف';
+
+  @override
+  String get supervisorPlacesOnlyText => 'بقيت أماكن المشرفين فقط';
+
+  @override
+  String get notOnRotaText =>
+      'أنت لست ضمن جدول الورديات، لذا لا يمكنك حجز ورديات هنا. اسأل مديرك إذا كان هذا خطأ.';
+
+  @override
+  String get putOnRotaMenuItem => 'إضافة إلى جدول الورديات';
+
+  @override
+  String get takeOffRotaMenuItem => 'إزالة من جدول الورديات';
+
+  @override
+  String onRotaSetText(String name) {
+    return '$name يحجز الآن ورديات في الجدول.';
+  }
+
+  @override
+  String offRotaSetText(String name) {
+    return '$name لم يعد يحجز ورديات في الجدول.';
+  }
+
+  @override
+  String get rotaSupervisorShortHint => 'لا تزال وردية مشرف شاغرة';
 }

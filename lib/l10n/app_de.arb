@@ -1592,5 +1592,17 @@
   "menuTeamTrainingSubtitle": "Wer geschult ist",
   "menuMoreTitle": "Mehr",
   "safeAtLeastLabel": "Sicher: {value} oder höher",
-  "safeAtMostLabel": "Sicher: {value} oder niedriger"
+  "safeAtMostLabel": "Sicher: {value} oder niedriger",
+  "supervisorsNeededLabel": "Benötigte Schichtleiter",
+  "staffAnyLevelNeededLabel": "Benötigtes Personal (jede Stufe)",
+  "supervisorCountLabel": "{count} × Schichtleiter oder höher",
+  "supervisorShiftLabel": "Schichtleiter-Schicht",
+  "supervisorNeededOpenLabel": "Offen - Schichtleiter benötigt",
+  "supervisorPlacesOnlyText": "Nur noch Schichtleiter-Plätze frei",
+  "notOnRotaText": "Du bist nicht im Schichtplan und kannst hier keine Schichten buchen. Frag deine Führungskraft, falls das falsch ist.",
+  "putOnRotaMenuItem": "In den Schichtplan aufnehmen",
+  "takeOffRotaMenuItem": "Aus dem Schichtplan nehmen",
+  "onRotaSetText": "{name} bucht jetzt Schichten im Schichtplan.",
+  "offRotaSetText": "{name} bucht keine Schichten mehr im Schichtplan.",
+  "rotaSupervisorShortHint": "Eine Schichtleiter-Schicht ist noch offen"
 }

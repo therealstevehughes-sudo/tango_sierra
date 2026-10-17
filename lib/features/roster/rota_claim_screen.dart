@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../core/errors/friendly_error.dart';
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_screen_header.dart';
 import '../../core/widgets/load_error_view.dart';
@@ -379,12 +380,27 @@ class _RotaClaimScreenState extends ConsumerState<RotaClaimScreen> {
         .toSet();
 
     final mine = slotShifts.where((s) => s.claimedByUserId == userId).firstOrNull;
-    final openRegular = regular
-        .where((s) => s.claimedByUserId == null)
-        .firstOrNull;
-    final openStandby = standby
-        .where((s) => s.claimedByUserId == null)
-        .firstOrNull;
+    // Rota tiers (2026-10-17): people off the rota can't book; staff can't
+    // take a supervisor place; supervisors fill supervisor places first.
+    final me = ref.read(currentUserProvider);
+    final canBook = me?.booksShifts ?? false;
+    bool takeable(Shift s) =>
+        canBook &&
+        s.claimedByUserId == null &&
+        me != null &&
+        tierCanWorkShift(me.roleTier, s);
+    final openRegular =
+        (regular.where(takeable).toList()..sort(
+              (a, b) => a.needsSupervisor == b.needsSupervisor
+                  ? 0
+                  : (a.needsSupervisor ? -1 : 1),
+            ))
+            .firstOrNull;
+    final openStandby = standby.where(takeable).firstOrNull;
+    final onlySupervisorPlacesLeft =
+        canBook &&
+        openRegular == null &&
+        regular.any((s) => s.claimedByUserId == null && s.needsSupervisor);
 
     return Card(
       child: Padding(
@@ -436,7 +452,12 @@ class _RotaClaimScreenState extends ConsumerState<RotaClaimScreen> {
                           },
                     child: Text(l10n.joinStandbyButton),
                   )
-                else
+                else if (onlySupervisorPlacesLeft)
+                  Text(
+                    l10n.supervisorPlacesOnlyText,
+                    style: const TextStyle(color: AppColors.mutedLight),
+                  )
+                else if (canBook)
                   Text(
                     l10n.shiftFullText,
                     style: const TextStyle(color: AppColors.mutedLight),
@@ -505,6 +526,16 @@ class _RotaClaimScreenState extends ConsumerState<RotaClaimScreen> {
               child: ResponsiveContent(
                 child: Column(
                   children: [
+                    // Rota tiers (2026-10-17): someone their manager has
+                    // taken off the rota can still request days off.
+                    if (!(ref.watch(currentUserProvider)?.booksShifts ?? true))
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                        child: AppBanner(
+                          kind: BannerKind.info,
+                          child: Text(l10n.notOnRotaText),
+                        ),
+                      ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: SwitchListTile(

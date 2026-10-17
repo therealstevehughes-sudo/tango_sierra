@@ -1592,5 +1592,17 @@
   "menuTeamTrainingSubtitle": "谁已完成培训",
   "menuMoreTitle": "更多",
   "safeAtLeastLabel": "安全：{value} 或以上",
-  "safeAtMostLabel": "安全：{value} 或以下"
+  "safeAtMostLabel": "安全：{value} 或以下",
+  "supervisorsNeededLabel": "所需主管",
+  "staffAnyLevelNeededLabel": "所需员工（任何级别）",
+  "supervisorCountLabel": "{count} × 主管或以上",
+  "supervisorShiftLabel": "主管班次",
+  "supervisorNeededOpenLabel": "空缺 - 需要主管",
+  "supervisorPlacesOnlyText": "只剩主管名额",
+  "notOnRotaText": "你不在排班名单中，因此无法在此预订班次。如有错误，请询问你的经理。",
+  "putOnRotaMenuItem": "加入排班名单",
+  "takeOffRotaMenuItem": "移出排班名单",
+  "onRotaSetText": "{name} 现在可在排班中预订班次。",
+  "offRotaSetText": "{name} 不再在排班中预订班次。",
+  "rotaSupervisorShortHint": "仍有一个主管班次空缺"
 }

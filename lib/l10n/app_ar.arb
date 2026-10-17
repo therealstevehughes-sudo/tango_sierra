@@ -1592,5 +1592,17 @@
   "menuTeamTrainingSubtitle": "من تم تدريبه",
   "menuMoreTitle": "المزيد",
   "safeAtLeastLabel": "آمن: {value} أو أعلى",
-  "safeAtMostLabel": "آمن: {value} أو أقل"
+  "safeAtMostLabel": "آمن: {value} أو أقل",
+  "supervisorsNeededLabel": "المشرفون المطلوبون",
+  "staffAnyLevelNeededLabel": "الموظفون المطلوبون (أي مستوى)",
+  "supervisorCountLabel": "{count} × مشرف أو أعلى",
+  "supervisorShiftLabel": "وردية مشرف",
+  "supervisorNeededOpenLabel": "شاغرة - مطلوب مشرف",
+  "supervisorPlacesOnlyText": "بقيت أماكن المشرفين فقط",
+  "notOnRotaText": "أنت لست ضمن جدول الورديات، لذا لا يمكنك حجز ورديات هنا. اسأل مديرك إذا كان هذا خطأ.",
+  "putOnRotaMenuItem": "إضافة إلى جدول الورديات",
+  "takeOffRotaMenuItem": "إزالة من جدول الورديات",
+  "onRotaSetText": "{name} يحجز الآن ورديات في الجدول.",
+  "offRotaSetText": "{name} لم يعد يحجز ورديات في الجدول.",
+  "rotaSupervisorShortHint": "لا تزال وردية مشرف شاغرة"
 }

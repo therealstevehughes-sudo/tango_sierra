@@ -1592,5 +1592,17 @@
   "menuTeamTrainingSubtitle": "Kto jest przeszkolony",
   "menuMoreTitle": "Więcej",
   "safeAtLeastLabel": "Bezpiecznie: {value} lub więcej",
-  "safeAtMostLabel": "Bezpiecznie: {value} lub mniej"
+  "safeAtMostLabel": "Bezpiecznie: {value} lub mniej",
+  "supervisorsNeededLabel": "Potrzebni kierownicy zmiany",
+  "staffAnyLevelNeededLabel": "Potrzebny personel (dowolny poziom)",
+  "supervisorCountLabel": "{count} × kierownik zmiany lub wyżej",
+  "supervisorShiftLabel": "Zmiana kierownika",
+  "supervisorNeededOpenLabel": "Wolne - potrzebny kierownik zmiany",
+  "supervisorPlacesOnlyText": "Zostały tylko miejsca dla kierowników",
+  "notOnRotaText": "Nie jesteś w grafiku zmian, więc nie możesz tu rezerwować zmian. Zapytaj przełożonego, jeśli to błąd.",
+  "putOnRotaMenuItem": "Dodaj do grafiku zmian",
+  "takeOffRotaMenuItem": "Usuń z grafiku zmian",
+  "onRotaSetText": "{name} rezerwuje teraz zmiany w grafiku.",
+  "offRotaSetText": "{name} nie rezerwuje już zmian w grafiku.",
+  "rotaSupervisorShortHint": "Zmiana kierownika jest wciąż wolna"
 }

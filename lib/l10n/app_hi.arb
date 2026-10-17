@@ -1592,5 +1592,17 @@
   "menuTeamTrainingSubtitle": "कौन प्रशिक्षित है",
   "menuMoreTitle": "और",
   "safeAtLeastLabel": "सुरक्षित: {value} या अधिक",
-  "safeAtMostLabel": "सुरक्षित: {value} या कम"
+  "safeAtMostLabel": "सुरक्षित: {value} या कम",
+  "supervisorsNeededLabel": "आवश्यक सुपरवाइज़र",
+  "staffAnyLevelNeededLabel": "आवश्यक स्टाफ़ (कोई भी स्तर)",
+  "supervisorCountLabel": "{count} × सुपरवाइज़र या ऊपर",
+  "supervisorShiftLabel": "सुपरवाइज़र शिफ्ट",
+  "supervisorNeededOpenLabel": "खाली - सुपरवाइज़र चाहिए",
+  "supervisorPlacesOnlyText": "केवल सुपरवाइज़र की जगह बची है",
+  "notOnRotaText": "आप शिफ्ट रोटा में नहीं हैं, इसलिए यहाँ शिफ्ट बुक नहीं कर सकते। अगर यह गलत है तो अपने मैनेजर से पूछें।",
+  "putOnRotaMenuItem": "शिफ्ट रोटा में जोड़ें",
+  "takeOffRotaMenuItem": "शिफ्ट रोटा से हटाएँ",
+  "onRotaSetText": "{name} अब रोटा पर शिफ्ट बुक करते हैं।",
+  "offRotaSetText": "{name} अब रोटा पर शिफ्ट बुक नहीं करते।",
+  "rotaSupervisorShortHint": "एक सुपरवाइज़र शिफ्ट अभी खाली है"
 }

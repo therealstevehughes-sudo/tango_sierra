@@ -561,10 +561,24 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
                 padding: const EdgeInsets.only(bottom: 4),
                 child: Row(
                   children: [
+                    if (shift.needsSupervisor)
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(end: 6),
+                        child: Tooltip(
+                          message: l10n.supervisorShiftLabel,
+                          child: const Icon(
+                            Icons.shield_outlined,
+                            size: 16,
+                            color: AppColors.teal,
+                          ),
+                        ),
+                      ),
                     Expanded(
                       child: Text(
                         shift.claimedByUserId != null
                             ? _staffName(shift.claimedByUserId)
+                            : shift.needsSupervisor
+                            ? l10n.supervisorNeededOpenLabel
                             : l10n.openStatusLabel,
                         style: TextStyle(
                           color: shift.claimedByUserId == null
@@ -574,14 +588,23 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
                       ),
                     ),
                     if (shift.claimedByUserId == null)
-                      TextButton(
-                        onPressed: _busy || available.isEmpty
+                      Builder(
+                        builder: (context) {
+                          // Rota tiers (2026-10-17): a supervisor place can
+                          // only go to a supervisor or above.
+                          final pool = available
+                              .where((u) => tierCanWorkShift(u.roleTier, shift))
+                              .toList();
+                          return TextButton(
+                        onPressed: _busy || pool.isEmpty
                             ? null
                             : () async {
-                                await _assign(shift, available);
+                                await _assign(shift, pool);
                                 await onChanged();
                               },
                         child: Text(l10n.rotaAssignButton),
+                      );
+                        },
                       )
                     else if (shift.status == ShiftStatus.claimed)
                       TextButton(
@@ -764,6 +787,11 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
     }
     final filled = regular.where((s) => s.claimedByUserId != null).length;
     final full = filled == regular.length;
+    // Rota tiers (2026-10-17): short at the supervisor level gets its own
+    // marker, even when the headcount looks nearly full.
+    final supervisorShort = regular.any(
+      (s) => s.needsSupervisor && s.claimedByUserId == null,
+    );
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -776,6 +804,19 @@ class _RotaMonthScreenState extends ConsumerState<RotaMonthScreen> {
                 right: -10,
                 top: -2,
                 child: RotaStatusDot(color: AppColors.caution, size: 6),
+              ),
+            if (supervisorShort)
+              Positioned(
+                left: -14,
+                top: -4,
+                child: Tooltip(
+                  message: AppLocalizations.of(context)!.rotaSupervisorShortHint,
+                  child: const Icon(
+                    Icons.shield_outlined,
+                    size: 11,
+                    color: AppColors.critical,
+                  ),
+                ),
               ),
           ],
         ),

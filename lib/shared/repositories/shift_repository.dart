@@ -89,6 +89,7 @@ class SupabaseShiftRepository implements ShiftRepository {
     cancelledByUserId: row['cancelled_by_user_id'] as int?,
     cancellationReason: row['cancellation_reason'] as String?,
     isStandby: row['is_standby'] as bool? ?? false,
+    minTier: row['min_tier'] as String?,
   );
 
   @override

@@ -1592,5 +1592,17 @@
   "menuTeamTrainingSubtitle": "Quién está formado",
   "menuMoreTitle": "Más",
   "safeAtLeastLabel": "Seguro: {value} o más",
-  "safeAtMostLabel": "Seguro: {value} o menos"
+  "safeAtMostLabel": "Seguro: {value} o menos",
+  "supervisorsNeededLabel": "Supervisores necesarios",
+  "staffAnyLevelNeededLabel": "Personal necesario (cualquier nivel)",
+  "supervisorCountLabel": "{count} × supervisor o superior",
+  "supervisorShiftLabel": "Turno de supervisor",
+  "supervisorNeededOpenLabel": "Libre - se necesita supervisor",
+  "supervisorPlacesOnlyText": "Solo quedan plazas de supervisor",
+  "notOnRotaText": "No estás en el turnero, así que no puedes reservar turnos aquí. Pregunta a tu responsable si es un error.",
+  "putOnRotaMenuItem": "Añadir al turnero",
+  "takeOffRotaMenuItem": "Quitar del turnero",
+  "onRotaSetText": "{name} ahora reserva turnos en el turnero.",
+  "offRotaSetText": "{name} ya no reserva turnos en el turnero.",
+  "rotaSupervisorShortHint": "Aún hay un turno de supervisor libre"
 }

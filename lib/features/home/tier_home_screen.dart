@@ -413,7 +413,7 @@ class _SupervisorTiles extends ConsumerWidget {
       tier: user.roleTier,
       rotaEnabled: rotaEnabled,
       canSeeBilling: false,
-      onRota: true,
+      onRota: user.booksShifts,
     );
     final teamToday = teamTodayEntry(l10n, menuContext);
     return HomeTileGrid(

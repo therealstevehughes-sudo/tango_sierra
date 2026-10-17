@@ -27,6 +27,7 @@ class SupabaseShiftRequirementRepository implements ShiftRequirementRepository {
       'day_of_week': requirement.dayOfWeek,
       'required_count': requirement.requiredCount,
       'standby_count': requirement.standbyCount,
+      'min_tier': requirement.minTier,
     });
     return _toModel(row);
   }
@@ -72,10 +73,20 @@ class SupabaseShiftRequirementRepository implements ShiftRequirementRepository {
           'site_id=eq.$siteId'
           '&starts_at=gte.${weekStart.toIso8601String()}'
           '&starts_at=lt.${weekEnd.toIso8601String()}'
-          '&select=department_id,role_required,starts_at,is_standby',
+          '&status=neq.cancelled'
+          '&select=department_id,role_required,starts_at,is_standby,min_tier',
     );
-    String slotKey(dynamic departmentId, dynamic roleRequired, DateTime startsAt, bool isStandby) =>
-        '$departmentId|$roleRequired|${startsAt.toIso8601String()}|$isStandby';
+    // Instants compared in UTC: the server returns starts_at in UTC while
+    // the requirement's start is built in local time.
+    String slotKey(
+      dynamic departmentId,
+      dynamic roleRequired,
+      DateTime startsAt,
+      bool isStandby,
+      dynamic minTier,
+    ) =>
+        '$departmentId|$roleRequired|${startsAt.toUtc().toIso8601String()}|'
+        '$isStandby|$minTier';
     final existingCountBySlot = <String, int>{};
     for (final row in existingShifts) {
       final key = slotKey(
@@ -83,6 +94,7 @@ class SupabaseShiftRequirementRepository implements ShiftRequirementRepository {
         row['role_required'],
         DateTime.parse(row['starts_at'] as String),
         row['is_standby'] as bool? ?? false,
+        row['min_tier'],
       );
       existingCountBySlot[key] = (existingCountBySlot[key] ?? 0) + 1;
     }
@@ -114,30 +126,37 @@ class SupabaseShiftRequirementRepository implements ShiftRequirementRepository {
         endsAt = endsAt.add(const Duration(days: 1)); // overnight period
       }
 
-      for (var i = 0; i < req.requiredCount; i++) {
-        await _client.insertOne('shifts', {
-          'site_id': siteId,
-          'department_id': req.departmentId,
-          'role_required': req.jobRole?.name,
-          'starts_at': startsAt.toIso8601String(),
-          'ends_at': endsAt.toIso8601String(),
-          'created_by_user_id': createdByUserId,
-          'is_standby': false,
-        });
-        created++;
+      // Only top up the shortfall (2026-10-17): the counts above were
+      // gathered but never used, so a second "Generate" still doubled
+      // every shift. Each slot's existing count is consumed as it's used,
+      // so two requirements sharing a slot still add up correctly.
+      Future<void> topUp(int wanted, bool isStandby) async {
+        final key = slotKey(
+          req.departmentId,
+          req.jobRole?.name,
+          startsAt,
+          isStandby,
+          req.minTier,
+        );
+        final have = existingCountBySlot[key] ?? 0;
+        existingCountBySlot[key] = have > wanted ? have - wanted : 0;
+        for (var i = have; i < wanted; i++) {
+          await _client.insertOne('shifts', {
+            'site_id': siteId,
+            'department_id': req.departmentId,
+            'role_required': req.jobRole?.name,
+            'starts_at': startsAt.toIso8601String(),
+            'ends_at': endsAt.toIso8601String(),
+            'created_by_user_id': createdByUserId,
+            'is_standby': isStandby,
+            'min_tier': req.minTier,
+          });
+          created++;
+        }
       }
-      for (var i = 0; i < req.standbyCount; i++) {
-        await _client.insertOne('shifts', {
-          'site_id': siteId,
-          'department_id': req.departmentId,
-          'role_required': req.jobRole?.name,
-          'starts_at': startsAt.toIso8601String(),
-          'ends_at': endsAt.toIso8601String(),
-          'created_by_user_id': createdByUserId,
-          'is_standby': true,
-        });
-        created++;
-      }
+
+      await topUp(req.requiredCount, false);
+      await topUp(req.standbyCount, true);
     }
     return created;
   }
@@ -153,5 +172,6 @@ class SupabaseShiftRequirementRepository implements ShiftRequirementRepository {
     dayOfWeek: row['day_of_week'] as int,
     requiredCount: row['required_count'] as int,
     standbyCount: row['standby_count'] as int,
+    minTier: row['min_tier'] as String?,
   );
 }

@@ -1,3 +1,5 @@
+import 'user.dart';
+
 // Roster add-on (2026-09-27) — a manager-posted, staff-claimable shift.
 // Backend-only, no local Drift mirror (see ShiftRepository's own doc
 // comment) — claiming is a race condition that only a single source of
@@ -120,6 +122,11 @@ class Shift {
   // presented (Sprint 4: a separate "standby" list, not mixed in with
   // the regular assigned count).
   final bool isStandby;
+  // Rota tiers (2026-10-17): 'supervisor' = only a supervisor or above can
+  // take it (enforced by claim_shift / manager_assign_shift); null = anyone.
+  final String? minTier;
+
+  bool get needsSupervisor => minTier == 'supervisor';
 
   const Shift({
     required this.id,
@@ -140,5 +147,10 @@ class Shift {
     this.cancelledByUserId,
     this.cancellationReason,
     this.isStandby = false,
+    this.minTier,
   });
 }
+
+/// Whether [tier] may work a shift that [needsSupervisor].
+bool tierCanWorkShift(RoleTier tier, Shift shift) =>
+    !shift.needsSupervisor || tier != RoleTier.base;

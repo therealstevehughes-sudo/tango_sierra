@@ -4932,5 +4932,38 @@
         "type": "String"
       }
     }
-  }
+  },
+  "supervisorsNeededLabel": "Supervisors needed",
+  "staffAnyLevelNeededLabel": "Staff needed (any level)",
+  "supervisorCountLabel": "{count} × supervisor or above",
+  "@supervisorCountLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "supervisorShiftLabel": "Supervisor shift",
+  "supervisorNeededOpenLabel": "Open - supervisor needed",
+  "supervisorPlacesOnlyText": "Only supervisor places left",
+  "notOnRotaText": "You're not on the shift rota, so you can't book shifts here. Ask your manager if this is wrong.",
+  "putOnRotaMenuItem": "Put on the shift rota",
+  "takeOffRotaMenuItem": "Take off the shift rota",
+  "onRotaSetText": "{name} now books shifts on the rota.",
+  "@onRotaSetText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "offRotaSetText": "{name} no longer books shifts on the rota.",
+  "@offRotaSetText": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "rotaSupervisorShortHint": "A supervisor shift is still open"
 }

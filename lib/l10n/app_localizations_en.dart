@@ -5657,4 +5657,47 @@ class AppLocalizationsEn extends AppLocalizations {
   String safeAtMostLabel(String value) {
     return 'Safe: $value or below';
   }
+
+  @override
+  String get supervisorsNeededLabel => 'Supervisors needed';
+
+  @override
+  String get staffAnyLevelNeededLabel => 'Staff needed (any level)';
+
+  @override
+  String supervisorCountLabel(int count) {
+    return '$count × supervisor or above';
+  }
+
+  @override
+  String get supervisorShiftLabel => 'Supervisor shift';
+
+  @override
+  String get supervisorNeededOpenLabel => 'Open - supervisor needed';
+
+  @override
+  String get supervisorPlacesOnlyText => 'Only supervisor places left';
+
+  @override
+  String get notOnRotaText =>
+      'You\'re not on the shift rota, so you can\'t book shifts here. Ask your manager if this is wrong.';
+
+  @override
+  String get putOnRotaMenuItem => 'Put on the shift rota';
+
+  @override
+  String get takeOffRotaMenuItem => 'Take off the shift rota';
+
+  @override
+  String onRotaSetText(String name) {
+    return '$name now books shifts on the rota.';
+  }
+
+  @override
+  String offRotaSetText(String name) {
+    return '$name no longer books shifts on the rota.';
+  }
+
+  @override
+  String get rotaSupervisorShortHint => 'A supervisor shift is still open';
 }

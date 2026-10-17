@@ -5513,4 +5513,47 @@ class AppLocalizationsUr extends AppLocalizations {
   String safeAtMostLabel(String value) {
     return 'محفوظ: $value یا کم';
   }
+
+  @override
+  String get supervisorsNeededLabel => 'درکار سپروائزر';
+
+  @override
+  String get staffAnyLevelNeededLabel => 'درکار عملہ (کوئی بھی سطح)';
+
+  @override
+  String supervisorCountLabel(int count) {
+    return '$count × سپروائزر یا اوپر';
+  }
+
+  @override
+  String get supervisorShiftLabel => 'سپروائزر شفٹ';
+
+  @override
+  String get supervisorNeededOpenLabel => 'خالی - سپروائزر درکار';
+
+  @override
+  String get supervisorPlacesOnlyText => 'صرف سپروائزر کی جگہیں باقی ہیں';
+
+  @override
+  String get notOnRotaText =>
+      'آپ شفٹ روٹا میں شامل نہیں ہیں، اس لیے یہاں شفٹ بک نہیں کر سکتے۔ اگر یہ غلط ہے تو اپنے مینیجر سے پوچھیں۔';
+
+  @override
+  String get putOnRotaMenuItem => 'شفٹ روٹا میں شامل کریں';
+
+  @override
+  String get takeOffRotaMenuItem => 'شفٹ روٹا سے ہٹائیں';
+
+  @override
+  String onRotaSetText(String name) {
+    return '$name اب روٹا پر شفٹیں بک کرتے ہیں۔';
+  }
+
+  @override
+  String offRotaSetText(String name) {
+    return '$name اب روٹا پر شفٹیں بک نہیں کرتے۔';
+  }
+
+  @override
+  String get rotaSupervisorShortHint => 'ایک سپروائزر شفٹ ابھی خالی ہے';
 }

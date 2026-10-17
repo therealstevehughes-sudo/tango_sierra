@@ -5550,4 +5550,47 @@ class AppLocalizationsHr extends AppLocalizations {
   String safeAtMostLabel(String value) {
     return 'Sigurno: $value ili manje';
   }
+
+  @override
+  String get supervisorsNeededLabel => 'Potrebni nadzornici';
+
+  @override
+  String get staffAnyLevelNeededLabel => 'Potrebno osoblje (bilo koja razina)';
+
+  @override
+  String supervisorCountLabel(int count) {
+    return '$count × nadzornik ili više';
+  }
+
+  @override
+  String get supervisorShiftLabel => 'Smjena nadzornika';
+
+  @override
+  String get supervisorNeededOpenLabel => 'Slobodno - potreban nadzornik';
+
+  @override
+  String get supervisorPlacesOnlyText => 'Ostala su samo mjesta za nadzornike';
+
+  @override
+  String get notOnRotaText =>
+      'Nisi na rasporedu smjena pa ovdje ne možeš rezervirati smjene. Pitaj voditelja ako je to pogreška.';
+
+  @override
+  String get putOnRotaMenuItem => 'Dodaj na raspored smjena';
+
+  @override
+  String get takeOffRotaMenuItem => 'Ukloni s rasporeda smjena';
+
+  @override
+  String onRotaSetText(String name) {
+    return '$name sada rezervira smjene na rasporedu.';
+  }
+
+  @override
+  String offRotaSetText(String name) {
+    return '$name više ne rezervira smjene na rasporedu.';
+  }
+
+  @override
+  String get rotaSupervisorShortHint => 'Smjena nadzornika još je slobodna';
 }

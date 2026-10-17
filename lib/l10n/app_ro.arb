@@ -1592,5 +1592,17 @@
   "menuTeamTrainingSubtitle": "Cine e instruit",
   "menuMoreTitle": "Mai mult",
   "safeAtLeastLabel": "Sigur: {value} sau mai mult",
-  "safeAtMostLabel": "Sigur: {value} sau mai puțin"
+  "safeAtMostLabel": "Sigur: {value} sau mai puțin",
+  "supervisorsNeededLabel": "Supervizori necesari",
+  "staffAnyLevelNeededLabel": "Personal necesar (orice nivel)",
+  "supervisorCountLabel": "{count} × supervizor sau mai sus",
+  "supervisorShiftLabel": "Tură de supervizor",
+  "supervisorNeededOpenLabel": "Liber - e nevoie de supervizor",
+  "supervisorPlacesOnlyText": "Au rămas doar locuri de supervizor",
+  "notOnRotaText": "Nu ești în programul de ture, deci nu poți rezerva ture aici. Întreabă-ți managerul dacă e o greșeală.",
+  "putOnRotaMenuItem": "Adaugă în programul de ture",
+  "takeOffRotaMenuItem": "Scoate din programul de ture",
+  "onRotaSetText": "{name} rezervă acum ture în program.",
+  "offRotaSetText": "{name} nu mai rezervă ture în program.",
+  "rotaSupervisorShortHint": "O tură de supervizor este încă liberă"
 }
