@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
 import '../repositories/admin_repository.dart';
 import 'admin_bug_reports_screen.dart';
+import 'admin_discount_codes_screen.dart';
 import 'admin_org_detail_screen.dart';
 import 'admin_service_provider_purchases_screen.dart';
 
@@ -162,6 +163,17 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               MaterialPageRoute(
                 builder: (_) =>
                     AdminServiceProviderPurchasesScreen(repository: widget.repository),
+              ),
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.confirmation_number_outlined),
+            tooltip: 'Discount codes',
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) =>
+                    AdminDiscountCodesScreen(repository: widget.repository),
               ),
             ),
           ),

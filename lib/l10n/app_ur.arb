@@ -583,7 +583,7 @@
   "equipmentSectionLabel": "آلات",
   "subscriptionBannerText": "ایک کمپنی اکاؤنٹ، ایک مجتمع بل - فی وینیو قیمت، کبھی فی شخص نہیں۔",
   "subscriptionIntroText": "آج تمہارے پاس کتنے وینیو ہیں، ہیڈ آفس سمیت اگر ہے تو؟ ابھی تم صرف اپنا پہلا وینیو سیٹ کرو گے - باقی تم ایپ کے اندر سے کبھی بھی شامل کر سکتے ہو۔",
-  "perBranchPriceLabel": "39 پاؤنڈ/وینیو/مہینہ",
+  "perBranchPriceLabel": "£39/برانچ/ماہ سے - برانچ کے سائز کے مطابق",
   "headOfficeIncludedLabel": "+ 1 ہیڈ آفس وینیو (4+ وینیوز)",
   "discountCodeHint": "کیا تمہارے پاس ڈسکاؤنٹ کوڈ ہے؟ تم اسے ڈائریکٹ ڈیبٹ سیٹ کرتے وقت درج کر سکتے ہو۔",
   "trialBannerText": "تم 14 دن کا مفت ٹرائل شروع کر رہے ہو - آج کارڈ کی ضرورت نہیں۔",
@@ -1535,5 +1535,16 @@
   "deletePhotoButton": "تصویر حذف کریں",
   "freqQuarterly": "ہر 3 ماہ",
   "freqSixMonthly": "ہر 6 ماہ",
-  "freqAnnually": "سالانہ"
+  "freqAnnually": "سالانہ",
+  "billingYourPlanTitle": "آپ کا پلان",
+  "billingPerMonth": "{amount}/ماہانہ",
+  "billingHeadOfficeLine": "ہیڈ آفس",
+  "billingDiscountForLife": "{percent}% رعایت (تاحیات)",
+  "billingDiscountUntil": "{date} تک {percent}% رعایت",
+  "billingTotalMonthlyLabel": "ماہانہ کل (VAT کے بغیر)",
+  "billingTotalYearlyLabel": "سالانہ کل (VAT کے بغیر)",
+  "billingBandsExplainer": "ہر برانچ کی قیمت اس پر ہے کہ اس مہینے کتنے عملے نے VenuRite استعمال کیا: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129۔ برانچ تب ہی اوپر جاتی ہے جب مسلسل 2 ماہ حد سے اوپر رہے۔",
+  "billingMonthlyOption": "ماہانہ",
+  "billingYearlyOption": "سالانہ (1 مہینہ مفت)",
+  "billingCodeLabel": "رعایتی یا رسائی کوڈ (اختیاری)"
 }

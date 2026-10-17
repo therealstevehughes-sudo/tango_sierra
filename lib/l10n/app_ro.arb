@@ -583,7 +583,7 @@
   "equipmentSectionLabel": "Echipamente",
   "subscriptionBannerText": "Un cont de companie, o factură consolidată - taxat per local, niciodată per persoană.",
   "subscriptionIntroText": "Câte locații ai astăzi, inclusiv sediul central dacă ai unul? Vei configura acum doar primul tău local - restul le adaugi oricând din aplicație.",
-  "perBranchPriceLabel": "39 GBP/local/lună",
+  "perBranchPriceLabel": "De la £39/locație/lună - în funcție de mărimea locației",
   "headOfficeIncludedLabel": "+ 1 local de sediu central (4+ locații)",
   "discountCodeHint": "Ai un cod de reducere? Îl poți introduce când configurezi Direct Debit.",
   "trialBannerText": "Începi o perioadă de probă gratuită de 14 zile - nu ai nevoie de card azi.",
@@ -1535,5 +1535,16 @@
   "deletePhotoButton": "Șterge fotografia",
   "freqQuarterly": "La fiecare 3 luni",
   "freqSixMonthly": "La fiecare 6 luni",
-  "freqAnnually": "Anual"
+  "freqAnnually": "Anual",
+  "billingYourPlanTitle": "Planul tău",
+  "billingPerMonth": "{amount}/lună",
+  "billingHeadOfficeLine": "Sediul central",
+  "billingDiscountForLife": "Reducere {percent}% (pe viață)",
+  "billingDiscountUntil": "Reducere {percent}% până la {date}",
+  "billingTotalMonthlyLabel": "Total pe lună (fără TVA)",
+  "billingTotalYearlyLabel": "Total pe an (fără TVA)",
+  "billingBandsExplainer": "Fiecare locație este taxată după câți angajați au folosit VenuRite în luna respectivă: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129. O locație urcă de categorie doar după 2 luni la rând peste limită.",
+  "billingMonthlyOption": "Lunar",
+  "billingYearlyOption": "Anual (1 lună gratuită)",
+  "billingCodeLabel": "Cod de reducere sau acces (opțional)"
 }

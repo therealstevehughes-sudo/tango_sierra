@@ -2029,7 +2029,8 @@ class AppLocalizationsHr extends AppLocalizations {
       'Koliko poslovnica danas imaš, uključujući sjedište ako ga imaš? Sada ćeš postaviti samo svoju prvu poslovnicu - ostatak dodaješ kad god želiš unutar aplikacije.';
 
   @override
-  String get perBranchPriceLabel => '39 GBP/poslovnici/mjesečno';
+  String get perBranchPriceLabel =>
+      'Od £39/objekt/mjesečno - prema veličini objekta';
 
   @override
   String get headOfficeIncludedLabel =>
@@ -5362,4 +5363,44 @@ class AppLocalizationsHr extends AppLocalizations {
 
   @override
   String get freqAnnually => 'Godišnje';
+
+  @override
+  String get billingYourPlanTitle => 'Vaš plan';
+
+  @override
+  String billingPerMonth(String amount) {
+    return '$amount/mjesečno';
+  }
+
+  @override
+  String get billingHeadOfficeLine => 'Sjedište';
+
+  @override
+  String billingDiscountForLife(int percent) {
+    return '$percent% popusta (doživotno)';
+  }
+
+  @override
+  String billingDiscountUntil(int percent, String date) {
+    return '$percent% popusta do $date';
+  }
+
+  @override
+  String get billingTotalMonthlyLabel => 'Ukupno mjesečno (bez PDV-a)';
+
+  @override
+  String get billingTotalYearlyLabel => 'Ukupno godišnje (bez PDV-a)';
+
+  @override
+  String get billingBandsExplainer =>
+      'Svaki objekt naplaćuje se prema broju zaposlenika koji su taj mjesec koristili VenuRite: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129. Objekt prelazi u viši razred tek nakon 2 uzastopna mjeseca iznad granice.';
+
+  @override
+  String get billingMonthlyOption => 'Mjesečno';
+
+  @override
+  String get billingYearlyOption => 'Godišnje (1 mjesec besplatno)';
+
+  @override
+  String get billingCodeLabel => 'Kod za popust ili pristup (neobavezno)';
 }

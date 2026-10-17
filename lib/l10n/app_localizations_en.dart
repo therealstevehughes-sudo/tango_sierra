@@ -2005,7 +2005,8 @@ class AppLocalizationsEn extends AppLocalizations {
       'How many branches do you have today, including head office if you have one? You\'ll only set up your first venue now - add the rest any time from inside the app.';
 
   @override
-  String get perBranchPriceLabel => '£39/branch/month';
+  String get perBranchPriceLabel =>
+      'From £39/branch/month - priced by branch size';
 
   @override
   String get headOfficeIncludedLabel => '+ 1 head office branch (4+ branches)';
@@ -5470,4 +5471,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get freqAnnually => 'Yearly';
+
+  @override
+  String get billingYourPlanTitle => 'Your plan';
+
+  @override
+  String billingPerMonth(String amount) {
+    return '$amount/month';
+  }
+
+  @override
+  String get billingHeadOfficeLine => 'Head office';
+
+  @override
+  String billingDiscountForLife(int percent) {
+    return '$percent% discount (for life)';
+  }
+
+  @override
+  String billingDiscountUntil(int percent, String date) {
+    return '$percent% discount until $date';
+  }
+
+  @override
+  String get billingTotalMonthlyLabel => 'Total per month (ex VAT)';
+
+  @override
+  String get billingTotalYearlyLabel => 'Total per year (ex VAT)';
+
+  @override
+  String get billingBandsExplainer =>
+      'Each branch is priced by how many staff used VenuRite that month: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129. A branch only moves up after 2 months in a row over its limit.';
+
+  @override
+  String get billingMonthlyOption => 'Monthly';
+
+  @override
+  String get billingYearlyOption => 'Yearly (1 month free)';
+
+  @override
+  String get billingCodeLabel => 'Discount or access code (optional)';
 }

@@ -2009,7 +2009,7 @@ class AppLocalizationsUr extends AppLocalizations {
       'آج تمہارے پاس کتنے وینیو ہیں، ہیڈ آفس سمیت اگر ہے تو؟ ابھی تم صرف اپنا پہلا وینیو سیٹ کرو گے - باقی تم ایپ کے اندر سے کبھی بھی شامل کر سکتے ہو۔';
 
   @override
-  String get perBranchPriceLabel => '39 پاؤنڈ/وینیو/مہینہ';
+  String get perBranchPriceLabel => '£39/برانچ/ماہ سے - برانچ کے سائز کے مطابق';
 
   @override
   String get headOfficeIncludedLabel => '+ 1 ہیڈ آفس وینیو (4+ وینیوز)';
@@ -5327,4 +5327,44 @@ class AppLocalizationsUr extends AppLocalizations {
 
   @override
   String get freqAnnually => 'سالانہ';
+
+  @override
+  String get billingYourPlanTitle => 'آپ کا پلان';
+
+  @override
+  String billingPerMonth(String amount) {
+    return '$amount/ماہانہ';
+  }
+
+  @override
+  String get billingHeadOfficeLine => 'ہیڈ آفس';
+
+  @override
+  String billingDiscountForLife(int percent) {
+    return '$percent% رعایت (تاحیات)';
+  }
+
+  @override
+  String billingDiscountUntil(int percent, String date) {
+    return '$date تک $percent% رعایت';
+  }
+
+  @override
+  String get billingTotalMonthlyLabel => 'ماہانہ کل (VAT کے بغیر)';
+
+  @override
+  String get billingTotalYearlyLabel => 'سالانہ کل (VAT کے بغیر)';
+
+  @override
+  String get billingBandsExplainer =>
+      'ہر برانچ کی قیمت اس پر ہے کہ اس مہینے کتنے عملے نے VenuRite استعمال کیا: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129۔ برانچ تب ہی اوپر جاتی ہے جب مسلسل 2 ماہ حد سے اوپر رہے۔';
+
+  @override
+  String get billingMonthlyOption => 'ماہانہ';
+
+  @override
+  String get billingYearlyOption => 'سالانہ (1 مہینہ مفت)';
+
+  @override
+  String get billingCodeLabel => 'رعایتی یا رسائی کوڈ (اختیاری)';
 }

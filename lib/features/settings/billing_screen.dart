@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
+import '../../shared/models/billing_pricing.dart';
 import '../../shared/models/subscription.dart';
 import '../../shared/providers/subscription_providers.dart';
 import '../../shared/repositories/subscription_repository.dart';
@@ -32,52 +34,13 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
   String? _error;
   String? _discountNote;
 
-  // Free-access code (2026-09-25, direct user request) — separate from
-  // the Direct Debit discount code above: this one grants full access
-  // with no mandate at all, for testing. See Subscription
-  // .freeAccessGranted's own doc comment.
-  final _freeAccessCodeController = TextEditingController();
-  bool _redeemingFreeAccess = false;
-  String? _freeAccessError;
+  bool _yearly = false;
+  Future<BillingQuote?>? _quoteFuture;
 
   @override
   void dispose() {
     _discountCodeController.dispose();
-    _freeAccessCodeController.dispose();
     super.dispose();
-  }
-
-  Future<void> _redeemFreeAccessCode(int organisationId) async {
-    final code = _freeAccessCodeController.text.trim();
-    if (code.isEmpty) return;
-    setState(() {
-      _redeemingFreeAccess = true;
-      _freeAccessError = null;
-    });
-    try {
-      final granted = await ref
-          .read(subscriptionRepositoryProvider)
-          .redeemFreeAccessCode(organisationId, code);
-      if (!mounted) return;
-      if (granted) {
-        _freeAccessCodeController.clear();
-        // The subscription provider watches this org's row — invalidate
-        // so the screen re-fetches and shows the granted state without
-        // needing a manual pull-to-refresh.
-        ref.invalidate(currentSubscriptionProvider);
-      } else {
-        setState(
-          () => _freeAccessError = AppLocalizations.of(context)!.codeNotRecognisedText,
-        );
-      }
-    } catch (_) {
-      if (!mounted) return;
-      setState(
-        () => _freeAccessError = AppLocalizations.of(context)!.couldNotReachServerText,
-      );
-    } finally {
-      if (mounted) setState(() => _redeemingFreeAccess = false);
-    }
   }
 
   Future<void> _startDirectDebitSetup() async {
@@ -90,7 +53,10 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
       final code = _discountCodeController.text.trim();
       final result = await ref
           .read(subscriptionRepositoryProvider)
-          .startDirectDebitSetup(discountCode: code.isEmpty ? null : code);
+          .startDirectDebitSetup(
+            discountCode: code.isEmpty ? null : code,
+            yearly: _yearly,
+          );
       if (result.discountError != null && mounted) {
         setState(() => _discountNote = result.discountError);
       } else if (result.discountApplied && mounted) {
@@ -98,8 +64,13 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
           () => _discountNote = AppLocalizations.of(context)!.discountAppliedText,
         );
       }
+      // Free-for-life code: nothing to pay, no Direct Debit page.
+      if (result.freeAccess || result.redirectUrl == null) {
+        ref.invalidate(currentSubscriptionProvider);
+        return;
+      }
       final launched = await launchUrl(
-        Uri.parse(result.redirectUrl),
+        Uri.parse(result.redirectUrl!),
         mode: LaunchMode.externalApplication,
       );
       if (!launched && mounted) {
@@ -144,13 +115,15 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
                     child: Text(l10n.noSubscriptionFoundText),
                   );
                 }
+                _quoteFuture ??= ref
+                    .read(subscriptionRepositoryProvider)
+                    .getQuote();
                 return ListView(
                   children: [
                     _buildStatusCard(subscription),
                     const SizedBox(height: 16),
-                    _buildDirectDebitCard(subscription),
-                    const SizedBox(height: 16),
-                    _buildFreeAccessCard(subscription),
+                    if (!subscription.freeAccessGranted)
+                      _buildDirectDebitCard(subscription),
                   ],
                 );
               },
@@ -163,57 +136,90 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
 
   Widget _buildStatusCard(Subscription subscription) {
     final l10n = AppLocalizations.of(context)!;
-    final pricePence = totalMonthlyPricePence(
-      subscription.billedSiteCount,
-      foundingOffer: subscription.foundingOffer,
-    );
-    final branches = subscription.billedSiteCount;
-    final priceLabel = l10n.pricePerMonthBilledLabel(
-      (pricePence / 100).toStringAsFixed(2),
-      branches,
-    );
     final state = effectiveBillingState(subscription);
+    final muted = Theme.of(context).textTheme.bodySmall?.copyWith(
+      color: AppColors.muted,
+    );
 
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                planDisplayName(subscription.planName, l10n),
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              if (subscription.foundingOffer) ...[
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 3,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.tealTint,
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    l10n.discountAppliedBadge,
-                    style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: AppColors.tealInk,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ],
-            ],
+          Text(
+            l10n.billingYourPlanTitle,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-          const SizedBox(height: 4),
-          Text(priceLabel, style: Theme.of(context).textTheme.bodyMedium),
+          const SizedBox(height: 8),
+          if (subscription.freeAccessGranted)
+            Text(l10n.freeAccessActiveText)
+          else
+            FutureBuilder<BillingQuote?>(
+              future: _quoteFuture,
+              builder: (context, snap) {
+                if (snap.connectionState != ConnectionState.done) {
+                  return const LinearProgressIndicator();
+                }
+                final quote = snap.data;
+                if (quote == null) return Text(l10n.couldNotReachServerText);
+                final discount = subscription.discountPercent;
+                final monthly = quote.discountedMonthlyPence(discount);
+                final yearly = subscription.isYearly;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (final b in quote.branches)
+                      _PriceLine(
+                        label: '${b.name} · ${bandInfo(b.band).name}',
+                        value: l10n.billingPerMonth(formatPounds(b.pricePence)),
+                      ),
+                    if (quote.headOffice)
+                      _PriceLine(
+                        label: l10n.billingHeadOfficeLine,
+                        value: l10n.billingPerMonth(formatPounds(3900)),
+                      ),
+                    if (discount > 0)
+                      _PriceLine(
+                        label: subscription.discountEndsAt == null
+                            ? l10n.billingDiscountForLife(discount)
+                            : l10n.billingDiscountUntil(
+                                discount,
+                                _formatDate(subscription.discountEndsAt!),
+                              ),
+                        value: '-${formatPounds(quote.monthlyPence - monthly)}',
+                        highlight: true,
+                      ),
+                    const Divider(height: 20),
+                    _PriceLine(
+                      label: yearly
+                          ? l10n.billingTotalYearlyLabel
+                          : l10n.billingTotalMonthlyLabel,
+                      value: formatPounds(
+                        yearly ? monthly * yearlyMonths : monthly,
+                      ),
+                      bold: true,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(l10n.billingBandsExplainer, style: muted),
+                  ],
+                );
+              },
+            ),
+          if (subscription.billingNotice != null) ...[
+            const SizedBox(height: 12),
+            AppBanner(
+              kind: BannerKind.caution,
+              child: Text(subscription.billingNotice!),
+            ),
+          ],
           const SizedBox(height: 12),
           _StatusBanner(subscription: subscription, state: state),
         ],
       ),
     );
   }
+
+  String _formatDate(DateTime date) =>
+      '${date.day}/${date.month}/${date.year}';
 
   Widget _buildDirectDebitCard(Subscription subscription) {
     final l10n = AppLocalizations.of(context)!;
@@ -232,11 +238,26 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
           else ...[
             Text(l10n.directDebitNotSetUpText),
             const SizedBox(height: 12),
+            SegmentedButton<bool>(
+              segments: [
+                ButtonSegment(
+                  value: false,
+                  label: Text(l10n.billingMonthlyOption),
+                ),
+                ButtonSegment(
+                  value: true,
+                  label: Text(l10n.billingYearlyOption),
+                ),
+              ],
+              selected: {_yearly},
+              onSelectionChanged: (v) => setState(() => _yearly = v.first),
+            ),
+            const SizedBox(height: 12),
             TextField(
               controller: _discountCodeController,
               decoration: InputDecoration(
-                labelText: l10n.discountCodeOptionalLabel,
-                hintText: l10n.discountCodeHintText,
+                labelText: l10n.billingCodeLabel,
+                hintText: 'VR-XXXX-XXXX',
                 border: const OutlineInputBorder(),
               ),
             ),
@@ -265,54 +286,34 @@ class _BillingScreenState extends ConsumerState<BillingScreen> {
     );
   }
 
-  // Free-access code (2026-09-25, direct user request) — a separate,
-  // always-visible card (not folded into the Direct Debit one above,
-  // which is about a real mandate) so it's usable regardless of whether
-  // a mandate exists yet.
-  Widget _buildFreeAccessCard(Subscription subscription) {
-    final l10n = AppLocalizations.of(context)!;
-    return AppCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+}
+
+class _PriceLine extends StatelessWidget {
+  const _PriceLine({
+    required this.label,
+    required this.value,
+    this.bold = false,
+    this.highlight = false,
+  });
+
+  final String label;
+  final String value;
+  final bool bold;
+  final bool highlight;
+
+  @override
+  Widget build(BuildContext context) {
+    final style = TextStyle(
+      fontWeight: bold ? FontWeight.w700 : FontWeight.w400,
+      fontSize: bold ? 17 : 14,
+      color: highlight ? AppColors.pass : null,
+    );
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Row(
         children: [
-          Text(
-            l10n.freeAccessCodeTitle,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          if (subscription.freeAccessGranted)
-            Text(l10n.freeAccessActiveText)
-          else ...[
-            Text(l10n.freeAccessPromptText),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _freeAccessCodeController,
-              decoration: InputDecoration(
-                labelText: l10n.freeAccessCodeTitle,
-                border: const OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 12),
-            OutlinedButton(
-              onPressed: _redeemingFreeAccess
-                  ? null
-                  : () => _redeemFreeAccessCode(subscription.organisationId),
-              child: _redeemingFreeAccess
-                  ? const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Text(l10n.redeemCodeButton),
-            ),
-            if (_freeAccessError != null) ...[
-              const SizedBox(height: 8),
-              Text(
-                _freeAccessError!,
-                style: const TextStyle(color: AppColors.critical),
-              ),
-            ],
-          ],
+          Expanded(child: Text(label, style: style)),
+          Text(value, style: style),
         ],
       ),
     );

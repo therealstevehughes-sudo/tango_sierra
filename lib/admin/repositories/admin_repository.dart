@@ -124,6 +124,24 @@ class AdminOrgSummary {
   final DateTime? archivedAt;
 }
 
+class AdminDiscountCode {
+  const AdminDiscountCode({
+    required this.code,
+    required this.type,
+    this.note,
+    this.usedAt,
+    this.usedByOrgId,
+    this.usedByOrgName,
+  });
+
+  final String code;
+  final String type;
+  final String? note;
+  final DateTime? usedAt;
+  final int? usedByOrgId;
+  final String? usedByOrgName;
+}
+
 class AdminRepository {
   AdminRepository(this._client);
 
@@ -241,6 +259,37 @@ class AdminRepository {
       'p_organisation_id': organisationId,
       'p_granted': granted,
     });
+  }
+
+  /// One-time discount codes (2026-10-17) — see AdminDiscountCodesScreen.
+  Future<String> generateDiscountCode({
+    required String type,
+    String? note,
+  }) async {
+    final result = await _client.rpc('admin_generate_discount_code', {
+      'p_type': type,
+      'p_note': note,
+    });
+    return (result.first as Map<String, dynamic>)['code'] as String;
+  }
+
+  Future<List<AdminDiscountCode>> listDiscountCodes() async {
+    final rows = await _client.rpc('admin_list_discount_codes', {});
+    return rows
+        .cast<Map<String, dynamic>>()
+        .map(
+          (r) => AdminDiscountCode(
+            code: r['code'] as String,
+            type: r['code_type'] as String? ?? 'half_life',
+            note: r['note'] as String?,
+            usedAt: r['used_at'] == null
+                ? null
+                : DateTime.parse(r['used_at'] as String),
+            usedByOrgId: r['used_by_org_id'] as int?,
+            usedByOrgName: r['used_by_org_name'] as String?,
+          ),
+        )
+        .toList();
   }
 
   /// Whether the currently signed-in GoTrue session belongs to a

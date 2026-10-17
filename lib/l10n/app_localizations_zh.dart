@@ -1940,7 +1940,7 @@ class AppLocalizationsZh extends AppLocalizations {
       '你今天有多少个场所,包括总部(如果有的话)?你现在只会设置首个场所 - 其余的可以随时在应用内添加。';
 
   @override
-  String get perBranchPriceLabel => '39英镑/场所/月';
+  String get perBranchPriceLabel => '每门店每月 £39 起 - 按门店规模计费';
 
   @override
   String get headOfficeIncludedLabel => '+ 1 个总部场所(4个以上场所时)';
@@ -5141,4 +5141,44 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get freqAnnually => '每年';
+
+  @override
+  String get billingYourPlanTitle => '你的方案';
+
+  @override
+  String billingPerMonth(String amount) {
+    return '$amount/月';
+  }
+
+  @override
+  String get billingHeadOfficeLine => '总部';
+
+  @override
+  String billingDiscountForLife(int percent) {
+    return '$percent% 折扣（终身）';
+  }
+
+  @override
+  String billingDiscountUntil(int percent, String date) {
+    return '$percent% 折扣，至 $date';
+  }
+
+  @override
+  String get billingTotalMonthlyLabel => '每月合计（不含增值税）';
+
+  @override
+  String get billingTotalYearlyLabel => '每年合计（不含增值税）';
+
+  @override
+  String get billingBandsExplainer =>
+      '每个门店按当月使用 VenuRite 的员工人数计费：Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129。门店需连续 2 个月超过上限才会升级。';
+
+  @override
+  String get billingMonthlyOption => '按月';
+
+  @override
+  String get billingYearlyOption => '按年（免 1 个月）';
+
+  @override
+  String get billingCodeLabel => '折扣码或访问码（可选）';
 }

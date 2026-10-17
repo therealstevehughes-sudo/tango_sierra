@@ -1,4 +1,5 @@
 import '../../core/network/backend_rest_client.dart';
+import '../models/billing_pricing.dart';
 import '../models/subscription.dart';
 
 // GoCardless billing (2026-09-21) -- backend-only, same reasoning as
@@ -21,13 +22,18 @@ abstract class SubscriptionRepository {
   /// checked server-side; a valid one drops this organisation's rate to
   /// £19/branch/month instead of £39. Never required at sign-up anymore
   /// -- this is the one place it's entered.
-  Future<DirectDebitSetupResult> startDirectDebitSetup({String? discountCode});
+  ///
+  /// Billing v2 (2026-10-17): the code can be any of the three one-time
+  /// types (50% for life, 50% for a year, free for life). A free-for-life
+  /// code needs no Direct Debit, so the result has no redirect URL.
+  /// [yearly] bills 11 months' price once a year.
+  Future<DirectDebitSetupResult> startDirectDebitSetup({
+    String? discountCode,
+    bool yearly = false,
+  });
 
-  /// Free-access code (2026-09-25) — see Subscription.freeAccessGranted's
-  /// own doc comment. Returns true if [code] matched and access was
-  /// granted; false for a wrong code (never throws for a wrong guess —
-  /// this is a plain redemption box, not a security-sensitive login).
-  Future<bool> redeemFreeAccessCode(int organisationId, String code);
+  /// The server's current price for the caller's organisation, by branch.
+  Future<BillingQuote?> getQuote();
 }
 
 class DirectDebitSetupResult {
@@ -35,11 +41,14 @@ class DirectDebitSetupResult {
     required this.redirectUrl,
     required this.discountApplied,
     this.discountError,
+    this.freeAccess = false,
   });
 
-  final String redirectUrl;
+  /// Null when no payment is needed ([freeAccess]).
+  final String? redirectUrl;
   final bool discountApplied;
   final String? discountError;
+  final bool freeAccess;
 }
 
 class DirectDebitSetupException implements Exception {
@@ -54,16 +63,6 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
 
   final BackendRestClient _client;
 
-  // Free-access code (2026-09-25, direct user request) — deliberately a
-  // plain client-side string match, not a server-validated secret: this
-  // is a testing convenience for two named people, not a real discount
-  // mechanism protecting revenue (that's the server-validated "Friends"
-  // discount code in startDirectDebitSetup above). Anyone who found this
-  // string in the compiled app could grant themselves free access, which
-  // is an acceptable risk for what this exists to do — flagged here so
-  // it's never mistaken for something that needs stronger protection.
-  static const _freeAccessCode = 'welovegreekosgyros';
-
   @override
   Future<Subscription?> getForOrganisation(int organisationId) async {
     final rows = await _client.select(
@@ -77,10 +76,12 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
   @override
   Future<DirectDebitSetupResult> startDirectDebitSetup({
     String? discountCode,
+    bool yearly = false,
   }) async {
     final data = await _client.invokeFunction('gocardless-start-mandate', {
       if (discountCode != null && discountCode.trim().isNotEmpty)
         'discount_code': discountCode.trim(),
+      'billing_interval': yearly ? 'yearly' : 'monthly',
     });
     if (data['error'] != null) {
       throw DirectDebitSetupException(
@@ -89,26 +90,39 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
             : 'Could not start Direct Debit setup',
       );
     }
+    final freeAccess = data['free_access'] as bool? ?? false;
     final redirectUrl = data['redirect_url'] as String?;
-    if (redirectUrl == null) {
+    if (redirectUrl == null && !freeAccess) {
       throw DirectDebitSetupException('Could not start Direct Debit setup');
     }
     return DirectDebitSetupResult(
       redirectUrl: redirectUrl,
       discountApplied: data['discount_applied'] as bool? ?? false,
       discountError: data['discount_error'] as String?,
+      freeAccess: freeAccess,
     );
   }
 
   @override
-  Future<bool> redeemFreeAccessCode(int organisationId, String code) async {
-    if (code.trim().toLowerCase() != _freeAccessCode) return false;
-    await _client.update(
-      'subscriptions',
-      filter: 'organisation_id=eq.$organisationId',
-      body: {'free_access_granted': true},
+  Future<BillingQuote?> getQuote() async {
+    final rows = await _client.rpc('my_billing_quote', {});
+    if (rows.isEmpty) return null;
+    final row = rows.first as Map<String, dynamic>;
+    final breakdown = (row['breakdown'] as List? ?? const [])
+        .cast<Map<String, dynamic>>();
+    return BillingQuote(
+      monthlyPence: (row['monthly_pence'] as num).toInt(),
+      headOffice: row['head_office'] as bool? ?? false,
+      branches: [
+        for (final b in breakdown)
+          BranchQuote(
+            siteId: (b['site_id'] as num).toInt(),
+            name: b['name'] as String,
+            band: bandFromName(b['band'] as String?),
+            pricePence: (b['price_pence'] as num).toInt(),
+          ),
+      ],
     );
-    return true;
   }
 
   Subscription _toModel(Map<String, dynamic> row) => Subscription(
@@ -136,5 +150,12 @@ class SupabaseSubscriptionRepository implements SubscriptionRepository {
     foundingOffer: row['founding_offer'] as bool? ?? false,
     billedSiteCount: (row['billed_site_count'] as num?)?.toInt() ?? 1,
     freeAccessGranted: row['free_access_granted'] as bool? ?? false,
+    billingInterval: row['billing_interval'] as String? ?? 'monthly',
+    discountPercent: (row['discount_percent'] as num?)?.toInt() ?? 0,
+    discountEndsAt: row['discount_ends_at'] == null
+        ? null
+        : DateTime.parse(row['discount_ends_at'] as String),
+    currentPricePence: (row['current_price_pence'] as num?)?.toInt(),
+    billingNotice: row['billing_notice'] as String?,
   );
 }

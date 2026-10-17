@@ -3615,7 +3615,7 @@ abstract class AppLocalizations {
   ///
   ///
   /// In en, this message translates to:
-  /// **'£39/branch/month'**
+  /// **'From £39/branch/month - priced by branch size'**
   String get perBranchPriceLabel;
 
   ///
@@ -9343,6 +9343,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Yearly'**
   String get freqAnnually;
+
+  /// No description provided for @billingYourPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plan'**
+  String get billingYourPlanTitle;
+
+  /// No description provided for @billingPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount}/month'**
+  String billingPerMonth(String amount);
+
+  /// No description provided for @billingHeadOfficeLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Head office'**
+  String get billingHeadOfficeLine;
+
+  /// No description provided for @billingDiscountForLife.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% discount (for life)'**
+  String billingDiscountForLife(int percent);
+
+  /// No description provided for @billingDiscountUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% discount until {date}'**
+  String billingDiscountUntil(int percent, String date);
+
+  /// No description provided for @billingTotalMonthlyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total per month (ex VAT)'**
+  String get billingTotalMonthlyLabel;
+
+  /// No description provided for @billingTotalYearlyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total per year (ex VAT)'**
+  String get billingTotalYearlyLabel;
+
+  /// No description provided for @billingBandsExplainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Each branch is priced by how many staff used VenuRite that month: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129. A branch only moves up after 2 months in a row over its limit.'**
+  String get billingBandsExplainer;
+
+  /// No description provided for @billingMonthlyOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get billingMonthlyOption;
+
+  /// No description provided for @billingYearlyOption.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly (1 month free)'**
+  String get billingYearlyOption;
+
+  /// No description provided for @billingCodeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount or access code (optional)'**
+  String get billingCodeLabel;
 }
 
 class _AppLocalizationsDelegate

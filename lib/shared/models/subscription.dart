@@ -46,6 +46,14 @@ class Subscription {
   // anyone reading the data later, not indistinguishable from a real
   // paying customer.
   final bool freeAccessGranted;
+  // Billing v2 (2026-10-17) — see tools/billing_v2_migration.sql.
+  final String billingInterval; // 'monthly' | 'yearly'
+  final int discountPercent; // 0 or 50
+  final DateTime? discountEndsAt; // null = for life
+  final int? currentPricePence; // what GoCardless is actually charging
+  final String? billingNotice; // e.g. a branch is about to change band
+
+  bool get isYearly => billingInterval == 'yearly';
 
   const Subscription({
     required this.id,
@@ -64,6 +72,11 @@ class Subscription {
     this.foundingOffer = false,
     this.billedSiteCount = 1,
     this.freeAccessGranted = false,
+    this.billingInterval = 'monthly',
+    this.discountPercent = 0,
+    this.discountEndsAt,
+    this.currentPricePence,
+    this.billingNotice,
   });
 }
 
@@ -94,12 +107,9 @@ String planDisplayName(String? planName, [AppLocalizations? l10n]) {
   }
 }
 
-// Per-branch pricing (Sprint 043 pivot, 2026-09-22) -- kept in sync with
-// gocardless-confirm-mandate, the Edge Function that actually charges
-// (BACKEND_INFRA.md): £39/branch/month standard, £19/branch/month once a
-// valid discount code has been applied (subscriptions.founding_offer).
-// [billedSiteCount] already includes the automatic head-office unit.
-int totalMonthlyPricePence(int billedSiteCount, {bool foundingOffer = false}) {
-  final perBranch = foundingOffer ? 1900 : 3900;
-  return billedSiteCount * perBranch;
-}
+// Starting price estimate at sign-up (Billing v2, 2026-10-17): every
+// branch starts in the Bistro band (£39) until its staff numbers say
+// otherwise. [billedSiteCount] already includes the head-office unit.
+// The real price is the server's org_billing_quote().
+int totalMonthlyPricePence(int billedSiteCount, {int discountPercent = 0}) =>
+    (billedSiteCount * 3900 * (100 - discountPercent) / 100).round();

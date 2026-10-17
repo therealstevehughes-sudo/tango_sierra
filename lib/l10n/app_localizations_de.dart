@@ -2038,7 +2038,8 @@ class AppLocalizationsDe extends AppLocalizations {
       'Wie viele Filialen hast du heute, einschließlich Hauptsitz, falls vorhanden? Du richtest jetzt nur deine erste Filiale ein - den Rest fügst du jederzeit in der App hinzu.';
 
   @override
-  String get perBranchPriceLabel => '39 £/Filiale/Monat';
+  String get perBranchPriceLabel =>
+      'Ab £39/Standort/Monat - je nach Standortgröße';
 
   @override
   String get headOfficeIncludedLabel => '+ 1 Hauptsitz-Filiale (4+ Filialen)';
@@ -5512,4 +5513,44 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get freqAnnually => 'Jährlich';
+
+  @override
+  String get billingYourPlanTitle => 'Dein Tarif';
+
+  @override
+  String billingPerMonth(String amount) {
+    return '$amount/Monat';
+  }
+
+  @override
+  String get billingHeadOfficeLine => 'Hauptverwaltung';
+
+  @override
+  String billingDiscountForLife(int percent) {
+    return '$percent% Rabatt (dauerhaft)';
+  }
+
+  @override
+  String billingDiscountUntil(int percent, String date) {
+    return '$percent% Rabatt bis $date';
+  }
+
+  @override
+  String get billingTotalMonthlyLabel => 'Gesamt pro Monat (zzgl. MwSt.)';
+
+  @override
+  String get billingTotalYearlyLabel => 'Gesamt pro Jahr (zzgl. MwSt.)';
+
+  @override
+  String get billingBandsExplainer =>
+      'Jeder Standort wird danach berechnet, wie viele Mitarbeiter VenuRite in dem Monat genutzt haben: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129. Ein Standort steigt erst nach 2 Monaten in Folge über dem Limit auf.';
+
+  @override
+  String get billingMonthlyOption => 'Monatlich';
+
+  @override
+  String get billingYearlyOption => 'Jährlich (1 Monat gratis)';
+
+  @override
+  String get billingCodeLabel => 'Rabatt- oder Zugangscode (optional)';
 }

@@ -583,7 +583,7 @@
   "equipmentSectionLabel": "Sprzęt",
   "subscriptionBannerText": "Jedno konto firmowe, jeden skonsolidowany rachunek - cena za lokal, nigdy za osobę.",
   "subscriptionIntroText": "Ile lokali masz dziś, wliczając siedzibę główną, jeśli ją posiadasz? Teraz skonfigurujesz tylko swój pierwszy lokal - resztę dodasz w dowolnym momencie w aplikacji.",
-  "perBranchPriceLabel": "39 GBP/lokal/miesiąc",
+  "perBranchPriceLabel": "Od £39/lokal/mies. - zależnie od wielkości lokalu",
   "headOfficeIncludedLabel": "+ 1 lokal siedziby głównej (4+ lokale)",
   "discountCodeHint": "Masz kod rabatowy? Możesz go wpisać podczas konfigurowania polecenia zapłaty.",
   "trialBannerText": "Rozpoczynasz 14-dniowy bezpłatny okres próbny - dziś karta nie jest potrzebna.",
@@ -1535,5 +1535,16 @@
   "deletePhotoButton": "Usuń zdjęcie",
   "freqQuarterly": "Co 3 miesiące",
   "freqSixMonthly": "Co 6 miesięcy",
-  "freqAnnually": "Raz w roku"
+  "freqAnnually": "Raz w roku",
+  "billingYourPlanTitle": "Twój plan",
+  "billingPerMonth": "{amount}/mies.",
+  "billingHeadOfficeLine": "Centrala",
+  "billingDiscountForLife": "{percent}% zniżki (dożywotnio)",
+  "billingDiscountUntil": "{percent}% zniżki do {date}",
+  "billingTotalMonthlyLabel": "Razem miesięcznie (bez VAT)",
+  "billingTotalYearlyLabel": "Razem rocznie (bez VAT)",
+  "billingBandsExplainer": "Każdy lokal jest wyceniany według liczby pracowników, którzy w danym miesiącu używali VenuRite: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129. Lokal przechodzi wyżej dopiero po 2 miesiącach z rzędu powyżej limitu.",
+  "billingMonthlyOption": "Miesięcznie",
+  "billingYearlyOption": "Rocznie (1 miesiąc gratis)",
+  "billingCodeLabel": "Kod rabatowy lub dostępu (opcjonalnie)"
 }

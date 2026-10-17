@@ -583,7 +583,7 @@
   "equipmentSectionLabel": "المعدات",
   "subscriptionBannerText": "حساب شركة واحد، فاتورة موحدة واحدة - يُحتسب السعر لكل موقع، أبدًا لكل شخص.",
   "subscriptionIntroText": "كم عدد المواقع التي لديك اليوم، بما في ذلك المكتب الرئيسي إن وجد؟ ستقوم الآن بإعداد أول موقع لك فقط - يمكنك إضافة الباقي في أي وقت من داخل التطبيق.",
-  "perBranchPriceLabel": "39 جنيهًا إسترلينيًا/موقع/شهر",
+  "perBranchPriceLabel": "من £39 للفرع شهرياً - حسب حجم الفرع",
   "headOfficeIncludedLabel": "+ موقع مكتب رئيسي واحد (4+ مواقع)",
   "discountCodeHint": "هل لديك رمز خصم؟ يمكنك إدخاله عند إعداد الخصم المباشر.",
   "trialBannerText": "أنت تبدأ فترة تجريبية مجانية مدتها 14 يومًا - لا حاجة لبطاقة اليوم.",
@@ -1535,5 +1535,16 @@
   "deletePhotoButton": "احذف الصورة",
   "freqQuarterly": "كل 3 أشهر",
   "freqSixMonthly": "كل 6 أشهر",
-  "freqAnnually": "سنوياً"
+  "freqAnnually": "سنوياً",
+  "billingYourPlanTitle": "خطتك",
+  "billingPerMonth": "{amount}/شهرياً",
+  "billingHeadOfficeLine": "المكتب الرئيسي",
+  "billingDiscountForLife": "خصم {percent}% (مدى الحياة)",
+  "billingDiscountUntil": "خصم {percent}% حتى {date}",
+  "billingTotalMonthlyLabel": "الإجمالي شهرياً (بدون ضريبة)",
+  "billingTotalYearlyLabel": "الإجمالي سنوياً (بدون ضريبة)",
+  "billingBandsExplainer": "يُسعّر كل فرع حسب عدد الموظفين الذين استخدموا VenuRite في ذلك الشهر: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129. لا ينتقل الفرع إلى فئة أعلى إلا بعد شهرين متتاليين فوق الحد.",
+  "billingMonthlyOption": "شهري",
+  "billingYearlyOption": "سنوي (شهر مجاني)",
+  "billingCodeLabel": "رمز خصم أو وصول (اختياري)"
 }

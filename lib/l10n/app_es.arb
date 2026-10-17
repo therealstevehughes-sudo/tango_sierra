@@ -583,7 +583,7 @@
   "equipmentSectionLabel": "Equipamiento",
   "subscriptionBannerText": "Una cuenta de empresa, una factura consolidada - con precio por local, nunca por persona.",
   "subscriptionIntroText": "¿Cuántos locales tienes hoy, incluida la oficina central si tienes una? Ahora solo configurarás tu primer local - el resto los añades cuando quieras desde la app.",
-  "perBranchPriceLabel": "39£/local/mes",
+  "perBranchPriceLabel": "Desde £39/local/mes - según el tamaño del local",
   "headOfficeIncludedLabel": "+ 1 local de oficina central (4+ locales)",
   "discountCodeHint": "¿Tienes un código de descuento? Puedes introducirlo al configurar la Domiciliación Bancaria.",
   "trialBannerText": "Estás empezando una prueba gratuita de 14 días - no se necesita tarjeta hoy.",
@@ -1535,5 +1535,16 @@
   "deletePhotoButton": "Eliminar foto",
   "freqQuarterly": "Cada 3 meses",
   "freqSixMonthly": "Cada 6 meses",
-  "freqAnnually": "Anual"
+  "freqAnnually": "Anual",
+  "billingYourPlanTitle": "Tu plan",
+  "billingPerMonth": "{amount}/mes",
+  "billingHeadOfficeLine": "Oficina central",
+  "billingDiscountForLife": "{percent}% de descuento (de por vida)",
+  "billingDiscountUntil": "{percent}% de descuento hasta {date}",
+  "billingTotalMonthlyLabel": "Total al mes (sin IVA)",
+  "billingTotalYearlyLabel": "Total al año (sin IVA)",
+  "billingBandsExplainer": "Cada local se cobra según cuántos empleados usaron VenuRite ese mes: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129. Un local solo sube de tramo tras 2 meses seguidos por encima del límite.",
+  "billingMonthlyOption": "Mensual",
+  "billingYearlyOption": "Anual (1 mes gratis)",
+  "billingCodeLabel": "Código de descuento o acceso (opcional)"
 }

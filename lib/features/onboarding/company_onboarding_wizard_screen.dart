@@ -350,10 +350,9 @@ class _CompanyOnboardingWizardScreenState
         _directDebitRedirectUrl = result.redirectUrl;
         _startingDirectDebit = false;
       });
-      await launchUrl(
-        Uri.parse(result.redirectUrl),
-        mode: LaunchMode.externalApplication,
-      );
+      final url = result.redirectUrl;
+      if (url == null) return; // free access — nothing to pay
+      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
     } catch (_) {
       if (!mounted) return;
       setState(() {

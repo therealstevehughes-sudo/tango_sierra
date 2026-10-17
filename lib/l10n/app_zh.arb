@@ -583,7 +583,7 @@
   "equipmentSectionLabel": "设备",
   "subscriptionBannerText": "一个公司账户,一份整合账单 - 按场所计费,绝不按人头计费。",
   "subscriptionIntroText": "你今天有多少个场所,包括总部(如果有的话)?你现在只会设置首个场所 - 其余的可以随时在应用内添加。",
-  "perBranchPriceLabel": "39英镑/场所/月",
+  "perBranchPriceLabel": "每门店每月 £39 起 - 按门店规模计费",
   "headOfficeIncludedLabel": "+ 1 个总部场所(4个以上场所时)",
   "discountCodeHint": "有折扣码吗?你可以在设置直接借记时输入。",
   "trialBannerText": "你正在开始 14 天免费试用 - 今天无需信用卡。",
@@ -1535,5 +1535,16 @@
   "deletePhotoButton": "删除照片",
   "freqQuarterly": "每 3 个月",
   "freqSixMonthly": "每 6 个月",
-  "freqAnnually": "每年"
+  "freqAnnually": "每年",
+  "billingYourPlanTitle": "你的方案",
+  "billingPerMonth": "{amount}/月",
+  "billingHeadOfficeLine": "总部",
+  "billingDiscountForLife": "{percent}% 折扣（终身）",
+  "billingDiscountUntil": "{percent}% 折扣，至 {date}",
+  "billingTotalMonthlyLabel": "每月合计（不含增值税）",
+  "billingTotalYearlyLabel": "每年合计（不含增值税）",
+  "billingBandsExplainer": "每个门店按当月使用 VenuRite 的员工人数计费：Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129。门店需连续 2 个月超过上限才会升级。",
+  "billingMonthlyOption": "按月",
+  "billingYearlyOption": "按年（免 1 个月）",
+  "billingCodeLabel": "折扣码或访问码（可选）"
 }

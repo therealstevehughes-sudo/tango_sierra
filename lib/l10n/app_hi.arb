@@ -583,7 +583,7 @@
   "equipmentSectionLabel": "उपकरण",
   "subscriptionBannerText": "एक कंपनी खाता, एक समेकित बिल - प्रति वेन्यू कीमत, कभी प्रति व्यक्ति नहीं।",
   "subscriptionIntroText": "आज तुम्हारे पास कितने वेन्यू हैं, मुख्यालय सहित अगर है तो? अभी तुम केवल अपना पहला वेन्यू सेट करोगे - बाकी तुम ऐप के अंदर से कभी भी जोड़ सकते हो।",
-  "perBranchPriceLabel": "39 पाउंड/वेन्यू/महीना",
+  "perBranchPriceLabel": "£39/ब्रांच/माह से - ब्रांच के आकार के अनुसार",
   "headOfficeIncludedLabel": "+ 1 मुख्यालय वेन्यू (4+ वेन्यूज़)",
   "discountCodeHint": "क्या तुम्हारे पास डिस्काउंट कोड है? तुम इसे डायरेक्ट डेबिट सेट करते समय दर्ज कर सकते हो।",
   "trialBannerText": "तुम 14-दिन का मुफ्त ट्रायल शुरू कर रहे हो - आज कार्ड की ज़रूरत नहीं।",
@@ -1535,5 +1535,16 @@
   "deletePhotoButton": "फ़ोटो हटाएँ",
   "freqQuarterly": "हर 3 महीने",
   "freqSixMonthly": "हर 6 महीने",
-  "freqAnnually": "सालाना"
+  "freqAnnually": "सालाना",
+  "billingYourPlanTitle": "आपका प्लान",
+  "billingPerMonth": "{amount}/माह",
+  "billingHeadOfficeLine": "मुख्य कार्यालय",
+  "billingDiscountForLife": "{percent}% छूट (आजीवन)",
+  "billingDiscountUntil": "{date} तक {percent}% छूट",
+  "billingTotalMonthlyLabel": "प्रति माह कुल (VAT अलग)",
+  "billingTotalYearlyLabel": "प्रति वर्ष कुल (VAT अलग)",
+  "billingBandsExplainer": "हर ब्रांच की कीमत इस पर तय होती है कि उस महीने कितने स्टाफ़ ने VenuRite इस्तेमाल किया: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129। ब्रांच तभी ऊपर जाती है जब लगातार 2 महीने सीमा से ऊपर रहे।",
+  "billingMonthlyOption": "मासिक",
+  "billingYearlyOption": "वार्षिक (1 महीना मुफ़्त)",
+  "billingCodeLabel": "छूट या एक्सेस कोड (वैकल्पिक)"
 }

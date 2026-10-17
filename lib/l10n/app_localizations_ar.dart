@@ -2002,7 +2002,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'كم عدد المواقع التي لديك اليوم، بما في ذلك المكتب الرئيسي إن وجد؟ ستقوم الآن بإعداد أول موقع لك فقط - يمكنك إضافة الباقي في أي وقت من داخل التطبيق.';
 
   @override
-  String get perBranchPriceLabel => '39 جنيهًا إسترلينيًا/موقع/شهر';
+  String get perBranchPriceLabel => 'من £39 للفرع شهرياً - حسب حجم الفرع';
 
   @override
   String get headOfficeIncludedLabel => '+ موقع مكتب رئيسي واحد (4+ مواقع)';
@@ -5299,4 +5299,44 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get freqAnnually => 'سنوياً';
+
+  @override
+  String get billingYourPlanTitle => 'خطتك';
+
+  @override
+  String billingPerMonth(String amount) {
+    return '$amount/شهرياً';
+  }
+
+  @override
+  String get billingHeadOfficeLine => 'المكتب الرئيسي';
+
+  @override
+  String billingDiscountForLife(int percent) {
+    return 'خصم $percent% (مدى الحياة)';
+  }
+
+  @override
+  String billingDiscountUntil(int percent, String date) {
+    return 'خصم $percent% حتى $date';
+  }
+
+  @override
+  String get billingTotalMonthlyLabel => 'الإجمالي شهرياً (بدون ضريبة)';
+
+  @override
+  String get billingTotalYearlyLabel => 'الإجمالي سنوياً (بدون ضريبة)';
+
+  @override
+  String get billingBandsExplainer =>
+      'يُسعّر كل فرع حسب عدد الموظفين الذين استخدموا VenuRite في ذلك الشهر: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129. لا ينتقل الفرع إلى فئة أعلى إلا بعد شهرين متتاليين فوق الحد.';
+
+  @override
+  String get billingMonthlyOption => 'شهري';
+
+  @override
+  String get billingYearlyOption => 'سنوي (شهر مجاني)';
+
+  @override
+  String get billingCodeLabel => 'رمز خصم أو وصول (اختياري)';
 }

@@ -2032,7 +2032,8 @@ class AppLocalizationsRo extends AppLocalizations {
       'Câte locații ai astăzi, inclusiv sediul central dacă ai unul? Vei configura acum doar primul tău local - restul le adaugi oricând din aplicație.';
 
   @override
-  String get perBranchPriceLabel => '39 GBP/local/lună';
+  String get perBranchPriceLabel =>
+      'De la £39/locație/lună - în funcție de mărimea locației';
 
   @override
   String get headOfficeIncludedLabel =>
@@ -5450,4 +5451,44 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get freqAnnually => 'Anual';
+
+  @override
+  String get billingYourPlanTitle => 'Planul tău';
+
+  @override
+  String billingPerMonth(String amount) {
+    return '$amount/lună';
+  }
+
+  @override
+  String get billingHeadOfficeLine => 'Sediul central';
+
+  @override
+  String billingDiscountForLife(int percent) {
+    return 'Reducere $percent% (pe viață)';
+  }
+
+  @override
+  String billingDiscountUntil(int percent, String date) {
+    return 'Reducere $percent% până la $date';
+  }
+
+  @override
+  String get billingTotalMonthlyLabel => 'Total pe lună (fără TVA)';
+
+  @override
+  String get billingTotalYearlyLabel => 'Total pe an (fără TVA)';
+
+  @override
+  String get billingBandsExplainer =>
+      'Fiecare locație este taxată după câți angajați au folosit VenuRite în luna respectivă: Bistro 1–15 £39 · Brasserie 16–50 £59 · Banquet 51–150 £89 · Grand 151–300 £129. O locație urcă de categorie doar după 2 luni la rând peste limită.';
+
+  @override
+  String get billingMonthlyOption => 'Lunar';
+
+  @override
+  String get billingYearlyOption => 'Anual (1 lună gratuită)';
+
+  @override
+  String get billingCodeLabel => 'Cod de reducere sau acces (opțional)';
 }

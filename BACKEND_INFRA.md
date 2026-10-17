@@ -2224,3 +2224,11 @@ Applied `tools/task_library_server_migration.sql` then `tools/task_library_seed.
 ## Equipment list page (2026-10-17)
 
 New `/var/www/venurite-site/equipmentlist/index.html` (nginx auto-redirects `/equipmentlist` → `/equipmentlist/`). Homepage + partners footers redeployed with an Equipment link.
+
+## Billing v2 deployed (2026-10-17)
+
+- Applied `tools/billing_v2_migration.sql` (+ the `admin_generate_discount_code` returns-table follow-up within it), `docker restart supabase-rest`.
+- Functions deployed from `tools/functions_live/`: `pin-login`, `gocardless-start-mandate`, `gocardless-confirm-mandate` (previous copies in `/root/fn_backup_20261017/`), new `billing-reprice`; `docker restart supabase-edge-functions`.
+- Cron: `0 4 1 * * /root/backups/billing_reprice_cron.sh >> /root/backups/billing_reprice.log 2>&1` (script = `tools/billing_reprice_cron.sh`; reuses `CERT_EXPIRY_CRON_SECRET`). Previous crontab saved at `/root/crontab.bak-20261017`.
+- `tools/functions_live/` now holds the authoritative copies of these five functions — edit there, then scp to `volumes/functions/<name>/index.ts`.
+- GoCardless remains `GOCARDLESS_ENVIRONMENT=sandbox`.
