@@ -933,27 +933,34 @@ class _StaffAssignmentScreenState extends ConsumerState<StaffAssignmentScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    // Phone layout (2026-10-17): the two Apply buttons sit on
+                    // their own line under the name — squeezed in beside it,
+                    // the name wrapped one word per line on a phone.
                     ListTile(
                       title: Text(preset.name),
                       subtitle: Text(_presetSubtitle(preset)),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
+                      trailing: IconButton(
+                        icon: Icon(
+                          expandedPresetIds.contains(preset.id)
+                              ? Icons.expand_less
+                              : Icons.expand_more,
+                        ),
+                        tooltip: l10n.showTasksInGroupTooltip,
+                        onPressed: () => setState(() {
+                          if (expandedPresetIds.contains(preset.id)) {
+                            expandedPresetIds.remove(preset.id);
+                          } else {
+                            expandedPresetIds.add(preset.id);
+                          }
+                        }),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 8),
+                      child: Wrap(
+                        alignment: WrapAlignment.end,
+                        spacing: 4,
                         children: [
-                          IconButton(
-                            icon: Icon(
-                              expandedPresetIds.contains(preset.id)
-                                  ? Icons.expand_less
-                                  : Icons.expand_more,
-                            ),
-                            tooltip: l10n.showTasksInGroupTooltip,
-                            onPressed: () => setState(() {
-                              if (expandedPresetIds.contains(preset.id)) {
-                                expandedPresetIds.remove(preset.id);
-                              } else {
-                                expandedPresetIds.add(preset.id);
-                              }
-                            }),
-                          ),
                           TextButton(
                             onPressed: () => _onApplyPreset(preset),
                             child: Text(l10n.applyButton),
