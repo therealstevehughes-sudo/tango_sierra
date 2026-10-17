@@ -2232,3 +2232,4 @@ New `/var/www/venurite-site/equipmentlist/index.html` (nginx auto-redirects `/eq
 - Cron: `0 4 1 * * /root/backups/billing_reprice_cron.sh >> /root/backups/billing_reprice.log 2>&1` (script = `tools/billing_reprice_cron.sh`; reuses `CERT_EXPIRY_CRON_SECRET`). Previous crontab saved at `/root/crontab.bak-20261017`.
 - `tools/functions_live/` now holds the authoritative copies of these five functions — edit there, then scp to `volumes/functions/<name>/index.ts`.
 - GoCardless remains `GOCARDLESS_ENVIRONMENT=sandbox`.
+Deployed 2026-10-17: APK, web app and admin tool (`/var/www/admin-venurite/`) rebuilt from b5648a0 and md5-verified.
