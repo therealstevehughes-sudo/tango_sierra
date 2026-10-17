@@ -5826,4 +5826,101 @@ class AppLocalizationsHi extends AppLocalizations {
   String dueNowCount(int count) {
     return '$count अभी करने हैं';
   }
+
+  @override
+  String get devicesTitle => 'डिवाइस और एक्सेस';
+
+  @override
+  String get devicesSubtitle => 'शाखा डिवाइस, अपने फ़ोन, क्लॉक-इन';
+
+  @override
+  String get devicesHelp =>
+      'चुनें कि स्टाफ़ VenuRite कहाँ इस्तेमाल और क्लॉक-इन कर सकता है। शाखा डिवाइस इस वेन्यू के अपने टैबलेट या फ़ोन हैं, जो नीचे रजिस्टर्ड हैं।';
+
+  @override
+  String get deviceRulesWhoLabel => 'VenuRite कौन इस्तेमाल कर सकता है';
+
+  @override
+  String get devicePolicyBranchOnly => 'केवल शाखा डिवाइस';
+
+  @override
+  String get devicePolicyBranchAndPersonal =>
+      'शाखा डिवाइस और स्टाफ़ के अपने फ़ोन';
+
+  @override
+  String get devicePolicyPersonalRotaTraining =>
+      'अपने फ़ोन सिर्फ़ रोटा और ट्रेनिंग के लिए';
+
+  @override
+  String get deviceRulesClockLabel =>
+      'स्टाफ़ कहाँ क्लॉक-इन और क्लॉक-आउट कर सकता है';
+
+  @override
+  String get clockPolicyAny => 'कोई भी डिवाइस';
+
+  @override
+  String get clockPolicyBranchOnly => 'केवल शाखा डिवाइस';
+
+  @override
+  String deviceRulesFollowHeadOffice(String value) {
+    return 'मुख्य कार्यालय जैसा ($value)';
+  }
+
+  @override
+  String get deviceRulesHeadOfficeTitle =>
+      'मुख्य कार्यालय डिफ़ॉल्ट (सभी शाखाएँ)';
+
+  @override
+  String get branchDevicesHeading => 'शाखा डिवाइस';
+
+  @override
+  String get branchDevicesNone => 'अभी कोई शाखा डिवाइस रजिस्टर नहीं है।';
+
+  @override
+  String get registerThisDeviceButton =>
+      'इस डिवाइस को शाखा डिवाइस के रूप में रजिस्टर करें';
+
+  @override
+  String get thisDeviceIsBranch =>
+      'यह डिवाइस शाखा डिवाइस के रूप में रजिस्टर है।';
+
+  @override
+  String get deviceNameHint => 'नाम, जैसे किचन टैबलेट';
+
+  @override
+  String get deviceRegistered => 'डिवाइस रजिस्टर हो गया।';
+
+  @override
+  String get removeDeviceButton => 'हटाएँ';
+
+  @override
+  String removeDeviceConfirm(String name) {
+    return '$name हटाएँ? अगले लॉगिन से यह निजी फ़ोन माना जाएगा।';
+  }
+
+  @override
+  String get deviceRemovedLabel => 'हटाया गया';
+
+  @override
+  String deviceLastUsed(String date) {
+    return 'आख़िरी इस्तेमाल $date';
+  }
+
+  @override
+  String get deviceNeverUsed => 'अभी इस्तेमाल नहीं हुआ';
+
+  @override
+  String get deviceRulesSaved => 'डिवाइस नियम सेव हो गए।';
+
+  @override
+  String deviceBranchLabel(String name) {
+    return 'शाखा डिवाइस: $name';
+  }
+
+  @override
+  String get devicePersonalLabel => 'निजी फ़ोन';
+
+  @override
+  String get personalRotaTrainingNotice =>
+      'अपने फ़ोन पर आप अपना रोटा और ट्रेनिंग देख सकते हैं। चेक वेन्यू के डिवाइस पर करें।';
 }

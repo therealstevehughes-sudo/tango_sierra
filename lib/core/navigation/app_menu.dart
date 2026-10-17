@@ -37,6 +37,7 @@ import '../../l10n/app_localizations.dart';
 import '../../shared/models/user.dart';
 import '../widgets/menu_hub_screen.dart';
 import '../../features/manager/check_patterns_screen.dart';
+import '../../features/settings/devices_screen.dart';
 
 // Menu by role (2026-10-17, founder-approved design — mock-ups at
 // https://claude.ai/artifact/ELxn1J9cAYbTmLt54rdryw). One definition of
@@ -352,6 +353,12 @@ List<MenuSection> managerMenu(AppLocalizations l10n, MenuContext c) => [
       label: l10n.menuVenueSettings,
       subtitle: l10n.menuVenueSettingsSubtitle,
       builder: (_) => const VenueDetailsScreen(),
+    ),
+    MenuEntry(
+      icon: Icons.devices_other,
+      label: l10n.devicesTitle,
+      subtitle: l10n.devicesSubtitle,
+      builder: (_) => const DevicesScreen(),
     ),
   ]),
   MenuSection(l10n.menuSectionReports, [

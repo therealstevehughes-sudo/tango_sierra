@@ -5814,4 +5814,100 @@ class AppLocalizationsUr extends AppLocalizations {
   String dueNowCount(int count) {
     return '$count ابھی کرنے ہیں';
   }
+
+  @override
+  String get devicesTitle => 'ڈیوائسز اور رسائی';
+
+  @override
+  String get devicesSubtitle => 'برانچ ڈیوائسز، ذاتی فون، کلاک اِن';
+
+  @override
+  String get devicesHelp =>
+      'منتخب کریں کہ عملہ VenuRite کہاں استعمال اور کلاک اِن کر سکتا ہے۔ برانچ ڈیوائسز اس وینیو کے اپنے ٹیبلٹ یا فون ہیں، جو نیچے رجسٹرڈ ہیں۔';
+
+  @override
+  String get deviceRulesWhoLabel => 'VenuRite کون استعمال کر سکتا ہے';
+
+  @override
+  String get devicePolicyBranchOnly => 'صرف برانچ ڈیوائسز';
+
+  @override
+  String get devicePolicyBranchAndPersonal =>
+      'برانچ ڈیوائسز اور عملے کے ذاتی فون';
+
+  @override
+  String get devicePolicyPersonalRotaTraining =>
+      'ذاتی فون صرف روٹا اور تربیت کے لیے';
+
+  @override
+  String get deviceRulesClockLabel =>
+      'عملہ کہاں کلاک اِن اور کلاک آؤٹ کر سکتا ہے';
+
+  @override
+  String get clockPolicyAny => 'کوئی بھی ڈیوائس';
+
+  @override
+  String get clockPolicyBranchOnly => 'صرف برانچ ڈیوائسز';
+
+  @override
+  String deviceRulesFollowHeadOffice(String value) {
+    return 'ہیڈ آفس جیسا ($value)';
+  }
+
+  @override
+  String get deviceRulesHeadOfficeTitle => 'ہیڈ آفس ڈیفالٹ (تمام برانچز)';
+
+  @override
+  String get branchDevicesHeading => 'برانچ ڈیوائسز';
+
+  @override
+  String get branchDevicesNone => 'ابھی کوئی برانچ ڈیوائس رجسٹر نہیں۔';
+
+  @override
+  String get registerThisDeviceButton =>
+      'اس ڈیوائس کو برانچ ڈیوائس کے طور پر رجسٹر کریں';
+
+  @override
+  String get thisDeviceIsBranch =>
+      'یہ ڈیوائس برانچ ڈیوائس کے طور پر رجسٹرڈ ہے۔';
+
+  @override
+  String get deviceNameHint => 'نام، مثلاً کچن ٹیبلٹ';
+
+  @override
+  String get deviceRegistered => 'ڈیوائس رجسٹر ہو گئی۔';
+
+  @override
+  String get removeDeviceButton => 'ہٹائیں';
+
+  @override
+  String removeDeviceConfirm(String name) {
+    return '$name ہٹائیں؟ اگلے لاگ اِن سے یہ ذاتی فون مانا جائے گا۔';
+  }
+
+  @override
+  String get deviceRemovedLabel => 'ہٹا دیا گیا';
+
+  @override
+  String deviceLastUsed(String date) {
+    return 'آخری استعمال $date';
+  }
+
+  @override
+  String get deviceNeverUsed => 'ابھی استعمال نہیں ہوئی';
+
+  @override
+  String get deviceRulesSaved => 'ڈیوائس کے اصول محفوظ ہو گئے۔';
+
+  @override
+  String deviceBranchLabel(String name) {
+    return 'برانچ ڈیوائس: $name';
+  }
+
+  @override
+  String get devicePersonalLabel => 'ذاتی فون';
+
+  @override
+  String get personalRotaTrainingNotice =>
+      'اپنے فون پر آپ روٹا اور تربیت دیکھ سکتے ہیں۔ چیک وینیو کی ڈیوائس پر کریں۔';
 }

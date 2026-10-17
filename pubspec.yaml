@@ -114,6 +114,8 @@ dependencies:
   firebase_core: ^3.8.0
   firebase_messaging: ^15.1.6
   geolocator: ^14.0.2
+  cryptography: ^2.9.0
+  flutter_secure_storage: ^10.3.4
 
 dev_dependencies:
   flutter_test:

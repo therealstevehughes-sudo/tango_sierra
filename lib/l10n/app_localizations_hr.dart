@@ -5853,4 +5853,101 @@ class AppLocalizationsHr extends AppLocalizations {
   String dueNowCount(int count) {
     return '$count sada na redu';
   }
+
+  @override
+  String get devicesTitle => 'Uređaji i pristup';
+
+  @override
+  String get devicesSubtitle => 'Uređaji objekta, vlastiti mobiteli, prijava';
+
+  @override
+  String get devicesHelp =>
+      'Odaberite gdje osoblje može koristiti VenuRite i prijavljivati se. Uređaji objekta su vlastiti tableti ili mobiteli, registrirani ispod.';
+
+  @override
+  String get deviceRulesWhoLabel => 'Tko može koristiti VenuRite';
+
+  @override
+  String get devicePolicyBranchOnly => 'Samo uređaji objekta';
+
+  @override
+  String get devicePolicyBranchAndPersonal =>
+      'Uređaji objekta i vlastiti mobiteli';
+
+  @override
+  String get devicePolicyPersonalRotaTraining =>
+      'Vlastiti mobiteli samo za raspored i obuku';
+
+  @override
+  String get deviceRulesClockLabel =>
+      'Gdje se osoblje može prijaviti i odjaviti';
+
+  @override
+  String get clockPolicyAny => 'Bilo koji uređaj';
+
+  @override
+  String get clockPolicyBranchOnly => 'Samo uređaji objekta';
+
+  @override
+  String deviceRulesFollowHeadOffice(String value) {
+    return 'Kao središnjica ($value)';
+  }
+
+  @override
+  String get deviceRulesHeadOfficeTitle =>
+      'Zadano za središnjicu (svi objekti)';
+
+  @override
+  String get branchDevicesHeading => 'Uređaji objekta';
+
+  @override
+  String get branchDevicesNone => 'Još nema registriranih uređaja.';
+
+  @override
+  String get registerThisDeviceButton =>
+      'Registriraj ovaj uređaj kao uređaj objekta';
+
+  @override
+  String get thisDeviceIsBranch =>
+      'Ovaj uređaj je registriran kao uređaj objekta.';
+
+  @override
+  String get deviceNameHint => 'Naziv, npr. Kuhinjski tablet';
+
+  @override
+  String get deviceRegistered => 'Uređaj registriran.';
+
+  @override
+  String get removeDeviceButton => 'Ukloni';
+
+  @override
+  String removeDeviceConfirm(String name) {
+    return 'Ukloniti $name? Od sljedeće prijave smatra se osobnim mobitelom.';
+  }
+
+  @override
+  String get deviceRemovedLabel => 'Uklonjeno';
+
+  @override
+  String deviceLastUsed(String date) {
+    return 'Zadnje korišteno $date';
+  }
+
+  @override
+  String get deviceNeverUsed => 'Još nije korišteno';
+
+  @override
+  String get deviceRulesSaved => 'Pravila uređaja spremljena.';
+
+  @override
+  String deviceBranchLabel(String name) {
+    return 'Uređaj objekta: $name';
+  }
+
+  @override
+  String get devicePersonalLabel => 'Osobni mobitel';
+
+  @override
+  String get personalRotaTrainingNotice =>
+      'Na svom mobitelu vidiš raspored i obuku. Provjere radi na uređaju objekta.';
 }

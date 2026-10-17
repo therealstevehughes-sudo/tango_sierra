@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme/app_colors.dart';
+import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/brand_header.dart';
 import '../../core/localization/language_picker.dart';
@@ -58,6 +59,9 @@ class WorkerHubScreen extends ConsumerWidget {
         .watch(rosterAddonEnabledProvider)
         .maybeWhen(data: (enabled) => enabled, orElse: () => false);
 
+    final rotaTrainingOnly = ref
+        .watch(sessionDeviceProvider)
+        .rotaAndTrainingOnly;
     final siteId = currentUser?.siteId;
     final toRead = currentUser == null || siteId == null
         ? 0
@@ -159,39 +163,51 @@ class WorkerHubScreen extends ConsumerWidget {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 20),
+                        // Device rules (2026-10-17): on their own phone at
+                        // a venue allowing only rota and training there,
+                        // checks are done on the venue's device instead.
+                        if (rotaTrainingOnly) ...[
+                          AppBanner(
+                            kind: BannerKind.info,
+                            child: Text(l10n.personalRotaTrainingNotice),
+                          ),
+                          const SizedBox(height: 12),
+                        ],
                         // Home tiles (2026-10-17 menu redesign) — one tap
                         // to each job, no side menu for staff.
                         HomeTileGrid(
                           wide: [
-                            HomeTile(
-                              icon: Icons.checklist,
-                              label: l10n.myTasksTitle,
-                              primary: true,
-                              tall: true,
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const TaskScreen(),
+                            if (!rotaTrainingOnly)
+                              HomeTile(
+                                icon: Icons.checklist,
+                                label: l10n.myTasksTitle,
+                                primary: true,
+                                tall: true,
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const TaskScreen(),
+                                  ),
                                 ),
                               ),
-                            ),
                           ],
                           children: [
-                            HomeTile(
-                              icon: Icons.report_problem_outlined,
-                              label: l10n.menuReportProblem,
-                              onTap: site == null || currentUser == null
-                                  ? () {}
-                                  : () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => ReportIssueScreen(
-                                          siteId: site.id,
-                                          raisedByUserId: currentUser.id,
+                            if (!rotaTrainingOnly)
+                              HomeTile(
+                                icon: Icons.report_problem_outlined,
+                                label: l10n.menuReportProblem,
+                                onTap: site == null || currentUser == null
+                                    ? () {}
+                                    : () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => ReportIssueScreen(
+                                            siteId: site.id,
+                                            raisedByUserId: currentUser.id,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                            ),
+                              ),
                             HomeTile(
                               icon: Icons.school_outlined,
                               label: l10n.myTrainingTitle,
@@ -222,16 +238,17 @@ class WorkerHubScreen extends ConsumerWidget {
                         ),
                         // Less frequent actions stay one tap away, but
                         // don't compete with the tiles.
-                        TextButton.icon(
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const AdHocTaskScreen(),
+                        if (!rotaTrainingOnly)
+                          TextButton.icon(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const AdHocTaskScreen(),
+                              ),
                             ),
+                            icon: const Icon(Icons.add_task),
+                            label: Text(l10n.doAdHocTask),
                           ),
-                          icon: const Icon(Icons.add_task),
-                          label: Text(l10n.doAdHocTask),
-                        ),
                         TextButton(
                           onPressed: currentUser == null
                               ? null

@@ -5617,4 +5617,93 @@ class AppLocalizationsZh extends AppLocalizations {
   String dueNowCount(int count) {
     return '$count 项现在到期';
   }
+
+  @override
+  String get devicesTitle => '设备与访问';
+
+  @override
+  String get devicesSubtitle => '分店设备、个人手机、打卡';
+
+  @override
+  String get devicesHelp => '选择员工可在哪里使用 VenuRite 和打卡。分店设备是本场所自己的平板或手机，在下方登记。';
+
+  @override
+  String get deviceRulesWhoLabel => '谁可以使用 VenuRite';
+
+  @override
+  String get devicePolicyBranchOnly => '仅限分店设备';
+
+  @override
+  String get devicePolicyBranchAndPersonal => '分店设备和员工个人手机';
+
+  @override
+  String get devicePolicyPersonalRotaTraining => '个人手机仅可查看排班和培训';
+
+  @override
+  String get deviceRulesClockLabel => '员工可在哪里上下班打卡';
+
+  @override
+  String get clockPolicyAny => '任意设备';
+
+  @override
+  String get clockPolicyBranchOnly => '仅限分店设备';
+
+  @override
+  String deviceRulesFollowHeadOffice(String value) {
+    return '与总部相同（$value）';
+  }
+
+  @override
+  String get deviceRulesHeadOfficeTitle => '总部默认（所有分店）';
+
+  @override
+  String get branchDevicesHeading => '分店设备';
+
+  @override
+  String get branchDevicesNone => '尚未登记分店设备。';
+
+  @override
+  String get registerThisDeviceButton => '将此设备登记为分店设备';
+
+  @override
+  String get thisDeviceIsBranch => '此设备已登记为分店设备。';
+
+  @override
+  String get deviceNameHint => '名称，例如：厨房平板';
+
+  @override
+  String get deviceRegistered => '设备已登记。';
+
+  @override
+  String get removeDeviceButton => '移除';
+
+  @override
+  String removeDeviceConfirm(String name) {
+    return '移除 $name？下次登录起将视为个人手机。';
+  }
+
+  @override
+  String get deviceRemovedLabel => '已移除';
+
+  @override
+  String deviceLastUsed(String date) {
+    return '最近使用 $date';
+  }
+
+  @override
+  String get deviceNeverUsed => '尚未使用';
+
+  @override
+  String get deviceRulesSaved => '设备规则已保存。';
+
+  @override
+  String deviceBranchLabel(String name) {
+    return '分店设备：$name';
+  }
+
+  @override
+  String get devicePersonalLabel => '个人手机';
+
+  @override
+  String get personalRotaTrainingNotice => '在个人手机上可查看排班和培训。检查请在场所设备上完成。';
 }

@@ -5960,4 +5960,99 @@ class AppLocalizationsEn extends AppLocalizations {
   String dueNowCount(int count) {
     return '$count due now';
   }
+
+  @override
+  String get devicesTitle => 'Devices & access';
+
+  @override
+  String get devicesSubtitle => 'Branch devices, own phones, clock-in';
+
+  @override
+  String get devicesHelp =>
+      'Choose where staff can use VenuRite and clock in. Branch devices are this venue\'s own tablets or phones, registered below.';
+
+  @override
+  String get deviceRulesWhoLabel => 'Who can use VenuRite';
+
+  @override
+  String get devicePolicyBranchOnly => 'Branch devices only';
+
+  @override
+  String get devicePolicyBranchAndPersonal =>
+      'Branch devices and staff\'s own phones';
+
+  @override
+  String get devicePolicyPersonalRotaTraining =>
+      'Own phones for rota and training only';
+
+  @override
+  String get deviceRulesClockLabel => 'Where staff can clock in and out';
+
+  @override
+  String get clockPolicyAny => 'Any device';
+
+  @override
+  String get clockPolicyBranchOnly => 'Branch devices only';
+
+  @override
+  String deviceRulesFollowHeadOffice(String value) {
+    return 'Same as head office ($value)';
+  }
+
+  @override
+  String get deviceRulesHeadOfficeTitle => 'Head-office default (all branches)';
+
+  @override
+  String get branchDevicesHeading => 'Branch devices';
+
+  @override
+  String get branchDevicesNone => 'No branch devices registered yet.';
+
+  @override
+  String get registerThisDeviceButton =>
+      'Register this device as a branch device';
+
+  @override
+  String get thisDeviceIsBranch =>
+      'This device is registered as a branch device.';
+
+  @override
+  String get deviceNameHint => 'Name, e.g. Kitchen tablet';
+
+  @override
+  String get deviceRegistered => 'Device registered.';
+
+  @override
+  String get removeDeviceButton => 'Remove';
+
+  @override
+  String removeDeviceConfirm(String name) {
+    return 'Remove $name? From its next login it counts as a personal phone.';
+  }
+
+  @override
+  String get deviceRemovedLabel => 'Removed';
+
+  @override
+  String deviceLastUsed(String date) {
+    return 'Last used $date';
+  }
+
+  @override
+  String get deviceNeverUsed => 'Not used yet';
+
+  @override
+  String get deviceRulesSaved => 'Device rules saved.';
+
+  @override
+  String deviceBranchLabel(String name) {
+    return 'Branch device: $name';
+  }
+
+  @override
+  String get devicePersonalLabel => 'Personal phone';
+
+  @override
+  String get personalRotaTrainingNotice =>
+      'On your own phone you can see your rota and training. Do checks on the venue\'s own device.';
 }

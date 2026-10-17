@@ -10189,6 +10189,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} due now'**
   String dueNowCount(int count);
+
+  /// No description provided for @devicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Devices & access'**
+  String get devicesTitle;
+
+  /// No description provided for @devicesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch devices, own phones, clock-in'**
+  String get devicesSubtitle;
+
+  /// No description provided for @devicesHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose where staff can use VenuRite and clock in. Branch devices are this venue\'s own tablets or phones, registered below.'**
+  String get devicesHelp;
+
+  /// No description provided for @deviceRulesWhoLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Who can use VenuRite'**
+  String get deviceRulesWhoLabel;
+
+  /// No description provided for @devicePolicyBranchOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch devices only'**
+  String get devicePolicyBranchOnly;
+
+  /// No description provided for @devicePolicyBranchAndPersonal.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch devices and staff\'s own phones'**
+  String get devicePolicyBranchAndPersonal;
+
+  /// No description provided for @devicePolicyPersonalRotaTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Own phones for rota and training only'**
+  String get devicePolicyPersonalRotaTraining;
+
+  /// No description provided for @deviceRulesClockLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Where staff can clock in and out'**
+  String get deviceRulesClockLabel;
+
+  /// No description provided for @clockPolicyAny.
+  ///
+  /// In en, this message translates to:
+  /// **'Any device'**
+  String get clockPolicyAny;
+
+  /// No description provided for @clockPolicyBranchOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch devices only'**
+  String get clockPolicyBranchOnly;
+
+  /// No description provided for @deviceRulesFollowHeadOffice.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as head office ({value})'**
+  String deviceRulesFollowHeadOffice(String value);
+
+  /// No description provided for @deviceRulesHeadOfficeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Head-office default (all branches)'**
+  String get deviceRulesHeadOfficeTitle;
+
+  /// No description provided for @branchDevicesHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch devices'**
+  String get branchDevicesHeading;
+
+  /// No description provided for @branchDevicesNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No branch devices registered yet.'**
+  String get branchDevicesNone;
+
+  /// No description provided for @registerThisDeviceButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Register this device as a branch device'**
+  String get registerThisDeviceButton;
+
+  /// No description provided for @thisDeviceIsBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'This device is registered as a branch device.'**
+  String get thisDeviceIsBranch;
+
+  /// No description provided for @deviceNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, e.g. Kitchen tablet'**
+  String get deviceNameHint;
+
+  /// No description provided for @deviceRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'Device registered.'**
+  String get deviceRegistered;
+
+  /// No description provided for @removeDeviceButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get removeDeviceButton;
+
+  /// No description provided for @removeDeviceConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}? From its next login it counts as a personal phone.'**
+  String removeDeviceConfirm(String name);
+
+  /// No description provided for @deviceRemovedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed'**
+  String get deviceRemovedLabel;
+
+  /// No description provided for @deviceLastUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Last used {date}'**
+  String deviceLastUsed(String date);
+
+  /// No description provided for @deviceNeverUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Not used yet'**
+  String get deviceNeverUsed;
+
+  /// No description provided for @deviceRulesSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Device rules saved.'**
+  String get deviceRulesSaved;
+
+  /// No description provided for @deviceBranchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch device: {name}'**
+  String deviceBranchLabel(String name);
+
+  /// No description provided for @devicePersonalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Personal phone'**
+  String get devicePersonalLabel;
+
+  /// No description provided for @personalRotaTrainingNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'On your own phone you can see your rota and training. Do checks on the venue\'s own device.'**
+  String get personalRotaTrainingNotice;
 }
 
 class _AppLocalizationsDelegate

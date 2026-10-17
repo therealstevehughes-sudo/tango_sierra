@@ -5,6 +5,7 @@ import '../models/job_role.dart';
 import '../models/pin_auth_outcome.dart';
 import '../models/user.dart';
 import 'user_repository.dart';
+import '../../core/security/branch_device_key.dart';
 
 // Phase B3 — only the profile-data methods move to the backend this
 // cluster. resetPin() still touches PIN credentials directly (hashing,
@@ -104,7 +105,13 @@ class SupabaseUserRepository implements UserRepository {
     try {
       final response = await _functionsClient.functions.invoke(
         'pin-login',
-        body: {'local_user_id': userId, 'pin': pin},
+        // Device rules (2026-10-17): a registered branch device adds a
+        // fresh signature so the server knows it's that device.
+        body: {
+          'local_user_id': userId,
+          'pin': pin,
+          ...await BranchDeviceKey().loginProof(userId),
+        },
       );
       final data = response.data as Map<String, dynamic>;
       final accessToken = data['access_token'] as String;
@@ -135,6 +142,14 @@ class SupabaseUserRepository implements UserRepository {
         );
       }
       if (e.status == 401) return const PinAuthIncorrect();
+      if (e.status == 403) {
+        final details = e.details;
+        return PinAuthError(
+          details is Map && details['error'] is String
+              ? details['error'] as String
+              : 'This venue only allows VenuRite on its own devices.',
+        );
+      }
       return PinAuthError('Could not reach the server (${e.status})');
     } catch (_) {
       return const PinAuthError('Could not reach the server');

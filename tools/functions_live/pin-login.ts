@@ -35,7 +35,16 @@ Deno.serve(async (req: Request) => {
     return Response.json({ error: "method not allowed" }, { status: 405 })
   }
 
-  let body: { user_id?: string; local_user_id?: number; pin?: string }
+  let body: {
+    user_id?: string
+    local_user_id?: number
+    pin?: string
+    // Device rules (2026-10-17): a registered branch device signs
+    // "<device_id>.<local_user_id>.<unix seconds>" with its private key.
+    device_id?: number
+    device_ts?: number
+    device_signature?: string
+  }
   try {
     body = await req.json()
   } catch {
@@ -113,6 +122,49 @@ Deno.serve(async (req: Request) => {
   const now = Math.floor(Date.now() / 1000)
   const secretKey = new TextEncoder().encode(JWT_SECRET)
 
+  // Device rules (2026-10-17): is this a verified branch device? Only a
+  // fresh signature from a registered, unremoved device at this branch
+  // counts; anything else is a personal phone.
+  let deviceKind: "branch" | "personal" = "personal"
+  let deviceId: number | null = null
+  let deviceName: string | null = null
+  if (body.device_id && body.device_ts && body.device_signature && data.site_id) {
+    if (Math.abs(now - body.device_ts) <= 300) {
+      const { data: dev } = await supabaseAdmin
+        .from("branch_devices")
+        .select("id, name, public_key, site_id, revoked_at")
+        .eq("id", body.device_id)
+        .maybeSingle()
+      if (dev && !dev.revoked_at && dev.site_id === data.site_id) {
+        try {
+          const raw = Uint8Array.from(atob(dev.public_key.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0))
+          const key = await crypto.subtle.importKey("raw", raw, { name: "Ed25519" }, false, ["verify"])
+          const sig = Uint8Array.from(atob(body.device_signature), (c) => c.charCodeAt(0))
+          const msg = new TextEncoder().encode(`${body.device_id}.${data.local_user_id}.${body.device_ts}`)
+          if (await crypto.subtle.verify({ name: "Ed25519" }, key, sig, msg)) {
+            deviceKind = "branch"
+            deviceId = dev.id
+            deviceName = dev.name
+            await supabaseAdmin.from("branch_devices").update({ last_used_at: new Date().toISOString() }).eq("id", dev.id)
+          }
+        } catch (e) {
+          console.error("device signature check", e)
+        }
+      }
+    }
+  }
+  let devicePolicy = "branch_and_personal"
+  if (data.site_id) {
+    const { data: pol } = await supabaseAdmin.rpc("effective_device_policy", { p_site_id: data.site_id })
+    if (typeof pol === "string") devicePolicy = pol
+  }
+  if (devicePolicy === "branch_only" && deviceKind !== "branch") {
+    return Response.json(
+      { error: "This venue only allows VenuRite on its own devices." },
+      { status: 403 },
+    )
+  }
+
   const accessToken = await new jose.SignJWT({
     role: "authenticated",
     aud: "authenticated",
@@ -126,6 +178,10 @@ Deno.serve(async (req: Request) => {
       // site's region/org reassignment is picked up on the very next login.
       organisation_id: data.organisation_id,
       region_id: data.region_id,
+      device_kind: deviceKind,
+      device_id: deviceId,
+      device_name: deviceName,
+      device_policy: devicePolicy,
     },
   })
     .setProtectedHeader({ alg: "HS256" })
@@ -146,6 +202,9 @@ Deno.serve(async (req: Request) => {
       local_user_id: data.local_user_id,
       organisation_id: data.organisation_id,
       region_id: data.region_id,
+      device_kind: deviceKind,
+      device_name: deviceName,
+      device_policy: devicePolicy,
     },
   })
 })

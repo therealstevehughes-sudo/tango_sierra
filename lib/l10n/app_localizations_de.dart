@@ -6009,4 +6009,99 @@ class AppLocalizationsDe extends AppLocalizations {
   String dueNowCount(int count) {
     return '$count jetzt fällig';
   }
+
+  @override
+  String get devicesTitle => 'Geräte & Zugang';
+
+  @override
+  String get devicesSubtitle => 'Filialgeräte, eigene Handys, Stempeln';
+
+  @override
+  String get devicesHelp =>
+      'Lege fest, wo das Team VenuRite nutzen und stempeln darf. Filialgeräte sind die eigenen Tablets oder Handys des Betriebs, unten registriert.';
+
+  @override
+  String get deviceRulesWhoLabel => 'Wer VenuRite nutzen darf';
+
+  @override
+  String get devicePolicyBranchOnly => 'Nur Filialgeräte';
+
+  @override
+  String get devicePolicyBranchAndPersonal => 'Filialgeräte und eigene Handys';
+
+  @override
+  String get devicePolicyPersonalRotaTraining =>
+      'Eigene Handys nur für Dienstplan und Schulung';
+
+  @override
+  String get deviceRulesClockLabel => 'Wo das Team ein- und ausstempeln darf';
+
+  @override
+  String get clockPolicyAny => 'Jedes Gerät';
+
+  @override
+  String get clockPolicyBranchOnly => 'Nur Filialgeräte';
+
+  @override
+  String deviceRulesFollowHeadOffice(String value) {
+    return 'Wie Zentrale ($value)';
+  }
+
+  @override
+  String get deviceRulesHeadOfficeTitle =>
+      'Standard der Zentrale (alle Filialen)';
+
+  @override
+  String get branchDevicesHeading => 'Filialgeräte';
+
+  @override
+  String get branchDevicesNone => 'Noch keine Filialgeräte registriert.';
+
+  @override
+  String get registerThisDeviceButton =>
+      'Dieses Gerät als Filialgerät registrieren';
+
+  @override
+  String get thisDeviceIsBranch =>
+      'Dieses Gerät ist als Filialgerät registriert.';
+
+  @override
+  String get deviceNameHint => 'Name, z. B. Küchentablet';
+
+  @override
+  String get deviceRegistered => 'Gerät registriert.';
+
+  @override
+  String get removeDeviceButton => 'Entfernen';
+
+  @override
+  String removeDeviceConfirm(String name) {
+    return '$name entfernen? Ab der nächsten Anmeldung zählt es als eigenes Handy.';
+  }
+
+  @override
+  String get deviceRemovedLabel => 'Entfernt';
+
+  @override
+  String deviceLastUsed(String date) {
+    return 'Zuletzt genutzt $date';
+  }
+
+  @override
+  String get deviceNeverUsed => 'Noch nicht genutzt';
+
+  @override
+  String get deviceRulesSaved => 'Geräteregeln gespeichert.';
+
+  @override
+  String deviceBranchLabel(String name) {
+    return 'Filialgerät: $name';
+  }
+
+  @override
+  String get devicePersonalLabel => 'Eigenes Handy';
+
+  @override
+  String get personalRotaTrainingNotice =>
+      'Auf dem eigenen Handy siehst du Dienstplan und Schulung. Prüfungen bitte am Gerät des Betriebs.';
 }

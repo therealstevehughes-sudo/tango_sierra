@@ -5137,5 +5137,60 @@
         "type": "int"
       }
     }
-  }
+  },
+  "devicesTitle": "Devices & access",
+  "devicesSubtitle": "Branch devices, own phones, clock-in",
+  "devicesHelp": "Choose where staff can use VenuRite and clock in. Branch devices are this venue's own tablets or phones, registered below.",
+  "deviceRulesWhoLabel": "Who can use VenuRite",
+  "devicePolicyBranchOnly": "Branch devices only",
+  "devicePolicyBranchAndPersonal": "Branch devices and staff's own phones",
+  "devicePolicyPersonalRotaTraining": "Own phones for rota and training only",
+  "deviceRulesClockLabel": "Where staff can clock in and out",
+  "clockPolicyAny": "Any device",
+  "clockPolicyBranchOnly": "Branch devices only",
+  "deviceRulesFollowHeadOffice": "Same as head office ({value})",
+  "@deviceRulesFollowHeadOffice": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "deviceRulesHeadOfficeTitle": "Head-office default (all branches)",
+  "branchDevicesHeading": "Branch devices",
+  "branchDevicesNone": "No branch devices registered yet.",
+  "registerThisDeviceButton": "Register this device as a branch device",
+  "thisDeviceIsBranch": "This device is registered as a branch device.",
+  "deviceNameHint": "Name, e.g. Kitchen tablet",
+  "deviceRegistered": "Device registered.",
+  "removeDeviceButton": "Remove",
+  "removeDeviceConfirm": "Remove {name}? From its next login it counts as a personal phone.",
+  "@removeDeviceConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "deviceRemovedLabel": "Removed",
+  "deviceLastUsed": "Last used {date}",
+  "@deviceLastUsed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "deviceNeverUsed": "Not used yet",
+  "deviceRulesSaved": "Device rules saved.",
+  "deviceBranchLabel": "Branch device: {name}",
+  "@deviceBranchLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "devicePersonalLabel": "Personal phone",
+  "personalRotaTrainingNotice": "On your own phone you can see your rota and training. Do checks on the venue's own device."
 }

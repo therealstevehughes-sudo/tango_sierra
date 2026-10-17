@@ -5948,4 +5948,101 @@ class AppLocalizationsEs extends AppLocalizations {
   String dueNowCount(int count) {
     return '$count pendientes ahora';
   }
+
+  @override
+  String get devicesTitle => 'Dispositivos y acceso';
+
+  @override
+  String get devicesSubtitle =>
+      'Dispositivos del local, móviles propios, fichaje';
+
+  @override
+  String get devicesHelp =>
+      'Elige dónde puede el personal usar VenuRite y fichar. Los dispositivos del local son tabletas o móviles propios, registrados abajo.';
+
+  @override
+  String get deviceRulesWhoLabel => 'Quién puede usar VenuRite';
+
+  @override
+  String get devicePolicyBranchOnly => 'Solo dispositivos del local';
+
+  @override
+  String get devicePolicyBranchAndPersonal =>
+      'Dispositivos del local y móviles propios';
+
+  @override
+  String get devicePolicyPersonalRotaTraining =>
+      'Móviles propios solo para turnos y formación';
+
+  @override
+  String get deviceRulesClockLabel => 'Dónde puede fichar el personal';
+
+  @override
+  String get clockPolicyAny => 'Cualquier dispositivo';
+
+  @override
+  String get clockPolicyBranchOnly => 'Solo dispositivos del local';
+
+  @override
+  String deviceRulesFollowHeadOffice(String value) {
+    return 'Igual que la central ($value)';
+  }
+
+  @override
+  String get deviceRulesHeadOfficeTitle =>
+      'Predeterminado de la central (todos los locales)';
+
+  @override
+  String get branchDevicesHeading => 'Dispositivos del local';
+
+  @override
+  String get branchDevicesNone => 'Aún no hay dispositivos registrados.';
+
+  @override
+  String get registerThisDeviceButton =>
+      'Registrar este dispositivo como del local';
+
+  @override
+  String get thisDeviceIsBranch =>
+      'Este dispositivo está registrado como del local.';
+
+  @override
+  String get deviceNameHint => 'Nombre, p. ej. Tableta de cocina';
+
+  @override
+  String get deviceRegistered => 'Dispositivo registrado.';
+
+  @override
+  String get removeDeviceButton => 'Quitar';
+
+  @override
+  String removeDeviceConfirm(String name) {
+    return '¿Quitar $name? Desde su próximo inicio contará como móvil personal.';
+  }
+
+  @override
+  String get deviceRemovedLabel => 'Quitado';
+
+  @override
+  String deviceLastUsed(String date) {
+    return 'Último uso $date';
+  }
+
+  @override
+  String get deviceNeverUsed => 'Aún sin usar';
+
+  @override
+  String get deviceRulesSaved => 'Reglas de dispositivos guardadas.';
+
+  @override
+  String deviceBranchLabel(String name) {
+    return 'Dispositivo del local: $name';
+  }
+
+  @override
+  String get devicePersonalLabel => 'Móvil personal';
+
+  @override
+  String get personalRotaTrainingNotice =>
+      'En tu móvil puedes ver tus turnos y formación. Haz los controles en el dispositivo del local.';
 }

@@ -288,6 +288,43 @@ final backendAuthEnabledProvider = StateProvider<bool>((ref) => false);
 // and the shared-kitchen-tablet expectation that every session starts fresh.
 final currentSessionTokenProvider = StateProvider<String?>((ref) => null);
 
+/// Device rules (2026-10-17): what the server said about this login's
+/// device, read from the session token's own claims (display only — the
+/// database enforces the rules itself).
+class SessionDevice {
+  const SessionDevice({this.kind, this.name, this.policy});
+
+  /// 'branch', 'personal', or null (leadership login / local mode).
+  final String? kind;
+  final String? name;
+
+  /// The venue's effective device policy at login.
+  final String? policy;
+
+  /// Own phone at a venue that only allows rota and training on them.
+  bool get rotaAndTrainingOnly =>
+      kind == 'personal' && policy == 'personal_rota_training';
+}
+
+final sessionDeviceProvider = Provider<SessionDevice>((ref) {
+  final token = ref.watch(currentSessionTokenProvider);
+  if (token == null) return const SessionDevice();
+  try {
+    final parts = token.split('.');
+    final payload =
+        jsonDecode(utf8.decode(base64Url.decode(base64Url.normalize(parts[1]))))
+            as Map<String, dynamic>;
+    final meta = payload['app_metadata'] as Map<String, dynamic>? ?? const {};
+    return SessionDevice(
+      kind: meta['device_kind'] as String?,
+      name: meta['device_name'] as String?,
+      policy: meta['device_policy'] as String?,
+    );
+  } catch (_) {
+    return const SessionDevice();
+  }
+});
+
 // Phase B2 — the single switch that turns on backend-hosted Foundation-
 // cluster data (Organisations/Regions/Sites/VenueTypes/Departments/Areas/
 // EquipmentTypes). Off by default: every one of those repositories behaves

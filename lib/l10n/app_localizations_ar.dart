@@ -5788,4 +5788,99 @@ class AppLocalizationsAr extends AppLocalizations {
   String dueNowCount(int count) {
     return '$count مستحق الآن';
   }
+
+  @override
+  String get devicesTitle => 'الأجهزة والوصول';
+
+  @override
+  String get devicesSubtitle => 'أجهزة الفرع، الهواتف الشخصية، تسجيل الحضور';
+
+  @override
+  String get devicesHelp =>
+      'اختر أين يمكن للموظفين استخدام VenuRite وتسجيل الحضور. أجهزة الفرع هي أجهزة المنشأة اللوحية أو هواتفها المسجلة أدناه.';
+
+  @override
+  String get deviceRulesWhoLabel => 'من يمكنه استخدام VenuRite';
+
+  @override
+  String get devicePolicyBranchOnly => 'أجهزة الفرع فقط';
+
+  @override
+  String get devicePolicyBranchAndPersonal =>
+      'أجهزة الفرع وهواتف الموظفين الشخصية';
+
+  @override
+  String get devicePolicyPersonalRotaTraining =>
+      'الهواتف الشخصية للجدول والتدريب فقط';
+
+  @override
+  String get deviceRulesClockLabel =>
+      'أين يمكن للموظفين تسجيل الحضور والانصراف';
+
+  @override
+  String get clockPolicyAny => 'أي جهاز';
+
+  @override
+  String get clockPolicyBranchOnly => 'أجهزة الفرع فقط';
+
+  @override
+  String deviceRulesFollowHeadOffice(String value) {
+    return 'مثل المكتب الرئيسي ($value)';
+  }
+
+  @override
+  String get deviceRulesHeadOfficeTitle =>
+      'الإعداد الافتراضي للمكتب الرئيسي (كل الفروع)';
+
+  @override
+  String get branchDevicesHeading => 'أجهزة الفرع';
+
+  @override
+  String get branchDevicesNone => 'لم يتم تسجيل أي أجهزة فرع بعد.';
+
+  @override
+  String get registerThisDeviceButton => 'تسجيل هذا الجهاز كجهاز للفرع';
+
+  @override
+  String get thisDeviceIsBranch => 'هذا الجهاز مسجل كجهاز للفرع.';
+
+  @override
+  String get deviceNameHint => 'الاسم، مثل جهاز المطبخ اللوحي';
+
+  @override
+  String get deviceRegistered => 'تم تسجيل الجهاز.';
+
+  @override
+  String get removeDeviceButton => 'إزالة';
+
+  @override
+  String removeDeviceConfirm(String name) {
+    return 'إزالة $name؟ من تسجيل الدخول التالي سيُعامل كهاتف شخصي.';
+  }
+
+  @override
+  String get deviceRemovedLabel => 'تمت الإزالة';
+
+  @override
+  String deviceLastUsed(String date) {
+    return 'آخر استخدام $date';
+  }
+
+  @override
+  String get deviceNeverUsed => 'لم يُستخدم بعد';
+
+  @override
+  String get deviceRulesSaved => 'تم حفظ قواعد الأجهزة.';
+
+  @override
+  String deviceBranchLabel(String name) {
+    return 'جهاز الفرع: $name';
+  }
+
+  @override
+  String get devicePersonalLabel => 'هاتف شخصي';
+
+  @override
+  String get personalRotaTrainingNotice =>
+      'على هاتفك الشخصي يمكنك رؤية جدولك وتدريبك. قم بالفحوصات على جهاز المنشأة.';
 }

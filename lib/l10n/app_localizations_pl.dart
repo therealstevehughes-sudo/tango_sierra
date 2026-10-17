@@ -5949,4 +5949,101 @@ class AppLocalizationsPl extends AppLocalizations {
   String dueNowCount(int count) {
     return '$count do zrobienia teraz';
   }
+
+  @override
+  String get devicesTitle => 'Urządzenia i dostęp';
+
+  @override
+  String get devicesSubtitle => 'Urządzenia lokalu, własne telefony, odbijanie';
+
+  @override
+  String get devicesHelp =>
+      'Wybierz, gdzie personel może używać VenuRite i odbijać czas. Urządzenia lokalu to jego własne tablety lub telefony, zarejestrowane poniżej.';
+
+  @override
+  String get deviceRulesWhoLabel => 'Kto może używać VenuRite';
+
+  @override
+  String get devicePolicyBranchOnly => 'Tylko urządzenia lokalu';
+
+  @override
+  String get devicePolicyBranchAndPersonal =>
+      'Urządzenia lokalu i własne telefony';
+
+  @override
+  String get devicePolicyPersonalRotaTraining =>
+      'Własne telefony tylko do grafiku i szkoleń';
+
+  @override
+  String get deviceRulesClockLabel =>
+      'Gdzie personel może odbijać wejście i wyjście';
+
+  @override
+  String get clockPolicyAny => 'Dowolne urządzenie';
+
+  @override
+  String get clockPolicyBranchOnly => 'Tylko urządzenia lokalu';
+
+  @override
+  String deviceRulesFollowHeadOffice(String value) {
+    return 'Jak w centrali ($value)';
+  }
+
+  @override
+  String get deviceRulesHeadOfficeTitle =>
+      'Domyślne centrali (wszystkie lokale)';
+
+  @override
+  String get branchDevicesHeading => 'Urządzenia lokalu';
+
+  @override
+  String get branchDevicesNone => 'Brak zarejestrowanych urządzeń.';
+
+  @override
+  String get registerThisDeviceButton =>
+      'Zarejestruj to urządzenie jako urządzenie lokalu';
+
+  @override
+  String get thisDeviceIsBranch =>
+      'To urządzenie jest zarejestrowane jako urządzenie lokalu.';
+
+  @override
+  String get deviceNameHint => 'Nazwa, np. Tablet w kuchni';
+
+  @override
+  String get deviceRegistered => 'Urządzenie zarejestrowane.';
+
+  @override
+  String get removeDeviceButton => 'Usuń';
+
+  @override
+  String removeDeviceConfirm(String name) {
+    return 'Usunąć $name? Od następnego logowania będzie traktowane jak prywatny telefon.';
+  }
+
+  @override
+  String get deviceRemovedLabel => 'Usunięte';
+
+  @override
+  String deviceLastUsed(String date) {
+    return 'Ostatnio użyte $date';
+  }
+
+  @override
+  String get deviceNeverUsed => 'Jeszcze nieużywane';
+
+  @override
+  String get deviceRulesSaved => 'Zasady urządzeń zapisane.';
+
+  @override
+  String deviceBranchLabel(String name) {
+    return 'Urządzenie lokalu: $name';
+  }
+
+  @override
+  String get devicePersonalLabel => 'Prywatny telefon';
+
+  @override
+  String get personalRotaTrainingNotice =>
+      'Na własnym telefonie widzisz grafik i szkolenia. Kontrole rób na urządzeniu lokalu.';
 }

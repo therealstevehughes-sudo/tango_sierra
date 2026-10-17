@@ -22,6 +22,10 @@ class BackendShiftLog {
     this.clockOutVerifiedAt,
     this.clockInLocation,
     this.clockOutLocation,
+    this.clockInDeviceName,
+    this.clockInOnBranchDevice,
+    this.clockOutDeviceName,
+    this.clockOutOnBranchDevice,
   });
 
   final int id;
@@ -45,6 +49,13 @@ class BackendShiftLog {
   // have the check on at the time of that event.
   final ClockLocationResult? clockInLocation;
   final ClockLocationResult? clockOutLocation;
+
+  // Device rules (2026-10-17): which device each clock event was made on.
+  // null = not recorded (leadership login, or before this existed).
+  final String? clockInDeviceName;
+  final bool? clockInOnBranchDevice;
+  final String? clockOutDeviceName;
+  final bool? clockOutOnBranchDevice;
 
   Duration? get duration => clockOutAt?.difference(clockInAt);
 

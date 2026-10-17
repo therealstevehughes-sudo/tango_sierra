@@ -111,6 +111,18 @@ class SupabaseBackendShiftLogRepository implements BackendShiftLogRepository {
         : DateTime.parse(row['clock_out_verified_at'] as String),
     clockInLocation: _location(row, 'clock_in'),
     clockOutLocation: _location(row, 'clock_out'),
+    clockInDeviceName: row['clock_in_device_name'] as String?,
+    clockInOnBranchDevice: switch (row['clock_in_device_kind']) {
+      'branch' => true,
+      'personal' => false,
+      _ => null,
+    },
+    clockOutDeviceName: row['clock_out_device_name'] as String?,
+    clockOutOnBranchDevice: switch (row['clock_out_device_kind']) {
+      'branch' => true,
+      'personal' => false,
+      _ => null,
+    },
   );
 
   ClockLocationResult? _location(Map<String, dynamic> row, String prefix) {

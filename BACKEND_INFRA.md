@@ -2272,3 +2272,10 @@ Applied `tools/integrity_flags_migration.sql`: task_submissions + `duration_seco
 - New Edge Function `task-due-reminders` (`tools/functions_live/task-due-reminders.ts`), cron `*/5 * * * * /root/backups/task_reminders_cron.sh >> /root/backups/task_reminders.log` (script = `tools/task_reminders_cron.sh`, reuses CERT_EXPIRY_CRON_SECRET). Previous crontab: `/root/crontab.bak-reminders`.
 - `device-login` updated to return `due_now` counts (source now in `tools/functions_live/device-login.ts`; previous copy `/root/fn_backup_20261017/device-login.index.ts`).
 - APK + web app redeployed, md5-verified.
+
+## Device rules (2026-10-17)
+
+- Applied `tools/device_rules_migration.sql`: `organisations.default_device_policy/default_clock_policy`, `sites.device_policy/clock_policy` (null = follow head office), `branch_devices` (no direct API access), task_submissions `device_kind/device_name`, shift_logs `clock_in/out_device_kind/_name`, triggers `task_submissions_device_rules` + `shift_logs_device_rules`, RPCs `device_rules_for_site`, `set_site_device_rules`, `set_org_device_rules`, `list_branch_devices`, `register_branch_device`, `revoke_branch_device`, helpers `effective_device_policy/effective_clock_policy/_session_device`.
+- `pin-login` updated (source `tools/functions_live/pin-login.ts`; previous copy `/root/fn_backup_20261017/pin-login.before-devices.ts`): verifies Ed25519 device signatures (WebCrypto), adds `device_kind/device_id/device_name/device_policy` claims, refuses non-branch logins at "branch devices only" venues (403).
+- App packages added: `cryptography`, `flutter_secure_storage`.
+Deployed 2026-10-17: APK + web app md5-verified (device rules build).

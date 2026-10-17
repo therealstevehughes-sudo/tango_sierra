@@ -2,6 +2,8 @@ import '../../core/errors/friendly_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../app/theme/app_colors.dart';
+
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/app_screen_header.dart';
@@ -239,6 +241,20 @@ class _ShiftVerificationQueueScreenState
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                  // Device rules (2026-10-17): where each
+                                  // clock event was made.
+                                  if (log.clockInOnBranchDevice != null)
+                                    Text(
+                                      log.clockInOnBranchDevice!
+                                          ? l10n.deviceBranchLabel(
+                                              log.clockInDeviceName ?? '',
+                                            )
+                                          : l10n.devicePersonalLabel,
+                                      style: const TextStyle(
+                                        color: AppColors.muted,
+                                        fontSize: 13,
+                                      ),
+                                    ),
                                   const SizedBox(height: 8),
                                   if (log.clockInLocationFlagged)
                                     _locationRow(l10n, log, 'in'),

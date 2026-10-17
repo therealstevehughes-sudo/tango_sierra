@@ -3420,3 +3420,22 @@ Apply / Apply to Multiple moved under the preset name; names no longer wrap a wo
 - **Shared venue tablet:** each clocked-in person's name in the "Who are you?" list shows "N due now".
 - **Bug found and fixed:** the server never had the `users.preferred_locale` column the app uses, so the **end-of-shift summary to managers had silently never been sent** on the live server, and language choices weren't saved there. Column added; both now work.
 - Honest limits: times are UK time (venues have no time-zone setting yet); pushes only reach the Android app (web app on iPhone can't receive them reliably, and there's no iPhone app yet); people who never logged into the Android app get no push, only the in-app list and tablet badge.
+
+## Device rules built (decisions 6-10, 2026-10-17)
+
+- **Menu → Venue → Devices & access** (venue managers+):
+  - **Who can use VenuRite:** branch devices and staff's own phones (default) / own phones for rota and training only / branch devices only. No "personal only" option.
+  - **Where staff can clock in and out:** any device (default) / branch devices only.
+  - Each branch follows head office unless it chooses its own; directors set the head-office default on the same screen.
+- **Branch devices** are registered one by one: a manager, logged in on the tablet itself, taps "Register this device" and names it (e.g. "Kitchen tablet"). The device makes its own key pair; the private key stays in the device's protected storage; the server checks a fresh signature at every PIN login (signatures older than 5 minutes are refused). The shared setup code alone no longer makes a phone a branch device. The Devices list shows name + last used, with **Remove** for a lost/stolen device.
+- **Enforced by the database**, not the app: at a venue that limits checks to branch devices, a check from anything else is refused ("At this venue, checks can only be done on the venue's own devices."); same for clock-in/out under "branch devices only". A "branch devices only" venue refuses PIN login on other devices. Own phones at a "rota and training only" venue show just Training + My Shifts with a short explanation.
+- **Labels:** every check and clock-in/out now records "Branch device: <name>" or "Personal phone"; the clock-ins screen shows it.
+- **Not restricted:** leadership email logins (managers' laptops/office).
+- Honest limit: on the web app the device key lives in browser storage, so "branch device" is strongest on the Android app. Tested on the server (rolled back): personal check and clock-in blocked under the strict rules, branch device allowed and labelled, leadership allowed; app↔server signatures cross-checked. Not yet registered on a real tablet.
+
+## Documents drafted (2026-10-17)
+
+- `reports/security_review_scope_2026-10.md`: scope for the independent security reviewer (Upwork, £600–£2,000), covering tenant isolation, privilege escalation, PIN/JWT/device auth, Edge Functions, storage, infrastructure and client apps; deliverables and who to hire.
+- `legal/CLIENT_AGREEMENT_DRAFT.md` + `legal/DATA_PROCESSING_AGREEMENT_DRAFT.md`: client agreement (client responsible for its staff's actions + indemnity, 12-month-fees cap with the UCTA carve-outs, AI and integrity-flag disclaimers, band pricing/yearly/Direct Debit, 30-day export then deletion) and Article 28 DPA (processing details incl. the monitoring features, sub-processor list, transfers, 48h breach notice, security annex). Both marked **for solicitor review**, with **[Solicitor]** notes on the risky points.
+- Note for the solicitor: the existing Terms of Service (section 5) says faked records are "not something VenuRite can detect" — out of date now that integrity flags exist; reword when the terms are reviewed.
+- `research_notes/equipment_library_plan_2026-10.md`: equipment library plan (server catalogue + search, one-tap model packs, AI drafts for unlisted models with manager approval) — **awaiting your OK before building**.

@@ -5944,4 +5944,102 @@ class AppLocalizationsRo extends AppLocalizations {
   String dueNowCount(int count) {
     return '$count de făcut acum';
   }
+
+  @override
+  String get devicesTitle => 'Dispozitive și acces';
+
+  @override
+  String get devicesSubtitle =>
+      'Dispozitive ale locației, telefoane proprii, pontaj';
+
+  @override
+  String get devicesHelp =>
+      'Alege unde poate personalul folosi VenuRite și ponta. Dispozitivele locației sunt tabletele sau telefoanele proprii, înregistrate mai jos.';
+
+  @override
+  String get deviceRulesWhoLabel => 'Cine poate folosi VenuRite';
+
+  @override
+  String get devicePolicyBranchOnly => 'Doar dispozitivele locației';
+
+  @override
+  String get devicePolicyBranchAndPersonal =>
+      'Dispozitivele locației și telefoanele proprii';
+
+  @override
+  String get devicePolicyPersonalRotaTraining =>
+      'Telefoane proprii doar pentru program și instruire';
+
+  @override
+  String get deviceRulesClockLabel =>
+      'Unde poate personalul ponta intrarea și ieșirea';
+
+  @override
+  String get clockPolicyAny => 'Orice dispozitiv';
+
+  @override
+  String get clockPolicyBranchOnly => 'Doar dispozitivele locației';
+
+  @override
+  String deviceRulesFollowHeadOffice(String value) {
+    return 'Ca la sediul central ($value)';
+  }
+
+  @override
+  String get deviceRulesHeadOfficeTitle =>
+      'Implicit sediu central (toate locațiile)';
+
+  @override
+  String get branchDevicesHeading => 'Dispozitivele locației';
+
+  @override
+  String get branchDevicesNone => 'Niciun dispozitiv înregistrat încă.';
+
+  @override
+  String get registerThisDeviceButton =>
+      'Înregistrează acest dispozitiv al locației';
+
+  @override
+  String get thisDeviceIsBranch =>
+      'Acest dispozitiv este înregistrat al locației.';
+
+  @override
+  String get deviceNameHint => 'Nume, ex. Tableta din bucătărie';
+
+  @override
+  String get deviceRegistered => 'Dispozitiv înregistrat.';
+
+  @override
+  String get removeDeviceButton => 'Elimină';
+
+  @override
+  String removeDeviceConfirm(String name) {
+    return 'Elimini $name? De la următoarea autentificare va conta ca telefon personal.';
+  }
+
+  @override
+  String get deviceRemovedLabel => 'Eliminat';
+
+  @override
+  String deviceLastUsed(String date) {
+    return 'Folosit ultima dată $date';
+  }
+
+  @override
+  String get deviceNeverUsed => 'Încă nefolosit';
+
+  @override
+  String get deviceRulesSaved => 'Regulile dispozitivelor au fost salvate.';
+
+  @override
+  String deviceBranchLabel(String name) {
+    return 'Dispozitiv al locației: $name';
+  }
+
+  @override
+  String get devicePersonalLabel => 'Telefon personal';
+
+  @override
+  String get personalRotaTrainingNotice =>
+      'Pe telefonul tău vezi programul și instruirea. Verificările le faci pe dispozitivul locației.';
 }
