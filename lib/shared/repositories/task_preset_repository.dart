@@ -3,6 +3,7 @@ import 'package:drift/drift.dart';
 import '../../core/storage/app_database.dart';
 import '../models/task_preset.dart';
 import '../models/task_schedule.dart';
+import 'task_schedule_repository.dart';
 
 abstract class TaskPresetRepository {
   Future<List<TaskPreset>> getAll();
@@ -48,9 +49,16 @@ abstract class TaskPresetRepository {
 }
 
 class DriftTaskPresetRepository implements TaskPresetRepository {
-  DriftTaskPresetRepository(this._db);
+  DriftTaskPresetRepository(this._db, [this._schedules]);
 
   final AppDatabase _db;
+
+  // Fix (2026-10-17): applying a preset used to write the assignments into
+  // this device's local database even for live (server) customers, so
+  // they never reached the server or anyone else's device. When given the
+  // app's real schedule repository (the server one in live mode), the
+  // assignments go through it instead.
+  final TaskScheduleRepository? _schedules;
 
   @override
   Future<List<TaskPreset>> getAll() async {
@@ -161,6 +169,36 @@ class DriftTaskPresetRepository implements TaskPresetRepository {
     final itemRows = await (_db.select(
       _db.taskPresetItems,
     )..where((i) => i.presetId.equals(presetId))).get();
+
+    final schedules = _schedules;
+    if (schedules != null) {
+      final existing = (await schedules.getForStaffMember(staffUserId))
+          .where((s) => s.active)
+          .toList();
+      var created = 0;
+      for (final item in itemRows) {
+        if (existing.any(
+          (s) =>
+              s.taskTemplateGroupId == item.taskTemplateGroupId &&
+              s.equipmentInstanceId == equipmentInstanceId,
+        )) {
+          continue;
+        }
+        await schedules.assign(
+          taskTemplateGroupId: item.taskTemplateGroupId,
+          assignedUserId: staffUserId,
+          equipmentInstanceId: equipmentInstanceId,
+          frequency:
+              ScheduleFrequency.values.asNameMap()[item.defaultFrequency] ??
+              ScheduleFrequency.daily,
+          customFrequencyDetail: item.defaultCustomFrequencyDetail,
+          assignedByUserId: assignedByUserId,
+          siteId: siteId,
+        );
+        created++;
+      }
+      return created;
+    }
 
     // The staff member's existing active schedules, to skip anything already
     // assigned (so applying the same preset twice is safe).
