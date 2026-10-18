@@ -151,7 +151,7 @@ hardening is complete.
       entry).
 - [x] 13a. Backups scheduled (daily via cron) + test restore confirmed with
       real sample data — done 2026-09-01, see "Backups" section below
-- [ ] 13b. Off-VPS copy of backups — **not done yet, must-fix-before-real-data**.
+- [x] 13b. Off-VPS copy of backups — done 2026-10-18 (Backblaze B2, encrypted), see end of file.
       Candidate destination (a second Oracle Cloud server, 129.151.189.254)
       investigated 2026-09-01: same server as before (identity confirmed
       unchanged), but unreachable — connection times out (not refused, not
@@ -2298,3 +2298,11 @@ Deployed 2026-10-17: web app (Trends merge) md5-verified; APK rebuilt and upload
 ## GoCardless confirm fix + sandbox test (2026-10-17)
 
 `gocardless-confirm-mandate` updated (source `tools/functions_live/gocardless-confirm-mandate.ts`; previous copy `/root/fn_backup_20261017/gocardless-confirm-mandate.before-startdate.ts`): start_date only sent when it's more than 7 days ahead. End-to-end sandbox test on temporary org 70 / site 75 / subscription 29 (all deleted afterwards; sandbox mandate MD01M55MH8MXE193D9CEHAE42A29 and subscription SB01M55MH8WREX1H3BF0A00CDX2M cancelled).
+
+## Off-site backups to Backblaze B2 (2026-10-18) — closes 13b
+
+- Bucket `venurite-backups` (Backblaze B2, region **US East** — `s3.us-east-005.backblazeb2.com`; note for the DPA/privacy notice as an international transfer, data is encrypted before it leaves the server). Private, SSE-B2 (AES256) on, Object Lock **compliance mode, 30 days** (nobody — including anyone holding the key — can delete or alter a backup for 30 days; the app key has `bypassGovernance`, so governance mode would not have protected anything), lifecycle hides→deletes after 31 days.
+- rclone 1.60.1 on the VPS: remote `b2raw` (app key scoped to that bucket) and `b2crypt` (rclone crypt over `b2raw:venurite-backups/encrypted`, file names and contents encrypted). Crypt password + salt in `/root/backups/.offsite_secret` (mode 600) **and** to be held offline by Steve — without them the backups cannot be read.
+- Script `/root/backups/backup_offsite.sh` (source `tools/backup_offsite.sh`), called at the end of `backup_db.sh` (03:00 cron; previous copy `/root/backups/backup_db.sh.bak-20261018`). Uploads: newest DB dump → `db/`, `volumes/storage` synced → `storage/`, tarball of `.env`, `docker-compose.yml`, `volumes/functions` and the backup scripts → `config/`. A failure logs "OFF-SITE COPY FAILED" and never touches the local backups.
+- First run 2026-10-18 08:05 UTC: `db/supabase_backup_20261018_030001.sql.gz` (6.8 MB) and `config/config_20261018_080518.tar.gz` uploaded; listing via `b2raw` shows only encrypted names.
+- Restore: `rclone copy b2crypt:db/<file> /root/restore/` (on a fresh server, recreate the two rclone remotes with the B2 key and the crypt passphrase/salt first), then the restore procedure in "Backups" above.

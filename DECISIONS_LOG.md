@@ -3486,3 +3486,7 @@ On a throwaway test company (1 branch, Bistro band, created and deleted for the 
 - **Bug found and fixed:** setting up Direct Debit *after* a trial had ended sent GoCardless a start date in the past, which it rejects — setup failed at the very last step (this would have hit SFO, whose trial ended 9 Oct). Now a past/too-soon date isn't sent; GoCardless starts at its earliest possible date.
 - **Correction:** Tom's owner code is entered on the **Billing** screen ("discount code"), not at sign-up: sign up → Billing → enter `VR-Y5JH-QGR9` → free for life, no Direct Debit needed.
 - Still sandbox: switching to live needs your live GoCardless account and access token.
+
+## Off-site backups switched on (2026-10-18)
+
+Every night after the 3am backup, VenuRite now sends an encrypted copy of the whole database, all uploaded photos/documents and the server settings to Backblaze (a separate company, separate data centre). It's scrambled on our server before it leaves, so Backblaze can't read it. Each copy is locked for 30 days — nobody can delete it, even with the key, so a hacker or mistake can't wipe the backups — then removed automatically. If the server were lost, the business could be rebuilt from these. Steve to keep the unlock passphrase offline; without it the backups are unreadable. Backblaze stores it in the US (East) — mention as an international transfer in the DPA. Cost: pennies a month at current size.
