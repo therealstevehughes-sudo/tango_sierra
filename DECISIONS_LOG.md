@@ -3490,3 +3490,7 @@ On a throwaway test company (1 branch, Bistro band, created and deleted for the 
 ## Off-site backups switched on (2026-10-18)
 
 Every night after the 3am backup, VenuRite now sends an encrypted copy of the whole database, all uploaded photos/documents and the server settings to Backblaze (a separate company, separate data centre). It's scrambled on our server before it leaves, so Backblaze can't read it. Each copy is locked for 30 days — nobody can delete it, even with the key, so a hacker or mistake can't wipe the backups — then removed automatically. If the server were lost, the business could be rebuilt from these. Steve to keep the unlock passphrase offline; without it the backups are unreadable. Backblaze stores it in the US (East) — mention as an international transfer in the DPA. Cost: pennies a month at current size.
+
+## GoCardless is now LIVE (2026-10-18)
+
+VenuRite now takes real Direct Debits. Steve created the live access code and the payment-updates link in GoCardless; the server was switched over and checked (GoCardless confirms the VenuRite account is verified; payment updates are accepted, fakes rejected). The test (sandbox) settings are kept so we can switch back for testing. Next real customer to set up Direct Debit will be the first live one — worth watching. GoCardless banner shows ~60 days left with no fees.

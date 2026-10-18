@@ -2306,3 +2306,12 @@ Deployed 2026-10-17: web app (Trends merge) md5-verified; APK rebuilt and upload
 - Script `/root/backups/backup_offsite.sh` (source `tools/backup_offsite.sh`), called at the end of `backup_db.sh` (03:00 cron; previous copy `/root/backups/backup_db.sh.bak-20261018`). Uploads: newest DB dump → `db/`, `volumes/storage` synced → `storage/`, tarball of `.env`, `docker-compose.yml`, `volumes/functions` and the backup scripts → `config/`. A failure logs "OFF-SITE COPY FAILED" and never touches the local backups.
 - First run 2026-10-18 08:05 UTC: `db/supabase_backup_20261018_030001.sql.gz` (6.8 MB) and `config/config_20261018_080518.tar.gz` uploaded; listing via `b2raw` shows only encrypted names.
 - Restore: `rclone copy b2crypt:db/<file> /root/restore/` (on a fresh server, recreate the two rclone remotes with the B2 key and the crypt passphrase/salt first), then the restore procedure in "Backups" above.
+
+## GoCardless switched to LIVE (2026-10-18)
+
+- Live access token created in manage.gocardless.com (name "VenuRite server", read-write, Components off). `GET /creditors` with it → 200, creditor "VenuRite", verification_status **successful**.
+- Live webhook endpoint created in the dashboard → `https://api.venurite.com/functions/v1/gocardless-webhook`.
+- `.env` (backup `/root/env.bak-20261018-gclive`): `GOCARDLESS_ENVIRONMENT=live`, `GOCARDLESS_ACCESS_TOKEN` = live token (also kept as `GOCARDLESS_ACCESS_TOKEN_LIVE`), `GOCARDLESS_WEBHOOK_SECRET` = live secret. Sandbox values kept as `GOCARDLESS_ACCESS_TOKEN_SANDBOX` / `GOCARDLESS_WEBHOOK_SECRET_SANDBOX` — to go back to sandbox, put those into the unsuffixed names, set ENVIRONMENT=sandbox and `docker compose up -d functions`.
+- Functions container recreated (`docker compose up -d functions`) — env confirmed `live`. Affects gocardless-start-mandate, gocardless-confirm-mandate, gocardless-webhook, billing-reprice, roster-addon-billing.
+- Checks: webhook with correctly signed body → 200, wrong signature → 401. No sandbox mandate IDs existed in `subscriptions` / `service_provider_unlocks`, so nothing stale points at sandbox.
+- Not yet done: a real first live Direct Debit by a customer (first one should be watched end to end).
