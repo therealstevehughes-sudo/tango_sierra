@@ -3494,3 +3494,11 @@ Every night after the 3am backup, VenuRite now sends an encrypted copy of the wh
 ## GoCardless is now LIVE (2026-10-18)
 
 VenuRite now takes real Direct Debits. Steve created the live access code and the payment-updates link in GoCardless; the server was switched over and checked (GoCardless confirms the VenuRite account is verified; payment updates are accepted, fakes rejected). The test (sandbox) settings are kept so we can switch back for testing. Next real customer to set up Direct Debit will be the first live one — worth watching. GoCardless banner shows ~60 days left with no fees.
+
+## Website AI screenshot, plus two live bugs found and fixed while taking it (2026-10-18)
+
+- **Bug 1, sign-in on a new device:** on any new browser or device, "Already have an account" / Leadership Access showed the demo PIN list ("No backend is configured…") instead of email sign-in, so a director could not sign in at all. Only people with a saved session got in, which is why it went unnoticed. Public builds now always show email sign-in, and the sign-in looks the person up on the server, not in the empty local database. Verified on the live site in a brand-new browser: signed in and reached the director home.
+- **Bug 2, AI assistant down since 16 Oct:** every question returned "Couldn't reach the assistant". The 16 Oct AI update (answers in the user's language) was deployed without its database change, so the saved-answers lookup failed. Applied it (lookup now restricted to the server only); verified with real questions.
+- One AI answer had a confusing line ("cut the pot in half") and was removed from the saved answers so it isn't repeated.
+- **Website:** new "Ask a question" section with a real screenshot from the live app (cooked rice question, answer from the FSA's Safer Food Better Business, source shown). The training section's AI line became "Short quizzes check they've understood it". Checked at phone size: 4 real screenshots, no sideways scrolling, no errors.
+- Done with a temporary test company ("Harbour Kitchen", org 71), deleted afterwards.

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as gotrue;
 
+import '../../core/config/build_flags.dart';
 import '../../core/widgets/app_banner.dart';
 import '../../core/widgets/assistant_icon_button.dart';
 import '../../core/widgets/responsive_content.dart';
@@ -345,12 +346,19 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
   }
 
   Future<void> _finishSignIn(String authUserId, String accessToken) async {
+    // A real GoTrue sign-in makes this a backend session — same as
+    // MyApp._restoreBackendSession does for a saved one — so the staff
+    // record is looked up on the server, not in this device's empty local
+    // database (2026-10-18 fix, new-device sign-in).
+    ref.read(backendDataEnabledProvider.notifier).state = true;
+    ref.read(backendAuthEnabledProvider.notifier).state = true;
     final repository = ref.read(userRepositoryProvider);
     final localUser = await repository.findBySupabaseUserId(authUserId);
 
     if (!mounted) return;
 
     if (localUser == null) {
+      ref.read(backendDataEnabledProvider.notifier).state = false;
       setState(() {
         error = AppLocalizations.of(context)!.accountNotLinkedToStaff;
         submitting = false;
@@ -587,7 +595,11 @@ class _SeniorLoginScreenState extends ConsumerState<SeniorLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (!ref.watch(backendAuthEnabledProvider)) {
+    // Public builds (SEED_DEMO_DATA=false) always offer real email sign-in
+    // (2026-10-18 fix): the flag is only switched on by an already-saved
+    // session or a fresh sign-up, so on a new device or browser a director
+    // saw the demo PIN list instead and could not sign in at all.
+    if (kSeedDemoData && !ref.watch(backendAuthEnabledProvider)) {
       return _buildDemoPinMode(context);
     }
     if (_pendingMfaFactorId != null) {

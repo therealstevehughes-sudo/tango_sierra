@@ -2315,3 +2315,10 @@ Deployed 2026-10-17: web app (Trends merge) md5-verified; APK rebuilt and upload
 - Functions container recreated (`docker compose up -d functions`) — env confirmed `live`. Affects gocardless-start-mandate, gocardless-confirm-mandate, gocardless-webhook, billing-reprice, roster-addon-billing.
 - Checks: webhook with correctly signed body → 200, wrong signature → 401. No sandbox mandate IDs existed in `subscriptions` / `service_provider_unlocks`, so nothing stale points at sandbox.
 - Not yet done: a real first live Direct Debit by a customer (first one should be watched end to end).
+
+## AI cache migration applied + new-device sign-in fix deployed (2026-10-18)
+
+- `tools/ai_assistant_locale_migration.sql` had never been applied (the 2026-10-16 `ai-assistant` deploy needed it) → every AI question 500'd with "Could not find the function public.match_ai_answer_cache(match_threshold, query_embedding, response_locale_filter)". Applied in a transaction plus `revoke all … from public, anon, authenticated; grant execute … to service_role` (the new function is SECURITY DEFINER; only the Edge Function calls it). Schema backup `/root/ai_answer_cache.schema.bak-20261018`. `docker restart supabase-rest`. Direct call → 200 with answer + citation. Cache row 5 (odd chilli answer) deleted.
+- Web app redeployed (main.dart.js md5 74073d0d973e…): `SeniorLoginScreen` only uses demo PIN mode when `kSeedDemoData` is true; `_finishSignIn` turns on `backendDataEnabledProvider`/`backendAuthEnabledProvider` before looking up the staff record (mirrors `MyApp._restoreBackendSession`). APK not rebuilt (web-only decision).
+- Website: `index.html` (backup `index.html.bak-20261018`) + `images/app/ask.webp`, md5 matched.
+- Temporary org 71 / site 76 / user 84 created via `tenant-signup` and fully deleted (ai_usage, site_venue_types, subscriptions, venue_types rows + users/sites/org + auth.users); verified 0 remaining.
