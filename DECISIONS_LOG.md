@@ -3502,3 +3502,7 @@ VenuRite now takes real Direct Debits. Steve created the live access code and th
 - One AI answer had a confusing line ("cut the pot in half") and was removed from the saved answers so it isn't repeated.
 - **Website:** new "Ask a question" section with a real screenshot from the live app (cooked rice question, answer from the FSA's Safer Food Better Business, source shown). The training section's AI line became "Short quizzes check they've understood it". Checked at phone size: 4 real screenshots, no sideways scrolling, no errors.
 - Done with a temporary test company ("Harbour Kitchen", org 71), deleted afterwards.
+
+## End of week wrap-up (2026-10-18)
+
+New `STATUS.md` at the project root: a plain-English list of everything done this week and what's left for next week (first: check staff PIN sign-in on a brand-new device; watch the first live Direct Debit; more equipment models; quiz translations; custom presets to the server). Also committed: VS Code OmniRoute task/setting tweaks (`omniroute.cmd` on Windows) and a re-export of `tools/task_library_seed.sql` (timestamps only, no content change). Steve's PC: OmniRoute auto-starts with Windows and uses a free Gemini key; Gemini Code Assist installed — dev tooling only, not part of VenuRite.

@@ -4,7 +4,7 @@
         {
             "label": "OmniRoute: Start",
             "type": "shell",
-            "command": "omniroute serve --daemon --no-open",
+            "command": "omniroute.cmd serve --daemon --no-open",
             "options": {
                 "env": {
                     "OMNIROUTE_SERVER_HOST": "127.0.0.1"
@@ -20,7 +20,7 @@
         {
             "label": "OmniRoute: Stop",
             "type": "shell",
-            "command": "omniroute stop",
+            "command": "omniroute.cmd stop",
             "problemMatcher": [],
             "presentation": {
                 "reveal": "always",

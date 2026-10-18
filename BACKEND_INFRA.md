@@ -2322,3 +2322,9 @@ Deployed 2026-10-17: web app (Trends merge) md5-verified; APK rebuilt and upload
 - Web app redeployed (main.dart.js md5 74073d0d973e…): `SeniorLoginScreen` only uses demo PIN mode when `kSeedDemoData` is true; `_finishSignIn` turns on `backendDataEnabledProvider`/`backendAuthEnabledProvider` before looking up the staff record (mirrors `MyApp._restoreBackendSession`). APK not rebuilt (web-only decision).
 - Website: `index.html` (backup `index.html.bak-20261018`) + `images/app/ask.webp`, md5 matched.
 - Temporary org 71 / site 76 / user 84 created via `tenant-signup` and fully deleted (ai_usage, site_venue_types, subscriptions, venue_types rows + users/sites/org + auth.users); verified 0 remaining.
+
+## State at end of 2026-10-18
+
+- Live: GoCardless (live), off-site B2 backups nightly after 03:00 DB dump, AI cache migration applied, web app with new-device sign-in fix (main.dart.js md5 74073d0d973e…). No temporary test orgs left (71 deleted).
+- Open server-side items: none urgent. Next week: test staff PIN login on a fresh device against live; watch first live mandate in `subscriptions` (mandate_status) and webhook logs.
+- See `STATUS.md` for the overall to-do list.
